@@ -1,9 +1,7 @@
-Reject (human verdict, by the product owner).
+Approve (human verdict, by the product owner), round 2.
 
-The script recommended approve (no P1 finding). The product owner rejected it so that three findings are fixed before the merge:
+The three round 1 findings are fixed (agent skill list, the skill's stage inputs, the position rule). Runnable checks pass: lint_play PASS, 11/11 play tests, install tests, 2/2 linter rule tests; the component linter matches main. No P1 finding.
 
-1. P2: `product-os-keeper` does not list `author-product-ontology` among its skills, but the new play tells that agent to run it. The first real run (#758) could fail.
-2. P3: the skill's Input table does not name the fields the play sends (`stage`, `change`, `problems`).
-3. P3: `standards/rules/pipeline-position.md` says meta plays have no position; `edit-ontology` has position both.
+Left as a follow-up chore (not blocking): the Next-line wording in Step C2, the stage draft paths in the skill's Input/Output tables, a routing row in the agent, and a condition (not a name list) in the position rule.
 
-**Next:** fix the three findings on this branch and raise the change again.
+**Next:** merge-change lands this on `plan/756/base`.

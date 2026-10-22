@@ -1,25 +1,36 @@
-# check-change Step 2 - categories present in PR #780 (issue 777)
-shelf_note: >
-  context.yaml names ./.garura/core/memory/knowledge/review/, which does not exist in this
-  checkout (bug #773). Playbooks were read from core/components/memory/knowledge/review/ instead.
+# check-change Step 2, PR #780, round 2. Issue 777.
+# Note: context.yaml's review_shelf path does not exist in this checkout (bug #773);
+# playbooks were read from core/components/memory/knowledge/review/ instead.
+round: 2
+shelf_used: core/components/memory/knowledge/review/
 categories:
   - name: harness
     playbook: review/harness
     design_bearing: true
-    evidence:
-      - core/components/plays/edit-ontology/SKILL.md            # new play (compiled)
-      - core/components/plays/edit-ontology/reference/ice.md    # new play ICE source
+    paths:
+      - core/components/plays/edit-ontology/SKILL.md
+      - core/components/plays/edit-ontology/reference/ice.md
       - core/components/plays/edit-ontology/stop-condition.yaml
       - core/components/plays/install-garura/SKILL.md
       - core/components/skills/author-product-ontology/SKILL.md
+      - core/components/agents/product-os-keeper.md
     runnable_checks:
-      - "node core/tools/lint-components/index.js --target core/components   # run from repo root"
-      - "lint_play.py on core/components/plays/edit-ontology (eval coverage, one recovery per failure, intent fingerprint, no orphan refs)"
-      - "play-pipeline rule: intent change in install-garura/edit-ontology must trace to reference/ice.md, not a hand edit of SKILL.md"
+      - "lint_play.py on edit-ontology and install-garura"
+      - "node core/tools/lint-components/index.js --target core/components (run from repo root)"
+      - "play-pipeline rule: intent change must trace to reference/ice.md"
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    paths:
+      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/memory/standards/rules/pipeline-position.md
+    runnable_checks:
+      - "path / cross-reference / structure integrity (shelf template, [[...]] links resolve, id matches path)"
+      - "check-components shape checks (memory-integrity linter is a known gap; tool runs and cites checks)"
   - name: executable-code
     playbook: review/code
     design_bearing: false
-    evidence:
+    paths:
       - core/components/plays/edit-ontology/scripts/check_ontology.py
       - core/components/plays/edit-ontology/scripts/check_ontology_change.py
       - core/components/plays/edit-ontology/scripts/check_stop_condition.py
@@ -29,54 +40,31 @@ categories:
       - core/components/plays/install-garura/scripts/install.py
       - core/tools/lint-components/lib/rules/structural.js
     runnable_checks:
-      - "language linter (ruff for py, eslint for js if committed)"
-      - "check-pr-quality against the diff using the pr.md taxonomy (SEC/CODE/ARCH/BE/PERF/DATA rows)"
-    note: "extra weight on data-safety/idempotency paths (install.py, record_checkpoint.py, session_stamp.py write files)"
+      - "language linter (ruff / eslint as committed in repo)"
+      - "check-pr-quality against pr.md taxonomy (SEC/CODE/ARCH/BE/PERF/DATA rows)"
   - name: tests
     playbook: review/tests
     design_bearing: false
-    evidence:
+    paths:
       - core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py
       - core/components/plays/install-garura/scripts/test_install.py
       - core/tools/lint-components/test/skill-invocable.test.js
     runnable_checks:
-      - "RUN the suites (red = blocker): python3 -m pytest core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py core/components/plays/install-garura/scripts/test_install.py"
-      - "node --test core/tools/lint-components/test/skill-invocable.test.js (or the repo's runner)"
-      - "coding-best-practice lint of test code + pr.md TEST-* rows via check-pr-quality"
-  - name: memory
-    playbook: review/memory
-    design_bearing: true
-    evidence:
-      - core/components/memory/standards/rules/pipeline-next.md   # standards rule (1 line added)
-    runnable_checks:
-      - "memory-integrity check (partial gap): shelf template shape, [[...]] cross-refs resolve, id matches path; check-components covers some shape"
+      - "run the suites and confirm green (python test_edit_ontology_scripts.py, test_install.py; node test skill-invocable.test.js); red = blocker"
+      - "check-pr-quality TEST-* rows"
   - name: documentation
     playbook: review/docs
     design_bearing: false
-    evidence:
+    paths:
       - docs/components/skills.md
     runnable_checks:
-      - "prose checks (gap: no committed prose linter): spelling, dead links, heading hierarchy, leftover TODOs, terminology"
-  - name: run-evidence-records
-    playbook: null
-    design_bearing: false
-    note: >
-      playbook missing. Run records the garura plays wrote (issue/PR context json/yaml/md, porcelain,
-      self-review) under the issue's STM folder. Not product code; no shelf playbook covers STM
-      evidence committed in a PR. Review lightly: confirm nothing sensitive and that they are
-      expected chore(stm) records.
-    evidence:
-      - .garura/project/issues/777/context/analysis.yaml
-      - .garura/project/issues/777/context/branch.json
-      - .garura/project/issues/777/context/commits.yaml
-      - .garura/project/issues/777/context/issue.json
-      - .garura/project/issues/777/context/plan.json
-      - .garura/project/issues/777/context/porcelain.txt
-      - .garura/project/issues/777/context/pr-body.md
-      - .garura/project/issues/777/context/pr.json
-      - .garura/project/issues/777/context/resolved-rules.json
-      - .garura/project/issues/777/context/self-review.md
-      - .garura/project/issues/777/context/target.json
-      - .garura/project/issues/777/context/work-description.txt
-absent_categories_note: "No ADRs and no config-map files changed; those playbooks are skipped."
-design_bearing_categories: [harness, memory]
+      - "prose checks: spelling, dead links, heading hierarchy, leftover TODOs, terminology (no committed linter; tool performs and cites)"
+not_a_category_of_the_change:
+  - note: "Run records of check-change/propose-change/commit-change themselves (round 1 history and this run's own files). Not work under review."
+    paths:
+      - ".garura/project/issues/777/context/**"
+      - ".garura/project/issues/777/review/** (including round1/)"
+absent:
+  - decision-records
+  - config-maps
+new_categories_without_playbook: []

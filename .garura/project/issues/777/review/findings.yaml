@@ -3,441 +3,371 @@ findings:
   severity: P2
   basis: ARCH-02
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'ARCH-02 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'ARCH-02 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P2
   basis: CODE-03
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-03 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-03 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P2
   basis: CODE-04
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-04 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-04 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P2
   basis: CODE-14
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-14 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-14 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P2
   basis: BE-19
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'BE-19 flagged on core/tools/lint-components/lib/rules/structural.js (evidence:
-    from)'
+  line: 85
+  message: 'BE-19 on core/tools/lint-components/lib/rules/structural.js: from'
 - category: standards
   severity: P2
   basis: ARCH-02
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'ARCH-02 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'ARCH-02 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P2
   basis: CODE-03
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-03 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-03 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P2
   basis: CODE-04
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-04 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-04 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P2
   basis: CODE-14
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-14 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-14 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P2
   basis: BE-19
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'BE-19 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: join)'
+  line: 11
+  message: 'BE-19 on core/tools/lint-components/test/skill-invocable.test.js: join'
 - category: standards
   severity: P2
   basis: BE-19
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'BE-19 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: join)'
+  line: 12
+  message: 'BE-19 on core/tools/lint-components/test/skill-invocable.test.js: join'
 - category: standards
   severity: P3
   basis: ARCH-03
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'ARCH-03 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'ARCH-03 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: ARCH-08
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'ARCH-08 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'ARCH-08 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: CODE-09
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-09 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-09 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: CODE-10
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-10 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-10 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: CODE-11
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-11 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-11 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: CODE-12
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-12 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-12 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: CODE-15
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-15 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-15 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: CODE-17
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-17 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-17 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: CODE-18
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-18 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-18 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: FE-08
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'FE-08 flagged on core/tools/lint-components/lib/rules/structural.js (evidence:
-    core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'FE-08 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P3
   basis: ARCH-03
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'ARCH-03 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'ARCH-03 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: ARCH-08
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'ARCH-08 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'ARCH-08 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: CODE-09
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-09 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-09 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: CODE-10
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-10 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-10 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: CODE-11
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-11 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-11 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: CODE-12
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-12 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-12 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: CODE-15
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-15 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-15 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: CODE-17
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-17 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-17 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: CODE-18
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-18 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-18 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: FE-08
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'FE-08 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'FE-08 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: TEST-02
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'TEST-02 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'TEST-02 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: TEST-03
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'TEST-03 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'TEST-03 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: TEST-06
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'TEST-06 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'TEST-06 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P3
   basis: OPS-09
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'OPS-09 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: console.log)'
+  line: 9
+  message: 'OPS-09 on core/tools/lint-components/test/skill-invocable.test.js: console.log'
 - category: standards
   severity: P3
   basis: OPS-10
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'OPS-10 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: console.log(`)'
+  line: 9
+  message: 'OPS-10 on core/tools/lint-components/test/skill-invocable.test.js: console.log(`'
 - category: standards
   severity: P3
   basis: OPS-09
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'OPS-09 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: console.log)'
+  line: 18
+  message: 'OPS-09 on core/tools/lint-components/test/skill-invocable.test.js: console.log'
 - category: standards
   severity: P3
   basis: OPS-10
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'OPS-10 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: console.log(`)'
+  line: 18
+  message: 'OPS-10 on core/tools/lint-components/test/skill-invocable.test.js: console.log(`'
 - category: standards
   severity: P4
   basis: CODE-13
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-13 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-13 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P4
   basis: CODE-19
   path: core/tools/lint-components/lib/rules/structural.js
-  message: 'CODE-19 flagged on core/tools/lint-components/lib/rules/structural.js
-    (evidence: core/tools/lint-components/lib/rules/structural.js)'
+  line: null
+  message: 'CODE-19 on core/tools/lint-components/lib/rules/structural.js: core/tools/lint-components/lib/rules/structural.js'
 - category: standards
   severity: P4
   basis: CODE-13
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-13 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-13 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P4
   basis: CODE-19
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-19 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'CODE-19 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P4
   basis: TEST-05
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'TEST-05 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'TEST-05 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P4
   basis: TEST-07
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'TEST-07 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'TEST-07 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P4
   basis: TEST-08
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'TEST-08 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'TEST-08 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P4
   basis: TEST-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'TEST-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: core/tools/lint-components/test/skill-invocable.test.js)'
+  line: null
+  message: 'TEST-22 on core/tools/lint-components/test/skill-invocable.test.js: core/tools/lint-components/test/skill-invocable.test.js'
 - category: standards
   severity: P4
   basis: CODE-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: const assert =)'
+  line: 3
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    assert ='
 - category: standards
   severity: P4
   basis: CODE-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: const fs =)'
+  line: 4
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    fs ='
 - category: standards
   severity: P4
   basis: CODE-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: const os =)'
+  line: 5
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    os ='
 - category: standards
   severity: P4
   basis: CODE-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: const path =)'
+  line: 6
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    path ='
 - category: standards
   severity: P4
   basis: CODE-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: let passed =)'
+  line: 8
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: let
+    passed ='
 - category: standards
   severity: P4
   basis: CODE-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: const dir =)'
+  line: 11
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    dir ='
 - category: standards
   severity: P4
   basis: CODE-22
   path: core/tools/lint-components/test/skill-invocable.test.js
-  message: 'CODE-22 flagged on core/tools/lint-components/test/skill-invocable.test.js
-    (evidence: const file =)'
-- category: harness
-  severity: P2
-  basis: origin/plan/756/base:core/components/agents/product-os-keeper.md ('Available
-    Skills' table; 'Used by' description) and docs/standards/harness-standard.md principle
-    2
-  path: core/components/agents/product-os-keeper.md (not in the diff) vs core/components/plays/edit-ontology/SKILL.md
-  message: 'The new play makes product-os-keeper the only runner of author-product-ontology,
-    and author-product-ontology is no longer user-invocable, so the agent is now the
-    only door to it. On the base ref the agent file has no row for author-product-ontology
-    in its skill table and its description does not list /edit-ontology (the only
-    ''ontology'' mention is a version note, line 182). The agent file is unchanged
-    by this PR. A reader of the agent cannot see it owns this skill, and the agent''s
-    ''pool'' is the contract the play relies on.
-
-    '
-  fix: null
+  line: 12
+  message: 'CODE-22 on core/tools/lint-components/test/skill-invocable.test.js: const
+    file ='
 - category: harness
   severity: P3
-  basis: 'origin/plan/756/base:core/components/memory/standards/rules/pipeline-next.md
-    (header and meta_exempt note: ''Meta / bootstrap plays - not part of the product
-    pipeline; no Next required''); lint_play ''next-command'' check'
-  path: core/components/plays/edit-ontology/SKILL.md (Step C2) and core/components/memory/standards/rules/pipeline-next.md
-  message: 'The play is added to meta_exempt (so lint passes), yet Step C2 tells the
-    run to resolve the play in $next_map and render a Next line, which the map will
-    never hold for it. The instruction cannot be followed as written. The Next Steps
-    text (''plays that write the changed kinds may now need edit-play'') is hand-written
-    in the play instead of coming from the map.
-
-    '
-  fix: null
-- category: harness
-  severity: P3
-  basis: 'origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md
-    (''As compiled today: both - ...''; Enforced: ''strategic, model-building, and
-    meta plays are none'')'
-  path: 'core/components/memory/standards/rules/pipeline-position.md (not updated)
-    vs edit-ontology position: both'
-  message: 'edit-ontology is a meta (harness) play (META_PLAYS, meta_exempt) but declares
-    position: both. The rule states meta plays are ''none'' and lists the compiled
-    ''both'' plays; edit-ontology is in neither the list nor an exception. The play
-    records its own ''position_exception'' in Compilation Metadata, but the source
-    rule does not carry it, so the rule and the play now disagree. Precedent exists
-    (record-decision and discover-capabilities are ''both'' and commit their own work),
-    so the position itself is defensible; the gap is the rule text.
-
-    '
-  fix: null
-- category: harness
-  severity: P4
-  basis: 'origin/plan/756/base:CLAUDE.md (''Agent-First'' example: git commit directly
-    in play is WRONG); pipeline-position.md (''hand-rolls ... steps that duplicate
-    a member'')'
-  path: core/components/plays/edit-ontology/SKILL.md (Step 9)
-  message: 'Step 9 runs git add / git commit directly, and E1 commit-change follows.
-    This is the same shape record-decision and discover-capabilities use on the base
-    ref (git add / git commit in the play, then the end sequence), so it follows existing
-    practice rather than breaking it, and the play names it as position_exception.
-    Flagged only so the shared pattern is a decision, not an accident.
-
-    '
-  fix: null
-- category: harness
-  severity: P4
-  basis: 'origin/plan/756/base:docs/standards/harness-standard.md principle 3; memory
-    note ''Tools first-class: one home per tool'''
-  path: core/components/plays/edit-ontology/scripts/check_ontology.py
-  message: 'check_ontology.py is a byte-identical copy of core/components/skills/author-product-ontology/scripts/check_ontology.py
-    (diff reads identical). The play states it is ''copied''. Two copies can drift.
-    Copying scripts into a play is the base-ref convention (preflight.py, session_stamp.py),
-    so this is a nit.
+  basis: origin/plan/756/base:core/components/plays/_shared/play-close.md Step C2
+    ('Next (always, unless the play is meta_exempt)'); pipeline-next.md meta_exempt
+  path: core/components/plays/edit-ontology/SKILL.md (Step C2)
+  message: 'The PR adds edit-ontology to meta_exempt, yet Step C2 still tells the
+    run to resolve the play in $next_map and render a Next line. A meta_exempt play
+    has no entry in the map, so the step cannot be followed as written, and it contradicts
+    the shared close the play points to. Carried over unchanged from round 1; commit
+    dc00dd95 did not touch it.
 
     '
   fix: null
 - category: memory
-  severity: P2
-  basis: origin/plan/756/base:core/components/agents/product-os-keeper.md (Available
-    Skills / Intent->Skill table, no author-product-ontology row; base grep for 'ontology'
-    in the agent finds only an unrelated 'ontology v4' note at line 182)
+  severity: P4
+  basis: 'origin/plan/756/base:core/components/agents/product-os-keeper.md (Intent
+    -> Skill Mapping table: every pooled skill has an intent row)'
+  path: core/components/agents/product-os-keeper.md
+  message: The skill is now in the Available Skills table, but the Intent -> Skill
+    Mapping table has no row for it (e.g. 'change the product ontology', 'add a kind').
+    Other pooled skills have both. Add one row so the agent can route the intent.
+  fix: null
+- category: memory
+  severity: P3
+  basis: origin/plan/756/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md;
+    docs/adr/016-agent-json-contract.md (the contract carries paths)
   path: core/components/skills/author-product-ontology/SKILL.md
-  message: The skill is now run only through the product-os-keeper agent, and edit-ontology
-    dispatches that agent with it, but the agent's skill pool does not list author-product-ontology
-    and the agent file is not in the diff. The agent's own contract says it authors
-    only through the skills in its pool. Add the skill (used by /edit-ontology) to
-    the agent's table and mapping.
-  fix: null
-- category: memory
-  severity: P3
-  basis: origin/plan/756/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
-    (a skill reads only what its agent puts in short-term memory); base:docs/adr/016-agent-json-contract.md
-    (contract carries paths)
-  path: core/components/skills/author-product-ontology/SKILL.md
-  message: 'The new Stages section says each stage ''reads the drafts of the stages
-    before it'' and may carry `change` and `problems`, but the Input table is unchanged:
-    no `stage`, no draft-path inputs, no `change`, no `problems`, and no Output row
-    for a stage draft. The skill''s contract is therefore only defined in the play,
-    so the skill cannot be read on its own. Add these fields to Input/Output. Also
-    the Input default for ontology_path/template_path still points at the installed
-    copy (~/.garura/core/memory/...) that the play overrides with the source path;
-    ADR 039 wants paths handed in, so the default is now misleading.'
+  message: Round-1 gap only partly closed. Input gained stage/change/problems, but
+    the earlier stages' draft locations and this stage's draft output path are still
+    not Input fields, and Output still lists only ontology_path and report_path (no
+    stage draft). Also report_path is 'yes' and ontology_path default still points
+    at the installed ~/.garura copy for every stage, though only stage 'write' produces
+    them. A reader of the skill alone cannot tell where drafts are read or written.
+    Add draft-path inputs and a per-stage Output row.
   fix: null
 - category: memory
   severity: P4
-  basis: 'origin/plan/756/base:core/components/memory/standards/templates/_index.md
-    L21 (''Used by: author-product-ontology (skill)''); base:core/components/memory/standards/schemas/product-os/_index.md
-    L9'
-  path: core/components/memory/standards/templates/_index.md, core/components/memory/standards/schemas/product-os/_index.md
-  message: These memory indexes (not in the diff) still present author-product-ontology
-    as the way the ontology is built, with no mention that it is run only by /edit-ontology.
-    Not wrong, but now incomplete; a pointer to the play would help. The same holds
-    for core/grounding/glossary.md L67.
-  fix: null
-- category: memory
-  severity: P4
-  basis: origin/plan/756/base:core/components/memory/standards/rules/pipeline-next.md
-    (intro paragraph names only 'install' style meta plays by comment; 'The flow'
-    lists the Change loop members)
-  path: core/components/memory/standards/rules/pipeline-next.md
-  message: 'edit-ontology ends by running commit/propose/check/merge-change (position:
-    both), yet is exempt from the Next line like the other meta plays. That matches
-    the rule; noted only so the reviewer confirms it is intended that its close names
-    no successor.'
+  basis: origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md
+    ('There are only these positions'; 'Wired so far' line)
+  path: core/components/memory/standards/rules/pipeline-position.md
+  message: The rule is now a list of named exceptions inside prose that says meta
+    plays are none. Acceptable for one play; if a second meta play opens its own change,
+    the rule should state the condition (meta play that opens and lands its own change)
+    rather than naming plays one by one.
   fix: null
 runnable_checks: 'lint_play:
 

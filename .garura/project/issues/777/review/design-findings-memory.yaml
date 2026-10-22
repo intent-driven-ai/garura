@@ -1,58 +1,63 @@
-# check-change Step 3, Layer 2 - category: memory - PR #780 (issue 777)
-# Grounded only from origin/plan/756/base (git show) and docs/adr at that base. Nothing cited below is added by this diff.
+# check-change Step 3, Layer 2 - category: memory - PR #780 (issue 777), round 2
+# Grounded only from origin/plan/756/base (git show) and docs/adr at that base. Nothing cited is added by this diff.
+round: 2
 category: memory
 changed_artifacts:
   - core/components/memory/standards/rules/pipeline-next.md      # edit-ontology added to meta_exempt
-  - core/components/skills/author-product-ontology/SKILL.md      # reclassified: play-run, user-invocable false, staged
+  - core/components/memory/standards/rules/pipeline-position.md  # edit-ontology named as the one meta play with position both
+  # memory-adjacent, read for round-1 follow-up:
+  - core/components/skills/author-product-ontology/SKILL.md
+  - core/components/agents/product-os-keeper.md
 principles:
   - id: G1
-    text: "A play that is a meta/bootstrap play, not part of the product pipeline, is listed under meta_exempt and renders no Next line; every user-invocable compiled play must be mapped or exempt."
-    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-next.md (header, 'Meta / bootstrap plays' comment); lint_play.py L319-343 at base"
+    text: "A meta/bootstrap play outside the product pipeline is listed under meta_exempt and renders no Next line."
+    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-next.md (meta_exempt block)"
   - id: G2
-    text: "Skills are never invoked by humans; humans run plays, plays call agents, agents call skills. user-invocable is false for skills."
-    source: "origin/plan/756/base:docs/adr/005-skills-as-capabilities.md ('Invocability Rules: Humans CANNOT invoke skills directly'); base:docs/components/skills.md ('Model-Invocable Only')"
+    text: "A play declares exactly one position (start|end|both|none); meta plays are none by the rule's own text."
+    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md ('The declaration'; linter paragraph)"
   - id: G3
-    text: "A skill reads only what its agent puts in short-term memory; the play reads no memory and passes paths; the product-model/ontology write is the work of a play built for it, not a memory write."
-    source: "origin/plan/756/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (Decision 1 and 2; Amends ADR 009 Rule 3)"
+    text: "A skill reads only what its agent puts in short-term memory; paths are handed in through the contract."
+    source: "origin/plan/756/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md; docs/adr/016-agent-json-contract.md"
   - id: G4
-    text: "An agent runs only skills listed in its own pool/capabilities table."
-    source: "origin/plan/756/base:core/components/agents/product-os-keeper.md (Available Skills table, Identity: 'author model artifacts only through your skills')"
-  - id: G5
-    text: "Docs and indexes that name a component's job must match the component."
-    source: "origin/plan/756/base:core/components/memory/standards/templates/_index.md L21; schemas/product-os/_index.md L9; templates/product-ontology.md L5"
+    text: "An agent runs only skills in its own pool, and its Intent -> Skill Mapping lists the intents it routes."
+    source: "origin/plan/756/base:core/components/agents/product-os-keeper.md (Available Skills and Intent -> Skill Mapping tables)"
+round1_followup:
+  - id: M1
+    was: "P2 - agent skill pool lacked author-product-ontology"
+    status: fixed
+    evidence: "dc00dd95 adds an author-product-ontology row to the Available Skills table and /edit-ontology to the agent description. Residual only: see N1."
+  - id: M2
+    was: "P3 - skill Input table lacked the stage contract"
+    status: partly_fixed
+    evidence: "Input now has stage, change, problems and a Stages section. Still open: see N2."
+  - id: M3
+    was: "P4 - indexes/glossary still describe the skill without the play"
+    status: unchanged
+    note: "Files still not in the diff; unchanged P4, not repeated as a new finding."
 conformant:
   - file: core/components/memory/standards/rules/pipeline-next.md
     principle: G1
-    note: "edit-ontology is a harness-maintenance play beside create-play/edit-play/create-loop/edit-loop in meta_exempt; the play is user-invocable and has no successor, so exempting it is what the rule requires. One-line addition, no other change to the map."
-  - file: core/components/skills/author-product-ontology/SKILL.md
+    note: "One-line addition beside create-play/edit-play/create-loop/edit-loop. Matches the rule."
+  - file: core/components/memory/standards/rules/pipeline-position.md
     principle: G2
-    note: "user-invocable true -> false, text now says a person never runs it. This brings the skill into line with ADR 005. The base docs/components/skills.md 'Meta-Utility exception' was an exception to ADR 005 with no ADR behind it; the diff removes it consistently in skills.md."
-  - file: core/components/skills/author-product-ontology/SKILL.md
-    principle: G3
-    note: "Stage drafts are written to the play's working (short-term memory) folder and the ontology edit lands through the change plays (PR), not as a runtime memory write. Consistent with ADR 039 Decision 1."
+    note: "Both edits record an explicit, named exception (#777) to 'meta plays are none'. The edit-ontology frontmatter declares position: both, so the rule text and the play agree."
 findings:
-  - id: M1
-    severity: P2
-    file: core/components/skills/author-product-ontology/SKILL.md
+  - id: N1
+    severity: P4
+    file: core/components/agents/product-os-keeper.md
     principle: G4
-    source: "origin/plan/756/base:core/components/agents/product-os-keeper.md (Available Skills / Intent->Skill table, no author-product-ontology row; base grep for 'ontology' in the agent finds only an unrelated 'ontology v4' note at line 182)"
-    finding: "The skill is now run only through the product-os-keeper agent, and edit-ontology dispatches that agent with it, but the agent's skill pool does not list author-product-ontology and the agent file is not in the diff. The agent's own contract says it authors only through the skills in its pool. Add the skill (used by /edit-ontology) to the agent's table and mapping."
-  - id: M2
+    source: "origin/plan/756/base:core/components/agents/product-os-keeper.md (Intent -> Skill Mapping table: every pooled skill has an intent row)"
+    finding: "The skill is now in the Available Skills table, but the Intent -> Skill Mapping table has no row for it (e.g. 'change the product ontology', 'add a kind'). Other pooled skills have both. Add one row so the agent can route the intent."
+  - id: N2
     severity: P3
     file: core/components/skills/author-product-ontology/SKILL.md
     principle: G3
-    source: "origin/plan/756/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (a skill reads only what its agent puts in short-term memory); base:docs/adr/016-agent-json-contract.md (contract carries paths)"
-    finding: "The new Stages section says each stage 'reads the drafts of the stages before it' and may carry `change` and `problems`, but the Input table is unchanged: no `stage`, no draft-path inputs, no `change`, no `problems`, and no Output row for a stage draft. The skill's contract is therefore only defined in the play, so the skill cannot be read on its own. Add these fields to Input/Output. Also the Input default for ontology_path/template_path still points at the installed copy (~/.garura/core/memory/...) that the play overrides with the source path; ADR 039 wants paths handed in, so the default is now misleading."
-  - id: M3
+    source: "origin/plan/756/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md; docs/adr/016-agent-json-contract.md (the contract carries paths)"
+    finding: "Round-1 gap only partly closed. Input gained stage/change/problems, but the earlier stages' draft locations and this stage's draft output path are still not Input fields, and Output still lists only ontology_path and report_path (no stage draft). Also report_path is 'yes' and ontology_path default still points at the installed ~/.garura copy for every stage, though only stage 'write' produces them. A reader of the skill alone cannot tell where drafts are read or written. Add draft-path inputs and a per-stage Output row."
+  - id: N3
     severity: P4
-    file: core/components/memory/standards/templates/_index.md, core/components/memory/standards/schemas/product-os/_index.md
-    principle: G5
-    source: "origin/plan/756/base:core/components/memory/standards/templates/_index.md L21 ('Used by: author-product-ontology (skill)'); base:core/components/memory/standards/schemas/product-os/_index.md L9"
-    finding: "These memory indexes (not in the diff) still present author-product-ontology as the way the ontology is built, with no mention that it is run only by /edit-ontology. Not wrong, but now incomplete; a pointer to the play would help. The same holds for core/grounding/glossary.md L67."
-  - id: M4
-    severity: P4
-    file: core/components/memory/standards/rules/pipeline-next.md
-    principle: G1
-    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-next.md (intro paragraph names only 'install' style meta plays by comment; 'The flow' lists the Change loop members)"
-    finding: "edit-ontology ends by running commit/propose/check/merge-change (position: both), yet is exempt from the Next line like the other meta plays. That matches the rule; noted only so the reviewer confirms it is intended that its close names no successor."
+    file: core/components/memory/standards/rules/pipeline-position.md
+    principle: G2
+    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md ('There are only these positions'; 'Wired so far' line)"
+    finding: "The rule is now a list of named exceptions inside prose that says meta plays are none. Acceptable for one play; if a second meta play opens its own change, the rule should state the condition (meta play that opens and lands its own change) rather than naming plays one by one."
 grounding_unavailable: []

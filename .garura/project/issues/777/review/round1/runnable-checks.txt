@@ -1,0 +1,10 @@
+lint_play:
+VERDICT: PASS (0 gap(s))
+edit-ontology tests:
+11 passed, 0 failed
+install tests:
+OK
+linter rule test:
+2 passed, 0 failed
+lint-components:
+{'errors': 121, 'warnings': 2, 'infos': 0}

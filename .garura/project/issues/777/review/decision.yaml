@@ -1,9 +1,7 @@
-decision: reject
+decision: approve
 decided_by: human
 reviewer: the product owner
 recommended: approve
-citing_findings:
-  - DG-1 (P2) product-os-keeper does not list author-product-ontology in its skills
-  - memory P3 the skill's Input table does not name stage, change, problems
-  - DG-3 (P3) pipeline-position.md says meta plays have no position; edit-ontology is both
+citing_findings: []
+follow_up: items DG-2, N1, N2, N3 filed as one chore under #777
 gate: on (gates.plays.check-change is absent from the installed config, bug #772)

@@ -1,95 +1,60 @@
-# check-change Step 3, Layer 2 - design grounding, category: harness (PR #780, issue 777)
+# check-change Step 3, Layer 2 - design grounding, category: harness (PR #780, issue 777), round 2
 # Every principle below is read from the base ref origin/plan/756/base, not from files this diff adds.
 category: harness
+round: 2
 base_ref: origin/plan/756/base
 grounded_principles:
   - id: G1
-    principle: "Plays orchestrate, agents gather context, skills do the work; a play hands an agent a contract of file paths; the agent calls skills."
-    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 2; ADR 001, 005, 016)"
+    principle: "Plays orchestrate, agents gather context, skills do the work; the agent definition declares the skill pool and which plays use it."
+    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 2); core/components/agents/product-os-keeper.md (Available Skills table)"
   - id: G2
     principle: "Mechanical work is a script, judgment is a model."
-    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 3; ADR 025)"
+    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 3)"
   - id: G3
-    principle: "A part is compiled from its ICE; the compiled part records the ICE fingerprint so the two cannot drift."
-    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 4; ADR 027); CLAUDE.md Play Pipeline Rules"
+    principle: "A part is compiled from its ICE; the compiled part records the ICE fingerprint."
+    source: "origin/plan/756/base:docs/standards/harness-standard.md (principle 4); CLAUDE.md Play Pipeline Rules"
   - id: G4
-    principle: "position both injects start-change at the head and commit-change -> propose-change -> check-change -> merge-change at the end, as named sub-play steps with parent_run_id, before the Standard Play Close; a consumer must not hand-roll issue/branch/PR/merge steps."
+    principle: "pipeline-position.md is the single source of which plays sit at which position; meta plays are 'none' unless the rule lists them."
     source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md"
   - id: G5
-    principle: "The Standard Play Close lives once in _shared/play-close.md; a play carries its anchor pair and its own values. Every user-invocable play is listed in pipeline-next.md or in meta_exempt."
-    source: "origin/plan/756/base:CLAUDE.md; core/components/memory/standards/rules/pipeline-next.md"
+    principle: "The Standard Play Close renders a Next line 'always, unless the play is meta_exempt'; meta_exempt plays need no Next line."
+    source: "origin/plan/756/base:core/components/plays/_shared/play-close.md (Step C2); core/components/memory/standards/rules/pipeline-next.md (meta_exempt)"
   - id: G6
-    principle: "Names: verb first, one meaning per verb, harness plays use create/edit/install/uninstall; agents are <domain>-<role>."
-    source: "origin/plan/756/base:core/components/memory/standards/rules/naming.md (ADR 046)"
-  - id: G7
-    principle: "Skills are never invoked by a person: Human -> Play -> Agent -> Skill; user-invocable false for skills."
-    source: "origin/plan/756/base:docs/components/skills.md ('Model-Invocable Only'); harness-standard principle 2"
-conformance_confirmed:
-  - "edit-ontology compiles from reference/ice.md; the fingerprint in SKILL.md (09e36c19...) equals sha256 of reference/ice.md on the branch (G3)."
-  - "lint_play.py on edit-ontology/SKILL.md reads PASS, 0 gaps (required sections, failure/scenario/constraint coverage, one recovery per failure, D2 position, play close, stop condition, fingerprint) (G3, G4, G5)."
-  - "position: both. Start-change is step 0 and the four end steps E1-E4 are named sub-plays with parent_run_id, placed before the close (G4)."
-  - "Standard Play Close anchors and pointer to ../_shared/play-close.md are used; the play carries only its own lines (G5)."
-  - "Name edit-ontology uses the harness verb 'edit' (G6). Listed in meta_exempt (G5)."
-  - "Mechanical work is in scripts: preflight, ontology check, change check, record_checkpoint, stop condition (G2). The model-judgment work (drafting) goes to product-os-keeper through JSON contracts over files (G1)."
-  - "author-product-ontology becomes user-invocable: false and its body now says the play runs it; docs/components/skills.md and the install-garura wording are made consistent with that (G7). The 'Meta-Utility exception' removed from skills.md matches harness-standard principle 2."
-  - "install.py: edit-ontology added to META_PLAYS and the harness scope allow-list; kept out of full scope. Consistent with the existing meta-play handling (create-play, edit-play)."
-findings:
+    principle: "Skills are never invoked by a person: Human -> Play -> Agent -> Skill."
+    source: "origin/plan/756/base:docs/components/skills.md; harness-standard principle 2"
+round1_recheck:
   - id: DG-1
-    severity: P2
-    file: core/components/agents/product-os-keeper.md (not in the diff) vs core/components/plays/edit-ontology/SKILL.md
-    principle: "G1 - a play dispatches an agent that calls skills from its pool; the agent definition is where the pool and its callers are declared. The agent decides which skill to invoke from its pool."
-    source: "origin/plan/756/base:core/components/agents/product-os-keeper.md ('Available Skills' table; 'Used by' description) and docs/standards/harness-standard.md principle 2"
-    basis: >
-      The new play makes product-os-keeper the only runner of author-product-ontology, and
-      author-product-ontology is no longer user-invocable, so the agent is now the only door to it.
-      On the base ref the agent file has no row for author-product-ontology in its skill table and
-      its description does not list /edit-ontology (the only 'ontology' mention is a version note,
-      line 182). The agent file is unchanged by this PR. A reader of the agent cannot see it owns
-      this skill, and the agent's 'pool' is the contract the play relies on.
-    suggestion: "Add author-product-ontology to the agent's skill table (used by /edit-ontology) and name the play in its description."
+    status: FIXED
+    evidence: "Commit dc00dd95 adds an author-product-ontology row (used by /edit-ontology) to the product-os-keeper skill table and names /edit-ontology in its description (G1)."
+  - id: DG-3
+    status: FIXED
+    evidence: "pipeline-position.md now lists /edit-ontology (#777) in the 'both' list and carves it out of the 'meta plays are none' line (G4). The play's position_exception now agrees with the rule."
+  - id: DG-2
+    status: STILL_OPEN
+    evidence: "edit-ontology/SKILL.md Step C2 is unchanged; see finding DG-2 below."
+  - id: DG-4
+    status: ACCEPTED
+    evidence: "Play commits its own work then injects the end sequence; same shape as record-decision and discover-capabilities. No action."
+  - id: DG-5
+    status: ACCEPTED
+    evidence: "check_ontology.py is a copy of the skill's script; base-ref convention. No action."
+conformance_confirmed:
+  - "Fingerprint in SKILL.md (09e36c19...) equals sha256 of reference/ice.md on the branch (G3)."
+  - "position: both, with start-change at step 0 and E1-E4 as named sub-plays with parent_run_id before the close (G4)."
+  - "Mechanical work sits in scripts; drafting goes to product-os-keeper by JSON contract over files (G1, G2)."
+  - "author-product-ontology is user-invocable: false and its body says only the play runs it (G6)."
+  - "edit-ontology is in meta_exempt in pipeline-next.md."
+  - "lint_play.py could not be run in this review: core/components/skills/play-creator/scripts/lint_play.py does not exist in this checkout; the runnable-checks step owns that result."
+findings:
   - id: DG-2
     severity: P3
-    file: core/components/plays/edit-ontology/SKILL.md (Step C2) and core/components/memory/standards/rules/pipeline-next.md
-    principle: "G5 - a play in meta_exempt needs no Next line; the Next-line map is the single source."
-    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-next.md (header and meta_exempt note: 'Meta / bootstrap plays - not part of the product pipeline; no Next required'); lint_play 'next-command' check"
+    file: core/components/plays/edit-ontology/SKILL.md (Step C2)
+    principle: "G5 - a meta_exempt play gets no Next line."
+    source: "origin/plan/756/base:core/components/plays/_shared/play-close.md Step C2 ('Next (always, unless the play is meta_exempt)'); pipeline-next.md meta_exempt"
     basis: >
-      The play is added to meta_exempt (so lint passes), yet Step C2 tells the run to resolve the
-      play in $next_map and render a Next line, which the map will never hold for it. The
-      instruction cannot be followed as written. The Next Steps text ('plays that write the changed
-      kinds may now need edit-play') is hand-written in the play instead of coming from the map.
-    suggestion: "Make C2 say 'no Next line: edit-ontology is meta_exempt; emit only the /next pointer', matching how the other meta_exempt plays close."
-  - id: DG-3
-    severity: P3
-    file: "core/components/memory/standards/rules/pipeline-position.md (not updated) vs edit-ontology position: both"
-    principle: "G4 - pipeline-position.md is the single source of which plays sit at which position and that meta plays are 'none'."
-    source: "origin/plan/756/base:core/components/memory/standards/rules/pipeline-position.md ('As compiled today: both - ...'; Enforced: 'strategic, model-building, and meta plays are none')"
-    basis: >
-      edit-ontology is a meta (harness) play (META_PLAYS, meta_exempt) but declares position: both.
-      The rule states meta plays are 'none' and lists the compiled 'both' plays; edit-ontology is
-      in neither the list nor an exception. The play records its own 'position_exception' in
-      Compilation Metadata, but the source rule does not carry it, so the rule and the play now
-      disagree. Precedent exists (record-decision and discover-capabilities are 'both' and
-      commit their own work), so the position itself is defensible; the gap is the rule text.
-    suggestion: "Add edit-ontology to the 'both' list in pipeline-position.md and state that model-writing meta plays may be 'both'."
-  - id: DG-4
-    severity: P4
-    file: core/components/plays/edit-ontology/SKILL.md (Step 9)
-    principle: "G4 / CLAUDE.md Agent-First: a play must not run git commit itself where an agent covers git; the end sequence owns commit/PR/merge."
-    source: "origin/plan/756/base:CLAUDE.md ('Agent-First' example: git commit directly in play is WRONG); pipeline-position.md ('hand-rolls ... steps that duplicate a member')"
-    basis: >
-      Step 9 runs git add / git commit directly, and E1 commit-change follows. This is the same
-      shape record-decision and discover-capabilities use on the base ref (git add / git commit in
-      the play, then the end sequence), so it follows existing practice rather than breaking it,
-      and the play names it as position_exception. Flagged only so the shared pattern is a decision,
-      not an accident.
-    suggestion: "None required for this PR; consider a shared rule on 'commit own work then inject end sequence'."
-  - id: DG-5
-    severity: P4
-    file: core/components/plays/edit-ontology/scripts/check_ontology.py
-    principle: "G2 - a mechanical step is one script; one home per tool."
-    source: "origin/plan/756/base:docs/standards/harness-standard.md principle 3; memory note 'Tools first-class: one home per tool'"
-    basis: >
-      check_ontology.py is a byte-identical copy of core/components/skills/author-product-ontology/scripts/check_ontology.py
-      (diff reads identical). The play states it is 'copied'. Two copies can drift. Copying scripts
-      into a play is the base-ref convention (preflight.py, session_stamp.py), so this is a nit.
-    suggestion: "Keep as is; note that the two must change together."
+      The PR adds edit-ontology to meta_exempt, yet Step C2 still tells the run to resolve the play
+      in $next_map and render a Next line. A meta_exempt play has no entry in the map, so the step
+      cannot be followed as written, and it contradicts the shared close the play points to.
+      Carried over unchanged from round 1; commit dc00dd95 did not touch it.
+    suggestion: "Change C2 to say no Next line (edit-ontology is meta_exempt); emit only the /next pointer. This is a non-intent edit to the compiled SKILL.md."
+new_findings: []

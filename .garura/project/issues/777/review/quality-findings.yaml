@@ -1,5 +1,6 @@
+# match_scope marks findings that matched a path only; their line is null.
 meta:
-  generated_at: '2026-10-22T08:04:57Z'
+  generated_at: '2026-10-22T08:12:12Z'
   diff_path: '.garura/project/issues/777/review/pr.diff'
   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
   changed_paths_count: 12
@@ -11,28 +12,32 @@ findings:
   - standard_id: 'ARCH-02'
     severity: P2
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'ARCH-02'
   - standard_id: 'CODE-03'
     severity: P2
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-03'
   - standard_id: 'CODE-04'
     severity: P2
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-04'
   - standard_id: 'CODE-14'
     severity: P2
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-14'
@@ -46,28 +51,32 @@ findings:
   - standard_id: 'ARCH-02'
     severity: P2
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'ARCH-02'
   - standard_id: 'CODE-03'
     severity: P2
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-03'
   - standard_id: 'CODE-04'
     severity: P2
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-04'
   - standard_id: 'CODE-14'
     severity: P2
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-14'
@@ -88,161 +97,184 @@ findings:
   - standard_id: 'ARCH-03'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'ARCH-03'
   - standard_id: 'ARCH-08'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'ARCH-08'
   - standard_id: 'CODE-09'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-09'
   - standard_id: 'CODE-10'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-10'
   - standard_id: 'CODE-11'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-11'
   - standard_id: 'CODE-12'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-12'
   - standard_id: 'CODE-15'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-15'
   - standard_id: 'CODE-17'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-17'
   - standard_id: 'CODE-18'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-18'
   - standard_id: 'FE-08'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'FE-08'
   - standard_id: 'ARCH-03'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'ARCH-03'
   - standard_id: 'ARCH-08'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'ARCH-08'
   - standard_id: 'CODE-09'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-09'
   - standard_id: 'CODE-10'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-10'
   - standard_id: 'CODE-11'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-11'
   - standard_id: 'CODE-12'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-12'
   - standard_id: 'CODE-15'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-15'
   - standard_id: 'CODE-17'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-17'
   - standard_id: 'CODE-18'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-18'
   - standard_id: 'FE-08'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'FE-08'
   - standard_id: 'TEST-02'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'TEST-02'
   - standard_id: 'TEST-03'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'TEST-03'
   - standard_id: 'TEST-06'
     severity: P3
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'TEST-06'
@@ -277,56 +309,64 @@ findings:
   - standard_id: 'CODE-13'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-13'
   - standard_id: 'CODE-19'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/structural.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/lib/rules/structural.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-19'
   - standard_id: 'CODE-13'
     severity: P4
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-13'
   - standard_id: 'CODE-19'
     severity: P4
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-19'
   - standard_id: 'TEST-05'
     severity: P4
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'TEST-05'
   - standard_id: 'TEST-07'
     severity: P4
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'TEST-07'
   - standard_id: 'TEST-08'
     severity: P4
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'TEST-08'
   - standard_id: 'TEST-22'
     severity: P4
     file: 'core/tools/lint-components/test/skill-invocable.test.js'
-    line: 1
+    line: null
+    match_scope: 'whole-file: rule matched the file path only; no line in the diff triggered it'
     evidence: 'core/tools/lint-components/test/skill-invocable.test.js'
     artifact_type: 'tests'
     taxonomy_rule_id: 'TEST-22'
