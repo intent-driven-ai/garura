@@ -1,0 +1,1 @@
+Work on Story #725 — "Needs" and "identified by" link capabilities and functionalities (plan #722, capability #723). Resolve issue 725.
