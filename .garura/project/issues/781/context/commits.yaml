@@ -1,0 +1,33 @@
+commits:
+  - sha: 9b43cf1f
+    message: "docs(edit-ontology): Leave the Next line out of the edit-ontology close because the play is meta exempt (#781)"
+    files:
+      - core/components/plays/edit-ontology/SKILL.md
+    branch: plan/756/781-edit-ontology-review-notes
+  - sha: d11e262a
+    message: "docs(author-product-ontology): Name the draft input and output of each stage in the ontology authoring skill (#781)"
+    files:
+      - core/components/skills/author-product-ontology/SKILL.md
+    branch: plan/756/781-edit-ontology-review-notes
+  - sha: 1e4a7552
+    message: "docs(product-os-keeper): Add a mapping row for changing the product ontology to the keeper agent (#781)"
+    files:
+      - core/components/agents/product-os-keeper.md
+    branch: plan/756/781-edit-ontology-review-notes
+  - sha: 8b6e5c61
+    message: "docs(pipeline-position): State the condition for a meta play that opens and lands its own change instead of naming edit-ontology (#781)"
+    files:
+      - core/components/memory/standards/rules/pipeline-position.md
+    branch: plan/756/781-edit-ontology-review-notes
+  - sha: 93954977
+    message: "chore(stm): Record the commit-change workspace context for the review notes (#781)"
+    files:
+      - .garura/project/issues/781/context/analysis.yaml
+      - .garura/project/issues/781/context/porcelain.txt
+    branch: plan/756/781-edit-ontology-review-notes
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
