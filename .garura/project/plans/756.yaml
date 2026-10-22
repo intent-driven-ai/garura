@@ -1,0 +1,51 @@
+# Plan 756 — its ID is the business intent's issue number (ontology v5, Plan).
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
+id: 756
+title: The agent intent (ICE) is its own part of the product model
+status: next
+started: null
+branch: null
+identified_by:
+- 722
+needs_plans: []
+updated: '2026-10-22'
+tree:
+- issue: 757
+  kind: capability
+  title: The ICE is its own kind in the product model
+  status: next
+  children:
+  - issue: 758
+    kind: functionality
+    title: 'The ICE kind: its own page, spine entry and three parts'
+    status: next
+  - issue: 759
+    kind: functionality
+    title: The linter checks each ICE's three parts and its two links
+    status: next
+  - issue: 760
+    kind: functionality
+    title: 'The ready check reads the ICE: ready, partly ready, not ready'
+    status: next
+- issue: 761
+  kind: capability
+  title: Plays write ICE nodes
+  status: next
+  children:
+  - issue: 762
+    kind: functionality
+    title: /discover-capabilities and its skills write ICE nodes
+    status: next
+  - issue: 763
+    kind: functionality
+    title: The judges check plain English and the three parts
+    status: next
+- issue: 764
+  kind: capability
+  title: Move Garura's own model to ICE nodes
+  status: next
+  children:
+  - issue: 765
+    kind: functionality
+    title: Move each ICE section to its own ICE node, and lose nothing
+    status: next
