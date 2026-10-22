@@ -31,7 +31,7 @@ tree:
   - issue: 727
     kind: functionality
     title: Build the plan tree from a business intent
-    status: blocked
+    status: next
     needs:
     - 724
   - issue: 728

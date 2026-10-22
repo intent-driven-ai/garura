@@ -18,11 +18,11 @@ tree:
   - issue: 724
     kind: functionality
     title: A capability or functionality is ready without a domain
-    status: now
+    status: done
   - issue: 597
     kind: functionality
     title: Rebuild the product model as an ontology
-    status: now
+    status: done
   - issue: 725
     kind: functionality
     title: '"Needs" and "identified by" link capabilities and functionalities'
