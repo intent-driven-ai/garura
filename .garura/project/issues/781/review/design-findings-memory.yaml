@@ -1,0 +1,31 @@
+category: memory
+base: plan/756/base
+scope: core/components/memory/standards/rules/pipeline-position.md (2 hunks: the "As compiled today" list, and the Linter bullet)
+grounding:
+  - principle: "A play declares `position` as start|end|both|none; the linter checks only that the value is one of the four."
+    source: "plan/756/base:core/components/memory/standards/rules/pipeline-position.md (Enforced > Linter) and plan/756/base:core/components/plays/create-play/scripts/lint_play.py lines ~96-124, 211-213 (regex on `position:` frontmatter only)"
+  - principle: "Model-writing plays at position none must record an explicit `position_exception` metadata row; the exception is per-play and recorded in the play."
+    source: "plan/756/base:core/components/plays/create-play/scripts/lint_play.py lines ~219-240 (D2b)"
+  - principle: "Meta/bootstrap plays are not part of the product pipeline and need no Next; edit-ontology is listed in meta_exempt."
+    source: "plan/756/base:core/components/memory/standards/rules/pipeline-next.md (meta_exempt block, lines 86-94)"
+dependency_check:
+  result: "no code or linter depends on the old wording"
+  detail: "git grep on plan/756/base for 'one meta play', 'except /edit-ontology', 'the one meta' matches only the two lines this PR edits, both inside pipeline-position.md. lint_play.py (create-play and edit-play copies) reads only the frontmatter `position` value and the position_exception row; it never parses this rule's prose. install.py and its tests name edit-ontology as a play, not this wording."
+conforming:
+  - "Both hunks are prose-only; no enforced behaviour changes. edit-ontology/SKILL.md still declares position both (base line 3) with a position_exception row, so linter results are unchanged."
+  - "The compiled list still names /edit-ontology (#777) under `both`, so the rule stays consistent with the play's frontmatter."
+findings:
+  - id: M1
+    severity: P3
+    file: core/components/memory/standards/rules/pipeline-position.md
+    location: "Linter bullet (line ~96)"
+    principle: "The rule is the written statement of what the linter and create-play enforce; an exception to the default must be bounded so a reader can tell which plays qualify. Base wording bounded it: 'the one meta play', with the play named."
+    source: "plan/756/base:core/components/memory/standards/rules/pipeline-position.md line 96; lint_play.py D2b (exception is explicit and recorded, not open-ended)"
+    evidence: "New text: 'meta plays are `none` — except a meta play that opens and lands its own change, which is `both`.' Every `both` play opens and lands its own change, so the condition does not separate a qualifying meta play from the default. Nothing in the linter or rule says who decides, or requires the position_exception row that edit-ontology carries. The reason the base gave (it changes Garura's source with the product owner) was dropped from both places. Suggest tying the condition to the recorded position_exception row, or keeping the reason."
+  - id: M2
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-position.md
+    location: "'As compiled today' list (line ~12)"
+    principle: "The list is a factual 'as compiled today' record; each entry should say why a non-default placement holds, as the neighbouring entries carry issue refs."
+    source: "plan/756/base:core/components/memory/standards/rules/pipeline-position.md line 12"
+    evidence: "Entry now reads '/edit-ontology (#777 — a meta play that opens and lands its own change)', which restates the placement rather than the reason. Cosmetic."

@@ -1,0 +1,5 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/memory/standards/rules/pipeline-position.md
+ M core/components/plays/edit-ontology/SKILL.md
+ M core/components/skills/author-product-ontology/SKILL.md
+?? .garura/project/issues/781/context/porcelain.txt

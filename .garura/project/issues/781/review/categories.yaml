@@ -1,0 +1,31 @@
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/agents/product-os-keeper.md
+      - core/components/plays/edit-ontology/SKILL.md
+      - core/components/skills/author-product-ontology/SKILL.md
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/rules/pipeline-position.md
+    note: standards rule under core/components/memory/standards/rules
+  - name: run-records
+    playbook: null
+    design_bearing: false
+    note: "playbook missing - short-term-memory run artifacts (context/*.json, yaml, md, txt) recorded by the change plays; no review playbook covers them"
+    evidence:
+      - .garura/project/issues/781/context/analysis.yaml
+      - .garura/project/issues/781/context/branch.json
+      - .garura/project/issues/781/context/commits.yaml
+      - .garura/project/issues/781/context/issue.json
+      - .garura/project/issues/781/context/plan.json
+      - .garura/project/issues/781/context/porcelain.txt
+      - .garura/project/issues/781/context/pr-body.md
+      - .garura/project/issues/781/context/pr.json
+      - .garura/project/issues/781/context/resolved-rules.json
+      - .garura/project/issues/781/context/self-review.md
+      - .garura/project/issues/781/context/target.json
+      - .garura/project/issues/781/context/work-description.txt

@@ -1,0 +1,1 @@
+Tidy four review notes on the edit-ontology play and its skill (#781): the C2 Next line, the skill's stage draft paths, the keeper's mapping row, and the pipeline-position condition.
