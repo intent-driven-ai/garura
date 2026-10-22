@@ -1,6 +1,6 @@
 # ADR 024 — The Amendment: An Append-Only Change Record Below the Epic
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 048](048-the-product-model-and-the-work-are-two-layers.md): §1 'Anchored, always' and §2 'Append-only' — the anchor is a delivered epic record on the slice, and 'a slice's current truth = its epics + their amendments'; §6 the home 'on the slice beside the epics'; and the Context's premise 'delivered epics cannot be reopened'
 **Date:** 2026-07-03
 **Supersedes:** nothing — no unit below the epic existed
 **Related:** ADR 019 (epics kept when delivered), ADR 023 (three execution trinities), issues #444–#447, #450

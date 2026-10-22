@@ -1,6 +1,6 @@
 # ADR 047 — The Agent Intent (ICE) Is Its Own Node: One for Each Capability and Each Functionality, in Three Parts, With a Three-Answer Ready Check
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 048](048-the-product-model-and-the-work-are-two-layers.md): the word only — 'one ICE for each capability and each functionality' holds as 'each capability and each feature'; §5 'A functionality has exactly one parent capability' and its holding folder read 'feature' and `features/`
 **Date:** 2026-10-22
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #758 (plan #756) — the three /edit-ontology checkpoints and the review of PR #783, 2026-10-22
