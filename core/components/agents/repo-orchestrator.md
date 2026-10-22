@@ -142,23 +142,23 @@ TaskUpdate task_id → addBlockedBy: [new_task_id]
 
 | Skill | Domain | Purpose |
 |-------|--------|---------|
-| `analyze-changes` | commit | Analyze uncommitted changes, detect risks, suggest groupings |
-| `create-commit` | commit | Stage files and create conventional commit |
-| `analyze-pr` | pr | Analyze branch for PR readiness, generate quality checklist |
-| `submit-pr` | pr | Push branch and create pull request with checklist |
-| `setup-branch` | branch | Create branch, push to origin, optionally use worktree |
+| `assess-changes` | commit | Analyze uncommitted changes, detect risks, suggest groupings |
+| `commit-files` | commit | Stage files and create conventional commit |
+| `assess-pr` | pr | Analyze branch for PR readiness, generate quality checklist |
+| `open-pr` | pr | Push branch and create pull request with checklist |
+| `cut-branch` | branch | Create branch, push to origin, optionally use worktree |
 | `merge-pr` | merge | Merge PR, switch to base branch, pull latest, delete feature branch |
 
 ### When to Use Each Skill
 
 | Intent Pattern | Skill | Why |
 |----------------|-------|-----|
-| "analyze changes", "what changed", "review uncommitted" | `analyze-changes` | Understanding current state |
-| "commit", "create commit", "stage and commit" | `create-commit` | Creating commits |
-| "commit STM evidence", "commit evidence files", "record stm artifact" | `create-commit` | Persisting STM evidence/checkpoint files post-play |
-| "analyze PR", "PR readiness", "check before PR" | `analyze-pr` | PR quality assessment |
-| "create PR", "submit PR", "open pull request" | `submit-pr` | PR creation |
-| "create branch", "setup branch", "new branch" | `setup-branch` | Branch creation and push |
+| "analyze changes", "what changed", "review uncommitted" | `assess-changes` | Understanding current state |
+| "commit", "create commit", "stage and commit" | `commit-files` | Creating commits |
+| "commit STM evidence", "commit evidence files", "record stm artifact" | `commit-files` | Persisting STM evidence/checkpoint files post-play |
+| "analyze PR", "PR readiness", "check before PR" | `assess-pr` | PR quality assessment |
+| "create PR", "submit PR", "open pull request" | `open-pr` | PR creation |
+| "create branch", "setup branch", "new branch" | `cut-branch` | Branch creation and push |
 
 ## Intent Recognition
 
@@ -171,24 +171,24 @@ When you receive a contract, read `intent.yaml` from `intent_path` and identify:
 5. **Failure conditions**: What does `intent.yaml` define as failure?
 6. **Scenarios**: What acceptance scenarios must this execution satisfy?
 
-Constraints are extracted during recognition because they influence HOW you execute — not just WHETHER you execute. A constraint like "MUST NOT commit on protected branches" doesn't just trigger a gate; it tells you to check the branch and factor it into your analysis output. A constraint like "single type per commit" tells you how to group changes before invoking `create-commit`.
+Constraints are extracted during recognition because they influence HOW you execute — not just WHETHER you execute. A constraint like "MUST NOT commit on protected branches" doesn't just trigger a gate; it tells you to check the branch and factor it into your analysis output. A constraint like "single type per commit" tells you how to group changes before invoking `commit-files`.
 
 ### Intent → Skill Mapping
 
 ```
-"Analyze uncommitted changes"     → analyze-changes
+"Analyze uncommitted changes"     → assess-changes
   + constraints shape: risk flags, branch rules, grouping criteria
-"Commit these files: [...]"       → create-commit
+"Commit these files: [...]"       → commit-files
   + constraints shape: format rules, branch restrictions, sensitive file handling
-"Commit these change groups: [{group1}, {group2}, …]" → create-commit (once per group, then push)
+"Commit these change groups: [{group1}, {group2}, …]" → commit-files (once per group, then push)
   + constraints shape: same as singular case per group; push after all commits complete
-"Commit STM evidence files: [...]" → create-commit
+"Commit STM evidence files: [...]" → commit-files
   + constraints shape: stage ONLY listed files (never git add -A), chore(stm) conventional format, non-blocking (skip missing files)
-"Analyze this branch for PR"      → analyze-pr
+"Analyze this branch for PR"      → assess-pr
   + constraints shape: quality criteria, checklist requirements
-"Create PR with title: ..."       → submit-pr
+"Create PR with title: ..."       → open-pr
   + constraints shape: target branch, review requirements
-"Create branch feature/42-login"  → setup-branch
+"Create branch feature/42-login"  → cut-branch
   + constraints shape: naming convention, base branch
 "Merge PR", "merge and cleanup"   → merge-pr
   + constraints shape: merge strategy, conflict handling, branch deletion
@@ -257,7 +257,7 @@ If intent is unclear:
 
 Skills return structured data to this agent. These are internal contracts between agent and skill — distinct from the JSON contract returned to the play.
 
-### For `analyze-changes` invocations
+### For `assess-changes` invocations
 
 ```yaml
 analysis:
@@ -275,7 +275,7 @@ analysis:
 
 **Do NOT include `checkpoint_needed` or any policy judgment in this output.** The caller (play/orchestrator) owns checkpoint policy. Your job is to return raw facts: groups, sensitive files, breaking changes, type ambiguity, and branch classification. Never rationalize away a risk or suppress it because it seems "intentional".
 
-### For `create-commit` invocations
+### For `commit-files` invocations
 
 ```yaml
 result:
@@ -291,7 +291,7 @@ result:
     conventional_format: true/false
 ```
 
-### For `analyze-pr` invocations
+### For `assess-pr` invocations
 
 ```yaml
 analysis:
@@ -316,7 +316,7 @@ analysis:
   ready: true/false
 ```
 
-### For `submit-pr` invocations
+### For `open-pr` invocations
 
 ```yaml
 result:
@@ -331,7 +331,7 @@ result:
     optional_count: {count}
 ```
 
-### For `setup-branch` invocations
+### For `cut-branch` invocations
 
 ```yaml
 result:
@@ -392,10 +392,10 @@ Bash is available for operations **not covered by skills**:
 
 | Forbidden | Use Instead |
 |-----------|-------------|
-| `git add`, `git commit` | `create-commit` skill |
-| `git push` | `submit-pr` skill |
-| `git status`, `git diff` (for analysis) | `analyze-changes` skill |
-| `git checkout -b`, `git branch` (for creation), `git worktree add` | `setup-branch` skill |
+| `git add`, `git commit` | `commit-files` skill |
+| `git push` | `open-pr` skill |
+| `git status`, `git diff` (for analysis) | `assess-changes` skill |
+| `git checkout -b`, `git branch` (for creation), `git worktree add` | `cut-branch` skill |
 | `gh pr merge`, `git checkout + git pull` (for merge lifecycle) | `merge-pr` skill |
 | `gh pr view`, `gh pr diff`, `gh pr comment`, `gh pr review`, `gh pr edit --add-reviewer` | `platform-adapter` skill (verbs: view-pr, diff-pr, comment-pr, request-changes, add-reviewer) |
 | `glab mr view`, `glab mr diff`, `glab mr note`, `glab mr update`, `glab api` | `platform-adapter` skill (same verb set — adapter handles platform routing) |
@@ -432,9 +432,9 @@ When a skill invocation fails and the obstacle is within your domain:
 
 | Obstacle | Self-Recovery |
 |----------|--------------|
-| `create-commit` fails — nothing staged | Stage the specified files, retry |
-| `setup-branch` fails — branch exists locally | Check out the existing branch instead |
-| `setup-branch` fails — dirty working tree | Stash changes, create branch, pop stash |
+| `commit-files` fails — nothing staged | Stage the specified files, retry |
+| `cut-branch` fails — branch exists locally | Check out the existing branch instead |
+| `cut-branch` fails — dirty working tree | Stash changes, create branch, pop stash |
 | Push rejected — remote ahead | Pull with rebase, retry push |
 | Commit fails — pre-commit hook error | Read hook output, fix issue if within repo domain, retry |
 

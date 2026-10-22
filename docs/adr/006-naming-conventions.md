@@ -1,5 +1,7 @@
 # ADR 006: Naming Conventions
 
+**Status:** Accepted — superseded by [ADR 046](046-one-naming-standard-for-every-harness-part.md)
+
 ## Status
 
 Accepted

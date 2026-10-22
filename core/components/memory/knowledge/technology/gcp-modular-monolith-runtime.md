@@ -16,7 +16,7 @@ provenance: "documented (#434 — preferred runtime for a modular monolith)"
 ## Topic
 How a modular monolith is deployed and run on GCP — the deploy target, the datastore,
 the caching stance, the environments/rollout, migrations, and the security baseline. This
-is the operational lens (`/run`) for a product whose architecture is a modular monolith.
+is the operational lens (`/shape-run-lens`) for a product whose architecture is a modular monolith.
 
 ## Conditions
 A modular monolith (one deployment, enforced module boundaries) at early-to-growth stage,

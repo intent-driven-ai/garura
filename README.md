@@ -65,7 +65,7 @@ Garura uses a **three-layer hierarchy** for deterministic workflows:
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      PLAYS                                │
-│  Compiled, intent-driven workflows (built via play-creator) │
+│  Compiled, intent-driven workflows (built via create-play) │
 │  A play is just a play — no levels or agent-count budgets   │
 └─────────────────────────────────────────────────────────────┘
                               │
@@ -244,15 +244,15 @@ garura/
 │   │   │   ├── repo-orchestrator.md
 │   │   │   └── tech-designer.md
 │   │   ├── skills/            # Skills (self-contained capabilities)
-│   │   │   ├── analyze-changes/
-│   │   │   ├── analyze-pr/
-│   │   │   ├── create-commit/
-│   │   │   ├── manage-issue/
-│   │   │   ├── setup-branch/
-│   │   │   └── submit-pr/
+│   │   │   ├── assess-changes/
+│   │   │   ├── assess-pr/
+│   │   │   ├── commit-files/
+│   │   │   ├── track-issue/
+│   │   │   ├── cut-branch/
+│   │   │   └── open-pr/
 │   │   ├── plays/           # Plays (compiled workflows)
 │   │   │   ├── commit-change/
-│   │   │   ├── play-creator/
+│   │   │   ├── create-play/
 │   │   │   ├── propose-change/
 │   │   │   └── start-change/
 │   │   └── memory/            # Long-Term Memory (LTM)

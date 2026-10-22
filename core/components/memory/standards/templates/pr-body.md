@@ -2,7 +2,7 @@
 
 Canonical shape for a pull request body. Every skill that creates or formats a PR body instantiates this template instead of inlining its own markdown.
 
-Consumers: `submit-pr`, `analyze-pr`.
+Consumers: `open-pr`, `assess-pr`.
 
 ## Shape
 

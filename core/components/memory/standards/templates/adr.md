@@ -9,7 +9,7 @@
 >   plays that make them. YAML records are machine data: a forward pointer or an acceptance
 >   rewrites the record, and comments in it are not kept.
 >
-> The `/adr` play and the `author-adr` skill write from this template; `adr.py lint` (in the `author-adr`
+> The `/record-decision` play and the `author-decision` skill write from this template; `adr.py lint` (in the `author-decision`
 > skill) checks a record against it. It checks the shape, never the merit — whether a decision is *right* is a
 > person's call (`knowledge/review/adrs.md`). Built from `decision.yaml`, that review playbook,
 > and the shape ADRs 029–031 share. ADRs written before it stay as they are until they are
@@ -49,7 +49,7 @@
 - Every ADR it supersedes or amends names it back through that pointer — both directions. In
   the YAML shape `superseded_by` holds the one full supersede; an amendment or a supersede in
   part points back through `amended_by`, which can hold many.
-- Every Markdown ADR is listed in `docs/adr/_index.md`; `/adr` rebuilds the index after each
+- Every Markdown ADR is listed in `docs/adr/_index.md`; `/record-decision` rebuilds the index after each
   acceptance (`adr.py index`).
 - An ADR never changes a person's business intent. `business_intent_check: instance` stops the
   ADR from being applied and goes to the person (ADR 031: only a person confirms or drops a
@@ -151,9 +151,9 @@ from this template its header would read:
 **Status:** Accepted
 **Date:** 2026-10-09
 **Level:** framework
-**Decided by:** Alex Example · **Decided in:** #612 (the /intent play) and the review of PR #631
-**Amends:** ADR 029 — §6, what /intent and /vision do in Discovery · ADR 027 — the IDSD row · ADR 026 — /intent by hand confirms before it writes
-**Affects:** ontology.md (v3), spine.yaml, every lint_grounding.py copy, play-creator, gate-config.md, direct-model-write.md
+**Decided by:** Alex Example · **Decided in:** #612 (the /discover-intent play) and the review of PR #631
+**Amends:** ADR 029 — §6, what /discover-intent and /discover-domains do in Discovery · ADR 027 — the IDSD row · ADR 026 — /discover-intent by hand confirms before it writes
+**Affects:** ontology.md (v3), spine.yaml, every lint_grounding.py copy, create-play, gate-config.md, direct-model-write.md
 **ICE impact:** ICE may be written before its capability has a domain; an ICE is workable only when built from a confirmed business intent
 **Business intent check:** kind — the Business Intent and ICE kinds change; no person's business intent changes
 ```

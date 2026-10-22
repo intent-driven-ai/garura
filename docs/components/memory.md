@@ -64,7 +64,7 @@ They are short-term memory, so the tool can find them later.
   loop's issue; its plays open none. A play run on its own gets its issue from
   `start-change`. A play's working folder lives in that issue, under `context/<play>/`, and its
   status markers under `status/` — never in a folder beside the issues.
-- **A grounding run is no exception.** `/vision`, `/understand` or any other play runs inside
+- **A grounding run is no exception.** `/discover-domains`, `/discover-capabilities` or any other play runs inside
   an issue. Its questions and the person's answers go to that issue's short-term memory.
 - **Moving memory up is a promotion.** A person makes it on purpose, outside the work, to
   Garura memory or to Phoenix memory (ADR 036 §3).
@@ -72,8 +72,8 @@ They are short-term memory, so the tool can find them later.
 - **The memory tool never copies a Phoenix file.** It reads Phoenix memory. A project's
   Garura memory is built from only the part the project needs — checkout, not all of
   commerce — by `initialize` and by promotion (ADR 039 §4).
-- **Writing the product model is not a memory write.** A play built for it (`/vision`,
-  `/understand`) writes the model as its work (ADR 026).
+- **Writing the product model is not a memory write.** A play built for it (`/discover-domains`,
+  `/discover-capabilities`) writes the model as its work (ADR 026).
 
 Until a person promotes an answer, another issue does not find it, and may ask the same
 question again. That is expected.
@@ -109,7 +109,7 @@ The product model's own folders are listed in ADR 017 §1.
 ## Not yet everywhere
 
 ADR 039 and ADR 040 were accepted on 19 October 2026. #661 moved the Discovery plays
-(`/intent`, `/vision`, `/understand`), their agents, every play's close and the install. Still to
+(`/discover-intent`, `/discover-domains`, `/discover-capabilities`), their agents, every play's close and the install. Still to
 move:
 
 - the other plays and agents read memory by a path, and keep their working folders beside

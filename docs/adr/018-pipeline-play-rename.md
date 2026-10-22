@@ -1,5 +1,7 @@
 # ADR 018 — Core Pipeline Play Rename to Short Invocation Names
 
+**Status:** Accepted — superseded by [ADR 046](046-one-naming-standard-for-every-harness-part.md)
+
 ## Status
 
 Accepted

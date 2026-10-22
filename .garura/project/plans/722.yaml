@@ -1,0 +1,33 @@
+# Plan 722 — its ID is the business intent's issue number (ontology v5, Plan).
+# Kept by hand until manage-plan (#730) exists. Status: done | now | next | blocked.
+id: 722
+title: A product model can be managed, and grows as plans are built
+status: active
+started: '2026-10-21'
+branch: plan/722/base
+identified_by:
+- 717
+needs_plans: []
+updated: '2026-10-22'
+tree:
+- issue: 723
+  kind: capability
+  title: 'Link the product model: needs, identified by, and loose domains'
+  status: now
+  children:
+  - issue: 724
+    kind: functionality
+    title: A capability or functionality is ready without a domain
+    status: now
+  - issue: 597
+    kind: functionality
+    title: Rebuild the product model as an ontology
+    status: now
+  - issue: 725
+    kind: functionality
+    title: '"Needs" and "identified by" link capabilities and functionalities'
+    status: next
+  - issue: 726
+    kind: functionality
+    title: Domains link to business intents and capabilities, outside the plan tree
+    status: next

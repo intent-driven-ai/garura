@@ -13,8 +13,8 @@
 > knows, and a later play raises it.
 >
 > - **directional** — a light page: what the domain is for, when that is all a play
->   knows yet (for example `/intent`, reading a prototype).
-> - **detailed** — the full page, written or raised by `/vision`, keeping what the
+>   knows yet (for example `/discover-intent`, reading a prototype).
+> - **detailed** — the full page, written or raised by `/discover-domains`, keeping what the
 >   light page said.
 >
 > A domain entry with no `detail:` is read from its page's headings.

@@ -1,0 +1,62 @@
+# Plan 717 — its ID is the business intent's issue number (ontology v5, Plan).
+# Kept by hand until manage-plan (#730) exists. Status: done | now | next | blocked.
+id: 717
+title: People plan work toward a business intent, and pick it up across days and people
+status: active
+started: '2026-10-22'
+branch: plan/717/base
+identified_by: []
+needs_plans:
+- 722
+updated: '2026-10-22'
+tree:
+- issue: 721
+  kind: capability
+  title: 'Start and land work against a plan: plan branches in start-change and merge-change'
+  status: done
+  children:
+  - issue: 731
+    kind: functionality
+    title: start-change cuts a plan's branch, and each issue's branch from it
+    status: done
+  - issue: 673
+    kind: functionality
+    title: merge-change lands an issue on its plan branch, and a plan on main only when it is done
+    status: done
+- issue: 718
+  kind: capability
+  title: 'Build a plan: a tree with an issue for every node, from a business intent'
+  status: next
+  children:
+  - issue: 727
+    kind: functionality
+    title: Build the plan tree from a business intent
+    status: blocked
+    needs:
+    - 724
+  - issue: 728
+    kind: functionality
+    title: Create or link a tracker issue for every node in a plan
+    status: next
+- issue: 719
+  kind: capability
+  title: 'View plans: see every plan, and any one plan as a tree'
+  status: next
+  children:
+  - issue: 729
+    kind: functionality
+    title: List every plan, from the plan files alone
+    status: next
+  - issue: 628
+    kind: functionality
+    title: 'Show the plan as a plain-words tree: goal, done, now, next, wait'
+    status: next
+- issue: 720
+  kind: capability
+  title: 'Manage a plan: change the plan file and the tracker together'
+  status: next
+  children:
+  - issue: 730
+    kind: functionality
+    title: Update, edit or delete a plan file, and connect it to its issues
+    status: next

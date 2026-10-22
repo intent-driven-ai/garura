@@ -11,10 +11,10 @@
       {
         "citation_id": "cite-20261018-001",
         "issue": 613,
-        "play": "/understand",
+        "play": "/discover-capabilities",
         "question": "How do shoppers sign in?",
         "answer": "Email and password, social login, and MFA.",
-        "decided_by": "product-os-keeper (/understand)",
+        "decided_by": "product-os-keeper (/discover-capabilities)",
         "decided_at": "2026-10-18T09:30:00Z",
         "trace": [
           {

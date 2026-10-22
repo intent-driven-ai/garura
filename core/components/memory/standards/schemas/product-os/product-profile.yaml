@@ -15,11 +15,11 @@ schema:
 profile:
   product_ref: string
   state: string              # directional | set | locked
-                             #   directional — rough, from /vision
-                             #   set         — levels + gates firmed by /understand
-                             #   locked      — selection (/shape) runs against it
+                             #   directional — rough, from /discover-domains
+                             #   set         — levels + gates firmed by /discover-capabilities
+                             #   locked      — selection (/shape-scope) runs against it
 
-  shape:                     # situational dimensions (directional from /vision)
+  shape:                     # situational dimensions (directional from /discover-domains)
     stage: string            # prototype | internal | public | monetized
     users: string            # one | small-team | public
     monetization: string     # none | lead-capture | paywall
@@ -43,11 +43,11 @@ profile:
     gates: [string]          # the assembled per-dimension gates quality-auditor verifies
 
   metadata:
-    created_by: string       # /vision (directional) then /understand (firmed)
+    created_by: string       # /discover-domains (directional) then /discover-capabilities (firmed)
     version: integer
 
 # ---- Governance ------------------------------------------------------------
-# The box moves ONLY by an approved decision. /understand fills each capability's
+# The box moves ONLY by an approved decision. /discover-capabilities fills each capability's
 # concrete nfr_needs (ICE); if a need exceeds the box on any dimension, it is an
 # out-of-box event — it halts for human approval; approval raises (or lowers) the
 # boundary and records a decision (level: product). Inside the box, no friction.

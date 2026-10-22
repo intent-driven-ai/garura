@@ -28,7 +28,7 @@ when the server arrives.
   intent), read from the product's own ProductOS, plus optional free text.
 - **Response** — ranked best-fit learnings, each with recommendation, rationale,
   provenance, and evolve-when pointers.
-- **Skill interface** — agents call one `kb-search` capability with the query
+- **Skill interface** — agents call one `find-architecture-learnings` capability with the query
   and get the response. This never changes.
 
 ### Swappable — the engine behind the skill
@@ -55,14 +55,14 @@ the server.
 
 Agent building context reads the product's conditions from ProductOS → queries
 the KB → gets best-fit learnings → applies them (e.g. `/realize` uses them for
-the architecture intent). `/learn` writes new learnings back.
+the architecture intent). `/learn-outcomes` writes new learnings back.
 
 ## The real risk (where to invest)
 
 Not grep-vs-semantic. **Content quality and contradiction.** Overlapping or
 conflicting learnings return mush regardless of engine. So the investment that
 protects capability is template discipline plus a reconciliation step in
-`/learn` that dedupes and supersedes conflicting learnings — the way accepted
+`/learn-outcomes` that dedupes and supersedes conflicting learnings — the way accepted
 decisions supersede rather than pile up. That pays off in V1 and final equally;
 invest there before the engine.
 

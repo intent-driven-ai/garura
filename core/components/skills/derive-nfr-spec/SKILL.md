@@ -9,7 +9,7 @@ deprecated_note: '#434 ProductOS realignment — superseded by the command model
 
 # derive-nfr-spec
 
-> **DEPRECATED for /arch (#403).** This skill is no longer part of the /arch pipeline. nfr-spec is no longer a separate artifact — NFR targets are described in the refined quality-profile produced by `refine-quality-profile`, and NFR delivery mechanisms live in `physical-architecture.yaml.components[].nfr_delivery[]` produced by `derive-physical-architecture`. This file is retained because `/codify` still references the nfr-spec artifact shape through `infer-nfr-spec-from-code`; aligning /codify with the new /arch contract is a separate follow-on. Do NOT invoke this skill in new /arch runs.
+> **DEPRECATED for /shape-architecture-lens (#403).** This skill is no longer part of the /shape-architecture-lens pipeline. nfr-spec is no longer a separate artifact — NFR targets are described in the refined quality-profile produced by `enrich-quality-profile`, and NFR delivery mechanisms live in `physical-architecture.yaml.components[].nfr_delivery[]` produced by `derive-physical-architecture`. This file is retained because `/codify` still references the nfr-spec artifact shape through `infer-nfr-spec`; aligning /codify with the new /shape-architecture-lens contract is a separate follow-on. Do NOT invoke this skill in new /shape-architecture-lens runs.
 
 > **Defect 23 — Decision Surfacing Discipline (DSD):** This skill emits a `decision-manifest-derive-nfr-spec.yaml` alongside its primary artifact. Every inferred decision produced during execution is recorded in the manifest with tier, grounding source, recommendation, and alternatives. The orchestrator drives the tiered surfacing flow after this skill completes.
 

@@ -22,8 +22,8 @@ garura this is mostly the python scripts inside plays/skills (`lint_play.py`, `p
 - **Reviewer:** the tool, against industry best practice.
 - **Layers:** Layer 1 only.
 - **Linter:** the language linter (eslint / ruff / etc. per repo) **plus** the best-practice
-  and severity checks `quality-check-scoped` runs against the diff using the `pr.md` taxonomy
-  (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows). `quality-check-scoped` + `pr.md` exist
+  and severity checks `check-pr-quality` runs against the diff using the `pr.md` taxonomy
+  (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows). `check-pr-quality` + `pr.md` exist
   in-repo; the language linter is whatever the target repo commits.
 - **Design-grounding:** no — the standard is industry best practice, not a garura-internal
   design. But review the data-safety and idempotency paths **hard**: a script that touches

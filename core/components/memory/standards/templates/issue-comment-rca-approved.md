@@ -75,7 +75,7 @@ Rationale — append vs edit: editing the original comment loses the approval-ti
 
 ## CLI Command
 
-Posted via `manage-issue` skill (which routes through the `platform-adapter` skill with `verb: comment-issue`) or directly by the agent dispatched with `run_in_background: true`:
+Posted via `track-issue` skill (which routes through the `platform-adapter` skill with `verb: comment-issue`) or directly by the agent dispatched with `run_in_background: true`:
 
 Invoke the `platform-adapter` skill with `verb: comment-issue` and `args: {issue_number: {issue_number}, body: "{rendered_template}"}`.
 
