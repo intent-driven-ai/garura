@@ -1,0 +1,8 @@
+{
+  "branch_name": "plan/756/759-linter-checks-ice",
+  "base_sha": "1b4bcf5546d06ddaf6b75147b3178f42551b6092",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/756/base",
+  "plan_branch_created": false
+}

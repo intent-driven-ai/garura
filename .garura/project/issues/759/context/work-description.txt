@@ -1,0 +1,1 @@
+The spine linter checks each ICE node (ontology v6, #759): the ices spine schema, and lint_grounding.py rules for a missing page or section, a bad for/for_kind link, a business-intent link, and two ICE for one part.
