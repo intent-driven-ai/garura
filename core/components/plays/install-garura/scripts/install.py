@@ -19,7 +19,7 @@ host coding tool can discover them in the target.
   --scope         which component set to install: full (default, every
                   component except the meta harness plays and the meta-utility
                   skills) or harness (meta plays + meta-utility skills + change
-                  chain + their workers only)
+                  chain + discover-capabilities + their workers only)
   --source        the garura checkout to install FROM (auto-derived if omitted)
   --memory-dest   where shared memory goes (default ~/.garura/core/memory)
   --force-config  overwrite an existing target .garura/core/config.yaml
@@ -210,6 +210,11 @@ SCOPES = {
             # record-decision manages a repo's decision records — a harness repo's own ADRs too (#632).
             # Its workers: adr-keeper + author-decision, and the change chain already kept.
             "record-decision",
+            # discover-capabilities writes the full ICE for Garura's own capabilities and
+            # functionalities, now that Garura plans its work with its product model (#753).
+            # Its workers: product-os-keeper + find-work-placement, enrich-capability-ice,
+            # judge-grounding; template-manager is already kept.
+            "discover-capabilities",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -218,12 +223,14 @@ SCOPES = {
             "merge-pr", "platform-adapter", "check-pr-quality",
             "find-matching-issues", "cut-branch", "open-pr",
             "author-product-ontology", "author-decision",
+            "find-work-placement", "enrich-capability-ice", "judge-grounding",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
             "quality-auditor", "repo-orchestrator", "adr-keeper",
             # every play's close asks template-manager for its templates (ADR 039 §8–9)
             "template-manager",
+            "product-os-keeper",
         },
     },
 }
