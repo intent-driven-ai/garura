@@ -48,10 +48,20 @@ tree:
     kind: functionality
     title: The linter checks each ICE's three parts and its two links
     status: done
+    children:
+    - issue: 804
+      kind: chore
+      title: Harden the ICE checks in the grounding linter
+      status: next
   - issue: 760
     kind: functionality
     title: 'The ready check reads each ICE node: ready, partly ready or not ready'
     status: done
+    children:
+    - issue: 805
+      kind: chore
+      title: The ready check says when needs were not checked
+      status: next
 - issue: 761
   kind: capability
   title: Plays write ICE nodes

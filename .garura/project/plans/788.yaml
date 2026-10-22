@@ -1,0 +1,87 @@
+# Plan 788 — its ID is the business intent's issue number (ontology v5, Plan).
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
+# A detour: found while working on plan 756. Its branch is cut from plan/756/base, takes in
+# 756's changes on each start, and lands back into plan/756/base (returns_to); then work goes
+# back to 756. Not a "needs" link. Z1 (#791) teaches start-change and merge-change to do this.
+id: 788
+title: Agents design the work, then build it through plays and a loop
+status: active
+started: '2026-10-22'
+branch: plan/788/base
+identified_by:
+- 756
+returns_to: 756
+updated: '2026-10-22'
+tree:
+- issue: 790
+  kind: capability
+  title: A detour plan goes back to the plan it came from
+  status: now
+  children:
+  - issue: 791
+    kind: functionality
+    title: The plan file names the plan a detour returns to; start-change cuts from it, merge-change lands back on it
+    status: now
+- issue: 792
+  kind: capability
+  title: The delivery chain works on Work, not on epics and slices
+  status: next
+  children:
+  - issue: 793
+    kind: functionality
+    title: Decide in the ontology what replaces Slice and Epic
+    status: next
+- issue: 794
+  kind: capability
+  title: Shape designs the work before anything is built
+  status: next
+  children:
+  - issue: 795
+    kind: functionality
+    title: /shape-features asks the open questions, then writes the design
+    status: next
+    needs:
+    - 793
+  - issue: 796
+    kind: functionality
+    title: The design checkpoint is pinned
+    status: next
+- issue: 797
+  kind: capability
+  title: The build cannot see its evals
+  status: next
+  children:
+  - issue: 798
+    kind: functionality
+    title: An eval builder writes the eval suite from the approved design
+    status: next
+    needs:
+    - 795
+  - issue: 799
+    kind: functionality
+    title: /build-feature builds from the approved design and never sees the eval suite
+    status: next
+    needs:
+    - 798
+- issue: 800
+  kind: capability
+  title: Validate checks the build
+  status: next
+  children:
+  - issue: 801
+    kind: functionality
+    title: /validate-feature runs the hidden evals and the checks, and gives the verdict
+    status: next
+    needs:
+    - 799
+- issue: 802
+  kind: capability
+  title: Next recommends the next work
+  status: next
+  children:
+  - issue: 803
+    kind: functionality
+    title: /next recommends the next piece of Work from the ready answers
+    status: next
+    needs:
+    - 793
