@@ -1,16 +1,37 @@
 findings:
 - category: memory
   severity: P4
-  basis: 'gh issue #725 title (''Needs and identified by link capabilities and functionalities'')
-    vs locked-model.md ''What changes from version 5'' (''needs and identified by
-    join capabilities only'')'
+  basis: plan/756/base:core/components/plays/edit-ontology/SKILL.md description ('one
+    need at a time') vs ontology.md opening line
   path: core/components/memory/standards/schemas/product-os/ontology.md
-  message: 'The ontology points to #725 for the rename of depends_on to needs, but
-    #725''s title still says capabilities and functionalities, while v6 says capabilities
-    only. Pointer is right; the issue text is stale. Fix the issue text (work order)
-    so a later reader is not misled.
-
-    '
+  message: The opening line says the ontology grows 'one kind at a time', but v6 changes
+    five kinds in one need. Wording only. Consider 'one need at a time', as the play
+    says.
   status: null
-runnable_checks: "check_ontology:\n valid True problems []\nchange check:\n scope\
-  \ True version True names True\nskill tests:\n27 passed, 0 failed\n"
+- category: memory
+  severity: P4
+  basis: self-review.md (non-blocking REVIEW) vs locked-model.md "Later decisions"
+  path: .garura/project/issues/758/context/edit-ontology/locked-model.md
+  message: The older ready-check section of the run record still says an empty Context
+    is partly ready; the later-decisions section overrides it. Run record only.
+  status: null
+- category: run-records-stm
+  severity: P4
+  basis: 'categories.yaml: playbook missing for STM run records'
+  path: .garura/project/issues/758/
+  message: No review playbook (or skip rule) exists for short-term memory run records.
+    Not a defect in this change.
+  status: null
+runnable_checks: "check_ontology:\n exit 0\n valid True problems []\nchange check\
+  \ (kinds from need.md ## Touches): exit 0 scope True [] version True names True\n\
+  (first run read the kind list wrong from need.md; rerun names the five kinds under\
+  \ ## Touches)\nedit-ontology tests:\n11 passed, 0 failed\nadr lint:\nusage: adr.py\
+  \ [-h] {number,lint,index,overlaps,pointer,accept,guard} ...\n\nMechanical checks\
+  \ for decision records (ADRs).\n\npositional arguments:\nolder ADRs vs base (non-Status\
+  \ lines changed):\n docs/adr/031-business-intent-and-ice.md: 0\n docs/adr/033-approval-in-the-product-model.md:\
+  \ 0\n docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md:\
+  \ 0\nindex row:\n55:| [047](047-the-ice-is-its-own-node.md) | The Agent Intent (ICE)\
+  \ Is Its Own Node: One for Each Capability and Each Functionality, in Three Parts,\
+  \ With a Three-Answer Ready Check | Accepted | 2026-10-22 |\nadr lint (047): {\n\
+  \  \"adr\": \"docs/adr/047-the-ice-is-its-own-node.md\",\n  \"valid\": true,\n \
+  \ \"problems\": []\n}\nindex-every-file check done\n"

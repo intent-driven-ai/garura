@@ -1,6 +1,25 @@
 check_ontology:
+ exit 0
  valid True problems []
-change check:
- scope True version True names True
-skill tests:
-27 passed, 0 failed
+change check (kinds from need.md ## Touches): exit 0 scope True [] version True names True
+(first run read the kind list wrong from need.md; rerun names the five kinds under ## Touches)
+edit-ontology tests:
+11 passed, 0 failed
+adr lint:
+usage: adr.py [-h] {number,lint,index,overlaps,pointer,accept,guard} ...
+
+Mechanical checks for decision records (ADRs).
+
+positional arguments:
+older ADRs vs base (non-Status lines changed):
+ docs/adr/031-business-intent-and-ice.md: 0
+ docs/adr/033-approval-in-the-product-model.md: 0
+ docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md: 0
+index row:
+55:| [047](047-the-ice-is-its-own-node.md) | The Agent Intent (ICE) Is Its Own Node: One for Each Capability and Each Functionality, in Three Parts, With a Three-Answer Ready Check | Accepted | 2026-10-22 |
+adr lint (047): {
+  "adr": "docs/adr/047-the-ice-is-its-own-node.md",
+  "valid": true,
+  "problems": []
+}
+index-every-file check done

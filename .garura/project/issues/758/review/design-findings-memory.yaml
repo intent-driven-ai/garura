@@ -1,30 +1,31 @@
-# check-change Layer 2 - category: memory (ontology v6), PR #783, round 2
-base: origin/plan/756/base
+# check-change Layer 2 - category: memory (ontology v6), PR #783, round 3
+base: plan/756/base
 grounding_note: >
-  Principles from base ref (product-ontology template, ADR 031/043) and the agreed standard named by the caller
-  (locked-model.md incl. "Later decisions"; decisions.json). Nothing grounded in text the diff adds to ontology.md.
+  Principles come from the base ref and the agreed standard named by the caller. Nothing is grounded in text the diff
+  adds, and ADR 047 (added by the diff) is not used as a standard.
 principles:
-  - {id: G1, text: "Ontology follows the product-ontology format", source: "origin/plan/756/base:core/components/memory/standards/templates/product-ontology.md"}
-  - {id: G3, text: "ICE inline in node doc, no new file type, built from business intents", source: "origin/plan/756/base:docs/adr/031-business-intent-and-ice.md s3, s4, Consequences"}
-  - {id: G4, text: "Agreed v6 model incl. later decision: ICE starts only with all 3 parts; thin/wrong part does not stop it", source: "locked-model.md 'Later decisions'; decisions.json"}
+  - {id: G1, text: "Ontology follows the product-ontology format", source: "plan/756/base:core/components/memory/standards/templates/product-ontology.md"}
+  - {id: G2, text: "The ontology is changed only through the edit-ontology play, which is the only way to run author-product-ontology", source: "plan/756/base:core/components/plays/edit-ontology/SKILL.md (line 15)"}
+  - {id: G3, text: "ICE inline in its node doc, no new file type (ADR 031 s3, s4)", source: "plan/756/base:docs/adr/031-business-intent-and-ice.md"}
+  - {id: G4, text: "Agreed v6 model incl. 'Later decisions': ICE starts only with all three parts; a thin or wrong part does not stop it", source: "locked-model.md 'Later decisions'; decisions.json (agreed standard named by the caller)"}
 conformance_checks:
-  format: "PASS - check_ontology.py --ontology ... returns problems: []"
-  named_kinds: "PASS - unchanged from round 1"
-round1_status:
-  - {id: F1, severity: P2, status: "carried, out of scope by the product owner's choice", note: "No ADR amending 031 s3/s4 and 043 (base ends at 046)."}
-  - {id: F2, status: FIXED, evidence: "ontology.md Ready/Partly/Not ready: missing part makes it not ready; partly ready only for gaps outside the three parts; rule 'An ICE starts only with all three parts present'; examples show 'not ready - Context is missing'. Matches locked-model 'Later decisions' 2026-10-22."}
-  - {id: F3, status: FIXED, evidence: "ontology.md names #759 (linter), #760 (ready check), #761 (plays write ICE nodes / ices spine list / ice.md), #765 (move); all four exist and are open (gh issue view). #725 named for the needs rename."}
-  - {id: F4, status: FIXED, evidence: "locked-model.md now has a 'Later decisions' section recording the one-domain override of the Domain row."}
-  - {id: F5, status: "carried, informational", note: "Not in round-1 scope list; Business Intent example still drops the personal name and title, and the Log line does not mention it."}
-  - {id: F6, severity: P4, status: "carried, out of scope by the product owner's choice", note: "Opening paragraph still says 'first version'."}
+  format: "PASS - check_ontology.py (base copy of the skill) returns valid: true; kinds are Business Intent, Capability, Functionality, ICE, Plan, Source, Work; not_yet_defined Domain, Tracker Issue"
+  opening_line: "PASS - 'seven kinds' matches the seven '###' kind headings and the checker's kinds list; 'edit-ontology play' exists on the base ref and is the sanctioned route (G2). The old 'first version' wording is gone."
+  links: "PASS - #759, #760, #761, #765, #725 all exist and are open; #725 title now reads '\"Needs\" and \"identified by\" link capabilities'."
+round2_status:
+  - {id: F1, status: "RESOLVED in this change", note: "ADR 047 (in the diff) now amends ADR 031 s1/s3/s4 and ADR 043 s1/s2/s3, and 031/033/043 status lines and the index point to it. Used only as evidence that an amending record now exists, not as the standard."}
+  - {id: F5, status: "carried, informational", note: "Business Intent example uses a 'Shop' prefix; not re-judged, no new evidence."}
+  - {id: F6, status: "FIXED", note: "'first version' no longer in the opening paragraph (grep count 0)."}
+  - {id: N1, status: "FIXED", note: "#725 title no longer says 'capabilities and functionalities'."}
 findings:
-  - id: N1
+  - id: N2
     severity: P4
     file: core/components/memory/standards/schemas/product-os/ontology.md
-    principle: G4
-    source: "gh issue #725 title ('Needs and identified by link capabilities and functionalities') vs locked-model.md 'What changes from version 5' ('needs and identified by join capabilities only')"
+    principle: G1
+    source: "plan/756/base:core/components/memory/standards/templates/product-ontology.md (intro: 'Built and extended by the author-product-ontology skill')"
     finding: >
-      The ontology points to #725 for the rename of depends_on to needs, but #725's title still says capabilities
-      and functionalities, while v6 says capabilities only. Pointer is right; the issue text is stale. Fix the
-      issue text (work order) so a later reader is not misled.
-summary: "F2, F3, F4 confirmed fixed. F1, F6 carried (out of scope by the product owner's choice); F5 informational carry. One new P4 (N1). No P1-P3 new."
+      The opening line now says the ontology grows 'one kind at a time' while v6 changes the Business Intent, ICE,
+      Capability, Functionality, Work and Plan kinds in one go. Wording only; no check fails. Consider 'one need at a
+      time', which is how the play describes itself.
+    evidence: "ontology.md line 9 vs v6 Log line (2026-10-22) and base edit-ontology/SKILL.md description ('one need at a time')"
+summary: "No P1-P3. F1 resolved by ADR 047, F6 and N1 fixed. One new P4 wording note (N2). F5 carried as informational."

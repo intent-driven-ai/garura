@@ -1,0 +1,16 @@
+findings:
+- category: memory
+  severity: P4
+  basis: 'gh issue #725 title (''Needs and identified by link capabilities and functionalities'')
+    vs locked-model.md ''What changes from version 5'' (''needs and identified by
+    join capabilities only'')'
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  message: 'The ontology points to #725 for the rename of depends_on to needs, but
+    #725''s title still says capabilities and functionalities, while v6 says capabilities
+    only. Pointer is right; the issue text is stale. Fix the issue text (work order)
+    so a later reader is not misled.
+
+    '
+  status: null
+runnable_checks: "check_ontology:\n valid True problems []\nchange check:\n scope\
+  \ True version True names True\nskill tests:\n27 passed, 0 failed\n"

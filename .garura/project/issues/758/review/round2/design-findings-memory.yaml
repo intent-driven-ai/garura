@@ -1,0 +1,30 @@
+# check-change Layer 2 - category: memory (ontology v6), PR #783, round 2
+base: origin/plan/756/base
+grounding_note: >
+  Principles from base ref (product-ontology template, ADR 031/043) and the agreed standard named by the caller
+  (locked-model.md incl. "Later decisions"; decisions.json). Nothing grounded in text the diff adds to ontology.md.
+principles:
+  - {id: G1, text: "Ontology follows the product-ontology format", source: "origin/plan/756/base:core/components/memory/standards/templates/product-ontology.md"}
+  - {id: G3, text: "ICE inline in node doc, no new file type, built from business intents", source: "origin/plan/756/base:docs/adr/031-business-intent-and-ice.md s3, s4, Consequences"}
+  - {id: G4, text: "Agreed v6 model incl. later decision: ICE starts only with all 3 parts; thin/wrong part does not stop it", source: "locked-model.md 'Later decisions'; decisions.json"}
+conformance_checks:
+  format: "PASS - check_ontology.py --ontology ... returns problems: []"
+  named_kinds: "PASS - unchanged from round 1"
+round1_status:
+  - {id: F1, severity: P2, status: "carried, out of scope by the product owner's choice", note: "No ADR amending 031 s3/s4 and 043 (base ends at 046)."}
+  - {id: F2, status: FIXED, evidence: "ontology.md Ready/Partly/Not ready: missing part makes it not ready; partly ready only for gaps outside the three parts; rule 'An ICE starts only with all three parts present'; examples show 'not ready - Context is missing'. Matches locked-model 'Later decisions' 2026-10-22."}
+  - {id: F3, status: FIXED, evidence: "ontology.md names #759 (linter), #760 (ready check), #761 (plays write ICE nodes / ices spine list / ice.md), #765 (move); all four exist and are open (gh issue view). #725 named for the needs rename."}
+  - {id: F4, status: FIXED, evidence: "locked-model.md now has a 'Later decisions' section recording the one-domain override of the Domain row."}
+  - {id: F5, status: "carried, informational", note: "Not in round-1 scope list; Business Intent example still drops the personal name and title, and the Log line does not mention it."}
+  - {id: F6, severity: P4, status: "carried, out of scope by the product owner's choice", note: "Opening paragraph still says 'first version'."}
+findings:
+  - id: N1
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: G4
+    source: "gh issue #725 title ('Needs and identified by link capabilities and functionalities') vs locked-model.md 'What changes from version 5' ('needs and identified by join capabilities only')"
+    finding: >
+      The ontology points to #725 for the rename of depends_on to needs, but #725's title still says capabilities
+      and functionalities, while v6 says capabilities only. Pointer is right; the issue text is stale. Fix the
+      issue text (work order) so a later reader is not misled.
+summary: "F2, F3, F4 confirmed fixed. F1, F6 carried (out of scope by the product owner's choice); F5 informational carry. One new P4 (N1). No P1-P3 new."
