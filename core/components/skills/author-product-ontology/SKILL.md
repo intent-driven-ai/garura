@@ -35,6 +35,9 @@ written as agreed until they say so.
 | `template_path` | no | The format. Default: `~/.garura/core/memory/standards/templates/product-ontology.md` |
 | `sources` | no | Paths to read for reuse — existing schemas, doctrine, decision records, issues |
 | `report_path` | yes | Where the check report is written |
+| `stage` | yes, from edit-ontology | Which stage to run: `scope`, `kinds`, `links` or `write` (see Stages) |
+| `change` | no | The product owner's words at a checkpoint; redo the stage with them |
+| `problems` | no | The check report from a failed `write`; fix each problem and write again |
 
 ## Stages
 

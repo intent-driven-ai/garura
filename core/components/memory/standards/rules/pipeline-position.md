@@ -9,7 +9,7 @@ each play re-deciding how a change is opened and landed.
 It governs only the **delivery pipeline** (the path that opens an issue, does the work, and
 lands it on main). Every play declares where it sits; many model-building plays now open and
 land their own change. As compiled today: `both` — /discover-domains, /discover-capabilities (#616), /shape-measure-lens,
-/shape-features, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632); `start` — /shape-architecture-lens, /shape-ux-lens, /build-feature; `end` — /shape-roadmap,
+/shape-features, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632), /edit-ontology (#777 — the one meta play that opens and lands its own change, because it changes Garura's source with the product owner); `start` — /shape-architecture-lens, /shape-ux-lens, /build-feature; `end` — /shape-roadmap,
 /shape-marketing-lens, /shape-run-lens, /release-feature; `none` — /shape-scope, /shape-agentic-lens, /shape-quality-lens, /validate-feature, /release-increment, /next,
 /list-focus-issues. (A `none` play runs on whatever branch is already started — /shape-scope and /shape-roadmap's
 reliance on /discover-domains's old shared branch is a known follow-up from #616.) Inside a loop the
@@ -93,7 +93,7 @@ compile.
 **Linter (`scripts/lint_play.py`, per-compile, mechanical):**
 - The frontmatter MUST carry a `position` field with one of `start | end | both | none`.
   Missing or invalid ⇒ lint failure. (`position` is required on compiled
-  delivery/consumer plays; strategic, model-building, and meta plays are `none`.)
+  delivery/consumer plays; strategic, model-building, and meta plays are `none` — except /edit-ontology, the one meta play that is `both`, #777.)
 
 **create-play (compile time):**
 - For a **consumer** play (position not `none`, name not a member): create-play injects
