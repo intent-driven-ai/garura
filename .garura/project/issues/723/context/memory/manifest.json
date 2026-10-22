@@ -1,0 +1,84 @@
+{
+  "entries": [
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/analytics.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/analytics.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/collaboration.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/collaboration.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/content-management.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/content-management.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/ecommerce.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/experience.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/marketing.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/marketing.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/notifications.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/payments.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/personalization.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/personalization.md",
+      "for": "find-work-placement cap-723"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+      "copied_to": ".garura/project/issues/723/context/memory/knowledge/domains/user-management.md",
+      "for": "find-work-placement cap-723"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-726/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "What it does: \"A domain lists the business intents and capabilities in it ... Domains are never in a plan or the tracker.\" Outputs: \"an error from the check when a plan file has a node of kind domain, or a domain is linked to a tracker issue\". Rules: \"A domain is never a level of a plan tree, never a tracker issue, and never carries an ICE; any of these is an error\".",
+      "fix": "Two gaps. (1) What it does never says when the search and the keep-out check run or what triggers them (the guidance asks for 'when it runs, on what'): name the check (for example, part of check_ontology.py or the spine linter) and say the search runs on request by a person or a play, and the check runs whenever that linter runs. (2) The Rules list a third error case, a domain that carries an ICE, but Outputs lists only the plan-node and tracker-issue errors and no acceptance criterion covers it: add 'an error when a domain page or spine entry carries an Agent intent (ICE) section' to Outputs, say in Inputs where the check reads that from (the domain page or its spine entry), and add a Given/When/Then for it."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A capability names at most one domain; a domain lists its capabilities only through those capability entries, so there is one place to change.\" and \"A link the check finds on one side only is a warning for alignment, never an error, and it never stops a write: the parent capability's rule is that nothing is blocked\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a business intent whose Touches list names a domain that does not name it back in `intents`, when the check runs, then it warns, naming the intent and the domain, and still passes.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent: \"In: the loose links from a domain to its business intents and capabilities, so a search by domain can be answered.\" Child adds the two-sided link rule, the one-sided warning marked \"one-sided\", how the check sees a tracker link from files only, the empty-domain and unknown-domain cases, and testable acceptance criteria.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A domain is a big area of the product, kept in the model only for finding things.\" ... \"A domain is never a level of a plan tree, never a tracker issue, and never carries an ICE; any of these is an error, because domains set which areas the product covers, not what work is done.\" Out of scope names fn-724, fn-725, cap-719 and /discover-domains as neighbours.",
+      "fix": ""
+    }
+  ]
+}

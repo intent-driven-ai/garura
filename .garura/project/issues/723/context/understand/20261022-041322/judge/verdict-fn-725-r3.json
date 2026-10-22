@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-725/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "Inputs: \"In: the set of capability and functionality ids in the same spine, which every link must resolve to.\" Outputs: \"an error per link that points at an id not in the spine, or at an id that is work (an issue of type Feature, Story, Spike, Chore or Bug) rather than a node\". Rules: \"A link naming an issue number of work is an error.\"",
+      "fix": "Every section is substantive, but Inputs / Outputs leaves the builder guessing how the linter knows an id is work. The only inputs listed are spine entries and spine ids, and no issue types. Add one input line and one rule line saying how work is recognised. For example: \"Node ids carry a cap- or fn- prefix; a bare issue number such as 725 is treated as work and reported as 'points at work', with no tracker lookup.\" Or, if the linter does read the tracker, name the tracker issue type as an input. Also say whether a work id gets the 'points at work' error instead of the 'not in the spine' error, or both."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"every mix is allowed, because work across capabilities often needs a piece of another capability\"; \"It is an error and not a warning, unlike a missing link, because a missing link is a gap the model fills as it grows, while a loop is a link that is present and can never come true\"; \"Slices and epics ... are renamed in the same change so one field name means one thing.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Acceptance is all Given/When/Then: \"Given a spine where a capability needs a functionality of another capability, when the spine linter runs, then it passes with no error for that link.\" What it does states the function's behaviour, not a user story: \"The spine linter then checks that every link names a capability or functionality that exists\". Rules are discrete bullets, though the loop and rename bullets are long.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent: \"the 'needs' and 'identified by' links between capabilities and functionalities, in any mix, and the check that each points at a real node.\" Child adds: self-links and loops as errors, \"'Identified by' holds at most one id\", the version 2 to version 3 rename with warning-then-error behaviour, slices and epics renamed too, and concrete checks such as \"cap-742 and cap-747 still need cap-739, and fn-727 still needs fn-724\".",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "What: \"'Needs' says another node must be done first; it is the only link that sets an order of work ... 'Identified by' says which node led us to find this one\". Why: \"The rename makes the field say what the ontology says\". Edges: \"Never on work (feature, story, spike, chore, bug)\", and Out of scope names fn-724, cap-718, cap-720, cap-721, fn-597 and fn-726 as the owners of what is left out.",
+      "fix": ""
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-724/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "All five guided sections plus Sources and Agent intent (ICE) are substantive, e.g. Rules & behavior covers empty domain, unknown domain, no/proposed/dropped intent, missing intent page, open need with and without --done, missing capability, holding-folder functionality, determinism and the two script copies.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A met intent counts because it was confirmed first and work that keeps it met is still wanted.\"; \"A business intent page that is missing counts as not confirmed, so a link to an intent nobody wrote never makes a node ready.\"; \"The warning and the not-ready answer are separate: the warning asks for the link, the not-ready answer stops work until it exists.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Every section is discrete bullets; acceptance is Given/When/Then throughout, e.g. \"Given an id that is not in the spine, when the check runs with `--node`, then it exits 2.\"; the function is stated as behavior (\"It reads the spine and the business intent pages, and answers, per capability and functionality, 'ready' or 'not ready, because \u2026'\"), not a user story.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent states the rule in one line (\"A capability is ready when it serves at least one confirmed (or met) business intent and nothing it needs is still open\"); the child adds inputs (--done, --node, --out), exit codes 0/1/2, the exact warning texts, the missing-intent-page and missing-capability branches and the holding-folder case.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "What: \"answers, per capability and functionality, 'ready' or 'not ready, because \u2026'\"; why: \"That rule blocked a plan built straight from a business intent, which is what this functionality removes.\"; edges: Out of scope names fn-725, /discover-domains, the Alignment loop, cap-718 and /next as owners of the excluded concerns.",
+      "fix": ""
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "written": [
+    "spine:_spine.yaml"
+  ],
+  "capability_refs": [
+    "cap-723"
+  ],
+  "seeded": [],
+  "changed": {
+    "capabilities": [
+      "cap-723"
+    ],
+    "functionalities_added": [],
+    "profile": true,
+    "decisions": []
+  },
+  "box_moves": []
+}

@@ -1,0 +1,36 @@
+enrich:
+  capability_ref: cap-723
+  grounded_in: "no KB shelf (routing shelf: none) -> ontology.md v5, spine.yaml, #621 plan-design.md + change-list.md, managing-work.md, intents/bi-722.md, GitHub #722 #723 #724 #725 #726 #597"
+  shelf_used: none
+  capability:
+    detail: detailed
+    doc: capabilities/cap-723/capability.md
+    nfr_needs:
+      reliability:
+        level: medium
+        target: "0 need or identified-by links that point at nothing or at work across Garura's own model (plans 717, 722, 734); the same spine and intent pages always give the same ready answer"
+        gate: "lint_grounding.py --spine on .garura/product/product-os exits 0 once the link check (#725) lands; check_ice_workable.py fixture tests pass"
+      maintainability:
+        level: medium
+        target: "0 new errors on any model page that passed before ontology v5 — a missing domain, ICE or link is a warning, never an error; no capability or functionality value lost in the depends_on -> needs rename"
+        gate: "test_check_ice_workable.py and test_lint_grounding.py pass; a before/after diff of Garura's spine shows every need kept"
+    compliance_needs: []
+  functionalities:   # all four already in the spine under cap-723; docs detailed in place; no new entries
+    - { id: fn-724, slug: fn-724, capability: cap-723, intents: [bi-722], status: proposed, one_line: "A capability or functionality is ready without a domain", doc: functionalities/fn-724/functionality.md, depends_on: [], identified_by: '', issue: 724 }
+    - { id: fn-597, slug: fn-597, capability: cap-723, intents: [bi-722], status: proposed, one_line: "Rebuild the product model as an ontology", doc: functionalities/fn-597/functionality.md, depends_on: [], identified_by: '', issue: 597 }
+    - { id: fn-725, slug: fn-725, capability: cap-723, intents: [bi-722], status: proposed, one_line: "\"Needs\" and \"identified by\" link capabilities and functionalities", doc: functionalities/fn-725/functionality.md, depends_on: [], identified_by: '', issue: 725 }
+    - { id: fn-726, slug: fn-726, capability: cap-723, intents: [bi-722], status: proposed, one_line: "Domains link to business intents and capabilities, outside the plan tree", doc: functionalities/fn-726/functionality.md, depends_on: [], identified_by: '', issue: 726 }
+  new_functionalities: []   # the sources show no whole thing a person does that the four do not cover
+  implied_levels:
+    reliability: { level: medium, gate: "lint_grounding.py --spine link check + check_ice_workable.py tests" }
+    maintainability: { level: medium, gate: "ready-check and linter tests; spine before/after diff on the rename" }
+  compliance: []
+  docs_written:
+    - .garura/product/product-os/capabilities/cap-723/capability.md
+    - .garura/product/product-os/functionalities/fn-724/functionality.md
+    - .garura/product/product-os/functionalities/fn-597/functionality.md
+    - .garura/product/product-os/functionalities/fn-725/functionality.md
+    - .garura/product/product-os/functionalities/fn-726/functionality.md
+  ours_not_the_sources:   # defaults written and marked "Our default" in the pages
+    - "fn-725: the linter reports a need loop (sources only say two plans that need each other are one plan)"
+    - "fn-725: during the rename an old depends_on on a capability or functionality warns rather than fails"
