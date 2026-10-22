@@ -1,0 +1,148 @@
+findings:
+- category: executable-code
+  severity: P3
+  path: core/components/plays/discover-domains/scripts/lint_grounding.py
+  basis: review/code (input robustness) (playbook)
+  message: check_ices calls e.get(...) on every `ices` entry (and c.get / f.get on
+    capabilities and functionalities at 462-463) without checking the entry is a mapping.
+    A malformed spine (a bare string or null in the list) crashes the linter with
+    AttributeError instead of reporting a clear error. The linter exists to report
+    bad models, so it should not crash on one.
+  status: null
+- category: executable-code
+  severity: P3
+  path: core/components/plays/discover-domains/scripts/lint_grounding.py
+  basis: review/code (path safety) (playbook)
+  message: The `doc` pointer is joined to root and read with no check that it stays
+    inside root. An absolute path or `..` in a spine entry makes the linter read files
+    outside the model, and such a file would also be counted as "referenced". The
+    existing spine checks (around line 392) do the same, so this follows the file's
+    pattern. Low risk because the spine is trusted input, but worth a one-line guard.
+  status: null
+- category: executable-code
+  severity: P4
+  path: core/components/plays/discover-domains/scripts/lint_grounding.py
+  basis: review/code (docstring accuracy) (playbook)
+  message: The module docstring bullet for SPINE CONSISTENCY lost its closing full
+    stop when the ICE bullet was added. Cosmetic only.
+  status: null
+- category: executable-code
+  severity: P4
+  path: core/components/plays/discover-domains/scripts/lint_grounding.py
+  basis: review/code (shape check completeness) (playbook)
+  message: 'Section lookup is exact on the heading text, so `## intent` or `## Intent
+    ` (case or trailing text) reports "no ## Intent". That is probably intended and
+    the message says so, but the case rule is not stated in the docstring or tests.'
+  status: null
+- category: tests
+  severity: P3
+  path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+  basis: review/tests (assertion strength) (playbook)
+  message: The "two ICE for one part" check passes if either of two messages matches
+    (`or`). The second alternative (cap-checkout, ice-1, ice-3) is weaker and would
+    also match a different message. Assert on the one message the code emits ("two
+    ICE").
+  status: null
+- category: tests
+  severity: P3
+  path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+  basis: review/tests (coverage of wiring) (playbook)
+  message: Tests call check_ices directly, so nothing proves check_spine actually
+    calls it (the call added at lint_grounding.py around line 419) or that counts["ice"]
+    is set. Deleting that call would leave all 14 tests green. Add one test through
+    check_spine or the CLI with --spine.
+  status: null
+- category: tests
+  severity: P4
+  path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+  basis: review/tests (missing cases) (playbook)
+  message: No test for an entry with no `for` key (error branch at lint_grounding.py:470),
+    a missing `for_kind`, or an ice.md that has a heading but a fenced-code-only body.
+    Branches exist in the code with no test.
+  status: null
+- category: tests
+  severity: P4
+  path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+  basis: review/tests (placement) (playbook)
+  message: The test file exists in one play only while the linter has 12 identical
+    copies. The 12 copies are checked identical by hash, which covers drift, so this
+    is acceptable. Noted so the reviewer knows the other eleven copies are covered
+    by that check and not by their own tests.
+  status: null
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/spine.yaml
+  basis: 'plan/756/base:docs/adr/047-the-ice-is-its-own-node.md line 79 (ADR 031 section
+    3 superseded: ICE no longer lives inline); ontology.md ICE ''Lives at'''
+  message: 'Header lines 18-20 (unchanged, not in the diff) still say ''ICE content
+    is now written INLINE in the grounding docs ... `## Agent intent (ICE)`'', directly
+    above/beside the new `ices` block that says the ICE is its own node. Line ~255
+    still says ''ICE content moved inline into the grounding docs''. The new block
+    does explain the interim (''Until #765 ... stays inline''), which softens this,
+    but the header states inline as the current rule with no v6 qualifier.'
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/spine.yaml
+  basis: 'plan/756/base:spine.yaml `schema.version: 2` and header title ''v2''; ontology.md
+    moved to v6'
+  message: '`schema.version` and the ''v2'' title are unchanged though a new top-level
+    `ices` list was added.'
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/spine.yaml
+  basis: plan/756/base:spine.yaml domains `doc:` comment ('relative to product-os
+    root'); ontology.md 'Lives at' paths ({domain}/{capability}/ice.md)
+  message: '`doc: string # pointer to its ice.md` omits the base the path is relative
+    to. The linter added in this PR joins it to `root`, so the intent is clear but
+    the schema does not say it.'
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/spine.yaml
+  basis: plan/756/base:ontology.md ICE rules line ~207; docs/adr/047 line 106
+  message: 'The comment says ''the spine has no `ices` list'' before #765, but the
+    field sits in the schema as if required. Stated in prose only; the schema does
+    not mark the list optional.'
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/*/scripts/lint_grounding.py
+  basis: 'plan/756/base ontology.md ICE kind; issue #759 Done when (H1)'
+  message: ICE sections are checked for presence only, not the order the ontology
+    names.
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/*/scripts/lint_grounding.py
+  basis: 'plan/756/base ontology.md ICE kind; issue #759 Done when (H2)'
+  message: An empty section is treated as a missing part; consistent with the ontology.
+    Noted only.
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/*/scripts/lint_grounding.py
+  basis: 'plan/756/base ontology.md ICE kind; issue #759 Done when (H3)'
+  message: The orphan ice.md error is beyond the Done-when list; consistent with the
+    base orphan rule.
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/*/scripts/lint_grounding.py
+  basis: 'plan/756/base ontology.md ICE kind; issue #759 Done when (H4)'
+  message: The page business-intent check is a heuristic; a non-mapping ices item
+    raises (same as quality P3).
+  status: null
+- category: run-records
+  severity: P4
+  path: .garura/project/issues/759/
+  basis: 'categories.yaml: playbook missing'
+  message: No review playbook for STM run records.
+  status: null
+runnable_checks: "test_lint_ice:\n14 passed, 0 failed\ntest_lint_grounding:\n36 passed,\
+  \ 0 failed\ntest_vision_scripts:\n47 passed, 0 failed\n12 copies:\n  12 9193daaaa640\n\
+  lint-components:\n  {'errors': 121, 'warnings': 2, 'infos': 0}\ngarura model (before\
+  \ -> after):\n  before 70 9\n  after 70 9\n"
+notes: design-findings-harness.yaml is not valid YAML (agent output); its four P4
+  findings are transcribed here by id.

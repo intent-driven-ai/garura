@@ -1,0 +1,81 @@
+# check-pr-quality, PR #786 (issue 759). Layer 1, standards-driven categories.
+# Standards note: no code or test style rule exists under core/components/memory/standards/rules
+# for Python scripts, so rule ids below are the review playbook areas (review/code, review/tests).
+# Runnable checks already pass (test_lint_ice 14/14, test_lint_grounding 36/36, 12 copies identical).
+# Reviewed copy: core/components/plays/discover-domains/scripts/lint_grounding.py (all 12 are identical).
+categories_reviewed: [executable-code, tests]
+findings:
+  - class: P3
+    rule: review/code (input robustness)
+    category: executable-code
+    path: core/components/plays/discover-domains/scripts/lint_grounding.py
+    line: 466
+    message: >
+      check_ices calls e.get(...) on every `ices` entry (and c.get / f.get on capabilities and
+      functionalities at 462-463) without checking the entry is a mapping. A malformed spine
+      (a bare string or null in the list) crashes the linter with AttributeError instead of
+      reporting a clear error. The linter exists to report bad models, so it should not crash on one.
+  - class: P3
+    rule: review/code (path safety)
+    category: executable-code
+    path: core/components/plays/discover-domains/scripts/lint_grounding.py
+    line: 485
+    message: >
+      The `doc` pointer is joined to root and read with no check that it stays inside root. An
+      absolute path or `..` in a spine entry makes the linter read files outside the model, and
+      such a file would also be counted as "referenced". The existing spine checks (around line
+      392) do the same, so this follows the file's pattern. Low risk because the spine is
+      trusted input, but worth a one-line guard.
+  - class: P4
+    rule: review/code (docstring accuracy)
+    category: executable-code
+    path: core/components/plays/discover-domains/scripts/lint_grounding.py
+    line: 17
+    message: >
+      The module docstring bullet for SPINE CONSISTENCY lost its closing full stop when the ICE
+      bullet was added. Cosmetic only.
+  - class: P4
+    rule: review/code (shape check completeness)
+    category: executable-code
+    path: core/components/plays/discover-domains/scripts/lint_grounding.py
+    line: 491
+    message: >
+      Section lookup is exact on the heading text, so `## intent` or `## Intent ` (case or
+      trailing text) reports "no ## Intent". That is probably intended and the message says so,
+      but the case rule is not stated in the docstring or tests.
+  - class: P3
+    rule: review/tests (assertion strength)
+    category: tests
+    path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+    line: 141
+    message: >
+      The "two ICE for one part" check passes if either of two messages matches (`or`). The
+      second alternative (cap-checkout, ice-1, ice-3) is weaker and would also match a different
+      message. Assert on the one message the code emits ("two ICE").
+  - class: P3
+    rule: review/tests (coverage of wiring)
+    category: tests
+    path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+    line: 85
+    message: >
+      Tests call check_ices directly, so nothing proves check_spine actually calls it (the call
+      added at lint_grounding.py around line 419) or that counts["ice"] is set. Deleting that call
+      would leave all 14 tests green. Add one test through check_spine or the CLI with --spine.
+  - class: P4
+    rule: review/tests (missing cases)
+    category: tests
+    path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+    line: 109
+    message: >
+      No test for an entry with no `for` key (error branch at lint_grounding.py:470), a missing
+      `for_kind`, or an ice.md that has a heading but a fenced-code-only body. Branches exist in
+      the code with no test.
+  - class: P4
+    rule: review/tests (placement)
+    category: tests
+    path: core/components/plays/discover-domains/scripts/test_lint_ice.py
+    line: 1
+    message: >
+      The test file exists in one play only while the linter has 12 identical copies. The 12
+      copies are checked identical by hash, which covers drift, so this is acceptable. Noted so
+      the reviewer knows the other eleven copies are covered by that check and not by their own tests.
