@@ -1,0 +1,29 @@
+# check-change Step 2 - categories present in PR #771 (issue 770)
+# Shelf resolved at core/components/memory/knowledge/review/ (the ./.garura/core/memory/... path does not exist in this checkout)
+categories:
+  - name: Config maps
+    playbook: review/config-maps
+    design_bearing: false
+    evidence:
+      - path: CLAUDE.md
+        why: "Host config map. Diff swaps rule 5 (user-facing voice) for 'memory only through the memory tool' (points at .garura/core/tools/memory/) and renames a linter reference check-components -> lint-components. Pointers need a path-existence check; human owns the judgement."
+    notes: "CLAUDE.md also carries behavioural rules for agents (harness-like content), but the config-maps playbook names CLAUDE.md explicitly and says no design-grounding. Reviewer may still weigh the removed voice rule against core/components/memory/standards/rules/user-facing-voice.md, which the removed text pointed to."
+  - name: Run records (STM issue artifacts)
+    playbook: null
+    playbook_missing: true
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/770/context/analysis.yaml
+      - .garura/project/issues/770/context/branch.json
+      - .garura/project/issues/770/context/commits.yaml
+      - .garura/project/issues/770/context/issue.json
+      - .garura/project/issues/770/context/plan.json
+      - .garura/project/issues/770/context/porcelain.txt
+      - .garura/project/issues/770/context/pr-body.md
+      - .garura/project/issues/770/context/pr.json
+      - .garura/project/issues/770/context/resolved-rules.json
+      - .garura/project/issues/770/context/self-review.md
+      - .garura/project/issues/770/context/target.json
+      - .garura/project/issues/770/context/work-description.txt
+    notes: "Machine-written short-term-memory records of earlier play runs, committed to the branch. No shelf playbook covers them; a playbook (or an explicit 'skip run records' rule) is missing. Not design-bearing."
+design_bearing_categories: []
