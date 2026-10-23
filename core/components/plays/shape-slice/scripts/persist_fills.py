@@ -36,11 +36,14 @@ and the page's text before and after, so a change at the checkpoint can take the
 
 --undo removes the Touches lines this run added and nothing else: when the page is as this
 run left it, it is put back exactly as it was before; when someone edited it since, only the
-added lines are taken out. Reads and writes files on disk only; no git, no network.
+added lines are taken out (and the Touches heading too, when this run made it and no line is
+left under it). The spine is written back with its comments and layout kept (spine_text.py).
+Reads and writes files on disk only; no git, no network.
 Exit 0 written, undone (or nothing to do), 2 refused or usage error.
 """
 
 import argparse
+import copy
 import json
 import os
 import sys
@@ -55,6 +58,7 @@ except ImportError:
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import intent_touches as touches  # noqa: E402  (stamped from create-play/references)
 import model_names  # noqa: E402  (stamped from create-play/references)
+import spine_text  # noqa: E402
 
 KINDS = (  # (fills key, spine key, touches kind, parent field, parent spine key)
     ("domains", "domains", "domain", None, None),
@@ -187,7 +191,15 @@ def undo(root, intent, result_path):
         return {"ok": True, "undone": added, "page": f"intents/{intent}.md", "how": "put back"}
     gone = set(added)
     lines = [ln for ln in text.splitlines() if ln.strip() not in gone]
-    atomic_write(page, "\n".join(lines) + "\n")
+    had_list = bool(touches.read(result.get("intent_page_before") or ""))
+    if not had_list and not touches.read("\n".join(lines)):
+        # The run made the Touches heading; with its lines gone, the heading goes too.
+        at = next((i for i, ln in enumerate(lines) if ln.strip().startswith(touches.HEADER)), None)
+        if at is not None:
+            del lines[at]
+            if at < len(lines) and at > 0 and not lines[at].strip() and not lines[at - 1].strip():
+                del lines[at]
+    atomic_write(page, "\n".join(lines).rstrip("\n") + "\n")
     return {"ok": True, "undone": added, "page": f"intents/{intent}.md", "how": "lines removed"}
 
 
@@ -223,9 +235,11 @@ def main(argv=None):
 
     try:
         with open(args.spine, encoding="utf-8") as fh:
-            spine = yaml.safe_load(fh) or {}
+            old_text = fh.read()
+        spine = yaml.safe_load(old_text) or {}
         if not isinstance(spine, dict):
             raise Refused("the spine must be a YAML mapping")
+        old_spine = copy.deepcopy(spine)
         model_names.check_spine(spine, args.spine)
         with open(args.fills, encoding="utf-8") as fh:
             fills = json.load(fh) or {}
@@ -250,7 +264,7 @@ def main(argv=None):
                     spine[key] = []
                 spine[key].extend(items)
                 allow += [f"product-os/{e['doc']}" for e in items]
-        atomic_write(args.spine, yaml.safe_dump(spine, sort_keys=False, allow_unicode=True))
+        atomic_write(args.spine, spine_text.dump(old_text, old_spine, spine)[0])
         links = []
         for key, kind in (("domains", "domain"), ("capabilities", "capability")):
             for e in entries[key]:

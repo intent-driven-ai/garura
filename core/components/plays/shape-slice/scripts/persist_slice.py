@@ -34,6 +34,16 @@ sees it at the checkpoint. An older entry with fields ontology v10 removed (stat
 effort, depends_on, domain_ref) is written back with the six fields only; the result names
 the fields it dropped.
 
+A RECORD WRITTEN BEFORE slice.yaml v2 (no name or outcome, the surface kept under `slice`)
+is brought to v2 when the run touches it: its own facts come from its spine entry, a missing
+name or outcome from the shaped slice, a surface under `slice` moves to the top level, and a
+missing surface part comes from the shaped slice's surface only when that surface is the
+slice's own. The result's `upgraded_to_v2` names each field it set. When a part is still
+missing, the run is refused and says which part to fill in the record.
+
+The spine is written back with its comments and layout kept (spine_text.py): only the
+changed slice entries' lines change.
+
 It refuses with exit 2 and a plain message, and writes nothing, when: the vertical, the
 surface name, its id or its user_action is missing; the surface has no persona_ref;
 `surface` is a list of more than one; an id, slug, name, outcome, feature list or intent
@@ -47,6 +57,7 @@ Exit 0 written (or nothing new to write), 2 refused or usage error.
 """
 
 import argparse
+import copy
 import json
 import os
 import sys
@@ -60,6 +71,7 @@ except ImportError:
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import model_names  # noqa: E402  (stamped from create-play/references)
+import spine_text  # noqa: E402
 
 SPINE_FIELDS = ("id", "slug", "feature_refs", "vertical", "intents", "record")
 RECORD_SLICE = ("id", "slug", "name", "outcome", "feature_refs", "vertical", "intents")
@@ -105,12 +117,17 @@ def safe_id(value, what):
 
 def atomic_dump(path, data):
     """Write YAML through a temp file in the same folder, then os.replace it into place."""
+    atomic_text(path, yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
+
+
+def atomic_text(path, text):
+    """Write text through a temp file in the same folder, then os.replace it into place."""
     folder = os.path.dirname(os.path.abspath(path))
     os.makedirs(folder, exist_ok=True)
     fd, tmp = tempfile.mkstemp(prefix=".persist-slice-", suffix=".tmp", dir=folder)
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
-            yaml.safe_dump(data, fh, sort_keys=False, allow_unicode=True)
+            fh.write(text)
         os.replace(tmp, path)
     except BaseException:
         if os.path.exists(tmp):
@@ -230,7 +247,8 @@ def plan(spine, sl, surface, root, reuse):
         entry["record"] = record_rel(sid)
         return {"action": "created", "id": sid, "entry": entry, "new_entry": True,
                 "added": entry["intents"], "record": new_record(sl, surface, entry["intents"]),
-                "rec_path": rec_path, "differences": [], "dropped": [], "spine_changed": True}
+                "rec_path": rec_path, "differences": [], "dropped": [], "spine_changed": True,
+                "upgraded": []}
     if not reuse and (list(existing.get("feature_refs") or []) != list(sl["feature_refs"])
                       or existing.get("vertical") != sl["vertical"]):
         raise Refused(f"slice '{sid}' is already in the spine with other features or another "
@@ -256,24 +274,67 @@ def plan(spine, sl, surface, root, reuse):
         rec_new = new_record(base, rec_surface, intents)
         rec_changed = True
     else:
-        rec_new = rec
-        body = rec_new.get("slice")
-        if not isinstance(body, dict):
-            body = {}
-            rec_new["slice"] = body
+        rec_new = copy.deepcopy(rec)
+        upgraded = to_v2(rec_new, sid, existing, sl, surface)
+        body = rec_new["slice"]
         rec_intents = list(body.get("intents") or [])
-        merged = rec_intents + [i for i in intents if i not in rec_intents]
-        rec_changed = merged != rec_intents
-        body["intents"] = merged
+        body["intents"] = rec_intents + [i for i in intents if i not in rec_intents]
+        rec_changed = rec_new != rec
+    if rec is None:
+        upgraded = []
     spine_changed = bool(added) or bool(dropped) or existing.get("record") != record_rel(sid) \
         or list(existing) != list(SPINE_FIELDS)
     action = "updated" if (spine_changed or rec_changed) else "unchanged"
     return {"action": action, "id": sid, "entry": entry, "new_entry": False, "existing": existing,
             "added": added, "record": rec_new if rec_changed else None, "rec_path": rec_path,
-            "differences": diffs, "dropped": dropped, "spine_changed": spine_changed}
+            "differences": diffs, "dropped": dropped, "spine_changed": spine_changed,
+            "upgraded": upgraded}
 
 
-def write(spine_path, spine, p):
+def to_v2(rec, sid, existing, sl, surface):
+    """Bring a record written before slice.yaml v2 to v2, in place; return the fields it set.
+
+    The slice's own facts come from its spine entry (id, slug, features, vertical). A missing
+    name or outcome comes from the shaped slice, which serves the same intent. A surface kept
+    under `slice` moves to the top level; a missing surface part comes from the shaped
+    slice's surface only when that surface is the slice's own (same name as its vertical).
+    Refused when a part is still missing: the person fills it in the record, then runs again."""
+    set_ = []
+    body = rec.get("slice")
+    if not isinstance(body, dict):
+        body = {}
+        rec["slice"] = body
+    for key, value in (("id", sid), ("slug", existing.get("slug")),
+                       ("name", sl.get("name")), ("outcome", sl.get("outcome")),
+                       ("feature_refs", list(existing.get("feature_refs") or [])),
+                       ("vertical", existing.get("vertical")),
+                       ("intents", list(existing.get("intents") or []))):
+        if body.get(key) in (None, "", []):
+            body[key] = value
+            set_.append(f"slice.{key}")
+    top = rec.get("surface")
+    nested = body.pop("surface", None)
+    if not isinstance(top, dict):
+        top = dict(nested) if isinstance(nested, dict) else {}
+        if nested is not None or top:
+            set_.append("surface (moved from slice.surface)")
+    own = surface if surface.get("name") == existing.get("vertical") else {}
+    for key in RECORD_SURFACE:
+        if not _text(top.get(key)) and _text(own.get(key)):
+            top[key] = own[key]
+            set_.append(f"surface.{key}")
+    missing = [k for k in RECORD_SURFACE if not _text(top.get(k))]
+    if missing:
+        raise Refused(f"slice '{sid}' has a record written before slice.yaml v2, and it cannot "
+                      f"be brought to v2: its surface has no {', '.join(missing)}, and the new "
+                      f"shape's surface is not that slice's surface '{existing.get('vertical')}'. "
+                      f"Fill those parts in {record_rel(sid)}, then run again")
+    rec["surface"] = {k: top.get(k) for k in RECORD_SURFACE} | {k: v for k, v in top.items()
+                                                                if k not in RECORD_SURFACE}
+    return set_
+
+
+def write(spine_path, spine, p, old_text, old_spine):
     if p["new_entry"]:
         if spine.get("slices") is None:
             spine["slices"] = []
@@ -281,7 +342,8 @@ def write(spine_path, spine, p):
     elif p["spine_changed"]:
         spine["slices"] = [p["entry"] if s is p["existing"] else s for s in spine["slices"]]
     if p["spine_changed"]:
-        atomic_dump(spine_path, spine)
+        text, _kept = spine_text.dump(old_text, old_spine, spine)
+        atomic_text(spine_path, text)
     if p["record"] is not None:
         atomic_dump(p["rec_path"], p["record"])
 
@@ -305,9 +367,11 @@ def main(argv=None):
 
     try:
         with open(args.spine, encoding="utf-8") as fh:
-            spine = yaml.safe_load(fh) or {}
+            old_text = fh.read()
+        spine = yaml.safe_load(old_text) or {}
         if not isinstance(spine, dict):
             raise Refused("the spine must be a YAML mapping")
+        old_spine = copy.deepcopy(spine)
         model_names.check_spine(spine, args.spine)
         with open(args.slice, encoding="utf-8") as fh:
             sl = json.load(fh)
@@ -320,11 +384,11 @@ def main(argv=None):
         sys.stderr.write(f"persist_slice.py: cannot read an input: {exc}\n")
         return finish({"ok": False, "refused": f"cannot read an input: {exc}"}, 2)
 
-    write(args.spine, spine, p)
+    write(args.spine, spine, p, old_text, old_spine)
     result = {"ok": True, "action": p["action"], "id": p["id"], "reused": bool(args.reuse),
               "added_intents": p["added"], "record": record_rel(p["id"]),
               "record_written": p["record"] is not None, "differences": p["differences"],
-              "dropped_fields": p["dropped"]}
+              "dropped_fields": p["dropped"], "upgraded_to_v2": p["upgraded"]}
     return finish(result, 0)
 
 

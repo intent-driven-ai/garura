@@ -5,10 +5,10 @@ slice_check.py — the model's own checks after /shape-slice wrote the slice (C6
 It runs the shared grounding linter over the whole model (`lint_grounding.py --root --spine`:
 the structure and link check, with the old-name guard inside it) and then checks the slices:
   - the slice this run wrote is in the spine and lists the business intent;
-  - EVERY spine slice entry holds the six fields id, slug, feature_refs, vertical, intents,
+  - every spine slice entry holds the six fields id, slug, feature_refs, vertical, intents,
     record (in any order) and no other — no status, order, effort, depends_on or domain_ref
     (ontology v10) — with record pointing to slices/<id>.yaml;
-  - EVERY spine slice's record at slices/<id>.yaml follows slice.yaml v2:
+  - every spine slice's record at slices/<id>.yaml follows slice.yaml v2:
         slice:   {id, slug, name, outcome, feature_refs, vertical, intents}
         surface: {id, name, persona_ref, user_action}
     each field present and not empty; slice.id, feature_refs, vertical and intents equal to
@@ -18,8 +18,12 @@ the structure and link check, with the old-name guard inside it) and then checks
     python3 slice_check.py --root <product-os dir> --spine <_spine.yaml> \
         --slice-id <id> --intent <bi-id> --out <slice-check.json>
 
-Writes {"valid": bool, "lint": {...}, "problems": [...]}. `valid` is true only when the
-linter reads ok and the slice has no problem. Exit 0 valid, 1 not valid, 2 usage error.
+The checks of this run's slice are `problems`. The same checks of every OTHER slice are
+`warnings`: a slice an earlier run or a hand edit left wrong is shown to the person, but it
+does not block this run, which cannot repair a slice it did not touch.
+
+Writes {"valid": bool, "lint": {...}, "problems": [...], "warnings": [...]}. `valid` is true
+only when the linter reads ok and this run's slice has no problem. Exit 0 valid, 1 not valid, 2 usage error.
 Files on disk only; no git, no network.
 """
 
@@ -109,19 +113,20 @@ def entry_problems(entry):
 
 
 def slice_problems(root, spine_path, sid, intent):
+    """(problems, warnings): problems of this run's slice; warnings for every other slice."""
     with open(spine_path, encoding="utf-8") as fh:
         spine = yaml.safe_load(fh) or {}
     entries = [s for s in spine.get("slices") or [] if isinstance(s, dict)]
     entry = next((s for s in entries if s.get("id") == sid), None)
     if entry is None:
-        return [f"slice '{sid}' is not in the spine"]
-    problems = []
+        return [f"slice '{sid}' is not in the spine"], []
+    problems, warnings = [], []
     if intent not in (entry.get("intents") or []):
         problems.append(f"slice '{sid}' does not list business intent '{intent}'")
     for e in entries:
-        problems += entry_problems(e)
-        problems += record_problems(root, e)
-    return problems
+        found = entry_problems(e) + record_problems(root, e)
+        (problems if e is entry else warnings).extend(found)
+    return problems, warnings
 
 
 def main(argv=None):
@@ -137,14 +142,15 @@ def main(argv=None):
         return 2
     report = lint(args.root, args.spine)
     try:
-        problems = slice_problems(args.root, args.spine, args.slice_id, args.intent)
+        problems, warnings = slice_problems(args.root, args.spine, args.slice_id, args.intent)
     except (OSError, yaml.YAMLError) as exc:
-        problems = [f"cannot read the slice: {exc}"]
-    result = {"valid": bool(report.get("ok")) and not problems, "lint": report, "problems": problems}
+        problems, warnings = [f"cannot read the slice: {exc}"], []
+    result = {"valid": bool(report.get("ok")) and not problems, "lint": report,
+              "problems": problems, "warnings": warnings}
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(result, fh, indent=2)
     print(json.dumps({"valid": result["valid"], "lint_errors": len(report.get("errors") or []),
-                      "problems": problems}, indent=2))
+                      "problems": problems, "warnings": warnings}, indent=2))
     return 0 if result["valid"] else 1
 
 

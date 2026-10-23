@@ -364,6 +364,16 @@ def test_fills_undo(tmp):
     check("fills undo: after a later edit only the added Touches lines are removed",
           code == 0 and "(domain) — adds" not in text and "A line the person added." in text
           and out["how"] == "lines removed")
+    check("fills undo: the Touches heading this run made goes too, with no line under it",
+          "**Touches:**" not in text)
+    commented = "# The clinic spine. Keep this note.\ndomains:\n  # booking first\n  - id: dm-b\n    slug: b\n"
+    write(spine, commented + "capabilities: []\nfeatures: []\n")
+    run("persist_fills.py", "--root", root, "--spine", spine, "--fills", fills, "--intent", "bi-1",
+        "--out", res)
+    text = read(spine)
+    check("fills: the spine keeps its comments, and the new domain is added",
+          "Keep this note." in text and "# booking first" in text
+          and [d["id"] for d in yaml.safe_load(text)["domains"]] == ["dm-b", "dm-n"])
 
 
 def test_slice_check(tmp):
@@ -422,8 +432,10 @@ def test_slice_check(tmp):
     code, _, _ = run("slice_check.py", "--root", root, "--spine", spine, "--slice-id", "sl-a",
                      "--intent", "bi-340", "--out", out_path)
     rep = json.loads(read(out_path))
-    check("slice check: every spine slice's record is checked, not only this run's",
-          code == 1 and any("sl-b" in p and "persona_ref" in p for p in rep["problems"]))
+    check("slice check: every other spine slice's record is checked, as a warning (it does "
+          "not block this run)",
+          not any("sl-b" in p for p in rep["problems"])
+          and any("sl-b" in p and "persona_ref" in p for p in rep["warnings"]))
     write(spine, {"slices": [entry]})
     write(spine, {"slices": [dict(entry, intents=["bi-999"])]})
     code, _, _ = run("slice_check.py", "--root", root, "--spine", spine, "--slice-id", "sl-a",
@@ -463,6 +475,49 @@ def test_approval(tmp):
     check("approval verify: no approval file blocks the commit (exit 2)", code == 2)
 
 
+def test_round2(tmp):
+    one = write(os.path.join(tmp, "r2-split.json"),
+                {"asked": [{"id": "Q-surface-1", "blocking": False}], "assumptions": []})
+    out_path = os.path.join(tmp, "r2-answers.json")
+    reply = write(os.path.join(tmp, "r2-reply.md"), "Skip the dashboard, use the CLI\n")
+    code, out, _ = run("record_questions.py", "answers", "--reply", reply, "--split", one,
+                       "--out", out_path)
+    check("answers: a reply that starts with 'skip' and says more is unclear, not deferred",
+          code == 0 and json.loads(read(out_path)) == [] and out["unclear"] == ["Q-surface-1"]
+          and out["unanswered"] == [])
+    rec = os.path.join(tmp, "r2-ctx", "grounding-questions.md")
+    sp = write(os.path.join(tmp, "r2-q.json"),
+               {"asked": [{"id": "Q-surface-1", "blocking": False, "question": "Which screen?"}],
+                "assumptions": []})
+    run("record_questions.py", "add", "--record", rec, "--issue", "1", "--split", sp, "--at", "t", "--run", "r")
+    bare = write(os.path.join(tmp, "r2-bare.json"), [{"id": "Q-surface-1", "answer": "skip"}])
+    run("record_questions.py", "answer", "--record", rec, "--answers", bare, "--at", "t", "--run", "r")
+    check("answer: a bare 'skip' with no decision is recorded as deferred",
+          "user_decision: deferred" in read(rec))
+    qs = write(os.path.join(tmp, "r2-shape.json"),
+               [{"id": "Q-a-1", "blocking": False, "question": "Which of the options above do you pick?",
+                 "why": "x", "examples": ["a", "b"]}])
+    code, out, _ = run("record_questions.py", "proposals", "--questions", qs,
+                       "--out", os.path.join(tmp, "r2-shape-out.json"))
+    check("proposals: a question that points to other text does not stand alone (exit 1)",
+          code == 1 and "stand alone" in json.dumps(out["shape_problems"]))
+    good = ("You decide where a patient tests the booking. Each question has a proposed answer.\n\n"
+            "### Q-surface-1\n**Question** Which surface does a patient test the booking on?\n"
+            "**Answer** proposed: the booking screen\n**Why it matters** A slice has one surface.\n"
+            "**Example** A clinic: a web page. A bank: a phone app.\n")
+    msg = write(os.path.join(tmp, "r2-msg.md"), good)
+    code, out, _ = run("record_questions.py", "message", "--message", msg, "--split", one)
+    check("message: an opening and the four parts pass (exit 0)", code == 0 and out["ok"] is True)
+    write(msg, good.replace("You decide where a patient tests the booking. ", "Here we go. "))
+    code, out, _ = run("record_questions.py", "message", "--message", msg, "--split", one)
+    check("message: an opening that does not say what the person decides fails (exit 1)",
+          code == 1 and any("decides" in p for p in out["problems"]))
+    write(msg, good.replace("**Example** A clinic: a web page. A bank: a phone app.\n", ""))
+    code, out, _ = run("record_questions.py", "message", "--message", msg, "--split", one)
+    check("message: a question with no Example part fails (exit 1)",
+          code == 1 and any("Example" in p for p in out["problems"]))
+
+
 def main():
     with tempfile.TemporaryDirectory() as tmp:
         root = test_intent_page(tmp)
@@ -473,6 +528,7 @@ def main():
         test_fills_undo(tmp)
         test_slice_check(tmp)
         test_approval(tmp)
+        test_round2(tmp)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 

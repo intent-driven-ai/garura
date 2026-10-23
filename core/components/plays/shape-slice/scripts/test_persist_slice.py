@@ -188,6 +188,50 @@ def test_atomic():
               kept == "slices: []\n" and os.listdir(tmp) == ["_spine.yaml"])
 
 
+def test_round2():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = os.path.join(tmp, "product-os")
+        sp = model(root)
+        legacy = {"id": "sl-old", "slug": "old", "status": "built", "feature_refs": ["ft-1"],
+                  "vertical": "the booking screen", "intents": ["bi-339"]}
+        with open(sp, "w", encoding="utf-8") as fh:
+            fh.write("# The clinic spine. Keep this note.\n")
+            yaml.safe_dump({"features": [{"id": "ft-1"}, {"id": "ft-2"}], "slices": [legacy]}, fh,
+                           sort_keys=False)
+        rec = os.path.join(root, "slices", "sl-old.yaml")
+        os.makedirs(os.path.dirname(rec))
+        with open(rec, "w", encoding="utf-8") as fh:
+            yaml.safe_dump({"slice": {"id": "sl-old", "slug": "old", "intents": ["bi-339"],
+                                      "surface": {"id": "sf-booking", "name": "the booking screen",
+                                                  "persona_ref": "patient"}}}, fh)
+        code, out, err = run(root, sp, slice_file(tmp), "--reuse", "sl-old")
+        got = load(rec)
+        check("pre-v2 record: reuse brings it to v2 (exit 0, the fields it set are named)",
+              code == 0 and "slice.name" in out["upgraded_to_v2"]
+              and "surface.user_action" in out["upgraded_to_v2"])
+        check("pre-v2 record: the surface moves to the top level, filled from the shaped surface",
+              "surface" not in got["slice"] and got["surface"]["user_action"] == "books a free slot"
+              and got["slice"]["name"] == "Self booking")
+        chk = os.path.join(tmp, "check.json")
+        subprocess.run([sys.executable, os.path.join(os.path.dirname(SCRIPT), "slice_check.py"),
+                        "--root", root, "--spine", sp, "--slice-id", "sl-old", "--intent", "bi-340",
+                        "--out", chk], capture_output=True, text=True)
+        with open(chk, encoding="utf-8") as fh:
+            problems = json.load(fh)["problems"]
+        check("pre-v2 record: the reused slice has no problem in the slice check", problems == [])
+        with open(sp, encoding="utf-8") as fh:
+            check("the spine keeps its comments after a write", "Keep this note." in fh.read())
+        with open(rec, "w", encoding="utf-8") as fh:
+            yaml.safe_dump({"slice": {"id": "sl-old", "slug": "old", "intents": ["bi-339"]}}, fh)
+        before = snapshot(root)
+        code, _, err = run(root, sp, slice_file(tmp, vertical="the command line",
+                                                surface={"id": "sf-cli", "name": "the command line",
+                                                         "persona_ref": "clerk", "user_action": "runs"}),
+                           "--reuse", "sl-old")
+        check("pre-v2 record with no surface and another shaped surface is refused, nothing written",
+              code == 2 and "before slice.yaml v2" in err and snapshot(root) == before)
+
+
 def main():
     with tempfile.TemporaryDirectory() as tmp:
         root = os.path.join(tmp, "product-os")
@@ -293,6 +337,7 @@ def main():
 
     test_reuse()
     test_atomic()
+    test_round2()
 
     with tempfile.TemporaryDirectory() as tmp:
         root = os.path.join(tmp, "product-os")

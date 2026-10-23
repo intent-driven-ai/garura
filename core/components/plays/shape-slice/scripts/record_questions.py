@@ -17,6 +17,7 @@ The file is Markdown with one fenced YAML block that holds `questions:`, one ent
     python3 record_questions.py add       --record <md> --issue <n> --split <split.json> --at <ts> --run <run id>
     python3 record_questions.py answers   --reply <reply.md> --split <split.json> --out <answers.json>
     python3 record_questions.py answer    --record <md> --answers <answers.json> --at <ts> --run <run id>
+    python3 record_questions.py message   --message <message.md> --split <split.json>
     python3 record_questions.py check     --record <md> --split <split.json>
 
 A question (q.json is a JSON list) has: id, blocking (true/false), question, and may have
@@ -26,8 +27,10 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               answers (`settled: true`, with a named basis) is moved to `settled` and never
               asked (C2). (2) The cardinal rule (C10): a proposed answer with no named basis is
               STRIPPED (set to null, never replaced). (3) The shape the rule for asking a person
-              gives (C3): each question asks one thing (no " and " in it, one "?"), has a "why"
-              and at least two examples. Prints {questions, settled, no_proposed_answer,
+              gives (C3): each question asks one thing (no " and " in it, one "?"), stands
+              alone (no word that points to other text, such as "above" or "the previous",
+              and five words or more), has a "why" and at least two examples. This is the
+              floor a script can test; the person at the checkpoint judges the rest. Prints {questions, settled, no_proposed_answer,
               stripped, shape_problems}; exit 1 when a question breaks the shape.
   filter    — drops each question already answered in the record (C5). A question counts as
               answered when its question text, normalized (lower case, punctuation and extra
@@ -41,21 +44,29 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               (Step 5). An answer starts on a line that names a question's id or its number
               in the asked order ("Q-surface-1: ...", "2. ...", "- **Q-scope-1** — ..."); the
               lines after it, up to the next one, belong to it. A reply to exactly one asked
-              question may be plain text. An answer that starts with "defer" or "skip" is
-              recorded with decision deferred. Prints {answers, unanswered, unknown}.
+              question may be plain text. A bare "skip" or "defer" (at most with "it", "for
+              now" or "later") is recorded with decision deferred. A reply that starts with
+              "skip" or "defer" and says more ("Skip the dashboard, use the CLI") is not
+              guessed: it is listed in `unclear`, gets no answer, and is asked again. Prints
+              {answers, unanswered, unclear, unknown}.
   add       — writes grill_budget.py's split: each asked question as kind asked, each one not
               asked as kind assumption (its `assume` text, else its proposed answer, is the
               assumption). An assumption with no text is refused: a gap left open must have a
               written assumption (C4). An id already in the record is kept as it is.
   answer    — writes the person's answers ([{id, decision, answer}]) onto asked entries. An
               answer with no text is refused (exit 2, nothing written): an empty answer is not
-              an answer.
+              an answer. An answer with no decision is deferred when its text is a bare
+              "skip" or "defer", else in scope.
+  message   — checks the message shown to the person (Step 5) before it is sent: an opening
+              of two or three sentences before the first question that says what the person
+              decides, and for each asked question its id with the four parts **Question**,
+              **Answer**, **Why it matters** and **Example**. Exit 1 lists each problem.
   check     — every asked and assumption id of the split is in the record, and every asked
               question has an answer that is not empty; a blocking question that is deferred
               has no answer yet. Exit 1 when any of this fails.
 
-Exit 0 done, 1 a check failed (proposals: a question's shape; check: a missing entry or an
-asked question with no answer),
+Exit 0 done, 1 a check failed (proposals: a question's shape; message: its shape; check: a
+missing entry or an asked question with no answer),
 2 usage error or refusal. Files on disk only.
 """
 
@@ -140,13 +151,29 @@ def backed(basis):
             and str(basis.get("ref") or "").strip() != "")
 
 
+# Words that point outside the question: it does not stand alone.
+POINTERS = re.compile(r"\b(above|below|as before|as said|the previous|the last one|the same as|"
+                      r"this one|that one|these ones|those ones)\b", re.I)
+DEFER = re.compile(r"^\s*(defer|skip)(\s+(it|this|this one|for now|later|for later))?"
+                   r"\s*[.!]*\s*$", re.I)
+DEFER_START = re.compile(r"^\s*(defer|skip)\b", re.I)
+
+
+def is_deferral(text):
+    """True only for a bare "skip" or "defer" (with at most "it", "for now" or "later")."""
+    return bool(DEFER.match(str(text or "")))
+
+
 def shape_problems(q):
+    """The shape floor a script can test; the reviewer at the checkpoint judges the rest."""
     text = str(q.get("question") or "").strip()
     out = []
     if not text:
         out.append("no question text")
     elif text.count("?") != 1 or " and " in f" {text.lower()} ":
         out.append("asks more than one thing")
+    elif POINTERS.search(text) or len(text.split()) < 5:
+        out.append("does not stand alone (it points to other text, or is too short to read alone)")
     if not str(q.get("why") or "").strip():
         out.append("no 'why it matters'")
     ex = q.get("examples")
@@ -255,20 +282,24 @@ def cmd_answers(args):
             found[current].append(line)
     if not found and len(asked) == 1 and reply.strip():
         found[asked[0]] = [reply]
-    answers = []
+    answers, unclear = [], []
     for qid in asked:
         text = "\n".join(found.get(qid, [])).strip()
         if not text:
             continue
+        if DEFER_START.match(text) and not is_deferral(text):
+            unclear.append(qid)  # "Skip the dashboard, use the CLI": ask again, never guess
+            continue
         a = {"id": qid, "answer": text}
-        if re.match(r"^(defer|skip)\b", text.lower()):
+        if is_deferral(text):
             a["decision"] = "deferred"
         answers.append(a)
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(answers, fh, indent=2)
     got = {a["id"] for a in answers}
     print(json.dumps({"answers": [a["id"] for a in answers],
-                      "unanswered": [q for q in asked if q not in got], "unknown": unknown},
+                      "unanswered": [q for q in asked if q not in got and q not in unclear],
+                      "unclear": unclear, "unknown": unknown},
                      indent=2))
     return 0
 
@@ -317,13 +348,61 @@ def cmd_answer(args):
                           "an answer — ask the question again")
     for a in answers:
         e = by_id[a["id"]]
-        e["user_decision"] = a.get("decision") or "in_scope"
+        e["user_decision"] = a.get("decision") or (
+            "deferred" if is_deferral(a.get("answer")) else "in_scope")
         e["user_answer"] = a.get("answer")
         e["resolved_at"] = args.at
         e["resolved_by_run"] = args.run
     write_record(args.record, text, entries)
     print(json.dumps({"answered": [a["id"] for a in answers]}, indent=2))
     return 0
+
+
+MESSAGE_PARTS = ("Question", "Answer", "Why it matters", "Example")
+
+
+def message_problems(text, asked):
+    """The message the person reads (Step 5), checked against the rule for asking a person."""
+    problems = []
+    lines = text.splitlines()
+    first = next((i for i, ln in enumerate(lines) if any(q in ln for q in asked)), len(lines))
+    opening = " ".join(ln.strip() for ln in lines[:first] if ln.strip() and not ln.startswith("#"))
+    sentences = [x for x in re.split(r"(?<=[.!?])\s+", opening) if x.strip()]
+    if not opening:
+        problems.append("no opening before the first question")
+    elif not 2 <= len(sentences) <= 3:
+        problems.append(f"the opening has {len(sentences)} sentences, not two or three")
+    if opening and not re.search(r"\bdecid", opening, re.I):
+        problems.append("the opening does not say what the person decides")
+    starts = sorted((i, q) for q in asked for i, ln in enumerate(lines) if q in ln
+                    and not any(q2 != q and q2 in ln and len(q2) > len(q) for q2 in asked))
+    seen = {}
+    for i, q in starts:
+        seen.setdefault(q, i)
+    order = sorted(seen.items(), key=lambda kv: kv[1])
+    for n, (q, i) in enumerate(order):
+        end = order[n + 1][1] if n + 1 < len(order) else len(lines)
+        part = "\n".join(lines[i:end])
+        for name in MESSAGE_PARTS:
+            if not re.search(r"\*\*" + re.escape(name) + r"\b", part):
+                problems.append(f"'{q}' has no **{name}** part")
+    for q in asked:
+        if q not in seen:
+            problems.append(f"'{q}' is not in the message")
+    return problems
+
+
+def cmd_message(args):
+    split = load_json(args.split, "split")
+    asked = [q["id"] for q in split.get("asked") or []]
+    try:
+        with open(args.message, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError as exc:
+        raise Refused(f"cannot read the message {args.message}: {exc}")
+    problems = message_problems(text, asked)
+    print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
+    return 1 if problems else 0
 
 
 def cmd_check(args):
@@ -375,11 +454,14 @@ def main(argv=None):
     c = sub.add_parser("check")
     c.add_argument("--record", required=True)
     c.add_argument("--split", required=True)
+    m = sub.add_parser("message")
+    m.add_argument("--message", required=True)
+    m.add_argument("--split", required=True)
     args = ap.parse_args(argv)
     try:
         return {"proposals": cmd_proposals, "filter": cmd_filter, "open-list": cmd_open_list,
                 "answers": cmd_answers, "add": cmd_add, "answer": cmd_answer,
-                "check": cmd_check}[args.command](args)
+                "message": cmd_message, "check": cmd_check}[args.command](args)
     except Refused as exc:
         sys.stderr.write(f"record_questions.py: {exc}\n")
         return 2
