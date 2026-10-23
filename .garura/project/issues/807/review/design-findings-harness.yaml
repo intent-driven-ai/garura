@@ -1,0 +1,78 @@
+# check-change Step 3 Layer 2 -- design-grounding of category "harness", PR #810 (issue 807)
+category: harness
+base: plan/788/base
+grounding:
+  - principle: "An intent change goes through the play's ICE and /edit-play; a wording-only change keeps every guarantee."
+    source: "CLAUDE.md (Play Pipeline Rules) on plan/788/base"
+  - principle: "Verb first, then object; one verb one meaning; verbs listed in naming.yaml (shape, build, validate, release, author)."
+    source: "core/components/memory/standards/rules/naming.md and docs/adr/046 on plan/788/base"
+  - principle: "Five renames agreed before the build: shape-features->shape-slice, build-feature->build-epic, validate-feature->validate-epic, release-feature->release-epic, author-features->author-epics; ICE changes are word changes only, fingerprint recomputed, lint_play passes; pipeline rules and installer follow."
+    source: ".garura/project/issues/807/specs/design.md (approved 2026-10-22, before the build)"
+checks:
+  renames_follow_naming_rule: pass
+  ice_wording_only: pass
+  fingerprints_match: pass
+  pipeline_rules_follow: pass
+  nothing_behaviour_changing: "pass with one note (F-3)"
+mechanical_results:
+  fingerprint_check: >
+    For all 32 plays and loops that have reference/ice.md, the sha256 in SKILL.md equals
+    sha256 of reference/ice.md (0 mismatches). The 6 without an ICE (create-loop, create-play,
+    edit-loop, edit-play, install-garura, uninstall-garura) are the bootstrap/meta plays; only
+    install-garura/SKILL.md changed (one word).
+  ice_word_diff: >
+    Word-level diff of the 21 changed ice.md files (20 plays + complete-discovery loop) contains
+    only: functionality(ies)->feature(s) (and _ref, .md, /ICE forms), and the four play names
+    and author-features. No constraint, failure condition or scenario text changed in meaning.
+  skill_word_diff: >
+    Word-level diff of changed SKILL.md files contains only the same token swaps plus the
+    recomputed fingerprints.
+  old_names: "check_old_names.py: old_names_left 0. No old play or skill names remain under agents, plays, loops, skills or grounding except the installer test that names them on purpose."
+  names_in_skill_files: "name: lines read build-epic, validate-epic, release-epic, shape-slice, author-epics; folders match."
+findings:
+  - id: F-1
+    severity: P4
+    principle: "A new name for a play should leave no stale label from an earlier name in its own file."
+    source: "docs/adr/046 and naming.md (name tells what the part does) on plan/788/base"
+    evidence: >
+      core/components/plays/shape-slice/SKILL.md still has the H1 "# grill" (the play's name two
+      renames ago; base shape-features/SKILL.md had it too). Not introduced by this PR, but the
+      rename touched the file and did not clear it. Harmless to behaviour.
+  - id: F-2
+    severity: P4
+    principle: "Pipeline rule tables should stay readable after a rename (formatting is part of the standard rule files)."
+    source: "core/components/memory/standards/rules/pipeline-next.md on plan/788/base"
+    evidence: >
+      pipeline-next.md map rows (shape-measure-lens, shape-slice, build-epic, validate-epic,
+      release-epic) keep the old column padding, so the aligned columns are now uneven. Content
+      is correct (every key and target renamed; the execute-loop chain reads /shape-slice ->
+      /build-epic -> /validate-epic -> /release-epic).
+  - id: F-3
+    severity: P4
+    principle: "A wording-only change keeps guarantees (CLAUDE.md Play Pipeline Rules); a code change inside a rename must be required by it and tested."
+    source: "CLAUDE.md Play Pipeline Rules; design.md step 2 ('the installer removes the old names on the next install')"
+    evidence: >
+      install-garura/scripts/install.py changed from one-old-name-per-new-name to a list
+      (new_to_old.setdefault(new, []).append(old)). This is a logic change, not wording, but it is
+      needed because grill and shape-features now both map to shape-slice (rename-map.yaml), and it
+      adds test_every_old_name_of_one_new_name_goes. It is within the agreed scope (installer
+      follows the rename). Noted so the reviewer sees it is code, not wording.
+  - id: F-4
+    severity: P4
+    principle: "The rename map is the single record of old->new names; reversals should be visible."
+    source: "core/components/memory/standards/rules/rename-map.yaml on plan/788/base"
+    evidence: >
+      The skill map flips from 'author-epics: author-features' to 'author-features: author-epics'
+      (the #734 rename is undone). Agreed in design.md, and check_old_names.py passes, but
+      a name that went epics->features->epics deserves a note in ADR 048 so history stays
+      traceable. Not a violation.
+  - id: F-5
+    severity: P4
+    principle: "Pre-existing lint gaps are not caused by this change."
+    source: "create-play/scripts/lint_play.py run against base copies of the same files"
+    evidence: >
+      lint_play.py reports gaps on plays/next (no-unbacked-recommendation wiring) and
+      loops/complete-discovery (failure coverage F1-F8 by step eval). The same gaps exist on the
+      base versions, so they are not introduced by #810; design.md says the component linter shows
+      no new error (121 today). Listed for visibility only.
+no_blocking_findings: true
