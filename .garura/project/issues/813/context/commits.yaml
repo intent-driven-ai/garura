@@ -1,94 +1,25 @@
 commits:
-  - sha: 3b090f21
-    message: "feat(install): add the model-name migrator to the installer (#813)"
+  - sha: f65096b6
+    message: "fix(install): the install never changes an existing product model (#813)"
     files:
       - core/components/plays/install-garura/scripts/install.py
+      - core/components/plays/install-garura/scripts/test_install.py
       - installer/install.sh
+    branch: plan/788/813-upgrade-feature-names-retire-intent-epic
+  - sha: 7d96735e
+    message: "fix(install): migrate_model refuses paths outside the project and undoes its moves on a failed step (#813)"
+    files:
       - core/components/plays/install-garura/scripts/migrate_model.py
       - core/components/plays/install-garura/scripts/test_migrate_model.py
     branch: plan/788/813-upgrade-feature-names-retire-intent-epic
-  - sha: 60f37652
-    message: "feat(model): add the model-names guard and call it from play scripts (#813)"
+  - sha: 0f889071
+    message: "fix(model): the guard names migrate_model.py and covers check_kept and check_sources (#813)"
     files:
-      - core/components/plays/build-epic/scripts/check_box.py
-      - core/components/plays/build-epic/scripts/check_ready_epic.py
-      - core/components/plays/build-epic/scripts/check_spec.py
-      - core/components/plays/build-epic/scripts/update_epic_status.py
-      - core/components/plays/build-epic/scripts/validate_plan.py
-      - core/components/plays/create-play/references/check_ice_workable.py
-      - core/components/plays/create-play/references/lint_grounding.py
-      - core/components/plays/discover-capabilities/scripts/lint_grounding.py
-      - core/components/plays/discover-capabilities/scripts/persist_understand.py
-      - core/components/plays/discover-capabilities/scripts/pick_targets.py
-      - core/components/plays/discover-capabilities/scripts/rollup_box.py
-      - core/components/plays/discover-domains/scripts/grounding_check.py
-      - core/components/plays/discover-domains/scripts/lint_grounding.py
-      - core/components/plays/discover-domains/scripts/persist_seed.py
-      - core/components/plays/discover-domains/scripts/read_intents.py
-      - core/components/plays/discover-intent/scripts/check_ice_workable.py
-      - core/components/plays/discover-intent/scripts/check_intent.py
-      - core/components/plays/discover-intent/scripts/lint_grounding.py
-      - core/components/plays/discover-intent/scripts/persist_intent.py
-      - core/components/plays/learn-outcomes/scripts/check_ready_unit.py
-      - core/components/plays/learn-outcomes/scripts/lint_grounding.py
-      - core/components/plays/learn-outcomes/scripts/persist_learn.py
-      - core/components/plays/learn-outcomes/scripts/validate_learn.py
-      - core/components/plays/next/scripts/check_model_agreement.py
-      - core/components/plays/next/scripts/scan_model.py
-      - core/components/plays/release-epic/scripts/check_launch.py
-      - core/components/plays/release-epic/scripts/check_ready_launch.py
-      - core/components/plays/release-epic/scripts/check_scenario_coverage.py
-      - core/components/plays/release-epic/scripts/check_surface_contract.py
-      - core/components/plays/release-epic/scripts/deliver_epic.py
-      - core/components/plays/release-epic/scripts/stamp_fix_required.py
-      - core/components/plays/shape-agentic-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-agentic-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-agentic-lens/scripts/persist_agentic.py
-      - core/components/plays/shape-agentic-lens/scripts/validate_agentic.py
-      - core/components/plays/shape-architecture-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-architecture-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-architecture-lens/scripts/persist_arch.py
-      - core/components/plays/shape-architecture-lens/scripts/validate_arch.py
-      - core/components/plays/shape-marketing-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-marketing-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-marketing-lens/scripts/persist_marketing.py
-      - core/components/plays/shape-marketing-lens/scripts/validate_marketing.py
-      - core/components/plays/shape-measure-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-measure-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-measure-lens/scripts/persist_measure.py
-      - core/components/plays/shape-measure-lens/scripts/validate_measure.py
-      - core/components/plays/shape-quality-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-quality-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-quality-lens/scripts/persist_quality.py
-      - core/components/plays/shape-quality-lens/scripts/validate_quality.py
-      - core/components/plays/shape-roadmap/scripts/persist_roadmap.py
-      - core/components/plays/shape-roadmap/scripts/snapshot_model.py
-      - core/components/plays/shape-run-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-run-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-run-lens/scripts/persist_run.py
-      - core/components/plays/shape-run-lens/scripts/validate_run.py
-      - core/components/plays/shape-scope/scripts/check_ready.py
-      - core/components/plays/shape-scope/scripts/persist_shape.py
-      - core/components/plays/shape-scope/scripts/validate_shape.py
-      - core/components/plays/shape-slice/scripts/check_ready_slice.py
-      - core/components/plays/shape-slice/scripts/lint_grounding.py
-      - core/components/plays/shape-slice/scripts/persist_epics.py
-      - core/components/plays/shape-slice/scripts/validate_epics.py
-      - core/components/plays/shape-ux-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-ux-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-ux-lens/scripts/persist_ux.py
-      - core/components/plays/shape-ux-lens/scripts/validate_ux.py
-      - core/components/plays/validate-epic/scripts/check_gates.py
-      - core/components/plays/validate-epic/scripts/check_ready_validate.py
-      - core/components/plays/validate-epic/scripts/check_validate.py
-      - core/components/plays/validate-epic/scripts/stamp_epic.py
-      - core/components/skills/find-model-gaps/scripts/find_gaps.py
-      - core/components/skills/link-model-gaps/scripts/apply_links.py
-      - core/tools/lint-components/lib/rules/shared-scripts.js
-      - core/tools/lint-components/test/shared-scripts.test.js
       - core/components/plays/build-epic/scripts/model_names.py
       - core/components/plays/create-play/references/model_names.py
+      - core/components/plays/discover-capabilities/scripts/check_sources.py
       - core/components/plays/discover-capabilities/scripts/model_names.py
+      - core/components/plays/discover-domains/scripts/check_kept.py
       - core/components/plays/discover-domains/scripts/model_names.py
       - core/components/plays/discover-domains/scripts/test_model_names.py
       - core/components/plays/discover-intent/scripts/model_names.py
@@ -109,112 +40,17 @@ commits:
       - core/components/skills/find-model-gaps/scripts/model_names.py
       - core/components/skills/link-model-gaps/scripts/model_names.py
     branch: plan/788/813-upgrade-feature-names-retire-intent-epic
-  - sha: f5c84b50
-    message: "refactor(memory): delete retired intent-epic product files (#809)"
+  - sha: fc50c081
+    message: "docs(adr): ADR 050 amends ADR 035 and 017 (#809)"
     files:
-      - .garura/product/_checkpoints/specify-product/stage-1-market-20260418-000000.md
-      - .garura/product/_checkpoints/specify-product/stage-2-domains-20260418-000100.md
-      - .garura/product/_evidence/specify-product/20260419-100000-close.md
-      - .garura/product/research/agentic-methodology.md
-      - .garura/product/research/ai-governance.md
-      - .garura/product/research/engineering-experience.md
-      - .garura/product/research/engineering-observability.md
-      - .garura/product/research/work-intelligence.md
-      - .garura/product/scope/decision-manifest-configure-capabilities.yaml
-      - .garura/product/scope/decision-manifest-enrich-capabilities.yaml
-      - .garura/product/scope/decision-manifest-generate-intent-epics.yaml
-      - .garura/product/scope/enriched-capabilities.yaml
-      - .garura/product/scope/epics/epic-agentic-methodology-component-arch-001.yaml
-      - .garura/product/scope/epics/epic-agentic-methodology-l2-spec-driven-001.yaml
-      - .garura/product/scope/epics/epic-agentic-methodology-l3-intent-driven-001.yaml
-      - .garura/product/scope/epics/epic-ai-governance-audit-attribution-001.yaml
-      - .garura/product/scope/epics/epic-engineering-experience-cli-slash-commands-001.yaml
-      - .garura/product/scope/epics/epic-engineering-experience-first-run-onboarding-001.yaml
-      - .garura/product/scope/epics/epic-engineering-experience-ide-integrations-001.yaml
-      - .garura/product/scope/epics/epic-engineering-observability-quality-signals-001.yaml
-      - .garura/product/scope/epics/epic-work-intelligence-intent-driven-verification-001.yaml
-      - .garura/product/scope/features.yaml
-      - .garura/product/scope/mvp-recommendation.md
-      - .garura/product/scope/scope.yaml
-      - .garura/product/scope/validation-intent-epics.yaml
-      - .garura/product/specification/decision-manifest-derive-quality-profile.yaml
-      - .garura/product/specification/domain-selection.yaml
-      - .garura/product/specification/market-brief.md
-      - .garura/product/specification/project-profile.yaml
-      - .garura/product/specification/quality-profile.yaml
-      - .garura/product/user-provided/grounding-questions.md
-      - .garura/product/research/standards/play-orchestration.md
-      - .garura/product/research/arch.md
-    branch: plan/788/813-upgrade-feature-names-retire-intent-epic
-  - sha: b3315b9a
-    message: "refactor(memory): retire intent-epic skills, agents and memory standards (#809)"
-    files:
-      - core/components/agents/epic-expectation-crafter.md
-      - core/components/agents/feature-steward.md
-      - core/components/agents/market-analyst.md
-      - core/components/agents/product-keeper.md
-      - core/components/memory/standards/_index.md
-      - core/components/memory/standards/rules/_index.md
-      - core/components/memory/standards/rules/architecture.md
-      - core/components/memory/standards/rules/design.md
-      - core/components/memory/standards/rules/epics.md
-      - core/components/memory/standards/rules/feature-catalog.md
-      - core/components/memory/standards/rules/features.md
-      - core/components/memory/standards/rules/kb-extension.md
-      - core/components/memory/standards/rules/play-orchestration.md
-      - core/components/memory/standards/rules/play-patterns.md
-      - core/components/memory/standards/rules/product.md
-      - core/components/memory/standards/rules/rename-map.yaml
-      - core/components/memory/standards/rules/resolution.md
-      - core/components/memory/standards/rules/scenarios.md
-      - core/components/memory/standards/schemas/_index.md
-      - core/components/memory/standards/schemas/intent-epic.yaml
-      - core/components/memory/standards/schemas/mvp-recommendation.yaml
-      - core/components/memory/standards/schemas/screen-inventory.yaml
-      - core/components/memory/standards/templates/approval-prompt.md
-      - core/components/memory/standards/templates/feature-tree-output.md
-      - core/components/skills/author-feature-catalog/SKILL.md
-      - core/components/skills/author-feature-catalog/reference/intent.yaml
-      - core/components/skills/author-product-spec/SKILL.md
-      - core/components/skills/author-product-spec/schemas/features.yaml
-      - core/components/skills/derive-capability-selection/SKILL.md
-      - core/components/skills/derive-design-patterns/SKILL.md
-      - core/components/skills/derive-logical-architecture/SKILL.md
-      - core/components/skills/derive-nfr-spec/SKILL.md
-      - core/components/skills/derive-physical-architecture/SKILL.md
-      - core/components/skills/derive-quality-vision/SKILL.md
-      - core/components/skills/derive-systems-inventory/SKILL.md
-      - core/components/skills/derive-tech-stack/SKILL.md
-      - core/components/skills/infer-feature-catalog/SKILL.md
-      - core/components/skills/infer-features/SKILL.md
-      - core/config.yaml
-      - core/components/memory/standards/rules/user-questions.md
-    branch: plan/788/813-upgrade-feature-names-retire-intent-epic
-  - sha: 6de3047f
-    message: "docs(framework): update component, framework and design docs for the retirement (#809)"
-    files:
-      - docs/components/agents.md
-      - docs/components/plays.md
-      - docs/components/skills.md
-      - docs/design/briefs.md
-      - docs/design/playbook-catalog.md
-      - docs/framework/play-structure.md
-      - docs/philosophy/garura-reference-implementation.md
-    branch: plan/788/813-upgrade-feature-names-retire-intent-epic
-  - sha: 6afc403d
-    message: "docs(adr): record ADR 050 and update related ADRs (#809)"
-    files:
-      - docs/adr/017-folder-whitelist.md
-      - docs/adr/035-agents-work-only-from-memory.md
-      - docs/adr/_index.md
       - docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
     branch: plan/788/813-upgrade-feature-names-retire-intent-epic
-  - sha: 544d8498
-    message: "chore(stm): record run files for issue 813 (#813)"
+  - sha: ca8be262
+    message: "chore(stm): record PR 834 review round 1 run artifacts (#813)"
     files:
-      - .garura/project/issues/813/context/analysis.yaml
       - .garura/project/issues/813/context/porcelain.txt
       - .garura/project/issues/813/evidence/eval/eval-result.json
+      - .garura/project/issues/813/context/analysis.yaml
     branch: plan/788/813-upgrade-feature-names-retire-intent-epic
 excluded_files:
   []
