@@ -1,0 +1,3 @@
+ M core/tools/naming/check_old_names.py
+ M core/tools/naming/test_naming_tools.py
+?? .garura/project/issues/812/context/porcelain.txt
