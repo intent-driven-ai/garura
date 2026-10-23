@@ -253,6 +253,10 @@ def eval_followups(root):
     m = re.search(r"^\s*shape-slice:[^\n]*$", pn, re.M)
     check("follow-up: the Next-line map no longer sends shape-slice to build-epic",
           m and "build-epic" not in m.group(0) and "cut into" not in pn, m.group(0) if m else "")
+    for src in ("complete-discovery", "discover-capabilities"):
+        mm = re.search(r"^\s*%s:[^\n]*$" % src, pn, re.M)
+        check(f"follow-up: after {src}, the Next line names /shape-slice (ADR 049), not the old chain",
+              mm and "command: shape-slice" in mm.group(0), mm.group(0) if mm else "")
     check("follow-up: no Next entry sends a person to /shape-slice for a realized slice",
           not re.search(r"command:\s*shape-slice", pn), re.findall(r".{0,60}command:\s*shape-slice.{0,60}", pn))
     ag = read(root, "core/components/agents/product-os-keeper.md")
