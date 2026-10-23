@@ -1,56 +1,28 @@
+---
+# analyze_changeset.py output (C8 fast path)
+# issue: 795
 needs_judgment: false
+
 change_groups:
-- id: 3
-  commit_type: docs
-  scope: schema
-  issue: 795
-  subject: note how slice records written before v2 are read
-  files:
-  - core/components/memory/standards/schemas/product-os/slice.yaml
-- id: 4
-  commit_type: test
-  scope: eval
-  issue: 795
-  subject: add round-2 acceptance checks
-  files:
-  - .garura/project/issues/795/evidence/eval/eval_795.py
-- id: 5
-  commit_type: chore
-  scope: stm
-  issue: 795
-  subject: record round-2 review and commit-change run artifacts
-  files:
-  - .garura/project/issues/795/review/categories.yaml
-  - .garura/project/issues/795/review/context.yaml
-  - .garura/project/issues/795/review/design-findings-harness.yaml
-  - .garura/project/issues/795/review/design-findings-memory.yaml
-  - .garura/project/issues/795/review/pr.diff
-  - .garura/project/issues/795/review/runnable-checks.txt
-  - .garura/project/issues/795/review/round1/categories.yaml
-  - .garura/project/issues/795/review/round1/context.yaml
-  - .garura/project/issues/795/review/round1/decision-comment.md
-  - .garura/project/issues/795/review/round1/decision.yaml
-  - .garura/project/issues/795/review/round1/design-findings-harness.yaml
-  - .garura/project/issues/795/review/round1/design-findings-memory.yaml
-  - .garura/project/issues/795/review/round1/findings.yaml
-  - .garura/project/issues/795/review/round1/posted.json
-  - .garura/project/issues/795/review/round1/pr.diff
-  - .garura/project/issues/795/review/round1/quality-findings.yaml
-  - .garura/project/issues/795/review/round1/recommended_verdict.yaml
-  - .garura/project/issues/795/review/round1/runnable-checks.txt
-  - .garura/project/issues/795/context/commit-change/analysis.yaml
-  - .garura/project/issues/795/context/commit-change/porcelain.txt
+  - id: group-1
+    issue: 795
+    concern: "single-directory chore change"
+    commit_type: chore
+    scope: stm
+    subject: "update 3 files under .garura/project/issues/795/context/commit-change"
+    subject_source: script-draft  # orchestrator may reword in place
+    files:
+      - .garura/project/issues/795/context/commit-change/analysis.yaml
+      - .garura/project/issues/795/context/commit-change/exec-out.json
+      - .garura/project/issues/795/context/commit-change/porcelain.txt
+
 exclusions:
-- path: .garura/project/issues/795/status/
-  reason: gitignored (**/status/); not part of the changeset
+  []
+
 risks:
-  sensitive_files: []
-  breaking_changes: []
-  ambiguous_types: []
+  sensitive_files:
+    []
+
 eval_gates:
-  SE-1:
-    status: PASS
-    evidence: 5 groups, 32 files, each file in exactly one group
-  SE-5:
-    status: PASS
-    evidence: no sensitive patterns matched
+  SE-1: {status: PASS, evidence: "one script-classified group, one directory, one concern"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
