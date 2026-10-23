@@ -1,12 +1,7 @@
-Reviewer verdict (human, gate on): reject — fix all findings in this PR, then raise again
+Reviewer verdict (human, gate on): approve
 
-PR #834, round 1. Recommended verdict: approve (no P1).
+PR #834, round 2. Recommended verdict: approve (no P1, P2 or P3).
 
-The product owner's decision: the install does not move an existing model. The upgrade strategy for people on an older Garura or an older product model is parked as its own business intent (no ADR now).
+Round 1 fixes are in: the install never changes an existing product model; `migrate_model.py` is a script a person runs by hand, refuses paths outside the project, and undoes its moves on a failed step; the guard names `migrate_model.py` and also stops on old page file names; `check_kept` and `check_sources` are guarded; ADR 050 says "amends". Hidden eval: 58 passed, 0 failed.
 
-To fix in this PR:
-- The install (`install.py`, `installer/install.sh`) no longer runs the model migration.
-- `migrate_model.py` stays as a script a person runs by hand. It refuses a model path outside the project, and on a failed git step it undoes its moves and reports why (P2, P3).
-- The guard message names `migrate_model.py`, not a re-install.
-- `check_kept.py` and `check_sources.py` get the guard (P4).
-- ADR 050 says "amends" for ADR 035, the same word ADR 035 and ADR 017 use (P4).
+Parked: the upgrade strategy (#835). Later: other deprecated parts (#833), the 30 asking-a-person pointers (#831).
