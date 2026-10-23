@@ -1,5 +1,9 @@
-all tests run (failures listed above)
-VERDICT: PASS (0 gap(s))
-  "hits": 0,
-lint-components     "errors": 124, (135 on base)
-All checks passed!
+# runnable checks — round 3
+lint_play: VERDICT: PASS (0 gap(s))
+test_find_serving_slice.py: 18 passed, 0 failed
+test_grill_budget.py: 19 passed, 0 failed
+test_persist_slice.py: 89 passed, 0 failed
+test_shape_slice_scripts.py: 80 passed, 0 failed
+lint-components:     "errors": 124,
+ruff: All checks passed!
+eval_795: 143 passed, 0 failed

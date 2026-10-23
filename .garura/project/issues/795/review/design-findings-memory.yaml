@@ -1,20 +1,21 @@
-# check-change round 2 -- category: memory -- PR #840 (issue 795). Grounded on plan/788/base only.
+# check-change round 3 -- category: memory -- PR #840 (issue 795). Grounded on plan/788/base only.
 category: memory
 base: plan/788/base
-round: 2
+round: 3
 principles:
   - {id: M1, source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md v10, Slice", principle: "Spine slice entry keeps id, slug, feature_refs, record, vertical, intents; the removed fields go."}
   - {id: M2, source: "plan/788/base:docs/adr/049 + 048", principle: "Shaping writes the slice only; a slice has no domain home; the older chain is rebuilt later."}
-  - {id: M3, source: "plan/788/base:core/components/memory/standards/rules/pipeline-position.md, pipeline-next.md", principle: "One successor map; every user-invocable play listed or meta_exempt."}
+  - {id: M3, source: "plan/788/base:core/components/memory/standards/rules/pipeline-position.md, pipeline-next.md; docs/adr/051", principle: "One successor map; every user-invocable play listed or meta_exempt; a play with no single successor has command null."}
   - {id: M4, source: "plan/788/base:core/components/memory/standards/rules/user-questions.md, no-unbacked-recommendation.md", principle: "A rule file lists the fields and the plays wired to it."}
-round1_status:
-  - {round1: "P2 slice.yaml disagrees with what the play writes; deferred storage line", status: "yes, fixed", line: "slice.yaml lines 25-50, 74-85: the record is `slice` {id, slug, name, outcome, feature_refs, vertical, intents} plus top-level `surface` {id, name, persona_ref, user_action}; this matches the record persist_slice wrote by hand; deferred is labelled 'older chain (#837)'. Old fields (dependency_notes, acceptance_intent, metadata, features[]) are cut."}
-  - {round1: "P3 spine.yaml tree comment and fill rules describe two chains", status: "yes, fixed", line: "spine.yaml fill_rules shape-scope text and the tree comment (about lines 237-285): 'OLDER CHAIN (#837)' on slices/{slice}/epics, lens, _deferred; 'THE SLICE CHAIN (/shape-slice, ADR 049)' on slices/. It also says which old plays still write what."}
-  - {round1: "P3 pipeline-next: no hint; shape-scope has no predecessor; two shape loops side by side", status: "yes, fixed", line: "pipeline-next.md lines 22-23, 39-43, 58-62: both Discovery rows end '(/shape-slice <intent>)'; the Shaping loop is 'the live shape loop', the old one 'Older chain (#837), not the live loop ... nothing in the map routes into it'. Every user-invocable play is still mapped."}
-  - {round1: "P4 shape-slice not in the 'wired' table of no-unbacked-recommendation", status: "yes, fixed", line: "no-unbacked-recommendation.md line 56: `shape-slice` row, wired through record_questions proposals, SE-3, F10."}
-  - {round1: "P4 user-questions.md lacks kind, blocking, proposed_answer, basis", status: "yes, fixed", line: "user-questions.md lines 53-63: the four optional fields; and lines 72-75: match by question text, a reused id gets a new id (the behaviour tested by hand in the harness file)."}
-findings:
-  - {category: memory, severity: P3, path: core/components/memory/standards/schemas/product-os/slice.yaml, basis: "M1 + M2 (a schema must describe what the writer can reach)", message: "N1 (new, same root as the harness N1). slice.yaml says every record field is REQUIRED and checked, but a slice written before v2 that /shape-slice reuses keeps its old record shape, and slice_check then rejects it. The schema has no note for records written before v2 and no rule for who migrates them. Add a line for older records and the repair step.", status: open}
+  - {id: M5, source: "plan/788/base:core/components/memory/standards/schemas/product-os/slice.yaml (prior v1 contract) + ADR 049", principle: "A schema must describe what its writer can reach, including records already on disk."}
+round2_status:
+  - {round2: "N1 slice.yaml had no note for records written before v2", status: "yes, fixed", line: "slice.yaml lines 29-35: the note says a pre-v2 record (no name or outcome, surface kept under `slice`) is brought to v2 by persist_slice.py the next time /shape-slice reuses that slice; facts from the spine entry, name/outcome from the shaped slice, the surface moved to the top level, a missing surface part taken from the shaped slice's surface only if it is the slice's own; if a part is still missing the run stops, names it, the person fills the record and runs again; no install step migrates."}
+  - {round2: "match of the new note to persist_slice.py to_v2 (lines 294-340)", status: "matches", line: "to_v2 sets id, slug, name (from sl), outcome (from sl), feature_refs, vertical, intents only when empty, with facts taken from the spine entry (existing) and name/outcome from the shaped slice; moves slice.surface to top-level `surface`; fills surface parts from `surface` only when surface.name == existing.vertical (the 'slice's own' test); raises Refused naming the missing surface parts and the record path (`Fill those parts in <record>, then run again`). Module docstring (lines 36-43) says the same. Reached only on reuse of a record that exists; a missing record is written fresh (separate branch), which the schema does not need to mention."}
+findings: []
 verified_ok:
-  - "Spine slice entry (six fields) matches ontology v10 and the persist_slice writer, tested by hand; old fields on an entry are dropped and named in `dropped_fields`."
-  - "Rule files agree on the live loop and label the older chain (#837)."
+  - "Spine slice entry (six fields) matches ontology v10 and the persist_slice writer; the older-chain (#837) labels in spine.yaml, slice.yaml, pipeline-next.md and pipeline-position.md agree with ADR 048/049."
+  - "pipeline-next.md: shape-slice, shape-roadmap, lens plays, release-increment, fix-bug, refactor-code, learn-outcomes, merge-change now use command null per ADR 051; `next` row removed with the play; both Discovery rows route to /shape-slice <intent>."
+  - "Deleted work-intelligence shelf (work-map.yaml, operator-fit.md) and its _index.md entry: ADR 051 names the shelf and says it has no reader; git grep finds no remaining reference in core, docs/components, docs/philosophy or grounding."
+  - "naming.yaml one_word [] and naming.md match the dropped /next (ADR 051 Affects list). rename-map.yaml dropped author-features and rank-recommendations: their targets (author-epics, rank-actions) no longer exist as skills, so the entries point nowhere. Not named in ADR 051's Affects line; low concern."
+  - "surface-contract.md, epic.yaml surface_verified comment, no-unbacked-recommendation.md (next row replaced by shape-slice wired row), user-questions.md (four optional fields, match-by-text) are consistent with ADR 051 and 049."
+counts: {P0: 0, P1: 0, P2: 0, P3: 0}
