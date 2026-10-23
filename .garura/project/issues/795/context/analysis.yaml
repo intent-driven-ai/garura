@@ -1,0 +1,157 @@
+needs_judgment: false
+
+change_groups:
+  - id: shape-slice-new-play
+    issue: 795
+    commit_type: feat
+    scope: shape-slice
+    subject: "add the grill-and-assemble /shape-slice play with its scripts and checks"
+    files:
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/reference/ice.md
+      - core/components/plays/shape-slice/scripts/check_ready_slice.py
+      - core/components/plays/shape-slice/scripts/grounding_gate.py
+      - core/components/plays/shape-slice/scripts/persist_epics.py
+      - core/components/plays/shape-slice/scripts/test_validate_epics.py
+      - core/components/plays/shape-slice/scripts/validate_epics.py
+      - core/components/plays/shape-slice/stop-condition.yaml
+      - core/components/plays/shape-slice/scripts/find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/intent_touches.py
+      - core/components/plays/shape-slice/scripts/persist_fills.py
+      - core/components/plays/shape-slice/scripts/persist_slice.py
+      - core/components/plays/shape-slice/scripts/platform_adapter.py
+      - core/components/plays/shape-slice/scripts/record_approval.py
+      - core/components/plays/shape-slice/scripts/record_questions.py
+      - core/components/plays/shape-slice/scripts/slice_check.py
+      - core/components/plays/shape-slice/scripts/test_find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/test_persist_slice.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/plays/shape-slice/scripts/write_intent_page.py
+  - id: slice-spine-schemas
+    issue: 795
+    commit_type: feat
+    scope: model
+    subject: "add the slice and spine schema fields the new shape-slice reads"
+    files:
+      - core/components/memory/standards/schemas/product-os/slice.yaml
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+  - id: keeper-agent-retire-skills
+    issue: 795
+    commit_type: refactor
+    scope: agents
+    subject: "point product-os-keeper at shape-slice and retire author-epics and check-cut-tensions"
+    files:
+      - core/components/agents/product-os-keeper.md
+      - core/components/skills/author-epics/SKILL.md
+      - core/components/skills/check-cut-tensions/SKILL.md
+  - id: drop-next-play
+    issue: 836
+    commit_type: refactor
+    scope: plays
+    subject: "delete the /next play, rank-actions skill, work-intelligence shelf and command chain page"
+    files:
+      - core/components/memory/knowledge/work-intelligence/operator-fit.md
+      - core/components/memory/knowledge/work-intelligence/work-map.yaml
+      - core/components/plays/next/SKILL.md
+      - core/components/plays/next/reference/ice.md
+      - core/components/plays/next/scripts/check_model_agreement.py
+      - core/components/plays/next/scripts/check_stop_condition.py
+      - core/components/plays/next/scripts/derive_candidates.py
+      - core/components/plays/next/scripts/model_names.py
+      - core/components/plays/next/scripts/preflight.py
+      - core/components/plays/next/scripts/scan_model.py
+      - core/components/plays/next/scripts/session_stamp.py
+      - core/components/plays/next/scripts/test_derive_candidates.py
+      - core/components/plays/next/stop-condition.yaml
+      - core/components/skills/rank-actions/SKILL.md
+      - docs/command-chain.html
+  - id: closes-no-longer-point-to-next
+    issue: 836
+    commit_type: refactor
+    scope: plays
+    subject: "stop play closes, rules, schemas and glossary from pointing to /next"
+    files:
+      - core/components/memory/knowledge/_index.md
+      - core/components/memory/standards/rules/_index.md
+      - core/components/memory/standards/rules/naming.md
+      - core/components/memory/standards/rules/naming.yaml
+      - core/components/memory/standards/rules/no-unbacked-recommendation.md
+      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/memory/standards/rules/pipeline-position.md
+      - core/components/memory/standards/rules/rename-map.yaml
+      - core/components/memory/standards/rules/surface-contract.md
+      - core/components/memory/standards/schemas/product-os/epic.yaml
+      - core/components/memory/standards/templates/delivery-report.md
+      - core/components/plays/_shared/play-close.md
+      - core/components/plays/build-epic/SKILL.md
+      - core/components/plays/check-change/SKILL.md
+      - core/components/plays/commit-change/SKILL.md
+      - core/components/plays/create-play/SKILL.md
+      - core/components/plays/discover-capabilities/SKILL.md
+      - core/components/plays/discover-domains/SKILL.md
+      - core/components/plays/discover-intent/SKILL.md
+      - core/components/plays/fix-bug/SKILL.md
+      - core/components/plays/learn-outcomes/SKILL.md
+      - core/components/plays/list-focus-issues/SKILL.md
+      - core/components/plays/list-focus-issues/reference/ice.md
+      - core/components/plays/list-focus-issues/reference/kind-map.yaml
+      - core/components/plays/list-focus-issues/scripts/select_focus.py
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/propose-change/SKILL.md
+      - core/components/plays/record-decision/SKILL.md
+      - core/components/plays/refactor-code/SKILL.md
+      - core/components/plays/release-epic/SKILL.md
+      - core/components/plays/release-increment/SKILL.md
+      - core/components/plays/shape-agentic-lens/SKILL.md
+      - core/components/plays/shape-architecture-lens/SKILL.md
+      - core/components/plays/shape-marketing-lens/SKILL.md
+      - core/components/plays/shape-measure-lens/SKILL.md
+      - core/components/plays/shape-quality-lens/SKILL.md
+      - core/components/plays/shape-roadmap/SKILL.md
+      - core/components/plays/shape-run-lens/SKILL.md
+      - core/components/plays/shape-scope/SKILL.md
+      - core/components/plays/shape-ux-lens/SKILL.md
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/validate-epic/SKILL.md
+      - core/components/plays/validate-epic/scripts/stamp_epic.py
+      - core/grounding/glossary.md
+  - id: adr-051-drop-next
+    issue: 836
+    commit_type: docs
+    scope: adr
+    subject: "add ADR 051 dropping /next and add forward pointers to older ADRs"
+    files:
+      - docs/adr/020-advisory-play-self-clean.md
+      - docs/adr/022-surface-contract.md
+      - docs/adr/023-three-execution-trinities.md
+      - docs/adr/045-a-drive-is-now-called-a-loop.md
+      - docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+      - docs/adr/_index.md
+      - docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+  - id: docs-shape-slice-and-guides
+    issue: 795
+    commit_type: docs
+    scope: docs
+    subject: "update component docs, philosophy, CLAUDE.md, AGENTS.md and managing-work for shape-slice"
+    files:
+      - .garura/user-provided/managing-work.md
+      - AGENTS.md
+      - CLAUDE.md
+      - docs/components/agents.md
+      - docs/components/plays.md
+      - docs/components/skills.md
+      - docs/philosophy/garura-reference-implementation.md
+  - id: 795-run-records
+    issue: 795
+    commit_type: chore
+    scope: stm
+    subject: "record issue 795 run evidence and analysis"
+    files:
+      - .garura/project/issues/795/evidence/eval/eval-result.json
+      - .garura/project/issues/795/context/analysis.yaml
+      - .garura/project/issues/795/context/porcelain.txt
+
+exclusions: []
+
+risks:
+  sensitive_files: []

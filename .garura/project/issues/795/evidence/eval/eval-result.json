@@ -1,5 +1,5 @@
 {
-  "passed": 91,
+  "passed": 93,
   "failed": 0,
   "results": [
     {
@@ -371,6 +371,16 @@
       "check": "follow-up: the Next-line map no longer sends shape-slice to build-epic",
       "ok": true,
       "detail": "  shape-slice:          { command: null,           why: \"the slice is shaped; the shaping loop's next play, the plan play (#818), is not built yet\" }"
+    },
+    {
+      "check": "follow-up: after complete-discovery, the Next line names /shape-slice (ADR 049), not the old chain",
+      "ok": true,
+      "detail": "  complete-discovery:      { command: shape-slice,          why: \"the model holds the business intents \u2014 shape the slice that serves one (/shape-slice <intent>)\" }"
+    },
+    {
+      "check": "follow-up: after discover-capabilities, the Next line names /shape-slice (ADR 049), not the old chain",
+      "ok": true,
+      "detail": "  discover-capabilities:     { command: shape-slice,     why: \"the capabilities are detailed \u2014 shape the slice that serves a business intent\" }"
     },
     {
       "check": "follow-up: no Next entry sends a person to /shape-slice for a realized slice",
