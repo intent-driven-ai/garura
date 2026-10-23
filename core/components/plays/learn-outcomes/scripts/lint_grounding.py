@@ -14,8 +14,9 @@ LINK INTEGRITY — never content quality (that is the rubric eval's job). Concre
     thinness only — "fully understandable" is judged by the eval, not here.
   - SPINE CONSISTENCY (when --spine is given): every spine node points at a grounding
     doc that exists and whose kind matches the node type; every epic's
-    feature_refs resolve to real feature nodes; no orphan grounding doc
-    sits on disk unreferenced by the spine
+    feature_refs resolve to real feature nodes; every business intent a slice
+    serves (its `intents`) has a page at intents/<id>.md (a slice naming none is a
+    warning); no orphan grounding doc sits on disk unreferenced by the spine
   - ICE NODES (ontology v6, #759; when the spine has an `ices` list): each entry is for
     one real capability or feature with the matching `for_kind`, names no business
     intent, and points at an ice.md with non-empty Intent, Context and Expectation
@@ -408,12 +409,22 @@ def check_spine(root, spine_path, errors, warnings, counts):
         check_doc(full, text, "epic", errors, warnings)
         counts["epic"] = counts.get("epic", 0) + 1
 
-    # --- slices: record exists ---
+    # --- slices: record exists, and each business intent it serves has a page ---
     for s in slices:
-        sid = s.get("id", "<no-id>")
+        sid = s.get("id") or s.get("slug") or "<no-id>"
         rec = s.get("record")
         if rec and not os.path.isfile(os.path.join(root, rec)):
             errors.append(f"spine slice '{sid}': record not found at '{rec}'")
+        # a slice serves one or more business intents (ontology v10, #829). A slice with none
+        # listed is a gap to close, not a broken link: older spines carry no `intents` field.
+        served = s.get("intents") or []
+        if not served:
+            warnings.append(f"spine slice '{sid}': names no business intent it serves yet — "
+                            f"a slice serves one or more (ontology v10)")
+        for iid in served:
+            if not os.path.isfile(os.path.join(root, "intents", f"{iid}.md")):
+                errors.append(f"spine slice '{sid}': serves business intent '{iid}', but there is "
+                              f"no page at 'intents/{iid}.md'")
 
     # --- ICE nodes (ontology v6, #759) ---
     check_ices(root, spine, errors, warnings, counts)
