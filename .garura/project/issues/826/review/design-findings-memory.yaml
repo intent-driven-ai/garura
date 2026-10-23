@@ -1,88 +1,33 @@
-# check-change Step 3, Layer 2 -- category: memory -- PR #827
-# Grounded only in plan/788/base (committed) sources. Severity per rules/pr.md P1-P4.
+# check-change round 2, Layer 2 -- category: memory -- PR #827
+# Grounded only in plan/788/base committed sources. Severity per rules/pr.md.
 category: memory
 base: plan/788/base
+round: 2
 principles:
-  - id: G1
-    principle: "IDD routing table: failure conditions go to eval author only (builder never); goal, constraints, all Context, success scenarios go to the builder; recovery reaches the builder only as the resulting handoff plan; validator checks via evals plus Context plus recovery conditions."
-    source: "plan/788/base:docs/philosophy/idd-principles.md  'The Routing Table' (lines 122-141)"
-  - id: G2
-    principle: "Constraint vs failure rule: would knowing it change how the builder writes code? yes = constraint, no = failure condition. Validator reports symptoms, never condition ids."
-    source: "plan/788/base:docs/philosophy/idd-principles.md  'Constraint-Failure Classification Rule' and 'Symptom-Based Feedback Protocol'"
-  - id: G3
-    principle: "The ICE stays in one place; a Story writes its own scope from two ICE rather than carrying a copy that can drift. No work item carries an ICE."
-    source: "plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md  Decision 3 and Consequences (lines 45, 83)"
-  - id: G4
-    principle: "An ICE has three parts: Intent (Goal, Limit, Fails if), Context (Read, Never read, Persona, Scope), Expectation (Scenario, Done means, Quality need). It has no recovery lines. Recovery generation (one entry per failure condition) is defined for a play's Expectation."
-    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ice.yaml; docs/adr/047-the-ice-is-its-own-node.md; core/components/memory/standards/rules/expectation-generation.md (lines 3, 33-48)"
-  - id: G5
-    principle: "A change of a decided design needs a decision record that amends it."
-    source: "plan/788/base:docs/adr/048-...md ('What this changes in older ADRs'); same basis as 816 finding M1"
+  - {id: G1, source: "plan/788/base:docs/philosophy/idd-principles.md 'The Routing Table'", principle: "Failure conditions: eval author only. Goal, constraints, all Context, success scenarios: builder. Recovery: builder gets only the handoff plan. Validator: evals + Context + recovery."}
+  - {id: G3, source: "plan/788/base:docs/adr/048 Decision 3", principle: "ICE stays in one place; a Story writes its scope from two ICE; no work item carries an ICE."}
+  - {id: G4, source: "plan/788/base:schemas/product-os/ice.yaml; rules/expectation-generation.md lines 3-12 (play scope)", principle: "ICE words are Goal, Limit, Fails if; an ICE has no recovery lines."}
+  - {id: G5, source: "plan/788/base:docs/adr/048", principle: "A change of a decided design needs a decision record."}
+round1_fixes:
+  M2: {fixed: yes, line: "ontology.md:473 -- 'The plan play reads it ... writes the Story's scope of work and Context guidance and the slice's hidden file from them'; also names the Context copy as drift"}
+  M4: {fixed: yes, line: "expectation-generation.md:67-84 -- new section 'A story's recovery (product ICE)'; when/way back/who fixes map to trigger/direction/handoff"}
+  M5: {fixed: yes, line: "ontology.md:114 and :427 -- running eval reads 'only the recovery parts of each entry (when, way back, who fixes), never the failure conditions'; rule file line 83 says the same"}
+  M6: {fixed: yes, line: "ontology.md:636 -- Story scope of work now says 'the limits' (also lines 105, 123)"}
+  name: {fixed: yes, line: "ontology.md:23 'the product owner'; the v5 changelog line also fixed; no 'Kapil' left in either core file or in 816/826 context records"}
 routing_table_check:
-  - row: "Goal (Intent): builder yes, eval author yes"
-    result: holds
-    note: "Story scope of work carries goals; eval play reads stories."
-  - row: "Constraints: builder yes, eval author yes"
-    result: holds
-    note: "Story carries constraints (Limit lines); examples moved to true constraints."
-  - row: "Failure conditions: builder never, eval author yes, validator via evals"
-    result: holds_with_note
-    note: "Off the Story; in hidden file only; Plan play writes, eval play reads, builder and the build context sub-agent barred. See M3 (file is plaintext, barrier by rule) and M5 (running eval reads the file that holds them)."
-  - row: "Context: builder all, eval author yes, validator yes"
-    result: holds
-    note: "Context guidance on Story; context sub-agent collects it for the builder; eval carries it at run time."
-  - row: "Success scenarios: builder yes, eval author yes, validator via evals"
-    result: holds
-    note: "Expectations stay on the Story."
-  - row: "Recovery: builder only the handoff plan; validator builds it"
-    result: holds
-    note: "Q35: handoff plan from the recovery condition, never names condition, id or check; goes to builder or person."
-  - row: "Encrypted evals: builder never; implementation: builder produces"
-    result: holds
-    note: "Builder never reads the eval or the evals folder."
-unchanged_kinds_check:
-  ICE: "Kind text unchanged. Line 473 'Only a Story reads it' is now incomplete: the Plan play also reads the ICE to write the hidden file (see M2). No other contradiction; ICE keeps its three parts and no recovery lines."
-  Epic: "Unchanged and consistent: no ICE, title says what a person sees, read by the slice eval with its stories. No contradiction."
+  - {row: Goal, result: holds}
+  - {row: Constraints, result: holds, note: "carried as the Story's 'limits'; ICE word"}
+  - {row: Failure conditions, result: holds, note: "hidden file only; builder and context sub-agent barred (:426); running eval reads recovery parts only (:427); enforcement is by rule (deferred #828)"}
+  - {row: Context, result: holds}
+  - {row: Success scenarios, result: holds}
+  - {row: Recovery, result: holds, note: "builder gets only the handoff plan (:429)"}
+  - {row: Encrypted evals / Implementation, result: holds}
 findings:
-  - category: memory
-    id: M1
-    severity: P3
-    path: core/components/memory/standards/schemas/product-os/ontology.md
-    basis: "G5; ADR 048 Decision 3 (base). v10 adds a new artifact (slice hidden file), a new Story property (Context guidance), and narrows what a Story says, but adds no ADR or amendment. Same pattern as 816 M1 (rated P2 there because it reversed an accepted decision; here ADR 048 only says a Story writes its scope from two ICE, which still holds, so P3)."
-    message: "Hidden file and Context guidance are new design decisions with no decision record."
-    status: open
-  - category: memory
-    id: M2
-    severity: P3
-    path: core/components/memory/standards/schemas/product-os/ontology.md
-    basis: "G3 and G4. ICE kind (line 444 and rule at line 473) still says 'a Story reads its ICE ... writes its own scope of work' and 'only a Story reads it'. v10 makes the Plan play also read both ICE to write the hidden file, and has the Story hold a copy of the Context lines (the ICE's rules for the context sub-agent)."
-    message: "ICE kind not updated for the new reader (hidden file) and the second copy of its Context lines; two derived copies per ICE raise the drift ADR 048 wanted to avoid. The drift rule (rewrite together) mitigates it."
-    status: open
-  - category: memory
-    id: M3
-    severity: P3
-    path: core/components/memory/standards/schemas/product-os/ontology.md
-    basis: "G1. Routing table and IDD text say the barrier holds because evals are encrypted and failure conditions stay hidden from the builder. v10 keeps failure conditions in a plaintext file in the repo, protected only by the rule 'a builder never reads it'."
-    message: "Barrier for the hidden file is by rule, not by encryption; state the enforcement (who checks it) or say it is deferred."
-    status: open
-  - category: memory
-    id: M4
-    severity: P3
-    path: core/components/memory/standards/schemas/product-os/ontology.md
-    basis: "G4. expectation-generation.md defines 'one recovery per failure condition' for a play's Expectation; an ICE has no recovery lines. v10 cites it for the Plan play writing story recovery conditions."
-    message: "Rule is cited outside its stated scope (plays, not product ICE); the base rule does not yet cover this use."
-    status: open
-  - category: memory
-    id: M5
-    severity: P4
-    path: core/components/memory/standards/schemas/product-os/ontology.md
-    basis: "G1 (validator gets failure conditions 'via evals', not raw)."
-    message: "The running eval reads 'the recovery conditions in the hidden file', but each entry sits beside its failure condition in the same file; say it reads recovery entries only."
-    status: open
-  - category: memory
-    id: M6
-    severity: P4
-    path: core/components/memory/standards/schemas/product-os/ontology.md
-    basis: "G4 (ICE words: Goal, Limit, Fails if) against Story words (goals, constraints)."
-    message: "Story says 'constraints' where the ICE says 'limits'; one term would read clearer."
-    status: open
+  - {category: memory, id: M1, severity: P3, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G5; ADR 048", message: "Hidden file and Context guidance have no decision record.", status: "deferred: #824"}
+  - {category: memory, id: M2, severity: P3, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G3", message: "ICE kind now names the plan play as reader (:473).", status: fixed}
+  - {category: memory, id: M3, severity: P3, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G1", message: "Hidden file barrier is by rule, not encryption.", status: "deferred: #828"}
+  - {category: memory, id: M4, severity: P3, path: core/components/memory/standards/rules/expectation-generation.md, basis: "G4", message: "Rule now covers a story's recovery (:67-84).", status: fixed}
+  - {category: memory, id: M5, severity: P4, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G1", message: "Running eval reads only the recovery parts (:114, :427).", status: fixed}
+  - {category: memory, id: M6, severity: P4, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G4", message: "Story says 'limits' (:636).", status: fixed}
+  - {category: memory, id: M7, severity: P4, path: core/components/memory/standards/rules/expectation-generation.md, basis: "G4; the file's own base scope note (lines 1-12) says it covers the play case only and names the feature case as a separate generator", message: "New story section sits in a file whose title, opening line and scope note still say plays only; the note now contradicts the section. Widen the scope note (a direct edit).", status: open}
+  - {category: memory, id: M8, severity: P4, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G4 (Goal, Limit, Fails if); the same file uses 'limits' elsewhere after the M6 fix", message: "v10 changelog line (:810) still says 'the goal, the constraints' and ':636' reads 'the limits it must stay inside (the limits)', which repeats itself. Say 'limits' once.", status: open}

@@ -1,0 +1,57 @@
+# check-change Step 4 -- consolidated findings, PR #827 (issue 826).
+# Runnable checks: runnable-checks.txt.
+findings:
+- category: memory
+  id: M1
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G5; ADR 048 Decision 3 (base). v10 adds a new artifact (slice hidden file), a new Story property (Context
+    guidance), and narrows what a Story says, but adds no ADR or amendment. Same pattern as 816 M1 (rated P2 there
+    because it reversed an accepted decision; here ADR 048 only says a Story writes its scope from two ICE, which
+    still holds, so P3).
+  message: Hidden file and Context guidance are new design decisions with no decision record.
+  status: open
+- category: memory
+  id: M2
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G3 and G4. ICE kind (line 444 and rule at line 473) still says 'a Story reads its ICE ... writes its own
+    scope of work' and 'only a Story reads it'. v10 makes the Plan play also read both ICE to write the hidden file,
+    and has the Story hold a copy of the Context lines (the ICE's rules for the context sub-agent).
+  message: ICE kind not updated for the new reader (hidden file) and the second copy of its Context lines; two derived
+    copies per ICE raise the drift ADR 048 wanted to avoid. The drift rule (rewrite together) mitigates it.
+  status: open
+- category: memory
+  id: M3
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G1. Routing table and IDD text say the barrier holds because evals are encrypted and failure conditions
+    stay hidden from the builder. v10 keeps failure conditions in a plaintext file in the repo, protected only by
+    the rule 'a builder never reads it'.
+  message: Barrier for the hidden file is by rule, not by encryption; state the enforcement (who checks it) or say
+    it is deferred.
+  status: open
+- category: memory
+  id: M4
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G4. expectation-generation.md defines 'one recovery per failure condition' for a play's Expectation; an
+    ICE has no recovery lines. v10 cites it for the Plan play writing story recovery conditions.
+  message: Rule is cited outside its stated scope (plays, not product ICE); the base rule does not yet cover this
+    use.
+  status: open
+- category: memory
+  id: M5
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G1 (validator gets failure conditions 'via evals', not raw).
+  message: The running eval reads 'the recovery conditions in the hidden file', but each entry sits beside its failure
+    condition in the same file; say it reads recovery entries only.
+  status: open
+- category: memory
+  id: M6
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'G4 (ICE words: Goal, Limit, Fails if) against Story words (goals, constraints).'
+  message: Story says 'constraints' where the ICE says 'limits'; one term would read clearer.
+  status: open

@@ -1,0 +1,3 @@
+check_ontology exit=0
+test_edit_ontology_scripts exit=0
+lint-components     "errors": 121, (121 on base)
