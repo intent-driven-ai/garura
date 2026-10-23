@@ -24,8 +24,18 @@ Issue: #826 (plan 788, under #794).
 - core/components/memory/standards/schemas/product-os/ontology.md (v9)
 - .garura/project/issues/816/context/edit-ontology/draft-questions.md (Q28, Q29, Q31 as agreed)
 
+## Review round 1 (PR #827)
+
+The product owner, at the review: "fix the findinga and yes add encrypt". The fixes, in this change:
+- M2: the ICE section says "only a Story reads it"; the plan play also reads it, when it makes a Story and the hidden file. (This adds ICE to Touches.)
+- M4: the recovery rule covers stories too (`standards/rules/expectation-generation.md`, new section).
+- M5: the running eval reads only the recovery parts of the hidden file.
+- M6: the Story says "limits" where the ICE says "limits" (one word for one thing).
+- Two old lines carry a real first name; it becomes "the product owner".
+
 ## Touches
 
 Story
 Slice
 Plan
+ICE

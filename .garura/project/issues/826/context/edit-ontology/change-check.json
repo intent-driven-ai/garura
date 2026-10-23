@@ -1,10 +1,12 @@
 {
   "changed_kinds": [
+    "ICE",
     "Plan",
     "Slice",
     "Story"
   ],
   "allowed_kinds": [
+    "ICE",
     "Plan",
     "Slice",
     "Story"
