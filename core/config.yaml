@@ -149,13 +149,12 @@ grounding-eval:
 # Stage-centric sub-folders, one per SDLC stage. Operational artifacts
 # (checkpoints, status, evidence) for product-scoped plays live at the
 # product root using underscore-prefixed subfolders, orthogonal to the
-# stage layout. The 6 stage folders are all direct children of base-path.
+# stage layout. The stage folders are all direct children of base-path. The v1 `specification/` and
+# `scope/` folders were retired with the intent-epic pipeline (ADR 050).
 #
 # Layout (defect D1 fix 2026-04-14; D8/D9 updates 2026-04-14):
 #   .garura/product/
 #   ├── user-provided/     user inputs (brief + future notes / questions)
-#   ├── specification/     market-brief, project-profile, quality-profile, domain-selection, domain-grounding (opportunity + domain shape — what the product SPACE is)
-#   ├── scope/             mvp-recommendation, scope.yaml, enriched-capabilities, validation-intent-epics, epics/ (v1 scope contract — what we're BUILDING)
 #   ├── architecture/      build-architecture output
 #   ├── experience/        design-experience output
 #   ├── research/          product domain library — KB copies (with provenance header, origin: kb) + researched domains (origin: stm_research), both scoped to this product run (Defect 8 Pull-to-Product)
@@ -172,8 +171,6 @@ product:
   ontology: standards/schemas/product-os/ontology.md
   directories:
     user-provided: user-provided/
-    specification: specification/
-    scope: scope/
     architecture: architecture/
     experience: experience/
     research: research/

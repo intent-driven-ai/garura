@@ -5,7 +5,7 @@ present in their input contract. Defines the four-step resolution order,
 authority semantics, trace output requirements, and exemptions — and the decision trace every
 agent keeps once it works through the memory tool (ADR 035 §6, ADR 037).
 
-Referenced by: tech-designer, feature-steward, repo-orchestrator
+Referenced by: tech-designer, repo-orchestrator
 
 ## Overview
 
