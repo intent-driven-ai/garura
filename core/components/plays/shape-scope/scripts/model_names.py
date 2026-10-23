@@ -5,7 +5,7 @@ model_names.py — stop on a product model written before the feature rename (#8
 Issue #807 renamed the model's "functionality" to "feature". A script that reads an old
 model with the new names finds no features and goes on as if the model were empty. This
 guard makes that loud: on any old key it prints a plain message naming the key, the file
-and the upgrade step, and exits with code 2.
+and the script that moves the model (migrate_model.py), and exits with code 2.
 
 Old names it stops on:
   functionalities:          (spine list, or a slice record's slice.functionalities)
@@ -31,7 +31,7 @@ OLD_KEYS = {
 }
 
 UPGRADE_STEP = (
-    "Upgrade the model: re-install Garura (install-garura migrates the model), or run\n"
+    "To upgrade the model to the new names, a person runs the script that moves it:\n"
     "  python3 <install-garura>/scripts/migrate_model.py --target <project>"
 )
 

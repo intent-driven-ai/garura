@@ -30,6 +30,9 @@ import sys
 
 import yaml
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 QUOTE = re.compile(r"[\"“]([^\"“”]{4,})[\"”]")
 MARKS = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "–": "-", "—": "-", " ": " "})
 OPEN = re.compile(r"recorded as an open question|open question for the person|to be confirmed by the person"
@@ -109,7 +112,7 @@ def main(argv=None):
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     try:
-        manifests = [yaml.safe_load(read(p)) for p in args.manifest]
+        manifests = [model_names.check_model(yaml.safe_load(read(p)), p) for p in args.manifest]
         text = None
         if args.source_text:
             parts = []

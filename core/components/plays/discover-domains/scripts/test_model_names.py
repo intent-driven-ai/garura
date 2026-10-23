@@ -12,6 +12,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 failures = []
+MOVE_STEP = "python3 <install-garura>/scripts/migrate_model.py --target <project>"
 
 
 def check(label, ok, detail=""):
@@ -42,7 +43,9 @@ def stops(label, kind, text, old):
     code, err, _ = guard(kind, text)
     check(f"{label}: exits 2", code == 2, f"exit {code}, stderr {err!r}")
     check(f"{label}: names the old key '{old}'", old in err, err)
-    check(f"{label}: names the upgrade step", "upgrade" in err.lower() and "migrate_model" in err, err)
+    check(f"{label}: names the script that moves the model", MOVE_STEP in err, err)
+    check(f"{label}: does not tell the person to re-install",
+          "re-install" not in err.lower() and "reinstall" not in err.lower(), err)
     check(f"{label}: names the file", ("_spine.yaml" if kind == "spine" else "slice.yaml") in err, err)
 
 
@@ -71,8 +74,29 @@ with tempfile.TemporaryDirectory() as root:
     r = subprocess.run([sys.executable, os.path.join(HERE, "lint_grounding.py"),
                         "--root", root, "--spine", spine], capture_output=True, text=True)
     check("lint_grounding exits non-zero", r.returncode != 0, f"exit {r.returncode}")
-    check("lint_grounding prints the upgrade step, not a zero-feature report",
-          "migrate_model" in r.stderr and "upgrade" in r.stderr.lower(), r.stderr + r.stdout)
+    check("lint_grounding names the script that moves the model, not a zero-feature report",
+          MOVE_STEP in r.stderr, r.stderr + r.stdout)
+
+print("check_kept and check_sources on an old model")
+with tempfile.TemporaryDirectory() as root:
+    base = os.path.join(root, "product")
+    os.makedirs(os.path.join(base, "product-os"))
+    with open(os.path.join(base, "product-os", "_spine.yaml"), "w", encoding="utf-8") as fh:
+        fh.write("domains: []\nfunctionalities:\n  - id: f1\n")
+    subprocess.run(["git", "-C", root, "init", "-q"], check=True)
+    r = subprocess.run([sys.executable, os.path.join(HERE, "check_kept.py"), "--product-base", base,
+                        "--base-ref", "HEAD", "--out", os.path.join(root, "kept.json")],
+                       capture_output=True, text=True)
+    check("check_kept stops on an old spine (exit 2)", r.returncode == 2, f"exit {r.returncode} {r.stderr}")
+    check("check_kept names the script that moves the model", MOVE_STEP in r.stderr, r.stderr + r.stdout)
+    manifest = os.path.join(root, "enrich-manifest.yaml")
+    with open(manifest, "w", encoding="utf-8") as fh:
+        fh.write("enrich:\n  capability: {doc: d/c/capability.md}\n  functionalities:\n  - {doc: d/c/f1/f.md}\n")
+    caps = os.path.join(HERE, "..", "..", "discover-capabilities", "scripts", "check_sources.py")
+    r = subprocess.run([sys.executable, caps, "--manifest", manifest, "--product-base", base,
+                        "--out", os.path.join(root, "sources.json")], capture_output=True, text=True)
+    check("check_sources stops on an old manifest (exit 2)", r.returncode == 2, f"exit {r.returncode} {r.stderr}")
+    check("check_sources names the script that moves the model", MOVE_STEP in r.stderr, r.stderr + r.stdout)
 
 if failures:
     print(f"\n{len(failures)} failed")
