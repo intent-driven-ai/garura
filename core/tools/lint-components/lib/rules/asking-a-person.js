@@ -2,6 +2,12 @@
 
 // A play or loop that asks a person a question must point to the shared rule for asking a
 // person, memory/standards/rules/asking-a-person.md (#821, follows #820).
+//
+// Only the play's own steps count, both for the "asks a person" signal and for the pointer:
+// the body after the frontmatter, in the `## Workflow` section (with any `## Phase` / `## Step`
+// headings inside it). The pointer may also sit in the Role / Pre-flight text before the
+// workflow. A play with no `## Workflow` section is read whole, minus its reference and note
+// sections. The frontmatter is never read: a description that mentions approval is not a step.
 
 const fs = require('fs');
 
@@ -19,20 +25,78 @@ const ASKS_A_PERSON = [
   /\binterviews?\s+the\s+(?:user|person)\b/i,
 ];
 
-function asksAPerson(content) {
+// Sections that are references or notes about the play, not its steps.
+const NOT_STEPS = /^(?:references?|related|compilation metadata|compiled from|compiled note|recompile note|direct-edit deviation note|per-environment migration note)\b/i;
+const WORKFLOW = /^workflow\b/i;
+const INSIDE_WORKFLOW = /^(?:phase|step)\b/i;
+
+// Split the file into level-2 sections, skipping the frontmatter and ignoring headings inside
+// code fences. Each section: { title, lines: [{ n, text }] }. Text before the first `## ` is
+// the section with title ''.
+function sections(content) {
   const lines = content.split('\n');
-  for (let i = 0; i < lines.length; i++) {
-    for (const signal of ASKS_A_PERSON) {
-      if (signal.test(lines[i])) return { line: i + 1, text: lines[i].trim() };
+  let start = 0;
+  if (lines[0] === '---') {
+    const end = lines.indexOf('---', 1);
+    if (end > 0) start = end + 1;
+  }
+  const out = [{ title: '', lines: [] }];
+  let fence = false;
+  for (let i = start; i < lines.length; i++) {
+    const text = lines[i];
+    if (/^\s*(```|~~~)/.test(text)) fence = !fence;
+    const h = !fence && /^##\s+(.*)$/.exec(text);
+    if (h) out.push({ title: h[1].trim(), lines: [] });
+    out[out.length - 1].lines.push({ n: i + 1, text });
+  }
+  return out;
+}
+
+// The play's steps (where a person may be asked) and the wider text where the pointer counts.
+function stepRegions(content) {
+  const all = sections(content);
+  const w = all.findIndex((s) => WORKFLOW.test(s.title));
+  const keep = (s) => !NOT_STEPS.test(s.title);
+  if (w < 0) {
+    const body = all.filter(keep);
+    return { steps: body, pointer: body };
+  }
+  let end = w + 1;
+  while (end < all.length && INSIDE_WORKFLOW.test(all[end].title)) end++;
+  const steps = all.slice(w, end);
+  const pointer = all.slice(0, w).filter(keep).concat(steps);
+  return { steps, pointer };
+}
+
+// A signal may wrap onto the next line ("Checkpoint" then "(class: standard)"), so each line is
+// also read joined with the one after it.
+function findSignal(regions) {
+  const hit = (text) => ASKS_A_PERSON.some((signal) => signal.test(text));
+  for (const s of regions) {
+    for (let i = 0; i < s.lines.length; i++) {
+      const l = s.lines[i];
+      const next = s.lines[i + 1];
+      if (hit(l.text)) return { line: l.n, text: l.text.trim() };
+      if (next && !hit(next.text) && hit(`${l.text.trim()} ${next.text.trim()}`)) {
+        return { line: l.n, text: l.text.trim() };
+      }
     }
   }
   return null;
 }
 
+function asksAPerson(content) {
+  return findSignal(stepRegions(content).steps);
+}
+
+function namesTheRule(content) {
+  return stepRegions(content).pointer.some((s) => s.lines.some((l) => l.text.includes(RULE_FILE)));
+}
+
 function checkPlay(component) {
   const content = fs.readFileSync(component.file, 'utf8');
   const asks = asksAPerson(content);
-  if (!asks || content.includes(RULE_FILE)) return [];
+  if (!asks || namesTheRule(content)) return [];
   return [{
     file: component.file,
     rule: RULE_ID,
@@ -50,4 +114,4 @@ function check(components) {
   return out;
 }
 
-module.exports = { check, checkPlay, asksAPerson, RULE_ID };
+module.exports = { check, checkPlay, asksAPerson, namesTheRule, RULE_ID };

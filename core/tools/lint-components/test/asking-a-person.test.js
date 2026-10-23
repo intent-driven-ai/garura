@@ -14,15 +14,19 @@ const ASKS = '**Step 2 — Checkpoint 1** · Owner: play · Checkpoint (class: s
 const POINTER = 'Every draft shown follows `standards/rules/asking-a-person.md`.\n';
 const SILENT = '**Step 1 — Count the files** · Owner: play (script)\nRun the script; no one is asked.\n';
 
-function play(body) {
+function play(body, opts = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'asking-'));
   fs.mkdirSync(path.join(dir, 'plays', 'shape-thing'), { recursive: true });
   const file = path.join(dir, 'plays', 'shape-thing', 'SKILL.md');
-  fs.writeFileSync(file, `---\nname: shape-thing\ndescription: x\n---\n\n# shape-thing\n\n## Workflow\n${body}`);
+  const description = opts.description || 'x';
+  const before = opts.before || '';
+  const after = opts.after || '';
+  fs.writeFileSync(file, `---\nname: shape-thing\ndescription: ${description}\n---\n\n# shape-thing\n\n` +
+    `${before}## Workflow\n${body}${after}`);
   return { dir, file };
 }
-function rules(body) {
-  const { file } = play(body);
+function rules(body, opts) {
+  const { file } = play(body, opts);
   return checkPlay({ file, name: 'shape-thing', type: 'play' }).map((v) => v.rule);
 }
 
@@ -31,6 +35,26 @@ t('a play that asks a person and points to the rule passes', rules(ASKS + POINTE
 t('a play that asks no one passes', rules(SILENT), []);
 t('a play that waits for a typed reply and has no pointer fails',
   rules('Show the summary and wait for the typed approval.\n'), [RULE_ID]);
+
+// Only the play's own steps count: never the frontmatter, never the reference or note sections.
+t('a play whose only signal is in the frontmatter description passes',
+  rules(SILENT, { description: 'Lands the change on a person\'s typed approval; it asks for approval first.' }), []);
+t('a play whose only signal is in a note section after the workflow passes',
+  rules(SILENT, { after: '\n## Direct-edit deviation note (#1)\nThis pipeline is interactive; it asks for approval.\n' }), []);
+t('a play that asks in a step but names the rule only under References fails',
+  rules(SILENT + ASKS, { after: '\n## References\n- ' + POINTER }), [RULE_ID]);
+t('a play that asks in a step but names the rule only in Compilation Metadata fails',
+  rules(ASKS, { after: '\n## Compilation Metadata\n| rules | asking-a-person.md |\n' }), [RULE_ID]);
+t('a play that asks in a step and names the rule in the workflow passes',
+  rules(SILENT + ASKS + POINTER, { after: '\n## References\n- nothing\n' }), []);
+t('a play that names the rule in its Pre-flight, before the workflow, passes',
+  rules(ASKS, { before: '## Pre-flight\n' + POINTER + '\n' }), []);
+t('a play that asks in a Phase heading inside the workflow and has no pointer fails',
+  rules(SILENT + '\n## Phase 2 — Review\n' + ASKS), [RULE_ID]);
+t('a checkpoint signal wrapped onto the next line still counts',
+  rules('**Step 4 — Confirm** · Owner: play · Checkpoint\n(class: standard, pinned)\n'), [RULE_ID]);
+t('a heading inside a code fence does not end the workflow',
+  rules(SILENT + '```\n## References\n```\n' + ASKS), [RULE_ID]);
 
 // Through the linter itself, with --target on any folder that holds plays/<name>/SKILL.md.
 function lint(body) {
