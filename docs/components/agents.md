@@ -65,13 +65,9 @@ Garura avoids both extremes:
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
 | `result-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
 | `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-epic`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
-| `epic-expectation-crafter` | expectation | epic-crafter | opus | Generates the Expectations block (success_scenario + recovery) for product-layer intent epics via `draft-epic-expectation` |
 | `evals-engineer` | evaluation | engineer | sonnet | Engineers verification evals from specifications, compartmentalized from the implementer — steelman refutation evals for `/build-epic`, legacy encrypted flows via `author-encrypted-evals` |
-| `feature-steward` | feature-spec | steward | opus | Autonomous owner of feature specification (features.yaml), implementation-design cross-validation, and manual test scenario generation |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
-| `market-analyst` | market-research | analyst | sonnet | Market intelligence — produces a quantified market brief with TAM/SAM/SOM, competitive landscape, and market gaps |
 | `knowledge-builder` | knowledge | builder | sonnet | Builds the knowledge a loop round found missing, for its three knowledge plays: answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`; never decides or promotes an update — used by `/search-knowledge`, `/research-knowledge`, `/check-knowledge` |
-| `product-keeper` | product-capability | keeper | opus | KB-driven capability configuration, intent epic generation, and aggregated quality profile derivation |
 | `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Feature, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-slice` |
 | `project-orchestrator` | project | orchestrator | sonnet | Autonomous decision-maker for project management operations (issues, tracking, planning) |
 | `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/discover-intent` |
@@ -174,14 +170,6 @@ Each agent defines skill-specific return formats in its Output Contracts section
 
 Each agent owns a set of skills. Agents invoke skills via the **Skill tool** provided by Claude Code. Agents are the only callers of those skills within their domain. The agent's skill pool table documents which skills it owns and when to use each.
 
-### feature-steward Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `author-product-spec` | Create `features.yaml` defining product behaviors, invariants, scope boundaries, and acceptance criteria (implementation-agnostic) |
-| `author-verification-scenarios` | Create verification scenarios with pass/fail criteria and automation classification |
-| `check-implementation-design` | Cross-validate design artifacts for coverage, compartmentalization, audience separation |
-
 ### tech-designer Skill Pool
 
 | Skill | Purpose |
@@ -233,26 +221,6 @@ code-builder has no skills — it implements code directly using its tools (Bash
 
 intent-resolver has no skill pool — it reads the play's intent (clean triple), Expectation artifact, workflow template, and available agents, and returns a JSON task DAG directly (tools: Read, Write).
 
-### market-analyst Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `research-market-opportunity` | Parse a product idea, query web + LTM, structure findings into a market brief with TAM/SAM/SOM, competitors, gaps, risks |
-| `research-domain-context` | Deep-dive on vertical domain knowledge when LTM is insufficient |
-
-### product-keeper Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `derive-capability-selection` | Load the capability catalog, walk cross-tree constraints, produce scope.yaml with selected/rejected capabilities and constraint trace |
-| `enrich-capabilities` | Merge profile-specific overrides onto KB values per selected capability; produce enriched-capabilities.yaml |
-| `author-feature-catalog` | Author features.yaml (3-tier domain → capability → feature with 5-point status vocabulary) |
-| `generate-intent-epics` | Instantiate the intent-epic template per enriched capability; one epic file per capability |
-| `validate-intent-epics` | Blocking validator against the intent-epic schema (four-section ICE shape) |
-| `derive-quality-profile-from-epics` | Aggregate epic constraints into ISO 25010 buckets; produce quality-profile.yaml |
-| `research-domain-context` | Web research grounding pack when LTM coverage is thin |
-| `infer-*-from-code` family | Brownfield inference — propose project profile, domain selection, market brief, MVP recommendation, scope, enriched capabilities, features, epics, and research from a codebase scan |
-
 ### product-os-keeper Skill Pool
 
 | Skill | Purpose |
@@ -300,12 +268,6 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 | `deploy-local-environment` | Bring up the live LOCAL environment for `/release-epic` with its deploy record; teardown after sign-off or abort |
 | `deploy-cloud-environment` | Deploy the increment to a CLOUD environment for `/release-increment` with deploy record and health proof |
 
-### epic-expectation-crafter Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `draft-epic-expectation` | Populate `expectations.success_scenario[]` and `expectations.recovery[]` per epic file; write the decision manifest |
-
 ### test-runner Skill Pool
 
 | Skill | Purpose |
@@ -317,10 +279,6 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 | Skill | Purpose |
 |-------|---------|
 | `research-domain-context` | Research domain knowledge via web when LTM is insufficient |
-| `derive-systems-inventory` | arch Stage 1 — one inventory file per system from selected capabilities, supporting sub_systems nesting |
-| `derive-logical-architecture` | arch Stage 3 — layered tech-agnostic structure with cycle detection and capability traceability |
-| `derive-physical-architecture` | arch Stage 4 — runtime shape with deployment targets, comms, and per-QP-characteristic `nfr_delivery[]` |
-| `derive-tech-stack` | arch Stage 5 — per-box picks of languages/runtimes/frameworks/libraries/tools/patterns |
 | `check-architecture-spec` | arch post-generation — single 22-check pass across all arch artifacts and decision manifests |
 | `infer-architecture` | brownfield — scan codebase, produce architecture-inference.yaml |
 | `scan-dependencies` | any stage — enumerate import/call edges, detect cycles and hubs; writes dependency-graph.yaml + .md |

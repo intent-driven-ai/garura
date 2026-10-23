@@ -288,17 +288,17 @@ If no checkpoint is found, the play halts with a message directing the user to s
 
 Task-driven plays declare a capability graph that defines the execution DAG. This is the static description of what the play will create when it builds the task graph.
 
-Example from `prepare`:
+An example, in the shape of the old `prepare` play (the agents named are today's):
 
 | # | Capability | Agent | Needs | Produces |
 |---|------------|-------|-------|----------|
-| 1 | Draft product spec (features.yaml) | feature-steward | feature intent | features.yaml |
+| 1 | Draft product spec (features.yaml) | product-os-keeper | feature intent | features.yaml |
 | 2 | Draft technical approach | tech-designer | features.yaml | technical-approach.md |
 | 3 | Draft low-level design | tech-architect | features.yaml, technical-approach.md | tech.yaml |
-| 4 | Draft verification scenarios | feature-steward | features.yaml | scenarios.yaml |
+| 4 | Draft verification scenarios | evals-engineer | features.yaml | scenarios.yaml |
 | — | CHECKPOINT: human review | orchestrator | features, tech, scenarios | approved_design |
 | 5 | Draft execution plan | tech-designer | features, tech, scenarios, approved design | plan.yaml |
-| 6 | Cross-validate all artifacts | feature-steward | features, tech, scenarios, plan | validation-result.yaml |
+| 6 | Cross-validate all artifacts | quality-auditor | features, tech, scenarios, plan | validation-result.yaml |
 
 **Capability graph vs. task graph:** The capability graph (6 capabilities + checkpoint) shows WHAT gets produced — the deliverables and their data dependencies. The task graph adds orchestrator-owned tasks that are not capabilities: the human review checkpoint task and the final report task. The two views are complementary: the capability graph is the design-time declaration; the task graph is the runtime execution plan created from it.
 
