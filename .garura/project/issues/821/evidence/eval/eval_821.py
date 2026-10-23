@@ -205,13 +205,70 @@ def eval_829(root):
     check("829: a lint_grounding test covers a slice's intents", named)
 
 
+OLD_WORDS = re.compile(r"\b(Tether|Orbit|Vanish)\b")
+
+
+def eval_round2(root):
+    # HA1: the edit-ontology ICE source carries the asking-a-person flow, and the play is rebuilt from it.
+    ice = read(root, "core/components/plays/edit-ontology/reference/ice.md")
+    check("HA1: the edit-ontology ICE names the asking-a-person rule", "asking-a-person" in ice)
+    play = read(root, EDIT_ONTOLOGY)
+    fp = re.search(r"fingerprint \| sha256:([0-9a-f]{64})", play)
+    real = hashlib.sha256(open(os.path.join(root, "core/components/plays/edit-ontology/reference/ice.md"), "rb").read()).hexdigest()
+    check("HA1: the play's fingerprint matches its ICE", fp and fp.group(1) == real, (fp.group(1) if fp else None, real))
+    check("HA1: the rebuilt play still hands the rule to its agent", "asking_rule" in play and "asking-a-person" in play)
+    # MC1: no Tether / Orbit / Vanish outside the ADRs (ADRs record past decisions and stay as written).
+    left = []
+    for base in ("core", "docs"):
+        for dp, _d, fs in os.walk(os.path.join(root, base)):
+            if "/docs/adr" in dp or "node_modules" in dp or "__pycache__" in dp:
+                continue
+            for f in fs:
+                if f.endswith((".md", ".yaml", ".yml", ".py", ".js", ".json")):
+                    p = os.path.join(dp, f)
+                    if OLD_WORDS.search(open(p, encoding="utf-8", errors="ignore").read()):
+                        left.append(os.path.relpath(p, root))
+    for f in ("AGENTS.md", "CLAUDE.md"):
+        if OLD_WORDS.search(read(root, f)):
+            left.append(f)
+    check("MC1: no file outside the ADRs names Tether / Orbit / Vanish", not left, left)
+    # HC1: one main copy of lint_grounding.py, and the linter fails a copy that differs from it.
+    main_copy = "core/components/plays/create-play/references/lint_grounding.py"
+    check("HC1: a main copy of lint_grounding.py exists", os.path.exists(os.path.join(root, main_copy)))
+    if os.path.exists(os.path.join(root, main_copy)):
+        want = hashlib.sha256(open(os.path.join(root, main_copy), "rb").read()).hexdigest()
+        copies = sorted(glob.glob(os.path.join(root, "core/components/plays/*/scripts/lint_grounding.py")))
+        off = [os.path.relpath(p, root) for p in copies if hashlib.sha256(open(p, "rb").read()).hexdigest() != want]
+        check("HC1: every play's copy matches the main copy", copies and not off, off)
+        with tempfile.TemporaryDirectory() as tmp:
+            ref = os.path.join(tmp, "plays", "create-play", "references")
+            os.makedirs(ref)
+            open(os.path.join(ref, "lint_grounding.py"), "w").write("print('main')\n")
+            for name, body in (("same-play", "print('main')\n"), ("drift-play", "print('drifted')\n")):
+                write_play(tmp, name, ASKING_PLAY.format(name=name, pointer="See `standards/rules/asking-a-person.md`."))
+                sd = os.path.join(tmp, "plays", name, "scripts")
+                os.makedirs(sd)
+                open(os.path.join(sd, "lint_grounding.py"), "w").write(body)
+            vs, r = lint(root, tmp)
+            if vs is None:
+                check("HC1: linter runs on a fixture with copies", False, r.stdout + r.stderr)
+            else:
+                hit = lambda n: [v for v in vs if f"/plays/{n}/" in v.get("file", "") and "lint_grounding" in (v.get("rule", "") + v.get("message", ""))]
+                check("HC1: the linter fails a copy that differs from the main copy", hit("drift-play"), vs)
+                check("HC1: the linter passes a copy that matches", not hit("same-play"), hit("same-play"))
+    vs, r = lint(root, "core/components")
+    if vs is not None:
+        stale = [v for v in vs if "lint_grounding" in (v.get("rule", "") + v.get("message", ""))]
+        check("HC1: no copy on core/components differs from the main copy", not stale, stale)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--out")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
-    for fn in (eval_821, eval_825, eval_829):
+    for fn in (eval_821, eval_825, eval_829, eval_round2):
         try:
             fn(root)
         except Exception as e:  # a crash is a failed check, never a pass
