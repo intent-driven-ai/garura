@@ -187,9 +187,9 @@ The pipeline runs are interactive but ephemeral. Questions that the pipeline sur
 **Write-twice:** the person directly edits this file to answer questions (the `user_decision` and `user_answer` fields). The pipeline reads those answers on the next run. The pipeline appends questions, the person fills in answers.
 
 **Checkpoint integration:** at the capability-configuration checkpoint (and at any future stage-end checkpoint that encounters inferences), the prompt must list every unresolved question from `grounding-questions.md` with the question text and the user's decision options. The user either:
-- Tethers with answers (fills in user_answer inline or edits the file) → pipeline proceeds with the answers as facts
-- Orbits with "defer X and Y" → those questions stay null / deferred, the answered ones are used, pipeline proceeds
-- Vanishes → pipeline halts, questions stay pending for the next run
+- Replies **yes** with answers (fills in user_answer inline or edits the file) → pipeline proceeds with the answers as facts
+- Replies **change: defer X and Y** → those questions stay null / deferred, the answered ones are used, pipeline proceeds
+- Replies **stop** → pipeline halts, questions stay pending for the next run
 
 **What goes in this file:**
 - Numeric values the pipeline guessed (rate limits, quotas, scale targets, token lifetimes)
