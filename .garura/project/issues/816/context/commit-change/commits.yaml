@@ -1,0 +1,39 @@
+commits:
+  - sha: 7781d2c0
+    message: "feat(shape-slice): add the grilling tier budget for shape-slice (#817)"
+    files:
+      - core/config.yaml
+      - core/components/plays/shape-slice/scripts/grill_budget.py
+      - core/components/plays/shape-slice/scripts/test_grill_budget.py
+      - .garura/project/issues/816/specs/design-817-815.md
+    branch: plan/788/816-shape-slice-ontology-and-tier
+  - sha: 4d670f05
+    message: "fix(naming): name the old names in the old-name check (#815)"
+    files:
+      - core/tools/naming/check_old_names.py
+      - core/tools/naming/test_naming_tools.py
+    branch: plan/788/816-shape-slice-ontology-and-tier
+  - sha: 1345cea1
+    message: "feat(standards): add the asking-a-person rule and point the ontology play and skill to it (#820)"
+    files:
+      - core/components/memory/standards/rules/asking-a-person.md
+      - core/components/memory/standards/rules/_index.md
+      - core/components/plays/edit-ontology/SKILL.md
+      - core/components/skills/author-product-ontology/SKILL.md
+    branch: plan/788/816-shape-slice-ontology-and-tier
+  - sha: 7d73c947
+    message: "docs(claude-md): state ontology v9 in work tracking and record the eval (#816)"
+    files:
+      - CLAUDE.md
+      - .garura/project/issues/816/evidence/eval/eval-result.json
+      - .garura/project/issues/816/evidence/eval/eval_816.py
+    branch: plan/788/816-shape-slice-ontology-and-tier
+excluded_files:
+  - path: ".garura/project/issues/816/context/commit-change/analysis.yaml"
+    reason: "commit-change run record, not part of the change"
+  - path: ".garura/project/issues/816/context/commit-change/porcelain.txt"
+    reason: "commit-change run record, not part of the change"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
