@@ -25,10 +25,22 @@ tree:
     status: done
   - issue: 807
     kind: functionality
-    title: Rename Functionality to Feature on disk, and take epics out of the product model
-    status: now
+    title: Rename Functionality to Feature on disk (ADR 048, ontology v8)
+    status: done
     needs:
     - 793
+  - issue: 812
+    kind: chore
+    title: The old-name check skips ADR 047 by mistake; skip 046 and 048 by number
+    status: next
+  - issue: 813
+    kind: functionality
+    title: Upgrading Garura moves a project's product model to the Feature names, and scripts stop on old keys
+    status: next
+  - issue: 809
+    kind: chore
+    title: Archive or remove the retired intent-epic pipeline and its feature-catalog names
+    status: next
 - issue: 794
   kind: capability
   title: Shape designs the work before anything is built
@@ -36,7 +48,7 @@ tree:
   children:
   - issue: 795
     kind: functionality
-    title: /shape-features asks the open questions, then writes the design
+    title: /shape-slice asks the open questions, then writes the design
     status: next
     needs:
     - 793
@@ -57,7 +69,7 @@ tree:
     - 795
   - issue: 799
     kind: functionality
-    title: /build-feature builds from the approved design and never sees the eval suite
+    title: /build-epic builds from the approved design and never sees the eval suite
     status: next
     needs:
     - 798
@@ -68,7 +80,7 @@ tree:
   children:
   - issue: 801
     kind: functionality
-    title: /validate-feature runs the hidden evals and the checks, and gives the verdict
+    title: /validate-epic runs the hidden evals and the checks, and gives the verdict
     status: next
     needs:
     - 799
