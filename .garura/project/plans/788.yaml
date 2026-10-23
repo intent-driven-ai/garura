@@ -36,7 +36,7 @@ tree:
   - issue: 815
     kind: chore
     title: Name the old-name check's ADR cut-off for its use, and test ADR 049 and SUPERSEDED- files
-    status: next
+    status: done
   - issue: 813
     kind: functionality
     title: Upgrading Garura moves a project's product model to the Feature names, and scripts stop on old keys
@@ -53,13 +53,41 @@ tree:
   - issue: 816
     kind: functionality
     title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
-    status: next
+    status: now
     needs:
     - 807
   - issue: 817
     kind: functionality
     title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
+    status: now
+  - issue: 820
+    kind: functionality
+    title: One shared rule for how a play asks a person a question
+    status: done
+  - issue: 826
+    kind: defect
+    title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
     status: next
+    needs:
+    - 816
+  - issue: 824
+    kind: chore
+    title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
+    status: next
+    needs:
+    - 826
+  - issue: 821
+    kind: functionality
+    title: 'Lint: a play that asks a person must point to the asking-a-person rule'
+    status: next
+    needs:
+    - 820
+  - issue: 825
+    kind: chore
+    title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
+    status: next
+    needs:
+    - 820
   - issue: 795
     kind: functionality
     title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
@@ -67,6 +95,7 @@ tree:
     needs:
     - 816
     - 817
+    - 826
   - issue: 798
     kind: functionality
     title: "/shape-slice writes the eval: is the business intent met, tested on the slice's surface"
