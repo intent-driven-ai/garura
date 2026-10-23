@@ -50,6 +50,17 @@ but that the run guessed), it adds one entry to the file:
   user_answer: null | "<free text>"
   resolved_at: null | <ISO-8601>
   resolved_by_run: null | <play run id>
+  # Optional fields a play may add (/shape-slice writes all four):
+  kind: asked | assumption               # asked = shown to the person; assumption = a gap
+                                         #   not asked (over the question budget), with the
+                                         #   run's written assumption in pipeline_guess
+  blocking: true | false                 # true = only the person can answer it; it is
+                                         #   always asked, and the run waits for its answer
+  proposed_answer: null | "<text>"       # the answer the run proposes — only with a basis
+  basis: null | {kind: model | memory | person, ref: "<page and lines, or the question id>"}
+                                         # where the proposed answer comes from; a proposed
+                                         #   answer with no basis is stripped (no-unbacked-
+                                         #   recommendation.md)
 ```
 
 ## How the file is kept
@@ -58,6 +69,10 @@ but that the run guessed), it adds one entry to the file:
   the old ones.
 - **An answer is a fact.** A question that has `user_decision` and `user_answer` from an
   earlier run of the issue is not asked again. The run uses the answer as a fact.
+- **Match by the question, not by the ID alone.** A question counts as already answered
+  when its text (in lower case, without punctuation and extra spaces) matches an answered
+  entry. A new question that reuses an ID the file already holds for another question gets
+  a new ID, so it is asked and kept on its own.
 - **Open questions come back.** A question that is `deferred` or `null` is shown again at
   the next checkpoint, until the person answers it.
 - **Other issues do not see it.** Another issue does not see these answers until a person
