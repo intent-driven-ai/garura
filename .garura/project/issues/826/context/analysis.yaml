@@ -1,26 +1,38 @@
----
-# analyze_changeset.py output (C8 fast path)
-# issue: 826
 needs_judgment: false
 
 change_groups:
-  - id: group-1
+  - id: ontology-text-fixes
     issue: 826
-    concern: "single-directory chore change"
+    commit_type: fix
+    scope: ontology
+    subject: "fix review round 1 wording and hidden-file reading in the product ontology"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+  - id: story-recovery-rule
+    issue: 826
+    commit_type: docs
+    scope: standards
+    subject: "add a story's recovery section to expectation generation"
+    files:
+      - core/components/memory/standards/rules/expectation-generation.md
+  - id: edit-ontology-run-records
+    issue: 826
     commit_type: chore
     scope: stm
-    subject: "add porcelain"
-    subject_source: script-draft  # orchestrator may reword in place
+    subject: "update edit-ontology run records and remove a real name from two copies"
     files:
-      - .garura/project/issues/826/context/porcelain.txt
+      - .garura/project/issues/816/context/edit-ontology/ontology-before.md
+      - .garura/project/issues/826/context/edit-ontology/ontology-before.md
+      - .garura/project/issues/826/context/edit-ontology/need.md
+      - .garura/project/issues/826/context/edit-ontology/change-check.json
 
 exclusions:
-  []
+  - path: ".garura/project/issues/826/context/analysis.yaml"
+    reason: "this play's own run artifact; the executor commits it in the stm record commit"
+    blocking: false
+  - path: ".garura/project/issues/826/context/porcelain.txt"
+    reason: "this play's own run artifact; the executor commits it in the stm record commit"
+    blocking: false
 
 risks:
-  sensitive_files:
-    []
-
-eval_gates:
-  SE-1: {status: PASS, evidence: "one script-classified group, one directory, one concern"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+  sensitive_files: []

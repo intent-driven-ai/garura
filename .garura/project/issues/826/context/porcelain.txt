@@ -1,1 +1,6 @@
-?? .garura/project/issues/826/context/porcelain.txt
+ M .garura/project/issues/816/context/edit-ontology/ontology-before.md
+ M .garura/project/issues/826/context/edit-ontology/change-check.json
+ M .garura/project/issues/826/context/edit-ontology/need.md
+ M .garura/project/issues/826/context/edit-ontology/ontology-before.md
+ M core/components/memory/standards/rules/expectation-generation.md
+ M core/components/memory/standards/schemas/product-os/ontology.md
