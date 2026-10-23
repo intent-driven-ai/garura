@@ -58,6 +58,7 @@ import sys
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
 import intent_touches as touches  # noqa: E402
 
 REQUIRED = ("title", "outcome", "why", "asked_by", "proof")
@@ -73,6 +74,7 @@ def load_mapping(path, what):
     try:
         with open(path, encoding="utf-8") as fh:
             data = yaml.safe_load(fh) if not path.endswith(".json") else json.load(fh)
+        model_names.check_model(data, path)
     except (OSError, ValueError, yaml.YAMLError) as exc:
         raise Refused(f"cannot read the {what} ({path}): {exc.__class__.__name__}") from exc
     if not isinstance(data, dict):

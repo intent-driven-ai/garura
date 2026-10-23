@@ -33,6 +33,9 @@ except ImportError:
 HOLDING = "capabilities/"
 FIELD = re.compile(r"^\*\*(?P<k>Outcome|Why|Stage):\*\*\s*(?P<v>.*)$")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def read_page(path):
     """Title, outcome, why and stage from an intent page, as /discover-intent writes it."""
@@ -77,6 +80,7 @@ def main(argv=None):
         try:
             with open(spine_path, encoding="utf-8") as fh:
                 spine = yaml.safe_load(fh) or {}
+            model_names.check_spine(spine, spine_path)
         except (OSError, yaml.YAMLError) as exc:
             warnings.append(f"could not read the spine: {exc.__class__.__name__}")
         if not isinstance(spine, dict):

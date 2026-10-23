@@ -36,6 +36,9 @@ except ImportError:
     sys.stderr.write("stamp_epic.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def parse_args():
     ap = argparse.ArgumentParser(description="Surgical epic verdict stamper (spine).")
@@ -74,6 +77,7 @@ def load_epic(product_base, epic_arg, errors, out):
     spine_path = os.path.join(product_base, "product-os", "_spine.yaml")
     try:
         spine = yaml.safe_load(open(spine_path, encoding="utf-8")) or {}
+        model_names.check_spine(spine, spine_path)
     except Exception as exc:
         errors.append(f"spine unreadable: {exc}")
         refuse(out)

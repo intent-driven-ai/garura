@@ -57,6 +57,9 @@ except ImportError:
     sys.stderr.write("pick_targets.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def slug(text):
     return "".join(c if c.isalnum() else "-" for c in str(text).lower()).strip("-")
@@ -113,6 +116,7 @@ def main(argv=None):
     try:
         with open(args.spine, encoding="utf-8") as fh:
             spine = yaml.safe_load(fh) or {}
+        model_names.check_spine(spine, args.spine)
         with open(args.run, encoding="utf-8") as fh:
             run = json.load(fh)
         found = read_found(args.found) if args.found else []

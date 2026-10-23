@@ -34,6 +34,9 @@ except ImportError:
     sys.stderr.write("update_epic_status.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Surgical epic status/issue_ref writer (spine).")
@@ -51,6 +54,7 @@ def main(argv=None):
         return 1
     try:
         spine = yaml.safe_load(open(spine_path, encoding="utf-8")) or {}
+        model_names.check_spine(spine, spine_path)
     except yaml.YAMLError as exc:
         print(json.dumps({"ok": False, "changed": False,
                           "errors": [f"spine parse error: {exc}"]}, indent=2))

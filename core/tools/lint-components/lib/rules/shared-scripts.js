@@ -1,12 +1,28 @@
 'use strict';
 
 // Shared scripts that create-play stamps into plays and that must stay byte-identical to
-// their main copy in plays/create-play/references/. Kept short on purpose: only scripts
-// listed here are checked, so other stamped scripts are not flagged.
+// their main copy in plays/create-play/references/. Copies are checked wherever they sit under
+// plays/*/scripts/ or skills/*/scripts/. Kept short on purpose: only scripts listed here are
+// checked, so other stamped scripts are not flagged.
 const fs = require('fs');
 const path = require('path');
 
-const SHARED_SCRIPTS = ['lint_grounding.py'];
+const SHARED_SCRIPTS = ['lint_grounding.py', 'model_names.py'];
+
+// Every <targetDir>/{plays,skills}/<name>/scripts/<script> that exists.
+function copiesOf(targetDir, script) {
+  const out = [];
+  for (const kind of ['plays', 'skills']) {
+    const dir = path.join(targetDir, kind);
+    if (!fs.existsSync(dir)) continue;
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const copy = path.join(dir, entry.name, 'scripts', script);
+      if (fs.existsSync(copy)) out.push(copy);
+    }
+  }
+  return out;
+}
 
 /**
  * @param {string} targetDir - Absolute path to the components folder (e.g. core/components)
@@ -23,10 +39,7 @@ function check(targetDir) {
     const mainBytes = fs.readFileSync(mainCopy);
     const ruleName = script.replace(/\.py$/, '');
 
-    for (const entry of fs.readdirSync(playsDir, { withFileTypes: true })) {
-      if (!entry.isDirectory()) continue;
-      const copy = path.join(playsDir, entry.name, 'scripts', script);
-      if (!fs.existsSync(copy)) continue;
+    for (const copy of copiesOf(targetDir, script)) {
       if (!fs.readFileSync(copy).equals(mainBytes)) {
         violations.push({
           file: copy,

@@ -48,6 +48,9 @@ except ImportError:
 SPINE = "_spine.yaml"
 PLAN_FIELDS = ("order", "effort", "depends_on", "status")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Keyed in-place plan persist for /shape-roadmap (ADR 026).")
@@ -68,6 +71,7 @@ def main(argv=None):
         return 2
     with open(spine_path, encoding="utf-8") as fh:
         spine = yaml.safe_load(fh) or {}
+    model_names.check_spine(spine, spine_path)
     by_id = {s.get("id"): s for s in (spine.get("slices") or []) if isinstance(s, dict)}
 
     # Containment: refuse a plan that names a slice the live spine does not hold — /shape-roadmap

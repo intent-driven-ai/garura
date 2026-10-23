@@ -51,10 +51,13 @@ OPEN_VERBS = ("open", "visit", "load", "browse", "navigate", "go to", "view", "s
 RUN_TELLS = ("python3", "python ", "unittest", "pytest", "npm test", "go test",
              "make test", "./", "java -", "node ")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def yload(path):
     with open(path, "r", encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def jload(path):
