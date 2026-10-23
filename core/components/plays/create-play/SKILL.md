@@ -260,6 +260,12 @@ checking a design.
 Because create-play writes these scripts into the play, a rebuild brings them back. The
 play does not slip back to the slow agent way. (#484)
 
+**Grounding linter.** A play that writes product-model grounding docs (a domain, capability,
+functionality or slice doc) checks their shape with the shared grounding linter. Copy
+[`references/lint_grounding.py`](references/lint_grounding.py) unchanged to
+`scripts/lint_grounding.py`. Every copy must match this one byte for byte; the component
+linter fails a copy that differs.
+
 ### 4b — Pipeline position (D2)
 Read the play's declared `position` (frontmatter: `start | end | both | none`, default
 `none`) and fold in the standard delivery machinery per
