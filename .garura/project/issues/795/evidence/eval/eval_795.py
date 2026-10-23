@@ -383,13 +383,144 @@ def eval_round1(root):
     check("round1: user-questions.md lists the fields the play adds", all(k in uq for k in ("blocking", "proposed_answer", "basis")))
 
 
+def eval_round2(root):
+    # Review round 2 of PR #840: N1-N6 (fix all; leave nothing open).
+    import yaml
+    P = os.path.join(root, SCRIPTS)
+    persist, check_s, rq, fills = (os.path.join(P, f) for f in ("persist_slice.py", "slice_check.py", "record_questions.py", "persist_fills.py"))
+    def model(slices="[]", head=""):
+        tmp = tempfile.mkdtemp(); po = os.path.join(tmp, "product-os")
+        os.makedirs(os.path.join(po, "intents")); os.makedirs(os.path.join(po, "slices"))
+        for i in ("340", "341"):
+            open(os.path.join(po, "intents", i + ".md"), "w").write("# x\n")
+        sp = os.path.join(po, "_spine.yaml"); open(sp, "w").write(head + SPINE.format(slices=slices))
+        return tmp, po, sp
+    shaped = {"id": "sl-new", "slug": "new", "name": "Self-booking", "outcome": "A patient books a free slot",
+              "feature_refs": ["ft-pick-slot"], "vertical": "page", "intents": ["341"],
+              "surface": {"id": "booking-page", "name": "page", "persona_ref": "patient", "user_action": "books a slot"}}
+    def probs(out, key="problems"):
+        return json.load(open(out)).get(key) if os.path.isfile(out) else None
+    # N1: reusing a slice whose record predates slice.yaml v2 brings the record to v2.
+    legacy = """
+  - id: sl-old
+    slug: old
+    status: built
+    order: 1
+    domain_ref: dom-booking
+    feature_refs: [ft-pick-slot]
+    vertical: page
+    intents: ["340"]"""
+    tmp, po, sp = model(legacy)
+    open(os.path.join(po, "slices", "sl-old.yaml"), "w").write(yaml.safe_dump(
+        {"slice": {"id": "sl-old", "slug": "old", "intents": ["340"],
+                   "surface": {"id": "booking-page", "name": "page", "persona_ref": "patient"}}}))
+    sj = os.path.join(tmp, "s.json"); json.dump(shaped, open(sj, "w"))
+    r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj, "--reuse", "sl-old"], tmp)
+    out = os.path.join(tmp, "check.json")
+    run([sys.executable, check_s, "--root", po, "--spine", sp, "--slice-id", "sl-old", "--intent", "341", "--out", out], tmp)
+    check("round2 N1: reusing a pre-v2 slice leaves no record problem for the slice check",
+          r.returncode == 0 and probs(out) == [], (r.returncode, r.stderr[-200:], probs(out)))
+    check("round2 N1: the run names the record fields it brought to v2", re.search(r"upgraded|brought", r.stdout, re.I), r.stdout[-300:])
+    tmp, po, sp = model(legacy)
+    open(os.path.join(po, "slices", "sl-old.yaml"), "w").write(yaml.safe_dump({"slice": {"id": "sl-old", "slug": "old", "intents": ["340"]}}))
+    other = dict(shaped, vertical="cli", surface=dict(shaped["surface"], name="cli"))
+    sj = os.path.join(tmp, "s.json"); json.dump(other, open(sj, "w"))
+    before = open(sp).read()
+    r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj, "--reuse", "sl-old"], tmp)
+    check("round2 N1: a pre-v2 record that cannot be brought to v2 is refused, nothing written",
+          r.returncode == 2 and open(sp).read() == before and re.search(r"v2|surface", r.stderr), (r.returncode, r.stderr[-200:]))
+    check("round2 N1: slice.yaml says what happens to a record written before v2",
+          re.search(r"(before|older than) v2", read(root, SLICE_SCHEMA), re.I))
+    # N2: an unrelated bad slice is a warning, not a failure of this run's slice.
+    two = """
+  - id: sl-a
+    slug: a
+    feature_refs: [ft-pick-slot]
+    vertical: page
+    intents: ["340"]
+    record: slices/sl-a.yaml
+  - id: sl-b
+    slug: b
+    feature_refs: [ft-reminder]
+    vertical: page
+    intents: ["340"]
+    record: slices/sl-b.yaml"""
+    tmp, po, sp = model(two)
+    good = {"slice": {"id": "sl-a", "slug": "a", "name": "A", "outcome": "o", "feature_refs": ["ft-pick-slot"],
+                      "vertical": "page", "intents": ["340"]},
+            "surface": {"id": "p", "name": "page", "persona_ref": "patient", "user_action": "books"}}
+    open(os.path.join(po, "slices", "sl-a.yaml"), "w").write(yaml.safe_dump(good))
+    out = os.path.join(tmp, "check.json")
+    run([sys.executable, check_s, "--root", po, "--spine", sp, "--slice-id", "sl-a", "--intent", "340", "--out", out], tmp)
+    w = probs(out, "warnings") or []
+    check("round2 N2: another slice's defect is a warning, not a problem of this run's slice",
+          probs(out) == [] and any("sl-b" in x for x in w), (probs(out), w))
+    # N3: the question record reads "skip" right, and the message shape is checked by a script.
+    tmp = tempfile.mkdtemp()
+    split = os.path.join(tmp, "split.json"); json.dump({"asked": [{"id": "Q-surface-1", "blocking": False}], "assumptions": []}, open(split, "w"))
+    def answers(text):
+        rp = os.path.join(tmp, "reply.md"); open(rp, "w").write(text)
+        ao = os.path.join(tmp, "a.json")
+        r = run([sys.executable, rq, "answers", "--reply", rp, "--split", split, "--out", ao], tmp)
+        return r, (json.load(open(ao)) if os.path.isfile(ao) else None)
+    r, a = answers("Skip the dashboard, use the CLI")
+    check("round2 N3: a reply that only starts with 'skip' is not read as deferred",
+          a is not None and not any(x.get("decision") == "deferred" for x in a) and "unclear" in r.stdout, (a, r.stdout[-200:]))
+    r, a = answers("skip")
+    check("round2 N3: a bare 'skip' is deferred", a and a[0].get("decision") == "deferred", a)
+    msg_ok = ("You decide which surface the slice is tested on. Each question below has a proposed answer. Type your answers.\n\n"
+              "Q-surface-1\n**Question** Which surface does a patient test the booking on?\n**Answer** proposed: the web page\n"
+              "**Why it matters** The slice is built for one surface.\n**Example** A clinic: a web page. A bank: a phone app.\n")
+    msg_bad = msg_ok.replace("**Why it matters** The slice is built for one surface.\n", "")
+    def message(text):
+        mp = os.path.join(tmp, "msg.md"); open(mp, "w").write(text)
+        return run([sys.executable, rq, "message", "--message", mp, "--split", split], tmp)
+    r1, r2 = message(msg_ok), message(msg_bad)
+    check("round2 N3: a script checks the message: opening and the four parts per question",
+          r1.returncode == 0 and r2.returncode == 1, (r1.returncode, r1.stdout[-200:], r2.returncode))
+    check("round2 N3: the play runs the message check before it asks", re.search(r"record_questions\.py message", read(root, SKILL)))
+    # N4: proposed answers keep a trace, and the stop condition tests the citation check.
+    sk = read(root, SKILL)
+    prop = re.search(r"shape-slice-propose.{0,0}", sk) and sk[sk.find("draft a proposed answer"):sk.find("shape-slice-propose")]
+    check("round2 N4: the propose step records each proposed answer's trace (memory.py cite)", "cite" in (prop or ""), (prop or "")[:200])
+    stop = read(root, PLAY + "/stop-condition.yaml")
+    check("round2 N4: the stop condition tests the citation check", "citations-check.json" in stop, stop[-300:])
+    check("round2 N4: the ICE Done means names the citation check", "citations-check.json" in section(read(root, ICE), "Done means") or "citations-check.json" in read(root, ICE))
+    # N5: writing the spine keeps its comments.
+    tmp, po, sp = model("[]", head="# The spine of the clinic product. Keep this note.\n")
+    spine_src = open(sp).read()  # read first: open(sp, "w") empties the file
+    open(sp, "w").write(spine_src.replace("features:\n", "features:\n  # pick-slot comes first\n"))
+    sj = os.path.join(tmp, "s.json"); json.dump(dict(shaped, intents=["340"]), open(sj, "w"))
+    r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj], tmp)
+    txt = open(sp).read()
+    check("round2 N5: persist_slice keeps the spine's comments",
+          r.returncode == 0 and "Keep this note." in txt and "pick-slot comes first" in txt, (r.returncode, txt[:300]))
+    os.makedirs(os.path.join(po, "dental"))
+    open(os.path.join(po, "dental", "domain.md"), "w").write("# Dental\n")
+    fj = os.path.join(tmp, "f.json"); json.dump({"domains": [{"id": "dom-dental", "slug": "dental", "one_line": "Teeth", "doc": "dental/domain.md"}]}, open(fj, "w"))
+    fo = os.path.join(tmp, "pf.json")
+    r = run([sys.executable, fills, "--root", po, "--spine", sp, "--fills", fj, "--intent", "340", "--out", fo], tmp)
+    txt = open(sp).read()
+    check("round2 N5: persist_fills keeps the spine's comments",
+          r.returncode == 0 and "Keep this note." in txt and "pick-slot comes first" in txt, (r.returncode, r.stderr[-200:], txt[:300]))
+    # N6: the undo leaves no empty Touches heading.
+    page = os.path.join(po, "intents", "340.md")
+    if os.path.isfile(page):
+        open(page, "a").write("\nA line the person added later.\n")
+        run([sys.executable, fills, "--undo", fo, "--root", po, "--intent", "340"], tmp)
+        ptxt = open(page).read()
+        check("round2 N6: the undo leaves no empty Touches heading", "**Touches:**" not in ptxt and "added later" in ptxt, ptxt)
+    else:
+        check("round2 N6: the undo leaves no empty Touches heading", False, "no intent page")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--out")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
-    for fn in (eval_ice_and_play, eval_scripts, eval_schemas, eval_next, eval_followups, eval_round1, eval_all):
+    for fn in (eval_ice_and_play, eval_scripts, eval_schemas, eval_next, eval_followups, eval_round1, eval_round2, eval_all):
         try:
             fn(root)
         except Exception as e:  # a crash is a failed check, never a pass
