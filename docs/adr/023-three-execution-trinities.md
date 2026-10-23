@@ -1,6 +1,6 @@
 # ADR 023 — Execution Is Three Trinities: Epics, Defects, Amendments
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md): Decision point 4: /next no longer routes the line
 **Date:** 2026-07-03
 **Supersedes:** the single-execute-pipe taxonomy (grill → implement → validate → launch as one "Execute" block, with /fix and /refactor as loose "anytime" commands)
 **Related:** ADR 019 (epics kept when delivered), ADR 024 (the amendment record), issues #444–#451
