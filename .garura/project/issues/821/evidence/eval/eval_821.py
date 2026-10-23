@@ -205,7 +205,7 @@ def eval_829(root):
     check("829: a lint_grounding test covers a slice's intents", named)
 
 
-OLD_WORDS = re.compile(r"\b(Tether|Orbit|Vanish)\b")
+OLD_WORDS = re.compile(r"\b(Tether|Orbit|Vanish)(e?s)?\b")
 
 
 def eval_round2(root):
