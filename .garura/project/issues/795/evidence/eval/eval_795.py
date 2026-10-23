@@ -234,13 +234,56 @@ def eval_all(root):
     check("all: other play and skill tests ran", True)
 
 
+def eval_followups(root):
+    # Product owner's yes on the open items (2026-10-23).
+    import yaml
+    persist = os.path.join(root, SCRIPTS, "persist_slice.py")
+    if os.path.isfile(persist):
+        tmp = tempfile.mkdtemp()
+        po = os.path.join(tmp, "product-os"); os.makedirs(os.path.join(po, "intents"))
+        open(os.path.join(po, "intents", "340.md"), "w").write("# x\n")
+        sp = os.path.join(po, "_spine.yaml"); open(sp, "w").write(SPINE.format(slices="[]"))
+        sj = os.path.join(tmp, "s.json")
+        json.dump({"id": "sl-a", "slug": "a", "feature_refs": ["ft-pick-slot"], "vertical": "page", "intents": ["340"],
+                   "surface": {"name": "page", "persona_ref": "p"}}, open(sj, "w"))
+        r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj], tmp)
+        sl = [x for x in (yaml.safe_load(open(sp)).get("slices") or []) if x.get("id") == "sl-a"] if r.returncode == 0 else []
+        check("follow-up: the spine slice carries its record pointer", sl and sl[0].get("record") == "slices/sl-a.yaml", (sl, r.stderr[-200:]))
+    pn = read(root, "core/components/memory/standards/rules/pipeline-next.md")
+    m = re.search(r"shape-slice[^\n]*\n(?:[^\n]*\n){0,4}", pn)
+    check("follow-up: the Next-line map no longer sends shape-slice to build-epic",
+          m and "build-epic" not in m.group(0) and "cut into" not in pn, m.group(0) if m else "")
+    ag = read(root, "core/components/agents/product-os-keeper.md")
+    for sk in ("author-epics", "check-cut-tensions", "rank-actions"):
+        check(f"follow-up: product-os-keeper no longer lists {sk}", sk not in ag)
+        check(f"follow-up: the {sk} skill is deleted", not os.path.exists(os.path.join(root, "core/components/skills", sk)))
+    check("follow-up: the work-intelligence shelf is deleted",
+          not os.path.exists(os.path.join(root, "core/components/memory/knowledge/work-intelligence")))
+    check("follow-up: docs/command-chain.html is deleted", not os.path.exists(os.path.join(root, "docs/command-chain.html")))
+    live = []
+    for p in glob.glob(os.path.join(root, "core/**/*.*"), recursive=True) + [os.path.join(root, f) for f in ("CLAUDE.md", "AGENTS.md")]:
+        if not os.path.isfile(p) or "rename-map.yaml" in p or "node_modules" in p:
+            continue
+        t = open(p, encoding="utf-8", errors="ignore").read()
+        if re.search(r"^deprecated:\s*true", t, re.M):
+            continue
+        for n in ("rank-actions", "author-epics", "check-cut-tensions", "work-intelligence", "command-chain.html"):
+            if n in t:
+                live.append(f"{os.path.relpath(p, root)}: {n}")
+    check("follow-up: no live file names a deleted part", not live, live[:10])
+    ice = read(root, ICE)
+    check("follow-up: the ICE's D4 check uses path:", re.search(r"D4[^\n]*\n\s*check:[^\n]*\bpath:", ice))
+    n = len(glob.glob(os.path.join(root, "docs/adr/0*.md")))
+    check("follow-up: CLAUDE.md states the right ADR count", re.search(r"\b%d ADRs\b" % n, read(root, "CLAUDE.md")), n)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--out")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
-    for fn in (eval_ice_and_play, eval_scripts, eval_schemas, eval_next, eval_all):
+    for fn in (eval_ice_and_play, eval_scripts, eval_schemas, eval_next, eval_followups, eval_all):
         try:
             fn(root)
         except Exception as e:  # a crash is a failed check, never a pass
