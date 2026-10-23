@@ -22,7 +22,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", "..", "..", ".."))
 sys.path.insert(0, HERE)
 import migrate_model  # noqa: E402
-import test_install  # noqa: E402  (its helpers only; its tests are not collected here)
 
 SCRIPT = os.path.join(HERE, "migrate_model.py")
 PRE_807 = "f4137dc6"
@@ -155,6 +154,18 @@ def old_names_left(model):
                         or re.match(rf"^#+ {OLD.capitalize()}(?:y:|ies\s*$)", line)):
                     left.append(f"{full}:{i}: {line.strip()}")
     return left
+
+
+def tree(root):
+    """Every folder and file under root, with each file's bytes."""
+    out = {}
+    for d, dirs, names in os.walk(root):
+        for n in dirs:
+            out[os.path.relpath(os.path.join(d, n), root) + "/"] = None
+        for n in names:
+            with open(os.path.join(d, n), "rb") as fh:
+                out[os.path.relpath(os.path.join(d, n), root)] = fh.read()
+    return out
 
 
 class Work(unittest.TestCase):
@@ -309,40 +320,70 @@ class MovesAPre807Model(Work):
                                                     "features", "fn-1", "feature.md")))
 
 
-class TheInstallersMoveTheModel(test_install.Installed):
-    """install.py (the install-garura play) moves the model and records it in the manifest record."""
+class StaysInsideTheProject(Work):
+    """It changes nothing outside the project, by the config's path or through a link (#813, P2)."""
 
-    def test_install_py_moves_a_pre_807_model_and_records_it(self):
-        build_pre_807(self.target)
+    def outside_model(self):
+        page = os.path.join(self.work, "out", "product-os", OLD + "ies", "fn-1", OLD + "y.md")
+        os.makedirs(os.path.dirname(page))
+        with open(page, "w") as fh:
+            fh.write(f"# {OLD.capitalize()}y: One\n")
+        return os.path.join(self.work, "out")
+
+    def assert_refused_and_untouched(self, outside, before):
+        code, report, run = run_cli(self.target)
+        self.assertEqual(code, 2, run.stdout + run.stderr)
+        self.assertTrue(report["refused"])
+        self.assertIn("outside", report["reason"])
+        self.assertIn("outside", run.stderr)
+        self.assertNotIn("Traceback", run.stderr)
+        self.assertEqual(tree(outside), before)
+
+    def test_a_base_path_outside_the_project_is_refused(self):
+        outside = self.outside_model()
+        os.makedirs(os.path.join(self.target, ".garura", "core"))
+        with open(os.path.join(self.target, ".garura", "core", "config.yaml"), "w") as fh:
+            fh.write("product:\n  base-path: ../out/\n")
+        self.assert_refused_and_untouched(outside, tree(outside))
+
+    def test_a_model_folder_linked_outside_the_project_is_refused(self):
+        outside = self.outside_model()
+        os.makedirs(os.path.join(self.target, ".garura"))
+        os.symlink(outside, os.path.join(self.target, ".garura", "product"))
+        self.assert_refused_and_untouched(outside, tree(outside))
+
+    def test_a_page_linked_outside_the_project_is_refused(self):
+        outside = self.outside_model()
+        model = build_pre_807(self.target)
+        os.symlink(os.path.join(outside, "product-os", OLD + "ies", "fn-1", OLD + "y.md"),
+                   os.path.join(model, "linked.md"))
+        model_before = tree(model)
+        self.assert_refused_and_untouched(outside, tree(outside))
+        self.assertEqual(tree(model), model_before)
+
+
+class UndoesAFailedStep(Work):
+    """A git step that fails after the moves leaves the tree exactly as it was (#813, P3)."""
+
+    def test_a_blocked_commit_puts_everything_back(self):
+        model = build_pre_807(self.target)
         make_repo(self.target)
-        record = self.install()
-        self.assertTrue(record["model_migration"]["committed"], record["model_migration"]["reason"])
-        self.assertEqual(old_names_left(os.path.join(self.target, MODEL)), [])
-        self.assertEqual(int(git(self.target, "rev-list", "--count", "HEAD")), 2)
-        again = self.install()["model_migration"]
-        self.assertFalse(any(again["moved"].values()))
+        hook = os.path.join(self.target, ".git", "hooks", "pre-commit")
+        with open(hook, "w") as fh:
+            fh.write("#!/bin/sh\necho 'blocked by the project hook' >&2\nexit 1\n")
+        os.chmod(hook, 0o755)
+        before, head = tree(model), git(self.target, "rev-parse", "HEAD").strip()
 
-
-class ThePublicInstallerMovesTheModel(unittest.TestCase):
-    """installer/install.sh, run whole (helpers borrowed from test_install.PublicInstaller)."""
-
-    setUp = test_install.PublicInstaller.setUp
-    archive = test_install.PublicInstaller.archive
-    run_installer = test_install.PublicInstaller.run_installer
-
-    def test_the_shell_installer_moves_a_pre_807_model(self):
-        build_pre_807(self.target)
-        make_repo(self.target)
-        run = self.run_installer(self.archive())
-        self.assertEqual(run.returncode, 0, run.stderr)
-        self.assertIn("model: moved to the #807 names", run.stdout)
-        self.assertEqual(old_names_left(os.path.join(self.target, MODEL)), [])
-        self.assertEqual(git(self.target, "log", "-1", "--format=%s").strip(), migrate_model.COMMIT_MESSAGE)
-
-    def test_the_shell_installer_works_with_no_model(self):
-        run = self.run_installer(self.archive())
-        self.assertEqual(run.returncode, 0, run.stderr)
-        self.assertIn("model: no product model", run.stdout)
+        code, report, run = run_cli(self.target)
+        self.assertEqual(code, 1, run.stdout + run.stderr)
+        self.assertTrue(report["failed"])
+        self.assertFalse(report["committed"])
+        self.assertIn("blocked by the project hook", report["reason"])
+        self.assertIn("undone", report["reason"])
+        self.assertNotIn("Traceback", run.stderr)
+        self.assertEqual(tree(model), before)
+        self.assertEqual(git(self.target, "rev-parse", "HEAD").strip(), head)
+        self.assertEqual(git(self.target, "status", "--porcelain", "--untracked-files=all"), "")
 
 
 if __name__ == "__main__":

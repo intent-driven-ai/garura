@@ -3,8 +3,9 @@
 migrate_model.py — move a project's product model to the #807 names (ADR 048, #813).
 
 A project that installed Garura before #807 keeps the old names in its product model; after
-#807 the scripts read only the new names. An install or an upgrade runs this script, and it
-moves the model once:
+#807 the scripts read only the new names. A person runs this script by hand; nothing runs it
+on its own, and the install never changes a model (#813; when an upgrade may: #835). It moves
+the model once:
 
   spine and slice keys   functionalities -> features, functionality_refs -> feature_refs,
                          functionality_ref -> feature_ref, for_kind: functionality -> feature
@@ -21,18 +22,23 @@ file's other content and its comments stay as they are.
     python3 migrate_model.py --target <project dir> [--summary]
 
 It finds the model at <target>/<product.base-path>product-os/ (product.base-path from
-<target>/.garura/core/config.yaml, default .garura/product/). In a git repository it moves
-files with `git mv` and makes ONE commit that holds only the paths it moved or changed. It
-does not commit when the target is not a git repository, or when those paths already had
-changes of their own; it still moves, and says why in "reason".
+<target>/.garura/core/config.yaml, default .garura/product/). It refuses a model folder that
+lies outside the project, by its path or through a link, and any link in the model that
+points outside it: it never changes anything outside the project. In a git repository it
+makes ONE commit that holds only the paths it moved or changed. It does not commit when the
+target is not a git repository, or when those paths already had changes of their own; it
+still moves, and says why in "reason". When a step fails after it started moving (a git
+step, a hook that blocks the commit), it puts every file and folder back as it was, stages
+nothing, and says why in "reason".
 
 Prints a JSON report (or, with --summary, one plain line):
   {"moved": {"keys": [...], "files": [...], "folders": [...], "headings": [...]},
    "committed": true|false, "commit": "<sha>"|null, "reason": "..."}
 
-Exit 0 when moved or nothing to move (a second run, or no model), 2 when it refuses: the spine
-holds both `functionalities:` and `features:`, or a page would land on a page that exists.
-Nothing is changed when it refuses.
+Exit 0 when moved or nothing to move (a second run, or no model); 1 when a step failed and
+everything was put back ("failed": true); 2 when it refuses ("refused": true): the model lies
+outside the project, the spine holds both `functionalities:` and `features:`, or a page would
+land on a page that exists. Nothing is changed when it refuses or fails.
 
 The name table lives here, in OLD_TO_NEW below, for now (it may move to the rename map later).
 """
@@ -74,6 +80,10 @@ _PATH_LINE_RE = re.compile(r"^(?P<head>\s*(?:-\s+)*(?:['\"]?[\w.-]+['\"]?\s*:\s*
 
 
 class Refused(Exception):
+    pass
+
+
+class Failed(Exception):
     pass
 
 
@@ -161,9 +171,29 @@ def product_base(target):
     return DEFAULT_BASE
 
 
+def inside(path, root):
+    """True when `path`, with every link followed, lies inside `root`."""
+    real, base = os.path.realpath(path), os.path.realpath(root)
+    return real == base or real.startswith(base.rstrip(os.sep) + os.sep)
+
+
 def model_dir(target):
+    """The model folder from the project's config; refused when it lies outside the project."""
     base = product_base(target)
-    return os.path.normpath(os.path.join(target, base, "product-os"))
+    model = os.path.normpath(os.path.join(target, base, "product-os"))
+    if not inside(model, target):
+        raise Refused(f"the product model folder ({model}, from product.base-path: {base}) lies outside "
+                      f"the project ({target}). This script changes only the project; nothing was moved.")
+    return model
+
+
+def refuse_links_outside(model, target):
+    for d, dirs, names in os.walk(model):
+        for n in dirs + names:
+            full = os.path.join(d, n)
+            if os.path.islink(full) and not inside(full, target):
+                raise Refused(f"{full} is a link to {os.path.realpath(full)}, outside the project. "
+                              "This script changes only the project; nothing was moved.")
 
 
 # --- git --------------------------------------------------------------------------------------
@@ -195,6 +225,49 @@ def changed(target, paths):
 
 # --- the migration ---------------------------------------------------------------------------
 
+def model_new_path(rel, model_rel):
+    """new_path for a target-relative path, renaming only the parts inside the model folder."""
+    if rel == model_rel:
+        return rel
+    return model_rel + "/" + new_path(rel[len(model_rel) + 1:])
+
+
+def snapshot(model):
+    """Every folder, file and link under the model, held in memory, so a failed run can put it back."""
+    entries = []
+    for d, dirs, names in os.walk(model):
+        for n in sorted(dirs + names):
+            full = os.path.join(d, n)
+            rel = os.path.relpath(full, model)
+            if os.path.islink(full):
+                entries.append(("link", rel, os.readlink(full), None))
+            elif os.path.isdir(full):
+                entries.append(("dir", rel, None, os.stat(full).st_mode))
+            else:
+                with open(full, "rb") as fh:
+                    entries.append(("file", rel, fh.read(), os.stat(full).st_mode))
+    return entries, os.stat(model).st_mode
+
+
+def restore(model, snap):
+    entries, mode = snap
+    if os.path.lexists(model):
+        shutil.rmtree(model)
+    os.makedirs(model)
+    os.chmod(model, mode & 0o7777)
+    for kind, rel, data, m in entries:  # os.walk is top-down: a folder comes before what it holds
+        full = os.path.join(model, rel)
+        if kind == "dir":
+            os.makedirs(full, exist_ok=True)
+        elif kind == "link":
+            os.symlink(data, full)
+        else:
+            with open(full, "wb") as fh:
+                fh.write(data)
+        if kind != "link":
+            os.chmod(full, m & 0o7777)
+
+
 def walk(model, target):
     files, folders = [], []
     for d, dirs, names in os.walk(model):
@@ -225,11 +298,12 @@ def migrate(target):
     if not os.path.isdir(model):
         report["reason"] = "no product model (no product-os folder); nothing to move"
         return report
+    refuse_links_outside(model, target)
     refuse_if_both(model)
 
     files, folders = walk(model, target)
     model_rel = os.path.relpath(model, target).replace(os.sep, "/")
-    moves = [(f, new_path(f)) for f in files if new_path(f) != f]
+    moves = [(f, model_new_path(f, model_rel)) for f in files if model_new_path(f, model_rel) != f]
     for old, new in moves:
         if os.path.exists(os.path.join(target, new)):
             raise Refused(f"{old} would move onto {new}, which exists. A person must merge the two; "
@@ -262,19 +336,35 @@ def migrate(target):
     touched_tracked = sorted({old for old, _ in moves if old in known} | {f for f in edits if f in known})
     dirty = changed(target, touched_tracked) if use_git else []
 
-    # 1. move files
+    snap = snapshot(model)
+    stage = []
+    try:
+        return _apply(target, model, model_rel, moves, folders, edits, use_git, known,
+                      touched_tracked, dirty, stage, report)
+    except Exception as e:  # any failed step: put the model back as it was, and stage nothing
+        why = str(e) or e.__class__.__name__
+        try:
+            restore(model, snap)
+            if use_git and stage:
+                git(target, "reset", "-q", "--", *stage, check=False)
+        except Exception as undo:
+            raise Failed(f"{why}; and putting the model back failed too: {undo}. "
+                         "The model folder may be part-moved; restore it from git.") from None
+        raise Failed(why + "; every move and edit was undone, nothing was committed") from None
+
+
+def _apply(target, model, model_rel, moves, folders, edits, use_git, known, touched_tracked, dirty,
+           stage, report):
+    # 1. move files (git sees each move as a rename when the paths are staged in step 4)
     for old, new in moves:
         os.makedirs(os.path.dirname(os.path.join(target, new)), exist_ok=True)
-        if old in known:
-            git(target, "mv", old, new)
-        else:
-            shutil.move(os.path.join(target, old), os.path.join(target, new))
+        shutil.move(os.path.join(target, old), os.path.join(target, new))
     # 2. move what is left in old folders (empty folders, ignored files), deepest first
     for d in sorted(folders, key=lambda p: -p.count("/")):
         full = os.path.join(target, d)
         if not os.path.isdir(full):
             continue
-        dest = os.path.join(target, new_path(d))
+        dest = os.path.join(target, model_new_path(d, model_rel))
         os.makedirs(dest, exist_ok=True)
         for name in os.listdir(full):
             shutil.move(os.path.join(full, name), os.path.join(dest, name))
@@ -294,7 +384,7 @@ def migrate(target):
             report["moved"]["headings"].append({"file": dest, "from": o, "to": n})
     report["moved"]["files"] = [{"from": o, "to": n} for o, n in moves
                                 if os.path.basename(o) != os.path.basename(n)]
-    report["moved"]["folders"] = [{"from": d, "to": new_path(d)} for d in folders]
+    report["moved"]["folders"] = [{"from": d, "to": model_new_path(d, model_rel)} for d in folders]
 
     # 4. one commit, holding only the paths this moved or changed
     if not use_git:
@@ -304,15 +394,15 @@ def migrate(target):
         report["reason"] = ("moved, but not committed: these paths had changes of their own before the "
                             "move, so a commit would mix them in: " + ", ".join(dirty))
         return report
-    stage = sorted({moved_to.get(p, p) for p in touched_tracked} | {o for o, _ in moves if o in known})
     if not touched_tracked:
         report["reason"] = "moved, but not committed: none of the moved paths is tracked by git"
         return report
-    git(target, "add", "--", *[p for p in stage if os.path.exists(os.path.join(target, p))])
+    stage.extend(sorted({moved_to.get(p, p) for p in touched_tracked} | {o for o, _ in moves if o in known}))
+    git(target, "add", "-A", "--", *stage)
     run = git(target, "commit", "-q", "-m", COMMIT_MESSAGE, "--", *stage, check=False)
     if run.returncode != 0:
-        report["reason"] = "moved, but the commit failed: " + (run.stderr.strip() or run.stdout.strip())
-        return report
+        raise RuntimeError("the commit failed: " + (run.stderr.strip() or run.stdout.strip()
+                                                     or f"git commit exited {run.returncode}"))
     report["committed"] = True
     report["commit"] = git(target, "rev-parse", "HEAD").stdout.strip()
     report["reason"] = "moved and committed"
@@ -320,7 +410,7 @@ def migrate(target):
 
 
 def summary(report):
-    if report.get("refused"):
+    if report.get("refused") or report.get("failed"):
         return "model: not moved — " + report["reason"]
     m = report["moved"]
     if not any(m.values()):
@@ -331,13 +421,21 @@ def summary(report):
     return line + (f"; committed {report['commit'][:8]}" if report["committed"] else f"; {report['reason']}")
 
 
+def _empty(reason, **flag):
+    return {"moved": {"keys": [], "files": [], "folders": [], "headings": []},
+            "committed": False, "commit": None, "reason": reason, **flag}
+
+
 def run(target):
-    """For the installers: the report, never an exception. A refusal is in the report."""
+    """The report, never an exception: a refusal or a failure is in the report."""
     try:
         return migrate(target)
     except Refused as e:
-        return {"moved": {"keys": [], "files": [], "folders": [], "headings": []},
-                "committed": False, "commit": None, "reason": str(e), "refused": True}
+        return _empty(str(e), refused=True)
+    except Failed as e:
+        return _empty(str(e), failed=True)
+    except Exception as e:  # a step before any move failed (an unreadable file, git missing)
+        return _empty(f"{e.__class__.__name__}: {e}; nothing was moved", failed=True)
 
 
 def main(argv=None):
@@ -346,10 +444,10 @@ def main(argv=None):
     ap.add_argument("--summary", action="store_true", help="print one plain line instead of the JSON report")
     args = ap.parse_args(argv)
     report = run(args.target)
-    if report.get("refused"):
+    if report.get("refused") or report.get("failed"):
         sys.stderr.write("migrate_model.py: " + report["reason"] + "\n")
     print(summary(report) if args.summary else json.dumps(report, indent=2))
-    sys.exit(2 if report.get("refused") else 0)
+    sys.exit(2 if report.get("refused") else 1 if report.get("failed") else 0)
 
 
 if __name__ == "__main__":
