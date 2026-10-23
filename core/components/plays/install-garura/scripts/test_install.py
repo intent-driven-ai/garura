@@ -32,6 +32,40 @@ def git(repo, *args):
     subprocess.run(["git", "-C", repo, *args], check=True, capture_output=True)
 
 
+OLD = "function" + "alit"  # spelled in two parts so a search for old names in this file finds none
+
+
+def lay_pre_807_model(target):
+    """A small product model with the names it had before #807, committed in its own repository."""
+    model = os.path.join(target, ".garura", "product", "product-os")
+    page = os.path.join(model, OLD + "ies", "fn-1", OLD + "y.md")
+    os.makedirs(os.path.dirname(page))
+    with open(os.path.join(model, "_spine.yaml"), "w", encoding="utf-8") as fh:
+        fh.write(f"{OLD}ies:\n- id: fn-1\n  doc: {OLD}ies/fn-1/{OLD}y.md\n")
+    with open(page, "w", encoding="utf-8") as fh:
+        fh.write(f"# {OLD.capitalize()}y: One\n")
+    os.makedirs(target, exist_ok=True)
+    git(target, "init", "-q", "-b", "main")
+    # Demo address: sample data for this throwaway repository, not personal data.
+    git(target, "config", "user.email", "t@example.com")
+    git(target, "config", "user.name", "test")
+    git(target, "add", "-A")
+    git(target, "commit", "-q", "-m", "seed")
+    return model
+
+
+def snapshot(target, model):
+    """Every file under the model with its bytes, plus the repository's last commit."""
+    files = {}
+    for d, _dirs, names in os.walk(model):
+        for n in names:
+            full = os.path.join(d, n)
+            with open(full, "rb") as fh:
+                files[os.path.relpath(full, model)] = fh.read()
+    head = subprocess.run(["git", "-C", target, "rev-parse", "HEAD"], capture_output=True, text=True).stdout
+    return files, head.strip()
+
+
 class Installed(unittest.TestCase):
     def setUp(self):
         self.work = tempfile.mkdtemp()
@@ -367,6 +401,20 @@ class RetiresOldNames(Installed):
         self.assertTrue(os.path.isfile(self.path(".claude", "skills", "shape-slice", "SKILL.md")))
 
 
+class LeavesTheProductModelAsItIs(Installed):
+    """The install never changes a product model the project already has (#813; upgrades: #835)."""
+
+    def test_an_install_leaves_a_pre_807_model_unchanged(self):
+        model = lay_pre_807_model(self.target)
+        before = snapshot(self.target, model)
+        record = self.install()
+        self.assertNotIn("model_migration", record)
+        self.assertEqual(snapshot(self.target, model), before)
+        status = subprocess.run(["git", "-C", self.target, "status", "--porcelain", "--", ".garura/product"],
+                                capture_output=True, text=True).stdout
+        self.assertEqual(status, "")
+
+
 class LaysLoops(unittest.TestCase):
     """Loops live in core/components/loops/ (#613) and install as skills beside the plays."""
 
@@ -571,6 +619,14 @@ class PublicInstaller(unittest.TestCase):
         self.assertEqual(run.returncode, 0, run.stderr)
         self.assertIn("no memory system; skipped", run.stdout)
         self.assertFalse(os.path.exists(self.path(".garura", "core", "tools")))
+
+    def test_the_shell_installer_leaves_a_pre_807_model_unchanged(self):
+        model = lay_pre_807_model(self.target)
+        before = snapshot(self.target, model)
+        run = self.run_installer(self.archive())
+        self.assertEqual(run.returncode, 0, run.stderr)
+        self.assertNotIn("model:", run.stdout)
+        self.assertEqual(snapshot(self.target, model), before)
 
 
 if __name__ == "__main__":

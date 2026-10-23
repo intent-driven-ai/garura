@@ -44,8 +44,7 @@ installer): the memory tool in `.garura/core/tools/memory/` with its settings, s
 memory's folder, and the memory guide where the host tool loads it for every agent. It then
 checks the tool runs and reaches the project's tiers. The install brings no memory.
 
-Last, it moves a product model made before #807 to the new names (`migrate_model.py`, #813),
-in one commit of its own, and records what moved under `model_migration`.
+The install never changes a product model the project already has (#813).
 
 Exit: 0 = installed, 1 = installed but the memory check failed, 2 = bad input /
 prerequisite missing.
@@ -61,7 +60,6 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import memory_system  # noqa: E402
-import migrate_model  # noqa: E402
 from adapters import common, get_adapter, known  # noqa: E402
 
 
@@ -341,11 +339,6 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     #    the first time it needs it.
     record["memory_system"] = memory_system.lay(source, target, tool, phoenix_place, phoenix_source, _info)
     record["memory_system"]["check"] = memory_system.check(target, _info)
-
-    # 8. the product model (#813, ADR 048): a model made before #807 moves to the new names,
-    #    in one commit of its own; a moved model or no model is left as it is.
-    record["model_migration"] = migrate_model.run(target)
-    _info("  " + migrate_model.summary(record["model_migration"]))
 
     return record
 
