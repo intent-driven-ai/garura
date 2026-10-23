@@ -7,6 +7,8 @@ const structural = require('./lib/rules/structural');
 const semantic = require('./lib/rules/semantic');
 const crossReference = require('./lib/rules/cross-reference');
 const naming = require('./lib/rules/naming');
+const askingAPerson = require('./lib/rules/asking-a-person');
+const sharedScripts = require('./lib/rules/shared-scripts');
 const reporter = require('./lib/reporter');
 
 function parseArgs(argv) {
@@ -50,6 +52,8 @@ async function main() {
   violations = violations.concat(semantic.check(components));
   violations = violations.concat(crossReference.check(components));
   violations = violations.concat(naming.check(components, targetDir));
+  violations = violations.concat(askingAPerson.check(components));
+  violations = violations.concat(sharedScripts.check(targetDir));
 
   // Step 5: Build summary
   const summary = {

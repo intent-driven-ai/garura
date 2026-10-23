@@ -40,8 +40,9 @@ answer (`record_checkpoint.py`), the ontology check (`check_ontology.py`), the c
 and you never record an answer the product owner did not type.
 
 **Forbidden:** changing a kind the need does not touch (C1); writing anything as agreed
-before its checkpoint's yes (C2); redefining a kind with no log line (C3); a real name, or
-text a newcomer cannot follow (C4); closing while the ontology check fails (C5); a missing
+before its checkpoint's yes (C2); redefining a kind with no log line (C3); a real name, text a
+newcomer cannot follow, or a checkpoint draft that does not follow the rule for asking a
+person (C4); closing while the ontology check fails (C5); a missing
 version bump, date or log line (C6); landing outside the change plays or on the wrong branch
 (C7); running the ontology skill outside this play (C8).
 
@@ -131,17 +132,21 @@ the kinds it touches (`## Touches`, one kind per line — new or existing).
       "inputs":  { "need": "<working>/need.md",
                    "ontology_path": "core/components/memory/standards/schemas/product-os/ontology.md",
                    "template_path": "<memory>/standards/templates/product-ontology.md",
+                   "asking_rule": "<working>/asking-a-person.md",
                    "sources": ["<paths the need names>"], "stage": "scope" },
       "outputs": { "draft": "<working>/draft-questions.md" },
       "task_id": "edit-ontology-scope" }
 
 The draft lists each new or changed question with a plain example from a real product, in
-ASD-STE100 plain English, with personas and no real names (C4). Drafts follow
-`standards/rules/asking-a-person.md`.
+ASD-STE100 plain English, with personas and no real names (C4). Every draft shown at a
+checkpoint follows the shared rule for asking a person: `product-os-keeper` loads
+`standards/rules/asking-a-person.md` through the memory tool, writes it to
+`<working>/asking-a-person.md`, and passes it to the skill as `asking_rule`. Steps 3 and 5
+carry the same input.
 
 **Step 2 — Checkpoint 1: the questions** · Owner: play · Depends on: Step 1 · Checkpoint
 (class: standard, **pinned** — the product owner decides, C2; never skipped by config)
-Show `draft-questions.md` exactly as written (drafts follow `standards/rules/asking-a-person.md`), and ask the product owner to type **yes**, or
+Show `draft-questions.md` exactly as written, and ask the product owner to type **yes**, or
 **change: <what>**. Record the answer verbatim:
 
 ```
@@ -161,8 +166,7 @@ The draft names, for each existing kind it reuses or changes, what changes and w
 line it will need (C3).
 
 **Step 4 — Checkpoint 2: the kinds** · Owner: play · Depends on: Step 3 · Checkpoint (pinned)
-As Step 2, with `--point kinds --draft <working>/draft-kinds.md` (the draft follows
-`standards/rules/asking-a-person.md`). Update `need.md`'s
+As Step 2, with `--point kinds --draft <working>/draft-kinds.md`. Update `need.md`'s
 `## Touches` to the kinds the product owner agreed.
 **SE-2 (F2/C2):** `decisions.json` holds a `kinds` entry with verdict `yes`, recorded after
 the `questions` yes.
@@ -176,8 +180,7 @@ Same contract with `"stage": "links"` (the skill's steps 5–6), `inputs.kinds:
 
 **Step 6 — Checkpoint 3: the links and rules** · Owner: play · Depends on: Step 5 · Checkpoint
 (pinned)
-As Step 2, with `--point links --draft <working>/draft-links.md` (the draft follows
-`standards/rules/asking-a-person.md`).
+As Step 2, with `--point links --draft <working>/draft-links.md`.
 **SE-4 (F2/C2):** `decisions.json` reads `all_agreed: true` — a `yes` for all three points —
 before Step 7 writes anything.
 
@@ -223,7 +226,9 @@ changed.
 **SE-7 (F6/C6):** `change-check.json` reads `version_ok: true` — the version is up by one,
 `updated` equals the run's date, and there is exactly one new log line.
 **SE-8 (F4/C4):** `change-check.json` reads `names_ok: true`, and every new or changed kind
-has an `**Example**` part.
+has an `**Example**` part; each draft shown at a checkpoint (`draft-questions.md`,
+`draft-kinds.md`, `draft-links.md`) has an opening, and each of its questions has the parts
+Question, Answer, Why it matters and Example.
 
 **Step 9 — Commit the ontology** · Owner: play · Depends on: Step 8
 
@@ -348,7 +353,7 @@ and a pointer to `$evidence_dest`. Always emitted; never gated.
 | F1 | a kind the need does not touch changed | undo the change to that kind, and show it to the product owner as a separate need | autonomous |
 | F2 | something was written as agreed without the product owner's yes at one of the three points | take the write back to draft, and ask again at that checkpoint | human |
 | F3 | an existing kind changed meaning with no log line | add the log line that names the changed meaning, or undo the change | autonomous |
-| F4 | a real name in the text, or text a newcomer cannot follow | rewrite with personas and plain words, and run the change check again | autonomous |
+| F4 | a real name in the text, text a newcomer cannot follow, or a checkpoint draft that does not follow the rule for asking a person | rewrite with personas and plain words, in the shape the rule for asking a person gives, and run the change check again | autonomous |
 | F5 | the run would close while the ontology check fails | fix each problem the report lists and run the check again; the run stays open until it reads valid | autonomous |
 | F6 | the version, the date or the log line is missing | set the version, the date and the log line, and run the checks again | autonomous |
 | F7 | the change landed outside the change plays, or on the wrong branch | stop; land it through the change plays, on the branch `resolve_target.py` gives | human |
@@ -365,7 +370,7 @@ and never re-drafts a stage whose checkpoint is agreed.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:09e36c194499d5fd0fa33bd9f45f4012b54c3cfa2b7f36a7a071a24ead08015b (of `reference/ice.md`) |
+| fingerprint | sha256:cd96159bd6dd5d79a5f5846e11aa4feb6a03b562ac73603ac528cc9b51ae246e (of `reference/ice.md`) |
 | compiled_by | create-play (#777) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | position_exception | ontology-writing both play — writes the ontology on its started branch and commits it (Step 9) BEFORE the injected end sequence lands it |

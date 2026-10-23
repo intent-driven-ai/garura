@@ -111,7 +111,7 @@ manifest:
           why_rejected: {one line}
       agent_reasoning_summary: |
         {2-4 line prose}
-      user_response: accept | override | orbit | pending
+      user_response: accept | override | change | pending
       user_response_detail: {free text — null when pending}
 ```
 
@@ -169,7 +169,7 @@ For each proposed delta:
 When a proposed delta is `loosened` (e.g., a system ceiling forces a relaxation of the /specify target):
 
 - For non-security characteristics: surface at Stage 2 checkpoint per C19 tier. Loosening is a real adjustment but may be acceptable; the user decides.
-- For security characteristics: halt with `what_failed: security_ratchet_violation`. The orchestrator surfaces the conflict — either the system choice changes (orbit to Stage 1) or the /specify target was wrong.
+- For security characteristics: halt with `what_failed: security_ratchet_violation`. The orchestrator surfaces the conflict — either the system choice changes (go back to Stage 1) or the /specify target was wrong.
 
 ### 7. Write outputs
 

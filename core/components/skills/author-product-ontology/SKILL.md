@@ -33,6 +33,7 @@ written as agreed until they say so.
 | `need` | yes | What the work needs, in plain words — e.g. "the Business Intent, human-facing, as `/discover-intent` will write it" |
 | `ontology_path` | yes | The ontology document. Default: `~/.garura/core/memory/standards/schemas/product-os/ontology.md` (source: `core/components/memory/standards/schemas/product-os/ontology.md`) |
 | `template_path` | no | The format. Default: `~/.garura/core/memory/standards/templates/product-ontology.md` |
+| `asking_rule` | yes, for `scope`, `kinds`, `links` | The shared rule for asking a person (`standards/rules/asking-a-person.md`): how each question in a draft is shown. The agent loads it through the memory tool and puts it in short-term memory, at `<working>/asking-a-person.md` |
 | `sources` | no | Paths to read for reuse — existing schemas, doctrine, decision records, issues |
 | `report_path` | yes | Where the check report is written |
 | `stage` | yes, from edit-ontology | Which stage to run: `scope`, `kinds`, `links` or `write` (see Stages) |
@@ -64,7 +65,7 @@ When a contract carries `change` (the product owner's words at a checkpoint) or 
 Read the format at `template_path` first, and the ontology at `ontology_path` if it exists.
 Then run the seven steps for the kinds `need` touches. Each step that needs a decision ends
 with a plain question to the person; record their answer before moving on. Every draft shown to
-the product owner follows `standards/rules/asking-a-person.md`.
+the product owner follows the rule at `asking_rule` (`standards/rules/asking-a-person.md`).
 
 ### 1. Scope it with questions
 

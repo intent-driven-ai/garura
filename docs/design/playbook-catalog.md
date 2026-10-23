@@ -59,7 +59,7 @@ Summary of every play under `core/components/plays/` as of this audit. Scope sta
 | `check-drift` | Implementation drift against locked specs. Produces drift report, ADR drafts, debt catalog, memory items. | Quality gate |
 | `review-pr` | Diff-scoped PR review with deterministic P1/P2/P3 severity taxonomy. Confidence formula routes decision (PASS / BLOCK / ESCALATE). Gates `ship` unless `review-pr.bypass=false`. | Quality gate |
 | `start-feature` | Issue resolution + branch creation + STM init. Three input patterns converge on the same flow. No planning artifacts. | Work setup |
-| `start-feature-planning` | Lightweight planning alternative to the full specify → design → arch → prepare pipeline. Uses built-in Plan sub-agent. Produces spec.md, verify.md, tasks.md. One Tether/Vanish gate. | Work setup |
+| `start-feature-planning` | Lightweight planning alternative to the full specify → design → arch → prepare pipeline. Uses built-in Plan sub-agent. Produces spec.md, verify.md, tasks.md. One approval gate (yes / stop). | Work setup |
 | `capture` | Async GitHub issue filing with type inference. Fire-and-forget; non-blocking. | Utility |
 | `report-issue` | **Deprecated alias for `capture`.** Will be removed next major release. | Utility |
 | `commit-code` | Concern-grouped conventional commits with issue references. Optional checkpoint when confidence low. | Delivery |

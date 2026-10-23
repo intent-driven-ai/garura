@@ -124,7 +124,7 @@ manifest:
           why_rejected: {one line}
       agent_reasoning_summary: |
         {2-4 line prose summary of how the agent arrived at the recommendation}
-      user_response: accept | override | orbit | pending    # set by orchestrator after surfacing
+      user_response: accept | override | change | pending    # set by orchestrator after surfacing
       user_response_detail: {free text — null when pending}
 ```
 

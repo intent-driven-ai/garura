@@ -188,6 +188,9 @@ slices:
   - id: string
     slug: string
     domain_ref: string
+    intents: [string]     # "serves" (ontology v10): the BUSINESS INTENT ids
+                          # (product-os/intents/<id>.md) this slice serves — one or more.
+                          # The linter checks each has a page; a slice naming none is a warning.
     status: string        # proposed (/shape-scope) | planned (/shape-roadmap) | realized (/shape-run-lens) | deferred
     order: integer        # /shape-roadmap's global build position; null until planned
     effort: string        # /shape-roadmap's size estimate; null until planned

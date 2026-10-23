@@ -18,7 +18,10 @@ landed through the change plays.
 - C3 — Reuse before you invent. An existing kind is never redefined without a log line that
   says so.
 - C4 — Every page a person reads is in ASD-STE100 plain English, uses personas and never
-  names, and has a real example.
+  names, and has a real example. Every draft shown at a checkpoint follows the shared rule
+  for asking a person (`standards/rules/asking-a-person.md`): an opening that says what the
+  person decides, and each question with Question / Answer / Why it matters / Example, the
+  example from several domains.
 - C5 — A script decides whether the ontology is valid, not the model. The run ends only when
   the ontology check passes.
 - C6 — The ontology version goes up by one, the date is set, and one log line says what
@@ -33,7 +36,8 @@ landed through the change plays.
 - F2 — Something was written as agreed without the product owner's yes at one of the three
   points.
 - F3 — An existing kind changed meaning, and no log line says so.
-- F4 — A page names a real person, or a person cannot follow it.
+- F4 — A page names a real person, or a person cannot follow it, or a checkpoint draft does
+  not follow the rule for asking a person.
 - F5 — The run closed while the ontology check still failed.
 - F6 — The version, the date or the log line is missing.
 - F7 — The change landed outside the change plays, or on the wrong branch.
@@ -47,6 +51,9 @@ landed through the change plays.
   `check_ontology.py`).
 - The agent that gathers sources and runs the skill: `product-os-keeper`.
 - The format: `standards/templates/product-ontology.md`.
+- The rule for asking a person: `standards/rules/asking-a-person.md`. In the three draft
+  stages, `product-os-keeper` loads it through the memory tool, writes it to
+  `<working>/asking-a-person.md`, and passes it to the skill as the input `asking_rule`.
 - Persona: the product owner, who decides; the agents and plays that read the ontology.
 
 ## Expectation
@@ -92,8 +99,8 @@ landed through the change plays.
   Handoff: human.
 - REC3 (F3) — add the log line that names the changed meaning, or undo the change. Handoff:
   autonomous.
-- REC4 (F4) — rewrite the text with personas and plain words, and run the name check again.
-  Handoff: autonomous.
+- REC4 (F4) — rewrite the text with personas and plain words, in the shape the rule for
+  asking a person gives, and run the name check again. Handoff: autonomous.
 - REC5 (F5) — fix each problem the check report lists, and run the check again; the run
   stays open until the check passes. Handoff: autonomous.
 - REC6 (F6) — set the version, the date and the log line, and run the check again. Handoff:

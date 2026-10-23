@@ -1,0 +1,141 @@
+{
+  "passed": 14,
+  "failed": 13,
+  "results": [
+    {
+      "check": "821: a play that asks a person and does not point to the rule fails",
+      "ok": false,
+      "detail": "age': 'Missing required section: ## Pre-flight', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmp8lw8wp4p/plays/ask-without-pointer/SKILL.md', 'rule': 'structural/missing-standard-play-close', 'severity': 'error', 'message': 'Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See core/components/plays/_shared/play-close.md.', 'line': 1}]"
+    },
+    {
+      "check": "821: the failure is an error",
+      "ok": false,
+      "detail": "[]"
+    },
+    {
+      "check": "821: a play that points to the rule passes that check",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "821: edit-ontology passes the asking-a-person check",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "821: author-product-ontology passes the asking-a-person check",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "821: a linter test covers the asking-a-person check",
+      "ok": false,
+      "detail": "['core/tools/lint-components/test/naming.test.js', 'core/tools/lint-components/test/skill-invocable.test.js']"
+    },
+    {
+      "check": "all: naming.test.js still passes",
+      "ok": true,
+      "detail": "an industry term passes\n  [PASS] a loop named complete-<phase> passes\n  [PASS] a loop with another shape fails\n  [PASS] a play may not use the loop verb\n  [PASS] a skill with a skill verb passes\n  [PASS] a skill with no skill verb fails\n  [PASS] the named skill exception passes\n  [PASS] an agent with a role passes\n  [PASS] an agent with no role fails\n  [PASS] upper case fails\n\n16 passed, 0 failed\n"
+    },
+    {
+      "check": "all: skill-invocable.test.js still passes",
+      "ok": true,
+      "detail": "  [PASS] a skill a person can start fails\n  [PASS] a skill only plays run passes\n\n2 passed, 0 failed\n"
+    },
+    {
+      "check": "821: edit-ontology has its scope/kinds/links contracts",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "check": "821: the Step 1 contract hands the rule to the agent",
+      "ok": false,
+      "detail": "\": \"<working>/need.md\",\\n                   \"ontology_path\": \"core/components/memory/standards/schemas/product-os/ontology.md\",\\n                   \"template_path\": \"<memory>/standards/templates/product-ontology.md\",\\n                   \"sources\": [\"<paths the need names>\"], \"stage\": \"scope\" },\\n      \"outputs\": { \"draft\": \"<working>/draft-questions.md\" },\\n      \"task_id\": \"edit-ontology-scope\"']"
+    },
+    {
+      "check": "821: author-product-ontology lists the rule as an input",
+      "ok": false,
+      "detail": "## Input\n\n| Field | Required | Meaning |\n|-------|----------|---------|\n| `need` | yes | What the work needs, in plain words \u2014 e.g. \"the Business Intent, human-facing, as `/discover-intent` will write it\" |\n| `ontology_path` | yes | The ontology document. Default: `~/.garura/core/memory/standards/sc"
+    },
+    {
+      "check": "825: the approval template exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has no Tether / Orbit / Vanish",
+      "ok": false,
+      "detail": "['Tether', 'Orbit', 'Vanish', 'Orbit', 'Tether', 'Tether', 'Orbit', 'Vanish', 'Orbit', 'Tether', 'Orbit', 'Vanish', 'Tether', 'tether', 'Vanish', 'vanish', 'Vanish', 'Orbit', 'orbit', 'ORBIT_FEEDBACK', 'Tether', 'Orbit', 'Vanish', 'Tether', 'Orbit', 'Vanish', 'Tether', 'Orbit', 'Vanish', 'Vanish', 'Tether', 'Orbit', 'Vanish']"
+    },
+    {
+      "check": "825: the approval template has the part 'Question'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has the part 'Answer'",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has the part 'Why it matters'",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has the part 'Example'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template points to the asking-a-person rule",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "825: no template names Tether / Orbit / Vanish",
+      "ok": false,
+      "detail": "['_index.md', 'approval-prompt.md', 'checkpoint.md', 'evidence-file.md', 'issue-comment-rca-approved.md']"
+    },
+    {
+      "check": "825: the asking-a-person rule still links the approval template",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "829: the spine schema's slice entry has an intents field",
+      "ok": false,
+      "detail": "  - id: string\n    slug: string\n    domain_ref: string\n    status: string        # proposed (/shape-scope) | planned (/shape-roadmap) | realized (/shape-run-lens) | deferred\n    order: integer        # /shape-roadmap's global build position; null until planned\n    effort: string        # /shape-road"
+    },
+    {
+      "check": "829: a slice naming a business intent that does not exist fails",
+      "ok": false,
+      "detail": "{\n  \"ok\": true,\n  \"errors\": [],\n  \"warnings\": [],\n  \"counts\": {}\n}\n"
+    },
+    {
+      "check": "829: a slice naming a business intent that exists passes",
+      "ok": true,
+      "detail": "([], '{\\n  \"ok\": true,\\n  \"errors\": [],\\n  \"warnings\": [],\\n  \"counts\": {}\\n}\\n')"
+    },
+    {
+      "check": "829: every copy of lint_grounding.py is the same",
+      "ok": true,
+      "detail": "12 copies, 1 versions"
+    },
+    {
+      "check": "all: core/components/plays/discover-domains/scripts/test_lint_grounding.py passes",
+      "ok": true,
+      "detail": "ces (#689)\n  [PASS] sources sit just before the agent intent\n  [PASS] sources after the agent intent are an error\n  [PASS] sources in the middle of the page are an error\n  [PASS] an empty sources section is an error\n  [PASS] a domain page may end with its research sources\ntest_every_copy_is_identical\n  [PASS] every play's lint_grounding.py is identical to this one (12 copies)\n\n36 passed, 0 failed\n"
+    },
+    {
+      "check": "all: core/components/plays/discover-domains/scripts/test_lint_ice.py passes",
+      "ok": true,
+      "detail": "d that does not match its part is an error\n  [PASS] an ICE entry that names a business intent is an error\n  [PASS] an ice.md that names a business intent is an error\n  [PASS] two ICE for one part is an error\n  [PASS] a part with no ICE is a warning, not an error\n  [PASS] an ice.md no ices entry points at is an orphan error\n  [PASS] an ICE entry with no doc pointer is an error\n\n14 passed, 0 failed\n"
+    },
+    {
+      "check": "829: a lint_grounding test covers a slice's intents",
+      "ok": false,
+      "detail": ""
+    }
+  ]
+}

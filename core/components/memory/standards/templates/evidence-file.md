@@ -31,7 +31,7 @@ product_slug: {slug or null}
 started_at: {ISO-8601}
 completed_at: {ISO-8601}
 status: COMPLETED | HALTED | ABORTED
-exit_reason: success | validation_failed | user_vanish | pre_flight_failed | recovery_exhausted | {other}
+exit_reason: success | validation_failed | user_stop | pre_flight_failed | recovery_exhausted | {other}
 session_id: {Claude Code session UUID from session_stamp.py, or null}
 ledger_file: {path to the session's JSONL ledger, or null}
 ledger_start_offset: {ledger byte size at play pre-flight, or null}
@@ -71,21 +71,20 @@ Summary: `{N}/{M}` scenario evals passed.
 ## Checkpoint Decisions
 | Stage | Cycle | Decision | Timestamp |
 |-------|-------|----------|-----------|
-| {stage-slug} | 1 | Tether | {timestamp} |
-| {stage-slug} | 1 | Orbit | {timestamp} |
-| {stage-slug} | 2 | Tether | {timestamp} |
+| {stage-slug} | 1 | change | {timestamp} |
+| {stage-slug} | 2 | yes | {timestamp} |
 | ... | ... | ... | ... |
 
-{One line per checkpoint cycle. Orbit cycles are visible as separate rows.}
+{One line per checkpoint cycle. A round after a change reply is its own row.}
 
 ## Resolution Gate Outcomes
 {Only when the play had a pre-lock resolution gate (e.g. specify).
 Lists every issue surfaced at the gate and how it was resolved (RESOLVED
-audit entries or Vanish).}
+audit entries or a stop reply).}
 
 | Issue | Severity | Resolution | Note |
 |-------|----------|------------|------|
-| {field path} | blocker \| warning | RESOLVED \| Vanish | {user's resolution text} |
+| {field path} | blocker \| warning | RESOLVED \| stopped | {user's resolution text} |
 
 ## Stop Condition
 {Only when the play carries a baked stop-condition.yaml (#464). The Step C0
@@ -136,13 +135,13 @@ the close chain follows acceptance".}
 |-------|------|
 | `play` | Exact play slug. |
 | `run_id` | Unique per run. Timestamp-based (`{play}-{YYYYMMDD-HHMMSS}`) is fine. |
-| `status` | `COMPLETED` on normal close; `HALTED` on explicit user Vanish; `ABORTED` on unrecoverable failure. |
+| `status` | `COMPLETED` on normal close; `HALTED` on an explicit `stop` reply from the user; `ABORTED` on unrecoverable failure. |
 | `exit_reason` | Short token describing why the run ended. Specific values are per-play. |
 | `session_id` / `ledger_*` | The session identity stamp (#463), copied verbatim from `session_stamp.py --phase close`. The offline join key for spend attribution — a run's exact token cost is computable later from the ledger slice `[start_offset, end_offset)`. Null when the ledger was unresolved; never fabricate. |
 | `stop_condition` | The Step C0 verdict (#464), verbatim from `check_stop_condition.py`. `held` is the only value that permits `status: COMPLETED`; `unmet` (or an unevaluable `error`) forces `HALTED` with `exit_reason: stop_condition_unmet` and the Stop Condition section filled. `not_defined` only for legacy plays whose recompile has not yet baked a manifest. |
-| Step Eval Results | Must list EVERY SE-n defined in the compiled play — no silent skips. PASS / FAIL only; DEFERRED / N-A are allowed if the corresponding step was not reached (e.g., Vanish cleanup path). |
+| Step Eval Results | Must list EVERY SE-n defined in the compiled play — no silent skips. PASS / FAIL only; DEFERRED / N-A are allowed if the corresponding step was not reached (e.g., the clean-up path after a `stop` reply). |
 | Scenario Eval Results | Must list EVERY SCE-n defined in the compiled play. |
-| Checkpoint Decisions | One row per checkpoint cycle. Orbit retries produce multiple rows for the same stage. |
+| Checkpoint Decisions | One row per checkpoint cycle. A change reply produces multiple rows for the same stage. |
 | Gate Outcomes | Must list EVERY card in the lens's quality-gates.yaml when the run executed gates — one row per card, statuses verbatim from check-quality-gates. A gate that didn't run appears as missing-tool/error, never as a dropped row. |
 | Commit Reference | Populated AFTER the self-commit step. If the commit step failed, use `N/A — commit failed, see recovery`. |
 

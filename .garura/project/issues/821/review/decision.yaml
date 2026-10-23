@@ -1,0 +1,7 @@
+decision: approve
+decided_by: human
+reply: "approve"
+recommended: reject
+blocking: []
+round: 2
+note: "The recommended reject rests only on SEC-07 (JSON.parse of the linter's own output in a test), a false positive. History rewrite not chosen: the two early commits that hold a home path stay."

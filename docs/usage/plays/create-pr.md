@@ -33,7 +33,7 @@ core/components/plays/create-pr/
 │   └── intent.yaml       # First-class intent schema (operational contract)
 └── templates/
     ├── checkpoint.md      # Checkpoint artifact template
-    ├── approval-prompt.md # User-facing Tether/Vanish prompt
+    ├── approval-prompt.md # User-facing approval prompt (yes / change / stop)
     └── final-report.md    # Post-PR creation summary
 ```
 
@@ -49,7 +49,7 @@ core/components/plays/create-pr/
 |------|------|-------|---------|
 | **Step 0** | Pre-flight | repo-orchestrator | Verify environmental preconditions (C1–C4) |
 | **Step 1** | Analyze | repo-orchestrator | Generate evidence-based quality checklist |
-| **Step 2** | Checkpoint | orchestrator | Present for approval (Tether/Vanish) |
+| **Step 2** | Checkpoint | orchestrator | Present for approval (yes / change / stop) |
 | **Step 3** | Execute | repo-orchestrator | Create the PR with checklist embedded |
 | **Step 4** | Report | orchestrator | Present summary, update STM artifacts |
 
@@ -145,9 +145,9 @@ Dynamic checklists show only what matters:
 
 ---
 
-Type **Tether** to create the PR or **Vanish** to cancel.
+Reply **yes** to create the PR, **change: {what to change}** to redo it, or **stop** to cancel.
 
-> Tether
+> yes
 
 [Creating pull request...]
 

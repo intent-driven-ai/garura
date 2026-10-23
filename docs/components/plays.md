@@ -21,7 +21,7 @@ Per ADR 017 (2026-04-14), play levels (L1/L2) and agent-count budgets are retire
 
 Plays still distinguish themselves along two axes:
 
-- **Invocability**: some plays are human-only (they stop at checkpoints waiting for Tether/Vanish); others can be model-invoked for automated sequencing.
+- **Invocability**: some plays are human-only (they stop at checkpoints waiting for a typed yes, change or stop); others can be model-invoked for automated sequencing.
 - **Chaining**: some plays chain other plays — the pipeline end sequence chains `commit-change` → `propose-change` → `check-change` → `merge-change` (injected per `standards/rules/pipeline-position.md`); most are standalone.
 
 Neither of these requires a level label.

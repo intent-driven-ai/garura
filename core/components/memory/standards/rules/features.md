@@ -140,7 +140,7 @@ constraints:
       source_reference: "<brief quote OR profile.nfr_scale=2 OR kb.user-management.UM-F001.success_criteria[0] OR 'needs user grounding'>"
 ```
 
-Values tagged `kb_default` or `assumption` are **surfaced at the capability-configuration checkpoint** for user confirmation. They cannot proceed to intent epic generation without explicit user grounding (Tether = "yes, this number is in scope", Orbit = "use this value instead", Vanish = "drop this constraint").
+Values tagged `kb_default` or `assumption` are **surfaced at the capability-configuration checkpoint** for user confirmation. They cannot proceed to intent epic generation without explicit user grounding (yes = "this number is in scope", change = "use this value instead", stop = "drop this constraint").
 
 **Profile-mismatch detection:** the validator cross-checks numeric constraints against the profile. Example failures:
 - `nfr_scale=2` (low-to-mid) but constraint targets `10K concurrent sessions` → flags `profile_scale_mismatch`

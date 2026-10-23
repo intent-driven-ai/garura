@@ -258,7 +258,7 @@ tr:hover { background: rgba(0,212,255,0.05); }
 │  [Export Comments JSON]  [Copy]             │
 │                                             │
 │  Overall action:                            │
-│  [Tether]  [Vanish]  [Orbit]               │
+│  [Yes]  [Change]  [Stop]                    │
 │                                             │
 └─────────────────────────────────────────────┘
 ```
@@ -284,7 +284,7 @@ tr:hover { background: rgba(0,212,255,0.05); }
       "created_at": "{ISO-8601}"
     }
   ],
-  "action": "tether|vanish|orbit"
+  "action": "yes|change|stop"
 }
 ```
 
@@ -293,7 +293,7 @@ tr:hover { background: rgba(0,212,255,0.05); }
 - **localStorage key:** `garura-comments-{artifact}-{slug}`
 - **Format:** Array of comment objects (id, tab, selected_text, comment, created_at, range data)
 - **Persistence:** Comments survive page reload, browser close/reopen
-- **Clear:** Exporting with an action (tether/vanish/orbit) clears stored comments
+- **Clear:** Exporting with an action (yes/change/stop) clears stored comments
 
 ### JavaScript (vanilla, inline)
 

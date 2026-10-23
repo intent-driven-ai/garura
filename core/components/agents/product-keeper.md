@@ -141,7 +141,7 @@ Key outputs (enriched contract):
 - Write epics with empty mandatory fields, unquantified constraints, or fewer than 2 entries in `intent.failure_scenario`.
 - Emit any banned legacy top-level key (`intents`, `failure_conditions`, `in_scope`, `anti_goals`, `must_not_break`, `cross_cutting_justification`, `problem_statement`, `hypothesis`, `assumptions_requiring_validation`, top-level `appetite`/`business_rules`/`constraints`/`depends_on`/`dependencies`/`foundation_investment`/`uses_mocks`/`demock_epic_ref`/`kb_source`/`expectation`). The four-section ICE schema absorbs all of these.
 - Skip a cross-tree constraint during configuration. Every constraint is walked and its decision recorded.
-- Bypass the pre-lock resolution gate — blockers must be RESOLVED or Vanish, no accept-risk path.
+- Bypass the pre-lock resolution gate — blockers must be RESOLVED or stopped, no accept-risk path.
 - Write evidence, checkpoint, or status files directly. Delegate to the scriber agent via background dispatch.
 - Load the entire KB catalog into context unconditionally. Read selectively per the protocol above.
 - Touch design or arch artifacts directly. Those pipelines own their own outputs.
