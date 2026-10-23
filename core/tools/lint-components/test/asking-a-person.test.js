@@ -47,8 +47,17 @@ t('a play that asks in a step but names the rule only in Compilation Metadata fa
   rules(ASKS, { after: '\n## Compilation Metadata\n| rules | asking-a-person.md |\n' }), [RULE_ID]);
 t('a play that asks in a step and names the rule in the workflow passes',
   rules(SILENT + ASKS + POINTER, { after: '\n## References\n- nothing\n' }), []);
-t('a play that names the rule in its Pre-flight, before the workflow, passes',
-  rules(ASKS, { before: '## Pre-flight\n' + POINTER + '\n' }), []);
+// The pointer counts only where the play asks: inside the workflow, never before it.
+t('a play that asks in a step but names the rule only in Pre-flight fails',
+  rules(ASKS, { before: '## Pre-flight\n' + POINTER + '\n' }), [RULE_ID]);
+t('a play that asks in a step but names the rule only under Constraints fails',
+  rules(ASKS, { before: '## Constraints\n- ' + POINTER + '\n' }), [RULE_ID]);
+t('a play that names the rule inside the workflow, in a Phase before the step that asks, passes',
+  rules('\n### Phase: Draft\n' + POINTER + ASKS, { before: '## Pre-flight\nNothing here.\n' }), []);
+t('a play with no Workflow section that asks and names the rule anywhere in its body passes',
+  (() => { const { file } = play(''); fs.writeFileSync(file, '---\nname: shape-thing\ndescription: x\n---\n\n' +
+    '## Constraints\n' + POINTER + '\n## Steps\n' + ASKS);
+    return checkPlay({ file, name: 'shape-thing', type: 'play' }).map((v) => v.rule); })(), []);
 t('a play that asks in a Phase heading inside the workflow and has no pointer fails',
   rules(SILENT + '\n## Phase 2 — Review\n' + ASKS), [RULE_ID]);
 t('a checkpoint signal wrapped onto the next line still counts',

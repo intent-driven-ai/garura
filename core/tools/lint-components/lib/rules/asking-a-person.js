@@ -5,9 +5,10 @@
 //
 // Only the play's own steps count, both for the "asks a person" signal and for the pointer:
 // the body after the frontmatter, in the `## Workflow` section (with any `## Phase` / `## Step`
-// headings inside it). The pointer may also sit in the Role / Pre-flight text before the
-// workflow. A play with no `## Workflow` section is read whole, minus its reference and note
-// sections. The frontmatter is never read: a description that mentions approval is not a step.
+// headings inside it). The pointer counts only there, where the play asks: never in the Role,
+// Constraints, Pre-flight, Task DAG or Arguments text before the workflow. A play with no
+// `## Workflow` section is read whole, minus its reference and note sections, for both. The
+// frontmatter is never read: a description that mentions approval is not a step.
 
 const fs = require('fs');
 
@@ -52,20 +53,14 @@ function sections(content) {
   return out;
 }
 
-// The play's steps (where a person may be asked) and the wider text where the pointer counts.
+// The play's steps: where a person may be asked, and the only place the pointer counts.
 function stepRegions(content) {
   const all = sections(content);
   const w = all.findIndex((s) => WORKFLOW.test(s.title));
-  const keep = (s) => !NOT_STEPS.test(s.title);
-  if (w < 0) {
-    const body = all.filter(keep);
-    return { steps: body, pointer: body };
-  }
+  if (w < 0) return all.filter((s) => !NOT_STEPS.test(s.title));
   let end = w + 1;
   while (end < all.length && INSIDE_WORKFLOW.test(all[end].title)) end++;
-  const steps = all.slice(w, end);
-  const pointer = all.slice(0, w).filter(keep).concat(steps);
-  return { steps, pointer };
+  return all.slice(w, end);
 }
 
 // A signal may wrap onto the next line ("Checkpoint" then "(class: standard)"), so each line is
@@ -86,11 +81,11 @@ function findSignal(regions) {
 }
 
 function asksAPerson(content) {
-  return findSignal(stepRegions(content).steps);
+  return findSignal(stepRegions(content));
 }
 
 function namesTheRule(content) {
-  return stepRegions(content).pointer.some((s) => s.lines.some((l) => l.text.includes(RULE_FILE)));
+  return stepRegions(content).some((s) => s.lines.some((l) => l.text.includes(RULE_FILE)));
 }
 
 function checkPlay(component) {
