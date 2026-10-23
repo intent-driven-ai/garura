@@ -1,0 +1,8 @@
+decision: reject
+decided_by: human
+reply: "fix ha1, mc1, hc1, explain hb1 and hb2 - i don understand these"
+recommended: reject
+blocking: []
+round: 1
+note: "The one P1 (SEC-07, JSON.parse of the linter's own output in a test) is a false positive. The reviewer asked to fix HA1, MC1 and HC1 in this PR."
+to_fix: ["HA1 edit-ontology ICE source carries the asking_rule flow (via /edit-play)", "MC1 no Tether/Orbit/Vanish left outside templates (ADR records excepted)", "HC1 one main copy of lint_grounding.py and a check that every copy matches it"]
