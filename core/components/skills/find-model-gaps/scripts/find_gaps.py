@@ -35,6 +35,7 @@ import sys
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
 import intent_touches  # noqa: E402  (stamped from create-play/references)
 
 QUOTE = re.compile(r"[\"“]([^\"“”]{4,})[\"”]")
@@ -102,6 +103,7 @@ def one_way(model, intent_pages, groups):
 def find(model, journeys=None, view_texts=None):
     spine_path = os.path.join(model, "_spine.yaml")
     spine = yaml.safe_load(read(spine_path)) if os.path.isfile(spine_path) else {}
+    model_names.check_spine(spine, spine_path)
     spine = spine or {}
     doms, caps, funcs = entries(spine, "domains"), entries(spine, "capabilities"), entries(spine, "features")
     dom_ids, cap_ids = {d["id"] for d in doms}, {c["id"] for c in caps}

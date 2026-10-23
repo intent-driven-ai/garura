@@ -61,6 +61,9 @@ except ImportError:
     sys.stderr.write("persist_understand.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def slug(text):
     return "".join(c if c.isalnum() else "-" for c in str(text).lower()).strip("-")
@@ -68,7 +71,7 @@ def slug(text):
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def find(entries, eid):

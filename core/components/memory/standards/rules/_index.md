@@ -6,17 +6,6 @@ Agents and skills query this category when they need to know: **"What rules must
 
 ## Contents
 
-### Artifact rules (product planning → design → architecture pipeline)
-
-| Path | Description | Consumers |
-|------|-------------|-----------|
-| `epics.md` | Epic structure rules — vertical slice delivery, single module scope, mocks as phased delivery, scope boundaries (in_scope / anti_goals / must_not_break), success verifiability, dependency discipline (no cycles), foundation investments | `generate-intent-epics`, `validate-intent-epics`, `prepare`, `feature-steward`, `tech-designer` |
-| `features.md` | Intent-epic content rules — mandatory fields, quantification regex, placeholder detection, hypothesis format, KB traceability, problem-statement specificity | `generate-intent-epics`, `validate-intent-epics`, `feature-steward` |
-| `product.md` | Product-planning rules — KB-grounded capability selection, constraint traceability, no silent inclusions / exclusions, security ratchet-up, provisional STM sourcing, quality profile aggregation, three-layer hierarchy | `derive-capability-selection`, `enrich-capabilities`, `derive-quality-profile-from-epics`, `product-keeper` |
-| `design.md` | Design-exp rules — JTBD personas, capability ↔ persona coverage, screen state minimums, flow ↔ scenario traceability, explicit wireframes (no generic descriptors), no visual-design language, WCAG per interactive screen, one-decision-per-pattern | `synthesize-personas`, `generate-screen-inventory`, `validate-screen-coverage`, `map-user-flows`, `generate-wireframes`, `compile-design-spec`, `designer` |
-| `architecture.md` | Build-arch rules — decisions cite drivers (epics / quality attributes / constraints), tech-agnostic logical layer, source-type discipline, refined-QP-describes / physical-delivers NFR split, industry-documented patterns in tech-stack, no-cycles, end-to-end traceability through layers, systems inventory grounding, security-ratchet-up | `derive-systems-inventory`, `enrich-quality-profile`, `derive-logical-architecture`, `derive-physical-architecture`, `derive-tech-stack`, `derive-technical-risks`, `check-architecture-spec`, `tech-architect`, `tech-designer` |
-| `scenarios.md` | Scenario content rules — given/when/then format, binary testable outcomes (no should/smooth/intuitive), success evidence required, failure impact and mitigation required, minimum count per epic, flow ↔ scenario reference | `generate-intent-epics`, `validate-intent-epics`, `map-user-flows`, `test-engineer` |
-
 ### Naming
 
 | Path | Description | Consumers |
@@ -29,8 +18,7 @@ Agents and skills query this category when they need to know: **"What rules must
 
 | Path | Description | Consumers |
 |------|-------------|-----------|
-| `kb-extension.md` | KB domain-taxonomy file shape — the 9-section feature contract (4 prose: When It Matters, Depth Spectrum, Signals, Tradeoffs; 5 structured: Inclusion, Success Criteria, Failure Scenarios, Cross-Tree Refs, Experiential). Governs both LTM catalog and STM research files. | `check-kb-extension`, `derive-capability-selection`, `enrich-capabilities`, `knowledge-extractor` |
-| `resolution.md` | R1-R4 LTM resolution protocol — LTM hierarchy enforcement, authority semantics (LOCKED / DRAFT), resolution trace schema, context isolation exemptions; the decision trace every agent keeps (ADR 035 §6, ADR 037) | `tech-designer`, `feature-steward`, `repo-orchestrator`, every agent that reads LTM |
+| `resolution.md` | R1-R4 LTM resolution protocol — LTM hierarchy enforcement, authority semantics (LOCKED / DRAFT), resolution trace schema, context isolation exemptions; the decision trace every agent keeps (ADR 035 §6, ADR 037) | `tech-designer`, `repo-orchestrator`, every agent that reads LTM |
 
 ### Operational rules (git and commits)
 
@@ -50,6 +38,9 @@ Agents and skills query this category when they need to know: **"What rules must
 | `surface-contract.md` | Surface contract (ADR 022, #442) — an epic's user-facing surface (`web_dashboard\|server_api\|cli\|library\|service_read_model`) is DECLARED at the `/shape-slice` cut and checked downstream, never re-derived; per-type required runnable evidence, valid deploy targets, downgrade ordering, and surface-debt blocking. | `/shape-slice`, `/build-epic`, `/validate-epic`, `/release-epic`, `/next`, `check-components` |
 | `no-unbacked-recommendation.md` | The cardinal rule (2026-09-08) — a play that recommends must be able to cite what backs it. Where it cannot, it says NOTHING: no default, no generic pointer, no substitute play name — and it reports how many entries it could not recommend for. Wired as a constraint + failure condition + step eval + strip-not-replace recovery. Reference implementation: `focus` (C12/F10/S8/REC10). | `create-play`, `edit-play`, `lint_play.py`; wired in `/list-focus-issues`; caught-not-yet-wired in `/next` and `/check-change` |
 | `asking-a-person.md` | How a play asks a person a question (#820) — an opening of two or three sentences on what the person decides; each question asks one thing and shows Question, Answer (a real answer in general words), Why it matters, Example (several, from different domains); read back with no context; plain ASD-STE100 English, personas only. A checkpoint shows its draft in this format. | `/edit-ontology`, `author-product-ontology`; `/shape-slice` once built (#795) |
+| `user-questions.md` | Questions a play asks a person (from the old product rules' Rule 12, ADR 050) — every question goes to the issue's short-term memory, `context/grounding-questions.md`, with a unique ID and a place for the answer; the file only grows; an answer is a fact and is not asked again; open questions come back at the next checkpoint. | every play and skill that shows an inference to a person |
+| `play-orchestration.md` | When a play skips an agent — if a value comes from a sure source (branch name, path, config key), the play makes the agent's output itself, in the same shape, and does not start the agent. | every play, `create-play` |
+| `play-patterns.md` | Patterns learned from building plays — a test gate after each commit when a play makes many commits; tech skills made at run time from a tech playbook, so a play names no stack when it is built. | `create-play`, `edit-play` |
 | `work-plan.md` | Work plans (ADR 030) — when a plan must exist (the opening `start-change` → `plan-change` → `approve-change`, only when needed), what it may contain (a plan, never a design; every item explains itself; say what kind of done; name what it serves), who keeps it current (small vs big updates; a loop's updates approved at its end), when it is done (the check script decides), and how status is shown (a tree). Format in `templates/work-plan.md`. | `author-plan-file`, `project-orchestrator`; `/create-play` and `/edit-play` once plan mode is wired (#621) |
 | `concurrent-fanout.md` | Concurrent read-only fan-out (#468, epic #460 Stage 5) — the one allowed intra-step concurrency: a step runs independent read-only sub-tasks at once when three conditions hold (read-only over shared inputs, distinct output paths, no sibling dependency), then joins. Bounded + joined + order-stable, so the step stays a single deterministic node (ADR 025). Also the scoped-write fan-out (#615): sub-tasks that write the model at once, each only inside its own declared folder, no shared file, one keyed persist and one guard after the join. Parallel code-building is #488. | `create-play`, `check-components`, `/discover-domains`, `/discover-capabilities`, `/validate-epic` |
 

@@ -52,7 +52,6 @@ skills:
   build-product-ontology: author-product-ontology
   close-model-gaps: link-model-gaps
   compute-blast-radius: derive-blast-radius
-  configure-capabilities: derive-capability-selection
   create-commit: commit-files
   deploy-to-cloud-env: deploy-cloud-environment
   detect-test-harness: scan-test-harness
@@ -60,7 +59,6 @@ skills:
   draft-implementation-plan: author-implementation-plan
   draft-knowledge-page: author-knowledge-page
   draft-lld: author-lld
-  draft-product-spec: author-product-spec
   draft-rca: author-rca
   draft-reference-algorithms: author-reference-algorithms
   draft-tech-spec: author-tech-spec
@@ -70,8 +68,6 @@ skills:
   infer-design-patterns-from-code: infer-design-patterns
   infer-domain-selection-from-code: infer-domain-selection
   infer-enriched-capabilities-from-code: infer-enriched-capabilities
-  infer-epics-from-code: infer-features
-  infer-features-from-code: infer-feature-catalog
   infer-logical-architecture-from-code: infer-logical-architecture
   infer-market-brief-from-code: infer-market-brief
   infer-mvp-recommendation-from-code: infer-mvp-recommendation
@@ -84,7 +80,6 @@ skills:
   infer-scope-from-code: infer-scope
   kb-search: find-architecture-learnings
   lint-components: check-components
-  manage-features: author-feature-catalog
   manage-issue: track-issue
   manage-plan: author-plan-file
   map-test-surface: scan-test-surface

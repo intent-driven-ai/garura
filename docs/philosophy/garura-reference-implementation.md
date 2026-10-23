@@ -230,7 +230,7 @@ The current plays call 11 agents. Each has one domain; utility agents (`project-
 | [`project-orchestrator`](../../core/components/agents/project-orchestrator.md) | project | orchestrator (utility) | start-change, commit-change, implement, validate, launch, fix-bug, refactor, focus |
 | [`repo-orchestrator`](../../core/components/agents/repo-orchestrator.md) | repo | orchestrator (utility) | start-change, commit-change, propose-change, check-change, merge-change, implement, validate, launch, fix-bug, refactor |
 
-Seven more agent definitions exist in `core/components/agents/` but no current play calls them: epic-expectation-crafter, feature-steward, market-analyst, product-keeper, scriber, tech-architect, test-runner.
+Three more agent definitions exist in `core/components/agents/` but no current play calls them: scriber, tech-architect, test-runner. Four others from the old intent-epic pipeline were deleted (ADR 050).
 
 ---
 

@@ -73,6 +73,9 @@ except ImportError:
 
 OTHER_LENSES = ("quality", "agentic", "architecture", "run", "measure", "marketing", "lens")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 class ShapeError(Exception):
     """A loaded file parsed fine but doesn't have the shape this script depends on (exit 2)."""
@@ -80,7 +83,7 @@ class ShapeError(Exception):
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def _typename(value):

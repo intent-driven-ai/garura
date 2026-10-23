@@ -47,6 +47,9 @@ except ImportError:
 WEB = re.compile(r"https?://\S+")
 NOT_MINE = ("capabilities", "features", "slices", "epics")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def sources_of(path):
     """The lines of a page's `## Sources` section, or None when it has none."""
@@ -149,6 +152,7 @@ def main(argv=None):
     try:
         with open(args.manifest, encoding="utf-8") as fh:
             doc = yaml.safe_load(fh) or {}
+        model_names.check_model(doc, args.manifest)
     except OSError as exc:
         sys.stderr.write(f"grounding_check.py: cannot read manifest: {exc}\n")
         return 2

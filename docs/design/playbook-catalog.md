@@ -76,7 +76,7 @@ Summary of every play under `core/components/plays/` as of this audit. Scope sta
 - `start-feature` vs. `start-feature-planning` are not overlapping: the first is setup-only, the second is setup + IDD planning via the Plan sub-agent.
 - `codify` and `decode` pair: `codify` captures shape (LTM tree), `decode` captures logic (per-feature behavior, test-verified). Both SKILL.md files state **`/enrich is the sole promotion gate to product LTM`** — see §5 Tier 1.
 - Decision-surfacing discipline (tier-batched HIGH/MID/LOW) appears in `specify`, `design`, `arch` — three different implementations of the same pattern.
-- Context-isolation invariants are strictest in `validate`: evals-engineer, judge, test-engineer, and feature-steward each receive a tightly scoped input and never see each other's prompts or outputs.
+- Context-isolation invariants are strictest in `validate`: evals-engineer, judge and test-engineer each receive a tightly scoped input and never see each other's prompts or outputs.
 - Most plays bound retry loops (max 2–3 iterations) with defined escalation paths. No infinite loops exist in the framework.
 
 ---

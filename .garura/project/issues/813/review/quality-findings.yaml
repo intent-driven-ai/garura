@@ -1,0 +1,428 @@
+meta:
+  generated_at: '2026-10-23T12:41:38Z'
+  diff_path: '.garura/project/issues/813/review/pr.diff'
+  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+  changed_paths_count: 200
+  scan_coverage: 1.0000
+  standards_relevant: 28
+  catchall:
+    CODE-20: 200
+findings:
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 16
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 20
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 15
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 17
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 18
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/017-folder-whitelist.md'
+    line: 1
+    evidence: 'docs/adr/017-folder-whitelist.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/035-agents-work-only-from-memory.md'
+    line: 1
+    evidence: 'docs/adr/035-agents-work-only-from-memory.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md'
+    line: 1
+    evidence: 'docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 14
+    evidence: 'const out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 16
+    evidence: 'const dir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 20
+    evidence: 'const copy ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/017-folder-whitelist.md'
+    line: 1
+    evidence: 'docs/adr/017-folder-whitelist.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/017-folder-whitelist.md'
+    line: 1
+    evidence: 'docs/adr/017-folder-whitelist.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/035-agents-work-only-from-memory.md'
+    line: 1
+    evidence: 'docs/adr/035-agents-work-only-from-memory.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/035-agents-work-only-from-memory.md'
+    line: 1
+    evidence: 'docs/adr/035-agents-work-only-from-memory.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md'
+    line: 1
+    evidence: 'docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md'
+    line: 1
+    evidence: 'docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+counts:
+  P1: 0
+  P2: 13
+  P3: 27
+  P4: 19

@@ -63,6 +63,10 @@ MAX_EXAMPLES = 3
 ID_SHAPE = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")   # ids become file names: no paths, no dots
 CODE_LIKE = re.compile(r"(<[a-zA-Z/][^>]*>|[{}]|\b\w+\(\)|(?:\.{0,2}/)?[\w.-]+/[\w./-]+\.\w{1,5}\b)")
 
+import os  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def words(text):
     return re.findall(r"[a-z0-9']+", str(text).lower())
@@ -266,6 +270,7 @@ def main(argv=None):
     try:
         with open(args.draft, encoding="utf-8") as fh:
             draft = yaml.safe_load(fh) or {}
+        model_names.check_model(draft, args.draft)
         texts = []
         for path in args.source_text:
             with open(path, encoding="utf-8", errors="replace") as fh:

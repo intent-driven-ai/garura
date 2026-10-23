@@ -41,6 +41,9 @@ import intent_touches as it  # noqa: E402
 SECTIONS = {"domain": "domains", "capability": "capabilities", "feature": "features"}
 HOLDING = {"capability": "capabilities", "feature": "features"}
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 class OutOfScope(ValueError):
     """A write that would land outside the product model."""
@@ -53,6 +56,7 @@ class Model:
         self.spine_path = os.path.join(self.root, "_spine.yaml")
         with open(self.spine_path, encoding="utf-8") as fh:
             self.spine = yaml.safe_load(fh) or {}
+        model_names.check_spine(self.spine, self.spine_path)
         self.intents_dir = os.path.join(self.root, "intents")
 
     def guard(self, path):

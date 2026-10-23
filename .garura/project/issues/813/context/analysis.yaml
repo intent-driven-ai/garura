@@ -1,0 +1,43 @@
+needs_judgment: false
+change_groups:
+  - id: guard-pages
+    issue: 813
+    commit_type: fix
+    scope: model
+    subject: "the guard also stops on old page file names"
+    files:
+      - core/components/plays/build-epic/scripts/model_names.py
+      - core/components/plays/create-play/references/model_names.py
+      - core/components/plays/discover-capabilities/scripts/model_names.py
+      - core/components/plays/discover-domains/scripts/check_kept.py
+      - core/components/plays/discover-domains/scripts/model_names.py
+      - core/components/plays/discover-domains/scripts/test_model_names.py
+      - core/components/plays/discover-intent/scripts/model_names.py
+      - core/components/plays/learn-outcomes/scripts/model_names.py
+      - core/components/plays/next/scripts/model_names.py
+      - core/components/plays/release-epic/scripts/model_names.py
+      - core/components/plays/shape-agentic-lens/scripts/model_names.py
+      - core/components/plays/shape-architecture-lens/scripts/model_names.py
+      - core/components/plays/shape-marketing-lens/scripts/model_names.py
+      - core/components/plays/shape-measure-lens/scripts/model_names.py
+      - core/components/plays/shape-quality-lens/scripts/model_names.py
+      - core/components/plays/shape-roadmap/scripts/model_names.py
+      - core/components/plays/shape-run-lens/scripts/model_names.py
+      - core/components/plays/shape-scope/scripts/model_names.py
+      - core/components/plays/shape-slice/scripts/model_names.py
+      - core/components/plays/shape-ux-lens/scripts/model_names.py
+      - core/components/plays/validate-epic/scripts/model_names.py
+      - core/components/skills/find-model-gaps/scripts/model_names.py
+      - core/components/skills/link-model-gaps/scripts/model_names.py
+  - id: run-records
+    issue: 813
+    commit_type: chore
+    scope: stm
+    subject: "record PR 834 review round 2 run artifacts"
+    files:
+      - .garura/project/issues/813/context/analysis.yaml
+      - .garura/project/issues/813/context/porcelain.txt
+      - .garura/project/issues/813/evidence/eval/eval-result.json
+exclusions: []
+risks:
+  sensitive_files: []

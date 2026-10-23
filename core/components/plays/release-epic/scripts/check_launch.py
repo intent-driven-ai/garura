@@ -39,6 +39,9 @@ except ImportError:
 BEYOND_TIERS = ("dev", "qa", "test", "preview", "uat", "staging", "stage",
                 "prod", "production", "live")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def jload(path):
     with open(path, "r", encoding="utf-8") as fh:
@@ -95,6 +98,7 @@ def main():
     if os.path.isfile(spine_path):
         with open(spine_path, "r", encoding="utf-8") as fh:
             spine = yaml.safe_load(fh) or {}
+        model_names.check_spine(spine, spine_path)
         epic = next((e for e in (spine.get("epics") or [])
                      if isinstance(e, dict) and e.get("id") == args.epic.split("/")[-1]), None)
     if decision == "release":

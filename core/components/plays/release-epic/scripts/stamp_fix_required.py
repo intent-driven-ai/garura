@@ -29,6 +29,9 @@ except ImportError:
     sys.stderr.write("stamp_fix_required.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def main():
     ap = argparse.ArgumentParser(description="Surgical launch fix_required stamper (spine).")
@@ -56,6 +59,7 @@ def main():
     spine_path = os.path.join(args.product_base, "product-os", "_spine.yaml")
     try:
         spine = yaml.safe_load(open(spine_path, encoding="utf-8")) or {}
+        model_names.check_spine(spine, spine_path)
     except Exception as exc:
         errors.append(f"spine unreadable: {exc}")
         print(json.dumps(out, indent=2))

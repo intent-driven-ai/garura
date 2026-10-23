@@ -43,12 +43,15 @@ except ImportError:
 
 ALLOWED_ROUND_KEYS = {"tensions", "decision_questions", "questions"}  # questions = legacy alias
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def load(path):
     if not os.path.isfile(path):
         return {}
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def acyclic(nodes, deps):

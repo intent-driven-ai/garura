@@ -55,6 +55,9 @@ import yaml
 WORKABLE_STAGES = {"confirmed", "met"}
 STAGE = re.compile(r"^\*\*Stage:\*\*\s*([a-z]+)", re.MULTILINE | re.IGNORECASE)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def stage_of(intents_dir, iid):
     """The intent's stage from its page, or None when the page does not exist."""
@@ -266,6 +269,7 @@ def main(argv=None):
     try:
         with open(args.spine, encoding="utf-8") as fh:
             spine = yaml.safe_load(fh) or {}
+        model_names.check_spine(spine, args.spine)
         if not isinstance(spine, dict):
             raise ValueError("the spine is not a mapping")
     except (OSError, ValueError, yaml.YAMLError) as exc:

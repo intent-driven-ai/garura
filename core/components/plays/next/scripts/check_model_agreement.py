@@ -40,6 +40,9 @@ except ImportError:
 
 LENS_DOCS = ("quality", "ux", "agentic", "marketing", "architecture", "run", "measure")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def lower(v):
     return v.strip().lower() if isinstance(v, str) else ""
@@ -79,6 +82,7 @@ def main(argv=None):
 
     with open(spine_file, encoding="utf-8") as fh:
         spine = yaml.safe_load(fh) or {}
+    model_names.check_spine(spine, spine_file)
 
     # ---- profile -----------------------------------------------------------
     spine_prof = lower((spine.get("profile") or {}).get("state")) if isinstance(

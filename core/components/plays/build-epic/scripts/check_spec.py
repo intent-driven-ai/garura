@@ -60,6 +60,9 @@ SURFACE_RANK = {
 }
 SURFACE_LINE = re.compile(r"(?im)^\s*[-*]?\s*surface\s*[:=]\s*([a-z_]+)")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Crisp ICE-spec boundary gate for /build-epic.")
@@ -187,6 +190,7 @@ def _epic_surface(product_base, epic_id):
         spine_path = os.path.join(product_base, "product-os", "_spine.yaml")
         with open(spine_path, encoding="utf-8") as fh:
             spine = yaml.safe_load(fh) or {}
+        model_names.check_spine(spine, spine_path)
     except Exception:
         return None
     epic = next((e for e in (spine.get("epics") or [])

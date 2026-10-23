@@ -1,0 +1,121 @@
+{
+  "passed": 9,
+  "failed": 14,
+  "results": [
+    {
+      "check": "813: migrate_model.py exists",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "813: install.py runs the model migration",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "813: the public installer runs the model migration",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "809: every retired item is gone",
+      "ok": false,
+      "detail": "rive-nfr-spec', 'core/components/skills/derive-physical-architecture', 'core/components/skills/derive-quality-vision', 'core/components/skills/derive-systems-inventory', 'core/components/skills/derive-tech-stack', 'core/components/agents/feature-steward.md', 'core/components/agents/epic-expectation-crafter.md', 'core/components/agents/product-keeper.md', 'core/components/agents/market-analyst.md']"
+    },
+    {
+      "check": "809: core/components/skills/derive-blast-radius/SKILL.md is kept",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "809: .garura/product/user-provided/project-brief.md is kept",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "809: Rule 12 (questions are first-class) has its own rule file",
+      "ok": false,
+      "detail": "-person.md', 'feature-catalog.md', 'pipeline-next.md', 'builder-isolation.md', 'resolution.md', 'run-status.md', 'epics.md', 'surface-contract.md', 'commits.md', 'user-facing-voice.md', 'scenarios.md', 'kb-extension.md', 'git.md', 'expectation-generation.md', 'concurrent-fanout.md', 'self-review.md', 'features.md', 'design.md', 'pipeline-position.md', 'grounding-eval.md', 'naming.md', '_index.md']"
+    },
+    {
+      "check": "809: the rest of rules/product.md is gone",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "809: research arch.md moved into memory",
+      "ok": false,
+      "detail": "[]"
+    },
+    {
+      "check": "809: research play-orchestration.md moved into memory",
+      "ok": false,
+      "detail": "[]"
+    },
+    {
+      "check": "809: the memory indexes name no deleted file",
+      "ok": false,
+      "detail": "['intent-epic.yaml', 'derive-capability-selection', 'derive-logical-architecture', 'derive-physical-architecture', 'derive-systems-inventory', 'derive-tech-stack', 'feature-steward', 'product-keeper']"
+    },
+    {
+      "check": "809: rename-map.yaml maps nothing onto a deleted part",
+      "ok": false,
+      "detail": "['infer-features', 'infer-feature-catalog', 'author-feature-catalog', 'author-product-spec', 'derive-capability-selection']"
+    },
+    {
+      "check": "809: no live part names a deleted part",
+      "ok": false,
+      "detail": "ure-catalog', 'core/components/memory/standards/rules/feature-catalog.md: derive-capability-selection', 'core/components/memory/standards/rules/resolution.md: feature-steward', 'core/components/memory/standards/rules/epics.md: intent-epic.yaml', 'core/components/memory/standards/rules/epics.md: feature-steward', 'core/components/memory/standards/rules/kb-extension.md: derive-capability-selection']"
+    },
+    {
+      "check": "809: an ADR records the retirement",
+      "ok": false,
+      "detail": "[]"
+    },
+    {
+      "check": "809: ADR 017 points forward to it",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "809: ADR 035 points forward to it",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "all: the old-name check reads 0",
+      "ok": true,
+      "detail": "{\n  \"ok\": true,\n  \"hits\": 0,\n  \"old_names_left\": 0,\n  \"by_old_name\": {},\n  \"first\": []\n}\n"
+    },
+    {
+      "check": "all: asking-a-person.test.js passes",
+      "ok": true,
+      "detail": "eading inside a code fence does not end the workflow\n  [PASS] the linter names the play with no pointer (--target)\n  [PASS] the linter passes the play with the pointer (--target)\n\n18 passed, 0 failed\n"
+    },
+    {
+      "check": "all: naming.test.js passes",
+      "ok": true,
+      "detail": "SS] a skill with no skill verb fails\n  [PASS] the named skill exception passes\n  [PASS] an agent with a role passes\n  [PASS] an agent with no role fails\n  [PASS] upper case fails\n\n16 passed, 0 failed\n"
+    },
+    {
+      "check": "all: shared-scripts.test.js passes",
+      "ok": true,
+      "detail": "  [PASS] a copy that matches the main copy passes\n  [PASS] a copy that differs from the main copy fails\n  [PASS] with no main copy the check is skipped\n\n3 passed, 0 failed\n"
+    },
+    {
+      "check": "all: skill-invocable.test.js passes",
+      "ok": true,
+      "detail": "  [PASS] a skill a person can start fails\n  [PASS] a skill only plays run passes\n\n2 passed, 0 failed\n"
+    },
+    {
+      "check": "all: no component-linter error beyond the 121 old ones",
+      "ok": true,
+      "detail": "121"
+    },
+    {
+      "check": "all: no shared-script drift",
+      "ok": true,
+      "detail": "[]"
+    }
+  ]
+}

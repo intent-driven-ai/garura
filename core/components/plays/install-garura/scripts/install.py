@@ -44,6 +44,8 @@ installer): the memory tool in `.garura/core/tools/memory/` with its settings, s
 memory's folder, and the memory guide where the host tool loads it for every agent. It then
 checks the tool runs and reaches the project's tiers. The install brings no memory.
 
+The install never changes a product model the project already has (#813).
+
 Exit: 0 = installed, 1 = installed but the memory check failed, 2 = bad input /
 prerequisite missing.
 Idempotent: re-running re-lays garura in place; it never duplicates.

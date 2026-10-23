@@ -47,6 +47,9 @@ KINDS = {"story", "task", "test", "docs"}
 STATUSES = {"planned", "in_progress", "done", "blocked"}
 SOURCES = {"epic", "ice", "lens", "repo"}
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def md_section_bullets(md_path, heading):
     """Top-level '- '/'* ' bullets under a '## heading' in a grounding doc, each
@@ -87,7 +90,7 @@ def spine_epic(product_base, epic_id):
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def has_cycle(pieces):

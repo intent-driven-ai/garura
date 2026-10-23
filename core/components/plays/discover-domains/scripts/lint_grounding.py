@@ -148,6 +148,9 @@ ICE_LABELS = ("Goal", "Limit", "Fails if", "Context", "Checked by", "Quality nee
 MIN_SECTION_WORDS = 12
 MIN_BULLET_WORDS = 5
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def _read(path):
     with open(path, encoding="utf-8") as fh:
@@ -329,7 +332,7 @@ def load_spine(path):
         sys.stderr.write("lint_grounding.py: PyYAML required for --spine mode (pip install pyyaml)\n")
         sys.exit(2)
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_spine(yaml.safe_load(fh) or {}, path)
 
 
 def check_spine(root, spine_path, errors, warnings, counts):

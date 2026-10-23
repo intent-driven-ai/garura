@@ -123,7 +123,7 @@ step writes the capabilities for these areas only. Areas you leave out wait for 
 round.
 
 **Under review:**
-- `.garura/product/specification/domain-selection.yaml` — the areas, kept and dropped, with reasons
+- `.garura/product/product-os/_spine.yaml` — the areas, kept and dropped, with reasons
 
 ### Question 1
 

@@ -37,11 +37,11 @@ Roughly 100 skills are authored in `core/components/skills/`, each with `user-in
 |--------|--------|
 | **Repository / project operations** | `assess-changes`, `assess-pr`, `commit-files`, `cut-branch`, `open-pr`, `merge-pr`, `platform-adapter`, `track-issue`, `find-matching-issues`, `author-plan-file`, `author-evidence` |
 | **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-scope`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-epics`, `check-cut-tensions`, `author-acceptance-scenarios`, `rank-actions`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
-| **Specification / design drafting** | `author-product-spec`, `author-technical-approach`, `author-lld`, `author-tech-spec`, `author-implementation-plan`, `author-reference-algorithms`, `draft-epic-expectation`, `author-verification-scenarios`, `author-build-plan`, `author-play-ice`, `check-implementation-design`, `check-abstraction-layer` |
+| **Specification / design drafting** | `author-technical-approach`, `author-lld`, `author-tech-spec`, `author-implementation-plan`, `author-reference-algorithms`, `draft-epic-expectation`, `author-verification-scenarios`, `author-build-plan`, `author-play-ice`, `check-implementation-design`, `check-abstraction-layer` |
 | **Defect resolution** | `author-rca`, `author-fix-design`, `author-regression-test` |
-| **Architecture & quality derivation** | `derive-systems-inventory`, `derive-logical-architecture`, `derive-physical-architecture`, `derive-tech-stack`, `derive-design-patterns`, `derive-nfr-spec`, `derive-quality-vision`, `derive-quality-profile-from-epics`, `enrich-quality-profile`, `check-architecture-spec`, `infer-architecture`, `scan-dependencies` |
-| **Product capability planning & research** | `derive-capability-selection`, `enrich-capabilities`, `author-feature-catalog`, `generate-intent-epics`, `validate-intent-epics`, `recommend-mvp`, `research-market-opportunity`, `research-domain-context` |
-| **Brownfield inference (codify family)** | `scan-codebase`, `collect-codify-proposals`, and the `infer-*-from-code` set: project-profile, domain-selection, market-brief, mvp-recommendation, scope, enriched-capabilities, features, epics, research, design-patterns, logical-architecture, physical-architecture, nfr-spec, quality-profile, quality-vision |
+| **Architecture & quality derivation** | `derive-quality-profile-from-epics`, `enrich-quality-profile`, `check-architecture-spec`, `infer-architecture`, `scan-dependencies` |
+| **Product capability planning & research** | `enrich-capabilities`, `generate-intent-epics`, `validate-intent-epics`, `recommend-mvp`, `research-market-opportunity`, `research-domain-context` |
+| **Brownfield inference (codify family)** | `scan-codebase`, `collect-codify-proposals`, and the `infer-*-from-code` set: project-profile, domain-selection, market-brief, mvp-recommendation, scope, enriched-capabilities, research, design-patterns, logical-architecture, physical-architecture, nfr-spec, quality-profile, quality-vision |
 | **Testing & verification** | `scan-test-surface`, `derive-blast-radius`, `author-baseline-tests`, `scan-test-harness`, `check-generated-tests`, `author-steelman-evals`, `author-encrypted-evals`, `author-validation-checks`, `judge-validation-results`, `check-quality`, `check-pr-quality` |
 | **Environments / delivery** | `deploy-local-environment`, `deploy-cloud-environment` |
 | **Framework & knowledge** | `check-components`, `check-kb-extension`, `author-learnings` |
@@ -104,7 +104,6 @@ Each skill defines a different output contract structure. Key skills and their o
 
 | Skill | Output Key | Key Fields |
 |-------|-----------|------------|
-| `author-product-spec` | `features` | `features_path`, `feature_count`, `invariants_count` |
 | `author-technical-approach` | `technical_approach` | `technical_approach_path`, `decisions_count` |
 | `author-lld` | `tech` | `tech_path`, `components_count` |
 | `author-verification-scenarios` | `scenarios` | `scenarios_path`, `scenario_count`, `coverage.total_scenarios` |
@@ -256,7 +255,7 @@ allowed-tools: {Tool1, Tool2}
 | Model | When To Use | Examples |
 |-------|-------------|----------|
 | `haiku` | Execution-only skills — no analysis, no decision-making, fast operations | `commit-files`, `cut-branch` |
-| `sonnet` | Analysis skills — reasoning, categorization, pattern matching, complex logic | `assess-changes`, `assess-pr`, `track-issue`, `author-product-spec`, `author-technical-approach` |
+| `sonnet` | Analysis skills — reasoning, categorization, pattern matching, complex logic | `assess-changes`, `assess-pr`, `track-issue`, `author-technical-approach` |
 | `opus` | Judgment-heavy authoring — generative model work where quality dominates cost | `author-epics`, `author-build-plan` |
 
 **Rule of thumb:** If the skill just runs commands and formats output, use `haiku`. If the skill needs to read, reason, and categorize, use `sonnet`. If it authors judgment-heavy artifacts, use `opus`.

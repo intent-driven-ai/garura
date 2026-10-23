@@ -55,10 +55,13 @@ VALID_STATUS_FLIP = {"active", "deprecated"}
 # WARNING, never an error: a persona record written before #550 must keep validating.
 PERSONA_GROUNDING_FIELDS = ("goals", "cares_about", "failure_means")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def _empty(v):

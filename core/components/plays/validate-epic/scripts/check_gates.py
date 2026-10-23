@@ -43,6 +43,9 @@ except ImportError:
     sys.stderr.write("check_gates.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def slug(text):
     return re.sub(r"[^a-z0-9]+", "-", str(text).strip().lower()).strip("-")
@@ -208,6 +211,7 @@ def main():
             with open(os.path.join(args.product_base, "product-os", "_spine.yaml"),
                       encoding="utf-8") as fh:
                 spine = yaml.safe_load(fh) or {}
+            model_names.check_spine(spine, os.path.join(args.product_base, "product-os", "_spine.yaml"))
             epic = next((e for e in (spine.get("epics") or [])
                          if isinstance(e, dict) and e.get("id") == args.epic.split("/")[-1]), None) or {}
             stype = (epic.get("surface_type") or "").strip()

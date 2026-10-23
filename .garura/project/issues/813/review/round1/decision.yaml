@@ -1,0 +1,7 @@
+decision: reject
+decided_by: human
+reply: "No, install should not be writing it once it upgrades the old model. ... park it as a decision. No [ADR] or nothing. Just put it as a business intent that somebody who's using an older version of the product model or of Garura version and gets a new version needs an upgrade to a product model. ... For now, you fix the P2s and P3s, and also the P4. We don't leave anything open."
+recommended: approve
+round: 1
+to_fix: ["install.py and installer/install.sh no longer run the model migration", "migrate_model.py stays as a script a person runs by hand: refuses a model path outside the project; on a failed git step it undoes the moves and reports the reason", "the guard message names migrate_model.py, not a re-install", "check_kept.py and check_sources.py get the guard", "ADR 050 uses 'amends' for ADR 035, like ADR 035 and 017 say", "install-garura SKILL.md: no change needed once the install no longer commits"]
+parked: "the upgrade strategy, as a standalone business intent"

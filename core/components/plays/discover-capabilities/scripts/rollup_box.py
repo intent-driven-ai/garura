@@ -47,6 +47,10 @@ except ImportError:
 
 SCALE = ["none", "low", "medium", "high", "xhigh"]
 
+import os  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped from create-play/references)
+
 
 def rank(level):
     """Index on the none<low<medium<high<xhigh scale; unknown -> none (0)."""
@@ -58,7 +62,7 @@ def rank(level):
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def main(argv=None):

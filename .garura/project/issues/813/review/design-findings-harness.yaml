@@ -1,0 +1,19 @@
+# check-change round 2 -- category: harness -- PR #834 (issue 813). Grounded on plan/788/base only.
+category: harness
+base: plan/788/base
+principles:
+  - {id: G1, source: "plan/788/base:docs/adr/039", principle: "The product model is written by a play built for it; the install brings no memory (ADR 038)."}
+  - {id: G4, source: "plan/788/base:install.py docstring", principle: "Install is idempotent and never writes outside the project."}
+  - {id: D1, source: "round1/decision.yaml (product owner) + gh issue 813 Done when", principle: "The install does not change an existing model; upgrade strategy is parked as #835."}
+round1_items:
+  - {item: "install no longer runs or mentions migration; test proves old model unchanged", answer: yes, evidence: "install.py and installer/install.sh have no diff vs base apart from one docstring line (install.py:47 'never changes a product model'); test_install.py LeavesTheProductModelAsItIs has two tests (python and shell installer) comparing every model byte and HEAD before/after; 57 tests in test_install + test_migrate_model pass."}
+  - {item: "migrate_model.py refuses outside path (also links), no traceback, undoes on failed git step", answer: yes, evidence: "by hand in a scratch repo: base-path ../out/ -> refused, rc 2, JSON report; a link inside the model to an outside folder -> refused, nothing moved; model folder itself a link outside -> refused, outside file unchanged; failing pre-commit hook -> 'the commit failed: nope; every move and edit was undone, nothing was committed', rc 1, tree and index clean, old names still in place; happy path -> one commit."}
+  - {item: "guard message names migrate_model.py, no re-install; copies match", answer: yes, evidence: "model_names.py lines 8 and 35 name migrate_model.py; no 're-install' text; all 21 copies have the same hash (md5 b2a95e61...)."}
+  - {item: "check_kept.py and check_sources.py call the guard", answer: yes, evidence: "check_kept.py: model_names.check_spine on the spine before reading pages (added after the import block); check_sources.py: model_names.check_model on each manifest in main(); test_model_names.py has a check_sources case and passes."}
+  - {item: "install-garura SKILL.md makes no claim that the install migrates or commits", answer: yes, evidence: "SKILL.md has no diff vs base; grep finds no migrate/commit claim (only the ADR 021 line 69 about status markers)."}
+  - {item: "#813 updated Done when met", answer: yes, evidence: "guard stops with a clear error naming the step (4 bullets: guard yes; by-hand script yes, tested above; install leaves model alone yes; tested on a pre-#807 copy yes, scratch repos and test_migrate_model)."}
+findings:
+  - {category: harness, severity: P4, path: core/components/plays/discover-domains/scripts/check_kept.py, basis: "round1/decision.yaml, G4 (guard on every model reader)", message: "check_kept.py guards only the spine; a model whose spine is already new but whose page files still carry old names would not be caught. Narrow case (migrator moves both together); no action needed.", status: accepted}
+  - {category: harness, severity: P4, path: core/components/plays/install-garura/scripts/migrate_model.py, basis: "D1", message: "Left behind in the PR is a migrator no play or install calls; it is run by hand per the Done when, and the guard message tells the person how. Fine; revisit under #835.", status: accepted}
+verified_ok:
+  - "No new problem from the fixes found: lint-components still 135 errors, same as round 1, none from model_names, migrate_model or shared-scripts."

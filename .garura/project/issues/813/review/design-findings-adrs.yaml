@@ -1,0 +1,4 @@
+# check-change round 2 -- category: adrs (not design-bearing; recorded for the item list)
+category: adrs
+findings:
+  - {category: adrs, severity: P4, path: docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md, basis: "plan/788/base:docs/adr/035 and 017 status lines ('amended in part')", message: "Yes, fixed: header line 7 'Supersedes: none', line 8 'Amends: ADR 035 ... ADR 017', lines 38-41 'amends'; ADR 035 and 017 status lines point to ADR 050 as 'amended in part'. Consistent.", status: resolved}
