@@ -52,7 +52,6 @@ State today (2026-09-08, verified by the lint sweep):
 | Play | State |
 |------|-------|
 | `focus` | **wired** — the reference implementation |
-| `next` | **caught, not yet wired** (#530) — its thin-history notice already follows the rule for one field, but the rule is not stated as a guarantee |
 | `check-change` | **caught, not yet wired** (#530) — needs a check on whether it can post a computed verdict with no completed review behind it |
 
 A play listed as caught fails `lint_play.py` today. That is the guardrail working, not a

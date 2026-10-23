@@ -45,7 +45,7 @@ epic:
   depends_on: [string]      # other epic ids that must ship first (acyclic)
   order: integer            # delivery order within the slice (unique, positive)
   status: string            # one of: ready | in_delivery | validated | fix_required | delivered
-  surface_verified: bool    # /validate-epic stamps true when the required surface-parity check passed (surface-contract.md); absent/false = the required surface was never measured (legacy epic, or a downgrade). /next reads this: a delivered user-facing epic with surface_verified != true is surface debt (ADR 022)
+  surface_verified: bool    # /validate-epic stamps true when the required surface-parity check passed (surface-contract.md); absent/false = the required surface was never measured (legacy epic, or a downgrade). A delivered user-facing epic with surface_verified != true is surface debt (ADR 022)
   issue_ref: string         # GitHub issue /start opened for this epic; null until started
   metadata:
     created_by: string      # /shape-slice

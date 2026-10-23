@@ -464,7 +464,7 @@ $session_stamp (#463): session_id, ledger_file, ledger_start_offset, ledger_end_
 unresolved — never blocks the close); and stop_condition per C0 with the Stop Condition section
 filled) and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## arch Delivered —
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## arch Delivered —
 ${slug}`, the Run Summary table, the Pipeline Steps table, the Artifacts Produced table (the
 architecture lens + any decision), Next Steps (run /shape-quality-lens on this slice), and a pointer to
 `$evidence_dest`. Always emitted.

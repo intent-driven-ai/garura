@@ -43,7 +43,6 @@ skills:
   analyze-pr: assess-pr
   answer-from-source: find-answers-in-sources
   author-adr: author-decision
-  author-features: author-epics
   author-hitl-scenarios: author-acceptance-scenarios
   author-intent-yaml: author-play-ice
   author-shape-bundle: author-scope
@@ -86,7 +85,6 @@ skills:
   plan-validation-checks: author-validation-checks
   quality-check: check-quality
   quality-check-scoped: check-pr-quality
-  rank-recommendations: rank-actions
   refine-quality-profile: enrich-quality-profile
   resolve-issues: find-matching-issues
   run-generated-tests-isolated: check-generated-tests

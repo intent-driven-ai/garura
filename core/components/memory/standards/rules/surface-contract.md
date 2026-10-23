@@ -7,7 +7,7 @@ surface" on its own — so the five plays cannot drift apart, the way they did b
 this rule existed (ADR 022, #442).
 
 It governs the epic's `surface` block (`schemas/product-os/epic.yaml`) and the
-checks `/shape-slice`, `/build-epic`, `/validate-epic`, `/release-epic`, and `/next` run against it.
+checks `/shape-slice`, `/build-epic`, `/validate-epic` and `/release-epic` run against it.
 
 ## The rule
 
@@ -93,13 +93,13 @@ surface is fine.
 app), or be recut. A vertical with no shell for later epics to attach to is the seed
 of the downgrade — every later epic then has nothing user-facing to extend.
 
-## Surface debt — what `/next` must block
+## Surface debt — what it blocks
 
 A `delivered` epic whose required surface was not actually delivered (it shipped a
 lower surface than declared, or its required check never ran) leaves the slice in
-**surface debt.** `/next` must not recommend the next execute epic in that slice —
-the surface repair takes priority, so later epics stop inheriting and compounding
-the downgrade.
+**surface debt.** The surface repair goes ahead of the next execute epic in that
+slice in the plan, so later epics stop inheriting and compounding the downgrade.
+(`/next` used to enforce this; it was dropped by ADR 051, and the plan is the work list.)
 
 ## How the plays use this rule
 
@@ -111,5 +111,3 @@ the downgrade.
   required surface ⇒ `fix_required`.
 - **`/release-epic`** — validates the deploy target shape and scenario verbs against
   `surface.type`; rejects before HITL.
-- **`/next`** — reads delivered epics; surface debt blocks the next execute epic in
-  the slice.

@@ -27,7 +27,7 @@ play:
     edit: Harness. Change a harness part.
     install: Harness. Put Garura into a project.
     uninstall: Harness. Take Garura out of a project.
-  one_word: [next]
+  one_word: []
 loop:
   verb: complete
   meaning: A loop runs its plays in rounds until its phase is complete. No play or skill starts with this verb.

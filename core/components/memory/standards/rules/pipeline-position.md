@@ -10,7 +10,7 @@ It governs only the **delivery pipeline** (the path that opens an issue, does th
 lands it on main). Every play declares where it sits; many model-building plays now open and
 land their own change. As compiled today: `both` — /discover-domains, /discover-capabilities (#616), /shape-measure-lens,
 /shape-slice, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632), /edit-ontology (#777 — a meta play that opens and lands its own change); `start` — /shape-architecture-lens, /shape-ux-lens, /build-epic; `end` — /shape-roadmap,
-/shape-marketing-lens, /shape-run-lens, /release-epic; `none` — /shape-scope, /shape-agentic-lens, /shape-quality-lens, /validate-epic, /release-increment, /next,
+/shape-marketing-lens, /shape-run-lens, /release-epic; `none` — /shape-scope, /shape-agentic-lens, /shape-quality-lens, /validate-epic, /release-increment,
 /list-focus-issues. (A `none` play runs on whatever branch is already started — /shape-scope and /shape-roadmap's
 reliance on /discover-domains's old shared branch is a known follow-up from #616.) Inside a loop the
 opening and the end sequence are both skipped — the loop opens and lands the change — and a

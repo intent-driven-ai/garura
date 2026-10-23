@@ -260,7 +260,7 @@ the session identity stamp fields from $session_stamp (#463): session_id, ledger
 ledger_start_offset, ledger_end_offset (null when unresolved — never blocks the close)) and
 write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report to the user: `## start-change Delivered — #${issue}`, the Run Summary table, the
 Pipeline Steps table built from the task DAG, the Artifacts Produced table, Next Steps
 (the change is ready — run the build/implement play next), and a pointer to

@@ -112,10 +112,9 @@ hand-author prose:
 - Run Summary table: Play, Issue/Slug, Status, Started, Completed.
 - Pipeline Steps table: built from the task DAG (mapping below).
 - Artifacts Produced table: the named artifacts and SHAs from C1.
-- **Next** (always, unless the play is `meta_exempt`): resolve this play in the Next-line map
-  (`$next_map`, from `template-manager`) and render
-  `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` When the
-  play's mapped `command` is `null`, render only the `/next` pointer, or omit the line.
+- **Next** (unless the play is `meta_exempt`): resolve this play in the Next-line map
+  (`$next_map`, from `template-manager`) and render `**Next:** /<command> — <why>.` When the
+  play's mapped `command` is `null`, the play has no single successor: omit the line.
 - Next Steps (optional): other real follow-ons, and any the play's close names.
 - End with a pointer to the evidence file at `$evidence_dest`.
 

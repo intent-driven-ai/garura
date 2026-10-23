@@ -108,7 +108,7 @@ def phrase(items):
 
 def load_kind_map(path):
     """Load the fixed label -> kind -> play table. Never inferred, never derived
-    from the product model — /next owns model-derived recommendation, not this play."""
+    from the product model."""
     if yaml is None:
         raise RuntimeError("pyyaml is required to read the kind map")
     with open(path, encoding="utf-8") as fh:

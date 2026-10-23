@@ -416,7 +416,7 @@ never blocks the close); and stop_condition per C0 with the Stop Condition secti
 filled) and write to `$evidence_dest`. Do NOT hand-author the body. Then dispatch
 `repo-orchestrator` for the evidence self-commit when evidence was recorded.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
 `## launch — #${issue}` (the outcome plainly: delivered → "the epic landed on your
 sign-off; production follows from main"; fix_required → "you rejected N scenarios — the
 defect report is on the issue; run /build-epic to fix exactly what it names"), the Run

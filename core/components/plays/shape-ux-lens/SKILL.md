@@ -587,8 +587,7 @@ unresolved — never blocks the close); and stop_condition per C0 with the Stop 
 filled) and write to `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in
-the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all
-recommended actions.` (only /next pointer, or omit, when the mapped command is null), per
+the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per
 `play-close.md`. Fill the `delivery-report.md` slots: `## ux Delivered — ${slug}`, the Run Summary
 table (incl. the stop-condition verdict), the Pipeline Steps table, the Artifacts Produced table
 (the ux lens + the visual-core decision + the model-delta commit sha), Next Steps (run /shape-agentic-lens on
