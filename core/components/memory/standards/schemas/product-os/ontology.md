@@ -1,6 +1,6 @@
 ---
 ontology: product
-version: 8
+version: 9
 updated: 2026-10-23
 ---
 
@@ -8,11 +8,11 @@ updated: 2026-10-23
 
 The agreed map of what a product is made of in Garura: the kinds of things, what each holds, how they connect, and what must always be true. A person and an agent reading it use the same words for the same things. It defines thirteen kinds in two layers, with the Plan as the thread between them: the **product layer** — Business Intent, Source, Domain, Capability, Feature, Slice and ICE; the **Plan**; and the **work layer** — Epic, Story, Spike, Chore and Bug. It grows one kind at a time, through the `edit-ontology` play, and the product owner agrees each change.
 
-How it flows: a person gives an intent → it becomes a **Business Intent** here and an issue labelled `product` in the tracker → the Business Intent links to its **Capabilities** and holds no **ICE**; each Capability has **Features**, and each Capability and each Feature has exactly one ICE, its own node → a **Slice** groups Features from any Capabilities, in order, into one vertical a person can test end to end → a **Plan** is given the Business Intent, picks a Slice, and creates one **Epic** for it → the Epic holds one **Story** for each Feature of the Slice; each Story delivers its Feature and writes its scope of work from its Feature's ICE and its Capability's ICE → a **Spike**, **Chore** or **Bug** is a child of one Story → as work finishes, the Business Intent is updated with what was done.
+How it flows: a person gives an intent → it becomes a **Business Intent** here and an issue labelled `product` in the tracker → the Business Intent links to its **Capabilities** and holds no **ICE**; each Capability has **Features**, and each Capability and each Feature has exactly one ICE, its own node → a **Slice** groups Features from any Capabilities, in order, into one vertical a person can test end to end → the plan play makes a **Plan** right after `/shape-slice`: the Plan is given the Business Intent, holds every Slice that serves it, and creates one **Epic** for each, with its Stories → the Epic holds one **Story** for each Feature of the Slice; each Story delivers its Feature and writes its scope of work from its Feature's ICE and its Capability's ICE → a **Spike**, **Chore** or **Bug** is a child of one Story → as work finishes, the Business Intent is updated with what was done.
 
 The links, in five lines:
 
-1. A Plan is given one Business Intent; it picks a Slice; it creates one Epic for that Slice (three actions, in this order).
+1. A Plan is made by the plan play right after `/shape-slice`. It is given one Business Intent; it holds every Slice that serves that intent; it creates one Epic for each Slice, with its Stories (three actions, in this order).
 2. An Epic holds Stories; each Story sits inside exactly one Epic.
 3. A Story delivers one Feature, and with it that Feature's part of its Capability.
 4. A Spike, Chore or Bug is a child of one Story. It reaches the Feature, the Epic and the Business Intent through that Story.
@@ -27,7 +27,7 @@ In the tracker, only two labels exist: `product` (a Business Intent, and nothing
 ## Questions it must answer
 
 - **Q1** — Given a business intent and the product as it is today, which types of work does it need — Epic, Story, Spike, Chore, Bug — what value does each bring, and when would a type be wrong for it?
-  **Answered by:** Plan picks Slice; Epic represents Slice; Story represents Feature; Spike, Chore and Bug are children of a Story (a Spike or a Bug needs a built Story)
+  **Answered by:** Plan holds Slice; Epic represents Slice; Story represents Feature; Spike, Chore and Bug are children of a Story (a Spike or a Bug needs a built Story)
   **Status:** answered
 - **Q2** — Given a new business intent, which parts of the product does it touch — and for each, does it change, add or remove something — at the level of a domain, a capability or a feature?
   **Answered by:** Business Intent has Capability and touches Domain (each marked change, add or remove on its Touches list); Capability has Feature
@@ -44,8 +44,8 @@ In the tracker, only two labels exist: `product` (a Business Intent, and nothing
 - **Q6** — Is this intent met yet, and how would we know?
   **Answered by:** Business Intent (its proof and its stage)
   **Status:** answered
-- **Q7** — Given a business intent, what is its plan: which slices it picked, which epic it created for each, which stories each epic holds, which feature each story delivers, which children each story has, and where each one stands?
-  **Answered by:** Plan is given Business Intent; Plan picks Slice; Plan creates Epic; Epic holds Story; Story represents Feature; Spike, Chore and Bug are children of a Story
+- **Q7** — Given a business intent, what does its plan hold?
+  **Answered by:** Plan is given Business Intent; Plan holds every Slice that serves it (Slice serves Business Intent); Plan creates one Epic for each Slice, with its Stories; Story represents Feature; Spike, Chore and Bug are children of a Story; each work item's state
   **Status:** answered
 - **Q8** — Given a capability or a feature, which is its one ICE, and where is its page?
   **Answered by:** ICE is for one Capability or one Feature; each Capability and each Feature has exactly one ICE, on its own page with its own spine entry
@@ -98,11 +98,26 @@ In the tracker, only two labels exist: `product` (a Business Intent, and nothing
 - **Q24** — Given a bug, which story introduced the defect, and so which epic?
   **Answered by:** Bug is a child of the Story that introduced the defect; Story sits in Epic
   **Status:** answered
-- **Q25** — Given a business intent, which slices does its plan pick, and which epics did it create?
-  **Answered by:** Plan picks Slice (by its two tests); Plan creates Epic; Epic represents Slice
+- **Q25** — Given a business intent, which slices serve it?
+  **Answered by:** Slice serves Business Intent (the slice's `intents` list, written by `/shape-slice` when it shapes the slice)
   **Status:** answered
 - **Q26** — Given a story, what does it deliver, what is its scope of work, and which ICEs was it written from?
   **Answered by:** Story represents Feature; Story is written from two ICE (its Feature's and its Capability's); Story scope of work
+  **Status:** answered
+- **Q27** — Given a slice, which business intents does it serve?
+  **Answered by:** Slice serves Business Intent — one or more, the first in its list being the one it was first shaped for
+  **Status:** answered
+- **Q28** — Given a slice, where is its eval kept?
+  **Answered by:** Slice (its eval, in the evals folder of the Plan for its first Business Intent: `.garura/project/plans/<plan-id>/evals/<slice>/`); Plan (its folder); a builder never reads it
+  **Status:** answered
+- **Q29** — Given a slice, what does its eval test?
+  **Answered by:** Slice (its eval reads only its Epic, the Stories in that Epic and its usage guide); Epic (what it delivers); Story (its scope of work: what must be true, what is expected, what must never happen)
+  **Status:** answered
+- **Q30** — When a new slice is shaped for a business intent that already has a plan, which plan holds it?
+  **Answered by:** Plan (one plan for each Business Intent; the new Slice and its Epic are added to it); Slice serves Business Intent
+  **Status:** answered
+- **Q31** — Given a built slice, how does its eval learn to use it?
+  **Answered by:** Slice (its usage guide, delivered by the build, in the guides folder of its home Plan)
   **Status:** answered
 
 ## Kinds
@@ -139,6 +154,7 @@ The hypothesis is the Outcome, the Why and the Proof it is met; the boundaries a
 |-----------|-----------|-------|---------|
 | other → this | Source | many | A source shows what is wanted |
 | other → this | Capability | many | A capability serves it |
+| other → this | Slice | many | A slice serves it — the link is kept on the slice's side only (the slice's spine `intents`) |
 | this → other | Capability | many | It has a capability — marked change, add or remove on its Touches list; the capability's spine `intents` holds the other side |
 | this → other | Business Intent | many | It was **identified by** another business intent — building one led us to find this one. A connection, never a dependency: neither waits on the other |
 | this → other | Domain | many | It touches a domain — a loose link, for search only; never in a plan, never a stop (the domain's spine `intents` holds the other side) |
@@ -147,7 +163,7 @@ The hypothesis is the Outcome, the Why and the Proof it is met; the boundaries a
 
 **Rules**
 
-- It is a destination: sources, capabilities, its plan and its epics point at it. It points only at its capabilities, the business intents it was identified by and, loosely, its domains.
+- It is a destination: sources, capabilities, slices, its plan and its epics point at it. It points only at its capabilities, the business intents it was identified by and, loosely, its domains. It does not point at its slices; they are found from the slices' side.
 - It is the only kind with the label `product` in the tracker.
 - It holds no ICE, and Garura never works on it directly. Agents work on the ICE of its capabilities and of their features.
 - A work item reaches it through its Epic.
@@ -181,9 +197,9 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 > - [Checkout](../orders/checkout/capability.md) (capability) — changes
 > **What was done:** (nothing yet)
 >
-> **Bank — Small businesses get a loan decision in one day.** Must not: change how the bank checks identity. Rules: every declined loan shows its reason. It has the capabilities "Loan application" and "Credit decision". Epic "One-day decision" serves it.
+> **Bank — Small businesses get a loan decision in one day.** Must not: change how the bank checks identity. Rules: every declined loan shows its reason. It has the capabilities "Loan application" and "Credit decision". It is served by Slices "One-day decision" and "Upload once". Epic "One-day decision" serves it.
 >
-> **Clinic — Patients book their own appointments online.** Must not: change how the clinic bills. It has the capability "Booking". It was identified by "Patients get a reminder before each visit". Its plan picked Slice "Self-booking" and created Epic "Self-booking".
+> **Clinic — Patients book their own appointments online.** Must not: change how the clinic bills. It has the capability "Booking". It was identified by "Patients get a reminder before each visit". It is served by Slices "Self-booking" and "Cancel online"; its plan created Epic "Self-booking".
 
 ### Source
 
@@ -357,11 +373,11 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 ### Slice
 
-**What it is:** An ordered group of features, taken from any capabilities, that together give one vertical outcome a person can test end to end — a screen or a surface. Each feature in it is small enough that a person can test its result. A feature can be in more than one slice. It lives in the product model. It is not an Epic: the Slice is in the model; the Epic is the work item that represents and delivers it.
+**What it is:** An ordered group of features, taken from any capabilities, that together give one vertical outcome a person can test end to end — a screen or a surface. Each feature in it is small enough that a person can test its result. A feature can be in more than one slice. It serves one or more business intents: `/shape-slice` writes that link when it shapes the slice, and writes nothing else (no plan, no epic, no story, no eval). It has one **eval**, which tests from the outside, on the built product, what its epic delivers, and one **usage guide**, which tells the eval how to reach the slice. It lives in the product model. It is not an Epic: the Slice is in the model; the Epic is the work item that represents and delivers it.
 **Who reads it:** both
 **Layer:** product
-**In the tracker as:** an **Epic** — one Epic for the Slice, made when a Plan picks it. A Slice is not itself an issue type
-**Lives at:** the spine's `slices` list — `id`, `slug`, `feature_refs` (its features, in build order), `vertical` (the screen or surface a person tests) and `record` (a pointer to its full record). The fields `domain_ref`, `status`, `order`, `effort` and `depends_on` go
+**In the tracker as:** an **Epic** — one Epic for the Slice, made when the plan play adds the slice to a plan. A Slice is not itself an issue type
+**Lives at:** the spine's `slices` list — `id`, `slug`, `feature_refs` (its features, in build order), `vertical` (the screen or surface a person tests), `intents` (the business intents it serves, in order; the first is the one it was first shaped for) and `record` (a pointer to its full record). The fields `domain_ref`, `status`, `order`, `effort` and `depends_on` go. Its eval is at `.garura/project/plans/<plan-id>/evals/<slug>/` and its usage guide at `.garura/project/plans/<plan-id>/guides/<slug>.md`, where `<plan-id>` is the issue number of its first business intent — worked out, never stored
 
 **Properties**
 
@@ -370,6 +386,9 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | Id and name | Its stable id and its name | yes |
 | Features | Its features, in build order — one or more | yes |
 | Vertical | The one screen or surface a person can test end to end | yes |
+| Serves | The business intents it serves (spine `intents`), in order — one or more; the first is the one it was first shaped for. Written by `/shape-slice` only | yes |
+| Eval | Its one eval: it tests, from the outside, on the built product, what its epic delivers as its stories describe it — every intent and expectation the stories carry is met, and no failure condition they name happens. Built by the eval play from the epic and stories the plan play wrote; kept in its home plan's evals folder | yes, once its epic and stories are made |
+| Usage guide | What its surface is (a browser page, a mobile app, a command line command or a backend endpoint), how to reach it, and the steps a person takes. Delivered by the build with the slice; kept in its home plan's guides folder | yes, once it is built |
 | Record | A pointer to its full record | no |
 
 **Relationships**
@@ -377,26 +396,32 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
 | this → other | Feature | many | It groups features, in order |
+| this → other | Business Intent | many | It serves a business intent — the same verb, with the same meaning, as "a capability serves" and "an epic serves"; the link is kept on the slice's side only |
 | other → this | Epic | one | At most one epic represents it |
-| other → this | Plan | many | A plan picks it |
+| other → this | Plan | many | A plan holds it — every plan for a business intent it serves |
 
 **Rules**
 
 - Its features can come from any capabilities.
 - Each of its features is small enough that a person can test its result.
 - It holds no ICE. It is not an issue type.
-- A slice with no screen or surface a person can test end to end fails the Plan's first test, and is never picked.
-- It has at most one Epic. A second plan that picks it uses that Epic, and the Epic then serves both business intents.
-- Whether it is picked is shown by its Epic, not by a status on the slice. What must come first comes from its capabilities' needs, not from an order on the slice.
+- It has one screen or surface that a person can test end to end. A thing with no such surface is not a slice, and `/shape-slice` does not shape it.
+- It serves one or more business intents. `/shape-slice` writes the link when it shapes the slice, and writes nothing else.
+- It has at most one Epic. A second plan that holds it uses that Epic, and the Epic then serves both business intents.
+- Whether its work has started is shown by its Epic, not by a status on the slice. What must come first comes from its capabilities' needs, not from an order on the slice.
+- It has one eval and one usage guide, also when two plans hold it. Both are kept in the folder of its home plan: the plan for the business intent it was first shaped for. Another plan that holds it points to them and never copies them.
+- A builder agent, or any skill that builds the software, never reads its eval, and never reads a plan's evals folder.
+- Its eval reads only its epic, the stories in that epic and its usage guide. It never reads the ICE of a feature or a capability, so the ICE has one interpretation: the one the plan play wrote into the epic and its stories. It never reads the code. It reads the guide when it runs, after the build.
+- The build delivers its usage guide with the slice, in the guides folder beside the evals folder but not in it, so the builder writes the guide and never sees the eval.
 - Inside it, the agent picks the build order, in horizontal layers: the database first, then the services, then the parts above.
 
 **Example**
 
-> **Clinic — Self-booking:** 1 Feature "Pick a free slot" (Capability Booking), 2 Feature "Send a reminder" (Capability Notifications). Vertical: the booking screen. Spine entry: `{id: sl-self-booking, slug: self-booking, feature_refs: [ft-pick-a-free-slot, ft-send-a-reminder], vertical: "the booking screen", record: …}`. In the tracker: Epic "Self-booking".
+> **Clinic — Self-booking:** 1 Feature "Pick a free slot" (Capability Booking), 2 Feature "Send a reminder" (Capability Notifications). Vertical: the booking screen. Serves "Patients book their own appointments online" (#340), written by `/shape-slice`. Spine entry: `{id: sl-self-booking, slug: self-booking, feature_refs: [ft-pick-a-free-slot, ft-send-a-reminder], vertical: "the booking screen", intents: [bi-340], record: …}`. In the tracker: Epic #341 "Self-booking". Eval: `.garura/project/plans/340/evals/self-booking/` — it reads Epic #341 and its Stories "Pick a free slot" and "Send a reminder", and tests that a patient books a free slot and gets a reminder, and that no slot is booked twice. Usage guide: `.garura/project/plans/340/guides/self-booking.md` — "Open https://clinic.example/book in a browser, pick a doctor, pick a free slot, give a phone number." The builder of "Pick a free slot" reads its Story, never the eval.
 >
-> **Shop — Pay without an account:** 1 Feature "Guest checkout" (Capability Checkout), 2 Feature "Send receipt" (Capability Notifications). Vertical: the checkout screen.
+> **Shop — Pay without an account:** 1 Feature "Guest checkout" (Capability Checkout), 2 Feature "Send receipt" (Capability Notifications). Vertical: the checkout in the mobile app. Serves "Shoppers can check out without an account" (#120). Eval: `.garura/project/plans/120/evals/pay-without-an-account/`. Usage guide: "In the mobile app, add an item to the cart, tap 'Pay as guest', give a card."
 >
-> **Bank — Rate tables:** Features that change the rate tables only. No screen a person can test, so it fails the Plan's first test and is never picked.
+> **Bank — Upload once:** serves "Small businesses get a loan decision in one day" (#51, first) and "Customers give their documents only once". It is held by both plans and has one epic; its eval and guide are in plan #51's folder, and the other plan points to them. **Rate tables:** features that change the rate tables only, which no person sees. It has no surface a person can test, so it is not a slice, and `/shape-slice` does not shape it.
 
 ### ICE
 
@@ -480,11 +505,11 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 
 ### Plan
 
-**What it is:** The thread between the product layer and the work layer, kept in the repo so that anyone — on any day — can see where the work for one business intent stands and carry on without re-reading every issue. It does three things, in this order: (1) it **is given** one Business Intent; (2) it **picks** a Slice by two tests; (3) it **creates** one Epic for that Slice — and so knows the Stories, one for each Feature of the Slice. It finds the work items that already exist before it creates new ones. Its ID is its business intent's issue number. It is not Claude Code's plan mode and not a design.
+**What it is:** The thread between the product layer and the work layer, kept in the repo so that anyone — on any day — can see where the work for one business intent stands and carry on without re-reading every issue. The plan play makes it right after `/shape-slice`, with no stop between them, from the slice `/shape-slice` shaped — or, when its business intent already has a plan, adds that slice to it. It does three things, in this order: (1) it **is given** one Business Intent; (2) it **holds** every Slice that serves that intent, found by reading the link "slice serves business intent", and does no slice work again; (3) it **creates** one Epic for each Slice, or uses the one that exists, and the Stories of that Epic, one for each Feature of the Slice. It finds the work items that already exist before it creates new ones. Its folder keeps the evals and usage guides of its slices. Its ID is its business intent's issue number. It is not Claude Code's plan mode and not a design.
 **Who reads it:** both
 **Layer:** the thread between the two layers
 **In the tracker as:** none — it is a file in the repo
-**Lives at:** `.garura/project/plans/<id>.yaml`, one file per plan
+**Lives at:** `.garura/project/plans/<id>.yaml`, one file per plan, and its folder `.garura/project/plans/<id>/` beside it, which holds `evals/` (one folder for each slice whose eval is kept here) and `guides/` (one guide for each such slice)
 
 **Properties**
 
@@ -495,21 +520,24 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 | Now | The work item being worked on | while active |
 | Needs plans | The other plans it needs — worked out from its features' capabilities' needs, never set by hand | no |
 | Status | active, done or dropped | yes |
+| Folder | Beside the plan file: `evals/` (written by the eval play) and `guides/` (written by the build), one entry for each slice whose home plan it is. A slice it holds whose home is another plan is pointed to from its Tree, never copied | yes, once it holds a slice |
 
 **Relationships**
 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
 | this → other | Business Intent | one | It is given one business intent |
-| this → other | Slice | many | It picks a slice by the two tests |
-| this → other | Epic | many | It creates the epic for each slice it picks, or uses the one that exists |
+| this → other | Slice | many | It holds every slice that serves its business intent, read from the link "slice serves business intent" |
+| this → other | Epic | many | It creates the epic for each slice it holds, with the stories of that epic, or uses the one that exists |
 | this → other | Plan | many | It needs another plan |
 
 **Rules**
 
-- It does three things, in this order: it is given a business intent, it picks a slice, it creates that slice's epic.
-- It picks a slice by two tests: (1) the slice gives a vertical outcome — a screen or a surface a person can test end to end; (2) of the slices that pass test 1, the one with the most features and capabilities that serve its business intent.
-- It finds the work items that exist before it creates new ones. When a slice it picks already has an epic, it uses that epic.
+- It does three things, in this order: it is given a business intent, it holds the slices that serve it, it creates one epic for each slice, or uses the one that exists, and the stories of that epic. The plan play does them right after `/shape-slice`, with no stop between them.
+- A business intent has one plan, and never a second one. When a new slice is shaped for an intent that has a plan, the plan play adds the slice and its epic to that plan.
+- It holds every slice that serves its business intent, and finds them by reading the link "slice serves business intent". It does not pick, rank or test slices; the person chose the slice at `/shape-slice`.
+- It finds the work items that exist before it creates new ones. When a slice it holds already has an epic, it uses that epic.
+- Its folder keeps the eval and the usage guide of each slice whose home plan it is (the plan for the business intent the slice was first shaped for). When it holds a slice whose home is another plan, it points to that plan's eval and guide, and never copies them.
 - It needs another plan when a feature in it belongs to a capability that needs a capability whose features are in that plan.
 - Its plan file and the tracker always agree; managing a plan changes both together and never touches branches or code.
 - A plan that needs another cannot land on main until that plan is done: the other plan has landed on main, or has been merged into this plan's branch.
@@ -519,15 +547,15 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 
 **Example**
 
-> **Shop — plan #120** "Shoppers can check out without an account": picks Slice "Pay without an account" → Epic #121 "Pay without an account" (open) → Story #122 "Guest checkout" (done; Feature "Guest checkout") → Bug #130 "Card fails on mobile" (open); Story #123 "Send receipt" (done). Needs plan #118, because Checkout needs Cart, whose features are in plan #118.
+> **Shop — plan #120** "Shoppers can check out without an account": holds Slice "Pay without an account" → Epic #121 "Pay without an account" (open) → Story #122 "Guest checkout" (done; Feature "Guest checkout") → Bug #130 "Card fails on mobile" (open); Story #123 "Send receipt" (done). Needs plan #118, because Checkout needs Cart, whose features are in plan #118. When "Save the card for next time" is shaped for the same intent, the plan play adds it to plan #120 and creates its epic and stories; no second plan is made.
 >
-> **Clinic — plan #340** "Patients book their own appointments online": picks Slice "Self-booking" → Epic #341 "Self-booking" → Story #342 "Pick a free slot" (done) → Chore #345 "Add the slots table" (done); Story #343 "Send a reminder". Needs no other plan.
+> **Clinic — plan #340** "Patients book their own appointments online": the plan play made it right after `/shape-slice` shaped "Self-booking". Holds Slice "Self-booking" → Epic #341 "Self-booking" → Story #342 "Pick a free slot" (done) → Chore #345 "Add the slots table" (done); Story #343 "Send a reminder". Later "Cancel online" was shaped for the same intent and added, with its epic. Folder: `.garura/project/plans/340/evals/self-booking/`, `evals/cancel-online/`, and their two guides. Needs no other plan.
 >
-> **Bank — plan #51** "Small businesses get a loan decision in one day": picks Slice "One-day decision" and Slice "Upload once"; Slice "Rate tables" fails test 1. Epic #52 "One-day decision" → Story #53 "Upload documents" (done), Story #55 "Score the application" → Chore #56 "Move the scoring rules to config". Now: #55.
+> **Bank — plan #51** "Small businesses get a loan decision in one day": holds Slice "One-day decision" and Slice "Upload once", read from the link; it does not rank or test them. Epic #52 "One-day decision" → Story #53 "Upload documents" (done), Story #55 "Score the application" → Chore #56 "Move the scoring rules to config". Now: #55. "Upload once" was first shaped for this intent, so its eval and guide are in plan #51's folder; the plan for "Customers give their documents only once" points to them.
 
 ### Epic
 
-**What it is:** The work item that represents one Slice: one Epic for each Slice a Plan picks. It holds Stories, one for each Feature of its Slice. It serves one or more business intents. It knows no capability and has no ICE. It is long-lived: it stays open when its work is done, and new Stories can join it. It is not a Slice (the Slice is in the model; the Epic is the work that delivers it), and it is not in the product model: the spine's `epics` list and the `epic.md` pages leave the model.
+**What it is:** The work item that represents one Slice: one Epic for each Slice a Plan holds. The plan play creates it, with its Stories, one for each Feature of its Slice. It serves the business intents its Slice serves. Its Slice's eval reads it, with its Stories, to learn what it delivers. It knows no capability and has no ICE. It is long-lived: it stays open when its work is done, and new Stories can join it. It is not a Slice (the Slice is in the model; the Epic is the work that delivers it), and it is not in the product model: the spine's `epics` list and the `epic.md` pages leave the model.
 **Who reads it:** both
 **Layer:** work
 **In the tracker as:** an issue labelled `work-item`
@@ -539,7 +567,7 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 |----------|---------------|----------|
 | Issue | The tracker issue's number or key | yes |
 | Kind | Epic | yes |
-| Title | What it delivers, in one line | yes |
+| Title | What it delivers, in one line — what a person can see the product do, not how it is built | yes |
 | State | open or closed, as the tracker holds it | yes |
 | Represents | The id of its one slice | yes |
 
@@ -548,30 +576,31 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 | Direction | Other kind | Count | Meaning |
 |-----------|-----------|-------|---------|
 | this → other | Slice | one | It represents one slice |
-| this → other | Business Intent | many | It serves one or more business intents |
+| this → other | Business Intent | many | It serves one or more business intents — the ones its slice serves; it has no list of its own apart from its slice |
 | this → other | Story | many | It holds stories |
-| other → this | Plan | one | A plan created it |
+| other → this | Plan | one | A plan created it (the plan play), with its stories |
 
 **Rules**
 
 - It has no ICE and knows no capability. It links to no Domain and no Capability.
 - Its stories are one for each feature of its slice; when its slice gains a feature, a new story joins it. It never holds two stories for one feature.
 - It stays open: it is not closed when its stories are done.
-- One slice has at most one epic. When a second plan picks the same slice, it uses this epic, and the epic serves both business intents.
+- One slice has at most one epic. When the slice is in a second plan, that plan uses this epic, and the epic serves both business intents.
+- Its slice's eval reads it, with its stories, to learn what it delivers. So its title says what a person can see the product do, not how it is built.
 - It never needs anything and is never identified by anything.
 - The `*-change` plays act on work items only.
 
 **Example**
 
-> **Clinic — Epic #341 "Self-booking"**, label `work-item`. Represents Slice "Self-booking". Serves "Patients book their own appointments online". Holds Stories "Pick a free slot" and "Send a reminder". Open.
+> **Clinic — Epic #341 "Self-booking"**, label `work-item`. Delivers: "A patient books a free slot online and gets a reminder" — not "Add the slots table and the text service". Represents Slice "Self-booking". Serves "Patients book their own appointments online", because its slice does. The plan play created it, with Stories "Pick a free slot" and "Send a reminder". The eval for "Self-booking" reads it and tests that on the booking page. Open.
 >
 > **Shop — Epic #121 "Pay without an account"**, label `work-item`. Serves "Shoppers can check out without an account" and, later, "Shoppers pay in one minute". Its stories are done; it stays open.
 >
-> **Bank — Epic #52 "One-day decision"**, label `work-item`. Represents Slice "One-day decision". Holds Stories "Upload documents" and "Score the application".
+> **Bank — Epic #52 "One-day decision"**, label `work-item`. Delivers: "A small business gets a loan decision on the same day." Represents Slice "One-day decision". Holds Stories "Upload documents" and "Score the application". The epic of Slice "Upload once" is used by plan #51 and by the plan for "Customers give their documents only once", and serves both intents.
 
 ### Story
 
-**What it is:** The work item that represents one Feature and delivers it, and with it that Feature's part of its Capability. When it is made, it reads its Feature's ICE and that Feature's Capability's ICE, and writes its own scope of work from them. It sits in exactly one Epic. There is one Story for each Feature in each Epic: when a later Slice includes a Feature again, that Slice's Epic gets its own Story for the Feature. It is not the Feature (the Feature is in the model; the Story stands for it in the tracker).
+**What it is:** The work item that represents one Feature and delivers it, and with it that Feature's part of its Capability. The plan play makes it when it creates the Epic; it reads its Feature's ICE and that Feature's Capability's ICE, and writes its own scope of work from them. Its Slice's eval reads that scope of work to test it. It sits in exactly one Epic. There is one Story for each Feature in each Epic: when a later Slice includes a Feature again, that Slice's Epic gets its own Story for the Feature. It is not the Feature (the Feature is in the model; the Story stands for it in the tracker).
 **Who reads it:** both
 **Layer:** work
 **In the tracker as:** an issue labelled `work-item`
@@ -586,7 +615,7 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 | Title | What it delivers, in one line | yes |
 | State | open or closed, as the tracker holds it; closed means delivered | yes |
 | Represents | The id of its one feature | yes |
-| Scope of work | Its own words for its work, written when it is made from its feature's ICE and its capability's ICE, on the issue — in place of the v6 ICE copy | yes |
+| Scope of work | Its own words for its work, written when it is made from its feature's ICE and its capability's ICE, on the issue — in place of the v6 ICE copy. It says what the feature must do, what is expected, and what must never happen; its slice's eval tests those things | yes |
 | Written from | The two ICE it read | yes |
 
 **Relationships**
@@ -611,11 +640,11 @@ not ready → partly ready → ready, as the ready check finds them. The answer 
 
 **Example**
 
-> **Shop — Story #122 "Guest checkout"**, in Epic "Pay without an account". Delivers Feature "Guest checkout", part of Capability Checkout. Scope: "A shopper pays by card with an email only; no account is made." Written from: ICE of Feature "Guest checkout", ICE of Capability "Checkout".
+> **Shop — Story #122 "Guest checkout"**, in Epic "Pay without an account". Delivers Feature "Guest checkout", part of Capability Checkout. Scope: "A shopper pays by card with an email only; no account is made; no card is charged twice." Written from: ICE of Feature "Guest checkout", ICE of Capability "Checkout". The eval for "Pay without an account" tests that no account is made and no card is charged twice.
 >
-> **Clinic — Story #342 "Pick a free slot"**, in Epic "Self-booking". Children: Chore "Add the slots table", Bug "Two patients get the same slot".
+> **Clinic — Story #342 "Pick a free slot"**, in Epic "Self-booking". Scope: "A patient picks a free slot and it is booked; no slot is booked twice." Children: Chore "Add the slots table", Bug "Two patients get the same slot".
 >
-> **Bank — Story #55 "Score the application"**, in Epic "One-day decision". Written from the ICE of Feature "Score the application" and the ICE of Capability "Credit decision".
+> **Bank — Story #55 "Score the application"**, in Epic "One-day decision". Scope: "Each application gets a score; no decision goes out without a score." Written from the ICE of Feature "Score the application" and the ICE of Capability "Credit decision".
 
 ### Spike
 
@@ -755,3 +784,4 @@ None. Every kind a question or a relationship names is defined above.
 - 2026-10-22 — v6 (#758, plan #756, with the product owner): the ICE becomes its own node, with its own page (`ice.md`, in its part's folder) and its own spine entry (a new `ices` list), one for each capability and each functionality, in three parts (Intent, Context, Expectation); it has no link to a business intent, and finds them through its part. A business intent holds no ICE and is never worked on directly; it has one or more capabilities, its Touches list names domains and capabilities only, it gains an optional Rules property, and business intents are still identified by one another, a connection and never a dependency. Among the parts of the product, "needs" and "identified by" join capabilities only; a functionality has neither, and takes its business intents and order of work from its one parent capability. Work carries one ICE. A capability sits in at most one domain and a domain has one or more capabilities; a missing domain is a gap, never a stop; the spine's single `domain` field and the folders stay as they are. The ready rule moves to the ICE, with three answers: ready, partly ready, not ready; an ICE starts only with all three parts present. Q1–Q7 now point at the new links; Q8–Q16 added. Garura's own fn-727 → fn-724 becomes cap-718 → cap-723 (#765). Option 1 (one ICE for each part) replaces option 1.B (one ICE for each pair of business intent and part).
 - 2026-10-22 — v7 (#793, plan #788, with the product owner): the model has two layers with the Plan as the thread, and each kind says what it is in the tracker as. Product layer: Business Intent (an issue labelled `product`, the only kind with that label), Source, Domain, Capability, ICE, Feature (Functionality renamed; in the tracker represented by a Story) and the new Slice (an ordered group of features from any capabilities that gives one vertical a person can test; in the tracker represented by an Epic); Feature and Slice are not issue types; Source, Domain, Capability and ICE are model only, and Domain and Capability have no link to any work item. Work layer: Work is no longer a kind but the name of the layer, and Epic, Story, Spike, Chore and Bug are kinds, each an issue labelled `work-item`; Feature is no longer a work type. A Plan (a file) is given one business intent, picks a slice by two tests and creates one epic for it, or uses the one that exists; an Epic represents one slice, holds stories, serves one or more business intents, has no ICE, stays open and leaves the product model (the spine's `epics` list and the `epic.md` pages go); a Story represents and delivers one feature, one per feature in each epic, and its issue holds its scope of work, written from its feature's and capability's ICE, in place of the ICE copy; Spikes, Chores and Bugs are children of one story and carry no ICE — a Spike only after its story is built, with a new "led to" link, and a Bug under the story that introduced the defect. A capability is done when every feature in it has a closed story, worked out and never stored. The spine's slice entry keeps `id`, `slug`, `feature_refs` and `record`, gains `vertical`, and drops `domain_ref`, `status`, `order`, `effort` and `depends_on`. The spine and file names for features (`features`, `feature.md`, `features/`) come with the rename story next in plan 788. Domain becomes a full kind; Tracker Issue is not made a kind, its labels live on each kind. Q1, Q2, Q7, Q13 and Q16 change; Q17–Q26 are added. Dropped: Work as a kind, "one capability has one Feature", "a Feature carries its capability's ICE", "one functionality has exactly one Story", "Spikes, Bugs and Chores sit under a functionality", "each piece of work carries one ICE".
 - 2026-10-23 — v8 (#807, plan #788): wording only. The rename of functionality to feature is now done on disk, so the notes "until the rename story lands" go from the Feature, Slice and ICE kinds. Source gains its Layer line (product) and its In the tracker as line (none — model only), as every other kind has. The template gains both lines. No kind, link or rule changes meaning.
+- 2026-10-23 — v9 (#816, plan #788, with the product owner): a Slice serves one or more business intents (spine `intents`, the first being the one it was first shaped for), written by `/shape-slice`, which writes nothing else (no plan, no epic, no story, no eval); the link is kept on the slice's side only, and the Business Intent is a destination that a slice serves. The rule "a slice has a screen or surface a person can test end to end" is the Slice's own. The Slice gains one eval and one usage guide, also when two plans hold it, both kept in the folder of its first plan (`.garura/project/plans/<plan-id>/evals/<slug>/` and `guides/<slug>.md`); another plan points to them and never copies them. The eval is built by the eval play, is never read by a builder, reads only the slice's epic, its stories and the usage guide, and tests what the epic delivers against the built product from the outside, never reading the ICE or the code; the guide is delivered by the build and is the eval's only way in. The Plan is made by the plan play, right after `/shape-slice`, from the slice it shaped, or that slice is added to the one plan its business intent already has; it holds the slices that serve its intent, read from the link; it creates one epic for each slice, or uses the one that exists, and the stories of that epic; its folder keeps its slices' evals and guides. An Epic serves the intents its slice serves, is read by its slice's eval, and its title says what a person can see the product do. A Story is written by the plan play from its two ICE, as before; its scope of work names what the feature must do, what is expected and what must never happen, and its slice's eval reads it. The ICE does not change. Q1's answer, Q7 and Q25 change; Q27–Q31 are added. Dropped: "a plan picks a slice by two tests", "a slice with no surface fails the plan's first test, and is never picked".

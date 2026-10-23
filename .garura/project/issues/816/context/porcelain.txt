@@ -1,0 +1,13 @@
+ M CLAUDE.md
+ M core/components/memory/standards/rules/_index.md
+ M core/components/plays/edit-ontology/SKILL.md
+ M core/components/skills/author-product-ontology/SKILL.md
+ M core/config.yaml
+ M core/tools/naming/check_old_names.py
+ M core/tools/naming/test_naming_tools.py
+?? .garura/project/issues/816/context/commit-change/
+?? .garura/project/issues/816/evidence/
+?? .garura/project/issues/816/specs/
+?? core/components/memory/standards/rules/asking-a-person.md
+?? core/components/plays/shape-slice/scripts/grill_budget.py
+?? core/components/plays/shape-slice/scripts/test_grill_budget.py

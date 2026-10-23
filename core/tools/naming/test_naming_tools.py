@@ -54,6 +54,9 @@ def main():
         write(root, "docs/adr/046-one-naming-standard.md", "The /vision play.\n")
         write(root, "docs/adr/047-the-ice.md", "The /vision play.\n")
         write(root, "docs/adr/048-two-layers.md", "The /vision play.\n")
+        write(root, "docs/adr/049-a-later-decision.md", "The /vision play.\n")
+        write(root, "docs/adr/SUPERSEDED-046-old-naming.md", "The /vision play.\n")
+        write(root, "docs/adr/SUPERSEDED-047-old-ice.md", "The /vision play.\n")
         write(root, "CHANGELOG.md", "/vision shipped.\n")
         subprocess.run(["git", "add", "-A"], cwd=root)
         subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "x"], cwd=root)
@@ -69,6 +72,9 @@ def main():
         check("the rename ADRs 046 and 048 are not searched",
               "docs/adr/046-one-naming-standard.md" not in files_hit and "docs/adr/048-two-layers.md" not in files_hit)
         check("ADR 047 is searched", "docs/adr/047-the-ice.md" in files_hit)
+        check("ADR 049 is searched", "docs/adr/049-a-later-decision.md" in files_hit)
+        check("a superseded rename ADR 046 is not searched", "docs/adr/SUPERSEDED-046-old-naming.md" not in files_hit)
+        check("a superseded ADR 047 is searched", "docs/adr/SUPERSEDED-047-old-ice.md" in files_hit)
 
         ar.main(["--root", root])
         after = co.find(root, co.load_map(root), ["plays", "loops", "skills", "agents"])
