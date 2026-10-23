@@ -18,7 +18,7 @@ Product model                          Tracker
 Business Intent                 ── issue: Business Intent   (its issue number is its plan's ID)
 Capability + its ICE            ── never an issue
 └─ Feature + its ICE            ── issue: Story, one in each Epic that delivers it
-Slice (features from any        ── issue: Epic, made when a plan picks the slice
+Slice (features from any        ── issue: Epic, made by the plan play for each slice
        capabilities, in order)     └─ Story, one per feature of the slice
                                       ├─ Spike / Chore   ── issue, when the work needs one
                                       └─ Bug             ── issue, always under the Story that introduced it
@@ -35,8 +35,8 @@ delivers it.
 | | What it is | Filed when |
 |---|---|---|
 | **Business Intent** | What a person wants — an outcome. Tracking only: it holds no ICE and agents never build it. Met by its proof, never closed by finishing its children. | A goal is stated that work will be done to serve. |
-| **Epic** | The work order for one slice: an ordered group of features, from any capabilities, that a person can test end to end. It holds one Story for each feature of the slice and has no ICE of its own. | A plan picks a slice to build. |
-| **Story** | The work order for one feature: one thing a person can do inside a capability. Its scope of work is written from its feature's ICE and its capability's ICE. One coherent change that can be built, reviewed, and merged on its own. | A feature in a picked slice is ready to build. |
+| **Epic** | The work order for one slice: an ordered group of features, from any capabilities, that a person can test end to end. It holds one Story for each feature of the slice and has no ICE of its own. | /shape-slice shapes a slice for a business intent; the plan play then makes its Epic. |
+| **Story** | The work order for one feature: one thing a person can do inside a capability. Its scope of work is written from its feature's ICE and its capability's ICE, and never holds a failure or recovery condition (ADR 049). One coherent change that can be built, reviewed, and merged on its own. | The plan play makes the Epic of the feature's slice. |
 | **Bug** | A defect in a feature: it behaves differently from what was intended. Filed under the Story that introduced it. | Observed behaviour departs from expected behaviour. |
 | **Chore** | Upkeep under a Story that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
 | **Spike** | A question to answer under a Story. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
@@ -48,8 +48,9 @@ a missing feature is a Story.
 
 Every Epic serves one or more business intents, every Story hangs under its Epic, and every Bug, Spike
 and Chore under a Story — as a real parent/child link in the tracker. A business intent has no parent;
-business intents link to each other only by "identified by". A plan for the business intent is kept
-at `.garura/project/plans/<business-intent-issue>.yaml`. Plays and skills are named by the harness
+business intents link to each other only by "identified by". Each business intent has exactly one plan; it holds every slice that serves the intent (ADR 049). It is kept
+at `.garura/project/plans/<business-intent-issue>.yaml`, and each slice's eval and usage guide sit beside it, in
+`plans/<id>/evals/` and `plans/<id>/guides/`. A builder never reads the evals folder. Plays and skills are named by the harness
 standard (`docs/standards/harness-standard.md`).
 
 ## How does that land in the tracker?
