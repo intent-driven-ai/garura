@@ -8,6 +8,15 @@ Closes #821, #825 and #829 (on merge into the plan branch, by merge-change).
 - **#825: one checkpoint format.** `templates/approval-prompt.md` now follows the asking-a-person rule (Question / Answer / Why it matters / Example, and a plain typed reply). Tether / Orbit / Vanish is gone from every template. The `checkpoint.md` and `evidence-file.md` states are renamed to match (change requested, user_stop). No code reads the old names.
 - **#829: a slice lists its business intents.** The spine's slice entry gets `intents`. The shared spine linter, `lint_grounding.py` (12 copies, all the same), fails a slice that names an intent with no page. A slice with no intents gets a warning. There is a new test.
 
+## Review round 1 fixes
+
+- **HA1:** the edit-ontology ICE (`reference/ice.md`) now carries the asking-a-person flow (C4, F4, REC4, Context). The play is recompiled: lint_play PASS, and the fingerprint matches.
+- **HB2:** the asking-a-person check reads only the play's steps, not its description or notes. A pointer counts only in the workflow. It flags the same 30 plays, now at their real checkpoint lines.
+- **HC1:** there is one main copy of `lint_grounding.py` in `create-play/references/`, and the new check `structural/lint_grounding-drift` finds 0 drift.
+- **MC1:** Tether / Orbit / Vanish are gone from every file outside the ADRs (24 files).
+
+Hidden eval: 42 passed, 0 failed.
+
 ## Checks
 
 | Check | Result |
@@ -21,52 +30,51 @@ Not in this change: other files outside the templates that still say Tether / Or
 
 ## Self-review
 
-# Self-review: issues 821, 825, 829
+# Self-review: issues 821, 825, 829 (refresh after review round 1)
 
 Rules used: the standards file `self-review.md` (base). Diff: `plan/788/base...HEAD`.
 Result: 0 blocking findings.
 
 ## Scope
 
-- [PASS] Matches the issues. Issue 821 adds the lint rule `asking-a-person`, gives
-  `edit-ontology` the rule input for its agent, and makes `author-product-ontology`
-  take it as `asking_rule`. Issue 825 moves the approval and checkpoint templates to the
-  asking-a-person format. Issue 829 adds slice intents to the spine and checks each
-  intent page in `lint_grounding.py`.
-- [PASS] No scope creep. Every changed file under `core/` maps to one of the three issues.
-- [PASS] Size. 34 files, mostly 12 identical copies of `lint_grounding.py` (about 19 lines each).
-  The copies must stay identical, so the size is justified.
-- [PASS] No stray files. No debug prints, no scratch files. The files under
-  `.garura/project/issues/821/context/` are the run record for this issue.
-- [REVIEW] Run record files are in the diff. Confirm that the team wants them committed.
+- [PASS] Matches the issues. 821 adds the lint rule `asking-a-person` and gives
+  `edit-ontology` the asking-a-person flow. 825 moves the approval and checkpoint
+  templates to the plain yes / change / stop format. 829 adds slice intents to the
+  spine and checks each intent page in `lint_grounding.py`.
+- [PASS] Round 1 fixes stay in scope. HA1 puts the asking-a-person flow in the
+  `edit-ontology` ICE and recompiles the play. HB2 makes the lint read only the steps
+  of a play. HC1 keeps one main copy of `lint_grounding.py` and adds a drift check.
+  MC1 removes Tether, Orbit and Vanish from 23 files outside the ADRs.
+- [PASS] No scope creep. The 52 changed files outside `.garura/` each map to one of the
+  three issues or to a round 1 fix.
+- [PASS] Size. The 12 copies of `lint_grounding.py` must stay identical, and the drift
+  check now enforces this. This justifies the size.
+- [PASS] No stray files. The only `print` and `console.log` lines are in the test
+  files. No scratch files.
+- [REVIEW] Run record files under `.garura/project/issues/821/` are in the diff.
+  Confirm that the team wants them committed.
 
 ## Quality
 
-- [PASS] Tests present. New: `asking-a-person.test.js` and `test_lint_slice_intents.py`.
-  The hidden eval result is 29 passed, 0 failed.
+- [PASS] Tests present. New: `asking-a-person.test.js`, `shared-scripts.test.js` and
+  `test_lint_slice_intents.py`. The hidden eval result is 42 passed, 0 failed.
+- [PASS] The recompiled `edit-ontology` play passes `lint_play`, and its fingerprint matches.
+- [PASS] Drift check `structural/lint_grounding-drift` reports 0 drift.
 - [PASS] Commits are clean. Each commit uses conventional format, has one concern, and
   names an issue (#821, #825, #829).
 - [PASS] No secrets in the diff.
-- [PASS] Docs in step. The `author-product-ontology` input table and the `edit-ontology`
-  steps are updated with the new input.
-- [PASS] Nothing broken by this change. Tether, Orbit and Vanish are gone from the templates.
+- [PASS] Docs in step. The `edit-ontology` steps and the `author-product-ontology`
+  input table are updated.
+- [PASS] Nothing broken by this change.
+- [REVIEW] One old use of Tether, Orbit and Vanish stays in
+  `core/components/memory/standards/rules/product.md` (lines 190 to 192). This change
+  does not touch the file. Fix it in a follow-up.
 
 ## Expected lint change
 
-`lint-components` errors go from 121 to 151. The 30 new errors are all
-`asking-a-person/missing-pointer`. No other rule count moved. The issue allows this.
-These 30 do not yet point to the rule:
-
-Plays (29): build-epic, check-change, commit-change, create-play, discover-capabilities,
-discover-domains, discover-intent, edit-loop, fix-bug, learn-outcomes, merge-change,
-propose-change, record-decision, refactor-code, release-epic, release-increment,
-shape-agentic-lens, shape-architecture-lens, shape-marketing-lens, shape-measure-lens,
-shape-quality-lens, shape-roadmap, shape-run-lens, shape-scope, shape-slice, shape-ux-lens,
-start-change, validate-epic, create-loop.
-
-Loops (1): complete-discovery.
-
-(`create-loop` is a play; the loop count is one.) A follow-up must add the pointer to each.
+`lint-components` shows 151 errors. This is 121 old errors plus 30 new
+`asking-a-person/missing-pointer` errors. Issue #831 tracks the 30. No other rule
+count moved. The issue allows this.
 
 ## Notes
 
