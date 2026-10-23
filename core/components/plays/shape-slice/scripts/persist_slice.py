@@ -3,29 +3,45 @@
 persist_slice.py — write the slice /shape-slice shaped into the live product model (C6, C7, C9).
 
     python3 persist_slice.py --root <product-os dir> --spine <_spine.yaml> --slice <slice.json> \
-        [--out <persist-slice.json>]
+        [--reuse <slice-id>] [--out <persist-slice.json>]
 
 slice.json:
-    {"id": "...", "slug": "...", "feature_refs": ["...", ...], "vertical": "...",
-     "intents": ["bi-..."], "surface": {"name": "...", "persona_ref": "...", ...}}
+    {"id": "...", "slug": "...", "name": "...", "outcome": "...",
+     "feature_refs": ["...", ...], "vertical": "...", "intents": ["bi-..."],
+     "surface": {"id": "...", "name": "...", "persona_ref": "...", "user_action": "..."}}
 
 It writes two things and nothing else:
-  - the spine `slices` entry, keyed by id, with exactly: id, slug, feature_refs, vertical,
-    intents, record. No status, order, effort, depends_on or domain_ref (ontology v10).
-    `record` points to the slice record, relative to the product-os folder:
+  - the spine `slices` entry, keyed by id, with exactly six fields: id, slug, feature_refs,
+    vertical, intents, record. No status, order, effort, depends_on or domain_ref (ontology
+    v10). `record` points to the slice record, relative to the product-os folder:
     `slices/<id>.yaml`.
-  - the slice record at <root>/slices/<id>.yaml, which holds the one surface with its
-    persona_ref (the person who tests the slice).
+  - the slice record at <root>/slices/<id>.yaml (slice.yaml v2):
+        slice:   {id, slug, name, outcome, feature_refs, vertical, intents}
+        surface: {id, name, persona_ref, user_action}
+    The surface's persona_ref is the person who tests the slice.
 
-When the slice id is already in the spine, it adds each new intent to that entry's `intents`
-(order kept, no duplicates) and makes no second entry; it adds the `record` pointer if the
-entry has none; the record file is written only if it is missing. A slice already in the spine with other features or another vertical is refused.
+A NEW slice (no --reuse): when the id is already in the spine with the same features and
+vertical, the run adds each new intent to that entry and to its record (order kept, no
+duplicates) and makes no second entry. The same id with other features or another vertical
+is refused: a slice that serves the intent is reused with --reuse, never overwritten.
 
-It refuses with exit 2 and a plain message, and writes nothing, when: the vertical or the
-surface name is missing; the surface has no persona_ref; `surface` is a list of more than
-one; an id, slug, feature list or intent list is missing; or a feature is not in the spine.
-Every check runs before the first write. It calls the model_names guard (#807) on the spine.
-Reads and writes files on disk only; no git, no network.
+REUSE (--reuse <slice-id>, C7): the slice <slice-id> already serves the intent
+(find_serving_slice.py found it). The run adds the shaped slice's intents to that slice's
+spine entry and to its record (appended, no duplicates). It keeps that slice's feature_refs,
+vertical and surface as they are, and makes no second slice. The result's `differences`
+lists, in plain words, how the new shape differs from the slice it reuses, so the person
+sees it at the checkpoint. An older entry with fields ontology v10 removed (status, order,
+effort, depends_on, domain_ref) is written back with the six fields only; the result names
+the fields it dropped.
+
+It refuses with exit 2 and a plain message, and writes nothing, when: the vertical, the
+surface name, its id or its user_action is missing; the surface has no persona_ref;
+`surface` is a list of more than one; an id, slug, name, outcome, feature list or intent
+list is missing; a feature is not in the spine; --reuse names a slice not in the spine; or
+an id would place the record outside the model folder ('..', a path, or a symlink that
+leaves it). Every check runs before the first write. Each file is written through a temp
+file and os.replace, so a stopped run never leaves half a file. It calls the model_names
+guard (#807) on the spine. Reads and writes files on disk only; no git, no network.
 
 Exit 0 written (or nothing new to write), 2 refused or usage error.
 """
@@ -34,6 +50,7 @@ import argparse
 import json
 import os
 import sys
+import tempfile
 
 try:
     import yaml
@@ -44,7 +61,9 @@ except ImportError:
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import model_names  # noqa: E402  (stamped from create-play/references)
 
-SPINE_FIELDS = ("id", "slug", "feature_refs", "vertical", "intents")
+SPINE_FIELDS = ("id", "slug", "feature_refs", "vertical", "intents", "record")
+RECORD_SLICE = ("id", "slug", "name", "outcome", "feature_refs", "vertical", "intents")
+RECORD_SURFACE = ("id", "name", "persona_ref", "user_action")
 
 
 def record_rel(slice_id):
@@ -64,6 +83,41 @@ def _list_of_text(value):
     return isinstance(value, list) and value and all(_text(v) for v in value)
 
 
+def inside(root, rel, what):
+    """The absolute path of `rel` under `root`; refused when it leaves the model folder."""
+    if not _text(rel) or os.path.isabs(rel) or ".." in rel.replace("\\", "/").split("/"):
+        raise Refused(f"{what} '{rel}' leaves the model folder; give a path inside it")
+    real_root = os.path.realpath(root)
+    target = os.path.realpath(os.path.join(root, rel))
+    if target != real_root and not target.startswith(real_root + os.sep):
+        raise Refused(f"{what} '{rel}' leaves the model folder (through a link); "
+                      "give a path inside it")
+    return os.path.join(root, rel)
+
+
+def safe_id(value, what):
+    if not _text(value) or "/" in value or "\\" in value or value in (".", "..") \
+            or value.startswith("."):
+        raise Refused(f"{what} '{value}' is not a plain name; it would place a file outside "
+                      "the model folder")
+    return value
+
+
+def atomic_dump(path, data):
+    """Write YAML through a temp file in the same folder, then os.replace it into place."""
+    folder = os.path.dirname(os.path.abspath(path))
+    os.makedirs(folder, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".persist-slice-", suffix=".tmp", dir=folder)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            yaml.safe_dump(data, fh, sort_keys=False, allow_unicode=True)
+        os.replace(tmp, path)
+    except BaseException:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+        raise
+
+
 def one_surface(surface):
     if isinstance(surface, list):
         if len(surface) > 1:
@@ -75,15 +129,21 @@ def one_surface(surface):
                       "person tests end to end")
     if not _text(surface.get("persona_ref")):
         raise Refused("the surface names no persona_ref; a slice needs the person who tests it")
+    for key in ("id", "user_action"):
+        if not _text(surface.get(key)):
+            raise Refused(f"the surface has no {key}; the slice record needs the surface's id "
+                          "and what the person does on it (slice.yaml v2)")
     return surface
 
 
-def check_slice(sl, spine):
+def check_slice(sl, spine, root):
     if not isinstance(sl, dict):
         raise Refused("slice.json must hold one JSON object")
-    for key in ("id", "slug"):
+    for key in ("id", "slug", "name", "outcome"):
         if not _text(sl.get(key)):
             raise Refused(f"the slice has no {key}")
+    safe_id(sl["id"], "the slice id")
+    inside(root, record_rel(sl["id"]), "the slice record")
     if not _text(sl.get("vertical")):
         raise Refused("the slice has no vertical; the vertical is the name of its one surface")
     surface = one_surface(sl.get("surface"))
@@ -99,54 +159,131 @@ def check_slice(sl, spine):
     return surface
 
 
-def plan(spine, sl, root):
-    """Work out the write. Returns (action, entry, added_intents, record_needed, add_pointer)."""
+def load_record(path):
+    if not os.path.isfile(path):
+        return None
+    with open(path, encoding="utf-8") as fh:
+        rec = yaml.safe_load(fh) or {}
+    if not isinstance(rec, dict):
+        raise Refused(f"the slice record {path} is not a YAML mapping")
+    return rec
+
+
+def new_record(sl, surface, intents):
+    return {"slice": {"id": sl["id"], "slug": sl["slug"], "name": sl["name"],
+                      "outcome": sl["outcome"], "feature_refs": list(sl["feature_refs"]),
+                      "vertical": sl["vertical"], "intents": list(intents)},
+            "surface": {k: surface.get(k) for k in RECORD_SURFACE}}
+
+
+def record_surface(rec):
+    """The surface of a record: top-level (v2), or under `slice` (written before v2)."""
+    if not isinstance(rec, dict):
+        return None
+    s = rec.get("surface")
+    if isinstance(s, dict):
+        return s
+    s = (rec.get("slice") or {}).get("surface")
+    return s if isinstance(s, dict) else None
+
+
+def differences(existing, rec, sl, surface):
+    out = []
+    have_f, new_f = list(existing.get("feature_refs") or []), list(sl["feature_refs"])
+    if have_f != new_f:
+        only_new = [f for f in new_f if f not in have_f]
+        only_have = [f for f in have_f if f not in new_f]
+        parts = []
+        if only_new:
+            parts.append("the new shape adds " + ", ".join(only_new))
+        if only_have:
+            parts.append("the new shape leaves out " + ", ".join(only_have))
+        if not parts:
+            parts.append("the new shape has the same features in another order")
+        out.append(f"features differ: the slice keeps {have_f}; " + "; ".join(parts))
+    if existing.get("vertical") != sl["vertical"]:
+        out.append(f"surface differs: the slice keeps '{existing.get('vertical')}'; "
+                   f"the new shape names '{sl['vertical']}'")
+    have_s = record_surface(rec) or {}
+    if have_s and have_s.get("persona_ref") != surface.get("persona_ref"):
+        out.append(f"tester differs: the slice keeps '{have_s.get('persona_ref')}'; "
+                   f"the new shape names '{surface.get('persona_ref')}'")
+    return out
+
+
+def plan(spine, sl, surface, root, reuse):
+    """Work out every write before the first one. Returns a dict that `write` applies."""
     slices = spine.get("slices") or []
     if not isinstance(slices, list):
         raise Refused("the spine's `slices` is not a list")
-    existing = next((s for s in slices if isinstance(s, dict) and s.get("id") == sl["id"]), None)
-    record_path = os.path.join(root, record_rel(sl["id"]))
+    sid = reuse or sl["id"]
+    if reuse:
+        safe_id(reuse, "the slice to reuse")
+    existing = next((s for s in slices if isinstance(s, dict) and s.get("id") == sid), None)
+    rec_path = inside(root, record_rel(sid), "the slice record")
     if existing is None:
-        entry = {k: sl[k] for k in SPINE_FIELDS}
+        if reuse:
+            raise Refused(f"--reuse names slice '{reuse}', which is not in the spine")
+        entry = {k: sl[k] for k in SPINE_FIELDS if k != "record"}
         entry["feature_refs"] = list(sl["feature_refs"])
         entry["intents"] = list(dict.fromkeys(sl["intents"]))
-        entry["record"] = record_rel(sl["id"])
-        return "created", entry, entry["intents"], True, False
-    if list(existing.get("feature_refs") or []) != list(sl["feature_refs"]) \
-            or existing.get("vertical") != sl["vertical"]:
-        raise Refused(f"slice '{sl['id']}' is already in the spine with other features or another "
-                      "surface; give the new slice its own id")
+        entry["record"] = record_rel(sid)
+        return {"action": "created", "id": sid, "entry": entry, "new_entry": True,
+                "added": entry["intents"], "record": new_record(sl, surface, entry["intents"]),
+                "rec_path": rec_path, "differences": [], "dropped": [], "spine_changed": True}
+    if not reuse and (list(existing.get("feature_refs") or []) != list(sl["feature_refs"])
+                      or existing.get("vertical") != sl["vertical"]):
+        raise Refused(f"slice '{sid}' is already in the spine with other features or another "
+                      "surface; to add the intent to it run with --reuse "
+                      f"{sid}, or give the new slice its own id")
     have = list(existing.get("intents") or [])
     added = [i for i in dict.fromkeys(sl["intents"]) if i not in have]
-    add_pointer = not _text(existing.get("record"))
-    action = "updated" if (added or add_pointer) else "unchanged"
-    return action, existing, added, not os.path.isfile(record_path), add_pointer
-
-
-def write(spine_path, spine, root, sl, surface, action, entry, added, record_needed,
-          add_pointer):
-    if action == "created":
-        spine.setdefault("slices", [])
-        if spine["slices"] is None:
-            spine["slices"] = []
-        spine["slices"].append(entry)
+    intents = have + added
+    entry = {k: existing.get(k) for k in SPINE_FIELDS if k != "record"}
+    entry["intents"] = intents
+    entry["record"] = record_rel(sid)
+    dropped = [k for k in existing if k not in SPINE_FIELDS]
+    rec = load_record(rec_path)
+    diffs = differences(existing, rec, sl, surface) if reuse else []
+    if rec is None:
+        rec_surface = surface if surface.get("name") == existing.get("vertical") else None
+        if rec_surface is None:
+            raise Refused(f"slice '{sid}' has no record at {record_rel(sid)}, and the new shape's "
+                          "surface is not that slice's surface, so the record cannot be written")
+        base = dict(sl, id=sid, slug=existing.get("slug") or sl["slug"],
+                    feature_refs=existing.get("feature_refs") or sl["feature_refs"],
+                    vertical=existing.get("vertical"))
+        rec_new = new_record(base, rec_surface, intents)
+        rec_changed = True
     else:
-        if added:
-            entry["intents"] = list(entry.get("intents") or []) + added
-        if add_pointer:
-            entry["record"] = record_rel(sl["id"])
-    if action != "unchanged":
-        with open(spine_path, "w", encoding="utf-8") as fh:
-            yaml.safe_dump(spine, fh, sort_keys=False, allow_unicode=True)
-    rel = record_rel(sl["id"])
-    if record_needed:
-        os.makedirs(os.path.join(root, "slices"), exist_ok=True)
-        record = {"slice": {"id": sl["id"], "slug": sl["slug"],
-                            "feature_refs": list(sl["feature_refs"]),
-                            "vertical": sl["vertical"], "surface": dict(surface)}}
-        with open(os.path.join(root, rel), "w", encoding="utf-8") as fh:
-            yaml.safe_dump(record, fh, sort_keys=False, allow_unicode=True)
-    return rel
+        rec_new = rec
+        body = rec_new.get("slice")
+        if not isinstance(body, dict):
+            body = {}
+            rec_new["slice"] = body
+        rec_intents = list(body.get("intents") or [])
+        merged = rec_intents + [i for i in intents if i not in rec_intents]
+        rec_changed = merged != rec_intents
+        body["intents"] = merged
+    spine_changed = bool(added) or bool(dropped) or existing.get("record") != record_rel(sid) \
+        or list(existing) != list(SPINE_FIELDS)
+    action = "updated" if (spine_changed or rec_changed) else "unchanged"
+    return {"action": action, "id": sid, "entry": entry, "new_entry": False, "existing": existing,
+            "added": added, "record": rec_new if rec_changed else None, "rec_path": rec_path,
+            "differences": diffs, "dropped": dropped, "spine_changed": spine_changed}
+
+
+def write(spine_path, spine, p):
+    if p["new_entry"]:
+        if spine.get("slices") is None:
+            spine["slices"] = []
+        spine["slices"].append(p["entry"])
+    elif p["spine_changed"]:
+        spine["slices"] = [p["entry"] if s is p["existing"] else s for s in spine["slices"]]
+    if p["spine_changed"]:
+        atomic_dump(spine_path, spine)
+    if p["record"] is not None:
+        atomic_dump(p["rec_path"], p["record"])
 
 
 def main(argv=None):
@@ -154,6 +291,7 @@ def main(argv=None):
     ap.add_argument("--root", required=True, help="the product-os folder")
     ap.add_argument("--spine", required=True)
     ap.add_argument("--slice", required=True, help="slice.json")
+    ap.add_argument("--reuse", help="the id of the slice that already serves the intent (C7)")
     ap.add_argument("--out", help="also write the result JSON here")
     args = ap.parse_args(argv)
 
@@ -173,8 +311,8 @@ def main(argv=None):
         model_names.check_spine(spine, args.spine)
         with open(args.slice, encoding="utf-8") as fh:
             sl = json.load(fh)
-        surface = check_slice(sl, spine)
-        action, entry, added, record_needed, add_pointer = plan(spine, sl, args.root)
+        surface = check_slice(sl, spine, args.root)
+        p = plan(spine, sl, surface, args.root, args.reuse)
     except Refused as exc:
         sys.stderr.write(f"persist_slice.py: not written — {exc}\n")
         return finish({"ok": False, "refused": str(exc)}, 2)
@@ -182,10 +320,12 @@ def main(argv=None):
         sys.stderr.write(f"persist_slice.py: cannot read an input: {exc}\n")
         return finish({"ok": False, "refused": f"cannot read an input: {exc}"}, 2)
 
-    rel = write(args.spine, spine, args.root, sl, surface, action, entry, added, record_needed,
-                add_pointer)
-    return finish({"ok": True, "action": action, "id": sl["id"], "added_intents": added,
-                   "record": rel, "record_written": record_needed}, 0)
+    write(args.spine, spine, p)
+    result = {"ok": True, "action": p["action"], "id": p["id"], "reused": bool(args.reuse),
+              "added_intents": p["added"], "record": record_rel(p["id"]),
+              "record_written": p["record"] is not None, "differences": p["differences"],
+              "dropped_fields": p["dropped"]}
+    return finish(result, 0)
 
 
 if __name__ == "__main__":

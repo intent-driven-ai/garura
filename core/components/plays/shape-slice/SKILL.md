@@ -44,8 +44,11 @@ You run all mechanical work through bundled scripts: reading the issue
 (`record_questions.py`), the question tier (`grill_budget.py`), the serving check
 (`find_serving_slice.py`), the writes (`persist_fills.py`, `persist_slice.py`), the model
 checks (`slice_check.py`, which runs `lint_grounding.py`), the write guard
-(`scoped_write_guard.py`), the checkpoint record (`record_approval.py`) and the stop
-condition. You never write the spine, a slice record or a model page yourself.
+(`scoped_write_guard.py`), the checkpoint record and the commit gate (`record_approval.py`)
+and the stop condition. You never write the spine, a slice record or a model page yourself.
+You read no memory yourself: the agent finds memory only through the memory tool
+(`python3 .garura/core/tools/memory/memory.py`, `.claude/rules/garura-memory.md`) and
+records the trace of each decision with its `cite` command.
 
 **Forbidden:** working from the issue text alone, or stopping because the model has no page
 for the intent (C1); asking what the model or memory answers (C2); asking one question at a
@@ -63,14 +66,17 @@ a real person's name, or text a person cannot follow (C14).
 
 | Agent | Domain | Skills it uses | Phases |
 |-------|--------|----------------|--------|
-| `product-os-keeper` | Draft a missing intent page from the issue; gather the model and memory for the intent into short-term memory and list the gaps as questions; draft proposed answers with their source; shape the slice (features from any capability in build order, the one surface, its tester) and fill what the model lacks | `author-business-intent`, `find-work-placement`, `find-model-gaps`, `propose-answers`, `enrich-capability-ice`, `author-domains` | Intent, Gather, Shape |
+| `product-os-keeper` | Draft a missing intent page from the issue; gather the model and memory for the intent into short-term memory (memory through the memory tool only) and list the gaps as questions; draft proposed answers with their source; shape the slice (features from any capability in build order, the one surface, its tester) and fill what the model lacks; record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-model-gaps`, `propose-answers`, `enrich-capability-ice`, `author-domains` | Intent, Gather, Shape, Reuse |
+| `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
 
-`product-os-keeper` is the single **domain agent**. The skills it uses all exist; this play
-creates none. One piece has no skill yet: choosing the slice's features, their build order,
-its surface and its tester. The agent does that choice itself, from the placement result and
-the person's answers, and documents it in `slice.json` (agent principle P7: it says that no
-skill exists for it). An `author-slice` skill is the follow-up. The start and end sequence
-are injected sub-plays; everything else is a script.
+`product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
+agent. The skills the domain agent uses all exist; this play creates none. One piece has no
+skill yet: choosing the slice's features, their build order, its surface and its tester. The
+agent does that choice itself, from the placement result and the person's answers, documents
+it in `slice.json` (agent principle P7: it says that no skill exists for it) and records the
+trace of each choice with `memory.py cite`. The `author-slice` skill that will take it over
+is issue #838. The start and end sequence are injected sub-plays; everything else is a
+script.
 
 ## Pre-flight
 
@@ -188,15 +194,16 @@ exists; every later contract names that page as the intent's source, never
 
 **Step 2 — Gather the model and memory; list the gaps** · Owner: `product-os-keeper` · Depends on: Step 1
 
-    { "task":    "gather what the product model and memory hold for this business intent and list only the gaps neither answers. Read the intent page, the spine and the pages of the domains, capabilities, features, ICE, personas and journeys it reaches (find-work-placement places the intent's outcome on the model; find-model-gaps lists what the slice needs and the model lacks). Copy what you read into short-term memory. Load standards/rules/asking-a-person.md through the memory tool into asking_rule. For each gap write one question: id (Q-<topic>-<n>), topic, question (one thing), why (what goes wrong if the answer is wrong), examples (two or more, from different domains), blocking (true only when no one but the person can answer), assume (what the run assumes if it is not asked), and settled: true with its basis when the model or memory answers it after all",
+    { "task":    "gather what the product model and memory hold for this business intent and list only the gaps neither answers. Read the intent page, the spine and the pages of the domains, capabilities, features, ICE, personas and journeys it reaches (find-work-placement places the intent's outcome on the model; find-model-gaps lists what the slice needs and the model lacks). Look up Garura memory and Phoenix memory only through the memory tool, never by a file path: python3 .garura/core/tools/memory/memory.py search --issue <issue> --pattern <topic> --ignore-case (add --tier garura or --tier phoenix to go up a tier), then memory.py read --issue <issue> --tier <tier> --path <path> --start <n> --end <m> for each line you use; a tier_missing error is said, never read as 'nothing found'. Copy what you read into short-term memory. Load standards/rules/asking-a-person.md through the memory tool (memory.py find --glob '**/asking-a-person.md', then read) into asking_rule. For each gap write one question: id (Q-<topic>-<n>), topic, question (one thing), why (what goes wrong if the answer is wrong), examples (two or more, from different domains), blocking (true only when no one but the person can answer), assume (what the run assumes if it is not asked), and settled: true with its basis when the model or memory answers it after all",
       "inputs":  { "intent_page": "<model>/intents/<intent>.md", "spine": "<model>/_spine.yaml",
                    "product_base": "<product_base>", "record": "<record>" },
       "outputs": { "gather": "<working>gather.json", "questions": "<working>questions.json",
                    "asking_rule": "<working>asking-a-person.md" },
       "task_id": "shape-slice-gather" }
 
-`gather.json` names every model page and memory line it read (tier, path, lines). The skills
-read only what the agent put in short-term memory.
+`gather.json` names every model page and memory line it read (tier, path, lines and the
+fingerprint from each `memory.py read` answer). The skills read only what the agent put in
+short-term memory.
 
 **Step 3 — Propose answers; check them** · Owner: `product-os-keeper`, then play (script) · Depends on: Step 2
 
@@ -233,13 +240,17 @@ is shown to the person in Step 5 and at the checkpoint.
 ```
 python3 scripts/record_questions.py filter --record <record> \
     --questions <working>questions-checked.json --out <working>questions-open.json
+python3 scripts/record_questions.py open-list --open <working>questions-open.json \
+    --out <working>questions-open-list.json
 python3 scripts/grill_budget.py tier --config .garura/core/config.yaml > <working>budget.json
 python3 scripts/grill_budget.py split --questions <working>questions-open-list.json \
     --budget <budget from budget.json> > <working>split.json
 ```
 
-`questions-open-list.json` is the `open` list of `questions-open.json`, written as is. A
-question already answered in the record is a fact and is not asked again (C5).
+`filter` drops each question already answered in the record — matched by its question text,
+not by its id alone — because an answer is a fact and is not asked again (C5). A different
+question that reuses an id the record holds is kept under a new id (`renamed`). `open-list`
+writes the open list the budget split reads.
 `grill_budget.py` asks every blocking question first and fills the rest of the budget in
 order; each question not asked becomes an assumption (C4).
 **SE-4 (F4/C4):** in `split.json`, the asked questions that are not blocking number at most
@@ -264,35 +275,41 @@ shows business intent "<title>" is served) and what happens with the answers; th
 asked question, each asking one thing, with **Question**, **Answer** (the proposed answer,
 marked proposed — or "no proposed answer yet"), **Why it matters** and **Example** (several
 domains); each must stand alone when read back with no context. Close with the
-assumptions, one line each, and the count of questions with no proposed answer. Wait for
-the person's typed reply, which may answer all of them at once. Record the answers in
-their words:
+assumptions, one line each, and the count of questions with no proposed answer. Ask the
+person to answer each by its id or its number (for example `Q-surface-1: ...` or `2. ...`),
+and to type `skip` for a question they want to leave for later. Wait for the person's typed
+reply, which may answer all of them at once. Save the reply word for word to
+`<working>reply.md`, then build the answers and record them in their words:
 
 ```
+python3 scripts/record_questions.py answers --reply <working>reply.md \
+    --split <working>split.json --out <working>answers.json
 python3 scripts/record_questions.py answer --record <record> --answers <working>answers.json \
     --at <now, UTC> --run <this run id>
 python3 scripts/record_questions.py check --record <record> --split <working>split.json
 ```
 
-A blocking question left unanswered keeps the run here: ask that one again. A non-blocking
-question left unanswered is deferred: its assumption stands and is shown at the checkpoint.
+`check` exits 1 while any asked question has no answer, or a blocking question was skipped:
+ask those questions again, in one message, and repeat the three commands with the new reply.
+A non-blocking question the person skips is recorded as deferred, in their words: its
+assumption stands and is shown at the checkpoint.
 **SE-6 (F3/C3):** the questions were shown in one message; `questions-checked.json` showed
 no `shape_problems`; the message has the opening, and each question has the four parts and
 two or more examples from different domains.
-**SE-7 (F5/C5):** `record_questions.py check` reads `ok: true` — every asked question and
-every assumption of `split.json` is in `<record>`, and each answer the person typed is on its
-entry in their words.
+**SE-7 (F5/C5):** `record_questions.py check` reads `ok: true` (exit 0) — every asked question
+and every assumption of `split.json` is in `<record>`, every asked question has an answer
+that is not empty, and each answer the person typed is on its entry in their words.
 
 ### Phase: Shape
 
 **Step 6 — Shape the slice and fill the model** · Owner: `product-os-keeper` · Depends on: Step 5
 
-    { "task":    "shape the one slice that shows this business intent is served. First name the one surface a person tests end to end (a screen, a command line command, an endpoint) and the persona who tests it there; if there is none, write no_slice with the reason and write nothing to the model. Otherwise pick the features from any capability that the outcome needs (find-work-placement places each part of the outcome on a feature), in build order. For every domain, capability, feature or ICE the slice needs and the model lacks, write its page at the depth the run knows — author-domains for a domain, enrich-capability-ice (seeded from the person's answers) for a capability, its features and their ICE — and list it in fills; never skip one. Use the person's answers as facts and the assumptions as stated. Write slice.json {id: sl-<slug>, slug, feature_refs, vertical (the surface's name), intents: [<intent>], surface: {name, persona_ref, user_action}, why_this_order}",
+    { "task":    "shape the one slice that shows this business intent is served. No skill does this choice yet (the author-slice skill is issue #838): make it yourself and document it (P7). First name the one surface a person tests end to end (a screen, a command line command, an endpoint) and the persona who tests it there; if there is none, write no_slice with the reason and write nothing to the model. Otherwise pick the features from any capability that the outcome needs (find-work-placement places each part of the outcome on a feature), in build order. For every domain, capability, feature or ICE the slice needs and the model lacks, write its page at the depth the run knows — author-domains for a domain, enrich-capability-ice (seeded from the person's answers) for a capability, its features and their ICE — and list it in fills; never skip one. Use the person's answers as facts and the assumptions as stated. Write slice.json {id: sl-<slug>, slug, name, outcome (one line), feature_refs, vertical (the surface's name), intents: [<intent>], surface: {id, name, persona_ref, user_action}, why_this_order}. Then record each decision with its trace (.claude/rules/garura-memory.md): python3 .garura/core/tools/memory/memory.py cite --request '{...}' with issue, play shape-slice, question, answer, decided_by product-os-keeper, and a trace of steps (asked, found, source {tier, path, start, end, fingerprint} from the read answer) — one cite each for the features chosen and their order, the surface, and the tester; a decision that rests on a person's answer names its record entry; list the cites in citations",
       "inputs":  { "intent_page": "<model>/intents/<intent>.md", "gather": "<working>gather.json",
                    "record": "<record>", "split": "<working>split.json",
                    "product_base": "<product_base>", "change": "<the person's change, when this is a re-run>" },
       "outputs": { "slice": "<working>slice.json", "fills": "<working>fills.json",
-                   "no_slice": "<working>no-slice.json" },
+                   "no_slice": "<working>no-slice.json", "citations": "<working>citations.json" },
       "task_id": "shape-slice-shape" }
 
 When `no-slice.json` is written, no slice is written (C6): show the person its reason, and
@@ -310,15 +327,25 @@ skipped.
 
 ```
 python3 scripts/find_serving_slice.py --spine <model>/_spine.yaml --intent <intent> \
-    --features <feature_refs, comma-separated> --surface "<vertical>" \
-    --reuse-into <working>slice.json > <working>serving.json
+    --features <feature_refs, comma-separated> --surface "<vertical>" > <working>serving.json
 ```
 
 A match (the slice lists the intent, or has the same features in the same order and the
-same surface) gives `slice.json` that slice's id and slug, so the write adds the intent to
-it and makes no new slice (C7).
-**SE-10 (F7/C7):** `serving.json` exists; when its `match` is a slice id, `slice.json`
-carries that id, and after Step 8 the spine has the same number of slices as before the run.
+same surface) means that slice is reused (C7): `serving.json` `reuse_args` is
+`["--reuse", "<slice id>"]`, and Step 8 passes it to `persist_slice.py`, which adds the
+intent to that slice, keeps its features and surface, makes no new slice, and lists how the
+new shape differs. Then the agent records the reuse decision and checks every trace:
+
+    { "task":    "record the reuse decision of this run with its trace: python3 .garura/core/tools/memory/memory.py cite --request '{...}' (question: which slice serves this business intent; answer: the matched slice id, or a new slice when there is no match; trace: the spine lines of the matched slice, and the rule from serving.json's reason). Then run python3 .garura/core/tools/memory/memory.py citations --issue <issue> --check and write its answer",
+      "inputs":  { "serving": "<working>serving.json", "spine": "<model>/_spine.yaml",
+                   "citations": "<working>citations.json" },
+      "outputs": { "citations_check": "<working>citations-check.json" },
+      "task_id": "shape-slice-reuse-trace" }
+
+**SE-10 (F7/C7):** `serving.json` exists; when its `match` is a slice id, Step 8 ran
+`persist_slice.py` with `--reuse <that id>`, `persist-slice.json` reads `reused: true` with
+that id, and after Step 8 the spine has the same number of slices as before the run;
+`citations-check.json` names no decision whose source changed.
 
 ### Phase: Persist
 
@@ -328,16 +355,22 @@ carries that id, and after Step 8 the spine has the same number of slices as bef
 python3 scripts/persist_fills.py --root <model> --spine <model>/_spine.yaml \
     --fills <working>fills.json --intent <intent> --out <working>persist-fills.json
 python3 scripts/persist_slice.py --root <model> --spine <model>/_spine.yaml \
-    --slice <working>slice.json --out <working>persist-slice.json
+    --slice <working>slice.json $(on a match, serving.json reuse_args: --reuse <id>) \
+    --out <working>persist-slice.json
 ```
 
 `persist_fills.py` adds a spine entry for each new part, marked to be deepened (status
 proposed, detail directional, `metadata.deepen: true`), and puts each new domain and
-capability on the intent page's Touches list. `persist_slice.py` writes the spine `slices`
-entry with exactly `id`, `slug`, `feature_refs`, `vertical` and `intents`, and the record at
-`<model>/slices/<id>.yaml` with the surface and its `persona_ref`. Each refuses with exit 2
-and writes nothing when a rule fails; read the message, fix the input with the agent, and
-run it again.
+capability on the intent page's Touches list; its result keeps the Touches lines it added
+(`touches_added`) so a change can take them back. `persist_slice.py` writes the spine
+`slices` entry with exactly six fields — `id`, `slug`, `feature_refs`, `vertical`, `intents`
+and `record` — and the record at `<model>/slices/<id>.yaml` (slice.yaml v2: `slice` with id,
+slug, name, outcome, feature_refs, vertical, intents; `surface` with id, name, persona_ref,
+user_action). With `--reuse` it appends the intent to the reused slice's entry and record
+and lists the `differences` for the checkpoint. Both refuse any id or page path that leaves
+the model folder, and write each file through a temp file and a rename. Each refuses with
+exit 2 and writes nothing when a rule fails; read the message, fix the input with the agent,
+and run it again.
 **SE-11 (F9/C9):** `persist-slice.json` and `persist-fills.json` read `ok: true`; no plan,
 epic, story or eval file was written by this run (no path under `.garura/project/plans/`,
 and the spine's `epics` list is as it was at the run's start).
@@ -352,7 +385,9 @@ python3 scripts/slice_check.py --root <model> --spine <model>/_spine.yaml \
 ```
 
 It runs `lint_grounding.py --root <model> --spine <model>/_spine.yaml` (the structure and
-link check, with the old-name guard) and checks the slice's own entry and record. Exit 1:
+link check, with the old-name guard), checks that the slice lists the intent, and checks
+every spine slice's entry (the six fields) and record (slice.yaml v2, with a persona_ref).
+Exit 1:
 send `slice-check.json` to the agent (Step 6 contract plus `"problems"`), let it fix each
 problem, re-run Steps 7–9; the run does not go on until it reads valid (REC11).
 **SE-12 (F11/C11):** `slice-check.json` reads `valid: true`, written after the last write of
@@ -382,7 +417,8 @@ Show the person, in plain words and in the shape of `standards/rules/asking-a-pe
 (the approval prompt comes from `template-manager`, `standards/templates/approval-prompt.md`):
 the business intent and whether its page was written by this run; the slice — its features
 in build order, each with its capability, the surface and the persona who tests it, and the
-intents it serves; whether an existing slice was reused; every part the run added to the
+intents it serves; whether an existing slice was reused, and when it was, each line of
+`persist-slice.json` `differences` (how the new shape differs from the slice kept); every part the run added to the
 model, marked to be deepened; every assumption, one line each; the answers given; the count
 of questions with no proposed answer; and the files changed. Ask the person to type
 **yes**, **change: <what>**, or **stop**. Record the answer in their words:
@@ -393,10 +429,13 @@ python3 scripts/record_approval.py --decision <yes|change|stop> --reply "<their 
 ```
 
 - **yes** → Step 12.
-- **change** → undo this round's slice and fills and keep the intent page:
-  `scoped_write_guard.py --product-base <product_base> --base-ref HEAD --restore --allow 'product-os/intents/<intent>.md' --out <working>guard-restore.json`;
-  then re-run Step 6 with the change (and Step 5's `answer` when it answers a question), and
-  Steps 7–11; show the result again.
+- **change** → undo this round's slice and fills, and the Touches lines the fills added to
+  the intent page; keep the intent page itself (Step 1 may have written it):
+  `scoped_write_guard.py --product-base <product_base> --base-ref HEAD --restore --allow 'product-os/intents/<intent>.md' --out <working>guard-restore.json`, then
+  `persist_fills.py --undo <working>persist-fills.json --root <model> --intent <intent> --out <working>fills-undo.json`
+  (it removes the Touches lines this round added, so no link points at a page the restore
+  removed); then re-run Step 6 with the change (and Step 5's `answer` when it answers a
+  question), and Steps 7–11; show the result again.
 - **stop** → undo every write of the run (an EMPTY allow set):
   `scoped_write_guard.py --product-base <product_base> --base-ref HEAD --restore --out <working>guard-restore.json`;
   write `git status --porcelain -- <model>` to `<working>stop-check.txt`; close HALTED.
@@ -413,8 +452,11 @@ personas and plain words (ASD-STE100) and name no real person —
 ### Phase: Commit
 
 **Step 12 — Commit the model delta** · Owner: play · Depends on: Step 11 (yes)
+The commit runs only when the recorded answer is yes (C12): the gate script runs right
+before it, and any exit but 0 stops here — nothing is committed.
 
 ```
+python3 scripts/record_approval.py verify --file <working>approval.json
 git add -- <model>
 git commit -m "feat(model): shape slice <id> for business intent #<intent-issue> (#<issue>)"
 ```
@@ -570,9 +612,9 @@ resume: its writes were undone.
 | workflow_structure | A (one round of questions, all at once; one pinned typed checkpoint; write-then-review; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
-| utility_agents | 0 (template-manager serves the close and the approval prompt) |
+| utility_agents | 1 (template-manager — serves the approval prompt and the close) |
 | skills_used | author-business-intent, find-work-placement, find-model-gaps, propose-answers, enrich-capability-ice, author-domains (all existing; none created) |
-| skills_missing | author-slice — choosing the slice's features, order, surface and tester; done by the agent and documented until it exists (P7) |
+| skills_missing | author-slice (#838) — choosing the slice's features, order, surface and tester; done by the agent and documented until it exists (P7) |
 | scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py, lint_grounding.py, model_names.py, intent_touches.py (copied unchanged from create-play references); grill_budget.py (#817); write_intent_page.py, record_questions.py, find_serving_slice.py, persist_fills.py, persist_slice.py, slice_check.py, record_approval.py (this play) |
 | tests | test_grill_budget.py, test_find_serving_slice.py, test_persist_slice.py, test_shape_slice_scripts.py |
 | step_evals | 17 (SE-1…SE-17) |

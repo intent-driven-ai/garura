@@ -10,13 +10,16 @@ A slice already serves the intent when either:
 The first match in the spine's `slices` order wins; a match by rule 1 wins over rule 2.
 
     python3 find_serving_slice.py --spine <_spine.yaml> --intent <id> \
-        [--features a,b,c] [--surface <name>] [--reuse-into <slice.json>]
+        [--features a,b,c] [--surface <name>]
 
-With --reuse-into and a match, the slice.json the run shaped takes the matched slice's id and
-slug, so the write adds the intent to that slice and makes no new one (C7, REC7).
+On a match the run reuses that slice (C7, REC7): the result's `reuse_args` is
+["--reuse", "<slice id>"], which the play passes to persist_slice.py. persist_slice then adds
+the intent to that slice, keeps its features and surface as they are, makes no new slice, and
+lists how the new shape differs, for the checkpoint. This script never changes slice.json.
 
-Prints one JSON object: {"match": "<slice id>" | null, "reason": "..."}. Exit 0 on a
-result (match or none), 2 on a usage or read error. Reads files on disk only; no git, no
+Prints one JSON object: {"match": "<slice id>" | null, "reason": "...", "reuse_args": [...]}
+(`reuse_args` is [] when there is no match). Exit 0 on a result (match or none), 2 on a usage
+or read error. Reads files on disk only; no git, no
 network. Calls the model_names guard (#807) on the spine it loads.
 """
 
@@ -69,7 +72,6 @@ def main(argv=None):
     ap.add_argument("--intent", required=True)
     ap.add_argument("--features", help="comma-separated feature ids, in build order")
     ap.add_argument("--surface", help="the one surface (the slice's vertical)")
-    ap.add_argument("--reuse-into", help="on a match, give this slice.json the match's id and slug")
     args = ap.parse_args(argv)
     if (args.features is None) != (args.surface is None):
         sys.stderr.write("find_serving_slice.py: give --features and --surface together, or neither\n")
@@ -86,18 +88,7 @@ def main(argv=None):
         sys.stderr.write(f"find_serving_slice.py: cannot read the spine {args.spine}: {exc}\n")
         return 2
     result = find(spine, args.intent, features, args.surface)
-    if args.reuse_into and result["match"]:
-        try:
-            with open(args.reuse_into, encoding="utf-8") as fh:
-                shaped = json.load(fh)
-            hit = next(s for s in spine.get("slices") or [] if s.get("id") == result["match"])
-            shaped["id"], shaped["slug"] = hit["id"], hit.get("slug", shaped.get("slug"))
-            with open(args.reuse_into, "w", encoding="utf-8") as fh:
-                json.dump(shaped, fh, indent=2)
-            result["reused_into"] = args.reuse_into
-        except (OSError, json.JSONDecodeError, AttributeError) as exc:
-            sys.stderr.write(f"find_serving_slice.py: cannot update {args.reuse_into}: {exc}\n")
-            return 2
+    result["reuse_args"] = ["--reuse", result["match"]] if result["match"] else []
     print(json.dumps(result, indent=2))
     return 0
 

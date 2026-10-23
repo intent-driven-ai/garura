@@ -92,18 +92,16 @@ def main():
         with open(shaped, "w", encoding="utf-8") as fh:
             json.dump({"id": "sl-new", "slug": "new", "feature_refs": ["ft-1", "ft-2"]}, fh)
         code, out, _ = run("--spine", sp, "--intent", "bi-99", "--features", "ft-1,ft-2",
-                           "--surface", "the booking screen", "--reuse-into", shaped)
+                           "--surface", "the booking screen")
+        check("a match gives the persist_slice reuse arguments (--reuse <id>)",
+              code == 0 and out["reuse_args"] == ["--reuse", "sl-a"])
         with open(shaped, encoding="utf-8") as fh:
             got = json.load(fh)
-        check("--reuse-into gives the shaped slice the match's id and slug",
-              code == 0 and got["id"] == "sl-a" and got["slug"] == "a")
-        with open(shaped, "w", encoding="utf-8") as fh:
-            json.dump({"id": "sl-new", "slug": "new"}, fh)
-        code, out, _ = run("--spine", sp, "--intent", "bi-99", "--reuse-into", shaped)
-        with open(shaped, encoding="utf-8") as fh:
-            got = json.load(fh)
-        check("--reuse-into with no match leaves the shaped slice as it is",
-              code == 0 and got["id"] == "sl-new")
+        check("the serving check never changes the shaped slice.json", got["id"] == "sl-new")
+        code, out, _ = run("--spine", sp, "--intent", "bi-99")
+        check("no match gives no reuse arguments", code == 0 and out["reuse_args"] == [])
+        code, out, err = run("--spine", sp, "--intent", "bi-99", "--reuse-into", shaped)
+        check("the old --reuse-into flag is gone (usage error)", code == 2)
 
         empty = spine_file(root, {"domains": []}, "empty.yaml")
         code, out, _ = run("--spine", empty, "--intent", "bi-10")
