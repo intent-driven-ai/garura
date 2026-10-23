@@ -156,6 +156,6 @@ Always use Task tools for non-trivial work. Plan before executing.
 
 - `core/grounding/glossary.md` — Canonical definitions of every Garura concept
 - `.garura/core/config.yaml` — Paths and settings
-- `docs/adr/` — Architecture Decision Records (8 ADRs)
+- `docs/adr/` — Architecture Decision Records (49 ADRs, plus two superseded)
 - `docs/philosophy/` — Core architecture philosophy
 - `docs/components/` — Agent, skill, play, memory documentation

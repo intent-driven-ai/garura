@@ -116,6 +116,21 @@ by the real parent/child link in the tracker, never a mention in the body —
 are fixed on that same branch, in the same change. The drive writes **one
 handoff**, on its main issue.
 
+## How is a change checked?
+
+Before anyone builds, the session writes the change's **acceptance check**: a small script in
+the issue's own folder, `.garura/project/issues/<issue>/evidence/eval/`, that tests what the
+issue's "Done when" asks.
+
+1. Run it before the build. It must fail. Commit it first.
+2. The agents that build never read the issue's folder. They build from the issue and its
+   decisions, not from the check.
+3. Run it after the build. It must pass. If a check tested the wrong thing, fix the check in
+   its own commit and say why. Never weaken a check to let bad work pass.
+
+This is not a slice's eval. A slice's eval is made by the eval play, inside the shaping loop,
+and kept in `plans/<plan-id>/evals/` (ADR 049).
+
 ## How far does my work extend?
 
 **The issue being worked defines the scope. Work never goes beyond it.**
