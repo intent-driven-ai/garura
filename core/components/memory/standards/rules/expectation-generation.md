@@ -64,6 +64,25 @@ mechanical); "a commit references the wrong issue" → human (issue mapping is e
 judgment); "a below-confidence mapping was committed without approval" → human
 (approval is an authority the builder lacks).
 
+## A story's recovery (product ICE)
+
+A product ICE has no recovery part. When the plan play makes a story (ontology v10), it
+writes the story's recovery itself, into its slice's hidden file
+(`.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`), by the same
+rule as above: for each "Fails if" line of the story's two ICE (its feature's and that
+feature's capability's), exactly one recovery condition.
+
+- **when** — the "Fails if" line restated as a symptom the eval sees (the `trigger`).
+- **way back** — the inverse of the failure, as guidance, never code (the `direction`).
+- **who fixes** — "the builder can fix this alone" or "a person must decide", by the
+  handoff rule above (`autonomous` / `human`).
+
+Example (a shop): "Fails if: a card is charged twice" → when: one order has two charges;
+way back: refund the second charge; who fixes: a person must decide (money goes out).
+
+The story itself never holds these lines. The running eval reads only the recovery
+parts of the hidden file, and the builder gets only the handoff plan made from them.
+
 ## Provenance
 
 Every generated expectation carries:
