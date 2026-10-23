@@ -283,13 +283,111 @@ def eval_followups(root):
     check("follow-up: CLAUDE.md states the right ADR count", re.search(r"\b%d ADRs\b" % n, read(root, "CLAUDE.md")), n)
 
 
+def eval_round1(root):
+    # Review round 1 of PR #840 (the product owner rejected; fix all findings).
+    import yaml
+    P = os.path.join(root, SCRIPTS)
+    persist, check_s, rq, ra = (os.path.join(P, f) for f in ("persist_slice.py", "slice_check.py", "record_questions.py", "record_approval.py"))
+    def model(slices="[]"):
+        tmp = tempfile.mkdtemp(); po = os.path.join(tmp, "product-os")
+        os.makedirs(os.path.join(po, "intents")); os.makedirs(os.path.join(po, "slices"))
+        for i in ("340", "341"):
+            open(os.path.join(po, "intents", i + ".md"), "w").write("# x\n")
+        sp = os.path.join(po, "_spine.yaml"); open(sp, "w").write(SPINE.format(slices=slices))
+        return tmp, po, sp
+    full = {"id": "sl-a", "slug": "a", "name": "Self-booking", "outcome": "A patient books a free slot",
+            "feature_refs": ["ft-pick-slot"], "vertical": "page", "intents": ["340"],
+            "surface": {"id": "booking-page", "name": "page", "persona_ref": "patient", "user_action": "books a slot"}}
+    # P2 reuse: an existing slice that serves the intent is reused even when the new shape differs.
+    existing = """
+  - id: sl-a
+    slug: a
+    feature_refs: [ft-pick-slot]
+    vertical: page
+    intents: ["340"]
+    record: slices/sl-a.yaml"""
+    tmp, po, sp = model(existing)
+    open(os.path.join(po, "slices", "sl-a.yaml"), "w").write(yaml.safe_dump({"slice": {"id": "sl-a", "slug": "a", "intents": ["340"]}}))
+    shaped = dict(full); shaped["feature_refs"] = ["ft-pick-slot", "ft-reminder"]; shaped["vertical"] = "page2"; shaped["intents"] = ["341"]
+    sj = os.path.join(tmp, "s.json"); json.dump(shaped, open(sj, "w"))
+    r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj, "--reuse", "sl-a"], tmp)
+    sls = (yaml.safe_load(open(sp)) or {}).get("slices") or []
+    check("round1: reuse of a serving slice works when the new shape differs (exit 0, one slice)", r.returncode == 0 and len(sls) == 1, (r.returncode, r.stderr[-300:]))
+    if sls:
+        check("round1: the reused slice keeps its features and surface", sls[0].get("feature_refs") == ["ft-pick-slot"] and sls[0].get("vertical") == "page", sls[0])
+        check("round1: the reused slice gains the intent, appended", sls[0].get("intents") == ["340", "341"], sls[0])
+    check("round1: the run reports how the new shape differs from the reused slice", re.search(r"differ", r.stdout, re.I), r.stdout[-300:])
+    rec = os.path.join(po, "slices", "sl-a.yaml")
+    check("round1: the reused slice's record gains the intent", os.path.isfile(rec) and "341" in open(rec).read())
+    # P2 record matches slice.yaml v2, and the slice check tests the record.
+    tmp, po, sp = model()
+    sj = os.path.join(tmp, "s.json"); json.dump(full, open(sj, "w"))
+    r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj], tmp)
+    rec = os.path.join(po, "slices", "sl-a.yaml")
+    recd = yaml.safe_load(open(rec)) if os.path.isfile(rec) else {}
+    sl, su = (recd or {}).get("slice") or {}, (recd or {}).get("surface") or (recd or {}).get("slice", {}).get("surface") or {}
+    for k in ("name", "outcome", "intents"):
+        check(f"round1: the record holds slice.{k}", k in sl, recd)
+    for k in ("id", "persona_ref", "user_action"):
+        check(f"round1: the record holds surface.{k}", k in su, recd)
+    schema = read(root, SLICE_SCHEMA)
+    for k in ("name", "outcome", "intents", "persona_ref", "user_action"):
+        check(f"round1: slice.yaml describes {k}", k in schema)
+    out = os.path.join(tmp, "check.json")
+    r = run([sys.executable, check_s, "--root", po, "--spine", sp, "--out", out], tmp)
+    ok_good = os.path.isfile(out) and json.load(open(out)).get("valid") is True
+    if os.path.isfile(rec):
+        d = yaml.safe_load(open(rec)); (d.get("surface") or d["slice"].get("surface") or {}).pop("persona_ref", None)
+        open(rec, "w").write(yaml.safe_dump(d))
+    r2 = run([sys.executable, check_s, "--root", po, "--spine", sp, "--out", out], tmp)
+    ok_bad = os.path.isfile(out) and json.load(open(out)).get("valid") is False
+    check("round1: the slice check passes a good record and fails one with no tester", ok_good and ok_bad, (r.stdout[-200:], r2.stdout[-200:]))
+    # P4 ids and paths stay inside the model.
+    tmp, po, sp = model()
+    bad = dict(full); bad["id"] = "../../etc/x"
+    sj = os.path.join(tmp, "s.json"); json.dump(bad, open(sj, "w"))
+    r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj], tmp)
+    check("round1: persist_slice refuses an id that leaves the model (exit 2)", r.returncode == 2, (r.returncode, r.stderr[-200:]))
+    check("round1: persist_slice writes the spine safely (temp file + replace)", "os.replace" in read(root, SCRIPTS + "/persist_slice.py"))
+    check("round1: persist_fills refuses paths that leave the model", re.search(r"\.\.|outside|relpath|commonpath", read(root, SCRIPTS + "/persist_fills.py")))
+    # P3 the question record.
+    src = read(root, SCRIPTS + "/record_questions.py")
+    check("round1: record_questions has subcommands for the open list and the answers", re.search(r"open-list|open_list", src) and re.search(r"answers", src))
+    tmp = tempfile.mkdtemp()
+    recq = os.path.join(tmp, "grounding-questions.md")
+    help_ = run([sys.executable, rq, "--help"], tmp).stdout + run([sys.executable, rq, "check", "--help"], tmp).stdout
+    check("round1: record_questions check is documented", "check" in help_, help_[-300:])
+    check("round1: record_questions matches an answered question by its text, not only its id",
+          re.search(r"normali[sz]|lower\(\)|casefold|question text|same question", src, re.I))
+    check("round1: record_questions check fails on an unanswered asked question",
+          re.search(r"unanswered", src) and re.search(r"(sys\.exit\(1\)|return 1|exit 1)", src))
+    # P3 a script gate before the commit; memory trace; pointers.
+    check("round1: record_approval has a verify step that fails unless the decision is yes",
+          re.search(r"verify", read(root, SCRIPTS + "/record_approval.py")))
+    sk = read(root, SKILL)
+    check("round1: the play runs the approval verify before it commits", re.search(r"record_approval\.py verify", sk))
+    check("round1: the play keeps a memory trace for its decisions (memory.py cite)", "memory.py cite" in sk or "memory.py\" cite" in sk or re.search(r"memory\.py[^\n]{0,40}cite", sk))
+    check("round1: the play points to #838 for the author-slice skill", "#838" in sk)
+    check("round1: the play's text no longer says the spine entry has exactly 5 fields", not re.search(r"exactly (5|five) fields", sk, re.I))
+    check("round1: the play counts template-manager as a utility agent", re.search(r"utility_agents \| [1-9]", sk) and "template-manager" in sk)
+    check("round1: a 'change' undoes this run's intent-page edits (Touches lines)", re.search(r"change[^\n]{0,200}(Touches|intent page)", sk, re.I | re.S))
+    # Memory and rule files.
+    sp_schema = read(root, SPINE_SCHEMA)
+    check("round1: spine.yaml marks the domain slices/ folders as the older chain", re.search(r"older chain|old chain", sp_schema, re.I))
+    pn = read(root, "core/components/memory/standards/rules/pipeline-next.md")
+    check("round1: the Next map says which shape loop is live", re.search(r"(older|old) chain", pn, re.I))
+    check("round1: the cardinal-rule table lists shape-slice", "shape-slice" in read(root, "core/components/memory/standards/rules/no-unbacked-recommendation.md"))
+    uq = read(root, "core/components/memory/standards/rules/user-questions.md")
+    check("round1: user-questions.md lists the fields the play adds", all(k in uq for k in ("blocking", "proposed_answer", "basis")))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--out")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
-    for fn in (eval_ice_and_play, eval_scripts, eval_schemas, eval_next, eval_followups, eval_all):
+    for fn in (eval_ice_and_play, eval_scripts, eval_schemas, eval_next, eval_followups, eval_round1, eval_all):
         try:
             fn(root)
         except Exception as e:  # a crash is a failed check, never a pass
