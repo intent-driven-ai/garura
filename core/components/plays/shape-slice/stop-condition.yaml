@@ -1,4 +1,4 @@
-# shape-slice stop condition — baked from reference/ice.md "### Done means" (D1–D4, #795).
+# shape-slice stop condition — baked from reference/ice.md "### Done means" (D1–D5, #795).
 # Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
 # Paths are relative to the run's issue folder ({stm_base}<issue>/).
 # D4's artifact_exists check names its file with `path`, the key the checker reads.
@@ -17,3 +17,6 @@ content:
     - id: D4
       says: "the question record exists, with every question and answer of the run"
       check: { type: artifact_exists, path: "context/grounding-questions.md" }
+    - id: D5
+      says: "the trace check of the run's decisions names no decision whose source is gone or changed"
+      check: { type: field_equals, file: "context/shape-slice/citations-check.json", field: "problems", equals: [] }

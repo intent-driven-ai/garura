@@ -123,6 +123,9 @@ no eval.
   check: { type: field_equals, file: "context/shape-slice/guard-report.json", field: "ok", equals: true }
 - D4 — the question record exists, with every question and answer of the run.
   check: { type: artifact_exists, path: "context/grounding-questions.md" }
+- D5 — the trace check of the run's decisions names no decision whose source is gone or
+  changed.
+  check: { type: field_equals, file: "context/shape-slice/citations-check.json", field: "problems", equals: [] }
 
 ### Recovery (one per failure condition)
 
