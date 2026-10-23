@@ -1,5 +1,5 @@
 {
-  "passed": 55,
+  "passed": 58,
   "failed": 0,
   "results": [
     {
@@ -20,12 +20,12 @@
     {
       "check": "813: the migration exits 0 on an old model",
       "ok": true,
-      "detail": "nes\",\n        \"to\": \"# Feature: An install removes old names and lays the new ones\"\n      },\n      {\n        \"file\": \".garura/product/product-os/work/board/move-a-card/feature.md\",\n        \"from\": \"# Functionality: Move a card\",\n        \"to\": \"# Feature: Move a card\"\n      }\n    ]\n  },\n  \"committed\": true,\n  \"commit\": \"cf80343c6d25ee607ad2a77b639cb32466a360d4\",\n  \"reason\": \"moved and committed\"\n}\n"
+      "detail": "nes\",\n        \"to\": \"# Feature: An install removes old names and lays the new ones\"\n      },\n      {\n        \"file\": \".garura/product/product-os/work/board/move-a-card/feature.md\",\n        \"from\": \"# Functionality: Move a card\",\n        \"to\": \"# Feature: Move a card\"\n      }\n    ]\n  },\n  \"committed\": true,\n  \"commit\": \"a0524a6d9ad7c61e2439e3b6824ff452c9fb8a0b\",\n  \"reason\": \"moved and committed\"\n}\n"
     },
     {
       "check": "813: the migration prints a JSON report",
       "ok": true,
-      "detail": "nes\",\n        \"to\": \"# Feature: An install removes old names and lays the new ones\"\n      },\n      {\n        \"file\": \".garura/product/product-os/work/board/move-a-card/feature.md\",\n        \"from\": \"# Functionality: Move a card\",\n        \"to\": \"# Feature: Move a card\"\n      }\n    ]\n  },\n  \"committed\": true,\n  \"commit\": \"cf80343c6d25ee607ad2a77b639cb32466a360d4\",\n  \"reason\": \"moved and committed\"\n}\n"
+      "detail": "nes\",\n        \"to\": \"# Feature: An install removes old names and lays the new ones\"\n      },\n      {\n        \"file\": \".garura/product/product-os/work/board/move-a-card/feature.md\",\n        \"from\": \"# Functionality: Move a card\",\n        \"to\": \"# Feature: Move a card\"\n      }\n    ]\n  },\n  \"committed\": true,\n  \"commit\": \"a0524a6d9ad7c61e2439e3b6824ff452c9fb8a0b\",\n  \"reason\": \"moved and committed\"\n}\n"
     },
     {
       "check": "813: the report lists what it moved",
@@ -90,12 +90,12 @@
     {
       "check": "813: the migration refuses a model with both old and new keys",
       "ok": true,
-      "detail": "ne.yaml) holds both `functionalities:` and `features:`. A person must merge them into `features:` by hand; nothing was moved.\",\n  \"refused\": true\n}\nmigrate_model.py: the spine (/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpncn6luww/proj/.garura/product/product-os/_spine.yaml) holds both `functionalities:` and `features:`. A person must merge them into `features:` by hand; nothing was moved.\n"
+      "detail": "ne.yaml) holds both `functionalities:` and `features:`. A person must merge them into `features:` by hand; nothing was moved.\",\n  \"refused\": true\n}\nmigrate_model.py: the spine (/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpjzx3gzoo/proj/.garura/product/product-os/_spine.yaml) holds both `functionalities:` and `features:`. A person must merge them into `features:` by hand; nothing was moved.\n"
     },
     {
       "check": "813: a model path outside the project is refused (exit 2, no crash)",
       "ok": true,
-      "detail": "(2, 'te_model.py: the product model folder (/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpkgq1jf7i/out/product-os, from product.base-path: ../out/) lies outside the project (/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpkgq1jf7i/proj). This script changes only the project; nothing was moved.\\n')"
+      "detail": "(2, 'te_model.py: the product model folder (/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpmio2suok/out/product-os, from product.base-path: ../out/) lies outside the project (/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpmio2suok/proj). This script changes only the project; nothing was moved.\\n')"
     },
     {
       "check": "813: nothing outside the project is changed",
@@ -133,6 +133,21 @@
       "detail": "[]"
     },
     {
+      "check": "813: the guard stops on an old page file name (functionality.md)",
+      "ok": true,
+      "detail": "(2, \"h the old name 'functionality.md'; since #807 it is 'feature.md'.\\nReading it with the new names would miss these features, so this script stops here.\\nTo upgrade the model to the new names, a person runs the script that moves it:\\n  python3 <install-garura>/scripts/migrate_model.py --target <project>\\n\")"
+    },
+    {
+      "check": "813: the guard passes new page file names",
+      "ok": true,
+      "detail": "(0, '')"
+    },
+    {
+      "check": "813: check_kept.py also checks the page file names",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "check": "813: check_kept.py (reads model pages) calls the guard",
       "ok": true,
       "detail": ""
@@ -160,12 +175,12 @@
     {
       "check": "all: core/components/plays/install-garura/scripts/test_install.py passes",
       "ok": true,
-      "detail": "shop/.claude/skills/adr/SKILL.md' mode='r' encoding='utf-8'>\n  text = open(marker, encoding=\"utf-8\").read()\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.................\n----------------------------------------------------------------------\nRan 47 tests in 92.930s\n\nOK\n"
+      "detail": "hop/.claude/skills/adr/SKILL.md' mode='r' encoding='utf-8'>\n  text = open(marker, encoding=\"utf-8\").read()\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.................\n----------------------------------------------------------------------\nRan 47 tests in 109.424s\n\nOK\n"
     },
     {
       "check": "all: core/components/plays/install-garura/scripts/test_migrate_model.py passes",
       "ok": true,
-      "detail": "m1lnie/shop/.garura/product/product-os/_spine.yaml' mode='r' encoding='utf-8'>\n  text = open(spine, encoding=\"utf-8\").read()\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 10 tests in 4.687s\n\nOK\n"
+      "detail": "v_zqya/shop/.garura/product/product-os/_spine.yaml' mode='r' encoding='utf-8'>\n  text = open(spine, encoding=\"utf-8\").read()\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 10 tests in 5.783s\n\nOK\n"
     },
     {
       "check": "813: a test covers the migration",

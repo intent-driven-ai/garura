@@ -2,16 +2,11 @@
  M .garura/project/issues/813/evidence/eval/eval-result.json
  M core/components/plays/build-epic/scripts/model_names.py
  M core/components/plays/create-play/references/model_names.py
- M core/components/plays/discover-capabilities/scripts/check_sources.py
  M core/components/plays/discover-capabilities/scripts/model_names.py
  M core/components/plays/discover-domains/scripts/check_kept.py
  M core/components/plays/discover-domains/scripts/model_names.py
  M core/components/plays/discover-domains/scripts/test_model_names.py
  M core/components/plays/discover-intent/scripts/model_names.py
- M core/components/plays/install-garura/scripts/install.py
- M core/components/plays/install-garura/scripts/migrate_model.py
- M core/components/plays/install-garura/scripts/test_install.py
- M core/components/plays/install-garura/scripts/test_migrate_model.py
  M core/components/plays/learn-outcomes/scripts/model_names.py
  M core/components/plays/next/scripts/model_names.py
  M core/components/plays/release-epic/scripts/model_names.py
@@ -28,5 +23,3 @@
  M core/components/plays/validate-epic/scripts/model_names.py
  M core/components/skills/find-model-gaps/scripts/model_names.py
  M core/components/skills/link-model-gaps/scripts/model_names.py
- M docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
- M installer/install.sh

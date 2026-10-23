@@ -1,31 +1,13 @@
 needs_judgment: false
 change_groups:
-  - id: install-unwire
-    issue: 813
-    commit_type: fix
-    scope: install
-    subject: "the install never changes an existing product model"
-    files:
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/scripts/test_install.py
-      - installer/install.sh
-  - id: migrator-safety
-    issue: 813
-    commit_type: fix
-    scope: install
-    subject: "migrate_model refuses paths outside the project and undoes its moves on a failed step"
-    files:
-      - core/components/plays/install-garura/scripts/migrate_model.py
-      - core/components/plays/install-garura/scripts/test_migrate_model.py
-  - id: guard-message
+  - id: guard-pages
     issue: 813
     commit_type: fix
     scope: model
-    subject: "the guard names migrate_model.py and covers check_kept and check_sources"
+    subject: "the guard also stops on old page file names"
     files:
       - core/components/plays/build-epic/scripts/model_names.py
       - core/components/plays/create-play/references/model_names.py
-      - core/components/plays/discover-capabilities/scripts/check_sources.py
       - core/components/plays/discover-capabilities/scripts/model_names.py
       - core/components/plays/discover-domains/scripts/check_kept.py
       - core/components/plays/discover-domains/scripts/model_names.py
@@ -47,22 +29,15 @@ change_groups:
       - core/components/plays/validate-epic/scripts/model_names.py
       - core/components/skills/find-model-gaps/scripts/model_names.py
       - core/components/skills/link-model-gaps/scripts/model_names.py
-  - id: adr050
-    issue: 809
-    commit_type: docs
-    scope: adr
-    subject: "ADR 050 amends ADR 035 and 017"
-    files:
-      - docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
   - id: run-records
     issue: 813
     commit_type: chore
     scope: stm
-    subject: "record PR 834 review round 1 run artifacts"
+    subject: "record PR 834 review round 2 run artifacts"
     files:
+      - .garura/project/issues/813/context/analysis.yaml
       - .garura/project/issues/813/context/porcelain.txt
       - .garura/project/issues/813/evidence/eval/eval-result.json
-      - .garura/project/issues/813/context/analysis.yaml
 exclusions: []
 risks:
   sensitive_files: []
