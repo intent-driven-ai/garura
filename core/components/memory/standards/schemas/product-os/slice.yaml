@@ -28,6 +28,14 @@ schema:
 # product-os/slices/<id>.yaml holds exactly two top-level keys: `slice` and `surface`.
 # /shape-slice (persist_slice.py) writes every field below, and slice_check.py checks each
 # spine slice's record against them: every field is REQUIRED and must not be empty.
+# slice_check.py fails the run for its own slice; another slice's defect is a warning.
+#
+# A record written before v2 (no name or outcome, the surface kept under `slice`) is brought
+# to v2 by persist_slice.py the next time a /shape-slice run reuses that slice: its own facts
+# come from its spine entry, a missing name or outcome from the shaped slice, the surface
+# moves to the top level, and a missing surface part comes from the shaped slice's surface
+# when that surface is the slice's own. When a part is still missing, the run stops and
+# names it; the person fills it in the record and runs again. No install step migrates them.
 slice:
   id: string                # the same id as its spine entry
   slug: string              # the same slug as its spine entry
