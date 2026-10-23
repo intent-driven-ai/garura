@@ -1,8 +1,4 @@
-core/tools/lint-components/test/asking-a-person.test.js exit=0
-core/tools/lint-components/test/naming.test.js exit=0
-core/tools/lint-components/test/shared-scripts.test.js exit=0
-core/tools/lint-components/test/skill-invocable.test.js exit=0
-play/skill tests: done (only failures listed above)
+all lint-components, play and skill tests run (failures listed above)
   "hits": 0,
-lint-components     "errors": 135, (151 on base; deleted skills carried 16)
+lint-components     "errors": 135,
 All checks passed!

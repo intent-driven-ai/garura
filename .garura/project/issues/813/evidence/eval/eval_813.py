@@ -202,6 +202,20 @@ def eval_813(root):
         if ("_spine" in t or b in ("check_kept.py", "check_sources.py")) and "safe_load" in t and "model_names" not in t:
             missing.append(os.path.relpath(p, root))
     check("813: every script that loads the spine calls the guard", not missing, missing)
+    # Round 2 P4: old page files are caught too, not only old spine keys.
+    with tempfile.TemporaryDirectory() as tmp:
+        mdir = os.path.join(tmp, "product-os", "work", "board", "move-a-card")
+        os.makedirs(mdir)
+        open(os.path.join(mdir, "functionality.md"), "w").write("# Feature: Move a card\n")
+        code = ("import sys; sys.path.insert(0, %r); import model_names; model_names.check_pages(%r)"
+                % (os.path.join(root, os.path.dirname(GUARD_MAIN)), os.path.join(tmp, "product-os")))
+        r = run([sys.executable, "-c", code], tmp)
+        check("813: the guard stops on an old page file name (functionality.md)", r.returncode == 2 and "migrate_model" in r.stderr,
+              (r.returncode, r.stderr[-300:]))
+        os.rename(os.path.join(mdir, "functionality.md"), os.path.join(mdir, "feature.md"))
+        r = run([sys.executable, "-c", code], tmp)
+        check("813: the guard passes new page file names", r.returncode == 0, (r.returncode, r.stderr[-300:]))
+    check("813: check_kept.py also checks the page file names", "check_pages" in read(root, "core/components/plays/discover-domains/scripts/check_kept.py"))
     for f in ("core/components/plays/discover-domains/scripts/check_kept.py", "core/components/plays/discover-capabilities/scripts/check_sources.py"):
         check(f"813: {os.path.basename(f)} (reads model pages) calls the guard", "model_names" in read(root, f))
     with tempfile.TemporaryDirectory() as tmp:

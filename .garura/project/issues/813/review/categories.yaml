@@ -1,7 +1,7 @@
 # check-change -- categories present in PR #834 (issue 813, with #809)
 categories:
   - name: harness
-    description: Install-time migration of a pre-#807 product model (migrate_model.py, called by install.py and installer/install.sh), the shared model-name guard (model_names.py, 21 copies, wired into 74 scripts in plays and two skills), and the deletion of the retired intent-epic pipeline (4 agents, 12 skills).
+    description: A by-hand migration script for a pre-#807 product model (migrate_model.py; the install no longer runs it, #813 round 2), the shared model-name guard (model_names.py, 21 copies, wired into 74 scripts in plays and two skills), and the deletion of the retired intent-epic pipeline (4 agents, 12 skills).
     evidence_paths:
       - core/components/plays/install-garura/scripts/migrate_model.py
       - core/components/plays/install-garura/scripts/install.py
@@ -41,10 +41,9 @@ categories:
     design_bearing: false
     runnable_check: null
   - name: code
-    description: Component linter shared-scripts rule now also covers skills/*/scripts and lists model_names.py; installer/install.sh gains a migrate step in init and update paths.
+    description: Component linter shared-scripts rule now also covers skills/*/scripts and lists model_names.py; installer/install.sh is unchanged from base (the migrate step was removed in round 2).
     evidence_paths:
       - core/tools/lint-components/lib/rules/shared-scripts.js
-      - installer/install.sh
     playbook: review/code
     design_bearing: false
     runnable_check: language linters
