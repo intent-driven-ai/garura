@@ -7,7 +7,9 @@ generation reviewable, not magic.
 
 > Scope: this is the **play** case (a play's intent → that play's expectation). The
 > runtime **feature** case (a feature's intent + codebase context → its expectation)
-> is a separate generator and a separate set of rules.
+> is a separate generator and a separate set of rules. One part reaches past plays:
+> the recovery rule below also gives a **story** its recovery (see "A story's
+> recovery (product ICE)").
 
 ## Input shapes
 
