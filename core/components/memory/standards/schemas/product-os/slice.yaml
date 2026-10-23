@@ -1,112 +1,94 @@
-# Slice Schema — v1
+# Slice Schema — v2
 #
-# A SLICE is a vertical PRODUCT INCREMENT: a bundle of features — possibly
-# across several capabilities of ONE domain — that together deliver something usable.
-# It is what /shape-scope hands you as a buildable unit ("pick a slice, open its ICE, build
-# it"), and what /shape-roadmap plans (order, dependencies, effort).
+# A SLICE is an ordered group of features, taken from any capabilities, that together
+# give one vertical outcome a person can test end to end, on one surface (ontology v10).
+# It serves one or more business intents. /shape-slice shapes it and writes it, and
+# writes nothing else: no plan, no epic, no story, no eval (ADR 049).
 #
-# NOT an epic. An `epic` (epic.yaml) is the engineering delivery grain — one
-# feature sliced end-to-end through its components, cut by /shape-slice. A `slice` is
-# higher: it groups whole features into a usable increment. The chain is:
-#   /shape-scope -> slices (this schema)
-#   /shape-roadmap -> plans the slices (order + dependencies + effort, written here)
-#   /shape-slice -> per feature inside a chosen slice, cuts epics (epic.yaml)
+# NOT an epic. The slice is in the product model; the Epic is the work item that
+# represents and delivers it, made by the plan play.
 #
-# A slice REFERENCES feature ICE — it never copies it. The feature ICE
-# stays the single source of truth for each unit.
+# A slice links to capabilities (through its features), and through them to every
+# domain it touches. It has NO domain home: it is listed in the spine's `slices` list,
+# and its record lives at product-os/slices/<id>.yaml. A domain view shows every slice
+# that touches it; a slice view shows every domain it touches.
 #
-# Lifecycle: PERMANENT (lives in product-os with the structure). One domain's slices
-# live under that domain; /shape-roadmap reads slices across all domains to plan globally.
+# A slice REFERENCES feature ICE — it never copies it. The feature ICE stays the
+# single source of truth for each unit.
+#
+# Whether its work has started is shown by its Epic, not by a status on the slice.
+# What must come first comes from its capabilities' needs, not from an order on it.
 
 schema:
   name: slice
-  version: 1
+  version: 2
   persistence: permanent
 
 # ---- The slice record ------------------------------------------------------
+# product-os/slices/<id>.yaml holds exactly two top-level keys: `slice` and `surface`.
+# /shape-slice (persist_slice.py) writes every field below, and slice_check.py checks each
+# spine slice's record against them: every field is REQUIRED and must not be empty.
+# slice_check.py fails the run for its own slice; another slice's defect is a warning.
+#
+# A record written before v2 (no name or outcome, the surface kept under `slice`) is brought
+# to v2 by persist_slice.py the next time a /shape-slice run reuses that slice: its own facts
+# come from its spine entry, a missing name or outcome from the shaped slice, the surface
+# moves to the top level, and a missing surface part comes from the shaped slice's surface
+# when that surface is the slice's own. When a part is still missing, the run stops and
+# names it; the person fills it in the record and runs again. No install step migrates them.
 slice:
-  id: string                # stable, derived from name/slug
-  domain_ref: string        # the domain this slice belongs to (slices are domain-scoped)
+  id: string                # the same id as its spine entry
+  slug: string              # the same slug as its spine entry
   name: string              # e.g. "Team burn dashboard"
-  outcome: string           # one line: the usable thing this increment delivers
+  outcome: string           # one line: the usable thing this slice delivers
+  feature_refs: [string]    # its features (spine feature ids), in build order — the same
+                            # list as its spine entry. REFERENCES only: each feature's ICE
+                            # stays on the feature, never copied here
+  vertical: string          # the name of its one surface (same as its spine entry's vertical)
+  intents: [string]         # the business intent ids it serves, in order — one or more;
+                            # the first is the one it was first shaped for (the same list
+                            # as its spine entry; a reuse appends to both)
 
-  # the user-facing SURFACE(S) this slice exposes — REQUIRED, at least one.
-  # A slice is a VERTICAL increment: a user must be able to OPEN a surface and CHECK the
-  # outcome through it. A slice with no surface is not a slice — it is a backend layer,
-  # which is exactly what /shape-scope must NOT produce. /shape-scope NAMES the surface; /realize's
-  # UX lens DESIGNS it — so NO wireframe/component/layout/visual content lives here, only
-  # the name, who opens it, and what they do/see. Journeys reference these by surface id.
-  surface:
-    - id: string            # stable surface id (journeys point at it via surface_refs)
-      name: string          # e.g. "Team Burn dashboard", "Coverage check view"
-      persona_ref: string   # the persona who opens this surface
-      user_action: string   # what the persona does/sees on it to check the outcome
+# the ONE user-facing SURFACE a person opens to test the slice end to end — REQUIRED,
+# top level (not under `slice`). A slice with no surface is not a slice — it is a backend
+# layer, and /shape-slice does not shape it. The surface is NAMED here, not designed: no
+# wireframe, component, layout or visual content lives here. Journeys reference it by id.
+surface:
+  id: string                # stable surface id (journeys point at it via surface_refs)
+  name: string              # e.g. "Team Burn dashboard" — equals slice.vertical
+  persona_ref: string       # the persona who opens this surface — the slice's tester
+  user_action: string       # what the persona does/sees on it to check the outcome
 
-  # the features this slice bundles — REFERENCES, never copies of ICE
-  features:
-    - feature_ref: string   # feature node id
-      ice_ref: string             # path/id of that feature's ICE (the source of truth)
-      delivery: string            # full | partial — is this feature fully delivered
-                                  # in this slice, or only partially used / deepened later
+# A reused slice (C7: it already lists the intent, or has the same features and surface)
+# keeps its feature_refs, vertical and surface as they are; the run appends the intent to
+# slice.intents and to its spine entry, and shows how the new shape differed.
 
-  dependency_notes: string  # human note on what this slice leans on (free text from /shape-scope)
-  acceptance_intent: string # what "this increment works" means (slice-level, not per-ICE)
-  status: string            # proposed (from /shape-scope) | planned (after /shape-roadmap) |
-                            # realized (after /shape-run-lens — all six lenses line up) | deferred
-
-  # ---- filled by /shape-roadmap (the plan) ----
-  order: integer            # global build position across all slices; null until planned
-  effort: string            # /shape-roadmap's size estimate for this slice; null until planned
-  depends_on: [string]      # other slice ids that must come first (resolved by /shape-roadmap,
-                            # within and across domains); null/[] until planned
-
-  metadata:
-    created_by: string      # /shape-scope
-    updated_by: string      # /shape-roadmap when it plans
-    version: integer
-
-# ---- The deferred bucket (per domain) --------------------------------------
-# Features /shape-scope selected but did not place in any slice yet. Every selected
-# feature MUST appear in at least one slice OR here — nothing falls through.
-deferred:
+# ---- Older chain (#837) ------------------------------------------------------
+# Nothing in the slice chain above writes or reads this. The older /shape-scope chain wrote
+# a per-domain deferred bucket ({domain}/slices/_deferred.yaml); it stays described here
+# only until #837 rebuilds or drops those plays.
+deferred:                   # older chain (#837) — not part of the slice record
   domain_ref: string
-  features: [string] # feature node ids parked for a later slice
+  features: [string]        # feature node ids parked for a later slice
   reason: string            # one line on why deferred
 
 # ---- Storage ----------------------------------------------------------------
-# Per domain:
-#   product-os/{domain}/slices/{slice-id}.yaml   # one file per slice (shape/roadmap own it)
-#   product-os/{domain}/slices/_deferred.yaml    # the deferred bucket (if any)
+#   product-os/slices/{slice-id}.yaml            # one file per slice (/shape-slice owns it)
+#   product-os/{domain}/slices/_deferred.yaml    # older chain (#837): the deferred bucket, if any
 # A feature may appear in MORE THAN ONE slice (deepened over time).
-#
-# The slice is the UNIT OF REALIZATION (#434). The realize lenses hang OFF the
-# slice, in a per-slice folder beside the record:
-#   product-os/{domain}/slices/{slice-id}/lens/{type}.yaml   # the six realize lenses
-#   product-os/{domain}/slices/{slice-id}/decisions/*.yaml   # decisions a lens records
-# You pick a slice and run quality -> ux -> agentic -> arch -> run on it, then ship
-# it — the slice (not the capability) is what you deliver. See lens/_index.md.
+# The slice's eval, its hidden file and its usage guide are not here: they are in the
+# plan folder of its first business intent (.garura/project/plans/<plan-id>/), ADR 049.
 
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
-  - play: "/shape-scope"
-    writes: "creates the slices for its one domain — name, outcome, the user-facing
-             surface(s) each slice exposes (id + name + persona + user_action; named,
-             NOT designed), the bundled features (referencing their ICE),
-             dependency_notes, acceptance_intent, delivery full/partial; and the
-             _deferred bucket. Every slice MUST name at least one surface. Does NOT set
-             order, effort, or resolved depends_on; does NOT design the surface (that is
-             /realize's UX lens)."
-  - play: "/shape-roadmap"
-    writes: "the plan onto existing slices across all domains — order, effort, and
-             resolved depends_on; flips status proposed -> planned (or deferred).
-             Never creates a slice or edits its composition (that is /shape-scope's)."
-  - play: "/shape-run-lens"
-    writes: "the done stamp ONLY — flips status -> realized when all six realize
-             lenses exist for the slice and line up (every architecture component has a
-             run target; every run target binds a real component). Surgical: changes
-             status + metadata and nothing else of the record; never composition, order,
-             effort, or depends_on. The single marker /shape-slice checks before cutting
-             delivery work."
+  - play: "/shape-slice"
+    writes: "the slice record and its spine entry — slice: id, slug, name, outcome, its
+             features in build order (feature_refs, referencing their ICE), its vertical and
+             the business intents it serves (intents); surface: id, name, persona_ref (the
+             tester) and user_action (named, NOT designed). When a slice already serves the
+             intent, or has the same features and the same surface, it appends the intent to
+             that slice's spine entry and record and keeps its features and surface, instead
+             of writing a new one. It writes nothing else — no plan, epic, story or eval."
 
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:

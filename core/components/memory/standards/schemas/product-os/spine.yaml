@@ -185,21 +185,21 @@ profile:
 # their full structured records stay in their own files, and an epic's grounding lives
 # in its epic.md. The spine never duplicates that detail — it points to it.
 slices:
+  # A slice links to capabilities (through its features), and through them to every domain
+  # it touches. It has no domain home: it lives in this list, and its record lives at
+  # product-os/slices/<id>.yaml (slice.yaml schema). Whether its work has started is shown
+  # by its Epic; what must come first comes from its capabilities' needs.
   - id: string
     slug: string
-    domain_ref: string
-    intents: [string]     # "serves" (ontology v10): the BUSINESS INTENT ids
-                          # (product-os/intents/<id>.md) this slice serves — one or more.
-                          # The linter checks each has a page; a slice naming none is a warning.
-    status: string        # proposed (/shape-scope) | planned (/shape-roadmap) | realized (/shape-run-lens) | deferred
-    order: integer        # /shape-roadmap's global build position; null until planned
-    effort: string        # /shape-roadmap's size estimate; null until planned
-    depends_on: [string]  # other slice ids that must build first (resolved by /shape-roadmap,
-                          # acyclic); [] until planned. The PLAN lives here on the spine
-                          # index, NOT on the slice record (which stays composition-only).
-    feature_refs: [string]   # feature node ids this slice bundles
-    record: string        # pointer to the full slice record, e.g.
-                          # "token-dash/slices/usage-data-foundation.yaml" (slice.yaml schema)
+    feature_refs: [string]   # its features (spine feature ids), in build order
+    vertical: string         # the one surface a person tests end to end (the surface's name
+                             # in the slice record; that surface's persona_ref is the tester)
+    intents: [string]        # "serves" (ontology v10): the BUSINESS INTENT ids
+                             # (product-os/intents/<id>.md) it serves, in order — one or more;
+                             # the first is the one it was first shaped for. The linter checks
+                             # each has a page; a slice naming none is a warning.
+    record: string           # pointer to the full slice record, relative to the product-os
+                             # folder, e.g. "slices/usage-data-foundation.yaml" (slice.yaml schema)
 epics:
   - id: string
     slug: string
@@ -234,19 +234,21 @@ fill_rules:
              needs up into the profile, firming it to state: set (out-of-box moves on an
              already-set box halt for a human decision). The last detailing step."
   - play: "/shape-scope"
-    writes: "SELECTS and COMPOSES (it does not create features — /discover-capabilities did):
+    writes: "SELECTS (it does not create features — /discover-capabilities did):
              confirms/prunes capabilities (status active/deprecated, with a decision);
-             places every feature into a slice or the _deferred bucket; composes the
-             slices index entries (+ slice records), each bundling features across
-             capabilities behind a user-facing surface (the UI scaffolded incrementally,
-             slice by slice); writes personas + journeys. Leaves the profile untouched
-             (understand is the last to write the box). Does NOT cut epics (/shape-slice) or
-             plan order (/shape-roadmap)."
-  - play: "/shape-roadmap"
-    writes: "plans the slices index — order, depends_on resolution, status planned."
+             writes personas + journeys. Leaves the profile untouched. Does NOT write
+             the spine's `slices` (/shape-slice does). Older chain (#837): until #837
+             rebuilds it, the play still composes per-domain slices under
+             {domain}/slices/ and its deferred bucket, and /shape-roadmap and the
+             /shape-*-lens plays still write there; nothing in the slice chain reads them."
   - play: "/shape-slice"
-    writes: "adds the epics index entries (+ each epic.md grounding doc) cut from a
-             realized slice."
+    writes: "the `slices` entries — exactly id, slug, feature_refs, vertical, intents,
+             record — and each slice record (product-os/slices/<id>.yaml, slice.yaml v2:
+             `slice` {id, slug, name, outcome, feature_refs, vertical, intents} and
+             `surface` {id, name, persona_ref, user_action}). When a slice already serves
+             the intent, or has the same features and the same vertical, it appends the
+             intent to that slice's entry and record, keeps its features and surface, and
+             writes no new slice. It writes nothing else — no plan, epic, story or eval."
   - play: "/start … /release-epic"
     writes: "epic status chain (ready -> in_delivery -> validated -> delivered),
              surface_verified, issue_ref — surgical structural stamps."
@@ -270,10 +272,15 @@ fill_rules:
 #       {feature}/
 #         feature.md                       # grounding (feature template)
 #       personas/  journeys/  decisions/         # structured records (referenced by id)
-#     slices/
-#       {slice}.yaml                             # slice record (slice.yaml schema)
-#       {slice}/epics/{epic}.md                  # epic grounding (epic template)
-#       {slice}/lens/{type}.yaml                 # realize lenses (unchanged)
+#     slices/{slice}/epics/{epic}.md             # OLDER CHAIN (#837), not the slice chain: epic
+#     slices/{slice}/lens/{type}.yaml            #   grounding and lens docs that /shape-roadmap,
+#                                                #   the /shape-*-lens plays and /build-epic still
+#                                                #   read or write until #837 rebuilds or drops
+#                                                #   them (ADR 048). /shape-slice never writes here.
+#     slices/_deferred.yaml                      # OLDER CHAIN (#837): /shape-scope's deferred bucket
+#   slices/                                      # THE SLICE CHAIN (/shape-slice, ADR 049)
+#     {slice}.yaml                               # slice record (slice.yaml v2: slice + surface); a slice has
+#                                                #   no domain home (it links to capabilities)
 #
 # Note what is GONE vs v1: per-node `node.yaml` (structure moved into _spine.yaml) and
 # per-node `ice.yaml` (ICE content moved inline into the grounding docs).

@@ -1,0 +1,46 @@
+needs_judgment: false
+change_groups:
+  - id: shape-slice-fixes
+    issue: 795
+    commit_type: fix
+    scope: shape-slice
+    subject: "reuse a serving slice, record matches slice.yaml v2, safe paths and writes, question record and approval gate, memory trace"
+    files:
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/scripts/find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/persist_fills.py
+      - core/components/plays/shape-slice/scripts/persist_slice.py
+      - core/components/plays/shape-slice/scripts/record_approval.py
+      - core/components/plays/shape-slice/scripts/record_questions.py
+      - core/components/plays/shape-slice/scripts/slice_check.py
+      - core/components/plays/shape-slice/scripts/test_find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/test_persist_slice.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+  - id: slice-schemas
+    issue: 795
+    commit_type: fix
+    scope: model
+    subject: "the slice record and spine agree; the older chain is labelled"
+    files:
+      - core/components/memory/standards/schemas/product-os/slice.yaml
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+  - id: rules
+    issue: 795
+    commit_type: docs
+    scope: rules
+    subject: "align pipeline-next, no-unbacked-recommendation and user-questions rules"
+    files:
+      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/memory/standards/rules/no-unbacked-recommendation.md
+      - core/components/memory/standards/rules/user-questions.md
+  - id: run-records
+    issue: 795
+    commit_type: chore
+    scope: stm
+    subject: "record review round 1 run artifacts"
+    files:
+      - .garura/project/issues/795/context/analysis.yaml
+      - .garura/project/issues/795/context/porcelain.txt
+exclusions: []
+risks:
+  sensitive_files: []

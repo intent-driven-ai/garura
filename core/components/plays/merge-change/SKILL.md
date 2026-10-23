@@ -233,7 +233,7 @@ from $session_stamp (#463): session_id, ledger_file, ledger_start_offset, ledger
 (null when unresolved — never blocks the close)) and write to `$evidence_dest`. Do
 NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## merge-change Delivered — #${issue}`, the Run Summary table, the Pipeline Steps
 table from the task DAG, the Artifacts Produced table (incl. the merge commit), Next Steps
 (the change has landed on main), and a pointer to `$evidence_dest`. Always emitted; never

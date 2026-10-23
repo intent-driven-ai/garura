@@ -354,7 +354,6 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `measure` | Write a slice's measure lens grounding doc — delivery-measurement claims (baseline / target / proof) |
 | `run` | Write a slice's run lens — narrative run.md plus machine-readable run.yaml environments |
 | `grill` | Cut one realized slice into user-testable delivery epics |
-| `next` | Recommend what to do next on the product from the model's current state |
 | `focus` | Show the tracked issues worth attention now — three fixed modes, capped list, kind + play per entry |
 | `implement` | Build one ready epic to done via a test-first plan with spec separation |
 | `validate` | Independently verify one built epic — the deep gate of the execute pipeline |

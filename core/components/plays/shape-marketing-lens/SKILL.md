@@ -477,8 +477,7 @@ fields from $session_stamp (#463): session_id, ledger_file, ledger_start_offset,
 section filled) and write to `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in
-the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all
-recommended actions.` (only /next pointer, or omit, when the mapped command is null), per
+the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per
 `play-close.md`. Fill the `delivery-report.md` slots: `## marketing Delivered — ${slug}`, the Run
 Summary table (incl. the stop-condition verdict and the model-delta commit sha), the Pipeline Steps
 table, the Artifacts Produced table (the marketing lens + any decision), Next Steps (the functional

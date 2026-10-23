@@ -1,0 +1,185 @@
+# check-change Step 4 -- consolidated findings, PR #840, round 3.
+findings:
+- category: harness
+  severity: P3
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: G1 C7 (the person sees how the new shape differs from the slice reused) + G4 (nothing hidden at the checkpoint)
+  message: 'R3-1 (new). The two things the round-2 fix added to the script results are not wired into the play.
+    SKILL.md never mentions `upgraded_to_v2` (a reused old record is rewritten, and its name and outcome are taken
+    from the SHAPED slice, not from the slice kept; by hand, a kept slice with features [ft-1] was named ''New''
+    after a shape with [ft-1, ft-2]) and never mentions slice_check''s `warnings` (other slices'' defects). Neither
+    is shown at the checkpoint or in the summary, so the person approves without seeing that a record was rewritten
+    or that the model holds a broken slice. Fix: list both in the checkpoint next to `differences`/`dropped_fields`,
+    and say in the checkpoint that a name or outcome was taken from the new shape.'
+  status: open
+- category: harness
+  severity: P4
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: G6 (a cite source is a memory tier file)
+  message: 'R3-2 (new). The Step 3 cite instruction says the trace source can be ''a model page or a person''s earlier
+    answer ... that page''s lines or the record entry'', without naming the tier. citations.py accepts only tier/path/fingerprint
+    from a memory read (short-term, garura incl. the product model, phoenix); an agent given this wording may try
+    a repo path. Name the tiers: model page = `--tier garura` product path, earlier answer = the issue''s short-term
+    record.'
+  status: open
+- category: harness
+  severity: P4
+  path: core/components/plays/shape-slice/scripts/persist_fills.py
+  basis: G5 (an undo puts back what was there)
+  message: 'R3-3 (new, cosmetic). In the ''lines removed'' undo path a page that held ''**Touches:** none yet''
+    before the run loses that heading (had_list is false, so the heading is treated as made by the run). By hand:
+    before has ''none yet'', page edited since, undo -> heading gone. Test the before-text for the heading, not
+    for entries.'
+  status: open
+- category: harness
+  severity: P4
+  path: core/components/plays/shape-slice/scripts/record_questions.py
+  basis: G4 / asking-a-person.md (opening that says what the person decides)
+  message: R3-4 (new). `message` tests the opening by sentence count (2-3) and the word 'decid' only; an id mentioned
+    in the opening makes the opening end early, and the four-part test is a '**Name' prefix match. Accept as the
+    floor (the script says so), or note it in the SKILL step so the agent does not treat ok:true as a full pass.
+  status: open
+- category: adrs
+  severity: P3
+  path: docs/adr/020-advisory-play-self-clean.md
+  basis: 'linter rule DOC-04 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P3
+  path: docs/adr/022-surface-contract.md
+  basis: 'linter rule DOC-04 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P3
+  path: docs/adr/023-three-execution-trinities.md
+  basis: 'linter rule DOC-04 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P3
+  path: docs/adr/045-a-drive-is-now-called-a-loop.md
+  basis: 'linter rule DOC-04 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P3
+  path: docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+  basis: 'linter rule DOC-04 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P3
+  path: docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+  basis: 'linter rule DOC-04 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P3
+  path: docs/adr/_index.md
+  basis: 'linter rule DOC-04 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: Path marker only. The index gains the ADR 051 row; it matches the ADR's title, status and date.
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/020-advisory-play-self-clean.md
+  basis: 'linter rule ARCH-23 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/020-advisory-play-self-clean.md
+  basis: 'linter rule DOC-05 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/022-surface-contract.md
+  basis: 'linter rule ARCH-23 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/022-surface-contract.md
+  basis: 'linter rule DOC-05 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/023-three-execution-trinities.md
+  basis: 'linter rule ARCH-23 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/023-three-execution-trinities.md
+  basis: 'linter rule DOC-05 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/045-a-drive-is-now-called-a-loop.md
+  basis: 'linter rule ARCH-23 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/045-a-drive-is-now-called-a-loop.md
+  basis: 'linter rule DOC-05 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+  basis: 'linter rule ARCH-23 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+  basis: 'linter rule DOC-05 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+  basis: 'linter rule ARCH-23 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+  basis: 'linter rule DOC-05 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: 'Path marker only. adr.py lint: 045, 048, 051 valid; 020, 022, 023 fail with the same 6 problems at base
+    and now (older ADR format; this PR adds one forward-pointer line each). Not caused by this PR.'
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/_index.md
+  basis: 'linter rule ARCH-23 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: Path marker only. The index gains the ADR 051 row; it matches the ADR's title, status and date.
+  status: no_change_needed
+- category: adrs
+  severity: P4
+  path: docs/adr/_index.md
+  basis: 'linter rule DOC-05 (standards/rules/pr.md: an ADR file changed, so it is checked)'
+  message: Path marker only. The index gains the ADR 051 row; it matches the ADR's title, status and date.
+  status: no_change_needed

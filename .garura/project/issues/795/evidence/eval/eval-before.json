@@ -1,0 +1,316 @@
+{
+  "passed": 29,
+  "failed": 33,
+  "results": [
+    {
+      "check": "ICE: the intent is about a business intent, not a realized slice",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "ICE: it writes no plan, epic, story or eval",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C1 and F1 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C2 and F2 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C3 and F3 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C4 and F4 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C5 and F5 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C6 and F6 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C7 and F7 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C8 and F8 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C9 and F9 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C10 and F10 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C11 and F11 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C12 and F12 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C13 and F13 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C14 and F14 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: six success scenarios",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: one recovery per failure",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: fingerprint matches the ICE",
+      "ok": true,
+      "detail": "('91b837dfb96b5b9283bb17e20a7ace3cb89e34053ff08fd221aa36ca2cb200bb', '91b837dfb96b5b9283bb17e20a7ace3cb89e34053ff08fd221aa36ca2cb200bb')"
+    },
+    {
+      "check": "play: lint_play passes",
+      "ok": true,
+      "detail": "l-writing play, position both\n  [PASS] standard play close (D1): evidence close block present\n  [PASS] pre-flight resolver: scripts/preflight.py present\n  [PASS] stop condition (#464): Done means baked: manifest + checker present, clause types valid\n  [PASS] fingerprint: present\n  [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next\nVERDICT: PASS (0 gap(s))\n"
+    },
+    {
+      "check": "play: position is both",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: the entry is a business intent issue number",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "play: no longer uses 'author-epics'",
+      "ok": false,
+      "detail": "author-epics"
+    },
+    {
+      "check": "play: no longer uses 'check-cut-tensions'",
+      "ok": false,
+      "detail": "check-cut-tensions"
+    },
+    {
+      "check": "play: no longer uses 'persist_epics'",
+      "ok": false,
+      "detail": "persist_epics"
+    },
+    {
+      "check": "play: no longer uses 'validate_epics'",
+      "ok": false,
+      "detail": "validate_epics"
+    },
+    {
+      "check": "play: no longer uses 'realized'",
+      "ok": false,
+      "detail": "realized"
+    },
+    {
+      "check": "play: calls grill_budget.py",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "play: names the asking-a-person rule in its workflow",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "play: records questions in grounding-questions.md",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "play: dispatches product-os-keeper",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "scripts: persist_epics.py is gone",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "scripts: validate_epics.py is gone",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "scripts: test_validate_epics.py is gone",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads slice-check.json",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads approval.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads guard-report.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads grounding-questions.md",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "scripts: find_serving_slice.py exists",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "scripts: persist_slice.py exists",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "tests: test_grill_budget.py passes",
+      "ok": true,
+      "detail": "estion is still asked\n  [PASS] blocking over budget: over_budget is true\n  [PASS] blocking over budget: the rest are assumptions\n  [PASS] a question with no blocking flag exits 2\n\n19 passed, 0 failed\n"
+    },
+    {
+      "check": "tests: test_validate_epics.py passes",
+      "ok": true,
+      "detail": "ls the gate and is counted\n  [PASS] off-schema key fails the gate (forged-clean prevention)\n  [PASS] --out writes the write-gate verdict YAML matching stdout (#466 Batch C)\nVERDICT: PASS (6/6 passed)\n"
+    },
+    {
+      "check": "tests: persist_slice and find_serving_slice have tests",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice has vertical",
+      "ok": false,
+      "detail": "  - id: string\n    slug: string\n    domain_ref: string\n    intents: [string]     # \"serves\" (ontology v10): the BUSINESS INTENT ids\n                          # (product-os/intents/<id>.md) this slice "
+    },
+    {
+      "check": "schema: spine slice has intents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops status",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops order",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops effort",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops depends_on",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops domain_ref",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "schema: slice.yaml no longer says /shape-slice cuts epics",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "schema: slice.yaml names intents and vertical",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "next: the /next play is gone",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "check": "next: no play or rule tells a person to run /next",
+      "ok": false,
+      "detail": "/components/memory/standards/templates/delivery-report.md', 'core/components/plays/propose-change/SKILL.md', 'core/components/plays/discover-capabilities/SKILL.md', 'core/components/plays/shape-ux-lens/SKILL.md', 'core/components/plays/next/SKILL.md', 'core/components/plays/list-focus-issues/SKILL.md', 'core/components/plays/record-decision/SKILL.md', 'core/components/plays/check-change/SKILL.md']"
+    },
+    {
+      "check": "next: the Next-line map no longer points to /next",
+      "ok": false,
+      "detail": "['**Next:** `/<command>` \u2014 <why>. Or run `/next` to see all recommended actions.', ' is `null`, the close renders only the `/next` pointer (or omits', 'xt line where that reads better \u2014 e.g. `/next` itself).']"
+    },
+    {
+      "check": "next: an ADR records why /next was dropped",
+      "ok": false,
+      "detail": "[]"
+    },
+    {
+      "check": "next: no play fails lint_play's next-command check",
+      "ok": false,
+      "detail": "['core/components/plays/check-change/SKILL.md', 'core/components/plays/next/SKILL.md']"
+    },
+    {
+      "check": "all: the old-name check reads 0",
+      "ok": true,
+      "detail": "{\n  \"ok\": true,\n  \"hits\": 0,\n  \"old_names_left\": 0,\n  \"by_old_name\": {},\n  \"first\": []\n}\n"
+    },
+    {
+      "check": "all: no component-linter error on shape-slice",
+      "ok": false,
+      "detail": "[{'file': 'core/components/plays/shape-slice/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"shape-slice\" asks a person a question (line 362) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 362}]"
+    },
+    {
+      "check": "all: total linter errors do not grow (was 135)",
+      "ok": true,
+      "detail": "135"
+    },
+    {
+      "check": "all: no shared-script drift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "all: other play and skill tests ran",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -95,7 +95,7 @@ Agent → Skill → Artifact
 
 ## The Loops as Commands
 
-IDSD runs the lifecycle as five loops, each defined by the intent it must meet ([IDSD in One Page](./idsd.md#idsd-in-one-page), ADR 028). The loop names are working names. Garura's existing plays are the steps inside each loop; the plays stay as they are. What does not exist yet is the **loop recipe** that runs a loop's plays until its intent is met (#594) — today a person runs each play, guided by `/next` and by the **Next** line every play prints at close. That line comes from the successor map, `core/components/memory/standards/rules/pipeline-next.md`, the single source of truth for the order.
+IDSD runs the lifecycle as five loops, each defined by the intent it must meet ([IDSD in One Page](./idsd.md#idsd-in-one-page), ADR 028). The loop names are working names. Garura's existing plays are the steps inside each loop; the plays stay as they are. What does not exist yet is the **loop recipe** that runs a loop's plays until its intent is met (#594) — today a person runs each play, guided by the plan (one plan for each business intent, with done / now / next) and by the **Next** line a play prints at close when it has one successor. That line comes from the successor map, `core/components/memory/standards/rules/pipeline-next.md`, the single source of truth for the order.
 
 | Loop (working name) | Its intent | Plays it runs | Built today |
 |---------------------|-----------|---------------|-------------|
@@ -103,7 +103,7 @@ IDSD runs the lifecycle as five loops, each defined by the intent it must meet (
 | **Shape** | The product is ready to build in slices | `/shape-scope` → `/shape-roadmap`; then the design plays: `/shape-ux-lens` → `/shape-agentic-lens` → `/shape-marketing-lens`, `/shape-architecture-lens` → `/shape-quality-lens` → `/shape-run-lens` | The plays ship, but design still runs **per slice**, and `/shape-measure-lens` stamps each slice *realized*. Design once per project, each area optional, measure left out — decided (ADR 028), not built |
 | **Execute** | A slice is delivered and checked against its intent | `/shape-slice` → `/build-epic` → `/validate-epic` → `/release-epic` | Built. `/shape-slice` still requires a realized slice; grilling on a slice's missing design areas instead is #595 |
 | **Change** | Every change lands the same way | `/start-change` → `/commit-change` → `/propose-change` → `/check-change` → `/merge-change` | Built |
-| **Learn** | The stored intent stays true | `/next`, `/list-focus-issues`, `/learn-outcomes` | Built |
+| **Learn** | The stored intent stays true | `/list-focus-issues`, `/learn-outcomes` | Built |
 
 Outside the five loops: `/fix-bug` and `/refactor-code` (the defect and refactor lanes, ADR 023), `/release-increment` (the future deployment-and-run loop), and the meta plays — `/install-garura`, `/uninstall-garura`, `/create-play`, `/edit-play`.
 
@@ -126,7 +126,7 @@ A correction does not have to go all the way round; it returns to the loop that 
 - [`/shape-slice`](../../core/components/plays/shape-slice/SKILL.md) routes a defect it finds in a lens back to that lens's play.
 - [`/learn-outcomes`](../../core/components/plays/learn-outcomes/SKILL.md) rewrites the measure, run, or quality lens when only the context was wrong, and the capability or feature docs (plus a decision record) when the intent was.
 - Two hard readiness markers guard the loop: [`/shape-slice`](../../core/components/plays/shape-slice/SKILL.md) needs a slice stamped realized, and [`/build-epic`](../../core/components/plays/build-epic/SKILL.md) needs an epic that is ready.
-- [`/next`](../../core/components/plays/next/SKILL.md) reads the product model and ranks which loop to act in next; [`/list-focus-issues`](../../core/components/plays/list-focus-issues/SKILL.md) gives the same view from the issue tracker.
+- The plan is the work list (ADR 051); [`/list-focus-issues`](../../core/components/plays/list-focus-issues/SKILL.md) lists the issues worth attention from the issue tracker.
 
 ### Implementation Is Three Trinities (ADR 023)
 
@@ -200,7 +200,7 @@ In Garura's own tracker (`intent-driven-ai/garura`) the six are set as the organ
 
 ## Perception
 
-Perception is what enters the system. In Garura today, **every signal is a user slash command**: each command is a play, and every play is the single entry point for its work. `/next` and `/list-focus-issues` do not trigger anything — they read the model and recommend; the human then sends the signal.
+Perception is what enters the system. In Garura today, **every signal is a user slash command**: each command is a play, and every play is the single entry point for its work. `/list-focus-issues` does not trigger anything — it reads the issue tracker and recommends; the human then sends the signal.
 
 | IDD signal type | In Garura |
 |-----------------|-----------|
@@ -318,7 +318,7 @@ A skill does one bounded job and never decides when it runs — an agent calls i
 | [`author-build-plan`](../../core/components/skills/author-build-plan/SKILL.md) | `tech-designer` in `/build-epic` | Cut an epic test-first into grounded pieces |
 | [`author-steelman-evals`](../../core/components/skills/author-steelman-evals/SKILL.md) | `evals-engineer` in `/build-epic` | Write the evals the build is judged against |
 | [`judge-validation-results`](../../core/components/skills/judge-validation-results/SKILL.md) | `quality-auditor` in `/validate-epic` | Judge captured check results |
-| [`author-epics`](../../core/components/skills/author-epics/SKILL.md) | `product-os-keeper` in `/shape-slice` | Write each epic of the cut |
+| [`author-business-intent`](../../core/components/skills/author-business-intent/SKILL.md) | `product-os-keeper` in `/shape-slice` | Draft the intent page when the model has none |
 | [`author-learnings`](../../core/components/skills/author-learnings/SKILL.md) | `product-os-keeper` in `/learn-outcomes` | Rewrite the model from outcomes |
 | [`find-work-placement`](../../core/components/skills/find-work-placement/SKILL.md), [`propose-kb-node`](../../core/components/skills/propose-kb-node/SKILL.md) | `product-os-keeper` in `/discover-domains`, `/shape-scope` | Ground in the knowledge base, or propose what it lacks |
 

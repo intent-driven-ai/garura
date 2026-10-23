@@ -810,11 +810,11 @@ ledger_end_offset (null when unresolved — never blocks the close); and stop_co
 C0 with the Stop Condition section filled) and write to `$evidence_dest`. Do NOT
 hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## understand Delivered — ${product_slug}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (the detailed capabilities, their
-features, the firmed profile, any decisions), Next Steps (run /shape-scope to prioritize
-the detailed features into end-to-end verticals and epics), and a pointer to
+features, the firmed profile, any decisions), Next Steps (run /shape-slice <intent> to shape the slice that serves a business intent), and a
+pointer to
 `$evidence_dest`. Always emitted; never gated.
 
 ```bash

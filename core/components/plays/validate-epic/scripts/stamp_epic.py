@@ -107,8 +107,8 @@ def apply_stamp(spine_path, spine, epic, new_status):
     # On a pass, also stamp surface_verified: the verdict gate (check_gates.py,
     # C13) only reaches `validated` once the required surface-parity check has
     # run and matched (surface-contract.md, ADR 022), so `validated` carries
-    # surface_verified: true. This is the signal /next reads to tell a surface
-    # that actually shipped from surface debt.
+    # surface_verified: true. It tells a surface that actually shipped from
+    # surface debt.
     if new_status == "validated":
         epic["surface_verified"] = True
     meta = epic.setdefault("metadata", {})

@@ -422,7 +422,7 @@ $session_stamp (#463): session_id, ledger_file, ledger_start_offset, ledger_end_
 unresolved — never blocks the close); and stop_condition per C0 with the Stop Condition section
 filled) and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## quality Delivered —
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## quality Delivered —
 ${slug}`, the Run Summary table (incl. the stop-condition verdict), the Pipeline Steps table, the
 Artifacts Produced table (the quality lens + its machine sibling `quality-gates.yaml` + any
 decision + the model-delta commit sha), Next Steps (run /shape-run-lens to close the non-functional pipe), and a

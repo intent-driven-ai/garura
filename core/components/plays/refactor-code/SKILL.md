@@ -402,7 +402,7 @@ filled) and write to `$evidence_dest`. Do NOT hand-author the body. Then dispatc
 the listed evidence files with message `chore(stm): record refactor evidence for #{issue}`
 (non-blocking — a commit failure logs a warning, never halts).
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
 `## refactor Delivered — #{issue}`, the Run Summary table, the Pipeline Steps table from the task DAG
 (T1–T13, including the injected start/end members), the Artifacts Produced table, Next Steps (only
 real follow-ons), and a pointer to `$evidence_dest`. Always emitted; never gated. When this play

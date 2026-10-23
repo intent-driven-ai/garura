@@ -297,9 +297,7 @@ and stop_condition per C0 with the Stop Condition section filled) and write to
 `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in
-the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to
-see all recommended actions.` (only /next pointer, or omit, when the mapped command is
-null), per `play-close.md`. Fill the `delivery-report.md` slots and output the report:
+the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the report:
 `## commit-change Delivered — #${issue}`, the Run Summary table (incl. rounds used, the
 stop-condition verdict, and a **Scanner Warnings** row — every warning the scan produced,
 carried here whenever the checkpoint did not fire or was skipped by config; `none` when

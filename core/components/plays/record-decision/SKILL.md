@@ -350,8 +350,7 @@ ledger_start_offset, ledger_end_offset (null when unresolved — never blocks th
 stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in
-the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see
-all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per
+the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per
 `play-close.md`. Fill the `delivery-report.md` slots and output the report:
 `## adr Delivered — ADR <NNN or id>`, the Run Summary table, the Pipeline Steps table from the
 task DAG, the Artifacts Produced table (the record, the pointers, the index), Next Steps (for a

@@ -52,8 +52,8 @@ State today (2026-09-08, verified by the lint sweep):
 | Play | State |
 |------|-------|
 | `focus` | **wired** — the reference implementation |
-| `next` | **caught, not yet wired** (#530) — its thin-history notice already follows the rule for one field, but the rule is not stated as a guarantee |
 | `check-change` | **caught, not yet wired** (#530) — needs a check on whether it can post a computed verdict with no completed review behind it |
+| `shape-slice` | **wired** — its proposed answers to questions: `record_questions.py proposals` strips any proposed answer with no named basis (model, memory or a person's earlier answer) and never replaces it, and counts the questions left with no proposed answer; step eval SE-3 and failure condition F10 back it |
 
 A play listed as caught fails `lint_play.py` today. That is the guardrail working, not a
 defect in the play; the fix is to wire it (or, if it only reports, to say so in its

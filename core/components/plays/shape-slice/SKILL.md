@@ -1,669 +1,576 @@
 ---
 name: shape-slice
 position: both
-description: 'Cut one REALIZED slice into user-testable delivery epics — the handoff from the product model to the delivery pipeline. /shape-roadmap says which slice to build; the seven realize lenses have solved its design and /shape-measure-lens has stamped it realized — the marker /shape-slice requires before it cuts. Each epic is a meaningful increment a user can open, exercise, and verify when delivered (the user-testability grain — never internal-only work), self-contained, referencing the slice''s intent and lenses, never copying them. The cut is GRILLED before it is written — grilling draws the box from realized slice to delivery epics so nothing drifts outside the declared intents: every challenge cites a specific declared item (never taste), questions are asked plainly ONE AT A TIME with no recommendations attached, a tension closes only on the typed human answer (the record carries the push-back shown, the human''s words, and the human-derived directive or reason — the agent never self-resolves), and an unresolved delivery-method choice becomes a cited decision question, never an assumption. Lens defects route back to their lens play. Ordered, every feature covered or explicitly deferred. Direct-model-write (ADR 026, write-then-review): the cut is written to the live model first (each epic.md by author-epics, the spine epics index by the keyed persist), guarded once, then reviewed — nothing is COMMITTED before the checkpoint resolves, and cancel reverts the written tree. Writes only epics; opens no implementation issue — /start picks epics up one at a time. Position BOTH (#437, decision 24): /shape-slice is self-contained — start-change opens its own branch at the head, the approved cut is committed as a feat(model) model delta, and the standard end sequence (commit-change → propose-change → check-change → merge-change) raises, reviews, and lands it — no manual /commit-change.'
+argument-hint: "<business intent issue number>"
+description: 'Shape the one slice that shows a business intent is served — the first play of the shaping loop (ADR 049: /shape-slice, then the plan play, then the eval play). Run as /shape-slice <intent-issue> (for example /shape-slice 788). It reads the intent from the product model (and writes the intent page from the issue when the model has none), reads the model and memory first, and asks the person only what neither answers: all questions at once, within the configured question tier, each gap not asked written down as an assumption, every question and answer kept in the issue''s short-term memory. It picks the features from any capability in build order, the one surface and the person who tests it, adds every domain, capability, feature or ICE the slice needs and the model lacks (marked to be deepened later), reuses a slice that already serves the intent, and writes the slice into the spine with its link to the intent and its record. A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown. The model checks must pass, and nothing is committed before the person types yes at the checkpoint (stop undoes every write). Writes no plan, epic, story or eval. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has a plan.'
 user-invocable: true
 ---
 
-# grill
+# shape-slice
 
-Take one **realized** slice — a vertical product increment whose design the seven realize
-lenses (quality → ux → agentic → arch → measure → run) have already solved, stamped
-`status: realized` by /shape-run-lens — and cut it into **epics**: the ordered, user-testable delivery
-increments the delivery pipeline picks up. /shape-slice sits below /shape-roadmap (which says which
-slice to build next) and above /start (which opens one issue per epic). Epics are
-permanent: kept on the slice, stamped `delivered` on merge and kept in place as the
-product model's as-delivered record (ADR 019).
+A person names a business intent. /shape-slice shapes the **one slice** that a person can
+test end to end to show the intent is served: an ordered group of features, taken from any
+capabilities, with one surface (a screen, a command, an endpoint) and the one person who
+tests it there. It fills the product model with what that slice needs, and writes the slice
+with its link to the intent (the spine's `intents`, ontology v10). It does nothing else: no
+plan, no epic, no story, no eval — the plan play (#818) and the eval play (#798) come next.
 
-The **grain of an epic is user-testability**, not the feature: when an epic is
-delivered, a user can open the product, do something, and see it work. An epic may thread
-several of the slice's features; a feature may yield several epics; internal
-machinery rides inside the epic that surfaces it, never alone. Every epic is
-self-contained — context (persona, systems, scope), acceptance criteria naming observable
-user behavior, and the one-line `user_check` — and **references** the slice's intent
-records and lenses, never copies them.
+The run works from the product model, never from the issue text alone: the issue is only
+the way in. It reads the model and memory first and asks the person only what neither
+answers — all at once, inside the question tier set in config, with each gap it does not ask
+written down as an assumption the person sees at the checkpoint.
 
-The cut is **grilled, not relayed** — and grilling is **drawing the box**: going from A
-(the realized slice — its declared intents, lenses, profile) to B (delivery epics) must
-have no drift, and the declared intents are the box the cut cannot step outside. The play
-pushes back steelman-hard — thin acceptance, untestable increments, tensions between the
-cut and what the slice declared — and every push-back cites the specific declared item it
-defends. A tension is resolved in the cut or explicitly accepted with a recorded reason; a
-defect in a lens itself is recorded and routed back to that lens's play, never patched
-here. The full cut persists atomically, only after the human approves it.
-
-**The grilling is a conversation with the human, and the record proves it (#436).** The
-play builds its question list for the round — push-backs and open delivery-method
-questions — and asks **one question at a time, simply stated**: the citation and the
-question, nothing else. No recommendations, no option menus. A tension leaves `live` only
-on the typed answer; the round record carries the push-back actually shown, the human's
-own words, and the directive or reason derived from them. The agent revising the draft on
-its own never closes a tension. And where the box has no wall — an epic's user check
-depending on a delivery method the lenses never decided — the play asks a cited decision
-question; only the human draws that wall.
-
-**Pipeline position: both (#437, decision 24; confirmed by Kapil).** /shape-slice is
-SELF-CONTAINED: it opens and closes its own branch, like fix-bug. The realize work lands
-through its own three pipes — the FUNCTIONAL pipe (ux start → agentic → marketing end), the
-NON-FUNCTIONAL pipe (architecture start → quality → run end), and the DELIVER pipe (measure),
-each merging to main — so /shape-slice no longer rides a branch another play opened. The D2 pipeline-position rule injects
-`start-change` at the head (resolve or create the grill issue, cut the branch off fresh
-main, optional worktree, init STM) and keeps the close sequence `commit-change →
-propose-change → check-change → merge-change` at the tail: after the epics are persisted
-and verified, the locked cut is committed, raised, reviewed, and merged without the human
-having to remember `/commit-change`. The bracketed change is the MODEL change only; /shape-slice
-still opens no implementation issue and cuts no branch for an epic's delivery work —
-picking up an epic remains /start's job, one epic at a time. /shape-slice works on one slice and
-remains the slice's end conceptually: nothing about a slice is finished until grill is.
-
-**Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM author-epics
-skill writes ONLY the per-node docs (each `epic.md`, and the slice's `deferrals.yaml`)
-straight to the live model; the one shared-file mutation — the spine `_spine.yaml` `epics`
-index — is done by the deterministic keyed persist script (`persist_epics.py`), in place,
-keyed to the target slice so it cannot touch an epic delivery already owns (status not
-`ready`) or any spine field outside `epics`. There is no `draft/` copy and no apply/promote
-step. Order is **write-then-review** (ADR 026): the full cut — the LLM's `epic.md` docs AND
-the keyed persist's `epics`-index entries — is written to the live model FIRST, then guarded
-once, so the checkpoint presents the real model git diff; nothing is COMMITTED before the
-gate resolves. Containment is the post-write scoped guard (`scoped_write_guard.py`), not a
-draft. The model tree is clean at entry — the fresh branch the injected `start-change` head
-cuts off main guarantees it (F19) — and the play commits its own `feat(model)` model delta
-after the approved checkpoint (C18), so the working-tree diff vs HEAD is exactly this run's
-delta. On checkpoint cancel the whole written delta is reverted (`git restore` + `git clean`).
+**Pipeline position: both.** start-change opens the change at the head (on the plan's
+sub-branch when the intent has a plan); the end sequence commit-change → propose-change →
+check-change → merge-change lands it.
 
 ## Compiled From
 
-This play was compiled from the grill ICE (`reference/ice.md`) by create-play and
-recompiled via edit-play (#436, #437; closed-schema round-report fix; #466 Batch C —
-gated close per ADR 025; #500 — migrated to direct-model-write per ADR 026 and
-`standards/rules/direct-model-write.md`). Intent defines constraints (C1–C18) and failure
-conditions (F1–F19); the expectation defines success scenarios (S1–S8), a Done means
-(D1–D7, baked to `stop-condition.yaml`), and one recovery entry per failure condition.
-To modify this play, update `reference/ice.md` and recompile with edit-play.
+This play was compiled from the shape-slice ICE (`reference/ice.md`) by create-play (#795).
+Intent defines constraints (C1–C14) and failure conditions (F1–F14); the expectation
+defines success scenarios (S1–S6), a Done means (D1–D5, baked to `stop-condition.yaml`), and
+one recovery entry per failure condition. To modify this play, update `reference/ice.md`
+and recompile with edit-play.
 Do NOT edit this file manually — it is a compiled artifact.
 
 ## Role
 
-You are the orchestrator. You own the workflow, the step order, the grilling rounds (the
-push-back authoring from the cited tensions the tension-check skill returns, and every
-exchange with the human), and the checkpoint. You delegate the two pieces of judgment —
-drafting/revising the cut and detecting tensions against the declared design — to the
-`product-os-keeper` agent via JSON contracts over files on disk, and you run every
-mechanical part (config + readiness + realized-stamp resolution, cut validation, the
-write-gate — which writes its machine verdict, the keyed in-place persist of the spine
-`epics` index, the post-write scoped guard, the stop-condition gate) through bundled
-scripts. Under direct-model-write (ADR 026) the author-epics skill writes each `epic.md`
-straight to the live model and you NEVER write epic YAML or the spine yourself; the keyed
-persist writes the shared `epics` index. Write-then-review (ADR 026): the full delta is
-written to the live model FIRST, then guarded and reviewed, and nothing is COMMITTED before
-the single checkpoint resolves (C9 — class: standard per gate-config.md; a config-resolved
-skip is recorded in evidence, never silent). The play ends by PROVING its Done means (C17),
-never by the step list running out — and the grilling rounds are human-paced and UNCAPPED:
-their only exit is a clean tension report, never an iteration cap.
+You are the orchestrator. You own the step order, the one round of questions, and the
+checkpoint. You hand every piece of judgment to the `product-os-keeper` agent through JSON
+contracts over files on disk: drafting a missing intent page, gathering the model and memory
+and listing the gaps, drafting proposed answers, and shaping the slice and filling the model.
+You run all mechanical work through bundled scripts: reading the issue
+(`platform_adapter.py`), the intent page (`write_intent_page.py`), the question record
+(`record_questions.py`), the question tier (`grill_budget.py`), the serving check
+(`find_serving_slice.py`), the writes (`persist_fills.py`, `persist_slice.py`), the model
+checks (`slice_check.py`, which runs `lint_grounding.py`), the write guard
+(`scoped_write_guard.py`), the checkpoint record and the commit gate (`record_approval.py`)
+and the stop condition. You never write the spine, a slice record or a model page yourself.
+You read no memory yourself: the agent finds memory only through the memory tool
+(`python3 .garura/core/tools/memory/memory.py`, `.claude/rules/garura-memory.md`) and
+records the trace of each decision with its `cite` command.
 
-**Forbidden:** hand-writing epic YAML or the spine; cutting from a slice not stamped
-`realized`; issuing a push-back without a citation to a declared item; **closing a tension
-without a typed human response** — marking `resolved`/`accepted` because the agent revised
-the cut itself, or filling `pushback`/`human_response`/directive/reason with anything but the
-actual conversation (#436); attaching a recommendation, option menu, or advocacy to a
-grilling question, or asking questions in a batch instead of one at a time; cutting an
-epic whose user check depends on a delivery method no declared item decides and no human
-chose; persisting the spine `epics` index by any route other than `scripts/persist_epics.py`;
-COMMITTING the model delta before the checkpoint resolves; running against a dirty product-os
-tree (C18/F19); closing COMPLETED without the stop condition held
-(C17/F18); capping the grilling rounds — the grilling loop is human-paced and uncapped,
-the cap concept does not apply to human rounds (C17); editing a lens, the slice record,
-an ICE, or the profile (a lens defect
-is recorded and routed, never patched); hand-rolling git/issue/PR/merge work — the model
-change opens ONLY via the injected `start-change` head and closes ONLY via the injected
-end-sequence members, and no implementation issue or branch for an epic's delivery work
-is ever opened (delivery's job); performing any epic lifecycle step beyond
-creation at `ready`.
+**Forbidden:** working from the issue text alone, or stopping because the model has no page
+for the intent (C1); asking what the model or memory answers (C2); asking one question at a
+time, or a question that breaks the rule for asking a person (C3); asking more than the tier
+allows beyond the blocking questions, or a gap left open with no written assumption (C4); a
+question or answer not recorded, or an answered question asked again (C5); a slice with no
+tester, no surface or more than one surface (C6); a new slice for an intent a slice already
+serves (C7); skipping a part the slice needs (C8); writing a plan, an epic, a story, an eval
+or any file outside the allowed set (C9); a proposed answer with no named source (C10);
+going on while the model's checks fail (C11); committing before the person's typed yes, or a
+stop that leaves writes (C12); landing outside the change plays or on the wrong branch (C13);
+a real person's name, or text a person cannot follow (C14).
 
 **Agent boundaries:**
 
-| Agent | Domain | Skills it invokes | Phases |
-|-------|--------|-------------------|--------|
-| `product-os-keeper` | Read the slice's hub (feature ICEs + profile) and all seven lenses; author the epic cut by the user-testability grain (self-contained, referenced, ordered, deferrals recorded), writing each `epic.md` + the `deferrals.yaml` straight to the live model and emitting the spine `epics`-index delta into the manifest (never the spine); revise them in place per grilling-round directives; detect tensions between the cut and the declared design, each with a verbatim citation | `author-epics`, `check-cut-tensions` | Draft, Grill |
+| Agent | Domain | Skills it uses | Phases |
+|-------|--------|----------------|--------|
+| `product-os-keeper` | Draft a missing intent page from the issue; gather the model and memory for the intent into short-term memory (memory through the memory tool only) and list the gaps as questions; draft proposed answers with their source; shape the slice (features from any capability in build order, the one surface, its tester) and fill what the model lacks; record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-model-gaps`, `propose-answers`, `enrich-capability-ice`, `author-domains` | Intent, Gather, Shape, Reuse |
+| `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
 
-`product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5 budget).
-No utility agents are needed in the play's own core — git/issue machinery arrives only via
-the injected members (`start-change` at the head; `commit-change`, `propose-change`,
-`check-change`, `merge-change` at the tail), which carry their own agents; those are not
-counted here.
+`product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
+agent. The skills the domain agent uses all exist; this play creates none. One piece has no
+skill yet: choosing the slice's features, their build order, its surface and its tester. The
+agent does that choice itself, from the placement result and the person's answers, documents
+it in `slice.json` (agent principle P7: it says that no skill exists for it) and records the
+trace of each choice with `memory.py cite`. The `author-slice` skill that will take it over
+is issue #838. The start and end sequence are injected sub-plays; everything else is a
+script.
 
 ## Pre-flight
 
 | Check | Constraint | Action on Failure |
 |-------|-----------|-------------------|
-| Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
-| Slice argument supplied (`/shape-slice <slice-id>` or `/shape-slice <domain>/<slice-id>`) | C1 | Hard halt — name the slice to cut |
-| Profile firmed (`set`) AND the slice exists with every feature ICE resolved + rich | C1 | Hard halt (REC2) |
-| Slice stamped `realized` AND all seven lens files present | C1 | Hard halt (REC2) |
-| **Clean model tree** — asserted after Step 0 (start-change) cuts the fresh branch | C18/F19 | Hard halt (REC19) |
+| Resolve config, `stm_base`, `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
+| A business intent issue number was given (`/shape-slice <intent-issue>`, digits only) | C1 | Hard halt — ask for the intent's issue number |
+| The product model's spine exists (`<product_base>product-os/_spine.yaml`) | C11 | Hard halt — run the model plays first |
+| **Clean model tree** — after Step 0: `git status --porcelain -- <product_base>product-os` is empty | C12 | Hard halt (REC12) |
 
-**Clean-tree assertion (C18/F19, ADR 026).** `HEAD` is only a correct base for the scoped
-guard and the git diff if the product-os tree is clean when the writes begin. /shape-slice's issue
-and branch arrive via the injected `start-change` head (Step 0), which cuts a fresh branch
-off latest main — so the product-os tree is clean by construction. Assert it explicitly right
-after Step 0 and before the first write (Step 1); halt if dirty (REC19):
+Resolve the facts with the bundled resolver, not by inference:
 
 ```
-test -z "$(git status --porcelain -- <product_base>product-os)" || { echo "HALT: dirty product-os tree (REC19)"; exit 1; }
+git branch --show-current
+python3 scripts/preflight.py --play shape-slice --config .garura/core/config.yaml \
+    --branch "<current branch>"
 ```
 
-Resolve config mechanically, then resolve the slice + hub, then assert the realized stamp.
-Pre-flight itself runs no git — it resolves config and gates only:
-
-```
-python3 scripts/preflight.py --play shape-slice --config .garura/core/config.yaml
-python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slice>
-```
-
-`preflight.py` returns config facts (`product_base`, `stm_base`, `evidence_record`).
-`check_ready_slice.py` is the single gate this play exists behind (C1): it resolves the
-slice and its hub and halts unless the profile (in the spine) is `set`, the slice's spine
-`status` is `realized`, and all SEVEN lens grounding docs exist for it
-(`quality.md`, `ux.md`, `agentic.md`, `marketing.md`, `architecture.md`, `run.md`,
-`measure.md`) — /shape-slice cuts solved designs only. The hub resolves each of the slice's
-`feature_ref`s to its `feature.md` grounding doc; an unresolved ref fails loud.
-On success it emits `slice_file`, `domain`, `lens_dir`, and the resolved
-`feature_groundings`. On any halt, route to the missing step (REC2): /shape-scope to shape
-the slice, /discover-capabilities to detail it, or the realize pipes (functional: /shape-ux-lens /shape-agentic-lens
-/shape-marketing-lens; non-functional: /shape-architecture-lens /shape-quality-lens /shape-run-lens; deliver: /shape-measure-lens, which stamps it
-realized) to solve and stamp it. No epic is written on a halt.
-
-The working base is `<working>` = `{stm_base}_grill/<slice-id>/` — the STM, non-model
-artifacts: the rounds, the epics manifest (`epics-manifest.yaml`), the write-gate verdict,
-the approval marker, the keyed persist record (`persist-manifest.json`), the captured
-scoped-guard report (`guard-report.json`), and the status markers. There is no `draft/`
-model tree (ADR 026). `<slice_dir>` = `<product_base>/product-os/<domain>/slices/<slice-id>`
-(the folder beside the record, holding `lens/`, `decisions/`, and the `epics/` home this
-play writes IN PLACE on the live model). The stop condition evaluates against `<working>`.
-
-Right after the resolvers, record the session identity stamp's start marker (#463 —
-soft-fail, never a halt):
+`preflight.py` gives `stm_base`, `product_base` and `evidence_record`. The change's own
+issue comes from start-change (Step 0), not from the branch name: the intent issue and the
+change issue are two issues. After Step 0, with `<issue>` = the change issue:
 
 ```
 python3 scripts/session_stamp.py --phase start \
-    --marker "<working>/status/session-stamp-grill.json" \
+    --marker "{stm_base}<issue>/status/session-stamp-shape-slice.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
+git rev-parse HEAD > {stm_base}<issue>/context/shape-slice/start-sha.txt
 ```
 
-**Resume check:** if `{stm_base}_grill/status/<slice-id>.json` exists, resume — skip
-completed steps, reset any in-progress step to pending, continue from the first
-incomplete.
+Names used below: `<intent>` = `bi-<intent-issue>` (the business intent's id),
+`<model>` = `<product_base>product-os`, `<working>` = `{stm_base}<issue>/context/shape-slice/`,
+`<record>` = `{stm_base}<issue>/context/grounding-questions.md` (the question record,
+`standards/rules/user-questions.md`). The stop condition reads `{stm_base}<issue>/`.
+
+**Resume check:** if `{stm_base}<issue>/status/shape-slice.json` exists, resume — skip
+completed steps, reset an in-progress step to pending, continue from the first incomplete one.
 
 ## Task DAG
 
-Create ALL tasks immediately after resolving config — before any domain work.
-The play owns this DAG; the agent must not edit its top-level tasks.
-
-Write-then-review (ADR 026): the FULL cut — the LLM's `epic.md` docs AND the keyed persist's
-spine `epics`-index entries — is written to the live model BEFORE the checkpoint, so the
-guard and the human both see the real git diff. Nothing is COMMITTED before the gate resolves;
-cancel reverts the uncommitted writes.
+Create ALL tasks right after pre-flight, before any domain work. The play owns this DAG.
 
 ```
-[T0]  start-change   (injected — start, head)   blockedBy: []
-[T1]  Draft the cut (epic.md docs to live)       blockedBy: [T0]
-[T2]  Validate the live cut                      blockedBy: [T1]
-[T3]  Grill rounds (natural human loop — human-paced, uncapped; exit = clean tension report)  blockedBy: [T2]
-[T4]  Persist (keyed, in place — spine epics)     blockedBy: [T3]
-[T5]  Guard the full delta                        blockedBy: [T4]
-[T6]  Checkpoint (approval over the full git diff) blockedBy: [T5]
-[T7]  Commit the model delta (feat(model))        blockedBy: [T6]
-[T8]  commit-change   (injected — end #1)         blockedBy: [T7]
-[T9]  propose-change  (injected — end #2)         blockedBy: [T8]
-[T10] check-change   (injected — end #3)         blockedBy: [T9]
-[T11] merge-change    (injected — end #4)         blockedBy: [T10]
-[T12] Scenario Validation                         blockedBy: [T11]
-[T13] Close                                       blockedBy: [T12]
+[T0]  start-change (injected — start)                  blockedBy: []
+[T1]  Read the intent from the model (C1)              blockedBy: [T0]
+[T2]  Gather the model and memory; list the gaps       blockedBy: [T1]
+[T3]  Propose answers; check them                       blockedBy: [T2]
+[T4]  Drop answered questions; apply the tier           blockedBy: [T3]
+[T5]  Ask all questions at once; record the answers    blockedBy: [T4]
+[T6]  Shape the slice and fill the model                blockedBy: [T5]
+[T7]  Reuse a slice that already serves (C7)            blockedBy: [T6]
+[T8]  Persist the fills and the slice                   blockedBy: [T7]
+[T9]  Check the model                                   blockedBy: [T8]
+[T10] Guard the writes                                  blockedBy: [T9]
+[T11] Checkpoint (yes / change / stop)                  blockedBy: [T10]
+[T12] Commit the model delta                            blockedBy: [T11]
+[E1]  commit-change (injected — end)                    blockedBy: [T12]
+[E2]  propose-change (injected — end)                   blockedBy: [E1]
+[E3]  check-change (injected — end)                     blockedBy: [E2]
+[E4]  merge-change (injected — end)                     blockedBy: [E3]
+[T13] Scenario Validation                               blockedBy: [E4]
+[T14] Close                                             blockedBy: [T13]
 ```
 
-Mark each task in-progress before its step and completed right after its eval passes.
-No runtime reordering. On resume, skip completed and reset in-progress to pending.
+Mark each task in progress before its step and completed right after its eval passes. No
+runtime reordering. A **change** at the checkpoint sends the run back to T6 (and to T5 when
+the change answers a question); T6–T11 run again in order.
 
 ## Workflow
 
 ### Phase: Start (injected — D2 position: both, head)
 
 **Step 0 — start-change** · Owner: `start-change` (sub-play) · Depends on: pre-flight
-Run the start-of-pipeline member as a sub-play, dispatched with `parent_run_id` so it
-emits only its own C1 evidence and this play's close absorbs it. It resolves or creates
-the grill issue, cuts the branch off fresh main, sets up a worktree iff config calls for
-it, and initializes the STM workspace. /shape-slice is self-contained: everything after this —
-the draft, the grilling, the persist — runs on this branch, and the injected end sequence
-(Steps 7–10) closes it. No implementation issue or branch for an epic's delivery work is
-opened here — that remains /start's job.
+Run the start-of-pipeline member as a sub-play with `parent_run_id`. It resolves or creates
+the change issue, cuts its branch (the plan's sub-branch when the intent has a plan,
+`.garura/project/plans/<intent-issue>.yaml`), and inits short-term memory. Then assert the
+clean model tree (hard halt if dirty — REC12).
 
-    {
-      "play":          "start-change",
-      "parent_run_id": "<this run id>",
-      "inputs":  { "title": "grill slice <slice-id>" },
-      "outputs": { "result": "<working>/start/start-change.json" }
-    }
+    { "play": "start-change", "parent_run_id": "<this run id>",
+      "inputs":  { "title": "[TASK] shape-slice: shape the slice for business intent #<intent-issue>" },
+      "outputs": { "result": "<working>start-change.json" } }
 
-start-change owns its own evals (issue anchored, branch off latest main, worktree per
-config, STM initialized); they are not re-checked here.
+### Phase: Intent
 
-### Phase: Draft
-
-**Step 1 — Draft the cut (epic.md docs to live)** · Owner: `product-os-keeper` · Depends on: Step 0
-The agent reads the slice's hub (its features' ICE — resolved by the readiness
-gate — plus the profile) and **all seven lenses** (the solved design — /shape-slice is the
-reconciliation point, so unlike a realize lens it reads everything), then invokes
-`author-epics` to cut the epics: each by the user-testability grain, self-contained with a
-concrete `user_check`, referencing the slice's features, ordered with explicit acyclic
-dependencies, with a `deferrals.yaml` recording any slice feature deliberately not cut
-this run. Per ADR 026 the skill writes each `epic.md` and the `deferrals.yaml`
-**straight to the live model** under the slice's `epics/` home, and emits the spine
-`epics`-index delta as structured data in the manifest (it never writes `_spine.yaml`):
-
-    {
-      "task":    "cut this realized slice into user-testable epics — each a meaningful increment a user can open, exercise, and verify when delivered, self-contained (context + acceptance + a concrete one-line user_check), threading the slice features it needs, referencing ICE/lenses never copying them, ordered (acyclic depends_on, first epic stands alone, order 1..n), with every slice feature covered or explicitly deferred with a reason. Write each epic.md and the deferrals.yaml IN PLACE under the slice's epics/ home on the live model; emit the spine epics-index entries + deferral ids into the epics-manifest — never write _spine.yaml. Declare each epic's surface per surface-contract.md — a surface block {type: web_dashboard|server_api|cli|library|service_read_model, human_run_target, must_open[]} sourced from the slice's own named surface (slice.surface — the authoritative user-facing surface /shape-scope wrote) and refined by the epic's user_check; the epic surface must trace to a surface the slice names, never invented and never silently defaulted to a non-user-facing type. When the slice surface is user-facing (web_dashboard/server_api), the first epic (order 1) must scaffold a minimal openable app/server shell in its acceptance/scope so later epics extend a surface that already opens.",
-      "inputs":  { "slice_ref": "<domain>/<slice-id>",
-                   "slice_file": "<product_base>/<slice_file>",
-                   "feature_groundings": [ "<product_base>/<feature.md>", "..." ],
-                   "lens_dir": "<product_base>/<lens_dir>",
-                   "spine": "<product_base>/product-os/_spine.yaml",
-                   "product_base": "<product_base>",
-                   "manifest_path": "<working>/epics-manifest.yaml" },
-      "outputs": { "epics_manifest": "<working>/epics-manifest.yaml",
-                   "epics_home": "<slice_dir>/epics/" }
-    }
-
-`slice_file`, `lens_dir`, and `feature_groundings` come from `check_ready_slice.py`. The
-skill reads the hub + the seven lenses **read-only**, writes the `epic.md` docs +
-`deferrals.yaml` IN PLACE on the live model, and writes `epics-manifest.yaml` under `<working>`
-(STM) with the epics-index delta as structured data. It writes NO shared model file. It
-returns the contract with the output paths on disk — never inline content.
-**SE-1 (F2/C1):** the readiness + realized gates passed at pre-flight — the profile is
-`set`, the slice exists with every feature ICE resolved + rich, the slice record is
-stamped `realized`, and all seven lens files exist; otherwise the run halted (REC2) and no
-epic was written.
-**SE-20 (F19/C18):** the product-os tree was clean at entry — the assertion right after Step 0
-(`git status --porcelain -- <product_base>product-os` empty) passed on the fresh `start-change`
-branch; a dirty model tree halted (REC19), so the git diff and the scoped guard reflect only
-this run's delta.
-
-### Phase: Validate
-
-**Step 2 — Validate the live cut** · Owner: play · Depends on: Step 1
-Run the cut validator over the manifest + the live docs before any grilling. Under
-direct-model-write the `epic.md` docs are already on the live model and the epics-index delta
-is in the manifest (there is no draft tree):
+**Step 1 — Read the intent from the model** · Owner: play (+ `product-os-keeper` when the page is missing) · Depends on: Step 0
+Read the issue through the code-host adapter, then look for the intent's page in the model:
 
 ```
-python3 scripts/validate_epics.py --manifest <working>/epics-manifest.yaml \
-        --product-base <product_base> --slice-ref <slice_id>
+python3 scripts/platform_adapter.py --verb view-issue --arg issue_number=<intent-issue> \
+    > <working>intent-issue.json
+python3 scripts/write_intent_page.py --root <model> --intent <intent> --date <today, UTC> \
+    --out <working>intent-page.json
 ```
 
-**SE-2 (F1/C2):** every epic carries a non-empty, distinct `user_check` and at least one
-acceptance criterion — and, by judgment over the validator-clean draft, each acceptance
-criterion names observable user behavior (an actor opens/does/verifies something), never
-internal-only completion; any epic failing this is regenerated (REC1) before grilling.
-**SE-3 (F10/C3):** every epic is self-contained — `context.persona`/`systems`/`scope` and
-`acceptance` non-empty, and every `feature_refs` entry resolves to a feature
-the slice declares; gaps are backfilled from the hub and lenses (REC10).
-**SE-16 (F15/C14):** every epic in the draft carries a `surface` block with a `type` from
-the surface-contract taxonomy, a `human_run_target`, and — for a user-facing type
-(web_dashboard/server_api/cli) — a non-empty `must_open`; no surface is absent or silently
-defaulted to a non-user-facing type. A missing or defaulted surface is declared with the
-human at the checkpoint (REC15) before the cut is written.
-**SE-17 (F16/C15):** when the slice surface is user-facing (web_dashboard/server_api), the
-first epic (order 1) scaffolds an openable app/server shell — its acceptance/scope name a
-minimal app a user can open — so later epics extend an existing surface; otherwise the cut
-is reordered or recut (REC16).
-**SE-4 (F4/C4):** no epic embeds source content — the forbidden keys (`ice`, `intent`,
-`goals`, `expectations`, `lens`, `content`) appear in no epic; a copy found is replaced
-with a reference (REC4).
-**SE-5 (F3/C5):** the coverage check maps every slice feature to ≥1 epic's
-`feature_refs` or a deferral with a recorded reason — never both, never neither; an
-unmapped feature gets an epic or an explicit deferral (REC3).
-**SE-8 (F9/C8):** `order` values are unique positive integers, every `depends_on` resolves
-to an epic in this cut, the graph is acyclic, and the lowest-order epic has no
-dependencies; violations are re-ordered or split (REC9).
-**SE-11 (C10):** every epic's `status` is `ready` and `issue_ref` is unset — creation
-only; pickup, delivery, and deletion belong to /start and /merge.
-On any GAP, apply the named recovery and re-run before grilling starts.
-**SE-18 (F17/C16):** every drafted `epic.md` passes `lint_grounding.py` (kind `epic`: the template's section set, no drift) AND the content-quality eval gate (`grounding_gate.py` over the judge verdict); and each epic's spine entry conforms to the spine schema with `feature_refs` that resolve. A thin or off-template epic doc, or a dangling ref, fails the gate and is not written.
+Exit 0 means the model has the page: the run reads the intent from it. Exit 3 means the
+model has no page: the run does not stop (C1). Dispatch the agent to draft the page from the
+issue, then write it:
 
-### Phase: Grill (rounds — the play's reason to exist)
-
-**Step 3 — Grill rounds, until clean** · Owner: play + `product-os-keeper` · Depends on: Step 2
-A NATURAL human loop (C17) — human-paced and UNCAPPED: an iteration cap is never applied
-to human rounds; the cap concept does not apply to grilling. Round `R<n>` runs five moves
-and the loop exits **only** when a round's report has zero `live` tensions, zero
-unanswered decision questions, and the validator is clean against the rounds — a clean
-tension report, however many rounds the human needs:
-
-1. **Tension check.** Dispatch `product-os-keeper` → `check-cut-tensions` over the current
-   cut and everything the slice declared:
-
-       {
-         "task":    "detect tensions between this epic cut and the declared design — the feature grounding docs, all seven lenses, profile bars — one entry per real contradiction, each citing source file + verbatim quote; emit unresolved delivery-method choices that shape an epic as cited decision_questions entries (plain questions, no recommendations, human_response always absent); suppress tensions and questions already closed in prior rounds",
-         "inputs":  { "epics_home": "<slice_dir>/epics/",
-                      "slice_file": "<product_base>/<slice_file>",
-                      "feature_groundings": [ "<product_base>/<feature.md>", "..." ],
-                      "lens_dir": "<product_base>/<lens_dir>",
-                      "spine_path": "<product_base>/product-os/_spine.yaml",
-                      "round_id": "R<n>",
-                      "prior_rounds_dir": "<working>/rounds/" },
-         "outputs": { "report": "<working>/rounds/R<n>-tensions.yaml" }
-       }
-
-2. **Build the round's question list.** One question per live tension (the push-back —
-   steelman the analysis of *what* to challenge, but state the question plainly) and one
-   per open decision question. Each list entry is the citation plus one simply-stated
-   question. Nothing else: **no recommendation, no option menu, no advocacy** wrapped
-   around it (C12).
-3. **Ask one at a time.** Present the first question — the verbatim citation and the
-   question — and **wait for the typed answer** before asking the next. As each is asked,
-   record on its entry `pushback.shown_to_human: true`, `pushback.text` (what was shown),
-   and `pushback.asked_at`; when the human answers, record `human_response.text` (their
-   words) and `human_response.answered_at`. A question with no citation is never asked
-   (C6) — withdraw it (REC5).
-4. **Disposition from the answers only (C12).** For each answered tension: `resolved` —
-   with a `resolution_directive` derived from the human's words — or `accepted` — with
-   the human's own `resolution_reason`. For each answered decision question: record the
-   chosen delivery strategy on the entry; it becomes a revision directive where it
-   reshapes an epic (C13). The agent revising the draft by itself NEVER closes a tension
-   — no answer, no disposition (F11). A tension that exposes a defect in a lens itself is
-   dispositioned by recording the defect to `<working>/lens-defects.yaml` and routing the
-   human to that lens's play — the lens is never edited here (C11). Revisions go back
-   through the agent: dispatch `product-os-keeper` → `author-epics` with `directives` =
-   the dispositions + chosen strategies, revising the live `epic.md` docs + the manifest in
-   place (never the spine).
-5. **Re-validate.** After any revision, re-run Step 2's validator, then enter round
-   `R<n+1>`.
-
-The write-gate closes the loop — the validator in rounds form must be clean, and it
-writes its machine verdict (`ok`, `counts.live_tensions`,
-`counts.decision_questions_open`) to `<working>/write-gate.yaml` — the final tension
-report's machine-readable form. The round reports themselves are a closed schema
-(C13/F14) and never carry machine fields; the stop condition (C17) reads this verdict
-file instead:
+    { "task":    "draft the business intent page from this issue with author-business-intent (the issue is a plain statement): title, outcome, why, asked by (a persona), proof it is met, must not — in plain words, personas only; draft only",
+      "inputs":  { "issue": "<working>intent-issue.json", "intent_id": "<intent>" },
+      "outputs": { "draft": "<working>intent-draft.json" },
+      "task_id": "shape-slice-intent" }
 
 ```
-python3 scripts/validate_epics.py --manifest <working>/epics-manifest.yaml \
-        --product-base <product_base> --slice-ref <slice_id> \
-        --rounds-dir <working>/rounds \
-        --out <working>/write-gate.yaml
+python3 scripts/write_intent_page.py --root <model> --intent <intent> --date <today, UTC> \
+    --draft <working>intent-draft.json --out <working>intent-page.json
 ```
 
-**SE-6 (F5/C6):** every tension entry across every round report carries a citation
-(`cites.source` + verbatim `cites.quote`) — the validator fails on any uncited entry, and
-the session shows no push-back that lacks one; an uncited push-back is withdrawn (REC5).
-**SE-7 (F6/C7):** at the write-gate, zero tensions are `live` — every one is `resolved`
-in the cut or `accepted` with a recorded reason; live tensions block the gate (REC6).
-**SE-12 (F11/C12):** every non-live tension carries the human loop's evidence —
-`pushback.shown_to_human: true` with the text shown, `human_response.text` in the human's
-words, and a `resolution_directive` (resolved) or human-given `resolution_reason`
-(accepted); the validator fails any closed tension missing them, and the session shows
-each was asked one at a time with no recommendation attached (REC11).
-**SE-13 (F12/C13):** every `decision_questions` entry carries its citation, its question,
-and the human's answer — the validator fails an unanswered one, and a `resolved` entry
-also carries the `resolution_directive` derived from that answer; no epic's `user_check`
-rests on a delivery method that neither a lens nor a recorded human answer decides
-(REC12).
-**SE-15 (F14/C13):** round reports are a CLOSED SCHEMA — the write-gate validates evidence
-only under `tensions:` and `decision_questions:`, reads the legacy `questions:` key as an
-alias for `decision_questions:` and holds it to the identical rules (counting it), and
-fails any other top-level evidence key rather than passing it unchecked. The
-decision-question count therefore reflects every round question; an off-schema key — under
-which the gate would otherwise validate nothing and report a clean pass — is a forged-clean
-gate and blocks the write until the round is rewritten under the canonical schema (REC14).
-**SE-19 (F18/C17):** the loop's exit is proven, never assumed — the final write-gate run
-wrote its verdict to `<working>/write-gate.yaml` reading `ok: true` with
-`counts.live_tensions: 0` and `counts.decision_questions_open: 0`, and the close binds on
-the stop-condition verdict (the write-gate verdict + the approval marker + the keyed persist
-manifest + the scoped-guard report): `held` permits COMPLETED; anything else closes HALTED
-(REC18). The grilling
-loop itself is human-paced and UNCAPPED — its only exit is the clean tension report; no
-round counter exists and no cap-halt path exists for human rounds.
+Tell the person in the run's report that the page was written from the issue (C1).
+**SE-1 (F1/C1):** `intent-page.json` reads `ok: true`, and `<model>/intents/<intent>.md`
+exists; every later contract names that page as the intent's source, never
+`intent-issue.json` alone; when the page was missing, `intent-page.json` reads
+`written: true` and the run did not stop.
 
-### Phase: Persist (write the full delta first, ADR 026 write-then-review)
+### Phase: Gather
 
-**Step 4 — Persist (keyed, in place — spine epics)** · Owner: play · Depends on: Step 3
-Write-then-review (ADR 026): the FULL model delta is written to the live model BEFORE the
-checkpoint, so the guard and the human all see the real delta. The `epic.md` docs +
-`deferrals.yaml` are already on the live model (Step 1). `persist_epics.py` now writes the
-SHARED file — the spine `epics` index — in place, keyed to `--slice-ref`: it reads the
-manifest's epics-index delta and merges each entry into the live spine `epics` index
-(additive by id, replacing only a `ready` epic the cut re-states, never an `in_delivery`
-one), and it REFUSES to touch any epic delivery owns or any spine field outside `epics`
-(this is the node-level containment the file-level guard cannot provide). No draft, no doc
-copy. It is all-or-none: if anything is refused, nothing is written. Nothing is COMMITTED yet
-— the commit (Step 7) happens only after the gate approves; on cancel the whole delta is
-reverted (Step 6):
+**Step 2 — Gather the model and memory; list the gaps** · Owner: `product-os-keeper` · Depends on: Step 1
+
+    { "task":    "gather what the product model and memory hold for this business intent and list only the gaps neither answers. Read the intent page, the spine and the pages of the domains, capabilities, features, ICE, personas and journeys it reaches (find-work-placement places the intent's outcome on the model; find-model-gaps lists what the slice needs and the model lacks). Look up Garura memory and Phoenix memory only through the memory tool, never by a file path: python3 .garura/core/tools/memory/memory.py search --issue <issue> --pattern <topic> --ignore-case (add --tier garura or --tier phoenix to go up a tier), then memory.py read --issue <issue> --tier <tier> --path <path> --start <n> --end <m> for each line you use; a tier_missing error is said, never read as 'nothing found'. Copy what you read into short-term memory. Load standards/rules/asking-a-person.md through the memory tool (memory.py find --glob '**/asking-a-person.md', then read) into asking_rule. For each gap write one question: id (Q-<topic>-<n>), topic, question (one thing), why (what goes wrong if the answer is wrong), examples (two or more, from different domains), blocking (true only when no one but the person can answer), assume (what the run assumes if it is not asked), and settled: true with its basis when the model or memory answers it after all",
+      "inputs":  { "intent_page": "<model>/intents/<intent>.md", "spine": "<model>/_spine.yaml",
+                   "product_base": "<product_base>", "record": "<record>" },
+      "outputs": { "gather": "<working>gather.json", "questions": "<working>questions.json",
+                   "asking_rule": "<working>asking-a-person.md" },
+      "task_id": "shape-slice-gather" }
+
+`gather.json` names every model page and memory line it read (tier, path, lines and the
+fingerprint from each `memory.py read` answer). The skills read only what the agent put in
+short-term memory.
+
+**Step 3 — Propose answers; check them** · Owner: `product-os-keeper`, then play (script) · Depends on: Step 2
+
+    { "task":    "draft a proposed answer for each question with propose-answers, from the model, memory or a person's earlier answer only; give each a basis {kind: model|memory|person, ref: <page and lines, or the question id answered>}; where nothing backs an answer, leave proposed_answer null — never a default. Record each proposed answer that has a basis with its trace (.claude/rules/garura-memory.md): python3 .garura/core/tools/memory/memory.py cite --request '{...}' with issue, play shape-slice, question (the question text), answer (the proposed answer), decided_by product-os-keeper, and a trace whose source is the memory read that backs it (tier, path, start, end, fingerprint from the read answer) — or, for a model page or a person's earlier answer, that page's lines or the record entry; list the cites in citations",
+      "inputs":  { "questions": "<working>questions.json", "gather": "<working>gather.json",
+                   "record": "<record>" },
+      "outputs": { "questions": "<working>questions.json", "citations": "<working>citations.json" },
+      "task_id": "shape-slice-propose" }
+
+Then the script applies the three rules before anything is shown:
 
 ```
-python3 scripts/persist_epics.py --manifest <working>/epics-manifest.yaml \
-        --product-base <product_base> --slice-ref <domain>/<slice-id> \
-        --out-manifest <working>/persist-manifest.json
+python3 scripts/record_questions.py proposals --questions <working>questions.json \
+    --out <working>questions-checked.json
 ```
 
-**SE-9 (F7/C9):** the keyed persist manifest (`<working>/persist-manifest.json`) reads
-`ok: true` with every approved epic in `written` and `refused` empty — all-or-none; a refused
-plan writes nothing (REC7). Nothing is COMMITTED here — the model delta is committed only at
-Step 7 after the checkpoint (Step 6) resolves.
+It moves each settled gap out (it is never asked; the model or memory answer is used, C2),
+strips each proposed answer that has no named basis — the question then carries
+**no recommendation**: it is shown with no proposed answer, never with a substitute (C10, the
+cardinal rule, `standards/rules/no-unbacked-recommendation.md`) — and counts the questions
+with no proposed answer. Exit 1 lists the questions that break the
+shape: send them back to the agent to rewrite (REC3) and run it again.
+**SE-2 (F2/C2):** no question left in `questions-checked.json` is one the model or memory
+answers: each settled gap is in `settled` with its basis, and `gather.json` shows the model
+and memory were read before any question was written.
+**SE-3 (F10/C10):** no unbacked proposed answer remains — every non-null `proposed_answer`
+in `questions-checked.json` has a basis of kind model, memory or person with a named ref;
+no stripped answer was replaced by a default, a generic pointer or a substitute; and
+`no_proposed_answer` equals the number of questions with a null proposed answer. The count
+is shown to the person in Step 5 and at the checkpoint.
 
-### Phase: Guard (over the full delta)
-
-**Step 5 — Guard the full delta** · Owner: play · Depends on: Step 4
-
-**The run's write scope (the per-play guard policy, ADR 026).** The old `apply_epics.py`
-encoded /shape-slice's write scope by construction — the slice's `epics/` home (the `epic.md` docs
-+ `deferrals.yaml`) and the spine `epics` index, and nothing else. Under direct-model-write
-that same scope is the `scoped_write_guard.py` policy — resolve `<slice-epics>` as the slice's
-epics home relative to `product-os/` (e.g. `<domain>/slices/<slice-id>/epics`):
-
-    --allow 'product-os/_spine.yaml'                    # the shared epics index (persist writes it)
-    --allow 'product-os/<slice-epics>/*'                # the epic docs + deferrals.yaml (add or re-cut)
-
-**Guard ONCE over the full delta (C11).** After ALL writes (the LLM docs from Step 1 and the
-keyed persist's spine write from Step 4), run the scoped guard a single time over the whole
-delta. Capture its report — its `ok` field is the stop condition's D7 input (this replaces the
-old `check_epics.py` before/after verify). /shape-slice writes NO decisions, so the scope carries no
-`decisions/*` glob:
+**Step 4 — Drop answered questions; apply the tier** · Owner: play (scripts) · Depends on: Step 3
 
 ```
-python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
-        --allow 'product-os/_spine.yaml' --allow 'product-os/<slice-epics>/*' \
-        --out <working>/guard-report.json
+python3 scripts/record_questions.py filter --record <record> \
+    --questions <working>questions-checked.json --out <working>questions-open.json
+python3 scripts/record_questions.py open-list --open <working>questions-open.json \
+    --out <working>questions-open-list.json
+python3 scripts/grill_budget.py tier --config .garura/core/config.yaml > <working>budget.json
+python3 scripts/grill_budget.py split --questions <working>questions-open-list.json \
+    --budget <budget from budget.json> > <working>split.json
 ```
 
-If the guard exits non-zero, re-run with `--restore` to revert the offending paths, apply
-REC8 (a model path outside the slice's epic scope changed), and re-persist before the
-checkpoint.
+`filter` drops each question already answered in the record — matched by its question text,
+not by its id alone — because an answer is a fact and is not asked again (C5). A different
+question that reuses an id the record holds is kept under a new id (`renamed`). `open-list`
+writes the open list the budget split reads.
+`grill_budget.py` asks every blocking question first and fills the rest of the budget in
+order; each question not asked becomes an assumption (C4).
+**SE-4 (F4/C4):** in `split.json`, the asked questions that are not blocking number at most
+the budget minus the blocking ones; every blocking question is asked; every question not
+asked is in `assumptions` with its `assume` text.
+**SE-5 (F5/C5):** no id in `split.json` `asked` is answered in `<record>` before this run.
 
-**SE-10 (F8/C11):** the scoped-write guard report reads `ok: true` — the model delta is
-confined to the slice's `epic.md` docs, its `deferrals.yaml`, and the spine `epics` index; no
-slice record, lens, feature, profile, or any other spine field changed. Node-level
-containment (only `epics` changed; an in-delivery epic untouched) is kept by the keyed persist.
+### Phase: Ask (one round, all at once)
 
-### Phase: Checkpoint (config-gated, C9)
+**Step 5 — Ask all questions at once; record the answers** · Owner: play · Depends on: Step 4
+First write the round to the record, so nothing asked is lost:
 
-**Step 6 — Human review (class: standard)** · Owner: play · Depends on: Step 5
-First record the checkpoint's resolution as the **approval marker** — the machine field the
-stop condition reads (C17): after the gate resolves approve, write `<working>/approval.json`
-as `{"approved": true, "mode": "typed" | "config-skip", "detail": "<the human's words | the
-config resolution path>", "at": "<ts>"}`.
+```
+python3 scripts/record_questions.py add --record <record> --issue <issue> \
+    --split <working>split.json --at <now, UTC> --run <this run id>
+```
 
-The checkpoint is a config switch of class `standard` per `gate-config.md` — NOT
-pinned: when the switch resolves off, the gate records `gate skipped by config
-(<resolution path>)` in the evidence's Checkpoint Decisions, writes the approval marker with
-`mode: config-skip`, and proceeds — visible, never silent. The switch touches ONLY this
-close-side checkpoint; the grilling loop's per-question HITL discipline (C12/C13 — one
-question at a time, typed answers, never self-resolved) is the loop's interior, not a close
-gate, and no config value touches it.
-Write-then-review (ADR 026): the full delta is already on the live model (docs by Step 1, the
-spine `epics` index by Step 4), so present the full cut **inline over the real model git
-diff**, in product language: each epic — its title, outcome, the `user_check` (what a user
-opens, does, and sees), its declared **surface** (the type, what a human runs/opens, and the
-artifacts that must open), the acceptance criteria, the features it threads, its
-dependencies and order — plus the deferrals and their reasons, **the grilling record** —
-every resolved tension (the question asked, the human's answer, the change made), every
-accepted tension and the human's reason, every delivery-method decision the human made and
-which epics it shaped (C12/C13) — and any lens defects recorded for routing. When the gate
-fires (the default), render the approval prompt (`standards/templates/approval-prompt.md`)
-and wait for a typed response. Approve → continue to Step 7 (commit). **Cancel → revert the
-working tree (ADR 026 step 6):** the full delta is already on disk, so run the guard with
-`--restore` and an EMPTY allow set to `git restore` the modified model paths and
-`git clean`/remove the new ones (byte-clean back to HEAD), then halt — nothing was committed,
-and cancel means "revert what was written":
+Then show the questions in one message, following the shared rule for asking a person,
+`standards/rules/asking-a-person.md` (the copy at `<working>asking-a-person.md`): an
+opening of two or three plain sentences that says what the person decides (the slice that
+shows business intent "<title>" is served) and what happens with the answers; then every
+asked question, each asking one thing, with **Question**, **Answer** (the proposed answer,
+marked proposed — or "no proposed answer yet"), **Why it matters** and **Example** (several
+domains); each must stand alone when read back with no context. Close with the
+assumptions, one line each, and the count of questions with no proposed answer. Write the
+message to `<working>message.md` and check its shape before it is sent:
+
+```
+python3 scripts/record_questions.py message --message <working>message.md \
+    --split <working>split.json
+```
+
+Exit 1 lists each problem (no opening, an opening that does not say what the person
+decides, a question with a missing part): rewrite the message and check it again (REC3).
+Ask the
+person to answer each by its id or its number (for example `Q-surface-1: ...` or `2. ...`),
+and to type `skip` for a question they want to leave for later. Wait for the person's typed
+reply, which may answer all of them at once. Save the reply word for word to
+`<working>reply.md`, then build the answers and record them in their words:
+
+```
+python3 scripts/record_questions.py answers --reply <working>reply.md \
+    --split <working>split.json --out <working>answers.json
+python3 scripts/record_questions.py answer --record <record> --answers <working>answers.json \
+    --at <now, UTC> --run <this run id>
+python3 scripts/record_questions.py check --record <record> --split <working>split.json
+```
+
+`check` exits 1 while any asked question has no answer, or a blocking question was skipped:
+ask those questions again, in one message, and repeat the three commands with the new reply.
+A reply that starts with `skip` and says more ("Skip the dashboard, use the CLI") is listed
+in `answers`' `unclear` and gets no answer: ask that question again; the run never guesses.
+A non-blocking question the person skips is recorded as deferred, in their words: its
+assumption stands and is shown at the checkpoint.
+**SE-6 (F3/C3):** the questions were shown in one message; `questions-checked.json` showed
+no `shape_problems`; `record_questions.py message` read `ok: true` for the message that was
+sent (the opening, and each question with the four parts); each question has two or more
+examples from different domains.
+**SE-7 (F5/C5):** `record_questions.py check` reads `ok: true` (exit 0) — every asked question
+and every assumption of `split.json` is in `<record>`, every asked question has an answer
+that is not empty, and each answer the person typed is on its entry in their words.
+
+### Phase: Shape
+
+**Step 6 — Shape the slice and fill the model** · Owner: `product-os-keeper` · Depends on: Step 5
+
+    { "task":    "shape the one slice that shows this business intent is served. No skill does this choice yet (the author-slice skill is issue #838): make it yourself and document it (P7). First name the one surface a person tests end to end (a screen, a command line command, an endpoint) and the persona who tests it there; if there is none, write no_slice with the reason and write nothing to the model. Otherwise pick the features from any capability that the outcome needs (find-work-placement places each part of the outcome on a feature), in build order. For every domain, capability, feature or ICE the slice needs and the model lacks, write its page at the depth the run knows — author-domains for a domain, enrich-capability-ice (seeded from the person's answers) for a capability, its features and their ICE — and list it in fills; never skip one. Use the person's answers as facts and the assumptions as stated. Write slice.json {id: sl-<slug>, slug, name, outcome (one line), feature_refs, vertical (the surface's name), intents: [<intent>], surface: {id, name, persona_ref, user_action}, why_this_order}. Then record each decision with its trace (.claude/rules/garura-memory.md): python3 .garura/core/tools/memory/memory.py cite --request '{...}' with issue, play shape-slice, question, answer, decided_by product-os-keeper, and a trace of steps (asked, found, source {tier, path, start, end, fingerprint} from the read answer) — one cite each for the features chosen and their order, the surface, and the tester; a decision that rests on a person's answer names its record entry; list the cites in citations",
+      "inputs":  { "intent_page": "<model>/intents/<intent>.md", "gather": "<working>gather.json",
+                   "record": "<record>", "split": "<working>split.json",
+                   "product_base": "<product_base>", "change": "<the person's change, when this is a re-run>" },
+      "outputs": { "slice": "<working>slice.json", "fills": "<working>fills.json",
+                   "no_slice": "<working>no-slice.json", "citations": "<working>citations.json" },
+      "task_id": "shape-slice-shape" }
+
+When `no-slice.json` is written, no slice is written (C6): show the person its reason, and
+ask for the tester or the surface (REC6), as one question in the shape of the rule above. If
+the person gives one, re-run this step with it; if not, close HALTED with the reason in the
+run's report — the model is as it was.
+**SE-8 (F6/C6):** `slice.json` names exactly one surface (an object, or a list of one) with
+a name equal to `vertical` and a `persona_ref`; or, when there is none, `no-slice.json` holds
+the reason and no slice was written.
+**SE-9 (F8/C8):** every feature in `slice.json` `feature_refs` is in the spine or in
+`fills.json`, and every page `fills.json` names is on disk — no part the slice needs was
+skipped.
+
+**Step 7 — Reuse a slice that already serves** · Owner: play (script) · Depends on: Step 6
+
+```
+python3 scripts/find_serving_slice.py --spine <model>/_spine.yaml --intent <intent> \
+    --features <feature_refs, comma-separated> --surface "<vertical>" > <working>serving.json
+```
+
+A match (the slice lists the intent, or has the same features in the same order and the
+same surface) means that slice is reused (C7): `serving.json` `reuse_args` is
+`["--reuse", "<slice id>"]`, and Step 8 passes it to `persist_slice.py`, which adds the
+intent to that slice, keeps its features and surface, makes no new slice, and lists how the
+new shape differs. Then the agent records the reuse decision and checks every trace:
+
+    { "task":    "record the reuse decision of this run with its trace: python3 .garura/core/tools/memory/memory.py cite --request '{...}' (question: which slice serves this business intent; answer: the matched slice id, or a new slice when there is no match; trace: the spine lines of the matched slice, and the rule from serving.json's reason). Then run python3 .garura/core/tools/memory/memory.py citations --issue <issue> --check and write its answer",
+      "inputs":  { "serving": "<working>serving.json", "spine": "<model>/_spine.yaml",
+                   "citations": "<working>citations.json" },
+      "outputs": { "citations_check": "<working>citations-check.json" },
+      "task_id": "shape-slice-reuse-trace" }
+
+**SE-10 (F7/C7):** `serving.json` exists; when its `match` is a slice id, Step 8 ran
+`persist_slice.py` with `--reuse <that id>`, `persist-slice.json` reads `reused: true` with
+that id, and after Step 8 the spine has the same number of slices as before the run;
+`citations-check.json` names no decision whose source changed.
+
+### Phase: Persist
+
+**Step 8 — Persist the fills and the slice** · Owner: play (scripts) · Depends on: Step 7
+
+```
+python3 scripts/persist_fills.py --root <model> --spine <model>/_spine.yaml \
+    --fills <working>fills.json --intent <intent> --out <working>persist-fills.json
+python3 scripts/persist_slice.py --root <model> --spine <model>/_spine.yaml \
+    --slice <working>slice.json $(on a match, serving.json reuse_args: --reuse <id>) \
+    --out <working>persist-slice.json
+```
+
+`persist_fills.py` adds a spine entry for each new part, marked to be deepened (status
+proposed, detail directional, `metadata.deepen: true`), and puts each new domain and
+capability on the intent page's Touches list; its result keeps the Touches lines it added
+(`touches_added`) so a change can take them back. `persist_slice.py` writes the spine
+`slices` entry with exactly six fields — `id`, `slug`, `feature_refs`, `vertical`, `intents`
+and `record` — and the record at `<model>/slices/<id>.yaml` (slice.yaml v2: `slice` with id,
+slug, name, outcome, feature_refs, vertical, intents; `surface` with id, name, persona_ref,
+user_action). With `--reuse` it appends the intent to the reused slice's entry and record
+and lists the `differences` for the checkpoint. Both refuse any id or page path that leaves
+the model folder, and write each file through a temp file and a rename. Each refuses with
+exit 2 and writes nothing when a rule fails; read the message, fix the input with the agent,
+and run it again.
+**SE-11 (F9/C9):** `persist-slice.json` and `persist-fills.json` read `ok: true`; no plan,
+epic, story or eval file was written by this run (no path under `.garura/project/plans/`,
+and the spine's `epics` list is as it was at the run's start).
+
+### Phase: Check
+
+**Step 9 — Check the model** · Owner: play (script) · Depends on: Step 8
+
+```
+python3 scripts/slice_check.py --root <model> --spine <model>/_spine.yaml \
+    --slice-id <id from slice.json> --intent <intent> --out <working>slice-check.json
+```
+
+It runs `lint_grounding.py --root <model> --spine <model>/_spine.yaml` (the structure and
+link check, with the old-name guard), checks that the slice lists the intent, and checks
+every spine slice's entry (the six fields) and record (slice.yaml v2, with a persona_ref).
+Exit 1:
+send `slice-check.json` to the agent (Step 6 contract plus `"problems"`), let it fix each
+problem, re-run Steps 7–9; the run does not go on until it reads valid (REC11).
+**SE-12 (F11/C11):** `slice-check.json` reads `valid: true`, written after the last write of
+Step 8.
+
+**Step 10 — Guard the writes** · Owner: play (script) · Depends on: Step 9
 
 ```
 python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
-        --restore --out <working>/guard-report.json   # empty --allow ⇒ every model path reverted
+    --allow 'product-os/_spine.yaml' --allow 'product-os/slices/<id>.yaml' \
+    --allow 'product-os/intents/<intent>.md' \
+    $(each path in persist-fills.json "allow", as --add-only '<path>') \
+    --out <working>guard-report.json
 ```
 
-### Phase: Commit (make the delta durable, ADR 026 step 7)
+The allowed set is C9's: the spine, the slice record, the intent page (written by C1, or its
+Touches list), and the pages the fills added. Exit 1: re-run with `--restore` to undo the
+writes outside the set (REC9), then run Steps 8–10 again.
+**SE-13 (F9/C9):** `guard-report.json` reads `ok: true` — no model path outside the allowed
+set changed.
 
-**Step 7 — Commit the model delta** · Owner: play · Depends on: Step 6
-The gate approved (or was skipped by config). Commit the full model delta on the branch (C18,
-ADR 026 step 7) — a lightweight persist step that makes the writes durable and advances HEAD
-so the injected end sequence carries a committed model delta. A cancelled checkpoint never
-reaches this step — its tree was already restored in Step 6:
+### Phase: Checkpoint (class: standard, pinned)
+
+**Step 11 — Checkpoint** · Owner: play · Depends on: Step 10 · Checkpoint (class: standard,
+**pinned** — the person decides; never skipped by config, `standards/rules/gate-config.md`)
+Show the person, in plain words and in the shape of `standards/rules/asking-a-person.md`
+(the approval prompt comes from `template-manager`, `standards/templates/approval-prompt.md`):
+the business intent and whether its page was written by this run; the slice — its features
+in build order, each with its capability, the surface and the persona who tests it, and the
+intents it serves; whether an existing slice was reused, and when it was, each line of
+`persist-slice.json` `differences` (how the new shape differs from the slice kept); every part the run added to the
+model, marked to be deepened; every assumption, one line each; the answers given; the count
+of questions with no proposed answer; and the files changed. Ask the person to type
+**yes**, **change: <what>**, or **stop**. Record the answer in their words:
 
 ```
-git add -- <product_base>product-os
-git commit -m "feat(model): grill <slice-id> into epics (#<issue>)"
+python3 scripts/record_approval.py --decision <yes|change|stop> --reply "<their exact words>" \
+    --at <now, UTC> --out <working>approval.json
+```
+
+- **yes** → Step 12.
+- **change** → undo this round's slice and fills, and the Touches lines the fills added to
+  the intent page; keep the intent page itself (Step 1 may have written it):
+  `scoped_write_guard.py --product-base <product_base> --base-ref HEAD --restore --allow 'product-os/intents/<intent>.md' --out <working>guard-restore.json`, then
+  `persist_fills.py --undo <working>persist-fills.json --root <model> --intent <intent> --out <working>fills-undo.json`
+  (it removes the Touches lines this round added, so no link points at a page the restore
+  removed); then re-run Step 6 with the change (and Step 5's `answer` when it answers a
+  question), and Steps 7–11; show the result again.
+- **stop** → undo every write of the run (an EMPTY allow set):
+  `scoped_write_guard.py --product-base <product_base> --base-ref HEAD --restore --out <working>guard-restore.json`;
+  write `git status --porcelain -- <model>` to `<working>stop-check.txt`; close HALTED.
+  Nothing is committed.
+**SE-14 (F4/C4):** every assumption in `split.json` was shown at the checkpoint, one line
+each, and each is in `<record>` as kind `assumption`.
+**SE-15 (F12/C12):** `approval.json` holds the person's typed words; no commit after
+`start-sha.txt` exists unless `approval.json` reads `decision: yes`; after a stop,
+`stop-check.txt` is empty and HEAD equals `start-sha.txt`.
+**SE-16 (F14/C14):** the checkpoint text, the intent page and every page the fills added use
+personas and plain words (ASD-STE100) and name no real person —
+`grep -i "$(git config user.name)"` over them finds nothing.
+
+### Phase: Commit
+
+**Step 12 — Commit the model delta** · Owner: play · Depends on: Step 11 (yes)
+The commit runs only when the recorded answer is yes (C12): the gate script runs right
+before it, and any exit but 0 stops here — nothing is committed.
+
+```
+python3 scripts/record_approval.py verify --file <working>approval.json
+git add -- <model>
+git commit -m "feat(model): shape slice <id> for business intent #<intent-issue> (#<issue>)"
 ```
 
 ### Phase: End sequence (injected — D2 position: both, tail)
 
-The `feat(model)` commit (Step 7) already made this run's model delta durable; the standard
-end sequence raises, reviews, and lands it — the same branch the injected `start-change` head
-opened (#437, decision 24). Each member runs as a sub-play dispatched with `parent_run_id`
-(emits only its own C1 evidence; this play's close absorbs it). Each member is independent
-and resolves its own context from the branch and config; this play passes no hand-rolled
-git/PR/merge logic.
+Each member runs as a sub-play with `parent_run_id`; each resolves its own context from the
+branch and config.
 
-**Step 8 — commit-change** · Owner: `commit-change` (sub-play) · Depends on: Step 7 —
-commit any work still uncommitted after the `feat(model)` model-delta commit (STM evidence
-and the run records), grouped by concern with conventional messages; no push. The epics and
-deferrals were already committed as the `feat(model)` delta in Step 7.
+**Step E1 — commit-change** · blockedBy: Step 12 — commits the run records under `{stm_base}<issue>/`.
 
-**Step 9 — propose-change** · Owner: `propose-change` (sub-play) · Depends on: Step 8 —
-run the scope-and-quality self-review, push the branch, open the PR carrying the review.
+    { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/commit-change.json" } }
 
-**Step 10 — check-change** · Owner: `check-change` (sub-play) · Depends on: Step 9 — run
-the diff-scoped quality check, post an approve/reject verdict. A reject stops the
-sequence before merge.
+**Step E2 — propose-change** · blockedBy: E1
 
-**Step 11 — merge-change** · Owner: `merge-change` (sub-play) · Depends on: Step 10
-(approve verdict) — merge the PR, switch to main and pull, delete the feature branch.
+    { "play": "propose-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/propose-change.json" } }
 
-    {
-      "play":          "<commit-change | propose-change | check-change | merge-change>",
-      "parent_run_id": "<this run id>",
-      "inputs":  {},
-      "outputs": { "result": "<working>/end/<member>.json" }
-    }
+**Step E3 — check-change** · blockedBy: E2 — a reject stops the chain before merge.
 
-**SE-14 (F13):** after the model delta is committed (Step 7), the end sequence ran —
-`<working>/end/` holds each member's result in order, starting with `commit-change.json` (the
-durable model change did not sit waiting on a manual `/commit-change`); a member's own halt
-(e.g. a review reject) stops the chain by that member's rules and is visible in its
-result, never silent (REC13).
+    { "play": "check-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/check-change.json" } }
+
+**Step E4 — merge-change** · blockedBy: E3 — lands on the plan's branch when the change sits in a plan.
+
+    { "play": "merge-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/merge-change.json" } }
+
+**SE-17 (F13/C13):** `start-change.json` shows the change opened by start-change; the
+`<working>end/` results are present in order; the PR's base is the plan's branch when the
+intent has a plan (else main), and `merge-change.json` reports it merged.
 
 ### Phase: Scenario Validation
 
-**Step 12 — Scenario evals** · Owner: play · Depends on: Step 11
-- **SCE-1 (S1 — product builder):** the slice's `epics/` holds the approved cut — every
-  epic's acceptance names observable user behavior, the keyed persist manifest shows one
-  all-or-none transaction and the approved cut was committed as a single `feat(model)` model
-  delta, and no stale `ready` epic from an earlier run survives (the persist replaces them).
-- **SCE-2 (S2 — delivery engineer):** the first epic in the order has no `depends_on`;
-  every epic carries persona/systems/scope context plus acceptance; every
-  `feature_refs` entry and the `slice_ref` resolve to existing records.
-- **SCE-3 (S3 — product builder under grilling):** the round reports show every tension
-  cited (source + verbatim quote) and the session issued no push-back without one.
-- **SCE-4 (S4 — product builder):** the coverage check maps every slice feature to
-  ≥1 epic or a deferral with a recorded reason — zero unmapped, zero silent drops.
-- **SCE-5 (S5 — product builder, too early):** on an unrealized slice the play halted at
-  pre-flight naming the missing stamp or lens files, and wrote no epic.
-- **SCE-6 (S6 — lens owner):** any lens defect found while grilling is recorded in
-  `<working>/lens-defects.yaml` naming the lens and the tension, the human was routed to
-  that lens's play, and the lens files + slice record are byte-identical before and after
-  the run.
-- **SCE-7 (S7 — product builder, grilled for real):** every non-live tension in the round
-  reports carries `pushback.shown_to_human: true` with the push-back text, a
-  `human_response` with the human's own words, and a `resolution_directive` (resolved) or
-  human-given `resolution_reason` (accepted); the write-gate fails when any is missing;
-  the session asked its questions one at a time, plainly, with no recommendation attached.
-- **SCE-8 (S8 — product builder, open delivery choice):** every `decision_questions`
-  entry carries a citation, the question, and the human's answer; the write-gate fails an
-  unanswered one; the checkpoint showed the chosen delivery strategy and the epics it
-  shaped. The round reports carry question evidence only under the canonical keys (a legacy
-  `questions:` list is aliased to `decision_questions:`, counted, and held to the same
-  rules); the decision-question count equals the real number of round questions, and no
-  off-schema key let the gate report a clean pass over unchecked evidence (F14).
+**Step 13 — Scenario evals** · Owner: play · Depends on: E4
+- **SCE-1 (S1 — product owner, a new slice):** `slice-check.json` reads `valid: true`,
+  `approval.json` reads `decision: yes`, `guard-report.json` reads `ok: true`, and the spine
+  holds the slice with features in build order, one `vertical` and the intent in `intents`;
+  the model commit comes after the yes.
+- **SCE-2 (S2 — product owner, no intent page):** `<model>/intents/<intent>.md` exists and
+  `intent-page.json` reads `written: true` with the reason that names the issue.
+- **SCE-3 (S3 — product owner, a slice already serves):** `serving.json` names the match,
+  `persist-slice.json` reads `action: updated` or `unchanged`, the spine has as many slices
+  as at the run's start, and that slice lists the intent.
+- **SCE-4 (S4 — product owner, a small budget):** with tier xs and 8 gaps, 2 blocking,
+  `split.json` asks 5 or fewer, both blocking among them, and holds one assumption for each
+  gap not asked, each shown at the checkpoint.
+- **SCE-5 (S5 — product owner, no surface):** `no-slice.json` holds the reason, and the
+  spine's `slices` are as at the run's start.
+- **SCE-6 (S6 — product owner, stop):** `approval.json` reads `decision: stop`,
+  `stop-check.txt` is empty, and HEAD equals `start-sha.txt`.
 
 ### Phase: Evidence & Close
 
-**Step 13 — Close** · Owner: play · Depends on: Step 12
-Run the Standard Play Close. /shape-slice is a **product-scoped** play (no issue) — use the
-product-scoped evidence base and slug. Evidence recording is play-only and config-gated
-per the D1 evidence rule (`standards/rules/evidence-recording.md`).
+**Step 14 — Close** · Owner: play · Depends on: Step 13
+Run the Standard Play Close. The close is stop-condition gated: the baked
+`stop-condition.yaml` (D1 the slice check reads valid; D2 the approval reads yes; D3 the
+write guard reads ok; D4 the question record exists; D5 the trace check names no changed
+source) must read **held** before a COMPLETED close. A stop, or a run with no slice, closes HALTED.
 
 ```bash
 # --- Standard Play Close (shared; see ../_shared/play-close.md) ---
 # Run the close in ../_shared/play-close.md. Its Step L loads the templates through
 # template-manager and sets ts and evidence_dest; then run this play's own lines below;
 # then Steps C0-C2.
-#   evidence_base, slug:
-#     project-scoped play : evidence_base="${stm_base}${issue}/evidence/grill/" ; slug="#${issue}"
-#     product-scoped play : evidence_base="${product_base}_evidence/grill/"     ; slug="${product_slug}"
+#   evidence_base, slug (project-scoped play):
+#     evidence_base="${stm_base}${issue}/evidence/shape-slice/"   ; slug="#${issue}"
 # Session identity stamp (#463) — close phase; start phase ran at pre-flight
 session_stamp=$(python3 scripts/session_stamp.py --phase close \
-    --marker "<working>/status/session-stamp-grill.json")
+    --marker "${stm_base}${issue}/status/session-stamp-shape-slice.json")
 # Stop-condition gate (#464) — Step C0: this play carries a baked manifest, so the
-# gate is LIVE. Evaluate the Done means against the run's grill working base as the
-# close's authoritative input.
+# gate is LIVE. Evaluate the Done means against the issue folder.
 python3 scripts/check_stop_condition.py \
     --manifest "<play-dir>/stop-condition.yaml" \
-    --base "<working>/" \
-    --out "<working>/status/stop-condition-grill.yaml"
+    --base "${stm_base}${issue}/" \
+    --out "${stm_base}${issue}/status/stop-condition-shape-slice.yaml"
 sc_exit=$?   # 0 held · 1 unmet · 2 error
 ```
 
-`/shape-slice` is product-scoped: `evidence_base="${product_base}_evidence/grill/"` and
-`slug="${product_slug}"` (the slice, e.g. `ai-usage-intelligence/slice-token-data-spine`).
-
-**Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED` — the
-write-gate verdict clean (zero live tensions, zero open decision questions), the
-checkpoint resolved in the approval marker, the keyed persist manifest ok, and the
-scoped-write guard report ok. Anything else
-closes `HALTED` with `exit_reason: stop_condition_unmet` and the evidence's Stop
+**Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`. Anything
+else closes `HALTED` with `exit_reason: stop_condition_unmet`, and the evidence's Stop
 Condition section names every unmet clause. An unevaluable verdict is never a pass.
-There is no `loop_cap_exhausted` here — the grilling rounds are human-paced and
-uncapped; an unconverged grilling simply holds the run open (HALTED at close, resumed
-at the open tension or unanswered question).
 
-**Step C1 — Write evidence file.** Gated by the resolved `evidence.record` flag (global +
-per-play `evidence.plays.grill`; first match wins, absent ⇒ record). When false, skip the
-write and record `evidence skipped (record=false)` in the report's pointer line. Otherwise
-fill the `evidence-file.md` slots (play `grill`, run_id `grill-${ts}`, product_slug = the
-slice, started_at/completed_at, status per C0, exit_reason; artifacts produced: the epics,
-the deferrals, the round reports with dispositions, the write-gate verdict, the approval
-marker, any lens-defect records, the keyed persist manifest (`persist-manifest.json`), the
-captured scoped-guard report (`guard-report.json`), the `feat(model)` model-delta commit sha,
-the member results (start-change + the end sequence), the stop-condition verdict; step and
-scenario eval results SE-1…SE-20 / SCE-1…SCE-8; checkpoint decision from Step 6 —
-including a `gate skipped by config (<resolution path>)` row when the standard-class
-switch resolved off; the session identity stamp fields from $session_stamp (#463):
-session_id, ledger_file, ledger_start_offset, ledger_end_offset (null when unresolved —
-never blocks the close); and stop_condition per C0 with the Stop Condition section
-filled) and write to `$evidence_dest`. Do NOT hand-author the body.
+**Step C1 — Write evidence file.** Gated by the resolved `evidence.record` flag (per-play
+`evidence.plays.shape-slice`, else global; absent ⇒ record). When false, skip the write and
+record `evidence skipped (record=false)` in the report's pointer line. Otherwise fill the
+`evidence-file.md` slots (play `shape-slice`, run_id `shape-slice-${ts}`, issue, the intent
+issue, started_at/completed_at, status per C0, exit_reason; artifacts produced: the intent
+page (and whether this run wrote it), `questions-checked.json`, `split.json`, the question
+record, `slice.json`, `fills.json`, `serving.json`, `persist-fills.json`,
+`persist-slice.json`, `slice-check.json`, `guard-report.json`, `approval.json`, the model
+commit sha; step and scenario eval results SE-1…SE-17 / SCE-1…SCE-6; the checkpoint answers
+in the person's words; the session identity stamp fields from $session_stamp (#463); and
+stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
-report: `## grill Delivered — ${product_slug}`, the Run Summary table, the Pipeline Steps
-table from the task DAG, the Artifacts Produced table (the epics with their user_checks
-and order, the deferrals, the accepted tensions, any lens defects routed), Next Steps (the cut is merged by the end sequence — run /start on the first epic in the
-order to begin delivery; if a lens defect was recorded, run that lens play first), and a pointer to `$evidence_dest`. Always emitted; never gated.
+**Step C2 — Render delivery report.** Fill the `delivery-report.md` slots and output the
+report: `## shape-slice Delivered — #${issue}`, the Run Summary table, the Pipeline Steps
+table from the task DAG, the Artifacts Produced table (the slice and its features, its
+surface and tester, the intents it serves, the parts added to the model to be deepened,
+the intent page when this run wrote it, the count of questions with no proposed answer, the
+PR), and the **Next** line from the Next-line map (`$next_map`, from `template-manager`), per
+`play-close.md`; omit it when the map's command is null. Next Steps: the plan play (#818)
+reads this slice once it is built. End with a pointer to `$evidence_dest`. Always emitted;
+never gated.
 
 ```bash
 # --- end Standard Play Close ---
@@ -673,122 +580,56 @@ order to begin delivery; if a lens defect was recorded, run that lens play first
 
 | Scenario | Persona | Eval |
 |----------|---------|------|
-| S1 — the approved cut | product builder | SCE-1 |
-| S2 — self-contained pickup | delivery engineer | SCE-2 |
-| S3 — cited grilling | product builder under grilling | SCE-3 |
-| S4 — explicit deferral | product builder | SCE-4 |
-| S5 — too early | product builder | SCE-5 |
-| S6 — lens defect routed | lens owner | SCE-6 |
-| S7 — grilled for real | product builder | SCE-7 |
-| S8 — open delivery choice | product builder | SCE-8 |
+| S1 — a new slice | product owner | SCE-1 |
+| S2 — no intent page | product owner | SCE-2 |
+| S3 — a slice already serves | product owner | SCE-3 |
+| S4 — a small budget | product owner | SCE-4 |
+| S5 — no surface | product owner | SCE-5 |
+| S6 — stop at the checkpoint | product owner | SCE-6 |
 
 ## Recovery
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | an epic's acceptance reads as internal completion — no user-observable behavior | regenerate its acceptance from what a user can open and do, merging it with adjacent work until it's testable | autonomous |
-| F2 | the realized stamp or lens files are missing | halt; run the missing realize lens plays (quality → ux → agentic → arch → measure → run) first | human |
-| F3 | the coverage check finds a slice feature mapped nowhere | cut an epic for it or record an explicit deferral with reason, then re-present the cut | autonomous |
-| F4 | an epic embeds intent or lens content instead of referencing it | replace the copy with a reference to the source record | autonomous |
-| F5 | a push-back in the session record carries no citation | withdraw it; re-issue only if a declared item supports it, otherwise drop it | autonomous |
-| F6 | live unresolved tensions exist when the write is attempted | block the write; resolve each tension in the cut or record an explicit acceptance, then re-present | autonomous |
-| F7 | the model delta was committed with no recorded approval, or the keyed persist wrote only part of the set | revert the working tree (scoped_write_guard.py --restore, empty allow), return to the checkpoint for a fresh approval, re-run the all-or-none keyed persist | human |
-| F8 | the scoped-write guard finds a changed model path outside the slice's epic docs, deferrals, and the spine epics index | the guard's --restore reverts the offending paths; re-run confining the write to epics | autonomous |
-| F9 | a dependency cycle, or a first epic that can't stand alone | re-order or split epics until the order is acyclic and the first is independently deliverable | autonomous |
-| F10 | the self-containment check finds an epic with empty or unresolvable context or acceptance | backfill from the slice's intent records and lenses, re-verify resolution | autonomous |
-| F11 | a non-live tension lacks human-response evidence — no push-back shown, no typed answer, or no human-derived directive/reason | reopen the tension to `live`, ask the question plainly (one at a time, no recommendation), capture the typed answer, and disposition from that answer only | human |
-| F12 | an epic is shaped by a delivery method the human never chose — a missing or unanswered decision question at the write-gate | ask the cited decision question, capture the choice, revise the cut to match it, and record the decision in the round | human |
-| F13 | the persist is verified but no end-sequence member has run — the model change is uncommitted with the play heading to close | enter the injected end sequence (commit → propose → review → merge) before the close; a member's own halt (e.g. a review reject) stops the chain by its own rules, never silently | autonomous |
-| F14 | a round report carries question evidence under an unrecognized top-level key (a legacy `questions:` list, or any other off-schema key) | read a legacy `questions:` key as `decision_questions:` and validate it identically; for any other off-schema key, block the write-gate until the round is rewritten under the canonical `tensions:`/`decision_questions:` schema, then re-run the gate | autonomous |
-| F15 | an epic at the write-gate has no `surface` block, or a surface defaulted to a non-user-facing type with no human confirmation | source the surface from the slice's own named surface (slice.surface) refined by the epic's user_check per surface-contract.md, put it to the human at the checkpoint, and write it; block the cut until every epic carries a confirmed surface that traces to a slice surface | human |
-| F16 | a user-facing slice's first epic scaffolds no app/server shell | rework the order so the first epic seeds a minimal openable shell, or recut so one does, then re-present | autonomous |
-| F17 | an epic doc fails the linter or the content eval, or its spine entry fails the schema or names an unknown feature | re-emit the `epic.md` to its template, rewrite to the judge's cited fixes and re-judge until the gate passes, and fix the spine entry to resolve; never write a degraded epic | autonomous |
-| F18 | the run is about to close COMPLETED with the stop-condition verdict missing, unmet, or unevaluable | close HALTED (`stop_condition_unmet`) naming the unmet clauses; resume at whatever is open — the live tension, the unanswered question, the unresolved checkpoint, the unpersisted cut, or the uncaptured guard report — then re-run the write-gate, the keyed persist, the guard, and the stop-condition check; no `loop_cap_exhausted` exists here — the grilling rounds are human-paced and uncapped, the run stays open until the human's answers converge it | autonomous |
-| F19 | the product-os tree is dirty at entry (uncommitted model edits present) | halt and ask for a clean model tree — commit or revert the pending model edits (or let the injected start-change head cut a fresh branch off main) — before /shape-slice proceeds | human |
+| F1 | the run worked from the issue text alone, or stopped because the model had no page for the intent | read the intent from the model; write the missing page from the issue, then go on | autonomous |
+| F2 | a question shown is one the model or memory already answers | drop the question, and use the answer the model or memory gives | autonomous |
+| F3 | a question broke the rule for asking a person (not all at once, more than one thing, a part missing, or it cannot stand alone) | rewrite the questions to the rule and show them again | autonomous |
+| F4 | more questions than the tier allows beyond the blocking ones, a gap open with no written assumption, or an assumption the person did not see | cut the questions to the budget, blocking first, and write an assumption for every gap not asked; show the assumptions at the checkpoint | autonomous |
+| F5 | a question or answer is not in the record, or an answered question was asked again | record every question and answer, and take back any repeat question | autonomous |
+| F6 | a slice has no tester, no surface, or more than one surface | do not write the slice; ask for the tester or the surface, or say why there is none | human |
+| F7 | a new slice was made for an intent an existing slice already serves | remove the new slice, and add the intent to the slice that already serves it | autonomous |
+| F8 | a part the slice needs was skipped instead of added to the model | add the skipped part at the depth known, marked to be deepened | autonomous |
+| F9 | the run wrote outside the allowed set (a plan, an epic, a story, an eval, or another file) | undo the write outside the allowed set (`scoped_write_guard.py --restore`) | autonomous |
+| F10 | a proposed answer has no source the run can name, or the count of questions with no proposed answer is missing or wrong | strip the proposed answer that has no source — never replace it with another — and report the count | autonomous |
+| F11 | the model's checks fail and the run went on | fix each problem the check lists, and run the check again; the run does not go on until it passes | autonomous |
+| F12 | something was committed without the person's yes, or a stop left writes behind | take the commit back, or undo the writes a stop left | human |
+| F13 | the change landed outside the change plays, or on the wrong branch | land the change through the change plays, on the branch the target script gives | human |
+| F14 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
 
 ## Pause and Resume
 
-Steps run top to bottom. On entry, resolve config, run the readiness + realized gates,
-resolve the target slice from the play argument or the in-progress draft, check the status
-marker at `{stm_base}_grill/status/<slice-id>.json`, skip completed steps, reset any
-in-progress step to pending, and continue. The grilling rounds resume from the round
-reports on disk — closed dispositions (`resolved`/`accepted`) are preserved; a round left
-mid-flight re-runs its tension check. Under direct-model-write (ADR 026) there is no draft
-tree and no pre-apply snapshot: containment is the post-write scoped guard diffing the model
-tree against HEAD. The clean-tree assertion (F19) is scoped to a FRESH start (the fresh
-`start-change` branch) — a resume that already wrote `epic.md` docs re-enters its own
-in-progress delta, which is expected, not a dirty-tree halt. A fresh start with no marker
-runs everything and creates the
-marker at Step 1. A close that halted on an unmet stop condition (C17) resumes at whatever
-the verdict names open — the live tension, the unanswered decision question, the
-unresolved checkpoint, or the unpersisted cut; the grilling rounds are human-paced and
-uncapped, so there is never a round cap to exhaust — the run simply stays open until the
-human's answers converge it.
+Steps run top to bottom. On entry, resolve the change issue from start-change's result,
+check the status marker, skip completed steps, reset an in-progress step to pending, and
+continue. The question record is never asked twice: a resume reads `<record>` and asks only
+what is still open. A resume after the slice was written re-enters its own uncommitted
+delta (expected, not a dirty-tree halt). A run that closed HALTED at a stop has nothing to
+resume: its writes were undone.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:91b837dfb96b5b9283bb17e20a7ace3cb89e34053ff08fd221aa36ca2cb200bb (of `reference/ice.md`) |
-| compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C — gated close per ADR 025: Done means baked, stop-condition gate at Step C0, session stamp, checkpoint class standard, uncapped human loop stated), create-play (#434; edited via edit-play, #436, #437), edit-play (#434, decision 24; closed-schema round-report fix — F14); epic-lifecycle prose corrected #439 (see deviation note) |
-
-**Direct-edit deviation note (#439, ADR 019):** the epic-lifecycle sentence ("epics are temporary… deleted on merge") was corrected to "epics are permanent… stamped `delivered` on merge and kept" in both `reference/ice.md` and this compiled body, and the fingerprint recomputed to match. This is descriptive context about the epic's downstream life, not grill's own guarantee — no constraint, failure condition, scenario, step, or eval changed; grill still cuts epics and deletes nothing. No re-interview/rebuild required.
-| pipeline_position | both (start-change head; commit-change → propose-change → check-change → merge-change tail — self-contained) |
-| workflow_structure | A (approval checkpoint — class: standard, config-gated per gate-config.md, not pinned; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard before the gate, feat(model) commit after; grilling rounds as a natural human loop in preparation) |
-| stop_condition | stop-condition.yaml (D1–D7), gate live at Step C0 |
-| loop | grilling rounds: human-paced, uncapped — exit = a clean tension report (zero live tensions, zero open decision questions) proven by the write-gate verdict; never an iteration cap |
+| fingerprint | sha256:708a0f80cea53fe5ccd0e340d39deab424aa095c835da3282e8f102c838252fd (of `reference/ice.md`) |
+| compiled_by | create-play (#795) — built fresh; it replaces the old play completely |
+| pipeline_position | both (start-change head; commit → propose → review → merge close) |
+| workflow_structure | A (one round of questions, all at once; one pinned typed checkpoint; write-then-review; stop-condition gated close) |
+| stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
-| utility_agents | 0 |
-| skills_used | author-epics, check-cut-tensions |
-| scripts | 9 (preflight.py, check_ready_slice.py, lint_grounding.py, grounding_gate.py, validate_epics.py — writes the write-gate verdict, persist_epics.py — keyed in-place persist of the spine epics index, scoped_write_guard.py — post-write containment guard, check_stop_condition.py — Done-means gate, session_stamp.py — #463 identity stamp) |
-| member_subplays | start-change (injected head); commit-change, propose-change, check-change, merge-change (injected end sequence) |
-| step_evals | 20 (SE-1…SE-20; one per failure condition F1–F19, plus SE-11 for C10) |
-| scenario_evals | 8 (SCE-1…SCE-8) |
-| recovery_entries | 19 (one per failure condition; 13 autonomous / 6 human) |
-
-**Recompiled note (#500, direct-model-write / ADR 026):** migrated from draft-then-apply to
-direct-model-write. The old draft model tree is removed; the author-epics skill writes each
-`epic.md` (and the slice's `deferrals.yaml`) straight to the live model and emits the spine
-`epics`-index delta as structured manifest data; the renamed keyed `persist_epics.py`
-(was `apply_epics.py`) writes the spine `epics` index in place; containment is the post-write
-`scoped_write_guard.py` (its `guard-report.json` is D7); the old `check_epics.py` before/after
-verify was removed (the guard replaces it); the pre-apply file snapshot is gone (the guard
-diffs vs HEAD); the play asserts a clean product-os tree at entry (F19, guaranteed by the
-fresh `start-change` branch) and commits its own `feat(model)` delta after approval (C18).
-Order is **write-then-review** (ADR 026 "Order of operations"): the full cut — the LLM's docs
-AND the keyed persist's `epics`-index entries — is written FIRST (Steps 1+4), then guarded
-ONCE over the full delta (Step 5), then the gate resolves over the real git diff (Step 6), and
-only an approved gate COMMITS (Step 7); the injected end sequence then raises/reviews/lands the
-committed delta. Checkpoint cancel reverts the working tree via the guard `--restore`
-(empty allow). Grill's checkpoint stays a class-`standard` config switch — NOT a #467
-conditional learned gate — so no `classify_change.py` is bundled and no change-shape is
-classified. See `standards/rules/direct-model-write.md`.
-
-**Direct-edit deviation note (#500) — INTENT CHANGE, HAND-COMPILED, CONVERGENCE UNVERIFIED:**
-This SKILL was updated to the direct-model-write write-then-review shape (ADR 026) by a
-**hand-compile from `reference/ice.md`**, NOT by a `/edit-play` run. This is an intent change
-(it alters the write path, the containment guarantee, the checkpoint cancel semantics, and the
-step order), so the sanctioned path is recompile-via-`/edit-play`; edit-play is
-interactive-only (fully gated, human-checkpoint) and cannot run headless in this environment,
-so the compiled output was produced by hand to match what edit-play would emit from the
-current `reference/ice.md` (fingerprint above). **The `compiled_by` line names edit-play for
-provenance intent, but no edit-play run actually occurred and convergence is UNVERIFIED.** An
-interactive `/edit-play` convergence run against `reference/ice.md` — confirming the emitted
-SKILL matches this hand-compiled body and refreshing the fingerprint — is recommended before
-relying on this play in production. `lint_play.py` was run to 0 gaps against this body.
-
-**Direct-edit deviation note (grill-spine-reconcile):** the recompile left the pre-flight,
-apply, and verify prose on the OLD model — it called `check_realized.py` (redundant; the gate
-is in `check_ready_slice.py`) and the `feature_ices`/`ice_ref`/`profile.yaml` field
-shapes, and the apply/verify commands used the old `--slice-dir`/`--profile-*` CLIs. These were
-aligned to the actual reworked scripts (the spine hub-resolution emitting
-`feature_groundings`; `apply_epics.py --draft --product-base` merging the spine `epics`
-index; `check_epics.py --manifest --spine-before/after --slice-ref` doing the before/after spine
-diff) and `check_realized.py` was deleted. Execution-mechanism only — no constraint, failure,
-scenario, or eval changed; the ICE (`reference/ice.md`) and the fingerprint are unchanged.
-
-**Direct-edit deviation note (#466):** SKILL invocation flag corrected to match
-`validate_epics.py`'s real interface — the two Step 2/write-gate invocations said
-`--slice-file <slice_file>` but the script (like `check_epics.py`) accepts `--slice-ref`
-and matches the bare spine slice id, so they now read `--slice-ref <slice_id>`.
-Surface-prose only; no constraint, failure, scenario, or eval changed.
+| utility_agents | 1 (template-manager — serves the approval prompt and the close) |
+| skills_used | author-business-intent, find-work-placement, find-model-gaps, propose-answers, enrich-capability-ice, author-domains (all existing; none created) |
+| skills_missing | author-slice (#838) — choosing the slice's features, order, surface and tester; done by the agent and documented until it exists (P7) |
+| scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py, lint_grounding.py, model_names.py, intent_touches.py (copied unchanged from create-play references); grill_budget.py (#817); write_intent_page.py, record_questions.py, find_serving_slice.py, persist_fills.py, persist_slice.py, slice_check.py, record_approval.py (this play) |
+| tests | test_grill_budget.py, test_find_serving_slice.py, test_persist_slice.py, test_shape_slice_scripts.py |
+| step_evals | 17 (SE-1…SE-17) |
+| scenario_evals | 6 (SCE-1…SCE-6) |
+| recovery_entries | 14 (one per failure condition; 11 autonomous / 3 human) |

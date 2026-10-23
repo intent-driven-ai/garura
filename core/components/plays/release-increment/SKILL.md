@@ -255,7 +255,7 @@ unresolved — never blocks the close); and stop_condition per C0 with the Stop 
 filled) and write to `$evidence_dest`. Do NOT hand-author the body. This persists the deploy evidence
 record (C7, verified by SE-9) to the evidence file, or explicitly skips on `record=false`.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## deploy Delivered —
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## deploy Delivered —
 ${slug}`, the Run Summary table (target env, address, health), the Pipeline Steps table, the Artifacts
 Produced table (the deploy record + logs), Next Steps (promote to a higher cloud tier by re-running
 `/release-increment --env <tier>`; production follows from main via CD), and a pointer to `$evidence_dest`. Always

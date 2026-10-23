@@ -1,29 +1,22 @@
-# grill stop condition — baked from reference/ice.md "### Done means" (#464, #466 Batch C).
+# shape-slice stop condition — baked from reference/ice.md "### Done means" (D1–D5, #795).
 # Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
-# Paths are relative to the run's grill working base ({stm_base}_grill/<slice-id>/).
-# The grilling rounds themselves are HUMAN-PACED and UNCAPPED — the loop's exit is a
-# clean tension report, never an iteration cap; this manifest proves the exit at close.
+# Paths are relative to the run's issue folder ({stm_base}<issue>/).
+# D4's artifact_exists check names its file with `path`, the key the checker reads.
 schema: { name: stop-condition }
 content:
   done:
     - id: D1
-      says: "the final write-gate verdict exists — the grilling was checked, not assumed"
-      check: { type: artifact_exists, path: "write-gate.yaml" }
+      says: "the slice check report exists and reads valid"
+      check: { type: field_equals, file: "context/shape-slice/slice-check.json", field: "valid", equals: true }
     - id: D2
-      says: "the write-gate reads clean — the validator passed against the rounds"
-      check: { type: field_equals, file: "write-gate.yaml", field: "ok", equals: true }
+      says: "the person's approval is recorded as yes"
+      check: { type: field_equals, file: "context/shape-slice/approval.json", field: "decision", equals: "yes" }
     - id: D3
-      says: "the grilling converged — zero live tensions in the final tension report"
-      check: { type: field_equals, file: "write-gate.yaml", field: "counts.live_tensions", equals: 0 }
+      says: "the write report shows only allowed paths were written"
+      check: { type: field_equals, file: "context/shape-slice/guard-report.json", field: "ok", equals: true }
     - id: D4
-      says: "every delivery-method decision question carries the human's answer — zero open"
-      check: { type: field_equals, file: "write-gate.yaml", field: "counts.decision_questions_open", equals: 0 }
+      says: "the question record exists, with every question and answer of the run"
+      check: { type: artifact_exists, path: "context/grounding-questions.md" }
     - id: D5
-      says: "the checkpoint resolved — the approval marker reads approved"
-      check: { type: field_equals, file: "approval.json", field: "approved", equals: true }
-    - id: D6
-      says: "the epic cut records exist — the keyed persist was all-or-none, nothing refused"
-      check: { type: field_equals, file: "persist-manifest.json", field: "ok", equals: true }
-    - id: D7
-      says: "the scoped-write guard held — no model path changed outside the slice's epic scope"
-      check: { type: field_equals, file: "guard-report.json", field: "ok", equals: true }
+      says: "the trace check of the run's decisions names no decision whose source is gone or changed"
+      check: { type: field_equals, file: "context/shape-slice/citations-check.json", field: "problems", equals: [] }

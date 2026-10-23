@@ -107,6 +107,12 @@ A play change is one of two kinds, and the kind decides the path:
 `create-play` itself has no ICE source (it is the compiler bootstrap) — all
 changes to it are direct edits to its `SKILL.md` by definition.
 
+**When a play's job is gone, build a new play.** If a decision removes what a play was for
+(for example, the old `/shape-slice` cut realized slices into epics), do not refactor it with
+`/edit-play`. Read the old play only for the parts worth keeping, and build the new one with
+`/create-play`. A play that served only a flow that is gone is dropped, with an ADR (ADR 051,
+`/next`).
+
 **Durability rule for non-intent edits:** a hand edit to a generated file is
 clobbered by the next intent-driven rebuild unless the compiler reproduces it.
 The canonical example is the **Standard Play Close** — every play's Evidence &
@@ -151,6 +157,6 @@ The rules are `core/components/memory/standards/rules/naming.md`; the linter enf
 - `core/grounding/glossary.md` — Canonical definitions of every Garura concept
 - `core/config.yaml` — Paths and settings (the source; the install copies it into a project as
   `.garura/core/config.yaml`, which that project's plays read)
-- `docs/adr/` — Architecture Decision Records (23 ADRs, plus one superseded)
+- `docs/adr/` — Architecture Decision Records (49 ADRs, plus two superseded)
 - `docs/philosophy/` — Core architecture philosophy
 - `docs/components/` — Agent, skill, play, loop, memory documentation (loops: `docs/components/loops.md`)

@@ -343,7 +343,7 @@ durable round record carries the stamp.
 
 On a `validated` verdict the stamp also sets `surface_verified: true` — the surface-parity
 gate (C13) passed, so the epic records that its required surface was measured and matched
-(surface-contract.md); /next reads this to distinguish a surface that shipped from surface
+(surface-contract.md), which tells a surface that shipped from surface
 debt. On `fix_required`, `surface_verified` is left untouched.
 
 **SE-8 (F6/C8):** `stamp_epic.py` exits 0 and the epic's status now equals the verdict —
@@ -458,7 +458,7 @@ hand-author the body. Then dispatch `repo-orchestrator` for the
 evidence self-commit when evidence was recorded (the WORK is never committed by this
 play — the branch is /release-epic's to close).
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## validate Round <round> — #${issue}` (the verdict, plainly: validated → "/release-epic
 is next"; fix_required → "the fix report is on the issue — run /build-epic to fix exactly
 what it names"; escalation → the three-round history), the Run Summary table, the Pipeline

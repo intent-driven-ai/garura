@@ -56,3 +56,4 @@ may have no Status line.
 | [048](048-the-product-model-and-the-work-are-two-layers.md) | The Product Model and the Work Are Two Layers Joined by the Plan: Functionality Becomes Feature, a Slice Is in the Model, and an Epic Is a Work Item That Delivers One Slice | Accepted | 2026-10-23 |
 | [049](049-a-slice-is-shaped-then-planned-then-given-its-eval.md) | A Slice Is Shaped, Then Planned, Then Given Its Eval: One Plan for Each Business Intent, the Eval Kept in the Plan's Folder, and No Failure Condition Reaches the Builder | Accepted | 2026-10-23 |
 | [050](050-the-retired-intent-epic-pipeline-is-deleted.md) | The Retired Intent-Epic Pipeline Is Deleted, Not Archived | Accepted | 2026-10-23 |
+| [051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md) | The /next Play Is Dropped; the Plan Is the Work List | Accepted | 2026-10-23 |

@@ -454,6 +454,7 @@ the user wants the gaps fixed, they correct the intent and re-run the skill (or 
 - Wire the **Next** command. Every user-invocable compiled play needs an entry in
   `standards/rules/pipeline-next.md` (the successor map) — add one if the play is new —
   or a listing there under `meta_exempt`. The Standard Play Close (step C2) renders the
-  play's Next line from that map (`**Next:** /<command> — <why>. Or run /next…`); the
+  play's Next line from that map (`**Next:** /<command> — <why>.`, omitted when the map names no
+  successor); the
   linter's `next-command (pipeline-next)` check fails a positioned play that is in
   neither the map nor the exempt list.

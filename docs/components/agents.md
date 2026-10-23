@@ -230,13 +230,13 @@ intent-resolver has no skill pool — it reads the play's intent (clean triple),
 | `find-architecture-learnings` | Search the empirical KB shelves for condition-matched learnings — the grounding engine for KB-grounded lenses |
 | `author-domains` | Draft the `/discover-domains` seed — domain node, candidate capabilities, goals-only ICE, directional profile |
 | `enrich-capability-ice` | `/discover-capabilities` — deepen one capability's seed ICE into a rich ICE grounded in its KB shelf |
+| `author-business-intent` | `/shape-slice` — draft the intent page from the issue when the model has none |
+| `find-model-gaps` | the loops and `/shape-slice` — list what the model lacks |
+| `propose-answers` | `/shape-slice` — draft a proposed answer, with its basis, for each question only the person can confirm |
 | `author-scope` | `/shape-scope` — draft one domain's selection bundle (capabilities, features, ICE, personas, decisions) |
 | `author-roadmap` | `/shape-roadmap` — draft the slice plan (effort, dependencies, value order) |
 | `author-quality-lens` / `author-ux-lens` / `author-agentic-lens` / `author-architecture-lens` / `author-run-lens` / `author-measure-lens` / `author-marketing-lens` | Draft the per-slice lens grounding docs for the lens plays |
-| `author-epics` | `/shape-slice` — draft the epic cut for one realized slice |
-| `check-cut-tensions` | `/shape-slice` — per-round tension check of the drafted cut against everything the slice declared |
 | `author-acceptance-scenarios` | `/release-epic` — build HITL testing scenarios for one validated epic |
-| `rank-actions` | `/next` — rank the candidate set into one next-best-action plus a ranked list |
 
 ### adr-keeper Skill Pool
 
