@@ -1,0 +1,35 @@
+# check-change round 1 -- categories present in PR #832 (issues 821, 825, 829)
+categories:
+  - name: harness
+    description: Play and skill wiring (edit-ontology contract, author-product-ontology input), the new asking-a-person lint rule with its test, and 12 identical copies of the shared spine linter lint_grounding.py plus a new slice-intents test.
+    evidence_paths:
+      - core/components/plays/edit-ontology/SKILL.md
+      - core/components/skills/author-product-ontology/SKILL.md
+      - core/tools/lint-components/index.js
+      - core/tools/lint-components/lib/rules/asking-a-person.js
+      - core/tools/lint-components/test/asking-a-person.test.js
+      - core/components/plays/*/scripts/lint_grounding.py
+      - core/components/plays/discover-domains/scripts/test_lint_slice_intents.py
+    playbook: review/harness
+    design_bearing: true
+    runnable_check: lint-components, linter tests, spine linter tests
+  - name: memory
+    description: Checkpoint and evidence templates moved to the asking-a-person format with renamed states (yes/change/stop), and the spine schema gaining slice intents.
+    evidence_paths:
+      - core/components/memory/standards/templates/_index.md
+      - core/components/memory/standards/templates/approval-prompt.md
+      - core/components/memory/standards/templates/checkpoint.md
+      - core/components/memory/standards/templates/evidence-file.md
+      - core/components/memory/standards/templates/issue-comment-rca-approved.md
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+    playbook: review/memory
+    design_bearing: true
+    runnable_check: path / cross-reference / structure integrity check
+  - name: docs
+    description: Issue 821 run records, analysis, self-review, PR body, and the hidden-eval evidence files. No product documentation changed.
+    evidence_paths:
+      - .garura/project/issues/821/context/**
+      - .garura/project/issues/821/evidence/**
+    playbook: review/docs
+    design_bearing: false
+    runnable_check: null

@@ -1,16 +1,16 @@
 {
-  "passed": 42,
+  "passed": 43,
   "failed": 0,
   "results": [
     {
       "check": "821: a play that asks a person and does not point to the rule fails",
       "ok": true,
-      "detail": "close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpzzxkeev2/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+      "detail": "close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmp7l8tw305/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
     },
     {
       "check": "821: the failure is an error",
       "ok": true,
-      "detail": "[{'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpzzxkeev2/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+      "detail": "[{'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmp7l8tw305/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
     },
     {
       "check": "821: a play that points to the rule passes that check",
@@ -35,7 +35,7 @@
     {
       "check": "821: asking-a-person.test.js passes",
       "ok": true,
-      "detail": " before the workflow, passes\n  [PASS] a play that asks in a Phase heading inside the workflow and has no pointer fails\n  [PASS] a checkpoint signal wrapped onto the next line still counts\n  [PASS] a heading inside a code fence does not end the workflow\n  [PASS] the linter names the play with no pointer (--target)\n  [PASS] the linter passes the play with the pointer (--target)\n\n15 passed, 0 failed\n"
+      "detail": " anywhere in its body passes\n  [PASS] a play that asks in a Phase heading inside the workflow and has no pointer fails\n  [PASS] a checkpoint signal wrapped onto the next line still counts\n  [PASS] a heading inside a code fence does not end the workflow\n  [PASS] the linter names the play with no pointer (--target)\n  [PASS] the linter passes the play with the pointer (--target)\n\n18 passed, 0 failed\n"
     },
     {
       "check": "all: naming.test.js still passes",
@@ -185,7 +185,7 @@
     {
       "check": "HC1: the linter fails a copy that differs from the main copy",
       "ok": true,
-      "detail": "e': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpey_m5wf3/plays/drift-play/scripts/lint_grounding.py', 'rule': 'structural/lint_grounding-drift', 'severity': 'error', 'message': 'This copy of lint_grounding.py differs from the main copy at plays/create-play/references/lint_grounding.py. Copy the main copy over it unchanged (change the main copy first if the change is wanted).', 'line': 1}]"
+      "detail": "e': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmppbadc1jh/plays/drift-play/scripts/lint_grounding.py', 'rule': 'structural/lint_grounding-drift', 'severity': 'error', 'message': 'This copy of lint_grounding.py differs from the main copy at plays/create-play/references/lint_grounding.py. Copy the main copy over it unchanged (change the main copy first if the change is wanted).', 'line': 1}]"
     },
     {
       "check": "HC1: the linter passes a copy that matches",
@@ -205,12 +205,17 @@
     {
       "check": "HB2: a pointer only in a reference list does not pass",
       "ok": true,
-      "detail": "ed/play-close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmp9lii4tpp/plays/pointer-in-refs/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"pointer-in-refs\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+      "detail": "ed/play-close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmp41nt1but/plays/pointer-in-refs/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"pointer-in-refs\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
     },
     {
       "check": "HB2: a pointer in the workflow passes",
       "ok": true,
       "detail": "[]"
+    },
+    {
+      "check": "HB2: a pointer only before the steps (Constraints) does not pass",
+      "ok": true,
+      "detail": " 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmp73hba6tw/plays/pointer-in-constraints/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"pointer-in-constraints\" asks a person a question (line 19) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 19}], '')"
     }
   ]
 }

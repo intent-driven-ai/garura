@@ -296,6 +296,13 @@ Run the merge script. This play has no checkpoint of its own.
         check("HB2: a play that asks no one in its workflow is not flagged (description only)", not hit("desc-only"), hit("desc-only"))
         check("HB2: a pointer only in a reference list does not pass", hit("pointer-in-refs"), vs)
         check("HB2: a pointer in the workflow passes", not hit("pointer-in-workflow"), hit("pointer-in-workflow"))
+    pointer_in_constraints = ASKING_PLAY.format(name="pointer-in-constraints", pointer="").replace(
+        "## Workflow", "## Constraints\n\n- Questions follow `standards/rules/asking-a-person.md`.\n\n## Workflow")
+    with tempfile.TemporaryDirectory() as tmp:
+        write_play(tmp, "pointer-in-constraints", pointer_in_constraints)
+        vs, r = lint(root, tmp)
+        hits = [v for v in (vs or []) if "/plays/pointer-in-constraints/" in v.get("file", "") and mentions_rule(v)]
+        check("HB2: a pointer only before the steps (Constraints) does not pass", vs is not None and hits, (vs, r.stderr))
 
 
 def main():

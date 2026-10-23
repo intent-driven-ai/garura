@@ -1,17 +1,17 @@
 meta:
-  generated_at: '2026-10-23T11:26:48Z'
+  generated_at: '2026-10-23T11:41:52Z'
   diff_path: '.garura/project/issues/821/review/pr.diff'
   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
-  changed_paths_count: 39
+  changed_paths_count: 82
   scan_coverage: 1.0000
-  standards_relevant: 31
+  standards_relevant: 32
   catchall:
-    CODE-20: 39
+    CODE-20: 82
 findings:
   - standard_id: 'SEC-07'
     severity: P1
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
-    line: 42
+    line: 66
     evidence: 'JSON.parse'
     artifact_type: 'tests'
     taxonomy_rule_id: 'SEC-07'
@@ -71,6 +71,83 @@ findings:
     evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'SEC-18'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 8
+    evidence: 'Role'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'SEC-18'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 29
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 72
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 17
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 21
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 28
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 35
+    evidence: 'from'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
   - standard_id: 'ARCH-02'
     severity: P2
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
@@ -123,8 +200,78 @@ findings:
   - standard_id: 'BE-19'
     severity: P2
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
-    line: 40
+    line: 64
     evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 11
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 13
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 14
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 16
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 17
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 21
+    evidence: 'from'
     artifact_type: 'tests'
     taxonomy_rule_id: 'BE-19'
   - standard_id: 'ARCH-03'
@@ -270,10 +417,108 @@ findings:
   - standard_id: 'CODE-21'
     severity: P3
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
-    line: 24
+    line: 45
     evidence: 'let i ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-21'
+  - standard_id: 'CODE-21'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 48
+    evidence: 'const h ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-21'
+  - standard_id: 'CODE-21'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 58
+    evidence: 'const w ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-21'
+  - standard_id: 'CODE-21'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 76
+    evidence: 'let i ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-21'
+  - standard_id: 'CODE-21'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 77
+    evidence: 'const l ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-21'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
   - standard_id: 'ARCH-03'
     severity: P3
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
@@ -382,28 +627,147 @@ findings:
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
-    line: 41
+    line: 65
     evidence: 'catch ('
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-25'
   - standard_id: 'CODE-30'
     severity: P3
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
-    line: 41
+    line: 65
     evidence: 'catch'
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-30'
   - standard_id: 'OPS-09'
     severity: P3
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
-    line: 47
+    line: 71
     evidence: 'console.log'
     artifact_type: 'tests'
     taxonomy_rule_id: 'OPS-09'
   - standard_id: 'OPS-10'
     severity: P3
     file: 'core/tools/lint-components/test/asking-a-person.test.js'
-    line: 47
+    line: 71
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 9
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 9
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 23
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 23
     evidence: 'console.log(`'
     artifact_type: 'tests'
     taxonomy_rule_id: 'OPS-10'
@@ -428,6 +792,13 @@ findings:
     evidence: 'const askingAPerson ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 11
+    evidence: 'const sharedScripts ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
   - standard_id: 'CODE-13'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
@@ -445,43 +816,211 @@ findings:
   - standard_id: 'CODE-22'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
-    line: 6
+    line: 12
     evidence: 'const fs ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-22'
   - standard_id: 'CODE-22'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
-    line: 23
+    line: 30
+    evidence: 'const WORKFLOW ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 37
     evidence: 'const lines ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-22'
   - standard_id: 'CODE-22'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
-    line: 33
-    evidence: 'const content ='
+    line: 38
+    evidence: 'let start ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-22'
   - standard_id: 'CODE-22'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
-    line: 34
-    evidence: 'const asks ='
+    line: 40
+    evidence: 'const end ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-22'
   - standard_id: 'CODE-22'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
-    line: 47
+    line: 43
+    evidence: 'const out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 44
+    evidence: 'let fence ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 46
+    evidence: 'const text ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 57
     evidence: 'const all ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-22'
   - standard_id: 'CODE-22'
     severity: P4
     file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
-    line: 48
+    line: 59
+    evidence: 'const keep ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 61
+    evidence: 'const body ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 64
+    evidence: 'let end ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 66
+    evidence: 'const steps ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 67
+    evidence: 'const pointer ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 74
+    evidence: 'const hit ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 78
+    evidence: 'const next ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 97
+    evidence: 'const content ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 98
+    evidence: 'const asks ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 111
+    evidence: 'const all ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 112
     evidence: 'let out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 6
+    evidence: 'const fs ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 7
+    evidence: 'const path ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 16
+    evidence: 'const violations ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 17
+    evidence: 'const playsDir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 21
+    evidence: 'const mainCopy ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 23
+    evidence: 'const mainBytes ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 24
+    evidence: 'const ruleName ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 28
+    evidence: 'const copy ='
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-22'
   - standard_id: 'CODE-13'
@@ -596,8 +1135,113 @@ findings:
     evidence: 'const file ='
     artifact_type: 'tests'
     taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 21
+    evidence: 'const description ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 22
+    evidence: 'const before ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 23
+    evidence: 'const after ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 3
+    evidence: 'const assert ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 4
+    evidence: 'const fs ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 5
+    evidence: 'const os ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 6
+    evidence: 'const path ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 8
+    evidence: 'let passed ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 11
+    evidence: 'const dir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
 counts:
   P1: 1
-  P2: 16
-  P3: 40
-  P4: 27
+  P2: 37
+  P3: 71
+  P4: 67
