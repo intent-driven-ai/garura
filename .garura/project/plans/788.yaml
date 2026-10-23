@@ -47,55 +47,44 @@ tree:
     status: next
 - issue: 794
   kind: capability
-  title: Shape designs the work before anything is built
+  title: /shape-slice turns a business intent into a testable slice, its eval and its plan
   status: next
   children:
-  - issue: 795
+  - issue: 816
     kind: functionality
-    title: /shape-slice asks the open questions, then writes the design
+    title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
     status: next
     needs:
-    - 793
-  - issue: 796
+    - 807
+  - issue: 817
     kind: functionality
-    title: The design checkpoint is pinned
+    title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
     status: next
-- issue: 797
-  kind: capability
-  title: The build cannot see its evals
-  status: next
-  children:
+  - issue: 795
+    kind: functionality
+    title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
+    status: next
+    needs:
+    - 816
+    - 817
   - issue: 798
     kind: functionality
-    title: An eval builder writes the eval suite from the approved design
+    title: "/shape-slice writes the eval: is the business intent met, tested on the slice's surface"
     status: next
     needs:
     - 795
-  - issue: 799
+  - issue: 818
     kind: functionality
-    title: /build-epic builds from the approved design and never sees the eval suite
+    title: /shape-slice makes the plan file, the epic and one story per feature
+    status: next
+    needs:
+    - 795
+  - issue: 796
+    kind: functionality
+    title: 'The one /shape-slice checkpoint is pinned: the person approves the slice, the eval and the plan'
     status: next
     needs:
     - 798
-- issue: 800
-  kind: capability
-  title: Validate checks the build
-  status: next
-  children:
-  - issue: 801
-    kind: functionality
-    title: /validate-epic runs the hidden evals and the checks, and gives the verdict
-    status: next
-    needs:
-    - 799
-- issue: 802
-  kind: capability
-  title: Next recommends the next work
-  status: next
-  children:
-  - issue: 803
-    kind: functionality
-    title: /next recommends the next piece of Work from the ready answers
-    status: next
-    needs:
-    - 793
+    - 818
+# Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
+# #797 (#799), #800 (#801), #802 (#803).
