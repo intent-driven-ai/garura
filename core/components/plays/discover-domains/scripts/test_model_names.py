@@ -98,6 +98,62 @@ with tempfile.TemporaryDirectory() as root:
     check("check_sources stops on an old manifest (exit 2)", r.returncode == 2, f"exit {r.returncode} {r.stderr}")
     check("check_sources names the script that moves the model", MOVE_STEP in r.stderr, r.stderr + r.stdout)
 
+print("model_names guard on old page names")
+
+
+def pages(make):
+    """Build a product-os folder with make(root), run check_pages on it; return (code, stderr, stdout)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        model = os.path.join(tmp, "product-os")
+        os.makedirs(model)
+        make(model)
+        code = (
+            "import sys\n"
+            f"sys.path.insert(0, {HERE!r})\n"
+            "import model_names\n"
+            f"model_names.check_pages({model!r})\n"
+            "print('passed')\n"
+        )
+        r = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+        return r.returncode, r.stderr, r.stdout
+
+
+def write(path, text="# page\n"):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(text)
+
+
+OLD_PAGE = "functionality.md"
+OLD_FOLDER = "functionalities"
+for label, make, old in [
+    ("old page file", lambda m: write(os.path.join(m, "d1", "c1", "f1", OLD_PAGE)), OLD_PAGE),
+    ("old page folder", lambda m: write(os.path.join(m, "d1", "c1", OLD_FOLDER, "f1", "feature.md")),
+     OLD_FOLDER),
+]:
+    code, err, _ = pages(make)
+    check(f"{label}: exits 2", code == 2, f"exit {code}, stderr {err!r}")
+    check(f"{label}: names the old name '{old}'", old in err, err)
+    check(f"{label}: names the script that moves the model", MOVE_STEP in err, err)
+    check(f"{label}: does not tell the person to re-install or run the component linter",
+          "install" not in err.replace("<install-garura>", "").lower() and "lint" not in err.lower(), err)
+code, err, out = pages(lambda m: (write(os.path.join(m, "d1", "c1", "features", "f1", "feature.md")),
+                                  write(os.path.join(m, "d1", "c1", "capability.md"))))
+check("new page names pass", code == 0 and "passed" in out, f"exit {code}, stderr {err!r}")
+
+print("check_kept on a new spine with old page names")
+with tempfile.TemporaryDirectory() as root:
+    base = os.path.join(root, "product")
+    write(os.path.join(base, "product-os", "_spine.yaml"), "domains: []\nfeatures:\n  - id: f1\n")
+    write(os.path.join(base, "product-os", "d1", "c1", "f1", OLD_PAGE))
+    subprocess.run(["git", "-C", root, "init", "-q"], check=True)
+    r = subprocess.run([sys.executable, os.path.join(HERE, "check_kept.py"), "--product-base", base,
+                        "--base-ref", "HEAD", "--out", os.path.join(root, "kept.json")],
+                       capture_output=True, text=True)
+    check("check_kept stops on an old page name (exit 2)", r.returncode == 2, f"exit {r.returncode} {r.stderr}")
+    check("check_kept names the old page", OLD_PAGE in r.stderr, r.stderr + r.stdout)
+    check("check_kept names the script that moves the model", MOVE_STEP in r.stderr, r.stderr + r.stdout)
+
 if failures:
     print(f"\n{len(failures)} failed")
     for f in failures:

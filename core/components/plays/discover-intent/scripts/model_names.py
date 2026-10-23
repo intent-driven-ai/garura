@@ -13,15 +13,21 @@ Old names it stops on:
   functionality_ref         (a slice record's feature reference)
   for_kind: functionality   (an ICE entry)
 
+Old page names it stops on (in the product-os folder):
+  functionality.md          (a feature's page, now feature.md)
+  functionalities/          (a folder of feature pages, now features/)
+
 Use, right after the YAML is parsed:
     check_spine(spine, path)     # a _spine.yaml
     check_slice(record, path)    # a slice record
     check_model(data, path)      # any other model YAML
+    check_pages(model_dir)       # the product-os folder, before reading its pages
 
 SHARED script: the main copy is plays/create-play/references/model_names.py, and every copy
 must match it byte for byte (the component linter checks this). Standard library only.
 """
 
+import os
 import sys
 
 OLD_KEYS = {
@@ -29,6 +35,9 @@ OLD_KEYS = {
     "functionality_refs": "feature_refs",
     "functionality_ref": "feature_ref",
 }
+
+OLD_PAGES = {"functionality.md": "feature.md"}
+OLD_FOLDERS = {"functionalities": "features"}
 
 UPGRADE_STEP = (
     "To upgrade the model to the new names, a person runs the script that moves it:\n"
@@ -82,3 +91,28 @@ def check_spine(spine, path):
 def check_slice(record, path):
     """Stop (exit 2) if a parsed slice record still uses an old name."""
     return check_model(record, path)
+
+
+def check_pages(model_dir):
+    """Stop (exit 2) if the product-os folder still has a page or folder with an old name."""
+    if not os.path.isdir(model_dir):
+        return model_dir
+    for here, dirs, files in os.walk(model_dir):
+        dirs.sort()
+        for name in dirs:
+            if name in OLD_FOLDERS:
+                _stop_page(os.path.join(here, name), "folder", name + "/", OLD_FOLDERS[name] + "/")
+        for name in sorted(files):
+            if name in OLD_PAGES:
+                _stop_page(os.path.join(here, name), "page", name, OLD_PAGES[name])
+    return model_dir
+
+
+def _stop_page(path, what, old, new):
+    sys.stderr.write(
+        f"{path}: this product model has a {what} with the old name '{old}'; "
+        f"since #807 it is '{new}'.\n"
+        f"Reading it with the new names would miss these features, so this script stops here.\n"
+        f"{UPGRADE_STEP}\n"
+    )
+    sys.exit(2)

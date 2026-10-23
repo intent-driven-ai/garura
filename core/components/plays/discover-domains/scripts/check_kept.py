@@ -75,6 +75,7 @@ def main(argv=None):
     if os.path.isfile(spine):  # a model with the old names would match no page here: stop on it
         with open(spine, encoding="utf-8") as fh:
             model_names.check_spine(yaml.safe_load(fh) or {}, spine)
+    model_names.check_pages(os.path.join(args.product_base, "product-os"))  # old page names too
     tree = os.path.relpath(os.path.realpath(os.path.join(args.product_base, "product-os")),
                            os.path.realpath(root)).replace(os.sep, "/")
     rc, diff = git(root, "diff", "--name-status", "--no-renames", args.base_ref, "--", tree)
