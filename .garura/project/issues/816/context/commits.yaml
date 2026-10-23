@@ -1,0 +1,10 @@
+commits:
+excluded_files:
+  - path: ".garura/project/issues/816/context/commit-change/analysis.yaml"
+    reason: "commit-change run record, not part of the change"
+  - path: ".garura/project/issues/816/context/commit-change/porcelain.txt"
+    reason: "commit-change run record, not part of the change"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
