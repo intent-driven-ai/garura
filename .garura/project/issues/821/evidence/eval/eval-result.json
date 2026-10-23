@@ -1,16 +1,16 @@
 {
-  "passed": 29,
+  "passed": 42,
   "failed": 0,
   "results": [
     {
       "check": "821: a play that asks a person and does not point to the rule fails",
       "ok": true,
-      "detail": "close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpx39qsgq9/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+      "detail": "close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpp9o9m2m_/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
     },
     {
       "check": "821: the failure is an error",
       "ok": true,
-      "detail": "[{'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpx39qsgq9/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+      "detail": "[{'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpp9o9m2m_/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
     },
     {
       "check": "821: a play that points to the rule passes that check",
@@ -30,17 +30,22 @@
     {
       "check": "821: a linter test covers the asking-a-person check",
       "ok": true,
-      "detail": "['core/tools/lint-components/test/asking-a-person.test.js', 'core/tools/lint-components/test/naming.test.js', 'core/tools/lint-components/test/skill-invocable.test.js']"
+      "detail": "['core/tools/lint-components/test/asking-a-person.test.js', 'core/tools/lint-components/test/naming.test.js', 'core/tools/lint-components/test/shared-scripts.test.js', 'core/tools/lint-components/test/skill-invocable.test.js']"
     },
     {
       "check": "821: asking-a-person.test.js passes",
       "ok": true,
-      "detail": "  [PASS] a play that asks a person and has no pointer fails\n  [PASS] a play that asks a person and points to the rule passes\n  [PASS] a play that asks no one passes\n  [PASS] a play that waits for a typed reply and has no pointer fails\n  [PASS] the linter names the play with no pointer (--target)\n  [PASS] the linter passes the play with the pointer (--target)\n\n6 passed, 0 failed\n"
+      "detail": " before the workflow, passes\n  [PASS] a play that asks in a Phase heading inside the workflow and has no pointer fails\n  [PASS] a checkpoint signal wrapped onto the next line still counts\n  [PASS] a heading inside a code fence does not end the workflow\n  [PASS] the linter names the play with no pointer (--target)\n  [PASS] the linter passes the play with the pointer (--target)\n\n15 passed, 0 failed\n"
     },
     {
       "check": "all: naming.test.js still passes",
       "ok": true,
       "detail": "an industry term passes\n  [PASS] a loop named complete-<phase> passes\n  [PASS] a loop with another shape fails\n  [PASS] a play may not use the loop verb\n  [PASS] a skill with a skill verb passes\n  [PASS] a skill with no skill verb fails\n  [PASS] the named skill exception passes\n  [PASS] an agent with a role passes\n  [PASS] an agent with no role fails\n  [PASS] upper case fails\n\n16 passed, 0 failed\n"
+    },
+    {
+      "check": "all: shared-scripts.test.js still passes",
+      "ok": true,
+      "detail": "  [PASS] a copy that matches the main copy passes\n  [PASS] a copy that differs from the main copy fails\n  [PASS] with no main copy the check is skipped\n\n3 passed, 0 failed\n"
     },
     {
       "check": "all: skill-invocable.test.js still passes",
@@ -146,6 +151,66 @@
       "check": "829: a lint_grounding test covers a slice's intents",
       "ok": true,
       "detail": ""
+    },
+    {
+      "check": "HA1: the edit-ontology ICE names the asking-a-person rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "HA1: the play's fingerprint matches its ICE",
+      "ok": true,
+      "detail": "('cd96159bd6dd5d79a5f5846e11aa4feb6a03b562ac73603ac528cc9b51ae246e', 'cd96159bd6dd5d79a5f5846e11aa4feb6a03b562ac73603ac528cc9b51ae246e')"
+    },
+    {
+      "check": "HA1: the rebuilt play still hands the rule to its agent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "MC1: no file outside the ADRs names Tether / Orbit / Vanish",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HC1: a main copy of lint_grounding.py exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "HC1: every play's copy matches the main copy",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HC1: the linter fails a copy that differs from the main copy",
+      "ok": true,
+      "detail": "e': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpon6ie3mz/plays/drift-play/scripts/lint_grounding.py', 'rule': 'structural/lint_grounding-drift', 'severity': 'error', 'message': 'This copy of lint_grounding.py differs from the main copy at plays/create-play/references/lint_grounding.py. Copy the main copy over it unchanged (change the main copy first if the change is wanted).', 'line': 1}]"
+    },
+    {
+      "check": "HC1: the linter passes a copy that matches",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HC1: no copy on core/components differs from the main copy",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HB2: a play that asks no one in its workflow is not flagged (description only)",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "HB2: a pointer only in a reference list does not pass",
+      "ok": true,
+      "detail": "ed/play-close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpg989oe8x/plays/pointer-in-refs/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"pointer-in-refs\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+    },
+    {
+      "check": "HB2: a pointer in the workflow passes",
+      "ok": true,
+      "detail": "[]"
     }
   ]
 }

@@ -262,13 +262,49 @@ def eval_round2(root):
         check("HC1: no copy on core/components differs from the main copy", not stale, stale)
 
 
+def eval_hb2(root):
+    # HB2: the check reads only the play's workflow, not its description or its notes, and the
+    # pointer counts only where the play works (its workflow), not in a reference list.
+    desc_only = """---
+name: {name}
+description: Land one epic on a person's typed approval at the gate.
+user-invocable: true
+---
+
+# {name}
+
+## Workflow
+
+**Step 1 — Merge** · Owner: play (script)
+Run the merge script. This play has no checkpoint of its own.
+"""
+    pointer_in_refs = ASKING_PLAY.format(name="{name}", pointer="") + """
+## References
+
+- `standards/rules/asking-a-person.md`
+"""
+    with tempfile.TemporaryDirectory() as tmp:
+        write_play(tmp, "desc-only", desc_only.format(name="desc-only"))
+        write_play(tmp, "pointer-in-refs", pointer_in_refs.replace("{name}", "pointer-in-refs"))
+        write_play(tmp, "pointer-in-workflow", ASKING_PLAY.format(
+            name="pointer-in-workflow", pointer="Each question follows `standards/rules/asking-a-person.md`."))
+        vs, r = lint(root, tmp)
+        if vs is None:
+            check("HB2: linter runs on the fixtures", False, r.stdout + r.stderr)
+            return
+        hit = lambda n: [v for v in vs if f"/plays/{n}/" in v.get("file", "") and mentions_rule(v)]
+        check("HB2: a play that asks no one in its workflow is not flagged (description only)", not hit("desc-only"), hit("desc-only"))
+        check("HB2: a pointer only in a reference list does not pass", hit("pointer-in-refs"), vs)
+        check("HB2: a pointer in the workflow passes", not hit("pointer-in-workflow"), hit("pointer-in-workflow"))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--out")
     a = ap.parse_args()
     root = os.path.abspath(a.root)
-    for fn in (eval_821, eval_825, eval_829, eval_round2):
+    for fn in (eval_821, eval_825, eval_829, eval_round2, eval_hb2):
         try:
             fn(root)
         except Exception as e:  # a crash is a failed check, never a pass
