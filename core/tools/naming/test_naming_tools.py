@@ -51,6 +51,9 @@ def main():
                                      "Path: core/components/plays/vision/SKILL.md. Lens quality stays.\n")
         write(root, "core/x.py", 'play = "vision"\nLENS = ("quality", "run")\nkey = "shape"\n')
         write(root, "docs/adr/006-naming.md", "The /vision play.\n")
+        write(root, "docs/adr/046-one-naming-standard.md", "The /vision play.\n")
+        write(root, "docs/adr/047-the-ice.md", "The /vision play.\n")
+        write(root, "docs/adr/048-two-layers.md", "The /vision play.\n")
         write(root, "CHANGELOG.md", "/vision shipped.\n")
         subprocess.run(["git", "add", "-A"], cwd=root)
         subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "x"], cwd=root)
@@ -63,6 +66,9 @@ def main():
         check("a lens word in code is not flagged", not any(h["file"] == "core/x.py" and h["line"] == 2 for h in before))
         check("a dict key 'shape' in code is not flagged", not any(h["file"] == "core/x.py" and h["line"] == 3 for h in before))
         check("past records are not searched", "docs/adr/006-naming.md" not in files_hit and "CHANGELOG.md" not in files_hit)
+        check("the rename ADRs 046 and 048 are not searched",
+              "docs/adr/046-one-naming-standard.md" not in files_hit and "docs/adr/048-two-layers.md" not in files_hit)
+        check("ADR 047 is searched", "docs/adr/047-the-ice.md" in files_hit)
 
         ar.main(["--root", root])
         after = co.find(root, co.load_map(root), ["plays", "loops", "skills", "agents"])
