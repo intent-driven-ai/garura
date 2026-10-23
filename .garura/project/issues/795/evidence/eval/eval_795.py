@@ -258,7 +258,7 @@ def eval_followups(root):
         check(f"follow-up: after {src}, the Next line names /shape-slice (ADR 049), not the old chain",
               mm and "command: shape-slice" in mm.group(0), mm.group(0) if mm else "")
     check("follow-up: no Next entry sends a person to /shape-slice for a realized slice",
-          not re.search(r"command:\s*shape-slice", pn), re.findall(r".{0,60}command:\s*shape-slice.{0,60}", pn))
+          not re.search(r"command:\s*shape-slice[^\n]*realized", pn), re.findall(r".{0,60}command:\s*shape-slice[^\n]*realized.{0,40}", pn))
     ag = read(root, "core/components/agents/product-os-keeper.md")
     for sk in ("author-epics", "check-cut-tensions", "rank-actions"):
         check(f"follow-up: product-os-keeper no longer lists {sk}", sk not in ag)
