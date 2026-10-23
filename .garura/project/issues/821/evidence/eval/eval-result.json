@@ -5,12 +5,12 @@
     {
       "check": "821: a play that asks a person and does not point to the rule fails",
       "ok": true,
-      "detail": "close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpvuydkw5x/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+      "detail": "close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpx39qsgq9/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
     },
     {
       "check": "821: the failure is an error",
       "ok": true,
-      "detail": "[{'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpvuydkw5x/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+      "detail": "[{'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpx39qsgq9/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
     },
     {
       "check": "821: a play that points to the rule passes that check",
@@ -30,7 +30,7 @@
     {
       "check": "821: a linter test covers the asking-a-person check",
       "ok": true,
-      "detail": "['/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/asking-a-person.test.js', '/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/naming.test.js', '/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/skill-invocable.test.js']"
+      "detail": "['core/tools/lint-components/test/asking-a-person.test.js', 'core/tools/lint-components/test/naming.test.js', 'core/tools/lint-components/test/skill-invocable.test.js']"
     },
     {
       "check": "821: asking-a-person.test.js passes",

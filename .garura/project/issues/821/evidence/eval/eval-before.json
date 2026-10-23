@@ -30,7 +30,7 @@
     {
       "check": "821: a linter test covers the asking-a-person check",
       "ok": false,
-      "detail": "['/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/naming.test.js', '/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/skill-invocable.test.js']"
+      "detail": "['core/tools/lint-components/test/naming.test.js', 'core/tools/lint-components/test/skill-invocable.test.js']"
     },
     {
       "check": "all: naming.test.js still passes",

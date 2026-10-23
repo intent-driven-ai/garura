@@ -112,8 +112,9 @@ def eval_821(root):
         check("821: author-product-ontology passes the asking-a-person check", not hits, hits)
     # A test for the new check exists and passes.
     tests = sorted(glob.glob(os.path.join(root, LINT_TESTS, "*.test.js")))
+    rel = [os.path.relpath(t, root) for t in tests]
     named = [t for t in tests if "asking-a-person" in open(t).read()]
-    check("821: a linter test covers the asking-a-person check", named, tests)
+    check("821: a linter test covers the asking-a-person check", named, rel)
     for t in named:
         r = run(root, ["node", os.path.relpath(t, root)])
         check(f"821: {os.path.basename(t)} passes", r.returncode == 0, r.stdout + r.stderr)
