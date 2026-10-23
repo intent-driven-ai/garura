@@ -42,7 +42,7 @@ def run(args, cwd):
 
 
 def section(text, title):
-    m = re.search(r"^##+ " + re.escape(title) + r".*?$(.*?)(?=^##+ |\Z)", text, re.M | re.S)
+    m = re.search(r"^##+ " + re.escape(title) + r".*?$(.*?)(?=^## (?!#)|\Z)", text, re.M | re.S)
     return m.group(1) if m else ""
 
 
@@ -191,7 +191,9 @@ def eval_schemas(root):
 def eval_next(root):
     check("next: the /next play is gone", not os.path.exists(os.path.join(root, "core/components/plays/next")))
     left = [os.path.relpath(p, root) for p in glob.glob(os.path.join(root, "core/components/**/*.md"), recursive=True)
-            if re.search(r"run\s+`?/next`?", open(p, encoding="utf-8", errors="ignore").read())]
+            if re.search(r"run\s+`?/next`?", open(p, encoding="utf-8", errors="ignore").read())
+            # no-unbacked-recommendation.md quotes "run /next" as an old example of a wrong default, not an instruction
+            and not p.endswith("rules/no-unbacked-recommendation.md")]
     check("next: no play or rule tells a person to run /next", not left, left[:10])
     pn = read(root, "core/components/memory/standards/rules/pipeline-next.md")
     check("next: the Next-line map no longer points to /next", not re.search(r"`/next`", pn), re.findall(r".{0,40}/next.{0,40}", pn)[:3])
@@ -201,7 +203,7 @@ def eval_next(root):
     bad = []
     for sk in sorted(glob.glob(os.path.join(root, "core/components/plays/*/SKILL.md"))):
         r = run([sys.executable, LINT_PLAY, os.path.relpath(sk, root)], root)
-        if r.returncode != 0 and "next-command" in r.stdout:
+        if re.search(r"\[GAP \] next-command", r.stdout):
             bad.append(os.path.relpath(sk, root))
     check("next: no play fails lint_play's next-command check", not bad, bad)
 

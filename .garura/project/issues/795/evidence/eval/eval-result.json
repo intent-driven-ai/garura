@@ -1,0 +1,391 @@
+{
+  "passed": 77,
+  "failed": 0,
+  "results": [
+    {
+      "check": "ICE: the intent is about a business intent, not a realized slice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: it writes no plan, epic, story or eval",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C1 and F1 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C2 and F2 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C3 and F3 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C4 and F4 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C5 and F5 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C6 and F6 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C7 and F7 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C8 and F8 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C9 and F9 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C10 and F10 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C11 and F11 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C12 and F12 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C13 and F13 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: C14 and F14 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: six success scenarios",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ICE: one recovery per failure",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: fingerprint matches the ICE",
+      "ok": true,
+      "detail": "('5129bff2c8190513734cf3e5224e090d3f1916b4108c5841382a79817ef43ad1', '5129bff2c8190513734cf3e5224e090d3f1916b4108c5841382a79817ef43ad1')"
+    },
+    {
+      "check": "play: lint_play passes",
+      "ok": true,
+      "detail": "l-writing play, position both\n  [PASS] standard play close (D1): evidence close block present\n  [PASS] pre-flight resolver: scripts/preflight.py present\n  [PASS] stop condition (#464): Done means baked: manifest + checker present, clause types valid\n  [PASS] fingerprint: present\n  [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next\nVERDICT: PASS (0 gap(s))\n"
+    },
+    {
+      "check": "play: position is both",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: the entry is a business intent issue number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: no longer uses 'author-epics'",
+      "ok": true,
+      "detail": "author-epics"
+    },
+    {
+      "check": "play: no longer uses 'check-cut-tensions'",
+      "ok": true,
+      "detail": "check-cut-tensions"
+    },
+    {
+      "check": "play: no longer uses 'persist_epics'",
+      "ok": true,
+      "detail": "persist_epics"
+    },
+    {
+      "check": "play: no longer uses 'validate_epics'",
+      "ok": true,
+      "detail": "validate_epics"
+    },
+    {
+      "check": "play: no longer uses 'realized'",
+      "ok": true,
+      "detail": "realized"
+    },
+    {
+      "check": "play: calls grill_budget.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: names the asking-a-person rule in its workflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: records questions in grounding-questions.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "play: dispatches product-os-keeper",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "scripts: persist_epics.py is gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "scripts: validate_epics.py is gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "scripts: test_validate_epics.py is gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads slice-check.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads approval.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads guard-report.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "stop condition reads grounding-questions.md",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "scripts: find_serving_slice.py exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "scripts: persist_slice.py exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "find: a slice that lists the intent is found",
+      "ok": true,
+      "detail": "{\n  \"match\": \"sl-self-booking\",\n  \"reason\": \"slice 'sl-self-booking' already lists business intent '340'\"\n}\n"
+    },
+    {
+      "check": "find: same features and surface is found",
+      "ok": true,
+      "detail": "{\n  \"match\": \"sl-self-booking\",\n  \"reason\": \"slice 'sl-self-booking' has the same features in the same order and the same surface 'booking page'\"\n}\n"
+    },
+    {
+      "check": "find: other features is no match",
+      "ok": true,
+      "detail": "{\n  \"match\": null,\n  \"reason\": \"no slice lists business intent '999', and none has the same features and the surface 'booking page'\"\n}\n"
+    },
+    {
+      "check": "persist: writes the spine slice",
+      "ok": true,
+      "detail": "{\n  \"ok\": true,\n  \"action\": \"created\",\n  \"id\": \"sl-self-booking\",\n  \"added_intents\": [\n    \"340\"\n  ],\n  \"record\": \"slices/sl-self-booking.yaml\",\n  \"record_written\": true\n}\n"
+    },
+    {
+      "check": "persist: features in build order",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "persist: vertical and intents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "persist: no old slice fields",
+      "ok": true,
+      "detail": "{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340']}"
+    },
+    {
+      "check": "persist: the record is at product-os/slices/<id>.yaml",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "persist: the record names the persona",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "persist: refuses a slice with no tester (exit 2)",
+      "ok": true,
+      "detail": "{\n  \"ok\": false,\n  \"refused\": \"the surface names no persona_ref; a slice needs the person who tests it\"\n}\npersist_slice.py: not written \u2014 the surface names no persona_ref; a slice needs the person who tests it\n"
+    },
+    {
+      "check": "persist: refuses a slice with no surface (exit 2)",
+      "ok": true,
+      "detail": "{\n  \"ok\": false,\n  \"refused\": \"the slice has no vertical; the vertical is the name of its one surface\"\n}\npersist_slice.py: not written \u2014 the slice has no vertical; the vertical is the name of its one surface\n"
+    },
+    {
+      "check": "persist: refuses more than one surface (exit 2)",
+      "ok": true,
+      "detail": "{\n  \"ok\": false,\n  \"refused\": \"the slice names 2 surfaces; a slice has exactly one surface that one person tests end to end\"\n}\npersist_slice.py: not written \u2014 the slice names 2 surfaces; a slice has exactly one surface that one person tests end to end\n"
+    },
+    {
+      "check": "persist: an existing slice gains the intent, appended, no second slice",
+      "ok": true,
+      "detail": "('{\\n  \"ok\": true,\\n  \"action\": \"updated\",\\n  \"id\": \"sl-self-booking\",\\n  \"added_intents\": [\\n    \"341\"\\n  ],\\n  \"record\": \"slices/sl-self-booking.yaml\",\\n  \"record_written\": true\\n}\\n', [{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340', '341']}])"
+    },
+    {
+      "check": "tests: test_find_serving_slice.py passes",
+      "ok": true,
+      "detail": "tch leaves the shaped slice as it is\n  [PASS] a spine with no slices gives no match\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] a missing spine is a usage error\n\n16 passed, 0 failed\n"
+    },
+    {
+      "check": "tests: test_grill_budget.py passes",
+      "ok": true,
+      "detail": "estion is still asked\n  [PASS] blocking over budget: over_budget is true\n  [PASS] blocking over budget: the rest are assumptions\n  [PASS] a question with no blocking flag exits 2\n\n19 passed, 0 failed\n"
+    },
+    {
+      "check": "tests: test_persist_slice.py passes",
+      "ok": true,
+      "detail": "the spine \u2014 nothing written\n  [PASS] a list with exactly one surface is accepted\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] the old-name spine writes no record\n\n39 passed, 0 failed\n"
+    },
+    {
+      "check": "tests: test_shape_slice_scripts.py passes",
+      "ok": true,
+      "detail": "with no page fails the linter\n  [PASS] approval: the latest answer is on top\n  [PASS] approval: a change before it is kept in history\n  [PASS] approval: an empty reply is refused\n\n39 passed, 0 failed\n"
+    },
+    {
+      "check": "tests: persist_slice and find_serving_slice have tests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice has vertical",
+      "ok": true,
+      "detail": "  # A slice links to capabilities (through its features), and through them to every domain\n  # it touches. It has no domain home: it lives in this list, and its record lives at\n  # product-os/slices/<"
+    },
+    {
+      "check": "schema: spine slice has intents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops status",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops order",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops effort",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops depends_on",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: spine slice drops domain_ref",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: slice.yaml no longer says /shape-slice cuts epics",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "schema: slice.yaml names intents and vertical",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "next: the /next play is gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "next: no play or rule tells a person to run /next",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "next: the Next-line map no longer points to /next",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "next: an ADR records why /next was dropped",
+      "ok": true,
+      "detail": "['docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md']"
+    },
+    {
+      "check": "next: no play fails lint_play's next-command check",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "all: the old-name check reads 0",
+      "ok": true,
+      "detail": "{\n  \"ok\": true,\n  \"hits\": 0,\n  \"old_names_left\": 0,\n  \"by_old_name\": {},\n  \"first\": []\n}\n"
+    },
+    {
+      "check": "all: no component-linter error on shape-slice",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "all: total linter errors do not grow (was 135)",
+      "ok": true,
+      "detail": "134"
+    },
+    {
+      "check": "all: no shared-script drift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "all: other play and skill tests ran",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
