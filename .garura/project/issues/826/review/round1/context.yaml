@@ -1,0 +1,36 @@
+{
+  "pr_number": "827",
+  "base": "plan/788/base",
+  "changed_paths": [
+    ".garura/project/issues/826/context/analysis.yaml",
+    ".garura/project/issues/826/context/branch.json",
+    ".garura/project/issues/826/context/citations.jsonl",
+    ".garura/project/issues/826/context/commits.yaml",
+    ".garura/project/issues/826/context/edit-ontology/change-check.json",
+    ".garura/project/issues/826/context/edit-ontology/decisions.json",
+    ".garura/project/issues/826/context/edit-ontology/draft-kinds.md",
+    ".garura/project/issues/826/context/edit-ontology/draft-links.md",
+    ".garura/project/issues/826/context/edit-ontology/draft-questions.md",
+    ".garura/project/issues/826/context/edit-ontology/need.md",
+    ".garura/project/issues/826/context/edit-ontology/ontology-before.md",
+    ".garura/project/issues/826/context/edit-ontology/ontology-check.json",
+    ".garura/project/issues/826/context/issue.json",
+    ".garura/project/issues/826/context/memory/manifest.json",
+    ".garura/project/issues/826/context/memory/standards/templates/product-ontology.md",
+    ".garura/project/issues/826/context/plan.json",
+    ".garura/project/issues/826/context/porcelain.txt",
+    ".garura/project/issues/826/context/pr-body.md",
+    ".garura/project/issues/826/context/pr.json",
+    ".garura/project/issues/826/context/resolved-rules.json",
+    ".garura/project/issues/826/context/self-review.md",
+    ".garura/project/issues/826/context/target.json",
+    ".garura/project/issues/826/context/work-description.txt",
+    "core/components/memory/standards/schemas/product-os/ontology.md"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}
