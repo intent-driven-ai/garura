@@ -1,0 +1,8 @@
+decision: reject
+decided_by: human
+reply: "fix the findinga and yes add encrypt"
+recommended: approve
+blocking: []
+round: 1
+to_fix: ["M2 ICE text says only a Story reads it", "M4 recovery rule covers plays only", "M5 running eval reads only the recovery parts", "M6 constraints vs limits", "the product owner's name in two old ontology lines"]
+follow_ups: ["M1 into #824", "M3 encryption: new issue"]
