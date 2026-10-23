@@ -25,51 +25,48 @@ schema:
   persistence: permanent
 
 # ---- The slice record ------------------------------------------------------
+# product-os/slices/<id>.yaml holds exactly two top-level keys: `slice` and `surface`.
+# /shape-slice (persist_slice.py) writes every field below, and slice_check.py checks each
+# spine slice's record against them: every field is REQUIRED and must not be empty.
 slice:
-  id: string                # stable, derived from name/slug; the same id as its spine entry
+  id: string                # the same id as its spine entry
+  slug: string              # the same slug as its spine entry
   name: string              # e.g. "Team burn dashboard"
   outcome: string           # one line: the usable thing this slice delivers
-  intents: [string]         # the business intent ids it serves, in order — one or more;
-                            # the first is the one it was first shaped for (same list
-                            # as its spine entry)
+  feature_refs: [string]    # its features (spine feature ids), in build order — the same
+                            # list as its spine entry. REFERENCES only: each feature's ICE
+                            # stays on the feature, never copied here
   vertical: string          # the name of its one surface (same as its spine entry's vertical)
+  intents: [string]         # the business intent ids it serves, in order — one or more;
+                            # the first is the one it was first shaped for (the same list
+                            # as its spine entry; a reuse appends to both)
 
-  # the ONE user-facing SURFACE a person opens to test the slice end to end — REQUIRED.
-  # A slice with no surface is not a slice — it is a backend layer, and /shape-slice
-  # does not shape it. The surface is NAMED here, not designed: no wireframe, component,
-  # layout or visual content lives here. Journeys reference it by surface id.
-  surface:
-    id: string              # stable surface id (journeys point at it via surface_refs)
-    name: string            # e.g. "Team Burn dashboard", "Coverage check view"
-    persona_ref: string     # the persona who opens this surface — the slice's tester
-    user_action: string     # what the persona does/sees on it to check the outcome
+# the ONE user-facing SURFACE a person opens to test the slice end to end — REQUIRED,
+# top level (not under `slice`). A slice with no surface is not a slice — it is a backend
+# layer, and /shape-slice does not shape it. The surface is NAMED here, not designed: no
+# wireframe, component, layout or visual content lives here. Journeys reference it by id.
+surface:
+  id: string                # stable surface id (journeys point at it via surface_refs)
+  name: string              # e.g. "Team Burn dashboard" — equals slice.vertical
+  persona_ref: string       # the persona who opens this surface — the slice's tester
+  user_action: string       # what the persona does/sees on it to check the outcome
 
-  # its features, in build order — REFERENCES, never copies of ICE
-  features:
-    - feature_ref: string   # feature node id
-      ice_ref: string       # path/id of that feature's ICE (the source of truth)
-      delivery: string      # full | partial — is this feature fully delivered in this
-                            # slice, or only partly used and deepened later
+# A reused slice (C7: it already lists the intent, or has the same features and surface)
+# keeps its feature_refs, vertical and surface as they are; the run appends the intent to
+# slice.intents and to its spine entry, and shows how the new shape differed.
 
-  dependency_notes: string  # human note on what this slice leans on (free text)
-  acceptance_intent: string # what "this slice works" means (slice-level, not per-ICE)
-
-  metadata:
-    created_by: string      # /shape-slice
-    updated_by: string      # /shape-slice (for example, when it adds an intent)
-    version: integer
-
-# ---- The deferred bucket (old chain, per domain) ---------------------------
-# Features /shape-scope selected but did not place in any slice yet. Written by
-# /shape-scope until it is rebuilt for the slice that has no domain home.
-deferred:
+# ---- Older chain (#837) ------------------------------------------------------
+# Nothing in the slice chain above writes or reads this. The older /shape-scope chain wrote
+# a per-domain deferred bucket ({domain}/slices/_deferred.yaml); it stays described here
+# only until #837 rebuilds or drops those plays.
+deferred:                   # older chain (#837) — not part of the slice record
   domain_ref: string
   features: [string]        # feature node ids parked for a later slice
   reason: string            # one line on why deferred
 
 # ---- Storage ----------------------------------------------------------------
 #   product-os/slices/{slice-id}.yaml            # one file per slice (/shape-slice owns it)
-#   product-os/{domain}/slices/_deferred.yaml    # the old deferred bucket (if any)
+#   product-os/{domain}/slices/_deferred.yaml    # older chain (#837): the deferred bucket, if any
 # A feature may appear in MORE THAN ONE slice (deepened over time).
 # The slice's eval, its hidden file and its usage guide are not here: they are in the
 # plan folder of its first business intent (.garura/project/plans/<plan-id>/), ADR 049.
@@ -77,13 +74,13 @@ deferred:
 # ---- Fill rules -------------------------------------------------------------
 fill_rules:
   - play: "/shape-slice"
-    writes: "the slice record and its spine entry — name, outcome, the business intents
-             it serves (intents), its one surface (id + name + persona_ref + user_action;
-             named, NOT designed) and its vertical, its features in build order
-             (referencing their ICE), dependency_notes and acceptance_intent. When a slice
-             already serves the intent, or has the same features and the same surface, it
-             adds the intent to that slice instead of writing a new one. It writes
-             nothing else — no plan, epic, story or eval."
+    writes: "the slice record and its spine entry — slice: id, slug, name, outcome, its
+             features in build order (feature_refs, referencing their ICE), its vertical and
+             the business intents it serves (intents); surface: id, name, persona_ref (the
+             tester) and user_action (named, NOT designed). When a slice already serves the
+             intent, or has the same features and the same surface, it appends the intent to
+             that slice's spine entry and record and keeps its features and surface, instead
+             of writing a new one. It writes nothing else — no plan, epic, story or eval."
 
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:

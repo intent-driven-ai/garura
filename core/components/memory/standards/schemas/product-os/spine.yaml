@@ -237,14 +237,18 @@ fill_rules:
     writes: "SELECTS (it does not create features — /discover-capabilities did):
              confirms/prunes capabilities (status active/deprecated, with a decision);
              writes personas + journeys. Leaves the profile untouched. Does NOT write
-             slices (/shape-slice does)."
+             the spine's `slices` (/shape-slice does). Older chain (#837): until #837
+             rebuilds it, the play still composes per-domain slices under
+             {domain}/slices/ and its deferred bucket, and /shape-roadmap and the
+             /shape-*-lens plays still write there; nothing in the slice chain reads them."
   - play: "/shape-slice"
-    writes: "the `slices` entries and each slice record (product-os/slices/<id>.yaml):
-             the features in build order, the one vertical a person tests, and the
-             business intents the slice serves (`intents`). When a slice already serves
-             the intent, or has the same features and the same vertical, it adds the
-             intent to that slice instead of writing a new one. It writes nothing else
-             — no plan, epic, story or eval."
+    writes: "the `slices` entries — exactly id, slug, feature_refs, vertical, intents,
+             record — and each slice record (product-os/slices/<id>.yaml, slice.yaml v2:
+             `slice` {id, slug, name, outcome, feature_refs, vertical, intents} and
+             `surface` {id, name, persona_ref, user_action}). When a slice already serves
+             the intent, or has the same features and the same vertical, it appends the
+             intent to that slice's entry and record, keeps its features and surface, and
+             writes no new slice. It writes nothing else — no plan, epic, story or eval."
   - play: "/start … /release-epic"
     writes: "epic status chain (ready -> in_delivery -> validated -> delivered),
              surface_verified, issue_ref — surgical structural stamps."
@@ -268,10 +272,14 @@ fill_rules:
 #       {feature}/
 #         feature.md                       # grounding (feature template)
 #       personas/  journeys/  decisions/         # structured records (referenced by id)
-#     slices/{slice}/epics/{epic}.md             # old chain: epic grounding and lens docs, still
-#     slices/{slice}/lens/{type}.yaml            #   written by plays not yet rebuilt (ADR 048)
-#   slices/
-#     {slice}.yaml                               # slice record (slice.yaml schema); a slice has
+#     slices/{slice}/epics/{epic}.md             # OLDER CHAIN (#837), not the slice chain: epic
+#     slices/{slice}/lens/{type}.yaml            #   grounding and lens docs that /shape-roadmap,
+#                                                #   the /shape-*-lens plays and /build-epic still
+#                                                #   read or write until #837 rebuilds or drops
+#                                                #   them (ADR 048). /shape-slice never writes here.
+#     slices/_deferred.yaml                      # OLDER CHAIN (#837): /shape-scope's deferred bucket
+#   slices/                                      # THE SLICE CHAIN (/shape-slice, ADR 049)
+#     {slice}.yaml                               # slice record (slice.yaml v2: slice + surface); a slice has
 #                                                #   no domain home (it links to capabilities)
 #
 # Note what is GONE vs v1: per-node `node.yaml` (structure moved into _spine.yaml) and
