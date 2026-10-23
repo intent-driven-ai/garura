@@ -1,0 +1,20 @@
+# check-change Step 3 Layer 1 -- standards linter, categories code, tests, docs (PR #814, issue 812)
+# Checked: core/tools/naming/check_old_names.py skip rule (ADRs before 046, plus 046 and 048 by number),
+# the two new cases in test_naming_tools.py, and the issue 812 run records (no product docs changed).
+# Ran: test_naming_tools.py (18 passed, 0 failed). The skip rule matches the issue's Done-when.
+findings:
+  - class: P4
+    rule: "code: dead or confusing naming after a rule change"
+    path: core/tools/naming/check_old_names.py
+    line: 44
+    message: "FIRST_NEW_ADR = 46 no longer means 'first ADR that is searched' (ADR 046 is skipped through RENAME_ADRS). Rename to FIRST_RENAME_ADR or LAST_OLD_ADR_EXCLUSIVE so the name matches the use. Cosmetic; the logic in is_past_record (line 58) is correct."
+  - class: P4
+    rule: "tests: the new cases check one of the skipped ADR neighbours only"
+    path: core/tools/naming/test_naming_tools.py
+    line: 69
+    message: "The new checks cover ADRs 046, 047 and 048 and pass. ADR 049 (first searched ADR after the range) and the SUPERSEDED- prefix form that is_past_record also matches are not covered. Small gap; ADR 006 covers the below-46 skip."
+  - class: P4
+    rule: "docs: module docstring wording"
+    path: core/tools/naming/check_old_names.py
+    line: 17
+    message: "The docstring is updated and states the new rule. 'the ADRs before ADR 046, and ADR 046 and ADR 048' is accurate; no defect. Noted only because the docs category has no other product file in this PR."
