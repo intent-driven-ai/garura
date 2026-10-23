@@ -1,0 +1,70 @@
+# adr-keeper context for issue #824 (ADR 049) — gathered 2026-10-23
+shape: markdown
+number: "049"
+draft_path: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+brief: .garura/project/issues/824/context/issue.md
+level: framework
+decided_in: "#824 (records ontology v9, #816 / PR #823, and v10, #826 / PR #827, both with the product owner, plan #788)"
+supersedes:
+  - id: "048"
+    part: >
+      in part — Decision §2, first paragraph: "A Plan is given one business intent. It picks the
+      slice or slices that best serve it, by two tests ... It creates one Epic for each slice it
+      picks"; and, in its "What this changes in older ADRs" list, the ADR 022 line "the Plan's
+      first test refuses a slice with none". The slice definition in §2 stands. §1, §3, §4, §5 stand.
+amends:
+  - id: "017"
+    part: >
+      §1 "Strict .garura/ folder whitelist" — under .garura/project/ the whitelist gains plans/:
+      one file <id>.yaml for each plan and its folder <id>/ with evals/<slug>/ (the eval and the
+      hidden file failure-and-recovery.md) and guides/<slug>.md. The rest of §1 stands.
+not_affected:
+  - id: "047"
+    why: >
+      The ICE keeps its three parts and its place (v9 and v10 both say "The ICE does not change").
+      §2's Intent "what counts as failing" and Context "rules for the sub-agent that gathers
+      context" are what this ADR routes; nothing in 047 is replaced.
+  - id: "048 §3"
+    why: >
+      "When a story is made, it writes its own scope of work from its feature's ICE and its
+      capability's ICE" and "No work item carries an ICE" still hold. This ADR adds to it: the
+      plan play writes the story, the story also holds Context guidance, and never a failure or
+      recovery condition. Not a contradiction, so not amended; stated in the Decision.
+  - id: "022, 028, 019, 024"
+    why: already amended or superseded in part by ADR 048 on the same points; this ADR changes 048's own line on 022 only.
+affects:
+  - core/components/memory/standards/schemas/product-os/ontology.md (v9 in #816, v10 in #826 — landed)
+  - core/components/memory/standards/rules/expectation-generation.md (new section "A story's recovery (product ICE)", #826 — landed)
+  - CLAUDE.md (Work Tracking — states v9 and where evals and guides live, #816 — landed)
+  - .garura/user-provided/managing-work.md (still says "a plan picks a slice", lines 21 and 38 — to change)
+  - core/components/memory/standards/schemas/product-os/spine.yaml and slice.yaml (the slice entry must gain `intents`; the slices index today has no such field — to change)
+  - core/components/plays/shape-slice/ (it still cuts a realized slice into epics; it must shape the slice and write only "slice serves business intent" — to change)
+  - core/components/plays/build-epic/ (its context sub-agent collects the context from the story's Context guidance into short-term memory, never reads evals/ — to change)
+  - the plan play and the eval play (not built yet)
+  - .garura/project/plans/ (new folders <id>/evals/ and <id>/guides/)
+ice_impact: >
+  The product ICE does not change (v9, v10). What changes is how its parts are routed so that the
+  routing table in docs/philosophy/idd-principles.md holds word for word: the plan play reads all
+  of both ICE once; the Story gets goal, limits, expectations and Context guidance; the hidden file
+  gets the failure conditions and one recovery condition each; the build play's context sub-agent
+  and the builder never read an ICE page or the evals folder; the eval play reads the epic, the
+  stories and the hidden file; the running eval reads the eval, the guide, the Context guidance in
+  the eval and only the recovery parts. The ICE of /shape-slice and /build-epic change in meaning
+  when they are rebuilt; the plan play and the eval play get their ICE when they are built.
+business_intent_check: kind
+business_intent_check_why: >
+  The Business Intent kind changes: "a slice serves it" (the link kept on the slice's side only),
+  it is a destination, and it has exactly one plan. No person's business intent text changes: the
+  v9 and v10 commits (86c78ff9, 7d73c947, 573deea6, 8bf0160b, cfc2a2b7, f5762b1a) touch no file in
+  .garura/product/product-os/intents/.
+related: [ADR 017, ADR 022, ADR 027, ADR 031, ADR 047, ADR 048, "#788", "#816", "PR #823", "#822", "#826", "PR #827", "#828"]
+held_true: docs/philosophy/idd-principles.md "The Routing Table" (lines 122-141) — not changed by this ADR
+alternatives_from_record:
+  - "a plan picks slices by two tests (ADR 048 §2) — dropped in v9: the person chooses the slice at /shape-slice; the plan does not pick, rank or test"
+  - "a story's scope of work says what must never happen (v9) — dropped in v10: it puts failure conditions in front of the builder, against the routing table"
+  - "the story carries the context itself — not taken in v10: the story holds guidance; the context sub-agent collects context at run time"
+  - "a second plan for an intent / copies of a shared slice's eval — not taken: one plan per intent; another plan points to the home plan's files"
+open_points:
+  - "encryption of the evals is #828; until then the eval is kept from the builder by a read rule only"
+  - "where the handoff plan is kept and how it reaches the builder is not in the ontology"
+  - "/record-decision cannot join an open change (#822)"

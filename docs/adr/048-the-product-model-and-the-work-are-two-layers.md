@@ -1,6 +1,6 @@
 # ADR 048 — The Product Model and the Work Are Two Layers Joined by the Plan: Functionality Becomes Feature, a Slice Is in the Model, and an Epic Is a Work Item That Delivers One Slice
 
-**Status:** Accepted
+**Status:** Accepted — superseded by [ADR 049](049-a-slice-is-shaped-then-planned-then-given-its-eval.md): §2 first paragraph (the plan picks slices by two tests)
 **Date:** 2026-10-23
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja 
