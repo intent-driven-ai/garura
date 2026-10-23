@@ -17,7 +17,7 @@ tree:
 - issue: 792
   kind: capability
   title: The delivery chain works on Work, not on epics and slices
-  status: now
+  status: done
   children:
   - issue: 793
     kind: functionality
@@ -40,11 +40,11 @@ tree:
   - issue: 813
     kind: functionality
     title: Upgrading Garura moves a project's product model to the Feature names, and scripts stop on old keys
-    status: next
+    status: done
   - issue: 809
     kind: chore
     title: Archive or remove the retired intent-epic pipeline and its feature-catalog names
-    status: next
+    status: done
 - issue: 794
   kind: capability
   title: /shape-slice turns a business intent into a testable slice, its eval and its plan
@@ -139,5 +139,10 @@ tree:
     needs:
     - 798
     - 818
+# Parked on 2026-10-23 as its own business intent: #835 (upgrade path for older models).
 # Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
 # #797 (#799), #800 (#801), #802 (#803).
+- issue: 833
+  kind: chore
+  title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
+  status: next
