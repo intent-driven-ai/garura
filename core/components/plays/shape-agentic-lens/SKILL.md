@@ -1,7 +1,7 @@
 ---
 name: shape-agentic-lens
 position: none
-description: 'Write a SLICE''s agentic lens as a grounding doc (agentic.md) — the is-it-an-agent gate, the load weights (cognitive / creative / logistical on a low→ultra scale), and the controls (guardrails, handoff). The MIDDLE of the FUNCTIONAL realize pipe (ux → agentic → marketing), run on a shaped slice. A deterministic slice comes out "not an agent", stated plainly. Reads the hub from the spine (functionality grounding + profile), never another lens. Writes only the slice''s agentic lens, in place on the live model.'
+description: 'Write a SLICE''s agentic lens as a grounding doc (agentic.md) — the is-it-an-agent gate, the load weights (cognitive / creative / logistical on a low→ultra scale), and the controls (guardrails, handoff). The MIDDLE of the FUNCTIONAL realize pipe (ux → agentic → marketing), run on a shaped slice. A deterministic slice comes out "not an agent", stated plainly. Reads the hub from the spine (feature grounding + profile), never another lens. Writes only the slice''s agentic lens, in place on the live model.'
 user-invocable: true
 ---
 
@@ -10,7 +10,7 @@ user-invocable: true
 Write a shaped slice's **agentic lens** as the grounding doc `agentic.md`: whether the slice is
 (or contains) an agent at all, and if so how much human load it offloads on three axes and what
 controls bound it. A deterministic read/compute slice comes out "not an agent", stated plainly.
-/shape-agentic-lens reads the slice's **hub** — its functionalities' grounding docs plus the profile (both
+/shape-agentic-lens reads the slice's **hub** — its features' grounding docs plus the profile (both
 from the spine) — and never another realize lens.
 
 **Pipeline position: none.** /shape-agentic-lens is the MIDDLE of the functional realize pipe (ux → agentic →
@@ -51,7 +51,7 @@ approval, a recorded config skip, or a recorded policy auto-pass.
 
 **Forbidden:** hand-writing the lens or a decision; writing anything other than this slice's
 `agentic.md` and a decision (C2); reading or grounding on another realize lens (C7); manufacturing
-an agent where the functionalities don't warrant it (C8); persisting a decision by any route other
+an agent where the features don't warrant it (C8); persisting a decision by any route other
 than `scripts/persist_agentic.py`; committing the model delta before the checkpoint gate resolves;
 running against a dirty product-os tree (C13/F14); closing COMPLETED without the stop-condition
 verdict held (C12).
@@ -88,8 +88,8 @@ python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slic
 ```
 
 It asserts the profile is `set` (from the spine), resolves the slice record, and resolves every
-`functionality_ref` through the spine to its `functionality.md` grounding doc — the hub. If the slice
-is absent, a functionality does not resolve, or the profile is not firmed, hard halt (C1/REC1).
+`feature_ref` through the spine to its `feature.md` grounding doc — the hub. If the slice
+is absent, a feature does not resolve, or the profile is not firmed, hard halt (C1/REC1).
 
 **Clean-tree assertion (C13/F14, ADR 026).** Before any work, assert the product-os tree carries no
 uncommitted edits — `HEAD` is only a correct base for the scoped guard and the change-shape if the
@@ -150,16 +150,16 @@ reordering. On resume, skip completed and reset in-progress to pending.
 **Step 1 — Draft the lens (to the live model)** · Owner: `product-os-keeper` · Depends on: pre-flight
 The agent invokes `author-agentic-lens` to write the slice's `agentic.md` (the gate + weights +
 controls, per the Agentic lens template) **straight to the live model** from the hub (the
-functionality grounding docs + the profile) and KB framing grounding, plus an `agentic-manifest.yaml`
+feature grounding docs + the profile) and KB framing grounding, plus an `agentic-manifest.yaml`
 (the grounding map + `lens_rel` + any autonomy decision as a full record). Per ADR 026 the skill
 writes the per-node lens doc IN PLACE and emits any decision as structured data in the manifest (it
 never writes the spine, the profile, or a `decisions/` file):
 
     {
-      "task":    "author the slice's agentic lens (gate/weights/controls) straight to the live model from its hub; ground the verdict and weights in the functionalities and any autonomy framing in the KB; emit any material decision into the manifest",
+      "task":    "author the slice's agentic lens (gate/weights/controls) straight to the live model from its hub; ground the verdict and weights in the features and any autonomy framing in the KB; emit any material decision into the manifest",
       "inputs":  { "slice_ref": "<domain>/<slice>",
                    "slice_file": "<slice record>",
-                   "functionality_groundings": "<from check_ready_slice>",
+                   "feature_groundings": "<from check_ready_slice>",
                    "profile": "<spine profile>", "product_base": "<product_base>",
                    "kb_search": "<find-architecture-learnings script>", "kb_root": "<knowledge/ root>",
                    "lens_rel": "product-os/<domain>/slices/<slice>/lens/agentic.md",
@@ -205,12 +205,12 @@ python3 scripts/grounding_gate.py --verdict <verdict.json>
 **SE-3 (F4/C4):** the content-quality eval gate (`grounding_gate.py`) passes — `agentic.md` is
 self-explaining and clears the stranger test.
 **SE-4 (F5/C5):** `validate_agentic.py` — the verdict and weights ground in the slice's
-functionalities; any material autonomy choice names a decision (carried in the manifest) that resolves.
-**SE-5 (F6/C6):** `validate_agentic.py` — the assessment considers every functionality the slice
+features; any material autonomy choice names a decision (carried in the manifest) that resolves.
+**SE-5 (F6/C6):** `validate_agentic.py` — the assessment considers every feature the slice
 bundles (coverage).
 **SE-6 (F7/C7):** `validate_agentic.py` — the assessment grounds on no other realize lens.
 **SE-7 (F8/C8):** `validate_agentic.py` — the gate is recorded (`is_agent`) and grounded; agentic
-behavior is not asserted without the functionalities' behavior behind it.
+behavior is not asserted without the features' behavior behind it.
 **SE-8 (F10/C10):** `check_kb_grounding.py` exits 0 — the agentic-framing choices trace to a KB
 learning or a recorded proposal.
 On any GAP, apply the matching recovery (REC3–REC10) and re-run before the checkpoint — a
@@ -364,7 +364,7 @@ closes HALTED, never COMPLETED (REC12).
   other lenses are byte-identical; the stop-condition verdict reads held.
 - **SCE-2 (S2 — product owner, honest gate):** a deterministic slice comes out `is_agent: false` with
   the reason and `n/a` weights.
-- **SCE-3 (S3 — reviewer):** the verdict and weights trace to the slice's functionalities; material
+- **SCE-3 (S3 — reviewer):** the verdict and weights trace to the slice's features; material
   choices name a decision that resolves.
 - **SCE-4 (S4 — architect):** no other realize lens was read or written (the guard report is `ok`).
 - **SCE-5 (S5 — product owner, re-run):** a re-run re-derives only `agentic.md` in place; everything
@@ -452,14 +452,14 @@ functional pipe), and a pointer to `$evidence_dest`. Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a functionality does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-agentic-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-agentic-lens runs | human |
 | F2 | a write touched something beyond this slice's agentic.md or a decision | the guard's `--restore` already reverted the out-of-scope write; re-run writing only the slice's agentic.md and any autonomy decision | autonomous |
 | F3 | agentic.md fails the template/shape or carries out-of-scope content | re-emit to the Agentic lens template (gate/weights/controls only) | autonomous |
 | F4 | agentic.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
-| F5 | an invented verdict/weight, or a material choice with no decision | re-tie the verdict and weights to the functionalities, and record the autonomy decision in the manifest | autonomous |
-| F6 | a functionality was not considered | extend the assessment to consider the missing functionality | autonomous |
+| F5 | an invented verdict/weight, or a material choice with no decision | re-tie the verdict and weights to the features, and record the autonomy decision in the manifest | autonomous |
+| F6 | a feature was not considered | extend the assessment to consider the missing feature | autonomous |
 | F7 | /shape-agentic-lens read or depended on another lens | remove the dependency; /shape-agentic-lens derives only from the slice's hub | autonomous |
-| F8 | agentic behavior was manufactured where the functionalities don't warrant it | reset the gate to the honest verdict (is_agent false + n/a weights for a deterministic slice) | autonomous |
+| F8 | agentic behavior was manufactured where the features don't warrant it | reset the gate to the honest verdict (is_agent false + n/a weights for a deterministic slice) | autonomous |
 | F9 | a non-lens/non-decision file changed, or an accepted decision was edited in place (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only agentic.md and the new decision, after a human confirms the restore | human |
 | F10 | an agentic-framing choice with no KB learning and no recorded proposal | search the KB via find-architecture-learnings and ground the choice, or raise a KB-learning-gap proposal | autonomous |
 | F11 | the model delta was committed before the checkpoint resolved, or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the gate resolves | human |
@@ -479,7 +479,7 @@ resume continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c8aa419b123a9174dfaaf39f5f7d2e1f29c2d60e4f54486fc5b2e60cd8dfe0ec (of `reference/ice.md`) |
+| fingerprint | sha256:1e5a5b4e7af8793073556c992bd8b0636b9e726f6ba070d51368a8badffb3ef1 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | none |
 | position_exception | middle of the functional realize pipe — runs on the branch /shape-ux-lens started; the close belongs to /shape-marketing-lens |

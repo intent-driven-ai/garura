@@ -1,6 +1,6 @@
 ---
 name: check-cut-tensions
-description: Run the per-round tension check that makes /shape-features's steelman push-back discipline real. Reads the epic cut on the live model (the `epic.md` grounding docs, written in place per ADR 026 — there is no draft tree) and everything the slice declared — its functionalities' grounding docs `functionality.md` (the hub), all SEVEN lens grounding docs, and the profile bars — and produces a structured tension report, one entry per real contradiction, each citing the specific declared item it defends (source file + verbatim quote). Detects untestable increments, acceptance thinner than a declared bar, cut/lens contradictions, and material omissions — and, separately, unresolved DELIVERY-METHOD choices: when an epic's user check depends on a method the lenses never decided, it emits a cited decision_questions entry for the play to put to the human. Emits live tensions and open questions only; the push-back/human-response evidence fields are the play's to fill from the actual conversation, never this skill's. Returns an empty report when the cut is consistent with the declared design. Used only by the /shape-features play, once per grilling round, between draft (or revision) and push-back.
+description: Run the per-round tension check that makes /shape-slice's steelman push-back discipline real. Reads the epic cut on the live model (the `epic.md` grounding docs, written in place per ADR 026 — there is no draft tree) and everything the slice declared — its features' grounding docs `feature.md` (the hub), all SEVEN lens grounding docs, and the profile bars — and produces a structured tension report, one entry per real contradiction, each citing the specific declared item it defends (source file + verbatim quote). Detects untestable increments, acceptance thinner than a declared bar, cut/lens contradictions, and material omissions — and, separately, unresolved DELIVERY-METHOD choices: when an epic's user check depends on a method the lenses never decided, it emits a cited decision_questions entry for the play to put to the human. Emits live tensions and open questions only; the push-back/human-response evidence fields are the play's to fill from the actual conversation, never this skill's. Returns an empty report when the cut is consistent with the declared design. Used only by the /shape-slice play, once per grilling round, between draft (or revision) and push-back.
 version: 0.2.0
 user-invocable: false
 model: sonnet
@@ -10,12 +10,12 @@ allowed-tools: Read, Glob
 # check-cut-tensions
 
 Detects tensions between a drafted epic cut and what the slice **declared**: the
-functionality grounding docs (`functionality.md` — what each does, its rules, its
+feature grounding docs (`feature.md` — what each does, its rules, its
 acceptance), the seven lens grounding docs (the solved design), and the profile bars. The
-output is a structured report /shape-features uses to author its cited push-backs — the play quotes
+output is a structured report /shape-slice uses to author its cited push-backs — the play quotes
 the citations; this skill produces them.
 
-This skill is the enforcement point for /shape-features's two hardest constraints:
+This skill is the enforcement point for /shape-slice's two hardest constraints:
 
 - **every push-back cites a specific declared item.** This skill produces the citations; an
   uncited entry must not be emitted.
@@ -32,7 +32,7 @@ without a cited anchor is not a tension and must not be emitted.
 |-------|----------|-------------|
 | `epics_home` | yes | The slice's live `epics/` home holding the epics' `epic.md` docs + `deferrals.yaml` (written in place on the live model per ADR 026 — read-only here). |
 | `slice_file` | yes | The slice record (read-only). |
-| `functionality_groundings` | yes | The resolved hub `functionality.md` paths, from the readiness gate. |
+| `feature_groundings` | yes | The resolved hub `feature.md` paths, from the readiness gate. |
 | `lens_dir` | yes | The slice's lens folder — all SEVEN lens grounding docs (read-only). |
 | `spine` | yes | The live `_spine.yaml` (read-only) — the profile bars. |
 | `round_id` | yes | Round identifier (e.g. `R3`) — written into the report. |
@@ -41,7 +41,7 @@ without a cited anchor is not a tension and must not be emitted.
 
 ## Process
 
-1. **Build the defended set.** From each functionality's `functionality.md`: its behavior,
+1. **Build the defended set.** From each feature's `feature.md`: its behavior,
    its rules, and its acceptance criteria. From each of the seven lens docs: its declared
    content and decisions. From the spine profile: each bar (level + gate). Each defended item
    carries its source file and the verbatim text.
@@ -63,7 +63,7 @@ without a cited anchor is not a tension and must not be emitted.
 
    - `tension_id` — `{round_id}-T{n}`.
    - `epic_id` — the epic it concerns, or `cut` for whole-cut tensions.
-   - `cites` — `kind` (functionality_behavior | functionality_rule | functionality_acceptance |
+   - `cites` — `kind` (feature_behavior | feature_rule | feature_acceptance |
      lens_quality | lens_ux | lens_agentic | lens_marketing | lens_architecture | lens_run |
      lens_measure | profile_bar), `source` (the file path), `quote` (the verbatim declared text).
    - `contradiction_kind` — `contradicts` | `renders_incoherent` | `material_omission`.
@@ -150,12 +150,12 @@ always.
 | What failed | Return |
 |-------------|--------|
 | epics_home empty / unreadable | `status: failed, reason: missing_cut` |
-| a functionality grounding or lens doc unreadable | `status: failed, reason: missing_declared_source` |
+| a feature grounding or lens doc unreadable | `status: failed, reason: missing_declared_source` |
 | output path unwritable | `status: failed, reason: output_write_error` |
 
 ## Boundaries
 
-- Reads only the cut (`epic.md` docs), the slice record, the functionality groundings, the
+- Reads only the cut (`epic.md` docs), the slice record, the feature groundings, the
   seven lenses, the profile, and prior round reports; writes only `output_path`.
 - Does not issue push-backs, does not edit the cut, does not set `resolved`/`accepted` (the
   play does, after the human answers), does not interview the human, does not call other skills.

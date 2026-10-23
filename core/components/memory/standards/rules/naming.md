@@ -39,9 +39,9 @@ a product moves through:
 | Phase | Verb | Example |
 |-------|------|---------|
 | Product → Intent | `discover` | `discover-domains` |
-| Intent → Design | `shape` | `shape-features` |
-| Design → Code | `build` | `build-feature` |
-| Code → Validation | `validate` | `validate-feature` |
+| Intent → Design | `shape` | `shape-slice` |
+| Design → Code | `build` | `build-epic` |
+| Code → Validation | `validate` | `validate-epic` |
 | Validation → Run | `release` | `release-increment` |
 | Run → Product | `learn` | `learn-outcomes` |
 

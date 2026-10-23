@@ -211,7 +211,7 @@ SCOPES = {
             # Its workers: adr-keeper + author-decision, and the change chain already kept.
             "record-decision",
             # discover-capabilities writes the full ICE for Garura's own capabilities and
-            # functionalities, now that Garura plans its work with its product model (#753).
+            # features, now that Garura plans its work with its product model (#753).
             # Its workers: product-os-keeper + find-work-placement, enrich-capability-ice,
             # judge-grounding; template-manager is already kept.
             "discover-capabilities",
@@ -386,35 +386,33 @@ def retire_renamed(source, target, new_paths, quiet):
     import yaml
     with open(map_path, encoding="utf-8") as fh:
         data = yaml.safe_load(fh) or {}
-    new_to_old = {}
+    new_to_old = {}  # one new name can have several old ones (two old play names lead to shape-slice)
     for kind in ("plays", "loops", "skills", "agents"):
         for old, new in (data.get(kind) or {}).items():
-            new_to_old[new] = old
+            new_to_old.setdefault(new, []).append(old)
     base = os.path.abspath(target)
     removed = []
     for rel in new_paths:
         head, last = os.path.split(rel.rstrip("/"))
         stem, ext = os.path.splitext(last) if last.endswith(".md") else (last, "")
-        old = new_to_old.get(stem)
-        if not old:
-            continue
-        old_rel = os.path.join(head, old + ext)
-        full = os.path.normpath(os.path.join(base, old_rel))
-        if not full.startswith(base + os.sep) or not os.path.exists(full):
-            continue
-        marker = full if ext else os.path.join(full, "SKILL.md")
-        try:
-            text = open(marker, encoding="utf-8").read()
-        except OSError:
-            continue
-        if not re.search(rf"^name:\s*(?:garura:)?{re.escape(old)}\s*$", text, re.M):
-            continue
-        if os.path.isdir(full):
-            shutil.rmtree(full)
-        else:
-            os.remove(full)
-        removed.append(old_rel)
-        info(quiet, f"  retired: {old_rel} (old name; now {rel})")
+        for old in new_to_old.get(stem, []):
+            old_rel = os.path.join(head, old + ext)
+            full = os.path.normpath(os.path.join(base, old_rel))
+            if not full.startswith(base + os.sep) or not os.path.exists(full):
+                continue
+            marker = full if ext else os.path.join(full, "SKILL.md")
+            try:
+                text = open(marker, encoding="utf-8").read()
+            except OSError:
+                continue
+            if not re.search(rf"^name:\s*(?:garura:)?{re.escape(old)}\s*$", text, re.M):
+                continue
+            if os.path.isdir(full):
+                shutil.rmtree(full)
+            else:
+                os.remove(full)
+            removed.append(old_rel)
+            info(quiet, f"  retired: {old_rel} (old name; now {rel})")
     return removed
 
 

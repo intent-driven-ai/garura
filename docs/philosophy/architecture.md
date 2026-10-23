@@ -182,7 +182,7 @@ The shape compiled plays emit today, taken from `commit-change`'s grouping step 
 
 The play does not pass its ICE source to agents. The intent is compiled *into* the play — its constraints and failure conditions become the play's step evals, scenario evals, recovery entries, and stop condition — so what an agent needs is the task and the files.
 
-> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/create-play` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/release-feature` keeps a `task_id`.
+> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/create-play` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/release-epic` keeps a `task_id`.
 
 ### How It Flows
 

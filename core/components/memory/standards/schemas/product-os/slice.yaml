@@ -1,18 +1,18 @@
 # Slice Schema — v1
 #
-# A SLICE is a vertical PRODUCT INCREMENT: a bundle of functionalities — possibly
+# A SLICE is a vertical PRODUCT INCREMENT: a bundle of features — possibly
 # across several capabilities of ONE domain — that together deliver something usable.
 # It is what /shape-scope hands you as a buildable unit ("pick a slice, open its ICE, build
 # it"), and what /shape-roadmap plans (order, dependencies, effort).
 #
 # NOT an epic. An `epic` (epic.yaml) is the engineering delivery grain — one
-# functionality sliced end-to-end through its components, cut by /shape-features. A `slice` is
-# higher: it groups whole functionalities into a usable increment. The chain is:
+# feature sliced end-to-end through its components, cut by /shape-slice. A `slice` is
+# higher: it groups whole features into a usable increment. The chain is:
 #   /shape-scope -> slices (this schema)
 #   /shape-roadmap -> plans the slices (order + dependencies + effort, written here)
-#   /shape-features -> per functionality inside a chosen slice, cuts epics (epic.yaml)
+#   /shape-slice -> per feature inside a chosen slice, cuts epics (epic.yaml)
 #
-# A slice REFERENCES functionality ICE — it never copies it. The functionality ICE
+# A slice REFERENCES feature ICE — it never copies it. The feature ICE
 # stays the single source of truth for each unit.
 #
 # Lifecycle: PERMANENT (lives in product-os with the structure). One domain's slices
@@ -42,11 +42,11 @@ slice:
       persona_ref: string   # the persona who opens this surface
       user_action: string   # what the persona does/sees on it to check the outcome
 
-  # the functionalities this slice bundles — REFERENCES, never copies of ICE
-  functionalities:
-    - functionality_ref: string   # functionality node id
-      ice_ref: string             # path/id of that functionality's ICE (the source of truth)
-      delivery: string            # full | partial — is this functionality fully delivered
+  # the features this slice bundles — REFERENCES, never copies of ICE
+  features:
+    - feature_ref: string   # feature node id
+      ice_ref: string             # path/id of that feature's ICE (the source of truth)
+      delivery: string            # full | partial — is this feature fully delivered
                                   # in this slice, or only partially used / deepened later
 
   dependency_notes: string  # human note on what this slice leans on (free text from /shape-scope)
@@ -66,18 +66,18 @@ slice:
     version: integer
 
 # ---- The deferred bucket (per domain) --------------------------------------
-# Functionalities /shape-scope selected but did not place in any slice yet. Every selected
-# functionality MUST appear in at least one slice OR here — nothing falls through.
+# Features /shape-scope selected but did not place in any slice yet. Every selected
+# feature MUST appear in at least one slice OR here — nothing falls through.
 deferred:
   domain_ref: string
-  functionalities: [string] # functionality node ids parked for a later slice
+  features: [string] # feature node ids parked for a later slice
   reason: string            # one line on why deferred
 
 # ---- Storage ----------------------------------------------------------------
 # Per domain:
 #   product-os/{domain}/slices/{slice-id}.yaml   # one file per slice (shape/roadmap own it)
 #   product-os/{domain}/slices/_deferred.yaml    # the deferred bucket (if any)
-# A functionality may appear in MORE THAN ONE slice (deepened over time).
+# A feature may appear in MORE THAN ONE slice (deepened over time).
 #
 # The slice is the UNIT OF REALIZATION (#434). The realize lenses hang OFF the
 # slice, in a per-slice folder beside the record:
@@ -91,7 +91,7 @@ fill_rules:
   - play: "/shape-scope"
     writes: "creates the slices for its one domain — name, outcome, the user-facing
              surface(s) each slice exposes (id + name + persona + user_action; named,
-             NOT designed), the bundled functionalities (referencing their ICE),
+             NOT designed), the bundled features (referencing their ICE),
              dependency_notes, acceptance_intent, delivery full/partial; and the
              _deferred bucket. Every slice MUST name at least one surface. Does NOT set
              order, effort, or resolved depends_on; does NOT design the surface (that is
@@ -105,7 +105,7 @@ fill_rules:
              lenses exist for the slice and line up (every architecture component has a
              run target; every run target binds a real component). Surgical: changes
              status + metadata and nothing else of the record; never composition, order,
-             effort, or depends_on. The single marker /shape-features checks before cutting
+             effort, or depends_on. The single marker /shape-slice checks before cutting
              delivery work."
 
 # ---- Enhance rules ----------------------------------------------------------

@@ -156,7 +156,7 @@ A loop runs its plays "repeatedly, until its intent is met" (glossary, Loop; ADR
 ADR 043). A **round** runs every play in `plays` — round 1 all of them, a later round only the
 plays the gap skills gave work to. No play takes another play's output as its input: each reads
 the capture and the write-up, writes its own kind (for Discovery: `/discover-intent` business intents,
-`/discover-domains` domains, `/discover-capabilities` capabilities and functionalities), and the loop connects them
+`/discover-domains` domains, `/discover-capabilities` capabilities and features), and the loop connects them
 after the round. The first build runs the plays one after another, in turn; side by side comes
 once the scoped-write guard can tell two plays' writes apart. A question one play cannot answer
 is the **loop's** question, not a stop: the play records it, does all the work it does not

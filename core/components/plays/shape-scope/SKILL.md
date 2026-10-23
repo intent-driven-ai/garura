@@ -1,20 +1,20 @@
 ---
 name: shape-scope
 position: none
-description: 'Select what to build in one domain and compose it into deliverable verticals — confirm or prune its capabilities against the firmed profile + KB, select which of the functionalities /discover-capabilities created to build now, create the personas and user journeys, and bundle the functionalities into vertical slices, each behind a user-facing surface scaffolded slice by slice. The product-owner step of the ProductOS strategy pipeline, after /discover-domains and /discover-capabilities. Selects against the profile but never writes it; composes slices but never cuts epics or plans order. Opens no delivery issue.'
+description: 'Select what to build in one domain and compose it into deliverable verticals — confirm or prune its capabilities against the firmed profile + KB, select which of the features /discover-capabilities created to build now, create the personas and user journeys, and bundle the features into vertical slices, each behind a user-facing surface scaffolded slice by slice. The product-owner step of the ProductOS strategy pipeline, after /discover-domains and /discover-capabilities. Selects against the profile but never writes it; composes slices but never cuts epics or plans order. Opens no delivery issue.'
 user-invocable: true
 ---
 
 # shape
 
 Take one domain that /discover-capabilities has detailed — capabilities `detail: detailed` with
-their functionalities created, profile `set` — and **select what to build and compose it
+their features created, profile `set` — and **select what to build and compose it
 into deliverable verticals**. /shape-scope is the **product owner**: it confirms the capabilities
-that stay (prunes the rest), selects which existing functionalities to build now, creates
-the personas served and the **user journeys** they travel, and bundles those functionalities
+that stay (prunes the rest), selects which existing features to build now, creates
+the personas served and the **user journeys** they travel, and bundles those features
 into the domain's **vertical slices**, each behind a user-facing surface. It reads the
-profile to judge fit but **never writes it**, it never creates a functionality or authors
-ICE (/discover-capabilities did), and it never cuts epics (/shape-features) or plans order (/shape-roadmap). One
+profile to judge fit but **never writes it**, it never creates a feature or authors
+ICE (/discover-capabilities did), and it never cuts epics (/shape-slice) or plans order (/shape-roadmap). One
 domain per run.
 
 **Always scaffold the UI.** Every slice names at least one surface a persona opens and
@@ -62,12 +62,12 @@ domain work — the grounded selection-and-composition bundle — to the `produc
 agent via a JSON contract over files on disk, and you run the mechanical work (readiness
 gate, bundle validation, the keyed in-place persist, and the post-write scoped guard)
 through bundled scripts. You never write the model YAML yourself, you never create a
-functionality or write the product profile, you never write the spine `_spine.yaml` (the keyed
+feature or write the product profile, you never write the spine `_spine.yaml` (the keyed
 persist owns it), and you never COMMIT the model delta before the single checkpoint (C12)
 resolves — a typed approval, a recorded config skip, or a recorded policy auto-pass.
 
 **Forbidden:** hand-writing slice/persona/journey/decision records or the spine; creating a
-functionality or authoring ICE (that is /discover-capabilities's); writing the product profile by any
+feature or authoring ICE (that is /discover-capabilities's); writing the product profile by any
 route; reparenting, renaming, or deleting nodes; editing a capability beyond its `status`
 flip; cutting epics or planning slice order; writing the spine by any route other than
 `scripts/persist_shape.py`; committing the model delta before Step 5 resolves; running against
@@ -78,7 +78,7 @@ reading held (C14/F14).
 
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
-| `product-os-keeper` | Confirm/prune capabilities and select existing functionalities against the firmed profile + KB; create personas (each with its structured grounding — `goals`, `cares_about`, `failure_means` — read off the capability's ICE and the profile, `description` one line only), user journeys, decisions; compose the domain's vertical slices behind scaffolded surfaces — writing each RECORD straight to the live model and emitting the spine-delta into the manifest (never the spine, never the profile) | `find-work-placement`, `author-scope` | Author |
+| `product-os-keeper` | Confirm/prune capabilities and select existing features against the firmed profile + KB; create personas (each with its structured grounding — `goals`, `cares_about`, `failure_means` — read off the capability's ICE and the profile, `description` one line only), user journeys, decisions; compose the domain's vertical slices behind scaffolded surfaces — writing each RECORD straight to the live model and emitting the spine-delta into the manifest (never the spine, never the profile) | `find-work-placement`, `author-scope` | Author |
 
 `product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5
 budget). No utility agents are needed — git/issue machinery is absent (position none).
@@ -88,7 +88,7 @@ budget). No utility agents are needed — git/issue machinery is absent (positio
 | Check | Constraint | Action on Failure |
 |-------|-----------|-------------------|
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
-| Profile firmed (`set`) AND target capabilities `detail: detailed` with functionalities | C1 | Hard halt (REC1) |
+| Profile firmed (`set`) AND target capabilities `detail: detailed` with features | C1 | Hard halt (REC1) |
 | **Clean model tree** — `git status --porcelain -- <product_base>product-os` is empty | C15/F16 | Hard halt (REC16) |
 
 Resolve config mechanically with the bundled resolver; /shape-scope has no branch or issue
@@ -102,7 +102,7 @@ python3 scripts/check_ready.py --spine <product_base>/product-os/_spine.yaml --d
 `preflight.py` returns config facts (`product_base`, `stm_base`, `evidence_record`).
 `check_ready.py` is the readiness gate (C1): it halts unless the product profile is `set`
 (firmed by /discover-capabilities) and every target capability in the domain is `detail: detailed`
-with at least one functionality. The **target domain** is the play argument (e.g.
+with at least one feature. The **target domain** is the play argument (e.g.
 `/shape-scope token-dash`). If the profile is still `directional` or a capability is not yet
 detailed, hard halt and route to /discover-capabilities (REC1).
 
@@ -170,18 +170,18 @@ No runtime reordering. On resume, skip completed and reset in-progress to pendin
 The persisted model does not record which KB shelf a domain came from, and the product
 domain slug is not the KB shelf name. So the agent first **recovers the shelf** with
 `find-work-placement`, then invokes `author-scope` to author the domain's selection-and-
-composition bundle — confirm/prune per capability, select which existing functionalities to
+composition bundle — confirm/prune per capability, select which existing features to
 build, the personas (each carrying its **structured grounding**: `goals`, `cares_about`, and
 `failure_means`, grounded in the capability's ICE and the firmed profile, with `description`
 kept to the one-line who-they-are summary — C5/F5, #550), the **user journeys through
 surfaces**, the decisions, AND the domain's
 **vertical slices** (each naming at least one user-facing surface a named persona opens and
-checks, bundling functionalities by spine id, plus the `_deferred` bucket), with stable ids.
+checks, bundling features by spine id, plus the `_deferred` bucket), with stable ids.
 Per ADR 026 the skill writes each RECORD **straight to the live model** in place and emits the
 spine-delta as structured data in the manifest (it never writes `_spine.yaml` or the profile):
 
     {
-      "task":    "recover this domain's KB shelf via find-work-placement, then SELECT among the functionalities /discover-capabilities already created against the firmed profile + that shelf, and COMPOSE the domain's vertical slices. Write each slice/persona/journey/decision RECORD straight to the live model in place; emit the spine-delta (capability status flips, the slices index, the refs) as structured data in the manifest — never write _spine.yaml or the profile. Never create a functionality or author ICE. Every slice MUST name >=1 user-facing surface (a thin UI scaffold a named persona opens and checks) — a backend-only/horizontal/whole-UI slice is invalid. Journeys are user journeys ON named surfaces. Name surfaces; never design them. Every persona record MUST carry its structured grounding — goals (outcomes in THEIR words, never features), cares_about (their trust criteria), failure_means (what a miss looks like for THEM) — each read off the capability's ice.yaml and the firmed profile, never invented, with description kept to the ONE-LINE who-they-are summary. Every selected functionality in a slice or _deferred; slices reference functionalities by spine id; no order/effort/depends_on",
+      "task":    "recover this domain's KB shelf via find-work-placement, then SELECT among the features /discover-capabilities already created against the firmed profile + that shelf, and COMPOSE the domain's vertical slices. Write each slice/persona/journey/decision RECORD straight to the live model in place; emit the spine-delta (capability status flips, the slices index, the refs) as structured data in the manifest — never write _spine.yaml or the profile. Never create a feature or author ICE. Every slice MUST name >=1 user-facing surface (a thin UI scaffold a named persona opens and checks) — a backend-only/horizontal/whole-UI slice is invalid. Journeys are user journeys ON named surfaces. Name surfaces; never design them. Every persona record MUST carry its structured grounding — goals (outcomes in THEIR words, never features), cares_about (their trust criteria), failure_means (what a miss looks like for THEM) — each read off the capability's ice.yaml and the firmed profile, never invented, with description kept to the ONE-LINE who-they-are summary. Every selected feature in a slice or _deferred; slices reference features by spine id; no order/effort/depends_on",
       "inputs":  { "domain":        "<id + slug + path under product-os>",
                    "product_base":  "<product_base>",
                    "manifest_path": "<working>/shape-manifest.yaml" },
@@ -195,7 +195,7 @@ the live spine **read-only**, writes the records IN PLACE under `<product_base>p
 and writes `shape-manifest.yaml` under `<working>` (STM) with the spine-delta as structured
 data. It writes NO shared model file.
 **SE-1 (F1/C1):** the readiness gate passed at pre-flight — the profile is `set` and the
-target capabilities are `detail: detailed` with functionalities; otherwise the run halted
+target capabilities are `detail: detailed` with features; otherwise the run halted
 (REC1).
 **SE-16 (F16/C15):** the product-os tree was clean at entry — the pre-flight assertion
 (`git status --porcelain -- <product_base>product-os` empty) passed on a fresh start; a dirty
@@ -208,29 +208,29 @@ this run's delta.
 Run the bundle validator over the LIVE records and the manifest before the persist. Under
 direct-model-write the records are already written in place, and the spine has NOT yet been
 mutated for this run (the keyed persist runs at Step 3). So the validator reads the live records
-and resolves `functionality_ref`s against the untouched live spine:
+and resolves `feature_ref`s against the untouched live spine:
 
 ```
 python3 scripts/validate_shape.py --root <product_base>/product-os \
         --manifest <working>/shape-manifest.yaml --spine <product_base>/product-os/_spine.yaml
 ```
 
-**SE-2 (F2/C2):** the bundle selects and composes only — it created no functionality and
+**SE-2 (F2/C2):** the bundle selects and composes only — it created no feature and
 authored no ICE, and wrote no profile (the records hold only slices, personas, journeys, and
 decisions; the spine-delta in the manifest is status flips + slice index + refs).
-**SE-3 (F3/C3):** grounding holds — every kept capability and selected functionality in the
+**SE-3 (F3/C3):** grounding holds — every kept capability and selected feature in the
 manifest carries a KB shelf or a recorded proposal; none is invented.
 **SE-4 (F5/C5):** schema + integrity, including first-class persona grounding — personas,
-journeys, decisions, and slices carry their required fields; every slice `functionality_ref`
-resolves to a real functionality in the live spine; every journey persona and surface reference
+journeys, decisions, and slices carry their required fields; every slice `feature_ref`
+resolves to a real feature in the live spine; every journey persona and surface reference
 resolves; and `validate_shape.py` raises NO persona-grounding warning (a missing `goals`,
 `cares_about`, or `failure_means`) against a persona **this run wrote** — the persona ids the
 manifest's `spine_delta` names. A warning on a persona an earlier run or /discover-capabilities wrote is
 pre-#550 legacy: it is reported, never a gap (the three fields are additive and optional, so the
 validator warns and never errors). On a warning against a persona this run wrote, apply REC5 —
 split the content out of `description` into the three fields and re-emit that record.
-**SE-5 (F6/C6):** placement holds — every selected functionality appears in a slice or the
-`_deferred` bucket; `validate_shape.py` reports no unplaced functionality.
+**SE-5 (F6/C6):** placement holds — every selected feature appears in a slice or the
+`_deferred` bucket; `validate_shape.py` reports no unplaced feature.
 **SE-6 (F7/C7):** every slice is a user-facing scaffold — it names at least one surface
 (name + persona + user_action), and is no backend-only, one-per-capability horizontal, or
 whole-UI slice.
@@ -239,7 +239,7 @@ component, layout, or visual-design content.
 **SE-8 (F9/C9):** journeys are user journeys through surfaces — each traverses at least one
 named surface, none is a backend pipeline, and every surface a slice names is reached by a
 journey.
-**SE-9 (F10/C10):** slices reference functionalities by spine id (not copied) and carry no
+**SE-9 (F10/C10):** slices reference features by spine id (not copied) and carry no
 `order`, `effort`, or resolved `depends_on`.
 **SE-10 (F11/C11):** a decision is recorded for every prune and every material selection.
 On any GAP, apply the matching recovery (REC2–REC11) and re-run before the persist.
@@ -300,7 +300,7 @@ python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref H
 ```
 
 If the guard exits non-zero, re-run with `--restore` to revert the offending paths, apply
-REC13 (a functionality/domain/profile or an out-of-scope path changed), and re-persist before
+REC13 (a feature/domain/profile or an out-of-scope path changed), and re-persist before
 the checkpoint.
 
 **Classify the full working-tree delta (C12).** Classify the model tree's diff vs HEAD — now
@@ -315,7 +315,7 @@ python3 scripts/classify_change.py --play shape-scope \
 
 **SE-13 (F13/C13):** the scoped-write guard report reads `ok: true` — the model delta is
 confined to /shape-scope's scope (the spine plus the new slice/persona/journey/decision records); no
-functionality, no domain, and no profile field changed, and no path outside the scope moved.
+feature, no domain, and no profile field changed, and no path outside the scope moved.
 
 ### Phase: Checkpoint (conditional gate, C12)
 
@@ -344,10 +344,10 @@ Anything else resolves the gate on (an explicit `gates.plays.shape: off` instead
 records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions row and
 proceeds). When on, present the domain's selection bundle **inline over the real model git
 diff** — the kept capabilities, the pruned capabilities (each with its reason), the selected
-functionalities, the personas, the journeys, AND the vertical slices (each led by **the
-user-facing surface it exposes**, with its outcome and the functionalities it bundles) plus
+features, the personas, the journeys, AND the vertical slices (each led by **the
+user-facing surface it exposes**, with its outcome and the features it bundles) plus
 the `_deferred` bucket. Say plainly that the surface's design — and the slices' order, effort,
-and dependencies — come later (/realize designs the surface; /shape-roadmap plans the slices; /shape-features
+and dependencies — come later (/realize designs the surface; /shape-roadmap plans the slices; /shape-slice
 cuts the epics), not here. Render the approval prompt
 (`standards/templates/approval-prompt.md`) and wait for the typed response. Approve →
 continue to Step 6 (commit). **Cancel → revert the working tree (ADR 026 step 6):** the full
@@ -406,27 +406,27 @@ persist or guard did not land closes HALTED, never COMPLETED (REC14).
 
 **Step 7 — Scenario evals** · Owner: play · Depends on: Step 6
 - **SCE-1 (S1 — product owner, select + compose):** kept capabilities are `active`, the
-  selected (already-existing) functionalities are placed into slices, personas and journeys
+  selected (already-existing) features are placed into slices, personas and journeys
   are created and schema-valid — each persona this run wrote carrying its structured grounding
-  (`goals`, `cares_about`, `failure_means`) beside a one-line `description` — no functionality
+  (`goals`, `cares_about`, `failure_means`) beside a one-line `description` — no feature
   was created or changed, and the stop-condition verdict reads held.
-- **SCE-2 (S2 — architect, grounding):** every kept capability and selected functionality
+- **SCE-2 (S2 — architect, grounding):** every kept capability and selected feature
   traces to a KB shelf or a recorded proposal in the manifest.
 - **SCE-3 (S3 — product owner, prune is soft):** a pruned capability is `deprecated` with a
   recorded decision and still present — not deleted.
-- **SCE-4 (S4 — reviewer, box and functionalities untouched):** the scoped-guard report reads
-  `ok`, so the profile is untouched and the model delta shows no change to any functionality or
+- **SCE-4 (S4 — reviewer, box and features untouched):** the scoped-guard report reads
+  `ok`, so the profile is untouched and the model delta shows no change to any feature or
   domain.
 - **SCE-5 (S5 — delivery lead, slices reference by id):** each slice has a name, outcome,
-  acceptance intent, and functionalities referenced by a resolvable spine id, with no copied
+  acceptance intent, and features referenced by a resolvable spine id, with no copied
   content and no `order`/`effort`/`depends_on`.
-- **SCE-6 (S6 — planner, full coverage):** the union of all slices' `functionality_ref`s and
-  the `_deferred` bucket equals the selected functionalities — none unplaced.
+- **SCE-6 (S6 — planner, full coverage):** the union of all slices' `feature_ref`s and
+  the `_deferred` bucket equals the selected features — none unplaced.
 - **SCE-7 (S7 — product owner, every slice is a user-facing scaffold):** every slice names at
   least one surface (name + persona + user_action) with no design content; zero surface-less
   slices, no one-per-capability horizontal slice; every named surface is reached by a journey.
 - **SCE-8 (S8 — reviewer, the checkpoint + re-run):** the checkpoint showed kept/pruned
-  capabilities, functionalities, personas, journeys, and the slices + deferred bucket inline
+  capabilities, features, personas, journeys, and the slices + deferred bucket inline
   over the full written delta before any COMMIT, and on cancel the working tree returns
   byte-clean to HEAD — or, on the auto-pass path (a policy-listed shape), the gate resolved
   with no wait and the recorded auto-pass, the appended ledger line, and the diff summary
@@ -476,7 +476,7 @@ the close stays HALTED until the verdict reads held. An unevaluable verdict is n
 the write and record `evidence skipped (record=false)` in the report's pointer line.
 Otherwise fill the `evidence-file.md` slots (play `shape`, run_id `shape-${ts}`,
 product_slug, started_at/completed_at, status per C0, exit_reason; artifacts produced: the
-capability status flips, the selected functionalities, personas, journeys, decisions, the
+capability status flips, the selected features, personas, journeys, decisions, the
 vertical slices (each with its user-facing surface) + deferred bucket, the shape manifest, the
 persist manifest (`persist-manifest.json`), the captured `guard-report.json`, the model-delta
 commit sha, the stop-condition verdict; step and scenario eval results SE-1…SE-16 /
@@ -491,9 +491,9 @@ body.
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## shape Delivered — ${product_slug}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (status flips, selected
-functionalities, personas, journeys, decisions, the vertical slices + deferred bucket),
+features, personas, journeys, decisions, the vertical slices + deferred bucket),
 Next Steps (run /shape-roadmap to plan the slices — order, dependencies, effort — across
-domains; then /shape-features cuts a chosen slice into epics), and a pointer to `$evidence_dest`.
+domains; then /shape-slice cuts a chosen slice into epics), and a pointer to `$evidence_dest`.
 Always emitted; never gated.
 
 ```bash
@@ -507,7 +507,7 @@ Always emitted; never gated.
 | S1 — select + compose | product owner | SCE-1 |
 | S2 — grounding | architect | SCE-2 |
 | S3 — prune is soft | product owner | SCE-3 |
-| S4 — box + functionalities untouched | reviewer | SCE-4 |
+| S4 — box + features untouched | reviewer | SCE-4 |
 | S5 — slices reference by id | delivery lead | SCE-5 |
 | S6 — full coverage | planner | SCE-6 |
 | S7 — every slice is a user-facing scaffold | product owner | SCE-7 |
@@ -518,18 +518,18 @@ Always emitted; never gated.
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | the profile is `directional`, or a target capability is not detailed, at start | halt and route to /discover-capabilities to firm the profile and detail the capabilities first | human |
-| F2 | /shape-scope created a functionality, authored ICE, or wrote the profile | strip the over-reach — remove the created functionality/ICE, revert the profile write; detailing and the box are /discover-capabilities's | autonomous |
-| F3 | a selected functionality or kept capability has no KB shelf match and no proposal | ground it against the KB, or record a propose-kb-node proposal; never keep an invented selection | autonomous |
+| F2 | /shape-scope created a feature, authored ICE, or wrote the profile | strip the over-reach — remove the created feature/ICE, revert the profile write; detailing and the box are /discover-capabilities's | autonomous |
+| F3 | a selected feature or kept capability has no KB shelf match and no proposal | ground it against the KB, or record a propose-kb-node proposal; never keep an invented selection | autonomous |
 | F4 | a capability edited beyond status, a reparent/rename, a create/delete, or a hard-deleted prune | revert the out-of-scope mutation; /shape-scope flips capability status only and prunes soft (`deprecated`) | autonomous |
-| F5 | a persona/journey/decision/slice fails its schema, or a slice/journey reference does not resolve, or a persona written THIS run lacks `goals`/`cares_about`/`failure_means` or crams them into `description` | re-emit the failing record to conform, and fix the reference to a real spine functionality/persona/surface; for the persona, split the content out of `description` into the three fields — goals as outcomes in the person's words, `cares_about` as their trust criteria, `failure_means` as what a miss looks like for them — each read off the capability's `ice.yaml` and the firmed profile, leaving `description` as the one-line who-they-are summary; a warning on a persona an earlier run wrote is left alone | autonomous |
-| F6 | a selected functionality is in neither a slice nor the `_deferred` bucket | place it — add it to a slice, or record it in `_deferred` with a reason — before persisting | autonomous |
-| F7 | a surface-less/horizontal slice, or a "whole UI at once" slice | re-cut the slice vertically toward one surface a persona opens and checks, as a thin scaffold; fold or defer functionalities that serve no surface | autonomous |
+| F5 | a persona/journey/decision/slice fails its schema, or a slice/journey reference does not resolve, or a persona written THIS run lacks `goals`/`cares_about`/`failure_means` or crams them into `description` | re-emit the failing record to conform, and fix the reference to a real spine feature/persona/surface; for the persona, split the content out of `description` into the three fields — goals as outcomes in the person's words, `cares_about` as their trust criteria, `failure_means` as what a miss looks like for them — each read off the capability's `ice.yaml` and the firmed profile, leaving `description` as the one-line who-they-are summary; a warning on a persona an earlier run wrote is left alone | autonomous |
+| F6 | a selected feature is in neither a slice nor the `_deferred` bucket | place it — add it to a slice, or record it in `_deferred` with a reason — before persisting | autonomous |
+| F7 | a surface-less/horizontal slice, or a "whole UI at once" slice | re-cut the slice vertically toward one surface a persona opens and checks, as a thin scaffold; fold or defer features that serve no surface | autonomous |
 | F8 | /shape-scope designed a surface (wireframe/component/layout/visual) instead of naming it | strip the design to the surface's name, persona, and user action; design is /realize's UX lens | autonomous |
 | F9 | a journey is not a user journey on a surface, or a named surface no journey reaches | rewrite the journey as the persona's steps on a named surface; ensure every slice surface is reached by a journey | autonomous |
-| F10 | a slice copied a functionality's content, or carries `order`/`effort`/`depends_on` | replace copied content with a spine `functionality_ref`, and strip the plan fields — /shape-roadmap plans | autonomous |
+| F10 | a slice copied a feature's content, or carries `order`/`effort`/`depends_on` | replace copied content with a spine `feature_ref`, and strip the plan fields — /shape-roadmap plans | autonomous |
 | F11 | a prune or material selection with no decision record | write the decision (ADR) for each before persisting | autonomous |
 | F12 | the model delta was committed with no checkpoint approval | revert the working tree (`scoped_write_guard.py --restore`, empty allow) and re-present the checkpoint; commit only after the human approves | human |
-| F13 | a functionality/domain/profile changed, an out-of-scope path changed, or a re-run duplicated a record (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only /shape-scope's scope (spine status flips/slice index/refs, and the new slice/persona/journey/decision records), de-duplicating by stable id, after a human confirms the restore | human |
+| F13 | a feature/domain/profile changed, an out-of-scope path changed, or a re-run duplicated a record (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only /shape-scope's scope (spine status flips/slice index/refs, and the new slice/persona/journey/decision records), de-duplicating by stable id, after a human confirms the restore | human |
 | F14 | the run is about to close COMPLETED with the Done means unmet | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F15 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line for the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait — render the approval prompt and wait for the typed response — before proceeding | autonomous |
 | F16 | the product-os tree is dirty at entry (uncommitted model edits present) | halt at pre-flight and ask for a clean model tree — commit or revert the pending model edits (or run the prior pipeline play to its close) — before /shape-scope proceeds | human |
@@ -547,7 +547,7 @@ start — a resume continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:4298aa2990163be229aab6d62a3f9fb52916f48de645595ed9bc0fdd26e9ce0b (of `reference/ice.md`) |
+| fingerprint | sha256:3a08733775f8f7277cfc705c991ac6251319aa2a729d71082d183cadd012249f (of `reference/ice.md`) |
 | compiled_by | edit-play (#550 first-class persona grounding); prior: edit-play (#500 direct-model-write, ADR 026), edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | none |
 | position_exception | middle of the strategy pipeline — runs on the branch /discover-domains started; the close belongs to /shape-roadmap (#437) |

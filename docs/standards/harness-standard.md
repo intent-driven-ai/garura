@@ -77,8 +77,8 @@ shows what it needs.
 ### 7. The business intent is the root of all work
 
 A person's business intent is tracked as an issue. Its plan breaks it into capabilities and
-functionalities, and each one holds the agent intent (ICE) an agent builds from. Bugs always sit under
-a functionality. A plan's ID is its business intent's issue number (ADR 031, ontology v5).
+features, and each one holds the agent intent (ICE) an agent builds from. Bugs always sit under
+a feature. A plan's ID is its business intent's issue number (ADR 031, ontology v5).
 
 *Why:* every piece of work traces up to what a person asked for, and every defect shows which intent
 it touches.
@@ -115,7 +115,7 @@ is the easiest to learn and to teach.
 | Kind | Shape | Examples |
 |------|-------|----------|
 | Loop | `complete-<phase>` | `complete-discovery` |
-| Play | `<verb>-<object>` | `discover-domains`, `shape-features`, `build-feature`, `start-change` |
+| Play | `<verb>-<object>` | `discover-domains`, `shape-slice`, `build-epic`, `start-change` |
 | Skill | `<verb>-<object>` | `author-roadmap`, `infer-scope`, `check-quality` |
 | Agent | `<domain>-<role>` | `adr-keeper`, `quality-auditor` |
 

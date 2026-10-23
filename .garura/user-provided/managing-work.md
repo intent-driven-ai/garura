@@ -9,20 +9,24 @@ invent one.
 
 ## First: Garura is built the way it tells others to build
 
-Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v5,
+Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v7,
 `core/components/memory/standards/schemas/product-os/ontology.md`; Kapil: "going forward, our approach
 to building Garura will also change"). There is one plane, not two:
 
 ```
+Product model                          Tracker
 Business Intent                 ── issue: Business Intent   (its issue number is its plan's ID)
-└─ Capability + its ICE         ── issue: Feature
-   └─ Functionality + its ICE   ── issue: Story
-      ├─ Spike / Chore          ── issue, when the work needs one
-      └─ Bug                    ── issue, always under a functionality
+Capability + its ICE            ── never an issue
+└─ Feature + its ICE            ── issue: Story, one in each Epic that delivers it
+Slice (features from any        ── issue: Epic, made when a plan picks the slice
+       capabilities, in order)     └─ Story, one per feature of the slice
+                                      ├─ Spike / Chore   ── issue, when the work needs one
+                                      └─ Bug             ── issue, always under the Story that introduced it
 ```
 
 Domains live in the product model and link loosely to business intents and capabilities; they are
-never an issue and never part of a plan. Epics and slices are not in the model.
+never an issue and never part of a plan. A slice is in the model; its Epic is the work that
+delivers it.
 
 ---
 
@@ -31,18 +35,18 @@ never an issue and never part of a plan. Epics and slices are not in the model.
 | | What it is | Filed when |
 |---|---|---|
 | **Business Intent** | What a person wants — an outcome. Tracking only: it holds no ICE and agents never build it. Met by its proof, never closed by finishing its children. | A goal is stated that work will be done to serve. |
-| **Feature** | The work order for one capability: something the product can do, with its ICE. | A business intent needs a capability built or changed. |
-| **Story** | The work order for one functionality: one thing a person can do inside a capability, with its ICE. One coherent change that can be built, reviewed, and merged on its own. | A capability's functionality is ready to build. |
-| **Bug** | A defect in a functionality: it behaves differently from what was intended. | Observed behaviour departs from expected behaviour. |
-| **Chore** | Upkeep under a functionality that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
-| **Spike** | A question to answer under a functionality. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
+| **Epic** | The work order for one slice: an ordered group of features, from any capabilities, that a person can test end to end. It holds one Story for each feature of the slice and has no ICE of its own. | A plan picks a slice to build. |
+| **Story** | The work order for one feature: one thing a person can do inside a capability. Its scope of work is written from its feature's ICE and its capability's ICE. One coherent change that can be built, reviewed, and merged on its own. | A feature in a picked slice is ready to build. |
+| **Bug** | A defect in a feature: it behaves differently from what was intended. Filed under the Story that introduced it. | Observed behaviour departs from expected behaviour. |
+| **Chore** | Upkeep under a Story that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
+| **Spike** | A question to answer under a Story. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
 
-A Feature is never worked directly; its Stories are. A Bug is not "something is missing" —
-missing capability is a Feature or a Story.
+An Epic is never worked directly; its Stories are. A Bug is not "something is missing" —
+a missing feature is a Story.
 
 ## Where does it hang?
 
-Every Feature hangs under its business intent, every Story under its Feature, and every Bug, Spike
+Every Epic serves one or more business intents, every Story hangs under its Epic, and every Bug, Spike
 and Chore under a Story — as a real parent/child link in the tracker. A business intent has no parent;
 business intents link to each other only by "identified by". A plan for the business intent is kept
 at `.garura/project/plans/<business-intent-issue>.yaml`. Plays and skills are named by the harness
@@ -73,15 +77,15 @@ no-labels rule above stands). The project is also where Phoenix releases are fol
 Before a Story or Bug is handed to a session, it has to stand on its own. The
 session working it reads the issue and its parent, and nothing else.
 
-**A Story is ready when it has** a parent Feature linked, acceptance criteria
+**A Story is ready when it has** a parent Epic linked, acceptance criteria
 (what must be true for this to be done), and a scope boundary (what this issue
 deliberately does *not* touch).
 
 **A Bug is ready when it has** a reproduction — the steps and the actual
 behaviour — and a statement of the expected behaviour.
 
-**A Feature is ready when** it states the problem, the boundary, and the "done
-when." It is then decomposed; it is never worked directly.
+**An Epic is ready when** it names its slice and states the "done when." It is then
+decomposed into Stories; it is never worked directly.
 
 An issue that fails these tests is not blocked on effort — it is blocked on
 being written. Finish writing it before anyone picks it up.
@@ -89,7 +93,7 @@ being written. Finish writing it before anyone picks it up.
 ## How does work get picked up?
 
 Planning and decomposition happen in an **orchestrator session**: reading the
-backlog, shaping Features, cutting Stories, ordering them. No implementation
+backlog, shaping Epics, cutting Stories, ordering them. No implementation
 happens there.
 
 Each Story or Bug then goes to **its own session**. That session:

@@ -25,7 +25,7 @@ the wrong shape; both or neither of --confirmation and --proposed are given; (by
 decisions are not the person's own typed replies, any drafted intent has no decision, or none
 is confirmed; a saved intent misses a required property; an id is badly shaped (ids become
 file names, so only lower-case letters, digits and dashes) or repeated; the draft carries ICE,
-domains, capabilities or functionalities (another play writes those kinds); a Source has no
+domains, capabilities or features (another play writes those kinds); a Source has no
 snapshot or no "what it shows"; or an intent page already exists. Only a person confirms (C4) —
 by hand here, or at a loop's final review. No git, no network, no LLM.
 
@@ -163,7 +163,7 @@ def plan(args):
             raise Refused(f"the Source at {s['snapshot_dir']} has no 'what it shows' — re-draft "
                           f"before saving")
 
-    for key in ("ice", "domains", "capabilities", "functionalities"):
+    for key in ("ice", "domains", "capabilities", "features"):
         if draft.get(key):
             raise Refused(f"the draft carries `{key}` — /discover-intent writes business intents only "
                           f"(ADR 043); another play writes that kind")

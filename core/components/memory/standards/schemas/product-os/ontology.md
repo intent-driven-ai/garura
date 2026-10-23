@@ -1,7 +1,7 @@
 ---
 ontology: product
-version: 7
-updated: 2026-10-22
+version: 8
+updated: 2026-10-23
 ---
 
 # Product Ontology
@@ -189,6 +189,8 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 
 **What it is:** What a business intent was drawn from — anything that explains it: a prototype (a single file, a project folder, or a deployed site), a document, or a plain statement — kept exactly as it was when read. It shows the intent; it is never the intent. Named "Source" because Garura's "Evidence" already means a play's run record.
 **Who reads it:** both
+**Layer:** product
+**In the tracker as:** none — model only
 **Lives at:** saved through Garura's evidence method at the reading play's close: `{product_base}_evidence/intent/<timestamp>/` — the snapshot plus a `source.md` describing it
 
 **Properties**
@@ -316,7 +318,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 **Who reads it:** both
 **Layer:** product
 **In the tracker as:** a **Story** — one Story in each Epic that delivers it. A Feature is not itself an issue type
-**Lives at:** the spine's `features` list and its page `feature.md` — under its capability's folder, or the holding folder `features/<id>/` until it names a capability. (These are the names after the rename story that comes next in plan 788. Until that story lands, they are `functionalities`, `functionality.md` and `functionalities/`.)
+**Lives at:** the spine's `features` list and its page `feature.md` — under its capability's folder, or the holding folder `features/<id>/` until it names a capability.
 
 **Properties**
 
@@ -359,7 +361,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 **Who reads it:** both
 **Layer:** product
 **In the tracker as:** an **Epic** — one Epic for the Slice, made when a Plan picks it. A Slice is not itself an issue type
-**Lives at:** the spine's `slices` list — `id`, `slug`, `feature_refs` (its features, in build order; `functionality_refs` until the rename story lands), `vertical` (the screen or surface a person tests) and `record` (a pointer to its full record). The fields `domain_ref`, `status`, `order`, `effort` and `depends_on` go
+**Lives at:** the spine's `slices` list — `id`, `slug`, `feature_refs` (its features, in build order), `vertical` (the screen or surface a person tests) and `record` (a pointer to its full record). The fields `domain_ref`, `status`, `order`, `effort` and `depends_on` go
 
 **Properties**
 
@@ -402,7 +404,7 @@ proposed → confirmed (the person who asked confirms it says the right thing) �
 **Who reads it:** agent
 **Layer:** product
 **In the tracker as:** none — model only
-**Lives at:** its own page, `ice.md`, in the folder of its part, so the ICE moves with its part — a capability's ICE at `{domain}/{capability}/ice.md` (or `capabilities/{capability}/ice.md` while the capability has no domain), a feature's ICE at `{domain}/{capability}/{feature}/ice.md` (or `features/{feature}/ice.md` while the feature has no capability; `functionalities/` until the rename story lands). The page has three sections, in this order: `## Intent` (lines Goal, Limit, Fails if), `## Context` (lines Read, Never read, Persona, Scope) and `## Expectation` (lines Scenario, Done means, Quality need), each line filled as far as is known. Its spine entry is one item in the `ices` list in `_spine.yaml` — `id` (opaque, stable), `for` (the id of its one capability or feature), `for_kind` (capability or feature), `doc` (the pointer to its `ice.md`) and `metadata`. The entry holds no business intent ids and no ready answer.
+**Lives at:** its own page, `ice.md`, in the folder of its part, so the ICE moves with its part — a capability's ICE at `{domain}/{capability}/ice.md` (or `capabilities/{capability}/ice.md` while the capability has no domain), a feature's ICE at `{domain}/{capability}/{feature}/ice.md` (or `features/{feature}/ice.md` while the feature has no capability). The page has three sections, in this order: `## Intent` (lines Goal, Limit, Fails if), `## Context` (lines Read, Never read, Persona, Scope) and `## Expectation` (lines Scenario, Done means, Quality need), each line filled as far as is known. Its spine entry is one item in the `ices` list in `_spine.yaml` — `id` (opaque, stable), `for` (the id of its one capability or feature), `for_kind` (capability or feature), `doc` (the pointer to its `ice.md`) and `metadata`. The entry holds no business intent ids and no ready answer.
 
 **Properties**
 
@@ -752,3 +754,4 @@ None. Every kind a question or a relationship names is defined above.
 - 2026-10-21 — v5 (#597, plan #722, with Kapil): Capability, Functionality, Work and Plan defined. Capabilities and functionalities **need** each other in any mix, and record what they were **identified by**; business intents are identified by each other — a connection, never a dependency. Work is never linked. Domains link loosely to business intents and capabilities and are never in a plan. The ready rule drops the domain: a node is ready once it serves a confirmed business intent and nothing it needs is open (replaces the ADR 043 rule). Q7 added. The spine field stays `depends_on` for now; its rename to `needs` is #725. Working notes: `.garura/project/issues/621/specs/ontology-run.md`.
 - 2026-10-22 — v6 (#758, plan #756, with the product owner): the ICE becomes its own node, with its own page (`ice.md`, in its part's folder) and its own spine entry (a new `ices` list), one for each capability and each functionality, in three parts (Intent, Context, Expectation); it has no link to a business intent, and finds them through its part. A business intent holds no ICE and is never worked on directly; it has one or more capabilities, its Touches list names domains and capabilities only, it gains an optional Rules property, and business intents are still identified by one another, a connection and never a dependency. Among the parts of the product, "needs" and "identified by" join capabilities only; a functionality has neither, and takes its business intents and order of work from its one parent capability. Work carries one ICE. A capability sits in at most one domain and a domain has one or more capabilities; a missing domain is a gap, never a stop; the spine's single `domain` field and the folders stay as they are. The ready rule moves to the ICE, with three answers: ready, partly ready, not ready; an ICE starts only with all three parts present. Q1–Q7 now point at the new links; Q8–Q16 added. Garura's own fn-727 → fn-724 becomes cap-718 → cap-723 (#765). Option 1 (one ICE for each part) replaces option 1.B (one ICE for each pair of business intent and part).
 - 2026-10-22 — v7 (#793, plan #788, with the product owner): the model has two layers with the Plan as the thread, and each kind says what it is in the tracker as. Product layer: Business Intent (an issue labelled `product`, the only kind with that label), Source, Domain, Capability, ICE, Feature (Functionality renamed; in the tracker represented by a Story) and the new Slice (an ordered group of features from any capabilities that gives one vertical a person can test; in the tracker represented by an Epic); Feature and Slice are not issue types; Source, Domain, Capability and ICE are model only, and Domain and Capability have no link to any work item. Work layer: Work is no longer a kind but the name of the layer, and Epic, Story, Spike, Chore and Bug are kinds, each an issue labelled `work-item`; Feature is no longer a work type. A Plan (a file) is given one business intent, picks a slice by two tests and creates one epic for it, or uses the one that exists; an Epic represents one slice, holds stories, serves one or more business intents, has no ICE, stays open and leaves the product model (the spine's `epics` list and the `epic.md` pages go); a Story represents and delivers one feature, one per feature in each epic, and its issue holds its scope of work, written from its feature's and capability's ICE, in place of the ICE copy; Spikes, Chores and Bugs are children of one story and carry no ICE — a Spike only after its story is built, with a new "led to" link, and a Bug under the story that introduced the defect. A capability is done when every feature in it has a closed story, worked out and never stored. The spine's slice entry keeps `id`, `slug`, `feature_refs` and `record`, gains `vertical`, and drops `domain_ref`, `status`, `order`, `effort` and `depends_on`. The spine and file names for features (`features`, `feature.md`, `features/`) come with the rename story next in plan 788. Domain becomes a full kind; Tracker Issue is not made a kind, its labels live on each kind. Q1, Q2, Q7, Q13 and Q16 change; Q17–Q26 are added. Dropped: Work as a kind, "one capability has one Feature", "a Feature carries its capability's ICE", "one functionality has exactly one Story", "Spikes, Bugs and Chores sit under a functionality", "each piece of work carries one ICE".
+- 2026-10-23 — v8 (#807, plan #788): wording only. The rename of functionality to feature is now done on disk, so the notes "until the rename story lands" go from the Feature, Slice and ICE kinds. Source gains its Layer line (product) and its In the tracker as line (none — model only), as every other kind has. The template gains both lines. No kind, link or rule changes meaning.

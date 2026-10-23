@@ -110,7 +110,7 @@ injected as the closing chain. This source never hand-rolls issue/branch/PR/merg
 - REC1 (F1) — trigger: a product-model file changed. direction: revert the product-model write and
   restore the tree to its pre-refactor snapshot; a refactor changes code only. handoff: autonomous.
 - REC2 (F2) — trigger: external behavior changed. direction: revert the behavior-changing edit; if
-  the change is actually wanted it is not a refactor — route it to /fix or /build-feature. handoff:
+  the change is actually wanted it is not a refactor — route it to /fix or /build-epic. handoff:
   human.
 - REC3 (F3) — trigger: a test was weakened/deleted or behavior is unproven. direction: restore the
   test to its prior strength and re-run; where coverage was thin, capture the characterization

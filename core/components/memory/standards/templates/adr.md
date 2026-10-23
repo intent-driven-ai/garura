@@ -23,7 +23,7 @@
 | `title` | The decision in one line, as a statement — not a topic | yes |
 | `status` | `proposed`, `accepted`, `superseded` or `rejected`. Only a person moves it to `accepted` or `rejected` | yes |
 | `date` | When it was decided (accepted), or proposed | yes |
-| `level` | `framework`, `product`, `capability` or `functionality` | yes |
+| `level` | `framework`, `product`, `capability` or `feature` | yes |
 | `node_ref` | The part of the product it affects; empty for a framework ADR | product levels |
 | `accepted_by` | The PERSON who accepted it; empty while proposed. Markdown: the **Decided by:** line. YAML: `metadata.accepted_by` (YAML's `metadata.decided_by` keeps its original meaning: the play that recorded it) | once accepted |
 | `decided_in` | Where it was decided — the issue, the run, the review | yes |
@@ -66,7 +66,7 @@ File: `docs/adr/NNN-<slug>.md`. Headings in this order; header lines are bold fi
 
 **Status:** Proposed | Accepted | Superseded by [ADR MMM](MMM-<slug>.md) | Rejected
 **Date:** YYYY-MM-DD
-**Level:** framework | product | capability | functionality
+**Level:** framework | product | capability | feature
 **Decided by:** <person> · **Decided in:** #<issue> (<what kind of work>)
 **Supersedes:** ADR MMM (<in full | in part — what part>) · …            (omit when none)
 **Amends:** ADR MMM — <what part> · …                                      (omit when none)
@@ -119,7 +119,7 @@ decision:
   id: <id>
   title: <the decision as a statement>
   status: proposed | accepted | superseded | rejected
-  level: framework | product | capability | functionality
+  level: framework | product | capability | feature
   node_ref: <the node it affects — empty for framework or product level>
   reason: <context and decision, in plain words>          # v1 field: context + decision
   alternatives:

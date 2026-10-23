@@ -131,7 +131,7 @@ Options:
   component except the meta harness plays and the harness-only skills). `harness` installs
   only the meta plays (create-play, edit-play), the harness-only skills
   (author-product-ontology), the five *change plays, `/discover-capabilities` (it writes the
-  full ICE for a harness repo's own capabilities and functionalities, #753), and the worker
+  full ICE for a harness repo's own capabilities and features, #753), and the worker
   skills/agents those plays dispatch — for harness-type repos (garura itself) that must not
   carry the other product plays. The scope filters **components only**;
   shared memory, config, the STM scaffold, and the manifest are written the same either way.

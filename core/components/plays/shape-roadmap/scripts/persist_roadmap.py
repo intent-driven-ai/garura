@@ -12,8 +12,8 @@ writes the plan onto the spine slices index IN PLACE, KEYED by slice id:
   - for each slice in the computed plan, it sets ONLY the four PLAN FIELDS on that
     slice's spine index entry — `order`, `effort`, resolved `depends_on`, and the
     `status` flip to `planned` — preserving every other part of that entry
-    (id/slug/domain_ref/functionality_refs/record) and every other spine collection
-    (domains/capabilities/functionalities/profile/epics) byte-untouched.
+    (id/slug/domain_ref/feature_refs/record) and every other spine collection
+    (domains/capabilities/features/profile/epics) byte-untouched.
   - it REFUSES a plan that names a slice id absent from the live spine (exit non-zero),
     and it never opens a slice RECORD, a grounding doc, or any collection other than the
     spine slices index. This is the node-level containment the file-level scoped guard

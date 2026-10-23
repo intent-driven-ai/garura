@@ -14,7 +14,7 @@ candidate derivation needs, read the way the model-writing plays write it
     lenses /shape-measure-lens lines up (quality, ux, agentic, marketing, architecture,
     run, measure);
   - a slice record is read only for what the spine does not carry (name,
-    functionalities) — its own `status` is never read (it goes stale after
+    features) — its own `status` is never read (it goes stale after
     /shape-roadmap writes the spine).
 
 Also records a content hash of the whole product-os tree — the model basis the
@@ -116,15 +116,15 @@ def scan_slice(root, slug, entry, epics_by_slice, errors):
             # surface contract (ADR 022): declared at the cut on the spine epics
             # index, read here so the derivation can detect surface debt.
             "surface_type": norm(e.get("surface_type")),
-            # /validate-feature stamps surface_verified: true on the spine entry when the
+            # /validate-epic stamps surface_verified: true on the spine entry when the
             # surface-parity check passed.
             "surface_verified": bool(e.get("surface_verified")),
         })
 
     funcs = []
-    for fn in (record.get("functionalities") or []):
+    for fn in (record.get("features") or []):
         fn = fn or {}
-        funcs.append({"functionality_ref": fn.get("functionality_ref"),
+        funcs.append({"feature_ref": fn.get("feature_ref"),
                       "ice_ref": fn.get("ice_ref")})
 
     return {
@@ -137,8 +137,8 @@ def scan_slice(root, slug, entry, epics_by_slice, errors):
         "order": entry.get("order"),
         "effort": entry.get("effort"),
         "depends_on": sorted(entry.get("depends_on") or []),
-        "functionalities": funcs or [{"functionality_ref": f, "ice_ref": None}
-                                     for f in (entry.get("functionality_refs") or [])],
+        "features": funcs or [{"feature_ref": f, "ice_ref": None}
+                                     for f in (entry.get("feature_refs") or [])],
         "lenses": lenses,
         "lens_dir": lens_dir,
         "epics": epics,
@@ -209,7 +209,7 @@ def main(argv=None):
                 base = os.path.splitext(os.path.basename(sf))[0]
                 if base == "_deferred":
                     dd = (load(sf, errors).get("deferred") or {})
-                    deferred = {"functionalities": sorted(dd.get("functionalities") or []),
+                    deferred = {"features": sorted(dd.get("features") or []),
                                 "reason": dd.get("reason")}
                 elif base not in indexed_ids:
                     unindexed.append(base)

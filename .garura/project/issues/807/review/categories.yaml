@@ -1,0 +1,84 @@
+# check-change Step 2 -- categories present in PR #810 (issue 807, mechanical rename)
+# Derived from changed_paths and diff content; playbooks from ~/.garura/core/memory/knowledge/review/
+categories:
+  - name: harness
+    description: >
+      Plays, loops, skills and agents (SKILL.md, ice.md, stop-condition.yaml, workflow
+      structures, agent definitions) plus the shared loop/play reference files, edited by the rename.
+    evidence_paths:
+      - "core/components/plays/**/SKILL.md (21 files)"
+      - "core/components/plays/**/reference/ice.md (20 files)"
+      - "core/components/plays/**/stop-condition.yaml (5 files)"
+      - "core/components/plays/create-play/references/workflow-structures.md and other play references"
+      - "core/components/loops/** (3 files, incl. complete-discovery/SKILL.md, _shared/loop-run.md)"
+      - "core/components/agents/** (9 files)"
+      - "core/components/skills/** SKILL.md and prompts (about 12 non-script files)"
+      - "core/grounding/glossary.md"
+    playbook: review/harness
+    design_bearing: true
+  - name: code
+    description: Executable scripts under plays/skills and the rebuild-eval and naming tools.
+    evidence_paths:
+      - "core/components/plays/*/scripts/** (.py/.js/.sh, about 100 files incl. runners)"
+      - "core/components/skills/*/scripts/** (about 8 files)"
+      - "core/tools/rebuild-eval/** (7 files)"
+      - "core/tools/naming (1 file)"
+    playbook: review/code
+    design_bearing: false
+  - name: tests
+    description: Test and eval files updated for the new names.
+    evidence_paths:
+      - "core/components/plays/**/test_*.py (about 12 files, e.g. discover-domains/scripts/test_lint_grounding.py, install-garura/scripts/test_install.py)"
+      - "core/components/plays/create-play/references/test_*.py (2 files)"
+      - ".garura/project/issues/807/evidence/eval/** (8 files)"
+    playbook: review/tests
+    design_bearing: false
+  - name: memory
+    description: >
+      Knowledge and standards memory: rules, product-os schemas (incl. lens and grounding
+      lens schemas), templates, domain/technology/work-intelligence/review knowledge shelves.
+    evidence_paths:
+      - "core/components/memory/standards/rules/** (9 files incl. naming.md)"
+      - "core/components/memory/standards/schemas/** (22 files)"
+      - "core/components/memory/standards/templates/** (5 files)"
+      - "core/components/memory/knowledge/** (9 files: domains 4, technology 3, work-intelligence 1, review 1)"
+    playbook: review/memory
+    design_bearing: true
+  - name: adrs
+    description: Architecture decision records edited for the rename, plus the ADR index.
+    evidence_paths:
+      - "docs/adr/*.md (10 files: 019, 022, 024, 028, 031, 043, 046, 047, 048, _index)"
+      - ".garura/project/issues/_adr/20261022-185338/** (13 files)"
+    playbook: review/adrs
+    design_bearing: false
+  - name: docs
+    description: Human-facing documentation, philosophy, standards and top-level guides.
+    evidence_paths:
+      - "docs/components/*.md (4 files)"
+      - "docs/philosophy/*.md (2 files)"
+      - "docs/standards/harness-standard.md"
+      - "README.md, CLAUDE.md"
+      - ".garura/user-provided/managing-work.md"
+      - ".garura/project/issues/807/context/** and specs (about 21 files; issue working notes, edit-ontology context)"
+    playbook: review/docs
+    design_bearing: false
+  - name: config-maps
+    description: Configuration and generated index/spine files carrying names.
+    evidence_paths:
+      - "core/config.yaml"
+      - ".garura/product/product-os/_spine.yaml"
+      - ".garura_index.md"
+      - "stm, ltm, kb (path entries in the changed list)"
+    playbook: review/config-maps
+    design_bearing: false
+  - name: product-model
+    description: >
+      The project's own product model (intents, capabilities, features) renamed in place.
+      No playbook covers product-model records.
+    evidence_paths:
+      - ".garura/product/product-os/features/*/feature.md (21 files)"
+      - ".garura/product/product-os/capabilities/*/capability.md (2 files)"
+      - ".garura/product/product-os/intents/*.md (3 files)"
+    playbook: null
+    playbook_note: "playbook missing; treated as memory-like records, closest is review/memory but not a fit. Follow-up task suggested."
+    design_bearing: true

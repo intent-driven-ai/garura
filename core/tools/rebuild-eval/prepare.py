@@ -4,12 +4,12 @@
     python3 prepare.py --product-os <project>/.garura/product/product-os \
         --out <run>/brief [--prototype-name argus.html]
 
-Copies the business intents (`intents/*.md`), the domain, capability and functionality pages and
+Copies the business intents (`intents/*.md`), the domain, capability and feature pages and
 the spine. On the way it takes out what would let a builder find the prototype or the loop's
 records: local links (the text stays, the path goes), absolute paths and `.garura/` paths, and
 the prototype's file name. Web links stay — they are research sources. What it took out is
 listed in `<out>/../brief-manifest.json`, with the counts of what the brief holds and its level:
-`intents` (only intents), `domain`, `capabilities` or `functionalities` (the deepest level present).
+`intents` (only intents), `domain`, `capabilities` or `features` (the deepest level present).
 
 Exit 0 written; 2 the product model cannot be read. Standard library only. No git, no LLM.
 """
@@ -20,7 +20,7 @@ import re
 import shutil
 import sys
 
-PAGES = ("domain.md", "capability.md", "functionality.md")
+PAGES = ("domain.md", "capability.md", "feature.md")
 LOCAL_LINK = re.compile(r"\[([^\]]+)\]\((?!https?://)([^)]+)\)")
 ABS_PATH = re.compile(r"(?<![\w.])(?:/(?:Users|private|tmp|home|var)/[^\s)\]`'\"]+|\.garura/[^\s)\]`'\"]+)")
 
@@ -48,7 +48,7 @@ def clean(text, prototype_names):
 
 
 def level_of(counts):
-    for key in ("functionalities", "capabilities", "domain"):
+    for key in ("features", "capabilities", "domain"):
         if counts[key]:
             return key
     return "intents"
@@ -59,8 +59,8 @@ def prepare(product_os, out, prototype_names):
         raise OSError(f"no product model folder at {product_os}")
     if os.path.exists(out):
         shutil.rmtree(out)
-    counts = {"intents": 0, "domain": 0, "capabilities": 0, "functionalities": 0}
-    kind_of = {"domain.md": "domain", "capability.md": "capabilities", "functionality.md": "functionalities"}
+    counts = {"intents": 0, "domain": 0, "capabilities": 0, "features": 0}
+    kind_of = {"domain.md": "domain", "capability.md": "capabilities", "feature.md": "features"}
     removed, files = [], []
     for root, _dirs, names in os.walk(product_os):
         rel_root = os.path.relpath(root, product_os)

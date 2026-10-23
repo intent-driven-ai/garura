@@ -1,6 +1,6 @@
 ---
 name: judge-validation-results
-description: Compose /validate-feature's findings from CAPTURED results only — the judgment half of the finder's job. Reads the normalized check results (results/*.json + summary.json from run_checks) and the gates/benchmark map (gates-map.json from check_gates), and writes findings.yaml — one entry per real problem, each carrying its mechanical citation (the failing check id, the rule that fired, the gate or benchmark) and its location (file:line where the tool named one, else the raw log path). Adds judgment the scripts cannot: deduplicating one root cause reported by several tools, reading the raw logs to extract the exact failing assertion/rule/file, and flagging a result pattern that LOOKS gamed (a suspiciously emptied test set, a suppressed rule) as a finding. Runs NOTHING, fixes NOTHING, invents NOTHING — a finding it cannot cite from captured output does not exist. The judging work for the /validate-feature play; agents fix, this names what is broken with total clarity.
+description: Compose /validate-epic's findings from CAPTURED results only — the judgment half of the finder's job. Reads the normalized check results (results/*.json + summary.json from run_checks) and the gates/benchmark map (gates-map.json from check_gates), and writes findings.yaml — one entry per real problem, each carrying its mechanical citation (the failing check id, the rule that fired, the gate or benchmark) and its location (file:line where the tool named one, else the raw log path). Adds judgment the scripts cannot: deduplicating one root cause reported by several tools, reading the raw logs to extract the exact failing assertion/rule/file, and flagging a result pattern that LOOKS gamed (a suspiciously emptied test set, a suppressed rule) as a finding. Runs NOTHING, fixes NOTHING, invents NOTHING — a finding it cannot cite from captured output does not exist. The judging work for the /validate-epic play; agents fix, this names what is broken with total clarity.
 version: 0.1.0
 user-invocable: false
 model: best
@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Glob, Grep
 
 # judge-validation-results
 
-The judge half of /validate-feature's finder/fixer split: scripts ran the mechanics and captured
+The judge half of /validate-epic's finder/fixer split: scripts ran the mechanics and captured
 everything; this skill reads ONLY those captured files and writes the findings —
 super-clear, mechanically cited, directly actionable. The fix report built from these
 findings is implement's exact work list, so vagueness here costs a whole loop round.
@@ -63,7 +63,7 @@ findings is implement's exact work list, so vagueness here costs a whole loop ro
 ### NEVER
 - Run a tool, a test, a scan, or any command — the mechanics already ran; judge the
   captured output only (allowed-tools carries no Bash for a reason).
-- Edit product code or any file beyond `out_findings` — agents fix in /build-feature,
+- Edit product code or any file beyond `out_findings` — agents fix in /build-epic,
   never here.
 - Write a finding without a citation from captured output AND a location — uncited
   findings are refused downstream (compute_verdict) and waste the run.

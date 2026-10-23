@@ -33,7 +33,7 @@ reporting) alongside the triangle.
   - **Flow** (WIP, flow time, flow efficiency) ← pipe dwell vs active time — the same
     sit-time data that prices cognition.
   - **SPACE / DX** ← the cognition axis: the human share of each pipe (dwell +
-    adjustment rounds, review time, /release-feature defect count) IS the experience measure —
+    adjustment rounds, review time, /release-epic defect count) IS the experience measure —
     with agents building, "team experience" means how much directing the human gets to
     do versus correcting.
 - The team's position: this is the **moat** — a new way of tracking product delivery. The

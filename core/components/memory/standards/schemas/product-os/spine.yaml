@@ -4,7 +4,7 @@
 # one read tells you the whole tree, every entry's id/slug/status, the refs that connect
 # everything, the profile, and for every entry a one-line descriptor plus a pointer to
 # its grounding doc. You open a grounding doc (domain.md /
-# capability.md / functionality.md / epic.md) ONLY when you need to understand that
+# capability.md / feature.md / epic.md) ONLY when you need to understand that
 # one node. Work runs on the spine; grounding is read on demand, one node at a time —
 # nobody reads all the Markdown to navigate or to do a play's job.
 #
@@ -16,7 +16,7 @@
 # Supersedes the per-node `node.yaml` structural role: the tree's structural fields
 # now live as entries in the spine, not as a file in every folder. Also retires
 # `ice_ref` and the standalone ICE record — ICE content is now written INLINE in the
-# grounding docs: since ontology v4, a capability's or functionality's ICE sits in its
+# grounding docs: since ontology v4, a capability's or feature's ICE sits in its
 # page's last section, `## Agent intent (ICE)`; an epic carries its full
 # intent/constraints/failures/expectations/context. See the grounding templates under
 # `schemas/product-os/grounding/`.
@@ -32,11 +32,11 @@ schema:
 # It MAY shard per domain if a product grows large (product-os/{domain}/_spine.yaml
 # with a root index) — single-file is the default and the starting shape.
 
-# ---- The tree: domain -> capability -> functionality ------------------------
+# ---- The tree: domain -> capability -> feature ------------------------
 # Three FIRST-CLASS collections, one per level — the taxonomy IS the structure, there is
 # no generic "node". Each entry carries only its level's structure; its meaning lives in
 # the grounding doc named by `doc`. The parent is named by its real relation: a
-# capability names its `domain`, a functionality names its `capability`. The kind is
+# capability names its `domain`, a feature names its `capability`. The kind is
 # implied by the collection, so there is no `type` field.
 
 domains:
@@ -51,7 +51,7 @@ domains:
     doc: string           # pointer to its domain.md, relative to product-os root.
                           # The linter checks it exists and reads as a Theme doc.
     intents: [string]     # the BUSINESS INTENT ids that touch this domain (as on capabilities
-                          # and functionalities). A domain carries no ICE of its own; the
+                          # and features). A domain carries no ICE of its own; the
                           # link says which intents reach into it. How each intent touches it
                           # (adds / changes / removes) is on the intent page's Touches list.
     decisions: [string]   # decision (ADR) record ids affecting this domain
@@ -88,9 +88,9 @@ capabilities:
       reliability:    { level: string, target: string, gate: string }   # e.g. uptime
       # ... any of the profile dimensions; omit those this capability does not constrain
     compliance_needs: [string]   # regimes THIS capability triggers; union'd into profile.compliance
-    depends_on: [string]  # "needs" (ontology v5): ids of OTHER capabilities or functionalities this
+    depends_on: [string]  # "needs" (ontology v5): ids of OTHER capabilities or features this
                           # one needs done first. Field renamed to `needs` under #725.
-    identified_by: string # the capability or functionality that led us to find this one; empty
+    identified_by: string # the capability or feature that led us to find this one; empty
                           # when it was found on its own (ontology v5)
     decisions: [string]
     personas: [string]    # persona record ids attached to this capability
@@ -100,19 +100,19 @@ capabilities:
       updated_by: string
       version: integer
 
-functionalities:
+features:
   - id: string
     slug: string
     capability: string    # parent CAPABILITY id — the named relation. May be empty while
-                          # proposed: a functionality is written on its own (ADR 043), in the
+                          # proposed: a feature is written on its own (ADR 043), in the
                           # holding folder, and is not ready until it is attributed.
     intents: [string]     # business intent ids its ICE is built from (as on capabilities)
     status: string        # proposed | active | deprecated
     one_line: string
-    doc: string           # pointer to its functionality.md
-    depends_on: [string]  # "needs" (ontology v5): ids of capabilities or OTHER functionalities this
+    doc: string           # pointer to its feature.md
+    depends_on: [string]  # "needs" (ontology v5): ids of capabilities or OTHER features this
                           # one needs done first. Field renamed to `needs` under #725.
-    identified_by: string # the capability or functionality that led us to find this one; empty
+    identified_by: string # the capability or feature that led us to find this one; empty
                           # when it was found on its own (ontology v5)
     decisions: [string]
     metadata:
@@ -120,9 +120,9 @@ functionalities:
       updated_by: string
       version: integer
 
-# ---- The agent intents: one ICE for each capability and functionality ------
+# ---- The agent intents: one ICE for each capability and feature ------
 # Ontology v6 (ADR 047, #759): the ICE is its own node. Each capability and each
-# functionality has exactly one ICE; each ICE is for exactly one of them. Its page is
+# feature has exactly one ICE; each ICE is for exactly one of them. Its page is
 # `ice.md` in the folder of its part (it moves with its part), with three sections in this
 # order: `## Intent`, `## Context`, `## Expectation`. The entry holds no business intent
 # ids and no ready answer: the ICE finds its business intents through its part, and the
@@ -130,8 +130,8 @@ functionalities:
 # stays inline in the part's page and the spine has no `ices` list.
 ices:
   - id: string            # opaque, stable
-    for: string           # the id of its one capability or functionality
-    for_kind: string      # capability | functionality — must match the part `for` names
+    for: string           # the id of its one capability or feature
+    for_kind: string      # capability | feature — must match the part `for` names
     doc: string           # pointer to its ice.md
     metadata:
       created_by: string
@@ -140,9 +140,9 @@ ices:
 
 # Tree rules (ADR 043, ready rule changed by ontology v5 / #724): every kind is written on
 # its own; the links are made later. A domain has no parent. A capability names a domain
-# (a loose link — it may be missing; the linter warns) and a functionality names a
+# (a loose link — it may be missing; the linter warns) and a feature names a
 # capability. Ready (check_ice_workable.py): a capability serves a confirmed business intent
-# and nothing in its `depends_on` ("needs") is open; a functionality names a ready
+# and nothing in its `depends_on` ("needs") is open; a feature names a ready
 # capability and nothing it needs is open. A missing domain never blocks. A parent that is
 # named but does not exist is an error. The linter enforces that every named parent ref resolves.
 # Ontology v6 (ADR 047, #760): the ready rule lives on the ICE node — check_ice_workable.py
@@ -180,7 +180,7 @@ profile:
     gates: [string]
 
 # ---- Delivery overlays: slices + epics (indexed here, detailed in their files) --
-# Slices and epics are NOT tree nodes — they are delivery groupings over functionalities.
+# Slices and epics are NOT tree nodes — they are delivery groupings over features.
 # The spine INDEXES them (so the map is complete and you can navigate to any of them);
 # their full structured records stay in their own files, and an epic's grounding lives
 # in its epic.md. The spine never duplicates that detail — it points to it.
@@ -194,7 +194,7 @@ slices:
     depends_on: [string]  # other slice ids that must build first (resolved by /shape-roadmap,
                           # acyclic); [] until planned. The PLAN lives here on the spine
                           # index, NOT on the slice record (which stays composition-only).
-    functionality_refs: [string]   # functionality node ids this slice bundles
+    feature_refs: [string]   # feature node ids this slice bundles
     record: string        # pointer to the full slice record, e.g.
                           # "token-dash/slices/usage-data-foundation.yaml" (slice.yaml schema)
 epics:
@@ -203,8 +203,8 @@ epics:
     slice_ref: string
     status: string        # ready | in_delivery | validated | fix_required | delivered
     order: integer        # delivery order within the slice
-    functionality_refs: [string]   # the functionalities this epic delivers (>= 1) — LINKED;
-                                    # the linter rejects an epic naming a functionality the
+    feature_refs: [string]   # the features this epic delivers (>= 1) — LINKED;
+                                    # the linter rejects an epic naming a feature the
                                     # spine does not have
     surface_type: string  # web_dashboard | server_api | cli | library | service_read_model
     surface_verified: bool
@@ -223,28 +223,28 @@ fill_rules:
     writes: "`domains` entries and their detailed domain pages (with `## Sources`), each
              domain's `intents`, and the directional profile. No capability."
   - play: "/discover-capabilities"
-    writes: "capabilities and functionalities, each with its ICE, read off the screens (or
+    writes: "capabilities and features, each with its ICE, read off the screens (or
              named by the person): new capability entries — under their domain when the spine
              holds it, else in the holding folder with domain empty — and the detail of
              capabilities already there (detail: detailed, `nfr_needs` + `compliance_needs`),
-             with their `functionalities` entries and pages; then rolls the per-capability
+             with their `features` entries and pages; then rolls the per-capability
              needs up into the profile, firming it to state: set (out-of-box moves on an
              already-set box halt for a human decision). The last detailing step."
   - play: "/shape-scope"
-    writes: "SELECTS and COMPOSES (it does not create functionalities — /discover-capabilities did):
+    writes: "SELECTS and COMPOSES (it does not create features — /discover-capabilities did):
              confirms/prunes capabilities (status active/deprecated, with a decision);
-             places every functionality into a slice or the _deferred bucket; composes the
-             slices index entries (+ slice records), each bundling functionalities across
+             places every feature into a slice or the _deferred bucket; composes the
+             slices index entries (+ slice records), each bundling features across
              capabilities behind a user-facing surface (the UI scaffolded incrementally,
              slice by slice); writes personas + journeys. Leaves the profile untouched
-             (understand is the last to write the box). Does NOT cut epics (/shape-features) or
+             (understand is the last to write the box). Does NOT cut epics (/shape-slice) or
              plan order (/shape-roadmap)."
   - play: "/shape-roadmap"
     writes: "plans the slices index — order, depends_on resolution, status planned."
-  - play: "/shape-features"
+  - play: "/shape-slice"
     writes: "adds the epics index entries (+ each epic.md grounding doc) cut from a
              realized slice."
-  - play: "/start … /release-feature"
+  - play: "/start … /release-epic"
     writes: "epic status chain (ready -> in_delivery -> validated -> delivered),
              surface_verified, issue_ref — surgical structural stamps."
   - play: "/learn-outcomes"
@@ -257,15 +257,15 @@ fill_rules:
 #   capabilities/{capability}/capability.md      # holding folder: a capability whose domain is
 #                                                #   not known yet; once attributed, its doc
 #                                                #   moves under {domain}/
-#   functionalities/{functionality}/functionality.md  # holding folder (ADR 043): a functionality
+#   features/{feature}/feature.md  # holding folder (ADR 043): a feature
 #                                                #   whose capability is not known yet; once
 #                                                #   attributed, its doc moves under its capability
 #   {domain}/
 #     domain.md                                  # grounding (domain template)
 #     {capability}/
 #       capability.md                            # grounding (capability template)
-#       {functionality}/
-#         functionality.md                       # grounding (functionality template)
+#       {feature}/
+#         feature.md                       # grounding (feature template)
 #       personas/  journeys/  decisions/         # structured records (referenced by id)
 #     slices/
 #       {slice}.yaml                             # slice record (slice.yaml schema)
@@ -278,4 +278,4 @@ fill_rules:
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:
   governed_by: "PARKED — a dedicated schema-evolution play will own migrations"
-  immutable_in_v2: [domains, capabilities, functionalities]   # the 3-level taxonomy is fixed
+  immutable_in_v2: [domains, capabilities, features]   # the 3-level taxonomy is fixed

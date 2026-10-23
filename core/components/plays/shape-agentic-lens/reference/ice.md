@@ -9,13 +9,13 @@ Given one shaped **slice** — a vertical product increment from /shape-scope, t
 deliver — write its **agentic lens** as a grounding doc (`agentic.md`): whether the slice is (or
 contains) an agent at all, and if so how much human load it offloads and what controls bound it.
 The slice is the unit of realization; a slice has no ICE of its own — its **hub** is the union of
-its functionalities' grounding docs (`functionality.md`, which may span several capabilities) plus
+its features' grounding docs (`feature.md`, which may span several capabilities) plus
 the product profile (read from the spine). The lens is three things and only three: the
 **is-it-an-agent gate** (the verdict and why), the **load weights** (cognitive / creative /
 logistical on a low→ultra scale — the degree of offload — `n/a` when not an agent), and the
 **controls** (guardrails, handoff). A deterministic read/compute slice comes out "not an agent",
 stated plainly — never an invented agent. The verdict and the weights are grounded in what the
-slice's functionalities actually do; any material autonomy choice is recorded as a decision; the
+slice's features actually do; any material autonomy choice is recorded as a decision; the
 agentic-framing choices are grounded in the KB (where garura's agentic thinking lives) or recorded
 as a KB-learning-gap proposal. It writes only this slice's `agentic.md` (and any decision) — never
 the spine, the slice record, the profile, another lens, or another slice. One slice per run; one
@@ -44,7 +44,7 @@ exactly this run's delta.
 ### Constraints
 
 - C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
-  functionality it bundles resolves through the spine to a `functionality.md` grounding doc, and
+  feature it bundles resolves through the spine to a `feature.md` grounding doc, and
   the product profile is firmed (`set`). If not, halt — /shape-agentic-lens realizes a shaped slice; it does
   not shape one.
 - C2 — Writes only this slice's `agentic.md` (the per-node lens doc, straight to the live model by
@@ -56,13 +56,13 @@ exactly this run's delta.
 - C4 — Content quality: `agentic.md` clears the content-quality eval, not just the linter — each
   section is self-explaining and the doc passes the stranger test.
 - C5 — Grounded, not invented: the verdict and the weights trace to the behavior of the slice's
-  functionalities; any material autonomy choice is recorded as a decision. (Carried in the manifest.)
-- C6 — Coverage: the agentic assessment considers every functionality the slice bundles — the gate
+  features; any material autonomy choice is recorded as a decision. (Carried in the manifest.)
+- C6 — Coverage: the agentic assessment considers every feature the slice bundles — the gate
   cannot ignore part of the slice. Nothing shaped is left unconsidered.
-- C7 — Reads the hub only: /shape-agentic-lens derives from the slice's functionalities' grounding docs and the
+- C7 — Reads the hub only: /shape-agentic-lens derives from the slice's features' grounding docs and the
   profile — never from another realize lens (quality/ux/architecture/run/measure/marketing).
 - C8 — Honest gate: a slice that should offload nothing comes out `is_agent: false`, and the weights
-  table is `n/a — not an agent`; agentic behavior is never manufactured where the functionalities
+  table is `n/a — not an agent`; agentic behavior is never manufactured where the features
   don't warrant it.
 - C9 — Additive and non-destructive, enforced by the containment split and the post-write scoped
   guard: the LLM authoring skill writes only the per-node lens doc and never a shared file; the
@@ -109,7 +109,7 @@ exactly this run's delta.
 
 ### Failure conditions
 
-- F1 — /shape-agentic-lens ran on an unready slice — the slice is absent, a functionality does not resolve to
+- F1 — /shape-agentic-lens ran on an unready slice — the slice is absent, a feature does not resolve to
   a grounding doc, or the profile is not firmed.
 - F2 — A write touched something other than this slice's `agentic.md` or a decision (the spine, the
   slice record, the profile, another lens, structure, a persona, a journey, or another slice).
@@ -117,10 +117,10 @@ exactly this run's delta.
   section), or carries content outside the gate/weights/controls.
 - F4 — `agentic.md` fails the content-quality eval.
 - F5 — The verdict or a weight is invented — asserted with no behavior of the slice's
-  functionalities behind it, or a material autonomy choice with no recorded decision.
-- F6 — A functionality of the slice is left unconsidered by the agentic assessment.
+  features behind it, or a material autonomy choice with no recorded decision.
+- F6 — A feature of the slice is left unconsidered by the agentic assessment.
 - F7 — /shape-agentic-lens read or depended on another lens.
-- F8 — Agentic behavior was manufactured where the functionalities don't warrant it — `is_agent`
+- F8 — Agentic behavior was manufactured where the features don't warrant it — `is_agent`
   true with no agentic work, or a weights table on a non-agent slice.
 - F9 — A product-model file other than this slice's `agentic.md` or a new decision changed, or an
   accepted decision was edited in place rather than superseded — the scoped-write guard's report is
@@ -141,7 +141,7 @@ exactly this run's delta.
 
 ### Success scenarios
 
-- S1 — (agent designer, first run) Given a shaped slice whose functionalities resolve and a firmed
+- S1 — (agent designer, first run) Given a shaped slice whose features resolve and a firmed
   profile, when /shape-agentic-lens runs and the checkpoint is approved, then `agentic.md` is written in place
   on the live model as the gate, the weights, and the controls — passing the linter and the content
   eval — and nothing else changes. Measure: `slices/{slice}/lens/agentic.md` exists at its live path
@@ -152,8 +152,8 @@ exactly this run's delta.
   runs, the verdict is `is_agent: false` with the reason, and the weights table reads `n/a`.
   Measure: the manifest's `is_agent` is false; `agentic.md` states no agent and omits weights.
 - S3 — (reviewer, grounded) Given the lens is written, the verdict and any weight trace to the
-  slice's functionalities, and any material autonomy choice to a recorded decision. Measure: the
-  manifest names a real functionality source for the assessment; material choices name a decision
+  slice's features, and any material autonomy choice to a recorded decision. Measure: the
+  manifest names a real feature source for the assessment; material choices name a decision
   that resolves.
 - S4 — (architect, hub-only) Given /shape-agentic-lens runs, it read no other realize lens and wrote none.
   Measure: no other lens of the slice is touched (the guard report is `ok`); the assessment grounds
@@ -188,7 +188,7 @@ mechanical proof that no model path changed outside the slice's write scope (the
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the slice is absent, a functionality does not resolve, or the profile is not
+- REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
   firmed. direction: halt and route to /shape-scope (shape the slice) or /discover-capabilities (detail + firm)
   before /shape-agentic-lens runs. handoff: human.
 - REC2 (F2) — trigger: a write touched something beyond this slice's `agentic.md` or a decision.
@@ -200,13 +200,13 @@ mechanical proof that no model path changed outside the slice's write scope (the
 - REC4 (F4) — trigger: `agentic.md` fails the content-quality eval. direction: rewrite the failing
   section to the judge's cited fixes and re-judge until the gate passes. handoff: autonomous.
 - REC5 (F5) — trigger: an invented verdict/weight, or a material choice with no decision. direction:
-  re-tie the verdict and weights to the functionalities' behavior, and record the autonomy decision
+  re-tie the verdict and weights to the features' behavior, and record the autonomy decision
   in the manifest. handoff: autonomous.
-- REC6 (F6) — trigger: a functionality was not considered. direction: extend the assessment to
-  consider the missing functionality. handoff: autonomous.
+- REC6 (F6) — trigger: a feature was not considered. direction: extend the assessment to
+  consider the missing feature. handoff: autonomous.
 - REC7 (F7) — trigger: /shape-agentic-lens read or depended on another lens. direction: remove the dependency;
   /shape-agentic-lens derives only from the slice's hub. handoff: autonomous.
-- REC8 (F8) — trigger: agentic behavior was manufactured where the functionalities don't warrant it.
+- REC8 (F8) — trigger: agentic behavior was manufactured where the features don't warrant it.
   direction: reset the gate to the honest verdict (`is_agent: false` + `n/a` weights for a
   deterministic slice). handoff: autonomous.
 - REC9 (F9) — trigger: a non-lens/non-decision file changed, or an accepted decision was edited in

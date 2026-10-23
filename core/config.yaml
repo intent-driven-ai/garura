@@ -126,7 +126,7 @@ evidence:
     complete-discovery: true           # a loop always records its evidence (ADR 029)
 
 # Grounding eval — the content-quality judge over product-model grounding docs
-# (domain/capability/functionality/epic). The linter (lint_grounding.py) checks shape;
+# (domain/capability/feature/epic). The linter (lint_grounding.py) checks shape;
 # this judge checks whether each section is actually understandable, scored against
 # standards/schemas/product-os/grounding/_content-standard.md. Spec + rubric + judge
 # prompt + verdict shape live at standards/rules/grounding-eval.md.
@@ -195,9 +195,9 @@ gates:
     # Execute-side gates off per the #467 ruling (Batch D) — replaced by machine
     # preconditions in the same change. fix-bug and implement were pinned; the ruling
     # unpins them (an intent change), so the config switch now governs them too.
-    validate-feature: off
+    validate-epic: off
     fix-bug: off
-    build-feature: off
+    build-epic: off
     refactor-code: off
   conditional:
     streak: 3                                # clean approvals a shape needs to earn auto

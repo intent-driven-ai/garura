@@ -64,15 +64,15 @@ Garura avoids both extremes:
 | `change-reviewer` | review | reviewer | sonnet | Categorizes a PR diff agentically and design-grounds the design-bearing categories against committed/external sources — the branch under review is never its own standard |
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
 | `result-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
-| `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-feature`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
+| `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-epic`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
 | `epic-expectation-crafter` | expectation | epic-crafter | opus | Generates the Expectations block (success_scenario + recovery) for product-layer intent epics via `draft-epic-expectation` |
-| `evals-engineer` | evaluation | engineer | sonnet | Engineers verification evals from specifications, compartmentalized from the implementer — steelman refutation evals for `/build-feature`, legacy encrypted flows via `author-encrypted-evals` |
+| `evals-engineer` | evaluation | engineer | sonnet | Engineers verification evals from specifications, compartmentalized from the implementer — steelman refutation evals for `/build-epic`, legacy encrypted flows via `author-encrypted-evals` |
 | `feature-steward` | feature-spec | steward | opus | Autonomous owner of feature specification (features.yaml), implementation-design cross-validation, and manual test scenario generation |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
 | `market-analyst` | market-research | analyst | sonnet | Market intelligence — produces a quantified market brief with TAM/SAM/SOM, competitive landscape, and market gaps |
 | `knowledge-builder` | knowledge | builder | sonnet | Builds the knowledge a loop round found missing, for its three knowledge plays: answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`; never decides or promotes an update — used by `/search-knowledge`, `/research-knowledge`, `/check-knowledge` |
 | `product-keeper` | product-capability | keeper | opus | KB-driven capability configuration, intent epic generation, and aggregated quality profile derivation |
-| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Functionality, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-features` |
+| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Feature, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-slice` |
 | `project-orchestrator` | project | orchestrator | sonnet | Autonomous decision-maker for project management operations (issues, tracking, planning) |
 | `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/discover-intent` |
 | `quality-auditor` | quality | auditor | sonnet | Independently verifies code quality standards (linting, unit tests, type checking, build, quality gates) — context-isolated from evals and builder output |
@@ -80,7 +80,7 @@ Garura avoids both extremes:
 | `scriber` | infra | evidence-writer | haiku | DEPRECATED (#434) — evidence/checkpoint/status writer, superseded by the command model; retained for reference, not installed |
 | `tech-architect` | architecture | architect | opus | Deep codebase architecture analysis, pattern recognition, LLD production, dependency graphs, and implementation planning |
 | `tech-designer` | design | designer | sonnet | Technical analysis, RCA, and solution design for features and bugs |
-| `test-engineer` | testing | engineer | opus | Authors `/build-feature`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
+| `test-engineer` | testing | engineer | opus | Authors `/build-epic`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
 | `test-runner` | test-execution | runner | opus | Context-isolated test executor — runs tests and reports pass/fail with stderr capture; never interprets failures |
 
 ### Scriber dispatch pattern (Utility agent, 214.1)
@@ -257,17 +257,17 @@ intent-resolver has no skill pool — it reads the play's intent (clean triple),
 
 | Skill | Purpose |
 |-------|---------|
-| `find-work-placement` | Route a piece of work to its place in the KB tree (domain → capability → functionality) |
+| `find-work-placement` | Route a piece of work to its place in the KB tree (domain → capability → feature) |
 | `propose-kb-node` | The nothing-fits path — research the gap and draft a new KB node as a proposal for human review |
 | `find-architecture-learnings` | Search the empirical KB shelves for condition-matched learnings — the grounding engine for KB-grounded lenses |
 | `author-domains` | Draft the `/discover-domains` seed — domain node, candidate capabilities, goals-only ICE, directional profile |
 | `enrich-capability-ice` | `/discover-capabilities` — deepen one capability's seed ICE into a rich ICE grounded in its KB shelf |
-| `author-scope` | `/shape-scope` — draft one domain's selection bundle (capabilities, functionalities, ICE, personas, decisions) |
+| `author-scope` | `/shape-scope` — draft one domain's selection bundle (capabilities, features, ICE, personas, decisions) |
 | `author-roadmap` | `/shape-roadmap` — draft the slice plan (effort, dependencies, value order) |
 | `author-quality-lens` / `author-ux-lens` / `author-agentic-lens` / `author-architecture-lens` / `author-run-lens` / `author-measure-lens` / `author-marketing-lens` | Draft the per-slice lens grounding docs for the lens plays |
-| `author-features` | `/shape-features` — draft the epic cut for one realized slice |
-| `check-cut-tensions` | `/shape-features` — per-round tension check of the drafted cut against everything the slice declared |
-| `author-acceptance-scenarios` | `/release-feature` — build HITL testing scenarios for one validated epic |
+| `author-epics` | `/shape-slice` — draft the epic cut for one realized slice |
+| `check-cut-tensions` | `/shape-slice` — per-round tension check of the drafted cut against everything the slice declared |
+| `author-acceptance-scenarios` | `/release-epic` — build HITL testing scenarios for one validated epic |
 | `rank-actions` | `/next` — rank the candidate set into one next-best-action plus a ranked list |
 
 ### adr-keeper Skill Pool
@@ -297,7 +297,7 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 
 | Skill | Purpose |
 |-------|---------|
-| `deploy-local-environment` | Bring up the live LOCAL environment for `/release-feature` with its deploy record; teardown after sign-off or abort |
+| `deploy-local-environment` | Bring up the live LOCAL environment for `/release-epic` with its deploy record; teardown after sign-off or abort |
 | `deploy-cloud-environment` | Deploy the increment to a CLOUD environment for `/release-increment` with deploy record and health proof |
 
 ### epic-expectation-crafter Skill Pool

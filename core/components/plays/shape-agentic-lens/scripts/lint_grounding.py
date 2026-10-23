@@ -14,10 +14,10 @@ LINK INTEGRITY — never content quality (that is the rubric eval's job). Concre
     thinness only — "fully understandable" is judged by the eval, not here.
   - SPINE CONSISTENCY (when --spine is given): every spine node points at a grounding
     doc that exists and whose kind matches the node type; every epic's
-    functionality_refs resolve to real functionality nodes; no orphan grounding doc
+    feature_refs resolve to real feature nodes; no orphan grounding doc
     sits on disk unreferenced by the spine
   - ICE NODES (ontology v6, #759; when the spine has an `ices` list): each entry is for
-    one real capability or functionality with the matching `for_kind`, names no business
+    one real capability or feature with the matching `for_kind`, names no business
     intent, and points at an ice.md with non-empty Intent, Context and Expectation
     sections; each part has exactly one ICE (a part with none is a warning); no ice.md
     sits on disk unreferenced. A thin part is never an error.
@@ -27,7 +27,7 @@ Layer rule: reads files on disk only; never shells to git/gh or the network.
 Usage:
     # one doc (kind inferred from its H1 title, or forced with --kind)
     python3 lint_grounding.py --doc path/to/capability.md
-    python3 lint_grounding.py --doc path/to/draft.md --kind functionality
+    python3 lint_grounding.py --doc path/to/draft.md --kind feature
 
     # a whole tree of grounding docs (kind inferred per doc)
     python3 lint_grounding.py --root <product-os dir>
@@ -81,12 +81,12 @@ CONTRACTS = {
                 "Benefit hypothesis",
                 "Boundary (In / Out / Never)",
                 "Guiding rules",
-                "Functionalities",
+                "Features",
             ],
         },
     },
-    "functionality": {
-        "title": "Functionality:",
+    "feature": {
+        "title": "Feature:",
         "h2": [
             "What it does",
             "Inputs / Outputs",
@@ -106,7 +106,7 @@ CONTRACTS = {
             "Outcome",
             "User check",
             "Surface",
-            "Delivers — functionalities (linked)",  # em dash, exact
+            "Delivers — features (linked)",  # em dash, exact
             "Acceptance criteria",
         ],
     },
@@ -130,15 +130,15 @@ CONTRACTS = {
 # H1 prefix -> kind, for inferring a doc's kind from its title.
 TITLE_TO_KIND = {v["title"]: k for k, v in CONTRACTS.items()}
 
-# The agent intent (ICE) of a capability or functionality is written in ONE named section,
+# The agent intent (ICE) of a capability or feature is written in ONE named section,
 # always the last, in labelled lines a play fills as far as it knows (ontology v4, #637).
 # Expected once its spine entry names a business intent in `intents`: a linked node with no
 # section is a warning — alignment work, like a capability with no domain — so pages written
 # before ontology v4 still pass. A section that IS there must be well formed (errors).
 ICE_SECTION = "Agent intent (ICE)"
-ICE_KINDS = ("capability", "functionality")
+ICE_KINDS = ("capability", "feature")
 SOURCES_SECTION = "Sources"
-SOURCES_KINDS = {"domain", "capability", "functionality"}
+SOURCES_KINDS = {"domain", "capability", "feature"}
 ICE_LABELS = ("Goal", "Limit", "Fails if", "Context", "Checked by", "Quality need")
 
 # Coarse substance floor — a FLOOR, not a quality bar. Tuned to catch labels
@@ -249,7 +249,7 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None, require_i
         sections = [sec for sec in sections if sec[0] != ICE_SECTION]
     if kind in SOURCES_KINDS:
         # `## Sources` (#689): where the page's content comes from — a domain's research links, a
-        # capability's or functionality's screen and the words on it. Optional for older pages;
+        # capability's or feature's screen and the words on it. Optional for older pages;
         # when present, once, as the last section before the agent intent, and not empty.
         src = [i for i, (h, _) in enumerate(sections) if h == SOURCES_SECTION]
         if len(src) > 1 or (src and src[0] != len(sections) - 1):
@@ -301,7 +301,7 @@ def check_doc(path, text, kind, errors, warnings, expected_stage=None, require_i
             continue
         has_bullets = any(re.match(r"^[-*]\s+", line.strip()) for line in lines)
         # Section-total floor applies to PROSE sections only. List sections vary in
-        # length (a one-functionality capability is legitimately short); their
+        # length (a one-feature capability is legitimately short); their
         # substance is guarded per-bullet below, so the section-total floor would
         # double-penalize and false-fail them.
         if not has_bullets and _words(content) < MIN_SECTION_WORDS:
@@ -335,14 +335,14 @@ def check_spine(root, spine_path, errors, warnings, counts):
     spine = load_spine(spine_path)
     domains = spine.get("domains") or []
     capabilities = spine.get("capabilities") or []
-    functionalities = spine.get("functionalities") or []
+    features = spine.get("features") or []
     epics = spine.get("epics") or []
     slices = spine.get("slices") or []
 
     referenced_docs = set()
     domain_ids = {d.get("id") for d in domains}
     cap_ids = {c.get("id") for c in capabilities}
-    func_ids = {f.get("id") for f in functionalities}
+    func_ids = {f.get("id") for f in features}
 
     # --- tree: each collection's entries point at a doc of the matching kind ---
     # The kind is implied by the collection (no `type` field); the parent relation is
@@ -350,7 +350,7 @@ def check_spine(root, spine_path, errors, warnings, counts):
     for section, kind, parent_field, parent_ids in (
         ("domains", "domain", None, None),
         ("capabilities", "capability", "domain", domain_ids),
-        ("functionalities", "functionality", "capability", cap_ids),
+        ("features", "feature", "capability", cap_ids),
     ):
         for e in spine.get(section) or []:
             eid = e.get("id", "<no-id>")
@@ -358,9 +358,9 @@ def check_spine(root, spine_path, errors, warnings, counts):
                 errors.append(f"spine {kind} '{eid}': missing one_line descriptor")
             if parent_field:
                 pref = e.get(parent_field)
-                if not pref and kind in ("capability", "functionality"):
+                if not pref and kind in ("capability", "feature"):
                     # ADR 043: every kind is written on its own. A capability may wait for its
-                    # domain and a functionality for its capability; it is kept, not ready,
+                    # domain and a feature for its capability; it is kept, not ready,
                     # until it is attributed. Missing is a gap to close, not a broken link.
                     warnings.append(f"spine {kind} '{eid}': no {parent_field} yet — not ready until "
                                     f"it is attributed (ADR 043)")
@@ -387,15 +387,15 @@ def check_spine(root, spine_path, errors, warnings, counts):
                       require_ice=kind in ICE_KINDS and bool(e.get("intents")))
             counts[kind] = counts.get(kind, 0) + 1
 
-    # --- epics: doc exists + contract, and functionality_refs resolve (link integrity) ---
+    # --- epics: doc exists + contract, and feature_refs resolve (link integrity) ---
     for e in epics:
         eid = e.get("id", "<no-id>")
         doc = e.get("doc")
-        for ref in e.get("functionality_refs") or []:
+        for ref in e.get("feature_refs") or []:
             if ref not in func_ids:
                 errors.append(
-                    f"spine epic '{eid}': functionality_ref '{ref}' does not resolve to a "
-                    f"functionality node in the spine (dangling link)")
+                    f"spine epic '{eid}': feature_ref '{ref}' does not resolve to a "
+                    f"feature node in the spine (dangling link)")
         if not doc:
             errors.append(f"spine epic '{eid}': missing doc pointer")
             continue
@@ -460,7 +460,7 @@ def check_ices(root, spine, errors, warnings, counts):
     if ices is None:
         return
     parts = {c.get("id"): "capability" for c in spine.get("capabilities") or []}
-    parts.update({f.get("id"): "functionality" for f in spine.get("functionalities") or []})
+    parts.update({f.get("id"): "feature" for f in spine.get("features") or []})
     by_part, referenced = {}, set()
     for e in ices or []:
         iid = e.get("id", "<no-id>")
@@ -470,9 +470,9 @@ def check_ices(root, spine, errors, warnings, counts):
                               f"to a business intent; it finds them through its part (ontology v6)")
         part = e.get("for")
         if not part:
-            errors.append(f"spine ice '{iid}': missing 'for' — the one capability or functionality it is for")
+            errors.append(f"spine ice '{iid}': missing 'for' — the one capability or feature it is for")
         elif part not in parts:
-            errors.append(f"spine ice '{iid}': for '{part}' does not resolve to a capability or functionality")
+            errors.append(f"spine ice '{iid}': for '{part}' does not resolve to a capability or feature")
         else:
             by_part.setdefault(part, []).append(iid)
             if e.get("for_kind") != parts[part]:
@@ -502,7 +502,7 @@ def check_ices(root, spine, errors, warnings, counts):
             errors.append(f"'{part}' has two ICE ({', '.join(ids)}) — each part has exactly one ICE")
     for part, kind in parts.items():
         if part not in by_part:
-            warnings.append(f"spine {kind} '{part}': no ICE yet — each capability and functionality has one (#765)")
+            warnings.append(f"spine {kind} '{part}': no ICE yet — each capability and feature has one (#765)")
     for dirpath, _dirs, files in os.walk(root):
         if ICE_PAGE in files:
             full = os.path.normpath(os.path.join(dirpath, ICE_PAGE))

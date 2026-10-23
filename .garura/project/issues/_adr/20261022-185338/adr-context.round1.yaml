@@ -1,0 +1,128 @@
+# Context gathered by adr-keeper for ADR 048 (/record-decision, Step 2). Draft as Proposed.
+shape: markdown
+number: "048"
+next_number_from: "scripts/adr.py number --dir docs/adr -> {next: 048, taken: 47}"
+status: proposed
+level: framework
+date: 2026-10-23
+decided_by: ""            # empty until a person accepts; never a real name, only "the product owner" in prose
+decided_in: "#793 (ontology v7, the three /edit-ontology checkpoints of 2026-10-22, PR #808) and #807 (the on-disk rename, its design approval of 2026-10-22)"
+slug_hint: "ontology-v7-two-layers-feature-slice-and-epic"
+title_hint: "The product model and the work are two layers joined by the plan: Functionality becomes Feature, a Slice is in the model, and an Epic is a work item that delivers one Slice"
+
+people_rule: "Name no real person. Say 'the product owner'. Older ADRs (043, 045, 046, 047) and the ontology carry a real name; do not copy it."
+
+supersedes:
+  - adr: "019"
+    file: docs/adr/019-epic-persistence-keep-delivered.md
+    part: "in part — Decision §1 (the epic is a permanent record in the product model, at {domain}/slices/{slice-id}/epics/{epic-id}.yaml, with `delivered` as its terminal state) and §2 (/launch stamps the epic `delivered` in place); also its Context's premise that a slice is cut into one or more epics"
+    why: "v7: the Epic is a work item in the tracker, not in the product model; the spine `epics` list and `epic.md` pages leave the model (#795, #799, #801, #803). One Epic represents one Slice. It is long-lived: it stays open when its stories are done and is never closed, so there is no `delivered` stamp (ontology.md, Epic, Rules: 'It stays open')."
+    what_stays: "The aim that the as-delivered record is never destroyed: the Epic is never closed and the Story's closed state means delivered (ontology.md, Story, Rules: 'Closed means delivered')."
+
+amends:
+  - adr: "022"
+    file: docs/adr/022-surface-contract.md
+    part: "§1 'The surface lives on the epic, as structure' (the `surface` block in epic.yaml) and §2 'Declared at cut' (/grill declares it when it cuts the epic)"
+    why: "The epic record it lives on leaves the product model, and no play cuts epics from a slice any more: the Plan creates one Epic for each Slice it picks. v7 gives the Slice a required `vertical` (the one screen or surface a person tests end to end), and the Plan's first test refuses a slice with none."
+    open: "Where the structured surface contract (type, human_run_target, must_open) lives after the epic record leaves is NOT decided by this ADR or by the brief. It is work for the stories that remove the epic record (#795, #799, #801, #803). Keeper's finding: say so in the draft; do not invent a home. §3 (one shared standard) and §4 (the gates ask 'does the real surface match the declared type?') stand."
+  - adr: "024"
+    file: docs/adr/024-amendment-record.md
+    part: "§1 'Anchored, always' and §2 'Append-only' — the anchor is a delivered epic record on the slice, and 'a slice's current truth = its epics + their amendments'; §6 the home 'on the slice beside the epics'; and the Context's premise 'delivered epics cannot be reopened'"
+    why: "In v7 the Epic is not in the model and is never closed; new Stories can join it (ontology.md, Epic: 'it stays open when its work is done, and new Stories can join it'), and a Spike, Chore or Bug is a child of one Story. The record 024 anchors to no longer exists in the model, and its reason (a delivered epic cannot take new work) no longer holds as written."
+    open: "Whether an amendment record is still needed is not decided here (no amendment schema or /amend play exists in core/components today). Do not decide it in the draft."
+  - adr: "028"
+    file: docs/adr/028-agentic-lifecycle-five-loops.md
+    part: "§3 'Execute' (its first step, /grill, cuts the slice into epics) and '/grill needs only a slice' (the play that cuts epics checks only that the slice exists); also its Context's realized stamp ('/measure stamps the slice realized')"
+    why: "v7: the Plan creates one Epic for each Slice it picks, by two tests; no play cuts epics from a slice. The slice fields status, order, effort, depends_on and domain_ref leave the model (#795–#803), so the slice carries no 'realized' stamp: 'Whether it is picked is shown by its Epic, not by a status on the slice' (ontology.md, Slice, Rules). The play that used to cut epics (/grill, later /shape-features) is renamed /shape-slice."
+    what_stays: "§2 'Split the model into vertical slices' stands; the Slice loop's name (ADR 045) stands."
+  - adr: "031"
+    file: docs/adr/031-business-intent-and-ice.md
+    part: "§1 'Two levels' — the sentence 'Every piece of agent work still takes ICE form; the business intent is what that work points at'"
+    why: "v6 said every work item carries the ICE of its part. v7: only a Capability and a Feature have an ICE. A work item has no ICE. A Story writes its own scope of work from its Feature's ICE and that Feature's Capability's ICE; an Epic has no ICE; a Spike, Chore or Bug holds no ICE."
+    what_stays: "A business intent is not ICE, and only a person confirms or drops one (§1); the rest of 031 as already amended by 032, 033, 043, 047."
+  - adr: "043"
+    file: docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+    part: "the word only — 'functionality' is now 'feature' in its rules, and the holding folder `functionalities/<id>/` is now `features/<id>/` (§1, §3 'functionality → capability → domain')"
+    why: "Functionality is renamed Feature everywhere on disk (#807). No rule changes in meaning."
+  - adr: "046"
+    file: docs/adr/046-one-naming-standard-for-every-harness-part.md
+    part: "§4 'Plays take the verb of what they do' — the sentence 'Objects use the product model's words (feature, capability), never a word the model dropped (epic, slice)'"
+    why: "KEEPER'S FINDING, not in the caller's list: v7 makes Slice a product kind and Epic a work kind again, and 'feature' now names the old Functionality. So the delivery plays are renamed /shape-features → /shape-slice, /build-feature → /build-epic, /validate-feature → /validate-epic, /release-feature → /release-epic and the skill author-features → author-epics (rename-map.yaml lines 34-37). Epic and slice are no longer dropped words. The verb-first rule and the rest of §4 stand."
+  - adr: "047"
+    file: docs/adr/047-the-ice-is-its-own-node.md
+    part: "the word only — 'one ICE for each capability and each functionality' holds as 'each capability and each feature'; §5 'A functionality has exactly one parent capability' and its holding folder read 'feature' and `features/`"
+    why: "The rename (#807). No rule changes in meaning."
+
+not_affected:
+  - adr: "045"
+    file: docs/adr/045-a-drive-is-now-called-a-loop.md
+    why: "Names the Slice loop (was Shape). v7 adds a Slice kind and the /shape-slice play; 045 §2's always-full-name rule ('the Slice loop') already keeps the loop apart from the kind and the play. Nothing in 045 is contradicted. List it as related; the draft may note the three uses of 'Slice'."
+  - adr: "033"
+    why: "Uses 'functionality' in §4 and elsewhere; wording only, no rule contradicted. Older ADRs keep their words (as ADR 045 §5 did for 'drive'); a reader maps functionality to feature. Related, not amended."
+  - adr: "026, 032, 038"
+    why: "Each uses the word 'functionality' once in passing; no rule changes."
+
+affects:
+  - core/components/memory/standards/schemas/product-os/ontology.md (v7, landed in #793, PR #808)
+  - core/components/memory/standards/schemas/product-os/spine.yaml (functionalities → features, functionality_refs → feature_refs; the `epics` list and the slice fields status, order, effort, depends_on, domain_ref leave in #795, #799, #801, #803)
+  - core/components/memory/standards/schemas/product-os/epic.yaml and slice.yaml (the epic record leaves the model; slice fields follow v7)
+  - core/components/memory/standards/schemas/product-os/grounding/feature.md (was functionality.md)
+  - core/components/memory/standards/rules/rename-map.yaml and core/tools/naming/check_old_names.py
+  - core/components/memory/standards/rules/pipeline-next.md and pipeline-position.md
+  - core/components/plays/shape-slice/ (was shape-features), core/components/plays/build-epic/ (was build-feature), core/components/plays/validate-epic/ (was validate-feature), core/components/plays/release-epic/ (was release-feature)
+  - core/components/skills/author-epics/ (was author-features)
+  - the ICE source (reference/ice.md) and compiled SKILL.md of 21 plays and 1 loop that name a functionality — discover-capabilities, discover-domains, discover-intent, edit-ontology, learn-outcomes, next, refactor-code, release-increment, shape-scope, shape-roadmap, the seven shape-*-lens plays, and the four renamed delivery plays, plus core/components/loops/complete-discovery
+  - core/grounding/glossary.md (Feature, Slice, Epic rows follow v7)
+  - .garura/user-provided/managing-work.md
+  - CLAUDE.md (Work Tracking section)
+  - docs/ (philosophy and components; not the ADRs)
+  - Garura's own model .garura/product/product-os/features/ (was functionalities/, 21 features, IDs keep `fn-`) and .garura/product/product-os/_spine.yaml
+  - .garura/product/product-os/intents/bi-717.md, bi-722.md, bi-756.md — wording only: 'functionality' becomes 'feature' in their Plan, Outcome, Why and done-means lines (6 lines changed on branch plan/788/807-rename-feature, commit c14b71d4)
+
+ice_impact: >
+  The ICE of 21 plays and the Discovery loop changes in wording only: 'functionality' becomes
+  'feature', and the four delivery plays take their new names; each fingerprint is stamped again
+  and no constraint, failure condition or scenario changes in meaning in #807. The product's own ICE
+  keep their shape: one for each capability and each feature (ADR 047). What changes in meaning: a
+  work item carries no ICE; a Story writes its scope of work from its Feature's ICE and its
+  Capability's ICE; an Epic has no ICE. The ICE of /shape-slice, /build-epic, /validate-epic and
+  /next change in meaning later, in #795, #799, #801 and #803, when each stops reading the epic
+  record and the dropped slice fields.
+
+business_intent_check:
+  value: instance
+  text: >
+    instance — the rename rewords three of Garura's own business intent pages (bi-717, bi-722,
+    bi-756): 'functionality' becomes 'feature' in six lines, among them bi-722's Outcome. The meaning
+    does not change, but only a person may change a business intent's words, so it goes to the
+    product owner. The #807 design the product owner approved on 2026-10-22 lists "intent pages'
+    wording". It is also a kind change: the Business Intent kind gains the tracker label `product`
+    (the only kind with it), an Epic serves it, and a work item reaches it through its Epic.
+  keeper_note: >
+    The caller expected `none`. Two findings change it: (1) ontology v7 changes the Business Intent
+    kind (git diff 3b407b5f~1 3b407b5f, the Business Intent section), so at least `kind`; (2) the
+    rename edits words in three business intent pages, which the guard reads as touching a person's
+    intent. The keeper declares `instance` so the play takes it to the person; it is never hidden.
+
+ice_and_scope_notes:
+  - "Feature IDs keep the `fn-` prefix; new features use `ft-` (#807 design, decision 3)."
+  - "The retired intent-epic files stay out; a clean-up chore is filed (#807 design, decision 4)."
+  - "Older ADRs keep the word 'functionality' and get only a forward pointer where amended."
+
+related: [ADR 019, ADR 022, ADR 024, ADR 028, ADR 031, ADR 033, ADR 043, ADR 045, ADR 046, ADR 047, "#788", "#792", "#793", "PR #808", "#795", "#799", "#801", "#803", "#807"]
+
+work_this_creates:
+  - "#795 — /shape-slice stops writing the spine `epics` list and the dropped slice fields"
+  - "#799 — /build-epic works on the epic as a tracker work item"
+  - "#801 — /validate-epic the same"
+  - "#803 — /next stops reading the epic record and slice status"
+  - "Decide where the surface contract of ADR 022 lives once the epic record leaves (no decision yet)"
+  - "Decide whether ADR 024's amendment record is still needed (no decision yet)"
+  - "The ontology's own leftovers through a short /edit-ontology run: the three 'until the rename story lands' notes, the Layer and 'In the tracker as' lines on Source (#807 design, step 5)"
+  - "A clean-up chore for the retired intent-epic files"
+
+references:
+  - .garura/project/issues/_adr/20261022-185338/brief.md
+  - .garura/project/issues/793/context/edit-ontology/need.md and decisions.json
+  - .garura/project/issues/807/specs/design.md
+  - core/components/memory/standards/schemas/product-os/ontology.md (v7)

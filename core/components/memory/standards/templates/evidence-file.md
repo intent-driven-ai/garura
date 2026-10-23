@@ -126,7 +126,7 @@ Self-commit SHA: `{short sha}` ({subject line})
 {1-3 lines naming the downstream plays / consumers that will read these
 artifacts. For specify: "design reads enriched-capabilities.yaml
 and epics/; arch reads quality-profile.yaml and epics/". For
-implement: "/validate-feature checks the built epic against expectations;
+implement: "/validate-epic checks the built epic against expectations;
 the close chain follows acceptance".}
 ```
 

@@ -354,6 +354,18 @@ class RetiresOldNames(Installed):
             retired = json.load(fh)["record"]["retired"]
         self.assertIn(os.path.join(".claude", "skills", "play-creator"), retired)
 
+    def test_every_old_name_of_one_new_name_goes(self):
+        # #807: grill and shape-features both became shape-slice; both old folders go
+        self.old(".claude/skills/grill", "grill")
+        self.old(".claude/skills/shape-features", "shape-features")
+        with contextlib.redirect_stdout(io.StringIO()):
+            install.main(["--target", self.target, "--quiet",
+                          "--memory-dest", os.path.join(self.work, "shared-memory"),
+                          "--phoenix-place", self.place, "--phoenix-source", self.source])
+        self.assertFalse(os.path.exists(self.path(".claude", "skills", "grill")))
+        self.assertFalse(os.path.exists(self.path(".claude", "skills", "shape-features")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "shape-slice", "SKILL.md")))
+
 
 class LaysLoops(unittest.TestCase):
     """Loops live in core/components/loops/ (#613) and install as skills beside the plays."""

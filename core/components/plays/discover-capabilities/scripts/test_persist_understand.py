@@ -2,7 +2,7 @@
 """
 test_persist_understand.py — fixture tests for persist_understand.py (#616).
 
-Pins the keyed persist's containment (a sibling capability or a functionality under a
+Pins the keyed persist's containment (a sibling capability or a feature under a
 sibling is never written) and the seed path (#616): an absent capability is seeded only
 from the person's recorded answers (answered_by: human), under an existing domain, at a
 '<domain>/<capability>/capability.md' doc path, then promoted; without a seed it is still
@@ -11,7 +11,7 @@ never re-detailed. Inside a loop (#615) a box-move decision is written `proposed
 it stays `accepted`. One run details many targets (#615): each manifest is keyed to its own
 target, a box-move is linked to the capability it names, and a refusal writes nothing. The
 box never goes down (a lowered, unfirmed or regime-dropping profile is refused), a
-functionality id is never clashed or left empty, and the record's box_moves carry each
+feature id is never clashed or left empty, and the record's box_moves carry each
 decision's id and status.
 
     python3 test_persist_understand.py
@@ -54,7 +54,7 @@ def setup(tmp, caps=None):
     root = os.path.join(base, "product-os")
     os.makedirs(root)
     spine = {"domains": [{"id": "commerce", "doc": "commerce/domain.md"}],
-             "capabilities": caps or [], "functionalities": [], "profile": {"state": "directional"}}
+             "capabilities": caps or [], "features": [], "profile": {"state": "directional"}}
     with open(os.path.join(root, "_spine.yaml"), "w") as fh:
         yaml.safe_dump(spine, fh)
     work = os.path.join(tmp, "work")
@@ -62,8 +62,8 @@ def setup(tmp, caps=None):
     with open(os.path.join(work, "enrich.yaml"), "w") as fh:
         yaml.safe_dump({"enrich": {"capability_ref": "checkout",
                                    "capability": {"nfr_needs": {"latency": {"level": "high"}}},
-                                   "functionalities": [{"id": "pay", "capability": "checkout",
-                                                        "doc": "commerce/checkout/pay/functionality.md"}]}}, fh)
+                                   "features": [{"id": "pay", "capability": "checkout",
+                                                        "doc": "commerce/checkout/pay/feature.md"}]}}, fh)
     with open(os.path.join(work, "profile.yaml"), "w") as fh:
         yaml.safe_dump({"profile": {"state": "set"}}, fh)
     with open(os.path.join(work, "rollup.json"), "w") as fh:
@@ -191,8 +191,8 @@ def test_sibling_containment():
         base, root, work = setup(tmp, [dict(sibling)])
         with open(os.path.join(work, "enrich.yaml"), "w") as fh:
             yaml.safe_dump({"enrich": {"capability_ref": "checkout", "capability": {},
-                                       "functionalities": [{"id": "x", "capability": "cart"}]}}, fh)
-        check("a functionality under a sibling is refused", run(base, work, ANSWERS) == 2)
+                                       "features": [{"id": "x", "capability": "cart"}]}}, fh)
+        check("a feature under a sibling is refused", run(base, work, ANSWERS) == 2)
         check("nothing written when a sibling is targeted",
               [c["id"] for c in spine(root)["capabilities"]] == ["cart"])
     with tempfile.TemporaryDirectory() as tmp:
@@ -246,8 +246,8 @@ def setup_two(tmp, moves):
         with open(path, "w") as fh:
             yaml.safe_dump({"enrich": {"capability_ref": cid,
                                        "capability": {"nfr_needs": {"security": {"level": "xhigh"}}},
-                                       "functionalities": [{"id": f"{cid}-main", "capability": cid,
-                                                            "doc": f"commerce/{cid}/main/functionality.md"}]}},
+                                       "features": [{"id": f"{cid}-main", "capability": cid,
+                                                            "doc": f"commerce/{cid}/main/feature.md"}]}},
                            fh)
         paths.append(path)
     with open(os.path.join(work, "rollup.json"), "w") as fh:
@@ -275,8 +275,8 @@ def test_many_targets():
         caps = {c["id"]: c for c in spine(root)["capabilities"]}
         check("both targets are detailed",
               caps["checkout"]["detail"] == "detailed" and caps["refunds"]["detail"] == "detailed")
-        funcs = {f["id"]: f["capability"] for f in spine(root)["functionalities"]}
-        check("each target keeps its own functionalities",
+        funcs = {f["id"]: f["capability"] for f in spine(root)["features"]}
+        check("each target keeps its own features",
               funcs == {"checkout-main": "checkout", "refunds-main": "refunds"})
         for cid in ("checkout", "refunds"):
             did = f"dec-{cid}-security-high-xhigh"
@@ -351,31 +351,31 @@ def test_profile_never_lowered():
               and spine(root)["profile"]["nfr"]["security"]["level"] == "xhigh")
 
 
-def test_functionality_ids():
+def test_feature_ids():
     move = {"capability": "checkout", "dimension": "security", "from": "high", "to": "xhigh"}
     with tempfile.TemporaryDirectory() as tmp:
         base, root, work, paths = setup_two(tmp, [move])
         with open(paths[1]) as fh:
             man = yaml.safe_load(fh)
-        man["enrich"]["functionalities"][0]["id"] = "checkout-main"
+        man["enrich"]["features"][0]["id"] = "checkout-main"
         with open(paths[1], "w") as fh:
             yaml.safe_dump(man, fh)
-        check("a functionality id declared by two targets is refused",
+        check("a feature id declared by two targets is refused",
               run_many(base, work, paths, ["checkout", "refunds"]) == 2)
-        check("nothing written on an id clash", spine(root)["functionalities"] == [])
+        check("nothing written on an id clash", spine(root)["features"] == [])
     with tempfile.TemporaryDirectory() as tmp:
         base, root, work, paths = setup_two(tmp, [move])
         with open(paths[0]) as fh:
             man = yaml.safe_load(fh)
-        del man["enrich"]["functionalities"][0]["id"]
+        del man["enrich"]["features"][0]["id"]
         with open(paths[0], "w") as fh:
             yaml.safe_dump(man, fh)
-        check("a functionality with no id is refused",
+        check("a feature with no id is refused",
               run_many(base, work, paths, ["checkout", "refunds"]) == 2)
     with tempfile.TemporaryDirectory() as tmp:
         base, root, work, paths = setup_two(tmp, [move])
         sp = spine(root)
-        sp["functionalities"] = [{"id": "refunds-main", "capability": "cart"}]
+        sp["features"] = [{"id": "refunds-main", "capability": "cart"}]
         with open(os.path.join(root, "_spine.yaml"), "w") as fh:
             yaml.safe_dump(sp, fh)
         check("an id already in the spine under another capability is refused",
@@ -384,13 +384,13 @@ def test_functionality_ids():
         base, root, work, paths = setup_two(tmp, [move])
         sp = spine(root)
         kept = {"id": "refunds-main", "capability": "refunds", "doc": "old.md"}
-        sp["functionalities"] = [kept]
+        sp["features"] = [kept]
         with open(os.path.join(root, "_spine.yaml"), "w") as fh:
             yaml.safe_dump(sp, fh)
         check("an id already in the spine under the same capability is accepted",
               run_many(base, work, paths, ["checkout", "refunds"]) == 0)
         check("and the existing entry is left untouched",
-              next(f for f in spine(root)["functionalities"] if f["id"] == "refunds-main") == kept)
+              next(f for f in spine(root)["features"] if f["id"] == "refunds-main") == kept)
 
 
 def test_record_carries_decision_status():
@@ -450,7 +450,7 @@ def main():
                  test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
                  test_sibling_containment,
                  test_already_detailed, test_box_move_status, test_many_targets,
-                 test_many_targets_refusals, test_profile_never_lowered, test_functionality_ids,
+                 test_many_targets_refusals, test_profile_never_lowered, test_feature_ids,
                  test_record_carries_decision_status):
         print(test.__name__)
         test()

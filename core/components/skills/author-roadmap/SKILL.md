@@ -1,6 +1,6 @@
 ---
 name: author-roadmap
-description: Draft /shape-roadmap's plan over the vertical slices /shape-scope produced — for each slice estimate its effort, resolve its dependency_notes (plus shared functionalities and those functionalities' spine depends_on) into concrete depends_on slice ids, and propose a value order. Writes a draft only (plan-draft.yaml in STM), never the live model and never the final order numbers. Under direct-model-write (ADR 026) this draft IS the manifest data the play's keyed persist consumes — this skill writes no model file — the coherent order (compute_plan.py) and the in-place spine write (persist_roadmap.py) are the play's deterministic scripts, not this skill.
+description: Draft /shape-roadmap's plan over the vertical slices /shape-scope produced — for each slice estimate its effort, resolve its dependency_notes (plus shared features and those features' spine depends_on) into concrete depends_on slice ids, and propose a value order. Writes a draft only (plan-draft.yaml in STM), never the live model and never the final order numbers. Under direct-model-write (ADR 026) this draft IS the manifest data the play's keyed persist consumes — this skill writes no model file — the coherent order (compute_plan.py) and the in-place spine write (persist_roadmap.py) are the play's deterministic scripts, not this skill.
 version: 0.3.0
 user-invocable: false
 model: opus
@@ -15,7 +15,7 @@ three things a plan needs that a script cannot:
 - **effort** — a size estimate per slice (your judgment, read from what the slice
   bundles and the ICE it references).
 - **resolved dependencies** — turn each slice's free-text `dependency_notes`, its shared
-  functionalities, and those functionalities' ICE `depends_on` into concrete
+  features, and those features' ICE `depends_on` into concrete
   `depends_on` slice ids.
 - **value order** — a most-valuable-first preference over the slices, used only to break
   ties between slices that don't depend on each other.
@@ -38,8 +38,8 @@ shared file (`_spine.yaml`). Emit the draft and stop.
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `snapshot_path` | yes | The `snapshot.json` the play captured — every slice across every domain, with its id, domain_ref, bundled functionality_refs, and dependency_notes. The authoritative list of what to plan. |
-| `product_base` | yes | From config — to read each slice's functionalities (their `functionality.md` grounding + the spine `depends_on` on their functionality entries) for effort + dependency judgment. |
+| `snapshot_path` | yes | The `snapshot.json` the play captured — every slice across every domain, with its id, domain_ref, bundled feature_refs, and dependency_notes. The authoritative list of what to plan. |
+| `product_base` | yes | From config — to read each slice's features (their `feature.md` grounding + the spine `depends_on` on their feature entries) for effort + dependency judgment. |
 | `out_path` | yes | Where to write `plan-draft.yaml` under STM. |
 | `stm_base` | yes | From config. |
 
@@ -49,15 +49,15 @@ The effort, the dependency resolution, and the value preference are yours; the d
 discipline is non-negotiable.
 
 1. **Read the slices.** From `snapshot.json`, take every slice (across all domains).
-   Note its bundled functionalities and its `dependency_notes`.
+   Note its bundled features and its `dependency_notes`.
 
 2. **Resolve dependencies.** For each slice, decide which OTHER slices it must follow,
-   from: its `dependency_notes`, functionalities it shares with another slice, and the
-   `depends_on` on those functionalities' spine entries. Emit them as concrete `depends_on`
+   from: its `dependency_notes`, features it shares with another slice, and the
+   `depends_on` on those features' spine entries. Emit them as concrete `depends_on`
    slice ids. Do NOT invent a dependency the notes/grounding don't support.
 
 3. **Estimate effort.** Size each slice (e.g. S / M / L, or points) from what it bundles
-   and the functionality docs it references. Every slice gets an effort.
+   and the feature docs it references. Every slice gets an effort.
 
 4. **Propose a value order.** Order the slices most-valuable-first against the product's
    goals. This is only the tie-breaker — the script will still put dependencies first.
@@ -80,10 +80,10 @@ plan:
 ### NEVER
 - Assign the final `order` numbers, run the topological sort, or detect cycles — that is
   `compute_plan.py`'s deterministic job.
-- Edit a slice's composition (name, outcome, functionalities, acceptance_intent) or its
+- Edit a slice's composition (name, outcome, features, acceptance_intent) or its
   `dependency_notes` — those are /shape-scope's. You only read them.
 - Write the live model, or anything other than `plan-draft.yaml` at `out_path`.
-- Invent a dependency with no basis in the notes, shared functionalities, or ICE.
+- Invent a dependency with no basis in the notes, shared features, or ICE.
 
 ### ALWAYS
 - Cover every slice in the snapshot: each gets an effort and a `depends_on` (possibly

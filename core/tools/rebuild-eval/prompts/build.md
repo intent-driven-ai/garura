@@ -2,7 +2,7 @@
 
 You are a developer. The folder `brief/` describes a product: its business intents
 (`brief/intents/`) and, when present, its product model — a domain, its capabilities and their
-functionalities, each page with what it does, its rules and its acceptance criteria.
+features, each page with what it does, its rules and its acceptance criteria.
 
 Build the product as a working web app:
 

@@ -1,7 +1,7 @@
 ---
 name: discover-domains
 position: both
-description: 'Turn business intents, a business goal, a prototype''s shared capture, or any mix into the domains of the product model — or grow the domains already there — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there, found in the knowledge shelves or by research, each page with its sources), the domain spine entries linked to the business intents both ways, and a directional product profile — written directly in place on the live model. Writes domains only (ADR 043): capabilities and functionalities are /discover-capabilities''s. Builds on whatever any play already wrote (light domain pages, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /discover-capabilities and /shape-scope. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves a review record for the loop''s end review.'
+description: 'Turn business intents, a business goal, a prototype''s shared capture, or any mix into the domains of the product model — or grow the domains already there — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there, found in the knowledge shelves or by research, each page with its sources), the domain spine entries linked to the business intents both ways, and a directional product profile — written directly in place on the live model. Writes domains only (ADR 043): capabilities and features are /discover-capabilities''s. Builds on whatever any play already wrote (light domain pages, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /discover-capabilities and /shape-scope. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves a review record for the loop''s end review.'
 user-invocable: true
 ---
 
@@ -14,12 +14,12 @@ product sits in (the field it serves and the job it does there — often more th
 entry linked to the business intents it serves (both ways), and a **directional** product
 profile. /discover-domains is the **CXO conversation** — what you take to a CXO and get back:
 strategic, directional, CXO altitude. It writes **domains only** (ADR 043): writing and
-detailing the capabilities and their functionalities is /discover-capabilities's (the product-manager
+detailing the capabilities and their features is /discover-capabilities's (the product-manager
 step), and breaking the model into deliverable end-to-end verticals and epics is /shape-scope's
 (the product-owner step).
 
 **Every kind written on its own (ADR 043).** Each kind has one writer — /discover-intent the business
-intents, /discover-domains the domains, /discover-capabilities the capabilities and functionalities — and none
+intents, /discover-domains the domains, /discover-capabilities the capabilities and features — and none
 needs another to run first; the links are made later (inside a loop by its gap skills). So
 /discover-domains starts from whatever the model holds: it accepts proposed intents (it never runs the
 workable check and never waits for a confirmation), raises a light domain page to the full
@@ -38,7 +38,7 @@ file. Every shared-file mutation (the spine `_spine.yaml` with its `profile` blo
 intent pages' Touches lists) is done by the deterministic keyed persist script, in place: it
 adds domain entries whose id is absent and the profile only if none exists, makes only the
 named updates to an existing domain entry (raise `detail`, refresh `one_line`, add to
-`intents`), and refuses anything else — any capability, functionality, slice or epic entry
+`intents`), and refuses anything else — any capability, feature, slice or epic entry
 or update above all (ADR 043) (the node-level containment the file-level scoped guard cannot
 see inside the shared spine). The model tree is asserted clean once start-change has cut the
 branch (F9) and the play commits its own model delta after approval (C9), so the working-tree
@@ -76,7 +76,7 @@ recorded deferral to the loop's review (C11).
 (`_spine.yaml`/profile) by any route other than `scripts/persist_seed.py`; committing
 the model delta before the Step 6 gate resolves; changing an existing spine entry beyond
 the named updates, or removing or cutting down an existing grounding doc (keep what is
-there — C6/F5); writing, placing or moving a capability, writing a functionality,
+there — C6/F5); writing, placing or moving a capability, writing a feature,
 acceptance criteria, or a `set`/`locked` profile (over-reach — F3); running the
 seed writes against a dirty product-os tree (C9/F9); closing COMPLETED without the
 stop-condition verdict reading held (C8/F7).
@@ -361,12 +361,12 @@ python3 scripts/grounding_gate.py --verdict <verdict.json>
 **SE-1 (F1/C1):** `lint_grounding.py` exits 0 over the live docs this run wrote — every
 domain doc conforms to the Theme template's detailed stage; full spine↔doc consistency for
 the new entries completes after the keyed persist (Step 5). A "not ready until it is
-attributed" warning on another play's capability or functionality is not a failure.
+attributed" warning on another play's capability or feature is not a failure.
 **SE-2 (F2/C2):** the content-quality eval gate (`grounding_gate.py`) passes for EVERY
 domain doc — each section self-explains at CXO altitude and the doc clears the stranger
 test. A label-only or thin doc fails.
-**SE-3 (F3/C3):** no over-reach — no capability or functionality doc was written or moved
-by this run, the manifest's spine-delta holds no capability, functionality, slice or epic
+**SE-3 (F3/C3):** no over-reach — no capability or feature doc was written or moved
+by this run, the manifest's spine-delta holds no capability, feature, slice or epic
 entry or update, no acceptance criteria appear, and the manifest's profile is not
 `set`/`locked` (manifest scan + `grounding_check.py`).
 **SE-4 (C4):** directional state — every domain entry the run writes or raises is
@@ -392,7 +392,7 @@ are already on the live model (Step 2). `persist_seed.py` now writes the SHARED 
 place: it adds domain entries whose id is absent and the profile only if the live spine has
 none; it applies only the named `updates` to existing domain entries and REFUSES the whole
 run, before any write, on any other field, an unknown id, a lowered `detail`, or any
-capability, functionality, slice or epic entry or update (ADR 043 — the node-level
+capability, feature, slice or epic entry or update (ADR 043 — the node-level
 containment the file-level guard cannot provide); and it writes each intent page's Touches
 list for the domains linked to it (`adds` for a domain new in this run, `changes` for one
 already there). A missing intent page or an input intent no domain names is a `warnings`
@@ -407,7 +407,7 @@ python3 scripts/persist_seed.py --seed-manifest <working>/seed-manifest.yaml \
 
 **SE-6 (F5/C6):** the persist manifest's `written` list contains no entry that already
 existed (those appear only in `skipped`), every `updated` entry names only named-update
-fields, the run wrote no capability or functionality entry, and the profile is written only when
+fields, the run wrote no capability or feature entry, and the profile is written only when
 the live spine had none; the keep check and the scoped guard (Step 5) confirm no existing
 doc lost a section and no path outside the run's write scope changed.
 **SE-11 (F10/C10):** the run never refused, stopped or waited over another play's work:
@@ -422,7 +422,7 @@ Touches list names the domain; every input intent no domain names has a `warning
 **Step 5 — Guard the full delta + classify the shape** · Owner: play · Depends on: Step 4
 
 **The run's write scope (the per-play guard policy, ADR 026).** /discover-domains adds and grows
-domain docs but never removes one; it writes no capability or functionality page (ADR 043);
+domain docs but never removes one; it writes no capability or feature page (ADR 043);
 it changes intent pages only through the persist's Touches list; the persist merges the
 spine:
 
@@ -436,7 +436,7 @@ Step 2 and the keyed persist from Step 4), run the keep check — every existing
 changed kept each section and agent-intent line it had; its report is the stop condition's
 D4 input — then the scoped guard a single time over the whole delta (its `ok` field is D3).
 Then re-run the linter over the merged live spine to complete spine↔doc consistency (another
-play's capability or functionality not yet attributed is a warning, not a failure):
+play's capability or feature not yet attributed is a warning, not a failure):
 
 ```
 python3 scripts/check_kept.py --product-base <product_base> --base-ref HEAD \
@@ -465,7 +465,7 @@ python3 scripts/classify_change.py --play discover-domains \
 
 **SE-6 (F5/C6):** the keep-check report and the scoped-write guard report both read
 `ok: true` — the model delta is confined to the run's write scope (domain docs added or grown,
-never removed; no capability or functionality page touched; intent pages only changed; the
+never removed; no capability or feature page touched; intent pages only changed; the
 spine merged by the keyed persist), and no existing doc lost a section.
 
 ### Phase: Checkpoint (conditional gate, C7)
@@ -624,7 +624,7 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
 **Step 8 — Scenario evals** · Owner: play · Depends on: the end sequence
 - **SCE-1 (S1 — CXO / product strategist):** what this run persisted — at least one domain
   entry with a detailed `domain.md` and a `directional` profile, and no capability or
-  functionality entry — clears both guards (`lint_grounding.py` clean; `grounding_gate.py`
+  feature entry — clears both guards (`lint_grounding.py` clean; `grounding_gate.py`
   passes for every domain doc) and is present in the live spine; the run's change is landed on main by the end sequence
   (`{stm_base}<issue>/context/vision/end/merge-change.json` reports the PR merged), with no later play
   needed to finish it; the stop-condition verdict reads held.
@@ -730,7 +730,7 @@ and stop_condition per C0 with the Stop Condition section filled) and write to
 report: `## vision Delivered — ${product_slug}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (the domain docs, domain spine
 entries, and profile), Next Steps (run /discover-capabilities to write and detail the capabilities and
-their functionalities, and firm the profile), and a
+their features, and firm the profile), and a
 pointer to `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -756,7 +756,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 |-----|---------|-----------|---------|
 | F1 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F2 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, CXO-altitude statement — and re-judge until the gate passes | autonomous |
-| F3 | a capability page, entry, update or placement, acceptance criteria, a `set`/`locked` profile, or a lowered `detail` appears | strip the over-reach — drop every capability and functionality write (they are /discover-capabilities's), remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` — leaving only domains | autonomous |
+| F3 | a capability page, entry, update or placement, acceptance criteria, a `set`/`locked` profile, or a lowered `detail` appears | strip the over-reach — drop every capability and feature write (they are /discover-capabilities's), remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` — leaving only domains | autonomous |
 | F4 | a domain has neither a KB shelf match nor a KB-node proposal, is a made-up name, names a principle, practice, regulation or quality rather than a field the industry identifies itself with, or the field of one feature many products share, or its page lacks `## Sources` | search the KB to ground it, or record a propose-kb-node proposal that names the domain from its research; write its sources; never leave it ungrounded | autonomous |
 | F5 | the scoped-write guard or the keep check report is not ok, or the persist refused an update outside the named ones | the guard's `--restore` already reverted the offending paths; restore any doc that lost a section from HEAD and re-apply only the additions; re-run the keyed persist with only the named updates, after a human confirms the restore | human |
 | F6 | the model delta was committed before the checkpoint resolved (no approval, config skip, auto-pass, or — inside a loop — recorded deferral), or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the human approves (inside a loop, only after the deferral is recorded) | human |
@@ -783,7 +783,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:8504957c9b6f087fbbc338dc46c466ed38ea75a5130982511ee274a429491ec2 (of `reference/ice.md`) |
+| fingerprint | sha256:dc22a58ab717aeb586212a041a9eee906b97c97b4a23788dcd770ab3cd1559f9 (of `reference/ice.md`) |
 | compiled_by | edit-play (#689 every main section in a domain whose research covers it; no domain from one shared feature: C5, C12); edit-play (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#614 runs inside a loop); edit-play (#637 one product model with /discover-intent); edit-play (#616 position both); edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C); create-play (edited via edit-play, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /shape-measure-lens) |

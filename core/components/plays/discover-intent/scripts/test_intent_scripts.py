@@ -415,7 +415,7 @@ def test_check():
     check("an intent the source shows but no part maps to is caught (F12)",
           any("[know-the-customer] is mapped from no part" in p for p in ci.check(bad)["problems"]))
     check("an intent the person stated may have no part yet", ci.check(GOOD)["clean"])
-    for key in ("ice", "domains", "capabilities", "functionalities"):
+    for key in ("ice", "domains", "capabilities", "features"):
         bad = fresh()
         bad[key] = [{"id": "x"}]
         check(f"a draft that carries `{key}` is caught — /discover-intent writes intents only (ADR 043)",

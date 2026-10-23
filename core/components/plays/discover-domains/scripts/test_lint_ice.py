@@ -57,10 +57,10 @@ def spine(ices, extra_caps=""):
            "    doc: capabilities/checkout/capability.md", "    status: proposed"]
     if extra_caps:
         out.append(extra_caps)
-    out.append("functionalities:")
+    out.append("features:")
     out += ["  - id: fn-guest", "    slug: guest", "    capability: cap-checkout",
             "    one_line: A shopper pays without an account.",
-            "    doc: capabilities/checkout/guest/functionality.md", "    status: proposed"]
+            "    doc: capabilities/checkout/guest/feature.md", "    status: proposed"]
     if ices is not None:
         out.append("ices:")
         for e in ices:
@@ -87,7 +87,7 @@ def run(ices, pages, extra_caps=""):
 
 
 CAP_ICE = {"id": "ice-1", "for": "cap-checkout", "for_kind": "capability", "doc": "capabilities/checkout/ice.md"}
-FN_ICE = {"id": "ice-2", "for": "fn-guest", "for_kind": "functionality", "doc": "capabilities/checkout/guest/ice.md"}
+FN_ICE = {"id": "ice-2", "for": "fn-guest", "for_kind": "feature", "doc": "capabilities/checkout/guest/ice.md"}
 PAGES = {"capabilities/checkout/ice.md": GOOD_ICE, "capabilities/checkout/guest/ice.md": GOOD_ICE}
 
 

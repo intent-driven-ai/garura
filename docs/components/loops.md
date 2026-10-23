@@ -72,7 +72,7 @@ Older ADRs and past run records say "drive". Read it as "loop".
 
 | Loop | What it does | State |
 |------|--------------|-------|
-| **Discovery** | Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/discover-intent`), domains (`/discover-domains`), capabilities and functionalities (`/discover-capabilities`) | Built: `core/components/loops/complete-discovery/` |
+| **Discovery** | Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/discover-intent`), domains (`/discover-domains`), capabilities and features (`/discover-capabilities`) | Built: `core/components/loops/complete-discovery/` |
 | **Slice** | Locks domains and capabilities, cuts the model into vertical slices, and designs the project once | To build (#608) |
 | **Execute** | Grill, implement, validate and launch | To build (#609) |
 | **Ship** | Lands every change the same way: start, commit, propose, review, merge | To build (#610) |

@@ -39,7 +39,7 @@ You do NOT see:
 - test-engineer's test-authoring rationale
 - Any other agent's output beyond the test files and the harness config
 
-**Why isolation matters:** the agent that runs the tests must not know what the tests "should" assert. That way, a passing test is evidence that the behavior is really there — not evidence that the runner was primed to confirm it. This mirrors how `/build-feature` separates `code-builder` from `test-writer`. The same discipline guards `/decode`'s baseline-green gate (C25).
+**Why isolation matters:** the agent that runs the tests must not know what the tests "should" assert. That way, a passing test is evidence that the behavior is really there — not evidence that the runner was primed to confirm it. This mirrors how `/build-epic` separates `code-builder` from `test-writer`. The same discipline guards `/decode`'s baseline-green gate (C25).
 
 ## What You Do
 

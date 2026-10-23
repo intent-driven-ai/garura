@@ -42,7 +42,7 @@ Receive from product-keeper via JSON contract.
 3. **Extract shipped-MVP signals from scan-index.**
    - **Release history** — `git.tags_recent`. Each tag is a shipped milestone. If empty, mark the milestone axis `insufficient` and carry a meta warning.
    - **Entry points** — `entry_points`. The user-facing surface: CLI bins, server routes, exposed main modules, frontend pages.
-   - **Churn top** — `git.churn_top` (top ~20 files). Hot paths indicate active core functionality.
+   - **Churn top** — `git.churn_top` (top ~20 files). Hot paths indicate active core feature.
    - **README feature enumeration** — `docs.readme_preview`. Extract the "Features" / "What it does" / "Capabilities" bullet list when present. This is often the MVP in the product's own words.
    - **Trees** — `trees` top-level modules. Each is a candidate capability.
    - **Co-change** — `git.co_change_top`. Pairs of files that change together reveal capability cohesion; use to collapse signals into a single use case.

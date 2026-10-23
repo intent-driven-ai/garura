@@ -1,7 +1,7 @@
 ---
 name: shape-quality-lens
 position: none
-description: 'Write a SLICE''s quality lens as a grounding doc (quality.md) — a short statement of what "good" means for the slice plus a table of checkable gates (dimension / bar / how checked), drawn from the profile''s NFR gates that apply and the slice''s functionalities'' rules, never invented. The MIDDLE of the NON-FUNCTIONAL realize pipe (architecture → quality → run), run on a shaped slice. Reads the hub from the spine (functionality grounding + profile), never another lens. Writes the slice''s quality lens directly, in place on the live model.'
+description: 'Write a SLICE''s quality lens as a grounding doc (quality.md) — a short statement of what "good" means for the slice plus a table of checkable gates (dimension / bar / how checked), drawn from the profile''s NFR gates that apply and the slice''s features'' rules, never invented. The MIDDLE of the NON-FUNCTIONAL realize pipe (architecture → quality → run), run on a shaped slice. Reads the hub from the spine (feature grounding + profile), never another lens. Writes the slice''s quality lens directly, in place on the live model.'
 user-invocable: true
 ---
 
@@ -9,8 +9,8 @@ user-invocable: true
 
 Write a shaped slice's **quality lens** as the grounding doc `quality.md`: what "good" means for
 this slice, and the checkable gates it must clear. The gates are drawn from the product profile's
-NFR gates that apply to the slice and from the slice's functionalities' own rules, made checkable —
-never invented. /shape-quality-lens reads the slice's **hub** — its functionalities' grounding docs plus the
+NFR gates that apply to the slice and from the slice's features' own rules, made checkable —
+never invented. /shape-quality-lens reads the slice's **hub** — its features' grounding docs plus the
 profile (both from the spine) — and never another realize lens.
 
 **Pipeline position: none.** /shape-quality-lens is the MIDDLE of the non-functional realize pipe (architecture
@@ -50,7 +50,7 @@ skip, or a recorded policy auto-pass.
 
 **Forbidden:** hand-writing the lens or a decision; writing anything other than this slice's
 `quality.md`, its machine sibling `quality-gates.yaml`, and a decision (C2); reading or grounding on
-another realize lens (C7); inventing a gate with no profile gate or functionality rule behind it
+another realize lens (C7); inventing a gate with no profile gate or feature rule behind it
 (C5); writing a decision by any route other than `scripts/persist_quality.py`; committing before the
 checkpoint gate resolves; running against a dirty product-os tree (C12/F13); closing COMPLETED
 without the stop-condition verdict held (C11).
@@ -59,7 +59,7 @@ without the stop-condition verdict held (C11).
 
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
-| `product-os-keeper` | Author the slice's quality lens (intent + gates) from the hub — the profile's NFR gates that apply + the functionalities' rules — writing the lens docs in place on the live model | `author-quality-lens` | Author |
+| `product-os-keeper` | Author the slice's quality lens (intent + gates) from the hub — the profile's NFR gates that apply + the features' rules — writing the lens docs in place on the live model | `author-quality-lens` | Author |
 
 `product-os-keeper` is the single domain agent this play uses (1 of the ≤5 budget). The
 content-quality judge always runs as an isolated, clean-context sub-agent (optionally on a configured
@@ -98,8 +98,8 @@ python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slic
 ```
 
 It asserts the profile is `set` (from the spine), resolves the slice record, and resolves every
-`functionality_ref` through the spine to its `functionality.md` grounding doc — the hub. If the slice
-is absent, a functionality does not resolve, or the profile is not firmed, hard halt (C1/REC1).
+`feature_ref` through the spine to its `feature.md` grounding doc — the hub. If the slice
+is absent, a feature does not resolve, or the profile is not firmed, hard halt (C1/REC1).
 
 The run's working root is `<working>` = `{stm_base}_realize/quality/` — the manifest
 (`quality-manifest.yaml`), the change-shape, the persist record (`persist-manifest.json`), the
@@ -150,16 +150,16 @@ reordering. On resume, skip completed and reset in-progress to pending.
 **Step 1 — Author the lens (docs to live)** · Owner: `product-os-keeper` · Depends on: pre-flight
 The agent invokes `author-quality-lens` to write the slice's `quality.md` (the intent + the gates,
 per the Quality lens template) AND its machine sibling `lens/quality-gates.yaml` (#462 — one binding
-card per Gates-table row) **straight to the live model** from the hub (the functionality grounding
+card per Gates-table row) **straight to the live model** from the hub (the feature grounding
 docs + the profile's NFR gates), and to emit a `quality-manifest.yaml` (the grounding map + any
 material choice as structured data). Per ADR 026 the skill writes the per-node lens docs in place and
 emits any decision as manifest data (it never writes `_spine.yaml`, `profile.yaml`, or a decision):
 
     {
-      "task":    "author the slice's quality lens (intent + checkable gates) from its hub, writing quality.md + quality-gates.yaml in place on the live model; ground every gate in a profile NFR gate that applies or a functionality rule; emit the grounding map + any material choice into the manifest",
+      "task":    "author the slice's quality lens (intent + checkable gates) from its hub, writing quality.md + quality-gates.yaml in place on the live model; ground every gate in a profile NFR gate that applies or a feature rule; emit the grounding map + any material choice into the manifest",
       "inputs":  { "slice_ref": "<domain>/<slice>",
                    "slice_file": "<slice record>",
-                   "functionality_groundings": "<from check_ready_slice>",
+                   "feature_groundings": "<from check_ready_slice>",
                    "profile": "<spine profile>", "product_base": "<product_base>",
                    "lens_rel": "product-os/<domain>/slices/<slice>/lens/quality.md" },
       "outputs": { "manifest": "<working>/quality-manifest.yaml" }
@@ -200,8 +200,8 @@ python3 scripts/grounding_gate.py --verdict <verdict.json>
 **SE-3 (F4/C4):** the content-quality eval gate (`grounding_gate.py`) passes — `quality.md` is
 self-explaining and clears the stranger test.
 **SE-4 (F5/C5):** `validate_quality.py` — every gate grounds in a profile NFR gate that applies or a
-functionality rule; any material choice names a decision (a manifest choice) that resolves.
-**SE-5 (F6/C6):** `validate_quality.py` — the gates consider every functionality the slice bundles
+feature rule; any material choice names a decision (a manifest choice) that resolves.
+**SE-5 (F6/C6):** `validate_quality.py` — the gates consider every feature the slice bundles
 (coverage).
 **SE-6 (F7/C7):** `validate_quality.py` — the gates ground on no other realize lens.
 **SE-7 (F8/C8):** every gate is a checkable bar — the Gates table carries a bar and a check; a bare
@@ -358,7 +358,7 @@ reads `ok: true`) must read **held** before any COMPLETED close, and the model d
   the content eval, the spine/slice/profile/other lenses are byte-identical (guard `ok`), and the
   stop-condition verdict reads held.
 - **SCE-2 (S2 — product owner, grounded gates):** every gate traces to a profile NFR gate that
-  applies or a functionality rule; material choices name a decision that resolves.
+  applies or a feature rule; material choices name a decision that resolves.
 - **SCE-3 (S3 — reviewer, concrete):** every gate is a checkable bar — a value or named standard plus
   a check — never a bare adjective.
 - **SCE-4 (S4 — architect, hub-only):** no other realize lens was read or written.
@@ -447,12 +447,12 @@ pointer to `$evidence_dest`. Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a functionality does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-quality-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-quality-lens runs | human |
 | F2 | a write touched something beyond this slice's quality.md, its machine sibling quality-gates.yaml, or a decision (scoped-guard violation) | the guard's `--restore` reverts the out-of-scope paths; re-run writing only the slice's lens and any decision | autonomous |
 | F3 | quality.md fails the template/shape or carries out-of-scope content | re-emit to the Quality lens template (intent and gates only) | autonomous |
 | F4 | quality.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
-| F5 | an invented gate, or a material choice with no decision | re-tie each gate to a profile gate or a functionality rule, and record the material decision | autonomous |
-| F6 | a functionality was not considered | extend the gates to cover the missing functionality's quality-relevant rules | autonomous |
+| F5 | an invented gate, or a material choice with no decision | re-tie each gate to a profile gate or a feature rule, and record the material decision | autonomous |
+| F6 | a feature was not considered | extend the gates to cover the missing feature's quality-relevant rules | autonomous |
 | F7 | /shape-quality-lens read or depended on another lens | remove the dependency; /shape-quality-lens derives only from the slice's hub | autonomous |
 | F8 | a gate is not checkable — a vague adjective with no value, standard, or check | re-draft the gate as a value or named standard plus how it is checked | autonomous |
 | F9 | a non-lens/non-decision file changed, or an accepted decision was edited in place (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only quality.md + quality-gates.yaml and the new decision, after a human confirms the restore | human |
@@ -473,7 +473,7 @@ continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:ec43972367f77fb2c6e9ba8f2bb486ea48e2f43b00fe2fb8167eace2b1194bc9 (of `reference/ice.md`) |
+| fingerprint | sha256:dd0d2adbfdb124adfd32361e7d5889d31c32dd384ad7bf18ba3066a0ae4ac803 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C; #467 Batch B — conditional learned gate) |
 | pipeline_position | none |
 | position_exception | middle of the non-functional realize pipe — runs on the branch /shape-architecture-lens started; the close belongs to /shape-run-lens |

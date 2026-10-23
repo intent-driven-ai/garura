@@ -16,7 +16,7 @@ only READS current state as planning input.
 Two modes:
   --probe : count the spine slices, write NOTHING (pre-flight readiness; zero => run
             /shape-scope first). Safe to re-run on every invocation (resume included).
-  --out   : write the current slices (id, domain_ref, functionality_refs,
+  --out   : write the current slices (id, domain_ref, feature_refs,
             dependency_notes, current plan fields) as planning input.
 
 Layer rule: reads files on disk only; no git/gh/network.
@@ -80,7 +80,7 @@ def main(argv=None):
         slices.append({
             "id": sl.get("id"),
             "domain_ref": sl.get("domain_ref"),
-            "functionality_refs": list(sl.get("functionality_refs") or []),
+            "feature_refs": list(sl.get("feature_refs") or []),
             "dependency_notes": notes,
             "order": sl.get("order"),
             "effort": sl.get("effort"),

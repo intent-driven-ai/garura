@@ -8,7 +8,7 @@ standards/rules/direct-model-write.md). There is NO draft tree: the LLM authorin
 to the live model. This script owns the SHARED files — the spine `_spine.yaml` (with its
 `profile` block) and the Touches lists on the business intent pages — and merges the
 manifest's spine-delta in place. /discover-domains writes DOMAINS ONLY (ADR 043 part 2): capabilities
-and functionalities are /discover-capabilities's, so a delta that adds, updates or places one refuses the
+and features are /discover-capabilities's, so a delta that adds, updates or places one refuses the
 whole run before anything is written.
 
   - new `domains` entries: added ONLY when their id is absent; an id already present is left
@@ -50,7 +50,7 @@ import intent_touches as touches  # noqa: E402
 
 SPINE_NAME = "_spine.yaml"
 # ADR 043 part 2: /discover-domains writes domains only; every other collection is /discover-capabilities's or later.
-NOT_MINE = ("capabilities", "functionalities", "slices", "epics")
+NOT_MINE = ("capabilities", "features", "slices", "epics")
 UPDATABLE = {"domain": ("detail", "one_line", "intents")}
 DETAIL_RANK = {"directional": 0, "detailed": 1}
 
@@ -105,7 +105,7 @@ def check_scope(delta):
     for key in NOT_MINE:
         if delta.get(key):
             raise Refused(f"the delta adds `{key}` — /discover-domains writes domains only; capabilities and "
-                          f"functionalities are /discover-capabilities's (ADR 043)")
+                          f"features are /discover-capabilities's (ADR 043)")
 
 
 def check_updates(updates, live):

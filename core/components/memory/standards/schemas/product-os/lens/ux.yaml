@@ -40,7 +40,7 @@ content:
       object: string    # the ONE thing the user works with on this screen — this is where
                         # the information architecture lives (no separate IA section)
       layout: string    # low-fidelity layout — the blocks/regions on the screen and what
-                        # each holds (where the slice's functionality sits). NOT pixel design.
+                        # each holds (where the slice's feature sits). NOT pixel design.
   flows:                # per persona + goal: the ordered path through the screens above
     - persona: string   # who is taking this path — traces to a persona/journey of the hub
       goal: string      # what they are trying to get done

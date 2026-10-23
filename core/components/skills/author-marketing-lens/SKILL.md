@@ -1,6 +1,6 @@
 ---
 name: author-marketing-lens
-description: Author a shaped slice's marketing lens as an MD grounding doc — discoverability (SEO + AEO + GEO), accessibility (moved here from the profile), and marketing analytics — from the slice's hub (its functionalities' grounding docs + the spine profile) and KB grounding. An internal tool behind auth says "SEO/AEO/GEO not applicable" plainly, with the reason. Under direct-model-write (ADR 026) it writes the slice's marketing.md STRAIGHT to the live model (a re-derive) and emits any material decision plus the grounding map as structured data in a manifest; it reads the functionality.md docs for the hub, never another lens, and never writes the spine, the profile, the slice record, or a decision file. Generative artifact production for the /shape-marketing-lens play.
+description: Author a shaped slice's marketing lens as an MD grounding doc — discoverability (SEO + AEO + GEO), accessibility (moved here from the profile), and marketing analytics — from the slice's hub (its features' grounding docs + the spine profile) and KB grounding. An internal tool behind auth says "SEO/AEO/GEO not applicable" plainly, with the reason. Under direct-model-write (ADR 026) it writes the slice's marketing.md STRAIGHT to the live model (a re-derive) and emits any material decision plus the grounding map as structured data in a manifest; it reads the feature.md docs for the hub, never another lens, and never writes the spine, the profile, the slice record, or a decision file. Generative artifact production for the /shape-marketing-lens play.
 version: 0.2.0
 user-invocable: false
 model: opus
@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Bash, Glob
 
 # author-marketing-lens
 
-Turns a shaped slice's **hub** — the grounding docs of the functionalities it bundles, plus the
+Turns a shaped slice's **hub** — the grounding docs of the features it bundles, plus the
 product profile — into the slice's **marketing lens**, written as the grounding doc
 `marketing.md`: how the slice is found and reached (SEO / AEO / GEO), the accessibility bar it
 meets, and the reach/usage signals worth capturing. An internal tool behind auth answers
@@ -34,7 +34,7 @@ the change; this skill neither commits nor persists a shared file.
 slice meets it; this MOVED here from the profile), **Marketing analytics** (reach/conversion or, for an
 internal tool, usage signals). It must clear the linter (shape) and the content-quality eval (the play
 runs both). Alongside it, a structured `marketing-manifest.yaml` (STM, non-model) carries the
-machine-checkable grounding the prose can't — which functionalities the assessment is grounded in, any
+machine-checkable grounding the prose can't — which features the assessment is grounded in, any
 material choice, and any material decision as a full record for the keyed persist to write.
 
 ## Inputs
@@ -42,8 +42,8 @@ material choice, and any material decision as a full record for the keyed persis
 | Field | Required | Description |
 |-------|----------|-------------|
 | `slice_ref` | yes | `{domain}/{slice-id}` — display reference and the containment key the keyed persist enforces. |
-| `slice_file` | yes | Path to the live slice record (read-only — for the functionalities it bundles and its surfaces). |
-| `functionality_groundings` | yes | Paths to each functionality's `functionality.md` grounding doc (the hub, resolved by `check_ready_slice`). Read these for behavior/acceptance — NOT `ice.yaml` (retired). |
+| `slice_file` | yes | Path to the live slice record (read-only — for the features it bundles and its surfaces). |
+| `feature_groundings` | yes | Paths to each feature's `feature.md` grounding doc (the hub, resolved by `check_ready_slice`). Read these for behavior/acceptance — NOT `ice.yaml` (retired). |
 | `profile` | yes | The product profile (from the spine) — conditions + surfaces (stage / users / monetization). Read-only. |
 | `kb_search` | yes | Path to the KB search script, for discoverability/accessibility-pattern grounding. |
 | `kb_root` | yes | Path to `knowledge/`, to resolve learning ids. |
@@ -58,7 +58,7 @@ material choice, and any material decision as a full record for the keyed persis
 Reasoning (the reach verdict, the accessibility bar, the signals worth capturing) is yours.
 Template conformance, grounding, honesty, and the write discipline are non-negotiable.
 
-1. **Read the hub.** Load each functionality's `functionality.md` (its behavior, who it serves) and
+1. **Read the hub.** Load each feature's `feature.md` (its behavior, who it serves) and
    the profile (stage / users / monetization / surfaces). Do NOT read any other lens.
 2. **Frame the intent.** Who needs to find or reach this slice's surface, and why. An internal tool
    says so plainly — it scopes the rest.
@@ -72,7 +72,7 @@ Template conformance, grounding, honesty, and the write discipline are non-negot
 6. **Write the lens to the live model.** Write `marketing.md` to `<product_base>/<lens_rel>` (per the
    template) — straight to the live tree, a re-derive that overwrites any prior marketing lens for this
    slice. Write NOTHING else on the live tree — no spine, no profile, no slice record, no decision file.
-7. **Emit the manifest.** Write `marketing-manifest.yaml` to `manifest_path` (STM): the functionalities
+7. **Emit the manifest.** Write `marketing-manifest.yaml` to `manifest_path` (STM): the features
    the assessment grounds in; any material choice; and any material marketing decision as a full record
    under `decisions:` for the keyed persist to write. Write any KB proposals under `<working>/proposals/`.
 
@@ -99,9 +99,9 @@ marketing:
   slice_ref: token-dash/slice-trusted-coverage
   discoverability: not-applicable                 # public | not-applicable (with the reason in the doc)
   accessibility: "WCAG 2.1 AA"
-  grounds:                                        # the functionalities the assessment considered
-    - { source_type: functionality, source: "func-source-usage-ingest", functionality_ref: func-source-usage-ingest }
-    - { source_type: functionality, source: "func-dashboard-presentation", functionality_ref: func-dashboard-presentation }
+  grounds:                                        # the features the assessment considered
+    - { source_type: feature, source: "func-source-usage-ingest", feature_ref: func-source-usage-ingest }
+    - { source_type: feature, source: "func-dashboard-presentation", feature_ref: func-dashboard-presentation }
   choices: []                                     # KB-grounded discoverability/accessibility choices (if any)
   decisions: []                                   # material marketing decisions as full records (the keyed persist writes them);
                                                   # each entry's node_ref MUST be this slice_ref
@@ -116,7 +116,7 @@ the `lens_rel` (live path) and `manifest_path` — paths, never inline content.
 
 - **Direct-model-write.** Write ONLY `marketing.md` to the live tree; emit any decision as manifest data —
   never write `_spine.yaml`, the profile, the slice record, another lens, or a `decisions/*.yaml` file.
-- **Hub only.** Derive from the functionalities' grounding docs + the profile; never read or ground on
+- **Hub only.** Derive from the features' grounding docs + the profile; never read or ground on
   another realize lens.
 - **Template-true.** `marketing.md` conforms to the Marketing lens template (Intent / Discoverability /
   Accessibility / Marketing analytics) and must clear the linter + the content eval — every item
@@ -125,7 +125,7 @@ the `lens_rel` (live path) and `manifest_path` — paths, never inline content.
   invent public-marketing where there is none.
 - **Accessibility lives here.** Set the concrete accessibility bar and how the slice meets it — it moved
   out of the profile into this lens.
-- **Cover the hub.** The assessment considers every functionality the slice bundles, recorded in the
+- **Cover the hub.** The assessment considers every feature the slice bundles, recorded in the
   manifest grounds.
 - **Grounded, not invented.** Discoverability and accessibility choices ground in a KB learning or a
   proposal; any material choice is emitted as a decision record in the manifest, keyed to this slice.

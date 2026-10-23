@@ -53,3 +53,4 @@ may have no Status line.
 | [045](045-a-drive-is-now-called-a-loop.md) | A Drive Is Now Called a Loop, a Loop Is Always Named in Full, and the Five Loops Are Discovery, Slice, Execute, Ship and Learn | Accepted | 2026-10-21 |
 | [046](046-one-naming-standard-for-every-harness-part.md) | One Naming Standard for Every Harness Part: Verb First, One Meaning per Verb, Loops Named complete-<phase>, No Tool Built-ins | Accepted | 2026-10-22 |
 | [047](047-the-ice-is-its-own-node.md) | The Agent Intent (ICE) Is Its Own Node: One for Each Capability and Each Functionality, in Three Parts, With a Three-Answer Ready Check | Accepted | 2026-10-22 |
+| [048](048-the-product-model-and-the-work-are-two-layers.md) | The Product Model and the Work Are Two Layers Joined by the Plan: Functionality Becomes Feature, a Slice Is in the Model, and an Epic Is a Work Item That Delivers One Slice | Accepted | 2026-10-23 |

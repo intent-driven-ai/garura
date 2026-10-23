@@ -11,11 +11,11 @@ checked by `lint_grounding.py`, and its UNDERSTANDABILITY by the content eval �
 play's validate step. THIS script checks what the manifest + the machine-readable run.yaml
 carry, which the prose can't enforce:
 
-  - grounded: every grounding entry names a real source — the slice's HUB (a functionality,
+  - grounded: every grounding entry names a real source — the slice's HUB (a feature,
     persona, or journey), the profile, or the ARCHITECTURE lens (run reads architecture, and
     only architecture among the lenses). Never another lens (ux/agentic/quality/measure/marketing).
   - decisions: a grounding flagged `material: true` names a `decision` that resolves.
-  - coverage: every functionality of the slice is considered by the run plan (each appears in
+  - coverage: every feature of the slice is considered by the run plan (each appears in
     the manifest grounds) — the run lens can't ignore part of the slice.
   - run.yaml schema, run.md/run.yaml agreement, cloud-component mapping, and no-secret-literals
     over the LIVE lens files.
@@ -47,7 +47,7 @@ except ImportError:
 # run reads the architecture lens; these are the lenses it must NOT ground on.
 OTHER_LENSES = ("agentic", "ux", "quality", "measure", "marketing", "lens")
 # allowed grounding source types for run (architecture lens included).
-ALLOWED = ("profile", "ice", "functionality", "persona", "journey", "architecture")
+ALLOWED = ("profile", "ice", "feature", "persona", "journey", "architecture")
 
 
 def load(path):
@@ -85,7 +85,7 @@ def check_grounding(man, decision_ids, errors):
         return grounded
     for e in entries:
         st = (e.get("source_type") or "").strip().lower()
-        if _blank(e.get("source")) and _blank(e.get("functionality_ref")):
+        if _blank(e.get("source")) and _blank(e.get("feature_ref")):
             errors.append("a grounding entry has no source")
             continue
         if st in OTHER_LENSES:
@@ -93,8 +93,8 @@ def check_grounding(man, decision_ids, errors):
                           f"lens, never {st}")
         elif st not in ALLOWED:
             errors.append(f"source_type '{st}' is not one of {ALLOWED}")
-        if st in ("ice", "functionality"):
-            fr = e.get("functionality_ref")
+        if st in ("ice", "feature"):
+            fr = e.get("feature_ref")
             if not _blank(fr):
                 grounded.add(fr)
         if e.get("material") is True:
@@ -106,13 +106,13 @@ def check_grounding(man, decision_ids, errors):
     return grounded
 
 
-def slice_functionalities(slice_file, errors):
+def slice_features(slice_file, errors):
     if not slice_file or not os.path.isfile(slice_file):
         errors.append(f"slice record not found at {slice_file} — cannot verify coverage")
         return set()
     sl = (load(slice_file).get("slice") or {})
-    return {(f or {}).get("functionality_ref") for f in (sl.get("functionalities") or [])
-            if (f or {}).get("functionality_ref")}
+    return {(f or {}).get("feature_ref") for f in (sl.get("features") or [])
+            if (f or {}).get("feature_ref")}
 
 
 # --- run.yaml (the machine-readable per-env definition, #434) -----------------
@@ -242,10 +242,10 @@ def main(argv=None):
         man = {}
 
     grounded = check_grounding(man, decision_ids, errors)
-    to_cover = slice_functionalities(args.slice_file, errors)
+    to_cover = slice_features(args.slice_file, errors)
     for fid in sorted(f for f in to_cover if f):
         if fid not in grounded:
-            errors.append(f"slice functionality {fid!r} is not considered by the run plan")
+            errors.append(f"slice feature {fid!r} is not considered by the run plan")
 
     # --- run.yaml: the machine-readable per-environment definition (#434) ---
     run_yaml_path = find_lens_file(draft_root, "run.yaml")

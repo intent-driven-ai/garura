@@ -62,7 +62,7 @@ reach, page production, measurement. No martech (orchestration / CDP / delivery 
 out of scope, not listed here).
 
 - **Discoverability / reach optimisation** — include when the product needs to be
-  found and cited for campaigns. Functionalities are independent (flat list — run
+  found and cited for campaigns. Features are independent (flat list — run
   the ones the channel mix needs):
   - SEO — be ranked by search engines for campaign terms. The floor for reach.
   - AEO — be answerable/citable by answer engines. Add when `shape.surfaces`

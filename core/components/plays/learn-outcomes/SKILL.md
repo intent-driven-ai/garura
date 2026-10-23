@@ -1,7 +1,7 @@
 ---
 name: learn-outcomes
 position: both
-description: 'Close the loop: after a unit of work ships, read what actually happened — the measure lens (baseline/target/realized), the validate verdicts and fix reports, the run lens, and the delivered epic/slice status — and update the LIVING product model to match reality. Refreshes only the model''s MEANING (capability/functionality one_line, nfr_needs levels, status promotions, the grounding-doc sections learning changed) and records each material learning as an append-only decision — never the tree skeleton. Replaces the old capture/codify/distill/enrich/reap loop. One delivered unit per run; one human checkpoint before anything is committed. Writes the spine + grounding docs + decisions directly on the live model, through the change pipeline.'
+description: 'Close the loop: after a unit of work ships, read what actually happened — the measure lens (baseline/target/realized), the validate verdicts and fix reports, the run lens, and the delivered epic/slice status — and update the LIVING product model to match reality. Refreshes only the model''s MEANING (capability/feature one_line, nfr_needs levels, status promotions, the grounding-doc sections learning changed) and records each material learning as an append-only decision — never the tree skeleton. Replaces the old capture/codify/distill/enrich/reap loop. One delivered unit per run; one human checkpoint before anything is committed. Writes the spine + grounding docs + decisions directly on the live model, through the change pipeline.'
 user-invocable: true
 ---
 
@@ -26,7 +26,7 @@ verified, appends the close sequence `commit-change → propose-change → check
 merge-change`, merging the refreshed model to main. (#434 ProductOS command model)
 
 **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM authoring skill
-(author-learnings) writes ONLY the per-node grounding docs (`capability.md`, `functionality.md`, and
+(author-learnings) writes ONLY the per-node grounding docs (`capability.md`, `feature.md`, and
 the slice `lens/{measure|run|quality}.md`) straight to the live model; every shared-file mutation
 (the spine `_spine.yaml` meaning fields, the `profile` block inside it, the new `decisions/` records)
 is done by the deterministic keyed persist script (`persist_learn.py`), in place, keyed to the
@@ -192,7 +192,7 @@ decision record) — each proposed change carrying its **outcome citation** and 
       "outputs": { "manifest": "<working>/learn-manifest.yaml" }
     }
 
-The skill writes the rewritten grounding docs (`capability.md`, `functionality.md`, slice lens docs)
+The skill writes the rewritten grounding docs (`capability.md`, `feature.md`, slice lens docs)
 IN PLACE under `<product_base>product-os/` and writes `learn-manifest.yaml` under `<working>` (STM)
 with the spine meaning-field deltas as `changes:` and the full decision records as `decisions:`. It
 writes NO shared model file. No proposal advances a status without proving evidence (C8); a
@@ -262,7 +262,7 @@ python3 scripts/persist_learn.py --manifest <working>/learn-manifest.yaml \
 `applied: true` alongside the written/changed lists — this field, not prose, is what the close's
 stop-condition gate (D2) reads.
 **SE-8 (F2/F9/C2/C9):** the keyed persist mutated only the allowlisted meaning fields on the
-manifest-named nodes — no domain/capability/functionality id, slug, or parent changed, no slice or
+manifest-named nodes — no domain/capability/feature id, slug, or parent changed, no slice or
 epic entry rewritten, no accepted decision edited in place; the persist refuses any other mutation by
 construction.
 
@@ -277,7 +277,7 @@ grounding-doc kinds, and add-only decision records:
 
     --allow    'product-os/_spine.yaml'                # the shared spine + profile block (persist writes it)
     --allow    'product-os/*/capability.md'            # rewritten capability grounding docs
-    --allow    'product-os/*/functionality.md'         # rewritten functionality grounding docs
+    --allow    'product-os/*/feature.md'         # rewritten feature grounding docs
     --allow    'product-os/*/lens/*.md'                # rewritten slice lens docs (measure/run/quality)
     --add-only 'product-os/decisions/*'                # new decision records (added, never modified — append-only, C7)
 
@@ -293,7 +293,7 @@ delta against the branch base. Capture its report — its `ok` field is the stop
 ```
 python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
         --allow 'product-os/_spine.yaml' --allow 'product-os/*/capability.md' \
-        --allow 'product-os/*/functionality.md' --allow 'product-os/*/lens/*.md' \
+        --allow 'product-os/*/feature.md' --allow 'product-os/*/lens/*.md' \
         --add-only 'product-os/decisions/*' \
         --out <working>/guard-report.json
 ```
@@ -386,7 +386,7 @@ merged + cleaned); they are not re-checked here. A check-change reject stops the
 - **SCE-2 (S2 — product owner, an nfr box-move):** a capability's `nfr_needs` rose (monotonic-up), the
   profile box-move is a recorded decision, and that is the only structural change.
 - **SCE-3 (S3 — reviewer, a fix-required signal):** a `fix_required` became a grounding refinement
-  citing the fix report; the functionality status is unchanged.
+  citing the fix report; the feature status is unchanged.
 - **SCE-4 (S4 — architect, outcome-grounded):** every proposed change cites the outcome that
   justified it; none stands without evidence.
 - **SCE-5 (S5 — product owner, re-run):** a re-run re-derives only the proposed updates; everything
@@ -465,7 +465,7 @@ model now reflects the delivered unit; run /next for the highest-value next acti
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the unit is absent or nothing has delivered | halt and route to the delivery plays (/build-feature → /validate-feature → /shape-measure-lens) before /learn-outcomes runs | human |
+| F1 | the unit is absent or nothing has delivered | halt and route to the delivery plays (/build-epic → /validate-epic → /shape-measure-lens) before /learn-outcomes runs | human |
 | F2 | a write touched the skeleton, a slice/epic entry, or an accepted decision | revert it; /learn-outcomes writes only meaning fields, grounding sections, and new decisions | human |
 | F3 | a rewritten grounding doc fails the template/shape | re-emit the doc to its template (no missing/extra/empty section) | autonomous |
 | F4 | a rewritten grounding doc fails the content eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
@@ -491,7 +491,7 @@ resume that already wrote model docs continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:d370e011a95f61674799cf68474b8bb4e265381afb334fb0b71b2966e7da1a68 (of `reference/ice.md`) |
+| fingerprint | sha256:8ddfbbecb51b9b6b30b1ef2531fc9543be67ae1fcc41f3738eb794895101bcf0 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C) |
 | pipeline_position | both (injects start-change head and commit → propose → review → merge close) |
 | workflow_structure | A (single checkpoint, class standard, config-gated per gate-config.md; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard before the gate, commit after; stop-condition gated close) |

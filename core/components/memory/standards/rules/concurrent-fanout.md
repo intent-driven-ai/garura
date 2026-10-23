@@ -82,7 +82,7 @@ at its end, so the step is a single deterministic node from the outside.
   own verdict.
 - **Script-internal form** — one orchestrating script runs its independent subprocesses
   concurrently (a bounded worker pool), then collects results in input order. Example:
-  `/validate-feature`'s `run_checks.py` — each check runs its own runner, writes its own result
+  `/validate-epic`'s `run_checks.py` — each check runs its own runner, writes its own result
   record, reads only the code.
 
 Both forms obey the same three conditions and the same bounded join.

@@ -293,7 +293,7 @@ We welcome contributions to Garura! Whether you're fixing bugs, improving docume
 
 1. Follow the existing code style and patterns
 2. Create feature branches with descriptive names
-3. Include tests for new functionality
+3. Include tests for new feature
 4. Submit your pull request with a clear description of changes
 
 

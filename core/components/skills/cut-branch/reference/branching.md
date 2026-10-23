@@ -6,7 +6,7 @@ Standard patterns for branch names and their implications.
 
 | Pattern | Purpose | Example |
 |---------|---------|---------|
-| `feature/*` | New functionality | `feature/user-auth` |
+| `feature/*` | New feature | `feature/user-auth` |
 | `fix/*` | Bug fixes | `fix/login-redirect` |
 | `hotfix/*` | Urgent production fixes | `hotfix/security-patch` |
 | `release/*` | Release preparation | `release/v2.1.0` |

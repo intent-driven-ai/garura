@@ -8,8 +8,8 @@ edit-play; never hand-edit the compiled SKILL.md.
 Given one shaped **slice** — a vertical product increment from /shape-scope, the thing you actually
 deliver — write or extend its **run lens**: the narrative grounding doc `run.md` AND the
 machine-readable per-environment definition `run.yaml`. The slice is the unit of realization; a
-slice has no ICE of its own — its **hub** is the union of its functionalities' grounding docs
-(`functionality.md`, which may span several capabilities) plus the product profile (read from the
+slice has no ICE of its own — its **hub** is the union of its features' grounding docs
+(`feature.md`, which may span several capabilities) plus the product profile (read from the
 spine).
 
 The run lens has two parts. The **slice-level operational design** — rollout (how it goes live and
@@ -18,7 +18,7 @@ tested, shipped, and what the build gates on) — is written **once** and carrie
 **environments** are built **one per call, incrementally**: each call resolves a **target
 environment** (the lowest not-yet-defined tier by default — 0 local, 1 dev, up to 4 prod — or a
 named one) and defines or edits **exactly that one**, preserving every environment already defined.
-A **local** environment is the lightweight bring-up /release-feature uses for human testing; a **cloud**
+A **local** environment is the lightweight bring-up /release-epic uses for human testing; a **cloud**
 environment carries real infrastructure — provider, region, per-component compute, managed services,
 networking and firewalls, and security (identity, secrets, controls) plus the deploy command — the
 definition /release-increment executes against. Config & secrets are per environment; secrets are bound via a
@@ -60,7 +60,7 @@ once per slice — once per environment — each a small model-only change ridin
 ### Constraints
 
 - C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
-  functionality it bundles resolves through the spine to a `functionality.md` grounding doc, the
+  feature it bundles resolves through the spine to a `feature.md` grounding doc, the
   product profile is firmed (`set`), and the slice's `architecture.md` lens exists. If not, halt —
   /shape-run-lens realizes a shaped, architected slice; it does not shape or architect one.
 - C2 — Writes only this slice's `run.md` and `run.yaml` (and any decision), in the slice's lens
@@ -74,12 +74,12 @@ once per slice — once per environment — each a small model-only change ridin
   validators pass.
 - C4 — Content quality: `run.md` clears the content-quality eval, not just the linter — each section
   is self-explaining and the doc passes the stranger test.
-- C5 — Grounded, not invented: every operational choice traces to the hub (a functionality), the
+- C5 — Grounded, not invented: every operational choice traces to the hub (a feature), the
   profile, or the architecture lens; a cloud environment's compute and services map to real
   architecture-lens components (no dangling target); any material choice is recorded as a decision.
-- C6 — Coverage: every functionality the slice bundles is considered by the run plan — nothing shaped
+- C6 — Coverage: every feature the slice bundles is considered by the run plan — nothing shaped
   is left unaccounted for in how the slice ships.
-- C7 — Reads the hub + the architecture lens only: /shape-run-lens derives from the slice's functionalities'
+- C7 — Reads the hub + the architecture lens only: /shape-run-lens derives from the slice's features'
   grounding docs, the profile, and `architecture.md` — never from another realize lens
   (ux/agentic/quality/measure/marketing).
 - C8 — Never stamps realized: /shape-run-lens authors its run lens and closes the non-functional pipe; it never
@@ -133,7 +133,7 @@ once per slice — once per environment — each a small model-only change ridin
 
 ### Failure conditions
 
-- F1 — /shape-run-lens ran on an unready slice — the slice is absent, a functionality does not resolve to a
+- F1 — /shape-run-lens ran on an unready slice — the slice is absent, a feature does not resolve to a
   grounding doc, the profile is not firmed, or the architecture lens is missing.
 - F2 — A write touched something other than this slice's `run.md`, `run.yaml`, or a decision (the
   spine, the slice record, the profile, another lens, structure, a persona, a journey, or another
@@ -144,7 +144,7 @@ once per slice — once per environment — each a small model-only change ridin
 - F5 — An operational choice is invented — with no hub, profile, or architecture source behind it — a
   cloud environment's compute or service references a component not in the architecture lens, or a
   material choice has no recorded decision.
-- F6 — A functionality of the slice is left unaccounted for in the run plan.
+- F6 — A feature of the slice is left unaccounted for in the run plan.
 - F7 — /shape-run-lens read or depended on a realize lens other than architecture.
 - F8 — /shape-run-lens stamped the slice `realized` (or otherwise wrote the slice's status) — that belongs to
   /shape-measure-lens.
@@ -170,7 +170,7 @@ once per slice — once per environment — each a small model-only change ridin
 
 ### Success scenarios
 
-- S1 — (devops engineer, first environment) Given a shaped, architected slice whose functionalities
+- S1 — (devops engineer, first environment) Given a shaped, architected slice whose features
   resolve and a firmed profile, when /shape-run-lens runs for the first time — no environment yet defined — the
   target resolves to the lowest tier (local), and on approval `run.yaml` is written in place with the
   slice-level design plus the local environment, and `run.md` narrates it; both clear their
@@ -231,7 +231,7 @@ status — and the spine — stayed untouched, no realized stamp).
 
 ### Recovery (one per failure condition)
 
-- REC1 (F1) — trigger: the slice is absent, a functionality does not resolve, the profile is not
+- REC1 (F1) — trigger: the slice is absent, a feature does not resolve, the profile is not
   firmed, or the architecture lens is missing. direction: halt and route to /shape-scope, /discover-capabilities, or
   /shape-architecture-lens before /shape-run-lens runs. handoff: human.
 - REC2 (F2) — trigger: the scoped guard reports a write beyond this slice's `run.md`, `run.yaml`, or a
@@ -246,8 +246,8 @@ status — and the spine — stayed untouched, no realized stamp).
   component, or a material choice with no decision. direction: re-tie each choice to the hub, the
   profile, or the architecture (a cloud compute/service to a real component), and record the material
   decision. handoff: autonomous.
-- REC6 (F6) — trigger: a functionality was left unaccounted for. direction: extend the run plan to
-  account for the missing functionality. handoff: autonomous.
+- REC6 (F6) — trigger: a feature was left unaccounted for. direction: extend the run plan to
+  account for the missing feature. handoff: autonomous.
 - REC7 (F7) — trigger: /shape-run-lens read or depended on a lens other than architecture. direction: remove the
   dependency; /shape-run-lens reads only the hub + the architecture lens. handoff: autonomous.
 - REC8 (F8) — trigger: the slice status moved (a realized stamp). direction: revert the change via the

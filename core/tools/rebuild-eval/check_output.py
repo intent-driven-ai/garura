@@ -10,7 +10,7 @@ What a script can check without judgement:
   and the proof is not left open (`open`, "the loop asks …", "to be confirmed").
 - **Domain** — its page names research sources: at least one web link under a Sources heading
   or field. A domain with none was not found by research.
-- **Capabilities and functionalities** — each page says where on the prototype it is seen
+- **Capabilities and features** — each page says where on the prototype it is seen
   (a `## Seen on the prototype` or `## Source` section, or a `**Source:**` field) with at least
   one quote, and every quote of four characters or more is on the prototype: in the prototype
   file's text, or in a captured text (`--prototype-text`, e.g. a walk's `.txt` files).
@@ -88,7 +88,7 @@ def source_block(md):
 
 
 def check(brief, prototype_text):
-    findings, counts = [], {"intents": 0, "domain": 0, "capabilities": 0, "functionalities": 0,
+    findings, counts = [], {"intents": 0, "domain": 0, "capabilities": 0, "features": 0,
                             "quotes": 0, "quotes_found": 0}
 
     def find(level, item, rule, detail):
@@ -107,7 +107,7 @@ def check(brief, prototype_text):
 
     for path in sorted(glob.glob(os.path.join(brief, "**", "*.md"), recursive=True)):
         name = os.path.basename(path)
-        if name not in ("domain.md", "capability.md", "functionality.md"):
+        if name not in ("domain.md", "capability.md", "feature.md"):
             continue
         item = os.path.relpath(path, brief)
         md = read(path)
@@ -118,7 +118,7 @@ def check(brief, prototype_text):
                 find("fail", item, "domain-research", "the domain names no research source (no web link "
                                                       "under a Sources heading or field)")
             continue
-        counts["capabilities" if name == "capability.md" else "functionalities"] += 1
+        counts["capabilities" if name == "capability.md" else "features"] += 1
         if block is None:
             find("fail", item, "source-missing", "does not say where on the prototype it is seen")
             continue

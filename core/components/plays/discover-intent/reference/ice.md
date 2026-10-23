@@ -16,7 +16,7 @@ shared as the **Source**, exactly as it was when read:
 
 This play writes business intents only (ADR 043). It writes no ICE, no capability and no
 domain: `/discover-domains` writes the domains, and `/discover-capabilities` writes the capabilities and
-functionalities with their ICE. Each kind is written on its own and linked later — by the
+features with their ICE. Each kind is written on its own and linked later — by the
 play that links a part to an intent, or, inside a loop, by the loop's gap skills. Run on its
 own, this play leaves the rest of the model to those plays, and the person runs them when they
 want it.

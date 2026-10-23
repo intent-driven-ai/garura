@@ -2,7 +2,7 @@
 #
 # The persistent product model. One of the three things ProductOS keeps forever:
 # STRUCTURE. The tree is always exactly three levels:
-#   Domain -> Capability -> Functionality
+#   Domain -> Capability -> Feature
 #
 # Nodes link by id. ICE, Decisions, Personas, and Journeys attach to nodes by
 # reference (their own schemas).
@@ -17,7 +17,7 @@ node:
   path: string            # human-readable path, derived from names; may change
                           # on rename/reparent, e.g.
                           # order-management.checkout.guest-checkout
-  type: string            # one of: domain | capability | functionality
+  type: string            # one of: domain | capability | feature
   name: string            # human label, e.g. "Guest Checkout"
   summary: string         # one-line description
   parent: string          # parent node id; null only for a domain
@@ -37,10 +37,10 @@ node:
 
 # ---- Tree rules -------------------------------------------------------------
 structure:
-  levels: [domain, capability, functionality]   # exactly 3, in this order
+  levels: [domain, capability, feature]   # exactly 3, in this order
   domain:        { parent: none,       child: capability }
-  capability:    { parent: domain,     child: functionality }
-  functionality: { parent: capability, child: none }
+  capability:    { parent: domain,     child: feature }
+  feature: { parent: capability, child: none }
 
 # ---- Persona record (persistent, attached to a node) -----------------------
 # A persona is WHO the work is for. It is first-class grounding, not decoration: an
@@ -123,9 +123,9 @@ fill_rules:
              profile up to state: derived"
   - play: "/shape-scope"
     writes: "profile-driven selection: confirm/prune capabilities and select
-             functionalities against the profile + KB, plus personas, journeys.
+             features against the profile + KB, plus personas, journeys.
              ALSO writes the domain's SLICES (slice.yaml) — bundling its
-             functionalities into usable increments, referencing their ICE — plus the
+             features into usable increments, referencing their ICE — plus the
              _deferred bucket. Re-runs when the profile changes."
   - play: "/shape-roadmap"
     writes: "the PLAN onto slices (slice.yaml): order, effort, resolved depends_on,
@@ -136,8 +136,8 @@ fill_rules:
 
 # Pipeline ordering: /discover-domains is directional (capabilities + draft profile) ->
 # /discover-capabilities rolls up the smart profile from capability nfr_needs ->
-# /shape-scope selects capabilities + functionalities against the now-derived profile.
-# So the profile always exists before functionalities are selected. The loop is
+# /shape-scope selects capabilities + features against the now-derived profile.
+# So the profile always exists before features are selected. The loop is
 # re-entrant: as intent/profile evolves (climbing the architecture ladder),
 # /shape-scope re-selects.
 
@@ -153,9 +153,9 @@ enhance_rules:
 # records only.
 # Two lifecycle tiers live here:
 #   PERMANENT  — structure, ICE, decisions, the 5 lenses, and epics: epics are
-#                written by /shape-features and stamped `delivered` (kept) when their issue
+#                written by /shape-slice and stamped `delivered` (kept) when their issue
 #                merges — the as-delivered record, never deleted (ADR 019).
-#   (STM, NOT here) — stories, tests, build detail produced by /build-feature.
+#   (STM, NOT here) — stories, tests, build detail produced by /build-epic.
 #
 # Per-capability shape:
 #   product-os/{capability}/
@@ -165,8 +165,8 @@ enhance_rules:
 #       ux.yaml architecture.yaml run.yaml quality.yaml agentic.yaml
 #     decisions/                     # decision (ADR) records
 #     personas/  journeys/           # persona + journey records
-#     functionalities/{functionality}/
-#       node.yaml  ice.yaml          # functionality node + its build-unit ICE
+#     features/{feature}/
+#       node.yaml  ice.yaml          # feature node + its build-unit ICE
 #     epics/                         # PERMANENT — vertical slices awaiting/under
 #                                    # delivery; stamped `delivered` and kept on
 #                                    # their issue merge (ADR 019)

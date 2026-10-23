@@ -1,6 +1,6 @@
 # ADR 046 — One Naming Standard for Every Harness Part: Verb First, One Meaning per Verb, Loops Named complete-<phase>, No Tool Built-ins
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 048](048-the-product-model-and-the-work-are-two-layers.md): §4 'Plays take the verb of what they do' — the sentence 'Objects use the product model's words (feature, capability), never a word the model dropped (epic, slice)'
 **Date:** 2026-10-22
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #734 (Garura publishes a standard for building agentic harnesses), the naming discussion of 2026-10-22

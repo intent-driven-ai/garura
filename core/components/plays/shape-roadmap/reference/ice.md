@@ -7,12 +7,12 @@ edit-play; never hand-edit the compiled SKILL.md.
 
 Given the vertical slices /shape-scope produced across all shaped domains, plan them: order
 them into a build sequence that respects their dependencies, and add an effort estimate
-to each. /shape-roadmap reads the slices — their bundled functionalities, those functionalities'
+to each. /shape-roadmap reads the slices — their bundled features, those features'
 grounding and spine `depends_on`, and each slice's `dependency_notes` — to judge order and
 effort, and writes only the **plan** onto each slice's **spine index entry**: `order`,
 `effort`, resolved `depends_on`, and the `status` flip `proposed → planned`. The plan lives
 on the spine slices index, never on the slice record, so a slice's composition (its record:
-name, outcome, functionalities, acceptance_intent, surface, dependency_notes) is
+name, outcome, features, acceptance_intent, surface, dependency_notes) is
 structurally unreachable from here — as are the grounding docs, the node tree, the profile,
 the lenses, and decisions. One run plans the whole set across every shaped domain, because
 order is comparative. One human checkpoint approves the plan before anything is committed.
@@ -53,12 +53,12 @@ uncommitted (STM evidence, ADRs).
   nothing to plan; run /shape-scope first.
 - C2 — Writes only the plan fields on a slice's spine index entry: `order`, `effort`,
   resolved `depends_on`, and `status` (`proposed → planned`). It never edits a slice's
-  composition (its record — name, outcome, functionalities, acceptance_intent, surface,
+  composition (its record — name, outcome, features, acceptance_intent, surface,
   dependency_notes), the slice entry's other spine fields (id, slug, domain_ref,
-  functionality_refs, record), or the grounding docs, the node tree, the profile, the
+  feature_refs, record), or the grounding docs, the node tree, the profile, the
   lenses, decisions, or the `_deferred` bucket.
 - C3 — The order respects dependencies: /shape-roadmap resolves each slice's dependencies (from
-  its `dependency_notes`, its shared functionalities, and those functionalities' spine
+  its `dependency_notes`, its shared features, and those features' spine
   `depends_on`) into concrete `depends_on` slice ids, and orders so a slice is never
   sequenced before one it depends on.
 - C4 — The plan is coherent, and coherence is a HARD gate BEFORE any persist: every planned

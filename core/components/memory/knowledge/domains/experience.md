@@ -98,7 +98,7 @@ Intent-first. (The intent list was drafted on delegation — confirm or correct.
 - **Govern the agents** — "see and control agents, tools, memory, guardrails, HITL" → the agent ops plane.
 
 ## Capabilities
-Each capability lists its functionalities — a name, what it is, a maturity ladder
+Each capability lists its features — a name, what it is, a maturity ladder
 (Level 1/2/3) where the progression is real or a flat list where the pieces are
 independent, and a profile condition for when to add it. Start at the floor.
 

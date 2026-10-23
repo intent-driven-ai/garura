@@ -33,6 +33,8 @@ answers yet says so.
 
 **What it is:** {one or two plain sentences}
 **Who reads it:** {person | agent | both}
+**Layer:** {product | work | the thread between the two layers}
+**In the tracker as:** {what it is in the tracker, or none — model only}
 **Lives at:** {where its instances are stored, e.g. `product-os/intents/<id>.md`}
 
 **Properties**

@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261022-185338/adr-check.json",
+    ".garura/project/issues/_adr/20261022-185338/adr-context.round1.yaml",
+    ".garura/project/issues/_adr/20261022-185338/adr-context.yaml",
+    ".garura/project/issues/_adr/20261022-185338/adr-draft.md",
+    ".garura/project/issues/_adr/20261022-185338/adr-draft.round1.md",
+    ".garura/project/issues/_adr/20261022-185338/adr-manifest.json",
+    ".garura/project/issues/_adr/20261022-185338/brief.md",
+    ".garura/project/issues/_adr/20261022-185338/decision.yaml",
+    ".garura/project/issues/_adr/20261022-185338/hashes-before.json",
+    ".garura/project/issues/_adr/20261022-185338/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261022-185338/run.json",
+    "docs/adr/019-epic-persistence-keep-delivered.md",
+    "docs/adr/022-surface-contract.md",
+    "docs/adr/024-amendment-record.md",
+    "docs/adr/028-agentic-lifecycle-five-loops.md",
+    "docs/adr/031-business-intent-and-ice.md",
+    "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+    "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+    "docs/adr/047-the-ice-is-its-own-node.md",
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/_index.md",
+    "docs/adr/019-epic-persistence-keep-delivered.md",
+    "docs/adr/022-surface-contract.md",
+    "docs/adr/024-amendment-record.md",
+    "docs/adr/028-agentic-lifecycle-five-loops.md",
+    "docs/adr/031-business-intent-and-ice.md",
+    "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+    "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+    "docs/adr/047-the-ice-is-its-own-node.md",
+    ".garura/project/issues/*"
+  ]
+}

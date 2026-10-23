@@ -6,7 +6,7 @@ plays:
   understand: discover-capabilities
   shape: shape-scope
   roadmap: shape-roadmap
-  grill: shape-features
+  grill: shape-slice
   ux: shape-ux-lens
   arch: shape-architecture-lens
   quality: shape-quality-lens
@@ -14,9 +14,9 @@ plays:
   run: shape-run-lens
   agentic: shape-agentic-lens
   marketing: shape-marketing-lens
-  implement: build-feature
-  validate: validate-feature
-  launch: release-feature
+  implement: build-epic
+  validate: validate-epic
+  launch: release-epic
   deploy: release-increment
   learn: learn-outcomes
   review-change: check-change
@@ -29,6 +29,12 @@ plays:
   loop-creator: create-loop
   loop-editor: edit-loop
   focus: list-focus-issues
+  # #807: "feature" now means one thing a person can do (the old Functionality),
+  # so the delivery plays take the epic and slice names.
+  shape-features: shape-slice
+  build-feature: build-epic
+  validate-feature: validate-epic
+  release-feature: release-epic
 loops:
   discovery: complete-discovery
 skills:
@@ -37,7 +43,7 @@ skills:
   analyze-pr: assess-pr
   answer-from-source: find-answers-in-sources
   author-adr: author-decision
-  author-epics: author-features
+  author-features: author-epics
   author-hitl-scenarios: author-acceptance-scenarios
   author-intent-yaml: author-play-ice
   author-shape-bundle: author-scope

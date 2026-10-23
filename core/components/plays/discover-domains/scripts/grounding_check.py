@@ -10,7 +10,7 @@ asserts that:
   - the manifest lists at least one domain (`domains`, or the older single `domain`), and each
     carries its grounding — a `kb_shelf`, or a `proposal` whose file exists on disk;
   - every domain the spine-delta adds or updates is listed with its grounding;
-  - the spine-delta adds no capability, functionality, slice or epic — those are not /discover-domains's.
+  - the spine-delta adds no capability, feature, slice or epic — those are not /discover-domains's.
 
 With `--product-base`, it also reads each domain page (#689): it must end with `## Sources`
 naming the shelf it matched or the research links that show the world recognises it — a domain
@@ -45,7 +45,7 @@ except ImportError:
     sys.exit(2)
 
 WEB = re.compile(r"https?://\S+")
-NOT_MINE = ("capabilities", "functionalities", "slices", "epics")
+NOT_MINE = ("capabilities", "features", "slices", "epics")
 
 
 def sources_of(path):
