@@ -12,7 +12,7 @@ branch: plan/788/base
 identified_by:
 - 756
 returns_to: 756
-updated: '2026-10-22'
+updated: '2026-10-23'
 tree:
 - issue: 792
   kind: capability
@@ -32,6 +32,10 @@ tree:
   - issue: 812
     kind: chore
     title: The old-name check skips ADR 047 by mistake; skip 046 and 048 by number
+    status: done
+  - issue: 815
+    kind: chore
+    title: Name the old-name check's ADR cut-off for its use, and test ADR 049 and SUPERSEDED- files
     status: next
   - issue: 813
     kind: functionality
