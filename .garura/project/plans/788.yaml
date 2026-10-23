@@ -59,7 +59,7 @@ tree:
   - issue: 817
     kind: functionality
     title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
-    status: now
+    status: done
   - issue: 820
     kind: functionality
     title: One shared rule for how a play asks a person a question
@@ -115,11 +115,33 @@ tree:
   - issue: 795
     kind: functionality
     title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
-    status: next
+    status: done
     needs:
     - 816
     - 817
     - 826
+  - issue: 836
+    kind: chore
+    title: 'Drop /next: the plan is the work list (ADR 051)'
+    status: done
+  - issue: 842
+    kind: defect
+    title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
+    status: next
+    needs:
+    - 795
+  - issue: 837
+    kind: chore
+    title: Rebuild or drop the old-chain plays that read removed slice fields
+    status: next
+    needs:
+    - 795
+  - issue: 838
+    kind: functionality
+    title: An author-slice skill picks the slice's features, surface and tester
+    status: next
+    needs:
+    - 795
   - issue: 798
     kind: functionality
     title: "/shape-slice writes the eval: is the business intent met, tested on the slice's surface"
@@ -139,6 +161,8 @@ tree:
     needs:
     - 798
     - 818
+# Not in this plan (standalone): #839 (review the agent's memory), #841 (check-change sees
+# only the first 100 files of a PR).
 # Parked on 2026-10-23 as its own business intent: #835 (upgrade path for older models).
 # Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
 # #797 (#799), #800 (#801), #802 (#803).
