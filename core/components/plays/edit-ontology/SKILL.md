@@ -131,17 +131,21 @@ the kinds it touches (`## Touches`, one kind per line — new or existing).
       "inputs":  { "need": "<working>/need.md",
                    "ontology_path": "core/components/memory/standards/schemas/product-os/ontology.md",
                    "template_path": "<memory>/standards/templates/product-ontology.md",
+                   "asking_rule": "<working>/asking-a-person.md",
                    "sources": ["<paths the need names>"], "stage": "scope" },
       "outputs": { "draft": "<working>/draft-questions.md" },
       "task_id": "edit-ontology-scope" }
 
 The draft lists each new or changed question with a plain example from a real product, in
-ASD-STE100 plain English, with personas and no real names (C4). Drafts follow
-`standards/rules/asking-a-person.md`.
+ASD-STE100 plain English, with personas and no real names (C4). Every draft shown at a
+checkpoint follows the shared rule for asking a person: `product-os-keeper` loads
+`standards/rules/asking-a-person.md` through the memory tool, writes it to
+`<working>/asking-a-person.md`, and passes it to the skill as `asking_rule`. Steps 3 and 5
+carry the same input.
 
 **Step 2 — Checkpoint 1: the questions** · Owner: play · Depends on: Step 1 · Checkpoint
 (class: standard, **pinned** — the product owner decides, C2; never skipped by config)
-Show `draft-questions.md` exactly as written (drafts follow `standards/rules/asking-a-person.md`), and ask the product owner to type **yes**, or
+Show `draft-questions.md` exactly as written, and ask the product owner to type **yes**, or
 **change: <what>**. Record the answer verbatim:
 
 ```
@@ -161,8 +165,7 @@ The draft names, for each existing kind it reuses or changes, what changes and w
 line it will need (C3).
 
 **Step 4 — Checkpoint 2: the kinds** · Owner: play · Depends on: Step 3 · Checkpoint (pinned)
-As Step 2, with `--point kinds --draft <working>/draft-kinds.md` (the draft follows
-`standards/rules/asking-a-person.md`). Update `need.md`'s
+As Step 2, with `--point kinds --draft <working>/draft-kinds.md`. Update `need.md`'s
 `## Touches` to the kinds the product owner agreed.
 **SE-2 (F2/C2):** `decisions.json` holds a `kinds` entry with verdict `yes`, recorded after
 the `questions` yes.
@@ -176,8 +179,7 @@ Same contract with `"stage": "links"` (the skill's steps 5–6), `inputs.kinds:
 
 **Step 6 — Checkpoint 3: the links and rules** · Owner: play · Depends on: Step 5 · Checkpoint
 (pinned)
-As Step 2, with `--point links --draft <working>/draft-links.md` (the draft follows
-`standards/rules/asking-a-person.md`).
+As Step 2, with `--point links --draft <working>/draft-links.md`.
 **SE-4 (F2/C2):** `decisions.json` reads `all_agreed: true` — a `yes` for all three points —
 before Step 7 writes anything.
 
