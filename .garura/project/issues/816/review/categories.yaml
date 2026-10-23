@@ -1,0 +1,55 @@
+# check-change Step 2 -- categories present in PR #823 (issue 816, shape-slice ontology and tier)
+# Derived from changed_paths and diff content; playbooks from ~/.garura/core/memory/knowledge/review/
+categories:
+  - name: harness
+    description: Play and skill definitions changed (edit-ontology play, author-product-ontology skill).
+    evidence_paths:
+      - "core/components/plays/edit-ontology/SKILL.md"
+      - "core/components/skills/author-product-ontology/SKILL.md"
+    playbook: review/harness
+    design_bearing: true
+    runnable_check: "node core/tools/lint-components/index.js --target core/components (from repo root)"
+  - name: memory
+    description: Standards rules and the product-os ontology schema changed.
+    evidence_paths:
+      - "core/components/memory/standards/rules/_index.md"
+      - "core/components/memory/standards/rules/asking-a-person.md"
+      - "core/components/memory/standards/schemas/product-os/ontology.md"
+    playbook: review/memory
+    design_bearing: true
+    runnable_check: "path / cross-reference / structure integrity check"
+  - name: code
+    description: Grill-budget script for shape-slice and the old-name check script.
+    evidence_paths:
+      - "core/components/plays/shape-slice/scripts/grill_budget.py"
+      - "core/tools/naming/check_old_names.py"
+    playbook: review/code
+    design_bearing: false
+    runnable_check: "language linter for the scripts"
+  - name: tests
+    description: Tests for the grill budget and the naming tools.
+    evidence_paths:
+      - "core/components/plays/shape-slice/scripts/test_grill_budget.py"
+      - "core/tools/naming/test_naming_tools.py"
+    playbook: review/tests
+    design_bearing: false
+    runnable_check: "python3 -m pytest / python3 on each test file"
+  - name: config-maps
+    description: CLAUDE.md edited and a shape-slice grill-tier key added to core/config.yaml.
+    evidence_paths:
+      - "CLAUDE.md"
+      - "core/config.yaml"
+    playbook: review/config-maps
+    design_bearing: false
+    runnable_check: "path-existence check on referenced paths"
+  - name: docs
+    description: Issue 816 working notes, design note and run records (context/**, specs/design-817-815.md); no product documentation changed.
+    evidence_paths:
+      - ".garura/project/issues/816/context/** (21 files)"
+      - ".garura/project/issues/816/specs/design-817-815.md"
+    playbook: review/docs
+    design_bearing: false
+    runnable_check: null
+excluded:
+  - path: ".garura/project/issues/816/evidence/eval/**"
+    reason: hidden eval record; not categorized or reviewed

@@ -1,0 +1,101 @@
+# check-change Step 3, Layer 2 -- category: memory -- PR #823
+# Grounded only in plan/788/base (committed) sources. Severity per rules/pr.md P1-P4.
+category: memory
+base: plan/788/base
+principles:
+  - id: G1
+    principle: "The Plan picks slices by two tests (vertical outcome; most features/capabilities serving the intent) and creates one epic for each."
+    source: "plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md  Decision section 2 and 'ADR 022 section 1 and 2'"
+  - id: G2
+    principle: "Builder never receives failure conditions or evals; the eval author reads all of ICE; validator checks against evals."
+    source: "plan/788/base:docs/philosophy/idd-principles.md  'How ICE routes under the barrier' + Routing Table"
+  - id: G3
+    principle: "No work item carries an ICE; a Story writes its own scope of work from its Feature's and Capability's ICE."
+    source: "plan/788/base:docs/adr/048-...md  Decision section 3 (and ADR 047)"
+  - id: G4
+    principle: "The ontology grows one kind at a time, through edit-ontology."
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md  line 9 (base v8)"
+  - id: G5
+    principle: ".garura/ allows only the whitelisted folders; no other second-level folders."
+    source: "plan/788/base:docs/adr/017-folder-whitelist.md  Decision section 1 (project/ lists only issues/)"
+  - id: G6
+    principle: "Human-approval checkpoints use one canonical format, templates/approval-prompt.md."
+    source: "plan/788/base:core/components/memory/standards/templates/approval-prompt.md  (intro and Shape)"
+findings:
+  - id: M1
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: G1
+    finding: >
+      v9 changes the Plan from 'picks a slice by two tests' to 'holds every slice that serves its
+      intent; does not pick, rank or test', drops the Plan's first test, and moves the vertical-outcome
+      rule to the Slice. This reverses an Accepted decision (ADR 048 section 2, which also says ADR 022's
+      'Plan's first test refuses a slice with none'). The diff adds no ADR and no amendment to ADR 048;
+      ADR 048 itself lists the ontology as an 'Affects' file of its own decision. A decision change needs
+      a decision record that supersedes or amends it.
+    basis: "ADR 048 Decision 2 and 'What this changes in older ADRs' (base)"
+  - id: M2
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: G2
+    finding: >
+      The Story scope of work now 'says what the feature must do, what is expected, and what must never
+      happen' and the Slice eval tests those things. The builder of a Story reads its Story (the ontology's
+      own example says so). So failure-condition content ('what must never happen') reaches the builder,
+      which the IDD routing table forbids. The same text also has the eval read only epic/stories/guide
+      and 'never the ICE', which departs from 'eval author receives all of ICE'. The isolation is moved,
+      not preserved; no committed decision backs the change.
+    basis: "idd-principles.md Routing Table: Failure conditions -> Builder: no; Eval author: yes (base)"
+  - id: M3
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: G4
+    finding: >
+      v9 edits five kinds in one version (Slice, Plan, Epic, Story, Business Intent) plus new questions
+      Q27-Q31. The ontology's stated growth rule is one kind at a time. The v9 note says it was agreed with
+      the product owner, but the base rule is not amended.
+    basis: "ontology.md line 9 (base)"
+  - id: M4
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    principle: G5
+    finding: >
+      Plan now owns a folder .garura/project/plans/<id>/ with evals/ and guides/. ADR 017's whitelist
+      names only project/issues/ under project/ and forbids other second-level folders; the base has no
+      ADR that adds project/plans (CLAUDE.md names it, but CLAUDE.md is not a decision record). The new
+      sub-folders widen an already unrecorded location.
+    basis: "ADR 017 Decision 1 (base)"
+  - id: M5
+    severity: P3
+    file: core/components/memory/standards/rules/asking-a-person.md
+    principle: G6
+    finding: >
+      The rule says a checkpoint shows its draft in the Question/Answer/Why/Example format and links to
+      templates/approval-prompt.md as 'the checkpoint rendering'. That template defines a different
+      checkpoint shape (Tether/Orbit/Vanish, summary plus artifact paths) with no place for these four
+      parts. Two canonical checkpoint formats now exist and neither points to a reconciliation. The
+      _index.md row also does not mention the overlap.
+    basis: "approval-prompt.md 'Shape' (base)"
+  - id: M6
+    severity: P4
+    file: core/components/memory/standards/rules/asking-a-person.md
+    principle: null
+    finding: >
+      grounding unavailable: the requirements 'ASD-STE100 English' and 'personas only, never a real
+      name' have no source on the base ref (no ADR, philosophy doc or rule mentions ASD-STE100; the
+      persona-only wording appears only in the diff). The rule cites no decision record or issue
+      beyond #820 in the index row. Not a violation; a traceability gap.
+    basis: "grep of plan/788/base docs/** and core/components/memory/** found no ASD-STE100"
+  - id: M7
+    severity: P4
+    file: core/components/memory/standards/rules/_index.md
+    principle: null
+    finding: >
+      The new row lists '/shape-slice once built (#795)' and '/edit-ontology' as consumers, but
+      ADR 048 says /shape-slice's ICE changes later in #795. Consumer claim for an unbuilt play is
+      aspirational; acceptable if kept in step. No other index defect found (path exists, row sits in the
+      correct table).
+    basis: "ADR 048 'ICE impact' (base)"
+conforming:
+  - "asking-a-person.md Related links: rules/user-facing-voice.md and templates/approval-prompt.md both exist on base."
+  - "ontology.md still says thirteen kinds, matching the unchanged kind count; Slice holds no ICE (ADR 048 sec 1)."
