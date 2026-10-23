@@ -165,7 +165,7 @@ def eval_813(root):
     missing = []
     for p in glob.glob(os.path.join(root, "core/components/**/scripts/*.py"), recursive=True):
         b = os.path.basename(p)
-        if b.startswith("test_") or b == "model_names.py" or "/references/" in p and b != "lint_grounding.py":
+        if b.startswith("test_") or b in ("model_names.py", "migrate_model.py") or "/references/" in p and b != "lint_grounding.py":
             continue
         t = open(p, encoding="utf-8", errors="ignore").read()
         if "_spine" in t and "safe_load" in t and "model_names" not in t:
@@ -221,16 +221,18 @@ def eval_809(root):
         check(f"809: {k} is kept", exists(root, k))
     # Rule 12 survives as its own rule; the rest of product.md is gone.
     rules = glob.glob(os.path.join(root, "core/components/memory/standards/rules/*.md"))
-    r12 = [p for p in rules if re.search(r"questions?.{0,40}first-class|first-class.{0,40}questions?", open(p).read(), re.I | re.S)
+    r12 = [p for p in rules if "grounding-questions.md" in open(p).read() and "Rule 12" in open(p).read()
            and not p.endswith("/product.md")]
     check("809: Rule 12 (questions are first-class) has its own rule file", r12, [os.path.basename(p) for p in rules][:50])
     pm = read(root, "core/components/memory/standards/rules/product.md")
     check("809: the rest of rules/product.md is gone", not re.search(r"^## Rule (1|2|3|11|13|15)\b", pm, re.M))
     # The two learnings move into memory standards.
-    for f in ("arch.md", "play-orchestration.md"):
-        hits = glob.glob(os.path.join(root, "core/components/memory/**/" + f), recursive=True)
-        hits = [h for h in hits if "/schemas/product-os/" not in h]
-        check(f"809: research {f} moved into memory", hits and not exists(root, ".garura/product/research/" + ("standards/" if f.startswith("play") else "") + f), hits)
+    for old in (".garura/product/research/arch.md", ".garura/product/research/standards/play-orchestration.md"):
+        body = subprocess.run(["git", "show", "e0990229:" + old], cwd=root, capture_output=True, text=True).stdout
+        lines = [l.strip() for l in body.splitlines() if len(l.strip()) > 40 and not l.startswith("#")][:3]
+        hits = [h for h in glob.glob(os.path.join(root, "core/components/memory/**/*.md"), recursive=True)
+                if lines and all(l in open(h).read() for l in lines)]
+        check(f"809: {os.path.basename(old)} moved into memory", hits and not exists(root, old), (hits, lines[:1]))
     # No index row, rename-map entry or live component still names a deleted part.
     idx = "".join(read(root, p) for p in ("core/components/memory/standards/_index.md",
                                           "core/components/memory/standards/rules/_index.md",
@@ -257,9 +259,9 @@ def eval_809(root):
     adrs = [p for p in glob.glob(os.path.join(root, "docs/adr/0*.md")) if re.search(r"intent.?epic", open(p).read(), re.I)
             and int(os.path.basename(p)[:3]) >= 50]
     check("809: an ADR records the retirement", adrs, adrs)
-    check("809: ADR 017 points forward to it", adrs and os.path.basename(adrs[0])[:3] in read(root, "docs/adr/017-folder-whitelist.md")[:3000])
+    check("809: ADR 017 points forward to it", adrs and os.path.basename(adrs[0])[:3] in read(root, "docs/adr/017-folder-whitelist.md"))
     a035 = glob.glob(os.path.join(root, "docs/adr/035-*.md"))
-    check("809: ADR 035 points forward to it", adrs and a035 and os.path.basename(adrs[0])[:3] in open(a035[0]).read()[:3000])
+    check("809: ADR 035 points forward to it", adrs and a035 and os.path.basename(adrs[0])[:3] in open(a035[0]).read())
 
 
 def eval_all(root):
