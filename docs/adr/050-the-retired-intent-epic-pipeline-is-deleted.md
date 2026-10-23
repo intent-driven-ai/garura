@@ -4,8 +4,8 @@
 **Date:** 2026-10-23
 **Level:** framework
 **Decided by:** the product owner · **Decided in:** #809 (the clean-up chore ADR 048 asked for, decided with #813 in plan #788)
-**Supersedes:** ADR 035 (in part — §10 "What this does not change", the line "The seven retired agents are left as they are", for four of the seven: `feature-steward`, `epic-expectation-crafter`, `product-keeper` and `market-analyst`)
-**Amends:** ADR 017 — §1 "Strict `.garura/` folder whitelist": the product folders `specification/` and `scope/` leave the layout of `.garura/product/`, and `core/config.yaml` no longer lists them
+**Supersedes:** none
+**Amends:** ADR 035 — §10 "What this does not change", the line "The seven retired agents are left as they are", for four of the seven: `feature-steward`, `epic-expectation-crafter`, `product-keeper` and `market-analyst` · ADR 017 — §1 "Strict `.garura/` folder whitelist": the product folders `specification/` and `scope/` leave the layout of `.garura/product/`, and `core/config.yaml` no longer lists them
 **Affects:** `.garura/product/scope/`, `.garura/product/specification/`, `.garura/product/_checkpoints/specify-product/`, `.garura/product/_evidence/specify-product/`, `.garura/product/user-provided/grounding-questions.md` and five old research files in `.garura/product/research/` (deleted); `.garura/product/research/arch.md` and `research/standards/play-orchestration.md` (moved to `core/components/memory/standards/rules/play-patterns.md` and `rules/play-orchestration.md`); the schemas `intent-epic.yaml`, `mvp-recommendation.yaml` and `screen-inventory.yaml`; the rules `features.md`, `feature-catalog.md`, `epics.md`, `scenarios.md`, `design.md`, `architecture.md`, `kb-extension.md` and `product.md` (its Rule 12 kept as `rules/user-questions.md`); the template `feature-tree-output.md`; twelve skills (`infer-features`, `infer-feature-catalog`, `author-feature-catalog`, `author-product-spec`, and the `derive-*` skills for capability selection, design patterns, logical architecture, NFR spec, physical architecture, quality vision, systems inventory and tech stack); four agents (`feature-steward`, `epic-expectation-crafter`, `product-keeper`, `market-analyst`); the standards, rules and schemas indexes; `rules/rename-map.yaml`; `core/config.yaml`; and the component docs in `docs/`
 **ICE impact:** none — every part deleted was already marked deprecated, and no live play, loop, agent or skill used it. No play's ICE names a deleted part.
 **Business intent check:** none — no business intent changes. This removes old framework files only.
@@ -35,8 +35,10 @@ Before each part was deleted, it was checked that no live (not deprecated) play,
 
 ### 3. What this changes in older records
 
-- ADR 035 §10 said the seven retired agents are left as they are. For four of them that is no longer true: they are deleted. The other three (`scriber`, `tech-architect`, `test-runner`) are left as they are.
-- ADR 017 §1 gave `.garura/product/` the folders `specification/` and `scope/`. They leave the layout, and `core/config.yaml` no longer lists them under `product.directories`.
+This ADR amends two older ADRs in part; the rest of each stands.
+
+- It amends ADR 035 §10. That section said the seven retired agents are left as they are. For four of them that is no longer true: they are deleted. The other three (`scriber`, `tech-architect`, `test-runner`) are left as they are.
+- It amends ADR 017 §1. That section gave `.garura/product/` the folders `specification/` and `scope/`. They leave the layout, and `core/config.yaml` no longer lists them under `product.directories`.
 
 Deprecated parts that are not deleted can still name a deleted part. They are not used, and their own issue deals with them.
 
