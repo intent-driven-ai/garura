@@ -1,0 +1,22 @@
+{
+  "changed_kinds": [
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "allowed_kinds": [
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "9",
+  "version_after": "10",
+  "updated": "2026-10-23",
+  "date": "2026-10-23",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}
