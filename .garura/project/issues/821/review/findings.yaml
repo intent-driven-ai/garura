@@ -1,619 +1,1186 @@
-# check-change Step 4 -- consolidated findings, PR #832.
+# check-change Step 4 -- consolidated findings, PR #832 round 2.
 findings:
 - category: harness
   id: HA1
   severity: P2
-  path: core/components/plays/edit-ontology/SKILL.md
-  basis: H1
-  message: Step 1 now has product-os-keeper load asking-a-person.md via the memory tool, write it to <working>/asking-a-person.md,
-    and pass it as new contract input asking_rule to Steps 1, 3 and 5. That is a change to the agent/skill flow
-    and contract, not wording. reference/ice.md was not touched and does not mention the rule, so the next /edit-play
-    rebuild will drop it. Either update ice.md and recompile, or record why this is wiring only.
-  status: open
+  path: core/components/plays/edit-ontology/reference/ice.md
+  basis: plan/788/base CLAUDE.md 'Play Pipeline Rules' (intent change goes through ICE then recompile)
+  message: 'YES. ice.md now carries the flow (C4/F4/REC4 and the asking_rule line naming product-os-keeper, memory
+    tool, <working>/asking-a-person.md). SKILL.md fingerprint cd96159b...246e equals sha256 of ice.md (checked).
+    SKILL.md matches the ICE. Small gap: only Step 1''s contract shows asking_rule; Steps 3 and 5 say ''same contract''
+    and the prose says they carry it.'
+  status: closed
 - category: harness
   id: HA2
-  severity: P3
-  path: core/components/plays/edit-ontology/SKILL.md
-  basis: H2
-  message: Direction is consistent with H2 (agent loads rule through the memory tool, skill reads only the file
-    the agent put in STM). No violation; the product-os-keeper agent definition itself was not updated to list this
-    duty.
+  severity: P4
+  path: core/components/agents/product-os-keeper.md
+  basis: plan/788/base CLAUDE.md 'Agents hold the role of Context Crafting'
+  message: Agent definition still does not list the duty of loading the rule into <working>. Unchanged from round
+    1.
   status: open
 - category: harness
   id: HB1
   severity: P2
   path: core/tools/lint-components/lib/rules/asking-a-person.js
-  basis: H4
-  message: 'On real plays the rule adds 30 errors (lint-components 121 to 151). Only edit-ontology is fixed in this
-    PR; 29 plays/loops now fail the linter. The PR body states the fix is #831, so the merge lands a red linter
-    on the plan branch. Accepted-as-deferred only if #831 lands before the plan merges to main.'
+  basis: plan/788/base CLAUDE.md durability rule
+  message: 30 asking-a-person errors remain on other plays (lint-components total 151 errors).
   status: 'deferred: #831'
 - category: harness
   id: HB2
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
-  basis: H4
-  message: 'False positives: signals match any line, including front-matter descriptions and prose mentions. Seen
-    on real files: release-epic line 4 (description text), shape-quality-lens line 48 (mentions ''a typed approval''
-    in a constraint), create-play line 121 (''interview and asks for approval'' in a note about itself). Detection
-    has no scoping to checkpoint steps. Also the content.includes(''asking-a-person.md'') pointer test accepts a
-    mention anywhere, so a stray mention passes (false negative).'
-  status: open
+  basis: plan/788/base CLAUDE.md durability rule (check must be precise)
+  message: 'PARTLY. The asks-a-person signal now reads only the workflow steps: frontmatter and Constraints/Related
+    text no longer trigger it (tested). But a pointer counts in the text BEFORE the workflow too (Role, Constraints,
+    Pre-flight): a probe with the file name only under ''## Constraints'' passes. If the rule is ''a pointer counts
+    only in the workflow/steps'', this is a NO. Tighten stepRegions().pointer to steps only, or state the wider
+    scope as intended.'
+  status: fixed after round 2 (the pointer counts only in the workflow; eval 43/43)
 - category: harness
   id: HB3
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
-  basis: H4
-  message: 'False negatives: a play that asks through phrasing not in the six patterns (for example ''wait for the
-    reply'', ''Tether/Vanish'' alone, ''confirm with the person'') is not caught. Acceptable for a first rule; note
-    the list is a heuristic.'
+  basis: ADR 031 heuristic note
+  message: Signal list is a heuristic; unchanged.
   status: open
 - category: harness
   id: HC1
   severity: P2
-  path: core/components/plays/*/scripts/lint_grounding.py
-  basis: H3
-  message: All 12 copies are byte-identical (same md5), as required. But there is no canonical source create-play
-    stamps from, and no check that the copies match; the only rule is the ADR 031 line 'every copy'. Identity depends
-    on whoever edits next touching all 12. Recommend a canonical file plus an identity check (check-components).
-  status: open
+  path: core/components/plays/create-play/references/lint_grounding.py
+  basis: plan/788/base docs/adr/031 Affects (every copy of lint_grounding.py changes together); ADR 039 shared scaffolding
+    lives once
+  message: YES. Main copy exists at create-play/references/lint_grounding.py; shared-scripts.js is wired in index.js
+    (line 56) and fails a copy that differs (3 tests pass); all 12 play copies have md5 301937b7...  identical to
+    the main copy (checked); create-play SKILL.md tells builders to copy it unchanged.
+  status: closed
 - category: harness
   id: HC2
   severity: P4
   path: core/components/plays/discover-domains/scripts/test_lint_slice_intents.py
-  basis: H3
-  message: New slice-intents behaviour is tested in one play's folder only; fine since copies are identical, but
-    the test does not cover the other 11 copies.
+  basis: ADR 031
+  message: Slice-intents test still sits in one play's folder (6 pass); now that a main copy exists it could live
+    beside it. Minor.
   status: open
+- category: harness
+  id: HN1
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: plan/788/base CLAUDE.md durability rule
+  message: NEW. SHARED_SCRIPTS lists only lint_grounding.py; the other stamped scripts (e.g. test_merge_scripts.py
+    in the same references folder) are not covered, and the main copy is skipped silently if absent (tested as intended).
+    Acceptable; note the list must grow by hand.
+  status: open
+- category: harness
+  id: HN2
+  severity: P4
+  path: core/components/plays/create-play/SKILL.md
+  basis: plan/788/base CLAUDE.md 'create-play has no ICE source ... direct edits'
+  message: NEW. The added 'Grounding linter' paragraph is a direct edit, which is allowed for create-play. Conforms.
+    No edit notes were added to the file.
+  status: closed
 - category: harness
   id: HD1
   severity: P3
   path: core/components/skills/author-product-ontology/SKILL.md
-  basis: H2
-  message: asking_rule is marked required for scope, kinds, links. No other caller of this skill is shown to pass
-    it; if another play invokes the skill it now has a missing required input.
-  status: open
+  basis: plan/788/base CLAUDE.md agent/skill flow
+  message: 'Checked: only edit-ontology calls this skill, so the new required asking_rule input has no other caller
+    missing it.'
+  status: closed
 - category: memory
   id: MC1
   severity: P2
-  path: core/components/memory/standards/templates/checkpoint.md
-  basis: M-G2
-  message: 'States renamed ORBIT_FEEDBACK to CHANGE_REQUESTED and decisions Tether/Orbit/Vanish to yes/change/stop.
-    No script or schema still uses ORBIT_FEEDBACK or user_vanish (searched .py/.js/.sh/.yaml). But committed readers
-    still use the old vocabulary: core/grounding/glossary.md lines 94-95 (lifecycle with ORBIT_FEEDBACK, defines
-    Tether/Orbit/Vanish and points to the template), docs/philosophy/architecture.md:486 (ORBIT_FEEDBACK), plays
-    fix-bug and refactor-code (tell the user to type Tether/Vanish, and consume approval-prompt), agents epic-expectation-crafter
-    and product-keeper, rules/product.md:190-192, intent-epic.yaml. The PR body says these are a follow-up. Two
-    vocabularies now coexist for one gate.'
-  status: 'deferred: follow-up listed in self-review'
+  path: core/**, docs/** (not docs/adr)
+  basis: plan/788/base core/grounding/glossary.md lines 94-95 and docs/philosophy/architecture.md ~485 (shared checkpoint
+    vocabulary must carry its readers)
+  message: 'YES. No Tether/Orbit/Vanish, ORBIT_FEEDBACK or user_vanish (incl. plurals) left in core, docs (outside
+    docs/adr), AGENTS.md or .claude/rules. Glossary lines 94-95 and architecture.md:486 now read CHANGE_REQUESTED
+    / yes / change / stop. Only hits are the ordinary word ''vanished'' in 4 code comments (unrelated). Checkpoint
+    template, approval-prompt, evidence-file and docs agree: CHANGE_REQUESTED, user_stop; no script uses the old
+    names.'
+  status: closed
 - category: memory
   id: MC2
   severity: P3
   path: core/components/memory/standards/templates/evidence-file.md
-  basis: M-G2
-  message: exit_reason user_vanish renamed user_stop. No committed script or play found using user_vanish. Clean.
-    Any past evidence files keep the old value; readers of exit_reason have none in code.
+  basis: same
+  message: 'user_vanish to user_stop: no reader in code. Clean.'
   status: closed
 - category: memory
   id: MA1
   severity: P4
   path: core/components/memory/standards/templates/approval-prompt.md
-  basis: M-G1
-  message: 'Template now follows the rule (opening, four parts, plain typed reply, example from different domains).
-    Conforms. One note: the rule file lists approval-prompt.md as its rendering, and the template says the rule
-    wins on disagreement; consistent.'
+  basis: plan/788/base rules/asking-a-person.md
+  message: Template follows the rule. Conforms.
   status: closed
 - category: memory
   id: MS1
   severity: P3
   path: core/components/memory/standards/schemas/product-os/spine.yaml
-  basis: M-G3
-  message: Slice gets intents (list of business intent ids). All 12 lint_grounding.py copies check it, with a test.
-    Conforms to the all-copies rule. The comment names ontology v10; the slice-serves-intents rule is the ontology's,
-    so confirm base ontology.md v10 says a slice serves one or more intents (issue 826 base). Empty intents is only
-    a warning, which matches older spines.
-  status: 'closed: ontology v10 says a slice serves one or more business intents (Slice kind, Q27)'
+  basis: ADR 031/047 Affects (spine change ships with every linter copy)
+  message: Slice intents present in main copy and all 12 copies, with test. Confirm base ontology v10 says a slice
+    serves one or more intents (unchanged from round 1).
+  status: 'closed: ontology v10 Slice kind and Q27 say a slice serves one or more business intents'
+- category: memory
+  id: MN1
+  severity: P4
+  path: core/grounding/glossary.md
+  basis: plan/788/base glossary (one definition per concept)
+  message: NEW check. The 'Tether / Orbit / Vanish' glossary row was replaced by 'Checkpoint reply'; nothing else
+    in core/docs links to the old row. Clean.
+  status: closed
 - category: code
   severity: P1
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality SEC-07
-  message: scan finding (JSON.parse)
+  message: scan finding
   status: 'false positive: JSON.parse of the linter''s own stdout in a test'
 - category: code
   severity: P2
   path: core/tools/lint-components/index.js
   basis: check-pr-quality ARCH-02
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-03
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-04
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-14
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality ARCH-02
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-03
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-04
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-14
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality SEC-18
+  message: scan finding
+  status: 'false positive: the word Role in a heading regex'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality ARCH-02
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-03
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-04
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-14
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality ARCH-02
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-03
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-04
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-14
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality BE-19
-  message: scan finding (join)
-  status: 'false positive: path.join, not SQL'
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality BE-19
-  message: scan finding (join)
-  status: 'false positive: path.join, not SQL'
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality BE-19
-  message: scan finding (join)
-  status: 'false positive: path.join, not SQL'
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
 - category: code
   severity: P2
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality BE-19
-  message: scan finding (join)
-  status: 'false positive: path.join, not SQL'
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality ARCH-02
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-03
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-04
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-14
+  message: scan finding
+  status: null
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
+- category: code
+  severity: P2
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality BE-19
+  message: scan finding
+  status: 'false positive: path.join / Array.from, not SQL'
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality ARCH-03
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality ARCH-08
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-09
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-10
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-11
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-12
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-15
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-17
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-18
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/index.js
   basis: check-pr-quality FE-08
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality ARCH-03
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality ARCH-08
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-09
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-10
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-11
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-12
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-15
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-17
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-18
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality FE-08
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-21
-  message: scan finding (let i =)
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-21
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-21
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-21
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-21
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality ARCH-03
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality ARCH-08
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-09
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-10
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-11
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-12
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-15
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-17
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-18
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality FE-08
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality ARCH-03
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality ARCH-08
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-09
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-10
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-11
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-12
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-15
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-17
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-18
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality FE-08
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality TEST-02
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality TEST-03
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality TEST-06
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality OPS-09
-  message: scan finding (console.log)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality OPS-10
-  message: scan finding (console.log(`)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-25
-  message: scan finding (catch ()
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-30
-  message: scan finding (catch)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality OPS-09
-  message: scan finding (console.log)
+  message: scan finding
   status: null
 - category: code
   severity: P3
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality OPS-10
-  message: scan finding (console.log(`)
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality ARCH-03
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality ARCH-08
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-09
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-10
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-11
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-12
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-15
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-17
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-18
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality FE-08
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality TEST-02
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality TEST-03
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality TEST-06
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality OPS-09
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality OPS-10
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality OPS-09
+  message: scan finding
+  status: null
+- category: code
+  severity: P3
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality OPS-10
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-13
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-19
-  message: scan finding (core/tools/lint-components/index.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/index.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const askingAPerson =)
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/index.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-13
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-19
-  message: scan finding (core/tools/lint-components/lib/rules/asking-a-person.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const fs =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const lines =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const content =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const asks =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const all =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/lib/rules/asking-a-person.js
   basis: check-pr-quality CODE-22
-  message: scan finding (let out =)
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/asking-a-person.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-13
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-19
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/lib/rules/shared-scripts.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-13
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-19
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality TEST-05
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality TEST-07
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality TEST-08
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality TEST-22
-  message: scan finding (core/tools/lint-components/test/asking-a-person.test.js)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const assert =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const fs =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const os =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const path =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (let passed =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const ASKS =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const POINTER =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const SILENT =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const dir =)
+  message: scan finding
   status: null
 - category: code
   severity: P4
   path: core/tools/lint-components/test/asking-a-person.test.js
   basis: check-pr-quality CODE-22
-  message: scan finding (const file =)
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/asking-a-person.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/asking-a-person.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/asking-a-person.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-13
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-19
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality TEST-05
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality TEST-07
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality TEST-08
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality TEST-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
+  status: null
+- category: code
+  severity: P4
+  path: core/tools/lint-components/test/shared-scripts.test.js
+  basis: check-pr-quality CODE-22
+  message: scan finding
   status: null
