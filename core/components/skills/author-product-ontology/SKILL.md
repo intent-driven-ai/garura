@@ -63,7 +63,8 @@ When a contract carries `change` (the product owner's words at a checkpoint) or 
 
 Read the format at `template_path` first, and the ontology at `ontology_path` if it exists.
 Then run the seven steps for the kinds `need` touches. Each step that needs a decision ends
-with a plain question to the person; record their answer before moving on.
+with a plain question to the person; record their answer before moving on. Every draft shown to
+the product owner follows `standards/rules/asking-a-person.md`.
 
 ### 1. Scope it with questions
 
