@@ -67,9 +67,15 @@ tree:
   - issue: 826
     kind: defect
     title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
-    status: next
+    status: done
     needs:
     - 816
+  - issue: 828
+    kind: functionality
+    title: Encrypt each slice's eval and hidden file so a builder cannot read them
+    status: next
+    needs:
+    - 826
   - issue: 824
     kind: chore
     title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
