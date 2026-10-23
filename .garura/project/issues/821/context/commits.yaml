@@ -1,46 +1,60 @@
 commits:
-  - sha: cf2f1701
-    message: "feat(lint): add asking-a-person rule to the component linter (#821)"
+  - sha: e8402cc9
+    message: "feat(edit-ontology): carry the asking-a-person flow in the ICE and recompile (#821)"
     files:
-      - core/tools/lint-components/index.js
+      - core/components/plays/edit-ontology/reference/ice.md
+      - core/components/plays/edit-ontology/SKILL.md
+    branch: plan/788/821-ask-rule-lint-checkpoint-format-slice-intents
+  - sha: 57e2a898
+    message: "fix(lint): read only the play's steps in the asking-a-person rule (#821)"
+    files:
       - core/tools/lint-components/lib/rules/asking-a-person.js
       - core/tools/lint-components/test/asking-a-person.test.js
-      - core/components/plays/edit-ontology/SKILL.md
-      - core/components/skills/author-product-ontology/SKILL.md
     branch: plan/788/821-ask-rule-lint-checkpoint-format-slice-intents
-  - sha: 7e74579f
-    message: "feat(templates): move checkpoint templates to the asking-a-person format (#825)"
+  - sha: 44269dac
+    message: "feat(lint): keep one main copy of lint_grounding.py and add a drift check (#829)"
     files:
-      - core/components/memory/standards/templates/_index.md
-      - core/components/memory/standards/templates/approval-prompt.md
-      - core/components/memory/standards/templates/checkpoint.md
-      - core/components/memory/standards/templates/evidence-file.md
-      - core/components/memory/standards/templates/issue-comment-rca-approved.md
+      - core/components/plays/create-play/references/lint_grounding.py
+      - core/components/plays/create-play/SKILL.md
+      - core/tools/lint-components/lib/rules/shared-scripts.js
+      - core/tools/lint-components/index.js
+      - core/tools/lint-components/test/shared-scripts.test.js
     branch: plan/788/821-ask-rule-lint-checkpoint-format-slice-intents
-  - sha: 3a92317a
-    message: "feat(spine): add slice intents to the spine and its grounding lint (#829)"
+  - sha: f8223f5e
+    message: "docs(checkpoint): replace Tether/Orbit/Vanish with plain yes/change/stop (#825)"
     files:
-      - core/components/memory/standards/schemas/product-os/spine.yaml
-      - core/components/plays/discover-capabilities/scripts/lint_grounding.py
-      - core/components/plays/discover-domains/scripts/lint_grounding.py
-      - core/components/plays/discover-intent/scripts/lint_grounding.py
-      - core/components/plays/learn-outcomes/scripts/lint_grounding.py
-      - core/components/plays/shape-agentic-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-architecture-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-marketing-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-measure-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-quality-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-run-lens/scripts/lint_grounding.py
-      - core/components/plays/shape-slice/scripts/lint_grounding.py
-      - core/components/plays/shape-ux-lens/scripts/lint_grounding.py
-      - core/components/plays/discover-domains/scripts/test_lint_slice_intents.py
+      - AGENTS.md
+      - core/components/agents/epic-expectation-crafter.md
+      - core/components/agents/product-keeper.md
+      - core/components/memory/standards/rules/features.md
+      - core/components/memory/standards/schemas/intent-epic.yaml
+      - core/components/plays/fix-bug/SKILL.md
+      - core/components/plays/refactor-code/SKILL.md
+      - core/components/skills/check-architecture-spec/SKILL.md
+      - core/components/skills/derive-logical-architecture/SKILL.md
+      - core/components/skills/derive-physical-architecture/SKILL.md
+      - core/components/skills/derive-systems-inventory/SKILL.md
+      - core/components/skills/derive-tech-stack/SKILL.md
+      - core/components/skills/enrich-quality-profile/SKILL.md
+      - core/grounding/glossary.md
+      - docs/components/plays.md
+      - docs/design/briefs.md
+      - docs/design/playbook-catalog.md
+      - docs/framework/intent-driven-recovery.md
+      - docs/framework/play-structure.md
+      - docs/philosophy/architecture.md
+      - docs/philosophy/garura-reference-implementation.md
+      - docs/philosophy/intent-driven-development.md
+      - docs/usage/plays/create-pr.md
     branch: plan/788/821-ask-rule-lint-checkpoint-format-slice-intents
-  - sha: 75e706d3
-    message: "chore(stm): record run evidence (#821)"
+  - sha: 22a73e61
+    message: "chore(stm): record review round 1 run artifacts (#821)"
     files:
       - .garura/project/issues/821/context/analysis.yaml
       - .garura/project/issues/821/context/porcelain.txt
       - .garura/project/issues/821/evidence/eval/eval-result.json
+      - .garura/project/issues/821/evidence/eval/eval_821.py
+      - .garura/project/issues/821/evidence/eval/eval-hb2-before.json
     branch: plan/788/821-ask-rule-lint-checkpoint-format-slice-intents
 excluded_files:
   []
