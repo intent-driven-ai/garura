@@ -1,0 +1,187 @@
+D  .garura/product/_checkpoints/specify-product/stage-1-market-20260418-000000.md
+D  .garura/product/_checkpoints/specify-product/stage-2-domains-20260418-000100.md
+D  .garura/product/_evidence/specify-product/20260419-100000-close.md
+D  .garura/product/research/agentic-methodology.md
+D  .garura/product/research/ai-governance.md
+D  .garura/product/research/engineering-experience.md
+D  .garura/product/research/engineering-observability.md
+D  .garura/product/research/work-intelligence.md
+D  .garura/product/scope/decision-manifest-configure-capabilities.yaml
+D  .garura/product/scope/decision-manifest-enrich-capabilities.yaml
+D  .garura/product/scope/decision-manifest-generate-intent-epics.yaml
+D  .garura/product/scope/enriched-capabilities.yaml
+D  .garura/product/scope/epics/epic-agentic-methodology-component-arch-001.yaml
+D  .garura/product/scope/epics/epic-agentic-methodology-l2-spec-driven-001.yaml
+D  .garura/product/scope/epics/epic-agentic-methodology-l3-intent-driven-001.yaml
+D  .garura/product/scope/epics/epic-ai-governance-audit-attribution-001.yaml
+D  .garura/product/scope/epics/epic-engineering-experience-cli-slash-commands-001.yaml
+D  .garura/product/scope/epics/epic-engineering-experience-first-run-onboarding-001.yaml
+D  .garura/product/scope/epics/epic-engineering-experience-ide-integrations-001.yaml
+D  .garura/product/scope/epics/epic-engineering-observability-quality-signals-001.yaml
+D  .garura/product/scope/epics/epic-work-intelligence-intent-driven-verification-001.yaml
+D  .garura/product/scope/features.yaml
+D  .garura/product/scope/mvp-recommendation.md
+D  .garura/product/scope/scope.yaml
+D  .garura/product/scope/validation-intent-epics.yaml
+D  .garura/product/specification/decision-manifest-derive-quality-profile.yaml
+D  .garura/product/specification/domain-selection.yaml
+D  .garura/product/specification/market-brief.md
+D  .garura/product/specification/project-profile.yaml
+D  .garura/product/specification/quality-profile.yaml
+D  .garura/product/user-provided/grounding-questions.md
+D  core/components/agents/epic-expectation-crafter.md
+D  core/components/agents/feature-steward.md
+D  core/components/agents/market-analyst.md
+D  core/components/agents/product-keeper.md
+ M core/components/memory/standards/_index.md
+ M core/components/memory/standards/rules/_index.md
+D  core/components/memory/standards/rules/architecture.md
+D  core/components/memory/standards/rules/design.md
+D  core/components/memory/standards/rules/epics.md
+D  core/components/memory/standards/rules/feature-catalog.md
+D  core/components/memory/standards/rules/features.md
+D  core/components/memory/standards/rules/kb-extension.md
+R  .garura/product/research/standards/play-orchestration.md -> core/components/memory/standards/rules/play-orchestration.md
+R  .garura/product/research/arch.md -> core/components/memory/standards/rules/play-patterns.md
+D  core/components/memory/standards/rules/product.md
+ M core/components/memory/standards/rules/rename-map.yaml
+ M core/components/memory/standards/rules/resolution.md
+D  core/components/memory/standards/rules/scenarios.md
+ M core/components/memory/standards/schemas/_index.md
+D  core/components/memory/standards/schemas/intent-epic.yaml
+D  core/components/memory/standards/schemas/mvp-recommendation.yaml
+D  core/components/memory/standards/schemas/screen-inventory.yaml
+ M core/components/memory/standards/templates/approval-prompt.md
+D  core/components/memory/standards/templates/feature-tree-output.md
+ M core/components/plays/build-epic/scripts/check_box.py
+ M core/components/plays/build-epic/scripts/check_ready_epic.py
+ M core/components/plays/build-epic/scripts/check_spec.py
+ M core/components/plays/build-epic/scripts/update_epic_status.py
+ M core/components/plays/build-epic/scripts/validate_plan.py
+ M core/components/plays/create-play/references/check_ice_workable.py
+ M core/components/plays/create-play/references/lint_grounding.py
+ M core/components/plays/discover-capabilities/scripts/lint_grounding.py
+ M core/components/plays/discover-capabilities/scripts/persist_understand.py
+ M core/components/plays/discover-capabilities/scripts/pick_targets.py
+ M core/components/plays/discover-capabilities/scripts/rollup_box.py
+ M core/components/plays/discover-domains/scripts/grounding_check.py
+ M core/components/plays/discover-domains/scripts/lint_grounding.py
+ M core/components/plays/discover-domains/scripts/persist_seed.py
+ M core/components/plays/discover-domains/scripts/read_intents.py
+ M core/components/plays/discover-intent/scripts/check_ice_workable.py
+ M core/components/plays/discover-intent/scripts/check_intent.py
+ M core/components/plays/discover-intent/scripts/lint_grounding.py
+ M core/components/plays/discover-intent/scripts/persist_intent.py
+ M core/components/plays/install-garura/scripts/install.py
+ M core/components/plays/learn-outcomes/scripts/check_ready_unit.py
+ M core/components/plays/learn-outcomes/scripts/lint_grounding.py
+ M core/components/plays/learn-outcomes/scripts/persist_learn.py
+ M core/components/plays/learn-outcomes/scripts/validate_learn.py
+ M core/components/plays/next/scripts/check_model_agreement.py
+ M core/components/plays/next/scripts/scan_model.py
+ M core/components/plays/release-epic/scripts/check_launch.py
+ M core/components/plays/release-epic/scripts/check_ready_launch.py
+ M core/components/plays/release-epic/scripts/check_scenario_coverage.py
+ M core/components/plays/release-epic/scripts/check_surface_contract.py
+ M core/components/plays/release-epic/scripts/deliver_epic.py
+ M core/components/plays/release-epic/scripts/stamp_fix_required.py
+ M core/components/plays/shape-agentic-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-agentic-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-agentic-lens/scripts/persist_agentic.py
+ M core/components/plays/shape-agentic-lens/scripts/validate_agentic.py
+ M core/components/plays/shape-architecture-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-architecture-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-architecture-lens/scripts/persist_arch.py
+ M core/components/plays/shape-architecture-lens/scripts/validate_arch.py
+ M core/components/plays/shape-marketing-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-marketing-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-marketing-lens/scripts/persist_marketing.py
+ M core/components/plays/shape-marketing-lens/scripts/validate_marketing.py
+ M core/components/plays/shape-measure-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-measure-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-measure-lens/scripts/persist_measure.py
+ M core/components/plays/shape-measure-lens/scripts/validate_measure.py
+ M core/components/plays/shape-quality-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-quality-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-quality-lens/scripts/persist_quality.py
+ M core/components/plays/shape-quality-lens/scripts/validate_quality.py
+ M core/components/plays/shape-roadmap/scripts/persist_roadmap.py
+ M core/components/plays/shape-roadmap/scripts/snapshot_model.py
+ M core/components/plays/shape-run-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-run-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-run-lens/scripts/persist_run.py
+ M core/components/plays/shape-run-lens/scripts/validate_run.py
+ M core/components/plays/shape-scope/scripts/check_ready.py
+ M core/components/plays/shape-scope/scripts/persist_shape.py
+ M core/components/plays/shape-scope/scripts/validate_shape.py
+ M core/components/plays/shape-slice/scripts/check_ready_slice.py
+ M core/components/plays/shape-slice/scripts/lint_grounding.py
+ M core/components/plays/shape-slice/scripts/persist_epics.py
+ M core/components/plays/shape-slice/scripts/validate_epics.py
+ M core/components/plays/shape-ux-lens/scripts/check_ready_slice.py
+ M core/components/plays/shape-ux-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-ux-lens/scripts/persist_ux.py
+ M core/components/plays/shape-ux-lens/scripts/validate_ux.py
+ M core/components/plays/validate-epic/scripts/check_gates.py
+ M core/components/plays/validate-epic/scripts/check_ready_validate.py
+ M core/components/plays/validate-epic/scripts/check_validate.py
+ M core/components/plays/validate-epic/scripts/stamp_epic.py
+D  core/components/skills/author-feature-catalog/SKILL.md
+D  core/components/skills/author-feature-catalog/reference/intent.yaml
+D  core/components/skills/author-product-spec/SKILL.md
+D  core/components/skills/author-product-spec/schemas/features.yaml
+D  core/components/skills/derive-capability-selection/SKILL.md
+D  core/components/skills/derive-design-patterns/SKILL.md
+D  core/components/skills/derive-logical-architecture/SKILL.md
+D  core/components/skills/derive-nfr-spec/SKILL.md
+D  core/components/skills/derive-physical-architecture/SKILL.md
+D  core/components/skills/derive-quality-vision/SKILL.md
+D  core/components/skills/derive-systems-inventory/SKILL.md
+D  core/components/skills/derive-tech-stack/SKILL.md
+ M core/components/skills/find-model-gaps/scripts/find_gaps.py
+D  core/components/skills/infer-feature-catalog/SKILL.md
+D  core/components/skills/infer-features/SKILL.md
+ M core/components/skills/link-model-gaps/scripts/apply_links.py
+ M core/config.yaml
+ M core/tools/lint-components/lib/rules/shared-scripts.js
+ M core/tools/lint-components/test/shared-scripts.test.js
+ M docs/adr/017-folder-whitelist.md
+ M docs/adr/035-agents-work-only-from-memory.md
+ M docs/adr/_index.md
+ M docs/components/agents.md
+ M docs/components/plays.md
+ M docs/components/skills.md
+ M docs/design/briefs.md
+ M docs/design/playbook-catalog.md
+ M docs/framework/play-structure.md
+ M docs/philosophy/garura-reference-implementation.md
+ M installer/install.sh
+?? .garura/project/issues/813/context/analysis.yaml
+?? .garura/project/issues/813/context/porcelain.txt
+?? .garura/project/issues/813/evidence/eval/eval-result.json
+?? core/components/memory/standards/rules/user-questions.md
+?? core/components/plays/build-epic/scripts/model_names.py
+?? core/components/plays/create-play/references/model_names.py
+?? core/components/plays/discover-capabilities/scripts/model_names.py
+?? core/components/plays/discover-domains/scripts/model_names.py
+?? core/components/plays/discover-domains/scripts/test_model_names.py
+?? core/components/plays/discover-intent/scripts/model_names.py
+?? core/components/plays/install-garura/scripts/migrate_model.py
+?? core/components/plays/install-garura/scripts/test_migrate_model.py
+?? core/components/plays/learn-outcomes/scripts/model_names.py
+?? core/components/plays/next/scripts/model_names.py
+?? core/components/plays/release-epic/scripts/model_names.py
+?? core/components/plays/shape-agentic-lens/scripts/model_names.py
+?? core/components/plays/shape-architecture-lens/scripts/model_names.py
+?? core/components/plays/shape-marketing-lens/scripts/model_names.py
+?? core/components/plays/shape-measure-lens/scripts/model_names.py
+?? core/components/plays/shape-quality-lens/scripts/model_names.py
+?? core/components/plays/shape-roadmap/scripts/model_names.py
+?? core/components/plays/shape-run-lens/scripts/model_names.py
+?? core/components/plays/shape-scope/scripts/model_names.py
+?? core/components/plays/shape-slice/scripts/model_names.py
+?? core/components/plays/shape-ux-lens/scripts/model_names.py
+?? core/components/plays/validate-epic/scripts/model_names.py
+?? core/components/skills/find-model-gaps/scripts/model_names.py
+?? core/components/skills/link-model-gaps/scripts/model_names.py
+?? docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
