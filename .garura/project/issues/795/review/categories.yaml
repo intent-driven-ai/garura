@@ -1,4 +1,4 @@
-# check-change -- categories present in PR #840 (issue 795, plan #788)
+# check-change round 2 -- categories present in PR #840 (issue 795, plan #788). Same five as round 1; the round-1 fixes add changes in shape-slice scripts (harness), slice.yaml / spine.yaml / pipeline-next / no-unbacked-recommendation / user-questions (memory) and tests. No new category.
 categories:
   - name: harness
     description: A new /shape-slice play built fresh from its ICE (SKILL.md, reference/ice.md, stop-condition.yaml, 7 new scripts plus platform_adapter and intent_touches copies, 3 test files; old epic-cutting scripts deleted); the whole /next play deleted (SKILL, ICE, 8 scripts, stop condition); 3 skills deleted (author-epics, check-cut-tensions, rank-actions); product-os-keeper agent skill table updated; one-line close/Next-line edits in about 30 other plays; the shared play-close.
@@ -19,7 +19,7 @@ categories:
     description: Product-model schemas rewritten for the new slice (spine.yaml slices list, slice.yaml v2, epic.yaml comment); Next-line map (pipeline-next.md) re-pointed; rules edited (pipeline-position, naming, surface-contract, no-unbacked-recommendation, rules index, rename-map); delivery-report template; work-intelligence knowledge shelf deleted; knowledge index.
     evidence_paths:
       - core/components/memory/standards/schemas/product-os/{spine,slice,epic}.yaml
-      - core/components/memory/standards/rules/**
+      - core/components/memory/standards/rules/**   # round 2 adds user-questions.md
       - core/components/memory/standards/templates/delivery-report.md
       - core/components/memory/knowledge/work-intelligence/** (deleted)
       - core/components/memory/knowledge/_index.md

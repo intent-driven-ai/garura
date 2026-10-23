@@ -1,0 +1,8 @@
+decision: reject
+decided_by: human
+reply: "reject"
+recommended: approve
+blocking: []
+round: 1
+to_fix: "all P2, P3 and P4 findings in design-findings-harness.yaml and design-findings-memory.yaml; the old-chain dependents (#837) are stated as a gap in the PR and on #837/#818"
+note: "The reviewer's item (e) is not a finding: the CLAUDE.md and managing-work.md rules were moved there on the product owner's request (2026-10-23), out of the agent's memory."

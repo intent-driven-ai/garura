@@ -1,4 +1,4 @@
-all lint-components, play and skill tests run (failures listed above)
+all tests run (failures listed above)
 VERDICT: PASS (0 gap(s))
   "hits": 0,
 lint-components     "errors": 124, (135 on base)

@@ -1,0 +1,20 @@
+ M .garura/project/issues/795/evidence/eval/eval_795.py
+ M .garura/project/issues/795/review/categories.yaml
+ M .garura/project/issues/795/review/context.yaml
+ M .garura/project/issues/795/review/design-findings-harness.yaml
+ M .garura/project/issues/795/review/design-findings-memory.yaml
+ M .garura/project/issues/795/review/pr.diff
+ M .garura/project/issues/795/review/runnable-checks.txt
+ M core/components/memory/standards/schemas/product-os/slice.yaml
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/reference/ice.md
+ M core/components/plays/shape-slice/scripts/persist_fills.py
+ M core/components/plays/shape-slice/scripts/persist_slice.py
+ M core/components/plays/shape-slice/scripts/record_questions.py
+ M core/components/plays/shape-slice/scripts/slice_check.py
+ M core/components/plays/shape-slice/scripts/test_persist_slice.py
+ M core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+ M core/components/plays/shape-slice/stop-condition.yaml
+?? .garura/project/issues/795/context/commit-change/
+?? .garura/project/issues/795/review/round1/
+?? core/components/plays/shape-slice/scripts/spine_text.py
