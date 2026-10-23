@@ -1,0 +1,1 @@
+{ "resolved": true, "issue_number": 812, "title": "chore: the old-name check skips ADR 047 by mistake; skip 046 and 048 by number", "created": false }
