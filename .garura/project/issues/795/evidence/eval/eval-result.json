@@ -1,5 +1,5 @@
 {
-  "passed": 93,
+  "passed": 128,
   "failed": 0,
   "results": [
     {
@@ -205,22 +205,22 @@
     {
       "check": "find: a slice that lists the intent is found",
       "ok": true,
-      "detail": "{\n  \"match\": \"sl-self-booking\",\n  \"reason\": \"slice 'sl-self-booking' already lists business intent '340'\"\n}\n"
+      "detail": "{\n  \"match\": \"sl-self-booking\",\n  \"reason\": \"slice 'sl-self-booking' already lists business intent '340'\",\n  \"reuse_args\": [\n    \"--reuse\",\n    \"sl-self-booking\"\n  ]\n}\n"
     },
     {
       "check": "find: same features and surface is found",
       "ok": true,
-      "detail": "{\n  \"match\": \"sl-self-booking\",\n  \"reason\": \"slice 'sl-self-booking' has the same features in the same order and the same surface 'booking page'\"\n}\n"
+      "detail": "{\n  \"match\": \"sl-self-booking\",\n  \"reason\": \"slice 'sl-self-booking' has the same features in the same order and the same surface 'booking page'\",\n  \"reuse_args\": [\n    \"--reuse\",\n    \"sl-self-booking\"\n  ]\n}\n"
     },
     {
       "check": "find: other features is no match",
       "ok": true,
-      "detail": "{\n  \"match\": null,\n  \"reason\": \"no slice lists business intent '999', and none has the same features and the surface 'booking page'\"\n}\n"
+      "detail": "{\n  \"match\": null,\n  \"reason\": \"no slice lists business intent '999', and none has the same features and the surface 'booking page'\",\n  \"reuse_args\": []\n}\n"
     },
     {
       "check": "persist: writes the spine slice",
       "ok": true,
-      "detail": "{\n  \"ok\": true,\n  \"action\": \"created\",\n  \"id\": \"sl-self-booking\",\n  \"added_intents\": [\n    \"340\"\n  ],\n  \"record\": \"slices/sl-self-booking.yaml\",\n  \"record_written\": true\n}\n"
+      "detail": "{\n  \"ok\": true,\n  \"action\": \"created\",\n  \"id\": \"sl-self-booking\",\n  \"reused\": false,\n  \"added_intents\": [\n    \"340\"\n  ],\n  \"record\": \"slices/sl-self-booking.yaml\",\n  \"record_written\": true,\n  \"differences\": [],\n  \"dropped_fields\": []\n}\n"
     },
     {
       "check": "persist: features in build order",
@@ -265,12 +265,12 @@
     {
       "check": "persist: an existing slice gains the intent, appended, no second slice",
       "ok": true,
-      "detail": "('{\\n  \"ok\": true,\\n  \"action\": \"updated\",\\n  \"id\": \"sl-self-booking\",\\n  \"added_intents\": [\\n    \"341\"\\n  ],\\n  \"record\": \"slices/sl-self-booking.yaml\",\\n  \"record_written\": true\\n}\\n', [{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340', '341'], 'record': 'slices/sl-self-booking.yaml'}])"
+      "detail": " \"sl-self-booking\",\\n  \"reused\": false,\\n  \"added_intents\": [\\n    \"341\"\\n  ],\\n  \"record\": \"slices/sl-self-booking.yaml\",\\n  \"record_written\": true,\\n  \"differences\": [],\\n  \"dropped_fields\": []\\n}\\n', [{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340', '341'], 'record': 'slices/sl-self-booking.yaml'}])"
     },
     {
       "check": "tests: test_find_serving_slice.py passes",
       "ok": true,
-      "detail": "tch leaves the shaped slice as it is\n  [PASS] a spine with no slices gives no match\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] a missing spine is a usage error\n\n16 passed, 0 failed\n"
+      "detail": "euse-into flag is gone (usage error)\n  [PASS] a spine with no slices gives no match\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] a missing spine is a usage error\n\n18 passed, 0 failed\n"
     },
     {
       "check": "tests: test_grill_budget.py passes",
@@ -280,12 +280,12 @@
     {
       "check": "tests: test_persist_slice.py passes",
       "ok": true,
-      "detail": "the spine \u2014 nothing written\n  [PASS] a list with exactly one surface is accepted\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] the old-name spine writes no record\n\n44 passed, 0 failed\n"
+      "detail": "pine whole and no temp file\n  [PASS] a list with exactly one surface is accepted\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] the old-name spine writes no record\n\n84 passed, 0 failed\n"
     },
     {
       "check": "tests: test_shape_slice_scripts.py passes",
       "ok": true,
-      "detail": "with no page fails the linter\n  [PASS] approval: the latest answer is on top\n  [PASS] approval: a change before it is kept in history\n  [PASS] approval: an empty reply is refused\n\n40 passed, 0 failed\n"
+      "detail": "approval verify: change blocks the commit (exit 1)\n  [PASS] approval verify: stop blocks the commit (exit 1)\n  [PASS] approval verify: no approval file blocks the commit (exit 2)\n\n72 passed, 0 failed\n"
     },
     {
       "check": "tests: persist_slice and find_serving_slice have tests",
@@ -380,7 +380,7 @@
     {
       "check": "follow-up: after discover-capabilities, the Next line names /shape-slice (ADR 049), not the old chain",
       "ok": true,
-      "detail": "  discover-capabilities:     { command: shape-slice,     why: \"the capabilities are detailed \u2014 shape the slice that serves a business intent\" }"
+      "detail": "  discover-capabilities:     { command: shape-slice,     why: \"the capabilities are detailed \u2014 shape the slice that serves a business intent (/shape-slice <intent>)\" }"
     },
     {
       "check": "follow-up: no Next entry sends a person to /shape-slice for a realized slice",
@@ -441,6 +441,181 @@
       "check": "follow-up: CLAUDE.md states the right ADR count",
       "ok": true,
       "detail": "49"
+    },
+    {
+      "check": "round1: reuse of a serving slice works when the new shape differs (exit 0, one slice)",
+      "ok": true,
+      "detail": "(0, '')"
+    },
+    {
+      "check": "round1: the reused slice keeps its features and surface",
+      "ok": true,
+      "detail": "{'id': 'sl-a', 'slug': 'a', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340', '341'], 'record': 'slices/sl-a.yaml'}"
+    },
+    {
+      "check": "round1: the reused slice gains the intent, appended",
+      "ok": true,
+      "detail": "{'id': 'sl-a', 'slug': 'a', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340', '341'], 'record': 'slices/sl-a.yaml'}"
+    },
+    {
+      "check": "round1: the run reports how the new shape differs from the reused slice",
+      "ok": true,
+      "detail": "d_intents\": [\n    \"341\"\n  ],\n  \"record\": \"slices/sl-a.yaml\",\n  \"record_written\": true,\n  \"differences\": [\n    \"features differ: the slice keeps ['ft-pick-slot']; the new shape adds ft-reminder\",\n    \"surface differs: the slice keeps 'page'; the new shape names 'page2'\"\n  ],\n  \"dropped_fields\": []\n}\n"
+    },
+    {
+      "check": "round1: the reused slice's record gains the intent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the record holds slice.name",
+      "ok": true,
+      "detail": "{'slice': {'id': 'sl-a', 'slug': 'a', 'name': 'Self-booking', 'outcome': 'A patient books a free slot', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340']}, 'surface': {'id': 'booking-page', 'name': 'page', 'persona_ref': 'patient', 'user_action': 'books a slot'}}"
+    },
+    {
+      "check": "round1: the record holds slice.outcome",
+      "ok": true,
+      "detail": "{'slice': {'id': 'sl-a', 'slug': 'a', 'name': 'Self-booking', 'outcome': 'A patient books a free slot', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340']}, 'surface': {'id': 'booking-page', 'name': 'page', 'persona_ref': 'patient', 'user_action': 'books a slot'}}"
+    },
+    {
+      "check": "round1: the record holds slice.intents",
+      "ok": true,
+      "detail": "{'slice': {'id': 'sl-a', 'slug': 'a', 'name': 'Self-booking', 'outcome': 'A patient books a free slot', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340']}, 'surface': {'id': 'booking-page', 'name': 'page', 'persona_ref': 'patient', 'user_action': 'books a slot'}}"
+    },
+    {
+      "check": "round1: the record holds surface.id",
+      "ok": true,
+      "detail": "{'slice': {'id': 'sl-a', 'slug': 'a', 'name': 'Self-booking', 'outcome': 'A patient books a free slot', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340']}, 'surface': {'id': 'booking-page', 'name': 'page', 'persona_ref': 'patient', 'user_action': 'books a slot'}}"
+    },
+    {
+      "check": "round1: the record holds surface.persona_ref",
+      "ok": true,
+      "detail": "{'slice': {'id': 'sl-a', 'slug': 'a', 'name': 'Self-booking', 'outcome': 'A patient books a free slot', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340']}, 'surface': {'id': 'booking-page', 'name': 'page', 'persona_ref': 'patient', 'user_action': 'books a slot'}}"
+    },
+    {
+      "check": "round1: the record holds surface.user_action",
+      "ok": true,
+      "detail": "{'slice': {'id': 'sl-a', 'slug': 'a', 'name': 'Self-booking', 'outcome': 'A patient books a free slot', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340']}, 'surface': {'id': 'booking-page', 'name': 'page', 'persona_ref': 'patient', 'user_action': 'books a slot'}}"
+    },
+    {
+      "check": "round1: slice.yaml describes name",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: slice.yaml describes outcome",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: slice.yaml describes intents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: slice.yaml describes persona_ref",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: slice.yaml describes user_action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the slice check passes a good record and fails one with no tester",
+      "ok": true,
+      "detail": "('{\\n  \"valid\": false,\\n  \"lint_errors\": 8,\\n  \"problems\": []\\n}\\n', '{\\n  \"valid\": false,\\n  \"lint_errors\": 8,\\n  \"problems\": [\\n    \"slice \\'sl-a\\' record surface has no persona_ref (no tester)\"\\n  ]\\n}\\n')"
+    },
+    {
+      "check": "round1: persist_slice refuses an id that leaves the model (exit 2)",
+      "ok": true,
+      "detail": "(2, \"persist_slice.py: not written \u2014 the slice id '../../etc/x' is not a plain name; it would place a file outside the model folder\\n\")"
+    },
+    {
+      "check": "round1: persist_slice writes the spine safely (temp file + replace)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: persist_fills refuses paths that leave the model",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: record_questions has subcommands for the open list and the answers",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: record_questions check is documented",
+      "ok": true,
+      "detail": "nal arguments:\n  {proposals,filter,add,open-list,answers,answer,check}\n\noptions:\n  -h, --help            show this help message and exit\nusage: record_questions.py check [-h] --record RECORD --split SPLIT\n\noptions:\n  -h, --help       show this help message and exit\n  --record RECORD\n  --split SPLIT\n"
+    },
+    {
+      "check": "round1: record_questions matches an answered question by its text, not only its id",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: record_questions check fails on an unanswered asked question",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: record_approval has a verify step that fails unless the decision is yes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the play runs the approval verify before it commits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the play keeps a memory trace for its decisions (memory.py cite)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the play points to #838 for the author-slice skill",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the play's text no longer says the spine entry has exactly 5 fields",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the play counts template-manager as a utility agent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: a 'change' undoes this run's intent-page edits (Touches lines)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: spine.yaml marks the domain slices/ folders as the older chain",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the Next map says which shape loop is live",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: the cardinal-rule table lists shape-slice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "round1: user-questions.md lists the fields the play adds",
+      "ok": true,
+      "detail": ""
     },
     {
       "check": "all: the old-name check reads 0",

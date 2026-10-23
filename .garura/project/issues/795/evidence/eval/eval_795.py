@@ -131,9 +131,9 @@ def eval_scripts(root):
             json.dump(slice_obj, open(sj, "w"))
             r = run([sys.executable, persist, "--root", root_po, "--spine", sp, "--slice", sj], tmp)
             return r, root_po, sp
-        good = {"id": "sl-self-booking", "slug": "self-booking", "feature_refs": ["ft-pick-slot", "ft-reminder"],
-                "vertical": "booking page", "intents": ["340"],
-                "surface": {"name": "booking page", "persona_ref": "patient-on-phone"}}
+        good = {"id": "sl-self-booking", "slug": "self-booking", "name": "Self-booking", "outcome": "A patient books a slot",
+                "feature_refs": ["ft-pick-slot", "ft-reminder"], "vertical": "booking page", "intents": ["340"],
+                "surface": {"id": "booking-page", "name": "booking page", "persona_ref": "patient-on-phone", "user_action": "books a slot"}}
         r, po, sp = go(good)
         import yaml
         spine = yaml.safe_load(open(sp)) if r.returncode == 0 else {}
@@ -146,13 +146,13 @@ def eval_scripts(root):
         rec = os.path.join(po, "slices", "sl-self-booking.yaml")
         check("persist: the record is at product-os/slices/<id>.yaml", os.path.isfile(rec))
         check("persist: the record names the persona", os.path.isfile(rec) and "patient-on-phone" in open(rec).read())
-        bad = dict(good); bad["surface"] = {"name": "booking page"}
+        bad = dict(good); bad["surface"] = {"id": "booking-page", "name": "booking page", "user_action": "books a slot"}
         r, po, sp = go(bad)
         check("persist: refuses a slice with no tester (exit 2)", r.returncode == 2, r.stdout + r.stderr)
         bad = dict(good); bad.pop("vertical"); bad["surface"] = {}
         r, po, sp = go(bad)
         check("persist: refuses a slice with no surface (exit 2)", r.returncode == 2, r.stdout + r.stderr)
-        bad = dict(good); bad["surface"] = [{"name": "a", "persona_ref": "p"}, {"name": "b", "persona_ref": "p"}]
+        bad = dict(good); bad["surface"] = [{"id": "a", "name": "a", "persona_ref": "p", "user_action": "x"}, {"id": "b", "name": "b", "persona_ref": "p", "user_action": "x"}]
         r, po, sp = go(bad)
         check("persist: refuses more than one surface (exit 2)", r.returncode == 2, r.stdout + r.stderr)
         existing = """
@@ -244,8 +244,8 @@ def eval_followups(root):
         open(os.path.join(po, "intents", "340.md"), "w").write("# x\n")
         sp = os.path.join(po, "_spine.yaml"); open(sp, "w").write(SPINE.format(slices="[]"))
         sj = os.path.join(tmp, "s.json")
-        json.dump({"id": "sl-a", "slug": "a", "feature_refs": ["ft-pick-slot"], "vertical": "page", "intents": ["340"],
-                   "surface": {"name": "page", "persona_ref": "p"}}, open(sj, "w"))
+        json.dump({"id": "sl-a", "slug": "a", "name": "A", "outcome": "o", "feature_refs": ["ft-pick-slot"], "vertical": "page",
+                   "intents": ["340"], "surface": {"id": "page", "name": "page", "persona_ref": "p", "user_action": "x"}}, open(sj, "w"))
         r = run([sys.executable, persist, "--root", po, "--spine", sp, "--slice", sj], tmp)
         sl = [x for x in (yaml.safe_load(open(sp)).get("slices") or []) if x.get("id") == "sl-a"] if r.returncode == 0 else []
         check("follow-up: the spine slice carries its record pointer", sl and sl[0].get("record") == "slices/sl-a.yaml", (sl, r.stderr[-200:]))
@@ -334,13 +334,15 @@ def eval_round1(root):
     for k in ("name", "outcome", "intents", "persona_ref", "user_action"):
         check(f"round1: slice.yaml describes {k}", k in schema)
     out = os.path.join(tmp, "check.json")
-    r = run([sys.executable, check_s, "--root", po, "--spine", sp, "--out", out], tmp)
-    ok_good = os.path.isfile(out) and json.load(open(out)).get("valid") is True
+    r = run([sys.executable, check_s, "--root", po, "--spine", sp, "--slice-id", "sl-a", "--intent", "340", "--out", out], tmp)
+    # The fixture model is too thin for the full grounding lint, so look only at the record problems.
+    probs = lambda: json.dumps(json.load(open(out)).get("problems", [])) if os.path.isfile(out) else "missing"
+    ok_good = os.path.isfile(out) and "persona" not in probs()
     if os.path.isfile(rec):
         d = yaml.safe_load(open(rec)); (d.get("surface") or d["slice"].get("surface") or {}).pop("persona_ref", None)
         open(rec, "w").write(yaml.safe_dump(d))
-    r2 = run([sys.executable, check_s, "--root", po, "--spine", sp, "--out", out], tmp)
-    ok_bad = os.path.isfile(out) and json.load(open(out)).get("valid") is False
+    r2 = run([sys.executable, check_s, "--root", po, "--spine", sp, "--slice-id", "sl-a", "--intent", "340", "--out", out], tmp)
+    ok_bad = os.path.isfile(out) and json.load(open(out)).get("valid") is False and "persona" in probs()
     check("round1: the slice check passes a good record and fails one with no tester", ok_good and ok_bad, (r.stdout[-200:], r2.stdout[-200:]))
     # P4 ids and paths stay inside the model.
     tmp, po, sp = model()
