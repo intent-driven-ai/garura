@@ -1,0 +1,26 @@
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/memory/standards/templates/_index.md
+ M core/components/memory/standards/templates/approval-prompt.md
+ M core/components/memory/standards/templates/checkpoint.md
+ M core/components/memory/standards/templates/evidence-file.md
+ M core/components/memory/standards/templates/issue-comment-rca-approved.md
+ M core/components/plays/discover-capabilities/scripts/lint_grounding.py
+ M core/components/plays/discover-domains/scripts/lint_grounding.py
+ M core/components/plays/discover-intent/scripts/lint_grounding.py
+ M core/components/plays/edit-ontology/SKILL.md
+ M core/components/plays/learn-outcomes/scripts/lint_grounding.py
+ M core/components/plays/shape-agentic-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-architecture-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-marketing-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-measure-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-quality-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-run-lens/scripts/lint_grounding.py
+ M core/components/plays/shape-slice/scripts/lint_grounding.py
+ M core/components/plays/shape-ux-lens/scripts/lint_grounding.py
+ M core/components/skills/author-product-ontology/SKILL.md
+ M core/tools/lint-components/index.js
+?? .garura/project/issues/821/context/porcelain.txt
+?? .garura/project/issues/821/evidence/eval/eval-result.json
+?? core/components/plays/discover-domains/scripts/test_lint_slice_intents.py
+?? core/tools/lint-components/lib/rules/asking-a-person.js
+?? core/tools/lint-components/test/asking-a-person.test.js

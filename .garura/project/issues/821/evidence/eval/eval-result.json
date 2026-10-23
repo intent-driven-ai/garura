@@ -1,0 +1,151 @@
+{
+  "passed": 29,
+  "failed": 0,
+  "results": [
+    {
+      "check": "821: a play that asks a person and does not point to the rule fails",
+      "ok": true,
+      "detail": "close.md.', 'line': 1}, {'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpvuydkw5x/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+    },
+    {
+      "check": "821: the failure is an error",
+      "ok": true,
+      "detail": "[{'file': '/var/folders/vf/f3np138j44v5dtkdkvny3bdm0000gq/T/tmpvuydkw5x/plays/ask-without-pointer/SKILL.md', 'rule': 'asking-a-person/missing-pointer', 'severity': 'error', 'message': 'play \"ask-without-pointer\" asks a person a question (line 15) but does not point to the shared rule memory/standards/rules/asking-a-person.md; name that file where the play asks', 'line': 15}]"
+    },
+    {
+      "check": "821: a play that points to the rule passes that check",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "821: edit-ontology passes the asking-a-person check",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "821: author-product-ontology passes the asking-a-person check",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "821: a linter test covers the asking-a-person check",
+      "ok": true,
+      "detail": "['/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/asking-a-person.test.js', '/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/naming.test.js', '/Users/kapilahuja/cto/builder/garura/core/tools/lint-components/test/skill-invocable.test.js']"
+    },
+    {
+      "check": "821: asking-a-person.test.js passes",
+      "ok": true,
+      "detail": "  [PASS] a play that asks a person and has no pointer fails\n  [PASS] a play that asks a person and points to the rule passes\n  [PASS] a play that asks no one passes\n  [PASS] a play that waits for a typed reply and has no pointer fails\n  [PASS] the linter names the play with no pointer (--target)\n  [PASS] the linter passes the play with the pointer (--target)\n\n6 passed, 0 failed\n"
+    },
+    {
+      "check": "all: naming.test.js still passes",
+      "ok": true,
+      "detail": "an industry term passes\n  [PASS] a loop named complete-<phase> passes\n  [PASS] a loop with another shape fails\n  [PASS] a play may not use the loop verb\n  [PASS] a skill with a skill verb passes\n  [PASS] a skill with no skill verb fails\n  [PASS] the named skill exception passes\n  [PASS] an agent with a role passes\n  [PASS] an agent with no role fails\n  [PASS] upper case fails\n\n16 passed, 0 failed\n"
+    },
+    {
+      "check": "all: skill-invocable.test.js still passes",
+      "ok": true,
+      "detail": "  [PASS] a skill a person can start fails\n  [PASS] a skill only plays run passes\n\n2 passed, 0 failed\n"
+    },
+    {
+      "check": "821: edit-ontology has its scope/kinds/links contracts",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "check": "821: the Step 1 contract hands the rule to the agent",
+      "ok": true,
+      "detail": "components/memory/standards/schemas/product-os/ontology.md\",\\n                   \"template_path\": \"<memory>/standards/templates/product-ontology.md\",\\n                   \"asking_rule\": \"<working>/asking-a-person.md\",\\n                   \"sources\": [\"<paths the need names>\"], \"stage\": \"scope\" },\\n      \"outputs\": { \"draft\": \"<working>/draft-questions.md\" },\\n      \"task_id\": \"edit-ontology-scope\"']"
+    },
+    {
+      "check": "821: author-product-ontology lists the rule as an input",
+      "ok": true,
+      "detail": "## Input\n\n| Field | Required | Meaning |\n|-------|----------|---------|\n| `need` | yes | What the work needs, in plain words \u2014 e.g. \"the Business Intent, human-facing, as `/discover-intent` will write it\" |\n| `ontology_path` | yes | The ontology document. Default: `~/.garura/core/memory/standards/sc"
+    },
+    {
+      "check": "825: the approval template exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has no Tether / Orbit / Vanish",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "825: the approval template has the part 'Question'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has the part 'Answer'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has the part 'Why it matters'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template has the part 'Example'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: the approval template points to the asking-a-person rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "825: no template names Tether / Orbit / Vanish",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "825: the asking-a-person rule still links the approval template",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "829: the spine schema's slice entry has an intents field",
+      "ok": true,
+      "detail": "  - id: string\n    slug: string\n    domain_ref: string\n    intents: [string]     # \"serves\" (ontology v10): the BUSINESS INTENT ids\n                          # (product-os/intents/<id>.md) this slice serves \u2014 one or more.\n                          # The linter checks each has a page; a slice naming "
+    },
+    {
+      "check": "829: a slice naming a business intent that does not exist fails",
+      "ok": true,
+      "detail": "{\n  \"ok\": false,\n  \"errors\": [\n    \"spine slice 'slice-self-booking': serves business intent '340', but there is no page at 'intents/340.md'\"\n  ],\n  \"warnings\": [],\n  \"counts\": {}\n}\n"
+    },
+    {
+      "check": "829: a slice naming a business intent that exists passes",
+      "ok": true,
+      "detail": "([], '{\\n  \"ok\": true,\\n  \"errors\": [],\\n  \"warnings\": [],\\n  \"counts\": {}\\n}\\n')"
+    },
+    {
+      "check": "829: every copy of lint_grounding.py is the same",
+      "ok": true,
+      "detail": "12 copies, 1 versions"
+    },
+    {
+      "check": "all: core/components/plays/discover-domains/scripts/test_lint_grounding.py passes",
+      "ok": true,
+      "detail": "ces (#689)\n  [PASS] sources sit just before the agent intent\n  [PASS] sources after the agent intent are an error\n  [PASS] sources in the middle of the page are an error\n  [PASS] an empty sources section is an error\n  [PASS] a domain page may end with its research sources\ntest_every_copy_is_identical\n  [PASS] every play's lint_grounding.py is identical to this one (12 copies)\n\n36 passed, 0 failed\n"
+    },
+    {
+      "check": "all: core/components/plays/discover-domains/scripts/test_lint_ice.py passes",
+      "ok": true,
+      "detail": "d that does not match its part is an error\n  [PASS] an ICE entry that names a business intent is an error\n  [PASS] an ice.md that names a business intent is an error\n  [PASS] two ICE for one part is an error\n  [PASS] a part with no ICE is a warning, not an error\n  [PASS] an ice.md no ices entry points at is an orphan error\n  [PASS] an ICE entry with no doc pointer is an error\n\n14 passed, 0 failed\n"
+    },
+    {
+      "check": "all: core/components/plays/discover-domains/scripts/test_lint_slice_intents.py passes",
+      "ok": true,
+      "detail": " serves an intent with no page fails\n  [PASS] a slice that serves an intent whose page exists passes\n  [PASS] each listed intent is checked: the one with no page is named\n  [PASS] an intent named by its issue number resolves to intents/<number>.md\n  [PASS] a slice that names no intent is a warning, not an error\n  [PASS] the intent pages are not counted as orphan grounding docs\n\n6 passed, 0 failed\n"
+    },
+    {
+      "check": "829: a lint_grounding test covers a slice's intents",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
