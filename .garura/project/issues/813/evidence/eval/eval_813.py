@@ -113,8 +113,10 @@ def old_left(po):
 
 def eval_813(root):
     check("813: migrate_model.py exists", exists(root, MIGRATE))
-    check("813: install.py runs the model migration", "migrate_model" in read(root, INSTALL))
-    check("813: the public installer runs the model migration", "migrate_model" in read(root, "installer/install.sh"))
+    # Product owner, review of PR #834: the install never changes an existing model; the
+    # migrator is a script a person runs by hand; the upgrade strategy is business intent #835.
+    check("813: install.py does not run the model migration", "migrate_model" not in read(root, INSTALL))
+    check("813: the public installer does not run the model migration", "migrate_model" not in read(root, "installer/install.sh"))
     if not exists(root, MIGRATE):
         return
     with tempfile.TemporaryDirectory() as tmp:
@@ -155,6 +157,35 @@ def eval_813(root):
         subprocess.run(["git", "-c", "user.name=e", "-c", "user.email=e@e", "commit", "-qam", "both"], cwd=proj)
         r = run([sys.executable, os.path.join(root, MIGRATE), "--target", proj], proj)
         check("813: the migration refuses a model with both old and new keys", r.returncode != 0, r.stdout + r.stderr)
+    # P2: a model path outside the project is refused, and nothing outside is touched.
+    with tempfile.TemporaryDirectory() as tmp:
+        proj, po = make_old_project(root, tmp)
+        outside = os.path.join(tmp, "out", "product-os")
+        shutil.copytree(po, outside)
+        os.makedirs(os.path.join(proj, ".garura/core"), exist_ok=True)
+        open(os.path.join(proj, ".garura/core/config.yaml"), "w").write("product:\n  base-path: ../out/\n")
+        before_out = sorted(os.listdir(outside))
+        r = run([sys.executable, os.path.join(root, MIGRATE), "--target", proj], proj)
+        check("813: a model path outside the project is refused (exit 2, no crash)", r.returncode == 2 and "Traceback" not in r.stderr,
+              (r.returncode, r.stderr[-300:]))
+        check("813: nothing outside the project is changed", sorted(os.listdir(outside)) == before_out and
+              os.path.isfile(os.path.join(outside, "_spine.yaml")) and "functionalities:" in open(os.path.join(outside, "_spine.yaml")).read())
+    # P3: a failed git step undoes the moves and says why.
+    with tempfile.TemporaryDirectory() as tmp:
+        proj, po = make_old_project(root, tmp)
+        hook = os.path.join(proj, ".git/hooks/pre-commit")
+        open(hook, "w").write("#!/bin/sh\necho 'blocked by hook' >&2\nexit 1\n")
+        os.chmod(hook, 0o755)
+        head = run(["git", "rev-parse", "HEAD"], proj).stdout.strip()
+        r = run([sys.executable, os.path.join(root, MIGRATE), "--target", proj], proj)
+        try:
+            rep = json.loads(r.stdout)
+        except ValueError:
+            rep = {}
+        check("813: a failed commit reports the reason", rep.get("committed") is False and "hook" in json.dumps(rep).lower(), r.stdout[-300:])
+        check("813: a failed commit undoes the moves (tree as before, no commit)",
+              run(["git", "status", "--porcelain"], proj).stdout.strip() == "" and run(["git", "rev-parse", "HEAD"], proj).stdout.strip() == head,
+              run(["git", "status", "--porcelain"], proj).stdout[:300])
     # The guard: one main copy, kept the same, called where scripts load the model.
     check("813: the guard's main copy exists", exists(root, GUARD_MAIN))
     check("813: the drift check covers the guard", "model_names.py" in read(root, SHARED))
@@ -168,15 +199,18 @@ def eval_813(root):
         if b.startswith("test_") or b in ("model_names.py", "migrate_model.py") or "/references/" in p and b != "lint_grounding.py":
             continue
         t = open(p, encoding="utf-8", errors="ignore").read()
-        if "_spine" in t and "safe_load" in t and "model_names" not in t:
+        if ("_spine" in t or b in ("check_kept.py", "check_sources.py")) and "safe_load" in t and "model_names" not in t:
             missing.append(os.path.relpath(p, root))
     check("813: every script that loads the spine calls the guard", not missing, missing)
+    for f in ("core/components/plays/discover-domains/scripts/check_kept.py", "core/components/plays/discover-capabilities/scripts/check_sources.py"):
+        check(f"813: {os.path.basename(f)} (reads model pages) calls the guard", "model_names" in read(root, f))
     with tempfile.TemporaryDirectory() as tmp:
         proj, po = make_old_project(root, tmp)
         r = run([sys.executable, os.path.join(root, LINT_GROUNDING), "--root", po, "--spine", os.path.join(po, "_spine.yaml")], proj)
         out = (r.stdout + r.stderr).lower()
         check("813: the spine linter stops on an old model", r.returncode != 0 and "functionalit" in out, out[-300:])
-        check("813: the stop message names the upgrade step", "upgrade" in out or "migrate_model" in out, out[-300:])
+        check("813: the stop message names the migrate_model.py script", "migrate_model" in out, out[-300:])
+        check("813: the stop message does not tell the person to re-install", "re-install" not in out and "reinstall" not in out, out[-300:])
     tests = glob.glob(os.path.join(root, "core/components/plays/install-garura/scripts/test_*.py"))
     for t in sorted(tests):
         r = run([sys.executable, os.path.relpath(t, root)], root)
@@ -261,6 +295,9 @@ def eval_809(root):
     check("809: an ADR records the retirement", adrs, adrs)
     check("809: ADR 017 points forward to it", adrs and os.path.basename(adrs[0])[:3] in read(root, "docs/adr/017-folder-whitelist.md"))
     a035 = glob.glob(os.path.join(root, "docs/adr/035-*.md"))
+    a050 = read(root, adrs[0].replace(root + "/", "")) if adrs else ""
+    check("809: ADR 050 says it amends ADR 035 (the word ADR 035 uses), not supersedes",
+          bool(a050) and not re.search(r"supersed\w*[^.\n]{0,80}ADR 035|ADR 035[^.\n]{0,40}supersed", a050, re.I), "")
     check("809: ADR 035 points forward to it", adrs and a035 and os.path.basename(adrs[0])[:3] in open(a035[0]).read())
 
 
