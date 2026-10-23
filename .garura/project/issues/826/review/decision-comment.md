@@ -1,12 +1,11 @@
-Reviewer verdict (human, gate on): reject — fix the findings, then raise again
+Reviewer verdict (human, gate on): approve
 
-PR #827, round 1. Recommended verdict: approve (no P1; 4 P3, 2 P4). The routing table holds on every row.
+PR #827, round 2. Recommended verdict: approve (no P1, no P2).
 
-The reviewer asked to fix these in this PR:
-- M2: the ICE section still says "only a Story reads it"; the plan play also reads it.
-- M4: `standards/rules/expectation-generation.md` covers a play's recovery, not a story's; v10 relies on it for stories.
-- M5: the running eval must read only the recovery parts of the hidden file.
-- M6: the Story says "constraints" where the ICE says "limits".
-- Two old ontology lines carry a real first name; replace it with "the product owner".
+Round 1 fixes checked and in: M2 (the ICE rule names the plan play as its reader), M4 (`standards/rules/expectation-generation.md` covers a story's recovery), M5 (the running eval reads only the recovery parts), M6 (the Story says "limits"), and a real first name replaced by "the product owner". Round 2 found M7 (the rule's scope note) and M8 (a repeated phrase, "constraints" in the v10 log line); both fixed in f5762b1a.
 
-Follow-ups: M1 (no ADR for the hidden file and the Context guidance) goes into #824. M3 (the hidden file is protected by a read rule, not encryption) gets its own issue.
+The IDD routing table (`docs/philosophy/idd-principles.md`) holds on every row.
+
+Deferred: M1 (ADR) → #824. M3 (encrypt the evals) → #828.
+
+Checks: ontology check valid; change check scope (Story, Slice, Plan, ICE), version 9 → 10 with one log line, names ok; lint-components 121, same as base.
