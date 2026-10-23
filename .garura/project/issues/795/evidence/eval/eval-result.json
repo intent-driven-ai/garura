@@ -1,5 +1,5 @@
 {
-  "passed": 77,
+  "passed": 91,
   "failed": 0,
   "results": [
     {
@@ -95,7 +95,7 @@
     {
       "check": "play: fingerprint matches the ICE",
       "ok": true,
-      "detail": "('5129bff2c8190513734cf3e5224e090d3f1916b4108c5841382a79817ef43ad1', '5129bff2c8190513734cf3e5224e090d3f1916b4108c5841382a79817ef43ad1')"
+      "detail": "('0879f60eaa23f2f0486b76622cb5cefc823872b2ff337ae00983aea7e8c8027c', '0879f60eaa23f2f0486b76622cb5cefc823872b2ff337ae00983aea7e8c8027c')"
     },
     {
       "check": "play: lint_play passes",
@@ -235,7 +235,7 @@
     {
       "check": "persist: no old slice fields",
       "ok": true,
-      "detail": "{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340']}"
+      "detail": "{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340'], 'record': 'slices/sl-self-booking.yaml'}"
     },
     {
       "check": "persist: the record is at product-os/slices/<id>.yaml",
@@ -265,7 +265,7 @@
     {
       "check": "persist: an existing slice gains the intent, appended, no second slice",
       "ok": true,
-      "detail": "('{\\n  \"ok\": true,\\n  \"action\": \"updated\",\\n  \"id\": \"sl-self-booking\",\\n  \"added_intents\": [\\n    \"341\"\\n  ],\\n  \"record\": \"slices/sl-self-booking.yaml\",\\n  \"record_written\": true\\n}\\n', [{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340', '341']}])"
+      "detail": "('{\\n  \"ok\": true,\\n  \"action\": \"updated\",\\n  \"id\": \"sl-self-booking\",\\n  \"added_intents\": [\\n    \"341\"\\n  ],\\n  \"record\": \"slices/sl-self-booking.yaml\",\\n  \"record_written\": true\\n}\\n', [{'id': 'sl-self-booking', 'slug': 'self-booking', 'feature_refs': ['ft-pick-slot', 'ft-reminder'], 'vertical': 'booking page', 'intents': ['340', '341'], 'record': 'slices/sl-self-booking.yaml'}])"
     },
     {
       "check": "tests: test_find_serving_slice.py passes",
@@ -280,12 +280,12 @@
     {
       "check": "tests: test_persist_slice.py passes",
       "ok": true,
-      "detail": "the spine \u2014 nothing written\n  [PASS] a list with exactly one surface is accepted\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] the old-name spine writes no record\n\n39 passed, 0 failed\n"
+      "detail": "the spine \u2014 nothing written\n  [PASS] a list with exactly one surface is accepted\n  [PASS] an old-name spine stops (model_names guard)\n  [PASS] the old-name spine writes no record\n\n44 passed, 0 failed\n"
     },
     {
       "check": "tests: test_shape_slice_scripts.py passes",
       "ok": true,
-      "detail": "with no page fails the linter\n  [PASS] approval: the latest answer is on top\n  [PASS] approval: a change before it is kept in history\n  [PASS] approval: an empty reply is refused\n\n39 passed, 0 failed\n"
+      "detail": "with no page fails the linter\n  [PASS] approval: the latest answer is on top\n  [PASS] approval: a change before it is kept in history\n  [PASS] approval: an empty reply is refused\n\n40 passed, 0 failed\n"
     },
     {
       "check": "tests: persist_slice and find_serving_slice have tests",
@@ -363,6 +363,76 @@
       "detail": "[]"
     },
     {
+      "check": "follow-up: the spine slice carries its record pointer",
+      "ok": true,
+      "detail": "([{'id': 'sl-a', 'slug': 'a', 'feature_refs': ['ft-pick-slot'], 'vertical': 'page', 'intents': ['340'], 'record': 'slices/sl-a.yaml'}], '')"
+    },
+    {
+      "check": "follow-up: the Next-line map no longer sends shape-slice to build-epic",
+      "ok": true,
+      "detail": "  shape-slice:          { command: null,           why: \"the slice is shaped; the shaping loop's next play, the plan play (#818), is not built yet\" }"
+    },
+    {
+      "check": "follow-up: no Next entry sends a person to /shape-slice for a realized slice",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "follow-up: product-os-keeper no longer lists author-epics",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: the author-epics skill is deleted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: product-os-keeper no longer lists check-cut-tensions",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: the check-cut-tensions skill is deleted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: product-os-keeper no longer lists rank-actions",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: the rank-actions skill is deleted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: the work-intelligence shelf is deleted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: docs/command-chain.html is deleted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: no live file names a deleted part",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "follow-up: the ICE's D4 check uses path:",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "follow-up: CLAUDE.md states the right ADR count",
+      "ok": true,
+      "detail": "49"
+    },
+    {
       "check": "all: the old-name check reads 0",
       "ok": true,
       "detail": "{\n  \"ok\": true,\n  \"hits\": 0,\n  \"old_names_left\": 0,\n  \"by_old_name\": {},\n  \"first\": []\n}\n"
@@ -375,7 +445,7 @@
     {
       "check": "all: total linter errors do not grow (was 135)",
       "ok": true,
-      "detail": "134"
+      "detail": "124"
     },
     {
       "check": "all: no shared-script drift",

@@ -250,9 +250,11 @@ def eval_followups(root):
         sl = [x for x in (yaml.safe_load(open(sp)).get("slices") or []) if x.get("id") == "sl-a"] if r.returncode == 0 else []
         check("follow-up: the spine slice carries its record pointer", sl and sl[0].get("record") == "slices/sl-a.yaml", (sl, r.stderr[-200:]))
     pn = read(root, "core/components/memory/standards/rules/pipeline-next.md")
-    m = re.search(r"shape-slice[^\n]*\n(?:[^\n]*\n){0,4}", pn)
+    m = re.search(r"^\s*shape-slice:[^\n]*$", pn, re.M)
     check("follow-up: the Next-line map no longer sends shape-slice to build-epic",
           m and "build-epic" not in m.group(0) and "cut into" not in pn, m.group(0) if m else "")
+    check("follow-up: no Next entry sends a person to /shape-slice for a realized slice",
+          not re.search(r"command:\s*shape-slice", pn), re.findall(r".{0,60}command:\s*shape-slice.{0,60}", pn))
     ag = read(root, "core/components/agents/product-os-keeper.md")
     for sk in ("author-epics", "check-cut-tensions", "rank-actions"):
         check(f"follow-up: product-os-keeper no longer lists {sk}", sk not in ag)
