@@ -223,6 +223,24 @@ install_memory_system() {
   python3 "$script" --target "$TARGET_DIR" --tool claude --source "$SRC_DIR" || MEMORY_CHECK_FAILED=1
 }
 
+# --- The product model (#813, ADR 048) ---
+# A product model made before #807 keeps the old names (functionalities, functionality.md);
+# the scripts now read only the new ones. The same script the install-garura play uses moves
+# it once, in one commit of its own, and prints what it moved. A moved model, or no model, is
+# left as it is; a model it cannot move safely is reported and the install goes on.
+
+migrate_product_model() {
+  local script="$COMPONENTS_DIR/plays/install-garura/scripts/migrate_model.py"
+  [ -f "$script" ] || return 0
+  local line rc=0
+  line="$(python3 "$script" --target "$TARGET_DIR" --summary 2>/dev/null)" || rc=$?
+  if [ "$rc" -eq 0 ]; then
+    info "  $line"
+  else
+    warn "  ${line:-model: the product model could not be moved to the new names}"
+  fi
+}
+
 # Called after the version is recorded, as install.py writes its manifest first: a failed
 # check leaves an install the next run can see and lay again.
 stop_if_memory_check_failed() {
@@ -315,6 +333,9 @@ if [ "$MODE" = "init" ]; then
   # 8. The memory system
   install_memory_system
 
+  # 8b. The product model: move a model made before #807 to the new names
+  migrate_product_model
+
   # 9. Record the installed version
   mkdir -p "$(dirname "$VERSION_FILE")"
   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
@@ -405,6 +426,9 @@ else
 
   # 7. The memory system (the tool is replaced; its settings are kept)
   install_memory_system
+
+  # 7b. The product model: move a model made before #807 to the new names
+  migrate_product_model
 
   # 8. Record the installed version
   echo "$INSTALLED_VERSION" > "$VERSION_FILE"
