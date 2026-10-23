@@ -98,6 +98,12 @@ review-pr:
 craft-ice:
   hitl: true
 
+# shape-slice play configuration
+# grill-tier — how many questions /shape-slice may ask: xs 5, s 12, m 25, l 45, xl 70.
+#   The questions only the person can answer are always asked, and count first.
+shape-slice:
+  grill-tier: m
+
 # Loops (ADR 029, #613) — one block per loop, written by /create-loop. `runner` is how
 # each play runs (subagent | headless); `checker` is who checks the result (kind: subagent |
 # coding-agent). A subagent checker must name its model, one other than the session's (e.g.
