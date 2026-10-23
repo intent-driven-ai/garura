@@ -25,6 +25,15 @@ Closes #795 and #836 (on merge into the plan branch, by merge-change).
 - Decisions keep a memory trace (`memory.py cite`). The play points to #838, and template-manager is counted.
 - The rule files agree: the live shape loop is named, and the older chain is labelled (#837).
 
+## Review round 2 fixes
+
+- A slice whose record was written before `slice.yaml` v2 is brought to v2 when a run reuses it. Its facts come from the spine entry; name and outcome come from the shaped slice; the surface moves to the top level. If a part is still missing, the run stops and names it. `slice.yaml` now says this.
+- The spine is written back with its comments and layout (new `spine_text.py`). Only the changed slice or fill entries change.
+- The slice check fails only for this run's slice. A defect in another slice is a warning, so one bad slice no longer blocks every run.
+- The question record reads only a bare "skip" (or "defer") as deferred. A reply like "Skip the dashboard, use the CLI" is marked unclear and asked again. A new `record_questions.py message` check tests the message before it is sent (the opening, and the four parts of each question), and the shape test now also catches a question that does not stand alone.
+- Each proposed answer keeps its memory trace (`memory.py cite`). The Done means has a new clause, D5: the trace check must name no changed source. This went through the ICE first, and the fingerprint is updated.
+- An undo no longer leaves an empty "Touches" heading on the intent page.
+
 ## Known gap (not fixed here)
 
 The old-chain plays still read or write slice fields this PR removes: `/shape-scope`, `/shape-roadmap`, `/shape-measure-lens` and `/shape-run-lens`. `/build-epic`'s ready check still needs a "realized" slice and a spine epic, and nothing makes those now. So `/build-epic` cannot start from a shaped slice until the plan play (#818) makes the epic. All of this is tracked in #837 and noted on #818.
@@ -33,7 +42,7 @@ The old-chain plays still read or write slice fields this PR removes: `/shape-sc
 
 | Check | Result |
 |---|---|
-| Acceptance check (written first; it failed before each build round) | 128 passed, 0 failed |
+| Acceptance check (written first; it failed before each build round; round 2 added 14 checks that failed first) | 143 passed, 0 failed |
 | lint_play on shape-slice | PASS, 0 gaps |
 | shape-slice tests (grill_budget, find_serving_slice, persist_slice, scripts) | all pass |
 | All play, skill and linter tests | pass |
