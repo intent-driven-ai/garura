@@ -482,9 +482,9 @@ Every checkpoint artifact written to `.garura/project/issues/{N}/checkpoint/{pla
 | Status | Meaning |
 |--------|---------|
 | `PENDING_APPROVAL` | Written; awaiting user decision |
-| `APPROVED` | User responded Tether |
-| `ORBIT_FEEDBACK` | User responded Orbit with feedback; the gated stage re-runs as a new cycle |
-| `REJECTED` | User responded Vanish |
+| `APPROVED` | User replied yes |
+| `CHANGE_REQUESTED` | User replied change: <what>; the gated stage re-runs with the change as a new round |
+| `REJECTED` | User replied stop |
 | `COMPLETED` | Set on every checkpoint of the run when the play closes |
 
 The shape and lifecycle are defined in `standards/templates/checkpoint.md`. Plays update the artifact status before proceeding to the next step. A gate that resolves off or auto-passes (see Gate Configuration) writes no prompt; the skip is recorded as a Checkpoint Decisions row in the run's evidence file. Together these form an auditable record of every approval decision.

@@ -251,14 +251,14 @@ Inline summary (rendered only when the gate resolves **on**):
 {confidence from design.yaml}
 
 ---
-Type **Tether** to approve and proceed, or **Vanish** to reject.
+Reply **yes** to approve and proceed, or **stop** to reject.
 ```
 
-- `Tether` → dispatch the background issue comment (below), then proceed to Step 6.
-- `Vanish` → halt; write rejection evidence; no implementation occurs.
+- `yes` → dispatch the background issue comment (below), then proceed to Step 6.
+- `stop` → halt; write rejection evidence; no implementation occurs.
 - else → clarify.
 
-**On Tether — background issue comment (C11):** immediately dispatch a non-blocking
+**On yes — background issue comment (C11):** immediately dispatch a non-blocking
 `project-orchestrator` (`run_in_background: true`) to post the RCA-approved comment to the
 originating issue using the `issue-comment-rca-approved.md` template, and write a tracking
 stub `{stm_base}/{issue}/evidence/fix-bug/issue-comment-agent.yaml` (`status: dispatched`,
@@ -270,11 +270,11 @@ status file shows the approval gate completed with a `tether_received_at` that p
 implement step (gate **on**), OR the gate resolved **off** with the `gate skipped by config`
 row recorded and all three machine preconditions (`rca.yaml`, `design.yaml`, red-verified
 regression test) present with the off-wall clearance timestamp preceding the implement step
-(gate off); after the gate clears — Tether or the off-wall — no further human approval is
+(gate off); after the gate clears — yes or the off-wall — no further human approval is
 requested (C5).
 **SE-8 (F11/C11):** `issue-comment-agent.yaml` exists with `status: dispatched` (or
 `completed`) and a non-empty `dispatched_at` before the implement step goes in-progress —
-on both the Tether path and the gate-off path.
+on both the yes path and the gate-off path.
 **SE-14 (F13/C4):** with the gate resolved off, no implementation artifact exists until the
 machine wall held — `rca.yaml` with a traced root cause, `design.yaml` with ≥1 alternative,
 and a regression test proven red before the fix all present; any one missing is a hard halt
@@ -282,7 +282,7 @@ and a regression test proven red before the fix all present; any one missing is 
 
 ### Phase: Implement & Verify (retry loop, cap 2 per C13)
 
-**Step 6 — Implement Fix** · Owner: `code-builder` · Depends on: Step 5 (Tether only)
+**Step 6 — Implement Fix** · Owner: `code-builder` · Depends on: Step 5 (yes only)
 Dispatch a JSON contract carrying only the design artifact paths plus the regression-test
 file path in `read_only_files` — never the checkpoint brief, never the test's assertion
 content (C9):
@@ -375,7 +375,7 @@ verdict) — merge the PR, switch to main and pull, delete the feature branch (l
   still holds.
 - **SCE-3 (S3 — QA engineer, audit trail):** the originating issue carries an approved-RCA
   comment created before implementation; the accepted fix carries the quality-auditor `pass`
-  verdict; the gate-clearance timestamp (the Tether `tether_received_at`, or the off-wall
+  verdict; the gate-clearance timestamp (the approval `tether_received_at`, or the off-wall
   clearance timestamp when the gate resolved off) is strictly earlier than the implement start.
 - **SCE-4 (S4 — developer, red-before-green):** the regression test was recorded failing
   (red) before implementation and the independent verdict after implementation is `pass`.
@@ -452,7 +452,7 @@ entries below cover this play's defect-resolution core.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | an implementation artifact exists, or implement is in progress, with no completed approval preceding it | hold for the single human Tether/Vanish before any implementation step runs | human |
+| F1 | an implementation artifact exists, or implement is in progress, with no completed approval preceding it | hold for the single human yes/stop before any implementation step runs | human |
 | F2 | `rca.yaml` is missing, `root_cause` is empty, or it restates the issue text | re-run RCA to trace symptom → the specific file, logic, and why it is wrong, distinct from the issue text | autonomous |
 | F3 | `design.yaml` is missing or `alternatives_considered` lacks an entry with a rejection reason | re-run the design step to add at least one alternative with the reason it was rejected | autonomous |
 | F4 | the issue does not exist or is not open when the play starts | escalate for a human to provide or reopen a valid open issue before proceeding | human |
@@ -462,7 +462,7 @@ entries below cover this play's defect-resolution core.
 | F8 | `ltm_context` was provided but `resolution-trace.yaml` is missing or empty | re-run RCA to emit a non-empty resolution trace recording the layer that answered each domain question | autonomous |
 | F9 | a standalone brief or HTML artifact exists under the evidence path after checkpoint prep | remove the artifact and any `briefs/` directory so the evidence path holds none | autonomous |
 | F10 | the fix is about to be accepted without a red-then-green regression test | author the failing test and confirm it red before implementation, then confirm it green via quality-auditor before the close | autonomous |
-| F11 | Tether received but `issue-comment-agent.yaml` not written (or `status: pending`) before implement | write the dispatched tracking stub with a `dispatched_at` before the implement step goes in-progress | autonomous |
+| F11 | yes received but `issue-comment-agent.yaml` not written (or `status: pending`) before implement | write the dispatched tracking stub with a `dispatched_at` before the implement step goes in-progress | autonomous |
 | F12 | the close would report COMPLETED without the Done means held | evaluate the stop condition and surface the unmet clauses; the run closes HALTED until state is fixed | autonomous |
 | F13 | the gate resolved off and an implement step is starting while the RCA, the fix design, or a red-verified regression test is missing | HARD HALT and name the missing precondition; do not start the fix until all three exist (re-run the producing step per REC2/REC3/REC10 as needed) | autonomous |
 

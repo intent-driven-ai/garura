@@ -66,7 +66,7 @@ When the validator emits a recovery handoff plan, it carries:
 ---
 
 (autonomous) → builder fixes and re-runs; loop until success scenarios pass.
-(human) → Type Tether to take the manual path, or Vanish to halt.
+(human) → Reply yes to take the manual path, or stop to halt.
 ```
 
 The plan describes symptoms and direction, never failure-condition IDs or eval internals — preserving the barrier (P4) when it is on.

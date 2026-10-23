@@ -431,7 +431,7 @@ How ICS works — restate, score six dimensions, pick a balance profile — is d
 - ICS belongs where business intent is crafted or cut — the strategy plays and `/shape-slice` — and at `/build-epic`, where intent ambiguity is most costly
 - ICS is optional for mechanical plays (the change chain: `commit-change`, `propose-change`, `merge-change`) per P7's "when to skip" guidance
 - ICS results are written to STM as evidence
-- Non-Balanced profiles generate a checkpoint; the human can override with Tether or request decomposition
+- Non-Balanced profiles generate a checkpoint; the human can override with yes or request decomposition
 - For barrier-eligible plays, ICS includes a 6th dimension: **Barrier Integrity** — whether the constraint-failure partition is correctly classified per P4's Classification Rule. Misclassified items trigger the "Barrier Compromised" profile.
 
 #### Future: ICS and /learn-outcomes

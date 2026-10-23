@@ -103,7 +103,7 @@ manifest:
       agent_reasoning_summary: |
         {2-4 lines of prose}
       non_obvious: true | false
-      user_response: accept | override | orbit | pending
+      user_response: accept | override | change | pending
       user_response_detail: {free text — null when pending}
 ```
 

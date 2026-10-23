@@ -214,11 +214,11 @@ Missing question or checkpoint citation → V14 blocker.
 ### Step 16 — V15: Decision surfacing (cites F15)
 
 Walk every entry in `all_decisions`:
-- `user_response` ∈ {accept, override, orbit, pending}.
+- `user_response` ∈ {accept, override, change, pending}.
 - If `user_response: pending`, the validation result records a WARNING (not blocker) — the play orchestrator surfaces these at the next checkpoint. Validator's job is to flag them, not to block.
-- If `user_response: override` or `orbit`, ensure `user_response_detail` is non-empty.
+- If `user_response: override` or `change`, ensure `user_response_detail` is non-empty.
 
-Override/orbit without detail → V15 blocker.
+Override/change without detail → V15 blocker.
 
 ### Step 17 — V16: Manifest completeness (cites F16)
 

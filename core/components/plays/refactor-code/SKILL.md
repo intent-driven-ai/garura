@@ -198,7 +198,7 @@ weakened or deleted.
   — green before AND after, no test weakened); a broken pin at either point is a HARD HALT, never
   gated (REC8), and the refactor must not land. If the baseline is not green, do NOT proceed — apply
   REC3/REC8: pin the behavior first.
-- **on** — present the plan inline and wait for the typed Tether/Vanish; the agent never skips it on
+- **on** — present the plan inline and wait for the typed yes/stop; the agent never skips it on
   its own judgment.
 
 Present the plan inline (rendered whether the gate is on for the human, or recorded alongside the
@@ -220,11 +220,11 @@ config-skip row when off):
 {the behavior contract + the tests/characterization suite that pins it; coverage assessment}
 
 ---
-Type **Tether** to approve and proceed, or **Vanish** to reject.
+Reply **yes** to approve and proceed, or **stop** to reject.
 ```
 
-- `Tether` → proceed to Step 6.
-- `Vanish` → halt; write rejection evidence; no implementation occurs.
+- `yes` → proceed to Step 6.
+- `stop` → halt; write rejection evidence; no implementation occurs.
 - else → clarify.
 
 **SE-3 (F6/C6):** no implementation report
@@ -241,7 +241,7 @@ replaced the human approval was not met.
 
 ### Phase: Implement & Verify (retry loop, cap 2)
 
-**Step 6 — Implement Refactor** · Owner: `code-builder` · Depends on: Step 5 (Tether only)
+**Step 6 — Implement Refactor** · Owner: `code-builder` · Depends on: Step 5 (yes only)
 First snapshot the product model so Step 7 can prove it untouched:
 
 ```
@@ -435,7 +435,7 @@ below cover this play's refactor core.
 | F3 | a test was weakened/deleted, or behavior is unproven (baseline or post not green) | restore the test to its prior strength and re-run; where coverage was thin, capture characterization tests first and prove green before and after | autonomous |
 | F4 | a modified file lies outside the declared target with no justification | restrict the change to the target, or record the deviation justification, before the close | autonomous |
 | F5 | the change is cosmetic churn with no real quality gain | re-scope the refactor to a concrete quality issue named against the standards, or drop it | human |
-| F6 | a code change was made with no completed checkpoint preceding it | hold for the single human Tether/Vanish before any implementation step runs; revert any premature edit | human |
+| F6 | a code change was made with no completed checkpoint preceding it | hold for the single human yes/stop before any implementation step runs; revert any premature edit | human |
 | F7 | the run is about to close COMPLETED with the Done means unmet (a missing plan or baseline artifact, or preservation asserted in prose with no machine record) | produce the missing artifact — re-run the behavior guard with `--out` so `preservation.yaml` carries the machine fields — then re-evaluate the stop condition; the close stays HALTED until the verdict reads held | autonomous |
 | F8 | with the plan-approval gate off, a refactor proceeded or landed without the behavior-pin holding (behavior suite not green both before and after, or a test weakened/deleted) | restore the behavior-pin — re-capture or repair the characterization suite to green on the pre-refactor code and restore any weakened test to its prior strength — re-run the behavior guard, and do not land until green before AND after | human |
 
