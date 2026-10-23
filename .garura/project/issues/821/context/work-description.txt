@@ -1,0 +1,1 @@
+Lint the asking-a-person rule and hand it to the agent (#821), one checkpoint format (#825), slice intents in the spine (#829)
