@@ -32,7 +32,14 @@ function walk(dir, predicate) {
 /**
  * Discover all Garura components under the target directory.
  *
- * @param {string} targetDir - Absolute path to core/components/
+ * Source layout (the default): plays/, loops/, skills/ and agents/ beside each other.
+ * Installed layout: plays, loops and skills all in <target>/skills/<name>/SKILL.md and agents
+ * in <target>/agents/*.md. There a SKILL.md that says `kind: loop` or carries the Shared Loop
+ * Run anchor is a loop, one that carries the Standard Play Close anchor is a play, and the rest
+ * are skills. The shared files sit in <target>/skills/_shared/.
+ *
+ * @param {string} targetDir - Absolute path to the components folder, or to .claude / .agents
+ * @param {'source'|'installed'} [layout]
  * @returns {{
  *   skills: Array<{file: string, name: string, type: string}>,
  *   plays: Array<{file: string, name: string, type: string}>,
@@ -41,7 +48,55 @@ function walk(dir, predicate) {
  *   loops: Array<{file: string, name: string, type: string}>
  * }}
  */
-function discover(targetDir) {
+const PLAY_CLOSE = '# --- Standard Play Close (shared; see ../_shared/play-close.md) ---';
+const LOOP_RUN = '# --- Shared Loop Run (shared; see ../_shared/loop-run.md) ---';
+
+function discoverInstalled(targetDir) {
+  const skills = [];
+  const plays = [];
+  const loops = [];
+  const intents = [];
+  const sharedDir = path.join(targetDir, 'skills', '_shared');
+  const skillsDir = path.join(targetDir, 'skills');
+  if (fs.existsSync(skillsDir)) {
+    for (const entry of fs.readdirSync(skillsDir, { withFileTypes: true })) {
+      if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
+      const file = path.join(skillsDir, entry.name, 'SKILL.md');
+      if (!fs.existsSync(file)) continue;
+      const text = fs.readFileSync(file, 'utf8');
+      if (/^kind:\s*loop\s*$/m.test(text) || text.includes(LOOP_RUN)) {
+        loops.push({ file, name: entry.name, type: 'loop', playsShared: sharedDir });
+      } else if (text.includes(PLAY_CLOSE)) {
+        plays.push({ file, name: entry.name, type: 'play' });
+        const intentFile = path.join(skillsDir, entry.name, 'reference', 'intent.yaml');
+        if (fs.existsSync(intentFile)) {
+          const expectationFile = path.join(skillsDir, entry.name, 'reference', 'expectation.yaml');
+          intents.push({
+            file: intentFile,
+            name: entry.name,
+            type: 'intent',
+            expectationFile: fs.existsSync(expectationFile) ? expectationFile : null,
+          });
+        }
+      } else {
+        skills.push({ file, name: entry.name, type: 'skill' });
+      }
+    }
+  }
+  const agents = [];
+  const agentsDir = path.join(targetDir, 'agents');
+  if (fs.existsSync(agentsDir)) {
+    for (const entry of fs.readdirSync(agentsDir, { withFileTypes: true })) {
+      if (entry.isFile() && entry.name.endsWith('.md')) {
+        agents.push({ file: path.join(agentsDir, entry.name), name: entry.name.slice(0, -3), type: 'agent' });
+      }
+    }
+  }
+  return { skills, plays, agents, intents, loops };
+}
+
+function discover(targetDir, layout = 'source') {
+  if (layout === 'installed') return discoverInstalled(targetDir);
   const skillsDir = path.join(targetDir, 'skills');
   const playsDir = path.join(targetDir, 'plays');
   const agentsDir = path.join(targetDir, 'agents');

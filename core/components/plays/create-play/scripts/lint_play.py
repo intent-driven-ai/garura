@@ -12,8 +12,13 @@ it is *meaningful*; whether a constraint is *referenced*, not whether it is trul
 structural. Treat a clean run as "the mechanical wiring holds" and a gap as "fix the
 wiring" — writing the missing eval/recovery/section is still the model's job.
 
-Usage:   python3 lint_play.py <path-to-compiled-play.md>
+Usage:   python3 lint_play.py <path-to-compiled-play.md> [--next-map <pipeline-next.md>]
 Exit:    0 = clean, 1 = gaps found, 2 = could not read the file.
+
+--next-map names a copy of standards/rules/pipeline-next.md (the Next-line map). A caller
+outside Garura's own repository gets that copy through the memory tool. With no --next-map,
+the check looks for the map only beside the play's own components folder
+(<play>/../../memory/standards/rules/pipeline-next.md), and skips when it is not there.
 
 Checks
   - Required sections present (matched anywhere in a header — a phase counts).
@@ -323,7 +328,7 @@ def check_next_command(ctx):
     nm = re.search(r"(?m)^name:\s*(\S+)", ctx["fm"].group(1))
     play_name = (nm.group(1).strip().strip("\"'") if nm
                  else os.path.basename(ctx["play_dir"]))
-    map_path = os.path.normpath(os.path.join(
+    map_path = ctx.get("next_map") or os.path.normpath(os.path.join(
         ctx["play_dir"], "..", "..", "memory", "standards", "rules", "pipeline-next.md"))
     if not os.path.isfile(map_path):
         return []
@@ -473,8 +478,13 @@ CHECKS = [
 
 
 def main(argv):
+    next_map = None
+    if len(argv) == 4 and argv[2] == "--next-map":
+        next_map = argv[3]
+        argv = argv[:2]
     if len(argv) != 2:
-        print("usage: python3 lint_play.py <compiled-play.md>", file=sys.stderr)
+        print("usage: python3 lint_play.py <compiled-play.md> [--next-map <pipeline-next.md>]",
+              file=sys.stderr)
         return 2
     try:
         with open(argv[1], encoding="utf-8") as fh:
@@ -484,6 +494,7 @@ def main(argv):
         return 2
 
     ctx = load_context(argv[1], text)
+    ctx["next_map"] = next_map
     results = []
     for check in CHECKS:
         results.extend(check(ctx))

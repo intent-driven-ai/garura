@@ -9,9 +9,18 @@ const yaml = require('js-yaml');
 
 const SHORTENED = ['arch', 'impl', 'cfg', 'env', 'util', 'utils', 'mgr', 'misc', 'tmp'];
 
-function loadStandard(targetDir) {
-  const file = path.join(targetDir, 'memory', 'standards', 'rules', 'naming.yaml');
-  if (!fs.existsSync(file)) return null;
+// The naming standard: the file named with --naming, else (source layout only)
+// <components>/memory/standards/rules/naming.yaml. The installed layout reads memory only
+// through the copy its caller fetched with the memory tool, so with no --naming it skips.
+function standardFile(targetDir, opts = {}) {
+  if (opts.naming) return path.resolve(process.cwd(), opts.naming);
+  if (opts.layout === 'installed') return null;
+  return path.join(targetDir, 'memory', 'standards', 'rules', 'naming.yaml');
+}
+
+function loadStandard(targetDir, opts = {}) {
+  const file = standardFile(targetDir, opts);
+  if (!file || !fs.existsSync(file)) return null;
   return { file, rules: yaml.load(fs.readFileSync(file, 'utf8')) };
 }
 
@@ -75,8 +84,8 @@ function checkName(component, std) {
   return out;
 }
 
-function check(components, targetDir) {
-  const loaded = loadStandard(targetDir);
+function check(components, targetDir, opts = {}) {
+  const loaded = loadStandard(targetDir, opts);
   if (!loaded) return [];
   const std = loaded.rules || {};
   const all = [].concat(components.plays, components.skills, components.agents, components.loops || []);
@@ -93,4 +102,4 @@ function check(components, targetDir) {
   return out;
 }
 
-module.exports = { check, checkName };
+module.exports = { check, checkName, standardFile };
