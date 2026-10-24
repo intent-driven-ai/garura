@@ -184,5 +184,5 @@ tree:
   children:
   - issue: 851
     kind: chore
-    title: The 13 P3/P4 standards findings left by the PR #849 review
+    title: 'The 13 P3/P4 standards findings left by the PR #849 review'
     status: next
