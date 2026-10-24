@@ -164,3 +164,134 @@ metadata name it.
 
 - D5: `context/shape-slice/trace-check.json`, where `problems` equals `[]`.
 - D6: `context/shape-slice/hidden-file.json`, where `ok` equals `true`.
+
+# Round 2 (PR #853 review, round 1: DF-1, DF-2, DF-3, Q-1, Q-2, and the product owner's rule)
+
+The product owner's rule: **an agent only gathers context; a skill does the work.** The agent
+reads, copies memory into short-term memory, calls the memory tool, calls a skill and passes
+the skill's output on. It never chooses, drafts, decides or writes content itself. The audit
+that lists every place the play breaks this rule is
+`.garura/project/issues/842/context/edit-play/agent-audit.md`. Fix every row marked WORK, every
+fit gap (A1–A6) and every "wrong direction" line in it. This is an intent change: it goes
+through `reference/ice.md` and a recompile (fingerprint, `lint_play.py`).
+
+## ICE
+
+- New constraint **C19**: the agent only gathers context and passes it on; every choice, draft
+  and decision is made by a named skill. With **F19** (an agent dispatch asks the agent to do
+  work no named skill does), **REC19** and a step eval **SE-25**. Compiled From then reads
+  C1–C19 and F1–F19.
+- Every step eval id is used once. The early-brief eval of Step 5 gets the id **SE-24**; the
+  final-brief eval of Step 11 keeps SE-6. The Compilation Metadata count of step evals equals
+  the number of distinct SE ids in the file.
+
+## Agent contracts in SKILL.md
+
+- Every JSON contract that has a `task_id` also has `"skills": [<skill names>]`. Each name is a
+  folder in `core/components/skills/`. Only `shape-slice-trace` (the live re-cite) has
+  `"skills": []`.
+- The words "yourself", "No skill does this", "make it yourself", "have the agent write",
+  "The agent does that choice itself" and "hand every piece of judgment to" appear nowhere in
+  `SKILL.md` or `reference/ice.md`.
+- The Role section says the agent gathers context and the skills do the work.
+- `skills_missing` in the Compilation Metadata reads `none`.
+- `find-model-gaps` is not used by /shape-slice: not in its agent table, not in `skills_used`,
+  and the `product-os-keeper.md` row for `find-model-gaps` does not name /shape-slice.
+- The surface and the tester are never a question in the gap list. `author-slice` proposes
+  them in Step 6, and the brief shows them for the person's yes.
+
+| Step | task_id | skills |
+|------|---------|--------|
+| 1 | shape-slice-intent | author-business-intent (one-intent mode) |
+| 2 | shape-slice-gather | find-work-placement, find-slice-gaps |
+| 3 | shape-slice-propose | propose-answers |
+| 3 (REC3) | shape-slice-rewrite | find-slice-gaps (rewrite mode) |
+| 5 | shape-slice-early-opening | author-slice-brief |
+| 6 | shape-slice-shape | author-slice, author-domains, enrich-capability-ice, enrich-grounding |
+| 7 | shape-slice-reuse | author-slice (reuse mode) |
+| 8b | shape-slice-hidden | author-failure-recovery |
+| 9 (REC11) | shape-slice-fix | author-slice (fix mode), enrich-grounding (fix mode) |
+| 10b | shape-slice-trace | (none) |
+| 11 | shape-slice-opening | author-slice-brief |
+
+- Step 8b's contract names `ice_pages` and `rule` in its inputs.
+
+## New skills
+
+Each is `core/components/skills/<name>/SKILL.md` with front matter `name: <name>`,
+`description`, `user-invocable: false`, and the sections `## Input` (a table), `## Output` and
+`## Rules`. Each description names /shape-slice. Names follow `naming.md` (skill verbs from
+`naming.yaml`).
+
+- **`author-slice`** (#838). Writes `slice.json` and `fills.json` from the intent page, the
+  gathered context, the placement result, the question record and the assumptions: the one
+  surface and the persona who tests it there; the features from any capability in build
+  order, with `why_this_order`; `left_out`; `no-slice.json` with its reason when no surface can
+  be tested end to end; and the needs list (`fills.json` new parts, `updates`, `thin`). Reuse
+  mode: given the kept slice and `serving.json`, writes `reuse.json` (`pull_in`, `push_out`,
+  `why`), keeps the slice testable end to end, and never changes a slice in progress. Fix
+  mode: fixes the problems the model check finds in `slice.json` or `fills.json`. Its text
+  holds the words: surface, tester, persona, build order, left_out, no-slice, fills, updates,
+  thin, reuse, pull_in, push_out, in progress, testable end to end, fix.
+- **`find-slice-gaps`**. Lists each thing the slice needs that neither the model nor memory
+  answers, and writes each as one question by the rule for asking a person: id, topic,
+  question, why, examples from several domains, blocking, assume, and `settled` with its
+  basis. The surface and the tester are never a question. Rewrite mode: rewrites only the
+  questions that `record_questions.py proposals` refuses. Its text holds: blocking, assume,
+  settled, examples, rewrite, surface, tester.
+- **`author-slice-brief`**. Writes the opening of the early brief and of the confirmation
+  brief: two or three plain sentences that say what the person decides and what happens with
+  the reply, by the rule for asking a person, or by the play's floor when the rule is missing.
+  Its text holds: opening, early, confirmation, two or three sentences, rule for asking a
+  person, rule_missing.
+- **`enrich-grounding`**. Writes on the pages of the parts the slice needs, from the person's
+  answers and the assumptions, and keeps every section and line a page had: brings a page the
+  slice moves or uses up to the current rules in place; writes one new feature page under a
+  capability that exists without re-detailing the capability; thin-ICE mode (Goal, Limit,
+  Fails if, Context, Checked by); fix mode. It never writes `_spine.yaml`. Its text holds: in
+  place, new feature, thin, Goal, Limit, Fails if, Context, Checked by, fix, _spine.yaml.
+
+## Changes to existing skills and the agent
+
+- `author-business-intent`: a one-intent mode — input one plain statement, output one intent
+  as `intent-draft.json`. Its text holds "one-intent" and "intent-draft.json"; its description
+  names /shape-slice.
+- `propose-answers`: its description names /shape-slice; the text "as our default" is gone; a
+  value with no source gets no proposed answer. Each proposal's `basis` is
+  `{kind, ref}`.
+- `enrich-capability-ice`: a `depth` input; with `depth: directional` the page stays at the
+  directional stage and is marked to be deepened. The text "goes back to the caller as a
+  question" is gone: a gap is returned as data in its manifest's `gaps`. Its description names
+  /shape-slice.
+- `author-domains`: input `profile: false` writes no profile block. Its description names
+  /shape-slice.
+- `author-failure-recovery`: the text "so the agent can tell the person" is gone (the play
+  shows `vague` in the brief).
+- `product-os-keeper.md`: the text "shaping it into the caller's contract" is gone; it says the
+  agent passes a skill's output on as it is; its skill table has a row for each of the four new
+  skills that names /shape-slice.
+- `core/components/memory/standards/rules/naming.md` rule 2: the words "such as epic or slice"
+  are gone; epic and slice are model words.
+
+## Scripts
+
+- **`safe_write.py`** (new, in the play's `scripts/`): `atomic_write(path, text)` writes through
+  a temp file in the same folder, then `os.replace`. No other script in the play's `scripts/`
+  (tests aside) calls `os.replace` or `tempfile.mkstemp`. `persist_fills.py`,
+  `persist_slice.py`, `write_hidden_file.py`, `render_brief.py` and `write_intent_page.py`
+  write their output files and pages through it.
+- **`write_hidden_file.py check ... --clear-working <path>`** (repeatable): when the check reads
+  ok (exit 0), it deletes each named file; when it is not ok (exit 1), it keeps them. It refuses
+  (exit 2, nothing deleted) a path under `--plans-root`. Step 8b passes
+  `<working>hidden-lines.json` and `<working>hidden-recoveries.json`, so no copy of the "Fails
+  if" lines or the ids is left outside the evals folder.
+- **`render_brief.py --early --working <dir> --opening <opening.md> --split <early-split.json> --out <early-brief.md>`**:
+  writes the opening, then `## Questions` with each question of the split as `### <id>` and its
+  **Question**, **Answer** (`no proposed answer yet` when it has none), **Why it matters** and
+  **Example**. The result passes `record_questions.py brief --early`.
+- **`record_questions.py merge-proposals --questions <questions.json> --proposals <proposals.json> --out <questions.json>`**:
+  copies `propose-answers` output into the questions. A proposal's `group` is the question id.
+  `closed_by: proposal` with `basis.kind` in model, memory or person and a non-empty
+  `basis.ref` sets `proposed_answer` and `basis`. `closed_by: settled` sets `settled: true` and
+  `settled_basis`. Any other basis leaves `proposed_answer: null`. A proposal for an id that is
+  not a question is refused (exit 2, nothing written).
