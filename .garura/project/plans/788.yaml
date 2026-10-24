@@ -161,14 +161,17 @@ tree:
     - 798
     - 818
 # Dropped on 2026-10-24: #831 (not planned; replaced by #854).
-# Not in this plan (standalone): #839 (review the agent's memory), #841 (check-change sees
-# only the first 100 files of a PR), #843 (a sandbox install scope), #847 (check-change's
+# Not in this plan (standalone): #839 (review the agent's memory), #843 (a sandbox install scope), #847 (check-change's
 # review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan
 # branch), #850 (apply_adr.py writes no forward pointer), #852 (the memory tool cannot mark a
 # replaced decision).
 # Parked on 2026-10-23 as its own business intent: #835 (upgrade path for older models).
 # Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
 # #797 (#799), #800 (#801), #802 (#803).
+- issue: 841
+  kind: bug
+  title: 'check-change reviews only the first 100 files of a pull request (P1)'
+  status: next
 - issue: 855
   kind: chore
   title: Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install
