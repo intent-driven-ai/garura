@@ -78,10 +78,18 @@ legitimately review documentation still fire.
 - A glob is **docs-targeting** (mechanical test on the glob string, case-insensitive) when it
   ends in a prose extension (`.md`, `.rst`, `.txt`), contains `docs/`, or names a known doc
   artifact (`readme`, `changelog`, `security`, `contributing`, `license`, `.env.example`,
-  `.env.sample`, `openapi`, `swagger`, `api-spec`). So `docs/security/**`, `README.md`, and
-  `docs/adr/**` still fire on prose; `**/schema*`, `**/migrations/**`, and `**/canary*` do
+  `.env.sample`, `openapi`, `swagger`, `api-spec`). So `docs/security/**` and `README.md`
+  still fire on prose; `**/schema*`, `**/migrations/**`, and `**/canary*` do
   not. `path:` rules whose target is inherently code/config (`.env`, `package.json`,
   `.github/workflows/**`) are unaffected — those files are never a prose artifact type.
+- **Two kinds of path get no finding (#851).** A path under `docs/adr/` gets no finding: an
+  ADR is a decision record that a person accepts, and its own process checks it (lint, the
+  business-intent check, the person's approval). A finding on a changed ADR only says that an
+  ADR changed. A path whose artifact type is `stm-evidence` (`.garura/project/**`,
+  `.garura/core/**`) gets no finding: these are run records and installed copies that the
+  plays write. They are evidence of a run, not work to review, and the source of an installed
+  copy is reviewed where it lives. The rows that name `docs/adr/**` (ARCH-23, DOC-04, DOC-05)
+  stay for the review layers that read the taxonomy; the scan does not fire them.
 - Every finding carries `artifact_type` (the matched file's classification) so a
   reviewer can see why the rule applied.
 - `scan_coverage` counts guard-exempted files as covered (they were classified and

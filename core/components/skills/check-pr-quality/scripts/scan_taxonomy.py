@@ -13,7 +13,8 @@ severity taxonomy (standards/rules/pr.md) and a unified diff, it:
        - path / grep+path path-half: on a PROSE artifact type it fires only when the
          matched glob is docs-targeting (the #454 prose guard) — otherwise dropped,
   4. rolls the CODE-20 `**/*` catch-all into a single count, never per-file findings,
-  5. emits findings.yaml (stable-sorted, byte-identical across runs bar generated_at).
+  5. gives no finding on a path under docs/adr/ or of artifact type stm-evidence (#851),
+  6. emits findings.yaml (stable-sorted, byte-identical across runs bar generated_at).
 
 Pure regex/glob. No inference, no loose substring matching. Two runs on the same
 (diff, taxonomy) produce identical findings.
@@ -32,6 +33,10 @@ DOCS_GLOB_TOKENS = (
     ".env.example", ".env.sample", "openapi", "swagger", "api-spec",
 )
 DOCS_GLOB_SUFFIXES = (".md", ".rst", ".txt")
+
+# Paths that get no finding (#851): decision records and run records.
+SKIP_PREFIXES = ("docs/adr/",)
+SKIP_TYPES = {"stm-evidence"}
 
 
 # --------------------------------------------------------------------------- globs
@@ -227,12 +232,18 @@ def parse_diff(text):
     """Return (changed_paths, added_lines).
 
     added_lines: list of (path, new_lineno, text) for every added ('+') line.
+    A `+++ ` line is a file header only when the line before it starts with `--- `;
+    a `--- ` line is a header only when the line after it starts with `+++ `. Any
+    other `+` or `-` line is an added or removed line, even when it starts `++`/`--`.
     """
     changed, added = [], []
     cur = None
     new_no = 0
-    for ln in text.splitlines():
-        if ln.startswith("+++ "):
+    lines = text.splitlines()
+    for i, ln in enumerate(lines):
+        prev_is_old = i > 0 and lines[i - 1].startswith("--- ")
+        next_is_new = i + 1 < len(lines) and lines[i + 1].startswith("+++ ")
+        if ln.startswith("+++ ") and prev_is_old:
             p = ln[4:].strip()
             if p == "/dev/null":
                 cur = None
@@ -242,7 +253,7 @@ def parse_diff(text):
             cur = p
             if p not in changed:
                 changed.append(p)
-        elif ln.startswith("--- "):
+        elif ln.startswith("--- ") and next_is_new:
             p = ln[4:].strip()
             if p.startswith("a/") and p != "a/dev/null":
                 p = p[2:]
@@ -251,11 +262,11 @@ def parse_diff(text):
         elif ln.startswith("@@"):
             m = re.search(r"\+(\d+)", ln)
             new_no = int(m.group(1)) if m else 0
-        elif ln.startswith("+") and not ln.startswith("+++"):
+        elif ln.startswith("+"):
             if cur is not None:
                 added.append((cur, new_no, ln[1:]))
             new_no += 1
-        elif ln.startswith("-") and not ln.startswith("---"):
+        elif ln.startswith("-"):
             pass  # removed line — no new-file line number
         else:
             new_no += 1  # context line
@@ -270,13 +281,28 @@ def classify(path, artifact_rows):
     return DEFAULT_ARTIFACT
 
 
+def looks_like_path(entry):
+    """False for an entry that is diff text or a message, not a path."""
+    if not entry or entry[0] in "+- ":
+        return False
+    return '": ' not in entry
+
+
+def is_skipped(path, artifact_type):
+    """True for a path that gets no finding (#851)."""
+    return path.startswith(SKIP_PREFIXES) or artifact_type in SKIP_TYPES
+
+
 # --------------------------------------------------------------------------- scan
 def scan(taxonomy_text, diff_text, changed_override=None):
     artifact_rows, severity_rows = parse_taxonomy(taxonomy_text)
     changed, added = parse_diff(diff_text)
+    rejected = []
     if changed_override:
-        changed = changed_override
+        rejected = [p for p in changed_override if not looks_like_path(p)]
+        changed = [p for p in changed_override if looks_like_path(p)]
     atype = {p: classify(p, artifact_rows) for p in changed}
+    scanned = [p for p in changed if not is_skipped(p, atype[p])]
 
     # added lines grouped by file (only for grep-eligible files)
     added_by_file = {}
@@ -291,7 +317,7 @@ def scan(taxonomy_text, diff_text, changed_override=None):
 
         # CODE-20 style catch-all: count, never per-file findings (#454)
         if rid == "CODE-20":
-            catchall[rid] = sum(1 for p in changed if path_hits(row.get("globs", []), p))
+            catchall[rid] = sum(1 for p in scanned if path_hits(row.get("globs", []), p))
             continue
 
         rx = None
@@ -303,7 +329,7 @@ def scan(taxonomy_text, diff_text, changed_override=None):
                 continue
 
         if kind == "path":
-            for p in changed:
+            for p in scanned:
                 g = path_hits(row["globs"], p)
                 if g is None:
                     continue
@@ -313,7 +339,7 @@ def scan(taxonomy_text, diff_text, changed_override=None):
                 findings.append(_finding(rid, sev, p, 1, p, t))
 
         elif kind == "grep":
-            for p in changed:
+            for p in scanned:
                 t = atype.get(p, DEFAULT_ARTIFACT)
                 if t not in CODE_TYPES:
                     continue  # grep ineligible on prose (#438)
@@ -323,7 +349,7 @@ def scan(taxonomy_text, diff_text, changed_override=None):
                         findings.append(_finding(rid, sev, p, no, m.group(0), t))
 
         elif kind == "grep+path":
-            for p in changed:
+            for p in scanned:
                 if path_hits(row["globs"], p) is None:
                     continue
                 t = atype.get(p, DEFAULT_ARTIFACT)
@@ -339,6 +365,7 @@ def scan(taxonomy_text, diff_text, changed_override=None):
     coverage = 1.0 if changed else 0.0  # every changed path is classified
     return {
         "changed": changed,
+        "rejected_paths": rejected,
         "findings": findings,
         "counts": counts,
         "catchall": catchall,
@@ -376,6 +403,10 @@ def to_yaml(result, diff_path, taxonomy_path):
     out.append("  changed_paths_count: %d" % len(result["changed"]))
     out.append("  scan_coverage: %.4f" % result["scan_coverage"])
     out.append("  standards_relevant: %d" % result["standards_relevant"])
+    if result.get("rejected_paths"):
+        out.append("  rejected_paths:")
+        for r in result["rejected_paths"]:
+            out.append("    - %s" % _q(r))
     out.append("  catchall:")
     if result["catchall"]:
         for k in sorted(result["catchall"]):
