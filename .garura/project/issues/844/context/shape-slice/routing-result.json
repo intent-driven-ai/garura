@@ -1,0 +1,15 @@
+{
+  "routing_result": {
+    "work": "Business intent bi-788: the product owner names a piece of work; agents shape it into a slice one person can test, make its plan and write its eval; the product owner approves that design once, and the plays then run the work (/shape-slice, the plan play, the eval play, the one approval step).",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "AI-assisted software delivery (developer tooling)",
+        "why": "The product (Garura) serves the field of building software with AI agents, and its job there is shaping and planning the work before a build; none of the ten shelves (analytics, collaboration, content management, ecommerce, experience, marketing, notifications, payments, personalization, user management) lists that kind of work. Experience covers agentic experiences that guide end users of a product, not the delivery of software, so it is not folded in."
+      }
+    ],
+    "why": "No domain shelf holds software delivery work; the product model also has no domains (spine domains: []) and its capabilities are ready without one (fn-724), so the slice can be shaped with an empty domain."
+  }
+}

@@ -1,0 +1,9 @@
+# runnable checks — PR #845
+slice_check (this slice): problems 0 warnings 0 lint_errors 70
+lint errors before the run: 70 (same set, compared one by one)
+model_names guard: ok
+added lines with a local path or user name: 0
+
+# round 3
+check-pr-quality scan (100 changed paths): P1=0 P2=0 P3=0 P4=0, CODE-20 catch-all=100, errors=0
+slice_check (sl-intent-to-design, bi-788): problems 0 warnings 0 lint_errors 70 (matches the 70 accepted by decision 8; slice_check exits 1 because of lint, not problems)

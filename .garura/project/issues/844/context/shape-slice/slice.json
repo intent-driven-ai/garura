@@ -1,0 +1,22 @@
+{
+  "id": "sl-intent-to-design",
+  "slug": "intent-to-design",
+  "name": "From a named piece of work to its design",
+  "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.",
+  "feature_refs": [
+    "fn-795",
+    "fn-818",
+    "fn-798"
+  ],
+  "vertical": "the Claude Code command line",
+  "intents": [
+    "bi-788"
+  ],
+  "surface": {
+    "id": "surf-claude-code-cli",
+    "name": "the Claude Code command line",
+    "persona_ref": "product-owner",
+    "user_action": "runs /shape-slice, then /shape-plan, then /shape-eval on a business intent"
+  },
+  "why_this_order": "Each play reads what the play before it wrote. /shape-plan reads the slice that /shape-slice wrote; /shape-eval reads the epic and stories that /shape-plan wrote and the hidden file that /shape-slice wrote (ADR 049 Decision 1; #818 needs #795, #798 needs #818)."
+}
