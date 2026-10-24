@@ -1,0 +1,14 @@
+# Decisions for #842 (/edit-play on /shape-slice), product owner, 2026-10-24
+
+On the change map (`change-map.md`), the product owner agreed all 15 changes, with these answers to the four open questions:
+
+1. **Ask first only for a gap the run cannot solve.** The run asks before it shapes the slice only when a gap blocks the slice and neither the model, memory nor the run's own proposal can answer it. The surface is not such a gap: an intent does not depend on a surface. All other questions wait for the one confirmation brief.
+   In the product owner's words: "surface not known isnt a gap. intent is an intent, and its not dependent on a surface ... but yes if a gap is unsolveable, then its shoudl be asked".
+2. **A slice in use may change; a slice in progress may not.** /shape-slice works from the business intent. When a slice that already serves (or is reused for) the intent no longer serves it as it is, the run changes that slice: it pulls a feature in, or pushes a feature out, and the slice must stay testable end to end. When that slice is already in progress (its epic has a story that is started or done), the run does not touch it and shapes a new slice. The change is shown in the one confirmation brief; nothing is kept before the yes.
+   In the product owner's words: "if an existing ... slice is no longer going to serve ... it needs to pull a new feature in ... if it means it has to push a feature out, it also should do that ... If the reusable ... slice ... is already in progress, then it should not touch it." "Yes, I meant ... slices must be testable end-to-end."
+3. **Build the skill now.** A new skill drafts each feature's hidden-file entry (each "Fails if" line with exactly one recovery: when, way back, who fixes), by `standards/rules/expectation-generation.md`. The agent calls it; a script checks and writes the file. No later refactor.
+   In the product owner's words: "build the skill now. no later. the play needs to be final and no need to refactor later".
+4. **The run fixes the pages it moves or uses.** A page the run moves into its folder, or uses in the slice, is brought up to the current rules in the same run (an in-place migration): no old problem is carried. Pages the run does not touch are left as they are; they are fixed when a run touches them. The model check then fails on any problem in the slice's own pages, and older problems elsewhere are warnings.
+   In the product owner's words: "it has to fix the pages. You can't carry the problems into the piece" and "it should only fix the problems that are getting moved into a new one. The other ones should not be touched."
+5. **The surface stays.** The slice keeps its surface and its tester. No ontology change.
+   In the product owner's words: "Keep the surface in ... it's critical to know what surface we are in and how much testing can be done."
