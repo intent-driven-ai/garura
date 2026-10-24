@@ -1,38 +1,41 @@
 needs_judgment: false
+
 change_groups:
-  - id: ready-check-thin-mark
+  - id: ready-check-true-only
     issue: 846
     commit_type: fix
     scope: ready-check
-    subject: "the ready check reads the thin mark and counts no lines (ontology v11)"
+    subject: "only the value true is the thin mark"
     files:
-      - core/components/plays/create-play/references/check_ice_workable.py
       - core/components/plays/create-play/references/test_check_ice_workable.py
+      - core/components/plays/create-play/references/check_ice_workable.py
       - core/components/plays/discover-intent/scripts/check_ice_workable.py
-  - id: schemas-follow-v11
+  - id: adr-amend-pointers
     issue: 846
     commit_type: docs
-    scope: schemas
-    subject: "spine.yaml and slice.yaml follow ontology v11 (thin mark, what /shape-slice writes)"
+    scope: adr
+    subject: "ADR 047 and 049 pointers name every part ADR 052 amends; drop a stale line in ADR 052"
     files:
-      - core/components/memory/standards/schemas/product-os/spine.yaml
-      - core/components/memory/standards/schemas/product-os/slice.yaml
-  - id: ontology-flow-line
+      - docs/adr/047-the-ice-is-its-own-node.md
+      - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+      - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  - id: ontology-built-checks
     issue: 846
     commit_type: fix
     scope: ontology
-    subject: "the flow line says a story is written from every ICE line except Fails if"
+    subject: "the ready check and the ICE linter are built (#759, #760)"
     files:
       - core/components/memory/standards/schemas/product-os/ontology.md
-  - id: stm-846
+  - id: stm-evidence
     issue: 846
     commit_type: chore
     scope: stm
-    subject: "record review round 1 run artifacts"
+    subject: "record commit-change run artifacts"
     files:
       - .garura/project/issues/846/context/commit-change/analysis.yaml
       - .garura/project/issues/846/context/commit-change/porcelain.txt
-      - .garura/project/issues/846/context/pr-body.md
+
 exclusions: []
+
 risks:
   sensitive_files: []
