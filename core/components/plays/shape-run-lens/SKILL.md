@@ -626,7 +626,7 @@ names edit-play for provenance intent, but no edit-play run actually occurred an
 UNVERIFIED.** An interactive `/edit-play` convergence run against `reference/ice.md` is **REQUIRED** —
 confirming the emitted SKILL matches this hand-compiled body and refreshing the fingerprint. This mirrors
 the /discover-capabilities reference implementation (#498) and the vision/grill/learn migrations on this branch. The
-per-play Standard Play Close block is retained (required by `core/tools/lint-components` and the create-play G12
+per-play Standard Play Close block is retained (required by the component linter and the create-play G12
 emit on every play); the `feat(model)` commit (Step 6) is the separate lightweight model-delta persist
 step ADR 026 requires of every model-writing play, and for this END play the injected close then sweeps
 only remaining STM, so both coexist as C14 describes.

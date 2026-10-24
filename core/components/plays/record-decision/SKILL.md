@@ -160,7 +160,6 @@ agent's contract (Step 2) does not read `failed` with `brief_incomplete`.
       "inputs":  { "brief": "<working>/brief.md", "shape": "markdown | yaml",
                    "adr_dir": "docs/adr (markdown) | <the node's decisions folder> (yaml)",
                    "intents_dir": "<product_base>product-os/intents | null",
-                   "template_path": "<memory>/standards/templates/adr.md",
                    "script": "<skill-dir>/scripts/adr.py" },
       "outputs": { "context": "<working>/adr-context.yaml",
                    "draft": "<working>/adr-draft.md | <working>/adr-draft.yaml",

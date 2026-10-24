@@ -34,7 +34,9 @@ enforced by pre-flight (an open PR must exist).
   no fixed category list and hardcodes none.
 - C2 — Each category's review treatment — which layers run, which linters apply, the
   rubric, and whether design-grounding is required — is resolved from the check-knowledge
-  memory shelf, never carried in the play body.
+  memory shelf, never carried in the play body. The shelf is read only through the memory
+  tool: `change-reviewer` copies the playbooks into the issue's short-term memory, and the
+  play reads the treatment from those copies — never from a memory folder by its path.
 - C3 — Only the layers and steps applicable to the categories present are run; a category
   that is absent has its layer skipped, not failed (applicability is universal).
 - C4 — Design-grounding reconstructs each design's principles from committed/external
@@ -66,8 +68,8 @@ enforced by pre-flight (an open PR must exist).
   feature branch — the open PR carries its own review record.
 - C10 — The mechanical PR/host I/O runs in bundled scripts calling git/gh directly (via
   `platform_adapter.py`), not an agent dispatch (#484, tool-first + ADR 025): binding the PR
-  context (diff, changed paths, base, standards_order, review shelf) runs in
-  `fetch_pr_context.py`; posting the human's verdict comment + committing/pushing the run
+  context (diff, changed paths, base, standards_order) runs in `fetch_pr_context.py`, which
+  names no memory folder; posting the human's verdict comment + committing/pushing the run
   artifacts runs in `post_verdict.py`. The `repo-orchestrator` dispatch is removed. The
   category assessment and design-grounding (`change-reviewer`) and the standards linter
   (`quality-auditor`) STAY agent-run — they are genuine judgment, not mechanical.
@@ -82,6 +84,14 @@ enforced by pre-flight (an open PR must exist).
   dependency), and outputs are collected in a stable category order, so the result is
   identical to a serial run — concurrency changes only wall-clock. A single design-bearing
   category is a fan-out of width one.
+- C12 — Layer 1 runs the installed tools, never Garura's source: the component linter is
+  `.garura/core/tools/lint-components/index.js --layout installed --target .claude`, and the
+  play linter is `.garura/core/tools/lint-play/lint_play.py`, run with `--next-map` set to
+  the Next-line map (`standards/rules/pipeline-next.md`) that `change-reviewer` copied
+  through the memory tool into the issue's short-term memory, so the play linter's Next-line
+  check runs. No step reads, runs or names a file in Garura's source (its components or
+  tools folders). When an installed tool is not there, the play records "not installed" for that check in the
+  findings and goes on; a missing tool is never a pass and never a halt.
 
 ### Failure conditions
 
@@ -104,6 +114,10 @@ enforced by pre-flight (an open PR must exist).
   categories (a serial sweep) instead of a per-category concurrent fan-out; or a grounding
   agent grounded outside its assigned category or wrote a shared/overlapping output path;
   or the batch was not joined before consolidation read its outputs.
+- F13 — Layer 1 ran a linter from Garura's source (its components or tools folders)
+  instead of its installed place, or read memory by a path, or ran the play linter without
+  the Next-line map; or a missing installed tool was
+  reported as a pass or stopped the review instead of being recorded as "not installed".
 
 ## Expectation
 
@@ -191,3 +205,8 @@ enforced by pre-flight (an open PR must exist).
   read-only `change-reviewer` per design-bearing category, each scoped to its category and
   its own `design-findings-<category>.yaml`, joined before consolidation. handoff:
   autonomous.
+- REC13 (F13) — trigger: a Layer 1 linter ran from the source, memory was read by a path, the
+  play linter ran without the Next-line map, or a missing tool was passed over or halted the
+  run. direction: re-run Layer 1 with the installed tools in `.garura/core/tools/`, fetch
+  memory (the Next-line map too) through the memory tool, and record
+  "not installed" for a tool that is not there. handoff: autonomous.

@@ -707,7 +707,8 @@ of the intent page before the run is on it (`fills-undo.json` reads `ok: true`);
 added use personas and plain words (ASD-STE100) and name no real person —
 `grep -i "$(git config user.name)"` over them finds nothing.
 **SE-25 (F19/C19):** every agent contract of this run has a `"skills"` list, and each name in
-it is a folder in `core/components/skills/` (only `shape-slice-trace` has `"skills": []`);
+it is a sibling folder of the installed play, `../<name>/`, that holds a `SKILL.md` (only
+`shape-slice-trace` has `"skills": []`);
 each file an agent passed on (`intent-draft.json`, `placement.json`, `questions.json`,
 `proposals.json`, `early-opening.md`, `slice.json`, `fills.json`, `no-slice.json`,
 `reuse.json`, the manifests, `grounding-report.json`, `hidden-recoveries.json`,
@@ -897,7 +898,7 @@ closed HALTED at a stop has nothing to resume: its writes were undone.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:7d9a650f2fab204c65ae626c285c2fa77e76aab7c7f03b3e4aa86a6f09a62124 (of `reference/ice.md`) |
+| fingerprint | sha256:87a13a3bf106c696c6ad1ed5e35092f676ae19874819648fae6c17725cb564d4 (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |

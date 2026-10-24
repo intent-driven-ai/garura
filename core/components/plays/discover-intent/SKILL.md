@@ -488,7 +488,8 @@ end member ran, and the branch the commit landed on equals the contract's branch
   `intent-manifest.json` `updated` names the intents it filled, and every filled property's
   provenance is `source`, `journey`, `memory`, `model`, `person` or `proposed`.
 - **SCE-11 (S11 — product owner, a prototype rebuilt from its intents):** run on the saved model
-  (`core/tools/rebuild-eval`, stages `prepare,inventory,check,review`), the static check reads
+  (the installed `.garura/core/tools/rebuild-eval/run_eval.py`, stages
+  `prepare,inventory,check,review`), the static check reads
   no `intent-field` or `intent-proof-open` finding, and the review reads every intent test
   passed (`need_the_product_offers`, `outcome`, `asked_by_persona`, `why_business`,
   `proof_measurable`, `product_words`).
@@ -611,7 +612,7 @@ Inside a loop, a resume keeps `in_loop` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:6d60e1194c24c4c09fd135fcb7f347ddd4868bc88f0270fefa7089304f467946 (of `reference/ice.md`) |
+| fingerprint | sha256:0cf2249a72b85d11987b20b4542e0dbaafe8f51392d9926c58e772bb2df6e49a (of `reference/ice.md`) |
 | compiled_by | edit-play (#689 ADR 043: business intents only — no ICE, capability or domain); edit-play (#689 the product at the product's level: C17); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#637 one product model with /discover-domains); create-play (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a loop) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the loop's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |

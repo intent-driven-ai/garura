@@ -125,7 +125,9 @@ epic, no story and no eval.
   answers (`propose-answers`), the openings of the early and the confirmation brief
   (`author-slice-brief`), the slice and what it needs from the model (`author-slice`), the
   pages (`author-domains`, `enrich-capability-ice`, `enrich-grounding`) and the hidden file's
-  recoveries (`author-failure-recovery`). A copy from one shape to another is a script's.
+  recoveries (`author-failure-recovery`). Each skill a dispatch names is installed beside the
+  play: a sibling folder `../<name>/` that holds its `SKILL.md`. A copy from one shape to
+  another is a script's.
   Every agent dispatch names the skills it calls.
 
 ### Failure conditions
@@ -176,7 +178,8 @@ epic, no story and no eval.
 
 ## Context
 
-- The product model: `core/components/memory/standards/schemas/product-os/ontology.md` (v11:
+- The product model: the memory schema `standards/schemas/product-os/ontology.md`, read through
+  the memory tool (v11:
   Slice with its hidden file, ICE with its thin mark, Capability and Feature with their holding
   folders, Business Intent; Q33, Q34, Q36–Q40); `spine.yaml` and `slice.yaml` schemas; ADR 049
   (the shaping loop: /shape-slice, then /shape-plan, then /shape-eval) and ADR 052 (/shape-slice

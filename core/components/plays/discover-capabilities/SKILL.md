@@ -933,6 +933,6 @@ confirming the emitted SKILL matches this hand-compiled body and refreshing the 
 **before this direct-model-write pattern is fanned out to the other 12 model-writing plays**;
 the fan-out must not proceed on an unverified reference. Note also: `reference/ice.md` C12
 distinguishes the model-delta commit from the Standard Play Close (evidence + delivery report)
-that /discover-capabilities still runs; the close anchor block is retained (required by `core/tools/lint-components`
+that /discover-capabilities still runs; the close anchor block is retained (required by the component linter
 structural.js and the create-play G12 emit on every play), and the `feat(model)` commit is the
 separate lightweight persist step, so both coexist as C12 describes.

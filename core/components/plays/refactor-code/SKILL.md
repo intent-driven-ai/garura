@@ -364,7 +364,7 @@ verdict) — merge the PR, switch to main and pull, delete the feature branch (l
 ### Phase: Evidence & Close
 
 Closes with the **Standard Play Close** — the canonical three-table delivery report, not prose. See
-`core/components/plays/_shared/play-close.md`.
+`../_shared/play-close.md`.
 
 ```bash
 # --- Standard Play Close (shared; see ../_shared/play-close.md) ---

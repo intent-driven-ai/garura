@@ -181,7 +181,6 @@ skills in order — it does NOT author these artifacts inline:
       },
       "ltm_context": {
         "project_base": "<product architecture dir, omit when has_product_ltm is false>",
-        "core_base":    "~/.garura/core/memory/",
         "query_domains": ["architecture", "design-patterns", "quality-standards", "domain-context"]
       }
     }
@@ -383,7 +382,7 @@ verdict) — merge the PR, switch to main and pull, delete the feature branch (l
 ### Phase: Evidence & Close
 
 Closes with the **Standard Play Close** — the canonical three-table delivery report (Run
-Summary / Pipeline Steps / Artifacts), not prose. See `core/components/plays/_shared/play-close.md`.
+Summary / Pipeline Steps / Artifacts), not prose. See `../_shared/play-close.md`.
 **SE-13 (F12/C14):** the stop-condition verdict is held before the run closes COMPLETED;
 a close over an unmet or unevaluable verdict reads HALTED, never COMPLETED.
 

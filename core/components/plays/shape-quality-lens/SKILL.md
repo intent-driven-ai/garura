@@ -502,7 +502,7 @@ entry (F13) and commits its own `feat(model)` delta after approval (C12). Order 
 writes — is written to the live model FIRST (Steps 1+3), then guarded ONCE and classified over the full
 delta (Step 4), then the gate resolves over the real git diff (Step 5), and only an approved gate
 COMMITS (Step 6). Nothing is COMMITTED before approval; cancel reverts the uncommitted writes. The
-per-play Standard Play Close (evidence + delivery report) is retained (required by `core/tools/lint-components`
+per-play Standard Play Close (evidence + delivery report) is retained (required by the component linter
 and the create-play G12 emit on every play); the `feat(model)` commit is the separate lightweight
 persist step, so both coexist as C12 describes. See `standards/rules/direct-model-write.md`.
 
