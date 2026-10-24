@@ -1,0 +1,39 @@
+ M .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+ M core/components/agents/product-os-keeper.md
+ M core/components/plays/create-play/references/scoped_write_guard.py
+ M core/components/plays/create-play/references/test_scoped_write_guard.py
+ M core/components/plays/discover-capabilities/scripts/scoped_write_guard.py
+ M core/components/plays/discover-domains/scripts/scoped_write_guard.py
+ M core/components/plays/discover-intent/scripts/scoped_write_guard.py
+ M core/components/plays/learn-outcomes/scripts/scoped_write_guard.py
+ M core/components/plays/shape-agentic-lens/scripts/scoped_write_guard.py
+ M core/components/plays/shape-architecture-lens/scripts/scoped_write_guard.py
+ M core/components/plays/shape-marketing-lens/scripts/scoped_write_guard.py
+ M core/components/plays/shape-measure-lens/scripts/scoped_write_guard.py
+ M core/components/plays/shape-quality-lens/scripts/scoped_write_guard.py
+ M core/components/plays/shape-roadmap/scripts/scoped_write_guard.py
+ M core/components/plays/shape-run-lens/scripts/scoped_write_guard.py
+ M core/components/plays/shape-scope/scripts/scoped_write_guard.py
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/reference/ice.md
+ M core/components/plays/shape-slice/scripts/find_serving_slice.py
+ M core/components/plays/shape-slice/scripts/persist_fills.py
+ M core/components/plays/shape-slice/scripts/persist_slice.py
+ M core/components/plays/shape-slice/scripts/record_questions.py
+ M core/components/plays/shape-slice/scripts/scoped_write_guard.py
+ M core/components/plays/shape-slice/scripts/slice_check.py
+ M core/components/plays/shape-slice/scripts/test_find_serving_slice.py
+ M core/components/plays/shape-slice/scripts/test_persist_slice.py
+ M core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+ M core/components/plays/shape-slice/stop-condition.yaml
+ M core/components/plays/shape-ux-lens/scripts/scoped_write_guard.py
+?? .garura/project/issues/842/context/commit-change/
+?? .garura/project/issues/842/context/edit-play/change-map.md
+?? .garura/project/issues/842/context/edit-play/contract.md
+?? core/components/plays/shape-slice/scripts/render_brief.py
+?? core/components/plays/shape-slice/scripts/test_render_brief.py
+?? core/components/plays/shape-slice/scripts/test_trace_check.py
+?? core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+?? core/components/plays/shape-slice/scripts/trace_check.py
+?? core/components/plays/shape-slice/scripts/write_hidden_file.py
+?? core/components/skills/author-failure-recovery/

@@ -1,0 +1,82 @@
+needs_judgment: false
+change_groups:
+  - id: author-failure-recovery-hidden-entry
+    issue: 842
+    commit_type: feat
+    scope: skills
+    subject: "author-failure-recovery drafts each feature's hidden-file entry"
+    files:
+      - core/components/skills/author-failure-recovery/SKILL.md
+      - core/components/agents/product-os-keeper.md
+  - id: write-guard-hidden-file
+    issue: 842
+    commit_type: fix
+    scope: guard
+    subject: "the write guard allows the slice's one hidden file and nothing else under plans/"
+    files:
+      - core/components/plays/create-play/references/test_scoped_write_guard.py
+      - core/components/plays/create-play/references/scoped_write_guard.py
+      - core/components/plays/discover-capabilities/scripts/scoped_write_guard.py
+      - core/components/plays/discover-domains/scripts/scoped_write_guard.py
+      - core/components/plays/discover-intent/scripts/scoped_write_guard.py
+      - core/components/plays/learn-outcomes/scripts/scoped_write_guard.py
+      - core/components/plays/shape-agentic-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-architecture-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-marketing-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-measure-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-quality-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-roadmap/scripts/scoped_write_guard.py
+      - core/components/plays/shape-run-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-scope/scripts/scoped_write_guard.py
+      - core/components/plays/shape-slice/scripts/scoped_write_guard.py
+      - core/components/plays/shape-ux-lens/scripts/scoped_write_guard.py
+  - id: shape-slice-follows-v11
+    issue: 842
+    commit_type: feat
+    scope: shape-slice
+    subject: "follow ontology v11: hidden file, thin ICE, one confirmation brief, slice changes, in-run page migration"
+    files:
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/reference/ice.md
+      - core/components/plays/shape-slice/scripts/find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/persist_fills.py
+      - core/components/plays/shape-slice/scripts/persist_slice.py
+      - core/components/plays/shape-slice/scripts/record_questions.py
+      - core/components/plays/shape-slice/scripts/slice_check.py
+      - core/components/plays/shape-slice/scripts/test_find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/test_persist_slice.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/plays/shape-slice/stop-condition.yaml
+      - core/components/plays/shape-slice/scripts/render_brief.py
+      - core/components/plays/shape-slice/scripts/test_render_brief.py
+      - core/components/plays/shape-slice/scripts/test_trace_check.py
+      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+      - core/components/plays/shape-slice/scripts/trace_check.py
+      - core/components/plays/shape-slice/scripts/write_hidden_file.py
+  - id: fn-818-feature-map
+    issue: 842
+    commit_type: docs
+    scope: model
+    subject: "fn-818 names the epic's feature-to-story map in its acceptance criteria"
+    files:
+      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  - id: stm-842-records
+    issue: 842
+    commit_type: chore
+    scope: stm
+    subject: "record the edit-play and commit-change context for #842"
+    files:
+      - .garura/project/issues/842/context/commit-change/analysis.yaml
+      - .garura/project/issues/842/context/commit-change/porcelain.txt
+      - .garura/project/issues/842/context/edit-play/change-map.md
+      - .garura/project/issues/842/context/edit-play/contract.md
+exclusions: []
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+  notes:
+    - "14 identical scoped_write_guard.py copies plus shape-slice's own copy: edit the source in create-play/references and confirm all copies match"
+    - "write guard is a safety control (restricts writes under plans/); review as risky, not sensitive"
+    - "product-os-keeper.md is a shared agent definition"
