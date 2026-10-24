@@ -2,8 +2,9 @@
 #
 # A SLICE is an ordered group of features, taken from any capabilities, that together
 # give one vertical outcome a person can test end to end, on one surface (ontology v10).
-# It serves one or more business intents. /shape-slice shapes it and writes it, and
-# writes nothing else: no plan, no epic, no story, no eval (ADR 049).
+# It serves one or more business intents. /shape-slice shapes it and writes it, with a
+# thin ICE for each part it needs that has no ICE and its hidden file (one entry for each
+# feature, ontology v11); it writes no plan, no epic, no story, no eval (ADR 049).
 #
 # NOT an epic. The slice is in the product model; the Epic is the work item that
 # represents and delivers it, made by the plan play.
@@ -88,7 +89,9 @@ fill_rules:
              tester) and user_action (named, NOT designed). When a slice already serves the
              intent, or has the same features and the same surface, it appends the intent to
              that slice's spine entry and record and keeps its features and surface, instead
-             of writing a new one. It writes nothing else — no plan, epic, story or eval."
+             of writing a new one. It also writes a thin ICE for each part the slice needs
+             that has no ICE, and the slice's hidden file (one entry for each feature) in its
+             home plan's evals folder (ontology v11). It writes no plan, epic, story or eval."
 
 # ---- Enhance rules ----------------------------------------------------------
 enhance_rules:
