@@ -60,3 +60,4 @@ may have no Status line.
 | [052](052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md) | /shape-slice Writes the Slice's Hidden File and Proposes a Thin ICE, the Plan Play Only Plans, and a Thin ICE Is Partly Ready | Accepted | 2026-10-24 |
 | [053](053-shape-scope-and-shape-roadmap-are-dropped.md) | /shape-scope and /shape-roadmap Are Dropped; the Shaping Loop Does Their Jobs | Accepted | 2026-10-24 |
 | [054](054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md) | The Last Deprecated Parts Are Deleted, and the Rule for Asking a Person Is a Shared Skill File, Not Memory | Accepted | 2026-10-25 |
+| [055](055-installed-parts-read-only-installed-files.md) | Installed Parts Read Only Installed Files, Because Garura's Source Is Precompiled Code | Accepted | 2026-10-25 |

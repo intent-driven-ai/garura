@@ -36,6 +36,16 @@ core/components/           # Source of truth (edit here)
 Author all components in `core/components/`. Deployed copies under a target's `.claude/` are never edited by hand.
 After editing source, run the garura-native `install-garura` play to deploy components into a target's `.claude/` (skills + agents + plays). Deployment tooling lives in `core/components/plays/install-garura/`; the reverse is `uninstall-garura`.
 
+**Installed parts never touch `core/components/` or `core/tools/`: that is precompiled code.** An
+installed play, loop, agent, skill, script, reference file, shared file or tool reads, runs and names
+only installed files (`.claude/skills/`, `.claude/agents/`, the installed `_shared/`,
+`.garura/core/tools/<name>/`), never points to Garura's own `docs/` (the install never copies
+it), and reads memory only through the memory tool. Notes of origin are
+deleted. The source-only parts (create-play, edit-play, create-loop, edit-loop, install-garura,
+uninstall-garura, edit-ontology, author-product-ontology), dev tests and the repo-layout globs of the
+review are the exceptions. The linter rule `installed-paths/source-path` checks it
+(`docs/standards/harness-standard.md`, principle 11).
+
 ### 2. Execution Model
 
 **Plays run in Claude Code.** Claude Code orchestrates plays and invokes agents for domain-specific tasks.

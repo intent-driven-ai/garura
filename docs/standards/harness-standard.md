@@ -110,6 +110,29 @@ No name is, or starts with, a built-in command of the coding tool. The full rule
 *Why:* people learn the words once and type them every day. One rule, with no exceptions to explain,
 is the easiest to learn and to teach.
 
+### 11. Installed parts never touch the source
+
+Installed parts never touch `core/components/` or `core/tools/`: that is precompiled code. Once
+Garura is installed, every play, loop, agent, skill, script, reference file, shared file and tool
+reads, runs and names only the installed copy — `.claude/skills/`, `.claude/agents/`, the
+installed `_shared/` folder, and `.garura/core/tools/<name>/`. A pointer in an installed file
+points to another installed file, never to Garura's own `docs/`: the install never copies it, so
+the text a part needs goes in the part (or its `reference/` folder), and a background pointer is
+deleted. Repo layout is not a pointer: a project's own `docs/adr/`, the folders a review grounds
+on (`docs/adr/**`, `docs/philosophy/**`) and a `docs/*` branch prefix stay. Memory is never read by a path: an agent fetches
+it through the memory tool into the issue's short-term memory, and the skill reads that copy. A note
+of origin ("source of truth: core/...", "canonical copy: ...") is deleted, not reworded.
+
+The source-only parts are the exception, by design: `create-play`, `edit-play`, `create-loop`,
+`edit-loop`, `install-garura`, `uninstall-garura`, `edit-ontology` and the skill
+`author-product-ontology`; the dev tests; and the text that sorts the paths of the repo under review
+(the changeset analysis of `commit-change`, the review playbooks' signal globs, the artifact-type
+globs of the PR severity taxonomy, the trigger in `assess-pr`'s quality rules). The component
+linter's rule `installed-paths/source-path` enforces this in both layouts (#860).
+
+*Why:* a project that installs Garura has no `core/` folder. A part that reaches into the source
+works only inside Garura's own repository, and fails everywhere else.
+
 ## Naming, in short
 
 | Kind | Shape | Examples |
@@ -136,5 +159,8 @@ The lifecycle plays take the verb of the phase they move a product through:
   `naming.yaml` (for the linter).
 - **The checks:** run `node core/tools/lint-components/index.js --target core/components` from the
   repo root, and `python3 core/tools/naming/check_old_names.py` for any name changed by the rename map.
+  In an installed project, run `node .garura/core/tools/lint-components/index.js --layout installed
+  --target .claude` (give `--naming <naming.yaml>`, fetched through the memory tool, for the naming
+  rules).
 - **A change to the standard** is a decision: it goes through `/record-decision` as an ADR, and the
   rule files and this page change with it.
