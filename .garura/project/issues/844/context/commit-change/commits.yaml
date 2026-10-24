@@ -1,10 +1,17 @@
 commits:
-  - sha: 772103d3
-    message: "fix(model): fn-728's fails-if names the spikes, chores and bugs under a story (#844)"
+  - sha: a3c95551
+    message: "fix(model): the slice's model pages and hidden file follow ontology v11 (#844)"
     files:
-      - .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/software-delivery-planning/cap-718/capability.md
+      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      - .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+      - .garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+      - .garura/product/product-os/software-delivery-planning/shape-slice/capability.md
+      - .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+      - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
     branch: plan/788/844-shape-slice-for-788
-  - sha: 2d57eeb7
+  - sha: 9b0aed9c
     message: "chore(stm): record commit-change run artifacts (#844)"
     files:
       - .garura/project/issues/844/context/commit-change/analysis.yaml
