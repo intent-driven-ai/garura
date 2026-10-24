@@ -6169,7 +6169,7 @@ index 12f2a61d..823eafd5 100644
  
  
  def page(stage):
--    return f"# An intent\n\n**Outcome:** something\n**Stage:** {stage} — by Kapil, 2026-10-09\n"
+-    return f"# An intent\n\n**Outcome:** something\n**Stage:** {stage} — by the product owner, 2026-10-09\n"
 +    return f"# An intent\n\n**Outcome:** something\n**Stage:** {stage} — by the product owner, 2026-10-09\n"
  
  
@@ -6356,7 +6356,7 @@ index 4bdfe863..7db67303 100644
 +**Status:** Accepted — amended in part by [ADR 048](048-the-product-model-and-the-work-are-two-layers.md): the word only — 'one ICE for each capability and each functionality' holds as 'each capability and each feature'; §5 'A functionality has exactly one parent capability' and its holding folder read 'feature' and `features/`; and amended in part by [ADR 052](052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md): §6–§8 — the thin mark makes an ICE partly ready (gap 'thin ICE'); the ready check counts no lines and reports no richness
  **Date:** 2026-10-22
  **Level:** framework
- **Decided by:** Kapil Viren Ahuja · **Decided in:** #758 (plan #756) — the three /edit-ontology checkpoints and the review of PR #783, 2026-10-22
+ **Decided by:** the product owner · **Decided in:** #758 (plan #756) — the three /edit-ontology checkpoints and the review of PR #783, 2026-10-22
 diff --git a/docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md b/docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
 index ac415ba8..26e5b0d8 100644
 --- a/docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
