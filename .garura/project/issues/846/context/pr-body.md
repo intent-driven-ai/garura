@@ -10,6 +10,16 @@ Closes #846 (on merge into the plan branch, by merge-change). Closes finding M1 
 - **Story:** its failure and recovery conditions are written by `/shape-slice`. When an ICE changes, the plan play remakes the story and `/shape-slice` remakes the entry, in the same Alignment round.
 - **ICE:** each line has one reader. An ICE can be thin: at least a goal, a limit and one "Fails if" line in Intent, one line in Context and one in Expectation, with the thin mark (a Thin line on its page and `thin: true` in its spine entry). A thin ICE is "partly ready" with the gap "thin ICE"; the person is warned and never sent back. "Light ICE" goes.
 - **Rule:** `standards/rules/expectation-generation.md`, the section "A feature's recovery (product ICE)", follows the same change.
+- **Ready check:** `check_ice_workable.py` (create-play reference and its discover-intent copy) reads only the thin mark: the gap "thin ICE" makes an ICE partly ready, and a mark in only one of its two places is named as drift. It no longer counts lines (the "light | full" report is gone). Tests first: 45 pass.
+- **Schemas:** `spine.yaml` allows `metadata.thin` on an ICE entry and names the Thin line; `spine.yaml` and `slice.yaml` say what `/shape-slice` writes now.
+
+## Review round 1 (rejected, all fixed)
+
+- DF-1, DF-2 (P2): ADR 049 and ADR 047 are amended by `/record-decision` (a separate ADR, accepted by the product owner).
+- DF-3, DF-4, DF-5 (P3): the ready check, `spine.yaml` and `slice.yaml`, above. The `/shape-slice` play's own text follows in its `/edit-play` change.
+- DF-6 (P4): the feature-to-story map is in the epic, the plan's Tree and each story's "Represents"; agreed at checkpoint 2 (K3), with the rule that they always agree.
+- DF-7 (P4): Q38 uses the stricter words from L1 (a goal, a limit and one "Fails if" line in Intent, one line in Context, one in Expectation), as the product owner agreed at checkpoint 3. The draft's Q38 line said "at least one line in each part"; the ontology follows the agreed L1.
+- DF-8 (P4): the flow line now says a story is written from every ICE line except the "Fails if" lines. The Clinic "Booking" example says its parts are "short" and that it has no thin mark, so it does not contradict the thin rule.
 
 ## Checks
 
