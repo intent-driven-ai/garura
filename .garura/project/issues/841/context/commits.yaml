@@ -1,0 +1,8 @@
+commits:
+excluded_files:
+  - path: "CLAUDE.md.new"
+    reason: "untracked scratch copy of installed project rules; not a change of this work"
+leftover_count: 1
+tree_clean: false
+pushed: false
+run_state_committed: true
