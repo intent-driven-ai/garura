@@ -75,7 +75,8 @@ tree:
     title: Encrypt each slice's eval and hidden file so a builder cannot read them
     status: next
     needs:
-    - 826
+    - 798
+    - 842
   - issue: 824
     kind: chore
     title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
@@ -106,12 +107,10 @@ tree:
     status: done
     needs:
     - 820
-  - issue: 831
+  - issue: 854
     kind: chore
-    title: Point the 30 plays that ask a person to the asking-a-person rule
+    title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
     status: next
-    needs:
-    - 821
   - issue: 795
     kind: feature
     title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
@@ -132,7 +131,7 @@ tree:
     - 795
   - issue: 837
     kind: chore
-    title: Rebuild or drop the old-chain plays that read removed slice fields
+    title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
     status: next
     needs:
     - 795
@@ -150,7 +149,7 @@ tree:
     - 795
   - issue: 818
     kind: feature
-    title: The plan play (/shape-plan) makes the plan file, the epic and one story per feature
+    title: The plan play makes the plan file, the epic and one story per feature
     status: next
     needs:
     - 795
@@ -161,6 +160,7 @@ tree:
     needs:
     - 798
     - 818
+# Dropped on 2026-10-24: #831 (not planned; replaced by #854).
 # Not in this plan (standalone): #839 (review the agent's memory), #841 (check-change sees
 # only the first 100 files of a PR), #843 (a sandbox install scope), #847 (check-change's
 # review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan
@@ -169,6 +169,10 @@ tree:
 # Parked on 2026-10-23 as its own business intent: #835 (upgrade path for older models).
 # Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
 # #797 (#799), #800 (#801), #802 (#803).
+- issue: 855
+  kind: chore
+  title: Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install
+  status: next
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
