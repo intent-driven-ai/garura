@@ -217,7 +217,7 @@ def test_round2():
                         "--root", root, "--spine", sp, "--slice-id", "sl-old", "--intent", "bi-340",
                         "--out", chk], capture_output=True, text=True)
         with open(chk, encoding="utf-8") as fh:
-            problems = json.load(fh)["problems"]
+            problems = [x for x in json.load(fh)["problems"] if x.startswith("slice '")]
         check("pre-v2 record: the reused slice has no problem in the slice check", problems == [])
         with open(sp, encoding="utf-8") as fh:
             check("the spine keeps its comments after a write", "Keep this note." in fh.read())
@@ -232,7 +232,60 @@ def test_round2():
               code == 2 and "before slice.yaml v2" in err and snapshot(root) == before)
 
 
+def test_change_reused():
+    """A slice in use may pull a feature in or push one out; a slice in progress is never touched."""
+    with tempfile.TemporaryDirectory() as tmp:
+        root = os.path.join(tmp, "product-os")
+        kept = {"id": "sl-old", "slug": "old", "feature_refs": ["ft-1", "ft-3"],
+                "vertical": "the booking screen", "intents": ["bi-10"], "record": "slices/sl-old.yaml"}
+        sp = model(root, {"features": [{"id": "ft-1"}, {"id": "ft-2"}, {"id": "ft-3"}, {"id": "ft-4"}],
+                          "slices": [kept]})
+        os.makedirs(os.path.join(root, "slices"))
+        with open(os.path.join(root, "slices", "sl-old.yaml"), "w", encoding="utf-8") as fh:
+            yaml.safe_dump({"slice": {"id": "sl-old", "slug": "old", "name": "Old", "outcome": "x",
+                                      "feature_refs": ["ft-1", "ft-3"], "vertical": "the booking screen",
+                                      "intents": ["bi-10"]},
+                            "surface": {"id": "sf-booking", "name": "the booking screen",
+                                        "persona_ref": "patient", "user_action": "books"}}, fh)
+        shaped = slice_file(tmp, feature_refs=["ft-1", "ft-2", "ft-3"])
+        code, out, _ = run(root, sp, shaped, "--reuse", "sl-old", "--pull-in", "ft-2")
+        entry = load(sp)["slices"][0]
+        rec = load(os.path.join(root, "slices", "sl-old.yaml"))
+        check("pull-in: the feature takes its place in the shaped order",
+              code == 0 and entry["feature_refs"] == ["ft-1", "ft-2", "ft-3"]
+              and rec["slice"]["feature_refs"] == ["ft-1", "ft-2", "ft-3"])
+        check("pull-in: the result names it, and the slice keeps its surface and tester",
+              out["pulled_in"] == ["ft-2"] and out["pushed_out"] == []
+              and entry["vertical"] == "the booking screen" and rec["surface"]["persona_ref"] == "patient")
+        code, out, _ = run(root, sp, shaped, "--reuse", "sl-old", "--push-out", "ft-3")
+        check("push-out: the feature leaves the slice",
+              code == 0 and load(sp)["slices"][0]["feature_refs"] == ["ft-1", "ft-2"]
+              and out["pushed_out"] == ["ft-3"])
+        before = snapshot(root)
+        code, _, err = run(root, sp, shaped, "--reuse", "sl-old", "--push-out", "ft-1",
+                           "--push-out", "ft-2")
+        check("push-out: a slice left with no feature is refused, nothing written",
+              code == 2 and "no feature" in err and snapshot(root) == before)
+        code, _, err = run(root, sp, shaped, "--reuse", "sl-old", "--pull-in", "ft-9")
+        check("pull-in: a feature not in the spine is refused", code == 2 and "not in the spine" in err)
+        code, _, err = run(root, sp, shaped, "--pull-in", "ft-4")
+        check("pull-in without --reuse is refused", code == 2 and "--reuse" in err)
+        busy = load(sp)
+        busy["epics"] = [{"id": "ep-old", "slice_ref": "sl-old", "status": "validated"}]
+        with open(sp, "w", encoding="utf-8") as fh:
+            yaml.safe_dump(busy, fh, sort_keys=False)
+        before = snapshot(root)
+        code, _, err = run(root, sp, shaped, "--reuse", "sl-old")
+        check("a slice in progress is never reused, nothing written",
+              code == 2 and "in progress" in err and snapshot(root) == before)
+        code, _, err = run(root, sp, slice_file(tmp, id="sl-old", slug="old",
+                                                feature_refs=["ft-1", "ft-2"]))
+        check("a new slice with the id of a slice in progress is refused",
+              code == 2 and "in progress" in err)
+
+
 def main():
+    test_change_reused()
     with tempfile.TemporaryDirectory() as tmp:
         root = os.path.join(tmp, "product-os")
         sp = model(root)

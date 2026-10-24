@@ -20,6 +20,7 @@ session_stamp.py, classify_change.py).
         [--add-only <glob> ...]                   # paths that may be ADDED but not modified
         [--modify-only <glob> ...]                # paths that may be MODIFIED, not added or removed
         [--remove-only <glob> ...]                # paths that may be REMOVED, not added or modified
+        [--also-tree <repo-relative dir> ...]     # another tree whose changes join the same check
         [--restore]                               # revert violations instead of only reporting
         [--out <report.json>]
 
@@ -39,6 +40,13 @@ Behavior:
     checkpoint-cancel path reuses this with an EMPTY allow set to revert the whole change).
   - Always writes guard-report.json (when --out is given) with an `ok` boolean and the
     violation list.
+
+--also-tree (repeatable) names another folder, relative to the repo root (for example
+.garura/project/plans). Its changed paths join the same check and the same restore, and are
+matched against their repo-relative path. A play that may write one file there allows it with
+--allow '<repo-relative path>'; any other change in that tree is a violation. On --restore, a
+folder the run made in that tree is removed when the restore leaves it empty. Calls without
+--also-tree behave as before.
 
 Globs are matched with fnmatch against BOTH the repo-relative path git reports AND the
 path relative to <product_base>product-os/, so a play may declare either form. Note that
@@ -157,6 +165,16 @@ def restore_path(root, base_ref, path):
     return "removed"
 
 
+def prune_empty(root, path, stop_rel):
+    """Remove the empty folders above a removed file, up to (not including) stop_rel."""
+    stop = os.path.normpath(os.path.join(root, stop_rel))
+    folder = os.path.dirname(os.path.normpath(os.path.join(root, path)))
+    while folder != stop and folder.startswith(stop + os.sep) and os.path.isdir(folder) \
+            and not os.listdir(folder):
+        os.rmdir(folder)
+        folder = os.path.dirname(folder)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Post-write scoped containment guard (ADR 026).")
     ap.add_argument("--product-base", required=True,
@@ -170,6 +188,8 @@ def main(argv=None):
                     help="glob a changed path may match only when it is a MODIFIED existing file; repeatable")
     ap.add_argument("--remove-only", action="append", default=[],
                     help="glob a changed path may match only when it is a REMOVED file; repeatable")
+    ap.add_argument("--also-tree", action="append", default=[],
+                    help="another repo-relative folder whose changes join the same check; repeatable")
     ap.add_argument("--restore", action="store_true",
                     help="revert out-of-scope paths instead of only reporting")
     ap.add_argument("--out", help="write guard-report.json here (also printed)")
@@ -181,6 +201,17 @@ def main(argv=None):
     base_rel = rel_to_root(root, args.product_base)     # e.g. .garura/product
 
     changed = changed_paths(root, args.base_ref, tree_rel)
+    extra_trees = []
+    for tree in args.also_tree:
+        rel = tree.replace(os.sep, "/").strip("/")
+        if not rel or rel.startswith("..") or os.path.isabs(tree):
+            fail(f"--also-tree '{tree}' must be a folder relative to the repo root")
+        extra_trees.append(rel)
+        for path, status in changed_paths(root, args.base_ref, rel).items():
+            changed.setdefault(path, status)
+
+    def extra_tree_of(path):
+        return next((t for t in extra_trees if path.startswith(t + "/")), None)
 
     violations = []
     restored = []
@@ -217,6 +248,9 @@ def main(argv=None):
         if args.restore:
             action = restore_path(root, args.base_ref, path)
             restored.append({"path": path, "action": action})
+            tree = extra_tree_of(path)
+            if action == "removed" and tree is not None:
+                prune_empty(root, path, tree)
 
     ok = not violations if not args.restore else True
     report = {
@@ -232,6 +266,8 @@ def main(argv=None):
         "violations": violations,
         "restored": restored,
     }
+    if extra_trees:
+        report["also_tree"] = extra_trees
     text = json.dumps(report, indent=2)
     if args.out:
         os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)

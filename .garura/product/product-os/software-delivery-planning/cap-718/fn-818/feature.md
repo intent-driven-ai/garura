@@ -26,6 +26,7 @@
 - Given a plan that exists, when the play runs again, then it makes no second epic and no second story for one feature.
 - Given the stories and the plan file, when a person reads them, then none holds a failure or recovery condition.
 - Given no yes from the product owner, when the play stops, then nothing is in the tracker.
+- Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-story map: one line for each feature, with the story that delivers it.
 
 ## Out of scope
 - The slice and its hidden file. /shape-slice writes them (fn-795).

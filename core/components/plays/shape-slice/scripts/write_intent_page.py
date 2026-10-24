@@ -29,6 +29,9 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from safe_write import atomic_write  # noqa: E402
+
 REQUIRED = ("title", "outcome", "why", "asked_by")
 
 
@@ -80,8 +83,7 @@ def main(argv=None):
         text = json.dumps(result, indent=2)
         print(text)
         if args.out:
-            with open(args.out, "w", encoding="utf-8") as fh:
-                fh.write(text + "\n")
+            atomic_write(args.out, text + "\n")
         return code
 
     page = os.path.join(args.root, "intents", f"{args.intent}.md")
@@ -102,9 +104,7 @@ def main(argv=None):
         return finish({"ok": False, "written": False, "reason": str(exc)}, 2)
     except (OSError, json.JSONDecodeError) as exc:
         return finish({"ok": False, "written": False, "reason": f"cannot read the draft: {exc}"}, 2)
-    os.makedirs(os.path.dirname(page), exist_ok=True)
-    with open(page, "w", encoding="utf-8") as fh:
-        fh.write(render(d, args.date))
+    atomic_write(page, render(d, args.date))
     return finish({"ok": True, "written": True, "page": rel,
                    "reason": f"the model had no page; written from issue #{d['issue']}"}, 0)
 

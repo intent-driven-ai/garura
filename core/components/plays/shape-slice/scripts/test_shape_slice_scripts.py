@@ -97,8 +97,8 @@ def test_fills(tmp, root):
                    "capabilities": [{"id": "cap-booking", "slug": "booking", "domain": "dm-care"}],
                    "features": [{"id": "ft-1", "capability": "cap-booking"}], "ices": [], "slices": []})
     for doc in ("notify/domain.md", "notify/reminders/capability.md",
-                "notify/reminders/features/send-reminder/feature.md",
-                "notify/reminders/features/send-reminder/ice.md"):
+                "notify/reminders/send-reminder/feature.md",
+                "notify/reminders/send-reminder/ice.md"):
         write(os.path.join(root, doc), "# page\n")
     fills = {"domains": [{"id": "dm-notify", "slug": "notify", "one_line": "Messages to people.",
                           "doc": "notify/domain.md"}],
@@ -107,9 +107,9 @@ def test_fills(tmp, root):
                                "doc": "notify/reminders/capability.md"}],
              "features": [{"id": "ft-send-reminder", "slug": "send-reminder", "capability": "cap-reminders",
                            "one_line": "Send a reminder.",
-                           "doc": "notify/reminders/features/send-reminder/feature.md"}],
+                           "doc": "notify/reminders/send-reminder/feature.md"}],
              "ices": [{"id": "ice-send-reminder", "for": "ft-send-reminder", "for_kind": "feature",
-                       "doc": "notify/reminders/features/send-reminder/ice.md"}]}
+                       "doc": "notify/reminders/send-reminder/ice.md"}]}
     page_before = read(os.path.join(root, "intents", "bi-340.md"))
 
     bad = write(os.path.join(tmp, "bad-fills.json"),
@@ -366,6 +366,17 @@ def test_fills_undo(tmp):
           and out["how"] == "lines removed")
     check("fills undo: the Touches heading this run made goes too, with no line under it",
           "**Touches:**" not in text)
+    write(page, "# One\n\n**Touches:** none yet\n")
+    run("persist_fills.py", "--root", root, "--spine", write(spine, {"domains": [], "capabilities": [],
+                                                                      "features": []}),
+        "--fills", fills, "--intent", "bi-1", "--out", res)
+    with open(page, "a", encoding="utf-8") as fh:
+        fh.write("\nA line the person added.\n")
+    code, out, _ = run("persist_fills.py", "--undo", res, "--root", root, "--intent", "bi-1")
+    text = read(page)
+    check("fills undo: a page that said **Touches:** none yet keeps that line after a later edit",
+          code == 0 and "**Touches:** none yet" in text and "A line the person added." in text
+          and "(domain) — adds" not in text and out["how"] == "lines removed")
     commented = "# The clinic spine. Keep this note.\ndomains:\n  # booking first\n  - id: dm-b\n    slug: b\n"
     write(spine, commented + "capabilities: []\nfeatures: []\n")
     run("persist_fills.py", "--root", root, "--spine", spine, "--fills", fills, "--intent", "bi-1",
@@ -445,6 +456,267 @@ def test_slice_check(tmp):
           code == 1 and rep["lint"]["ok"] is False)
 
 
+
+THIN = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
+        "`/discover-capabilities`.")
+ICE = ("## Agent intent (ICE)\n- Goal: a patient books a free visit with no phone call.\n"
+       "- Limit: never book a slot that a doctor has closed for the day.\n"
+       "- Fails if: a slot is booked twice by two patients at once.\n"
+       "- Context: the patient uses the booking screen on a phone or a laptop.\n"
+       "- Checked by: a patient books a slot and sees it in the list of visits.\n")
+
+
+def feature_page(name, drop=None, thin=False, ice=ICE):
+    sections = {"What it does": "A patient picks a free slot and books a visit with no phone call to the desk.",
+                "Inputs / Outputs": "- In: the free slots of each doctor for the next two weeks.",
+                "Rules & behavior": "- A slot that is booked is not shown to the next patient.",
+                "Acceptance criteria": "- Given a free slot, when a patient books it, then it is gone.",
+                "Out of scope": "- Paying for a visit, which the clinic does at the desk."}
+    body = "".join(f"## {h}\n{t}\n\n" for h, t in sections.items() if h != drop)
+    return f"# Feature: {name}\n\n{body}" + (THIN + "\n\n" if thin else "") + ice
+
+
+CAP_PAGE = ("# Capability: Booking\n\n## Directional intent\nPatients book, move and cancel "
+            "their visits without a phone call to the clinic desk, at any hour of the day.\n")
+DOM_PAGE = ("# Theme: Patient care\n\n## Intent\nThe clinic serves its patients well: they get a "
+            "visit when they need one, and they know what happens next.\n")
+
+
+def test_fills_v11(tmp):
+    root = os.path.join(tmp, "v11")
+    write(os.path.join(root, "care", "domain.md"), DOM_PAGE)
+    write(os.path.join(root, "capabilities", "cap-x", "capability.md"),
+          CAP_PAGE + "\nSee [the slot feature](../../features/fn-a/feature.md).\n")
+    write(os.path.join(root, "features", "fn-a", "feature.md"),
+          feature_page("Pick a slot") + "\nServes [the intent](../../intents/bi-1.md).\n")
+    write(os.path.join(root, "capabilities", "cap-x", "fn-c", "feature.md"), feature_page("Move a visit"))
+    write(os.path.join(root, "intents", "bi-1.md"), "# Patients book online\n\n**Touches:** none yet\n")
+    spine = write(os.path.join(root, "_spine.yaml"),
+                  {"domains": [{"id": "dm-care", "slug": "care", "one_line": "x", "doc": "care/domain.md"}],
+                   "capabilities": [{"id": "cap-x", "slug": "cap-x", "domain": "", "intents": [],
+                                     "one_line": "x", "doc": "capabilities/cap-x/capability.md"}],
+                   "features": [{"id": "fn-a", "slug": "fn-a", "capability": "cap-x", "one_line": "x",
+                                 "doc": "features/fn-a/feature.md"},
+                                {"id": "fn-c", "slug": "fn-c", "capability": "cap-x", "one_line": "x",
+                                 "doc": "capabilities/cap-x/fn-c/feature.md"}],
+                   "slices": []})
+    # a new feature page is written where it belongs: under the capability's folder after the move
+    write(os.path.join(root, "care", "cap-x", "fn-b", "feature.md"),
+          feature_page("Send a reminder").replace(ICE, "> Thin ICE: proposed by /shape-slice.\n\n" + ICE))
+    fills = {"updates": [{"id": "cap-x", "kind": "capability", "add_intents": ["bi-1"],
+                          "domain": "dm-care", "page": True}],
+             "features": [{"id": "fn-b", "slug": "fn-b", "capability": "cap-x", "one_line": "Send a reminder.",
+                           "doc": "care/cap-x/fn-b/feature.md"}],
+             "thin": ["fn-b"]}
+    f = write(os.path.join(tmp, "v11-fills.json"), fills)
+    res = os.path.join(tmp, "v11-persist.json")
+    code, out, err = run("persist_fills.py", "--root", root, "--spine", spine, "--fills", f,
+                         "--intent", "bi-1", "--out", res)
+    s = yaml.safe_load(read(spine))
+    cap = next(c for c in s["capabilities"] if c["id"] == "cap-x")
+    fa = next(x for x in s["features"] if x["id"] == "fn-a")
+    fb = next(x for x in s["features"] if x["id"] == "fn-b")
+    check("fills v11: an existing capability is filled (exit 0): it gains the intent and the domain",
+          code == 0 and cap["intents"] == ["bi-1"] and cap["domain"] == "dm-care"
+          and out["updated"] == ["cap-x"])
+    check("fills v11: the capability's page and its feature's page move under the domain folder",
+          cap["doc"] == "care/cap-x/capability.md" and fa["doc"] == "care/cap-x/fn-a/feature.md"
+          and os.path.isfile(os.path.join(root, "care/cap-x/fn-a/feature.md"))
+          and not os.path.exists(os.path.join(root, "capabilities", "cap-x"))
+          and not os.path.exists(os.path.join(root, "features", "fn-a")))
+    check("fills v11: moved names every part whose page moved, a feature inside the capability's "
+          "folder too",
+          {m["id"] for m in out["moved"]} == {"cap-x", "fn-a", "fn-c"}
+          and {"id": "fn-c", "from": "capabilities/cap-x/fn-c/feature.md",
+               "to": "care/cap-x/fn-c/feature.md"} in out["moved"])
+    check("fills v11: the result names the moves and the old paths for the guard",
+          {m["id"] for m in out["moved"]} == {"cap-x", "fn-a", "fn-c"}
+          and "product-os/capabilities/cap-x/capability.md" in out["remove_only"]
+          and "product-os/care/cap-x/fn-a/feature.md" in out["allow"])
+    check("fills v11: every link to a moved page, and inside one, is fixed",
+          "](fn-a/feature.md)" in read(os.path.join(root, "care/cap-x/capability.md"))
+          and "](../../../intents/bi-1.md)" in read(os.path.join(root, "care/cap-x/fn-a/feature.md")))
+    page = read(os.path.join(root, "intents", "bi-1.md"))
+    check("fills v11: the filled capability is on the Touches list, marked changes",
+          "[cap-x](../care/cap-x/capability.md) (capability) — changes" in page)
+    fb_page = read(os.path.join(root, "care/cap-x/fn-b/feature.md"))
+    check("fills v11: a thin part gets metadata.thin and exactly one Thin line before its ICE",
+          fb["metadata"]["thin"] is True and fb_page.count(THIN) == 1
+          and "> Thin ICE" not in fb_page and (THIN + "\n\n## Agent intent (ICE)") in fb_page)
+    code, out2, _ = run("persist_fills.py", "--undo", res, "--root", root, "--intent", "bi-1")
+    check("fills v11 undo: the page is put back with its **Touches:** none yet line",
+          code == 0 and "**Touches:** none yet" in read(os.path.join(root, "intents", "bi-1.md")))
+
+    root2 = os.path.join(tmp, "v11b")
+    write(os.path.join(root2, "care", "domain.md"), DOM_PAGE)
+    write(os.path.join(root2, "capabilities", "cap-y", "capability.md"), CAP_PAGE)
+    write(os.path.join(root2, "intents", "bi-1.md"), "# One\n")
+    sp2 = write(os.path.join(root2, "_spine.yaml"),
+                {"domains": [{"id": "dm-care", "slug": "care", "one_line": "x", "doc": "care/domain.md"}],
+                 "capabilities": [{"id": "cap-z", "slug": "z", "domain": "dm-care", "one_line": "x",
+                                   "doc": "care/z/capability.md"}], "features": []})
+    before = read(sp2)
+    f = write(os.path.join(tmp, "v11b.json"),
+              {"capabilities": [{"id": "cap-y", "slug": "y", "domain": "dm-care", "one_line": "x",
+                                 "doc": "capabilities/cap-y/capability.md"}]})
+    code, _, err = run("persist_fills.py", "--root", root2, "--spine", sp2, "--fills", f, "--intent", "bi-1")
+    check("fills v11: a new capability with a domain but a page in the holding folder is refused",
+          code == 2 and "outside its folder" in err and read(sp2) == before)
+    f = write(os.path.join(tmp, "v11c.json"),
+              {"updates": [{"id": "cap-z", "kind": "capability", "domain": "dm-other"}]})
+    code, _, err = run("persist_fills.py", "--root", root2, "--spine", sp2, "--fills", f, "--intent", "bi-1")
+    check("fills v11: an update never changes a domain the part already has", code == 2
+          and "already has domain" in err)
+    f = write(os.path.join(tmp, "v11d.json"), {"updates": [{"id": "cap-none", "kind": "capability"}]})
+    code, _, err = run("persist_fills.py", "--root", root2, "--spine", sp2, "--fills", f, "--intent", "bi-1")
+    check("fills v11: an update of a part not in the spine is refused", code == 2 and "not in the spine" in err)
+
+
+def test_slice_check_v11(tmp):
+    root = os.path.join(tmp, "scv")
+    write(os.path.join(root, "care", "domain.md"), DOM_PAGE)
+    write(os.path.join(root, "care", "booking", "capability.md"), CAP_PAGE)
+    write(os.path.join(root, "care", "booking", "fn-old", "feature.md"),
+          feature_page("Old one", drop="Out of scope"))
+    write(os.path.join(root, "intents", "bi-340.md"), "# Patients book online\n")
+    base_spine = {"domains": [{"id": "dm-care", "slug": "care", "one_line": "x", "doc": "care/domain.md",
+                               "detail": "directional"}],
+                  "capabilities": [{"id": "cap-b", "slug": "booking", "domain": "dm-care", "one_line": "x",
+                                    "detail": "directional", "doc": "care/booking/capability.md"}],
+                  "features": [{"id": "fn-old", "slug": "fn-old", "capability": "cap-b", "one_line": "x",
+                                "doc": "care/booking/fn-old/feature.md"}],
+                  "slices": []}
+    spine = write(os.path.join(root, "_spine.yaml"), base_spine)
+    base = os.path.join(tmp, "lint-before-run.json")
+    code, _, _ = run("slice_check.py", "baseline", "--root", root, "--spine", spine, "--out", base)
+    held = json.loads(read(base))["errors"]
+    check("slice check baseline: the older error is kept, with its path in the model",
+          code == 0 and any(e.startswith("care/booking/fn-old/feature.md:") for e in held))
+    write(os.path.join(root, "care", "booking", "fn-new", "feature.md"), feature_page("New one"))
+    entry = {"id": "sl-a", "slug": "a", "feature_refs": ["fn-new"], "vertical": "the booking screen",
+             "intents": ["bi-340"], "record": "slices/sl-a.yaml"}
+    sp = dict(base_spine, features=base_spine["features"] + [
+        {"id": "fn-new", "slug": "fn-new", "capability": "cap-b", "one_line": "x",
+         "doc": "care/booking/fn-new/feature.md"}], slices=[entry])
+    write(spine, sp)
+    write(os.path.join(root, "slices", "sl-a.yaml"), dict(RECORD, slice=dict(RECORD["slice"], feature_refs=["fn-new"])))
+    out_path = os.path.join(tmp, "scv.json")
+    args = ("--root", root, "--spine", spine, "--slice-id", "sl-a", "--intent", "bi-340",
+            "--baseline", base, "--out", out_path)
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: an older error in a page the slice does not use is a warning, not a stop",
+          code == 0 and rep["valid"] is True and len(rep["older_problems"]) == 1
+          and "fn-old" in rep["older_problems"][0])
+    write(os.path.join(root, "care", "booking", "fn-new", "feature.md"),
+          feature_page("New one", drop="Rules & behavior"))
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: a problem in the slice's own page stops it",
+          code == 1 and any("fn-new" in p for p in rep["problems"]))
+    write(os.path.join(root, "care", "booking", "fn-new", "feature.md"), feature_page("New one"))
+    write(spine, dict(sp, slices=[dict(entry, feature_refs=["fn-new", "fn-old"])]))
+    write(os.path.join(root, "slices", "sl-a.yaml"),
+          dict(RECORD, slice=dict(RECORD["slice"], feature_refs=["fn-new", "fn-old"])))
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: an older problem in a page the slice now uses stops it (the run fixes it)",
+          code == 1 and any("fn-old" in p for p in rep["problems"]) and rep["older_problems"] == [])
+    write(spine, sp)
+    write(os.path.join(root, "slices", "sl-a.yaml"), dict(RECORD, slice=dict(RECORD["slice"], feature_refs=["fn-new"])))
+    write(os.path.join(root, "care", "orphan", "capability.md"), CAP_PAGE)
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: a new error the baseline did not have stops it",
+          code == 1 and any(p.startswith("new problem:") and "orphan" in p for p in rep["problems"]))
+    os.remove(os.path.join(root, "care", "orphan", "capability.md"))
+    thin_sp = dict(sp, features=[dict(f, metadata={"thin": True}) if f["id"] == "fn-new" else f
+                                 for f in sp["features"]])
+    write(spine, thin_sp)
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: metadata.thin with no Thin line is thin mark drift",
+          code == 1 and any("thin mark drift" in p for p in rep["problems"]))
+    write(spine, sp)
+    fills_thin = write(os.path.join(tmp, "scv-fills.json"), {"thin": ["fn-new"]})
+    code, _, _ = run("slice_check.py", *args, "--fills", fills_thin)
+    rep = json.loads(read(out_path))
+    check("slice check: a part listed thin in the fills with no Thin line on its page is a thin problem",
+          code == 1 and any("thin mark drift" in p and "fn-new" in p and "listed in the fills" in p
+                            for p in rep["problems"]))
+    ices_sp = dict(thin_sp, ices=[])
+    write(spine, ices_sp)
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: a thin part with no ICE page for its Thin line is a thin problem",
+          code == 1 and any("no ICE page" in p and "fn-new" in p for p in rep["problems"]))
+    write(spine, thin_sp)
+    write(os.path.join(root, "care", "booking", "fn-new", "feature.md"), feature_page("New one", thin=True))
+    code, _, _ = run("slice_check.py", *args)
+    check("slice check: both thin marks, with the minimum lines, read valid", code == 0)
+    write(spine, sp)
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: a Thin line with no metadata.thin on the spine is a thin problem",
+          code == 1 and any("no metadata.thin" in p for p in rep["problems"]))
+    write(spine, thin_sp)
+    no_limit = ICE.replace("- Limit: never book a slot that a doctor has closed for the day.\n", "")
+    write(os.path.join(root, "care", "booking", "fn-new", "feature.md"),
+          feature_page("New one", thin=True, ice=no_limit))
+    code, _, _ = run("slice_check.py", *args)
+    rep = json.loads(read(out_path))
+    check("slice check: a thin ICE with no Limit fails", code == 1
+          and any("lacks Limit" in p for p in rep["problems"]))
+
+
+def test_questions_v11(tmp):
+    ex = {"why": "The slice is built for it.", "examples": ["a clinic: a booking screen", "a shop: a cart"]}
+    qs = [dict(ex, id="Q-surface-1", topic="surface", blocking=True,
+               question="Which screen does the patient test the booking on?"),
+          dict(ex, id="Q-pay-1", topic="payment", blocking=True,
+               question="Who pays for a visit the patient misses?"),
+          dict(ex, id="Q-scope-1", topic="scope", blocking=False,
+               question="Is a reminder in scope for the first slice?", proposed_answer="yes",
+               basis={"kind": "model", "ref": "intents/bi-340.md L4"})]
+    qpath = write(os.path.join(tmp, "v11-q.json"), qs)
+    checked = os.path.join(tmp, "v11-qc.json")
+    run("record_questions.py", "proposals", "--questions", qpath, "--out", checked)
+    rec = os.path.join(tmp, "v11-ctx", "grounding-questions.md")
+    code, out, _ = run("record_questions.py", "filter", "--record", rec, "--questions", checked,
+                       "--out", os.path.join(tmp, "v11-open.json"))
+    check("filter: reads the proposals output (its questions) with no file made by hand",
+          code == 0 and out["open"] == 3)
+    split = write(os.path.join(tmp, "v11-split.json"), {"asked": qs, "assumptions": []})
+    early, rest = os.path.join(tmp, "v11-early.json"), os.path.join(tmp, "v11-rest.json")
+    code, out, _ = run("record_questions.py", "early", "--split", split, "--early-out", early,
+                       "--rest-out", rest)
+    check("early: only a blocking gap with no proposed answer is asked first, never the surface",
+          code == 0 and out["early"] == ["Q-pay-1"] and out["brief"] == ["Q-surface-1", "Q-scope-1"])
+    reply = write(os.path.join(tmp, "v11-reply.md"), "yes\nQ-surface-1: the booking screen on a phone\n")
+    ans = os.path.join(tmp, "v11-answers.json")
+    code, out, _ = run("record_questions.py", "answers", "--reply", reply, "--split", rest, "--out", ans)
+    got = {a["id"]: a for a in json.loads(read(ans))}
+    check("answers: a plain yes accepts each question the reply does not answer by its id",
+          code == 0 and got["Q-scope-1"] == {"id": "Q-scope-1", "answer": "yes — accepted as proposed",
+                                             "decision": "accepted"}
+          and got["Q-surface-1"]["answer"] == "the booking screen on a phone")
+    one = write(os.path.join(tmp, "v11-one.json"), {"asked": [qs[2]], "assumptions": []})
+    reply = write(os.path.join(tmp, "v11-reply2.md"), "yes\n")
+    run("record_questions.py", "answers", "--reply", reply, "--split", one, "--out", ans)
+    check("answers: a bare yes to one question is an acceptance, not its answer text",
+          json.loads(read(ans))[0]["decision"] == "accepted")
+    msg = write(os.path.join(tmp, "v11-early.md"),
+                "You decide who pays for a missed visit, in Q-pay-1. We shape the slice after your answer.\n\n"
+                "## Questions\n\n### Q-pay-1\n**Question** Who pays?\n**Answer** no proposed answer yet\n"
+                "**Why it matters** x\n**Example** a clinic; a shop\n")
+    code, out, _ = run("record_questions.py", "brief", "--brief", msg, "--split", early, "--early")
+    check("brief --early: an opening that names a question id, and the four parts, pass",
+          code == 0 and out["ok"] is True)
+    code, out, _ = run("record_questions.py", "brief", "--brief", msg, "--split", early)
+    check("brief: the full brief needs each section heading, and names the missing ones",
+          code == 1 and "no '## Hidden file' heading" in out["problems"])
+
+
 RECORD = {"slice": {"id": "sl-a", "slug": "a", "name": "Self booking",
                     "outcome": "A patient books a visit.", "feature_refs": ["ft-1"],
                     "vertical": "the booking screen", "intents": ["bi-340"]},
@@ -502,20 +774,106 @@ def test_round2(tmp):
     check("proposals: a question that points to other text does not stand alone (exit 1)",
           code == 1 and "stand alone" in json.dumps(out["shape_problems"]))
     good = ("You decide where a patient tests the booking. Each question has a proposed answer.\n\n"
-            "### Q-surface-1\n**Question** Which surface does a patient test the booking on?\n"
+            + "".join(f"## {h}\n- x\n\n" for h in ("What you run", "Who tests it", "Features",
+                                                     "Hidden file", "Left out", "Assumptions",
+                                                     "Model check"))
+            + "## Questions\n\n### Q-surface-1\n**Question** Which surface does a patient test the booking on?\n"
             "**Answer** proposed: the booking screen\n**Why it matters** A slice has one surface.\n"
             "**Example** A clinic: a web page. A bank: a phone app.\n")
     msg = write(os.path.join(tmp, "r2-msg.md"), good)
-    code, out, _ = run("record_questions.py", "message", "--message", msg, "--split", one)
-    check("message: an opening and the four parts pass (exit 0)", code == 0 and out["ok"] is True)
+    code, out, _ = run("record_questions.py", "brief", "--brief", msg, "--split", one)
+    check("brief: an opening, the headings and the four parts pass (exit 0)",
+          code == 0 and out["ok"] is True)
     write(msg, good.replace("You decide where a patient tests the booking. ", "Here we go. "))
-    code, out, _ = run("record_questions.py", "message", "--message", msg, "--split", one)
-    check("message: an opening that does not say what the person decides fails (exit 1)",
+    code, out, _ = run("record_questions.py", "brief", "--brief", msg, "--split", one)
+    check("brief: an opening that does not say what the person decides fails (exit 1)",
           code == 1 and any("decides" in p for p in out["problems"]))
     write(msg, good.replace("**Example** A clinic: a web page. A bank: a phone app.\n", ""))
-    code, out, _ = run("record_questions.py", "message", "--message", msg, "--split", one)
-    check("message: a question with no Example part fails (exit 1)",
+    code, out, _ = run("record_questions.py", "brief", "--brief", msg, "--split", one)
+    check("brief: a question with no Example part fails (exit 1)",
           code == 1 and any("Example" in p for p in out["problems"]))
+
+
+def test_merge_proposals(tmp):
+    """propose-answers output goes into the questions by script, never by an agent (Round 2)."""
+    base = {"why": "The slice is built for it.", "examples": ["a clinic: a booking screen", "a shop: a cart"]}
+    qs = [dict(base, id="Q-pay-1", blocking=True, topic="payment",
+               question="Which way does a patient pay for a booking?"),
+          dict(base, id="Q-time-1", blocking=False, topic="time",
+               question="How long does a patient keep a free slot?"),
+          dict(base, id="Q-size-1", blocking=False, topic="size",
+               question="How many bookings does the clinic take each day?"),
+          dict(base, id="Q-name-1", blocking=False, topic="name",
+               question="Which name does the booking screen show first?")]
+    qpath = write(os.path.join(tmp, "merge", "questions.json"), qs)
+    props = write(os.path.join(tmp, "merge", "proposals.json"), {"proposals": [
+        {"group": "Q-pay-1", "closed_by": "proposal", "answer": "by card at the desk",
+         "basis": {"kind": "model", "ref": "care/booking/capability.md:12-14"}, "context": "x"},
+        {"group": "Q-time-1", "closed_by": "settled", "why": "the model sets ten minutes",
+         "basis": {"kind": "memory", "ref": "knowledge/domains/care.md:40"}},
+        {"group": "Q-size-1", "closed_by": "proposal", "answer": "about fifty",
+         "basis": {"kind": "web", "ref": "a blog post"}, "context": "x"},
+        {"group": "Q-name-1", "closed_by": "proposal", "answer": "the doctor's name",
+         "basis": {"kind": "person", "ref": ""}, "context": "x"}]})
+    code, out, _ = run("record_questions.py", "merge-proposals", "--questions", qpath,
+                       "--proposals", props, "--out", qpath)
+    got = {q["id"]: q for q in json.loads(read(qpath))}
+    check("merge-proposals: a backed proposal sets proposed_answer and basis {kind, ref}",
+          code == 0 and got["Q-pay-1"]["proposed_answer"] == "by card at the desk"
+          and got["Q-pay-1"]["basis"] == {"kind": "model", "ref": "care/booking/capability.md:12-14"})
+    check("merge-proposals: closed_by settled sets settled and settled_basis",
+          got["Q-time-1"]["settled"] is True
+          and got["Q-time-1"]["settled_basis"] == {"kind": "memory", "ref": "knowledge/domains/care.md:40"})
+    check("merge-proposals: another basis kind or an empty ref leaves no proposed answer",
+          got["Q-size-1"]["proposed_answer"] is None and got["Q-size-1"]["basis"] is None
+          and got["Q-name-1"]["proposed_answer"] is None)
+    check("merge-proposals: it counts the questions with no proposed answer",
+          out["no_proposed_answer"] == 2 and out["proposed"] == ["Q-pay-1"]
+          and out["settled"] == ["Q-time-1"])
+    checked = os.path.join(tmp, "merge", "checked.json")
+    run("record_questions.py", "proposals", "--questions", qpath, "--out", checked)
+    data = json.loads(read(checked))
+    check("merge-proposals then proposals: a settled gap with a settled_basis is never asked",
+          [q["id"] for q in data["settled"]] == ["Q-time-1"]
+          and "Q-time-1" not in [q["id"] for q in data["questions"]])
+    before = read(qpath)
+    bad = write(os.path.join(tmp, "merge", "bad.json"), {"proposals": [
+        {"group": "Q-none-9", "closed_by": "proposal", "answer": "x",
+         "basis": {"kind": "model", "ref": "a.md:1"}}]})
+    code, _, err = run("record_questions.py", "merge-proposals", "--questions", qpath,
+                       "--proposals", bad, "--out", qpath)
+    check("merge-proposals: a proposal for an id that is not a question is refused, nothing written",
+          code == 2 and "Q-none-9" in err and read(qpath) == before)
+
+
+def test_safe_write(tmp):
+    sys.path.insert(0, HERE)
+    import safe_write
+    folder = os.path.join(tmp, "safe", "new", "folder")
+    path = os.path.join(folder, "page.md")
+    safe_write.atomic_write(path, "first\n")
+    check("safe_write: makes the folder and writes the text", read(path) == "first\n")
+    safe_write.atomic_write(path, "second\n")
+    check("safe_write: replaces the file whole, and leaves no temp file",
+          read(path) == "second\n" and os.listdir(folder) == ["page.md"])
+
+    try:
+        safe_write.atomic_write(path, 42)  # not text: the write fails part way
+    except TypeError:
+        pass
+    check("safe_write: a failed write keeps the old file and removes its temp file",
+          read(path) == "second\n" and os.listdir(folder) == ["page.md"])
+    calls = []
+    for name in sorted(os.listdir(HERE)):
+        if name.endswith(".py") and not name.startswith("test_") and name != "safe_write.py":
+            text = read(os.path.join(HERE, name))
+            if "os.replace(" in text or "mkstemp(" in text:
+                calls.append(name)
+    check("safe_write: no other script of the play calls os.replace or tempfile.mkstemp", calls == [])
+    users = [n for n in ("persist_fills.py", "persist_slice.py", "write_hidden_file.py",
+                         "render_brief.py", "write_intent_page.py")
+             if "from safe_write import atomic_write" not in read(os.path.join(HERE, n))]
+    check("safe_write: the five writing scripts use it", users == [])
 
 
 def main():
@@ -529,6 +887,11 @@ def main():
         test_slice_check(tmp)
         test_approval(tmp)
         test_round2(tmp)
+        test_fills_v11(tmp)
+        test_slice_check_v11(tmp)
+        test_questions_v11(tmp)
+        test_merge_proposals(tmp)
+        test_safe_write(tmp)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 

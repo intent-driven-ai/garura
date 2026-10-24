@@ -1,0 +1,70 @@
+round: 2
+findings:
+- id: DF-4
+  severity: P4
+  file: core/components/plays/shape-slice/SKILL.md
+  where: Compilation Metadata, skills_used row
+  finding: 'The row ends with ''author-failure-recovery (author-slice, find-slice-gaps,
+    author-slice-brief, enrich-grounding and author-failure-recovery built for this
+    play, #842)''. The bracket lists the five new skills but hangs on the last skill''s
+    name, so it reads as if those were what author-failure-recovery uses. Also, the
+    tests row lists 7 test files while the work holds 6 under shape-slice/scripts
+    plus the create-play one; the counts do not obviously agree.'
+  principle: 'Naming clarity: a record says what it means (a metadata row a reader
+    or a later rebuild relies on)'
+  basis: CLAUDE.md, Challenge principle 5 (naming clarity); CLAUDE.md Play Pipeline
+    Rules (the compiled file is read whole on every run)
+  fix: 'Direct edit to SKILL.md metadata (non-intent): move the bracket to its own
+    words, ''new for this play: ...'', and make the tests row match the files. Record
+    in the commit, not in the file.'
+  category: harness
+- id: M-1
+  severity: P4
+  file: core/components/memory/standards/rules/naming.md
+  where: rule 2, lines 20-22 (the new text)
+  finding: The rule now says 'never a word the model dropped' and then adds 'Epic
+    and slice are model words.' The closing sentence repeats what the list in the
+    brackets already shows. The rule also no longer gives any example of a dropped
+    word, so a reader cannot tell what 'dropped' means today.
+  principle: A standard states each rule once, in plain words, with an example a reader
+    can act on (naming clarity).
+  basis: 'PR2: ADR 048 retired the only example of a dropped word (epic, slice); the
+    rule still points at ''dropped'' words with none named. Not a conformance break;
+    wording only.'
+  fix: Drop the sentence 'Epic and slice are model words.' and, if a dropped word
+    still exists in v11, name it as the example. Otherwise reword to 'in the product
+    model's words (feature, capability, slice, epic, plan)'.
+  category: memory
+- id: PM-1
+  severity: P4
+  file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  where: Acceptance criteria, new last-but-one line (the three-feature map line)
+  finding: The line says 'one line for each feature'. The ontology and ADR 052 say
+    only that the epic keeps a map from each feature to its story. They do not set
+    the map's shape (line, table, field). The page also says the plan and story fields
+    are not set yet. So 'one line' fixes a shape the model has not chosen. The line
+    also does not check the second half of the Outputs rule, that the map agrees with
+    the plan's Tree.
+  principle: 'M1: the model fixes what the map holds (feature to story), not its shape;
+    the page''s own Thin note says the fields are open.'
+  basis: ontology.md v11 and docs/adr/052 section 3 (plan/788/base); the page's own
+    'Thin' lines
+  fix: Optional. Say 'an entry for each feature, with the story that delivers it'
+    instead of 'one line', and, if wanted, add a second line checking the map agrees
+    with the plan's Tree.
+  category: product-model
+- id: Q-3
+  severity: P4
+  rule: error-handling (atomic-write consistency; same class as round-1 Q-1)
+  file: core/components/plays/shape-slice/scripts/record_questions.py
+  lines: 150-152
+  note: 'questions.md (the running record of every question asked) is rewritten with
+    a plain open(..., "w") after a read-modify-write. A crash mid-write would truncate
+    a record that "only grows". The other plain writes in the play (record_questions.py
+    245-403, slice_check.py 322/355, trace_check.py 73, check_stop_condition.py, record_approval.py,
+    session_stamp.py) write small one-shot JSON/marker outputs that are re-created
+    every run, so they are fine. safe_write.py''s docstring says only five scripts
+    write through it; this one is not listed. Note only, not blocking.
+
+    '
+  category: quality

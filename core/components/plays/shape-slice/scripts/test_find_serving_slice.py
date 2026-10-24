@@ -113,6 +113,19 @@ def main():
 
         code, out, _ = run("--spine", os.path.join(root, "missing.yaml"), "--intent", "bi-10")
         check("a missing spine is a usage error", code == 2)
+
+        busy = spine_file(root, dict(SPINE, epics=[{"id": "ep-a", "slice_ref": "sl-a",
+                                                    "status": "in_delivery"},
+                                                   {"id": "ep-b", "slice_ref": "sl-b",
+                                                    "status": "ready"}]), "busy.yaml")
+        code, out, _ = run("--spine", busy, "--intent", "bi-10")
+        check("a slice in progress (its epic past ready) is never a match",
+              code == 0 and out["match"] is None and out["reuse_args"] == []
+              and "in progress" in out["reason"])
+        check("the result names the slices in progress", out["in_progress"] == ["sl-a"])
+        code, out, _ = run("--spine", busy, "--intent", "bi-20")
+        check("a slice whose epic is only ready is still a match",
+              code == 0 and out["match"] == "sl-b" and out["in_progress"] == ["sl-a"])
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 

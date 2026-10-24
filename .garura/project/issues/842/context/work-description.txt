@@ -1,0 +1,5 @@
+/edit-play on /shape-slice: finish #842 for good.
+- #842 R3-1..R3-4 (checkpoint shows reuse/upgrade and warnings; trace step names the tier; undo keeps "Touches: none yet"; the message check is a floor).
+- Ontology v11 / ADR 052 (#846): write the slice's hidden file (one entry per feature) and make its folder; the write guard allows that one file; a thin ICE for a part with no ICE, with both marks and a warning, never a send-back; the "nothing else" text.
+- #844 decisions 4, 6, 7, 8 and run findings: the confirmation is a brief (what you run, who tests it, features by capability linked to domain, left out), not a questionnaire; fill an existing capability in the spine; pages under their domain/capability folders; the model check fails only on the run's own parts (older problems are warnings); Step 4 proposals record into filter; the asking-a-person rule reachable.
+- fn-818 acceptance line names the feature-to-story map.
