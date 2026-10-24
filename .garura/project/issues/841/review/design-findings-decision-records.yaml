@@ -1,64 +1,64 @@
 category: decision-records
+round: 2
 grounding:
-  - principle: An accepted ADR is never edited; only its forward pointer is written
-    source: plan/788/base:core/components/memory/standards/templates/adr.md (line 46); record-decision/reference/ice.md C7, F7; record-decision/SKILL.md; author-decision/SKILL.md ("Old ADRs are never edited")
-  - principle: Past records keep their old words and are exempt from the old-name check, through a list in the checker
-    source: plan/788/base:core/tools/naming/check_old_names.py (is_past_record, RENAME_ADRS={46,48}); ADR 046 section 6 ("outside past records")
-  - principle: ADR 053 Decision 1-2 (delete the two plays and two skills, remove every reference)
-    source: plan/788/base:docs/adr/053-*.md
+  - principle: An accepted ADR is never edited; only its forward pointer (Status line) is written
+    source: plan/788/base:core/components/memory/standards/templates/adr.md (Rules; "A forward pointer ... Status line only")
+  - principle: Markdown ADR header shape and section order; every ADR listed in _index.md
+    source: plan/788/base:core/components/memory/standards/templates/adr.md (Shape 1); docs/adr/_index.md
+  - principle: Past records keep their old words, exempt from the old-name check through a list in the checker
+    source: plan/788/base:core/tools/naming/check_old_names.py; ADR 046 section 6
+round1_status:
+  DR-1: fixed   # ADR 053 is byte-identical to plan/788/base; QUOTING_ADRS={53} added in check_old_names.py
+  DR-2: fixed   # follows from DR-1; original quoted wording restored
+  DR-3: not_applicable_now  # ADR 028 and 033 already carry an ADR 053 mention on base; this PR does not touch them
+  DR-4: still_conformant
 findings:
-  - id: DR-1
-    severity: P2
-    file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
-    where: "section 5, ADR 033 bullet (one line)"
-    finding: >
-      ADR 053 is already Accepted on the base branch, and this PR rewrites a line in it so the
-      old-name check passes. The rules say an accepted ADR is never edited, except for a forward
-      pointer. This edit is not a pointer.
-    principle: Accepted ADRs are not edited; a new ADR amends them.
-    basis: standards/templates/adr.md line 46; record-decision ICE C7 and F7 (on plan/788/base)
-    fix: >
-      Revert the line. Make the check pass the way ADR 046 intends: ADR 053 names old names on
-      purpose (it quotes ADR 033's own words), so add 053 to the checker's past-record list
-      (RENAME_ADRS in check_old_names.py). Or, if the edit stays, record it as a deliberate
-      exception in the PR and ask the product owner to confirm.
-  - id: DR-2
+  - id: DR2-1
     severity: P4
-    file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
-    where: "section 5, ADR 033 bullet"
+    file: docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md
+    where: "Work This Creates, first bullet"
     finding: >
-      Meaning is unchanged in substance: `/intent` and `/adr` are the old names of `/discover-intent`
-      and `/record-decision`, so the two "other places" are the same two plays. But the edit adds
-      the words "by their current names" and no longer quotes ADR 033 as ADR 033 wrote it,
-      so the sentence now reads as a restatement, not a quote.
-    principle: A past record shows what was decided in the words of its time.
-    basis: check_old_names.py header ("Past records keep their old words"); ADR 046 section 6
-    fix: Covered by the DR-1 fix; the original wording is correct as history.
-  - id: DR-3
-    severity: P3
-    file: docs/adr/028-*.md, docs/adr/033-*.md
-    where: "Status line"
+      It says "After acceptance: the forward pointers on ADR 050, ADR 035 and ADR 039". They are
+      already written in this PR, so the line is stale on the day the ADR lands.
+    principle: A record shows work still open
+    basis: adr.md template (work_this_creates = follow-up work the decision opens)
+    fix: Drop the bullet, or say the pointers were written with the acceptance. Optional; a hand edit of a just-accepted ADR in the same PR is low risk.
+  - id: DR2-2
+    severity: P4
+    file: docs/adr/054-*.md
+    where: "Affects line"
     finding: >
-      ADR 053 section 5 and "Work This Creates" say ADR 028 and ADR 033 get forward pointers after
-      acceptance. This PR changes neither file, so the pointers are not written yet. Not a fault of
-      this PR if a later step writes them, but the record-decision rule says pointers follow acceptance.
-    principle: Every older ADR an accepted ADR amends points forward to it.
-    basis: record-decision ICE C3, S1; ADR 053 "Work This Creates" last item
-    fix: Write the two pointers with the record-decision play (apply_adr.py pointer), by hand edits are not allowed.
-  - id: DR-4
-    severity: none
-    file: docs/adr/053-*.md (conformance of the PR to Decision 1-2)
+      Every path was checked. Deleted ones are gone (scriber, tech-architect, test-runner, scan-codebase,
+      check-components skill and its usage page, old rules/asking-a-person.md); the kept ones exist
+      (shape-slice, edit-ontology, product-os-keeper, _shared/asking-a-person.md, the lint rule and test,
+      approval-prompt.md, common.py, install.sh, rename-map.yaml). The 28-skill count matches the list.
+      Only the wording blurs: "(deleted)" is written once, so the later plays shape-slice/ and
+      edit-ontology/ read as deleted when they are edited.
+    principle: Affects names real files, and what happens to them
+    basis: adr.md template field `affects`
+    fix: Say "edited" beside the plays shape-slice/ and edit-ontology/.
+  - id: DR2-3
+    severity: P4
+    file: docs/adr/054-*.md
+    where: "Decided in line"
     finding: >
-      Confirmed. The shape-scope and shape-roadmap play folders and the author-scope and
-      author-roadmap skill folders are all deleted (30 files deleted, none left). A search of the
-      tree outside ADRs and .garura/project finds no remaining mention of any of the four names.
-      Older ADRs 028 and 033 were not edited, as Decision 2 says. check_old_names reports 0 hits.
-    principle: ADR 053 Decision 1-2
-    basis: plan/788/base:docs/adr/053-*.md
-    fix: none
+      "plan 788, PR #858 (issues #833 and #854)" gives the places but not the kind of work in the
+      template's "#<issue> (<what kind of work>)" form. Prior ADRs 050-053 do the same loosely. Decided by
+      "the product owner" matches ADRs 050-053.
+    principle: Header lines follow the template
+    basis: adr.md Shape 1
+    fix: None needed.
+conformant_checks:
+  - "ADR 054 header: Status, Date, Level, Decided by/in, Amends, Affects, ICE impact, Business intent check (none, reasoned), Related, all in template order; sections Context, Decision, Consequences (Positive, Negative / Risks), Alternatives Considered, Work This Creates, References present."
+  - "Amends text matches the committed words it amends: ADR 050 section 3 'The other three ... are left as they are'; ADR 035 section 10 'The seven retired agents are left as they are'; ADR 039 section 9 'A block every play shares lives in one common file' (all exist on base)."
+  - "Pointers are the only edits to ADR 035, 039 and 050: diff vs plan/788/base is one line each, the Status line, nothing else. Their format is 'Accepted - amended in part by [ADR 054](...): section, what changed', as the template says. ADR 035's pointer correctly extends its existing ADR 050 chain."
+  - "Both directions kept: 054 names 035, 039, 050 in Amends; each names 054 back."
+  - "_index.md: one row added at the end for 054, title identical to the ADR heading, status Accepted, date 2026-10-25; file link resolves."
+  - "ADR 053 is identical to base; check_old_names QUOTING_ADRS is the route ADR 046 / the checker header intend."
+  - "Alternatives each name a reason; no business intent changed."
 counts:
   P1: 0
-  P2: 1
-  P3: 1
-  P4: 1
-  conformant_checks: 1
+  P2: 0
+  P3: 0
+  P4: 3
+  conformant_checks: 7

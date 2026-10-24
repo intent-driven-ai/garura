@@ -1,62 +1,37 @@
-# design-findings-memory.yaml -- PR #858, anchor #841, category: memory
-# Grounded only on plan/788/base: ADR 035, 039, 046, 053 (all present on base), pr.md at base, garura-memory rules.
+# design-findings-memory.yaml -- PR #858, anchor #841, category: memory, ROUND 2
+# Grounded on plan/788/base (ADR 035, 039, 053, pr.md head "mechanical, no judgment") and on ADR 054,
+# a decision record the product owner accepted on this branch (2026-10-25).
 category: memory
+round: 2
 grounding:
-  - {principle: "Memory is read only through the memory tool; a block shared by plays lives in one common file beside the installed parts", source: "plan/788/base:docs/adr/035-agents-work-only-from-memory.md; docs/adr/039-...md section 9"}
-  - {principle: "Taxonomy is mechanical: every finding ties to a row; no judgment", source: "plan/788/base:core/components/memory/standards/rules/pr.md (head)"}
-  - {principle: "Old-name list is used by install-garura and the old-name check; an entry matters only while its new name exists", source: "plan/788/base:core/components/plays/install-garura/scripts/install.py retire_renamed; core/tools/naming/check_old_names.py"}
-  - {principle: "ADR 053 lists the schema edits, rename-map edits, and says older chain stays described until rebuild (#855)", source: "plan/788/base:docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md"}
+  - {principle: "Taxonomy is mechanical: a row either fires on its path or says it does not; no judgment", source: "plan/788/base:core/components/memory/standards/rules/pr.md (head)"}
+  - {principle: "A block shared by parts lives once in a common file; agents read memory only through the tool, plays' own working files stay direct", source: "plan/788/base:docs/adr/039 section 9; docs/adr/035; .claude/rules/garura-memory.md; accepted ADR 054 sections 2-3"}
+  - {principle: "ADR 053: older chain stays described until rebuilt (#855)", source: "plan/788/base:docs/adr/053 section 4"}
+round1_status:
+  - {id: M1, state: fixed, note: "ARCH-23, DOC-04, DOC-05 rows now say in the row that the scan gives no finding on docs/adr/** (#851). Table and scan agree. The base rule 'a row fires or is marked' is met."}
+  - {id: M2, state: answered, note: "Product owner decided the approval template stands alone (also recorded in ADR 054 section 2). Not raised again."}
+  - {id: M3, state: fixed, note: "ADR 054 (accepted) amends ADR 039 section 9 to cover skills/_shared and names the readers. ADR 054 amends ADR 035 section 10 and ADR 050 section 3; ADR 035 section 10 does contain 'The seven retired agents are left as they are', so the amendment targets a real line. Forward pointer added on ADR 035 status."}
+  - {id: M4, state: unchanged, note: "Note only, no action required."}
+  - {id: M5, state: moved, note: "P4 moved to chore #859; not counted here."}
 findings:
-  - id: M1
-    severity: P3
+  - id: M7
+    severity: P4
     file: core/components/memory/standards/rules/pr.md
-    where: "docs-targeting glob paragraph, new 'Two kinds of path get no finding (#851)' bullet"
-    finding: "The scan now skips every file under docs/adr/ and every stm-evidence path, yet the rows that name docs/adr/** (ARCH-23, DOC-04, DOC-05) are kept 'for the review layers'. The table says a rule applies; the scan says it does not. The earlier line in the same section ('path: rules that review documentation still fire') now has an exception only a later bullet reveals. The skip rests on issue #851; no decision record on the base ref covers it."
-    principle: "The taxonomy is mechanical: a row either fires on a matching path or it is removed; exemptions should be stated where the row is, and a change to a standard should rest on a decision record."
-    basis: "pr.md on base ('Mechanical rule ... No LLM judgment ... If no Match Rule fires ... no finding'); ADR 035/039 pattern of decisions recorded in docs/adr"
-    fix: "Either remove or mark ARCH-23/DOC-04/DOC-05 as 'not scanned' in their rows, or record the skip in a short ADR (or amend an existing one). Keep the stm-evidence skip, it matches the base classification table."
-  - id: M2
-    severity: P3
-    file: core/components/memory/standards/templates/approval-prompt.md
-    where: "removed lines 'The rule for how to ask is rules/asking-a-person.md ... When the two do not agree, the rule is correct' and the Related pointer"
-    finding: "The template now repeats the question format (opening, four parts, plain English) with no link to the rule that moved to skills/_shared/asking-a-person.md and no statement of which wins. Two copies of one format can drift with no tiebreak. templates/_index.md and user-questions.md also lost their pointer to the rule."
-    principle: "One place decides; a copy names its source so the copy cannot silently win."
-    basis: "plan/788/base approval-prompt.md line 7 (the tiebreak existed); ADR 039 section 9 (shared block lives once, parts point to it)"
-    fix: "Keep a one-line pointer to _shared/asking-a-person.md in the template (a pointer to an installed file is not memory) and keep the tiebreak sentence."
-  - id: M3
-    severity: P3
-    file: core/components/skills/_shared/asking-a-person.md
-    where: "whole file (moved from memory/standards/rules/)"
-    finding: "The asking rule leaves memory and is read directly by two plays, three skills and an agent. ADR 039 section 9 only covers a block 'every play shares' in a common file; it names no skills/_shared folder and no sharing by skills and agents. Base has only loops/_shared. The new folder, and the agent reading a non-memory file, have no decision record on the base ref."
-    principle: "Agents decide from memory read through the tool; anything else needs a recorded decision. A shared-file folder for non-play parts is a new design point."
-    basis: "ADR 035 (agents work only from memory); ADR 039 section 9; garura-memory.md rule 'working files your own play hands you are not a memory lookup'"
-    fix: "Add a short ADR line (or amend ADR 039 section 9) naming skills/_shared and who may read from it."
-  - id: M4
+    where: "BE-19 row (regex `(?-i:...)`)"
+    finding: "Checked against the real scanner (re.IGNORECASE, with the scoped case-sensitive group). Still catches: SELECT ... FROM inside one quoted string (double, single, backtick; execute(\"SELECT count(*) FROM t\")); JOIN x [AS] y ON. 25/25 tests pass. It misses: lowercase 'join a on b'; a quote inside the select list ('SELECT \"id\" FROM t'); mixed case 'Select a From t'; unquoted SQL (.sql files, a SELECT split across lines in the line scan). The row text states 'SQL-shaped code only', which is true, but a reader may take it to mean all SQL. This is the trade the narrowing chose (fewer false hits on the words from/join); no row-level wording says what is missed."
+    principle: "The taxonomy is mechanical and a row claims only what its match rule does."
+    basis: "plan/788/base pr.md head ('Mechanical rule ... If no Match Rule fires ... no finding')"
+    fix: "Optional. Add 'quoted, upper-case SQL only' to the row text. SQL files are already covered by BE-20 (migrations path)."
+  - id: M8
     severity: P4
-    file: core/components/memory/standards/rules/rename-map.yaml
-    where: "removed entries (shape, roadmap, aggregate-codify-proposals, build-dependency-graph, draft-*, infer-*-from-code, lint-components, validate-*, write-evidence)"
-    finding: "Checked each removed entry: its new name no longer exists on the branch (skills deleted), so retire_renamed cannot use it, and 'lint-components' now names a live tool the old-name check would wrongly flag. Removal is sound. Side effect: a project installed before the manifest existed that still holds an old folder (for example 'shape') is no longer retired by the rename map. ADR 053 says 'a reinstall removes both plays', which holds only for manifest-tracked installs."
-    principle: "A rename entry exists to retire old installed copies; naming.md says the map lists every name changed on adopting the standard."
-    basis: "plan/788/base install.py retire_renamed docstring; ADR 053 section 2; ADR 046"
-    fix: "None required. Optionally state in ADR 053 that pre-manifest installs keep the old folders."
-  - id: M5
-    severity: P4
-    file: core/components/memory/standards/schemas/product-os/lens/_index.md
-    where: "'A slice (from the older chain)' and 'the slice record of the older chain'"
-    finding: "The text now says 'the older chain' without naming it. A reader cannot tell which plays that is. Other schema edits in the same PR (spine.yaml, slice.yaml) name ADR 053 / #855; this file does not."
-    principle: "Names should be clear; ADR 053 says the older chain stays described until rebuilt (#855)."
-    basis: "ADR 053 section 4 (plan/788/base); naming clarity"
-    fix: "Add '(ADR 053, rebuilt under #855)' to both phrases."
-  - id: M6
-    severity: P4
-    file: core/components/memory/standards/schemas/product-os/product-os.yaml
-    where: "persona/journey comments ('No play enforces this now (ADR 053)')"
-    finding: "Matches ADR 053 section 2 (persona and journey parts stay; lens plays read them). Conforms. One gap: the comment says the validator was dropped, but the schema still shows persona fields as required-looking; no check reads them. Already stated honestly in the comment."
-    principle: "Schemas claim only what is checked."
-    basis: "ADR 053 section 2; base product-os.yaml 'Validation truth -- claim nothing more'"
-    fix: "None."
+    file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+    where: "section 5, ADR 033 bullet"
+    finding: "The body of an accepted ADR was edited (current names `/discover-intent` and `/record-decision` swapped back to the quoted `/intent` and `/adr`). The old-name check now exempts ADR 053 (QUOTING_ADRS) on the ground that 'an accepted ADR is not edited (only a forward pointer)'. The edit is a restoring of a quote, not a new decision, so it is low risk, but it is a body edit the tool's own comment says is not done."
+    principle: "An accepted ADR changes only by a forward pointer; a quote of an older record stays word for word."
+    basis: "plan/788/base:core/tools/naming/check_old_names.py (past-record rule for ADRs 046, 048 and numbers below 46); ADR 053 on base"
+    fix: "None needed; the restore matches the base ADR 033 wording. Mention it in the commit message so the edit is traceable."
 conforming:
-  - "check-components text changed to core/tools/lint-components in rules/_index.md, expectation.yaml, review/harness.md, review/memory.md: matches ADR 046 and the tool's real path (the skill check-components is gone)."
-  - "Schema edits removing /shape-scope and /shape-roadmap match the Affects list of ADR 053."
-  - "The memory-tool rule is not broken: no changed file reads the moved rule through the memory tool; all readers use _shared/asking-a-person.md."
-counts: {P1: 0, P2: 0, P3: 3, P4: 3, total: 6}
+  - "pr.md ARCH-23/DOC-04/DOC-05 wording matches the scan's docs/adr skip."
+  - "SEC-18 narrowed regex still catches isAdmin, hasRole(, hasPermission(, .can(, role == and role === (permission code); the plain word role, 'role = x', 'permissions: []' and 'can(user)' give no finding. Tests pass."
+  - "ADR 054 reasoning fits ADR 035 and ADR 039: the asking rule is not memory, so no memory-tool read is bypassed; readers use the installed path _shared/asking-a-person.md."
+counts: {P1: 0, P2: 0, P3: 0, P4: 2, total: 2}

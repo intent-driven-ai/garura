@@ -1,11 +1,13 @@
 {
-  "verdict": "approve",
-  "reason": "no P1 findings; confidence acceptable",
-  "blocking": [],
+  "verdict": "reject",
+  "reason": "1 P1 (blocker) finding(s)",
+  "blocking": [
+    "Q2-1"
+  ],
   "counts": {
-    "P3": 5,
-    "P4": 5,
-    "P2": 1
+    "P4": 6,
+    "P1": 1,
+    "P3": 3
   },
   "confidence": null,
   "threshold": 0.8

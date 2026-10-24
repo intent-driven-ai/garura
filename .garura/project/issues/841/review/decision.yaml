@@ -1,16 +1,9 @@
-decision: reject
+decision: approve
 decided_by: human
-reply: "Reject 10 FX P2 and P3s. P4s can be captured under a chore. All of the P4s under the single chore map to the respective story. I'm presuming it's part of the same story, so all of them can be clubbed under a single issue ID."
-round: 1
-citing:
-  - DR-1 (P2) an accepted ADR was edited
-  - H1 (P3) deleting the 3 agents goes against ADR 050 §3 with no record
-  - H2/M3 (P3) the asking rule's move has no decision record
-  - M1 (P3) pr.md ADR rows read as if they still fire on ADRs
-  - Q-1 (P3) 91 generic scanner hits on 4 tool files; SEC-18 matched a plain word
-deferred_to_one_chore:
-  - H3 (P4) quality-auditor's validate mode returns with the /validate-epic rebuild
-  - H4 (P4) the shell installer cannot remove parts it laid before
-  - M5 (P4) the lens schema index names "the older chain" without its record
-  - DR-2 (P4) fixed with DR-1
-  - M4 (P4) note only, no fix
+reply: "i will fix p1 seprately as a new beanch. this can be a bif last radius. so without that accept. put p3s into a single chore"
+round: 2
+citing: []
+not_fixed_by_decision:
+  - Q2-1 (P1) DATA-18/DATA-17 on a dummy test e-mail — fixed by the product owner on its own branch, with #860
+  - Q2-2, Q2-3, Q2-5 (P3) — chore #861
+  - Q2-4, M7, M8, DR2-1, DR2-2, DR2-3 (P4) — chore #859

@@ -1,13 +1,10 @@
-Reviewer verdict (human): reject
+Reviewer verdict (human): approve
 
-Round 1. The product owner's word: reject; fix every P2 and P3 now; the P4s go to one chore.
+Round 2. Every round-1 P2 and P3 is fixed (DR-1, H1, H2, M1, M3, Q-1); M2 and DR-3 are answered; the round-1 P4s are in #859. Harness, memory and decision records have no P1, P2 or P3 left. Hidden acceptance checks 34 / 34; all tests pass; the old-name check passes.
 
-To fix in this PR:
-- DR-1 (P2): ADR 053 is accepted, so its line goes back as written; the old-name check skips ADR 053, which quotes old names on purpose.
-- H1, H2 and M3 (P3): one ADR records the two decisions that have no record yet: the deprecated agents and skills are deleted (amends ADR 050 §3), and the asking rule is a shared skill file, not memory (amends ADR 039 §9).
-- M1 (P3): pr.md marks the ADR rows (ARCH-23, DOC-04, DOC-05) as not scanned on docs/adr.
-- Q-1 (P3): the 91 scanner hits on four new tool files are read rule by rule; real ones are fixed, and rows that fire on any code file with no shown defect are tuned; SEC-18 no longer matches a plain word.
+The product owner's decision on the new findings ("i will fix p1 seprately as a new beanch ... so without that accept. put p3s into a single chore"):
+- Q2-1 (P1): the scanner took a dummy test e-mail for personal data. Fixed on its own branch, with #860 (a project says which review rules apply to it).
+- Q2-2, Q2-3, Q2-5 (P3): chore #861.
+- Q2-4, M7, M8, DR2-1, DR2-2, DR2-3 (P4): chore #859.
 
-To one chore (P4): H3, H4, M5 (DR-2 is fixed with DR-1; M4 needs no fix).
-
-Answered, not open: M2 (the template stands alone, by the product owner's decision) and DR-3 (the ADR 028 and ADR 033 pointers are on the base, 56ea71a4).
+Next: merge-change, on the product owner's typed "merge".
