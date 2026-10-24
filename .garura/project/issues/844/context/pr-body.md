@@ -40,7 +40,8 @@ The bi-788 intent page is confirmed by the product owner, with the title "Agents
 ## Review fixes
 
 - Round 1: no author names on model pages; every outside source has a link and was checked; the pages sit under their domain and capability folders.
-- Round 2: with the product owner's yes, cap-718's two old ICE lines now give a tracker issue only to the epic and the stories (ontology v7 and later), and hidden-file F10 matches them word for word. The domain lists bi-717 as well as bi-788. The memory update that named the book authors (mu-20261024-003) is rejected; mu-20261024-004 replaces it, with no names. Left for a person: fn-728's title (a bi-717 feature) still says "a tracker issue for every node".
+- Round 2: with the product owner's yes, cap-718's two old ICE lines now give a tracker issue only to the epic and the stories (ontology v7 and later), and hidden-file F10 matches them word for word. The domain lists bi-717 as well as bi-788. The memory update that named the book authors (mu-20261024-003) is rejected; mu-20261024-004 replaces it, with no names.
+- Round 3: with the product owner's word ("reject and fix"), fn-728 (a bi-717 feature) follows the same rule: its title, text, ICE and spine line give a tracker issue to the epic and the stories, not to every node.
 
 ## Known gaps (the play catches up in its own change)
 
