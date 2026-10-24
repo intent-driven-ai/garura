@@ -1,9 +1,13 @@
-**Reviewer verdict (human): reject** — round 1
+Reviewer verdict (human): reject
 
-"reject and fix all". All six findings are to be fixed:
-- M2 (P2): real names (book authors) on three new pages → cite the works by title only.
-- M4 (P3): "Shape a slice" says "nothing else" but its ICE lists the hidden file → fix the line.
-- M6 (P3): cap-718's pre-v7 "tracker issue for every node" line copied into hidden-file F10 → drop it.
-- M3 (P3): the domain's outside sources were named from memory → check them.
-- M5 (P3): new pages sit in the shared capabilities/ and features/ folders → follow the ontology's page layout.
-- M1 (P3, known): decisions 6 and 7 differ from ontology v10 and ADR 049 → the ontology and ADR follow the decisions, as their own change, landing before this PR.
+Round 3 of the review. P1 0, P2 0, P3 2, P4 0. The computed recommendation was approve; the product owner rejected so that N3 is fixed here.
+
+Fixed since round 2: M6 (cap-718 gives a tracker issue only to the epic and the stories; hidden-file F10 matches), N1 (the domain lists bi-717 and bi-788), N2 (memory update 003 rejected; 004 has no names), and real names removed from run records.
+
+To fix:
+- N3 (P3): fn-728 (a bi-717 feature, moved under cap-718) still says "a tracker issue for every node" in its title, text, ICE and spine line. Change it to the epic-and-story rule, as cap-718 was.
+
+Open on purpose:
+- M1 (P3): ontology v10 and ADR 049 still say the plan play writes the hidden file. The ontology change lands before this PR merges.
+
+Standards check: 0 findings. Slice check: 0 problems. Model check: the same 70 older errors (decision 8).

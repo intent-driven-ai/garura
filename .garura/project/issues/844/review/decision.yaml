@@ -1,7 +1,7 @@
 decision: reject
 decided_by: human
-reply: "reject and fix all"
-recommended: approve
-blocking: []
-round: 1
-to_fix: "all six findings: M2, M4, M6 (text on this run's pages), M3 (check the domain's sources), M5 (page folders), M1 (the ontology and ADR 049 follow decisions 6 and 7)"
+reply: "reject and fix"
+round: 3
+citing:
+  - N3 (P3): fn-728 still gives a tracker issue to every node; fix it in this PR the way cap-718 was fixed.
+  - M1 (P3): open on purpose; closes when the ontology change lands, before this PR merges.
