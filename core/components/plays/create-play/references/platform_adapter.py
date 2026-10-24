@@ -100,7 +100,7 @@ def _gh(verb, args, repo):
     if verb == "view-pr":
         return [["gh", "pr", "view", str(a["pr_number"]), "--json",
                  "number,title,body,state,author,headRefName,baseRefName,"
-                 "files,commits,mergeable,url"]]
+                 "files,changedFiles,commits,mergeable,url"]]
     if verb == "diff-pr":
         return [["gh", "pr", "diff", str(a["pr_number"])]]
     if verb == "comment-pr":

@@ -10,8 +10,12 @@ the category assessment and design-grounding that follow stay agent-run.
     python3 fetch_pr_context.py --config .garura/core/config.yaml \
         [--pr-number N] --out-context <context.yaml> --out-diff <pr.diff>
 
-context.yaml records: standards_order, review_shelf, changed_paths, base.
-Exit 0 on success, 1 on a fetch failure.
+context.yaml records: standards_order, review_shelf, changed_paths,
+changed_files_reported, base. changed_paths comes from the diff text: one path
+for each `diff --git` header, so a PR of any size gives every path.
+changed_files_reported is the count the host gives (null when it gives none).
+Exit 0 on success, 1 on a fetch failure, 3 when the host's count and the count
+of paths in the diff do not agree (then no context file is written).
 """
 
 import argparse
@@ -49,6 +53,50 @@ def _config_value(config_path, dotted):
     return None
 
 
+_HEADER = re.compile(r'^diff --git (?:a/(.*?)|"a/((?:[^"\\]|\\.)*)") '
+                     r'(?:b/(.*)|"b/((?:[^"\\]|\\.)*)")$')
+
+
+def _unquote(text):
+    """Undo git's C-style quoting of a path in a diff header."""
+    raw = text.encode("latin-1", "backslashreplace").decode("unicode_escape")
+    try:
+        return raw.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return raw
+
+
+def paths_from_diff(diff_text):
+    """Return the b-side path of each `diff --git` header, unique, in diff order."""
+    seen, out = set(), []
+    for line in diff_text.splitlines():
+        if not line.startswith("diff --git "):
+            continue
+        m = _HEADER.match(line)
+        if not m:
+            continue
+        if m.group(3) is not None:
+            path = m.group(3)
+        else:
+            path = _unquote(m.group(4))
+        if path and path not in seen:
+            seen.add(path)
+            out.append(path)
+    return out
+
+
+def reported_count(data):
+    """The host's count of changed files, or None when it gives none."""
+    value = data.get("changedFiles")
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str) and value.strip().isdigit():
+        return int(value.strip())
+    return None
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=".garura/core/config.yaml")
@@ -72,12 +120,21 @@ def main(argv=None):
         sys.exit(1)
     data = json.loads(meta["stdout"])
     base = data.get("baseRefName", "main")
-    changed_paths = [f.get("path") for f in data.get("files", []) if f.get("path")]
+    changed_files_reported = reported_count(data)
 
     diff = pa.dispatch("diff-pr", {"pr_number": pr}, config_path=ns.config)
     if diff["exit_code"] != 0:
         sys.stderr.write(f"fetch_pr_context.py: diff-pr failed: {diff['stderr']}\n")
         sys.exit(1)
+    changed_paths = paths_from_diff(diff["stdout"])
+    if changed_files_reported is not None and \
+            changed_files_reported != len(changed_paths):
+        sys.stderr.write(
+            f"fetch_pr_context.py: the host says the PR changes "
+            f"{changed_files_reported} files, but the diff shows "
+            f"{len(changed_paths)} files. The review cannot read every file, "
+            f"so no context file is written.\n")
+        sys.exit(3)
     with open(ns.out_diff, "w", encoding="utf-8") as fh:
         fh.write(diff["stdout"])
 
@@ -87,6 +144,7 @@ def main(argv=None):
     review_shelf = os.path.join(ltm_target, "knowledge", "review") + os.sep
 
     context = {"pr_number": pr, "base": base, "changed_paths": changed_paths,
+               "changed_files_reported": changed_files_reported,
                "standards_order": standards_order, "review_shelf": review_shelf}
     with open(ns.out_context, "w", encoding="utf-8") as fh:
         json.dump(context, fh, indent=2)

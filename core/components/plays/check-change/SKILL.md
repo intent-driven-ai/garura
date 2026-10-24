@@ -136,8 +136,10 @@ python3 scripts/fetch_pr_context.py --config .garura/core/config.yaml \
     --out-context "<working>/context.yaml" --out-diff "<working>/pr.diff"
 ```
 
-`context.yaml` records `standards_order`, the `review_shelf` path, `changed_paths`, and
-`base`.
+`context.yaml` records `standards_order`, the `review_shelf` path, `changed_paths`,
+`changed_files_reported`, and `base`. `changed_paths` comes from the diff headers, so a PR of
+any size gives every path. When the host's file count and the count of paths in the diff do
+not agree, the script writes no context file and exits 3: stop the review and show its message.
 
 **Step 2 — Assess Categories** · Owner: `change-reviewer` · Depends on: Step 1
 The agent reads the diff and derives the work categories actually present — judging each
@@ -166,7 +168,7 @@ playbook, then run **only the layers that apply**:
 - **Layer 1 — linters.** For the standards-driven categories (code, config, tests, docs-prose)
   the play dispatches `quality-auditor` to run `check-pr-quality` against the diff →
   `quality-findings.yaml`. For harness/memory the play runs the bundled structural linters the
-  playbook names (`lint_play.py`, `check-components`) and folds their output into findings. For
+  playbook names (`lint_play.py`, `core/tools/lint-components`) and folds their output into findings. For
   categories whose linter is a known gap (ADRs, config-map path-existence), the play performs
   the playbook's objective checks and records the basis. Where a category has a **runnable**
   check (a test suite, a language linter), the play executes it — it is not merely read.
@@ -428,7 +430,7 @@ current decision rather than adding a conflicting second one.
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
 | domain_agents | 2 (change-reviewer — assessment ×1, grounding ×N design-bearing categories in a concurrent batch; quality-auditor) |
 | utility_agents | 0 (#484 — mechanical PR/host I/O moved to bundled scripts) |
-| skills_reused | check-pr-quality, lint_play.py, check-components |
+| skills_reused | check-pr-quality, lint_play.py, core/tools/lint-components |
 | knowledge_consumed | knowledge/review/ (category playbooks); standards/rules/pr.md (severity taxonomy); standards/rules/concurrent-fanout.md (Layer-2 fan-out); standards_order set |
 | scripts | 7 (preflight.py — pre-flight facts; compute_verdict.py — recommended verdict over classified findings; check_stop_condition.py — Done-means gate; session_stamp.py — #463 identity stamp; platform_adapter.py — code-host adapter; fetch_pr_context.py — bind PR context; post_verdict.py — post decision + commit artifacts) |
 | step_evals | 12 (SE-1…SE-12) |
