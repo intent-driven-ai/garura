@@ -12,7 +12,7 @@ branch: plan/788/base
 identified_by:
 - 756
 returns_to: 756
-updated: '2026-10-23'
+updated: '2026-10-24'
 tree:
 - issue: 792
   kind: capability
@@ -127,7 +127,7 @@ tree:
   - issue: 842
     kind: defect
     title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
-    status: next
+    status: done
     needs:
     - 795
   - issue: 837
@@ -139,7 +139,7 @@ tree:
   - issue: 838
     kind: functionality
     title: An author-slice skill picks the slice's features, surface and tester
-    status: next
+    status: done
     needs:
     - 795
   - issue: 798
@@ -162,7 +162,10 @@ tree:
     - 798
     - 818
 # Not in this plan (standalone): #839 (review the agent's memory), #841 (check-change sees
-# only the first 100 files of a PR).
+# only the first 100 files of a PR), #843 (a sandbox install scope), #847 (check-change's
+# review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan
+# branch), #850 (apply_adr.py writes no forward pointer), #852 (the memory tool cannot mark a
+# replaced decision).
 # Parked on 2026-10-23 as its own business intent: #835 (upgrade path for older models).
 # Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
 # #797 (#799), #800 (#801), #802 (#803).
@@ -170,3 +173,16 @@ tree:
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
   status: next
+- issue: 844
+  kind: chore
+  title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
+  status: done
+- issue: 846
+  kind: chore
+  title: '/edit-ontology: /shape-slice writes the hidden file and proposes a thin ICE (ontology v11, ADR 052)'
+  status: done
+  children:
+  - issue: 851
+    kind: chore
+    title: The 13 P3/P4 standards findings left by the PR #849 review
+    status: next
