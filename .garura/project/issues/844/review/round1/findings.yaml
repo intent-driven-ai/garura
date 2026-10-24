@@ -26,10 +26,10 @@ findings:
     capabilities/cap-shape-eval/capability.md
   basis: 'PM7 (shape-slice reference/ice.md C14/F14: no real person on a page) and the user-facing page rule ''personas
     only, no real names'''
-  message: 'New pages name real people as authors: Ryan Singer, Jeff Patton, Gojko Adzic (domain.md lines 9-11;
+  message: 'New pages name real people as authors: the Shape Up author, the User Story Mapping author, the Specification by Example author (domain.md lines 9-11;
     cap-shape-slice line 11; cap-shape-eval line 11). Fix: cite the work by title and publisher only (''Shape Up
     (Basecamp, 2019)'', ''User Story Mapping (O''Reilly, 2014)'', ''Specification by Example (Manning, 2011)'')
-    or drop the name. The names that remain on older pages (bi-717, bi-722, bi-734 ''Kapil'') are outside this PR.'
+    or drop the name. The names that remain on older pages (bi-717, bi-722, bi-734 the product owner's name) are outside this PR.'
   status: open
 - category: product-model
   severity: P3

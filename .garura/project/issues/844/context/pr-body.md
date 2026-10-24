@@ -37,6 +37,11 @@ Recorded in `.garura/project/issues/844/context/decisions.md`:
 
 The bi-788 intent page is confirmed by the product owner, with the title "Agents design a named piece of work".
 
+## Review fixes
+
+- Round 1: no author names on model pages; every outside source has a link and was checked; the pages sit under their domain and capability folders.
+- Round 2: with the product owner's yes, cap-718's two old ICE lines now give a tracker issue only to the epic and the stories (ontology v7 and later), and hidden-file F10 matches them word for word. The domain lists bi-717 as well as bi-788. The memory update that named the book authors (mu-20261024-003) is rejected; mu-20261024-004 replaces it, with no names. Left for a person: fn-728's title (a bi-717 feature) still says "a tracker issue for every node".
+
 ## Known gaps (the play catches up in its own change)
 
 Decisions 4, 6, 7 and 8 change what `/shape-slice` does. Today's play asks a list of questions before the slice, may not write under `plans/`, cannot fill an existing capability in the spine, and fails its model check on older problems. The ontology (v10) and ADR 049 still say the plan play writes the hidden file. Next: `/edit-ontology` and an ADR update for decision 6, then `/edit-play` on `/shape-slice` for decisions 4, 6, 7 and 8, with #842. Also found in this run: Step 4 passes the proposals record to `filter`, which wants a plain list; the asking-a-person rule is in no memory tier until it is on main.

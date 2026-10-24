@@ -6,7 +6,7 @@
     "missing": "A domain shelf for software delivery planning: shaping a slice, planning it as an epic and stories, and writing an acceptance eval kept from the builder",
     "target_tier": "short-term",
     "target_path": "844/context/answers/software-delivery-planning-shelf.md",
-    "draft": "Software delivery planning: the field of building software with AI agents; the job is to shape and plan the work before the build. Trigger: the product turns a goal into work items that are built and checked. Named in the field as shaping (Ryan Singer, Shape Up, Basecamp 2019, basecamp.com/shapeup), story mapping and thin vertical slices (Jeff Patton, User Story Mapping, 2014), acceptance examples agreed before the build (Gojko Adzic, Specification by Example, 2011), and the epic and story work hierarchy (Atlassian Jira issue types). These sources are named from the published works and were not fetched in this run.",
+    "draft": "Software delivery planning: the field of building software with AI agents; the job is to shape and plan the work before the build. Trigger: the product turns a goal into work items that are built and checked. Named in the field as shaping (the Shape Up author, Shape Up, Basecamp 2019, basecamp.com/shapeup), story mapping and thin vertical slices (the User Story Mapping author, User Story Mapping, 2014), acceptance examples agreed before the build (the Specification by Example author, Specification by Example, 2011), and the epic and story work hierarchy (Atlassian Jira issue types). These sources are named from the published works and were not fetched in this run.",
     "draft_source": "model",
     "sources": [],
     "requested_by": "product-os-keeper (shape-slice)",
