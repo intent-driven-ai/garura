@@ -1,28 +1,41 @@
-# Layer 1 quality findings, PR #853, issue 842
+# Layer 1 quality findings, PR #853, issue 842, round 2
 categories: [executable-code, tests, harness-prose]
 runnable_checks: .garura/project/issues/842/review/runnable-checks.txt
-summary: {P1: 0, P2: 0, P3: 1, P4: 1}
+summary: {P1: 0, P2: 0, P3: 0, P4: 1}
+round1_status:
+  Q-1: fixed   # render_brief.py now writes the brief with safe_write.atomic_write (line 329)
+  Q-2: fixed   # write_hidden_file.py now calls atomic_write (lines 258, 342, 349, 439, 469); one shared safe_write.py holds the temp-file + os.replace block
+taxonomy_scan:
+  tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+  result: "P1=0 P2=0 P3=0 P4=0, errors=0, 74 paths, CODE-20 catch-all=74 (count only)"
 findings:
-  - id: Q-1
-    severity: P3
-    rule: error-handling (atomic-write consistency)
-    file: core/components/plays/shape-slice/scripts/render_brief.py
-    lines: "278-279"
-    note: >
-      The brief is written with a plain open(..., "w"), while persist_fills.py and
-      write_hidden_file.py write through a temp file and os.replace. A crash mid-write leaves a
-      half-written brief. Low risk: the brief is re-rendered on every run.
-  - id: Q-2
+  - id: Q-3
     severity: P4
-    rule: code-standards (duplication)
-    file: core/components/plays/shape-slice/scripts/write_hidden_file.py
-    lines: "331-345"
+    rule: error-handling (atomic-write consistency; same class as round-1 Q-1)
+    file: core/components/plays/shape-slice/scripts/record_questions.py
+    lines: "150-152"
     note: >
-      The temp-file + os.replace block is a copy of atomic_write() in persist_fills.py. Three
-      similar blocks are acceptable by the repo's own rule against early abstraction; note only.
+      questions.md (the running record of every question asked) is rewritten with a plain
+      open(..., "w") after a read-modify-write. A crash mid-write would truncate a record that
+      "only grows". The other plain writes in the play (record_questions.py 245-403,
+      slice_check.py 322/355, trace_check.py 73, check_stop_condition.py, record_approval.py,
+      session_stamp.py) write small one-shot JSON/marker outputs that are re-created every run,
+      so they are fine. safe_write.py's docstring says only five scripts write through it; this
+      one is not listed. Note only, not blocking.
+unit_tests:
+  command: "python3 <each> in core/components/plays/shape-slice/scripts"
+  results:
+    test_find_serving_slice.py: "21 passed, 0 failed (exit 0)"
+    test_grill_budget.py: "19 passed, 0 failed (exit 0)"
+    test_persist_slice.py: "97 passed, 0 failed (exit 0)"
+    test_render_brief.py: "27 passed, 0 failed (exit 0)"
+    test_shape_slice_scripts.py: "120 passed, 0 failed (exit 0)"
+    test_trace_check.py: "5 passed, 0 failed (exit 0)"
+    test_write_hidden_file.py: "24 passed, 0 failed (exit 0)"
+  guard_test: "create-play/references/test_scoped_write_guard.py: 15 passed, 0 failed (14 copies identical)"
+  total: "313 passed in the 7 play test files + 15 guard = 328 passed, 0 failed"
 verified_clean:
-  - all 8 test_*.py in shape-slice/scripts pass (21, 19, 97, 18, 109, 5, 20 and persist/trace counts shown in the checks file); 0 failed
-  - scoped_write_guard test passes 15/15, including all 14 play copies identical to the canonical file
-  - lint_play on shape-slice/SKILL.md: PASS, 0 gaps
-  - lint-components: 124 errors / 1 warning on both base and head, no new error
-  - scoped_write_guard.py --also-tree: rejects absolute and ".." paths, restore prunes only empty folders under the tree
+  - all 7 shape-slice test files exit 0; counts rose since round 1 (render_brief 18 to 27, shape_slice_scripts 109 to 120, write_hidden_file 20 to 24)
+  - scoped_write_guard copies all identical to the canonical file
+  - safe_write.atomic_write cleans up its temp file on any failure and creates the folder
+  - no use of os.replace or mkstemp outside safe_write.py in the play scripts

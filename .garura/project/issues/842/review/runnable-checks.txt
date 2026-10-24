@@ -1,59 +1,16 @@
-runnable checks, PR #853 / issue 842
-== core/components/plays/shape-slice/scripts/test_find_serving_slice.py
-  [PASS] a slice in progress (its epic past ready) is never a match
-  [PASS] the result names the slices in progress
-  [PASS] a slice whose epic is only ready is still a match
-21 passed, 0 failed
-== core/components/plays/shape-slice/scripts/test_grill_budget.py
-  [PASS] blocking over budget: over_budget is true
-  [PASS] blocking over budget: the rest are assumptions
-  [PASS] a question with no blocking flag exits 2
-19 passed, 0 failed
-== core/components/plays/shape-slice/scripts/test_persist_slice.py
-  [PASS] a list with exactly one surface is accepted
-  [PASS] an old-name spine stops (model_names guard)
-  [PASS] the old-name spine writes no record
-97 passed, 0 failed
-== core/components/plays/shape-slice/scripts/test_render_brief.py
-  [PASS] render: a missing rule for asking a person is said, with the memory update
-  [PASS] render: no Thin ICE section when no part is thin
-  [PASS] render: a missing record stops it (exit 2)
-18 passed, 0 failed
-== core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
-  [PASS] answers: a bare yes to one question is an acceptance, not its answer text
-  [PASS] brief --early: an opening that names a question id, and the four parts, pass
-  [PASS] brief: the full brief needs each section heading, and names the missing ones
-109 passed, 0 failed
-== core/components/plays/shape-slice/scripts/test_trace_check.py
-  [PASS] trace: a live record whose source changed is a problem (exit 1)
-  [PASS] trace: a live id with no record is a problem (not_recorded)
-  [PASS] trace: a live file of the wrong shape stops it (exit 2)
-5 passed, 0 failed
-== core/components/plays/shape-slice/scripts/test_write_hidden_file.py
-  [PASS] check: a "Fails if" line of the ICE that is not in the file fails (exit 1)
-  [PASS] check: a missing file fails
-  [PASS] lines: with an ices list the lines come from each ice.md's Intent
-20 passed, 0 failed
-== guard test
-  [PASS] --restore with an empty allow set removes both files and the folders the run made
-test_every_copy_is_identical
-  [PASS] every play's scoped_write_guard.py is identical to the canonical one (14 copies)
-15 passed, 0 failed
-== lint_play
-PLAY LINT: core/components/plays/shape-slice/SKILL.md
-  [PASS] required sections: all present
-  [PASS] failure coverage: every failure has a step eval
-  [PASS] scenario coverage: every scenario has a scenario eval
-  [PASS] constraint coverage: every constraint is in pre-flight or a step eval
-  [PASS] recovery 1:1: exactly one recovery per failure
-  [PASS] no orphans: no references to undeclared C/F/S
-  [PASS] pipeline position (D2): position: both
-  [PASS] model-write position (D2b): model-writing play, position both
-  [PASS] standard play close (D1): evidence close block present
-  [PASS] pre-flight resolver: scripts/preflight.py present
-  [PASS] stop condition (#464): Done means baked: manifest + checker present, clause types valid
-  [PASS] fingerprint: present
-  [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next
+# Runnable checks, PR #853 round 2 (run at review time)
+lint_play.py core/components/plays/shape-slice/SKILL.md:
 VERDICT: PASS (0 gap(s))
-== lint-components (repo root, head vs extracted origin/plan/788/base, <scratchpad>/base)
-base: 124 errors, 1 warning; head: 124 errors, 1 warning; new errors (by file+message): 0
+play script tests:
+  test_find_serving_slice.py: 21 passed, 0 failed
+  test_grill_budget.py: 19 passed, 0 failed
+  test_persist_slice.py: 97 passed, 0 failed
+  test_render_brief.py: 27 passed, 0 failed
+  test_shape_slice_scripts.py: 120 passed, 0 failed
+  test_trace_check.py: 5 passed, 0 failed
+  test_write_hidden_file.py: 24 passed, 0 failed
+guard copies identical to canonical:
+  14 copies, 0 differ
+lint-components (repo root):
+  errors total 118; in this change's files 0
+hidden acceptance checks (kept from the builder): 66 of 66 pass

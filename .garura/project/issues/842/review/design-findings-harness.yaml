@@ -1,68 +1,46 @@
 category: harness
-grounding_base: origin/plan/788/base
+round: 2
+grounding_base: plan/788/base
 principles:
   - id: G1
-    text: "An intent change goes through reference/ice.md and a recompile; SKILL.md must not drift from it"
-    source: "CLAUDE.md (Play Pipeline Rules); fingerprint check"
-    result: "held - fingerprint sha256:5cd7ca2f...524c4 equals shasum -a 256 of reference/ice.md; C1-C18, F1-F18, S1-S10, D1-D6 are in both"
+    text: "An agent only gathers context and checks; a skill does the work (agent = context, skill = artifact production)"
+    source: "CLAUDE.md Behavioral Rule 4; plan/788/base:core/components/plays/edit-play/references/agent-audit.md P7 (and the P1-P11 set)"
+    result: "held - all 11 agent contracts in shape-slice/SKILL.md say 'Gather and pass on only' and name a skill in 'skills'; the one with no skill (Step 10b, record the live decisions) is memory-tool cites only, with the question and answer the skill wrote left unchanged. product-os-keeper.md now says every choice, draft and decision is made by a named skill and that a missing skill returns step_failure; it never says the agent reshapes output."
   - id: G2
-    text: "The hidden file is written by /shape-slice, one entry per feature, one recovery per Fails-if line; the plan play writes nothing in evals"
-    source: "docs/adr/052 sections 1, 2, 4; ontology.md v11 (Hidden file row); expectation-generation.md 'A feature's recovery'"
-    result: "held"
+    text: "Each skill that does the work is named, exists, and does only its part; a skill reads only what its agent put in short-term memory"
+    source: "CLAUDE.md Rule 4 and Data Flow; .claude/rules/garura-memory.md; agent-audit.md P7"
+    result: "held - the five new skills (author-slice, find-slice-gaps, enrich-grounding, author-slice-brief, author-failure-recovery) each have name, description, user-invocable false, model, allowed-tools Read/Write, and Input / Process / Output / Rules; none searches memory or the web; the old skills' changes are additive modes (one-intent, profile false, depth directional)"
   - id: G3
-    text: "Agents gather context, skills produce artifacts, scripts do mechanical work"
-    source: "CLAUDE.md rule 4; harness.md rubric; agent-audit.md P7"
-    result: "held for the hidden file (script lists, product-os-keeper calls author-failure-recovery, script checks and writes); one gap, see DF-3"
+    text: "Agent audit P1-P11 for product-os-keeper on the changed dispatches"
+    source: "plan/788/base:core/components/plays/edit-play/references/agent-audit.md"
+    result: "held for P1 (every dispatch is now a JSON contract, including the early brief), P2, P4 (step_failure), P5, P6, P7, P9. Not re-judged: P8, P10, P11, which this change did not touch."
   - id: G4
+    text: "An intent change goes through reference/ice.md and a recompile"
+    source: "CLAUDE.md Play Pipeline Rules"
+    result: "held - SKILL.md fingerprint sha256:26376011...aaca4 is the one the play declares for reference/ice.md; the agent-only-gathers rule is carried as C19/F19/S and SE-25"
+  - id: G5
     text: "A builder, a building skill and the build context sub-agent never read a plan's evals folder; the ids never leave the eval folder"
     source: "docs/adr/049 section 4; ontology.md v11 Hidden file row"
-    result: "held for the evals folder; gap in the working copies, see DF-2"
-  - id: G5
-    text: "A question follows the rule for asking a person (opening, four parts, several examples, stands alone, personas)"
-    source: "standards/rules/asking-a-person.md; no-unbacked-recommendation.md"
-    result: "held - early brief and brief ask for opening, Question/Answer/Why/Example, 2+ domains; an answer with no basis stays empty"
-  - id: G6
-    text: "The product owner's decisions 1-5 for #842"
-    source: ".garura/project/issues/842/context/edit-play/decisions.md (decision record, not a standard)"
-    result: "held - 1: early ask only for a blocking gap with no proposal, never the surface (SKILL intro, Step 5, F3, F6); 2: reuse changes a slice in use, never one in progress (F7); 3: skill built and wired; 4: moved or used pages migrated in place, own-page problems fail, older ones warn (F8, F11, Step 9); 5: surface kept (C6)"
-  - id: G7
-    text: "Naming: verb first, one meaning per verb, no built-in clash"
-    source: "docs/standards/harness-standard.md; standards/rules/naming.md"
-    result: "held - author-failure-recovery; lint-components reports no error on any changed file"
-checks_run:
-  - "python3 core/components/plays/edit-play/scripts/lint_play.py core/components/plays/shape-slice/SKILL.md: VERDICT PASS (0 gaps), 13 checks"
-  - "node core/tools/lint-components/index.js --target core/components: 124 errors in the repo, none in a changed file (not attributable to this change)"
-  - "shape-slice script tests: 21+19+97+18+109+5+20 passed, 0 failed; create-play test_scoped_write_guard.py 15 passed, 0 failed"
-  - "md5 of all 15 scoped_write_guard.py copies identical"
-guard_review: "safe - --also-tree is opt-in (calls without it behave as before); the play passes one --allow for the one hidden file path, so any other change under .garura/project/plans is a violation; model-tree globs start with product-os/ and cannot match a plans path; restore prunes only empty folders above a removed file, up to the named tree; test_also_tree_joins_the_check covers the allowed file, a second file, and restore"
-evals_review: "every new C15-C18 / F15-F18 / S10 has an eval (SE-19..SE-23, SCE-10) and exactly one recovery (REC15-REC18, 18 recoveries for 18 failures); stop-condition D6 matches ice.md D6"
-no_real_person: "grep for the owner's name over SKILL.md, ice.md, scripts, the new skill and pr-body.md finds nothing; SE-16 grep is in place"
-counts: {P1: 0, P2: 0, P3: 2, P4: 1, total: 3}
-findings:
+    result: "held - the working copies are now cleared after check passes (write_hidden_file.py --clear-working, Step 8b)"
+round1_status:
   - id: DF-1
-    severity: P3
-    file: core/components/plays/shape-slice/SKILL.md
-    where: "Step 5 eval SE-6 (line 329) and Step 11 eval SE-6 (line 597)"
-    finding: "Two evals carry the id SE-6. The Compilation Metadata says 23 step evals (SE-1..SE-23), but the file holds 24 eval blocks. The early-brief check and the final-brief check share one id, so a recovery or report that names SE-6 cannot say which one."
-    principle: "One id names one eval, so coverage and reports stay clear (naming clarity)"
-    basis: "lint_play.py maps coverage by id, so a shared id hides one eval from the check; CLAUDE.md challenge principle 5 (naming clarity). No committed text states 'unique ids' in words."
-    fix: "Direct edit to SKILL.md (non-intent): give the early-brief eval its own id, or merge it with the final one, and fix the count. Record in the commit, not in the file."
+    status: fixed
+    note: "The early-brief eval is now SE-24 and the final-brief eval is SE-6; ids SE-1..SE-25 each appear once, and the metadata says 25 step evals."
   - id: DF-2
-    severity: P3
-    file: core/components/plays/shape-slice/SKILL.md
-    where: "Step 8b contracts; scripts/write_hidden_file.py lines/write"
-    finding: "The run's working files hidden-lines.json and hidden-recoveries.json sit in {stm}/<issue>/context/shape-slice/. They hold the Fails-if text, the F-ids and the recovery text, outside the plan's evals folder. The read rule names only the evals folder, so the rule does not cover these copies."
-    principle: "Failure lines and ids reach no builder; the ids never leave the eval folder"
-    basis: "docs/adr/049 section 4 ('Today the eval is kept from the builder by a read rule only'); ontology.md v11, Hidden file row ('The ids never leave the eval folder')"
-    risk: "Low today: the folder is the intent issue's short-term memory, not a builder issue's, and the build context sub-agent writes to its own issue. Still a leak path the read rule does not close."
-    fix: "Write the two working files outside the issue folder, or delete them after check passes, or record the exception in an ADR."
+    status: fixed
+    note: "Step 8b writes hidden-lines.json and hidden-recoveries.json only to be checked, then write_hidden_file.py write clears both (--clear-working); SKILL.md says the result's 'cleared' names them."
   - id: DF-3
+    status: fixed
+    note: "The early brief opening is now written by the new skill author-slice-brief (Step 5 contract, skills list), no agent-written prose; skills_missing reads 'none'."
+counts: {P1: 0, P2: 0, P3: 0, P4: 1, total: 1}
+findings:
+  - id: DF-4
     severity: P4
     file: core/components/plays/shape-slice/SKILL.md
-    where: "Step 5 early brief (agent writes early-brief.md); Compilation Metadata skills_missing"
-    finding: "The agent writes the early brief directly, with no skill, and skills_missing lists only author-slice. The gap for this prose is not noted."
-    principle: "An agent delegates artifact production to a skill, or documents that none exists"
-    basis: "core/components/plays/edit-play/references/agent-audit.md P7; CLAUDE.md rule 4"
-    fix: "Name the gap in skills_missing, as is done for the slice choice."
-no_findings_note: "Intent-change discipline, fingerprint, skill shape (frontmatter, Input, Process, Output, Rules; row in the agent skills table, trigger table and memory table), guard change, the asking-a-person rule, no real names, and the owner's decisions 1-5 all conform."
+    where: "Compilation Metadata, skills_used row"
+    finding: "The row ends with 'author-failure-recovery (author-slice, find-slice-gaps, author-slice-brief, enrich-grounding and author-failure-recovery built for this play, #842)'. The bracket lists the five new skills but hangs on the last skill's name, so it reads as if those were what author-failure-recovery uses. Also, the tests row lists 7 test files while the work holds 6 under shape-slice/scripts plus the create-play one; the counts do not obviously agree."
+    principle: "Naming clarity: a record says what it means (a metadata row a reader or a later rebuild relies on)"
+    basis: "CLAUDE.md, Challenge principle 5 (naming clarity); CLAUDE.md Play Pipeline Rules (the compiled file is read whole on every run)"
+    fix: "Direct edit to SKILL.md metadata (non-intent): move the bracket to its own words, 'new for this play: ...', and make the tests row match the files. Record in the commit, not in the file."
+no_findings_note: "The key principle held: no dispatch asks the agent to choose, draft or decide. Every contract names the skill that does the work, tells the agent to pass the skill's file on as it is, and splits the mechanical work (writing files, the spine, the hidden file, the brief layout) to play scripts. A missing skill is a step_failure, not agent work."
 playbook_gaps: "none for harness"

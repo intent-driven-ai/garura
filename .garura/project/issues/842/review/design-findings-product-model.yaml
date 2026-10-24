@@ -1,16 +1,29 @@
 category: product-model
-grounding_base: origin/plan/788/base
+round: 2
+grounding_base: plan/788/base
 playbook: null   # playbook missing; follow-up: write knowledge/review/product-model.md
 principles:
   - id: M1
-    text: "The epic keeps the map from each feature to its story, and the plan play writes it; the plan file and the epic agree"
-    source: "ontology.md v11 (Epic, Plan rows and rules); docs/adr/052 section 3"
+    text: "The epic keeps the map from each feature to its story, and the plan play writes it. The eval play joins each hidden-file entry to its story through this map."
+    source: "core/components/memory/standards/schemas/product-os/ontology.md v11 (flow paragraph, Epic row, Q-answers on the feature-to-story map) and docs/adr/052 section 3, both on plan/788/base"
   - id: M2
-    text: "The slice's hidden file belongs to /shape-slice, not the plan play"
-    source: "docs/adr/052 sections 1-2"
+    text: "A feature page keeps the fixed headings, and each acceptance line is a testable Given/When/Then of at least five words, self-explaining."
+    source: "core/components/memory/standards/schemas/product-os/grounding/feature.md and grounding/_content-standard.md on plan/788/base"
+  - id: M3
+    text: "The slice's hidden file and any failure or recovery condition belong to /shape-slice, not the plan play."
+    source: "docs/adr/052 sections 1-2 on plan/788/base"
 checks:
-  - "fn-818 gains one acceptance line: a slice with three features, run and yes, then the epic holds one map line per feature with its story. It states M1 and sits beside the page's existing Out line 'feature-to-story map' and Out of scope."
-  - "The line is in Given/when/then form like its neighbours; plain words; no real name."
-counts: {P1: 0, P2: 0, P3: 0, P4: 0, total: 0}
-findings: []
-note: "The page still carries its Thin mark; unchanged and correct. The map also appears in the page's Inputs/Outputs, so the new line adds a testable check, not new scope."
+  - "M1: the new line says the epic holds the map, one entry for each feature with its story. This matches the ontology and ADR 052 section 3. Pass."
+  - "M2: headings unchanged; the line is Given/When/Then, plain words, no real name, sits in Acceptance criteria. Pass."
+  - "M3: the line adds no failure or recovery condition and stays inside the plan play's job. Pass."
+  - "Thin mark and the page's Inputs/Outputs already name the map, so the line adds a testable check, not new scope. Pass."
+counts: {P1: 0, P2: 0, P3: 0, P4: 1, total: 1}
+findings:
+  - id: PM-1
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+    where: "Acceptance criteria, new last-but-one line (the three-feature map line)"
+    finding: "The line says 'one line for each feature'. The ontology and ADR 052 say only that the epic keeps a map from each feature to its story. They do not set the map's shape (line, table, field). The page also says the plan and story fields are not set yet. So 'one line' fixes a shape the model has not chosen. The line also does not check the second half of the Outputs rule, that the map agrees with the plan's Tree."
+    principle: "M1: the model fixes what the map holds (feature to story), not its shape; the page's own Thin note says the fields are open."
+    basis: "ontology.md v11 and docs/adr/052 section 3 (plan/788/base); the page's own 'Thin' lines"
+    fix: "Optional. Say 'an entry for each feature, with the story that delivers it' instead of 'one line', and, if wanted, add a second line checking the map agrees with the plan's Tree."

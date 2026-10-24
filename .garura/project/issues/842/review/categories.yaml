@@ -1,4 +1,4 @@
-# categories derived from the diff (base plan/788/base)
+# categories derived from the diff (base plan/788/base), round 2
 categories:
   - name: harness
     design_bearing: true
@@ -7,14 +7,28 @@ categories:
       - core/components/plays/shape-slice/SKILL.md
       - core/components/plays/shape-slice/reference/ice.md
       - core/components/plays/shape-slice/stop-condition.yaml
-      - core/components/skills/author-failure-recovery/SKILL.md
       - core/components/agents/product-os-keeper.md
+      - core/components/skills/author-business-intent/SKILL.md
+      - core/components/skills/author-domains/SKILL.md
+      - core/components/skills/author-failure-recovery/SKILL.md
+      - core/components/skills/author-slice-brief/SKILL.md
+      - core/components/skills/author-slice/SKILL.md
+      - core/components/skills/enrich-capability-ice/SKILL.md
+      - core/components/skills/enrich-grounding/SKILL.md
+      - core/components/skills/find-slice-gaps/SKILL.md
+      - core/components/skills/propose-answers/SKILL.md
+  - name: memory
+    design_bearing: true
+    playbook: memory
+    note: "a standards rule under memory/standards/rules"
+    evidence:
+      - core/components/memory/standards/rules/naming.md
   - name: executable-code
     design_bearing: false
     playbook: code
     evidence:
-      - core/components/plays/shape-slice/scripts/*.py (render_brief, write_hidden_file, trace_check, persist_fills, persist_slice, slice_check, record_questions, find_serving_slice)
-      - the write guard, scoped_write_guard.py, and its 14 identical copies under core/components/plays/*/scripts/ and create-play/references/
+      - core/components/plays/shape-slice/scripts/*.py (render_brief, write_hidden_file, write_intent_page, trace_check, persist_fills, persist_slice, slice_check, record_questions, find_serving_slice, safe_write)
+      - scoped_write_guard.py in shape-slice and its copies under core/components/plays/*/scripts/ and create-play/references/
   - name: tests
     design_bearing: false
     playbook: tests
@@ -30,6 +44,7 @@ categories:
   - name: run-records
     design_bearing: false
     playbook: null
-    note: "playbook missing - short-term memory records of the change run (decisions, change map, contract, pr body, commit analysis); record, not a standard"
+    note: "playbook missing - short-term memory records of the change and review runs (decisions, change map, contract, pr body, commit analysis, review outputs); records, not a standard"
     evidence:
       - .garura/project/issues/842/context/**
+      - .garura/project/issues/842/review/**

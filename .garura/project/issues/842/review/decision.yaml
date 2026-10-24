@@ -1,10 +1,10 @@
-decision: reject
+decision: approve
 decided_by: human
-reply: "reject and  fix. Also, the agent's job is only to collect context. It is not supposed to do actual work. That is the skill's job, so if that's not happening in the agent and skills, then that also needs to be fixed."
-round: 1
-citing:
-  - DF-1 (P3) two step evals share SE-6
-  - DF-2 (P3) working files keep Fails-if text and ids outside the evals folder
-  - Q-1 (P3) the brief is not written atomically
-  - Q-2 (P4) the safe-write code is repeated
-  - DF-3 (P4) the agent writes the early brief with no skill; with the product owner's rule, every place where the agent does work instead of a skill is fixed
+reply: "approved ignore the p4s"
+round: 2
+citing: []
+not_fixed_by_decision:
+  - DF-4 (P4) skills_used bracket reads as if it names what author-failure-recovery uses
+  - M-1 (P4) naming.md rule 2 repeats itself and gives no example of a dropped word
+  - PM-1 (P4) fn-818 acceptance line wording for the feature-to-story map
+  - Q-3 (P4) record_questions.py writes the question record with a plain write

@@ -1,65 +1,70 @@
-round: 1
+round: 2
 findings:
-- id: DF-1
-  severity: P3
-  file: core/components/plays/shape-slice/SKILL.md
-  where: Step 5 eval SE-6 (line 329) and Step 11 eval SE-6 (line 597)
-  finding: Two evals carry the id SE-6. The Compilation Metadata says 23 step evals
-    (SE-1..SE-23), but the file holds 24 eval blocks. The early-brief check and the
-    final-brief check share one id, so a recovery or report that names SE-6 cannot
-    say which one.
-  principle: One id names one eval, so coverage and reports stay clear (naming clarity)
-  basis: lint_play.py maps coverage by id, so a shared id hides one eval from the
-    check; CLAUDE.md challenge principle 5 (naming clarity). No committed text states
-    'unique ids' in words.
-  fix: 'Direct edit to SKILL.md (non-intent): give the early-brief eval its own id,
-    or merge it with the final one, and fix the count. Record in the commit, not in
-    the file.'
-- id: DF-2
-  severity: P3
-  file: core/components/plays/shape-slice/SKILL.md
-  where: Step 8b contracts; scripts/write_hidden_file.py lines/write
-  finding: The run's working files hidden-lines.json and hidden-recoveries.json sit
-    in {stm}/<issue>/context/shape-slice/. They hold the Fails-if text, the F-ids
-    and the recovery text, outside the plan's evals folder. The read rule names only
-    the evals folder, so the rule does not cover these copies.
-  principle: Failure lines and ids reach no builder; the ids never leave the eval
-    folder
-  basis: docs/adr/049 section 4 ('Today the eval is kept from the builder by a read
-    rule only'); ontology.md v11, Hidden file row ('The ids never leave the eval folder')
-  risk: 'Low today: the folder is the intent issue''s short-term memory, not a builder
-    issue''s, and the build context sub-agent writes to its own issue. Still a leak
-    path the read rule does not close.'
-  fix: Write the two working files outside the issue folder, or delete them after
-    check passes, or record the exception in an ADR.
-- id: DF-3
+- id: DF-4
   severity: P4
   file: core/components/plays/shape-slice/SKILL.md
-  where: Step 5 early brief (agent writes early-brief.md); Compilation Metadata skills_missing
-  finding: The agent writes the early brief directly, with no skill, and skills_missing
-    lists only author-slice. The gap for this prose is not noted.
-  principle: An agent delegates artifact production to a skill, or documents that
-    none exists
-  basis: core/components/plays/edit-play/references/agent-audit.md P7; CLAUDE.md rule
-    4
-  fix: Name the gap in skills_missing, as is done for the slice choice.
-- id: Q-1
-  severity: P3
-  rule: error-handling (atomic-write consistency)
-  file: core/components/plays/shape-slice/scripts/render_brief.py
-  lines: 278-279
-  note: 'The brief is written with a plain open(..., "w"), while persist_fills.py
-    and write_hidden_file.py write through a temp file and os.replace. A crash mid-write
-    leaves a half-written brief. Low risk: the brief is re-rendered on every run.
-
-    '
-- id: Q-2
+  where: Compilation Metadata, skills_used row
+  finding: 'The row ends with ''author-failure-recovery (author-slice, find-slice-gaps,
+    author-slice-brief, enrich-grounding and author-failure-recovery built for this
+    play, #842)''. The bracket lists the five new skills but hangs on the last skill''s
+    name, so it reads as if those were what author-failure-recovery uses. Also, the
+    tests row lists 7 test files while the work holds 6 under shape-slice/scripts
+    plus the create-play one; the counts do not obviously agree.'
+  principle: 'Naming clarity: a record says what it means (a metadata row a reader
+    or a later rebuild relies on)'
+  basis: CLAUDE.md, Challenge principle 5 (naming clarity); CLAUDE.md Play Pipeline
+    Rules (the compiled file is read whole on every run)
+  fix: 'Direct edit to SKILL.md metadata (non-intent): move the bracket to its own
+    words, ''new for this play: ...'', and make the tests row match the files. Record
+    in the commit, not in the file.'
+  category: harness
+- id: M-1
   severity: P4
-  rule: code-standards (duplication)
-  file: core/components/plays/shape-slice/scripts/write_hidden_file.py
-  lines: 331-345
-  note: 'The temp-file + os.replace block is a copy of atomic_write() in persist_fills.py.
-    Three similar blocks are acceptable by the repo''s own rule against early abstraction;
-    note only.
+  file: core/components/memory/standards/rules/naming.md
+  where: rule 2, lines 20-22 (the new text)
+  finding: The rule now says 'never a word the model dropped' and then adds 'Epic
+    and slice are model words.' The closing sentence repeats what the list in the
+    brackets already shows. The rule also no longer gives any example of a dropped
+    word, so a reader cannot tell what 'dropped' means today.
+  principle: A standard states each rule once, in plain words, with an example a reader
+    can act on (naming clarity).
+  basis: 'PR2: ADR 048 retired the only example of a dropped word (epic, slice); the
+    rule still points at ''dropped'' words with none named. Not a conformance break;
+    wording only.'
+  fix: Drop the sentence 'Epic and slice are model words.' and, if a dropped word
+    still exists in v11, name it as the example. Otherwise reword to 'in the product
+    model's words (feature, capability, slice, epic, plan)'.
+  category: memory
+- id: PM-1
+  severity: P4
+  file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  where: Acceptance criteria, new last-but-one line (the three-feature map line)
+  finding: The line says 'one line for each feature'. The ontology and ADR 052 say
+    only that the epic keeps a map from each feature to its story. They do not set
+    the map's shape (line, table, field). The page also says the plan and story fields
+    are not set yet. So 'one line' fixes a shape the model has not chosen. The line
+    also does not check the second half of the Outputs rule, that the map agrees with
+    the plan's Tree.
+  principle: 'M1: the model fixes what the map holds (feature to story), not its shape;
+    the page''s own Thin note says the fields are open.'
+  basis: ontology.md v11 and docs/adr/052 section 3 (plan/788/base); the page's own
+    'Thin' lines
+  fix: Optional. Say 'an entry for each feature, with the story that delivers it'
+    instead of 'one line', and, if wanted, add a second line checking the map agrees
+    with the plan's Tree.
+  category: product-model
+- id: Q-3
+  severity: P4
+  rule: error-handling (atomic-write consistency; same class as round-1 Q-1)
+  file: core/components/plays/shape-slice/scripts/record_questions.py
+  lines: 150-152
+  note: 'questions.md (the running record of every question asked) is rewritten with
+    a plain open(..., "w") after a read-modify-write. A crash mid-write would truncate
+    a record that "only grows". The other plain writes in the play (record_questions.py
+    245-403, slice_check.py 322/355, trace_check.py 73, check_stop_condition.py, record_approval.py,
+    session_stamp.py) write small one-shot JSON/marker outputs that are re-created
+    every run, so they are fine. safe_write.py''s docstring says only five scripts
+    write through it; this one is not listed. Note only, not blocking.
 
     '
+  category: quality

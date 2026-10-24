@@ -1,12 +1,13 @@
-Reviewer verdict (human): reject
+Reviewer verdict (human): approve
 
-Round 1 of the review. P1 0, P2 0, P3 3, P4 2. The computed recommendation was approve; the product owner rejected so that every finding is fixed and one rule is applied across the play:
+Round 2 of the review. All five round-1 findings are fixed (DF-1, DF-2, DF-3, Q-1, Q-2). The product owner's rule holds: in every agent step of /shape-slice the agent only gathers context, and a named skill does the work.
 
-"The agent's job is only to collect context. It is not supposed to do actual work. That is the skill's job."
+Checks: hidden acceptance checks 66 of 66; play script tests 313 pass; lint_play pass, 0 gaps; write guard copies the same as the source; no lint error in this change's files.
 
-To fix:
-- DF-1 (P3): two step evals share the id SE-6.
-- DF-2 (P3): hidden-lines.json and hidden-recoveries.json keep the "Fails if" text and ids in the issue folder, outside the evals folder.
-- Q-1 (P3): render_brief.py writes the brief without the temp-file-and-replace step.
-- Q-2 (P4): the safe-write helper is repeated in three scripts.
-- DF-3 (P4) and the rule above: every step where product-os-keeper does work itself (choosing the slice, the early brief, and any other) moves into a skill; the author-slice skill (#838) is built in this change.
+Four new P4 findings. The product owner decided to leave them as they are ("approved ignore the p4s"):
+- DF-4: the skills_used row in the play's metadata puts "built for this play" in a bracket after author-failure-recovery.
+- M-1: naming.md rule 2 repeats "Epic and slice are model words." and gives no example of a dropped word.
+- PM-1: fn-818's acceptance line could say "an entry for each feature, with the story that delivers it".
+- Q-3: record_questions.py writes the question record with a plain write, not the safe write.
+
+Next: merge-change, on the product owner's typed "merge".
