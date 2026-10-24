@@ -12,7 +12,7 @@ branch: plan/788/base
 identified_by:
 - 756
 returns_to: 756
-updated: '2026-10-24'
+updated: '2026-10-25'
 tree:
 - issue: 792
   kind: capability
@@ -110,7 +110,7 @@ tree:
   - issue: 854
     kind: chore
     title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
-    status: next
+    status: done
   - issue: 795
     kind: feature
     title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
@@ -132,7 +132,7 @@ tree:
   - issue: 837
     kind: chore
     title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
-    status: next
+    status: done
     needs:
     - 795
   - issue: 838
@@ -164,22 +164,35 @@ tree:
 # Not in this plan (standalone): #839 (review the agent's memory), #843 (a sandbox install scope), #847 (check-change's
 # review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan
 # branch), #850 (apply_adr.py writes no forward pointer), #852 (the memory tool cannot mark a
-# replaced decision).
+# replaced decision), #857 (commit-change never reads its own record as clean).
 # Parked on 2026-10-23 as its own business intent: #835 (upgrade path for older models).
 # Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
 # #797 (#799), #800 (#801), #802 (#803).
 - issue: 841
   kind: bug
   title: 'check-change reviews only the first 100 files of a pull request (P1)'
+  status: done
+- issue: 860
+  kind: bug
+  title: 'Installed skills read the source tree (core/components, core/tools) at run time (P1)'
+  status: next
+- issue: 861
+  kind: chore
+  title: 'The three P3 findings left by the PR #858 review, round 2'
   status: next
 - issue: 855
   kind: chore
   title: Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install
-  status: next
+  status: done
+  children:
+  - issue: 859
+    kind: chore
+    title: 'The P4 findings left by the PR #858 review'
+    status: next
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
-  status: next
+  status: done
 - issue: 844
   kind: chore
   title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
@@ -192,4 +205,4 @@ tree:
   - issue: 851
     kind: chore
     title: 'The 13 P3/P4 standards findings left by the PR #849 review'
-    status: next
+    status: done
