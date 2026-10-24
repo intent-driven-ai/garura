@@ -1,128 +1,132 @@
+round: 2
 findings:
-- id: DF-1
-  severity: P2
+- id: DF-R2-1
+  severity: P4
+  file: core/components/plays/shape-slice/SKILL.md and reference/ice.md
+  problem: Until /shape-slice is rebuilt, the play still says it writes nothing else,
+    and its write guard covers product-os only, not the plans folder. The schemas
+    and ontology now say otherwise. This is a known, recorded gap, not a defect of
+    this PR.
+  principle_violated: G6 (only as a gap to track)
+  basis: ontology.md head 'Who writes'; CLAUDE.md 'Play Pipeline Rules'; ADR 052 'Work
+    This Creates'
+  fix: Make sure the /edit-play follow-up issue exists and names the write scope and
+    the guard rule for plans/<id>/evals. I could not check the tracker.
+- id: DF-R2-2
+  severity: P4
+  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  lines: Work This Creates, last bullet
+  problem: 'It says ''After acceptance: the forward pointers on ADR 049 and ADR 047''.
+    The pointers are already in this PR, so the line is stale.'
+  principle_violated: A record states what is true when merged.
+  basis: docs/adr/047 and 049 Status lines in HEAD
+  fix: Drop the bullet, or say the pointers are done.
+- id: DF-R2-3
+  severity: P4
+  file: docs/adr/047-the-ice-is-its-own-node.md ; docs/adr/049-...md
+  problem: The pointers name only some sections. ADR 047 still says in ICE impact,
+    Negative risks and Work This Creates (#760) that the check 'reports richness'.
+    ADR 049 'What this does not change' still says ADR 047's ready check is unchanged,
+    and its ICE impact still says the plan play reads both ICE once and gives the
+    hidden file the failure conditions. A reader of the body can be misled, but the
+    Status pointer says to read ADR 052 first.
+  principle_violated: G9 (pointer pattern); mild, the pattern itself accepts this
+  basis: docs/adr/048 pointer on ADR 047 (base)
+  fix: 'Optional: widen the pointer text to ''and the matching lines in ICE impact,
+    Consequences and Work This Creates''. ADR 052 section ''What this does not change''
+    could also say ADR 049''s ''does not change ADR 047'' line no longer holds for
+    the ready check.'
+- id: DF-R2-4
+  severity: P4
   file: core/components/memory/standards/schemas/product-os/ontology.md
-  lines: '495-499 (ICE rules: Partly ready, ''reads only the thin mark'', thin ICE
-    definition)'
-  problem: 'v11 changes the ready check: the answer ''partly ready'' now also lists
-    the gap ''thin ICE'', and the words ''gaps outside the ICE''s parts'' are dropped.
-    ADR 047 section 6 defines partly ready as gaps outside the ICE''s parts. ADR 047
-    sections 7 and 8 say the check does not judge richness. ADR 049 says in terms
-    that ADR 047''s ready check is not changed. No decision record covers this change.'
-  principle_violated: G1 and G4
-  basis: docs/adr/047 sections 6-8; docs/adr/049 'What this does not change'
-  fix: Record the change in an ADR (or an amendment to ADR 047 section 6) before or
-    with this merge. Say that the thin mark is a gap about the ICE's depth, set by
-    a person-facing play, not a judgement by the check.
-- id: DF-2
-  severity: P2
+  lines: '502'
+  problem: 'Line 502 still says the ready check #760 is ''not built yet''. The check
+    exists in the repo and now reads the thin mark. Old text, but DF-3 asked to add
+    the mark there.'
+  principle_violated: Ontology states what is true.
+  basis: core/components/plays/discover-intent/scripts/check_ice_workable.py in HEAD
+  fix: 'Optional: update the line in the next ontology edit.'
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/047-the-ice-is-its-own-node.md
+  line: 1
+  evidence: docs/adr/047-the-ice-is-its-own-node.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: DOC-04
+  severity: P3
   file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
-  lines: 9 (Affects), 31, 51, 54, 59-60, 82, 99, 122
-  problem: 'Known, to be amended next. ADR 049 still says: the plan play writes the
-    hidden file (Decision 1 step 2, Decision 4); the hidden file has an entry for
-    each story; ''The plan play reads all of each ICE, once''; ''made again together'';
-    ''Each ICE is interpreted once, by the plan play''; ''/shape-slice writes nothing
-    else''. It also cites the section ''A story''s recovery (product ICE)'' (Affects
-    line and References), which v11 renamed to ''A feature''s recovery (product ICE)''.
-    The ''What this does not change'' list says ADR 047''s ready check stays (see
-    DF-1).'
-  principle_violated: The ontology and its decision record agree (ADR 049 is the record
-    for the shaping loop).
-  basis: docs/adr/049 on the base ref, lines above; ontology v11 Slice, Plan, Story,
-    ICE kinds
-  fix: 'Amend ADR 049 (or supersede its sections 1, 4 and 5 and the consequence on
-    single interpretation): /shape-slice writes the hidden file; one entry per feature;
-    two readers, each with its own ICE lines; the epic map; thin ICE. Fix the cited
-    section title.'
-- id: DF-3
+  line: 1
+  evidence: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: DOC-04
   severity: P3
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  lines: 497, 499, 535 and the log line (v11)
-  problem: The word 'thin' now has two meanings. ADR 047 uses 'thin part' and 'thin
-    ICE' for an ICE with few lines (sections 7, 8, Consequences). v11 says an ICE
-    is thin only when it carries the mark, and that 'an ICE with few lines and no
-    mark is not thin'. The shipped ready check check_ice_workable.py (discover-intent
-    and create-play copies) and its test still work out 'light | full' richness from
-    the lines an ICE fills, and v11 says the check 'does not count lines'. Readers
-    of ADR 047 or the script get a different picture.
-  principle_violated: One word, one meaning (naming standard); ADR 047 sections 7-8
-    treat richness as reported, never a stop.
-  basis: docs/adr/047 sections 7, 8; core/components/plays/discover-intent/scripts/check_ice_workable.py
-    lines 14-15, 186-190; create-play/references/test_check_ice_workable.py line 155;
-    standards/rules/naming.md
-  fix: 'Say in the ADR amendment (DF-1) that ''thin'' means the mark. Name the follow-up
-    for the ready check (#760): drop the line-count richness or call it by another
-    word, and read the mark. The ontology already lists #760 as not built; add the
-    thin mark to that line.'
-- id: DF-4
+  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  line: 1
+  evidence: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: DOC-04
   severity: P3
-  file: core/components/memory/standards/schemas/product-os/spine.yaml
-  lines: ices list, metadata block (base ref lines 131-140); ontology.md line 465
-  problem: 'v11 puts ''thin: true'' in an ICE spine entry''s metadata and a ''Thin:''
-    line above ''## Intent'' on the ICE page. The spine schema allows only created_by,
-    updated_by and version in an ICE entry''s metadata, and ADR 047 sections 1-2 list
-    what the entry and the page hold. A linter that follows the schema or the three-section
-    order (#759) can reject a thin ICE.'
-  principle_violated: G2
-  basis: docs/adr/047 sections 1 and 2; spine.yaml 'ices' list on the base ref
-  fix: 'Add the thin field to the spine ''ices'' schema and the Thin line to the ICE
-    page rule (and to the #759 linter task) in the same follow-up as DF-1.'
-- id: DF-5
-  severity: P3
-  file: core/components/plays/shape-slice/SKILL.md; core/components/plays/shape-slice/reference/ice.md;
-    core/components/memory/standards/schemas/product-os/slice.yaml; core/components/memory/standards/schemas/product-os/spine.yaml
-  lines: SKILL.md 15; reference/ice.md 10; slice.yaml 6 and 91; spine.yaml 251
-  problem: 'These texts say /shape-slice ''does nothing else'' / ''writes nothing
-    else: no plan, epic, story or eval''. v11 makes /shape-slice also write thin ICE
-    and the hidden file (and the evals folder under plans/). The ontology says a play''s
-    write scope is widened on purpose, in that play. The shape-slice intent (reference/ice.md)
-    is the place to widen it, so this is an intent change that goes through /edit-play.
-    ADR 049 already says plays and ontology differ until the plays are rebuilt; v11
-    widens that gap.'
-  principle_violated: G6
-  basis: ontology.md head ('Who writes'); standards/rules/direct-model-write.md; CLAUDE.md
-    'Play Pipeline Rules' (intent change goes through the ICE source)
-  fix: 'File the follow-up: shape-slice intent, write scope and scoped_write_guard
-    allow list (the guard covers product-os only; the plans folder needs its own rule),
-    slice.yaml and spine.yaml fill rules.'
-- id: DF-6
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: ARCH-23
   severity: P4
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  lines: 629 (Epic property), 135 (Q36), 645 (Epic rule)
-  problem: 'The feature-to-story map repeats a fact that already exists: each Story
-    has ''Represents'' (its one feature) and an Epic never holds two stories for one
-    feature. The fact now lives in three places (Story Represents, Epic map, Plan
-    Tree), with a drift rule to keep them equal. The product owner agreed this (K3),
-    so this is a note, not a defect.'
-  principle_violated: 'ADR 048 positive consequence: one place for a fact, so a copy
-    cannot drift'
-  basis: docs/adr/048 section 3 and Consequences (Positive); the Story 'Represents'
-    property in the ontology on the base ref
-  fix: None needed now. Revisit when the eval play is built; it may read Story 'Represents'
-    and drop the map.
-- id: DF-7
+  file: docs/adr/047-the-ice-is-its-own-node.md
+  line: 1
+  evidence: docs/adr/047-the-ice-is-its-own-node.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
   severity: P4
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  lines: 141 (Q38)
-  problem: Q38 differs from the approved text. Draft-links H says 'at least one line
-    in each part'. The ontology says 'at least a goal, a limit and one Fails if line
-    in Intent, one line in Context, one line in Expectation'. The ontology follows
-    L1 and the rule in C6, which the product owner approved, and the approved Q38
-    and C6 disagreed with each other, so the ontology is the more consistent text.
-  principle_violated: Word-for-word application of the agreed drafts (run decision
-    record)
-  basis: .garura/project/issues/846/context/edit-ontology/draft-links.md sections
-    H (Q38), C6 and L1
-  fix: Say so in the PR body so the reviewer knows the one deviation, and why.
-- id: DF-8
+  file: docs/adr/047-the-ice-is-its-own-node.md
+  line: 1
+  evidence: docs/adr/047-the-ice-is-its-own-node.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+- standard_id: ARCH-23
   severity: P4
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  lines: 535 (Clinic ICE example), 11 (flow line)
-  problem: Two small points beyond the drafts. The Clinic 'Booking' example gains
-    'It has no thin mark, so it is not thin' and 'Each part is short' (draft section
-    G asked only for a new thin example). The flow line still says each Story writes
-    its scope 'from its Feature's ICE and its Capability's ICE' without 'except the
-    Fails if lines'. Both are harmless and consistent with the kinds.
-  principle_violated: Word-for-word application of the agreed drafts
-  basis: draft-links.md sections A1 and G
-  fix: Optional. Leave as is, or note in the PR body.
+  file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  line: 1
+  evidence: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  line: 1
+  evidence: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  line: 1
+  evidence: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  line: 1
+  evidence: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05

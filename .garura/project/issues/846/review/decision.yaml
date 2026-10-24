@@ -1,11 +1,10 @@
 decision: reject
 decided_by: human
-reply: "reject fix all"
-round: 1
+reply: "reject and fix"
+round: 2
 citing:
-  - DF-1 (P2) ready check change has no ADR
-  - DF-2 (P2) ADR 049 still gives the hidden file to the plan play
-  - DF-3 (P3) ready-check tool counts lines
-  - DF-4 (P3) spine schema lacks the thin mark
-  - DF-5 (P3) slice.yaml, spine.yaml and the /shape-slice play still say "writes nothing else"
-  - DF-6, DF-7, DF-8 (P4)
+  - R2-1 (P4) /shape-slice play and write guard follow v10 until /edit-play; add the evals-folder write scope to #842
+  - R2-2 (P4) ADR 052 "pointers after acceptance" bullet is stale
+  - R2-3 (P4) ADR 047/049 pointers name only some sections
+  - R2-4 (P4) ontology says the ready check is "not built yet"
+  - R2-5 (P4) the ready check treats the text "false" as thin

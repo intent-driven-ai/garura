@@ -1,0 +1,15 @@
+categories:
+  - id: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/rules/expectation-generation.md
+    note: Ontology schema (v11) and a standards rule. They shape what every agent believes. Layer 1 and Layer 2 apply.
+  - id: run-records
+    playbook: null
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/846/context/** (branch, commit-change, edit-ontology drafts and checks, issue, pr, self-review, memory manifest, template copy)
+      - .garura/project/issues/846/review/memory-updates/mu-20261024-001.json
+    note: Short-term memory run records of the play runs for issue 846. They are not shipped design. Playbook missing; no review treatment needed beyond a check that they hold no secrets or other-issue data. Follow-up: add a playbook if this category keeps appearing.
