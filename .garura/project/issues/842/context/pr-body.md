@@ -1,6 +1,6 @@
-`/shape-slice` follows ontology v11 and the product owner's decisions from its first real run (#844). An `/edit-play` change: the ICE source changed first, then the play was recompiled. Finishes #842.
+`/shape-slice` follows ontology v11 and the product owner's decisions from its first real run (#844). An `/edit-play` change: the ICE source changed first, then the play was recompiled. Finishes #842. Also closes #838 (the `author-slice` skill).
 
-Closes #842 (on merge into the plan branch, by merge-change).
+Closes #842 and #838 (on merge into the plan branch, by merge-change).
 
 ## What the play does now
 
@@ -17,15 +17,28 @@ Closes #842 (on merge into the plan branch, by merge-change).
 - #842 R3-1 to R3-4: the brief shows the reuse fields and the warnings; the trace step names the tier; undo keeps "**Touches:** none yet"; the play says the message check is a floor, and an opening that names a question id no longer fails.
 - fn-818's acceptance criteria name the epic's feature-to-story map.
 
+## Review round 1 (rejected; all fixed)
+
+The product owner's word: "reject and fix. Also, the agent's job is only to collect context. It is not supposed to do actual work. That is the skill's job."
+
+- **The agent only gathers context; a skill does the work** (new C19, F19, REC19, SE-25). Each agent dispatch now names its skills. Only the live re-cite has none, because it is pure context.
+  - New skills: `author-slice` (#838): the surface, the tester, the features in build order, what is left out, the needs list, reuse (pull in, push out) and its fix mode. `find-slice-gaps`: the questions; the surface and the tester are never a question. `author-slice-brief`: the opening of both briefs. `enrich-grounding`: pages moved or used, a new feature under a capability that exists, the thin ICE, page fixes.
+  - Existing skills fixed: `author-business-intent` (one-intent mode), `propose-answers` (basis `{kind, ref}`, no default answer), `enrich-capability-ice` (directional depth, gaps returned as data), `author-domains` (`profile: false`), `author-failure-recovery`. `product-os-keeper` passes a skill's output on as it is. `find-model-gaps` is no longer used by /shape-slice.
+  - The play no longer reshapes skill output by hand: `record_questions.py merge-proposals` copies the proposed answers. The early brief is built by `render_brief.py --early`; the skill writes only its opening.
+- DF-1: the early-brief eval is SE-24; each step eval id is used once (25).
+- DF-2: once the hidden file reads ok, `write_hidden_file.py check --clear-working` deletes the two working copies of the "Fails if" lines and their ids. They are never left outside the evals folder, and never committed.
+- Q-1 and Q-2: one shared safe write (`safe_write.py`). The brief, the hidden file, the intent page and every model page go through it.
+- `naming.md` rule 2 no longer calls epic and slice dropped words.
+
 ## Checks
 
 | Check | Result |
 |---|---|
 | `lint_play.py` | PASS, 0 gaps; fingerprint updated |
-| Play tests | 289 pass (3 new test files) |
+| Play tests | 313 pass |
 | Guard test | pass; all 15 copies identical to the canonical guard |
-| Component lint | no new errors (same 124 as the base) |
-| Acceptance checks, written before the build and kept from the builder | 49 / 49 pass |
+| Component lint | no error in the play, the new or changed skills or the agent; 6 older errors fixed |
+| Acceptance checks, written before the build and kept from the builder | 66 / 66 pass (17 new for round 1) |
 
 The product owner's decisions for this change: `.garura/project/issues/842/context/edit-play/decisions.md`.
 
