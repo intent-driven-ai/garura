@@ -12,15 +12,16 @@ The file is Markdown with one fenced YAML block that holds `questions:`, one ent
     resolved_at, resolved_by_run
 
     python3 record_questions.py proposals --questions <q.json> --out <q-checked.json>
-    python3 record_questions.py filter    --record <md> --questions <q.json> --out <open.json>
+    python3 record_questions.py filter    --record <md> --questions <q-checked.json> --out <open.json>
     python3 record_questions.py open-list --open <open.json> --out <open-list.json>
+    python3 record_questions.py early     --split <split.json> --early-out <early-split.json> --rest-out <brief-split.json>
     python3 record_questions.py add       --record <md> --issue <n> --split <split.json> --at <ts> --run <run id>
     python3 record_questions.py answers   --reply <reply.md> --split <split.json> --out <answers.json>
     python3 record_questions.py answer    --record <md> --answers <answers.json> --at <ts> --run <run id>
-    python3 record_questions.py message   --message <message.md> --split <split.json>
+    python3 record_questions.py brief     --brief <brief.md> --split <split.json> [--early]
     python3 record_questions.py check     --record <md> --split <split.json>
 
-A question (q.json is a JSON list) has: id, blocking (true/false), question, and may have
+A question (q.json is a JSON list, or the object `proposals` writes) has: id, blocking (true/false), question, and may have
 topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, assume.
 
   proposals — three checks before anything is shown. (1) A gap the model or memory already
@@ -32,7 +33,9 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               and five words or more), has a "why" and at least two examples. This is the
               floor a script can test; the person at the checkpoint judges the rest. Prints {questions, settled, no_proposed_answer,
               stripped, shape_problems}; exit 1 when a question breaks the shape.
-  filter    — drops each question already answered in the record (C5). A question counts as
+  filter    — drops each question already answered in the record (C5). --questions takes a
+              JSON list, or the object `proposals` writes ({questions, settled, ...}): it reads
+              its `questions`. A question counts as
               answered when its question text, normalized (lower case, punctuation and extra
               spaces removed), matches an answered entry's — not by id alone. A question whose
               id is already in the record for a DIFFERENT question is kept, under a new id
@@ -47,8 +50,16 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               question may be plain text. A bare "skip" or "defer" (at most with "it", "for
               now" or "later") is recorded with decision deferred. A reply that starts with
               "skip" or "defer" and says more ("Skip the dashboard, use the CLI") is not
-              guessed: it is listed in `unclear`, gets no answer, and is asked again. Prints
-              {answers, unanswered, unclear, unknown}.
+              guessed: it is listed in `unclear`, gets no answer, and is asked again. When the
+              first line of the reply that is not empty is a bare "yes", each asked question the
+              reply does not answer by its id is recorded as {"id", "answer": "yes — accepted as
+              proposed", "decision": "accepted"}. Prints {answers, unanswered, unclear, unknown}.
+  early     — splits the asked questions of grill_budget.py's split in two. A question is
+              asked before the slice is shaped (`early-split.json`) only when it blocks the
+              slice, has no proposed answer, and is not about the surface or the tester (topic
+              `surface` or `tester`): the run proposes the surface and the tester itself. Every
+              other asked question waits for the one brief (`brief-split.json`). Both files have
+              the split's shape ({asked, assumptions}); the assumptions go with the brief.
   add       — writes grill_budget.py's split: each asked question as kind asked, each one not
               asked as kind assumption (its `assume` text, else its proposed answer, is the
               assumption). An assumption with no text is refused: a gap left open must have a
@@ -57,15 +68,21 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               answer with no text is refused (exit 2, nothing written): an empty answer is not
               an answer. An answer with no decision is deferred when its text is a bare
               "skip" or "defer", else in scope.
-  message   — checks the message shown to the person (Step 5) before it is sent: an opening
-              of two or three sentences before the first question that says what the person
-              decides, and for each asked question its id with the four parts **Question**,
-              **Answer**, **Why it matters** and **Example**. Exit 1 lists each problem.
+  brief     — checks the brief shown to the person before it is sent. The opening is the text
+              before the first Markdown heading: two or three sentences that say what the person
+              decides (it may name a question id). The brief has the H2 headings What you run,
+              Who tests it, Features, Hidden file, Left out, Assumptions, Model check and
+              Questions; each asked question of the split sits under ## Questions as ### <id>,
+              with the parts **Question**, **Answer**, **Why it matters** and **Example**. With
+              --early (the questions asked before the slice is shaped) only the opening and
+              ## Questions are needed. Prints {ok, problems}; each problem names the heading or
+              part that is missing. This is a floor a script can test; the person's read of the
+              brief is the full test. Exit 1 on problems.
   check     — every asked and assumption id of the split is in the record, and every asked
               question has an answer that is not empty; a blocking question that is deferred
               has no answer yet. Exit 1 when any of this fails.
 
-Exit 0 done, 1 a check failed (proposals: a question's shape; message: its shape; check: a
+Exit 0 done, 1 a check failed (proposals: a question's shape; brief: its shape; check: a
 missing entry or an asked question with no answer),
 2 usage error or refusal. Files on disk only.
 """
@@ -157,6 +174,8 @@ POINTERS = re.compile(r"\b(above|below|as before|as said|the previous|the last o
 DEFER = re.compile(r"^\s*(defer|skip)(\s+(it|this|this one|for now|later|for later))?"
                    r"\s*[.!]*\s*$", re.I)
 DEFER_START = re.compile(r"^\s*(defer|skip)\b", re.I)
+YES = re.compile(r"^\s*\**yes\**\s*[.!]*\s*$", re.I)
+ACCEPTED = "yes \u2014 accepted as proposed"
 
 
 def is_deferral(text):
@@ -203,8 +222,15 @@ def cmd_proposals(args):
     return 1 if problems else 0
 
 
+def questions_of(data):
+    """The questions of a file: a JSON list, or the object `proposals` writes."""
+    if isinstance(data, dict) and isinstance(data.get("questions"), list):
+        return data["questions"]
+    return data
+
+
 def cmd_filter(args):
-    qs = check_questions(load_json(args.questions, "questions"))
+    qs = check_questions(questions_of(load_json(args.questions, "questions")))
     _text, entries = read_record(args.record)
     done = {}
     for e in entries:
@@ -249,6 +275,33 @@ def cmd_open_list(args):
     return 0
 
 
+SELF_PROPOSED = ("surface", "tester")
+
+
+def is_early(q):
+    """Asked before the slice is shaped: blocking, no proposed answer, not the surface or tester."""
+    topic = str(q.get("topic") or "").strip().lower()
+    return (q.get("blocking") is True and q.get("proposed_answer") in (None, "")
+            and topic not in SELF_PROPOSED)
+
+
+def cmd_early(args):
+    split = load_json(args.split, "split")
+    if not isinstance(split, dict):
+        raise Refused(f"{args.split} must hold the split object {{asked, assumptions}}")
+    asked = list(split.get("asked") or [])
+    early = [q for q in asked if is_early(q)]
+    rest = [q for q in asked if not is_early(q)]
+    for path, data in ((args.early_out, {"asked": early, "assumptions": []}),
+                       (args.rest_out, {"asked": rest,
+                                        "assumptions": list(split.get("assumptions") or [])})):
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(data, fh, indent=2)
+    print(json.dumps({"early": [q.get("id") for q in early], "brief": [q.get("id") for q in rest]},
+                     indent=2))
+    return 0
+
+
 ANSWER_START = re.compile(r"^\s*(?:[-*]\s*)?(?:\*\*)?(?P<key>Q-[\w-]*\w|\d+)(?:\*\*)?"
                           r"\s*(?:[:.)]|\u2014|--?)\s*(?P<text>.*)$")
 
@@ -262,6 +315,8 @@ def cmd_answers(args):
     except OSError as exc:
         raise Refused(f"cannot read the reply {args.reply}: {exc}")
     found, unknown, current = {}, [], None
+    first = next((ln for ln in reply.splitlines() if ln.strip()), "")
+    yes = bool(YES.match(first))
     for line in reply.splitlines():
         m = ANSWER_START.match(line)
         key = m.group("key") if m else None
@@ -280,12 +335,14 @@ def cmd_answers(args):
             found[current] = [m.group("text")]
         elif current is not None:
             found[current].append(line)
-    if not found and len(asked) == 1 and reply.strip():
+    if not found and len(asked) == 1 and reply.strip() and not yes:
         found[asked[0]] = [reply]
     answers, unclear = [], []
     for qid in asked:
         text = "\n".join(found.get(qid, [])).strip()
         if not text:
+            if yes:
+                answers.append({"id": qid, "answer": ACCEPTED, "decision": "accepted"})
             continue
         if DEFER_START.match(text) and not is_deferral(text):
             unclear.append(qid)  # "Skip the dashboard, use the CLI": ask again, never guess
@@ -358,49 +415,68 @@ def cmd_answer(args):
     return 0
 
 
-MESSAGE_PARTS = ("Question", "Answer", "Why it matters", "Example")
+QUESTION_PARTS = ("Question", "Answer", "Why it matters", "Example")
+BRIEF_HEADINGS = ("What you run", "Who tests it", "Features", "Hidden file", "Left out",
+                  "Assumptions", "Model check", "Questions")
+HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
 
 
-def message_problems(text, asked):
-    """The message the person reads (Step 5), checked against the rule for asking a person."""
+def brief_problems(text, asked, early=False):
+    """The brief the person reads, checked against the floor of the rule for asking a person."""
     problems = []
     lines = text.splitlines()
-    first = next((i for i, ln in enumerate(lines) if any(q in ln for q in asked)), len(lines))
-    opening = " ".join(ln.strip() for ln in lines[:first] if ln.strip() and not ln.startswith("#"))
+    first = next((i for i, ln in enumerate(lines) if HEADING.match(ln)), len(lines))
+    opening = " ".join(ln.strip() for ln in lines[:first] if ln.strip())
     sentences = [x for x in re.split(r"(?<=[.!?])\s+", opening) if x.strip()]
     if not opening:
-        problems.append("no opening before the first question")
+        problems.append("no opening before the first heading")
     elif not 2 <= len(sentences) <= 3:
         problems.append(f"the opening has {len(sentences)} sentences, not two or three")
     if opening and not re.search(r"\bdecid", opening, re.I):
         problems.append("the opening does not say what the person decides")
-    starts = sorted((i, q) for q in asked for i, ln in enumerate(lines) if q in ln
-                    and not any(q2 != q and q2 in ln and len(q2) > len(q) for q2 in asked))
-    seen = {}
-    for i, q in starts:
-        seen.setdefault(q, i)
-    order = sorted(seen.items(), key=lambda kv: kv[1])
-    for n, (q, i) in enumerate(order):
-        end = order[n + 1][1] if n + 1 < len(order) else len(lines)
-        part = "\n".join(lines[i:end])
-        for name in MESSAGE_PARTS:
-            if not re.search(r"\*\*" + re.escape(name) + r"\b", part):
-                problems.append(f"'{q}' has no **{name}** part")
+    h2 = {}
+    for i, ln in enumerate(lines):
+        m = HEADING.match(ln)
+        if m and len(m.group(1)) == 2:
+            h2.setdefault(m.group(2), i)
+    for name in (("Questions",) if early else BRIEF_HEADINGS):
+        if name not in h2:
+            problems.append(f"no '## {name}' heading")
+    if "Questions" not in h2:
+        for q in asked:
+            problems.append(f"'{q}' is not under '## Questions'")
+        return problems
+    start = h2["Questions"] + 1
+    end = next((i for i in range(start, len(lines)) if (m := HEADING.match(lines[i]))
+                and len(m.group(1)) <= 2), len(lines))
+    blocks, current = {}, None
+    for ln in lines[start:end]:
+        m = HEADING.match(ln)
+        if m and len(m.group(1)) == 3:
+            current = m.group(2).strip()
+            blocks.setdefault(current, [])
+        elif current is not None:
+            blocks[current].append(ln)
     for q in asked:
-        if q not in seen:
-            problems.append(f"'{q}' is not in the message")
+        if q not in blocks:
+            problems.append(f"'{q}' has no '### {q}' heading under '## Questions'")
+            continue
+        part = "\n".join(blocks[q])
+        for name in QUESTION_PARTS:
+            if not re.search(r"\*\*" + re.escape(name) + r"\b", part):
+                problems.append(f"'### {q}' has no **{name}** part")
     return problems
 
 
-def cmd_message(args):
+def cmd_brief(args):
     split = load_json(args.split, "split")
     asked = [q["id"] for q in split.get("asked") or []]
     try:
-        with open(args.message, encoding="utf-8") as fh:
+        with open(args.brief, encoding="utf-8") as fh:
             text = fh.read()
     except OSError as exc:
-        raise Refused(f"cannot read the message {args.message}: {exc}")
-    problems = message_problems(text, asked)
+        raise Refused(f"cannot read the brief {args.brief}: {exc}")
+    problems = brief_problems(text, asked, early=args.early)
     print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
     return 1 if problems else 0
 
@@ -454,14 +530,20 @@ def main(argv=None):
     c = sub.add_parser("check")
     c.add_argument("--record", required=True)
     c.add_argument("--split", required=True)
-    m = sub.add_parser("message")
-    m.add_argument("--message", required=True)
-    m.add_argument("--split", required=True)
+    b = sub.add_parser("brief")
+    b.add_argument("--brief", required=True)
+    b.add_argument("--split", required=True)
+    b.add_argument("--early", action="store_true",
+                   help="the questions asked before the slice is shaped: opening and Questions only")
+    e = sub.add_parser("early")
+    e.add_argument("--split", required=True)
+    e.add_argument("--early-out", required=True)
+    e.add_argument("--rest-out", required=True)
     args = ap.parse_args(argv)
     try:
         return {"proposals": cmd_proposals, "filter": cmd_filter, "open-list": cmd_open_list,
                 "answers": cmd_answers, "add": cmd_add, "answer": cmd_answer,
-                "message": cmd_message, "check": cmd_check}[args.command](args)
+                "brief": cmd_brief, "early": cmd_early, "check": cmd_check}[args.command](args)
     except Refused as exc:
         sys.stderr.write(f"record_questions.py: {exc}\n")
         return 2

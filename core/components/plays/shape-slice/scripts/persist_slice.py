@@ -3,7 +3,8 @@
 persist_slice.py — write the slice /shape-slice shaped into the live product model (C6, C7, C9).
 
     python3 persist_slice.py --root <product-os dir> --spine <_spine.yaml> --slice <slice.json> \
-        [--reuse <slice-id>] [--out <persist-slice.json>]
+        [--reuse <slice-id> [--pull-in <feature id>]... [--push-out <feature id>]...] \
+        [--out <persist-slice.json>]
 
 slice.json:
     {"id": "...", "slug": "...", "name": "...", "outcome": "...",
@@ -33,6 +34,19 @@ lists, in plain words, how the new shape differs from the slice it reuses, so th
 sees it at the checkpoint. An older entry with fields ontology v10 removed (status, order,
 effort, depends_on, domain_ref) is written back with the six fields only; the result names
 the fields it dropped.
+
+CHANGE A REUSED SLICE (--pull-in / --push-out, with --reuse only): when the slice kept no
+longer serves the intent as it is, the run pulls a feature in, or pushes a feature out. A
+feature pulled in takes its place in the order of slice.json `feature_refs` (after the
+nearest feature before it that the slice keeps); a feature pushed out leaves the slice. The
+slice keeps its one surface and its tester, so it stays testable end to end. The result
+names `pulled_in` and `pushed_out`. Refused: a pull-in of a feature not in the spine or
+already in the slice, a push-out of a feature not in the slice, and a push-out that leaves
+the slice with no feature.
+
+A SLICE IN PROGRESS (a spine `epics` entry with its id as `slice_ref` has the status
+in_delivery, validated, fix_required or delivered) is never touched: --reuse of it, or a new
+slice with its id, is refused. The run shapes a new slice with its own id.
 
 A RECORD WRITTEN BEFORE slice.yaml v2 (no name or outcome, the surface kept under `slice`)
 is brought to v2 when the run touches it: its own facts come from its spine entry, a missing
@@ -74,6 +88,7 @@ import model_names  # noqa: E402  (stamped from create-play/references)
 import spine_text  # noqa: E402
 
 SPINE_FIELDS = ("id", "slug", "feature_refs", "vertical", "intents", "record")
+IN_PROGRESS = ("in_delivery", "validated", "fix_required", "delivered")
 RECORD_SLICE = ("id", "slug", "name", "outcome", "feature_refs", "vertical", "intents")
 RECORD_SURFACE = ("id", "name", "persona_ref", "user_action")
 
@@ -228,14 +243,50 @@ def differences(existing, rec, sl, surface):
     return out
 
 
-def plan(spine, sl, surface, root, reuse):
+def in_progress(spine, sid):
+    return any(isinstance(e, dict) and e.get("slice_ref") == sid and e.get("status") in IN_PROGRESS
+               for e in (spine.get("epics") or []))
+
+
+def changed_features(have, shaped, pull_in, push_out, known):
+    """The kept slice's features after the pull-ins and push-outs, in build order."""
+    out = list(have)
+    for f in push_out:
+        if f not in out:
+            raise Refused(f"--push-out names feature '{f}', which is not in the slice")
+        out.remove(f)
+    for f in pull_in:
+        if f not in known:
+            raise Refused(f"--pull-in names feature '{f}', which is not in the spine; add it to "
+                          "the model first (C8)")
+        if f in out:
+            raise Refused(f"--pull-in names feature '{f}', which is already in the slice")
+        at = 0
+        if f in shaped:
+            before = [x for x in shaped[:shaped.index(f)] if x in out]
+            at = out.index(before[-1]) + 1 if before else 0
+        else:
+            at = len(out)
+        out.insert(at, f)
+    if not out:
+        raise Refused("the push-outs leave the slice with no feature; a slice holds one or more "
+                      "features that one person tests end to end")
+    return out
+
+
+def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
     """Work out every write before the first one. Returns a dict that `write` applies."""
     slices = spine.get("slices") or []
     if not isinstance(slices, list):
         raise Refused("the spine's `slices` is not a list")
     sid = reuse or sl["id"]
+    if (pull_in or push_out) and not reuse:
+        raise Refused("--pull-in and --push-out change a reused slice; give --reuse <slice id>")
     if reuse:
         safe_id(reuse, "the slice to reuse")
+    if in_progress(spine, sid):
+        raise Refused(f"slice '{sid}' is in progress (its epic is past ready), so the run does not "
+                      "touch it; shape a new slice with its own id")
     existing = next((s for s in slices if isinstance(s, dict) and s.get("id") == sid), None)
     rec_path = inside(root, record_rel(sid), "the slice record")
     if existing is None:
@@ -248,7 +299,7 @@ def plan(spine, sl, surface, root, reuse):
         return {"action": "created", "id": sid, "entry": entry, "new_entry": True,
                 "added": entry["intents"], "record": new_record(sl, surface, entry["intents"]),
                 "rec_path": rec_path, "differences": [], "dropped": [], "spine_changed": True,
-                "upgraded": []}
+                "upgraded": [], "pulled_in": [], "pushed_out": []}
     if not reuse and (list(existing.get("feature_refs") or []) != list(sl["feature_refs"])
                       or existing.get("vertical") != sl["vertical"]):
         raise Refused(f"slice '{sid}' is already in the spine with other features or another "
@@ -260,16 +311,22 @@ def plan(spine, sl, surface, root, reuse):
     entry = {k: existing.get(k) for k in SPINE_FIELDS if k != "record"}
     entry["intents"] = intents
     entry["record"] = record_rel(sid)
+    known = {f.get("id") for f in (spine.get("features") or []) if isinstance(f, dict)}
+    old_features = list(existing.get("feature_refs") or [])
+    features = changed_features(old_features, list(sl["feature_refs"]), list(pull_in),
+                                list(push_out), known) if (pull_in or push_out) else old_features
+    entry["feature_refs"] = features
+    kept_view = dict(existing, feature_refs=features)
     dropped = [k for k in existing if k not in SPINE_FIELDS]
     rec = load_record(rec_path)
-    diffs = differences(existing, rec, sl, surface) if reuse else []
+    diffs = differences(kept_view, rec, sl, surface) if reuse else []
     if rec is None:
         rec_surface = surface if surface.get("name") == existing.get("vertical") else None
         if rec_surface is None:
             raise Refused(f"slice '{sid}' has no record at {record_rel(sid)}, and the new shape's "
                           "surface is not that slice's surface, so the record cannot be written")
         base = dict(sl, id=sid, slug=existing.get("slug") or sl["slug"],
-                    feature_refs=existing.get("feature_refs") or sl["feature_refs"],
+                    feature_refs=features or sl["feature_refs"],
                     vertical=existing.get("vertical"))
         rec_new = new_record(base, rec_surface, intents)
         rec_changed = True
@@ -279,16 +336,19 @@ def plan(spine, sl, surface, root, reuse):
         body = rec_new["slice"]
         rec_intents = list(body.get("intents") or [])
         body["intents"] = rec_intents + [i for i in intents if i not in rec_intents]
+        if features != old_features:
+            body["feature_refs"] = list(features)
         rec_changed = rec_new != rec
     if rec is None:
         upgraded = []
     spine_changed = bool(added) or bool(dropped) or existing.get("record") != record_rel(sid) \
-        or list(existing) != list(SPINE_FIELDS)
+        or list(existing) != list(SPINE_FIELDS) or features != old_features
     action = "updated" if (spine_changed or rec_changed) else "unchanged"
     return {"action": action, "id": sid, "entry": entry, "new_entry": False, "existing": existing,
             "added": added, "record": rec_new if rec_changed else None, "rec_path": rec_path,
             "differences": diffs, "dropped": dropped, "spine_changed": spine_changed,
-            "upgraded": upgraded}
+            "upgraded": upgraded, "pulled_in": [f for f in features if f not in old_features],
+            "pushed_out": [f for f in old_features if f not in features]}
 
 
 def to_v2(rec, sid, existing, sl, surface):
@@ -354,6 +414,10 @@ def main(argv=None):
     ap.add_argument("--spine", required=True)
     ap.add_argument("--slice", required=True, help="slice.json")
     ap.add_argument("--reuse", help="the id of the slice that already serves the intent (C7)")
+    ap.add_argument("--pull-in", action="append", default=[],
+                    help="with --reuse: a feature the kept slice takes in; repeatable")
+    ap.add_argument("--push-out", action="append", default=[],
+                    help="with --reuse: a feature the kept slice gives up; repeatable")
     ap.add_argument("--out", help="also write the result JSON here")
     args = ap.parse_args(argv)
 
@@ -376,7 +440,7 @@ def main(argv=None):
         with open(args.slice, encoding="utf-8") as fh:
             sl = json.load(fh)
         surface = check_slice(sl, spine, args.root)
-        p = plan(spine, sl, surface, args.root, args.reuse)
+        p = plan(spine, sl, surface, args.root, args.reuse, args.pull_in, args.push_out)
     except Refused as exc:
         sys.stderr.write(f"persist_slice.py: not written — {exc}\n")
         return finish({"ok": False, "refused": str(exc)}, 2)
@@ -388,7 +452,8 @@ def main(argv=None):
     result = {"ok": True, "action": p["action"], "id": p["id"], "reused": bool(args.reuse),
               "added_intents": p["added"], "record": record_rel(p["id"]),
               "record_written": p["record"] is not None, "differences": p["differences"],
-              "dropped_fields": p["dropped"], "upgraded_to_v2": p["upgraded"]}
+              "dropped_fields": p["dropped"], "upgraded_to_v2": p["upgraded"],
+              "pulled_in": p["pulled_in"], "pushed_out": p["pushed_out"]}
     return finish(result, 0)
 
 

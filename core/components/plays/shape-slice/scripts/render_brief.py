@@ -1,0 +1,285 @@
+#!/usr/bin/env python3
+"""
+render_brief.py — the one slice-confirmation brief of /shape-slice (C3, C16, C17, C18).
+
+The person gets one brief, not a list of questions. This script builds it from the run's
+records, so no part can be left out; the agent writes only the opening (and the question
+text, which is already in the split).
+
+    python3 render_brief.py --working <dir> --root <model> --spine <spine> \
+        --opening <opening.md> --out <brief.md>
+
+It reads from <dir>: slice.json, fills.json, persist-fills.json, persist-slice.json,
+slice-check.json, hidden-file.json, split.json, questions-checked.json and gather.json; and,
+when it is there, early-split.json (the questions already asked before the slice was shaped,
+which the brief does not ask again).
+
+brief.md is the opening, then these H2 sections:
+  What you run   — the surface's name and what the tester does on it
+  Who tests it   — the surface's persona_ref
+  Features       — one block per capability, in build order:
+                       ### <capability name> (<cap id>) — <new|filled|reused>
+                       Domain: [<domain name>](<link to the domain's page>)
+                       <n>. <feature name> (<feature id>) — <new|filled|reused>
+                   (n is the place in build order; a part is new when persist-fills.json
+                   `written` names it, filled when `updated` names it, else reused)
+  Hidden file    — Place, Fails if lines, The builder can fix alone, A person must decide
+  Left out       — each slice.json left_out[].what (with its why), or "Nothing is left out."
+  Assumptions    — each split.json assumptions[].assume
+  Thin ICE       — only when a part is thin: each thin part's id, and /discover-capabilities
+  Kept slice     — only when persist-slice.json reads reused: true: each difference word for
+                   word; each pulled-in or pushed-out feature; each field a record upgrade set
+                   or dropped, in plain words with the field's own word
+  Model check    — Older problems: <n>, then each older problem and warning, word for word
+  Questions      — Questions with no proposed answer: <n>, then each asked question as
+                   ### <id> with **Question**, **Answer**, **Why it matters**, **Example**;
+                   when gather.json has rule_missing, a line that says the rule for asking a
+                   person is missing and names the memory update
+  Your reply     — yes, change: <what>, or stop; answer a question by its id
+
+Prints {"ok": true, "out": <path>}. Exit 0 written, 2 a record is missing or unreadable.
+Files on disk only; no git, no network.
+"""
+
+import argparse
+import json
+import os
+import sys
+
+try:
+    import yaml
+except ImportError:
+    sys.stderr.write("render_brief.py: PyYAML is required (pip install pyyaml).\n")
+    sys.exit(2)
+
+RECORDS = ("slice.json", "fills.json", "persist-fills.json", "persist-slice.json",
+           "slice-check.json", "hidden-file.json", "split.json", "questions-checked.json",
+           "gather.json")
+THIN_WARNING = ("A thin ICE is enough to start, but it can give weak stories and weak checks "
+                "later. `/discover-capabilities` can deepen it. Nothing stops, and you do not "
+                "need to run it now.")
+
+
+class Missing(Exception):
+    pass
+
+
+def load(working, name, optional=False):
+    path = os.path.join(working, name)
+    if not os.path.isfile(path):
+        if optional:
+            return None
+        raise Missing(f"the record {name} is not in {working}")
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def _entry(spine, key, eid):
+    return next((e for e in spine.get(key) or [] if isinstance(e, dict) and e.get("id") == eid), None)
+
+
+def page_name(root, part, prefix):
+    if part is None:
+        return None
+    path = os.path.join(root, part.get("doc") or "")
+    if os.path.isfile(path):
+        with open(path, encoding="utf-8") as fh:
+            for ln in fh:
+                if ln.startswith("# " + prefix):
+                    return ln[len("# " + prefix):].strip()
+    return part.get("slug") or part.get("id")
+
+
+def mark(pid, written, updated):
+    if pid in written:
+        return "new"
+    if pid in updated:
+        return "filled"
+    return "reused"
+
+
+def surface_of(sl):
+    s = sl.get("surface")
+    if isinstance(s, list):
+        s = s[0] if s else {}
+    return s if isinstance(s, dict) else {}
+
+
+def features_section(root, spine, sl, pf, out_dir):
+    written = {i for ids in (pf.get("written") or {}).values() for i in ids}
+    updated = set(pf.get("updated") or [])
+    groups, order = {}, []
+    for n, fid in enumerate(sl.get("feature_refs") or [], 1):
+        f = _entry(spine, "features", fid) or {"id": fid}
+        cap_id = f.get("capability") or None
+        if cap_id not in groups:
+            groups[cap_id] = []
+            order.append(cap_id)
+        groups[cap_id].append((n, f))
+    out = []
+    for cap_id in order:
+        cap = _entry(spine, "capabilities", cap_id) if cap_id else None
+        if cap is None:
+            out.append("### No capability yet — the features wait in the holding folder")
+        else:
+            out.append(f"### {page_name(root, cap, 'Capability:')} ({cap_id}) — "
+                       f"{mark(cap_id, written, updated)}")
+            dom = _entry(spine, "domains", cap.get("domain")) if cap.get("domain") else None
+            if dom is None:
+                out.append("Domain: none yet — the capability waits in the holding folder")
+            else:
+                link = os.path.relpath(os.path.join(root, dom.get("doc") or ""), out_dir)
+                out.append(f"Domain: [{page_name(root, dom, 'Theme:')}]({link.replace(os.sep, '/')})"
+                           f" — {mark(dom.get('id'), written, updated)}")
+        out.append("")
+        for n, f in groups[cap_id]:
+            out.append(f"{n}. {page_name(root, f, 'Feature:')} ({f.get('id')}) — "
+                       f"{mark(f.get('id'), written, updated)}")
+        out.append("")
+    return out
+
+
+def thin_parts(spine, sl, fills, hidden):
+    ids = list(fills.get("thin") or [])
+    wanted = set(sl.get("feature_refs") or [])
+    for f in sl.get("feature_refs") or []:
+        e = _entry(spine, "features", f)
+        if e and e.get("capability"):
+            wanted.add(e["capability"])
+    for key in ("capabilities", "features", "ices"):
+        for e in spine.get(key) or []:
+            if isinstance(e, dict) and (e.get("metadata") or {}).get("thin"):
+                pid = e.get("for") if key == "ices" else e.get("id")
+                if pid in wanted:
+                    ids.append(pid)
+    for entry in hidden.get("entries") or []:
+        for kind in entry.get("thin") or []:
+            ids.append(entry["feature"] if kind == "feature" else entry.get("capability"))
+    return [i for i in dict.fromkeys(ids) if i]
+
+
+def kept_section(root, ps):
+    out = [f"- {d}" for d in ps.get("differences") or []]
+    out += [f"- This run pulls feature {f} into the kept slice, in its place in build order."
+            for f in ps.get("pulled_in") or []]
+    out += [f"- This run pushes feature {f} out of the kept slice." for f in ps.get("pushed_out") or []]
+    rec = {}
+    rec_path = os.path.join(root, ps.get("record") or "")
+    if ps.get("record") and os.path.isfile(rec_path):
+        with open(rec_path, encoding="utf-8") as fh:
+            rec = yaml.safe_load(fh) or {}
+    for field in ps.get("upgraded_to_v2") or []:
+        if field.startswith("surface (moved"):
+            out.append("- The kept slice's record held its surface inside the slice part; this run "
+                       "moved the surface to its own part.")
+            continue
+        part, _, word = field.partition(".")
+        value = (rec.get(part) or {}).get(word) if isinstance(rec.get(part), dict) else None
+        shown = f" '{value}'" if isinstance(value, str) else (f" {value}" if value else "")
+        out.append(f"- The kept slice's record had no {word}; it now has the {word}{shown}.")
+    for field in ps.get("dropped_fields") or []:
+        out.append(f"- The kept slice's spine entry had the old field {field}; this run removed it, "
+                   "because a slice entry has six fields only.")
+    return out or ["- The kept slice is as it was; this run only adds the intent to it."]
+
+
+def question_block(q):
+    ans = q.get("proposed_answer")
+    examples = [str(e) for e in q.get("examples") or [] if str(e).strip()]
+    return [f"### {q['id']}", "",
+            f"**Question** {q.get('question') or ''}", "",
+            f"**Answer** {'proposed: ' + str(ans) if ans not in (None, '') else 'no proposed answer yet'}",
+            "", f"**Why it matters** {q.get('why') or ''}", "",
+            "**Example** " + " ".join(f"({chr(97 + i)}) {e}" for i, e in enumerate(examples)), ""]
+
+
+def render(working, root, spine, opening, out_dir=None):
+    sl = load(working, "slice.json")
+    fills = load(working, "fills.json")
+    pf = load(working, "persist-fills.json")
+    ps = load(working, "persist-slice.json")
+    sc = load(working, "slice-check.json")
+    hidden = load(working, "hidden-file.json")
+    split = load(working, "split.json")
+    qc = load(working, "questions-checked.json")
+    gather = load(working, "gather.json")
+    early = load(working, "early-split.json", optional=True) or {}
+    out_dir = out_dir or working
+    surface = surface_of(sl)
+    lines = [opening.strip(), ""]
+    lines += ["## What you run", "",
+              f"- Surface: {surface.get('name') or sl.get('vertical')}",
+              f"- What the tester does there: {surface.get('user_action') or 'not given'}", ""]
+    lines += ["## Who tests it", "", f"- {surface.get('persona_ref') or 'not given'}", ""]
+    lines += ["## Features", ""] + features_section(root, spine, sl, pf, out_dir)
+    counts = hidden.get("counts") or {}
+    lines += ["## Hidden file", "",
+              f"- Place: {hidden.get('path')}",
+              f"- Fails if lines: {counts.get('lines', 0)}",
+              f"- The builder can fix alone: {counts.get('builder_alone', 0)}",
+              f"- A person must decide: {counts.get('person', 0)}", ""]
+    left = sl.get("left_out") or []
+    lines += ["## Left out", ""]
+    lines += [f"- {x.get('what')}" + (f" — {x['why']}" if x.get("why") else "") for x in left] \
+        or ["Nothing is left out."]
+    lines.append("")
+    assumptions = [a.get("assume") or a.get("proposed_answer") for a in split.get("assumptions") or []]
+    lines += ["## Assumptions", ""]
+    lines += [f"- {a}" for a in assumptions if a] or ["No assumptions."]
+    lines.append("")
+    thin = thin_parts(spine, sl, fills, hidden)
+    if thin:
+        lines += ["## Thin ICE", ""] + [f"- {t}" for t in thin] + ["", THIN_WARNING, ""]
+    if ps.get("reused"):
+        lines += ["## Kept slice", ""] + kept_section(root, ps) + [""]
+    older = sc.get("older_problems") or []
+    lines += ["## Model check", "", f"Older problems: {len(older)}", ""]
+    lines += [f"- {x}" for x in older + list(sc.get("warnings") or [])]
+    lines.append("")
+    skip = {q.get("id") for q in early.get("asked") or []}
+    asked = [q for q in split.get("asked") or [] if q.get("id") not in skip]
+    lines += ["## Questions", "",
+              f"Questions with no proposed answer: {qc.get('no_proposed_answer', 0)}", ""]
+    missing = gather.get("rule_missing")
+    if isinstance(missing, dict):
+        tiers = ", ".join(missing.get("tiers") or []) or "every tier"
+        lines += [f"No memory tier holds the rule for asking a person (looked in: {tiers}). This "
+                  "brief follows the floor the play states, and memory update "
+                  f"{missing.get('memory_update')} asks for the rule to be added.", ""]
+    if not asked:
+        lines += ["No question is open.", ""]
+    for q in asked:
+        lines += question_block(q)
+    lines += ["## Your reply", "",
+              "Type **yes**, **change: <what>**, or **stop**. Answer any question by its id in the "
+              "same reply (for example `Q-scope-1: ...`). A plain yes accepts each proposed answer.",
+              ""]
+    return "\n".join(lines).rstrip("\n") + "\n"
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="Render the one slice-confirmation brief.")
+    ap.add_argument("--working", required=True)
+    ap.add_argument("--root", required=True)
+    ap.add_argument("--spine", required=True)
+    ap.add_argument("--opening", required=True)
+    ap.add_argument("--out", required=True)
+    args = ap.parse_args(argv)
+    try:
+        with open(args.spine, encoding="utf-8") as fh:
+            spine = yaml.safe_load(fh) or {}
+        with open(args.opening, encoding="utf-8") as fh:
+            opening = fh.read()
+        text = render(args.working, args.root, spine, opening,
+                      os.path.dirname(os.path.abspath(args.out)))
+    except (Missing, OSError, json.JSONDecodeError, yaml.YAMLError) as exc:
+        sys.stderr.write(f"render_brief.py: not written — {exc}\n")
+        return 2
+    with open(args.out, "w", encoding="utf-8") as fh:
+        fh.write(text)
+    print(json.dumps({"ok": True, "out": args.out}, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
