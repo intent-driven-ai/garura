@@ -18,8 +18,8 @@ can take for their own harness.
    words (`arch`, `env`, `impl`). Only the fixed industry terms in `naming.yaml` may stay short:
    `pr`, `mvp`, `nfr`, `rca`, `lld`, `kb`, `ice`, `ux`, `tech`, `ci`, `yaml`, `adr`.
 2. **The verb comes first, then the object.** The verb says what the part does; the object is the
-   thing it works on, in the product model's words (feature, capability, plan — never a word the
-   model dropped, such as epic or slice).
+   thing it works on, in the product model's words (feature, capability, slice, epic, plan — never
+   a word the model dropped). Epic and slice are model words.
 3. **One verb, one meaning.** Every verb is listed in `naming.yaml` with its one meaning. A new
    verb is added there first, with its meaning, or it cannot be used.
 4. **Never a tool's own command.** No name is, or starts with, a built-in command of Claude Code or
