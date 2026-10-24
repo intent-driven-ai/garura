@@ -1,12 +1,12 @@
 meta:
-  generated_at: '2026-10-24T10:04:11Z'
+  generated_at: '2026-10-24T10:09:39Z'
   diff_path: '.garura/project/issues/844/review/pr.diff'
   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
-  changed_paths_count: 100
+  changed_paths_count: 114
   scan_coverage: 1.0000
   standards_relevant: 0
   catchall:
-    CODE-20: 100
+    CODE-20: 114
 findings:
   []
 counts:

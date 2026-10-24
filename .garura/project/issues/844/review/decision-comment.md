@@ -1,13 +1,11 @@
 Reviewer verdict (human): reject
 
-Round 3 of the review. P1 0, P2 0, P3 2, P4 0. The computed recommendation was approve; the product owner rejected so that N3 is fixed here.
+Round 4 of the review. P1 0, P2 0, P3 1, P4 1. The computed recommendation was approve; the product owner rejected so that both open items are fixed.
 
-Fixed since round 2: M6 (cap-718 gives a tracker issue only to the epic and the stories; hidden-file F10 matches), N1 (the domain lists bi-717 and bi-788), N2 (memory update 003 rejected; 004 has no names), and real names removed from run records.
+Fixed since round 3: N3 (fn-728 gives a tracker issue to the epic, the stories and the work under them; a capability and a feature get none).
 
 To fix:
-- N3 (P3): fn-728 (a bi-717 feature, moved under cap-718) still says "a tracker issue for every node" in its title, text, ICE and spine line. Change it to the epic-and-story rule, as cap-718 was.
-
-Open on purpose:
-- M1 (P3): ontology v10 and ADR 049 still say the plan play writes the hidden file. The ontology change lands before this PR merges.
+- N4 (P4): fn-728's "Fails if" names only the epic and the stories. Add a spike, chore or bug under a story.
+- M1 (P3): ontology v10 and ADR 049 (Decisions 1.2 and 4) say the plan play writes the slice's hidden file, one entry per story. Decisions 6 and 7 of #844 say /shape-slice writes it, one entry per feature, and a thin ICE is proposed for a new capability or feature. The ontology change runs through /edit-ontology as its own change on plan/788/base; the ADR is amended; then this PR takes the base and is reviewed again.
 
 Standards check: 0 findings. Slice check: 0 problems. Model check: the same 70 older errors (decision 8).

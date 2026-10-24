@@ -1,21 +1,22 @@
-# check-change round 3 -- categories present in PR #845 (issue 844, plan #788). Derived from the current diff
-# (100 changed paths: 13 product-model files, 1 hidden plan-side eval file, 67 run records under issue 844/context,
-# 20 review records under issue 844/review).
+# check-change round 4 -- categories present in PR #845 (issue 844, plan #788).
+# Derived from the full branch diff (114 paths; the context lists only 100, issue #841).
+# 114 = 14 product-model paths + 1 plan-side eval file + 67 context run records + 32 review run records.
 categories:
   - name: product-model
+    design_bearing: true
     description: >-
-      Product model files that /shape-slice wrote: the software-delivery-planning domain page, capabilities
-      (cap-718, shape-eval, shape-slice), features (fn-727, fn-728, fn-818, fn-795, fn-798), the bi-788 intent page,
-      the sl-intent-to-design slice and the spine. Also the plan-side eval file for the slice (plan 788 evals), which
-      no builder reads.
+      Product model pages that /shape-slice wrote or moved: spine, bi-788 intent page, the sl-intent-to-design slice,
+      the software-delivery-planning domain, capability cap-718 and its features fn-727, fn-728, fn-818, capabilities
+      shape-eval and shape-slice with fn-798 and fn-795. Also the plan-side eval file, which no builder reads.
     evidence_paths:
       - .garura/product/product-os/_spine.yaml
-      - .garura/product/product-os/capabilities/cap-718/capability.md
       - .garura/product/product-os/intents/bi-788.md
       - .garura/product/product-os/slices/sl-intent-to-design.yaml
+      - .garura/product/product-os/capabilities/cap-718/capability.md (deleted)
+      - .garura/product/product-os/features/fn-728/feature.md (deleted)
+      - .garura/product/product-os/features/fn-727/feature.md (renamed to software-delivery-planning/cap-718/fn-727/feature.md)
       - .garura/product/product-os/software-delivery-planning/domain.md
       - .garura/product/product-os/software-delivery-planning/cap-718/capability.md
-      - .garura/product/product-os/software-delivery-planning/cap-718/fn-727/feature.md
       - .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md
       - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
       - .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
@@ -24,22 +25,18 @@ categories:
       - .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
       - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
     playbook: null
-    playbook_note: "Playbook missing. No review/ playbook covers the product model (domain, capability, feature, slice, intent, plan-side eval). review/memory is the nearest, but it governs the knowledge base, not the product graph. Write a product-model playbook."
-    design_bearing: true
+    playbook_note: "Playbook missing. No review playbook covers the product model. review/memory is the nearest, but it governs the knowledge base."
   - name: run-records
+    design_bearing: false
     description: >-
-      Records of the /shape-slice, commit, propose and check runs for issue 844: context files, shape-slice step
-      files, copied memory, and the review output of earlier rounds (round1 folder, findings, decision, posted.json,
-      memory-update proposals). They record what happened. They are not shipped design.
+      Records of the shape-slice, commit, propose and check runs for issue 844 (context folder), and review output
+      of earlier rounds (review folder, round1, round2, memory-updates). They record what happened. They are not shipped design.
     evidence_paths:
       - .garura/project/issues/844/context/**
       - .garura/project/issues/844/review/**
     playbook: review/docs
     playbook_note: "Closest fit only. No dedicated run-records playbook exists."
-    design_bearing: false
-changes_since_round2:
-  - "Product-model file paths changed. Round 2 listed capabilities/{cap-718,cap-shape-eval,cap-shape-slice} and features/{fn-795,fn-798,fn-818}. Now the diff shows cap-718 at both capabilities/cap-718 and software-delivery-planning/cap-718, and the features and the shape-eval and shape-slice capabilities sit under software-delivery-planning/."
-  - "New feature pages in the diff: fn-727 and fn-728 (moved from features/ to software-delivery-planning/cap-718/)."
-  - "The product-model set grew from 10 to 13 product files plus the hidden eval file."
-  - "Run records now include 20 files under issue 844/review (earlier rounds' review output). Round 2 did not list these."
-  - "Same two categories as round 2. No category added or removed. Product-model is still the only design-bearing one, and it still has no playbook."
+changes_since_round3:
+  - "Same two categories. None added or removed. Product-model is still the only design-bearing one and still has no playbook."
+  - "Round 3 listed the old paths capabilities/cap-718 and features/fn-728 as present. The diff shows them deleted (fn-728 moved under software-delivery-planning/cap-718). fn-727 is a pure rename (R100)."
+  - "Round 3 said 100 paths. The full diff has 114: 14 product-model files and the hidden eval file are all counted under product-model; run records grew with round 3 review output and memory-update proposals."

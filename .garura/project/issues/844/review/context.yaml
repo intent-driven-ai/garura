@@ -4,6 +4,7 @@
   "changed_paths": [
     ".garura/product/product-os/_spine.yaml",
     ".garura/product/product-os/capabilities/cap-718/capability.md",
+    ".garura/product/product-os/features/fn-728/feature.md",
     ".garura/product/product-os/intents/bi-788.md",
     ".garura/product/product-os/slices/sl-intent-to-design.yaml",
     ".garura/product/product-os/software-delivery-planning/cap-718/capability.md",
@@ -100,8 +101,7 @@
     ".garura/project/issues/844/review/round1/context.yaml",
     ".garura/project/issues/844/review/round1/decision-comment.md",
     ".garura/project/issues/844/review/round1/decision.yaml",
-    ".garura/project/issues/844/review/round1/design-findings-product-model.yaml",
-    ".garura/project/issues/844/review/round1/findings.yaml"
+    ".garura/project/issues/844/review/round1/design-findings-product-model.yaml"
   ],
   "standards_order": [
     "kb",
