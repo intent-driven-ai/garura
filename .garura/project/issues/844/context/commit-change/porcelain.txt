@@ -1,5 +1,2 @@
- M .garura/product/product-os/_spine.yaml
- M .garura/product/product-os/intents/bi-788.md
  M .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md
  M .garura/project/issues/844/context/commit-change/porcelain.txt
- M .garura/project/issues/844/context/pr-body.md
