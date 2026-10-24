@@ -1,6 +1,6 @@
 ---
 name: author-domains
-description: Author or grow the domains of the product model for /discover-domains — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there), each ending with its sources — straight to the live model, starting from business intents, a typed goal, a prototype's capture, or any mix, and from whatever the model already holds; and emit the matching spine-delta (new domain entries, the named updates to existing ones, and the directional profile) as structured manifest data. Writes domains only (ADR 043) — never a capability or a feature, which are /discover-capabilities's. Writes per-node docs only; never a shared file. Generative artifact production for the /discover-domains play.
+description: Author or grow the domains of the product model for /discover-domains — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there), each ending with its sources — straight to the live model, starting from business intents, a typed goal, a prototype's capture, or any mix, and from whatever the model already holds; and emit the matching spine-delta (new domain entries, the named updates to existing ones, and the directional profile) as structured manifest data. Writes domains only (ADR 043) — never a capability or a feature, which are /discover-capabilities's. Writes per-node docs only; never a shared file. Generative artifact production for the /discover-domains play. Also used by /shape-slice (through product-os-keeper) for a domain a slice needs and the model lacks, with profile set to false — no profile block is written, because /shape-slice never writes the profile.
 version: 0.6.0
 user-invocable: false
 model: opus
@@ -75,7 +75,7 @@ content-quality eval (a judge) over your docs, and a thin doc is rejected:
 Every item explains itself: name the thing AND say why it matters or what it implies.
 Telegraphic labels ("Local fixtures only") fail the eval.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -89,8 +89,9 @@ Telegraphic labels ("Local fixtures only") fail the eval.
 | `schemas_dir` | yes | The grounding templates, the content standard and the spine schema, copied into short-term memory by the agent through the memory tool. Read these copies — never memory itself (ADR 039). |
 | `stm_base` | yes | From config. |
 | `issue` | no | Issue/run id for provenance (often null for /discover-domains). |
+| `profile` | no | `true` (the default) or `false`. With `profile: false` (/shape-slice), the manifest holds no `profile` block at all, also when the spine has no profile yet. |
 
-## Procedure
+## Process
 
 Reasoning — detailing each domain, describing what it covers, picking directional profile
 levels — is yours. Template conformance and the content bar are non-negotiable.
@@ -129,7 +130,7 @@ levels — is yours. Template conformance and the content bar are non-negotiable
    - the **directional `profile`** block — `state: directional`, the `shape` at a rough cut
      (stage / users / monetization / surfaces) and `nfr` levels at a coarse directional guess.
      No firm gates, no `set`/`locked`. Omit the profile block if one already exists in the
-     live spine.
+     live spine, or when the caller gives `profile: false`.
 
 5. **Write the manifest.** Write `seed-manifest.yaml` to `manifest_path` — the `spine_delta`,
    `warnings`, plus the provenance + KB grounding for EVERY domain the run adds or updates, and,
@@ -138,9 +139,9 @@ levels — is yours. Template conformance and the content bar are non-negotiable
    the play's grounding check and keyed persist are mechanical. Never write `_spine.yaml`,
    the profile, or an intent page yourself.
 
-## Output — live docs + the manifest
+## Output
 
-Written straight to the live model (no draft tree):
+Live docs and the manifest. Written straight to the live model (no draft tree):
 
 ```
 {product_base}product-os/
@@ -170,7 +171,7 @@ seed:
       - { id: software-delivery, slug: software-delivery, status: proposed, detail: detailed, one_line: "Build and ship software as a team", doc: software-delivery/domain.md, intents: [plan-the-week] }
     updates:                                       # named updates to domain entries already in the spine
       - { kind: domain, id: work-management, detail: detailed, intents: [plan-the-week] }
-    profile:                                       # omitted entirely when a live profile already exists
+    profile:                                       # omitted entirely when a live profile already exists, or with profile: false
       state: directional
       shape: { stage: mvp, users: teams, monetization: subscription, surfaces: [web] }
       nfr: { performance: medium, reliability: high, security: high }
@@ -195,7 +196,7 @@ path — paths, never inline content.
   main section is not written.
 - **CXO altitude.** Strategic and directional. No acceptance criteria, no delivery sequencing.
 - **Directional profile.** The profile is `state: directional`. Never emit `active`, `set` or
-  `locked`.
+  `locked`. With `profile: false`, emit no profile block.
 - **Self-explaining.** Every grounding item names the thing and explains the why — it must
   clear the content standard, because the eval will judge it.
 - **Docs live, shared files never (containment split, ADR 026).** Write the `domain.md` docs

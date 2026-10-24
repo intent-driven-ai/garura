@@ -48,7 +48,7 @@ judgment: what the eval sees, the way back, and who can fix it.
    send the person anywhere.
 5. **A line you cannot judge** — a "Fails if" line too vague to say what the eval sees — still
    gets one recovery: write the symptom as plainly as the line allows, and mark who fixes as
-   `a person must decide`. Add the line's id to `vague` so the agent can tell the person.
+   `a person must decide`. Add the line's id to `vague`, so the play shows it in the brief.
 
 ## Output
 

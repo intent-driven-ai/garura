@@ -1,6 +1,6 @@
 ---
 name: author-business-intent
-description: Draft the person's Business Intents from what a person shared — a prototype (its saved snapshot), a document, or a plain statement — plus their own answers. One business intent per need the product meets for its user, never merged, with every part of the source mapped to the intent it serves. Each names that need at the level of the product and in its users' words, and holds title, outcome, why, asked by (a persona), proof it is met (measurable), must not, and the provenance of every property; why, asked by and proof are drafted with their basis, never left open or asked. Drafts business intents only (ADR 043) — no ICE, capability or domain; other plays write those. Also writes what each source shows and the questions the sources cannot answer, each with example answers. Written for a business reader, never a description of the source. Generative artifact production for the /discover-intent play; writes the draft only, never the product model. Use when /discover-intent needs the intents drafted, or re-drafted after the person answers.
+description: Draft the person's Business Intents from what a person shared — a prototype (its saved snapshot), a document, or a plain statement — plus their own answers. One business intent per need the product meets for its user, never merged, with every part of the source mapped to the intent it serves. Each names that need at the level of the product and in its users' words, and holds title, outcome, why, asked by (a persona), proof it is met (measurable), must not, and the provenance of every property; why, asked by and proof are drafted with their basis, never left open or asked. Drafts business intents only (ADR 043) — no ICE, capability or domain; other plays write those. Also writes what each source shows and the questions the sources cannot answer, each with example answers. Written for a business reader, never a description of the source. Generative artifact production for the /discover-intent play; writes the draft only, never the product model. One-intent mode, for /shape-slice — one plain statement (a business intent's issue) in, one intent out as intent-draft.json, with no coverage and no questions. Use when /discover-intent needs the intents drafted, or re-drafted after the person answers, or when /shape-slice needs the page of one business intent drafted from its issue.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
@@ -26,12 +26,15 @@ wants, and leave how the source does it behind (IDD Principle 1).
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `source_manifests` | yes | One or more Source manifests — each with its kind, `snapshot_dir` and snapshot files (screenshots with their text, page HTML, the copied file, or the statement text). A project folder gives two: its written docs and the running app. All are read together |
+| `mode` | no | `one-intent` for /shape-slice; absent for /discover-intent |
+| `statement` | for `one-intent` | The business intent's issue as one plain statement (`intent-issue.json`: its number, title and body) |
+| `intent_id` | for `one-intent` | The intent's id, `bi-<issue>` |
+| `source_manifests` | yes, except `one-intent` | One or more Source manifests — each with its kind, `snapshot_dir` and snapshot files (screenshots with their text, page HTML, the copied file, or the statement text). A project folder gives two: its written docs and the running app. All are read together |
 | `journeys` | for a prototype | The prototype's journeys (`journeys.yaml`, from `walk-prototype`): who it serves, what each sets out to do, the steps walked and what they showed, what they end with. A prototype's intents are drafted from these (C15) |
 | `memory_context` | no | What the agent found in memory about the product — what it is, its domain, who uses it — as short-term copies |
 | `model` | no | On a later round of a loop: the product model the loop's other plays wrote (read only) |
 | `answers` | no | The person's answers so far (`<working>/answers.yaml`): replies to earlier questions (with the examples offered and whether one was picked), intents they stated, items they named as missing or merged, and any correction |
-| `draft_path` | yes | Where to write the draft (`<working>/intent-draft.yaml`) |
+| `draft_path` | yes | Where to write the draft (`<working>/intent-draft.yaml`; in `one-intent` mode `<working>/intent-draft.json`) |
 | `ontology_path` | yes | The ontology, copied into short-term memory by the agent through the memory tool. Read this copy — never memory itself (ADR 039). |
 
 ## Process
@@ -112,6 +115,38 @@ wants, and leave how the source does it behind (IDD Principle 1).
    reply marked as a picked example stays marked. Add intents they named as missing,
    split ones they named as merged, apply any other correction, and fill each answered
    question's `answer` with their reply.
+
+## One-intent mode (for /shape-slice)
+
+The input is one plain statement: a business intent's issue, which the product model has no
+page for. The output is one business intent, never more, so no agent has to choose between
+intents.
+
+1. **Read the ontology's Business Intent kind** and the statement (the issue's title and body).
+2. **Write the one intent** by steps 4, 5 and 7 above: `title` and `outcome` from the
+   statement; `why`, `asked_by` (a persona) and `proof` drafted with their basis, never left
+   open or asked; `must_not` when the statement gives a limit. When the statement holds more
+   than one need, write the one its title names, and put each other need in `other_needs`
+   (one plain line each) so the play can show them; never merge them.
+3. **Write no coverage and no questions.** The play asks the person what is still open, in its
+   own brief.
+
+Write `intent-draft.json` at `draft_path`:
+
+```json
+{"id": "bi-340", "issue": 340, "title": "Patients book their own visits online",
+ "outcome": "A patient books a visit with no phone call.",
+ "why": "The front desk spends most of the morning on the phone.",
+ "asked_by": "a clinic manager who runs the front desk",
+ "proof": ["Half of the visits are booked online within a month."],
+ "must_not": "A patient never sees another patient's booking.",
+ "basis": {"why": "the issue says the desk is busy", "asked_by": "the issue's author role",
+           "proof": "the issue names the online share"},
+ "other_needs": []}
+```
+
+`id` is `bi-<issue>` and `issue` is the issue number; `proof` is a list of one line or more.
+The play's `write_intent_page.py` checks the draft and writes the page.
 
 ## Output
 
