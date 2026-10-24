@@ -2,7 +2,8 @@
 """
 test_scan_taxonomy.py — tests for scan_taxonomy.py (#851).
 
-Covers: a changed ADR gets no finding; a stm-evidence path gets no finding; a
+Covers: BE-19 and SEC-18 of the real taxonomy (pr.md) fire on SQL-shaped and
+permission code and not on plain words; a changed ADR gets no finding; a stm-evidence path gets no finding; a
 `+++` line inside a hunk is an added line, not a file header; a `--paths` entry
 that is not a path is dropped and listed in rejected_paths. It also checks that
 scan() keeps its result keys.
@@ -109,11 +110,54 @@ def test_keys():
         check(f"key {key}", key in res)
 
 
+PR_MD = os.path.normpath(os.path.join(HERE, "..", "..", "..", "memory", "standards", "rules", "pr.md"))
+
+
+def _real_hits(rule_id, lines, path="app/service.py"):
+    with open(PR_MD, encoding="utf-8") as fh:
+        taxonomy = fh.read()
+    res = st.scan(taxonomy, _diff(path, lines))
+    return [f["line"] for f in res["findings"] if f["standard_id"] == rule_id]
+
+
+def test_be19_sql_only():
+    print("BE-19 fires on SQL-shaped code only")
+    sql = ['rows = db.query("SELECT id, name FROM users WHERE id = ?")',
+           "q = 'select * from orders'",
+           "sql = `SELECT total FROM invoices`",
+           "    LEFT JOIN accounts a ON a.id = o.account_id"]
+    check("each SQL line is a finding", _real_hits("BE-19", sql) == [1, 2, 3, 4])
+    words = ["# take the value from the config",
+             "full = path.join(base, name)",
+             "items = ', '.join(names)",
+             "msg = 'join the team from today'",
+             "Select the item you want from the list"]
+    check("plain from / join / path.join give no finding", _real_hits("BE-19", words) == [])
+
+
+def test_sec18_permission_only():
+    print("SEC-18 fires on permission code only")
+    code = ["if user.isAdmin:",
+            "if hasRole(user, 'editor'):",
+            "allowed = hasPermission(user, 'write')",
+            "if (ability.can('delete', post)) {",
+            "if (user.role === 'admin') {",
+            "if role == 'owner':"]
+    check("each permission line is a finding", _real_hits("SEC-18", code) == [1, 2, 3, 4, 5, 6])
+    words = ["# the role of this module is to parse input",
+             "class Role:",
+             "role_name = form['name']",
+             "title = 'Role and duties'"]
+    check("the plain word role or Role gives no finding", _real_hits("SEC-18", words) == [])
+
+
 if __name__ == "__main__":
     test_adr_skipped()
     test_stm_skipped()
     test_plus_line_in_hunk()
     test_rejected_paths()
     test_keys()
+    test_be19_sql_only()
+    test_sec18_permission_only()
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)

@@ -118,7 +118,7 @@ legitimately review documentation still fire.
 | SEC-15 | P1 | `grep:(encrypt\|decrypt\|cipher\|aes)` | file, line, snippet |
 | SEC-16 | P1 | `grep:(http://\|TLSv1\.0\|TLSv1\.1\|sslv[23])` | file, line, snippet |
 | SEC-17 | P1 | `grep:(setCookie\|res\.cookie\|Set-Cookie)` | file, line, cookie-flags |
-| SEC-18 | P2 | `grep:(role\|permission\|isAdmin\|can\()` | file, line, snippet |
+| SEC-18 | P2 | `grep:(\bisAdmin\b\|\bhasRole\s*\(\|\bhasPermission\s*\(\|\.can\s*\(\|\brole\s*==)` | file, line, snippet (permission code only: isAdmin, hasRole(, hasPermission(, .can(, a role == test; not the plain word role) |
 | SEC-19 | P1 | `grep:(api[_-]?key\|secret\|password\|token)\s*[:=]\s*["'\x60][^"'\x60$]{8,}["'\x60]` | file, line, redacted-snippet |
 | SEC-20 | P1 | `path:.env,.env.*,!.env.example,!.env.sample` | file |
 | SEC-21 | P3 | `path:.github/workflows/**` | file, line |
@@ -149,7 +149,7 @@ legitimately review documentation still fire.
 | ARCH-20 | P2 | `grep:(throw\s+new\|return.*error\|res\.json.*error)` | file, line, snippet |
 | ARCH-21 | P2 | `grep+path:(findAll\|findMany\|SELECT\s+\*\|\.all\(\))|**/{routes,controllers,handlers}/**` | file, line, snippet |
 | ARCH-22 | P3 | `path:**/{middleware,routes}/**` | file, line |
-| ARCH-23 | P4 | `path:docs/architecture/**,docs/adr/**` | file |
+| ARCH-23 | P4 | `path:docs/architecture/**,docs/adr/**` | file (the scan gives no finding on `docs/adr/**`, #851) |
 | ARCH-24 | P4 | `path:CHANGELOG.md,docs/api/**` | file |
 | BE-01 | P3 | `grep+path:(@(Get\|Post\|Put\|Patch\|Delete)\|router\.)|**/{routes,controllers,api}/**` | file, line, snippet |
 | BE-02 | P1 | `grep+path:(req\.body\|request\.json\|@RequestBody)|**/{routes,controllers,handlers}/**` | file, line, snippet |
@@ -169,7 +169,7 @@ legitimately review documentation still fire.
 | BE-16 | P2 | `grep:(unhandledRejection\|uncaughtException\|sys\.excepthook)` | file, line, snippet |
 | BE-17 | P2 | `grep:for\s*\([^)]*\)\s*\{[^}]*(findOne\|findById\|SELECT)` | file, line, snippet |
 | BE-18 | P2 | `grep:SELECT\s+\*` | file, line, snippet |
-| BE-19 | P2 | `grep:(SELECT\|FROM\|JOIN)` | file, line, query |
+| BE-19 | P2 | `grep:(?-i:["'\x60]\s*(?:SELECT\|select)\b[^"'\x60]*?\b(?:FROM\|from)\b\|\bJOIN\s+[\w."\x60]+(?:\s+(?:AS\s+)?\w+)?\s+ON\b)` | file, line, query (SQL-shaped code only: a SELECT ... FROM in one string, or a JOIN ... ON; not the words from or join, or path.join) |
 | BE-20 | P1 | `path:**/migrations/**,**/db/migrate/**,**/alembic/**` | file, line, ddl-snippet |
 | BE-21 | P2 | `grep:(createPool\|Pool\(\|connection_pool)` | file, line, config-snippet |
 | BE-22 | P3 | `grep:(cache\.set\|redis\.set\|memcached)` | file, line, snippet |
@@ -234,8 +234,8 @@ legitimately review documentation still fire.
 | DOC-01 | P3 | `path:README.md,README.rst,README.txt` | file |
 | DOC-02 | P3 | `path:**/openapi*,**/swagger*,**/api-spec*` | file |
 | DOC-03 | P3 | `path:**/openapi*,**/swagger*` | file, endpoint-coverage |
-| DOC-04 | P3 | `path:docs/adr/**,docs/decisions/**` | file |
-| DOC-05 | P4 | `path:docs/adr/**` | file |
+| DOC-04 | P3 | `path:docs/adr/**,docs/decisions/**` | file (the scan gives no finding on `docs/adr/**`, #851) |
+| DOC-05 | P4 | `path:docs/adr/**` | file (not scanned on `docs/adr/**`, #851; the review layers read this row) |
 | DOC-06 | P4 | `path:docs/architecture/**,docs/diagrams/**` | file |
 | DOC-07 | P4 | `path:docs/deployment/**,docs/ops/**` | file |
 | DOC-08 | P3 | `path:CHANGELOG.md,docs/api/**` | file |
