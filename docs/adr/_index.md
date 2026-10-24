@@ -57,3 +57,4 @@ may have no Status line.
 | [049](049-a-slice-is-shaped-then-planned-then-given-its-eval.md) | A Slice Is Shaped, Then Planned, Then Given Its Eval: One Plan for Each Business Intent, the Eval Kept in the Plan's Folder, and No Failure Condition Reaches the Builder | Accepted | 2026-10-23 |
 | [050](050-the-retired-intent-epic-pipeline-is-deleted.md) | The Retired Intent-Epic Pipeline Is Deleted, Not Archived | Accepted | 2026-10-23 |
 | [051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md) | The /next Play Is Dropped; the Plan Is the Work List | Accepted | 2026-10-23 |
+| [052](052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md) | /shape-slice Writes the Slice's Hidden File and Proposes a Thin ICE, the Plan Play Only Plans, and a Thin ICE Is Partly Ready | Accepted | 2026-10-24 |

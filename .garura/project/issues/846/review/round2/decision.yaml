@@ -1,0 +1,10 @@
+decision: reject
+decided_by: human
+reply: "reject and fix"
+round: 2
+citing:
+  - R2-1 (P4) /shape-slice play and write guard follow v10 until /edit-play; add the evals-folder write scope to #842
+  - R2-2 (P4) ADR 052 "pointers after acceptance" bullet is stale
+  - R2-3 (P4) ADR 047/049 pointers name only some sections
+  - R2-4 (P4) ontology says the ready check is "not built yet"
+  - R2-5 (P4) the ready check treats the text "false" as thin

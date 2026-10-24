@@ -1,0 +1,8 @@
+{
+  "rules_file": "self-review.md",
+  "standards_order": ["kb", "ltm", "stm"],
+  "searched_dirs": [".garura/core/memory/standards/rules", "~/.garura/core/memory/standards/rules"],
+  "resolved": true,
+  "path": "~/.garura/core/memory/standards/rules/self-review.md",
+  "is_override": false
+}

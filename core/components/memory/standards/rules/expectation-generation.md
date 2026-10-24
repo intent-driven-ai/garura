@@ -66,13 +66,15 @@ mechanical); "a commit references the wrong issue" → human (issue mapping is e
 judgment); "a below-confidence mapping was committed without approval" → human
 (approval is an authority the builder lacks).
 
-## A story's recovery (product ICE)
+## A feature's recovery (product ICE)
 
-A product ICE has no recovery part. When the plan play makes a story (ontology v10), it
-writes the story's recovery itself, into its slice's hidden file
-(`.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`), by the same
-rule as above: for each "Fails if" line of the story's two ICE (its feature's and that
-feature's capability's), exactly one recovery condition.
+A product ICE has no recovery part. When `/shape-slice` shapes a slice (ontology v11), it
+writes each feature's recovery itself, into the slice's hidden file
+(`.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`), one entry for
+each feature, by the same rule as above: for each "Fails if" line of the feature's two
+ICE (its own and its capability's), exactly one recovery condition. When one of the two
+ICE is thin, the entry says so. The plan play writes nothing in the evals folder; the
+epic's feature-to-story map tells the eval play which story each entry is for.
 
 - **when** — the "Fails if" line restated as a symptom the eval sees (the `trigger`).
 - **way back** — the inverse of the failure, as guidance, never code (the `direction`).
@@ -82,7 +84,7 @@ feature's capability's), exactly one recovery condition.
 Example (a shop): "Fails if: a card is charged twice" → when: one order has two charges;
 way back: refund the second charge; who fixes: a person must decide (money goes out).
 
-The story itself never holds these lines. The running eval reads only the recovery
+The story that delivers the feature never holds these lines. The running eval reads only the recovery
 parts of the hidden file, and the builder gets only the handoff plan made from them.
 
 ## Provenance

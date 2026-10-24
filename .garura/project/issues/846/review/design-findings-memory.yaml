@@ -1,0 +1,19 @@
+category: memory
+round: 3
+pr: 849
+issue: 846
+base_ref: origin/plan/788/base
+delta_checked: "git diff 83757eb0~4 HEAD -- core docs (ontology line 502, ADR 047/049 Status pointers, ADR 052 one bullet dropped)"
+grounding:
+  - {id: G6, source: "ontology.md head 'Who writes'; CLAUDE.md Play Pipeline Rules (base)"}
+  - {id: G9, source: "docs/adr/048 pointer pattern on ADR 047 (base)"}
+round2_status:
+  DF-R2-1: {state: fixed, evidence: "Issue 842 comment names the evals write scope, the write guard (that one file, nothing else under plans/), the thin ICE with both marks, and the SKILL.md line 15 / ice.md line 10 'nothing else' text. SKILL.md line 15 still says it, as expected until /edit-play runs."}
+  DF-R2-2: {state: fixed, evidence: "Stale bullet removed from ADR 052 Work This Creates."}
+  DF-R2-3: {state: fixed, evidence: "Pointers on 047 and 049 now name ICE impact, the risk line, the #760 work line, and the 'does not change' line."}
+  DF-R2-4: {state: fixed, evidence: "Ontology line 502 now says #759 and #760 are built and #760 reads the thin mark; #761 and #765 stay not built."}
+  R2-5: {state: "fixed (code category; not re-run here)", evidence: "Reported by the caller: true-only read, test added, 46 pass. Not a memory-category item."}
+findings: []
+notes:
+  - "Remaining ADR 047/049 body lines (richness, 'unchanged') are covered by the pointer; same pattern as ADR 048."
+counts: {P1: 0, P2: 0, P3: 0, P4: 0, total: 0}

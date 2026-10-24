@@ -137,6 +137,13 @@ ices:
       created_by: string
       updated_by: string
       version: integer
+      thin: boolean       # true while the ICE is thin (ontology v11); the play that deepens it removes it
+
+# A thin ICE (ontology v11, #846): proposed by /shape-slice from the person's answers when a part
+# the slice needs has no ICE. Its mark is kept in two places that agree: `metadata.thin: true` here
+# and, on its ice.md, one line before `## Intent` — "Thin: proposed by `/shape-slice` from the
+# person's answers; deepen with `/discover-capabilities`." check_ice_workable.py reads the mark
+# (gap "thin ICE", partly ready) and never counts lines.
 
 # Tree rules (ADR 043, ready rule changed by ontology v5 / #724): every kind is written on
 # its own; the links are made later. A domain has no parent. A capability names a domain
@@ -248,7 +255,10 @@ fill_rules:
              `surface` {id, name, persona_ref, user_action}). When a slice already serves
              the intent, or has the same features and the same vertical, it appends the
              intent to that slice's entry and record, keeps its features and surface, and
-             writes no new slice. It writes nothing else — no plan, epic, story or eval."
+             writes no new slice. It also writes a thin ICE for each part the slice needs
+             that has no ICE, and the slice's hidden file (failure-and-recovery.md, one
+             entry for each feature) in its home plan's evals folder (ontology v11). It
+             writes no plan, epic, story or eval."
   - play: "/start … /release-epic"
     writes: "epic status chain (ready -> in_delivery -> validated -> delivered),
              surface_verified, issue_ref — surgical structural stamps."
