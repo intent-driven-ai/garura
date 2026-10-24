@@ -73,35 +73,8 @@ Garura avoids both extremes:
 | `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/discover-intent` |
 | `quality-auditor` | quality | auditor | sonnet | Independently verifies code quality standards (linting, unit tests, type checking, build, quality gates) — context-isolated from evals and builder output |
 | `repo-orchestrator` | repo | orchestrator | sonnet | Autonomous decision-maker for repository operations (commits, branches, PRs, git state) |
-| `scriber` | infra | evidence-writer | haiku | DEPRECATED (#434) — evidence/checkpoint/status writer, superseded by the command model; retained for reference, not installed |
-| `tech-architect` | architecture | architect | opus | Deep codebase architecture analysis, pattern recognition, LLD production, dependency graphs, and implementation planning |
 | `tech-designer` | design | designer | sonnet | Technical analysis, RCA, and solution design for features and bugs |
 | `test-engineer` | testing | engineer | opus | Authors `/build-epic`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
-| `test-runner` | test-execution | runner | opus | Context-isolated test executor — runs tests and reports pass/fail with stderr capture; never interprets failures |
-
-### Scriber dispatch pattern (Utility agent, 214.1)
-
-**Status (#434):** `scriber` is deprecated — superseded by the ProductOS command model. Its definition is retained for reference (marked `deprecated: true`) and is not installed. The pattern below describes how it worked.
-
-`scriber` is a utility agent — it performs no domain reasoning and owns no decisions about content. Plays dispatch it via the Agent tool with `run_in_background: true` for every write that lands in the `.garura/` folder whitelist (evidence, checkpoint, status artifacts). The scriber invokes the `author-evidence` skill, which is the single chokepoint that validates paths against the 9 whitelist patterns before calling `Write`.
-
-**When to dispatch scriber instead of writing inline:**
-
-| Artifact | Writer | Rationale |
-|----------|--------|-----------|
-| Plan output (spec.md, verify.md, tasks.md) | Play (inline) | User reads immediately — synchronous |
-| Final report presented at play end | Play (inline) | User is waiting — synchronous |
-| Checkpoint file at approval gate | `scriber` | Written before the gate; gate itself is user-blocked, so background write is fine |
-| Checkpoint status updates after gate | `scriber` | Non-blocking status updates as the play progresses |
-| Evidence files (step evals, scenario evals, traces) | `scriber` | Accumulated during play run; not user-facing until review |
-| Status / resume-state files | `scriber` | Written continuously during play execution |
-| Self-commit prep (files to stage) | Play (inline) | Orchestrator needs the paths in the same step |
-
-**Rule of thumb:** if the orchestrator reads the file back in the same step, it writes inline. If the file is for later consumption (user review, resume, audit), it goes through scriber.
-
-**Non-blocking guarantees:** scriber runs with `run_in_background: true`. Plays do NOT wait for scriber to finish before continuing. At play shutdown, the orchestrator briefly waits for any outstanding scriber tasks to complete (bounded wait) and then stages the scriber-written files for the self-commit step.
-
-**Failure semantics:** scriber failure never halts a play. Evidence writes are non-critical by definition. On failure, the orchestrator logs a warning and continues. Exception: if a specific evidence write is required for a downstream step (e.g., self-commit), that specific write is blocking and scriber is awaited synchronously for that call.
 
 ## Agent Behavior
 
@@ -233,8 +206,6 @@ intent-resolver has no skill pool — it reads the play's intent (clean triple),
 | `author-business-intent` | `/shape-slice` — draft the intent page from the issue when the model has none |
 | `find-model-gaps` | the loops and `/shape-slice` — list what the model lacks |
 | `propose-answers` | `/shape-slice` — draft a proposed answer, with its basis, for each question only the person can confirm |
-| `author-scope` | `/shape-scope` — draft one domain's selection bundle (capabilities, features, ICE, personas, decisions) |
-| `author-roadmap` | `/shape-roadmap` — draft the slice plan (effort, dependencies, value order) |
 | `author-quality-lens` / `author-ux-lens` / `author-agentic-lens` / `author-architecture-lens` / `author-run-lens` / `author-measure-lens` / `author-marketing-lens` | Draft the per-slice lens grounding docs for the lens plays |
 | `author-acceptance-scenarios` | `/release-epic` — build HITL testing scenarios for one validated epic |
 
@@ -267,27 +238,6 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 |-------|---------|
 | `deploy-local-environment` | Bring up the live LOCAL environment for `/release-epic` with its deploy record; teardown after sign-off or abort |
 | `deploy-cloud-environment` | Deploy the increment to a CLOUD environment for `/release-increment` with deploy record and health proof |
-
-### test-runner Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `check-generated-tests` | Run the given test files against the codebase in isolation; write test-run-report.yaml with per-test pass/fail and stderr |
-
-### tech-architect Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `research-domain-context` | Research domain knowledge via web when LTM is insufficient |
-| `check-architecture-spec` | arch post-generation — single 22-check pass across all arch artifacts and decision manifests |
-| `infer-architecture` | brownfield — scan codebase, produce architecture-inference.yaml |
-| `scan-dependencies` | any stage — enumerate import/call edges, detect cycles and hubs; writes dependency-graph.yaml + .md |
-| `author-tech-spec` | Author tech.yaml with concrete library picks, build tooling, test frameworks |
-| `author-implementation-plan` | Author plan.yaml (execution order, scope items, exit gates) |
-| `author-reference-algorithms` | Language-agnostic pseudocode for qualifying internal interfaces from tech.yaml |
-| `infer-*-from-code` family | Brownfield inference — propose logical/physical architecture, NFR spec, and quality vision from a codebase scan |
-
-If no matching skill exists for an artifact the agent is asked to produce, it returns a structured failure requesting skill creation — it never authors artifacts inline.
 
 ### test-engineer Skill Pool
 

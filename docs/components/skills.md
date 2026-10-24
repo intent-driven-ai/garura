@@ -35,16 +35,15 @@ Roughly 100 skills are authored in `core/components/skills/`, each with `user-in
 
 | Family | Skills |
 |--------|--------|
-| **Repository / project operations** | `assess-changes`, `assess-pr`, `commit-files`, `cut-branch`, `open-pr`, `merge-pr`, `platform-adapter`, `track-issue`, `find-matching-issues`, `author-plan-file`, `author-evidence` |
-| **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-scope`, `author-roadmap`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-acceptance-scenarios`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
-| **Specification / design drafting** | `author-technical-approach`, `author-lld`, `author-tech-spec`, `author-implementation-plan`, `author-reference-algorithms`, `draft-epic-expectation`, `author-verification-scenarios`, `author-build-plan`, `author-play-ice`, `check-implementation-design`, `check-abstraction-layer` |
+| **Repository / project operations** | `assess-changes`, `assess-pr`, `commit-files`, `cut-branch`, `open-pr`, `merge-pr`, `platform-adapter`, `track-issue`, `find-matching-issues`, `author-plan-file` |
+| **ProductOS model & KB** | `author-decision`, `author-business-intent`, `author-domains`, `author-product-ontology`, `enrich-capability-ice`, `find-model-gaps`, `link-model-gaps`, `author-quality-lens`, `author-ux-lens`, `author-agentic-lens`, `author-architecture-lens`, `author-marketing-lens`, `author-run-lens`, `author-measure-lens`, `author-acceptance-scenarios`, `find-work-placement`, `find-architecture-learnings`, `propose-kb-node`, `walk-prototype`, `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`, `judge-loop-result` |
+| **Specification / design drafting** | `author-technical-approach`, `author-lld`, `author-implementation-plan`, `draft-epic-expectation`, `author-verification-scenarios`, `author-build-plan`, `author-play-ice` |
 | **Defect resolution** | `author-rca`, `author-fix-design`, `author-regression-test` |
-| **Architecture & quality derivation** | `derive-quality-profile-from-epics`, `enrich-quality-profile`, `check-architecture-spec`, `infer-architecture`, `scan-dependencies` |
-| **Product capability planning & research** | `enrich-capabilities`, `generate-intent-epics`, `validate-intent-epics`, `recommend-mvp`, `research-market-opportunity`, `research-domain-context` |
-| **Brownfield inference (codify family)** | `scan-codebase`, `collect-codify-proposals`, and the `infer-*-from-code` set: project-profile, domain-selection, market-brief, mvp-recommendation, scope, enriched-capabilities, research, design-patterns, logical-architecture, physical-architecture, nfr-spec, quality-profile, quality-vision |
+| **Architecture & quality derivation** | `derive-quality-profile-from-epics`, `enrich-quality-profile` |
+| **Product capability planning & research** | `generate-intent-epics`, `validate-intent-epics`, `research-domain-context` |
 | **Testing & verification** | `scan-test-surface`, `derive-blast-radius`, `author-baseline-tests`, `scan-test-harness`, `check-generated-tests`, `author-steelman-evals`, `author-encrypted-evals`, `author-validation-checks`, `judge-validation-results`, `check-quality`, `check-pr-quality` |
 | **Environments / delivery** | `deploy-local-environment`, `deploy-cloud-environment` |
-| **Framework & knowledge** | `check-components`, `check-kb-extension`, `author-learnings` |
+| **Framework & knowledge** | `author-learnings` |
 
 For the complete play roster, see [Plays Component Guide](./plays.md).
 
@@ -108,7 +107,6 @@ Each skill defines a different output contract structure. Key skills and their o
 | `author-lld` | `tech` | `tech_path`, `components_count` |
 | `author-verification-scenarios` | `scenarios` | `scenarios_path`, `scenario_count`, `coverage.total_scenarios` |
 | `author-implementation-plan` | `plan` | `plan_path`, `execution_order_count` |
-| `check-implementation-design` | `validation` | `validation_path`, `pass`, `findings_count` |
 
 Full output specifications are in each skill's `SKILL.md`. Skills write detailed data to STM files — the output contract carries only paths and summary metadata.
 
@@ -142,7 +140,7 @@ Forking a skill would:
 Skills are named `<verb>-<object>`, with the verb from the skill verbs — each with one meaning:
 `author`, `infer`, `derive`, `scan`, `check`, `judge`, `assess`, `find`, `link`, `enrich`, `propose`,
 `research`, `rank`, `recommend`, `collect`, `walk`, `deploy`, `track`, and the git verbs `commit`,
-`open`, `merge`, `cut`. Examples: `author-roadmap`, `infer-scope`, `check-quality`, `find-model-gaps`.
+`open`, `merge`, `cut`. Examples: `author-slice`, `scan-test-surface`, `check-quality`, `find-model-gaps`.
 No name is, or starts with, a Claude Code or Codex built-in command.
 
 The full rules: `core/components/memory/standards/rules/naming.md` and the harness standard

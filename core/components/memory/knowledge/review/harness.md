@@ -23,7 +23,7 @@ they get the deepest treatment.
 - **Layers:** Layer 1 **and** Layer 2.
 - **Linter (Layer 1):** structural conformance — `lint_play.py` for plays (coverage of every
   constraint/failure/scenario by an eval, exactly one recovery per failure, required sections
-  present, a real intent fingerprint, no orphan references); `check-components` for skill/agent
+  present, a real intent fingerprint, no orphan references); `core/tools/lint-components` for skill/agent
   shape; the play-pipeline rules (intent change must trace to an ICE source, not a hand-edited
   compiled file). These exist in-repo.
 - **Design-grounding (Layer 2):** **yes.** Reconstruct the harness design principles from

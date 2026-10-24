@@ -1,6 +1,6 @@
 # Evidence File Format
 
-Canonical format for evidence files emitted at play close. Every play writes one of these at its final step, and the file is self-committed as part of the STM audit trail. Written in the background by the scriber agent.
+Canonical format for evidence files emitted at play close. Every play writes one of these at its final step, and the file is self-committed as part of the STM audit trail.
 
 Consumers: `specify`, `design`, `arch`, `implement`, every play that closes with an evidence step.
 

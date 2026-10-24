@@ -355,7 +355,7 @@ session-stamp marker, its stop-condition manifest, base and out) and close lines
 the play's C0/C1/C2 specifics (its artifact list, its report title, its Next Steps), and the
 closer anchor. Never copy the shared steps into the play, and never
 have the play read a template from memory: the close gets its templates from
-`template-manager`. `check-components` checks both anchors. Write each mechanical step's
+`template-manager`. `core/tools/lint-components` checks both anchors. Write each mechanical step's
 script into `scripts/` and have that step run it by relative path; keep the script's logic
 out of the step's prose. Copy the pre-flight script as step 4 says. Wire every step that dispatches to a subagent or skill as a
 **JSON contract**: it names the input file paths and the output file path, the piece writes

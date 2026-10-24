@@ -52,8 +52,8 @@ decision; harness plays `create`, `edit`, `install`, `uninstall`.
 **Skills** — `<verb>-<object>`, the verb from the skill verbs (`author`, `infer`, `derive`, `scan`,
 `check`, `judge`, `assess`, `find`, `link`, `enrich`, `propose`, `research`, `rank`, `recommend`,
 `collect`, `walk`, `deploy`, `track`, and the git verbs `commit`, `open`, `merge`, `cut`). A verb
-that already says where its input comes from is not repeated: `infer-scope`, not
-`infer-scope-from-code`. One named exception: `platform-adapter`, the tool every script calls.
+that already says where its input comes from is not repeated: `scan-test-surface`, not
+`scan-test-surface-from-code`. One named exception: `platform-adapter`, the tool every script calls.
 
 **Agents** — `<domain>-<role>`, ending in a role noun (`adr-keeper`, `quality-auditor`; ADR 004).
 

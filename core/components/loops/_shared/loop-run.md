@@ -381,7 +381,7 @@ resumes from the first play not done.
 
 ## Enforced
 
-`check-components` and `lint_loop.py` check every loop's SKILL.md for the two anchor lines,
+`core/tools/lint-components` and `lint_loop.py` check every loop's SKILL.md for the two anchor lines,
 each exactly once, opener before closer, and that this file exists:
 
 - opener: `# --- Shared Loop Run (shared; see ../_shared/loop-run.md) ---`

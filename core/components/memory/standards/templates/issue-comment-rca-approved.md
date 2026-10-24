@@ -85,4 +85,4 @@ Invoke the `platform-adapter` skill with `verb: comment-issue` and `args: {issue
 
 - `github-issue.md` — initial issue creation (not comment)
 - `approval-prompt.md` — the checkpoint prompt; a `yes` reply to it triggers this comment
-- `checkpoint.md` — the parallel STM checkpoint artifact scriber writes on the same approval
+- `checkpoint.md` — the parallel STM checkpoint artifact the play writes on the same approval
