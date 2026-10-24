@@ -1,21 +1,42 @@
 needs_judgment: false
 change_groups:
-- id: group-1
-  commit_type: chore
-  scope: stm
+- type: fix
+  scope: model
   issue: 844
-  subject: record the memory updates the /shape-slice run raised
+  subject: 'fix the review findings: no author names, checked sources, page folders'
+  note: Review round 1 fixes M2-M6. Moves (M5) and edits (M2, M3, M4, M6) overlap
+    on the same pages, so they stay in one commit.
   files:
-  - .garura/project/issues/844/review/memory-updates/mu-20261024-001.json
-  - .garura/project/issues/844/review/memory-updates/mu-20261024-002.json
-  - .garura/project/issues/844/review/memory-updates/mu-20261024-003.json
+  - .garura/product/product-os/_spine.yaml
+  - .garura/product/product-os/intents/bi-788.md
+  - .garura/product/product-os/software-delivery-planning/domain.md
+  - .garura/product/product-os/capabilities/cap-718/capability.md
+  - .garura/product/product-os/capabilities/cap-shape-eval/capability.md
+  - .garura/product/product-os/capabilities/cap-shape-slice/capability.md
+  - .garura/product/product-os/features/fn-727/feature.md
+  - .garura/product/product-os/features/fn-728/feature.md
+  - .garura/product/product-os/features/fn-795/feature.md
+  - .garura/product/product-os/features/fn-798/feature.md
+  - .garura/product/product-os/features/fn-818/feature.md
+  - .garura/product/product-os/software-delivery-planning/cap-718/capability.md
+  - .garura/product/product-os/software-delivery-planning/cap-718/fn-727/feature.md
+  - .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md
+  - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  - .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+  - .garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+  - .garura/product/product-os/software-delivery-planning/shape-slice/capability.md
+  - .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+  - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
 exclusions: []
 risks:
   sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
 eval_gates:
   SE-1:
-    status: DEFERRED
-    evidence: grouping delegated to analyze agent
+    status: PASS
+    evidence: 2 groups, one concern each; moves and edits of the same pages kept together
   SE-5:
     status: PASS
     evidence: no sensitive patterns matched

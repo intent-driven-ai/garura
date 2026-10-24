@@ -1,4 +1,22 @@
+ M .garura/product/product-os/_spine.yaml
+ D .garura/product/product-os/capabilities/cap-718/capability.md
+ D .garura/product/product-os/capabilities/cap-shape-eval/capability.md
+ D .garura/product/product-os/capabilities/cap-shape-slice/capability.md
+ D .garura/product/product-os/features/fn-727/feature.md
+ D .garura/product/product-os/features/fn-728/feature.md
+ D .garura/product/product-os/features/fn-795/feature.md
+ D .garura/product/product-os/features/fn-798/feature.md
+ D .garura/product/product-os/features/fn-818/feature.md
+ M .garura/product/product-os/intents/bi-788.md
+ M .garura/product/product-os/software-delivery-planning/domain.md
  M .garura/project/issues/844/context/porcelain.txt
-A  .garura/project/issues/844/review/memory-updates/mu-20261024-001.json
-A  .garura/project/issues/844/review/memory-updates/mu-20261024-002.json
-A  .garura/project/issues/844/review/memory-updates/mu-20261024-003.json
+ M .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+?? .garura/product/product-os/software-delivery-planning/cap-718/capability.md
+?? .garura/product/product-os/software-delivery-planning/cap-718/fn-727/feature.md
+?? .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md
+?? .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+?? .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+?? .garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+?? .garura/product/product-os/software-delivery-planning/shape-slice/capability.md
+?? .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+?? .garura/project/issues/844/context/shape-slice/guard-report-round2.json
