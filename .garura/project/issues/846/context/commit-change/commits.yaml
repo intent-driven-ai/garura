@@ -1,17 +1,28 @@
 commits:
-  - sha: 165c6d4f
-    message: "docs(rules): a feature's recovery is written by /shape-slice into the hidden file (ontology v11) (#846)"
+  - sha: 49494ead
+    message: "fix(ready-check): the ready check reads the thin mark and counts no lines (ontology v11) (#846)"
     files:
-      - core/components/memory/standards/rules/expectation-generation.md
+      - core/components/plays/create-play/references/check_ice_workable.py
+      - core/components/plays/create-play/references/test_check_ice_workable.py
+      - core/components/plays/discover-intent/scripts/check_ice_workable.py
     branch: plan/788/846-ontology-v11-hidden-file
-  - sha: bc281222
-    message: "chore(stm): record memory template, waiting memory update and commit-change files (#846)"
+  - sha: ffffbe5c
+    message: "docs(schemas): spine.yaml and slice.yaml follow ontology v11 (thin mark, what /shape-slice writes) (#846)"
+    files:
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+      - core/components/memory/standards/schemas/product-os/slice.yaml
+    branch: plan/788/846-ontology-v11-hidden-file
+  - sha: 9cd8d438
+    message: "fix(ontology): the flow line says a story is written from every ICE line except Fails if (#846)"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    branch: plan/788/846-ontology-v11-hidden-file
+  - sha: 6f0475ca
+    message: "chore(stm): record review round 1 run artifacts (#846)"
     files:
       - .garura/project/issues/846/context/commit-change/analysis.yaml
       - .garura/project/issues/846/context/commit-change/porcelain.txt
-      - .garura/project/issues/846/context/memory/manifest.json
-      - .garura/project/issues/846/context/memory/standards/templates/product-ontology.md
-      - .garura/project/issues/846/review/memory-updates/mu-20261024-001.json
+      - .garura/project/issues/846/context/pr-body.md
     branch: plan/788/846-ontology-v11-hidden-file
 excluded_files:
   []
