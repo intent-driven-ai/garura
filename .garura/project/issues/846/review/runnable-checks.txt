@@ -1,0 +1,307 @@
+## check_ontology
+{
+  "valid": true,
+  "kinds": [
+    "Bug",
+    "Business Intent",
+    "Capability",
+    "Chore",
+    "Domain",
+    "Epic",
+    "Feature",
+    "ICE",
+    "Plan",
+    "Slice",
+    "Source",
+    "Spike",
+    "Story"
+  ],
+  "not_yet_defined": [],
+  "questions": [
+    {
+      "id": "Q1",
+      "status": "answered"
+    },
+    {
+      "id": "Q2",
+      "status": "answered"
+    },
+    {
+      "id": "Q3",
+      "status": "partly"
+    },
+    {
+      "id": "Q4",
+      "status": "not yet"
+    },
+    {
+      "id": "Q5",
+      "status": "answered"
+    },
+    {
+      "id": "Q6",
+      "status": "answered"
+    },
+    {
+      "id": "Q7",
+      "status": "answered"
+    },
+    {
+      "id": "Q8",
+      "status": "answered"
+    },
+    {
+      "id": "Q9",
+      "status": "answered"
+    },
+    {
+      "id": "Q10",
+      "status": "answered"
+    },
+    {
+      "id": "Q11",
+      "status": "answered"
+    },
+    {
+      "id": "Q12",
+      "status": "answered"
+    },
+    {
+      "id": "Q13",
+      "status": "answered"
+    },
+    {
+      "id": "Q14",
+      "status": "answered"
+    },
+    {
+      "id": "Q15",
+      "status": "answered"
+    },
+    {
+      "id": "Q16",
+      "status": "answered"
+    },
+    {
+      "id": "Q17",
+      "status": "answered"
+    },
+    {
+      "id": "Q18",
+      "status": "answered"
+    },
+    {
+      "id": "Q19",
+      "status": "answered"
+    },
+    {
+      "id": "Q20",
+      "status": "answered"
+    },
+    {
+      "id": "Q21",
+      "status": "answered"
+    },
+    {
+      "id": "Q22",
+      "status": "answered"
+    },
+    {
+      "id": "Q23",
+      "status": "answered"
+    },
+    {
+      "id": "Q24",
+      "status": "answered"
+    },
+    {
+      "id": "Q25",
+      "status": "answered"
+    },
+    {
+      "id": "Q26",
+      "status": "answered"
+    },
+    {
+      "id": "Q27",
+      "status": "answered"
+    },
+    {
+      "id": "Q28",
+      "status": "answered"
+    },
+    {
+      "id": "Q29",
+      "status": "answered"
+    },
+    {
+      "id": "Q30",
+      "status": "answered"
+    },
+    {
+      "id": "Q31",
+      "status": "answered"
+    },
+    {
+      "id": "Q32",
+      "status": "answered"
+    },
+    {
+      "id": "Q33",
+      "status": "answered"
+    },
+    {
+      "id": "Q34",
+      "status": "answered"
+    },
+    {
+      "id": "Q35",
+      "status": "answered"
+    },
+    {
+      "id": "Q36",
+      "status": "answered"
+    },
+    {
+      "id": "Q37",
+      "status": "answered"
+    },
+    {
+      "id": "Q38",
+      "status": "answered"
+    },
+    {
+      "id": "Q39",
+      "status": "answered"
+    },
+    {
+      "id": "Q40",
+      "status": "answered"
+    }
+  ],
+  "problems": [],
+  "ontology": "core/components/memory/standards/schemas/product-os/ontology.md"
+}
+exit 0
+{
+  "valid": true,
+  "kinds": [
+    "Bug",
+    "Business Intent",
+    "Capability",
+    "Chore",
+    "Domain",
+    "Epic",
+    "Feature",
+    "ICE",
+    "Plan",
+    "Slice",
+    "Source",
+    "Spike",
+    "Story"
+  ],
+  "not_yet_defined": [],
+  "questions": [
+    {
+      "id": "Q1",
+      "status": "answered"
+    },
+    {
+      "id": "Q2",
+      "status": "answered"
+    },
+    {
+      "id": "Q3",
+      "status": "partly"
+    },
+    {
+      "id": "Q4",
+      "status": "not yet"
+    },
+    {
+      "id": "Q5",
+      "status": "answered"
+    },
+    {
+      "id": "Q6",
+      "status": "answered"
+    },
+    {
+      "id": "Q7",
+      "status": "answered"
+    },
+    {
+      "id": "Q8",
+      "status": "answered"
+    },
+    {
+      "id": "Q9",
+      "status": "answered"
+    },
+    {
+      "id": "Q10",
+      "status": "answered"
+    },
+    {
+      "id": "Q11",
+      "status": "answered"
+    },
+    {
+      "id": "Q12",
+      "status": "answered"
+    },
+    {
+      "id": "Q13",
+      "status": "answered"
+    },
+    {
+      "id": "Q14",
+      "status": "answered"
+    },
+    {
+      "id": "Q15",
+      "status": "answered"
+    },
+    {
+      "id": "Q16",
+      "status": "answered"
+    },
+    {
+      "id": "Q17",
+      "status": "answered"
+    },
+    {
+      "id": "Q18",
+      "status": "answered"
+    },
+    {
+      "id": "Q19",
+      "status": "answered"
+    },
+    {
+      "id": "Q20",
+      "status": "answered"
+    },
+    {
+      "id": "Q21",
+      "status": "answered"
+    },
+    {
+      "
+## lint head
+exit 1
+    "errors": 124,
+    "warnings": 1,
+    "infos": 0
+  }
+}
+base exit 1
+    "errors": 124,
+    "warnings": 1,
+    "infos": 0
+  }
+}
+
+## Summary
+ontology check: see JSON at /private/tmp/claude-503/-Users-kapilahuja-cto-builder-garura/67fc6f0b-62ce-4c47-a357-603b233b9c3e/scratchpad/oc-849.json
+lint: head 124 errors/1 warning; base 124 errors/1 warning; no new errors
