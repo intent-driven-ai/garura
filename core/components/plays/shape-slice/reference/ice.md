@@ -23,8 +23,9 @@ epic, no story and no eval.
   and memory cannot answer, each asking one thing, with Question, Answer, Why it matters and
   Example (several domains), each able to stand alone. The run asks before it shapes the slice
   only when a gap blocks the slice and neither the model, memory nor the run's own proposal can
-  answer it. The surface is never such a gap: an intent does not depend on a surface, so the run
-  proposes the surface and the tester itself. Every other question waits for the one brief. The
+  answer it. The surface and the tester are never a gap and never a question: an intent does
+  not depend on a surface, so the run proposes the surface and the tester when it shapes the
+  slice, and the brief shows them. Every other question waits for the one brief. The
   script checks the brief's structure only; it is a floor, and the person's read of the brief is
   the full test.
 - C4 — The run asks no more questions than the configured question tier allows. Questions only
@@ -89,7 +90,8 @@ epic, no story and no eval.
   symptom the eval sees), way back (guidance, never code), who fixes ("the builder can fix this
   alone" or "a person must decide"), by `standards/rules/expectation-generation.md`, "A
   feature's recovery". When the slice gains a feature, the run adds that feature's entry and
-  keeps every other entry as it is.
+  keeps every other entry as it is. When the file reads ok, no working copy of its "Fails if"
+  lines or their ids stays outside the evals folder.
 - C16 — When a part the slice needs has no ICE, the run proposes a thin ICE from the person's
   answers: in Intent, at least a goal, a limit and one "Fails if" line; in Context, one line; in
   Expectation, one line. It marks it thin in two places that agree: the line "Thin: proposed by
@@ -115,6 +117,16 @@ epic, no story and no eval.
   several domains; each question stands alone; plain words; personas), and raises one memory
   update that names the gap and says that an install brings the rule. The update does not
   block, and the run does not stop.
+- C19 — The agent only gathers context and passes it on: it reads the model, copies memory
+  into short-term memory, calls the memory tool (find, read, cite, propose), calls a skill and
+  passes the skill's output on as it is. Every choice, draft and decision is made by a named
+  skill: the intent page (`author-business-intent`, one-intent mode), the placement
+  (`find-work-placement`), the gaps written as questions (`find-slice-gaps`), the proposed
+  answers (`propose-answers`), the openings of the early and the confirmation brief
+  (`author-slice-brief`), the slice and what it needs from the model (`author-slice`), the
+  pages (`author-domains`, `enrich-capability-ice`, `enrich-grounding`) and the hidden file's
+  recoveries (`author-failure-recovery`). A copy from one shape to another is a script's.
+  Every agent dispatch names the skills it calls.
 
 ### Failure conditions
 
@@ -148,7 +160,7 @@ epic, no story and no eval.
 - F14 — A page names a real person, or a person cannot follow it.
 - F15 — The hidden file is missing, is outside the home plan's evals folder, has no entry for a
   feature of the slice, leaves out a "Fails if" line, or gives a line no recovery or more than
-  one.
+  one; or a working copy of its lines or ids stays outside the evals folder after it reads ok.
 - F16 — A part the slice needs was left with no ICE; a thin ICE lacks one of the minimum lines;
   only one of the two thin marks is set; the brief has no thin-ICE warning; or the run stopped or
   sent the person to a discovery play.
@@ -157,6 +169,9 @@ epic, no story and no eval.
   thin ICE, or an assumption.
 - F18 — The run read the rule for asking a person from a file path, stopped because the rule was
   missing, or went on without saying it was missing.
+- F19 — An agent dispatch asks the agent to do work no named skill does: to choose, draft,
+  decide or write content itself, or to reshape a skill's output; or a dispatch names no
+  skills.
 
 ## Context
 
@@ -170,8 +185,17 @@ epic, no story and no eval.
   `standards/rules/expectation-generation.md` ("A feature's recovery").
 - The question tier: `shape-slice.grill-tier` in config (xs 5, s 12, m 25, l 45, xl 70; default
   m), and the budget script built for #817.
-- The agent that gathers model and memory and runs the skills: `product-os-keeper`, with the
-  `author-failure-recovery` skill for the hidden file's recoveries.
+- The agent that gathers the model and memory and runs the skills: `product-os-keeper`. The
+  skills that do the work: `author-business-intent` (one-intent mode), `find-work-placement`,
+  `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice` (#838; shape,
+  reuse and fix modes), `author-domains` (no profile), `enrich-capability-ice` (directional
+  depth), `enrich-grounding` (update, new-feature, thin and fix modes) and
+  `author-failure-recovery`. The loose links of the whole model are
+  not this play's work: the loops find them.
+- The scripts that do the mechanical copies: `record_questions.py merge-proposals` (the
+  proposals into the questions), `render_brief.py --early` (the early brief's questions),
+  `write_hidden_file.py check --clear-working` (no copy of the hidden file's lines outside the
+  evals folder) and `safe_write.py` (every write through a temp file).
 - The product owner's decisions for this play: `.garura/project/issues/795/context/decisions.md`,
   `.garura/project/issues/844/context/decisions.md` and
   `.garura/project/issues/842/context/edit-play/decisions.md`.
@@ -277,10 +301,14 @@ epic, no story and no eval.
   gives. Handoff: human.
 - REC14 (F14) — rewrite with personas and plain words. Handoff: autonomous.
 - REC15 (F15) — write the missing entry or line from the two ICE, with one recovery each, in the
-  home plan's evals folder. Handoff: autonomous.
+  home plan's evals folder; delete the working copies of its lines once it reads ok. Handoff:
+  autonomous.
 - REC16 (F16) — write the missing lines or the missing mark, and add the warning; go on.
   Handoff: autonomous.
 - REC17 (F17) — show the hidden result in the brief, in plain words, and ask again. Handoff:
   autonomous.
 - REC18 (F18) — drop the copy read from a path, say the rule is missing, use the play's floor,
   and raise the memory update. Handoff: autonomous.
+- REC19 (F19) — take back what the agent made, and send the work to the named skill that does
+  it, through the agent; when no skill does it, close HALTED and name the missing skill. The
+  agent never does it. Handoff: autonomous.
