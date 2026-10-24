@@ -1,0 +1,195 @@
+# Plan 788 — its ID is the business intent's issue number (ontology v11, Plan).
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
+# A detour: found while working on plan 756. Its branch is cut from plan/756/base, takes in
+# 756's changes on each start, and lands back into plan/756/base (returns_to); then work goes
+# back to 756. Not a "needs" link. #791 (in plan 717, under #721) teaches start-change and
+# merge-change to do this; until then the first cut uses setup_branch.py's --base.
+id: 788
+title: Agents design the work, then build it through plays and a loop
+status: active
+started: '2026-10-22'
+branch: plan/788/base
+identified_by:
+- 756
+returns_to: 756
+updated: '2026-10-24'
+tree:
+- issue: 792
+  kind: capability
+  title: The delivery chain works on Work, not on epics and slices
+  status: done
+  children:
+  - issue: 793
+    kind: feature
+    title: 'Decide in the ontology what the delivery chain works on: two layers, the plan as the thread'
+    status: done
+  - issue: 807
+    kind: feature
+    title: Rename Functionality to Feature on disk (ADR 048, ontology v8)
+    status: done
+    needs:
+    - 793
+  - issue: 812
+    kind: chore
+    title: The old-name check skips ADR 047 by mistake; skip 046 and 048 by number
+    status: done
+  - issue: 815
+    kind: chore
+    title: Name the old-name check's ADR cut-off for its use, and test ADR 049 and SUPERSEDED- files
+    status: done
+  - issue: 813
+    kind: feature
+    title: Upgrading Garura moves a project's product model to the Feature names, and scripts stop on old keys
+    status: done
+  - issue: 809
+    kind: chore
+    title: Archive or remove the retired intent-epic pipeline and its feature-catalog names
+    status: done
+- issue: 794
+  kind: capability
+  title: The shaping loop turns a business intent into a testable slice, its plan and its eval
+  status: now
+  children:
+  - issue: 816
+    kind: feature
+    title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
+    status: done
+    needs:
+    - 807
+  - issue: 817
+    kind: feature
+    title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
+    status: done
+  - issue: 820
+    kind: feature
+    title: One shared rule for how a play asks a person a question
+    status: done
+  - issue: 826
+    kind: bug
+    title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
+    status: done
+    needs:
+    - 816
+  - issue: 828
+    kind: feature
+    title: Encrypt each slice's eval and hidden file so a builder cannot read them
+    status: next
+    needs:
+    - 798
+    - 842
+  - issue: 824
+    kind: chore
+    title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
+    status: done
+    needs:
+    - 826
+  - issue: 829
+    kind: chore
+    title: The spine's slice entry names the business intents the slice serves
+    status: done
+    needs:
+    - 824
+  - issue: 830
+    kind: chore
+    title: 'managing-work.md follows ADR 049: one plan per intent, no slice picking'
+    status: done
+    needs:
+    - 824
+  - issue: 821
+    kind: feature
+    title: 'Lint: a play that asks a person must point to the asking-a-person rule'
+    status: done
+    needs:
+    - 820
+  - issue: 825
+    kind: chore
+    title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
+    status: done
+    needs:
+    - 820
+  - issue: 854
+    kind: chore
+    title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
+    status: next
+  - issue: 795
+    kind: feature
+    title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
+    status: done
+    needs:
+    - 816
+    - 817
+    - 826
+  - issue: 836
+    kind: chore
+    title: 'Drop /next: the plan is the work list (ADR 051)'
+    status: done
+  - issue: 842
+    kind: bug
+    title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
+    status: done
+    needs:
+    - 795
+  - issue: 837
+    kind: chore
+    title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
+    status: next
+    needs:
+    - 795
+  - issue: 838
+    kind: feature
+    title: An author-slice skill picks the slice's features, surface and tester
+    status: done
+    needs:
+    - 795
+  - issue: 798
+    kind: feature
+    title: "The eval play (/shape-eval) writes the slice's eval: is the business intent met, tested on the slice's surface"
+    status: next
+    needs:
+    - 795
+  - issue: 818
+    kind: feature
+    title: The plan play makes the plan file, the epic and one story per feature
+    status: next
+    needs:
+    - 795
+  - issue: 796
+    kind: feature
+    title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
+    status: next
+    needs:
+    - 798
+    - 818
+# Dropped on 2026-10-24: #831 (not planned; replaced by #854).
+# Not in this plan (standalone): #839 (review the agent's memory), #843 (a sandbox install scope), #847 (check-change's
+# review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan
+# branch), #850 (apply_adr.py writes no forward pointer), #852 (the memory tool cannot mark a
+# replaced decision).
+# Parked on 2026-10-23 as its own business intent: #835 (upgrade path for older models).
+# Moved out on 2026-10-23 to business intent #819 (the build stage, not planned yet):
+# #797 (#799), #800 (#801), #802 (#803).
+- issue: 841
+  kind: bug
+  title: 'check-change reviews only the first 100 files of a pull request (P1)'
+  status: next
+- issue: 855
+  kind: chore
+  title: Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install
+  status: next
+- issue: 833
+  kind: chore
+  title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
+  status: next
+- issue: 844
+  kind: chore
+  title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
+  status: done
+- issue: 846
+  kind: chore
+  title: '/edit-ontology: /shape-slice writes the hidden file and proposes a thin ICE (ontology v11, ADR 052)'
+  status: done
+  children:
+  - issue: 851
+    kind: chore
+    title: 'The 13 P3/P4 standards findings left by the PR #849 review'
+    status: next
