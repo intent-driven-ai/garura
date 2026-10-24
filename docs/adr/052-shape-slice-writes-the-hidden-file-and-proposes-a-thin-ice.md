@@ -110,7 +110,6 @@ When an ICE changes after its story and its hidden-file entry are made, both are
 
 - `/edit-play` on `/shape-slice`: write the hidden file, one entry for each feature, and propose a thin ICE with its two marks and the warning.
 - Build the plan play (the plan file, the epic with its feature-to-story map, the stories; nothing in the evals folder) and the eval play (it joins each entry to its story through the map).
-- After acceptance: the forward pointers on ADR 049 and ADR 047.
 
 ## References
 
