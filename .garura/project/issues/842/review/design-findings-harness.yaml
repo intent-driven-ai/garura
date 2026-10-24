@@ -1,0 +1,68 @@
+category: harness
+grounding_base: origin/plan/788/base
+principles:
+  - id: G1
+    text: "An intent change goes through reference/ice.md and a recompile; SKILL.md must not drift from it"
+    source: "CLAUDE.md (Play Pipeline Rules); fingerprint check"
+    result: "held - fingerprint sha256:5cd7ca2f...524c4 equals shasum -a 256 of reference/ice.md; C1-C18, F1-F18, S1-S10, D1-D6 are in both"
+  - id: G2
+    text: "The hidden file is written by /shape-slice, one entry per feature, one recovery per Fails-if line; the plan play writes nothing in evals"
+    source: "docs/adr/052 sections 1, 2, 4; ontology.md v11 (Hidden file row); expectation-generation.md 'A feature's recovery'"
+    result: "held"
+  - id: G3
+    text: "Agents gather context, skills produce artifacts, scripts do mechanical work"
+    source: "CLAUDE.md rule 4; harness.md rubric; agent-audit.md P7"
+    result: "held for the hidden file (script lists, product-os-keeper calls author-failure-recovery, script checks and writes); one gap, see DF-3"
+  - id: G4
+    text: "A builder, a building skill and the build context sub-agent never read a plan's evals folder; the ids never leave the eval folder"
+    source: "docs/adr/049 section 4; ontology.md v11 Hidden file row"
+    result: "held for the evals folder; gap in the working copies, see DF-2"
+  - id: G5
+    text: "A question follows the rule for asking a person (opening, four parts, several examples, stands alone, personas)"
+    source: "standards/rules/asking-a-person.md; no-unbacked-recommendation.md"
+    result: "held - early brief and brief ask for opening, Question/Answer/Why/Example, 2+ domains; an answer with no basis stays empty"
+  - id: G6
+    text: "The product owner's decisions 1-5 for #842"
+    source: ".garura/project/issues/842/context/edit-play/decisions.md (decision record, not a standard)"
+    result: "held - 1: early ask only for a blocking gap with no proposal, never the surface (SKILL intro, Step 5, F3, F6); 2: reuse changes a slice in use, never one in progress (F7); 3: skill built and wired; 4: moved or used pages migrated in place, own-page problems fail, older ones warn (F8, F11, Step 9); 5: surface kept (C6)"
+  - id: G7
+    text: "Naming: verb first, one meaning per verb, no built-in clash"
+    source: "docs/standards/harness-standard.md; standards/rules/naming.md"
+    result: "held - author-failure-recovery; lint-components reports no error on any changed file"
+checks_run:
+  - "python3 core/components/plays/edit-play/scripts/lint_play.py core/components/plays/shape-slice/SKILL.md: VERDICT PASS (0 gaps), 13 checks"
+  - "node core/tools/lint-components/index.js --target core/components: 124 errors in the repo, none in a changed file (not attributable to this change)"
+  - "shape-slice script tests: 21+19+97+18+109+5+20 passed, 0 failed; create-play test_scoped_write_guard.py 15 passed, 0 failed"
+  - "md5 of all 15 scoped_write_guard.py copies identical"
+guard_review: "safe - --also-tree is opt-in (calls without it behave as before); the play passes one --allow for the one hidden file path, so any other change under .garura/project/plans is a violation; model-tree globs start with product-os/ and cannot match a plans path; restore prunes only empty folders above a removed file, up to the named tree; test_also_tree_joins_the_check covers the allowed file, a second file, and restore"
+evals_review: "every new C15-C18 / F15-F18 / S10 has an eval (SE-19..SE-23, SCE-10) and exactly one recovery (REC15-REC18, 18 recoveries for 18 failures); stop-condition D6 matches ice.md D6"
+no_real_person: "grep for the owner's name over SKILL.md, ice.md, scripts, the new skill and pr-body.md finds nothing; SE-16 grep is in place"
+counts: {P1: 0, P2: 0, P3: 2, P4: 1, total: 3}
+findings:
+  - id: DF-1
+    severity: P3
+    file: core/components/plays/shape-slice/SKILL.md
+    where: "Step 5 eval SE-6 (line 329) and Step 11 eval SE-6 (line 597)"
+    finding: "Two evals carry the id SE-6. The Compilation Metadata says 23 step evals (SE-1..SE-23), but the file holds 24 eval blocks. The early-brief check and the final-brief check share one id, so a recovery or report that names SE-6 cannot say which one."
+    principle: "One id names one eval, so coverage and reports stay clear (naming clarity)"
+    basis: "lint_play.py maps coverage by id, so a shared id hides one eval from the check; CLAUDE.md challenge principle 5 (naming clarity). No committed text states 'unique ids' in words."
+    fix: "Direct edit to SKILL.md (non-intent): give the early-brief eval its own id, or merge it with the final one, and fix the count. Record in the commit, not in the file."
+  - id: DF-2
+    severity: P3
+    file: core/components/plays/shape-slice/SKILL.md
+    where: "Step 8b contracts; scripts/write_hidden_file.py lines/write"
+    finding: "The run's working files hidden-lines.json and hidden-recoveries.json sit in {stm}/<issue>/context/shape-slice/. They hold the Fails-if text, the F-ids and the recovery text, outside the plan's evals folder. The read rule names only the evals folder, so the rule does not cover these copies."
+    principle: "Failure lines and ids reach no builder; the ids never leave the eval folder"
+    basis: "docs/adr/049 section 4 ('Today the eval is kept from the builder by a read rule only'); ontology.md v11, Hidden file row ('The ids never leave the eval folder')"
+    risk: "Low today: the folder is the intent issue's short-term memory, not a builder issue's, and the build context sub-agent writes to its own issue. Still a leak path the read rule does not close."
+    fix: "Write the two working files outside the issue folder, or delete them after check passes, or record the exception in an ADR."
+  - id: DF-3
+    severity: P4
+    file: core/components/plays/shape-slice/SKILL.md
+    where: "Step 5 early brief (agent writes early-brief.md); Compilation Metadata skills_missing"
+    finding: "The agent writes the early brief directly, with no skill, and skills_missing lists only author-slice. The gap for this prose is not noted."
+    principle: "An agent delegates artifact production to a skill, or documents that none exists"
+    basis: "core/components/plays/edit-play/references/agent-audit.md P7; CLAUDE.md rule 4"
+    fix: "Name the gap in skills_missing, as is done for the slice choice."
+no_findings_note: "Intent-change discipline, fingerprint, skill shape (frontmatter, Input, Process, Output, Rules; row in the agent skills table, trigger table and memory table), guard change, the asking-a-person rule, no real names, and the owner's decisions 1-5 all conform."
+playbook_gaps: "none for harness"
