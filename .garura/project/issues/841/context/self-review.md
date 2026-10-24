@@ -4,7 +4,7 @@ Rules file: the base self-review rules (no project override), at ~/.garura/core/
 
 Blocking items: none.
 
-The branch carries six issues in one change, by the product owner's choice: #841 (P1 bug), #851, #854, #837 (with accepted ADR 053), #855 and #833. Each has its own commit; 13 commits in all.
+The branch carries six issues in one change, by the product owner's choice: #841 (a priority-one bug), #851, #854, #837 (with accepted ADR 053), #855 and #833. Each has its own commit; 13 commits in all.
 
 ## Scope checks
 
