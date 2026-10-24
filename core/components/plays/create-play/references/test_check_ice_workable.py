@@ -34,7 +34,7 @@ def check(name, cond):
 
 
 def page(stage):
-    return f"# An intent\n\n**Outcome:** something\n**Stage:** {stage} — by Kapil, 2026-10-09\n"
+    return f"# An intent\n\n**Outcome:** something\n**Stage:** {stage} — by the product owner, 2026-10-09\n"
 
 
 def setup(tmp):
@@ -86,6 +86,8 @@ FULL_ICE = """## Intent
 LIGHT_ICE = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n- **Scenario:** pays.\n"
 NO_CONTEXT = "## Intent\n\n- **Goal:** pay.\n\n## Expectation\n\n- **Scenario:** pays.\n"
 EMPTY_EXP = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n"
+THIN_LINE = "Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.\n\n"
+THIN_ICE = THIN_LINE + "## Intent\n\n- **Goal:** pay.\n- **Limit:** card only.\n- **Fails if:** a card is charged twice.\n\n## Context\n\n- **Persona:** shopper.\n\n## Expectation\n\n- **Done means:** the order is paid.\n"
 
 
 def setup_v6(tmp):
@@ -98,15 +100,18 @@ def setup_v6(tmp):
             fh.write(page(stage))
     pages = {"cap-a": FULL_ICE, "cap-loose": LIGHT_ICE, "cap-noid": LIGHT_ICE, "cap-prop": FULL_ICE,
              "cap-needs": LIGHT_ICE, "cap-noctx": NO_CONTEXT, "cap-emptyexp": EMPTY_EXP,
-             "fn-a": LIGHT_ICE, "fn-orphan": LIGHT_ICE, "fn-under-prop": LIGHT_ICE, "fn-own-needs": LIGHT_ICE}
+             "cap-thin": THIN_ICE, "cap-thin-page": THIN_ICE, "cap-thin-spine": LIGHT_ICE, "fn-a": LIGHT_ICE, "fn-orphan": LIGHT_ICE, "fn-under-prop": LIGHT_ICE, "fn-own-needs": LIGHT_ICE}
     ices = []
     for n, (part, text) in enumerate(pages.items(), 1):
         rel = f"{part}/ice.md"
         os.makedirs(os.path.join(root, part))
         with open(os.path.join(root, rel), "w") as fh:
             fh.write(text)
-        ices.append({"id": f"ice-{n}", "for": part,
-                     "for_kind": "capability" if part.startswith("cap-") else "feature", "doc": rel})
+        ice = {"id": f"ice-{n}", "for": part,
+               "for_kind": "capability" if part.startswith("cap-") else "feature", "doc": rel}
+        if part in ("cap-thin", "cap-thin-spine"):
+            ice["metadata"] = {"thin": True}
+        ices.append(ice)
     spine = {"domains": [{"id": "d1"}],
              "capabilities": [
                  {"id": "cap-a", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-x"},
@@ -117,7 +122,10 @@ def setup_v6(tmp):
                   "depends_on": ["cap-a", "fn-a"]},
                  {"id": "cap-noctx", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
                  {"id": "cap-emptyexp", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
-                 {"id": "cap-noice", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"}],
+                 {"id": "cap-noice", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
+                 {"id": "cap-thin", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
+                 {"id": "cap-thin-page", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
+                 {"id": "cap-thin-spine", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"}],
              "features": [
                  {"id": "fn-a", "capability": "cap-a", "intents": ["bi-prop"]},
                  {"id": "fn-orphan", "capability": "", "intents": ["bi-ok"]},
@@ -147,13 +155,26 @@ def v6_tests(tmp):
           and r["gaps"] == [] and r["stops"] == [])
     check("the answer keeps `workable` for old callers", r["workable"] is True)
     check("--node takes the ICE id as well as the part id", node("ice-1")[1]["for"] == "cap-a")
-    check("a full ICE reports full richness", r["richness"]["level"] == "full")
+    check("the check does not count lines: no richness report (v11)", "richness" not in r)
 
     code, r = node("cap-loose")
     check("partly ready: no domain — exit 0, gap listed", code == 0 and r["answer"] == "partly_ready"
           and any("domain" in g for g in r["gaps"]))
-    check("a light ICE reports light richness and its missing lines, never a stop",
-          r["richness"]["level"] == "light" and "Limit" in r["richness"]["missing"]["Intent"])
+    check("a short ICE with no thin mark is not thin: no thin gap (v11)",
+          not any("thin" in g for g in r["gaps"]) and "richness" not in r)
+    code, r = node("cap-thin")
+    check("partly ready: the thin mark (page line and spine) gives the gap 'thin ICE' — exit 0 (v11)",
+          code == 0 and r["answer"] == "partly_ready" and r["gaps"] == ["thin ICE"] and r["thin"] is True)
+    code, r = node("cap-thin-page")
+    check("the Thin line on the page with no `thin: true` in the spine is drift, and still thin (v11)",
+          r["answer"] == "partly_ready" and "thin ICE" in r["gaps"]
+          and any("thin mark" in g and "spine" in g for g in r["gaps"]))
+    code, r = node("cap-thin-spine")
+    check("`thin: true` in the spine with no Thin line on the page is drift, and still thin (v11)",
+          r["answer"] == "partly_ready" and "thin ICE" in r["gaps"]
+          and any("thin mark" in g and "page" in g for g in r["gaps"]))
+    code, r = node("cap-a")
+    check("an ICE with no thin mark reads thin false (v11)", r["thin"] is False)
     code, r = node("cap-noid")
     check("partly ready: no identified-by — gap listed", r["answer"] == "partly_ready"
           and any("identified by" in g for g in r["gaps"]))
@@ -196,7 +217,7 @@ def v6_tests(tmp):
     code = cw.main(args + ["--out", out])
     with open(out) as fh:
         r = json.load(fh)
-    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 4, "partly_ready": 2,
+    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 4, "partly_ready": 5,
                                                                               "not_ready": 6})
     check("an unknown node exits 2", cw.main(args + ["--node", "nope"]) == 2)
 

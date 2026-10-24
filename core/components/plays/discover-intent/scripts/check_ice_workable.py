@@ -6,13 +6,15 @@ node — its `ices` entry and its ice.md — and gives one of three answers, com
 and never stored. "Its capability" is the capability itself, or a feature's parent.
   - ready: its capability serves a confirmed business intent, every capability it needs is
     done, and the ICE has all three parts (Intent, Context, Expectation). Work starts.
-  - partly_ready: as ready, with gaps outside the parts — no domain, no identified_by. Work
-    starts; the gaps are listed.
+  - partly_ready: as ready, with gaps that do not stop work — no domain, no identified_by, or
+    the thin mark (gap "thin ICE", ontology v11). Work starts; the gaps are listed.
   - not_ready: a part is missing or empty, no confirmed business intent reaches it, a needed
     capability is not done, a feature has no parent, or a part has no ICE. Work stops.
 A feature's own `intents` and `depends_on` are not read (v6: it finds its business
-intents through its parent and never needs anything). Richness (which lines each part fills,
-light | full) is reported, never a stop. The ICE's own approval is not a condition (§8).
+intents through its parent and never needs anything). Ontology v11 (#846): the check does not
+count lines or judge richness; it reads only the thin mark — the Thin line at the top of the
+ICE page and `thin: true` in its spine entry's metadata. When only one of the two is there, the
+gap names the drift. The ICE's own approval is not a condition (§8).
 Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
 `ices` list keeps the v5 rule below, written in the same three answers.
 
@@ -183,21 +185,38 @@ def read_parts(path):
     return parts
 
 
-def richness(parts):
-    """Which lines each part fills: reported, never a stop (ADR 047). light | full."""
-    missing = {p: [ln for ln in lines if ln not in parts.get(p, {})] for p, lines in ICE_PARTS.items()}
-    level = "full" if not any(missing.values()) else "light"
-    return {"level": level, "missing": missing}
+def thin_line(path):
+    """True when the ICE page opens, before `## Intent`, with the Thin line (ontology v11)."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError:
+        return False
+    head = text.split("## Intent", 1)[0]
+    return any(ln.strip().startswith("Thin:") for ln in head.splitlines())
+
+
+def thin_gaps(ice, path):
+    """(thin, gaps) from the thin mark: the page's Thin line and the spine's `thin: true`."""
+    on_spine = bool((ice.get("metadata") or {}).get("thin"))
+    on_page = thin_line(path)
+    gaps = ["thin ICE"] if (on_spine or on_page) else []
+    if on_page and not on_spine:
+        gaps.append("thin mark drift: the page has the Thin line, the spine entry has no `thin: true`")
+    elif on_spine and not on_page:
+        gaps.append("thin mark drift: the spine entry has `thin: true`, the page has no Thin line")
+    return bool(gaps), gaps
 
 
 def assess_ice(ice, part, kind, spine, root, intents_dir, done):
     """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
     caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
-    stops, gaps, rich = [], [], None
+    stops, gaps, thin = [], [], False
     if ice is None:
         stops.append(f"{kind} `{part.get('id')}` has no ICE")
     else:
-        parts = read_parts(os.path.join(root, ice.get("doc") or ""))
+        page_path = os.path.join(root, ice.get("doc") or "")
+        parts = read_parts(page_path)
         if parts is None:
             stops.append(f"its ICE page `{ice.get('doc')}` cannot be read")
         else:
@@ -206,7 +225,8 @@ def assess_ice(ice, part, kind, spine, root, intents_dir, done):
                     stops.append(f"the ICE has no {p}")
                 elif not parts[p]["_text"]:
                     stops.append(f"the ICE's {p} is empty")
-            rich = richness(parts)
+            thin, thin_gap = thin_gaps(ice, page_path)
+            gaps.extend(thin_gap)
     # its capability: the part itself, or a feature's parent
     if kind == "capability":
         cap = part
@@ -234,7 +254,7 @@ def assess_ice(ice, part, kind, spine, root, intents_dir, done):
     answer = "not_ready" if stops else ("partly_ready" if gaps else "ready")
     return {"id": ice.get("id") if ice else None, "for": part.get("id"), "for_kind": kind, "answer": answer,
             "stops": stops, "gaps": gaps, "intents": stages, "needs": needs, "needs_open": still_open,
-            "richness": rich, "workable": answer != "not_ready"}
+            "thin": thin, "workable": answer != "not_ready"}
 
 
 def check_ices(spine, root, intents_dir, done=None):
