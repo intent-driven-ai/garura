@@ -22,7 +22,7 @@ script turn that manifest into the spine/profile writes.
 grounding here is strategic and outcome-led — the domain and the bet, the kinds of capability
 it covers, what "good" looks like at a strategic level. Writing and detailing the
 capabilities and their features is the **product manager's** job (/discover-capabilities);
-breaking them into deliverable verticals is the **product owner's** job (/shape-scope). Write
+shaping them into slices a person can test end to end is the **product owner's** job (/shape-slice). Write
 nothing at those altitudes here.
 
 Each **domain** is named AND detailed — a full domain grounding doc a CXO would recognise as

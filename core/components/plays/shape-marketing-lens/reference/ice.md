@@ -5,7 +5,7 @@ edit-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given one shaped **slice** — a vertical product increment from /shape-scope, the thing you actually
+Given one shaped **slice** — a vertical product increment of the older chain, the thing you actually
 deliver — write its **marketing lens** as a grounding doc (`marketing.md`): how the slice is
 found and reached, the accessibility bar it meets, and the reach signals worth capturing. The
 slice is the unit of realization; a slice has no ICE of its own — its **hub** is the union of its
@@ -49,7 +49,7 @@ change.
 
 ### Constraints
 
-- C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
+- C1 — One slice per run, and only a ready one: the slice exists, every
   feature it bundles resolves through the spine to a `feature.md` grounding doc, and the
   product profile is firmed (`set`). If not, halt — /shape-marketing-lens realizes a shaped slice; it does not
   shape one.
@@ -202,7 +202,7 @@ by the content-quality eval before the gate.
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
-  firmed. direction: halt and route to /shape-scope (shape the slice) or /discover-capabilities (detail + firm) before
+  firmed. direction: halt and route to /discover-capabilities (detail + firm) before
   /shape-marketing-lens runs. handoff: human.
 - REC2 (F2) — trigger: a model path outside the run's write scope changed (the scoped-guard report is
   not ok). direction: the guard's `--restore` already reverted the offending paths; re-run writing

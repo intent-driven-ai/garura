@@ -72,7 +72,7 @@ class LoopPreflight(Work):
         self.config = self.write("config.yaml", CONFIG)
         self.write("skills/intent/SKILL.md", "runs check_loop_contract.py first\n")
         self.write("skills/vision/SKILL.md", "runs check_loop_contract.py first\n")
-        self.write("skills/shape/SKILL.md", "no contract here\n")
+        self.write("skills/shape-thing/SKILL.md", "no contract here\n")
         for member in ("search-knowledge", "research-knowledge", "check-knowledge"):
             self.write(f"skills/{member}/SKILL.md", "runs check_loop_contract.py first\n")
 
@@ -100,8 +100,8 @@ class LoopPreflight(Work):
         self.assertEqual(self.read_json("pre.json")["missing"], ["understand"])
 
     def test_a_play_that_checks_no_contract_halts(self):
-        self.assertEqual(self.run_it("intent,shape"), 2)
-        self.assertEqual(self.read_json("pre.json")["no_contract"], ["shape"])
+        self.assertEqual(self.run_it("intent,shape-thing"), 2)
+        self.assertEqual(self.read_json("pre.json")["no_contract"], ["shape-thing"])
 
     def test_defaults_when_the_config_names_no_loop_but_the_checker_model_is_asked_for(self):
         cfg = self.write("bare.yaml", "stm:\n  base-path: x/\n")

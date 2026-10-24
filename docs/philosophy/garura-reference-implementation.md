@@ -100,7 +100,7 @@ IDSD runs the lifecycle as five loops, each defined by the intent it must meet (
 | Loop (working name) | Its intent | Plays it runs | Built today |
 |---------------------|-----------|---------------|-------------|
 | **Understand** | The intent is known and stored | `/discover-domains` → `/discover-capabilities` | The plays ship. Starting from a working prototype, and pulling the intent out of it, is decided (ADR 028) but not built |
-| **Shape** | The product is ready to build in slices | `/shape-scope` → `/shape-roadmap`; then the design plays: `/shape-ux-lens` → `/shape-agentic-lens` → `/shape-marketing-lens`, `/shape-architecture-lens` → `/shape-quality-lens` → `/shape-run-lens` | The plays ship, but design still runs **per slice**, and `/shape-measure-lens` stamps each slice *realized*. Design once per project, each area optional, measure left out — decided (ADR 028), not built |
+| **Shape** | The product is ready to build in slices | `/shape-slice`; the older design plays, stale until their rebuild (#855): `/shape-ux-lens` → `/shape-agentic-lens` → `/shape-marketing-lens`, `/shape-architecture-lens` → `/shape-quality-lens` → `/shape-run-lens` | The plays ship, but design still runs **per slice**, and `/shape-measure-lens` stamps each slice *realized*. Design once per project, each area optional, measure left out — decided (ADR 028), not built |
 | **Execute** | A slice is delivered and checked against its intent | `/shape-slice` → `/build-epic` → `/validate-epic` → `/release-epic` | Built. `/shape-slice` still requires a realized slice; grilling on a slice's missing design areas instead is #595 |
 | **Change** | Every change lands the same way | `/start-change` → `/commit-change` → `/propose-change` → `/check-change` → `/merge-change` | Built |
 | **Learn** | The stored intent stays true | `/list-focus-issues`, `/learn-outcomes` | Built |
@@ -114,7 +114,7 @@ Outside the five loops: `/fix-bug` and `/refactor-code` (the defect and refactor
 | Loop | What its plays do to business intent |
 |------|---------------------------------------|
 | **Understand** | `/discover-domains` seeds the domain and directional capabilities. `/discover-capabilities` details one capability and its features. |
-| **Shape** | `/shape-scope` composes deliverable slices; `/shape-roadmap` orders them. Each design play writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`), and `/shape-measure-lens` runs last and stamps the slice *realized* once all seven agree. |
+| **Shape** | `/shape-slice` shapes the slice that shows a business intent is served (ADR 049). Each design play writes one context doc for the slice (`lens/{ux,agentic,marketing,architecture,quality,run,measure}.md`), and `/shape-measure-lens` runs last and stamps the slice *realized* once all seven agree. |
 | **Execute** | `/shape-slice` cuts the realized slice into user-testable epics, each carrying its own ICE and referencing the slice's intent and lenses. `/build-epic` turns an epic into a test-first plan (the spec), then code and tests, behind the builder/validator barrier. `/validate-epic` runs the checks the quality and measure lenses declare, plus the epic's declared surface; `/release-epic` walks a human through the epic's `user_check` and acceptance. |
 | **Learn** | `/learn-outcomes` reads what actually happened (the measure lens, validate verdicts and fix reports, the run lens, delivered status), finds where the stored intent drifted, and fixes it at the source: the capability and feature docs and new decision records, or the measure, run, and quality lenses. Every change must cite an outcome. |
 
@@ -230,7 +230,7 @@ The current plays call 11 agents. Each has one domain; utility agents (`project-
 | [`project-orchestrator`](../../core/components/agents/project-orchestrator.md) | project | orchestrator (utility) | start-change, commit-change, implement, validate, launch, fix-bug, refactor, focus |
 | [`repo-orchestrator`](../../core/components/agents/repo-orchestrator.md) | repo | orchestrator (utility) | start-change, commit-change, propose-change, check-change, merge-change, implement, validate, launch, fix-bug, refactor |
 
-Three more agent definitions exist in `core/components/agents/` but no current play calls them: scriber, tech-architect, test-runner. Four others from the old intent-epic pipeline were deleted (ADR 050).
+Seven agent definitions from older pipelines were deleted (ADR 050, #833).
 
 ---
 
@@ -249,7 +249,7 @@ Garura keeps three layers of memory. Agents read all three during context crafti
 The governance doctrine — tiered review scaled to blast radius, Git as file-level conflict resolution, anti-entropy — is IDD's ([LTM Governance](./intent-driven-development.md#ltm-governance)). In Garura it runs like this:
 
 ```
-/discover-domains or /shape-scope finds a gap the KB does not cover
+/discover-domains or /discover-capabilities finds a gap the KB does not cover
         │
         ▼
 propose-kb-node records a KB-node proposal
@@ -320,7 +320,7 @@ A skill does one bounded job and never decides when it runs — an agent calls i
 | [`judge-validation-results`](../../core/components/skills/judge-validation-results/SKILL.md) | `quality-auditor` in `/validate-epic` | Judge captured check results |
 | [`author-business-intent`](../../core/components/skills/author-business-intent/SKILL.md) | `product-os-keeper` in `/shape-slice` | Draft the intent page when the model has none |
 | [`author-learnings`](../../core/components/skills/author-learnings/SKILL.md) | `product-os-keeper` in `/learn-outcomes` | Rewrite the model from outcomes |
-| [`find-work-placement`](../../core/components/skills/find-work-placement/SKILL.md), [`propose-kb-node`](../../core/components/skills/propose-kb-node/SKILL.md) | `product-os-keeper` in `/discover-domains`, `/shape-scope` | Ground in the knowledge base, or propose what it lacks |
+| [`find-work-placement`](../../core/components/skills/find-work-placement/SKILL.md), [`propose-kb-node`](../../core/components/skills/propose-kb-node/SKILL.md) | `product-os-keeper` in `/discover-domains`, `/shape-slice` | Ground in the knowledge base, or propose what it lacks |
 
 The full set is under `core/components/skills/`.
 

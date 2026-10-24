@@ -17,7 +17,7 @@ profile:
   state: string              # directional | set | locked
                              #   directional — rough, from /discover-domains
                              #   set         — levels + gates firmed by /discover-capabilities
-                             #   locked      — selection (/shape-scope) runs against it
+                             #   locked      — the box is fixed; no play sets it now (ADR 053)
 
   shape:                     # situational dimensions (directional from /discover-domains)
     stage: string            # prototype | internal | public | monetized

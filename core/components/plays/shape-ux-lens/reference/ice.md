@@ -5,7 +5,7 @@ edit-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given one shaped **slice** — a vertical product increment from /shape-scope, the thing you actually
+Given one shaped **slice** — a vertical product increment of the older chain, the thing you actually
 deliver — write its **UX lens** as a grounding doc (`ux.md`): just enough to anchor the
 intended experience and let the build figure the rest. The slice is the unit of realization; a
 slice has no ICE of its own — its **hub** is the union of its features' grounding docs
@@ -63,7 +63,7 @@ this run's delta and the next pipeline play (/shape-agentic-lens) enters clean.
 
 ### Constraints
 
-- C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
+- C1 — One slice per run, and only a ready one: the slice exists, every
   feature it bundles resolves through the spine to a `feature.md` grounding doc, the
   product profile is firmed (`set`), and the slice's persona + journey records resolve — every
   `surface[].persona_ref` opens a real persona record, and every slice surface is reached by at
@@ -346,8 +346,7 @@ the always-written record, not a newly-added decision.
 
 - REC1 (F1) — trigger: the slice is absent, a feature does not resolve, the profile is not
   firmed, a surface's persona does not resolve, or a surface is reached by no journey. direction:
-  halt and route to /shape-scope (shape the slice; /shape-scope owns the persona and journey records and
-  already guarantees a journey per surface) or /discover-capabilities (detail + firm) before /shape-ux-lens runs; never
+  halt and route to /discover-capabilities (detail + firm) before /shape-ux-lens runs; never
   invent the missing persona or journey. handoff: human.
 - REC2 (F2) — trigger: a write touched something beyond this slice's `ux.md` or a decision.
   direction: revert the out-of-scope write; /shape-ux-lens writes only the slice's `ux.md` (and the
@@ -359,8 +358,7 @@ the always-written record, not a newly-added decision.
 - REC4 (F4) — trigger: `ux.md` fails the content-quality eval — not self-explaining, or naming a
   role that resolves to no persona record, or declaring a screen no journey step names. direction:
   rewrite the failing section to the judge's cited fixes; for a role that resolves to nothing,
-  replace it with the persona record it was standing in for (never add the persona — /shape-scope owns
-  those); for a screen no journey step names, tie it to the step it serves or drop it. Re-judge
+  replace it with the persona record it was standing in for (never add the persona); for a screen no journey step names, tie it to the step it serves or drop it. Re-judge
   and re-run the grounding cross-check until both pass. handoff: autonomous.
 - REC5 (F5) — trigger: an invented/ungrounded element. direction: drop it, or re-tie the screen to
   a feature or persona/journey, and tie the visual core to a decision. handoff: autonomous.

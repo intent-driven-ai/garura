@@ -5,7 +5,7 @@ edit-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given one shaped **slice** — a vertical product increment from /shape-scope, the thing you actually
+Given one shaped **slice** — a vertical product increment of the older chain, the thing you actually
 deliver — write its **architecture lens** as a grounding doc (`architecture.md`): the shape of
 the software that delivers it. The slice is the unit of realization; a slice has no ICE of its
 own — its **hub** is the union of its features' grounding docs (`feature.md`, which
@@ -45,7 +45,7 @@ diff vs HEAD is exactly this run's delta and the next pipe play (/shape-quality-
 
 ### Constraints
 
-- C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
+- C1 — One slice per run, and only a ready one: the slice exists, every
   feature it bundles resolves through the spine to a `feature.md` grounding doc, and
   the product profile is firmed (`set`). If not, halt — /shape-architecture-lens realizes a shaped slice; it does
   not shape one.
@@ -198,7 +198,7 @@ the slice's write scope (the allowlist held).
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is
-  not firmed. direction: halt and route to /shape-scope (shape the slice) or /discover-capabilities (detail + firm)
+  not firmed. direction: halt and route to /discover-capabilities (detail + firm)
   before /shape-architecture-lens runs. handoff: human.
 - REC2 (F2) — trigger: `architecture.md` fails the template/shape or carries out-of-scope content.
   direction: re-emit the doc to the Architecture lens template — Intent/Components/Stack/Vertical

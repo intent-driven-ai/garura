@@ -69,8 +69,8 @@ the loop's review (C13) — which also carries approval of any out-of-box box-mo
 feature, or domain other than the run's targets and their new features (C10);
 committing some targets while another failed (C14); measuring a target against a box another
 target in the same run raised (C7/C8);
-prioritizing — writing a slice or an epic, or flipping the capability to active (C2, that
-is /shape-scope); persisting the shared files (spine/profile/decisions) by any route other than
+prioritizing — writing a slice or an epic, or flipping the capability to active (C2; slices
+are /shape-slice's, and no play sets a capability active now); persisting the shared files (spine/profile/decisions) by any route other than
 `scripts/persist_understand.py`; committing before the checkpoint resolves; writing a
 box-move decision `accepted` inside a loop (C8/C13); filling in a seed answer the person or
 the loop did not give (C1/C13); running against
@@ -489,7 +489,7 @@ an already-detailed target is always refused.
 capability (`node_ref`), its dimension, its from→to, and status `accepted` — `proposed` inside a loop (in
 `persist-manifest.json` `box_moves` + the written decision records).
 **SE-11 (F10):** no slice and no epic was written, and no target's `status` was flipped to
-`active` — prioritization is /shape-scope's.
+`active` — slices are /shape-slice's, and no play sets a capability active now.
 
 ### Phase: Guard + Classify (over the full delta)
 
@@ -876,10 +876,10 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:4e857bb65c75fb3b545e77467ab87571b97933aa5c46dcb9108e40efffa7c889 (of `reference/ice.md`) |
+| fingerprint | sha256:4b88eae2873fca672336cb09074d6b93512af214f086683c1a5a834d4a2606f0 (of `reference/ice.md`) |
 | compiled_by | edit-play (#689 ADR 043: writes the capabilities and features, read off the screens, holding folder when no domain: C1, C2, C16); edit-play (#689 the screens decide the features, every page with its sources: C16); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#615 runs inside a loop; one run details every pending capability); edit-play (#616 stands alone); edit-play (#498 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
-| position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /shape-measure-lens and /discover-domains) |
+| position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /discover-domains) |
 | workflow_structure | A (single checkpoint carrying box-move approvals — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
@@ -933,6 +933,6 @@ confirming the emitted SKILL matches this hand-compiled body and refreshing the 
 **before this direct-model-write pattern is fanned out to the other 12 model-writing plays**;
 the fan-out must not proceed on an unverified reference. Note also: `reference/ice.md` C12
 distinguishes the model-delta commit from the Standard Play Close (evidence + delivery report)
-that /discover-capabilities still runs; the close anchor block is retained (required by `check-components`
+that /discover-capabilities still runs; the close anchor block is retained (required by `core/tools/lint-components`
 structural.js and the create-play G12 emit on every play), and the `feat(model)` commit is the
 separate lightweight persist step, so both coexist as C12 describes.

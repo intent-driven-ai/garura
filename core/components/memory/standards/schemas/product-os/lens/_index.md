@@ -12,13 +12,13 @@ slice should be) and the **foundation trinity** (architecture, measure, run — 
 makes it real); foundation lenses read the trinity, the trinity reads only the hub;
 marketing closes the functional pipe after agentic.
 
-**The slice is the unit of realization (#434).** A slice (from `/shape-scope`) is a
+**The slice is the unit of realization (#434).** A slice (from the older chain) is a
 vertical product increment — the thing you actually deliver. You pick a slice and
 run ux → agentic → marketing (functional) and arch → quality → run (non-functional),
 then measure stamps it realized. The lenses are therefore stored ON the slice, not
 on a capability:
 
-    {domain}/slices/{slice-id}.yaml          # the slice record (shape/roadmap own it)
+    {domain}/slices/{slice-id}.yaml          # the slice record of the older chain
     {domain}/slices/{slice-id}/lens/{type}.yaml   # the slice's lenses (realize owns these)
     {domain}/slices/{slice-id}/decisions/*.yaml   # decisions a lens records
 

@@ -38,8 +38,8 @@ domain serves — is recorded as a warning. A write is never blocked, and nothin
 did or did not do stops the run.
 
 Everything here is strategic and directional — CXO altitude. Writing and detailing the
-capabilities and their features is the **product manager's** work (/discover-capabilities); breaking the detailed model into deliverable end-to-end verticals and
-epics is the **product owner's** work (/shape-scope). The play writes nothing at those
+capabilities and their features is the **product manager's** work (/discover-capabilities); shaping the detailed model into slices a person can test end to
+end is the **product owner's** work (/shape-slice). The play writes nothing at those
 altitudes.
 
 The grounding docs are the unit of meaning: each conforms to its locked template and
@@ -67,7 +67,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   only moves, unchanged, is not re-judged.
 - C3 — Altitude and scope: the play writes **domains only**, each in full (ADR 043 part 2). It
   never writes, names as an entry, places, moves or details a capability, never writes a
-  feature, never writes acceptance criteria — those belong to /discover-capabilities and /shape-scope. A
+  feature, never writes acceptance criteria — those belong to /discover-capabilities and /shape-slice. A
   domain page's Capabilities section describes, in plain words, the kinds of capability the
   domain covers; it names no capability entry.
 - C4 — Directional state: a domain entry the play writes or raises carries

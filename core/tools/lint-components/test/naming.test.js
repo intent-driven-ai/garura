@@ -22,7 +22,7 @@ t('an industry term passes', rules('play', 'shape-ux-lens'), []);
 t('a loop named complete-<phase> passes', rules('loop', 'complete-discovery'), []);
 t('a loop with another shape fails', rules('loop', 'discovery'), ['naming-loop']);
 t('a play may not use the loop verb', rules('play', 'complete-thing'), ['naming-loop-verb', 'naming-play']);
-t('a skill with a skill verb passes', rules('skill', 'author-roadmap'), []);
+t('a skill with a skill verb passes', rules('skill', 'author-slice'), []);
 t('a skill with no skill verb fails', rules('skill', 'draft-rca'), ['naming-skill']);
 t('the named skill exception passes', rules('skill', 'platform-adapter'), []);
 t('an agent with a role passes', rules('agent', 'adr-keeper'), []);

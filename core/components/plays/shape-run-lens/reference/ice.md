@@ -5,7 +5,7 @@ edit-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Given one shaped **slice** — a vertical product increment from /shape-scope, the thing you actually
+Given one shaped **slice** — a vertical product increment of the older chain, the thing you actually
 deliver — write or extend its **run lens**: the narrative grounding doc `run.md` AND the
 machine-readable per-environment definition `run.yaml`. The slice is the unit of realization; a
 slice has no ICE of its own — its **hub** is the union of its features' grounding docs
@@ -59,7 +59,7 @@ once per slice — once per environment — each a small model-only change ridin
 
 ### Constraints
 
-- C1 — One slice per run, and only a ready one: the slice exists (shaped by /shape-scope), every
+- C1 — One slice per run, and only a ready one: the slice exists, every
   feature it bundles resolves through the spine to a `feature.md` grounding doc, the
   product profile is firmed (`set`), and the slice's `architecture.md` lens exists. If not, halt —
   /shape-run-lens realizes a shaped, architected slice; it does not shape or architect one.
@@ -232,7 +232,7 @@ status — and the spine — stayed untouched, no realized stamp).
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the slice is absent, a feature does not resolve, the profile is not
-  firmed, or the architecture lens is missing. direction: halt and route to /shape-scope, /discover-capabilities, or
+  firmed, or the architecture lens is missing. direction: halt and route to /discover-capabilities or
   /shape-architecture-lens before /shape-run-lens runs. handoff: human.
 - REC2 (F2) — trigger: the scoped guard reports a write beyond this slice's `run.md`, `run.yaml`, or a
   decision. direction: the guard's `--restore` reverts the out-of-scope paths; re-run writing only the

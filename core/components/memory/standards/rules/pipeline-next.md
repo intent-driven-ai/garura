@@ -20,15 +20,15 @@ The lifecycle runs as five loops (ADR 028; the names are working names). The pla
 
 - **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/research-knowledge`, `/check-knowledge`) run only inside it.
 - **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then the plan play (#818), then the eval play (#798). Neither of those is built yet, so `/shape-slice` has no Next line. The Discovery plays hand to it (`/shape-slice <intent>`, the business intent's issue number).
-- **Older chain (#837), not the live loop:** the old Shape loop `/shape-scope → /shape-roadmap`, then the design plays, which still run per slice today. Nothing in the map routes into it any more; a person runs it by hand until #837 decides whether these plays are rebuilt or dropped:
+- **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
   - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
   - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
-  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/shape-slice` no longer reads that mark (ADR 049); whether these lens plays are rebuilt or dropped is #837.
+  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/shape-slice` no longer reads that mark (ADR 049).
   ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
 - **Execute loop (per epic):** `/build-epic → /validate-epic → /release-epic`. `/release-epic` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
 - **Change loop (git):** `/start-change` (injected at a play's head) `→ /commit-change → /propose-change → /check-change → /merge-change`.
 - **Learn loop:** `/learn-outcomes`. `/list-focus-issues` lists the open issues worth attention.
-- Branch points (after `/shape-roadmap`, and at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
+- Branch points (at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
 
 ## The map
 
@@ -41,21 +41,17 @@ next:
   discover-intent:         { command: discover-domains,         why: "seed the product model from a confirmed business intent (give /discover-domains its title, outcome and why as the goal)" }
   discover-domains:         { command: discover-capabilities,     why: "expand this capability's intent (ICE)" }
   discover-capabilities:     { command: shape-slice,     why: "the capabilities are detailed — shape the slice that serves a business intent (/shape-slice <intent>)" }
-  # Older chain (#837) — not the live shape loop; nothing routes here
-  shape-scope:          { command: shape-roadmap,        why: "prioritise the slices" }
-  shape-roadmap:        { command: null,           why: "pick a design pipe for the top slice — functional (/shape-ux-lens) or non-functional (/shape-architecture-lens)" }
-
-  # Older chain (#837): old Shape loop — design plays, functional (ux → agentic → marketing); per slice until #594/#595
+  # Older chain, stale (#855): old Shape loop — design plays, functional (ux → agentic → marketing)
   shape-ux-lens:             { command: shape-agentic-lens,        why: "next lens in the functional pipe" }
   shape-agentic-lens:        { command: shape-marketing-lens,      why: "next lens in the functional pipe" }
   shape-marketing-lens:      { command: null,           why: "functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
 
-  # Older chain (#837): old Shape loop — design plays, non-functional (arch → quality → run)
+  # Older chain, stale (#855): old Shape loop — design plays, non-functional (arch → quality → run)
   shape-architecture-lens:           { command: shape-quality-lens,        why: "next lens in the non-functional pipe" }
   shape-quality-lens:        { command: shape-run-lens,            why: "next lens in the non-functional pipe" }
   shape-run-lens:            { command: null,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
 
-  # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); #837 decides this play's future
+  # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
   shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /shape-slice, not from this mark" }
 
   # Shaping loop (ADR 049) — the live shape loop; the plan play (#818) and the eval play (#798) are not built yet

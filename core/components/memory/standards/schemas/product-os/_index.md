@@ -11,13 +11,13 @@ the two delivery artifacts that ride on top.
 | `ice.yaml` | Intent / Context / Expectations on a node (the build unit at feature level) | permanent |
 | `decision.yaml` | decision records (ADRs) at any level — with the core fields of `templates/adr.md` added in #632 (supersedes, amends, affects, ICE impact, business-intent check) | permanent |
 | `lens/` (one file per type) | the 5 realize lenses (ux, architecture, run, quality, agentic) | permanent |
-| `slice.yaml` | a vertical product increment — features (across capabilities of one domain) bundled into a usable increment; written by /shape-scope, planned by /shape-roadmap | permanent |
+| `slice.yaml` | a vertical product increment — features, taken from any capabilities, bundled into an increment a person can test end to end; written by /shape-slice | permanent |
 | `epic.yaml` | a vertical slice of a feature — the delivery/issue grain | permanent (stamped `delivered` on merge, kept) |
 | `product-profile.yaml` | the NFR + shape posture of a product; the vocabulary the KB matches conditions against | permanent |
 
 Two "vertical slice" terms, deliberately distinct: a **slice** (`slice.yaml`) is the
 product-increment level — whole features bundled into a usable increment, from
-/shape-scope, planned by /shape-roadmap. An **epic** (`epic.yaml`) is the engineering grain — one
+/shape-slice. An **epic** (`epic.yaml`) is the engineering grain — one
 feature cut end-to-end through its components, from /shape-slice inside a chosen slice.
 
 Storage tiers (see `product-os.yaml` storage layout):

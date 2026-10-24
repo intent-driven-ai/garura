@@ -72,7 +72,8 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   This is the structure /discover-capabilities owns — capabilities and features, the last
   detailing step. It never writes a business intent or a domain (ADR 043), never touches a
   capability outside the run's targets, and never prioritizes (no slices, no
-  epics, no capability status flip — that is /shape-scope).
+  epics, no capability status flip — slices are /shape-slice's, and no play sets a
+  capability active now).
 - C3 — The detailed `capability.md` is complete to its template (benefit hypothesis,
   boundary In/Out/Never, guiding rules, and a Features index whose entries link to
   real feature ids), and every `feature.md` is complete to its template (what
@@ -245,7 +246,8 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
 - F9 — Allowlist breach: a capability, feature, or domain other than the targets (and
   their new features) was changed during the run.
 - F10 — Over-reach into prioritization: a slice or an epic was written, or a target
-  capability's status was flipped to active — that is /shape-scope's job.
+  capability's status was flipped to active — slices are /shape-slice's job, and no play
+  sets a capability active now.
 - F11 — The run closed COMPLETED without the Done means held (no persist record, the
   profile roll-up not stamped as written, the scoped-write guard report not captured or not
   ok, or the model delta not committed).

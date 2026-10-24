@@ -21,7 +21,7 @@ capability (#615), so it takes one enrich manifest per capability:
         OUT-OF-BOX move -> one box_move per capability per dimension (it names the
         capability), each needing its own product-level decision; out_of_box is flagged
         (the play halts for approval).
-  - Never writes `locked` (that is /shape-scope's gate).
+  - Never writes `locked` (no play sets it now, ADR 053).
 
 Layer rule: reads the current profile (from the live spine `_spine.yaml`) + the enrich
 manifests from disk; writes a proposed profile + a roll-up report. No git/gh/network.

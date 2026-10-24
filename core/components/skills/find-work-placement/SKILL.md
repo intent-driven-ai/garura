@@ -1,6 +1,6 @@
 ---
 name: find-work-placement
-description: Search the product knowledge base for where a piece of work belongs — its domain, capability, and feature — by reasoning over the domain shelves its agent puts in short-term memory. Runs the inference sandwich (list the domains, reason to the domain, read that shelf, reason to the capability/feature) and emits a lightweight routing-result with the decision and why. Placement only — it does not evaluate product-profile conditions (that is selection, /shape-scope's job). Use whenever a play or agent needs to know which part of the product model a request maps to.
+description: Search the product knowledge base for where a piece of work belongs — its domain, capability, and feature — by reasoning over the domain shelves its agent puts in short-term memory. Runs the inference sandwich (list the domains, reason to the domain, read that shelf, reason to the capability/feature) and emits a lightweight routing-result with the decision and why. Placement only — it does not evaluate product-profile conditions (that is selection, not placement). Use whenever a play or agent needs to know which part of the product model a request maps to.
 version: 0.2.0
 user-invocable: false
 model: sonnet
@@ -23,7 +23,9 @@ feature**, with the decision and the reasoning recorded. This is C2 (#434).
 Each shelf opens with front matter: `id`, `title`, and `conditions.trigger` (when the domain
 applies). That is the routing entry.
 
-## Procedure — the inference sandwich
+## Process
+
+The inference sandwich.
 
 Reasoning is yours (the skill); the agent only retrieves.
 
@@ -55,7 +57,9 @@ Reasoning is yours (the skill); the agent only retrieves.
 If step 1 finds no domain that fits, set `unmatched: true` and stop — the
 nothing-fits path (the `/route` caller) handles drafting a new node for review.
 
-## Output — routing_result (lightweight; NOT an ADR)
+## Output
+
+The `routing_result` (lightweight; NOT an ADR).
 
 ```yaml
 routing_result:
