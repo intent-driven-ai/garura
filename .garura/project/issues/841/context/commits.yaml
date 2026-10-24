@@ -1,8 +1,14 @@
 commits:
+  - sha: 9dd4003b
+    message: "chore(core): Record the issue 841 run records and the install manifest (#841)"
+    files:
+      - .garura/install-manifest.json
+      - .garura/project/issues/841/context/commit-change/
+    branch: plan/788/841-chores-batch
 excluded_files:
   - path: "CLAUDE.md.new"
     reason: "untracked scratch copy of installed project rules; not a change of this work"
-leftover_count: 1
-tree_clean: false
+leftover_count: 0
+tree_clean: true
 pushed: false
 run_state_committed: true
