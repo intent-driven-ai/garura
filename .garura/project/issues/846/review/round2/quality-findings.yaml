@@ -1,0 +1,99 @@
+meta:
+  generated_at: '2026-10-24T11:08:53Z'
+  diff_path: '.garura/project/issues/846/review/pr.diff'
+  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+  changed_paths_count: 56
+  scan_coverage: 1.0000
+  standards_relevant: 3
+  catchall:
+    CODE-20: 56
+findings:
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/047-the-ice-is-its-own-node.md'
+    line: 1
+    evidence: 'docs/adr/047-the-ice-is-its-own-node.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md'
+    line: 1
+    evidence: 'docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+    line: 1
+    evidence: 'docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'DOC-04'
+    severity: P3
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-04'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/047-the-ice-is-its-own-node.md'
+    line: 1
+    evidence: 'docs/adr/047-the-ice-is-its-own-node.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/047-the-ice-is-its-own-node.md'
+    line: 1
+    evidence: 'docs/adr/047-the-ice-is-its-own-node.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md'
+    line: 1
+    evidence: 'docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md'
+    line: 1
+    evidence: 'docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+    line: 1
+    evidence: 'docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+    line: 1
+    evidence: 'docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+  - standard_id: 'ARCH-23'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'ARCH-23'
+  - standard_id: 'DOC-05'
+    severity: P4
+    file: 'docs/adr/_index.md'
+    line: 1
+    evidence: 'docs/adr/_index.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-05'
+counts:
+  P1: 0
+  P2: 0
+  P3: 4
+  P4: 8

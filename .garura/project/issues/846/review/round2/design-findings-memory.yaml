@@ -1,0 +1,55 @@
+category: memory
+round: 2
+pr: 849
+issue: 846
+base_ref: origin/plan/788/base
+delta_checked: "git diff 347d166e HEAD (ADR 052, pointers on 047 and 049, ready check x2 + test, spine.yaml, slice.yaml, flow line)"
+grounding:
+  - {id: G1, source: "docs/adr/047 sections 6-8 (base)", principle: "Partly ready = gaps outside the ICE's parts; the check does not judge richness."}
+  - {id: G2, source: "docs/adr/047 sections 1-2; spine.yaml 'ices' (base)", principle: "Spine entry and page shape."}
+  - {id: G4, source: "docs/adr/049 'What this does not change' (base)", principle: "ADR 047 ready check unchanged."}
+  - {id: G6, source: "ontology.md head; standards/rules/direct-model-write.md (base)", principle: "A play's write scope is widened on purpose, in that play."}
+  - {id: G9, source: "docs/adr/048 pointer pattern on ADR 047 status line (base)", principle: "A later ADR amends an older one by a Status pointer, the body stays as decided."}
+round1_status:
+  DF-1: {state: fixed, evidence: "ADR 052 sections 6 and 'What this changes' amend ADR 047 sections 6, 7, 8; pointer on 047 Status line. Thin mark is stated as a gap set by a person-facing play, not a judgement by the check."}
+  DF-2: {state: fixed, evidence: "ADR 052 amends ADR 049 sections 1.1, 1.2, 4, 5 and the single-interpretation consequence, and names the renamed rule section; pointer on 049 Status line. Same pattern as ADR 048 on 047."}
+  DF-3: {state: fixed, evidence: "Both check_ice_workable.py copies are identical; richness() removed, thin_gaps() reads only the Thin line and thin: true, drift gap when only one is present, no line count. Test file runs: 45 passed, 0 failed. No other code reads a 'richness' key. ADR 052 section 6 says 'thin' means the mark."}
+  DF-4: {state: fixed, evidence: "spine.yaml ices metadata gains 'thin: boolean' with a note on the page line and the ready check; matches ontology line 465."}
+  DF-5: {state: partly_fixed_acceptable, evidence: "slice.yaml header and fill rule, spine.yaml fill rule now say /shape-slice also writes thin ICE and the hidden file. shape-slice SKILL.md and reference/ice.md still say 'nothing else'. This is an intent change; CLAUDE.md sends it through /edit-play, and ADR 052 'Work This Creates' and 'Negative' name it. Leaving it out of this PR is acceptable (see DF-R2-1 for the condition)."}
+  DF-6: {state: closed_note, evidence: "Agreed K3, no change needed."}
+  DF-7: {state: fixed_by_pr_text, evidence: "Taken from the PR text as claimed; ontology Q38 unchanged. Not re-checked against the PR body."}
+  DF-8: {state: fixed, evidence: "Flow line now reads 'from every line of its Feature's ICE and its Capability's ICE except the \"Fails if\" lines'. The Clinic example note was left; harmless."}
+adr_052_consistency:
+  result: "Consistent with ADR 047 and 049 in substance. Every changed rule has an 'amends' entry. Decisions 1-7 match ontology v11 (Slice, Plan, Epic, ICE rules, Q36-Q40). ADR 048 section 3 is rightly left alone. Not grounded on ADR 052; judged against the base text of 047, 049 and the ontology."
+findings:
+  - id: DF-R2-1
+    severity: P4
+    file: core/components/plays/shape-slice/SKILL.md and reference/ice.md
+    problem: "Until /shape-slice is rebuilt, the play still says it writes nothing else, and its write guard covers product-os only, not the plans folder. The schemas and ontology now say otherwise. This is a known, recorded gap, not a defect of this PR."
+    principle_violated: "G6 (only as a gap to track)"
+    basis: "ontology.md head 'Who writes'; CLAUDE.md 'Play Pipeline Rules'; ADR 052 'Work This Creates'"
+    fix: "Make sure the /edit-play follow-up issue exists and names the write scope and the guard rule for plans/<id>/evals. I could not check the tracker."
+  - id: DF-R2-2
+    severity: P4
+    file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+    lines: "Work This Creates, last bullet"
+    problem: "It says 'After acceptance: the forward pointers on ADR 049 and ADR 047'. The pointers are already in this PR, so the line is stale."
+    principle_violated: "A record states what is true when merged."
+    basis: "docs/adr/047 and 049 Status lines in HEAD"
+    fix: "Drop the bullet, or say the pointers are done."
+  - id: DF-R2-3
+    severity: P4
+    file: docs/adr/047-the-ice-is-its-own-node.md ; docs/adr/049-...md
+    problem: "The pointers name only some sections. ADR 047 still says in ICE impact, Negative risks and Work This Creates (#760) that the check 'reports richness'. ADR 049 'What this does not change' still says ADR 047's ready check is unchanged, and its ICE impact still says the plan play reads both ICE once and gives the hidden file the failure conditions. A reader of the body can be misled, but the Status pointer says to read ADR 052 first."
+    principle_violated: "G9 (pointer pattern); mild, the pattern itself accepts this"
+    basis: "docs/adr/048 pointer on ADR 047 (base)"
+    fix: "Optional: widen the pointer text to 'and the matching lines in ICE impact, Consequences and Work This Creates'. ADR 052 section 'What this does not change' could also say ADR 049's 'does not change ADR 047' line no longer holds for the ready check."
+  - id: DF-R2-4
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "502"
+    problem: "Line 502 still says the ready check #760 is 'not built yet'. The check exists in the repo and now reads the thin mark. Old text, but DF-3 asked to add the mark there."
+    principle_violated: "Ontology states what is true."
+    basis: "core/components/plays/discover-intent/scripts/check_ice_workable.py in HEAD"
+    fix: "Optional: update the line in the next ontology edit."
+counts: {P1: 0, P2: 0, P3: 0, P4: 4, total: 4}

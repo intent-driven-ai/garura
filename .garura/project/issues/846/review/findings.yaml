@@ -1,51 +1,5 @@
-round: 2
+round: 3
 findings:
-- id: DF-R2-1
-  severity: P4
-  file: core/components/plays/shape-slice/SKILL.md and reference/ice.md
-  problem: Until /shape-slice is rebuilt, the play still says it writes nothing else,
-    and its write guard covers product-os only, not the plans folder. The schemas
-    and ontology now say otherwise. This is a known, recorded gap, not a defect of
-    this PR.
-  principle_violated: G6 (only as a gap to track)
-  basis: ontology.md head 'Who writes'; CLAUDE.md 'Play Pipeline Rules'; ADR 052 'Work
-    This Creates'
-  fix: Make sure the /edit-play follow-up issue exists and names the write scope and
-    the guard rule for plans/<id>/evals. I could not check the tracker.
-- id: DF-R2-2
-  severity: P4
-  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
-  lines: Work This Creates, last bullet
-  problem: 'It says ''After acceptance: the forward pointers on ADR 049 and ADR 047''.
-    The pointers are already in this PR, so the line is stale.'
-  principle_violated: A record states what is true when merged.
-  basis: docs/adr/047 and 049 Status lines in HEAD
-  fix: Drop the bullet, or say the pointers are done.
-- id: DF-R2-3
-  severity: P4
-  file: docs/adr/047-the-ice-is-its-own-node.md ; docs/adr/049-...md
-  problem: The pointers name only some sections. ADR 047 still says in ICE impact,
-    Negative risks and Work This Creates (#760) that the check 'reports richness'.
-    ADR 049 'What this does not change' still says ADR 047's ready check is unchanged,
-    and its ICE impact still says the plan play reads both ICE once and gives the
-    hidden file the failure conditions. A reader of the body can be misled, but the
-    Status pointer says to read ADR 052 first.
-  principle_violated: G9 (pointer pattern); mild, the pattern itself accepts this
-  basis: docs/adr/048 pointer on ADR 047 (base)
-  fix: 'Optional: widen the pointer text to ''and the matching lines in ICE impact,
-    Consequences and Work This Creates''. ADR 052 section ''What this does not change''
-    could also say ADR 049''s ''does not change ADR 047'' line no longer holds for
-    the ready check.'
-- id: DF-R2-4
-  severity: P4
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  lines: '502'
-  problem: 'Line 502 still says the ready check #760 is ''not built yet''. The check
-    exists in the repo and now reads the thin mark. Old text, but DF-3 asked to add
-    the mark there.'
-  principle_violated: Ontology states what is true.
-  basis: core/components/plays/discover-intent/scripts/check_ice_workable.py in HEAD
-  fix: 'Optional: update the line in the next ontology edit.'
 - standard_id: DOC-04
   severity: P3
   file: docs/adr/047-the-ice-is-its-own-node.md
@@ -74,6 +28,21 @@ findings:
   evidence: docs/adr/_index.md
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-04
+- standard_id: FE-16
+  severity: P4
+  file: '+++    "draft": "No memory tier (short-term, Garura, Phoenix) holds standards/rules/asking-a-person.md.
+    The rule exists in Garura source at core/components/memory/standards/rules/asking-a-person.md
+    but has not reached Phoenix memory. A person should promote or install it; until
+    then the scope draft uses the shape the play asked for: Question, Answer (proposed),
+    Why it matters, Example.",'
+  line: 1
+  evidence: '+++    "draft": "No memory tier (short-term, Garura, Phoenix) holds standards/rules/asking-a-person.md.
+    The rule exists in Garura source at core/components/memory/standards/rules/asking-a-person.md
+    but has not reached Phoenix memory. A person should promote or install it; until
+    then the scope draft uses the shape the play asked for: Question, Answer (proposed),
+    Why it matters, Example.",'
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
 - standard_id: ARCH-23
   severity: P4
   file: docs/adr/047-the-ice-is-its-own-node.md
