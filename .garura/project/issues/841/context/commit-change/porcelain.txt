@@ -1,1 +1,16 @@
  M .garura/project/issues/841/context/commit-change/porcelain.txt
+ M core/components/memory/standards/rules/pr.md
+ M core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
+ M core/tools/lint-components/lib/rules/asking-a-person.js
+ M core/tools/lint-components/test/asking-a-person.test.js
+ M core/tools/lint-components/test/naming.test.js
+ M core/tools/naming/check_old_names.py
+ M core/tools/naming/test_naming_tools.py
+ M docs/adr/035-agents-work-only-from-memory.md
+ M docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+ M docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+M  docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+ M docs/adr/_index.md
+?? .garura/project/issues/841/review/q1-evidence.md
+?? .garura/project/issues/_adr/20261024T183939Z/
+?? docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md

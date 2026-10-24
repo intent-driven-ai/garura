@@ -1,266 +1,56 @@
----
 needs_judgment: false
-anchor_issue: 841
 change_groups:
-  - type: fix
-    issue: 841
-    subject: "Fix check-change reading of large PRs: use the diff headers for changed files and stop when the counts disagree"
-    files: # 10
-      - core/components/plays/check-change/SKILL.md
-      - core/components/plays/check-change/scripts/fetch_pr_context.py
-      - core/components/plays/check-change/scripts/platform_adapter.py
-      - core/components/plays/create-play/references/fetch_pr_context.py
-      - core/components/plays/create-play/references/platform_adapter.py
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/shape-slice/scripts/platform_adapter.py
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/plays/create-play/references/test_fetch_pr_context.py
-  - type: fix
+  - id: adr-053-old-name-check
+    issue: 837
+    commit_type: fix
+    scope: naming
+    subject: "restore ADR 053 text and skip it in the old-name check"
+    files:
+      - docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+      - core/tools/naming/check_old_names.py
+      - core/tools/naming/test_naming_tools.py
+  - id: adr-054-record
+    issue: 833
+    commit_type: docs
+    scope: adr
+    subject: "record ADR 054 with forward pointers on ADRs 035, 039 and 050"
+    files:
+      - docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md
+      - docs/adr/_index.md
+      - docs/adr/035-agents-work-only-from-memory.md
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+      - docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+      - .garura/project/issues/_adr/20261024T183939Z/
+  - id: pr-rules-adr-rows
     issue: 851
-    subject: "Stop the PR quality scan from flagging decision records and run records, and drop malformed path arguments"
-    files: # 4
+    commit_type: fix
+    scope: pr-quality
+    subject: "stop flagging docs/adr and narrow BE-19 and SEC-18"
+    files:
       - core/components/memory/standards/rules/pr.md
-      - core/components/skills/check-pr-quality/SKILL.md
-      - core/components/skills/check-pr-quality/scripts/scan_taxonomy.py
       - core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
-  - type: refactor
+  - id: asking-rule-lint-fixes
     issue: 854
-    subject: "Move the asking-a-person rule to a shared skills file and read it from there in shape-slice, edit-ontology and their skills"
-    files: # 17
-      - core/components/memory/standards/rules/_index.md
-      - core/components/memory/standards/rules/asking-a-person.md
-      - core/components/memory/standards/rules/user-questions.md
-      - core/components/memory/standards/templates/_index.md
-      - core/components/memory/standards/templates/approval-prompt.md
-      - core/components/plays/edit-ontology/SKILL.md
-      - core/components/plays/edit-ontology/reference/ice.md
-      - core/components/plays/shape-slice/SKILL.md
-      - core/components/plays/shape-slice/reference/ice.md
-      - core/components/plays/shape-slice/scripts/render_brief.py
-      - core/components/plays/shape-slice/scripts/test_render_brief.py
-      - core/components/skills/_shared/asking-a-person.md
-      - core/components/skills/author-product-ontology/SKILL.md
-      - core/components/skills/author-slice-brief/SKILL.md
-      - core/components/skills/find-slice-gaps/SKILL.md
+    commit_type: fix
+    scope: lint-components
+    subject: "fix flag name, temp folders and constant name in asking-a-person lint"
+    files:
       - core/tools/lint-components/lib/rules/asking-a-person.js
       - core/tools/lint-components/test/asking-a-person.test.js
-  - type: chore
-    issue: 837
-    subject: "Drop shape-scope and shape-roadmap with their skills and remove every reference to them"
-    files: # 73
-      - core/components/memory/standards/rules/pipeline-next.md
-      - core/components/memory/standards/rules/pipeline-position.md
-      - core/components/memory/standards/schemas/product-os/_index.md
-      - core/components/memory/standards/schemas/product-os/decision.yaml
-      - core/components/memory/standards/schemas/product-os/grounding/feature.md
-      - core/components/memory/standards/schemas/product-os/ice.yaml
-      - core/components/memory/standards/schemas/product-os/lens/_index.md
-      - core/components/memory/standards/schemas/product-os/product-os.yaml
-      - core/components/memory/standards/schemas/product-os/product-profile.yaml
-      - core/components/memory/standards/schemas/product-os/slice.yaml
-      - core/components/memory/standards/schemas/product-os/spine.yaml
-      - core/components/plays/create-loop/references/test_lint_loop.py
-      - core/components/plays/create-loop/references/test_loop_scripts.py
-      - core/components/plays/create-play/references/test_scoped_write_guard.py
-      - core/components/plays/discover-capabilities/SKILL.md
-      - core/components/plays/discover-capabilities/reference/ice.md
-      - core/components/plays/discover-capabilities/scripts/rollup_box.py
-      - core/components/plays/discover-domains/SKILL.md
-      - core/components/plays/discover-domains/reference/ice.md
-      - core/components/plays/shape-agentic-lens/reference/ice.md
-      - core/components/plays/shape-agentic-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-architecture-lens/reference/ice.md
-      - core/components/plays/shape-architecture-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-marketing-lens/reference/ice.md
-      - core/components/plays/shape-marketing-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-measure-lens/reference/ice.md
-      - core/components/plays/shape-measure-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-quality-lens/reference/ice.md
-      - core/components/plays/shape-quality-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-roadmap/SKILL.md
-      - core/components/plays/shape-roadmap/reference/ice.md
-      - core/components/plays/shape-roadmap/scripts/check_stop_condition.py
-      - core/components/plays/shape-roadmap/scripts/classify_change.py
-      - core/components/plays/shape-roadmap/scripts/compute_plan.py
-      - core/components/plays/shape-roadmap/scripts/distill_gate_policy.py
-      - core/components/plays/shape-roadmap/scripts/gate_eval.py
-      - core/components/plays/shape-roadmap/scripts/model_names.py
-      - core/components/plays/shape-roadmap/scripts/persist_roadmap.py
-      - core/components/plays/shape-roadmap/scripts/preflight.py
-      - core/components/plays/shape-roadmap/scripts/scoped_write_guard.py
-      - core/components/plays/shape-roadmap/scripts/session_stamp.py
-      - core/components/plays/shape-roadmap/scripts/snapshot_model.py
-      - core/components/plays/shape-roadmap/stop-condition.yaml
-      - core/components/plays/shape-run-lens/reference/ice.md
-      - core/components/plays/shape-run-lens/scripts/check_ready_slice.py
-      - core/components/plays/shape-scope/SKILL.md
-      - core/components/plays/shape-scope/reference/ice.md
-      - core/components/plays/shape-scope/scripts/check_ready.py
-      - core/components/plays/shape-scope/scripts/check_stop_condition.py
-      - core/components/plays/shape-scope/scripts/classify_change.py
-      - core/components/plays/shape-scope/scripts/distill_gate_policy.py
-      - core/components/plays/shape-scope/scripts/gate_eval.py
-      - core/components/plays/shape-scope/scripts/model_names.py
-      - core/components/plays/shape-scope/scripts/persist_shape.py
-      - core/components/plays/shape-scope/scripts/preflight.py
-      - core/components/plays/shape-scope/scripts/scoped_write_guard.py
-      - core/components/plays/shape-scope/scripts/session_stamp.py
-      - core/components/plays/shape-scope/scripts/validate_shape.py
-      - core/components/plays/shape-scope/stop-condition.yaml
-      - core/components/plays/shape-ux-lens/reference/ice.md
-      - core/components/plays/shape-ux-lens/scripts/check_ready_slice.py
-      - core/components/skills/author-domains/SKILL.md
-      - core/components/skills/author-roadmap/SKILL.md
-      - core/components/skills/author-scope/SKILL.md
-      - core/components/skills/enrich-capability-ice/SKILL.md
-      - core/components/skills/find-work-placement/SKILL.md
-      - core/grounding/glossary.md
       - core/tools/lint-components/test/naming.test.js
-      - core/tools/naming/test_naming_tools.py
-      - docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
-      - docs/components/plays.md
-      - docs/philosophy/garura-reference-implementation.md
-      - docs/standards/harness-standard.md
-  - type: chore
-    issue: 855
-    subject: "Mark plays, skills and agents that wait for a rebuild as stale and skip them at install"
-    files: # 65
-      - core/components/agents/environment-operator.md
-      - core/components/agents/evals-engineer.md
-      - core/components/agents/product-os-keeper.md
-      - core/components/agents/quality-auditor.md
-      - core/components/agents/tech-designer.md
-      - core/components/agents/test-engineer.md
-      - core/components/plays/build-epic/SKILL.md
-      - core/components/plays/create-play/references/gate_eval.py
-      - core/components/plays/create-play/references/test_concurrent_fanout.py
-      - core/components/plays/create-play/references/test_gate_learning.py
-      - core/components/plays/create-play/references/workflow-structures.md
-      - core/components/plays/discover-capabilities/scripts/gate_eval.py
-      - core/components/plays/discover-domains/scripts/gate_eval.py
-      - core/components/plays/edit-play/references/workflow-structures.md
-      - core/components/plays/install-garura/scripts/adapters/claude.py
-      - core/components/plays/install-garura/scripts/adapters/codex.py
-      - core/components/plays/install-garura/scripts/adapters/common.py
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/scripts/test_install.py
-      - core/components/plays/learn-outcomes/SKILL.md
-      - core/components/plays/refactor-code/SKILL.md
-      - core/components/plays/release-epic/SKILL.md
-      - core/components/plays/release-increment/SKILL.md
-      - core/components/plays/shape-agentic-lens/SKILL.md
-      - core/components/plays/shape-agentic-lens/scripts/gate_eval.py
-      - core/components/plays/shape-architecture-lens/SKILL.md
-      - core/components/plays/shape-architecture-lens/scripts/gate_eval.py
-      - core/components/plays/shape-marketing-lens/SKILL.md
-      - core/components/plays/shape-marketing-lens/scripts/gate_eval.py
-      - core/components/plays/shape-measure-lens/SKILL.md
-      - core/components/plays/shape-measure-lens/scripts/gate_eval.py
-      - core/components/plays/shape-quality-lens/SKILL.md
-      - core/components/plays/shape-quality-lens/scripts/gate_eval.py
-      - core/components/plays/shape-run-lens/SKILL.md
-      - core/components/plays/shape-run-lens/scripts/gate_eval.py
-      - core/components/plays/shape-ux-lens/SKILL.md
-      - core/components/plays/shape-ux-lens/scripts/gate_eval.py
-      - core/components/plays/validate-epic/SKILL.md
-      - core/components/skills/author-acceptance-scenarios/SKILL.md
-      - core/components/skills/author-agentic-lens/SKILL.md
-      - core/components/skills/author-architecture-lens/SKILL.md
-      - core/components/skills/author-baseline-tests/SKILL.md
-      - core/components/skills/author-build-plan/SKILL.md
-      - core/components/skills/author-encrypted-evals/SKILL.md
-      - core/components/skills/author-learnings/SKILL.md
-      - core/components/skills/author-marketing-lens/SKILL.md
-      - core/components/skills/author-measure-lens/SKILL.md
-      - core/components/skills/author-quality-lens/SKILL.md
-      - core/components/skills/author-run-lens/SKILL.md
-      - core/components/skills/author-steelman-evals/SKILL.md
-      - core/components/skills/author-ux-lens/SKILL.md
-      - core/components/skills/author-validation-checks/SKILL.md
-      - core/components/skills/author-verification-scenarios/SKILL.md
-      - core/components/skills/check-generated-tests/SKILL.md
-      - core/components/skills/check-quality-gates/fixtures/greenfield/quality-gates.yaml
-      - core/components/skills/deploy-cloud-environment/SKILL.md
-      - core/components/skills/deploy-local-environment/SKILL.md
-      - core/components/skills/derive-blast-radius/SKILL.md
-      - core/components/skills/enrich-quality-profile/SKILL.md
-      - core/components/skills/find-architecture-learnings/SKILL.md
-      - core/components/skills/judge-validation-results/SKILL.md
-      - core/components/skills/scan-test-harness/SKILL.md
-      - core/components/skills/scan-test-surface/SKILL.md
-      - installer/install.sh
-      - core/components/plays/validate-epic/scripts/test_run_checks.py
-  - type: chore
-    issue: 833
-    subject: "Remove deprecated agents and skills, and point check-components references to the lint-components tool"
-    files: # 52
-      - CLAUDE.md
-      - core/components/agents/scriber.md
-      - core/components/agents/tech-architect.md
-      - core/components/agents/test-runner.md
-      - core/components/loops/_shared/loop-run.md
-      - core/components/memory/knowledge/review/harness.md
-      - core/components/memory/knowledge/review/memory.md
-      - core/components/memory/standards/rules/direct-model-write.md
-      - core/components/memory/standards/rules/evidence-recording.md
-      - core/components/memory/standards/rules/naming.md
-      - core/components/memory/standards/rules/rename-map.yaml
-      - core/components/memory/standards/schemas/expectation.yaml
-      - core/components/memory/standards/templates/checkpoint.md
-      - core/components/memory/standards/templates/evidence-file.md
-      - core/components/memory/standards/templates/issue-comment-rca-approved.md
-      - core/components/plays/_shared/play-close.md
-      - core/components/plays/create-play/SKILL.md
-      - core/components/plays/refactor-code/scripts/check_behavior_preserved.py
-      - core/components/skills/author-evidence/SKILL.md
-      - core/components/skills/author-plan-file/SKILL.md
-      - core/components/skills/author-reference-algorithms/SKILL.md
-      - core/components/skills/author-tech-spec/SKILL.md
-      - core/components/skills/check-abstraction-layer/SKILL.md
-      - core/components/skills/check-architecture-spec/SKILL.md
-      - core/components/skills/check-components/SKILL.md
-      - core/components/skills/check-implementation-design/SKILL.md
-      - core/components/skills/check-kb-extension/SKILL.md
-      - core/components/skills/check-quality-gates/SKILL.md
-      - core/components/skills/collect-codify-proposals/SKILL.md
-      - core/components/skills/enrich-capabilities/SKILL.md
-      - core/components/skills/infer-architecture/SKILL.md
-      - core/components/skills/infer-design-patterns/SKILL.md
-      - core/components/skills/infer-domain-selection/SKILL.md
-      - core/components/skills/infer-enriched-capabilities/SKILL.md
-      - core/components/skills/infer-logical-architecture/SKILL.md
-      - core/components/skills/infer-market-brief/SKILL.md
-      - core/components/skills/infer-mvp-recommendation/SKILL.md
-      - core/components/skills/infer-nfr-spec/SKILL.md
-      - core/components/skills/infer-physical-architecture/SKILL.md
-      - core/components/skills/infer-project-profile/SKILL.md
-      - core/components/skills/infer-quality-profile/SKILL.md
-      - core/components/skills/infer-quality-vision/SKILL.md
-      - core/components/skills/infer-research/SKILL.md
-      - core/components/skills/infer-scope/SKILL.md
-      - core/components/skills/recommend-mvp/SKILL.md
-      - core/components/skills/research-market-opportunity/SKILL.md
-      - core/components/skills/scan-codebase/SKILL.md
-      - core/components/skills/scan-dependencies/SKILL.md
-      - docs/agentic-methodology/tools/lint-components.md
-      - docs/components/agents.md
-      - docs/components/skills.md
-      - docs/usage/skills/check-components.md
-  - type: chore
+  - id: stm-841-evidence
     issue: 841
-    subject: "Record the issue 841 run records and the install manifest"
-    files: # 2
-      - .garura/install-manifest.json
-      - .garura/project/issues/841/context/commit-change/
-exclusions:
- - path: CLAUDE.md.new
-   reason: untracked scratch copy of installed project rules; not a change of this work
+    commit_type: chore
+    scope: stm
+    subject: "record review round-1 evidence and commit-change artifacts"
+    files:
+      - .garura/project/issues/841/review/q1-evidence.md
+      - .garura/project/issues/841/context/commit-change/analysis.yaml
+      - .garura/project/issues/841/context/commit-change/porcelain.txt
+exclusions: []
 risks:
   sensitive_files: []
-  note: pr.md matched a password pattern in prose only (non-blocking)
-  mixed_files:
-    - {path: core/components/agents/product-os-keeper.md, placed: '855', also: ['837','854']}
-    - {path: core/grounding/glossary.md, placed: '837', also: ['854','833','855']}
-    - {path: core/components/plays/install-garura/scripts/adapters/common.py, placed: '855', also: ['854']}
-    - {path: lens plays SKILL.md, placed: '855', also: ['837']}
+  warnings:
+    - path: "core/components/memory/standards/rules/pr.md"
+      note: "password-pattern match is prose in a standards file; non-blocking"
+      blocking: false
