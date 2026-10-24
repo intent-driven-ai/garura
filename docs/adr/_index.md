@@ -58,3 +58,4 @@ may have no Status line.
 | [050](050-the-retired-intent-epic-pipeline-is-deleted.md) | The Retired Intent-Epic Pipeline Is Deleted, Not Archived | Accepted | 2026-10-23 |
 | [051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md) | The /next Play Is Dropped; the Plan Is the Work List | Accepted | 2026-10-23 |
 | [052](052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md) | /shape-slice Writes the Slice's Hidden File and Proposes a Thin ICE, the Plan Play Only Plans, and a Thin ICE Is Partly Ready | Accepted | 2026-10-24 |
+| [053](053-shape-scope-and-shape-roadmap-are-dropped.md) | /shape-scope and /shape-roadmap Are Dropped; the Shaping Loop Does Their Jobs | Accepted | 2026-10-24 |

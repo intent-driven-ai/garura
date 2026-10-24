@@ -1,0 +1,144 @@
+# Context for the ADR draft — gathered by adr-keeper for /record-decision (#837, plan 788)
+task_id: draft-adr
+shape: markdown
+brief: .garura/project/issues/_adr/20261024T163114Z/brief.md
+template: ~/.garura/core/memory/standards/templates/adr.md (Markdown shape)
+number: "053"        # adr.py number --dir docs/adr -> next 053, 52 taken
+file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+title_hint: "/shape-scope and /shape-roadmap Are Dropped; the Shaping Loop Does Their Jobs"
+status: proposed
+date: 2026-10-24
+level: framework
+decided_by: the product owner          # personas only, no real names
+decided_in: "#837 (drop the old Shape plays), plan #788"
+
+overlaps:   # adr.py overlaps -> 049 (6.72), 028 (6.3), 051 (6.17); each read, plus 029, 033, 045, 048 as the caller asked
+  - adr: "028"
+    file: docs/adr/028-agentic-lifecycle-five-loops.md
+    verdict: amended in part
+    parts:
+      - "'Loops run the plays; the plays stay as they are', the sentence '/roadmap belongs to the Shape loop: ordering the slices is part of slicing' — /roadmap (now /shape-roadmap) is dropped; no play orders the slices, because a slice has no order field (ontology v11) and the plan does not rank slices (ADR 049)"
+      - "Open question 2 ('Does /roadmap fold into Shape? Yes. Ordering the slices is part of the Shape loop.') — the same part; the answer no longer holds"
+    stands: "§2 'Shape' (lock the model, slice it, design once), the five loops, and the rest of the ADR as already amended by ADR 029, 045 and 048. The list of plays in 'the plays stay as they are' was already superseded in part by ADR 029"
+  - adr: "033"
+    file: docs/adr/033-approval-in-the-product-model.md
+    verdict: amended in part
+    parts:
+      - "Negative / Risks, 'Three places approve outside the review step today' and Work This Creates item 6 — the '/shape sets capabilities active' place goes: /shape (now /shape-scope) is dropped. The other two places (/intent and /adr run by hand) stand"
+    stands: "the whole decision; only the /shape part of that risk and of item 6 goes"
+    keeper_note: "not named in the brief; found by reading. /shape-scope is the renamed /shape (core/components/memory/standards/rules/rename-map.yaml line 7) and its SKILL.md flips capability status to active"
+  - adr: "029"
+    file: docs/adr/029-drives.md
+    verdict: not affected
+    why: "it names /roadmap only in its Context, as a fact of that day ('/vision's change only closes at /roadmap'). Its decisions are about how a drive (now a loop) runs"
+  - adr: "045"
+    file: docs/adr/045-a-drive-is-now-called-a-loop.md
+    verdict: not affected
+    why: "it renames the Shape loop to the Slice loop and names no Shape play. The rename stands"
+  - adr: "048"
+    file: docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+    verdict: not affected
+    why: "§5 says the old slice fields (status, order, effort, depends_on) leave the model with the play that uses them; dropping /shape-roadmap is in line with it. Its Work This Creates list (#795, #799, #801, #803) does not name /shape-scope or /shape-roadmap"
+  - adr: "049"
+    file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    verdict: not affected
+    why: "a reason for this decision, not changed by it: the plan does not pick, rank or test slices (§1); the shaping loop is /shape-slice, then the plan play, then the eval play. It names neither dropped play"
+  - adr: "051"
+    file: docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+    verdict: not affected
+    why: "a reason and the pattern for this decision (the plan is the work list; a play whose job is gone is dropped). It names neither dropped play"
+  - adr: "052"
+    file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+    verdict: not affected
+    why: "about /shape-slice and the plan play; names neither dropped play"
+
+supersedes: []
+amends:
+  - adr: "028"
+    file: docs/adr/028-agentic-lifecycle-five-loops.md
+    part: "'Loops run the plays', the sentence '/roadmap belongs to the Shape loop: ordering the slices is part of slicing', and Open question 2 — /roadmap (now /shape-roadmap) is dropped and no play orders the slices"
+  - adr: "033"
+    file: docs/adr/033-approval-in-the-product-model.md
+    part: "Negative / Risks 'Three places approve outside the review step' and Work This Creates item 6 — the '/shape sets capabilities active' place goes with /shape-scope"
+
+affects:   # real paths, checked on disk
+  deleted:
+    - core/components/plays/shape-scope/        # SKILL.md, reference/ice.md, scripts/ (check_ready.py, persist_shape.py, validate_shape.py), stop-condition.yaml
+    - core/components/plays/shape-roadmap/      # SKILL.md, reference/ice.md, scripts/ (compute_plan.py, persist_roadmap.py, snapshot_model.py), stop-condition.yaml
+    - core/components/skills/author-scope/      # used only by /shape-scope
+    - core/components/skills/author-roadmap/    # used only by /shape-roadmap
+  edited:
+    - core/components/agents/product-os-keeper.md                     # skill table rows and routing rows for author-scope and author-roadmap
+    - core/components/memory/standards/rules/pipeline-next.md         # the "older chain (#837)" note and the shape-scope / shape-roadmap map entries
+    - core/components/memory/standards/rules/pipeline-position.md     # the two plays in the position lists
+    - core/components/memory/standards/rules/rename-map.yaml          # old names shape -> shape-scope, roadmap -> shape-roadmap
+    - core/components/memory/standards/schemas/product-os/spine.yaml  # profile state "locked (/shape-scope)", the /shape-scope fill rule, older-chain notes
+    - core/components/memory/standards/schemas/product-os/slice.yaml  # the note on the older /shape-scope chain
+    - core/components/memory/standards/schemas/product-os/product-os.yaml   # persona/journey and roadmap fill rules, validator note
+    - core/components/memory/standards/schemas/product-os/product-profile.yaml  # "locked — selection (/shape-scope)"
+    - core/components/memory/standards/schemas/product-os/decision.yaml # /shape-scope as a writer
+    - core/components/memory/standards/schemas/product-os/ice.yaml      # /shape-scope as a writer
+    - core/components/memory/standards/schemas/product-os/_index.md
+    - core/components/memory/standards/schemas/product-os/lens/_index.md
+    - core/components/memory/standards/schemas/product-os/grounding/feature.md
+    - core/components/plays/discover-capabilities/ (SKILL.md, reference/ice.md, scripts/rollup_box.py)  # text naming /shape-scope as the owner of prioritising, the capability active flip and the profile lock
+    - core/components/plays/discover-domains/ (SKILL.md, reference/ice.md)                             # text naming /shape-scope as the owner of selection
+    - core/components/skills/enrich-capability-ice/SKILL.md, author-domains/SKILL.md, find-work-placement/SKILL.md, author-ux-lens/SKILL.md
+    - core/components/plays/create-loop/references/test_lint_loop.py, core/tools/lint-components/test/naming.test.js, core/tools/naming/test_naming_tools.py   # tests that use the names
+    - core/grounding/glossary.md
+    - docs/components/agents.md, docs/components/skills.md, docs/philosophy/garura-reference-implementation.md, docs/standards/harness-standard.md
+  not_dropped_marked_stale_855:   # they name the dropped plays; they stay and are rebuilt when their stage comes (#855)
+    - core/components/plays/shape-ux-lens/, shape-architecture-lens/, shape-quality-lens/, shape-measure-lens/, shape-run-lens/, shape-agentic-lens/, shape-marketing-lens/ (each SKILL.md, reference/ice.md, scripts/check_ready_slice.py)
+    - build-epic, validate-epic, release-epic, release-increment, learn-outcomes
+  not_affected:
+    - .garura/product/product-os/intents/      # no intent page names either play
+    - core/components/plays/shape-slice/       # it already does the picking and shaping
+
+ice_impact: >
+  The ICE of /shape-scope and /shape-roadmap goes with the plays (each reference/ice.md is deleted).
+  No other play's constraints, failure conditions or scenarios change in meaning. /discover-domains
+  and /discover-capabilities keep their limits (they do not prioritise, flip a capability to active,
+  or lock the profile); only the text that names /shape-scope as the owner of that work changes. The
+  seven lens plays name /shape-scope in their ICE; they are stale (#855) and get a new ICE when rebuilt.
+  /shape-slice's ICE does not change.
+
+business_intent_check: none
+business_intent_basis: >
+  This drops two framework plays and two skills. It does not change the Business Intent kind or its
+  rules. No page in .garura/product/product-os/intents/ names either play (grep, empty).
+
+consequences_from_brief_and_sources:
+  positive:
+    - "The shaping flow has one way through: the three discovery plays, then /shape-slice, then the plan play and the eval play"
+    - "No play writes order, effort, depends_on or status: planned onto /shape-slice's slice entries, which the slice check would fail (brief)"
+    - "No validate script fails on /shape-slice's slice records (slice.yaml v2) (brief)"
+    - "The product-os-keeper agent has two fewer skills to route to"
+  negative:
+    - "Persona and journey records lose their only writer; they wait for the lens rebuild (brief: ontology v11 has no Persona or Journey kind)"
+    - "Keeper finding: /shape-scope was the only play that set a capability active and set the product profile locked (spine.yaml line 168, product-profile.yaml line 20, discover-capabilities rollup_box.py line 24). After this decision no play does. Who does it, if anyone, is not decided here"
+    - "Older text that names the two plays must be removed in the same change, or a reader follows a link to a play that is gone; the seven stale lens plays keep their mention until rebuilt (#855)"
+
+alternatives: # from the brief only
+  - "Rebuild both for the shaping loop with /create-play — lost: /shape-slice and the plan do their jobs, and the fields they write are gone; a rebuild would have no job"
+  - "Mark both stale, like the lens plays — lost: stale means 'rebuild later'; these two will not be rebuilt"
+  - "Keep /shape-scope for personas and journeys only — lost: no current play reads them and ontology v11 has no kind for them; the lens rebuild decides where they live"
+
+work_this_creates:
+  - "Delete the two plays and two skills, and remove their names from the files listed under affects.edited (in #837)"
+  - "Decide which play, if any, sets a capability active and the product profile locked now that /shape-scope is gone (keeper finding)"
+  - "Where persona and journey records live — decided in the lens rebuild (#855)"
+  - "After acceptance: the forward pointers on ADR 028 and ADR 033"
+
+related: [ADR 028, ADR 033, ADR 048, ADR 049, ADR 051, "#837", "#855", "plan #788"]
+references:
+  - .garura/project/issues/_adr/20261024T163114Z/brief.md
+  - CLAUDE.md   # "A play that served only a flow that is gone is dropped, with an ADR"
+  - core/components/memory/standards/schemas/product-os/ontology.md   # v11: Slice has no order, effort, depends_on, status; no Persona or Journey kind
+  - core/components/memory/standards/schemas/product-os/slice.yaml   # v2, six-field slice entry
+  - core/components/memory/standards/rules/rename-map.yaml           # shape -> shape-scope, roadmap -> shape-roadmap
+
+style: plain ASD-STE100 English; personas only ("the product owner"), no real names
+keeper_findings:
+  - "ADR 033 is also amended (not named in the brief or the caller's list of amends): its '/shape sets capabilities active' place goes"
+  - "No play sets a capability active or locks the profile once /shape-scope is gone; listed as a risk and as work, not decided"
+  - "ADR 029, 045, 048, 049, 051, 052 judged not affected"
