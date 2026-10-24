@@ -42,7 +42,7 @@ The seven design lens plays, `/build-epic`, `/validate-epic`, `/release-epic`, `
 ### 5. What this changes in older records
 
 - ADR 028: "`/roadmap` belongs to the Shape loop: ordering the slices is part of slicing" no longer holds, and nor does the answer to Open question 2. §2 "Shape" and the rest of the ADR stand.
-- ADR 033: the place "`/shape` sets capabilities `active`" goes from the risk "Three places approve outside the review step today" and from Work This Creates item 6. The other two places (`/discover-intent` and `/record-decision` run by hand, by their current names) stand.
+- ADR 033: the place "`/shape` sets capabilities `active`" goes from the risk "Three places approve outside the review step today" and from Work This Creates item 6. The other two places (`/intent` and `/adr` run by hand) stand.
 - ADR 029, ADR 045, ADR 048, ADR 049, ADR 051 and ADR 052 do not change. ADR 048 §5 already said the old slice fields leave the model with the play that uses them.
 
 ## Consequences
