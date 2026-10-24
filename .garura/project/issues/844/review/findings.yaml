@@ -1,0 +1,82 @@
+# check-change Step 4 -- consolidated findings, PR #845.
+findings:
+- category: product-model
+  severity: P3
+  id: M1
+  kind: known-decision
+  path: .garura/product/product-os/capabilities/{cap-718,cap-shape-slice}/capability.md; features/{fn-795,fn-818}/feature.md;
+    .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  basis: PM1 + PM2 (ontology v10; ADR 049 Decisions 1.1, 1.2, 4); also spine.yaml/slice.yaml fill_rules for /shape-slice
+    ('nothing else -- no plan, epic, story or eval')
+  message: 'KNOWN: decisions 6 and 7 of #844 knowingly differ from ontology v10 and ADR 049. (a) Decision 6: /shape-slice,
+    not the plan play, writes the hidden file. (b) Decision 7: /shape-slice proposes a thin ICE for a new capability
+    or feature, which ontology v10 lets ''any play'' write but the /shape-slice write scope in spine.yaml and slice.yaml
+    does not list. The pages say this openly (cap-718 text cites ADR 049 1.2 and 4; every thin ICE is labelled).
+    Effects the reviewer should see: (1) ontology Q33/Q34, Slice and Plan rules, spine.yaml and slice.yaml fill_rules,
+    and ADR 049 still say the opposite until the play fix and an ontology/ADR change land; (2) the hidden file has
+    one entry per FEATURE with ''Story: (filled in by /shape-plan)'', where ontology v10 has one entry per story
+    (issue, title, feature) -- a consequence of writing it before the plan play runs; (3) fn-818 and cap-718 now
+    tell /shape-plan not to write it, so those two pages are only true after the play fix. Not counted as a defect;
+    the open work is the ontology v11 / ADR amendment and the /edit-play change.'
+  status: known
+- category: product-model
+  severity: P2
+  id: M2
+  path: .garura/product/product-os/software-delivery-planning/domain.md; capabilities/cap-shape-slice/capability.md;
+    capabilities/cap-shape-eval/capability.md
+  basis: 'PM7 (shape-slice reference/ice.md C14/F14: no real person on a page) and the user-facing page rule ''personas
+    only, no real names'''
+  message: 'New pages name real people as authors: Ryan Singer, Jeff Patton, Gojko Adzic (domain.md lines 9-11;
+    cap-shape-slice line 11; cap-shape-eval line 11). Fix: cite the work by title and publisher only (''Shape Up
+    (Basecamp, 2019)'', ''User Story Mapping (O''Reilly, 2014)'', ''Specification by Example (Manning, 2011)'')
+    or drop the name. The names that remain on older pages (bi-717, bi-722, bi-734 ''Kapil'') are outside this PR.'
+  status: open
+- category: product-model
+  severity: P3
+  id: M3
+  path: .garura/product/product-os/software-delivery-planning/domain.md (## Sources)
+  basis: 'PM6 (domain template: Sources are research that shows the domain is one the world recognises, one link
+    per line)'
+  message: 'Four sources are books or a vendor page named from memory and the page itself says ''this run did not
+    fetch them''; only one has a URL (basecamp.com/shapeup). The rest are ADRs, philosophy docs and a memory line,
+    which show where the run read, not that ''software delivery planning'' is a domain the world recognises. A made-up-for-one-product
+    domain name is exactly what the template rules out. Fix: add a link per outside source and check it (the page
+    already says a person checks it before it is raised to detailed), or rename to the field''s own name (for example
+    ''delivery planning'').'
+  status: open
+- category: product-model
+  severity: P3
+  id: M4
+  path: .garura/product/product-os/capabilities/cap-shape-slice/capability.md ('Directional intent' vs the ICE Limit)
+  basis: 'PM6 (stranger test: a page must not contradict itself) with PM1 (decision 6 widens the write scope)'
+  message: 'The directional text says /shape-slice ''writes the slice and one link ... and nothing else: the plan,
+    the epic, the stories and the eval are the work of other capabilities.'' The ICE two sections below lists the
+    record, the model parts and the hidden file, and the second Goal is the hidden file. One page says both. Fix:
+    make the directional text list what is written (slice, link, record, model parts marked to deepen, hidden file)
+    and name the plan, epic, stories and eval as the things it never writes.'
+  status: open
+- category: product-model
+  severity: P3
+  id: M5
+  path: .garura/product/product-os/capabilities/{cap-718,cap-shape-slice,cap-shape-eval}/capability.md; features/{fn-795,fn-818,fn-798}/feature.md
+  basis: 'PM4 (ontology Capability ''Lives at'' and spine.yaml: a part sits under its domain''s folder once attributed;
+    a feature under its capability''s folder)'
+  message: 'All three new capabilities and cap-718 name dom-software-delivery-planning, and all three new features
+    name a capability, yet every page stays in the holding folder (capabilities/<id>/, features/<id>/). The holding
+    folder is for a part with no parent yet. The domain page is at software-delivery-planning/domain.md, so the
+    layout says the parts are unattributed. The model lint does not catch it. Fix: move the pages under software-delivery-planning/
+    (and each feature under its capability), or record why the play leaves them (then spine.yaml''s comment needs
+    the exception).'
+  status: open
+- category: product-model
+  severity: P3
+  id: M6
+  path: .garura/product/product-os/capabilities/cap-718/capability.md; .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+    (F10)
+  basis: PM4 / ontology v7 (a capability and a feature are never tracker issues)
+  message: 'The older cap-718 ICE (''each with its ICE and its tracker issue''; ''Fails if: a node in the plan has
+    no tracker issue'') is kept as it was, and the new paragraph says it is out of date. F10 in the hidden file
+    copies that stale ''Fails if'' line, so a model-only node would count as a failure, and its recovery (''Give
+    the epic or the story its issue'') answers a different question. Fix: have the person agree the change to cap-718''s
+    old lines and regenerate F10 from the new line.'
+  status: open

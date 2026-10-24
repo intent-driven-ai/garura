@@ -1,0 +1,5 @@
+# runnable checks — PR #845
+slice_check (this slice): problems 0 warnings 0 lint_errors 70
+lint errors before the run: 70 (same set, compared one by one)
+model_names guard: ok
+added lines with a local path or user name: 0
