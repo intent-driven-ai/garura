@@ -6,12 +6,12 @@ This domain turns a business intent into work that agents can build and that a c
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
 ## Sources
-- Ryan Singer, Shape Up: Stop Running in Circles and Ship Work that Matters (Basecamp, 2019, basecamp.com/shapeup): the field names the work done before a build 'shaping', and keeps it apart from building.
-- Jeff Patton, User Story Mapping (O'Reilly, 2014): the field cuts work into thin vertical slices that a person can use and test end to end, then orders them.
-- Gojko Adzic, Specification by Example (Manning, 2011): the field agrees the acceptance examples before the build, and checks the built work against them from the outside.
-- Atlassian Jira issue hierarchy (support.atlassian.com, issue types: epic, story, subtask): the field tracks planned work as an epic that holds stories.
+- Shape Up: Stop Running in Circles and Ship Work that Matters (Basecamp, 2019, https://basecamp.com/shapeup): its glossary defines "Shape" as "Make an abstract project idea more concrete by defining key elements of the solution before betting on it." The field does this work before a build, and keeps it apart from building.
+- User Story Mapping: Discover the Whole Story, Build the Right Product (O'Reilly, 2014, ISBN 9781491904909, https://www.oreilly.com/library/view/user-story-mapping/9781491904893/): it has a chapter on planning to build less, which slices out a minimum release that a person can use and test end to end.
+- Specification by Example: How Successful Teams Deliver the Right Software (Manning, 2011, https://oreilly.com/library/view/specification-by-example/9781617290084): realistic examples are the development target, the acceptance criteria and the tests, agreed before the build and checked from the outside.
+- Epics, stories, and initiatives (Atlassian, https://www.atlassian.com/agile/project-management/epics-stories-themes): an epic holds several stories, and initiatives sit above epics.
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 1: 'the shaping work is three plays in a row: shape the slice, build the plan, build the eval.'
 - docs/philosophy/idsd.md, IDSD in One Page: the Shape loop, 'the product is ready to build in slices'; and 'The Plan Is the Human's Interface'.
 - docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier: the evals are kept away from the builders.
 - Memory (phoenix) knowledge/domains/*.md, the ten shelves: no shelf has a trigger for software delivery work (placement-routing.json, unmatched).
-- Note: the four outside sources are named from the published works; this run did not fetch them. A person checks them before the page is raised to detailed.
+- Note: the four outside sources were checked on the web on 2026-10-24.

@@ -63,7 +63,7 @@ capabilities:
   status: proposed
   detail: directional
   one_line: 'Build a plan: a tree with an issue for every node, from a business intent'
-  doc: capabilities/cap-718/capability.md
+  doc: software-delivery-planning/cap-718/capability.md
   depends_on: []
   identified_by: ''
   issue: 718
@@ -150,7 +150,7 @@ capabilities:
   detail: directional
   one_line: 'Shape the one slice that shows a business intent is served: the features
     in build order, the one surface and the person who tests it.'
-  doc: capabilities/cap-shape-slice/capability.md
+  doc: software-delivery-planning/shape-slice/capability.md
   metadata:
     created_by: /shape-slice
     deepen: true
@@ -163,7 +163,7 @@ capabilities:
   detail: directional
   one_line: Write the eval that checks, from the outside, that a business intent is
     met on its slice's surface, and keep it where no builder can read it.
-  doc: capabilities/cap-shape-eval/capability.md
+  doc: software-delivery-planning/shape-eval/capability.md
   metadata:
     created_by: /shape-slice
     deepen: true
@@ -242,7 +242,7 @@ features:
   - bi-717
   status: proposed
   one_line: Build the plan tree from a business intent
-  doc: features/fn-727/feature.md
+  doc: software-delivery-planning/cap-718/fn-727/feature.md
   depends_on:
   - fn-724
   identified_by: ''
@@ -254,7 +254,7 @@ features:
   - bi-717
   status: proposed
   one_line: Create or link a tracker issue for every node in a plan
-  doc: features/fn-728/feature.md
+  doc: software-delivery-planning/cap-718/fn-728/feature.md
   depends_on: []
   identified_by: ''
   issue: 728
@@ -414,7 +414,7 @@ features:
   status: proposed
   one_line: From a business intent, /shape-slice writes one slice and its link to
     the intent, and no plan, epic, story or eval.
-  doc: features/fn-795/feature.md
+  doc: software-delivery-planning/shape-slice/fn-795/feature.md
   metadata:
     created_by: /shape-slice
     deepen: true
@@ -426,7 +426,7 @@ features:
   status: proposed
   one_line: From a shaped slice, /shape-plan writes the intent's one plan file, one
     epic for the slice and one story for each feature.
-  doc: features/fn-818/feature.md
+  doc: software-delivery-planning/cap-718/fn-818/feature.md
   metadata:
     created_by: /shape-slice
     deepen: true
@@ -438,7 +438,7 @@ features:
   status: proposed
   one_line: From the plan's epic and stories, /shape-eval writes the eval for the
     business intent in the plan's evals folder, where no builder reads.
-  doc: features/fn-798/feature.md
+  doc: software-delivery-planning/shape-eval/fn-798/feature.md
   metadata:
     created_by: /shape-slice
     deepen: true

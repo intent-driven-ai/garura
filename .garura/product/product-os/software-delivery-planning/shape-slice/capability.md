@@ -1,14 +1,14 @@
 # Capability: Shape a slice
 
 ## Directional intent
-Shape the one slice that shows a business intent is served. A slice is an ordered group of features, from any capabilities, that a person can test end to end on one surface. This capability picks those features in build order, the one surface, and the person who tests it. It reads the product model and memory first, and asks the person only what neither answers. It writes the slice and one link, "slice serves business intent", and nothing else: the plan, the epic, the stories and the eval are the work of other capabilities. It matters because every later step plans and checks this slice; a slice with no surface a person can test cannot be checked.
+Shape the one slice that shows a business intent is served. A slice is an ordered group of features, from any capabilities, that a person can test end to end on one surface. This capability picks those features in build order, the one surface, and the person who tests it. It reads the product model and memory first, and asks the person only what neither answers. It writes the slice, its link "slice serves business intent", the slice record, the model parts the slice lacks (marked to be deepened later), and the slice's hidden file of failure and recovery conditions (decision 6 of #844). It never writes the plan, the epic, the stories or the eval: those are the work of other capabilities. It matters because every later step plans and checks this slice; a slice with no surface a person can test cannot be checked.
 
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
 ## Sources
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 1.1.
 - docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Decision 2: the slice definition.
-- Jeff Patton, User Story Mapping (O'Reilly, 2014): thin vertical slices.
+- User Story Mapping: Discover the Whole Story, Build the Right Product (O'Reilly, 2014, https://www.oreilly.com/library/view/user-story-mapping/9781491904893/): slicing out a minimum release.
 - GitHub #795 (closed).
 
 > Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.

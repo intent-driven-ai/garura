@@ -14,6 +14,7 @@ Added by /shape-slice for bi-788 (ontology v9 and v10, ADR 049): a business inte
 
 > Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.
 > In the section below, the first four lines were there before and are kept as they are; the lines from the second Goal on were added by /shape-slice for bi-788.
+> Out of date: the first Goal's words "and its tracker issue" and the first "Fails if" line's words "a node in the plan has no tracker issue" rest on a rule from before ontology v7. Under ontology v7 and later a capability and a feature get no tracker issue; only the epic and the stories do. The lines are kept as they are until a person agrees the change.
 
 ## Agent intent (ICE)
 - Goal: Given a business intent, a plan file exists with every capability and feature named, each with its ICE and its tracker issue.

@@ -8,7 +8,7 @@ Write the eval that checks, from the outside, that a business intent is met on i
 ## Sources
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decisions 1.3, 3 and 4.
 - docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier.
-- Gojko Adzic, Specification by Example (Manning, 2011).
+- Specification by Example: How Successful Teams Deliver the Right Software (Manning, 2011, https://oreilly.com/library/view/specification-by-example/9781617290084).
 - GitHub #798 (open).
 
 > Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.
