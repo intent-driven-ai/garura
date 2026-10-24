@@ -8,6 +8,12 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 const { checkPart, check, RULE_ID } = require('../lib/rules/asking-a-person');
 let passed = 0;
+const madeDirs = [];
+function tempDir() {
+  const d = fs.mkdtempSync(path.join(os.tmpdir(), 'asking-'));
+  madeDirs.push(d);
+  return d;
+}
 function t(label, got, want) { assert.deepStrictEqual(got, want, label); passed++; console.log(`  [PASS] ${label}`); }
 
 const ASKS = '**Step 2 — Checkpoint 1** · Owner: play · Checkpoint (class: standard)\n' +
@@ -17,7 +23,7 @@ const OLD_POINTER = 'Every draft shown follows `standards/rules/asking-a-person.
 const SILENT = '**Step 1 — Count the files** · Owner: play (script)\nRun the script; no one is asked.\n';
 
 function part(kind, name, body, opts = {}) {
-  const dir = opts.dir || fs.mkdtempSync(path.join(os.tmpdir(), 'asking-'));
+  const dir = opts.dir || tempDir();
   const folder = kind === 'play' ? 'plays' : 'skills';
   fs.mkdirSync(path.join(dir, folder, name), { recursive: true });
   const file = path.join(dir, folder, name, 'SKILL.md');
@@ -66,7 +72,7 @@ t('a part with no Workflow section that names the rule in its body passes',
 
 // Through the linter itself, with --target on any folder that holds the parts.
 function lint(build) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'asking-'));
+  const dir = tempDir();
   build(dir);
   let out;
   try {
@@ -83,4 +89,5 @@ t('the linter passes another play with no pointer (--target)',
 t('the linter names the named skill with no pointer (--target)',
   lint((dir) => part('skill', 'author-slice-brief', SILENT, { dir })), 1);
 
+for (const d of madeDirs) fs.rmSync(d, { recursive: true, force: true });
 console.log(`\n${passed} passed, 0 failed`);

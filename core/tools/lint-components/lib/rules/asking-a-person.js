@@ -39,11 +39,11 @@ function sections(content) {
     if (end > 0) start = end + 1;
   }
   const out = [{ title: '', lines: [] }];
-  let fence = false;
+  let inFence = false;
   for (let i = start; i < lines.length; i++) {
     const text = lines[i];
-    if (/^\s*(```|~~~)/.test(text)) fence = !fence;
-    const h = !fence && /^##\s+(.*)$/.exec(text);
+    if (/^\s*(```|~~~)/.test(text)) inFence = !inFence;
+    const h = !inFence && /^##\s+(.*)$/.exec(text);
     if (h) out.push({ title: h[1].trim(), lines: [] });
     out[out.length - 1].lines.push({ n: i + 1, text });
   }
