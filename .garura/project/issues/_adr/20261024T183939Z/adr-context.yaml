@@ -1,0 +1,136 @@
+# Context for the ADR draft — gathered by adr-keeper for /record-decision (plan 788, PR #858, #833 and #854)
+task_id: draft-adr
+shape: markdown
+brief: .garura/project/issues/_adr/20261024T183939Z/brief.md
+template: ~/.garura/core/memory/standards/templates/adr.md (Markdown shape)
+number: "054"        # adr.py number --dir docs/adr -> next 054, 53 taken
+file: docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md
+title_hint: "The Last Deprecated Parts Are Deleted, and the Rule for Asking a Person Is a Shared Skill File, Not Memory"
+status: proposed
+date: 2026-10-25
+level: framework
+decided_by: the product owner          # personas only, no real names
+decided_in: "plan 788, PR #858 (issues #833 and #854), 2026-10-25"
+
+overlaps:   # adr.py overlaps (on the brief) -> 039 (7.15), 050 (6.47); each read, plus 035, 053 and 046 as the caller asked
+  - adr: "050"
+    file: docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+    verdict: amended in part
+    parts:
+      - "§3 'What this changes in older records', the line 'The other three (scriber, tech-architect, test-runner) are left as they are' — the three agents are deleted (#833)"
+    stands: "§1, §2, the amendment of ADR 017 §1 and the rest of §3. Its alternative 'Also delete every other deprecated skill — they get their own issue' is history; #833 is that issue, so it is not amended"
+  - adr: "035"
+    file: docs/adr/035-agents-work-only-from-memory.md
+    verdict: amended in part
+    parts:
+      - "§10 'What this does not change', the line 'The seven retired agents are left as they are' (already amended by ADR 050 for four of the seven) — the other three, scriber, tech-architect and test-runner, are deleted too, so no part of the line stands"
+    stands: "the rest of §10 and of the ADR, as amended by ADR 036, 037, 038, 039 and 050"
+    keeper_note: "the caller listed 035 as 'already amended by 050'. ADR 050 amended this line only for four agents and left the other three under it; deleting those three changes what is left of the line, so 035 §10 gets its own pointer"
+  - adr: "039"
+    file: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+    verdict: amended in part
+    parts:
+      - "§9 'A block every play shares lives in one common file' — it covered only a block every play shares, laid beside the plays. A block that a few skills share also lives in one common file, under skills/_shared/, and the install lays it in the same _shared folder as plays/_shared/ and loops/_shared/. The parts that use it point to it by its installed path; the linter checks only those parts"
+    stands: "§9's first block, the Standard Play Close, and every other section"
+    not_amended_with_reason:
+      - "§2 'a skill reads only what its agent puts in short-term memory' and §8 (template-manager hands out templates) — the asking rule is no longer memory or a template; it is part of the installed skills, like the play close is part of the installed plays. The product-os-keeper agent passes its path as asking_rule. Judged not amended; named in Context so a reviewer can see it"
+  - adr: "053"
+    file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+    verdict: not affected
+    why: "it drops two plays and marks the other plays of the old chain stale (#855). This ADR deletes other parts and marks seven deprecated skills stale with their callers, in line with its §4; it names no part of 053"
+  - adr: "046"
+    file: docs/adr/046-one-naming-standard-for-every-harness-part.md
+    verdict: not affected
+    why: "naming of plays, loops, skills and agents. _shared is a folder, not a component, and no name changes here. The text of this ADR uses only current names, so the old-name check passes"
+
+supersedes: []
+amends:
+  - adr: "050"
+    file: docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+    part: "§3, the line 'The other three (scriber, tech-architect, test-runner) are left as they are': the three agents are deleted"
+  - adr: "035"
+    file: docs/adr/035-agents-work-only-from-memory.md
+    part: "§10, the line 'The seven retired agents are left as they are' (as amended by ADR 050): the last three, scriber, tech-architect and test-runner, are deleted too"
+  - adr: "039"
+    file: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+    part: "§9 'A block every play shares lives in one common file': a block a few skills share also lives in one common file, under skills/_shared/, laid in the same _shared folder as the play and loop blocks"
+
+affects:   # real paths, checked on disk (or in git for the deleted ones)
+  deleted_833:
+    - core/components/agents/scriber.md
+    - core/components/agents/tech-architect.md
+    - core/components/agents/test-runner.md
+    - "28 deprecated skills under core/components/skills/: author-evidence, author-reference-algorithms, author-tech-spec, check-abstraction-layer, check-architecture-spec, check-components, check-implementation-design, check-kb-extension, collect-codify-proposals, enrich-capabilities, infer-architecture, infer-design-patterns, infer-domain-selection, infer-enriched-capabilities, infer-logical-architecture, infer-market-brief, infer-mvp-recommendation, infer-nfr-spec, infer-physical-architecture, infer-project-profile, infer-quality-profile, infer-quality-vision, infer-research, infer-scope, recommend-mvp, research-market-opportunity, scan-codebase, scan-dependencies"
+    - docs/usage/skills/check-components.md
+  edited_833:
+    - core/components/memory/standards/rules/rename-map.yaml
+    - docs/components/agents.md
+    - docs/components/skills.md
+  marked_stale_855:   # deprecated: true -> stale: true with a stale_note naming the rebuild
+    - "core/components/skills/: author-baseline-tests, author-encrypted-evals, author-verification-scenarios, check-generated-tests, derive-blast-radius, scan-test-harness, scan-test-surface"
+    - core/components/plays/install-garura/scripts/adapters/common.py   # skips deprecated or stale parts at install
+    - installer/install.sh
+  asking_rule_854:
+    - core/components/skills/_shared/asking-a-person.md      # moved from core/components/memory/standards/rules/asking-a-person.md (gone)
+    - core/components/plays/install-garura/scripts/adapters/common.py   # lay_shared: plays/_shared, loops/_shared and skills/_shared as one _shared folder
+    - installer/install.sh                                  # loops/_shared merges into skills/_shared
+    - core/tools/lint-components/lib/rules/asking-a-person.js   # checks only edit-ontology, shape-slice, author-product-ontology, find-slice-gaps, author-slice-brief
+    - core/tools/lint-components/test/asking-a-person.test.js
+    - core/components/memory/standards/templates/approval-prompt.md   # names no rule now
+    - core/components/memory/standards/rules/_index.md
+    - core/components/memory/standards/templates/_index.md
+    - core/components/memory/standards/rules/user-questions.md
+    - core/components/plays/shape-slice/   # SKILL.md, reference/ice.md (C18, F18, REC18), scripts/render_brief.py and its test
+    - core/components/plays/edit-ontology/  # SKILL.md, reference/ice.md
+    - core/components/skills/author-product-ontology/SKILL.md
+    - core/components/skills/find-slice-gaps/SKILL.md
+    - core/components/skills/author-slice-brief/SKILL.md
+    - core/components/agents/product-os-keeper.md   # passes _shared/asking-a-person.md as asking_rule, never through the memory tool
+  not_affected:
+    - .garura/product/product-os/intents/   # grep for the parts named here: empty
+
+ice_impact: >
+  /shape-slice: C18, F18 and REC18 change — the run reads the rule for asking a person only from
+  the shared file _shared/asking-a-person.md, never through the memory tool; when the file is
+  missing it says so in the brief, follows the play's floor and goes on (no memory update is raised
+  now). /edit-ontology: its Context names _shared/asking-a-person.md, passed by product-os-keeper
+  as asking_rule; its guarantees do not change in meaning. The deletions change no live play's ICE:
+  every part deleted was deprecated and no live part used it. The seven skills marked stale wait for
+  the rebuild of their callers (#855) and get new ICE then.
+
+business_intent_check: none
+business_intent_basis: >
+  This deletes old framework parts and moves a framework rule. It does not change the Business
+  Intent kind or its rules. No page in .garura/product/product-os/intents/ names any part here.
+
+consequences_from_brief_and_sources:
+  positive:
+    - "No part carries deprecated: true; a reader or an agent no longer finds retired parts and takes them as current (brief)"
+    - "The asking rule has one source, read by the parts that use it, by one path"
+    - "A play or skill that does not ask a person no longer has to point to a global rule (brief: a memory lookup made it a global rule every play had to point to)"
+  negative:
+    - "A deleted part can be read again only from git history"
+    - "The asking rule is no longer in memory, so a project cannot read it through the memory tool; a part not in the lint list that starts to ask a person must be added to the list by hand (keeper finding: the PARTS list in asking-a-person.js)"
+    - "If the install does not lay _shared/, the parts that ask a person follow the play's floor (shape-slice C18)"
+    - "Seven stale skills stay until their callers are rebuilt (#855)"
+
+alternatives: # from the brief only
+  - "Keep the three agents as ADR 050 §3 said — lost: nothing live uses them, and the installer never ships deprecated parts; they only mislead a reader"
+  - "Keep the asking rule in memory, read through the memory tool — lost: it is instructions a few skills share, not knowledge; a memory lookup made it a global rule every play had to point to"
+  - "Copy the rule into each skill that uses it — lost: five copies drift; one shared file, as for the play close, keeps one source"
+
+work_this_creates:
+  - "After acceptance: the forward pointers on ADR 050, ADR 035 and ADR 039"
+  - "Rebuild the seven stale skills with their callers (#855)"
+
+related: [ADR 035, ADR 039, ADR 050, ADR 053, "#833", "#854", "#855", "PR #858", "plan 788"]
+references:
+  - .garura/project/issues/_adr/20261024T183939Z/brief.md
+  - "PR #858 review, findings H1, H2, M3 (brief)"
+  - core/components/plays/_shared/play-close.md   # the pattern: one common file the parts point to
+
+style: plain ASD-STE100 English; personas only ("the product owner"), no real names; only current play and skill names (deleted skill names appear only as deleted)
+keeper_findings:
+  - "ADR 035 §10 also amended (the caller listed it as already amended by 050): 050 left three agents under its line; now none is left"
+  - "ADR 039 §2 and §8 judged not amended: the rule is part of the installed skills, not memory or a template"
+  - "ADR 053 and ADR 046 judged not affected"
