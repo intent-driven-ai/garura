@@ -162,7 +162,7 @@ def test_every_copy_is_identical():
     copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", "scoped_write_guard.py"))
     different = [c for c in copies if open(c, "rb").read() != mine]
     check(f"every play's scoped_write_guard.py is identical to the canonical one ({len(copies)} copies)",
-          len(copies) >= 14 and not different)
+          len(copies) >= 12 and not different)
 
 
 def main():

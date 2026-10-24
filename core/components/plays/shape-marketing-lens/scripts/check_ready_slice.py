@@ -117,7 +117,7 @@ def main(argv=None):
     matches = glob.glob(os.path.join(root, "*", "slices", slice_id + ".yaml"))
     if not matches:
         errors.append(f"slice '{slice_id}' not found under any domain's slices/ "
-                      f"— shape it with /shape-scope first (C1/F1)")
+                      f"— shape it first (C1/F1)")
     elif len(matches) > 1:
         errors.append(f"slice id '{slice_id}' is ambiguous across domains: "
                       f"{[os.path.relpath(m, args.product_base) for m in matches]}")

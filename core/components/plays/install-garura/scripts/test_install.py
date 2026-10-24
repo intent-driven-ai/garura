@@ -476,6 +476,17 @@ class LaysLoops(unittest.TestCase):
             self.assertIn(agent, allow["agents"])
             self.assertTrue(os.path.isfile(os.path.join(components, "agents", agent + ".md")), agent)
 
+    def test_the_harness_scope_carries_shape_slice_and_its_workers(self):
+        # Garura shapes the slice for each of its own business intents (plan 788).
+        allow = install.SCOPES["harness"]
+        components = os.path.join(ROOT, "core", "components")
+        self.assertIn("shape-slice", allow["plays"])
+        for skill in ("author-business-intent", "author-domains", "propose-answers", "author-slice",
+                      "find-slice-gaps", "author-slice-brief", "enrich-grounding",
+                      "author-failure-recovery", "find-work-placement", "enrich-capability-ice"):
+            self.assertIn(skill, allow["skills"])
+            self.assertTrue(os.path.isfile(os.path.join(components, "skills", skill, "SKILL.md")), skill)
+
     def test_edit_ontology_goes_to_harness_repos_only(self):
         # The play that changes the product ontology is build tooling for a harness repo (#777).
         self.assertIn("edit-ontology", install.SCOPES["harness"]["plays"])
@@ -490,6 +501,99 @@ class LaysLoops(unittest.TestCase):
                                         "shop", "claude")
         self.assertIn("  loops: ./.claude/skills/", text)
         self.assertIn("loops:\n  complete-discovery:", text)
+
+
+class SkipsStaleParts(unittest.TestCase):
+    """A stale or deprecated part is not installed, and a reinstall removes one that became
+    stale (#855). The skills' shared rule for asking a person is laid in _shared (#854)."""
+
+    def setUp(self):
+        self.work = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
+        self.src = os.path.join(self.work, "components")
+        for rel, text in (("plays/start-change/SKILL.md", "---\nname: start-change\n---\n"),
+                          ("plays/build-thing/SKILL.md", "---\nname: build-thing\n---\n"),
+                          ("plays/_shared/play-close.md", "# close\n"),
+                          ("skills/author-thing/SKILL.md", "---\nname: author-thing\n---\n"),
+                          ("skills/author-old/SKILL.md",
+                           "---\nname: author-old\nstale: true\nstale_note: 'waits for a rebuild'\n---\n"),
+                          ("skills/scan-old/SKILL.md", "---\nname: scan-old\ndeprecated: yes\n---\n"),
+                          ("skills/_shared/asking-a-person.md", "# Asking a Person\n"),
+                          ("agents/old-agent.md", "---\nname: old-agent\nstale: on\n---\n"),
+                          ("agents/keeper.md", "---\nname: keeper\n---\n")):
+            path = os.path.join(self.src, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as fh:
+                fh.write(text)
+        self.target = os.path.join(self.work, "shop")
+
+    def lay(self, adapter):
+        with contextlib.redirect_stdout(io.StringIO()):
+            return adapter.lay_components(self.src, self.target, lambda _m: None, None)
+
+    def mark_stale(self, rel):
+        path = os.path.join(self.src, rel)
+        with open(path) as fh:
+            text = fh.read()
+        with open(path, "w") as fh:
+            fh.write(text.replace("---\n", "---\nstale: true\n", 1))
+
+    def test_the_skip_check_reads_deprecated_and_stale(self):
+        from adapters import common
+        self.assertTrue(common.file_is_skipped(os.path.join(self.src, "skills", "author-old", "SKILL.md")))
+        self.assertTrue(common.file_is_skipped(os.path.join(self.src, "skills", "scan-old", "SKILL.md")))
+        self.assertTrue(common.file_is_skipped(os.path.join(self.src, "agents", "old-agent.md")))
+        self.assertFalse(common.file_is_skipped(os.path.join(self.src, "skills", "author-thing", "SKILL.md")))
+        self.assertFalse(common.file_is_skipped(os.path.join(self.src, "skills", "none", "SKILL.md")))
+
+    def test_claude_does_not_install_a_stale_play_or_a_stale_skill(self):
+        self.mark_stale("plays/build-thing/SKILL.md")
+        _, counts, _ = self.lay(claude)
+        skills = os.path.join(self.target, ".claude", "skills")
+        self.assertEqual((counts["plays"], counts["skills"], counts["agents"]), (1, 1, 1))
+        self.assertFalse(os.path.exists(os.path.join(skills, "build-thing")))
+        self.assertFalse(os.path.exists(os.path.join(skills, "author-old")))
+        self.assertFalse(os.path.exists(os.path.join(skills, "scan-old")))
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "agents", "old-agent.md")))
+        self.assertTrue(os.path.isfile(os.path.join(skills, "author-thing", "SKILL.md")))
+
+    def test_codex_does_not_install_a_stale_play_or_a_stale_skill(self):
+        self.mark_stale("plays/build-thing/SKILL.md")
+        _, counts, _ = self.lay(codex)
+        skills = os.path.join(self.target, ".agents", "skills")
+        self.assertEqual((counts["plays"], counts["skills"], counts["agents"]), (1, 1, 1))
+        for name in ("build-thing", "author-old", "scan-old", "old-agent"):
+            self.assertFalse(os.path.exists(os.path.join(skills, name)), name)
+
+    def test_a_reinstall_removes_a_part_that_became_stale(self):
+        first, _, _ = self.lay(claude)
+        self.assertIn(os.path.join(".claude", "skills", "build-thing"), first)
+        manifest = os.path.join(self.target, ".garura", "install-manifest.json")
+        os.makedirs(os.path.dirname(manifest), exist_ok=True)
+        with open(manifest, "w") as fh:
+            json.dump({"record": {"components": first}}, fh)
+        self.mark_stale("plays/build-thing/SKILL.md")
+        second, _, _ = self.lay(claude)
+        with contextlib.redirect_stdout(io.StringIO()):
+            removed = install.retire_stale(self.target, second, True)
+        self.assertIn(os.path.join(".claude", "skills", "build-thing"), removed)
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".claude", "skills", "build-thing")))
+
+    def test_the_asking_rule_is_laid_in_shared_for_both_tools(self):
+        self.lay(claude)
+        self.lay(codex)
+        for tool in (".claude", ".agents"):
+            shared = os.path.join(self.target, tool, "skills", "_shared")
+            self.assertTrue(os.path.isfile(os.path.join(shared, "asking-a-person.md")), tool)
+            self.assertTrue(os.path.isfile(os.path.join(shared, "play-close.md")), tool)
+
+    def test_the_real_install_lays_the_asking_rule(self):
+        components = os.path.join(ROOT, "core", "components")
+        self.assertTrue(os.path.isfile(os.path.join(components, "skills", "_shared", "asking-a-person.md")))
+        with contextlib.redirect_stdout(io.StringIO()):
+            claude.lay_components(components, self.target, lambda _m: None, None)
+        self.assertTrue(os.path.isfile(os.path.join(self.target, ".claude", "skills", "_shared",
+                                                    "asking-a-person.md")))
 
 
 class InstallFindings(unittest.TestCase):

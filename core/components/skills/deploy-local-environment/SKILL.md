@@ -1,10 +1,12 @@
 ---
 name: deploy-local-environment
-description: Bring one epic's increment up LIVE on the slice's LOCAL environment so a human can walk it — the deploy half of /release-epic's HITL gate. Reads the slice's structured run.yaml for the local environment's declared bring-up (its `local.run` command and any seed) and the repository, brings the increment up there, verifies it is actually reachable, and writes a deploy record: environment, target, the reachable address, any seeded test credentials, and how to tear it down. NEVER stands up a cloud environment (dev/qa/stage/prod) — those belong to /release-increment and CD from main. Tears the environment down when asked (the reverse contract). Live-system work — this is the worker skill the environment-operator agent dispatches; scripts assert over its record afterwards. Use from /release-epic only.
+description: 'Bring one epic''s increment up LIVE on the slice''s LOCAL environment so a human can walk it — the deploy half of /release-epic''s HITL gate. Reads the slice''s structured run.yaml for the local environment''s declared bring-up (its `local.run` command and any seed) and the repository, brings the increment up there, verifies it is actually reachable, and writes a deploy record: environment, target, the reachable address, any seeded test credentials, and how to tear it down. NEVER stands up a cloud environment (dev/qa/stage/prod) — those belong to /release-increment and CD from main. Tears the environment down when asked (the reverse contract). Live-system work — this is the worker skill the environment-operator agent dispatches; scripts assert over its record afterwards. Use from /release-epic only.'
 version: 0.1.0
 user-invocable: false
 model: best
 allowed-tools: Read, Write, Bash, Glob, Grep
+stale: true
+stale_note: 'waits for the rebuild of /release-epic (#855)'
 ---
 
 # deploy-local-environment
@@ -13,7 +15,7 @@ The increment is built and validated; now it has to be RUNNING somewhere a human
 reach. This skill stands it up on the slice's **local environment** — the one /release-epic
 uses — and nothing in the cloud, then proves it is reachable before reporting done.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -23,7 +25,9 @@ uses — and nothing in the cloud, then proves it is reachable before reporting 
 | `mode` | yes | `up` or `down` (teardown of a record this skill produced). |
 | `deploy_record` | yes | Where to write (or read, for `down`) the record. |
 
-## Procedure (`up`)
+## Process
+
+### Bring up (`up`)
 
 1. **Read the local environment's declared bring-up.** In `run.yaml`, find the named
    environment in `environments[]` (type `local`) and read its `local.run` (the bring-up
@@ -46,10 +50,14 @@ uses — and nothing in the cloud, then proves it is reachable before reporting 
      teardown: "docker compose -f compose.dev.yaml down"
    ```
 
-## Procedure (`down`)
+### Tear down (`down`)
 
 Read the record, run its `teardown`, confirm the address no longer answers, append
 `torn_down: true` to the record.
+
+## Output
+
+The deploy record that step 4 of `up` writes; `down` adds `torn_down: true` to it.
 
 ## Boundaries
 

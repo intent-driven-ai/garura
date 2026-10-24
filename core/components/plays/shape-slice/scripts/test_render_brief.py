@@ -116,7 +116,7 @@ def setup(tmp, reused=False, rule_missing=False, thin=True):
            "assumptions": []})
     write(os.path.join(work, "questions-checked.json"), {"no_proposed_answer": 1})
     write(os.path.join(work, "gather.json"),
-          {"rule_missing": {"tiers": ["short-term", "garura", "phoenix"], "memory_update": "mu-20261024-009"}}
+          {"rule_missing": {"path": "_shared/asking-a-person.md"}}
           if rule_missing else {})
     opening = write(os.path.join(work, "opening.md"),
                     "You decide if this slice shows that patients can book online. Read Q-scope-1 "
@@ -175,8 +175,8 @@ def main():
               "had no name; it now has the name 'Self booking'" in text and "surface" in text
               and "old field status" in text)
         check("render: a pulled-in feature is shown", "pulls feature ft-send" in text)
-        check("render: a missing rule for asking a person is said, with the memory update",
-              "rule for asking a person" in text and "mu-20261024-009" in text)
+        check("render: a missing rule for asking a person is said, with its shared path",
+              "rule for asking a person" in text and "_shared/asking-a-person.md" in text)
         check("render: no Thin ICE section when no part is thin", "## Thin ICE" not in text)
         os.remove(os.path.join(work, "hidden-file.json"))
         code, _, err = render(root, work, spine_p, opening)
@@ -217,13 +217,12 @@ def main():
         check("early: the result passes record_questions.py brief --early",
               code == 0 and out["ok"] is True)
         write(os.path.join(work, "gather.json"),
-              {"rule_missing": {"tiers": ["short-term", "garura", "phoenix"],
-                                "memory_update": "mu-20261024-011"}})
+              {"rule_missing": {"path": "_shared/asking-a-person.md"}})
         code, _, _ = run("render_brief.py", "--early", "--working", work, "--opening", opening,
                          "--split", early, "--out", out_p)
-        check("early: a missing rule for asking a person is said, with the memory update",
+        check("early: a missing rule for asking a person is said, with its shared path",
               code == 0 and "rule for asking a person" in read(out_p)
-              and "mu-20261024-011" in read(out_p))
+              and "_shared/asking-a-person.md" in read(out_p))
         code, _, _ = run("render_brief.py", "--early", "--working", work, "--opening", opening,
                          "--out", out_p)
         check("early: --early with no --split is refused (exit 2)", code == 2)

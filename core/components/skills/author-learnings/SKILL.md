@@ -5,6 +5,8 @@ version: 0.2.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /learn-outcomes (#855)'
 ---
 
 # author-learnings
@@ -39,7 +41,7 @@ contract `validate_learn.py` (pre-checkpoint) and `persist_learn.py` (the keyed 
 change carries an outcome, every nfr move is monotonic-up, every status promotion is earned, every
 decision is a new accepted record carrying all its own fields.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -50,7 +52,7 @@ decision is a new accepted record carrying all its own fields.
 | `product_base` | yes | Product model root — to READ the affected nodes' grounding docs and resolve a prior decision a learning may supersede, and to WRITE the rewritten per-node grounding docs in place under `product-os/…`. |
 | `manifest_path` | yes | Output path under STM for the `learn-manifest.yaml` (the proposed-change contract — spine deltas + decision records as structured data). |
 
-## Procedure
+## Process
 
 Reasoning (what the outcome actually taught, and which claim it confirms or refutes) is yours.
 Outcome-grounding, the allowlist, and template/eval conformance are non-negotiable.

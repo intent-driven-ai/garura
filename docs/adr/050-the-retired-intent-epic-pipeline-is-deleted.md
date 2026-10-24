@@ -1,6 +1,6 @@
 # ADR 050 — The Retired Intent-Epic Pipeline Is Deleted, Not Archived
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 054](054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md): §3, the line 'The other three (scriber, tech-architect, test-runner) are left as they are': the three agents are deleted
 **Date:** 2026-10-23
 **Level:** framework
 **Decided by:** the product owner · **Decided in:** #809 (the clean-up chore ADR 048 asked for, decided with #813 in plan #788)

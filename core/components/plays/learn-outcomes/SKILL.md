@@ -3,6 +3,8 @@ name: learn-outcomes
 position: both
 description: 'Close the loop: after a unit of work ships, read what actually happened — the measure lens (baseline/target/realized), the validate verdicts and fix reports, the run lens, and the delivered epic/slice status — and update the LIVING product model to match reality. Refreshes only the model''s MEANING (capability/feature one_line, nfr_needs levels, status promotions, the grounding-doc sections learning changed) and records each material learning as an append-only decision — never the tree skeleton. Replaces the old capture/codify/distill/enrich/reap loop. One delivered unit per run; one human checkpoint before anything is committed. Writes the spine + grounding docs + decisions directly on the live model, through the change pipeline.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the learn loop on the current product model (#855)'
 ---
 
 # learn

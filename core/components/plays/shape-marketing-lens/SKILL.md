@@ -3,6 +3,8 @@ name: shape-marketing-lens
 position: end
 description: 'Write a SLICE''s marketing lens as a grounding doc (marketing.md) — how the slice is found and reached (SEO / AEO / GEO), the accessibility bar it meets, and the reach signals worth capturing — written directly in place on the live model. The END of the FUNCTIONAL realize pipe (ux → agentic → marketing): it closes the functional pipe (commit → propose → review → merge). An internal tool answers discoverability "not applicable", plainly. Reads the hub from the spine (feature grounding + profile), never another lens. Writes only the slice''s marketing lens.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # marketing
@@ -503,7 +505,7 @@ Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-marketing-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /discover-capabilities before /shape-marketing-lens runs | human |
 | F2 | a model path outside the run's write scope changed (the scoped-guard report is not ok) | the guard's `--restore` already reverted the offending paths; re-run writing only the slice's marketing.md and any decision, after a human confirms the restore | human |
 | F3 | marketing.md fails the template/shape or carries out-of-scope content | re-emit to the Marketing lens template (the four sections only) | autonomous |
 | F4 | marketing.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
@@ -530,7 +532,7 @@ clean-tree assertion (F15) is scoped to a FRESH start — a resume continues its
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:75e1848ad8ec7db6b3ed281bf75c971496d09fd3e6a40d9d7a1b05690de20fba (of `reference/ice.md`) |
+| fingerprint | sha256:0f039aa82ff57b35363f65d417ec3b7fe848470e29a25dee29fd231c525d348e (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | end (closes the functional realize pipe; injects commit → propose → review → merge) |
 | position_exception | model-writing end play — writes the model on the already-started branch and commits its own `feat(model)` model delta after approval (C14); the injected end sequence then raises/reviews/lands it (#437) |

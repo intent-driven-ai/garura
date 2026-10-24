@@ -91,8 +91,6 @@ the question text and the choices the person has. The person replies in one of t
   and it continues.
 - **stop**: the run stops, and the questions wait for the next run.
 
-How a question is written and shown is in `asking-a-person.md`.
-
 ## What goes in the file
 
 - Numbers that the run guessed (limits, quotas, scale targets, how long a token lasts).

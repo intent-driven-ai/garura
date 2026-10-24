@@ -3,6 +3,8 @@ name: shape-agentic-lens
 position: none
 description: 'Write a SLICE''s agentic lens as a grounding doc (agentic.md) — the is-it-an-agent gate, the load weights (cognitive / creative / logistical on a low→ultra scale), and the controls (guardrails, handoff). The MIDDLE of the FUNCTIONAL realize pipe (ux → agentic → marketing), run on a shaped slice. A deterministic slice comes out "not an agent", stated plainly. Reads the hub from the spine (feature grounding + profile), never another lens. Writes only the slice''s agentic lens, in place on the live model.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # agentic
@@ -452,7 +454,7 @@ functional pipe), and a pointer to `$evidence_dest`. Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-agentic-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /discover-capabilities before /shape-agentic-lens runs | human |
 | F2 | a write touched something beyond this slice's agentic.md or a decision | the guard's `--restore` already reverted the out-of-scope write; re-run writing only the slice's agentic.md and any autonomy decision | autonomous |
 | F3 | agentic.md fails the template/shape or carries out-of-scope content | re-emit to the Agentic lens template (gate/weights/controls only) | autonomous |
 | F4 | agentic.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
@@ -479,7 +481,7 @@ resume continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:1e5a5b4e7af8793073556c992bd8b0636b9e726f6ba070d51368a8badffb3ef1 (of `reference/ice.md`) |
+| fingerprint | sha256:9db06080415e0efabbeae16e4a39fa5a6cbfffea49b0ed7ce9e29eb6ec61e1c0 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | none |
 | position_exception | middle of the functional realize pipe — runs on the branch /shape-ux-lens started; the close belongs to /shape-marketing-lens |
@@ -524,6 +526,6 @@ and convergence is UNVERIFIED.** An interactive `/edit-play` convergence run aga
 `reference/ice.md` is REQUIRED — confirming the emitted SKILL matches this hand-compiled body and
 refreshing the fingerprint — before this play is relied on. `reference/ice.md` C13 distinguishes the
 model-delta commit from the Standard Play Close (evidence + delivery report) that /shape-agentic-lens still runs;
-the close anchor block is retained (required by `check-components` and the create-play G12 emit on
+the close anchor block is retained (required by `core/tools/lint-components` and the create-play G12 emit on
 every play), and the `feat(model)` commit is the separate lightweight persist step, so both coexist as
 C13 describes.

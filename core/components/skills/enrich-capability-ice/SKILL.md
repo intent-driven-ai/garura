@@ -23,7 +23,7 @@ script turn that manifest into the spine/profile/decision writes.
 /discover-domains was the CXO conversation (directional). /discover-capabilities is the **product manager**
 detailing the product. So the writing here is concrete and complete — the full capability
 and its features, the detail a build needs — but still product language, not code.
-Sequencing the work into deliverable verticals is the **product owner's** job (/shape-scope); do
+Shaping the work into slices a person can test end to end is the **product owner's** job (/shape-slice); do
 none of that here.
 
 ## Write discipline — direct-model-write containment split (ADR 026)
@@ -221,7 +221,7 @@ path — paths, never inline content.
   (`{about, missing, why}`); the calling play's question skill writes the question.
 
 - **Product-manager altitude.** Detail the capability and its features fully — no
-  delivery sequencing, no slices, no epics (that is /shape-scope).
+  delivery sequencing, no slices, no epics (slices are /shape-slice's).
 - **Promote, don't reseed.** The capability doc moves directional → detailed; the manifest's
   `capability.detail` is `detailed`. Never leave it directional, unless the caller gives
   `depth: directional`: then the page stays directional, `capability.detail` is

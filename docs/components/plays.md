@@ -294,7 +294,7 @@ An example, in the shape of the old `prepare` play (the agents named are today's
 |---|------------|-------|-------|----------|
 | 1 | Draft product spec (features.yaml) | product-os-keeper | feature intent | features.yaml |
 | 2 | Draft technical approach | tech-designer | features.yaml | technical-approach.md |
-| 3 | Draft low-level design | tech-architect | features.yaml, technical-approach.md | tech.yaml |
+| 3 | Draft low-level design | tech-designer | features.yaml, technical-approach.md | tech.yaml |
 | 4 | Draft verification scenarios | evals-engineer | features.yaml | scenarios.yaml |
 | — | CHECKPOINT: human review | orchestrator | features, tech, scenarios | approved_design |
 | 5 | Draft execution plan | tech-designer | features, tech, scenarios, approved design | plan.yaml |
@@ -344,8 +344,6 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `intent` | Turn what a person shares — a prototype, a project folder, a site, a document or a statement — into their business intents and, under each, the ICE the source shows, written into the product model (under its domain when something shows it, else in the holding folder); the person confirms each intent; keeps the source as a snapshot and links all three |
 | `vision` | Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — domain grounding, directional capability grounding, spine entries; places capabilities waiting for a domain and links every part to its intents both ways; never waits for another play |
 | `understand` | Detail one capability that `/discover-domains` seeded — promote its grounding to detailed, create its features |
-| `shape` | Select what to build in one domain and compose it into deliverable vertical slices |
-| `roadmap` | Order the shaped slices into a build sequence with dependencies and effort |
 | `quality` | Write a slice's quality lens grounding doc — checkable pass/fail gates |
 | `ux` | Write a slice's UX lens grounding doc — screens, states, visual core |
 | `agentic` | Write a slice's agentic lens grounding doc — the is-it-an-agent gate, load weights, controls |

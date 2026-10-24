@@ -218,7 +218,7 @@ learned against no longer map), which is a one-time note, not per-play work.
 
 ## Lint anchors (converge-and-lint)
 
-`check-components` fails a model-writing play when any of these hold, so a stale draft
+`core/tools/lint-components` fails a model-writing play when any of these hold, so a stale draft
 pattern cannot survive a rebuild or a hand edit:
 
 - L-DMW-1: the play's `SKILL.md` or scripts reference a `draft/product-os`,

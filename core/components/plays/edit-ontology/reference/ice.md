@@ -19,7 +19,7 @@ landed through the change plays.
   says so.
 - C4 — Every page a person reads is in ASD-STE100 plain English, uses personas and never
   names, and has a real example. Every draft shown at a checkpoint follows the shared rule
-  for asking a person (`standards/rules/asking-a-person.md`): an opening that says what the
+  for asking a person (`_shared/asking-a-person.md`): an opening that says what the
   person decides, and each question with Question / Answer / Why it matters / Example, the
   example from several domains.
 - C5 — A script decides whether the ontology is valid, not the model. The run ends only when
@@ -51,9 +51,10 @@ landed through the change plays.
   `check_ontology.py`).
 - The agent that gathers sources and runs the skill: `product-os-keeper`.
 - The format: `standards/templates/product-ontology.md`.
-- The rule for asking a person: `standards/rules/asking-a-person.md`. In the three draft
-  stages, `product-os-keeper` loads it through the memory tool, writes it to
-  `<working>/asking-a-person.md`, and passes it to the skill as the input `asking_rule`.
+- The rule for asking a person: `_shared/asking-a-person.md`, the shared file the install
+  lays beside the installed skills. It is not memory. In the three draft stages,
+  `product-os-keeper` passes its path to the skill as the input `asking_rule`; nothing looks
+  for it through the memory tool.
 - Persona: the product owner, who decides; the agents and plays that read the ontology.
 
 ## Expectation

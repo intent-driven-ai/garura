@@ -3,6 +3,8 @@ name: release-increment
 position: none
 description: 'Deploy a delivered increment (a validated, merged epic) to a named CLOUD environment the run lens already defined — defaulting to the lowest cloud tier (dev), running exactly what that environment''s run.yaml declares, then proving it came up healthy with an independent reachability check and recording the deploy as evidence. Lightweight and on-demand: changes nothing in the product model and stops below production (prod stays with CD from main). The /release-increment command in the ProductOS command model. Use when a delivered increment needs to run on a cloud environment /shape-run-lens already defined.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)'
 ---
 
 # deploy

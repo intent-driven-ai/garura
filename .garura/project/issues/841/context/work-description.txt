@@ -1,0 +1,7 @@
+One change for the plan 788 chores, anchored on #841:
+- #841 (P1 bug): check-change reads every file of a PR, and stops with a plain message when the count differs from the PR's changedFiles.
+- #854: the asking rule leaves memory: a shared skill file for the ontology skill and the /shape-slice skills only; lint only those; the approval template loses its pointer.
+- #837: drop /shape-scope and /shape-roadmap and the skills only they use, and every reference to them (ADR 053).
+- #855: mark the twelve old-chain plays and their unused skills stale: true; both installers skip stale parts.
+- #833: remove the remaining deprecated skills and agents; the public installer skips deprecated parts.
+- #851: the review scanner skips ADRs and run records for rules DOC-04, DOC-05, ARCH-23 and FE-16.

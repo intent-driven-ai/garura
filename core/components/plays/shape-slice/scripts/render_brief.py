@@ -38,7 +38,7 @@ brief.md is the opening, then these H2 sections:
   Questions      — Questions with no proposed answer: <n>, then each asked question as
                    ### <id> with **Question**, **Answer**, **Why it matters**, **Example**;
                    when gather.json has rule_missing, a line that says the rule for asking a
-                   person is missing and names the memory update
+                   person is missing from its shared place and that an install lays it
   Your reply     — yes, change: <what>, or stop; answer a question by its id
 
 --early writes the short brief of Step 5 (the questions asked before the slice is shaped): the
@@ -213,10 +213,10 @@ def rule_missing_lines(gather):
     missing = (gather or {}).get("rule_missing")
     if not isinstance(missing, dict):
         return []
-    tiers = ", ".join(missing.get("tiers") or []) or "every tier"
-    return [f"No memory tier holds the rule for asking a person (looked in: {tiers}). This "
-            "brief follows the floor the play states, and memory update "
-            f"{missing.get('memory_update')} asks for the rule to be added.", ""]
+    path = missing.get("path") or "_shared/asking-a-person.md"
+    return [f"The rule for asking a person is missing: there is no {path} beside the "
+            "installed skills. This brief follows the floor the play states. An install of "
+            "Garura lays the rule.", ""]
 
 
 def render_early(working, split, opening):

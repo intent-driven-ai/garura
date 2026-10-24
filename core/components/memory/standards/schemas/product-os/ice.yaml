@@ -72,9 +72,6 @@ fill_rules:
   - play: "/discover-capabilities"
     writes: "full intent, context (persona/systems/scope), expectations, and the
              capability's nfr_needs + compliance_needs — which roll up the product profile"
-  - play: "/shape-scope"
-    writes: "feature-level ICE when features are created/reshaped;
-             also creates the persona records that context.persona points to"
   - play: "/learn-outcomes"
     writes: "updates to expectations/outcomes from real-world results"
 

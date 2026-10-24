@@ -1,0 +1,56 @@
+needs_judgment: false
+change_groups:
+  - id: adr-053-old-name-check
+    issue: 837
+    commit_type: fix
+    scope: naming
+    subject: "restore ADR 053 text and skip it in the old-name check"
+    files:
+      - docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+      - core/tools/naming/check_old_names.py
+      - core/tools/naming/test_naming_tools.py
+  - id: adr-054-record
+    issue: 833
+    commit_type: docs
+    scope: adr
+    subject: "record ADR 054 with forward pointers on ADRs 035, 039 and 050"
+    files:
+      - docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md
+      - docs/adr/_index.md
+      - docs/adr/035-agents-work-only-from-memory.md
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+      - docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+      - .garura/project/issues/_adr/20261024T183939Z/
+  - id: pr-rules-adr-rows
+    issue: 851
+    commit_type: fix
+    scope: pr-quality
+    subject: "stop flagging docs/adr and narrow BE-19 and SEC-18"
+    files:
+      - core/components/memory/standards/rules/pr.md
+      - core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
+  - id: asking-rule-lint-fixes
+    issue: 854
+    commit_type: fix
+    scope: lint-components
+    subject: "fix flag name, temp folders and constant name in asking-a-person lint"
+    files:
+      - core/tools/lint-components/lib/rules/asking-a-person.js
+      - core/tools/lint-components/test/asking-a-person.test.js
+      - core/tools/lint-components/test/naming.test.js
+  - id: stm-841-evidence
+    issue: 841
+    commit_type: chore
+    scope: stm
+    subject: "record review round-1 evidence and commit-change artifacts"
+    files:
+      - .garura/project/issues/841/review/q1-evidence.md
+      - .garura/project/issues/841/context/commit-change/analysis.yaml
+      - .garura/project/issues/841/context/commit-change/porcelain.txt
+exclusions: []
+risks:
+  sensitive_files: []
+  warnings:
+    - path: "core/components/memory/standards/rules/pr.md"
+      note: "password-pattern match is prose in a standards file; non-blocking"
+      blocking: false

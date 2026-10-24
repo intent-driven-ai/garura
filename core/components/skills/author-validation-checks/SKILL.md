@@ -1,10 +1,12 @@
 ---
 name: author-validation-checks
-description: Author /validate-epic's check manifest for one EPIC — the toolchain plan the run_checks orchestrator executes. Detects the product's stack(s) from the slice's architecture lens tech picks plus the repository's own manifests (package.json, pom.xml, *.csproj, migrations), then resolves each stack to its tooling — build, test runner, linter, scanner, dependency audit — as KB-GROUNDED choices via find-architecture-learnings; anything the KB does not cover becomes a recorded KB-learning-gap proposal, never a silent pick. Scopes the regression checks to the resolved blast radius (recorded change claims, narrowing per fix round) and maps the slice's quality-lens gates and the profile's benchmarks to concrete checks. Emits checks.yaml (one entry per check: runner class, tool, command, install hint, class) + a choices manifest for the grounding gate. Plans only — runs nothing, writes no model file. The planning work for the /validate-epic play.
+description: 'Author /validate-epic''s check manifest for one EPIC — the toolchain plan the run_checks orchestrator executes. Detects the product''s stack(s) from the slice''s architecture lens tech picks plus the repository''s own manifests (package.json, pom.xml, *.csproj, migrations), then resolves each stack to its tooling — build, test runner, linter, scanner, dependency audit — as KB-GROUNDED choices via find-architecture-learnings; anything the KB does not cover becomes a recorded KB-learning-gap proposal, never a silent pick. Scopes the regression checks to the resolved blast radius (recorded change claims, narrowing per fix round) and maps the slice''s quality-lens gates and the profile''s benchmarks to concrete checks. Emits checks.yaml (one entry per check: runner class, tool, command, install hint, class) + a choices manifest for the grounding gate. Plans only — runs nothing, writes no model file. The planning work for the /validate-epic play.'
 version: 0.1.0
 user-invocable: false
 model: best
 allowed-tools: Read, Write, Bash, Glob, Grep
+stale: true
+stale_note: 'waits for the rebuild of /validate-epic (#855)'
 ---
 
 # author-validation-checks
@@ -39,7 +41,7 @@ plan still names the tool it proposes, marked `grounds: proposal`.
 Security checks are CODE-LEVEL only: static analysis, lint, dependency scanning —
 never penetration-style probing of running systems.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -54,7 +56,7 @@ never penetration-style probing of running systems.
 | `kb_root` | yes | The `knowledge/` dir for resolvable learning ids. |
 | `out_dir` | yes | Output folder under STM for the manifest + choices + proposals. |
 
-## Procedure
+## Process
 
 1. **Detect the stacks.** Read the arch lens's tech picks; confirm against the repo
    (Glob for `package.json`, `pom.xml`, `build.gradle`, `*.csproj`, `*.sln`,

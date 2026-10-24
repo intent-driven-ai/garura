@@ -173,7 +173,7 @@ still closes; the failure is recorded in the evidence file's Recovery Attempts s
 
 ## Enforced
 
-`check-components` checks every compiled play's SKILL.md for the close's two anchor lines,
+`core/tools/lint-components` checks every compiled play's SKILL.md for the close's two anchor lines,
 each exactly once, opener before closer, and that the shared file exists:
 
 - opener: `# --- Standard Play Close (shared; see ../_shared/play-close.md) ---`

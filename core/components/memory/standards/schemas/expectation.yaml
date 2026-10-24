@@ -3,7 +3,7 @@
 # Produced by draft-play-expectation (via the expectation-crafter agent) inside
 # /create-play, then approved by a human at the create-play checkpoint.
 # Consumed by /create-play (evals from success_scenarios; Recovery section from
-# recovery) and validated by check-components.
+# recovery) and validated by core/tools/lint-components.
 #
 # Expectation has TWO zones: metadata and content. Both are required.
 
@@ -61,7 +61,7 @@ recovery:                      # One entry per failure condition in the intent.
 # is the source of truth for draft-play-expectation.
 #
 # ──────────────────────────────────────────────────────────────────────────
-# Validation (enforced by check-components)
+# Validation (enforced by core/tools/lint-components)
 # ──────────────────────────────────────────────────────────────────────────
 #
 #   - success_scenarios: non-empty; each entry has persona, given, then, measure.

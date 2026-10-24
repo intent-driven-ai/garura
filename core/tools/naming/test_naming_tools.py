@@ -32,67 +32,105 @@ def check(name, cond):
 def write(root, rel, text):
     path = os.path.join(root, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    open(path, "w").write(text)
+    with open(path, "w") as fh:
+        fh.write(text)
+
+
+def read(root, rel):
+    with open(os.path.join(root, rel)) as fh:
+        return fh.read()
+
+
+RENAME_MAP = {"plays": {"vision": "discover-domains", "grill": "shape-slice"},
+              "loops": {"discovery": "complete-discovery"},
+              "skills": {"kb-search": "find-architecture-learnings"},
+              "agents": {"env-operator": "environment-operator"}}
+
+ADR_TEXT = "The /vision play.\n"
+SEED = {
+    "core/components/plays/vision/SKILL.md": "---\nname: vision\n---\nRun /grill next.\n",
+    "core/components/plays/grill/SKILL.md": "---\nname: grill\n---\nThen /garura:vision.\n",
+    "core/components/loops/discovery/SKILL.md": "---\nname: discovery\n---\nRuns /vision.\n",
+    "core/components/skills/kb-search/SKILL.md": "---\nname: kb-search\n---\nx\n",
+    "core/components/agents/env-operator.md": "---\nname: env-operator\n---\nUses kb-search.\n",
+    "docs/guide.md": "Run `/vision`, then the `grill` play. A good vision matters. See docs/adr/006.\n"
+                     "Path: core/components/plays/vision/SKILL.md. Lens quality stays.\n",
+    "core/x.py": 'play = "vision"\nLENS = ("quality", "run")\nkey = "grill"\n',
+    "docs/adr/006-naming.md": ADR_TEXT,
+    "docs/adr/046-one-naming-standard.md": ADR_TEXT,
+    "docs/adr/047-the-ice.md": ADR_TEXT,
+    "docs/adr/048-two-layers.md": ADR_TEXT,
+    "docs/adr/049-a-later-decision.md": ADR_TEXT,
+    "docs/adr/053-a-quoting-decision.md": ADR_TEXT,
+    "docs/adr/054-a-later-decision.md": ADR_TEXT,
+    "docs/adr/SUPERSEDED-046-old-naming.md": ADR_TEXT,
+    "docs/adr/SUPERSEDED-047-old-ice.md": ADR_TEXT,
+    "CHANGELOG.md": "/vision shipped.\n",
+}
+KINDS = ["plays", "loops", "skills", "agents"]
+
+
+def seed_repo(root):
+    """A scratch repository that holds old names in every place the check reads or skips."""
+    subprocess.run(["git", "init", "-q"], cwd=root)
+    write(root, co.MAP, yaml.safe_dump(RENAME_MAP))
+    for rel, text in SEED.items():
+        write(root, rel, text)
+    subprocess.run(["git", "add", "-A"], cwd=root)
+    subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "x"], cwd=root)
+
+
+def hit_at(hits, file, line):
+    return any(h["file"] == file and h["line"] == line for h in hits)
+
+
+def check_before(root):
+    """What the old-name check finds, and what it skips, before the rename."""
+    before = co.find(root, co.load_map(root), KINDS)
+    hit = {h["file"] for h in before}
+    check("today: the check finds the old names", len(before) >= 10)
+    prose = [h for h in before if h["old"] == "vision" and h.get("x")]
+    check("a plain English 'vision' in prose is not flagged", not hit_at(prose, "docs/guide.md", 1))
+    check("a lens word in code is not flagged", not hit_at(before, "core/x.py", 2))
+    check("a dict key 'grill' in code is not flagged", not hit_at(before, "core/x.py", 3))
+    check("past records are not searched", not {"docs/adr/006-naming.md", "CHANGELOG.md"} & hit)
+    check("the rename ADRs 046 and 048 are not searched",
+          not {"docs/adr/046-one-naming-standard.md", "docs/adr/048-two-layers.md"} & hit)
+    check("ADR 047 is searched", "docs/adr/047-the-ice.md" in hit)
+    check("ADR 049 is searched", "docs/adr/049-a-later-decision.md" in hit)
+    check("ADR 053, which quotes old names, is not searched", "docs/adr/053-a-quoting-decision.md" not in hit)
+    check("a later ADR 054 is searched", "docs/adr/054-a-later-decision.md" in hit)
+    check("a superseded rename ADR 046 is not searched", "docs/adr/SUPERSEDED-046-old-naming.md" not in hit)
+    check("a superseded ADR 047 is searched", "docs/adr/SUPERSEDED-047-old-ice.md" in hit)
+
+
+def check_after(root):
+    """What the rename tool changed, and what it kept."""
+    check("after the rename the check finds nothing", co.find(root, co.load_map(root), KINDS) == [])
+    check("folders moved", os.path.isdir(os.path.join(root, "core/components/plays/discover-domains"))
+          and not os.path.exists(os.path.join(root, "core/components/plays/vision")))
+    check("agent file moved", os.path.isfile(os.path.join(root, "core/components/agents/environment-operator.md")))
+    play = read(root, "core/components/plays/discover-domains/SKILL.md")
+    check("name line updated", "name: discover-domains" in play)
+    check("/shape-slice not double-rewritten", "/shape-slice" in play)
+    guide = read(root, "docs/guide.md")
+    check("commands and paths rewritten", all(w in guide for w in (
+        "`/discover-domains`", "plays/discover-domains/SKILL.md", "`shape-slice` play")))
+    check("prose words and lens words kept", "A good vision matters" in guide and "Lens quality stays" in guide)
+    check("docs/adr path kept", "docs/adr/006" in guide)
+    code = read(root, "core/x.py")
+    check("play field rewritten, lens and key kept",
+          all(w in code for w in ('play = "discover-domains"', '("quality", "run")', 'key = "grill"')))
+    check("past records kept their old words",
+          "/vision" in read(root, "CHANGELOG.md") and "/vision" in read(root, "docs/adr/006-naming.md"))
 
 
 def main():
     with tempfile.TemporaryDirectory() as root:
-        subprocess.run(["git", "init", "-q"], cwd=root)
-        write(root, co.MAP, yaml.safe_dump({"plays": {"vision": "discover-domains", "shape": "shape-scope"},
-                                            "loops": {"discovery": "complete-discovery"},
-                                            "skills": {"kb-search": "find-architecture-learnings"},
-                                            "agents": {"env-operator": "environment-operator"}}))
-        write(root, "core/components/plays/vision/SKILL.md", "---\nname: vision\n---\nRun /shape next.\n")
-        write(root, "core/components/plays/shape/SKILL.md", "---\nname: shape\n---\nThen /garura:vision.\n")
-        write(root, "core/components/loops/discovery/SKILL.md", "---\nname: discovery\n---\nRuns /vision.\n")
-        write(root, "core/components/skills/kb-search/SKILL.md", "---\nname: kb-search\n---\nx\n")
-        write(root, "core/components/agents/env-operator.md", "---\nname: env-operator\n---\nUses kb-search.\n")
-        write(root, "docs/guide.md", "Run `/vision`, then the `shape` play. A good vision matters. See docs/adr/006.\n"
-                                     "Path: core/components/plays/vision/SKILL.md. Lens quality stays.\n")
-        write(root, "core/x.py", 'play = "vision"\nLENS = ("quality", "run")\nkey = "shape"\n')
-        write(root, "docs/adr/006-naming.md", "The /vision play.\n")
-        write(root, "docs/adr/046-one-naming-standard.md", "The /vision play.\n")
-        write(root, "docs/adr/047-the-ice.md", "The /vision play.\n")
-        write(root, "docs/adr/048-two-layers.md", "The /vision play.\n")
-        write(root, "docs/adr/049-a-later-decision.md", "The /vision play.\n")
-        write(root, "docs/adr/SUPERSEDED-046-old-naming.md", "The /vision play.\n")
-        write(root, "docs/adr/SUPERSEDED-047-old-ice.md", "The /vision play.\n")
-        write(root, "CHANGELOG.md", "/vision shipped.\n")
-        subprocess.run(["git", "add", "-A"], cwd=root)
-        subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "x"], cwd=root)
-
-        before = co.find(root, co.load_map(root), ["plays", "loops", "skills", "agents"])
-        files_hit = {h["file"] for h in before}
-        check("today: the check finds the old names", len(before) >= 10)
-        check("a plain English 'vision' in prose is not flagged",
-              not any(h["file"] == "docs/guide.md" and h["line"] == 1 and h["old"] == "vision" and h.get("x") for h in before))
-        check("a lens word in code is not flagged", not any(h["file"] == "core/x.py" and h["line"] == 2 for h in before))
-        check("a dict key 'shape' in code is not flagged", not any(h["file"] == "core/x.py" and h["line"] == 3 for h in before))
-        check("past records are not searched", "docs/adr/006-naming.md" not in files_hit and "CHANGELOG.md" not in files_hit)
-        check("the rename ADRs 046 and 048 are not searched",
-              "docs/adr/046-one-naming-standard.md" not in files_hit and "docs/adr/048-two-layers.md" not in files_hit)
-        check("ADR 047 is searched", "docs/adr/047-the-ice.md" in files_hit)
-        check("ADR 049 is searched", "docs/adr/049-a-later-decision.md" in files_hit)
-        check("a superseded rename ADR 046 is not searched", "docs/adr/SUPERSEDED-046-old-naming.md" not in files_hit)
-        check("a superseded ADR 047 is searched", "docs/adr/SUPERSEDED-047-old-ice.md" in files_hit)
-
+        seed_repo(root)
+        check_before(root)
         ar.main(["--root", root])
-        after = co.find(root, co.load_map(root), ["plays", "loops", "skills", "agents"])
-        check("after the rename the check finds nothing", after == [])
-        check("folders moved", os.path.isdir(os.path.join(root, "core/components/plays/discover-domains"))
-              and not os.path.exists(os.path.join(root, "core/components/plays/vision")))
-        check("agent file moved", os.path.isfile(os.path.join(root, "core/components/agents/environment-operator.md")))
-        check("name line updated", "name: discover-domains" in open(os.path.join(root, "core/components/plays/discover-domains/SKILL.md")).read())
-        guide = open(os.path.join(root, "docs/guide.md")).read()
-        check("commands and paths rewritten", "`/discover-domains`" in guide and "plays/discover-domains/SKILL.md" in guide
-              and "`shape-scope` play" in guide)
-        check("prose words and lens words kept", "A good vision matters" in guide and "Lens quality stays" in guide)
-        check("docs/adr path kept", "docs/adr/006" in guide)
-        code = open(os.path.join(root, "core/x.py")).read()
-        check("play field rewritten, lens and key kept", 'play = "discover-domains"' in code and '("quality", "run")' in code and 'key = "shape"' in code)
-        check("/shape-scope not double-rewritten", "/shape-scope" in open(os.path.join(root, "core/components/plays/discover-domains/SKILL.md")).read())
-        check("past records kept their old words", "/vision" in open(os.path.join(root, "CHANGELOG.md")).read()
-              and "/vision" in open(os.path.join(root, "docs/adr/006-naming.md")).read())
+        check_after(root)
         ar.main(["--root", root])
         check("a second run changes nothing", co.find(root, co.load_map(root), ["plays"]) == [])
     print(f"\n{PASSED} passed, {FAILED} failed")

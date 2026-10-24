@@ -11,9 +11,9 @@ Agents and skills query this category when they need to know: **"What does the o
 | Path | Description | Consumers |
 |------|-------------|-----------|
 | `github-issue.md` | GitHub issue body template and field derivation rules | `track-issue`, `project-orchestrator` |
-| `approval-prompt.md` | The one checkpoint format. Follows `rules/asking-a-person.md`: an opening, four parts per question, and a plain typed reply. Every checkpoint-gated play uses this instead of its own prompt text. | `specify`, `design`, `arch`, every checkpoint-gated play |
-| `checkpoint.md` | Canonical checkpoint artifact format. Written by scriber alongside every approval prompt; retained as STM audit trail. | every checkpoint-gated play + `scriber` agent |
-| `evidence-file.md` | Canonical evidence file format. Written by scriber at play close; contains step/scenario eval results, checkpoint decisions, recovery attempts, next consumers. | every play that closes with an evidence step + `scriber` agent |
+| `approval-prompt.md` | The one checkpoint format: an opening, four parts per question, and a plain typed reply. Every checkpoint-gated play uses this instead of its own prompt text. | `specify`, `design`, `arch`, every checkpoint-gated play |
+| `checkpoint.md` | Canonical checkpoint artifact format. Written by the play alongside every approval prompt; retained as STM audit trail. | every checkpoint-gated play |
+| `evidence-file.md` | Canonical evidence file format. Written by the play at close; contains step/scenario eval results, checkpoint decisions, recovery attempts, next consumers. | every play that closes with an evidence step |
 | `knowledge-file.md` | Canonical knowledge-file template. Tier 1 (all files) and Tier 2 (core-scoped) metadata requirements, staleness rules, and index registration conventions. | `knowledge-extractor`, `capture-learning` |
 | `issue-comment-rca-approved.md` | Canonical GitHub issue comment posted when a user approves an RCA + fix plan at the fix-it approval checkpoint; mirrors the decision from STM to the issue thread. | `fix-it`, future plays producing `rca.yaml` + `design.yaml` |
 | `commit-message.md` | Canonical commit message shape — `<type>(<scope>): <subject>` format, field rules, and related pointer to `rules/commits.md` quality rules. | `commit-files`, `assess-changes`, `commit-code`, `repo-orchestrator` |

@@ -119,7 +119,7 @@ The canonical example is the **Standard Play Close** — every play's Evidence &
 Close section. It lives once, in `core/components/plays/_shared/play-close.md`,
 laid beside the installed plays (ADR 039 §9). A play carries only its anchor pair,
 its own values and its own close steps, and points there; `/create-play` emits
-that pointer so direct-edit and rebuild converge; `check-components` fails any
+that pointer so direct-edit and rebuild converge; `core/tools/lint-components` fails any
 play missing its exact anchor pair. Any new shared scaffolding follows the same
 pattern: one common file the plays point to, emitted by the compiler and linted.
 

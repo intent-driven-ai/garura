@@ -11,6 +11,8 @@ tools:
   - Glob
   - Write
   - Skill
+stale: true
+stale_note: 'waits for the rebuild of /build-epic (#855); only stale plays dispatch it'
 ---
 
 # test-engineer

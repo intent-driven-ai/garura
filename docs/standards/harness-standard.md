@@ -116,7 +116,7 @@ is the easiest to learn and to teach.
 |------|-------|----------|
 | Loop | `complete-<phase>` | `complete-discovery` |
 | Play | `<verb>-<object>` | `discover-domains`, `shape-slice`, `build-epic`, `start-change` |
-| Skill | `<verb>-<object>` | `author-roadmap`, `infer-scope`, `check-quality` |
+| Skill | `<verb>-<object>` | `author-slice`, `find-model-gaps`, `check-quality` |
 | Agent | `<domain>-<role>` | `adr-keeper`, `quality-auditor` |
 
 The lifecycle plays take the verb of the phase they move a product through:

@@ -3,6 +3,8 @@ name: shape-measure-lens
 position: both
 description: 'Write a SLICE''s measure lens as a grounding doc (measure.md) — the delivery-measurement focus, the metrics that prove it (baseline / target / proof, triangle-primary speed/tokens/cognition), and what is out of scope — then, when all seven lens docs line up, stamp the slice realized on the spine. The DELIVER pipe of realize (runs last): it opens its own branch (start-change) and closes it (commit → propose → review → merge). Reads the hub from the spine; the single play that flips a slice to realized — the marker /shape-slice checks. Writes the lens doc + decisions + the realized stamp directly on the live model (ADR 026 direct-model-write).'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # measure
@@ -529,7 +531,7 @@ realized: run /shape-slice to cut this slice into epics; else: run the missing l
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-measure-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /discover-capabilities before /shape-measure-lens runs | human |
 | F2 | a write touched something beyond this slice's measure.md, a decision, or the one realized status field | revert the out-of-scope write; /shape-measure-lens writes only those | autonomous |
 | F3 | measure.md fails the template/shape | re-emit to the Measure lens template (Focus / Metrics / Out of scope only) | autonomous |
 | F4 | measure.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
@@ -556,7 +558,7 @@ resume that already wrote the model doc continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:eab4194075e9ed11710670fbe77cd192011ffc8a53f75d56f4f1067840b73d03 (of `reference/ice.md`) |
+| fingerprint | sha256:76568d1e6bda57e5f653af81ae1c3a2c2da6fa346745481de4696638006d2f35 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C; #467 Batch B — conditional learned gate) |
 | pipeline_position | both (deliver pipe — injects start-change head and commit → propose → review → merge close) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C14) BEFORE the injected close sequence, which then handles only what remains uncommitted |

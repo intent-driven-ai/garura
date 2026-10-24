@@ -1,7 +1,7 @@
 ---
 name: discover-domains
 position: both
-description: 'Turn business intents, a business goal, a prototype''s shared capture, or any mix into the domains of the product model — or grow the domains already there — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there, found in the knowledge shelves or by research, each page with its sources), the domain spine entries linked to the business intents both ways, and a directional product profile — written directly in place on the live model. Writes domains only (ADR 043): capabilities and features are /discover-capabilities''s. Builds on whatever any play already wrote (light domain pages, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /discover-capabilities and /shape-scope. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves a review record for the loop''s end review.'
+description: 'Turn business intents, a business goal, a prototype''s shared capture, or any mix into the domains of the product model — or grow the domains already there — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there, found in the knowledge shelves or by research, each page with its sources), the domain spine entries linked to the business intents both ways, and a directional product profile — written directly in place on the live model. Writes domains only (ADR 043): capabilities and features are /discover-capabilities''s. Builds on whatever any play already wrote (light domain pages, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /discover-capabilities and /shape-slice. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves a review record for the loop''s end review.'
 user-invocable: true
 ---
 
@@ -15,7 +15,7 @@ entry linked to the business intents it serves (both ways), and a **directional*
 profile. /discover-domains is the **CXO conversation** — what you take to a CXO and get back:
 strategic, directional, CXO altitude. It writes **domains only** (ADR 043): writing and
 detailing the capabilities and their features is /discover-capabilities's (the product-manager
-step), and breaking the model into deliverable end-to-end verticals and epics is /shape-scope's
+step), and shaping the model into slices a person can test end to end is /shape-slice's
 (the product-owner step).
 
 **Every kind written on its own (ADR 043).** Each kind has one writer — /discover-intent the business
@@ -51,7 +51,7 @@ This play was compiled from the vision ICE (`reference/ice.md`) by edit-play
 (#466 Batch C, Level 3 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a
 conditional learned gate, see `standards/rules/gate-config.md`; #500 — migrated to
 direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — position
-start → both, so /discover-domains lands its own change instead of leaving it for /shape-roadmap; #637;
+start → both, so /discover-domains lands its own change instead of leaving it for a later play; #637;
 #614; #689 — domains only, per ADR 043).
 Intent defines constraints (C1–C12) and failure conditions (F1–F14); the expectation
 defines success scenarios (S1–S8), a Done means (D1–D4, baked to
@@ -783,10 +783,10 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:dc22a58ab717aeb586212a041a9eee906b97c97b4a23788dcd770ab3cd1559f9 (of `reference/ice.md`) |
+| fingerprint | sha256:c57d4ad7c750d27e50f4fde8784111ce33b140d1c0be936ed45875ff823c5bb5 (of `reference/ice.md`) |
 | compiled_by | edit-play (#689 every main section in a domain whose research covers it; no domain from one shared feature: C5, C12); edit-play (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#614 runs inside a loop); edit-play (#637 one product model with /discover-intent); edit-play (#616 position both); edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C); create-play (edited via edit-play, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
-| position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /shape-measure-lens) |
+| position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |

@@ -51,8 +51,6 @@ fill_rules:
     writes: "any decision a person brings, from the one ADR template (#632); accepted only on the person's word"
   - play: "/discover-capabilities"
     writes: "decisions made while clarifying intent"
-  - play: "/shape-scope"
-    writes: "decisions about features, personas, journeys"
   - play: "/realize"
     writes: "architecture, run, quality, and agentic decisions"
   # /build-epic does NOT write decisions — it executes them, not decides them.

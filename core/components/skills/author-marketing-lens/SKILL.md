@@ -5,6 +5,8 @@ version: 0.2.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-marketing-lens (#855)'
 ---
 
 # author-marketing-lens
@@ -37,7 +39,7 @@ runs both). Alongside it, a structured `marketing-manifest.yaml` (STM, non-model
 machine-checkable grounding the prose can't — which features the assessment is grounded in, any
 material choice, and any material decision as a full record for the keyed persist to write.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -53,7 +55,7 @@ material choice, and any material decision as a full record for the keyed persis
 | `proposals_dir` | yes | STM dir for KB-learning-gap proposals (the play resolves `<working>/proposals/`; the skill never reconstructs it). |
 | `stm_base` | yes | From config. |
 
-## Procedure
+## Process
 
 Reasoning (the reach verdict, the accessibility bar, the signals worth capturing) is yours.
 Template conformance, grounding, honesty, and the write discipline are non-negotiable.

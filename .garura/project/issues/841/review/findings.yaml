@@ -1,0 +1,131 @@
+round: 2
+findings:
+- id: M7
+  severity: P4
+  file: core/components/memory/standards/rules/pr.md
+  where: BE-19 row (regex `(?-i:...)`)
+  finding: 'Checked against the real scanner (re.IGNORECASE, with the scoped case-sensitive
+    group). Still catches: SELECT ... FROM inside one quoted string (double, single,
+    backtick; execute("SELECT count(*) FROM t")); JOIN x [AS] y ON. 25/25 tests pass.
+    It misses: lowercase ''join a on b''; a quote inside the select list (''SELECT
+    "id" FROM t''); mixed case ''Select a From t''; unquoted SQL (.sql files, a SELECT
+    split across lines in the line scan). The row text states ''SQL-shaped code only'',
+    which is true, but a reader may take it to mean all SQL. This is the trade the
+    narrowing chose (fewer false hits on the words from/join); no row-level wording
+    says what is missed.'
+  principle: The taxonomy is mechanical and a row claims only what its match rule
+    does.
+  basis: plan/788/base pr.md head ('Mechanical rule ... If no Match Rule fires ...
+    no finding')
+  fix: Optional. Add 'quoted, upper-case SQL only' to the row text. SQL files are
+    already covered by BE-20 (migrations path).
+  category: memory
+- id: M8
+  severity: P4
+  file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+  where: section 5, ADR 033 bullet
+  finding: The body of an accepted ADR was edited (current names `/discover-intent`
+    and `/record-decision` swapped back to the quoted `/intent` and `/adr`). The old-name
+    check now exempts ADR 053 (QUOTING_ADRS) on the ground that 'an accepted ADR is
+    not edited (only a forward pointer)'. The edit is a restoring of a quote, not
+    a new decision, so it is low risk, but it is a body edit the tool's own comment
+    says is not done.
+  principle: An accepted ADR changes only by a forward pointer; a quote of an older
+    record stays word for word.
+  basis: plan/788/base:core/tools/naming/check_old_names.py (past-record rule for
+    ADRs 046, 048 and numbers below 46); ADR 053 on base
+  fix: None needed; the restore matches the base ADR 033 wording. Mention it in the
+    commit message so the edit is traceable.
+  category: memory
+- id: DR2-1
+  severity: P4
+  file: docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md
+  where: Work This Creates, first bullet
+  finding: 'It says "After acceptance: the forward pointers on ADR 050, ADR 035 and
+    ADR 039". They are already written in this PR, so the line is stale on the day
+    the ADR lands.
+
+    '
+  principle: A record shows work still open
+  basis: adr.md template (work_this_creates = follow-up work the decision opens)
+  fix: Drop the bullet, or say the pointers were written with the acceptance. Optional;
+    a hand edit of a just-accepted ADR in the same PR is low risk.
+  category: decision-records
+- id: DR2-2
+  severity: P4
+  file: docs/adr/054-*.md
+  where: Affects line
+  finding: 'Every path was checked. Deleted ones are gone (scriber, tech-architect,
+    test-runner, scan-codebase, check-components skill and its usage page, old rules/asking-a-person.md);
+    the kept ones exist (shape-slice, edit-ontology, product-os-keeper, _shared/asking-a-person.md,
+    the lint rule and test, approval-prompt.md, common.py, install.sh, rename-map.yaml).
+    The 28-skill count matches the list. Only the wording blurs: "(deleted)" is written
+    once, so the later plays shape-slice/ and edit-ontology/ read as deleted when
+    they are edited.
+
+    '
+  principle: Affects names real files, and what happens to them
+  basis: adr.md template field `affects`
+  fix: Say "edited" beside the plays shape-slice/ and edit-ontology/.
+  category: decision-records
+- id: DR2-3
+  severity: P4
+  file: docs/adr/054-*.md
+  where: Decided in line
+  finding: '"plan 788, PR #858 (issues #833 and #854)" gives the places but not the
+    kind of work in the template''s "#<issue> (<what kind of work>)" form. Prior ADRs
+    050-053 do the same loosely. Decided by "the product owner" matches ADRs 050-053.
+
+    '
+  principle: Header lines follow the template
+  basis: adr.md Shape 1
+  fix: None needed.
+  category: decision-records
+- id: Q2-1
+  severity: P1
+  category: quality
+  file: core/tools/naming/test_naming_tools.py
+  line: 80
+  standard_id: DATA-18 (and DATA-17, P2)
+  finding: The scanner reads 'user.email=t@t' as personal data. It is a throwaway
+    git identity for a test commit; no personal data. A false hit, but q1-evidence.md
+    does not answer it.
+  basis: pr.md DATA-17/DATA-18 grep rows
+  fix: record the answer in q1-evidence.md
+- id: Q2-2
+  severity: P3
+  category: quality
+  file: core/tools/naming/test_naming_tools.py
+  line: 68, 96, 125
+  standard_id: OPS-09
+  finding: The scanner matched 'log.' inside 'CHANGELOG.md'. No logging code. A false
+    hit, not answered in the evidence.
+  basis: pr.md OPS-09
+  fix: record the answer
+- id: Q2-3
+  severity: P3
+  category: quality
+  file: core/tools/lint-components/lib/rules/asking-a-person.js:46, test/asking-a-person.test.js:13
+  standard_id: CODE-21
+  finding: Single-letter names `const h` and `const d`. Real, minor.
+  basis: pr.md CODE-21
+  fix: rename them
+- id: Q2-4
+  severity: P4
+  category: quality
+  file: core/tools/lint-components/test/naming.test.js
+  line: 5, 12
+  standard_id: CODE-22
+  finding: CODE-22 (boolean names) fired on STANDARD and rules, which are not true/false.
+    A false hit, not answered.
+  basis: pr.md CODE-22
+  fix: record the answer
+- id: Q2-5
+  severity: P3
+  category: quality
+  file: core/tools/naming/check_old_names.py
+  standard_id: 14 proof rules (ARCH-02 … CODE-19)
+  finding: A fifth tool file changed in round 1; the proof rules were never run or
+    recorded for it.
+  basis: pr.md proof rows; q1-evidence.md
+  fix: run the checks, fix any real problem, add its section to q1-evidence.md

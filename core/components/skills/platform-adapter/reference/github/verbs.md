@@ -7,7 +7,7 @@ Normative reference for the `platform-adapter` skill when `platform=github`. One
 Fetch PR metadata (JSON):
 
 ```bash
-gh pr view {pr_number} --json number,title,body,state,author,headRefName,baseRefName,files,commits,mergeable,url
+gh pr view {pr_number} --json number,title,body,state,author,headRefName,baseRefName,files,changedFiles,commits,mergeable,url
 ```
 
 Note: field `baseRefName` contains the target branch name.

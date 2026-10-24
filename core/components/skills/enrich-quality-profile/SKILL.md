@@ -3,6 +3,10 @@ name: enrich-quality-profile
 description: Stage 2 skill of /shape-architecture-lens. Reads the /specify quality profile, refines targets against architectural reality (inventory constraints, project-profile pins, epic constraints), and writes the refined quality profile to architecture/ with a delta log of every adjustment. The refined QP describes the NFRs physical must deliver; it does NOT name mechanisms.
 version: 0.1.0
 user-invocable: false
+model: sonnet
+allowed-tools: Read, Write, Glob, Grep
+stale: true
+stale_note: 'waits for the rebuild of /shape-architecture-lens (#855)'
 ---
 
 # enrich-quality-profile

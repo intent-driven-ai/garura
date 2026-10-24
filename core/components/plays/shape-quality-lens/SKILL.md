@@ -3,6 +3,8 @@ name: shape-quality-lens
 position: none
 description: 'Write a SLICE''s quality lens as a grounding doc (quality.md) — a short statement of what "good" means for the slice plus a table of checkable gates (dimension / bar / how checked), drawn from the profile''s NFR gates that apply and the slice''s features'' rules, never invented. The MIDDLE of the NON-FUNCTIONAL realize pipe (architecture → quality → run), run on a shaped slice. Reads the hub from the spine (feature grounding + profile), never another lens. Writes the slice''s quality lens directly, in place on the live model.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # quality
@@ -447,7 +449,7 @@ pointer to `$evidence_dest`. Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-quality-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /discover-capabilities before /shape-quality-lens runs | human |
 | F2 | a write touched something beyond this slice's quality.md, its machine sibling quality-gates.yaml, or a decision (scoped-guard violation) | the guard's `--restore` reverts the out-of-scope paths; re-run writing only the slice's lens and any decision | autonomous |
 | F3 | quality.md fails the template/shape or carries out-of-scope content | re-emit to the Quality lens template (intent and gates only) | autonomous |
 | F4 | quality.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
@@ -473,7 +475,7 @@ continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:dd0d2adbfdb124adfd32361e7d5889d31c32dd384ad7bf18ba3066a0ae4ac803 (of `reference/ice.md`) |
+| fingerprint | sha256:342e1e298c260e1ac1f0f271970e38fe718489c11aca2b0615e9d65e262f17ed (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C; #467 Batch B — conditional learned gate) |
 | pipeline_position | none |
 | position_exception | middle of the non-functional realize pipe — runs on the branch /shape-architecture-lens started; the close belongs to /shape-run-lens |
@@ -500,7 +502,7 @@ entry (F13) and commits its own `feat(model)` delta after approval (C12). Order 
 writes — is written to the live model FIRST (Steps 1+3), then guarded ONCE and classified over the full
 delta (Step 4), then the gate resolves over the real git diff (Step 5), and only an approved gate
 COMMITS (Step 6). Nothing is COMMITTED before approval; cancel reverts the uncommitted writes. The
-per-play Standard Play Close (evidence + delivery report) is retained (required by `check-components`
+per-play Standard Play Close (evidence + delivery report) is retained (required by `core/tools/lint-components`
 and the create-play G12 emit on every play); the `feat(model)` commit is the separate lightweight
 persist step, so both coexist as C12 describes. See `standards/rules/direct-model-write.md`.
 

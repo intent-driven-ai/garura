@@ -1,6 +1,6 @@
 # Checkpoint Artifact Format
 
-Canonical format for checkpoint files written by plays at each human-approval gate. Every checkpoint-gated play writes one of these per gate, written in the background by the scriber agent.
+Canonical format for checkpoint files written by plays at each human-approval gate. Every checkpoint-gated play writes one of these per gate.
 
 Consumers: `specify`, `design`, `arch`, every checkpoint-gated play.
 
@@ -52,7 +52,6 @@ verbatim; link to the file.}
 status line and any warnings. Blockers are reported here before the user
 sees the prompt. Example:
 - `validate-intent-epics`: status `passed`, 0 violations, 0 warnings
-- `check-kb-extension`: status `passed`
 }
 
 ## User Feedback (populated on a change reply)
@@ -70,10 +69,10 @@ additional context.}
 
 ## Lifecycle
 
-1. **Before the prompt** — Play dispatches scriber (background) to write the checkpoint file with `status: PENDING_APPROVAL`. Decision fields are null.
+1. **Before the prompt** — Play writes the checkpoint file with `status: PENDING_APPROVAL`. Decision fields are null.
 2. **Play emits the approval prompt** — using `templates/approval-prompt.md`. The prompt cites the checkpoint file path.
 3. **User responds** — Play reads the plain typed reply (yes / change / stop), as `approval-prompt.md` says.
-4. **Play updates the checkpoint** via scriber:
+4. **Play updates the checkpoint**:
    - yes: `status: APPROVED`, `decision: yes`, `decided_at: {now}`, proceed.
    - change: `status: CHANGE_REQUESTED`, `decision: change`, `User Feedback` section populated, re-dispatch producing step(s).
    - stop: `status: REJECTED`, `decision: stop`, `decided_at: {now}`, clean up as the play's intent says, halt.

@@ -185,7 +185,7 @@ as done.
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the slice is absent, a feature does not resolve, or the profile is not
-  firmed. direction: halt and route to /shape-scope or /discover-capabilities before /shape-measure-lens runs. handoff: human.
+  firmed. direction: halt and route to /discover-capabilities before /shape-measure-lens runs. handoff: human.
 - REC2 (F2) — trigger: a write touched something out of scope. direction: revert it; /shape-measure-lens writes
   only this slice's measure.md, a decision, and the one realized status field. handoff: autonomous.
 - REC3 (F3) — trigger: measure.md fails the template/shape. direction: re-emit to the Measure lens

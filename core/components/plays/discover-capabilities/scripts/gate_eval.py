@@ -8,7 +8,7 @@ play may pass the config value as it is (#662). The human's real action IS the e
 verdict; this file is the write/read path every conditional play shares. Append-only:
 lines are never edited — a later correction is a NEW line pointing at the one it refutes.
 
-  append:  python3 gate_eval.py append --ledger <path> --play shape-ux-lens --issue 478 \
+  append:  python3 gate_eval.py append --ledger <path> --play discover-domains --issue 478 \
               --shape "ux:prose_edits" --predicted gate --human approved_clean \
               --ts 2026-07-04T10:00:00Z [--policy-version 3] [--refutes 12]
   tail:    python3 gate_eval.py tail --ledger <path> --shape "ux:prose_edits" [-n 5]

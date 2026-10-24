@@ -2,6 +2,8 @@
 name: check-pr-quality
 description: Diff-bounded single-pass quality evaluation for PR review. Classifies every changed path by ARTIFACT TYPE first (runtime code / deployable config / tests / docs-planning / garura prose / ProductOS model / STM evidence / wireframes — pure globs, first match wins), then evaluates standard-ID checks against the diff using mechanical match rules from the PR severity taxonomy — grep-based rules fire only on runtime-code/deployable-config/tests (a keyword in prose is not a security defect, #438); pure path rules respect the same prose guard on prose artifacts unless the matched glob is docs-targeting (#454). Matching runs in a bundled deterministic script (scan_taxonomy.py) — real glob/regex, no inference. Every finding carries artifact_type. Emits findings.yaml. Reuses /check-quality KB data — NOT its 11-subagent execution model. Use only from check-change play; never invoke standalone for full-repo audits.
 user-invocable: false
+model: sonnet
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 # Quality Check (Scoped)
@@ -18,7 +20,7 @@ Single-pass diff-bounded evaluation. Reuses the KB used by `/check-quality` but 
 | Invocable | User | Play only (review-pr) |
 | KB usage | All standards in all domains | Only standards whose taxonomy match rule fires on the diff |
 
-## Input Contract
+## Input
 
 The skill is invoked with a JSON payload from `quality-auditor`:
 
@@ -45,7 +47,7 @@ output_path: "{stm_base}/{issue}/evidence/review-pr/findings.yaml"
 | `changed_paths` non-empty | HALT — "No changed paths supplied" |
 | At least one of `standards_set.{kb,ltm,stm}` resolves | HALT — "No standards source resolvable" |
 
-## Execution
+## Process
 
 The whole mechanical scan is one deterministic script — `scripts/scan_taxonomy.py` (#454).
 It is a real glob/regex engine, **not inference**: the agent runs it and returns its output,
@@ -80,6 +82,10 @@ back to deriving `changed_paths` from the diff's own file headers. The added lin
      matched glob is docs-targeting; otherwise the match is dropped (#454 prose guard).
    - `CODE-20` `**/*` catch-all — rolled into `meta.catchall.CODE-20` as a single count,
      never per-file findings (#454).
+   - A path under `docs/adr/`, or of artifact type `stm-evidence`, gets no finding (#851;
+     the reason is in the taxonomy's Artifact-Type Scoping section).
+   - A `--paths` entry that does not look like a path (it starts with `+`, `-` or a space,
+     or holds `": `) is dropped and listed in `meta.rejected_paths`.
 3. **Emits** `findings.yaml` (schema below), stable-sorted, byte-identical across runs.
 
 ### Step 2 — Verify and return
@@ -121,7 +127,9 @@ counts:
   P4: {n}
 ```
 
-## Output Schema (`findings.yaml`)
+## Output
+
+The schema of `findings.yaml`:
 
 | Field | Type | Required | Notes |
 |---|---|---|---|

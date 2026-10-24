@@ -64,18 +64,18 @@ surface:
 # keeps its feature_refs, vertical and surface as they are; the run appends the intent to
 # slice.intents and to its spine entry, and shows how the new shape differed.
 
-# ---- Older chain (#837) ------------------------------------------------------
-# Nothing in the slice chain above writes or reads this. The older /shape-scope chain wrote
-# a per-domain deferred bucket ({domain}/slices/_deferred.yaml); it stays described here
-# only until #837 rebuilds or drops those plays.
-deferred:                   # older chain (#837) — not part of the slice record
+# ---- Older chain -------------------------------------------------------------
+# Nothing in the slice chain above writes or reads this. A play of the older chain, now
+# dropped (ADR 053), wrote a per-domain deferred bucket ({domain}/slices/_deferred.yaml);
+# it stays described here for the records it left, until the stale plays are rebuilt (#855).
+deferred:                   # older chain — not part of the slice record
   domain_ref: string
   features: [string]        # feature node ids parked for a later slice
   reason: string            # one line on why deferred
 
 # ---- Storage ----------------------------------------------------------------
 #   product-os/slices/{slice-id}.yaml            # one file per slice (/shape-slice owns it)
-#   product-os/{domain}/slices/_deferred.yaml    # older chain (#837): the deferred bucket, if any
+#   product-os/{domain}/slices/_deferred.yaml    # older chain: the deferred bucket, if any
 # A feature may appear in MORE THAN ONE slice (deepened over time).
 # The slice's eval, its hidden file and its usage guide are not here: they are in the
 # plan folder of its first business intent (.garura/project/plans/<plan-id>/), ADR 049.

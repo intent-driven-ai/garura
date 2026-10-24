@@ -132,17 +132,17 @@ the kinds it touches (`## Touches`, one kind per line — new or existing).
       "inputs":  { "need": "<working>/need.md",
                    "ontology_path": "core/components/memory/standards/schemas/product-os/ontology.md",
                    "template_path": "<memory>/standards/templates/product-ontology.md",
-                   "asking_rule": "<working>/asking-a-person.md",
+                   "asking_rule": "../_shared/asking-a-person.md",
                    "sources": ["<paths the need names>"], "stage": "scope" },
       "outputs": { "draft": "<working>/draft-questions.md" },
       "task_id": "edit-ontology-scope" }
 
 The draft lists each new or changed question with a plain example from a real product, in
 ASD-STE100 plain English, with personas and no real names (C4). Every draft shown at a
-checkpoint follows the shared rule for asking a person: `product-os-keeper` loads
-`standards/rules/asking-a-person.md` through the memory tool, writes it to
-`<working>/asking-a-person.md`, and passes it to the skill as `asking_rule`. Steps 3 and 5
-carry the same input.
+checkpoint follows the shared rule for asking a person, `_shared/asking-a-person.md`: the
+install lays it beside the installed skills (`../_shared/asking-a-person.md` from this play's
+folder), and `product-os-keeper` passes that path to the skill as `asking_rule`. The rule is
+not memory; nothing looks for it through the memory tool. Steps 3 and 5 carry the same input.
 
 **Step 2 — Checkpoint 1: the questions** · Owner: play · Depends on: Step 1 · Checkpoint
 (class: standard, **pinned** — the product owner decides, C2; never skipped by config)
@@ -370,7 +370,7 @@ and never re-drafts a stage whose checkpoint is agreed.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:cd96159bd6dd5d79a5f5846e11aa4feb6a03b562ac73603ac528cc9b51ae246e (of `reference/ice.md`) |
+| fingerprint | sha256:4e68db4acb380e1ec569050dc09fb0961181a2e28c289fa10f452e4374804d4c (of `reference/ice.md`) |
 | compiled_by | create-play (#777) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | position_exception | ontology-writing both play — writes the ontology on its started branch and commits it (Step 9) BEFORE the injected end sequence lands it |

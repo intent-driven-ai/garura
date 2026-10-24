@@ -43,6 +43,10 @@ SKIP_FILES = {MAP, "core/components/memory/standards/rules/naming.yaml",
 TEXT = (".md", ".py", ".js", ".yaml", ".yml", ".json", ".sh", ".txt", ".toml")
 FIRST_RENAME_ADR = 46
 RENAME_ADRS = {46, 48}  # they record the renames, so they name the old names on purpose
+# ADRs that quote an older ADR word for word, old names included. ADR 053 quotes ADR 033's
+# "`/intent` and `/adr` run by hand". An accepted ADR is not edited (only a forward pointer
+# may be added), so the check does not search these.
+QUOTING_ADRS = {53}
 # Files whose keys are play or loop names (the next-step map, the config).
 KEYED_FILES = {"core/components/memory/standards/rules/pipeline-next.md", "core/config.yaml"}
 
@@ -55,7 +59,10 @@ def load_map(root):
 
 def is_past_record(rel):
     m = re.match(r"docs/adr/(?:SUPERSEDED-)?(\d{3})-", rel)
-    return bool(m) and (int(m.group(1)) < FIRST_RENAME_ADR or int(m.group(1)) in RENAME_ADRS)
+    if not m:
+        return False
+    number = int(m.group(1))
+    return number < FIRST_RENAME_ADR or number in RENAME_ADRS or number in QUOTING_ADRS
 
 
 def patterns(old, kind):

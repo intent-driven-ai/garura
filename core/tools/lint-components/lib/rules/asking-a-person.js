@@ -1,30 +1,27 @@
 'use strict';
 
-// A play or loop that asks a person a question must point to the shared rule for asking a
-// person, memory/standards/rules/asking-a-person.md (#821, follows #820).
+// The parts that ask a person a question must point to the shared rule for asking a person,
+// skills/_shared/asking-a-person.md, by the path it has when installed: _shared/asking-a-person.md
+// (beside the installed skills). #821 began the check; #854 moved the rule out of memory and
+// set the list of parts it checks.
 //
-// Only the play's own steps count, both for the "asks a person" signal and for the pointer:
-// the body after the frontmatter, in the `## Workflow` section (with any `## Phase` / `## Step`
-// headings inside it). The pointer counts only there, where the play asks: never in the Role,
-// Constraints, Pre-flight, Task DAG or Arguments text before the workflow. A play with no
-// `## Workflow` section is read whole, minus its reference and note sections, for both. The
-// frontmatter is never read: a description that mentions approval is not a step.
+// The check reads only the parts named in PARTS. Any other part is never an error under this
+// rule. A play names the rule in its own steps: the body after the frontmatter, in the
+// `## Workflow` section (with any `## Phase` / `## Step` headings inside it), never in the Role,
+// Constraints, Pre-flight, Task DAG or Arguments text before the workflow. A play or skill with
+// no `## Workflow` section is read whole, minus its reference and note sections. The frontmatter
+// is never read.
 
 const fs = require('fs');
 
 const RULE_ID = 'asking-a-person/missing-pointer';
-const RULE_FILE = 'asking-a-person.md';
+const RULE_FILE = '_shared/asking-a-person.md';
 
-// Signals that a play stops for a person's typed answer. Each one is a phrase compiled plays
-// use for a checkpoint or a question shown for a typed reply. AskUserQuestion is never used.
-const ASKS_A_PERSON = [
-  /\bcheckpoint\s*\(class:/i, // a compiled checkpoint step
-  /\bwait(?:s|ing)?\s+for\s+(?:a|the)?\s*(?:\w+'s\s+)?typed\b/i, // "wait for the typed reply"
-  /\btyped\s+(?:yes|approval|approve|answers?|repl(?:y|ies)|responses?|confirmation|decision)\b/i,
-  /\btypes?\s+[*`"]*yes\b/i, // "type **yes**"
-  /\basks?\s+for\s+approval\b/i,
-  /\binterviews?\s+the\s+(?:user|person)\b/i,
-];
+// The parts that ask a person and must name the rule, by kind.
+const PARTS = {
+  play: ['edit-ontology', 'shape-slice'],
+  skill: ['author-product-ontology', 'find-slice-gaps', 'author-slice-brief'],
+};
 
 // Sections that are references or notes about the play, not its steps.
 const NOT_STEPS = /^(?:references?|related|compilation metadata|compiled from|compiled note|recompile note|direct-edit deviation note|per-environment migration note)\b/i;
@@ -42,11 +39,11 @@ function sections(content) {
     if (end > 0) start = end + 1;
   }
   const out = [{ title: '', lines: [] }];
-  let fence = false;
+  let inFence = false;
   for (let i = start; i < lines.length; i++) {
     const text = lines[i];
-    if (/^\s*(```|~~~)/.test(text)) fence = !fence;
-    const h = !fence && /^##\s+(.*)$/.exec(text);
+    if (/^\s*(```|~~~)/.test(text)) inFence = !inFence;
+    const h = !inFence && /^##\s+(.*)$/.exec(text);
     if (h) out.push({ title: h[1].trim(), lines: [] });
     out[out.length - 1].lines.push({ n: i + 1, text });
   }
@@ -63,50 +60,32 @@ function stepRegions(content) {
   return all.slice(w, end);
 }
 
-// A signal may wrap onto the next line ("Checkpoint" then "(class: standard)"), so each line is
-// also read joined with the one after it.
-function findSignal(regions) {
-  const hit = (text) => ASKS_A_PERSON.some((signal) => signal.test(text));
-  for (const s of regions) {
-    for (let i = 0; i < s.lines.length; i++) {
-      const l = s.lines[i];
-      const next = s.lines[i + 1];
-      if (hit(l.text)) return { line: l.n, text: l.text.trim() };
-      if (next && !hit(next.text) && hit(`${l.text.trim()} ${next.text.trim()}`)) {
-        return { line: l.n, text: l.text.trim() };
-      }
-    }
-  }
-  return null;
-}
-
-function asksAPerson(content) {
-  return findSignal(stepRegions(content));
-}
-
 function namesTheRule(content) {
   return stepRegions(content).some((s) => s.lines.some((l) => l.text.includes(RULE_FILE)));
 }
 
-function checkPlay(component) {
+function checkPart(component) {
   const content = fs.readFileSync(component.file, 'utf8');
-  const asks = asksAPerson(content);
-  if (!asks || namesTheRule(content)) return [];
+  if (namesTheRule(content)) return [];
   return [{
     file: component.file,
     rule: RULE_ID,
     severity: 'error',
-    message: `${component.type} "${component.name}" asks a person a question (line ${asks.line}) but does not ` +
-      `point to the shared rule memory/standards/rules/${RULE_FILE}; name that file where the play asks`,
-    line: asks.line,
+    message: `${component.type} "${component.name}" asks a person a question but does not point to the ` +
+      `shared rule ${RULE_FILE} (source: skills/${RULE_FILE}); name that file where it asks`,
+    line: 1,
   }];
 }
 
+function isChecked(component) {
+  return (PARTS[component.type] || []).includes(component.name);
+}
+
 function check(components) {
-  const all = [].concat(components.plays || [], components.loops || []);
+  const all = [].concat(components.plays || [], components.skills || []);
   let out = [];
-  for (const c of all) out = out.concat(checkPlay(c));
+  for (const c of all) if (isChecked(c)) out = out.concat(checkPart(c));
   return out;
 }
 
-module.exports = { check, checkPlay, asksAPerson, namesTheRule, RULE_ID };
+module.exports = { check, checkPart, isChecked, namesTheRule, PARTS, RULE_ID, RULE_FILE };
