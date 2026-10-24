@@ -254,7 +254,7 @@ features:
   intents:
   - bi-717
   status: proposed
-  one_line: Create or link a tracker issue for every node in a plan
+  one_line: Create or link the epic and the story issues of a plan
   doc: software-delivery-planning/cap-718/fn-728/feature.md
   depends_on: []
   identified_by: ''
