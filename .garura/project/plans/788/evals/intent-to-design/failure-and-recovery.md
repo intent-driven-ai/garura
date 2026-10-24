@@ -59,7 +59,7 @@ Rule: standards/rules/expectation-generation.md, "A story's recovery (product IC
 - F7 (from the feature ICE): A feature of the slice has no story.
 - F8 (from the feature ICE): A story or the plan file holds a failure condition or a recovery condition.
 - F9 (from the feature ICE): A second run makes a second epic for the slice or a second story for one feature.
-- F10 (from the capability ICE, the part that still holds): The epic or a story of the plan has no tracker issue, or building stops because a domain or model page is missing. (The old line's "a node in the plan has no tracker issue" is dropped: it rested on a pre-v7 rule, under which a capability or a feature would get an issue.)
+- F10 (from the capability ICE): The epic or a story has no tracker issue, or building stops because a domain or model page is missing.
 - F11 (from the capability ICE): A story holds a failure condition, or a second plan is made for one business intent.
 - F12 (from the capability ICE): The plan play writes a failure condition, a recovery condition or the eval into the plan's evals folder.
 

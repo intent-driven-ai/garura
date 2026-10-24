@@ -2,6 +2,7 @@ domains:
 - id: dom-software-delivery-planning
   slug: software-delivery-planning
   intents:
+  - bi-717
   - bi-788
   status: proposed
   detail: directional
@@ -62,7 +63,7 @@ capabilities:
   - bi-788
   status: proposed
   detail: directional
-  one_line: 'Build a plan: a tree with an issue for every node, from a business intent'
+  one_line: 'Build a plan from a business intent: a plan file, one epic per slice and one story per feature'
   doc: software-delivery-planning/cap-718/capability.md
   depends_on: []
   identified_by: ''
