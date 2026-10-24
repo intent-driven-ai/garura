@@ -43,6 +43,10 @@ The bi-788 intent page is confirmed by the product owner, with the title "Agents
 - Round 2: with the product owner's yes, cap-718's two old ICE lines now give a tracker issue only to the epic and the stories (ontology v7 and later), and hidden-file F10 matches them word for word. The domain lists bi-717 as well as bi-788. The memory update that named the book authors (mu-20261024-003) is rejected; mu-20261024-004 replaces it, with no names.
 - Round 3: with the product owner's word ("reject and fix"), fn-728 (a bi-717 feature) follows the same rule: its title, text, ICE and spine line give a tracker issue to the epic and the stories, not to every node.
 
+- Round 3: fn-728's "Fails if" names the spikes, chores and bugs under a story (N4).
+- Round 4 → M1: ontology v11 and ADR 052 landed on plan/788/base (#846, PR #849): `/shape-slice` writes the hidden file, one entry per feature; the plan play writes only the plan, the epic and the stories; the epic keeps the feature-to-story map; a thin ICE is marked and partly ready. This branch took the new base.
+- Round 5: the model pages and the hidden file follow v11: no story placeholders in the hidden file, fn-795's title and text, the renamed rule section, which ICE is thin in each entry, the one-reader line, the feature-to-story map in fn-818 and fn-798, ADR 052 cited, and `thin: true` on the six spine entries.
+
 ## Known gaps (the play catches up in its own change)
 
 Decisions 4, 6, 7 and 8 change what `/shape-slice` does. Today's play asks a list of questions before the slice, may not write under `plans/`, cannot fill an existing capability in the spine, and fails its model check on older problems. The ontology (v10) and ADR 049 still say the plan play writes the hidden file. Next: `/edit-ontology` and an ADR update for decision 6, then `/edit-play` on `/shape-slice` for decisions 4, 6, 7 and 8, with #842. Also found in this run: Step 4 passes the proposals record to `filter`, which wants a plain list; the asking-a-person rule is in no memory tier until it is on main.
