@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261024-adr846/adr-check.json",
+    ".garura/project/issues/_adr/20261024-adr846/adr-context.yaml",
+    ".garura/project/issues/_adr/20261024-adr846/adr-draft.md",
+    ".garura/project/issues/_adr/20261024-adr846/adr-manifest.json",
+    ".garura/project/issues/_adr/20261024-adr846/brief.md",
+    ".garura/project/issues/_adr/20261024-adr846/decision.yaml",
+    ".garura/project/issues/_adr/20261024-adr846/hashes-before.json",
+    ".garura/project/issues/_adr/20261024-adr846/pointers.txt",
+    ".garura/project/issues/_adr/20261024-adr846/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261024-adr846/run.json",
+    "docs/adr/047-the-ice-is-its-own-node.md",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/047-the-ice-is-its-own-node.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

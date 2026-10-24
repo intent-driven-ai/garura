@@ -1,0 +1,32 @@
+commits:
+  - sha: 4dc0e85c
+    message: "fix(ready-check): only the value true is the thin mark (#846)"
+    files:
+      - core/components/plays/create-play/references/test_check_ice_workable.py
+      - core/components/plays/create-play/references/check_ice_workable.py
+      - core/components/plays/discover-intent/scripts/check_ice_workable.py
+    branch: plan/788/846-ontology-v11-hidden-file
+  - sha: c57106b3
+    message: "docs(adr): ADR 047 and 049 pointers name every part ADR 052 amends; drop a stale line in ADR 052 (#846)"
+    files:
+      - docs/adr/047-the-ice-is-its-own-node.md
+      - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+      - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+    branch: plan/788/846-ontology-v11-hidden-file
+  - sha: 12581365
+    message: "fix(ontology): the ready check and the ICE linter are built (#759, #760) (#846)"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    branch: plan/788/846-ontology-v11-hidden-file
+  - sha: f728e1f1
+    message: "chore(stm): record commit-change run artifacts (#846)"
+    files:
+      - .garura/project/issues/846/context/commit-change/analysis.yaml
+      - .garura/project/issues/846/context/commit-change/porcelain.txt
+    branch: plan/788/846-ontology-v11-hidden-file
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

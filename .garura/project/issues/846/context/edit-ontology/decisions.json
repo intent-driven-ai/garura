@@ -1,0 +1,34 @@
+{
+  "history": [
+    {
+      "point": "questions",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/846/context/edit-ontology/draft-questions.md",
+      "draft_sha256": "b272e77059c197b76d985ea03bcabbc1b027b68e9bbdca2fb5a8e490c8a8b9e8",
+      "at": "2026-10-24T10:30:48+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/846/context/edit-ontology/draft-kinds.md",
+      "draft_sha256": "427e11bcab33038fbdfa1d98eedecb31783758760eb7baef479c0399911e8229",
+      "at": "2026-10-24T10:34:31+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/846/context/edit-ontology/draft-links.md",
+      "draft_sha256": "11bf5ac61b5e3a2b1e98f410a9cfe8ed59a9766fb39d4c832a47d60ad2b6eef0",
+      "at": "2026-10-24T10:39:05+00:00"
+    }
+  ],
+  "agreed": {
+    "questions": true,
+    "kinds": true,
+    "links": true
+  },
+  "all_agreed": true
+}

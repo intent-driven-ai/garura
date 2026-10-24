@@ -1,0 +1,11 @@
+Title: [TASK] edit-ontology: /shape-slice writes the slice's hidden file and proposes a thin ICE (ontology v11)
+
+Problem: Ontology v10 and ADR 049 (Decisions 1.2 and 4) say the plan play writes the slice's hidden file (failure-and-recovery.md), one entry for each story of the epic. In the first real /shape-slice run (#844, PR #845) the product owner decided otherwise (decisions 6 and 7 of #844):
+- /shape-slice writes the slice's hidden file when it shapes the slice, one entry for each feature of the slice. The plan play (/shape-plan) writes only the plan file, the epic and the stories. The map from each feature to its story is kept in the epic.
+- When the slice needs a new capability or feature, /shape-slice proposes a thin ICE itself (a goal, its limits and a few "fails if" lines), marks it as thin, warns the person, and never forces them back to a discovery play.
+
+Need: change the ontology (kinds Slice, Plan, Epic, Story, ICE) through /edit-ontology, then amend ADR 049. Closes finding M1 on PR #845, which merges only after this lands on plan/788/base.
+
+Parent: #788 (business intent). Plan: 788. Branch: plan/788/<issue>-<slug> from plan/788/base.
+
+Done when: ontology v11 passes check_ontology.py; only the five kinds changed; version up by one with one log line; the product owner said yes at all three checkpoints; landed on plan/788/base through the change plays.

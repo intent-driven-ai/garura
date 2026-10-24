@@ -1,0 +1,13 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261024-adr846/adr-draft.md",
+  "number": "052",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {"exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "agrees_with_declared": true},
+  "retries": 0,
+  "keeper_findings": [
+    "ADR 049 §1.1 is also amended (not named in the brief): it says /shape-slice writes nothing but the link",
+    "ADR 047 §8 'richness is assessed and reported' is amended: the ready check drops the richness report",
+    "ADR 048 and ADR 017 judged not affected"
+  ]
+}

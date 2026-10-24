@@ -1,0 +1,13 @@
+## round 2 runnable checks (PR #849, issue 846)
+python3 core/components/plays/create-play/references/test_check_ice_workable.py
+  -> 45 passed, 0 failed (exit 0)
+cmp core/components/plays/create-play/references/check_ice_workable.py core/components/plays/discover-intent/scripts/check_ice_workable.py
+  -> identical (exit 0)
+python3 .claude/skills/edit-ontology/scripts/check_ontology.py --ontology core/components/memory/standards/schemas/product-os/ontology.md --out <scratchpad>/oc-849-r2.json
+  -> valid: true, problems: [] (exit 0)
+node core/tools/lint-components/index.js --target core/components (repo root)
+  -> 124 errors, 1 warning
+same on git archive of origin/plan/788/base (extracted to <scratchpad>/base)
+  -> 124 errors, 1 warning; after path normalisation the two outputs are identical: 0 new errors
+python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy core/components/memory/standards/rules/pr.md --diff .garura/project/issues/846/review/pr.diff --paths <scratchpad>/cp.txt --out .garura/project/issues/846/review/quality-findings.yaml
+  -> P1=0 P2=0 P3=4 P4=8, errors=0

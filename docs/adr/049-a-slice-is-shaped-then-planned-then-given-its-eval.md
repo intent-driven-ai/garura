@@ -1,6 +1,6 @@
 # ADR 049 — A Slice Is Shaped, Then Planned, Then Given Its Eval: One Plan for Each Business Intent, the Eval Kept in the Plan's Folder, and No Failure Condition Reaches the Builder
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 052](052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md): §1.1, §1.2, §4, §5, its ICE impact, the 'What this does not change' line on ADR 047's ready check, and the Consequence 'each ICE is interpreted once, by the plan play' — /shape-slice writes the hidden file (one entry per feature) and a thin ICE; the plan play only plans
 **Date:** 2026-10-23
 **Level:** framework
 **Decided by:** the product owner · **Decided in:** #824 (records product ontology v9, #816 and PR #823, and v10, #826 and PR #827, both decided with the product owner at the three `/edit-ontology` checkpoints, plan #788)
