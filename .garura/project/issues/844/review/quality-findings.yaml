@@ -1,12 +1,12 @@
 meta:
-  generated_at: '2026-10-24T11:23:52Z'
+  generated_at: '2026-10-24T11:30:49Z'
   diff_path: '<scratchpad>/branch.diff'
   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
-  changed_paths_count: 124
+  changed_paths_count: 133
   scan_coverage: 1.0000
   standards_relevant: 0
   catchall:
-    CODE-20: 124
+    CODE-20: 133
 findings:
   []
 counts:

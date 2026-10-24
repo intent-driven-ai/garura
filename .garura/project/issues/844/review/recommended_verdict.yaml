@@ -2,11 +2,7 @@
   "verdict": "approve",
   "reason": "no P1 findings; confidence acceptable",
   "blocking": [],
-  "counts": {
-    "CLOSED": 2,
-    "P3": 1,
-    "P4": 7
-  },
+  "counts": {},
   "confidence": null,
   "threshold": 0.8
 }

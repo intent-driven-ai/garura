@@ -1,7 +1,5 @@
-decision: reject
+decision: approve
 decided_by: human
-reply: "reject"
-round: 5
-citing:
-  - R1 (P3) hidden file has story placeholders for /shape-plan to fill
-  - R2-R8 (P4) model pages lag ontology v11
+reply: "approve"
+round: 6
+citing: []
