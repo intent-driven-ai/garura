@@ -100,7 +100,7 @@ def setup_v6(tmp):
             fh.write(page(stage))
     pages = {"cap-a": FULL_ICE, "cap-loose": LIGHT_ICE, "cap-noid": LIGHT_ICE, "cap-prop": FULL_ICE,
              "cap-needs": LIGHT_ICE, "cap-noctx": NO_CONTEXT, "cap-emptyexp": EMPTY_EXP,
-             "cap-thin": THIN_ICE, "cap-thin-page": THIN_ICE, "cap-thin-spine": LIGHT_ICE, "fn-a": LIGHT_ICE, "fn-orphan": LIGHT_ICE, "fn-under-prop": LIGHT_ICE, "fn-own-needs": LIGHT_ICE}
+             "cap-thin": THIN_ICE, "cap-thin-page": THIN_ICE, "cap-thin-spine": LIGHT_ICE, "cap-thin-text": LIGHT_ICE, "fn-a": LIGHT_ICE, "fn-orphan": LIGHT_ICE, "fn-under-prop": LIGHT_ICE, "fn-own-needs": LIGHT_ICE}
     ices = []
     for n, (part, text) in enumerate(pages.items(), 1):
         rel = f"{part}/ice.md"
@@ -111,6 +111,8 @@ def setup_v6(tmp):
                "for_kind": "capability" if part.startswith("cap-") else "feature", "doc": rel}
         if part in ("cap-thin", "cap-thin-spine"):
             ice["metadata"] = {"thin": True}
+        if part == "cap-thin-text":
+            ice["metadata"] = {"thin": "false"}
         ices.append(ice)
     spine = {"domains": [{"id": "d1"}],
              "capabilities": [
@@ -125,7 +127,8 @@ def setup_v6(tmp):
                  {"id": "cap-noice", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
                  {"id": "cap-thin", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
                  {"id": "cap-thin-page", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
-                 {"id": "cap-thin-spine", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"}],
+                 {"id": "cap-thin-spine", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"},
+                 {"id": "cap-thin-text", "domain": "d1", "intents": ["bi-ok"], "identified_by": "cap-a"}],
              "features": [
                  {"id": "fn-a", "capability": "cap-a", "intents": ["bi-prop"]},
                  {"id": "fn-orphan", "capability": "", "intents": ["bi-ok"]},
@@ -175,6 +178,9 @@ def v6_tests(tmp):
           and any("thin mark" in g and "page" in g for g in r["gaps"]))
     code, r = node("cap-a")
     check("an ICE with no thin mark reads thin false (v11)", r["thin"] is False)
+    code, r = node("cap-thin-text")
+    check("only the value true is the thin mark: the text 'false' is not thin (v11)",
+          r["thin"] is False and r["answer"] == "ready")
     code, r = node("cap-noid")
     check("partly ready: no identified-by — gap listed", r["answer"] == "partly_ready"
           and any("identified by" in g for g in r["gaps"]))
@@ -217,7 +223,7 @@ def v6_tests(tmp):
     code = cw.main(args + ["--out", out])
     with open(out) as fh:
         r = json.load(fh)
-    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 4, "partly_ready": 5,
+    check("the full report counts each answer", code == 0 and r["counts"] == {"ready": 5, "partly_ready": 5,
                                                                               "not_ready": 6})
     check("an unknown node exits 2", cw.main(args + ["--node", "nope"]) == 2)
 

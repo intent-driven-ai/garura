@@ -198,7 +198,7 @@ def thin_line(path):
 
 def thin_gaps(ice, path):
     """(thin, gaps) from the thin mark: the page's Thin line and the spine's `thin: true`."""
-    on_spine = bool((ice.get("metadata") or {}).get("thin"))
+    on_spine = (ice.get("metadata") or {}).get("thin") is True
     on_page = thin_line(path)
     gaps = ["thin ICE"] if (on_spine or on_page) else []
     if on_page and not on_spine:
