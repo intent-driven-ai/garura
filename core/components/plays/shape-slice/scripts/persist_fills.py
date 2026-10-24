@@ -52,7 +52,7 @@ has no ICE section on its page; a move would land on a file or folder that is th
 intent page is missing. It also refuses any path or intent id that leaves the model folder
 ('..', an absolute path, or a symlink that points outside it). It calls the model_names guard
 (#807) on the spine. Every check runs before the first write; the spine and each page are
-written through a temp file and os.replace.
+written through safe_write.atomic_write (a temp file, then a move into place).
 
 The result names what the scoped write guard needs: `allow` (the new paths: new pages and the
 places pages moved to), `modify_only` (existing pages this run changed in place), and
@@ -78,7 +78,6 @@ import json
 import os
 import re
 import sys
-import tempfile
 
 try:
     import yaml
@@ -90,6 +89,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import intent_touches as touches  # noqa: E402  (stamped from create-play/references)
 import model_names  # noqa: E402  (stamped from create-play/references)
 import spine_text  # noqa: E402
+from safe_write import atomic_write  # noqa: E402
 
 KINDS = (  # (fills key, spine key, touches kind, parent field, parent spine key)
     ("domains", "domains", "domain", None, None),
@@ -130,20 +130,6 @@ def intent_page(root, intent):
             or intent.startswith("."):
         raise Refused(f"the intent id '{intent}' is not a plain name")
     return inside(root, f"intents/{intent}.md", "the intent page")
-
-
-def atomic_write(path, text):
-    folder = os.path.dirname(os.path.abspath(path))
-    os.makedirs(folder, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(prefix=".persist-fills-", suffix=".tmp", dir=folder)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as fh:
-            fh.write(text)
-        os.replace(tmp, path)
-    except BaseException:
-        if os.path.exists(tmp):
-            os.remove(tmp)
-        raise
 
 
 def _read(path):
@@ -657,8 +643,7 @@ def main(argv=None):
         text = json.dumps(result, indent=2)
         print(text)
         if args.out:
-            with open(args.out, "w", encoding="utf-8") as fh:
-                fh.write(text + "\n")
+            atomic_write(args.out, text + "\n")
         return code
 
     if args.undo:

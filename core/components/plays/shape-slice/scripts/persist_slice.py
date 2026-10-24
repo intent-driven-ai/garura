@@ -63,8 +63,9 @@ surface name, its id or its user_action is missing; the surface has no persona_r
 `surface` is a list of more than one; an id, slug, name, outcome, feature list or intent
 list is missing; a feature is not in the spine; --reuse names a slice not in the spine; or
 an id would place the record outside the model folder ('..', a path, or a symlink that
-leaves it). Every check runs before the first write. Each file is written through a temp
-file and os.replace, so a stopped run never leaves half a file. It calls the model_names
+leaves it). Every check runs before the first write. Each file is written through
+safe_write.atomic_write (a temp file, then a move into place), so a stopped run never leaves
+half a file. It calls the model_names
 guard (#807) on the spine. Reads and writes files on disk only; no git, no network.
 
 Exit 0 written (or nothing new to write), 2 refused or usage error.
@@ -75,7 +76,6 @@ import copy
 import json
 import os
 import sys
-import tempfile
 
 try:
     import yaml
@@ -86,6 +86,7 @@ except ImportError:
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import model_names  # noqa: E402  (stamped from create-play/references)
 import spine_text  # noqa: E402
+from safe_write import atomic_write  # noqa: E402
 
 SPINE_FIELDS = ("id", "slug", "feature_refs", "vertical", "intents", "record")
 IN_PROGRESS = ("in_delivery", "validated", "fix_required", "delivered")
@@ -131,23 +132,13 @@ def safe_id(value, what):
 
 
 def atomic_dump(path, data):
-    """Write YAML through a temp file in the same folder, then os.replace it into place."""
+    """Write YAML through safe_write.atomic_write."""
     atomic_text(path, yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
 
 
 def atomic_text(path, text):
-    """Write text through a temp file in the same folder, then os.replace it into place."""
-    folder = os.path.dirname(os.path.abspath(path))
-    os.makedirs(folder, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(prefix=".persist-slice-", suffix=".tmp", dir=folder)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as fh:
-            fh.write(text)
-        os.replace(tmp, path)
-    except BaseException:
-        if os.path.exists(tmp):
-            os.remove(tmp)
-        raise
+    """Write text through safe_write.atomic_write."""
+    atomic_write(path, text)
 
 
 def one_surface(surface):
@@ -425,8 +416,7 @@ def main(argv=None):
         text = json.dumps(result, indent=2)
         print(text)
         if args.out:
-            with open(args.out, "w", encoding="utf-8") as fh:
-                fh.write(text + "\n")
+            atomic_write(args.out, text + "\n")
         return code
 
     try:

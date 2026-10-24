@@ -18,7 +18,7 @@ reads this file.
     python3 write_hidden_file.py write --lines <hidden-lines.json> \
         --recoveries <hidden-recoveries.json> --plans-root <plans dir> --out <hidden-write.json>
     python3 write_hidden_file.py check --root <model> --spine <spine> --slice-id <id> \
-        --plans-root <plans dir> --out <hidden-file.json>
+        --plans-root <plans dir> --out <hidden-file.json> [--clear-working <path>]...
 
   lines — lists, for each feature of the slice, the "Fails if" lines of its ICE and of its
           capability's ICE: from the inline `## Agent intent (ICE)` section of the part's page
@@ -33,7 +33,9 @@ reads this file.
                           kept: bool, lines: [{id, from: "feature"|"capability", text}]}]}
   write — takes the agent's hidden-recoveries.json
               {entries: [{feature, recoveries: [{line, when, way_back, who_fixes}]}]}
-          and writes the file through a temp file. It keeps each kept entry byte for byte,
+          and writes the file through safe_write.atomic_write. The recoveries' `vague` list
+          (the lines too vague to judge) goes into hidden-write.json as
+          `vague: [{feature, count}]`, by feature and with no line id, so the brief can show it. It keeps each kept entry byte for byte,
           writes the others, and drops an entry whose feature left the slice. It refuses with
           exit 2, and writes nothing, when a line has no recovery or two, a recovery names no
           line of its entry, `who_fixes` is not exactly "the builder can fix this alone" or
@@ -43,6 +45,11 @@ reads this file.
                counts: {lines, builder_alone, person}, problems}
           Exit 0 when ok, 1 when not ok (for example, a "Fails if" line of the ICE is not in
           the file, or a line has no recovery).
+          --clear-working <path> (repeatable): when the check reads ok, delete each named
+          working file (hidden-lines.json, hidden-recoveries.json), so no copy of the "Fails
+          if" lines or their ids stays outside the evals folder; when it is not ok, keep them.
+          A path under plans-root is refused (exit 2, nothing deleted). `cleared` lists what
+          was deleted.
 
 File shape: one `## <feature id>: <name>` heading for each feature, then the capability and
 the ICE it was written from (and which is thin), `### Failure conditions` with
@@ -57,13 +64,15 @@ import json
 import os
 import re
 import sys
-import tempfile
 
 try:
     import yaml
 except ImportError:
     sys.stderr.write("write_hidden_file.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from safe_write import atomic_write  # noqa: E402
 
 FILE = "failure-and-recovery.md"
 WHO = ("the builder can fix this alone", "a person must decide")
@@ -246,8 +255,7 @@ def cmd_lines(args):
         entries.append({"feature": w["feature"], "name": w["name"], "capability": w["capability"],
                         "thin": w["thin"], "kept": bool(same), "lines": lines})
     out = {"slice": sl["id"], "plan_id": plan_id, "path": rel, "entries": entries}
-    with open(args.out, "w", encoding="utf-8") as fh:
-        json.dump(out, fh, indent=2)
+    atomic_write(args.out, json.dumps(out, indent=2))
     print(json.dumps({"path": rel, "entries": [{"feature": e["feature"], "kept": e["kept"],
                                                 "lines": len(e["lines"])} for e in entries]},
                      indent=2))
@@ -331,26 +339,31 @@ def cmd_write(args):
         if not text.endswith("\n\n"):
             text += "\n" if text.endswith("\n") else "\n\n"
         text += part
-    folder = os.path.dirname(path)
-    os.makedirs(folder, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(prefix=".hidden-", suffix=".tmp", dir=folder)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as fh:
-            fh.write(text)
-        os.replace(tmp, path)
-    except BaseException:
-        if os.path.exists(tmp):
-            os.remove(tmp)
-        raise
+    atomic_write(path, text)
+    vague_ids = set((recov.get("vague") if isinstance(recov, dict) else None) or [])
+    vague = [{"feature": e["feature"],
+              "count": sum(1 for ln in e.get("lines") or [] if ln.get("id") in vague_ids)}
+             for e in lines.get("entries") or [] if e["feature"] in written]
     out = {"ok": True, "path": lines.get("path"), "written": written, "kept": kept,
-           "dropped": dropped}
-    with open(args.out, "w", encoding="utf-8") as fh:
-        json.dump(out, fh, indent=2)
+           "dropped": dropped, "vague": [v for v in vague if v["count"]]}
+    atomic_write(args.out, json.dumps(out, indent=2))
     print(json.dumps(out, indent=2))
     return 0
 
 
+def working_files(plans_root, paths):
+    """The working copies --clear-working names. A path under the plans folder is refused."""
+    real_root = os.path.realpath(plans_root)
+    for p in paths:
+        real = os.path.realpath(p)
+        if real == real_root or real.startswith(real_root + os.sep):
+            raise Refused(f"--clear-working '{p}' is under the plans folder; it clears only "
+                          "working files, never the hidden file or its folder")
+    return paths
+
+
 def cmd_check(args):
+    clear = working_files(args.plans_root, args.clear_working or [])
     spine = load_spine(args.spine)
     _sl, _plan, rel, want = wanted(args.root, spine, args.slice_id)
     path = inside(args.plans_root, rel, "the hidden file")
@@ -415,11 +428,17 @@ def cmd_check(args):
     for f in by_feature:
         if f not in {w["feature"] for w in want}:
             problems.append(f"the file has an entry for '{f}', which is not a feature of the slice")
+    cleared = []
+    if not problems:
+        for p in clear:
+            if os.path.isfile(p):
+                os.remove(p)
+                cleared.append(p)
     out = {"ok": not problems, "path": rel, "entries": entries, "counts": counts,
-           "problems": problems}
-    with open(args.out, "w", encoding="utf-8") as fh:
-        json.dump(out, fh, indent=2)
-    print(json.dumps({"ok": out["ok"], "counts": counts, "problems": problems}, indent=2))
+           "problems": problems, "cleared": cleared}
+    atomic_write(args.out, json.dumps(out, indent=2))
+    print(json.dumps({"ok": out["ok"], "counts": counts, "problems": problems,
+                      "cleared": cleared}, indent=2))
     return 0 if out["ok"] else 1
 
 
@@ -433,6 +452,9 @@ def main(argv=None):
         p.add_argument("--slice-id", required=True)
         p.add_argument("--plans-root", required=True)
         p.add_argument("--out", required=True)
+        if name == "check":
+            p.add_argument("--clear-working", action="append", default=[],
+                           help="a working file to delete when the check reads ok; repeatable")
     w = sub.add_parser("write")
     w.add_argument("--lines", required=True)
     w.add_argument("--recoveries", required=True)
@@ -444,8 +466,7 @@ def main(argv=None):
     except Refused as exc:
         sys.stderr.write(f"write_hidden_file.py: not written — {exc}\n")
         if getattr(args, "out", None) and args.command == "write":
-            with open(args.out, "w", encoding="utf-8") as fh:
-                json.dump({"ok": False, "refused": str(exc)}, fh, indent=2)
+            atomic_write(args.out, json.dumps({"ok": False, "refused": str(exc)}, indent=2))
         return 2
     except (OSError, ValueError, yaml.YAMLError) as exc:
         sys.stderr.write(f"write_hidden_file.py: cannot read an input: {exc}\n")

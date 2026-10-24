@@ -11,6 +11,7 @@ The file is Markdown with one fenced YAML block that holds `questions:`, one ent
     basis, pipeline_source, pipeline_guess, impact_if_unknown, user_decision, user_answer,
     resolved_at, resolved_by_run
 
+    python3 record_questions.py merge-proposals --questions <q.json> --proposals <proposals.json> --out <q.json>
     python3 record_questions.py proposals --questions <q.json> --out <q-checked.json>
     python3 record_questions.py filter    --record <md> --questions <q-checked.json> --out <open.json>
     python3 record_questions.py open-list --open <open.json> --out <open-list.json>
@@ -24,8 +25,18 @@ The file is Markdown with one fenced YAML block that holds `questions:`, one ent
 A question (q.json is a JSON list, or the object `proposals` writes) has: id, blocking (true/false), question, and may have
 topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, assume.
 
+  merge-proposals — copies the propose-answers skill's output into the questions, so no agent
+              reshapes it by hand. A proposal's `group` is the id of a question. `closed_by:
+              proposal` with a basis {kind, ref} whose kind is model, memory or person and
+              whose ref is not empty sets the question's `proposed_answer` (the proposal's
+              `answer`) and `basis`. `closed_by: settled` sets `settled: true` and
+              `settled_basis` (the proposal's basis). Any other proposal (no basis, another
+              kind, an empty ref, another closed_by) leaves `proposed_answer: null` and
+              `basis: null`: no answer without a named source (C10). A proposal whose group is
+              not a question id is refused (exit 2, nothing written). Prints {proposed,
+              settled, no_proposed_answer}.
   proposals — three checks before anything is shown. (1) A gap the model or memory already
-              answers (`settled: true`, with a named basis) is moved to `settled` and never
+              answers (`settled: true`, with a named basis or settled_basis) is moved to `settled` and never
               asked (C2). (2) The cardinal rule (C10): a proposed answer with no named basis is
               STRIPPED (set to null, never replaced). (3) The shape the rule for asking a person
               gives (C3): each question asks one thing (no " and " in it, one "?"), stands
@@ -201,9 +212,47 @@ def shape_problems(q):
     return out
 
 
+def cmd_merge_proposals(args):
+    qs = check_questions(questions_of(load_json(args.questions, "questions")))
+    data = load_json(args.proposals, "proposals")
+    props = data.get("proposals") if isinstance(data, dict) else data
+    if not isinstance(props, list):
+        raise Refused(f"{args.proposals} must hold {{\"proposals\": [...]}}")
+    by_id = {q["id"]: q for q in qs}
+    for i, pr in enumerate(props):
+        if not isinstance(pr, dict) or pr.get("group") not in by_id:
+            group = pr.get("group") if isinstance(pr, dict) else None
+            raise Refused(f"proposal {i} is for '{group}', which is not a question id; nothing "
+                          "written")
+    proposed, settled = [], []
+    for pr in props:
+        q = by_id[pr["group"]]
+        basis = pr.get("basis")
+        if pr.get("closed_by") == "settled":
+            q["settled"] = True
+            q["settled_basis"] = basis
+            settled.append(q["id"])
+        elif pr.get("closed_by") == "proposal" and backed(basis) \
+                and str(pr.get("answer") or "").strip():
+            q["proposed_answer"] = pr["answer"]
+            q["basis"] = {"kind": basis["kind"], "ref": basis["ref"]}
+            proposed.append(q["id"])
+        else:
+            q["proposed_answer"] = None
+            if q.get("settled") is not True:
+                q["basis"] = None
+    none = sum(1 for q in qs if q.get("proposed_answer") in (None, "") and q.get("settled") is not True)
+    with open(args.out, "w", encoding="utf-8") as fh:
+        json.dump(qs, fh, indent=2)
+    print(json.dumps({"proposed": proposed, "settled": settled, "no_proposed_answer": none},
+                     indent=2))
+    return 0
+
+
 def cmd_proposals(args):
-    all_qs = check_questions(load_json(args.questions, "questions"))
-    settled = [q for q in all_qs if q.get("settled") is True and backed(q.get("basis"))]
+    all_qs = check_questions(questions_of(load_json(args.questions, "questions")))
+    settled = [q for q in all_qs if q.get("settled") is True
+               and (backed(q.get("basis")) or backed(q.get("settled_basis")))]
     qs = [q for q in all_qs if q not in settled]
     stripped = []
     for q in qs:
@@ -502,6 +551,10 @@ def cmd_check(args):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="The /shape-slice question record.")
     sub = ap.add_subparsers(dest="command", required=True)
+    m = sub.add_parser("merge-proposals")
+    m.add_argument("--questions", required=True)
+    m.add_argument("--proposals", required=True)
+    m.add_argument("--out", required=True)
     p = sub.add_parser("proposals")
     p.add_argument("--questions", required=True)
     p.add_argument("--out", required=True)
@@ -541,7 +594,7 @@ def main(argv=None):
     e.add_argument("--rest-out", required=True)
     args = ap.parse_args(argv)
     try:
-        return {"proposals": cmd_proposals, "filter": cmd_filter, "open-list": cmd_open_list,
+        return {"merge-proposals": cmd_merge_proposals, "proposals": cmd_proposals, "filter": cmd_filter, "open-list": cmd_open_list,
                 "answers": cmd_answers, "add": cmd_add, "answer": cmd_answer,
                 "brief": cmd_brief, "early": cmd_early, "check": cmd_check}[args.command](args)
     except Refused as exc:

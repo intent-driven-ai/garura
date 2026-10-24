@@ -8,6 +8,8 @@ text, which is already in the split).
 
     python3 render_brief.py --working <dir> --root <model> --spine <spine> \
         --opening <opening.md> --out <brief.md>
+    python3 render_brief.py --early --working <dir> --opening <opening.md> \
+        --split <early-split.json> --out <early-brief.md>
 
 It reads from <dir>: slice.json, fills.json, persist-fills.json, persist-slice.json,
 slice-check.json, hidden-file.json, split.json, questions-checked.json and gather.json; and,
@@ -23,7 +25,9 @@ brief.md is the opening, then these H2 sections:
                        <n>. <feature name> (<feature id>) — <new|filled|reused>
                    (n is the place in build order; a part is new when persist-fills.json
                    `written` names it, filled when `updated` names it, else reused)
-  Hidden file    — Place, Fails if lines, The builder can fix alone, A person must decide
+  Hidden file    — Place, Fails if lines, The builder can fix alone, A person must decide;
+                   and, from hidden-write.json when it is there, each feature with lines too
+                   vague to judge
   Left out       — each slice.json left_out[].what (with its why), or "Nothing is left out."
   Assumptions    — each split.json assumptions[].assume
   Thin ICE       — only when a part is thin: each thin part's id, and /discover-capabilities
@@ -36,6 +40,15 @@ brief.md is the opening, then these H2 sections:
                    when gather.json has rule_missing, a line that says the rule for asking a
                    person is missing and names the memory update
   Your reply     — yes, change: <what>, or stop; answer a question by its id
+
+--early writes the short brief of Step 5 (the questions asked before the slice is shaped): the
+opening, then ## Questions with each question of the split as ### <id> and its **Question**,
+**Answer** ("no proposed answer yet" when it has none), **Why it matters** and **Example**;
+when gather.json in <dir> has rule_missing, the line that says so; then ## Your reply. In
+early mode --root and --spine are not needed. The result passes `record_questions.py brief
+--early`.
+
+The brief is written through safe_write.atomic_write.
 
 Prints {"ok": true, "out": <path>}. Exit 0 written, 2 a record is missing or unreadable.
 Files on disk only; no git, no network.
@@ -51,6 +64,9 @@ try:
 except ImportError:
     sys.stderr.write("render_brief.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from safe_write import atomic_write  # noqa: E402
 
 RECORDS = ("slice.json", "fills.json", "persist-fills.json", "persist-slice.json",
            "slice-check.json", "hidden-file.json", "split.json", "questions-checked.json",
@@ -193,6 +209,29 @@ def question_block(q):
             "**Example** " + " ".join(f"({chr(97 + i)}) {e}" for i, e in enumerate(examples)), ""]
 
 
+def rule_missing_lines(gather):
+    missing = (gather or {}).get("rule_missing")
+    if not isinstance(missing, dict):
+        return []
+    tiers = ", ".join(missing.get("tiers") or []) or "every tier"
+    return [f"No memory tier holds the rule for asking a person (looked in: {tiers}). This "
+            "brief follows the floor the play states, and memory update "
+            f"{missing.get('memory_update')} asks for the rule to be added.", ""]
+
+
+def render_early(working, split, opening):
+    """The short brief of Step 5: the opening, then each early question with its four parts."""
+    gather = load(working, "gather.json", optional=True) or {}
+    lines = [opening.strip(), "", "## Questions", ""]
+    lines += rule_missing_lines(gather)
+    for q in split.get("asked") or []:
+        lines += question_block(q)
+    lines += ["## Your reply", "",
+              "Answer each question by its id (for example `Q-scope-1: ...`). The run shapes the "
+              "slice after your answers and shows it to you in one brief.", ""]
+    return "\n".join(lines).rstrip("\n") + "\n"
+
+
 def render(working, root, spine, opening, out_dir=None):
     sl = load(working, "slice.json")
     fills = load(working, "fills.json")
@@ -217,7 +256,11 @@ def render(working, root, spine, opening, out_dir=None):
               f"- Place: {hidden.get('path')}",
               f"- Fails if lines: {counts.get('lines', 0)}",
               f"- The builder can fix alone: {counts.get('builder_alone', 0)}",
-              f"- A person must decide: {counts.get('person', 0)}", ""]
+              f"- A person must decide: {counts.get('person', 0)}"]
+    for v in (load(working, "hidden-write.json", optional=True) or {}).get("vague") or []:
+        lines.append(f"- Too vague to judge, so a person must decide: {v.get('count')} line(s) of "
+                     f"{v.get('feature')}. A clearer \"Fails if\" line gives a clearer recovery.")
+    lines.append("")
     left = sl.get("left_out") or []
     lines += ["## Left out", ""]
     lines += [f"- {x.get('what')}" + (f" — {x['why']}" if x.get("why") else "") for x in left] \
@@ -240,12 +283,7 @@ def render(working, root, spine, opening, out_dir=None):
     asked = [q for q in split.get("asked") or [] if q.get("id") not in skip]
     lines += ["## Questions", "",
               f"Questions with no proposed answer: {qc.get('no_proposed_answer', 0)}", ""]
-    missing = gather.get("rule_missing")
-    if isinstance(missing, dict):
-        tiers = ", ".join(missing.get("tiers") or []) or "every tier"
-        lines += [f"No memory tier holds the rule for asking a person (looked in: {tiers}). This "
-                  "brief follows the floor the play states, and memory update "
-                  f"{missing.get('memory_update')} asks for the rule to be added.", ""]
+    lines += rule_missing_lines(gather)
     if not asked:
         lines += ["No question is open.", ""]
     for q in asked:
@@ -259,24 +297,36 @@ def render(working, root, spine, opening, out_dir=None):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Render the one slice-confirmation brief.")
+    ap.add_argument("--early", action="store_true",
+                    help="the short brief of the questions asked before the slice is shaped")
     ap.add_argument("--working", required=True)
-    ap.add_argument("--root", required=True)
-    ap.add_argument("--spine", required=True)
+    ap.add_argument("--root", help="the model folder (not needed with --early)")
+    ap.add_argument("--spine", help="the spine (not needed with --early)")
+    ap.add_argument("--split", help="with --early: early-split.json")
     ap.add_argument("--opening", required=True)
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
+    if args.early and not args.split:
+        sys.stderr.write("render_brief.py: --early needs --split <early-split.json>\n")
+        return 2
+    if not args.early and (not args.root or not args.spine):
+        sys.stderr.write("render_brief.py: give --root and --spine (or --early)\n")
+        return 2
     try:
-        with open(args.spine, encoding="utf-8") as fh:
-            spine = yaml.safe_load(fh) or {}
         with open(args.opening, encoding="utf-8") as fh:
             opening = fh.read()
-        text = render(args.working, args.root, spine, opening,
-                      os.path.dirname(os.path.abspath(args.out)))
+        if args.early:
+            with open(args.split, encoding="utf-8") as fh:
+                text = render_early(args.working, json.load(fh) or {}, opening)
+        else:
+            with open(args.spine, encoding="utf-8") as fh:
+                spine = yaml.safe_load(fh) or {}
+            text = render(args.working, args.root, spine, opening,
+                          os.path.dirname(os.path.abspath(args.out)))
     except (Missing, OSError, json.JSONDecodeError, yaml.YAMLError) as exc:
         sys.stderr.write(f"render_brief.py: not written — {exc}\n")
         return 2
-    with open(args.out, "w", encoding="utf-8") as fh:
-        fh.write(text)
+    atomic_write(args.out, text)
     print(json.dumps({"ok": True, "out": args.out}, indent=2))
     return 0
 

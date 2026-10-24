@@ -137,10 +137,12 @@ def main():
         check("write: a path outside plans-root is refused", code == 2 and "leaves" in err)
 
         person = lambda out: out[0]["recoveries"][0].update(who_fixes="a person must decide")  # noqa: E731
-        rec_p = write(os.path.join(tmp, "rec.json"), recoveries(lines, person))
+        rec_p = write(os.path.join(tmp, "rec.json"), dict(recoveries(lines, person), vague=["F1"]))
         code, _ = run("write", "--lines", lines_p, "--recoveries", rec_p, "--plans-root", plans,
                       "--out", out_p)
         text = read(hidden) if os.path.isfile(hidden) else ""
+        check("write: a vague line is counted by feature, with no line id",
+              json.loads(read(out_p))["vague"] == [{"feature": "ft-pick", "count": 1}])
         check("write: the folder is made and the file written, with no plan file",
               code == 0 and os.path.isfile(hidden) and not os.path.exists(os.path.join(plans, "340.yaml")))
         check("write: one heading per feature, the failure lines and one recovery each",
@@ -185,16 +187,32 @@ def main():
         code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
                       "--plans-root", plans, "--out", res_p)
         check("check: ok after the new entry", code == 0)
+        code, err = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+                        "--plans-root", plans, "--out", res_p, "--clear-working", lines_p,
+                        "--clear-working", hidden)
+        check("check --clear-working: a path under plans-root is refused (exit 2), nothing deleted",
+              code == 2 and "plans folder" in err and os.path.isfile(lines_p)
+              and os.path.isfile(hidden))
+        code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+                      "--plans-root", plans, "--out", res_p, "--clear-working", lines_p,
+                      "--clear-working", rec_p)
+        res = json.loads(read(res_p))
+        check("check --clear-working: when ok, each named working file is deleted",
+              code == 0 and not os.path.exists(lines_p) and not os.path.exists(rec_p)
+              and sorted(res["cleared"]) == sorted([lines_p, rec_p]) and os.path.isfile(hidden))
 
         # an ICE line the file does not hold fails the check
         write(os.path.join(root, "care/booking/remind/feature.md"),
               page("Feature", "Send a reminder", ["a reminder goes to the wrong phone."]))
+        keep_p = write(os.path.join(tmp, "hidden-recoveries.json"), {"entries": []})
         code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
-                      "--plans-root", plans, "--out", res_p)
+                      "--plans-root", plans, "--out", res_p, "--clear-working", keep_p)
         res = json.loads(read(res_p))
         check("check: a \"Fails if\" line of the ICE that is not in the file fails (exit 1)",
               code == 1 and res["ok"] is False
               and any("wrong phone" in p for p in res["problems"]))
+        check("check --clear-working: when not ok, the working files are kept",
+              os.path.isfile(keep_p) and res["cleared"] == [])
         os.remove(hidden)
         code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
                       "--plans-root", plans, "--out", res_p)

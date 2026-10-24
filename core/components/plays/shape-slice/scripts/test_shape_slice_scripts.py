@@ -794,6 +794,88 @@ def test_round2(tmp):
           code == 1 and any("Example" in p for p in out["problems"]))
 
 
+def test_merge_proposals(tmp):
+    """propose-answers output goes into the questions by script, never by an agent (Round 2)."""
+    base = {"why": "The slice is built for it.", "examples": ["a clinic: a booking screen", "a shop: a cart"]}
+    qs = [dict(base, id="Q-pay-1", blocking=True, topic="payment",
+               question="Which way does a patient pay for a booking?"),
+          dict(base, id="Q-time-1", blocking=False, topic="time",
+               question="How long does a patient keep a free slot?"),
+          dict(base, id="Q-size-1", blocking=False, topic="size",
+               question="How many bookings does the clinic take each day?"),
+          dict(base, id="Q-name-1", blocking=False, topic="name",
+               question="Which name does the booking screen show first?")]
+    qpath = write(os.path.join(tmp, "merge", "questions.json"), qs)
+    props = write(os.path.join(tmp, "merge", "proposals.json"), {"proposals": [
+        {"group": "Q-pay-1", "closed_by": "proposal", "answer": "by card at the desk",
+         "basis": {"kind": "model", "ref": "care/booking/capability.md:12-14"}, "context": "x"},
+        {"group": "Q-time-1", "closed_by": "settled", "why": "the model sets ten minutes",
+         "basis": {"kind": "memory", "ref": "knowledge/domains/care.md:40"}},
+        {"group": "Q-size-1", "closed_by": "proposal", "answer": "about fifty",
+         "basis": {"kind": "web", "ref": "a blog post"}, "context": "x"},
+        {"group": "Q-name-1", "closed_by": "proposal", "answer": "the doctor's name",
+         "basis": {"kind": "person", "ref": ""}, "context": "x"}]})
+    code, out, _ = run("record_questions.py", "merge-proposals", "--questions", qpath,
+                       "--proposals", props, "--out", qpath)
+    got = {q["id"]: q for q in json.loads(read(qpath))}
+    check("merge-proposals: a backed proposal sets proposed_answer and basis {kind, ref}",
+          code == 0 and got["Q-pay-1"]["proposed_answer"] == "by card at the desk"
+          and got["Q-pay-1"]["basis"] == {"kind": "model", "ref": "care/booking/capability.md:12-14"})
+    check("merge-proposals: closed_by settled sets settled and settled_basis",
+          got["Q-time-1"]["settled"] is True
+          and got["Q-time-1"]["settled_basis"] == {"kind": "memory", "ref": "knowledge/domains/care.md:40"})
+    check("merge-proposals: another basis kind or an empty ref leaves no proposed answer",
+          got["Q-size-1"]["proposed_answer"] is None and got["Q-size-1"]["basis"] is None
+          and got["Q-name-1"]["proposed_answer"] is None)
+    check("merge-proposals: it counts the questions with no proposed answer",
+          out["no_proposed_answer"] == 2 and out["proposed"] == ["Q-pay-1"]
+          and out["settled"] == ["Q-time-1"])
+    checked = os.path.join(tmp, "merge", "checked.json")
+    run("record_questions.py", "proposals", "--questions", qpath, "--out", checked)
+    data = json.loads(read(checked))
+    check("merge-proposals then proposals: a settled gap with a settled_basis is never asked",
+          [q["id"] for q in data["settled"]] == ["Q-time-1"]
+          and "Q-time-1" not in [q["id"] for q in data["questions"]])
+    before = read(qpath)
+    bad = write(os.path.join(tmp, "merge", "bad.json"), {"proposals": [
+        {"group": "Q-none-9", "closed_by": "proposal", "answer": "x",
+         "basis": {"kind": "model", "ref": "a.md:1"}}]})
+    code, _, err = run("record_questions.py", "merge-proposals", "--questions", qpath,
+                       "--proposals", bad, "--out", qpath)
+    check("merge-proposals: a proposal for an id that is not a question is refused, nothing written",
+          code == 2 and "Q-none-9" in err and read(qpath) == before)
+
+
+def test_safe_write(tmp):
+    sys.path.insert(0, HERE)
+    import safe_write
+    folder = os.path.join(tmp, "safe", "new", "folder")
+    path = os.path.join(folder, "page.md")
+    safe_write.atomic_write(path, "first\n")
+    check("safe_write: makes the folder and writes the text", read(path) == "first\n")
+    safe_write.atomic_write(path, "second\n")
+    check("safe_write: replaces the file whole, and leaves no temp file",
+          read(path) == "second\n" and os.listdir(folder) == ["page.md"])
+
+    try:
+        safe_write.atomic_write(path, 42)  # not text: the write fails part way
+    except TypeError:
+        pass
+    check("safe_write: a failed write keeps the old file and removes its temp file",
+          read(path) == "second\n" and os.listdir(folder) == ["page.md"])
+    calls = []
+    for name in sorted(os.listdir(HERE)):
+        if name.endswith(".py") and not name.startswith("test_") and name != "safe_write.py":
+            text = read(os.path.join(HERE, name))
+            if "os.replace(" in text or "mkstemp(" in text:
+                calls.append(name)
+    check("safe_write: no other script of the play calls os.replace or tempfile.mkstemp", calls == [])
+    users = [n for n in ("persist_fills.py", "persist_slice.py", "write_hidden_file.py",
+                         "render_brief.py", "write_intent_page.py")
+             if "from safe_write import atomic_write" not in read(os.path.join(HERE, n))]
+    check("safe_write: the five writing scripts use it", users == [])
+
+
 def main():
     with tempfile.TemporaryDirectory() as tmp:
         root = test_intent_page(tmp)
@@ -808,6 +890,8 @@ def main():
         test_fills_v11(tmp)
         test_slice_check_v11(tmp)
         test_questions_v11(tmp)
+        test_merge_proposals(tmp)
+        test_safe_write(tmp)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 

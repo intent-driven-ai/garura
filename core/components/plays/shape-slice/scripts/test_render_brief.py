@@ -181,6 +181,55 @@ def main():
         os.remove(os.path.join(work, "hidden-file.json"))
         code, _, err = render(root, work, spine_p, opening)
         check("render: a missing record stops it (exit 2)", code == 2 and "hidden-file.json" in err)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root, work, spine_p, opening = setup(tmp)
+        write(os.path.join(work, "hidden-write.json"),
+              {"ok": True, "vague": [{"feature": "ft-send", "count": 2}]})
+        code, text, _ = render(root, work, spine_p, opening)
+        check("render: a line too vague to judge is shown in the Hidden file section",
+              code == 0 and "Too vague to judge, so a person must decide: 2 line(s) of ft-send" in text)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        work = os.path.join(tmp, "work")
+        early = write(os.path.join(work, "early-split.json"), {
+            "asked": [dict(Q, id="Q-pay-1", blocking=True, topic="payment",
+                           question="Which way does a patient pay for a booking?",
+                           proposed_answer=None)],
+            "assumptions": []})
+        opening = write(os.path.join(tmp, "early-opening.md"),
+                        "You decide how a patient pays before the run shapes the slice. The run "
+                        "shapes the slice after your answer.\n")
+        out_p = os.path.join(work, "early-brief.md")
+        code, _, err = run("render_brief.py", "--early", "--working", work, "--opening", opening,
+                           "--split", early, "--out", out_p)
+        text = read(out_p) if os.path.isfile(out_p) else ""
+        check("early: written with no --root and no --spine", code == 0 and text != "")
+        check("early: the opening comes first, then ## Questions",
+              text.startswith("You decide") and "## Questions" in text)
+        check("early: each question has its four parts and 'no proposed answer yet'",
+              "### Q-pay-1" in text and "**Question** Which way" in text
+              and "**Answer** no proposed answer yet" in text and "**Why it matters**" in text
+              and "**Example** (a)" in text)
+        check("early: no section of the confirmation brief", "## Features" not in text)
+        code, out, _ = run("record_questions.py", "brief", "--brief", out_p, "--split", early,
+                           "--early")
+        check("early: the result passes record_questions.py brief --early",
+              code == 0 and out["ok"] is True)
+        write(os.path.join(work, "gather.json"),
+              {"rule_missing": {"tiers": ["short-term", "garura", "phoenix"],
+                                "memory_update": "mu-20261024-011"}})
+        code, _, _ = run("render_brief.py", "--early", "--working", work, "--opening", opening,
+                         "--split", early, "--out", out_p)
+        check("early: a missing rule for asking a person is said, with the memory update",
+              code == 0 and "rule for asking a person" in read(out_p)
+              and "mu-20261024-011" in read(out_p))
+        code, _, _ = run("render_brief.py", "--early", "--working", work, "--opening", opening,
+                         "--out", out_p)
+        check("early: --early with no --split is refused (exit 2)", code == 2)
+        code, _, _ = run("render_brief.py", "--working", work, "--opening", opening, "--out", out_p)
+        check("render: the confirmation brief with no --root or --spine is refused (exit 2)",
+              code == 2)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 
