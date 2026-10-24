@@ -31,3 +31,9 @@ The branch carries six issues in one change, by the product owner's choice: #841
 - [PASS] Public repo hygiene. The added lines hold no local home path and no real person name.
 - [PASS] Merge. A trial merge with origin/plan/788/base gives no conflict.
 - [PASS] Docs in step. The glossary, the component docs, the standards and the tool doc changed with the parts they describe.
+
+## Round 2 (review round 1 fixes)
+
+- [PASS] Scope: only the fixes the product owner asked for (DR-1, H1, H2, M3, M1, Q-1) and ADR 054; the P4s went to #859.
+- [PASS] ADR 053 equals its accepted text on the base; ADR 054 is accepted, with pointers on ADR 035, 039 and 050.
+- [PASS] Hidden acceptance checks 34 / 34; old-name check passes; script and lint-components tests pass.
