@@ -1,7 +1,14 @@
 commits:
+  - sha: 2b9ee4d8
+    message: "chore(stm): record the memory updates the /shape-slice run raised (#844)"
+    files:
+      - .garura/project/issues/844/review/memory-updates/mu-20261024-001.json
+      - .garura/project/issues/844/review/memory-updates/mu-20261024-002.json
+      - .garura/project/issues/844/review/memory-updates/mu-20261024-003.json
+    branch: plan/788/844-shape-slice-for-788
 excluded_files:
   []
-leftover_count: 3
-tree_clean: false
+leftover_count: 0
+tree_clean: true
 pushed: false
 run_state_committed: true
