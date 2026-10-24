@@ -48,7 +48,7 @@ WEB = re.compile(r"https?://\S+")
 NOT_MINE = ("capabilities", "features", "slices", "epics")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def sources_of(path):

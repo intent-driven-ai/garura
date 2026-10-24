@@ -4,8 +4,7 @@
 Each play writes its stop-condition verdict at close
 (`{stm_base}<issue>/status/stop-condition-<play>.yaml`). The loop goes on only when that
 verdict reads `held` and was written by this run — a verdict older than the play's start is
-left from an earlier run and proves nothing. Canonical copy lives at
-create-loop/references/check_play_done.py and is stamped into each loop's scripts/.
+left from an earlier run and proves nothing.
 
     python3 check_play_done.py --verdict <stop-condition-<play>.yaml> --not-before <epoch> \
         --out <working>/<play>-done.json

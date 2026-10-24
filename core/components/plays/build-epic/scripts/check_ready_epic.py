@@ -50,7 +50,7 @@ except ImportError:
 LENS_TYPES = ["quality", "ux", "agentic", "marketing", "architecture", "run", "measure"]
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def load(path):

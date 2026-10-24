@@ -7,9 +7,6 @@ kind. It starts `claude -p "/<play> --contract <contract>"` in the project, wait
 writes the session's JSON result, so the loop can read the play's answer and its session id.
 To answer a question the play stopped on, run it again with `--resume <session id>` and
 `--message-file` holding the person's answer: the same session goes on, with its context.
-Canonical copy lives at create-loop/references/run_play_headless.py and is stamped into each
-loop's scripts/.
-
     python3 run_play_headless.py --play discover-intent --contract <contract.json> \
         [--argument "<inputs.discover-intent.argument>"] --out <run.json>
     python3 run_play_headless.py --play discover-domains --resume <session id> \

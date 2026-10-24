@@ -26,7 +26,7 @@ import sys
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 from lint_grounding import ICE_SECTION, parse_sections  # noqa: E402
 
 DOCS = ("domain.md", "capability.md", "feature.md")

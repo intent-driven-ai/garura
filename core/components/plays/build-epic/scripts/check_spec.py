@@ -61,7 +61,7 @@ SURFACE_RANK = {
 SURFACE_LINE = re.compile(r"(?im)^\s*[-*]?\s*surface\s*[:=]\s*([a-z_]+)")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def main(argv=None):

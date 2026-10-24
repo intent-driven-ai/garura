@@ -40,7 +40,7 @@ BEYOND_TIERS = ("dev", "qa", "test", "preview", "uat", "staging", "stage",
                 "prod", "production", "live")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def jload(path):

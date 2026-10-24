@@ -86,8 +86,8 @@ except ImportError:
     sys.exit(2)
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import intent_touches as touches  # noqa: E402  (stamped from create-play/references)
-import model_names  # noqa: E402  (stamped from create-play/references)
+import intent_touches as touches  # noqa: E402  (stamped beside this script)
+import model_names  # noqa: E402  (stamped beside this script)
 import spine_text  # noqa: E402
 from safe_write import atomic_write  # noqa: E402
 

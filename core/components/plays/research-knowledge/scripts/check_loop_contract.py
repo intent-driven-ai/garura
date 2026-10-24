@@ -7,8 +7,7 @@ every required field present, and the current branch equal to the loop's branch 
 writes `run.json` with `in_loop: true` and the play's own inputs and answers. With no
 `--contract`, it writes `in_loop: false`: the play runs by hand, unchanged.
 
-Canonical copy lives at create-play/references/check_loop_contract.py and is stamped into
-each play that can run inside a loop. Layer rule: reads files only; the current branch is
+Layer rule: reads files only; the current branch is
 passed in; no git/gh/network.
 
     python3 check_loop_contract.py --play discover-domains --branch "$(git branch --show-current)" \

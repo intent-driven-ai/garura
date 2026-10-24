@@ -13,8 +13,7 @@ The agent side of the same link is the spine: a node's `intents` names the inten
 serves. Any play that links a node to an intent writes both sides; this module writes the
 intent-page side, so every play writes it the same way. It is never written by an LLM.
 
-Canonical copy lives at create-play/references/intent_touches.py and is stamped into the
-scripts/ of each play that writes intent links (/discover-intent, /discover-domains). Pure text in, text out:
+Pure text in, text out:
 no files, no git, no network.
 
     import intent_touches as it

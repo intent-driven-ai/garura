@@ -9,10 +9,6 @@ guard over the real product-os tree on the feature branch: after a play's writes
 script diffs the model tree against the branch base and FAILS the run (or, on --restore,
 reverts) if any changed model path falls outside the run's declared write scope.
 
-Canonical copy lives at create-play/references/scoped_write_guard.py and is stamped
-into each model-writing play's scripts/ (same convention as preflight.py,
-session_stamp.py, classify_change.py).
-
     python3 scripts/scoped_write_guard.py
         --product-base <product_base>
         --base-ref HEAD

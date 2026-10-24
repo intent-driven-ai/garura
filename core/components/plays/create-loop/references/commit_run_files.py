@@ -3,8 +3,7 @@
 
 Inside a loop a play commits only its own product change; the run files it writes under the
 issue (context, review, evidence) are the loop's to commit (#662 finding V-4). After each
-play the loop runs this, so the next play starts from a clean tree. Canonical copy lives at
-create-loop/references/commit_run_files.py and is stamped into each loop's scripts/.
+play the loop runs this, so the next play starts from a clean tree.
 
     python3 commit_run_files.py --issue-dir .garura/project/issues/<n>/ --issue <n> \
         --branch <the contract's branch> --play <play> --out <working>/<play>-commit.json
