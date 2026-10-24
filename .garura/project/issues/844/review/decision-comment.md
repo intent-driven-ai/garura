@@ -1,11 +1,13 @@
 Reviewer verdict (human): reject
 
-Round 4 of the review. P1 0, P2 0, P3 1, P4 1. The computed recommendation was approve; the product owner rejected so that both open items are fixed.
-
-Fixed since round 3: N3 (fn-728 gives a tracker issue to the epic, the stories and the work under them; a capability and a feature get none).
+Round 5 of the review, after ontology v11 (#846, PR #849, ADR 052) landed on the base. M1 and N4 are closed. P1 0, P2 0, P3 1, P4 7. The standards check has 0 findings; the slice check has 0 problems.
 
 To fix:
-- N4 (P4): fn-728's "Fails if" names only the epic and the stories. Add a spike, chore or bug under a story.
-- M1 (P3): ontology v10 and ADR 049 (Decisions 1.2 and 4) say the plan play writes the slice's hidden file, one entry per story. Decisions 6 and 7 of #844 say /shape-slice writes it, one entry per feature, and a thin ICE is proposed for a new capability or feature. The ontology change runs through /edit-ontology as its own change on plan/788/base; the ADR is amended; then this PR takes the base and is reviewed again.
-
-Standards check: 0 findings. Slice check: 0 problems. Model check: the same 70 older errors (decision 8).
+- R1 (P3): the hidden file's three entries say "Story: (filled in by /shape-plan)", and F12's way back keeps "the story numbers /shape-plan added". Under v11 the plan play writes nothing in the evals folder; the epic's feature-to-story map is the join.
+- R2 (P4): fn-795's title says "/shape-slice writes the slice only".
+- R3 (P4): two Thin lines in fn-795 say the hidden file and the thin ICE are "not set yet".
+- R4 (P4): the hidden file names the old rule section; entries do not say which of the two ICE is thin.
+- R5 (P4): shape-eval says "the ICE has only one reader"; under v11 each line has one reader.
+- R6 (P4): fn-818 and fn-798 do not name the epic's feature-to-story map.
+- R7 (P4): cap-718 and shape-slice should cite ADR 052.
+- R8 (P4): the pages carry the Thin line; the six spine entries lack `thin: true`.

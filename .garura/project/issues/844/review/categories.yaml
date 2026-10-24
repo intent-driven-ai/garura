@@ -1,4 +1,4 @@
-# check-change round 4 -- categories present in PR #845 (issue 844, plan #788).
+# check-change round 5 -- categories present in PR #845 (issue 844, plan #788).
 # Derived from the full branch diff (114 paths; the context lists only 100, issue #841).
 # 114 = 14 product-model paths + 1 plan-side eval file + 67 context run records + 32 review run records.
 categories:
@@ -36,7 +36,7 @@ categories:
       - .garura/project/issues/844/review/**
     playbook: review/docs
     playbook_note: "Closest fit only. No dedicated run-records playbook exists."
-changes_since_round3:
-  - "Same two categories. None added or removed. Product-model is still the only design-bearing one and still has no playbook."
+changes_since_round4:
+  - "Same two categories. None added or removed. Product-model is still the only design-bearing one and still has no playbook. Base now holds ontology v11 and ADR 052."
   - "Round 3 listed the old paths capabilities/cap-718 and features/fn-728 as present. The diff shows them deleted (fn-728 moved under software-delivery-planning/cap-718). fn-727 is a pure rename (R100)."
   - "Round 3 said 100 paths. The full diff has 114: 14 product-model files and the hidden eval file are all counted under product-model; run records grew with round 3 review output and memory-update proposals."

@@ -1,0 +1,21 @@
+round: 4
+findings:
+- category: product-model
+  severity: P3
+  id: M1
+  path: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  basis: 'ontology v10 and ADR 049 Decisions 1.2 and 4 on base: the plan play writes
+    the hidden file, one entry per story'
+  message: 'The hidden file is written by /shape-slice with one entry per feature
+    (decisions 6 and 7 of #844). Open on purpose; closes when the ontology and ADR
+    change lands, before this PR merges.'
+  status: open -- closes when the ontology and ADR change lands
+- category: product-model
+  severity: P4
+  id: N4
+  path: .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md
+  basis: 'ontology v10 on base: spike, chore and bug are tracker issues under a story'
+  message: fn-728's Goal covers the spikes, chores and bugs, but its 'Fails if' names
+    only the epic and the stories. A missing issue for a spike, chore or bug is not
+    named as a failure.
+  status: open

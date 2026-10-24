@@ -1,0 +1,7 @@
+decision: reject
+decided_by: human
+reply: "reject and fix n4 and m1"
+round: 4
+citing:
+  - N4 (P4): fn-728's "Fails if" names only the epic and the stories; add the spikes, chores and bugs under a story.
+  - M1 (P3): ontology v10 and ADR 049 say the plan play writes the hidden file, one entry per story; change them to decisions 6 and 7 of #844 before this PR merges.
