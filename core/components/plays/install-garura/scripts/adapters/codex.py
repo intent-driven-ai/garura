@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """
-adapters/codex.py — the OpenAI Codex CLI adapter.
+adapters/codex.py — the OpenAI Codex CLI adapter. DEPRECATED (#863).
+
+The Codex installer is deprecated: it is to be redesigned completely (#863). install.py stops
+`--tool codex` before this adapter runs, so nothing here is used by an install. The code stays
+until the redesign replaces it.
 
 Codex differs from Claude Code in four load-bearing ways (verified against
 developers.openai.com/codex, 2026), and this adapter absorbs all four:

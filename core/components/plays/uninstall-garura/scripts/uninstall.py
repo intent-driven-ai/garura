@@ -171,6 +171,9 @@ def uninstall(target, *, purge, quiet, dry):
     if rec.get("status_gitignore"):
         rm_file(os.path.join(target, rec["status_gitignore"]), removed, dry)
     rm_memory_system(target, rec.get("memory_system") or {}, removed, dry)
+    # the other tools the installer laid in .garura/core/tools/ (#860)
+    for rel in rec.get("tools", []):
+        rm_dir(os.path.join(target, rel), removed, dry)
     # shared memory: only on explicit purge, and only the exact recorded path
     if rec.get("memory"):
         if purge:  # the record keeps `~/…` (install's portable path); expand it here

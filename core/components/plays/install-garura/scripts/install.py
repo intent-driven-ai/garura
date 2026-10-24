@@ -12,10 +12,11 @@ user names. It reads garura's `core/components/` (agents, skills, plays, memory)
 and the source `core/config.yaml` + the project instructions, and lays them down so a
 host coding tool can discover them in the target.
 
-    python3 install.py --target <path> [--tool claude|codex] [--scope full|harness]
+    python3 install.py --target <path> [--tool claude] [--scope full|harness]
 
   --target        the project directory to install into (a path, created if absent)
-  --tool          which host tool to target: claude (default) or codex
+  --tool          which host tool to target: claude (default). codex is deprecated (#863):
+                  it stops at once with a plain message and changes nothing
   --scope         which component set to install: full (default, every
                   component except the meta harness plays and the harness-only
                   skills) or harness (meta plays + harness-only skills + change
@@ -44,6 +45,9 @@ installer): the memory tool in `.garura/core/tools/memory/` with its settings, s
 memory's folder, and the memory guide where the host tool loads it for every agent. It then
 checks the tool runs and reaches the project's tiers. The install brings no memory.
 
+It also lays every other tool (`tools_system.py`, shared with the public installer) in
+`.garura/core/tools/<name>/`, because plays and skills run them after the install.
+
 The install never changes a product model the project already has (#813).
 
 Exit: 0 = installed, 1 = installed but the memory check failed, 2 = bad input /
@@ -60,12 +64,27 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import memory_system  # noqa: E402
+import tools_system  # noqa: E402
 from adapters import common, get_adapter, known  # noqa: E402
 
 
 def fail(msg):
     sys.stderr.write(f"install.py: {msg}\n")
     sys.exit(2)
+
+
+# The Codex installer is deprecated (#863): it is to be redesigned completely. Until then an
+# install for Codex stops at once and changes nothing in the target.
+DEPRECATED_TOOLS = {
+    "codex": ("the Codex installer is deprecated and installs nothing (#863: it is being "
+              "redesigned). Install for Claude Code with --tool claude, or wait for #863."),
+}
+
+
+def stop_if_deprecated(tool):
+    """Stop with a plain message, before anything is written, when the tool is deprecated."""
+    if tool in DEPRECATED_TOOLS:
+        fail(DEPRECATED_TOOLS[tool])
 
 
 def info(quiet, msg):
@@ -269,6 +288,7 @@ def resolve_scope(scope, components):
 
 def install(source, target, tool, force, quiet, memory_dest, scope="full",
             phoenix_place=memory_system.PHOENIX_PLACE, phoenix_source=memory_system.PHOENIX_SOURCE):
+    stop_if_deprecated(tool)
     adapter = get_adapter(tool)
     components = os.path.join(source, "core", "components")
     if not os.path.isdir(components):
@@ -286,6 +306,7 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
         "config": None,
         "memory": None,
         "global_files": [],
+        "tools": [],
     }
 
     # 1. components — the host surface, owned by the adapter; the scope filter
@@ -346,6 +367,10 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     record["memory_system"] = memory_system.lay(source, target, tool, phoenix_place, phoenix_source, _info)
     record["memory_system"]["check"] = memory_system.check(target, _info)
 
+    # 8. the tools (decision 6 of #860): every tool but the memory tool (laid above) and the
+    #    play-reviewer prototype, in .garura/core/tools/<name>/
+    record["tools"] = tools_system.lay(source, target, _info)
+
     return record
 
 
@@ -362,7 +387,8 @@ def retire_stale(target, new_paths, quiet):
         return []
     try:
         with open(path, encoding="utf-8") as fh:
-            prior = (json.load(fh).get("record") or {}).get("components") or []
+            prior_record = json.load(fh).get("record") or {}
+        prior = (prior_record.get("components") or []) + (prior_record.get("tools") or [])
     except (OSError, ValueError):
         return []
     base = os.path.abspath(target)
@@ -438,7 +464,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Install Garura into a target project.")
     ap.add_argument("--target", required=True, help="project directory to install into (a path)")
     ap.add_argument("--tool", default="claude", choices=known(),
-                    help="host tool to target (default: claude)")
+                    help="host tool to target (default: claude; codex is deprecated, #863)")
     ap.add_argument("--scope", default="full", choices=sorted(SCOPES),
                     help="component set to install: full (default, every component "
                          "except the meta harness plays and harness-only skills) or harness "
@@ -455,6 +481,7 @@ def main(argv=None):
                     help="where the memory tool downloads Phoenix memory from")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
+    stop_if_deprecated(args.tool)
 
     source = derive_source_root(args.source)
     target = os.path.abspath(args.target)
@@ -465,7 +492,7 @@ def main(argv=None):
     record = install(source, target, args.tool, args.force_config, args.quiet,
                      args.memory_dest, scope=args.scope,
                      phoenix_place=args.phoenix_place, phoenix_source=args.phoenix_source)
-    record["retired"] = retire_stale(target, record["components"], args.quiet)
+    record["retired"] = retire_stale(target, record["components"] + record["tools"], args.quiet)
     record["retired"] += [r for r in retire_renamed(source, target, record["components"], args.quiet)
                           if r not in record["retired"]]
     write_manifest(target, record, args.quiet)
