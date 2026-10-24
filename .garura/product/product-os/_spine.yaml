@@ -1,4 +1,17 @@
-domains: []
+domains:
+- id: dom-software-delivery-planning
+  slug: software-delivery-planning
+  intents:
+  - bi-788
+  status: proposed
+  detail: directional
+  one_line: 'Turn a business intent into work that agents can build and that an outside
+    check can prove: a slice to test, a plan of work items, and an eval kept from
+    the builder.'
+  doc: software-delivery-planning/domain.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
 capabilities:
 - id: cap-723
   slug: cap-723
@@ -43,9 +56,10 @@ capabilities:
   issue: 721
 - id: cap-718
   slug: cap-718
-  domain: ''
+  domain: dom-software-delivery-planning
   intents:
   - bi-717
+  - bi-788
   status: proposed
   detail: directional
   one_line: 'Build a plan: a tree with an issue for every node, from a business intent'
@@ -127,6 +141,32 @@ capabilities:
   - cap-739
   identified_by: ''
   issue: 747
+- id: cap-shape-slice
+  slug: shape-slice
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-788
+  status: proposed
+  detail: directional
+  one_line: 'Shape the one slice that shows a business intent is served: the features
+    in build order, the one surface and the person who tests it.'
+  doc: capabilities/cap-shape-slice/capability.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+- id: cap-shape-eval
+  slug: shape-eval
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-788
+  status: proposed
+  detail: directional
+  one_line: Write the eval that checks, from the outside, that a business intent is
+    met on its slice's surface, and keep it where no builder can read it.
+  doc: capabilities/cap-shape-eval/capability.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
 features:
 - id: fn-724
   slug: fn-724
@@ -366,6 +406,42 @@ features:
   - fn-741
   identified_by: ''
   issue: 748
+- id: fn-795
+  slug: fn-795
+  capability: cap-shape-slice
+  intents:
+  - bi-788
+  status: proposed
+  one_line: From a business intent, /shape-slice writes one slice and its link to
+    the intent, and no plan, epic, story or eval.
+  doc: features/fn-795/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+- id: fn-818
+  slug: fn-818
+  capability: cap-718
+  intents:
+  - bi-788
+  status: proposed
+  one_line: From a shaped slice, /shape-plan writes the intent's one plan file, one
+    epic for the slice and one story for each feature.
+  doc: features/fn-818/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+- id: fn-798
+  slug: fn-798
+  capability: cap-shape-eval
+  intents:
+  - bi-788
+  status: proposed
+  one_line: From the plan's epic and stories, /shape-eval writes the eval for the
+    business intent in the plan's evals folder, where no builder reads.
+  doc: features/fn-798/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
 profile:
   state: set
   nfr:
@@ -376,3 +452,14 @@ profile:
       level: medium
       gate: ready-check and linter tests; spine before/after diff on the rename
   compliance: []
+slices:
+- id: sl-intent-to-design
+  slug: intent-to-design
+  feature_refs:
+  - fn-795
+  - fn-818
+  - fn-798
+  vertical: the Claude Code command line
+  intents:
+  - bi-788
+  record: slices/sl-intent-to-design.yaml
