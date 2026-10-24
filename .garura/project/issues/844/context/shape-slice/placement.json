@@ -1,0 +1,278 @@
+{
+  "domains": [
+    {
+      "id": "dom-software-delivery-planning",
+      "slug": "software-delivery-planning",
+      "name": "Software delivery planning",
+      "one_line": "Turn a business intent into work that agents can build and that an outside check can prove: a slice to test, a plan of work items, and an eval kept from the builder.",
+      "action": "new",
+      "why": "Field: building software with AI agents. Job: shape and plan the work before the build, so that the build stays inside its design and its result can be checked. All three features do this job, and four capabilities that exist already (the plan capabilities) do it too, so the domain is not made for one slice. No domain shelf in any memory tier holds this field; the model has no domains (spine domains: []). Smallest set: one domain holds all three features.",
+      "sources": [
+        "Ryan Singer, Shape Up: Stop Running in Circles and Ship Work that Matters (Basecamp, 2019, basecamp.com/shapeup): the field names the work done before a build 'shaping', and keeps it apart from building.",
+        "Jeff Patton, User Story Mapping (O'Reilly, 2014): the field cuts work into thin vertical slices that a person can use and test end to end, then orders them.",
+        "Gojko Adzic, Specification by Example (Manning, 2011): the field agrees the acceptance examples before the build, and checks the built work against them from the outside.",
+        "Atlassian Jira issue hierarchy (support.atlassian.com, issue types: epic, story, subtask): the field tracks planned work as an epic that holds stories.",
+        "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 1: 'the shaping work is three plays in a row: shape the slice, build the plan, build the eval.'",
+        "docs/philosophy/idsd.md, IDSD in One Page: the Shape loop, 'the product is ready to build in slices'; and 'The Plan Is the Human's Interface'.",
+        "docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier: the evals are kept away from the builders.",
+        "Memory (phoenix) knowledge/domains/*.md, the ten shelves: no shelf has a trigger for software delivery work (placement-routing.json, unmatched).",
+        "Note: the four outside sources are named from the published works; this run did not fetch them. A person checks them before the page is raised to detailed."
+      ],
+      "also_holds_capabilities": [
+        "cap-718",
+        "cap-719",
+        "cap-720",
+        "cap-721"
+      ],
+      "not_placed_here": {
+        "cap-723": "Link the product model: its job is the shape of the product model (ontology, ready check), not the planning of work. Left without a domain; a later /discover-domains run decides (a product-modeling domain).",
+        "cap-735, cap-739, cap-742, cap-747": "The harness standard and the renames: their job is how Garura's own parts are named and built (harness engineering), not delivery planning. Left without a domain."
+      }
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "cap-shape-slice",
+      "slug": "shape-slice",
+      "name": "Shape a slice",
+      "one_line": "Shape the one slice that shows a business intent is served: the features in build order, the one surface and the person who tests it.",
+      "domain": "dom-software-delivery-planning",
+      "action": "new",
+      "existing_id": null,
+      "what_is_added": null,
+      "why": "No capability in the model shapes a slice. The nine capabilities plan, show, change or land work, link the model, or set the naming standard. ADR 049 Decision 1.1 gives /shape-slice its own job: it writes the slice and the link 'slice serves business intent', and nothing else.",
+      "sources": [
+        "docs/adr/049-*.md, Decision 1.1",
+        "docs/adr/048-*.md, Decision 2 (the slice definition, which stands)",
+        "Jeff Patton, User Story Mapping (2014): thin vertical slices",
+        "GitHub #795 (closed): '/shape-slice grills within the tier and assembles the slice that delivers the business intent'"
+      ]
+    },
+    {
+      "id": "cap-718",
+      "slug": "cap-718",
+      "name": "Build a plan",
+      "one_line": "Build a plan: a tree with an issue for every node, from a business intent",
+      "domain": "dom-software-delivery-planning",
+      "action": "fill",
+      "existing_id": "cap-718",
+      "what_is_added": "The plan as ontology v9 and v10 define it (ADR 049 Decisions 1.2, 2 and 4): (1) one plan for each business intent, never a second, with the intent's issue number as its ID; (2) the plan holds every slice that serves its intent, found from the link 'slice serves business intent', and takes the slice that /shape-slice shaped, without picking or testing slices; (3) one epic for each slice, or the epic that exists; (4) one story for each feature of the slice, whose scope of work holds the goal, the limits and the expectations from the feature's ICE and its capability's ICE, and whose Context guidance is its own property, with no failure condition. The current page builds a tree of capability, feature, spike, chore and bug, and gives an issue to every node; ontology v7 (ADR 048 Decision 1) says a capability and a feature are never tracker issues, so that part of the page is out of date. Settled by decision 6 of #844: the plan play does not write the slice's hidden file; /shape-slice writes it. #818's text and ADR 049 Decisions 1.2 and 4 still say the plan play writes it, so they must change.",
+      "why": "cap-718 already owns 'from a business intent, build the plan as a plan file in the repo, with a tracker issue for its nodes' (its Directional intent). /shape-plan does that job, so it is the same capability. But the page was written before ontology v7: it has no slice, no epic and no story, and it gives capabilities and features their own issues. So /shape-plan fills a part that exists only in part; it is not new and not a plain reuse.",
+      "sources": [
+        ".garura/product/product-os/capabilities/cap-718/capability.md, Directional intent and Agent intent",
+        ".garura/product/product-os/features/fn-727/feature.md and fn-728/feature.md",
+        "docs/adr/049-*.md, Decisions 1.2, 2 and 4",
+        "docs/adr/048-*.md, Decision 1 ('Domain, Capability, Feature, Slice, Source and ICE are never tracker issues')",
+        "GitHub #818 (open): 'The plan play makes the plan, the epic, one story per feature, and the hidden file'"
+      ]
+    },
+    {
+      "id": "cap-shape-eval",
+      "slug": "shape-eval",
+      "name": "Write the hidden eval",
+      "one_line": "Write the eval that checks, from the outside, that a business intent is met on its slice's surface, and keep it where no builder can read it.",
+      "domain": "dom-software-delivery-planning",
+      "action": "new",
+      "existing_id": null,
+      "what_is_added": null,
+      "why": "No capability in the model writes an eval. Writing the acceptance check is a job of its own (Specification by Example): it reads what the plan play wrote, never the ICE (ADR 049 Decision 4), and its output must never reach the builder (the barrier). Putting it in cap-718 would give the plan's reader of the ICE a second job and mix the barrier rule into the plan.",
+      "sources": [
+        "docs/adr/049-*.md, Decisions 1.3, 3 and 4",
+        "docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier",
+        "Gojko Adzic, Specification by Example (2011)",
+        "GitHub #798 (open): 'The eval play writes the slice's eval: is the business intent met, tested on the slice's surface'"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "fn-795",
+      "slug": "fn-795",
+      "name": "/shape-slice writes the slice only",
+      "one_line": "From a business intent, /shape-slice writes one slice and its link to the intent, and no plan, epic, story or eval.",
+      "capability": "cap-shape-slice",
+      "issue": 795,
+      "built": "in part: the hidden file is not built yet (decision 6)",
+      "action": "new",
+      "existing_id": null
+    },
+    {
+      "id": "fn-818",
+      "slug": "fn-818",
+      "name": "/shape-plan writes the plan, the epic and the stories",
+      "one_line": "From a shaped slice, /shape-plan writes the intent's one plan file, one epic for the slice and one story for each feature.",
+      "capability": "cap-718",
+      "issue": 818,
+      "built": false,
+      "action": "new",
+      "existing_id": null,
+      "overlap": "fn-727 (build the plan tree) and fn-728 (an issue for every node) cover the older shape of the same job. They are kept as they are; the gap check (find-model-gaps) decides if they are duplicates of fn-818. Nothing is removed here."
+    },
+    {
+      "id": "fn-798",
+      "slug": "fn-798",
+      "name": "/shape-eval writes the hidden eval",
+      "one_line": "From the plan's epic and stories, /shape-eval writes the eval for the business intent in the plan's evals folder, where no builder reads.",
+      "capability": "cap-shape-eval",
+      "issue": 798,
+      "built": false,
+      "action": "new",
+      "existing_id": null
+    }
+  ],
+  "draft_pages": {
+    "software-delivery-planning/domain.md": "# Theme: Software delivery planning\n\n## Intent\nThis domain turns a business intent into work that agents can build and that a check from the outside can prove. It serves the product owner, who names the work and approves its design, and the plays that build from that design. Its job comes before the build: it shapes one slice that a person can test end to end, it plans that slice as work items in the tracker, and it writes the eval that says if the intent is met. It does not build, check or release the work, and it never lets a builder read the eval.\n\n> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.\n\n## Sources\n- Ryan Singer, Shape Up: Stop Running in Circles and Ship Work that Matters (Basecamp, 2019, basecamp.com/shapeup): the field names the work done before a build 'shaping', and keeps it apart from building.\n- Jeff Patton, User Story Mapping (O'Reilly, 2014): the field cuts work into thin vertical slices that a person can use and test end to end, then orders them.\n- Gojko Adzic, Specification by Example (Manning, 2011): the field agrees the acceptance examples before the build, and checks the built work against them from the outside.\n- Atlassian Jira issue hierarchy (support.atlassian.com, issue types: epic, story, subtask): the field tracks planned work as an epic that holds stories.\n- docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 1: 'the shaping work is three plays in a row: shape the slice, build the plan, build the eval.'\n- docs/philosophy/idsd.md, IDSD in One Page: the Shape loop, 'the product is ready to build in slices'; and 'The Plan Is the Human's Interface'.\n- docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier: the evals are kept away from the builders.\n- Memory (phoenix) knowledge/domains/*.md, the ten shelves: no shelf has a trigger for software delivery work (placement-routing.json, unmatched).\n- Note: the four outside sources are named from the published works; this run did not fetch them. A person checks them before the page is raised to detailed.\n",
+    "capabilities/cap-shape-slice/capability.md": "# Capability: Shape a slice\n\n## Directional intent\nShape the one slice that shows a business intent is served. A slice is an ordered group of features, from any capabilities, that a person can test end to end on one surface. This capability picks those features in build order, the one surface, and the person who tests it. It reads the product model and memory first, and asks the person only what neither answers. It writes the slice and one link, \"slice serves business intent\", and nothing else: the plan, the epic, the stories and the eval are the work of other capabilities. It matters because every later step plans and checks this slice; a slice with no surface a person can test cannot be checked.\n\n> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.\n\n## Agent intent (ICE)\n> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.\n- Goal: A business intent has one slice that one person can test end to end on one surface, with its features in build order.\n- Goal: The slice's hidden file holds each feature's failure conditions and its capability's, with exactly one recovery for each.\n- Limit: Write only the slice, its link \"slice serves business intent\", its record, the model parts the slice lacks (marked to be deepened), and the hidden file. Never a plan, an epic, a story or an eval.\n- Limit: Ask the person only what the model and memory do not answer, within the question tier.\n- Fails if: the slice has no surface that a person can test, has no tester, or has more than one surface.\n- Fails if: the person is asked a question that the model or memory answers.\n- Fails if: a \"Fails if\" line of a slice feature or of its capability is missing from the hidden file.\n- Context: serves the product owner (names the intent, answers, approves) and the plays after it, /shape-plan and /shape-eval, which read the slice; reads the intent page, the spine, the ontology (Slice kind) and memory; writes the spine's slices list, product-os/slices/<id>.yaml and .garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md; out are the plan, the epic, the stories and the eval.\n- Checked by: /shape-slice run on a real business intent writes one slice and its hidden file, and no plan, epic, story or eval.\n\n## Sources\n- docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 1.1.\n- docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Decision 2: the slice definition.\n- Jeff Patton, User Story Mapping (O'Reilly, 2014): thin vertical slices.\n- GitHub #795 (closed).\n",
+    "capabilities/cap-shape-eval/capability.md": "# Capability: Write the hidden eval\n\n## Directional intent\nWrite the eval that checks, from the outside, that a business intent is met on its slice's surface. The eval is written before the build, from what the plan wrote: the epic, its stories and the slice's hidden file. It never reads an ICE page itself, so the ICE has only one reader. The eval is kept in the plan's evals folder, and no builder, no skill that builds the software and no context sub-agent reads that folder. It matters because a builder that sees the test can build to the test, and then a pass proves nothing.\n\n> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.\n\n## Agent intent (ICE)\n> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.\n- Goal: Each slice has one eval that says, from the outside, if its business intent is met on the slice's surface.\n- Limit: Read the epic, its stories and the hidden file; never an ICE page, the usage guide or the code.\n- Limit: Write only in the plan's evals folder: .garura/project/plans/<plan-id>/evals/<slug>/.\n- Fails if: a builder can read the eval.\n- Fails if: the eval checks something the business intent does not ask for.\n- Fails if: the eval play reads an ICE page, the usage guide or the code.\n- Context: serves the product owner, who wants proof that the intent is met, and the running eval after the build; reads what /shape-plan and /shape-slice wrote; until #828 only a read rule keeps the folder from builders; out are running the eval and encrypting it.\n- Checked by: /shape-eval run after /shape-plan writes the eval in the plan's evals folder, and no build play's inputs name that folder.\n\n## Sources\n- docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decisions 1.3, 3 and 4.\n- docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier.\n- Gojko Adzic, Specification by Example (Manning, 2011).\n- GitHub #798 (open).\n",
+    "capabilities/cap-718/capability.md": "# Capability: Build a plan\n\n## Directional intent\nfrom a business intent, build the whole plan — Business Intent → Capability → Feature → Spike/Chore/Bug — as a plan file in the repo, with a tracker issue for every node.\n\nAdded by /shape-slice for bi-788 (ontology v9 and v10, ADR 049): a business intent has one plan, and never a second; the plan's ID is the intent's issue number. The plan holds every slice that serves its intent, found from the link \"slice serves business intent\", and it takes the slice that was shaped; it does not pick or test slices. For each slice it makes one epic, or uses the one that exists, and one story for each feature of the slice. A story's scope of work holds the goal, the limits and the expectations from its feature's ICE and that feature's capability's ICE, and its Context guidance is its own property. A story never holds a failure condition. The plan play does not write the slice's hidden file; /shape-slice writes it (decision 6 of #844, which changes ADR 049 Decisions 1.2 and 4). Note: under ontology v7 a capability and a feature are never tracker issues, so the first paragraph's \"a tracker issue for every node\" is out of date; it is kept until a person agrees the change.\n\n> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.\n\n## Agent intent (ICE)\n- Goal: Given a business intent, a plan file exists with every capability and feature named, each with its ICE and its tracker issue.\n- Limit: It never waits for a full product model; missing model pages are written as light pages on the fly.\n- Fails if: a node in the plan has no tracker issue, or building stops because a domain or model page is missing.\n- Checked by: building the plans for #717 and its partner gives the same trees that were filed by hand on 2026-10-21.\n\nAdded by /shape-slice for bi-788 (the lines above are kept as they are):\n> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.\n- Goal: A business intent has exactly one plan, and the plan holds one epic for each slice that serves the intent and one story for each feature of that slice.\n- Limit: The plan does not pick, rank or test slices; the person chose the slice at /shape-slice.\n- Limit: The plan play writes only the plan file, the epic and the stories; the slice's hidden file and its failure and recovery conditions are /shape-slice's (decision 6).\n- Fails if: a story holds a failure condition, or a second plan is made for one business intent.\n- Fails if: the plan play writes a failure condition, a recovery condition or the eval into the plan's evals folder.\n- Context: serves the product owner, who runs and tracks the plan; reads the slice and the two ICE of each story once; writes .garura/project/plans/<intent>.yaml and the tracker's epic and stories; out are picking slices, the hidden file and the eval.\n- Checked by: /shape-plan run after /shape-slice on a real business intent writes the plan file, one epic and one story for each feature of the slice.\n\n## Sources\n- docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decisions 1.2, 2 and 4.\n- docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Decision 1.\n- GitHub #818 (open).\n",
+    "features/fn-795/feature.md": "# Feature: /shape-slice writes the slice only\n\n## What it does\n/shape-slice <intent> reads the business intent and the product model, asks the person only what the model and memory do not answer, and writes one slice into the spine with its link to the intent. It writes no plan, no epic, no story and no eval. Built in #795. Not built yet: it must also write the slice's hidden file (failure-and-recovery.md) in the plan's evals folder (decision 6 of #844); that needs a change to the play's intent through /edit-play.\n\n> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.\n\n## Agent intent (ICE)\n> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.\n- Goal: After /shape-slice <intent>, the spine holds one slice that serves the business intent, with its features in build order, its one surface and its tester.\n- Goal: After /shape-slice <intent>, the plan's evals folder holds the slice's hidden file, with one entry for each feature of the slice. (Not built yet: decision 6 adds it.)\n- Limit: Write no plan, epic, story or eval. The hidden file goes only in .garura/project/plans/<plan-id>/evals/<slug>/, and the confirmation the person sees shows the slice only.\n- Fails if: /shape-slice writes a plan, an epic, a story or an eval.\n- Fails if: a new slice is made for an intent that a slice already serves.\n- Fails if: the hidden file is not written, or a failure condition in it has no recovery or more than one.\n- Context: serves the product owner, who runs it in Claude Code; built in #795 (core/components/plays/shape-slice/): it reads the intent from the model and writes the intent page from the issue when the model has none, asks within the tier, reuses a slice that serves, fills the model, writes the slice and its record, and stops at a typed yes / change / stop.\n- Checked by: the product owner runs /shape-slice 788 in Claude Code and finds one slice in the spine, the hidden file in plans/788/evals/<slug>/, and no other new file outside the model.\n",
+    "features/fn-818/feature.md": "# Feature: /shape-plan writes the plan, the epic and the stories\n\n## What it does\n/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Not built yet (#818).\n\n> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.\n\n## Agent intent (ICE)\n> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.\n- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.\n- Goal: A second run finds the plan, the epic and the stories that exist, and makes no copies.\n- Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.\n- Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.\n- Limit: Nothing goes to the tracker before the product owner's yes.\n- Fails if: a feature of the slice has no story.\n- Fails if: a story or the plan file holds a failure condition or a recovery condition.\n- Fails if: a second run makes a second epic for the slice or a second story for one feature.\n- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval and the build. Not built yet (#818).\n- Checked by: the product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.\n",
+    "features/fn-798/feature.md": "# Feature: /shape-eval writes the hidden eval\n\n## What it does\n/shape-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the eval for the business intent in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). No builder reads that folder. Not built yet (#798).\n\n> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.\n\n## Agent intent (ICE)\n> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.\n- Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.\n- Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.\n- Limit: Write only in .garura/project/plans/<plan-id>/evals/<slug>/.\n- Fails if: the eval is written outside the plan's evals folder, or a builder's inputs name that folder.\n- Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.\n- Fails if: a handoff plan that the eval writes names a failure condition, its id or the check.\n- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).\n- Checked by: the product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/, and no build play's inputs name that folder.\n"
+  },
+  "notes_for_caller": [
+    "Draft paths: the domain page uses the slug path software-delivery-planning/domain.md; capability and feature pages use the holding-folder paths the model uses today. The play's persist script decides the final place.",
+    "cap-718 fill keeps every line the page has and adds lines; nothing is removed (fn-727 and fn-728 stay as they are).",
+    "Phoenix memory holds ontology v4 (no Slice, Plan, Epic or Story kinds); the repo source is v10. The kinds used here come from ADR 048 and ADR 049."
+  ],
+  "thin_ice": {
+    "cap-shape-slice": {
+      "marker": "thin: proposed by /shape-slice; deepen with /discover-capabilities",
+      "lines": [
+        "Goal: A business intent has one slice that one person can test end to end on one surface, with its features in build order.",
+        "Goal: The slice's hidden file holds each feature's failure conditions and its capability's, with exactly one recovery for each.",
+        "Limit: Write only the slice, its link \"slice serves business intent\", its record, the model parts the slice lacks (marked to be deepened), and the hidden file. Never a plan, an epic, a story or an eval.",
+        "Limit: Ask the person only what the model and memory do not answer, within the question tier.",
+        "Fails if: the slice has no surface that a person can test, has no tester, or has more than one surface.",
+        "Fails if: the person is asked a question that the model or memory answers.",
+        "Fails if: a \"Fails if\" line of a slice feature or of its capability is missing from the hidden file.",
+        "Context: serves the product owner (names the intent, answers, approves) and the plays after it, /shape-plan and /shape-eval, which read the slice; reads the intent page, the spine, the ontology (Slice kind) and memory; writes the spine's slices list, product-os/slices/<id>.yaml and .garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md; out are the plan, the epic, the stories and the eval.",
+        "Checked by: /shape-slice run on a real business intent writes one slice and its hidden file, and no plan, epic, story or eval."
+      ]
+    },
+    "fn-795": {
+      "marker": "thin: proposed by /shape-slice; deepen with /discover-capabilities",
+      "lines": [
+        "Goal: After /shape-slice <intent>, the spine holds one slice that serves the business intent, with its features in build order, its one surface and its tester.",
+        "Goal: After /shape-slice <intent>, the plan's evals folder holds the slice's hidden file, with one entry for each feature of the slice. (Not built yet: decision 6 adds it.)",
+        "Limit: Write no plan, epic, story or eval. The hidden file goes only in .garura/project/plans/<plan-id>/evals/<slug>/, and the confirmation the person sees shows the slice only.",
+        "Fails if: /shape-slice writes a plan, an epic, a story or an eval.",
+        "Fails if: a new slice is made for an intent that a slice already serves.",
+        "Fails if: the hidden file is not written, or a failure condition in it has no recovery or more than one.",
+        "Context: serves the product owner, who runs it in Claude Code; built in #795 (core/components/plays/shape-slice/): it reads the intent from the model and writes the intent page from the issue when the model has none, asks within the tier, reuses a slice that serves, fills the model, writes the slice and its record, and stops at a typed yes / change / stop.",
+        "Checked by: the product owner runs /shape-slice 788 in Claude Code and finds one slice in the spine, the hidden file in plans/788/evals/<slug>/, and no other new file outside the model."
+      ]
+    },
+    "cap-shape-eval": {
+      "marker": "thin: proposed by /shape-slice; deepen with /discover-capabilities",
+      "lines": [
+        "Goal: Each slice has one eval that says, from the outside, if its business intent is met on the slice's surface.",
+        "Limit: Read the epic, its stories and the hidden file; never an ICE page, the usage guide or the code.",
+        "Limit: Write only in the plan's evals folder: .garura/project/plans/<plan-id>/evals/<slug>/.",
+        "Fails if: a builder can read the eval.",
+        "Fails if: the eval checks something the business intent does not ask for.",
+        "Fails if: the eval play reads an ICE page, the usage guide or the code.",
+        "Context: serves the product owner, who wants proof that the intent is met, and the running eval after the build; reads what /shape-plan and /shape-slice wrote; until #828 only a read rule keeps the folder from builders; out are running the eval and encrypting it.",
+        "Checked by: /shape-eval run after /shape-plan writes the eval in the plan's evals folder, and no build play's inputs name that folder."
+      ]
+    },
+    "fn-818": {
+      "marker": "thin: proposed by /shape-slice; deepen with /discover-capabilities",
+      "lines": [
+        "Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.",
+        "Goal: A second run finds the plan, the epic and the stories that exist, and makes no copies.",
+        "Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.",
+        "Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.",
+        "Limit: Nothing goes to the tracker before the product owner's yes.",
+        "Fails if: a feature of the slice has no story.",
+        "Fails if: a story or the plan file holds a failure condition or a recovery condition.",
+        "Fails if: a second run makes a second epic for the slice or a second story for one feature.",
+        "Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval and the build. Not built yet (#818).",
+        "Checked by: the product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story."
+      ]
+    },
+    "fn-798": {
+      "marker": "thin: proposed by /shape-slice; deepen with /discover-capabilities",
+      "lines": [
+        "Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.",
+        "Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.",
+        "Limit: Write only in .garura/project/plans/<plan-id>/evals/<slug>/.",
+        "Fails if: the eval is written outside the plan's evals folder, or a builder's inputs name that folder.",
+        "Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.",
+        "Fails if: a handoff plan that the eval writes names a failure condition, its id or the check.",
+        "Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).",
+        "Checked by: the product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/, and no build play's inputs name that folder."
+      ]
+    },
+    "cap-718": {
+      "marker": "kept as it is; the added lines are thin: proposed by /shape-slice; deepen with /discover-capabilities",
+      "lines": [
+        "Goal: Given a business intent, a plan file exists with every capability and feature named, each with its ICE and its tracker issue.",
+        "Limit: It never waits for a full product model; missing model pages are written as light pages on the fly.",
+        "Fails if: a node in the plan has no tracker issue, or building stops because a domain or model page is missing.",
+        "Checked by: building the plans for #717 and its partner gives the same trees that were filed by hand on 2026-10-21.",
+        "Goal: A business intent has exactly one plan, and the plan holds one epic for each slice that serves the intent and one story for each feature of that slice.",
+        "Limit: The plan does not pick, rank or test slices; the person chose the slice at /shape-slice.",
+        "Limit: The plan play writes only the plan file, the epic and the stories; the slice's hidden file and its failure and recovery conditions are /shape-slice's (decision 6).",
+        "Fails if: a story holds a failure condition, or a second plan is made for one business intent.",
+        "Fails if: the plan play writes a failure condition, a recovery condition or the eval into the plan's evals folder.",
+        "Context: serves the product owner, who runs and tracks the plan; reads the slice and the two ICE of each story once; writes .garura/project/plans/<intent>.yaml and the tracker's epic and stories; out are picking slices, the hidden file and the eval.",
+        "Checked by: /shape-plan run after /shape-slice on a real business intent writes the plan file, one epic and one story for each feature of the slice."
+      ],
+      "kept_lines": [
+        "Goal: Given a business intent, a plan file exists with every capability and feature named, each with its ICE and its tracker issue.",
+        "Limit: It never waits for a full product model; missing model pages are written as light pages on the fly.",
+        "Fails if: a node in the plan has no tracker issue, or building stops because a domain or model page is missing.",
+        "Checked by: building the plans for #717 and its partner gives the same trees that were filed by hand on 2026-10-21."
+      ],
+      "added_lines": [
+        "Goal: A business intent has exactly one plan, and the plan holds one epic for each slice that serves the intent and one story for each feature of that slice.",
+        "Limit: The plan does not pick, rank or test slices; the person chose the slice at /shape-slice.",
+        "Limit: The plan play writes only the plan file, the epic and the stories; the slice's hidden file and its failure and recovery conditions are /shape-slice's (decision 6).",
+        "Fails if: a story holds a failure condition, or a second plan is made for one business intent.",
+        "Fails if: the plan play writes a failure condition, a recovery condition or the eval into the plan's evals folder.",
+        "Context: serves the product owner, who runs and tracks the plan; reads the slice and the two ICE of each story once; writes .garura/project/plans/<intent>.yaml and the tracker's epic and stories; out are picking slices, the hidden file and the eval.",
+        "Checked by: /shape-plan run after /shape-slice on a real business intent writes the plan file, one epic and one story for each feature of the slice."
+      ]
+    }
+  },
+  "slice": {
+    "id": "sl-intent-to-design",
+    "slug": "intent-to-design",
+    "name": "From a named piece of work to its design",
+    "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.",
+    "feature_refs": [
+      "fn-795",
+      "fn-818",
+      "fn-798"
+    ],
+    "vertical": "the Claude Code command line",
+    "intents": [
+      "bi-788"
+    ],
+    "surface": {
+      "id": "surf-claude-code-cli",
+      "name": "the Claude Code command line",
+      "persona_ref": "product-owner",
+      "user_action": "runs /shape-slice, then /shape-plan, then /shape-eval on a business intent"
+    },
+    "why_this_order": "Each play reads what the play before it wrote. /shape-plan reads the slice that /shape-slice wrote; /shape-eval reads the epic and stories that /shape-plan wrote and the hidden file that /shape-slice wrote (ADR 049 Decision 1; #818 needs #795, #798 needs #818)."
+  },
+  "hidden_file": {
+    "path": ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md",
+    "text": "# Failure and recovery: slice sl-intent-to-design\n\nSlice: From a named piece of work to its design (sl-intent-to-design). Plan: 788 (business intent bi-788). Surface: the Claude Code command line; tested by the product owner.\n\nWritten by /shape-slice (decision 6 of #844), from the ICE of each feature and its capability. The ICE is thin: proposed by /shape-slice, to be deepened with /discover-capabilities. When an ICE changes, its entry here is made again from the same ICE.\n\nWho reads this file: /shape-eval reads all of it. The running eval reads only the Recovery parts. No builder, no build skill and no context sub-agent reads this file. A story never holds these lines.\n\nRule: standards/rules/expectation-generation.md, \"A story's recovery (product ICE)\": one recovery for each \"Fails if\" line, with When (a symptom), Way back (guidance, never code) and Who fixes.\n\n## fn-795: /shape-slice writes the slice only\n\n- Capability: cap-shape-slice (Shape a slice)\n- Story: (filled in by /shape-plan)\n\n### Failure conditions\n\n- F1 (from the feature ICE): /shape-slice writes a plan, an epic, a story or an eval.\n- F2 (from the feature ICE): A new slice is made for an intent that a slice already serves.\n- F3 (from the feature ICE): The hidden file is not written, or a failure condition in it has no recovery or more than one.\n- F4 (from the capability ICE): The slice has no surface that a person can test, has no tester, or has more than one surface.\n- F5 (from the capability ICE): The person is asked a question that the model or memory answers.\n- F6 (from the capability ICE): A \"Fails if\" line of a slice feature or of its capability is missing from the hidden file.\n\n### Recovery\n\n- For F1\n  - When: After /shape-slice, a plan file, an epic or story in the tracker, or an eval file exists that the run made.\n  - Way back: Take back each file the run wrote outside the slice, its record, the model parts it added and the hidden file. The plan and the eval are left to /shape-plan and /shape-eval.\n  - Who fixes: the builder can fix this alone\n- For F2\n  - When: The spine has two slices that list the same intent, or two slices with the same features and the same surface.\n  - Way back: Keep the slice that served the intent first, add the intent to it, and remove the new slice.\n  - Who fixes: the builder can fix this alone\n- For F3\n  - When: The slice's evals folder has no failure-and-recovery file, or one failure line has no recovery or two recoveries.\n  - Way back: Write the file from the \"Fails if\" lines of each feature and its capability, with exactly one recovery for each line.\n  - Who fixes: the builder can fix this alone\n- For F4\n  - When: The slice record has an empty surface or tester, or it names two surfaces.\n  - Way back: Do not write the slice until one surface and the person who tests it are named; when there is none, say why.\n  - Who fixes: a person must decide\n- For F5\n  - When: The question record holds a question whose answer is already in the model or in memory.\n  - Way back: Drop the question and use the answer that the model or memory gives, with its source.\n  - Who fixes: the builder can fix this alone\n- For F6\n  - When: A \"Fails if\" line on a feature page or a capability page of the slice is not in the hidden file.\n  - Way back: Add the missing line to the entry of its feature, with one recovery.\n  - Who fixes: the builder can fix this alone\n\n## fn-818: /shape-plan writes the plan, the epic and the stories\n\n- Capability: cap-718 (Build a plan)\n- Story: (filled in by /shape-plan)\n\n### Failure conditions\n\n- F7 (from the feature ICE): A feature of the slice has no story.\n- F8 (from the feature ICE): A story or the plan file holds a failure condition or a recovery condition.\n- F9 (from the feature ICE): A second run makes a second epic for the slice or a second story for one feature.\n- F10 (from the capability ICE): A node in the plan has no tracker issue, or building stops because a domain or model page is missing.\n- F11 (from the capability ICE): A story holds a failure condition, or a second plan is made for one business intent.\n- F12 (from the capability ICE): The plan play writes a failure condition, a recovery condition or the eval into the plan's evals folder.\n\n### Recovery\n\n- For F7\n  - When: The epic has fewer stories than the slice has features, or no story names one of the features.\n  - Way back: Make the missing story under the epic, from its feature's ICE and that feature's capability's ICE.\n  - Who fixes: a person must decide\n- For F8\n  - When: A story's text or the plan file says what must never happen, or how to recover.\n  - Way back: Take the line out of the story and the plan file; the line stays only in the hidden file. The person decides if the eval must be made again, because a builder may have read the line.\n  - Who fixes: a person must decide\n- For F9\n  - When: The tracker has two epics for the slice, or two stories for one feature.\n  - Way back: Keep the first epic or story, and close the copy with a pointer to the first.\n  - Who fixes: a person must decide\n- For F10\n  - When: The epic or a story has no issue in the tracker, or the run stopped and named a missing domain or model page.\n  - Way back: Give the epic or the story its issue; write a missing page as a light page and go on.\n  - Who fixes: a person must decide\n- For F11\n  - When: Two plan files exist for one intent, or a story says what must never happen.\n  - Way back: Keep one plan, whose ID is the intent's issue number, and move the slices of the other into it; take the failure line out of the story.\n  - Who fixes: a person must decide\n- For F12\n  - When: A failure line, a recovery line or the eval in the evals folder was changed by /shape-plan.\n  - Way back: Put the hidden file back as /shape-slice wrote it, keep only the story numbers that /shape-plan added, and leave the eval to /shape-eval.\n  - Who fixes: the builder can fix this alone\n\n## fn-798: /shape-eval writes the hidden eval\n\n- Capability: cap-shape-eval (Write the hidden eval)\n- Story: (filled in by /shape-plan)\n\n### Failure conditions\n\n- F13 (from the feature ICE): The eval is written outside the plan's evals folder, or a builder's inputs name that folder.\n- F14 (from the feature ICE): A story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.\n- F15 (from the feature ICE): A handoff plan that the eval writes names a failure condition, its id or the check.\n- F16 (from the capability ICE): A builder can read the eval.\n- F17 (from the capability ICE): The eval checks something the business intent does not ask for.\n- F18 (from the capability ICE): The eval play reads an ICE page, the usage guide or the code.\n\n### Recovery\n\n- For F13\n  - When: An eval file is outside plans/788/evals/intent-to-design/, or the inputs of a build play, a build skill or a context sub-agent name the evals folder.\n  - Way back: Move the eval into the evals folder and take the folder out of the builder's inputs. The person decides if the eval must be made again, because a builder may have read it.\n  - Who fixes: a person must decide\n- For F14\n  - When: A goal, an expectation or a failure line has no check in the eval and no note that it cannot be tested yet.\n  - Way back: Add a check from the outside, on the slice's surface, or a note that says why it cannot be tested yet.\n  - Who fixes: the builder can fix this alone\n- For F15\n  - When: A handoff plan holds a failure line, an F id or the name of a check.\n  - Way back: Rewrite the handoff plan so that it says only what the product does wrong, as a symptom, and the way back.\n  - Who fixes: the builder can fix this alone\n- For F16\n  - When: The eval or the hidden file is in a place that a build play, a build skill or a context sub-agent reads, or a builder's short-term memory holds its text.\n  - Way back: Keep the eval only in the evals folder, remove its text from the builder's short-term memory, and treat a pass of that build as not proven.\n  - Who fixes: a person must decide\n- For F17\n  - When: A check traces to no line of the business intent, its epic or its stories.\n  - Way back: Remove the check, or trace it to the line of the intent that it serves.\n  - Who fixes: a person must decide\n- For F18\n  - When: The eval run's reads name an ICE page, a usage guide or a code file.\n  - Way back: Build the eval again from only the epic, its stories and the hidden file.\n  - Who fixes: the builder can fix this alone\n"
+  },
+  "warnings": [
+    "Every new ICE here is thin: goals, limits, fails-if lines, context and a check, but no expectations and no quality needs. The stories /shape-plan writes get only these goals and limits, and the eval can check only what is written, so a missing line shows up later as a missed failure or a 'cannot test yet'. Run /discover-capabilities on cap-shape-slice, cap-718 and cap-shape-eval before the build.",
+    "No ICE here has an expectations line, but a story's scope of work is meant to carry the expectations of its two ICE. Until /discover-capabilities adds them, the stories carry none.",
+    "fn-795 is built, but the built /shape-slice does not write the hidden file, and its own rules (C9, F9) forbid any file outside the slice. Writing the hidden file needs an intent change through /edit-play.",
+    "Decision 6 goes against what is written today: ontology v10, ADR 049 Decisions 1.2 and 4, the story section of the expectation-generation rule, and the text of #818 all say the plan play writes the hidden file. They need a decision record and an ontology change before the plays are built.",
+    "The ICE now has two readers: /shape-slice reads the 'Fails if' lines and /shape-plan reads the goals, limits, expectations and context. ADR 049 wants one reader so that the ICE is read one way; this holds only if each part of the ICE keeps exactly one reader. Record that split.",
+    "The hidden file is kept per feature, because the stories do not exist yet. /shape-plan must then write each story number into it, which is a write into the evals folder. Decide if it writes only that number, or if the feature-to-story map lives on the epic instead.",
+    "cap-718 keeps its four older lines as they were. They say every node gets a tracker issue and name the #717 check; under ontology v7 a capability and a feature never get an issue. F10 rests on that older line. A person must agree to change it.",
+    "fn-727 and fn-728 cover the older shape of the plan job and overlap fn-818. The gap check decides if they are duplicates.",
+    "bi-788 says the product owner gives one approval, at the end. With no loop (decision 1), each of the three plays has its own confirmation. The intent page's proof line needs the product owner to confirm or change it.",
+    "Until #828 only a read rule keeps the eval and the hidden file from builders (F13, F16). Nothing on disk stops a play that breaks the rule.",
+    "Most recoveries for the plan and the eval need a person, because they write to the tracker or because a builder may already have seen a failure line.",
+    "Memory gap: the Garura memory and Phoenix memory copies of the expectation-generation rule lack the section 'A story's recovery (product ICE)'. That section was read from the repo source (core/components/memory/standards/rules/expectation-generation.md). Phoenix memory also holds ontology v4, which has no Slice, Plan, Epic or Story."
+  ]
+}
