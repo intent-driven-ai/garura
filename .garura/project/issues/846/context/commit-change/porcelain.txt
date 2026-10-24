@@ -1,0 +1,4 @@
+ M core/components/memory/standards/rules/expectation-generation.md
+?? .garura/project/issues/846/context/commit-change/
+?? .garura/project/issues/846/context/memory/
+?? .garura/project/issues/846/review/

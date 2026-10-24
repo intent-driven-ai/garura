@@ -1,0 +1,23 @@
+needs_judgment: false
+change_groups:
+  - id: rules-recovery-in-hidden-file
+    issue: 846
+    commit_type: docs
+    scope: rules
+    subject: "a feature's recovery is written by /shape-slice into the hidden file (ontology v11)"
+    files:
+      - core/components/memory/standards/rules/expectation-generation.md
+  - id: stm-846-records
+    issue: 846
+    commit_type: chore
+    scope: stm
+    subject: "record memory template, waiting memory update and commit-change files"
+    files:
+      - .garura/project/issues/846/context/commit-change/analysis.yaml
+      - .garura/project/issues/846/context/commit-change/porcelain.txt
+      - .garura/project/issues/846/context/memory/manifest.json
+      - .garura/project/issues/846/context/memory/standards/templates/product-ontology.md
+      - .garura/project/issues/846/review/memory-updates/mu-20261024-001.json
+exclusions: []
+risks:
+  sensitive_files: []
