@@ -15,7 +15,7 @@ Closes #846 (on merge into the plan branch, by merge-change). Closes finding M1 
 
 ## Review round 1 (rejected, all fixed)
 
-- DF-1, DF-2 (P2): ADR 049 and ADR 047 are amended by `/record-decision` (a separate ADR, accepted by the product owner).
+- DF-1, DF-2 (P2): ADR 052 (`/record-decision`, accepted by the product owner) amends ADR 049 (§1.1, §1.2, §4, §5) and ADR 047 (§6–§8); both carry its forward pointer.
 - DF-3, DF-4, DF-5 (P3): the ready check, `spine.yaml` and `slice.yaml`, above. The `/shape-slice` play's own text follows in its `/edit-play` change.
 - DF-6 (P4): the feature-to-story map is in the epic, the plan's Tree and each story's "Represents"; agreed at checkpoint 2 (K3), with the rule that they always agree.
 - DF-7 (P4): Q38 uses the stricter words from L1 (a goal, a limit and one "Fails if" line in Intent, one line in Context, one in Expectation), as the product owner agreed at checkpoint 3. The draft's Q38 line said "at least one line in each part"; the ontology follows the agreed L1.

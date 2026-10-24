@@ -303,5 +303,5 @@ base exit 1
 }
 
 ## Summary
-ontology check: see JSON at /private/tmp/claude-503/-Users-kapilahuja-cto-builder-garura/67fc6f0b-62ce-4c47-a357-603b233b9c3e/scratchpad/oc-849.json
+ontology check: see JSON at <scratchpad>/oc-849.json
 lint: head 124 errors/1 warning; base 124 errors/1 warning; no new errors
