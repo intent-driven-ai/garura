@@ -1,17 +1,14 @@
 commits:
-  - sha: e1b7b26b
-    message: "fix(model): fn-728 follows the epic-and-story rule (#844)"
+  - sha: 772103d3
+    message: "fix(model): fn-728's fails-if names the spikes, chores and bugs under a story (#844)"
     files:
-      - .garura/product/product-os/_spine.yaml
-      - .garura/product/product-os/intents/bi-788.md
       - .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md
     branch: plan/788/844-shape-slice-for-788
-  - sha: 294e098b
-    message: "chore(stm): record run artifacts (#844)"
+  - sha: 2d57eeb7
+    message: "chore(stm): record commit-change run artifacts (#844)"
     files:
       - .garura/project/issues/844/context/commit-change/analysis.yaml
       - .garura/project/issues/844/context/commit-change/porcelain.txt
-      - .garura/project/issues/844/context/pr-body.md
     branch: plan/788/844-shape-slice-for-788
 excluded_files:
   []
