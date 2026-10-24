@@ -4,14 +4,14 @@ Slice: From a named piece of work to its design (sl-intent-to-design). Plan: 788
 
 Written by /shape-slice (decision 6 of #844), from the ICE of each feature and its capability. The ICE is thin: proposed by /shape-slice, to be deepened with /discover-capabilities. When an ICE changes, its entry here is made again from the same ICE.
 
-Who reads this file: /shape-eval reads all of it. The running eval reads only the Recovery parts. No builder, no build skill and no context sub-agent reads this file. A story never holds these lines.
+Who reads this file: /shape-eval reads all of it, and joins each entry to its story through the epic's feature-to-story map (ontology v11, ADR 052). The running eval reads only the Recovery parts. No builder, no build skill and no context sub-agent reads this file. A story never holds these lines.
 
-Rule: standards/rules/expectation-generation.md, "A story's recovery (product ICE)": one recovery for each "Fails if" line, with When (a symptom), Way back (guidance, never code) and Who fixes.
+Rule: standards/rules/expectation-generation.md, "A feature's recovery (product ICE)": one recovery for each "Fails if" line, with When (a symptom), Way back (guidance, never code) and Who fixes.
 
-## fn-795: /shape-slice writes the slice only
+## fn-795: /shape-slice writes the slice and its hidden file
 
 - Capability: cap-shape-slice (Shape a slice)
-- Story: (filled in by /shape-plan)
+- Thin: both ICE (the feature's and its capability's) are thin.
 
 ### Failure conditions
 
@@ -52,7 +52,7 @@ Rule: standards/rules/expectation-generation.md, "A story's recovery (product IC
 ## fn-818: /shape-plan writes the plan, the epic and the stories
 
 - Capability: cap-718 (Build a plan)
-- Story: (filled in by /shape-plan)
+- Thin: both ICE (the feature's and its capability's) are thin.
 
 ### Failure conditions
 
@@ -87,13 +87,13 @@ Rule: standards/rules/expectation-generation.md, "A story's recovery (product IC
   - Who fixes: a person must decide
 - For F12
   - When: A failure line, a recovery line or the eval in the evals folder was changed by /shape-plan.
-  - Way back: Put the hidden file back as /shape-slice wrote it, keep only the story numbers that /shape-plan added, and leave the eval to /shape-eval.
+  - Way back: Put the hidden file back as /shape-slice wrote it, and leave the eval to /shape-eval.
   - Who fixes: the builder can fix this alone
 
 ## fn-798: /shape-eval writes the hidden eval
 
 - Capability: cap-shape-eval (Write the hidden eval)
-- Story: (filled in by /shape-plan)
+- Thin: both ICE (the feature's and its capability's) are thin.
 
 ### Failure conditions
 

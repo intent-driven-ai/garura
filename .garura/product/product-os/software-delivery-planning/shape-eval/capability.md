@@ -1,7 +1,7 @@
 # Capability: Write the hidden eval
 
 ## Directional intent
-Write the eval that checks, from the outside, that a business intent is met on its slice's surface. The eval is written before the build, from what the plan wrote: the epic, its stories and the slice's hidden file. It never reads an ICE page itself, so the ICE has only one reader. The eval is kept in the plan's evals folder, and no builder, no skill that builds the software and no context sub-agent reads that folder. It matters because a builder that sees the test can build to the test, and then a pass proves nothing.
+Write the eval that checks, from the outside, that a business intent is met on its slice's surface. The eval is written before the build, from what the plan wrote: the epic, its stories and the slice's hidden file. It never reads an ICE page itself: each line of an ICE has one reader, /shape-slice for the "Fails if" lines and the plan play for the rest (ontology v11, ADR 052). The eval is kept in the plan's evals folder, and no builder, no skill that builds the software and no context sub-agent reads that folder. It matters because a builder that sees the test can build to the test, and then a pass proves nothing.
 
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 

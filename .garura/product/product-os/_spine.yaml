@@ -68,6 +68,8 @@ capabilities:
   depends_on: []
   identified_by: ''
   issue: 718
+  metadata:
+    thin: true
 - id: cap-719
   slug: cap-719
   domain: ''
@@ -155,6 +157,7 @@ capabilities:
   metadata:
     created_by: /shape-slice
     deepen: true
+    thin: true
 - id: cap-shape-eval
   slug: shape-eval
   domain: dom-software-delivery-planning
@@ -168,6 +171,7 @@ capabilities:
   metadata:
     created_by: /shape-slice
     deepen: true
+    thin: true
 features:
 - id: fn-724
   slug: fn-724
@@ -413,12 +417,13 @@ features:
   intents:
   - bi-788
   status: proposed
-  one_line: From a business intent, /shape-slice writes one slice and its link to
-    the intent, and no plan, epic, story or eval.
+  one_line: From a business intent, /shape-slice writes one slice, its link to the
+    intent and its hidden file, and no plan, epic, story or eval.
   doc: software-delivery-planning/shape-slice/fn-795/feature.md
   metadata:
     created_by: /shape-slice
     deepen: true
+    thin: true
 - id: fn-818
   slug: fn-818
   capability: cap-718
@@ -431,6 +436,7 @@ features:
   metadata:
     created_by: /shape-slice
     deepen: true
+    thin: true
 - id: fn-798
   slug: fn-798
   capability: cap-shape-eval
@@ -443,6 +449,7 @@ features:
   metadata:
     created_by: /shape-slice
     deepen: true
+    thin: true
 profile:
   state: set
   nfr:

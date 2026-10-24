@@ -7,6 +7,7 @@ Shape the one slice that shows a business intent is served. A slice is an ordere
 
 ## Sources
 - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 1.1.
+- docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md, Decisions 1 and 5: /shape-slice writes the hidden file and proposes a thin ICE.
 - docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Decision 2: the slice definition.
 - User Story Mapping: Discover the Whole Story, Build the Right Product (O'Reilly, 2014, https://www.oreilly.com/library/view/user-story-mapping/9781491904893/): slicing out a minimum release.
 - GitHub #795 (closed).

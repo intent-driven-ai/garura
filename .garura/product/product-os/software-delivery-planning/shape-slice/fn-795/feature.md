@@ -1,7 +1,7 @@
-# Feature: /shape-slice writes the slice only
+# Feature: /shape-slice writes the slice and its hidden file
 
 ## What it does
-/shape-slice <intent> reads the business intent and the product model, asks the person only what the model and memory do not answer, and writes one slice into the spine with its link to the intent. It writes no plan, no epic, no story and no eval. Built in #795. Not built yet: it must also write the slice's hidden file (failure-and-recovery.md) in the plan's evals folder (decision 6 of #844); that needs a change to the play's intent through /edit-play.
+/shape-slice <intent> reads the business intent and the product model, asks the person only what the model and memory do not answer, and writes one slice into the spine with its link to the intent. It also writes the slice's hidden file (failure-and-recovery.md, one entry for each feature) in the plan's evals folder, and a thin ICE for each part the slice needs that has no ICE (ontology v11, ADR 052). It writes no plan, no epic, no story and no eval. Built in #795. Not built yet: the hidden file and the thin ICE need the play's /edit-play change (#842).
 
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
@@ -11,8 +11,7 @@
 - In: the person's answers to the questions that the model and memory do not answer.
 - Out: one slice in the spine, with its features in build order, its one surface, its tester and its link to the intent, and the slice's record.
 - Out: the pages the slice needs and the model lacks, marked to be deepened later.
-- Out (not built yet, decision 6): the slice's hidden file (failure-and-recovery.md) in the plan's evals folder.
-- Thin: the exact shape of the hidden file is not set yet.
+- Out (not built yet, #842): the slice's hidden file (failure-and-recovery.md) in the plan's evals folder: one entry for each feature, with its capability, which of its two ICE is thin, each "Fails if" line and exactly one recovery for each (ontology v11, Slice).
 
 ## Rules & behavior
 - The play reads the model and memory first, and asks the person only what neither answers, all questions at once.
@@ -20,7 +19,7 @@
 - When a slice already serves the intent, the play uses that slice again and makes no new one.
 - The confirmation shows the slice only: what you run, who tests it, the features under each capability, and what is left out (decision 4).
 - Nothing is kept before the person types yes. A stop undoes every write.
-- Thin: how the play writes a thin ICE for a new capability or feature follows decision 7, and the details are not set yet.
+- For a part the slice needs that has no ICE, the play proposes a thin ICE (at least a goal, a limit and one "Fails if" line, one Context line and one Expectation line), marks it thin and warns the person; it never sends the person back (ontology v11, ICE; ADR 052 §5). Not built yet (#842).
 
 ## Acceptance criteria
 - Given an intent with no slice, when the product owner runs /shape-slice for it and types yes, then the spine holds one slice that serves the intent.

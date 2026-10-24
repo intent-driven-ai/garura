@@ -10,6 +10,7 @@
 - In: the ICE of each feature of the slice and the ICE of that feature's capability, read once.
 - Out: the intent's one plan file (`.garura/project/plans/<intent>.yaml`).
 - Out: one epic for the slice and one story for each feature, in the tracker after the product owner's yes.
+- Out: on the epic, the feature-to-story map: for each feature of the slice, the story that delivers it (ontology v11, Epic). It agrees with the plan's Tree.
 - Thin: the fields of the plan file and of each story are not set yet.
 
 ## Rules & behavior

@@ -6,7 +6,7 @@
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
 ## Inputs / Outputs
-- In: the epic of the slice and its stories.
+- In: the epic of the slice, with its feature-to-story map, and its stories. The map joins each hidden-file entry (by its feature) to its story (ontology v11, Q36).
 - In: the slice's hidden file (failure-and-recovery.md) from the plan's evals folder.
 - Out: one eval for the business intent in `.garura/project/plans/<plan-id>/evals/<slug>/`.
 - Out (when needed): a handoff plan, which never names a failure condition, its id or its check.
