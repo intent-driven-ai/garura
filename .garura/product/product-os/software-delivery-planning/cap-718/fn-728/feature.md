@@ -8,5 +8,5 @@ the plan's epic (one for each slice), its stories (one for each feature of the s
 ## Agent intent (ICE)
 - Goal: The plan file names the issue of its epic, of each story, and of each spike, chore and bug, and the tracker shows the same parent order.
 - Limit: Uses the platform adapter; no tracker is assumed.
-- Fails if: the epic or a story has no issue, or an issue sits under the wrong parent.
+- Fails if: the epic, a story, or a spike, chore or bug under a story has no issue, or an issue sits under the wrong parent.
 - Checked by: a script compares the plan file with the tracker and finds no difference.
