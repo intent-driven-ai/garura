@@ -1,0 +1,206 @@
+round: 1
+findings:
+- id: H1
+  severity: P3
+  file: core/components/agents/scriber.md, core/components/agents/tech-architect.md,
+    core/components/agents/test-runner.md (deleted)
+  where: deletion in this PR (#833)
+  finding: Three agents are deleted. A committed decision says these three are kept
+    as they are. The PR adds no decision record that amends it. ADR 053 is the only
+    ADR in the PR and does not mention them.
+  principle: A deletion that reverses a recorded decision needs a record that amends
+    it.
+  basis: G1 (ADR 050 section 3); docs/adr/053 has no mention of scriber, test-runner
+    or tech-architect
+  fix: 'Add a short ADR (or an amendment line in a new ADR) that amends ADR 050 section
+    3 and names the 3 agents plus the other deprecated skills removed under #833.
+    The deletions themselves look safe: nothing live uses them.'
+  category: harness
+- id: H2
+  severity: P3
+  file: core/components/skills/_shared/asking-a-person.md; core/components/plays/install-garura/scripts/adapters/common.py
+    (lay_shared)
+  where: '#854 - rule moved out of memory; install now lays skills/_shared too'
+  finding: The rule for asking a person leaves memory and becomes a shared file read
+    by path. The committed shared-file decision covers a block every play shares,
+    not one that skills and an agent read. No decision record covers the move or the
+    widened install.
+  principle: A change to where a rule lives, and how parts reach it, is decided in
+    a record before it ships.
+  basis: G2 (ADR 039 section 9 scope is plays and the play close); G3 (shared scaffolding
+    is one file, emitted by the compiler and linted - the lint rule asking-a-person.js
+    now does this, which is good)
+  fix: Add a short ADR (or extend ADR 039 section 9 by a new ADR) saying the rule
+    is not memory, lives at skills/_shared, and is laid beside installed parts.
+  category: harness
+- id: H3
+  severity: P4
+  file: core/components/agents/quality-auditor.md
+  where: removed section 'Validate mode (/validate-epic)'
+  finding: A live agent loses the only description of how it serves /validate-epic.
+    That play is stale and still names this mode in its own text. The play and agent
+    now disagree until the play is rebuilt.
+  principle: A stale part waits for its rebuild; the live parts it uses should not
+    change under it silently.
+  basis: G4 (stale plays keep their words, rebuilt later); G6 P9 domain boundaries
+  fix: 'Accept, since the install skips the stale play. Note in the #855 rebuild list
+    that validate-epic must restore this mode.'
+  category: harness
+- id: H4
+  severity: P4
+  file: installer/install.sh
+  where: upgrade branch (deploy_agents / deploy_skills / plays / loops)
+  finding: The upgrade skips stale and deprecated parts but does not remove copies
+    an older install already put in the project. A project upgraded from before this
+    change keeps the stale parts.
+  principle: Install skip rules and upgrade must agree on what ships.
+  basis: installer design in the diff; claude.py/codex.py share the same gap (copy_tree_fresh
+    replaces only parts it still lays)
+  fix: 'Optional: have upgrade delete previously laid stale parts, or say in the PR
+    body that a clean reinstall is needed.'
+  category: harness
+- id: M1
+  severity: P3
+  file: core/components/memory/standards/rules/pr.md
+  where: docs-targeting glob paragraph, new 'Two kinds of path get no finding (#851)'
+    bullet
+  finding: 'The scan now skips every file under docs/adr/ and every stm-evidence path,
+    yet the rows that name docs/adr/** (ARCH-23, DOC-04, DOC-05) are kept ''for the
+    review layers''. The table says a rule applies; the scan says it does not. The
+    earlier line in the same section (''path: rules that review documentation still
+    fire'') now has an exception only a later bullet reveals. The skip rests on issue
+    #851; no decision record on the base ref covers it.'
+  principle: 'The taxonomy is mechanical: a row either fires on a matching path or
+    it is removed; exemptions should be stated where the row is, and a change to a
+    standard should rest on a decision record.'
+  basis: pr.md on base ('Mechanical rule ... No LLM judgment ... If no Match Rule
+    fires ... no finding'); ADR 035/039 pattern of decisions recorded in docs/adr
+  fix: Either remove or mark ARCH-23/DOC-04/DOC-05 as 'not scanned' in their rows,
+    or record the skip in a short ADR (or amend an existing one). Keep the stm-evidence
+    skip, it matches the base classification table.
+  category: memory
+- id: M3
+  severity: P3
+  file: core/components/skills/_shared/asking-a-person.md
+  where: whole file (moved from memory/standards/rules/)
+  finding: The asking rule leaves memory and is read directly by two plays, three
+    skills and an agent. ADR 039 section 9 only covers a block 'every play shares'
+    in a common file; it names no skills/_shared folder and no sharing by skills and
+    agents. Base has only loops/_shared. The new folder, and the agent reading a non-memory
+    file, have no decision record on the base ref.
+  principle: Agents decide from memory read through the tool; anything else needs
+    a recorded decision. A shared-file folder for non-play parts is a new design point.
+  basis: ADR 035 (agents work only from memory); ADR 039 section 9; garura-memory.md
+    rule 'working files your own play hands you are not a memory lookup'
+  fix: Add a short ADR line (or amend ADR 039 section 9) naming skills/_shared and
+    who may read from it.
+  category: memory
+- id: M4
+  severity: P4
+  file: core/components/memory/standards/rules/rename-map.yaml
+  where: removed entries (shape, roadmap, aggregate-codify-proposals, build-dependency-graph,
+    draft-*, infer-*-from-code, lint-components, validate-*, write-evidence)
+  finding: 'Checked each removed entry: its new name no longer exists on the branch
+    (skills deleted), so retire_renamed cannot use it, and ''lint-components'' now
+    names a live tool the old-name check would wrongly flag. Removal is sound. Side
+    effect: a project installed before the manifest existed that still holds an old
+    folder (for example ''shape'') is no longer retired by the rename map. ADR 053
+    says ''a reinstall removes both plays'', which holds only for manifest-tracked
+    installs.'
+  principle: A rename entry exists to retire old installed copies; naming.md says
+    the map lists every name changed on adopting the standard.
+  basis: plan/788/base install.py retire_renamed docstring; ADR 053 section 2; ADR
+    046
+  fix: None required. Optionally state in ADR 053 that pre-manifest installs keep
+    the old folders.
+  category: memory
+- id: M5
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/lens/_index.md
+  where: '''A slice (from the older chain)'' and ''the slice record of the older chain'''
+  finding: 'The text now says ''the older chain'' without naming it. A reader cannot
+    tell which plays that is. Other schema edits in the same PR (spine.yaml, slice.yaml)
+    name ADR 053 / #855; this file does not.'
+  principle: Names should be clear; ADR 053 says the older chain stays described until
+    rebuilt (#855).
+  basis: ADR 053 section 4 (plan/788/base); naming clarity
+  fix: 'Add ''(ADR 053, rebuilt under #855)'' to both phrases.'
+  category: memory
+- id: DR-1
+  severity: P2
+  file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+  where: section 5, ADR 033 bullet (one line)
+  finding: 'ADR 053 is already Accepted on the base branch, and this PR rewrites a
+    line in it so the old-name check passes. The rules say an accepted ADR is never
+    edited, except for a forward pointer. This edit is not a pointer.
+
+    '
+  principle: Accepted ADRs are not edited; a new ADR amends them.
+  basis: standards/templates/adr.md line 46; record-decision ICE C7 and F7 (on plan/788/base)
+  fix: 'Revert the line. Make the check pass the way ADR 046 intends: ADR 053 names
+    old names on purpose (it quotes ADR 033''s own words), so add 053 to the checker''s
+    past-record list (RENAME_ADRS in check_old_names.py). Or, if the edit stays, record
+    it as a deliberate exception in the PR and ask the product owner to confirm.
+
+    '
+  category: decision-records
+- id: DR-2
+  severity: P4
+  file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+  where: section 5, ADR 033 bullet
+  finding: 'Meaning is unchanged in substance: `/intent` and `/adr` are the old names
+    of `/discover-intent` and `/record-decision`, so the two "other places" are the
+    same two plays. But the edit adds the words "by their current names" and no longer
+    quotes ADR 033 as ADR 033 wrote it, so the sentence now reads as a restatement,
+    not a quote.
+
+    '
+  principle: A past record shows what was decided in the words of its time.
+  basis: check_old_names.py header ("Past records keep their old words"); ADR 046
+    section 6
+  fix: Covered by the DR-1 fix; the original wording is correct as history.
+  category: decision-records
+- id: Q-1
+  severity: P3
+  category: quality
+  file: core/tools/lint-components/** and core/tools/naming/test_naming_tools.py
+  finding: The scanner gives 91 findings (22 P2, 44 P3, 25 P4) on 4 tool files, all
+    from generic rules for any new code file; none names a shown defect. SEC-18 matched
+    the word 'Role' as a secret.
+  basis: quality-findings.yaml (scan_taxonomy.py, pr.md rows)
+  fix: 'read each rule against the 4 files: fix any real one; tune the rows that fire
+    on any code file with no shown defect, and stop SEC-18 matching plain words'
+answered:
+- id: M2
+  severity: P3
+  file: core/components/memory/standards/templates/approval-prompt.md
+  where: removed lines 'The rule for how to ask is rules/asking-a-person.md ... When
+    the two do not agree, the rule is correct' and the Related pointer
+  finding: The template now repeats the question format (opening, four parts, plain
+    English) with no link to the rule that moved to skills/_shared/asking-a-person.md
+    and no statement of which wins. Two copies of one format can drift with no tiebreak.
+    templates/_index.md and user-questions.md also lost their pointer to the rule.
+  principle: One place decides; a copy names its source so the copy cannot silently
+    win.
+  basis: plan/788/base approval-prompt.md line 7 (the tiebreak existed); ADR 039 section
+    9 (shared block lives once, parts point to it)
+  fix: Keep a one-line pointer to _shared/asking-a-person.md in the template (a pointer
+    to an installed file is not memory) and keep the tiebreak sentence.
+  category: memory
+  status: settled by the product owner's decision (the template stands alone)
+- id: DR-3
+  severity: P3
+  file: docs/adr/028-*.md, docs/adr/033-*.md
+  where: Status line
+  finding: 'ADR 053 section 5 and "Work This Creates" say ADR 028 and ADR 033 get
+    forward pointers after acceptance. This PR changes neither file, so the pointers
+    are not written yet. Not a fault of this PR if a later step writes them, but the
+    record-decision rule says pointers follow acceptance.
+
+    '
+  principle: Every older ADR an accepted ADR amends points forward to it.
+  basis: record-decision ICE C3, S1; ADR 053 "Work This Creates" last item
+  fix: Write the two pointers with the record-decision play (apply_adr.py pointer),
+    by hand edits are not allowed.
+  category: decision-records
+  status: 'not a gap: the pointers were written at acceptance, on the base (56ea71a4)'

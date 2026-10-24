@@ -1,0 +1,56 @@
+category: harness
+base: plan/788/base
+grounding_sources:
+  - {id: G1, source: "plan/788/base:docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md", point: "section 3: scriber, tech-architect and test-runner are 'left as they are'"}
+  - {id: G2, source: "plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md", point: "section 9: the shared block is the Standard Play Close; the install lays the common file beside the plays"}
+  - {id: G3, source: "plan/788/base:CLAUDE.md", point: "Play Pipeline Rules: intent change goes through ICE then recompile; shared scaffolding is one common file, emitted by the compiler and linted"}
+  - {id: G4, source: "plan/788/base:docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md", point: "the two plays and their skills are deleted; the stale plays keep only their words changed"}
+  - {id: G5, source: "plan/788/base:core/components/plays/create-play/scripts/lint_play.py", point: "mechanical wiring and real fingerprint"}
+  - {id: G6, source: "plan/788/base:core/components/plays/edit-play/references/agent-audit.md", point: "P1-P11 agent audit (P7 skill delegation, P9 domain boundaries)"}
+checks_run:
+  - "lint_play on all 19 changed compiled plays: no new gaps. check-change (1 gap) and create-play (6 gaps) fail the same way on the base."
+  - "fingerprint of reference/ice.md equals the SKILL.md fingerprint for all 11 plays whose ICE changed (shape-slice, edit-ontology, discover-capabilities, discover-domains, 7 lens plays)."
+  - "lint-components: 124 errors on base, 37 now; none new; all 37 sit in files the PR did not break."
+  - "no live file names any of the 3 deleted agents, 2 deleted plays or ~27 deleted skills (git grep outside ADRs and rename-map)."
+  - "no live (non-stale, non-deprecated) agent, skill, play or loop routes to a stale part. Only quality-auditor names evals-engineer, in a never-read list."
+  - "installers: claude.py, codex.py and installer/install.sh all skip deprecated and stale. install.sh covers agents, skills, plays, loops. skills/_shared still copies (no SKILL.md)."
+  - "harness scope: every skill and agent shape-slice names is in the new scope list."
+findings:
+  - id: H1
+    severity: P3
+    file: core/components/agents/scriber.md, core/components/agents/tech-architect.md, core/components/agents/test-runner.md (deleted)
+    where: deletion in this PR (#833)
+    finding: "Three agents are deleted. A committed decision says these three are kept as they are. The PR adds no decision record that amends it. ADR 053 is the only ADR in the PR and does not mention them."
+    principle: "A deletion that reverses a recorded decision needs a record that amends it."
+    basis: "G1 (ADR 050 section 3); docs/adr/053 has no mention of scriber, test-runner or tech-architect"
+    fix: "Add a short ADR (or an amendment line in a new ADR) that amends ADR 050 section 3 and names the 3 agents plus the other deprecated skills removed under #833. The deletions themselves look safe: nothing live uses them."
+  - id: H2
+    severity: P3
+    file: core/components/skills/_shared/asking-a-person.md; core/components/plays/install-garura/scripts/adapters/common.py (lay_shared)
+    where: "#854 - rule moved out of memory; install now lays skills/_shared too"
+    finding: "The rule for asking a person leaves memory and becomes a shared file read by path. The committed shared-file decision covers a block every play shares, not one that skills and an agent read. No decision record covers the move or the widened install."
+    principle: "A change to where a rule lives, and how parts reach it, is decided in a record before it ships."
+    basis: "G2 (ADR 039 section 9 scope is plays and the play close); G3 (shared scaffolding is one file, emitted by the compiler and linted - the lint rule asking-a-person.js now does this, which is good)"
+    fix: "Add a short ADR (or extend ADR 039 section 9 by a new ADR) saying the rule is not memory, lives at skills/_shared, and is laid beside installed parts."
+  - id: H3
+    severity: P4
+    file: core/components/agents/quality-auditor.md
+    where: "removed section 'Validate mode (/validate-epic)'"
+    finding: "A live agent loses the only description of how it serves /validate-epic. That play is stale and still names this mode in its own text. The play and agent now disagree until the play is rebuilt."
+    principle: "A stale part waits for its rebuild; the live parts it uses should not change under it silently."
+    basis: "G4 (stale plays keep their words, rebuilt later); G6 P9 domain boundaries"
+    fix: "Accept, since the install skips the stale play. Note in the #855 rebuild list that validate-epic must restore this mode."
+  - id: H4
+    severity: P4
+    file: installer/install.sh
+    where: "upgrade branch (deploy_agents / deploy_skills / plays / loops)"
+    finding: "The upgrade skips stale and deprecated parts but does not remove copies an older install already put in the project. A project upgraded from before this change keeps the stale parts."
+    principle: "Install skip rules and upgrade must agree on what ships."
+    basis: "installer design in the diff; claude.py/codex.py share the same gap (copy_tree_fresh replaces only parts it still lays)"
+    fix: "Optional: have upgrade delete previously laid stale parts, or say in the PR body that a clean reinstall is needed."
+not_found:
+  - "No compiled play changed in ICE lacks a matching fingerprint or fails lint_play."
+  - "No dangling reference to a deleted part."
+  - "Both installers (Claude and Codex) and install.sh skip stale and deprecated."
+  - "No live part routes to a stale part; the Next map routes only stale-to-stale."
+counts: {P1: 0, P2: 0, P3: 2, P4: 2}
