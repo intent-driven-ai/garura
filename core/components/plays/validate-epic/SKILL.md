@@ -3,6 +3,8 @@ name: validate-epic
 position: none
 description: 'Independently verify one built EPIC agent-side — the deep gate of the execute pipeline (implement → validate → launch). Re-runs everything mechanically through a per-tool runner family (java, .net, node, frontend, sql, lint, sonar): the epic''s tests, blast-radius-scoped regression, code-level security and quality scans — then compares results against the slice''s quality-lens gates AND the product profile''s benchmarks (green is the entry, the floor is the bar). Ends in a binary stamped verdict: `validated` (the precondition /release-epic requires) or `fix_required` (blocks /release-epic; the fix report names each failure by check and location so /build-epic fixes exactly that, nothing more). Implement ↔ validate is expected to loop — scope narrows per round, 3 rejections halt to a human. Finds, never fixes; every finding mechanically cited. The /validate-epic command in the ProductOS command model. Use when an implemented epic awaits validation.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)'
 ---
 
 # validate

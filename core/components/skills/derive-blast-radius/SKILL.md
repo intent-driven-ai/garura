@@ -4,8 +4,8 @@ description: Given a change surface (file list) and a dependency graph, compute 
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Grep, Glob
-deprecated: true
-deprecated_note: '#434 ProductOS realignment — superseded by the command model; retained for Phase E reference, not installed'
+stale: true
+stale_note: 'waits for the rebuild of the test skills of /refactor-code (#855)'
 ---
 
 # derive-blast-radius
@@ -14,7 +14,7 @@ Model-invocable skill for test blast-radius computation.
 
 ## Purpose
 
-Given (a) a list of files that will change, (b) the dependency graph produced by `scan-dependencies`, and (c) the test surface produced by `scan-test-surface`, compute which tests are directly or transitively affected, which tests are at risk of false pass, and where the change surface has no test coverage at all. Emit `blast-radius.yaml`.
+Given (a) a list of files that will change, (b) the dependency graph of the codebase (`dependency-graph.yaml`), and (c) the test surface produced by `scan-test-surface`, compute which tests are directly or transitively affected, which tests are at risk of false pass, and where the change surface has no test coverage at all. Emit `blast-radius.yaml`.
 
 ## Input
 

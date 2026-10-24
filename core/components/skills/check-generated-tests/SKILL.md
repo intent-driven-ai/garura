@@ -1,26 +1,26 @@
 ---
 name: check-generated-tests
-description: Execute generated tests against the current codebase using the detected TEST_HARNESS and report pass/fail per test. Context-isolated — consumed ONLY by the test-runner agent, which receives no extraction context. Reports pass/fail plus stderr; does not interpret failures. This is the baseline-green verification gate for /decode (C25).
+description: Execute generated tests against the current codebase using the detected TEST_HARNESS and report pass/fail per test. Context-isolated — consumed ONLY by a test-running agent that receives no extraction context. Reports pass/fail plus stderr; does not interpret failures. This is the baseline-green verification gate for /decode (C25).
 user-invocable: false
 model: sonnet
 allowed-tools: Bash, Read, Write
-deprecated: true
-deprecated_note: '#434 ProductOS realignment — superseded by the command model; retained for Phase E reference, not installed'
+stale: true
+stale_note: 'waits for the rebuild of /refactor-code (#855)'
 ---
 
 # check-generated-tests
 
-Called by the `test-runner` agent in context isolation. This skill is the sole interface between /decode's extraction pipeline and its verification gate.
+Called by a test-running agent in context isolation. This skill is the sole interface between /decode's extraction pipeline and its verification gate.
 
 ## Purpose
 
-Per /decode C25, every captured behavior/flow/aspect spec must have its generated tests run green against the current codebase before the spec is considered captured. Per C15, this execution happens in a context-isolated agent — `test-runner` — that sees only the test files and the codebase. This skill is the execution primitive.
+Per /decode C25, every captured behavior/flow/aspect spec must have its generated tests run green against the current codebase before the spec is considered captured. Per C15, this execution happens in a context-isolated agent that sees only the test files and the codebase. This skill is the execution primitive.
 
 The skill does NOT interpret failures. It invokes the test harness, captures stdout/stderr, parses pass/fail per the harness's declared format, and reports. Anything beyond pass/fail is the calling play's responsibility to act on.
 
 ## Input
 
-Receive from the `test-runner` agent via JSON contract.
+Receive from the calling agent via JSON contract.
 
 - `test_harness` (object, required) — the record produced by `scan-test-harness`. Contains runner_command, working_dir, env_vars, stdout_parse_format, install_command.
 - `test_files` (list[path], required) — absolute paths of the generated test files to run. The skill passes these to the runner as positional arguments when the harness supports file-level selection (jest, pytest, playwright, junit single-class, etc.). When the harness does not support it, the skill invokes the full suite and filters the output by file in parsing.
@@ -113,7 +113,7 @@ evidence: { exit_code: <int>, stderr_tail: "<string>" }
 
 ## Notes
 
-- Context isolation is enforced at the agent level (`test-runner` agent contract), not inside this skill. This skill will execute whatever test_files it receives — the isolation discipline prevents the runner from being handed the wrong files.
+- Context isolation is enforced at the agent level (the calling agent's contract), not inside this skill. This skill will execute whatever test_files it receives — the isolation discipline prevents the runner from being handed the wrong files.
 - The skill does NOT retry failed tests. A flake is a real signal that the extraction or the generated test is not robust; /decode surfaces it to the user per C25.
 - Environment setup (database seeding, service startup) is NOT handled here. If the test harness requires it, the runner is invoked in an already-prepared environment. `scan-test-harness` records required env vars; provisioning is an operator responsibility.
 - Exit codes are recorded verbatim. Tests can pass with non-zero exit codes (e.g., Playwright returning non-zero for warnings); the parser output is authoritative on pass/fail, not the exit code.

@@ -3,6 +3,8 @@ name: shape-architecture-lens
 position: start
 description: 'Write a SLICE''s architecture lens as a grounding doc (architecture.md) — the components the slice threads (each in its layer, with its contract), the stack (tech + versions) behind them, and the vertical build that runs the slice end-to-end — written directly in place on the live model. The START of the NON-FUNCTIONAL realize pipe (arch → quality → run), run on a shaped slice. Every component is selected from the slice''s features'' systems + the profile surfaces, never invented; the build is one vertical end-to-end. Reads the hub from the spine (feature grounding + profile) and MAY read the functional lenses, never the measure or run lens. Writes only the slice''s architecture lens and any material-choice decision.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # arch
@@ -488,7 +490,7 @@ architecture lens + any decision), Next Steps (run /shape-quality-lens on this s
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-architecture-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /discover-capabilities before /shape-architecture-lens runs | human |
 | F2 | architecture.md fails the template/shape or carries out-of-scope content | re-emit to the Architecture lens template (Intent/Components/Stack/Vertical build only) | autonomous |
 | F3 | architecture.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
 | F4 | an invented/ungrounded component or stack pick | drop it, or re-tie the component to a feature's system or a profile surface, and the stack to a decision | autonomous |
@@ -513,7 +515,7 @@ FRESH start right after start-change — a resume continues its own in-progress 
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:ba888101cbe1328614de0eed9828257ff222272d6ae81f9666484d3e0ec6c77e (of `reference/ice.md`) |
+| fingerprint | sha256:48c382756a9699eae32715fda93a5687a7cdfabeb9d958acf4e4540bb3825431 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | start (non-functional pipe head; the non-functional pipe closes at /shape-run-lens) |
 | position_exception | model-writing start play — writes the model on the started branch and commits its own model delta (C13); the pipe end PR belongs to /shape-run-lens |

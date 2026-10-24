@@ -234,6 +234,41 @@ stop_if_memory_check_failed() {
 
 # --- Deploy skills (honoring EXCLUDED_SKILLS) ---
 
+# A part is skipped when its front matter says `deprecated: true` or `stale: true` (yes/1/on
+# too). A folder is read through its SKILL.md; an agent is read as its own file.
+# Exit 0 when the part is skipped, else exit 1.
+is_skipped_part() {
+  local part="${1%/}" md
+  if [ -d "$part" ]; then
+    md="$part/SKILL.md"
+  else
+    md="$part"
+  fi
+  [ -f "$md" ] || return 1
+  awk '
+    NR == 1 { if ($0 != "---") exit 1; next }
+    $0 == "---" { exit 1 }
+    /^(deprecated|stale):[[:space:]]*/ {
+      v = $0; sub(/^[a-z]+:[[:space:]]*/, "", v); sub(/[[:space:]]*(#.*)?$/, "", v)
+      gsub(/["\047]/, "", v); v = tolower(v)
+      if (v == "true" || v == "yes" || v == "1" || v == "on") { found = 1; exit 0 }
+    }
+    END { exit found ? 0 : 1 }
+  ' "$md"
+}
+
+deploy_agents() {
+  local src="$1" dest="$2"
+  mkdir -p "$dest"
+  for agent_file in "$src"/*.md; do
+    [ -f "$agent_file" ] || continue
+    if is_skipped_part "$agent_file"; then
+      continue
+    fi
+    cp "$agent_file" "$dest/"
+  done
+}
+
 deploy_skills() {
   local src="$1" dest="$2"
   mkdir -p "$dest"
@@ -242,6 +277,9 @@ deploy_skills() {
     skill_name="$(basename "$skill_dir")"
     # Skip excluded skills
     if echo "$EXCLUDED_SKILLS" | grep -qw "$skill_name"; then
+      continue
+    fi
+    if is_skipped_part "$skill_dir"; then
       continue
     fi
     copy_dir "$skill_dir" "$dest/$skill_name"
@@ -259,7 +297,7 @@ if [ "$MODE" = "init" ]; then
   # 1. Deploy agents
   if [ -d "$COMPONENTS_DIR/agents" ]; then
     info "  Deploying agents..."
-    copy_dir "$COMPONENTS_DIR/agents" "$TARGET_DIR/.claude/agents"
+    deploy_agents "$COMPONENTS_DIR/agents" "$TARGET_DIR/.claude/agents"
   fi
 
   # 2. Deploy skills (honoring EXCLUDED_SKILLS)
@@ -273,6 +311,9 @@ if [ "$MODE" = "init" ]; then
     info "  Deploying plays..."
     for play_dir in "$COMPONENTS_DIR/plays"/*/; do
       local_name="$(basename "$play_dir")"
+      if is_skipped_part "$play_dir"; then
+        continue
+      fi
       copy_dir "$play_dir" "$TARGET_DIR/.claude/skills/$local_name"
     done
   fi
@@ -282,6 +323,9 @@ if [ "$MODE" = "init" ]; then
     info "  Deploying loops..."
     for loop_dir in "$COMPONENTS_DIR/loops"/*/; do
       local_name="$(basename "$loop_dir")"
+      if is_skipped_part "$loop_dir"; then
+        continue
+      fi
       copy_dir "$loop_dir" "$TARGET_DIR/.claude/skills/$local_name"
     done
   fi
@@ -356,7 +400,7 @@ else
   # 1. Upgrade agents (overwrite managed files)
   if [ -d "$COMPONENTS_DIR/agents" ]; then
     info "  Upgrading agents..."
-    copy_dir "$COMPONENTS_DIR/agents" "$TARGET_DIR/.claude/agents"
+    deploy_agents "$COMPONENTS_DIR/agents" "$TARGET_DIR/.claude/agents"
   fi
 
   # 2. Upgrade skills (overwrite managed, honoring EXCLUDED_SKILLS)
@@ -370,6 +414,9 @@ else
     info "  Upgrading plays..."
     for play_dir in "$COMPONENTS_DIR/plays"/*/; do
       local_name="$(basename "$play_dir")"
+      if is_skipped_part "$play_dir"; then
+        continue
+      fi
       copy_dir "$play_dir" "$TARGET_DIR/.claude/skills/$local_name"
     done
   fi
@@ -379,6 +426,9 @@ else
     info "  Upgrading loops..."
     for loop_dir in "$COMPONENTS_DIR/loops"/*/; do
       local_name="$(basename "$loop_dir")"
+      if is_skipped_part "$loop_dir"; then
+        continue
+      fi
       copy_dir "$loop_dir" "$TARGET_DIR/.claude/skills/$local_name"
     done
   fi

@@ -10,6 +10,8 @@ tools:
   - Write
   - Grep
   - Glob
+stale: true
+stale_note: 'waits for the rebuild of /release-epic and /release-increment (#855); only stale plays dispatch it'
 ---
 
 # environment-operator

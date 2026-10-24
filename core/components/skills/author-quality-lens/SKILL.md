@@ -5,6 +5,8 @@ version: 0.5.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-quality-lens (#855)'
 ---
 
 # author-quality-lens
@@ -58,7 +60,7 @@ tooling the bar needs even when the project does not have it yet (greenfield has
 brownfield lenses legitimately demand more than what is installed). The check-quality-gates skill
 executes these cards; absent tooling surfaces as a missing-tool finding the build loop consumes.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -71,7 +73,7 @@ executes these cards; absent tooling surfaces as a missing-tool finding the buil
 | `manifest_path` | yes | Where to write `quality-manifest.yaml` (STM, non-model) — the grounding map + any material choice as structured data for the keyed persist. |
 | `stm_base` | yes | From config. |
 
-## Procedure
+## Process
 
 Reasoning (which gates matter, the bar, how each is checked) is yours. Template conformance,
 grounding, and concreteness are non-negotiable.
@@ -101,7 +103,9 @@ grounding, and concreteness are non-negotiable.
    gate or feature each gate grounds in) and any material choice as a full structured
    decision entry (the keyed persist writes the file). Never write the decision file here.
 
-## Output — live lens docs + the manifest
+## Output
+
+Live lens docs + the manifest.
 
 ```
 {product_base}product-os/{domain}/slices/{slice}/

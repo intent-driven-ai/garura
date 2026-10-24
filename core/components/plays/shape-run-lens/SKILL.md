@@ -3,6 +3,8 @@ name: shape-run-lens
 position: end
 description: 'Write a SLICE''s run lens as a narrative grounding doc (run.md) AND a machine-readable per-environment definition (run.yaml) — the slice-level design (rollout, migrations, config/secrets, CI/CD) once, and ONE environment per call (local for /release-epic, or a cloud environment — provider, region, compute, services, firewalls, security, deploy command — for /release-increment). Incremental: re-run to add or edit an environment; the rest are preserved. The END of the NON-FUNCTIONAL realize pipe (architecture → quality → run): it commits its own model delta, then closes the pipe (commit → propose → review → merge). Reads the hub from the spine (feature grounding + profile) and the slice''s architecture lens, never another lens. It never stamps the slice realized — that is /shape-measure-lens''s job.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # run
@@ -545,7 +547,7 @@ which stamps the slice realized), and a pointer to `$evidence_dest`. Always emit
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, the profile is not firmed, or the architecture lens is missing | halt and route to /shape-scope, /discover-capabilities, or /shape-architecture-lens before /shape-run-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, the profile is not firmed, or the architecture lens is missing | halt and route to /discover-capabilities or /shape-architecture-lens before /shape-run-lens runs | human |
 | F2 | the scoped guard reports a write beyond this slice's run.md, run.yaml, or a decision | the guard's `--restore` reverts the out-of-scope paths; re-run writing only the slice's run.md, run.yaml, and any decision | autonomous |
 | F3 | run.md fails the template/shape or carries out-of-scope content, or run.yaml fails the schema | re-emit the failing artifact to its contract — the five run sections for run.md, the run lens schema for run.yaml | autonomous |
 | F4 | run.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
@@ -574,7 +576,7 @@ a FRESH start — a resume continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:30aeb6bedad88f59c7693364b854ff711a51bdd5f562e9bdbc54af66a51fc511 (of `reference/ice.md`) |
+| fingerprint | sha256:f8ba562352172e5b72b559078b82472ee4344a7121e540ea3f08d4e9e0fb6704 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C, #467 Batch B) |
 | pipeline_position | end (commits its own feat(model) delta, then injects commit → propose → review → merge) |
 | model_writes | yes |
@@ -624,7 +626,7 @@ names edit-play for provenance intent, but no edit-play run actually occurred an
 UNVERIFIED.** An interactive `/edit-play` convergence run against `reference/ice.md` is **REQUIRED** —
 confirming the emitted SKILL matches this hand-compiled body and refreshing the fingerprint. This mirrors
 the /discover-capabilities reference implementation (#498) and the vision/grill/learn migrations on this branch. The
-per-play Standard Play Close block is retained (required by `check-components` and the create-play G12
+per-play Standard Play Close block is retained (required by `core/tools/lint-components` and the create-play G12
 emit on every play); the `feat(model)` commit (Step 6) is the separate lightweight model-delta persist
 step ADR 026 requires of every model-writing play, and for this END play the injected close then sweeps
 only remaining STM, so both coexist as C14 describes.

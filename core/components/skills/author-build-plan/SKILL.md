@@ -5,6 +5,8 @@ version: 0.1.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob, Grep
+stale: true
+stale_note: 'waits for the rebuild of /build-epic (#855)'
 ---
 
 # author-build-plan
@@ -20,7 +22,7 @@ This skill drafts; it never persists to the model and never publishes. /build-ep
 validates the draft mechanically (`validate_plan.py`), publishes it to the epic's issue
 (project-orchestrator), and anchors the build to it.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -32,7 +34,7 @@ validates the draft mechanically (`validate_plan.py`), publishes it to the epic'
 | `plan_path` | yes | Output path under STM for `plan.yaml`. |
 | `directives` | no | Path to a revision-directives file (re-plan after retry exhaustion, or steelman refutations to absorb as pieces). When present, revise the existing plan at `plan_path` per the directives instead of cutting fresh — never silently rewrite unrelated pieces, and never delete a `done` piece. |
 
-## Procedure
+## Process
 
 1. **Read the box.** The epic record, every feature ICE, the six lenses, the
    captured repo context, the harness. The plan derives from these and ONLY these.
@@ -81,7 +83,9 @@ validates the draft mechanically (`validate_plan.py`), publishes it to the epic'
    exhaustion — bump `plan.version`, keep `done` pieces intact, and leave a
    `revision_note` per changed piece naming its directive.
 
-## Output contract
+## Output
+
+The output contract.
 
 Return JSON only: `{"plan": "<plan_path>", "pieces": <n>, "open_questions": <n>}`.
 The artifact lives on disk; the contract carries paths, never content.

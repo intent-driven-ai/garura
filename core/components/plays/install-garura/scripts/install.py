@@ -220,6 +220,9 @@ SCOPES = {
             # edit-ontology changes the product ontology with the product owner (#777).
             # Its workers: product-os-keeper + author-product-ontology, both already kept.
             "edit-ontology",
+            # shape-slice shapes the slice for each of Garura's own business intents (plan 788).
+            # Its workers: product-os-keeper + the skills listed below; template-manager is kept.
+            "shape-slice",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -229,6 +232,9 @@ SCOPES = {
             "find-matching-issues", "cut-branch", "open-pr",
             "author-product-ontology", "author-decision",
             "find-work-placement", "enrich-capability-ice", "judge-grounding",
+            # the skills shape-slice calls (#842)
+            "author-business-intent", "author-domains", "propose-answers", "author-slice",
+            "find-slice-gaps", "author-slice-brief", "enrich-grounding", "author-failure-recovery",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",

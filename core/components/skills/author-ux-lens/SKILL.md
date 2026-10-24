@@ -5,6 +5,8 @@ version: 0.5.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-ux-lens (#855)'
 ---
 
 # author-ux-lens
@@ -86,7 +88,7 @@ yours. Template conformance, grounding, and coverage are non-negotiable.
    the slice, and NEVER a flow without a journey behind it. Every journey handed over must be
    drawn; an undrawn journey fails `validate_ux.py`.
 
-   The journey record already is the flow — /shape-scope wrote it. Take from it:
+   The journey record already is the flow — an older play wrote it. Take from it:
    - **Persona** — resolve the journey's `persona_ref` against the handed-over persona records
      and read that record for who they are and what they need. The persona is the one the
      JOURNEY names; never pick a different one, and never invent one. The validator checks the

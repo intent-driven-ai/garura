@@ -11,6 +11,8 @@ tools:
   - Skill
   - Write
   - Bash
+stale: true
+stale_note: 'waits for the rebuild of /build-epic (#855); only stale plays dispatch it'
 ---
 
 # evals-engineer

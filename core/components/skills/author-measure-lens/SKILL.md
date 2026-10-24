@@ -5,6 +5,8 @@ version: 0.4.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-measure-lens (#855)'
 ---
 
 # author-measure-lens
@@ -39,7 +41,7 @@ both). Alongside it, the STM `measure-manifest.yaml` carries the machine-checkab
 feature or profile outcome each metric traces to, any material choice, and the decision records
 as structured data (the keyed persist writes the decision files).
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -53,7 +55,7 @@ as structured data (the keyed persist writes the decision files).
 | `proposals_dir` | no | STM folder for any `propose-kb-node` proposal a measurement frame needs when the KB does not cover it — each choice's `grounds` then references it. `/shape-measure-lens` runs `check_kb_grounding.py --proposals-dir` against this same folder. |
 | `stm_base` | yes | From config. |
 
-## Procedure
+## Process
 
 Reasoning (which metrics prove delivery, the baselines/targets, the proof) is yours. Template
 conformance, grounding, and concreteness are non-negotiable.
@@ -77,7 +79,9 @@ conformance, grounding, and concreteness are non-negotiable.
    material choice), the `decisions:` records (structured — the keyed persist writes the files), and
    the `docs:` record of the doc you wrote. Write NO `_spine.yaml`, NO profile, NO decision file.
 
-## Output — the live doc + the STM manifest
+## Output
+
+The live doc + the STM manifest.
 
 The `measure.md` grounding doc is written IN PLACE on the live model:
 

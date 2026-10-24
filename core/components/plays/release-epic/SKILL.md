@@ -3,6 +3,8 @@ name: release-epic
 position: end
 description: 'Land one VALIDATED epic on a human''s evidenced acceptance — the HITL gate closing the execute pipeline (implement → validate → launch). Brings the increment up live on the run lens''s local environment (cloud is /release-increment''s), builds HITL testing scenarios from the epic''s user_check + acceptance — each telling the human what to RUN and what to TEST — walks them one at a time expecting a typed answer, and only a complete accepted sign-off releases the close chain that merges the epic (then stamped delivered + kept as the as-delivered record, never deleted; prod follows from main via CD). A rejected scenario becomes a defect report on the epic''s tracked issue and stamps the epic fix_required — /build-epic''s lightweight fix loop, the same seam /validate-epic uses. An agent never signs for the human (#436). The /release-epic command in the ProductOS command model. Use when a validated epic is ready for human acceptance.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)'
 ---
 
 # launch

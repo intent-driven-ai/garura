@@ -5,6 +5,8 @@ version: 0.5.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-agentic-lens (#855)'
 ---
 
 # author-agentic-lens
@@ -37,7 +39,7 @@ the LIVE doc, since it is written in place. Alongside it, a structured `agentic-
 features the assessment is grounded in, the lens's live relative path (`lens_rel`), and
 any material autonomy **decision as a full record** (the keyed persist writes it in place).
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -53,7 +55,7 @@ any material autonomy **decision as a full record** (the keyed persist writes it
 | `proposals_dir` | yes | Output folder under STM for any KB-learning-gap proposals. |
 | `stm_base` | yes | From config. |
 
-## Procedure
+## Process
 
 Reasoning (the agent verdict, the weight ratings, the controls) is yours. Template conformance,
 grounding, and honesty are non-negotiable.
@@ -77,7 +79,9 @@ grounding, and honesty are non-negotiable.
    a file). Write any KB proposals under `proposals_dir`. NEVER write the spine, the profile, or a
    `decisions/` file, and never another lens.
 
-## Output — the live lens + the STM manifest
+## Output
+
+The live lens + the STM manifest.
 
 ```
 {product_base}/product-os/{domain}/slices/{slice}/lens/agentic.md   # the Agentic lens grounding doc — WRITTEN IN PLACE (live)

@@ -3,6 +3,8 @@ name: refactor-code
 position: both
 description: 'Improve the internal quality of a named code target — structure, duplication, naming, complexity — without changing its external behavior or the product model, proving behavior is preserved before it lands. Pins current behavior first (characterization tests where coverage is thin), presents a refactor plan at a single human checkpoint, then refactors and verifies independently that the model is untouched, tests are green before and after, and no test was weakened. The /refactor-code command in the ProductOS command model. Use when code needs to get better on the inside without changing what it does.'
 user-invocable: true
+stale: true
+stale_note: 'waits for a rebuild on test skills that are not stale (#855)'
 ---
 
 # refactor

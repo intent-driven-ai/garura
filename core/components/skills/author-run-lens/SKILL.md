@@ -1,10 +1,12 @@
 ---
 name: author-run-lens
-description: Author a shaped slice's run lens — write the narrative grounding doc (run.md) straight to the LIVE model, and emit the machine-readable per-environment definition (run.yaml) plus any decision as STRUCTURED MANIFEST DATA for the play's keyed persist to write. How the slice ships and operates: the slice-level design (rollout, migrations, CI/CD, TCO) written once, and ONE environment defined per call (local for /release-epic, or a cloud environment for /release-increment — provider, region, compute, services, networking/firewalls, security, deploy command). Re-run to add or edit an environment; existing environments are preserved by the keyed persist. Reads the slice's hub (feature grounding docs + the spine profile) and the slice's architecture lens (components + stack), never another lens. Every operational choice is grounded, never invented. Never writes run.yaml, a decision file, the spine, or the profile; NEVER stamps the slice realized. Generative artifact production for the /shape-run-lens play (direct-model-write, ADR 026).
+description: 'Author a shaped slice''s run lens — write the narrative grounding doc (run.md) straight to the LIVE model, and emit the machine-readable per-environment definition (run.yaml) plus any decision as STRUCTURED MANIFEST DATA for the play''s keyed persist to write. How the slice ships and operates: the slice-level design (rollout, migrations, CI/CD, TCO) written once, and ONE environment defined per call (local for /release-epic, or a cloud environment for /release-increment — provider, region, compute, services, networking/firewalls, security, deploy command). Re-run to add or edit an environment; existing environments are preserved by the keyed persist. Reads the slice''s hub (feature grounding docs + the spine profile) and the slice''s architecture lens (components + stack), never another lens. Every operational choice is grounded, never invented. Never writes run.yaml, a decision file, the spine, or the profile; NEVER stamps the slice realized. Generative artifact production for the /shape-run-lens play (direct-model-write, ADR 026).'
 version: 0.5.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-run-lens (#855)'
 ---
 
 # author-run-lens
@@ -64,7 +66,7 @@ added later by re-running.
 `run.md` and the `run.yaml` the persist will write MUST stay in step — the same environments, same
 providers, same postures.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -81,7 +83,7 @@ providers, same postures.
 | `manifest_path` | yes | STM path to write `run-manifest.yaml` (the run.yaml delta + grounding map). |
 | `stm_base` | yes | From config. |
 
-## Procedure
+## Process
 
 Reasoning (the environment shape, the rollout, what migrates, the secrets posture, the CI/CD) is
 yours. Template/schema conformance, grounding, and concreteness are non-negotiable.

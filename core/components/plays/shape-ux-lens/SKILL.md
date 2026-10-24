@@ -3,6 +3,8 @@ name: shape-ux-lens
 position: start
 description: 'Write a SLICE''s UX lens as a grounding doc (ux.md) — the screens (each naming the object the user works with there, with a low-fidelity layout) that make the slice''s features visible, the flows (per persona and goal: entry, ordered steps naming screens, forks, failure path, exit), the states each screen holds (each with its trigger), and the product''s visual core (the semantic state vocabulary, its tone map, and the design-system reference the look comes from — never a palette or type scale this play picks) — directly in place on the live model. It also DRAWS the slice: a machine-readable wireframe record (lens/screens.yaml) the play authors and a wireframes.html a bundled script renders from it, ordered by journey step, so a product owner can look at the design rather than read a description of it. The START of the FUNCTIONAL realize pipe (ux → agentic → marketing), run on a shaped slice. Accessibility is not here (it lives in the marketing lens); the wider cross-product journey is not here either (that is /story''s). Reads the hub from the spine (feature grounding + profile + the slice''s persona and journey records — each flow EXPANDS a journey, never invents one), never another lens. Writes only the slice''s ux lens, its wireframe artifacts, and its decisions — the visual core plus any design directive the design settled for /shape-architecture-lens and /build-epic to inherit.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # ux
@@ -614,10 +616,10 @@ this slice), and a pointer to `$evidence_dest`. Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a feature does not resolve, the profile is not firmed, a surface's persona does not resolve, or a surface is reached by no journey | halt and route to /shape-scope (it owns the persona and journey records and already guarantees a journey per surface) or /discover-capabilities before /shape-ux-lens runs; never invent the missing persona or journey | human |
+| F1 | the slice is absent, a feature does not resolve, the profile is not firmed, a surface's persona does not resolve, or a surface is reached by no journey | halt and route to /discover-capabilities before /shape-ux-lens runs; never invent the missing persona or journey | human |
 | F2 | a write touched something beyond this slice's ux.md or its visual-core decision | the guard's `--restore` already reverted the out-of-scope write; re-run writing only the slice's ux.md and its decision | autonomous |
 | F3 | ux.md fails the template/shape or carries out-of-scope content | re-emit to the UX lens template (Intent/Screens/Flows/States/Visual core only; accessibility belongs to marketing, the wider cross-product journey to /story) | autonomous |
-| F4 | ux.md fails the content-quality eval — not self-explaining, or naming a role that resolves to no persona record, or declaring a screen no journey step names | rewrite the failing section to the judge's cited fixes; replace an unresolvable role with the persona record it stood in for (never add the persona — /shape-scope owns those); tie an uncovered screen to the step it serves or drop it; re-judge and re-run the grounding cross-check until both pass | autonomous |
+| F4 | ux.md fails the content-quality eval — not self-explaining, or naming a role that resolves to no persona record, or declaring a screen no journey step names | rewrite the failing section to the judge's cited fixes; replace an unresolvable role with the persona record it stood in for (never add the persona); tie an uncovered screen to the step it serves or drop it; re-judge and re-run the grounding cross-check until both pass | autonomous |
 | F5 | an invented/ungrounded element | drop it, or re-tie the screen to a feature or persona/journey, and the visual core to a decision | autonomous |
 | F6 | a feature is covered by no screen | add the screen(s) that visualize the missing feature | autonomous |
 | F7 | /shape-ux-lens read or depended on another lens | remove the dependency; /shape-ux-lens derives only from the slice's hub | autonomous |
@@ -643,7 +645,7 @@ start — a resume continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:0d33a8af09637539bc8c8db970e35392fd7e6c557e52e426124e7b35ca4fe62a (of `reference/ice.md`) |
+| fingerprint | sha256:40a72faf013c93e3ee8993e46f4d4d03eec8b154556d0a1f24cc535e31d6f269 (of `reference/ice.md`) |
 | compiled_by | edit-play (#552 wireframes drawn, visual core narrowed, design directives, artifact-handover checkpoint, truth-checking content eval); prior: edit-play (#550 persona + journey grounding), edit-play (#548 flows + object-per-screen), edit-play (#500 direct-model-write, ADR 026), edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | start (functional pipe head; the functional pipe closes at /shape-marketing-lens) |
 | workflow_structure | A (single checkpoint — class: standard, conditional learned gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
@@ -688,8 +690,7 @@ first draft on every criterion.
 
 Outside the play: `author-ux-lens` authors `screens.yaml` and the widened decision set, and the UX
 lens template's Visual core guidance and gold example were rewritten to match. The lens heading
-list is unchanged, so the ten duplicated `lint_grounding.py` copies need no sync. The slice-outcome
-trace belongs to /shape-scope (#561) and is deliberately not built here.
+list is unchanged, so the ten duplicated `lint_grounding.py` copies need no sync. The slice-outcome trace is deliberately not built here (#561).
 
 **Recompiled note (#500, direct-model-write / ADR 026):** migrated from draft-then-apply to
 direct-model-write. The old draft model tree and the `apply_ux.py`/`check_ux.py` promotion+verify
@@ -722,7 +723,7 @@ SKILL matches this hand-compiled body and refreshing the fingerprint. This migra
 merged /discover-capabilities reference implementation (#498) and the just-migrated /discover-domains, /shape-slice, /learn-outcomes
 on this branch. Note also: `reference/ice.md` C13 distinguishes the model-delta commit from the
 Standard Play Close (evidence + delivery report) that /shape-ux-lens still runs; the close anchor block is
-retained (required by `check-components` structural.js and the create-play G12 emit on every play),
+retained (required by `core/tools/lint-components` structural.js and the create-play G12 emit on every play),
 and the `feat(model)` commit is the separate lightweight persist step, so both coexist as C13
 describes.
 
@@ -760,7 +761,7 @@ persona path, the shared readiness gate resolved neither personas nor journeys, 
 accepted a persona name without opening the record. So /shape-ux-lens invented flows that already existed in
 the model.
 
-The fix reads what /shape-scope already wrote. A journey record is `persona_ref + surface_refs + steps` —
+The fix reads the journey and persona records already in the model. A journey record is `persona_ref + surface_refs + steps` —
 a persona, the surface it runs on, and the ordered steps in the user's own words. That IS a flow.
 The hub now includes the slice's persona and journey records; `check_ready_slice.py` resolves them
 and LOUD-FAILS on a dangling `persona_ref` or a surface no journey reaches (C1/F1); each flow
@@ -774,5 +775,5 @@ the Step 1 contract. Added: nothing — every existing element gained a clause, 
 14, failures 15, scenarios 7, recovery 15, step evals 14, scenario evals 7. `readiness.json` is now
 kept on disk at pre-flight and handed to the validate step. The UX lens template, the structural
 linter and the Flows field set are UNTOUCHED: the journey id lives in the manifest, not the doc.
-Companion change on /shape-scope (#550 scope B) enriches the persona record itself. Fingerprint
+A companion change (#550 scope B) enriches the persona record itself. Fingerprint
 recomputed over the edited ICE.

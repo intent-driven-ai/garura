@@ -49,16 +49,17 @@ def tier_of(model_value):
     return MODEL_TIER.get(str(model_value).strip().lower(), DEFAULT_TIER)
 
 
-SHARED = "_shared"  # blocks every play and loop shares (ADR 039 §9), laid beside them
+SHARED = "_shared"  # blocks the plays, loops and skills share (ADR 039 §9), laid beside them
 # the folders whose components install as skills; loops are higher-order plays (ADR 029)
 SKILL_KINDS = ("skills", "plays", "loops")
 
 
 def lay_shared(components, skills_root, rel_root, paths, info):
-    """Lay plays/_shared/ and loops/_shared/ as one <skills_root>/_shared/: every installed
-    play points to ../_shared/play-close.md, every installed loop also to
-    ../_shared/loop-run.md. A folder starting with `_` is otherwise never deployed."""
-    sources = [os.path.join(components, kind, SHARED) for kind in ("plays", "loops")]
+    """Lay plays/_shared/, loops/_shared/ and skills/_shared/ as one <skills_root>/_shared/:
+    every installed play points to ../_shared/play-close.md, every installed loop also to
+    ../_shared/loop-run.md, and the parts that ask a person to ../_shared/asking-a-person.md.
+    A folder starting with `_` is otherwise never deployed."""
+    sources = [os.path.join(components, kind, SHARED) for kind in ("plays", "loops", "skills")]
     sources = [s for s in sources if os.path.isdir(s)]
     if not sources:
         return
@@ -91,22 +92,31 @@ def skippable(name):
 _TRUTHY = {"true", "yes", "1", "on"}
 
 
-def is_deprecated(fm_text):
-    """True if frontmatter carries `deprecated: true` (or yes/1/on)."""
-    v = frontmatter_value(fm_text, "deprecated")
+def _flag(fm_text, key):
+    v = frontmatter_value(fm_text, key)
     return v is not None and str(v).strip().lower() in _TRUTHY
 
 
-def file_is_deprecated(md_path):
-    """Read a SKILL.md/agent.md and report whether it is flagged deprecated.
+def is_deprecated(fm_text):
+    """True if frontmatter carries `deprecated: true` (or yes/1/on)."""
+    return _flag(fm_text, "deprecated")
 
-    Deprecated components are excluded from install — the old pipeline is retired,
-    not shipped. Missing file / no frontmatter -> not deprecated.
+
+def is_skipped(fm_text):
+    """True if frontmatter carries `deprecated: true` or `stale: true` (or yes/1/on)."""
+    return _flag(fm_text, "deprecated") or _flag(fm_text, "stale")
+
+
+def file_is_skipped(md_path):
+    """Read a SKILL.md/agent.md and report whether the install skips it.
+
+    A part is skipped when it is deprecated (retired) or stale (it waits for a rebuild):
+    neither ships to a project. Missing file / no frontmatter -> not skipped.
     """
     if not os.path.isfile(md_path):
         return False
     parts = split_frontmatter(read_text(md_path))
-    return is_deprecated(parts[1]) if parts else False
+    return is_skipped(parts[1]) if parts else False
 
 
 # --- filesystem helpers -------------------------------------------------------

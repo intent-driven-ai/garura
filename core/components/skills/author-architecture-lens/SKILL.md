@@ -5,6 +5,8 @@ version: 0.3.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-architecture-lens (#855)'
 ---
 
 # author-architecture-lens
@@ -36,7 +38,7 @@ content-quality eval (the play runs both). Alongside the doc it writes a structu
 prose can't — which component grounds to which feature (its systems) or surface, the
 stack's grounding, and any material-choice decisions as data (not files).
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -52,7 +54,7 @@ stack's grounding, and any material-choice decisions as data (not files).
 | `proposals_dir` | yes | Folder under STM for KB-learning-gap proposals. |
 | `stm_base` | yes | From config. |
 
-## Procedure
+## Process
 
 Reasoning (selecting components, drawing contracts, picking the stack, writing the vertical
 build) is yours. Template conformance, grounding, and coverage are non-negotiable.
@@ -77,7 +79,9 @@ build) is yours. Template conformance, grounding, and coverage are non-negotiabl
    `proposals_dir`. Write ONLY the lens doc on the live model — never a decision file, never a
    shared model file.
 
-## Output — the live lens + the manifest
+## Output
+
+The live lens + the manifest.
 
 ```
 <product_base>/product-os/{domain}/slices/{slice}/lens/architecture.md   # written IN PLACE (the only live write)
