@@ -3,14 +3,15 @@
 fetch_pr_context.py — check-change Step 1 as a script (#484).
 
 Fetches the PR diff, changed paths, and base ref (via platform_adapter.py) and
-binds the standards_order + check-knowledge shelf path from config — writing
-context.yaml + pr.diff. Replaces the repo-orchestrator dispatch. Zero judgment;
-the category assessment and design-grounding that follow stay agent-run.
+binds the standards_order from config — writing context.yaml + pr.diff. Zero
+judgment; the category assessment and design-grounding that follow stay
+agent-run. It names no memory folder: the change-reviewer agent fetches the
+review playbooks (knowledge/review/*.md) through the memory tool.
 
     python3 fetch_pr_context.py --config .garura/core/config.yaml \
         [--pr-number N] --out-context <context.yaml> --out-diff <pr.diff>
 
-context.yaml records: standards_order, review_shelf, changed_paths,
+context.yaml records: standards_order, changed_paths,
 changed_files_reported, base. changed_paths comes from the diff text: one path
 for each `diff --git` header, so a PR of any size gives every path.
 changed_files_reported is the count the host gives (null when it gives none).
@@ -140,12 +141,10 @@ def main(argv=None):
 
     standards_order = _config_value(ns.config, "review-pr.standards_order") or \
         ["kb", "ltm", "stm"]
-    ltm_target = _config_value(ns.config, "ltm.project-target") or "./.garura/core/memory/"
-    review_shelf = os.path.join(ltm_target, "knowledge", "review") + os.sep
 
     context = {"pr_number": pr, "base": base, "changed_paths": changed_paths,
                "changed_files_reported": changed_files_reported,
-               "standards_order": standards_order, "review_shelf": review_shelf}
+               "standards_order": standards_order}
     with open(ns.out_context, "w", encoding="utf-8") as fh:
         json.dump(context, fh, indent=2)
     print(json.dumps(context, indent=2))

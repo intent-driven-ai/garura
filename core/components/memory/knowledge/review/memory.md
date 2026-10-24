@@ -25,7 +25,8 @@ same depth as harness code.
   follow `_TEMPLATE.md` (Topic, Conditions, Recommendation, Rationale, Evolve when,
   Provenance); do `evolve_when` and `[[...]]` cross-references resolve to real files; is the
   frontmatter `id` consistent with the path; is it listed in the shelf `_index`. **Gap:** a
-  dedicated memory-integrity linter is partial (`core/tools/lint-components` covers some shape); the
+  dedicated memory-integrity linter is partial (the installed
+  `.garura/core/tools/lint-components` covers some shape); the
   cross-reference resolution check is to be built. Until then the tool runs these checks and
   cites each.
 - **Design-grounding (Layer 2):** **yes.** Reconstruct what the knowledge base is *for* and

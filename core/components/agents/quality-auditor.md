@@ -78,6 +78,44 @@ Given a codebase and quality standards, YOU:
 - Judge reports or eval pass/fail results
 - Evals-engineer prompts or spec interpretations
 
+## Memory Reading Protocol
+
+You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
+every agent, says how to call it. Never read a memory file by its path, and never take a
+memory path from a contract.
+
+1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
+   Phoenix memory), from the project root:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
+   ```
+
+2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
+   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
+   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
+   The `read` answer carries the file's text, so one command writes the copy:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
+     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
+   ```
+3. **Hand** each skill those short-term paths — never a path in memory.
+4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
+   what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `check-pr-quality` | the PR severity taxonomy (`**/standards/rules/pr.md`), copied to `<issue folder>/context/memory/standards/rules/pr.md` — `severity_taxonomy_path` |
+
+For a PR review (check-change), you run `check-pr-quality`: fetch the taxonomy as above
+**before** the scan, record its source in the manifest, and pass the short-term copy. When no
+tier holds `pr.md`, return a structured failure (`taxonomy_missing`); never point the skill at
+a path in memory or in Garura's source.
+
 ## Input Contract
 
 ```json

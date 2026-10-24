@@ -3,7 +3,7 @@
 11 prompt templates for explore subagents. Each prompt is injected with runtime values:
 - `{repo_path}` — target repository path
 - `{qp_levels}` — project's Quality Profile levels (from quality-standards.yaml `standards.*`)
-- `{kb_base}` — resolved KB path (Project LTM or global KB)
+- `{kb_base}` — the short-term folder that holds the copied `knowledge/` files (it holds `quality/`)
 
 ## JSON Output Schema (shared by all subagents)
 
@@ -701,7 +701,7 @@ Return JSON only — no markdown, no prose outside the JSON object:
 
 The skill runner must replace these variables before dispatching each subagent:
 - `{repo_path}` — absolute path to the target repository
-- `{kb_base}` — absolute path to the resolved KB root (e.g., `~/.garura/core/memory/knowledge`)
+- `{kb_base}` — absolute path to the short-term folder that holds the copied `knowledge/` files (with `quality/` in it) the agent fetched through the memory tool
 - `{qp_levels.code_quality}` — from `quality-standards.yaml` → `standards.code_quality.qp_level`
 - `{qp_levels.testing}` — from `quality-standards.yaml` → `standards.testing.qp_level`
 - `{qp_levels.documentation}` — from `quality-standards.yaml` → `standards.documentation.qp_level`

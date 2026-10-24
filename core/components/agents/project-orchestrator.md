@@ -131,7 +131,7 @@ TaskCreate: "{description of discovered work}"
 TaskUpdate: task_id → status: failed
 ```
 
-Write structured failure to the `stm.output.failure` path per `structured-failure-protocol.md`.
+Write structured failure to the `stm.output.failure` path per the Structured Failure Format in this file.
 
 ## Capabilities
 
@@ -231,7 +231,7 @@ A plan intent arrives as a JSON contract like any other, with the plan's inputs 
 }
 ```
 
-You pass `author-plan-file` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per `structured-failure-protocol.md`.
+You pass `author-plan-file` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per the Structured Failure Format in this file.
 
 ## Context Loading
 
@@ -328,7 +328,7 @@ The agent does NOT return the artifact content to the play. It writes artifacts 
 2. **Load intent** — Read `intent.yaml` from `intent_path`, extract constraints, failure conditions, scenarios
 3. **Load context** — Read config, read input data from `stm.input` paths
 4. **Parse the intent** — What is the caller asking for?
-5. **Validate constraints** — For each constraint from the intent file, check against current state. If ANY would be violated, write structured failure to `stm.output.failure` per `structured-failure-protocol.md` and return failed contract. Do NOT proceed to skill invocation.
+5. **Validate constraints** — For each constraint from the intent file, check against current state. If ANY would be violated, write structured failure to `stm.output.failure` per the Structured Failure Format in this file and return failed contract. Do NOT proceed to skill invocation.
 6. **Check inputs** — Do I have what the skill needs?
 7. **Invoke skill** — Use the Skill tool with context. For a plan intent: first build the Plan Context (several `track-issue` reads), then make the one `author-plan-file` call
 8. **Enrich results** — Derive `type_hint` from labels/title (issue intents); for a plan intent, record the returned paths and the check's `valid` / `done`
@@ -392,11 +392,64 @@ Bash is available for operations **not covered by skills**:
 
 **All code-host operations must route through the `platform-adapter` skill** (via `track-issue`). Never invoke `gh` or `glab` directly for issue operations.
 
-## Memory
+## Memory Reading Protocol
 
-Load framework protocols from `docs/framework/` as needed:
-- `intent-driven-recovery.md` — Recovery reasoning loop
-- `structured-failure-protocol.md` — Structured failure return format
+You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
+every agent, says how to call it. Never read a memory file by its path, and never take a
+memory path from a contract.
+
+1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
+   Phoenix memory), from the project root:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
+   ```
+
+2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
+   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
+   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
+   The `read` answer carries the file's text, so one command writes the copy:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
+     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
+   ```
+3. **Hand** each skill those short-term paths — never a path in memory.
+4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
+   what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `track-issue` | the issue template (`**/standards/templates/github-issue.md`), for `create` — `issue_template_path` |
+| `author-plan-file` | the work-plan format (`**/standards/templates/work-plan.md`) — `template_path`; the work-plan rules (`**/standards/rules/work-plan.md`) — `rules_path` |
+
+## Structured Failure Format
+
+When an obstacle is outside your domain, or two self-recovery attempts failed, return a
+structured failure to the caller — never a raw error:
+
+```yaml
+failure:
+  what_failed: "{operation that failed}"
+  why: "{root cause — specific, e.g. 'file not found', not 'error occurred'}"
+  domain_assessment:
+    within_my_domain: false
+    responsible_domain: "{implementation | design | repository | project | infrastructure}"
+    suggested_agent: "{agent name, if known}"
+  context:
+    intent_received: "{the intent passed by the caller}"
+    constraint_violated: "{if applicable}"
+    self_recovery_attempted: true|false
+    self_recovery_details: "{what was tried, so the caller does not retry it}"
+  suggested_fix: "{what you think would resolve this}"
+```
+
+At most two self-recovery attempts per obstacle. When the caller retries you after a failure,
+use the earlier failure and any fix applied; do not repeat the failed approach, and if you fail
+again on the same obstacle, escalate at once.
 
 ## Recovery
 
@@ -424,7 +477,7 @@ When a skill invocation fails and the obstacle is within your domain:
 
 ### Escalation (Outside Domain)
 
-When the obstacle is outside your domain, write a structured failure to `stm.output.failure` per `structured-failure-protocol.md`:
+When the obstacle is outside your domain, write a structured failure to `stm.output.failure` per the Structured Failure Format in this file:
 
 ```yaml
 failure:

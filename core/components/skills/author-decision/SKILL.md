@@ -1,6 +1,6 @@
 ---
 name: author-decision
-description: Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura's own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /record-decision play or the calling play's review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /record-decision, and for plays that record product decisions once they are wired to it (follow-up). Use when a decision needs to be written down as an ADR.
+description: 'Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura''s own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /record-decision play or the calling play''s review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /record-decision, and for plays that record product decisions once they are wired to it (follow-up). Use when a decision needs to be written down as an ADR.'
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
@@ -23,7 +23,7 @@ You draft; you never accept. Every record you write has status `proposed`. A per
 |-------|----------|---------|
 | `brief` | yes | The decision brief (`<working>/brief.md`): what is decided, why now, the options considered, who is deciding, where it was decided |
 | `context` | yes | The gathered context (`<working>/adr-context.yaml`) from `adr-keeper`: the shape, the number or id, the older ADRs it supersedes or amends (each with the part), what it affects, its ICE impact, its business-intent check, related ADRs |
-| `template_path` | no | Default: `~/.garura/core/memory/standards/templates/adr.md` |
+| `template_path` | yes | The short-term copy of `standards/templates/adr.md` that `adr-keeper` fetched through the memory tool |
 | `draft_path` | yes | Where to write the record |
 
 ## Process

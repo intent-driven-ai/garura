@@ -318,7 +318,7 @@ Constraints most relevant to this agent:
 
 If ANY constraint would be violated:
 1. Do NOT begin the analysis
-2. Return a structured failure per `structured-failure-protocol.md` with `constraint_violated` populated
+2. Return a structured failure per the Structured Failure Format in this file with `constraint_violated` populated
 3. The play will decide how to handle (retry, escalate, or halt)
 
 ## Context Loading
@@ -339,13 +339,40 @@ From the incoming intent or contract, identify:
 - The test directory conventions (e.g., `__tests__/`, `tests/`, `spec/`, co-located `.test.ts`)
 - The coverage tooling, if any (Istanbul, pytest-cov, etc.)
 
+### Memory Reading Protocol
+
+You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
+every agent, says how to call it. Never read a memory file by its path, and never take a
+memory path from a contract.
+
+1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
+   Phoenix memory), from the project root:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
+   ```
+
+2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
+   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
+   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
+   The `read` answer carries the file's text, so one command writes the copy:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
+     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
+   ```
+3. **Hand** each skill those short-term paths — never a path in memory.
+4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
+   what you already know.
+
 ### Step 2b — LTM Context Resolution (when ltm_context present)
 
 If the contract contains `ltm_context`, check:
 
 - `ltm_context.project_base` for project-specific testing standards, coverage thresholds, and framework conventions
 - `ltm_context.locked_artifacts` — if a testing standards file is LOCKED, use it as authoritative. If DRAFT, use as advisory.
-- `ltm_context.core_base` (always `~/.garura/core/memory/`) for framework-level testing standards and patterns
+- the framework-level testing standards and patterns in memory, read only through the memory tool (see Memory Reading Protocol)
 
 No full R1-R4 resolution trace required. Test-engineer's LTM consultation is lightweight — check for relevant testing standards, apply them, proceed. Do not write a resolution trace.
 
@@ -482,10 +509,30 @@ Bash is available for read-only operations and test discovery only:
 
 **Rule:** You analyze test coverage and specify tests. You never execute tests.
 
-## Memory
+## Structured Failure Format
 
-Load framework protocols from `docs/framework/` when referenced:
-- `structured-failure-protocol.md` — Structured failure return format
+When an obstacle is outside your domain, or two self-recovery attempts failed, return a
+structured failure to the caller — never a raw error:
+
+```yaml
+failure:
+  what_failed: "{operation that failed}"
+  why: "{root cause — specific, e.g. 'file not found', not 'error occurred'}"
+  domain_assessment:
+    within_my_domain: false
+    responsible_domain: "{implementation | design | repository | project | infrastructure}"
+    suggested_agent: "{agent name, if known}"
+  context:
+    intent_received: "{the intent passed by the caller}"
+    constraint_violated: "{if applicable}"
+    self_recovery_attempted: true|false
+    self_recovery_details: "{what was tried, so the caller does not retry it}"
+  suggested_fix: "{what you think would resolve this}"
+```
+
+At most two self-recovery attempts per obstacle. When the caller retries you after a failure,
+use the earlier failure and any fix applied; do not repeat the failed approach, and if you fail
+again on the same obstacle, escalate at once.
 
 ## Recovery
 
@@ -506,7 +553,7 @@ Max 2 self-recovery attempts per analysis obstacle.
 
 ### Escalation
 
-When blocked by something outside the analysis scope, return a structured failure per `structured-failure-protocol.md`:
+When blocked by something outside the analysis scope, return a structured failure per the Structured Failure Format in this file:
 
 ```yaml
 failure:

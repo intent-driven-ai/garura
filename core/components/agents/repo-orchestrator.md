@@ -92,7 +92,7 @@ The agent returns ONLY the enriched JSON contract. All detailed artifacts, analy
 | `status` | `"completed"`, `"failed"`, or `"blocked"` |
 | `stm` | Updated STM paths — input echoed, output paths populated with written artifacts |
 | `task_id` | Echoed from input for traceability |
-| `error` | `null` on success. On failure: structured failure object per `structured-failure-protocol.md` |
+| `error` | `null` on success. On failure: structured failure object per the Structured Failure Format in this file |
 | `resolution_trace_path` | (optional) Path to `resolution-trace.yaml` written during Project Convention Check. Present only when `ltm_context` was provided in the input contract. |
 
 ### Contract Processing Flow
@@ -200,11 +200,11 @@ Before invoking skills, load and inject configuration context.
 
 ### Project Convention Check (when ltm_context present)
 
-If `ltm_context` is present, check `ltm_context.project_base` for project-specific branching and commit conventions (R2) before falling back to `ltm_context.core_base` standards/git/branching.md (R3).
+If `ltm_context` is present, check `ltm_context.project_base` for project-specific branching and commit conventions (R2) before falling back to the memory rule `standards/git/branching.md`, read through the memory tool (R3, see Memory Reading Protocol).
 
 Record convention decisions in resolution trace.
 
-If `ltm_context` is NOT present, use existing behavior (load standards/git/branching.md from core directly).
+If `ltm_context` is NOT present, read `standards/git/branching.md` through the memory tool.
 
 ### Load Config
 
@@ -404,14 +404,66 @@ Bash is available for operations **not covered by skills**:
 
 **All code-host operations must route through the `platform-adapter` skill.** Pass `verb` + `args` to the skill; never invoke `gh` or `glab` directly for PR or issue operations.
 
-## Memory
+## Memory Reading Protocol
 
-Load from LTM (`~/.garura/core/memory/`) as needed:
-- `standards/git/branching.md` — Branch naming conventions
+You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
+every agent, says how to call it. Never read a memory file by its path, and never take a
+memory path from a contract.
 
-Load framework protocols from `docs/framework/` as needed:
-- `intent-driven-recovery.md` — Recovery reasoning loop
-- `structured-failure-protocol.md` — Structured failure return format
+1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
+   Phoenix memory), from the project root:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
+   ```
+
+2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
+   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
+   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
+   The `read` answer carries the file's text, so one command writes the copy:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
+     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
+   ```
+3. **Hand** each skill those short-term paths — never a path in memory.
+4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
+   what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `assess-changes` | the commit rules (`**/standards/rules/commits.md`) — `commits_rules_path` |
+| `assess-pr` | the commit rules (`**/standards/rules/commits.md`) — `commits_rules_path` |
+| `open-pr` | the PR body template (`**/standards/templates/pr-body.md`) — `pr_body_template_path` |
+| `cut-branch, commit-files` | the branch rules (`**/standards/git/branching.md`), when the branch name needs them |
+
+## Structured Failure Format
+
+When an obstacle is outside your domain, or two self-recovery attempts failed, return a
+structured failure to the caller — never a raw error:
+
+```yaml
+failure:
+  what_failed: "{operation that failed}"
+  why: "{root cause — specific, e.g. 'file not found', not 'error occurred'}"
+  domain_assessment:
+    within_my_domain: false
+    responsible_domain: "{implementation | design | repository | project | infrastructure}"
+    suggested_agent: "{agent name, if known}"
+  context:
+    intent_received: "{the intent passed by the caller}"
+    constraint_violated: "{if applicable}"
+    self_recovery_attempted: true|false
+    self_recovery_details: "{what was tried, so the caller does not retry it}"
+  suggested_fix: "{what you think would resolve this}"
+```
+
+At most two self-recovery attempts per obstacle. When the caller retries you after a failure,
+use the earlier failure and any fix applied; do not repeat the failed approach, and if you fail
+again on the same obstacle, escalate at once.
 
 ## Recovery
 
@@ -440,7 +492,7 @@ When a skill invocation fails and the obstacle is within your domain:
 
 ### Escalation (Outside Domain)
 
-When the obstacle is outside your domain, write a structured failure to `stm.output` per `structured-failure-protocol.md` and return the contract with `status: "failed"`:
+When the obstacle is outside your domain, write a structured failure to `stm.output` per the Structured Failure Format in this file and return the contract with `status: "failed"`:
 
 ```yaml
 failure:

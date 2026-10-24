@@ -32,7 +32,7 @@ Receive from the `tech-designer` agent. All paths resolve against `{product_base
 - `epics_dir` (path, required) — `{product_base}scope/epics/`. Per-epic constraints may force a stricter target than the /specify QP allowed for.
 - `inventory_dir` (path, required) — `{product_base}architecture/systems-inventory/`. Each system file's Scale Profile and Tradeoffs sections may cap or force NFR targets.
 - `project_profile_path` (path, required) — `{product_base}user-provided/project-profile.yaml`. `grounded_tools.nfr_floors[]` and security/compliance pins are authoritative.
-- `kb_quality_dir` (path, required) — `{ltm_base}components/memory/knowledge/quality/`. ISO 25010 characteristic definitions and standard targets.
+- `kb_quality_dir` (path, required) — the short-term copy of the quality knowledge (`knowledge/quality/`) that the agent fetched through the memory tool. ISO 25010 characteristic definitions and standard targets.
 - `output_path` (string, required) — `{product_base}architecture/quality-profile.yaml`.
 - `decision_manifest_path` (string, required) — `{product_base}architecture/decision-manifest-refine-quality-profile.yaml`.
 

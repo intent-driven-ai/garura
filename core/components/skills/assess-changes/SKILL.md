@@ -20,6 +20,8 @@ You DO the analysis work. You do NOT make decisions about what to do with it.
 
 Receive from agent:
 - Request to analyze current uncommitted changes
+- `commits_rules_path` — the short-term copy of the memory rule `standards/rules/commits.md`
+  that the agent fetched through the memory tool
 
 ## Process
 
@@ -34,7 +36,7 @@ Receive from agent:
 
 2. **Categorize Each File**
 
-   Load categories from: `~/.garura/core/memory/standards/rules/commits.md`
+   Load categories from the file at `commits_rules_path`.
 
 3. **Detect Risks**
 

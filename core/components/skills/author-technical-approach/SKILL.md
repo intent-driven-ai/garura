@@ -30,7 +30,7 @@ Receive from agent:
 - `profiles_ref` — (optional) Path to product.yaml containing profiles section. When provided, NFR profile levels drive the nfrs section, and profile values inform technology selection reasoning via LTM architecture knowledge "When to Choose" matching.
 - `product_yaml_path` — (optional) Path to product.yaml for profile and context extraction
 - `roadmap_yaml_path` — (optional) Path to roadmap.yaml for epic/feature context
-- `ltm_architecture_path` — (optional) Path to LTM architecture knowledge directory (default: `~/.garura/core/memory/knowledge/arch/`)
+- `ltm_architecture_path` — (optional) The short-term folder that holds the architecture knowledge (`knowledge/arch/`) the agent fetched through the memory tool. When it is not given, the skill uses no architecture knowledge.
 
 ## Process
 

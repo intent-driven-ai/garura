@@ -45,12 +45,13 @@ dimensions:
 
 ## Step 2: Load KB Standards
 
-**Three-layer search order:**
-1. **Project LTM** — `{project}/.garura/core/memory/knowledge/quality/` — project-specific overrides
-2. **KB (Memory Bank)** — `~/.garura/core/memory/knowledge/quality/` — framework defaults
-3. If neither found — HALT: "No quality KB found. Run /sud:install to deploy quality standards."
+Memory is read only through the memory tool. The agent that runs this skill finds the quality
+knowledge (`**/knowledge/quality/**`) through the memory tool, in its lookup order (short-term
+memory, Garura memory, Phoenix memory), copies it into the issue's short-term memory, and
+passes the short-term `knowledge/` folder (it holds `quality/`) as `kb_base`. If no `kb_base` is passed, or it holds no quality
+knowledge — HALT: "No quality knowledge in memory."
 
-For each of the 11 domains, load the knowledge files from the resolved path. Filter check items by detected stack (e.g., skip frontend files for backend-only projects).
+For each of the 11 domains, load the knowledge files from `{kb_base}/quality/`. Filter check items by detected stack (e.g., skip frontend files for backend-only projects).
 
 **KB file inventory per domain:**
 

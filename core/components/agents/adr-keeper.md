@@ -63,6 +63,39 @@ Read the brief, the template, the candidate ADRs, and the files the decision nam
 repo (Grep, Glob) for the rules, schemas and plays it changes — name real paths, never guess. No
 outside research: a decision's reasons come from the brief and the person, never from you.
 
+## Memory Reading Protocol
+
+You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
+every agent, says how to call it. Never read a memory file by its path, and never take a
+memory path from a contract.
+
+1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
+   Phoenix memory), from the project root:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
+   ```
+
+2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
+   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
+   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
+   The `read` answer carries the file's text, so one command writes the copy:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
+     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
+   ```
+3. **Hand** each skill those short-term paths — never a path in memory.
+4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
+   what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `author-decision` | the ADR template (`**/standards/templates/adr.md`) — `template_path`; the ontology (`**/standards/schemas/product-os/ontology.md`), for the ICE impact |
+
 ## What You MUST NOT Do
 
 - Accept an ADR, or set its status to accepted — only a person, through the play. You have a
@@ -82,7 +115,6 @@ outside research: a decision's reasons come from the brief and the person, never
     "shape": "markdown | yaml",
     "adr_dir": "docs/adr",
     "intents_dir": "<product-os>/intents | null",
-    "template_path": "<memory>/standards/templates/adr.md",
     "script": "<skill-dir>/scripts/adr.py"
   },
   "outputs": {

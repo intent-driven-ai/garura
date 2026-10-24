@@ -29,11 +29,8 @@ diff_path: "{stm_base}/{issue}/evidence/review-pr/diff.patch"   # unified diff
 changed_paths:                                                    # array; absolute repo-relative paths
   - src/api/users.ts
   - src/db/migrations/0042_add_email.sql
-standards_set:                                                    # resolved from config standards_order
-  kb: ~/.garura/core/memory/knowledge/quality/
-  ltm: ./.garura/core/memory/knowledge/quality/
-  stm: .garura/project/issues/{issue}/specs/quality/
-severity_taxonomy_path: ./core/components/memory/standards/rules/pr.md
+standards_order: [kb, ltm, stm]                                  # from config review-pr.standards_order
+severity_taxonomy_path: "{stm_base}/{issue}/context/memory/standards/rules/pr.md"  # the short-term copy quality-auditor fetched
 intent_summary: "Add email verification flow"                     # 1–3 sentences from spec/intent.yaml or PR body
 output_path: "{stm_base}/{issue}/evidence/review-pr/findings.yaml"
 ```
@@ -42,10 +39,10 @@ output_path: "{stm_base}/{issue}/evidence/review-pr/findings.yaml"
 
 | Check | Action on Failure |
 |---|---|
-| `severity_taxonomy_path` exists | HALT — "PR severity taxonomy missing at {path}" |
+| `severity_taxonomy_path` exists (the short-term copy of `standards/rules/pr.md`) | HALT — "PR severity taxonomy missing at {path}" |
 | `diff_path` exists and non-empty | HALT — "Empty or missing diff" |
 | `changed_paths` non-empty | HALT — "No changed paths supplied" |
-| At least one of `standards_set.{kb,ltm,stm}` resolves | HALT — "No standards source resolvable" |
+| `standards_order` is given | HALT — "No standards order given" |
 
 ## Process
 
@@ -167,7 +164,7 @@ Two back-to-back invocations on the same `(diff_path, changed_paths, taxonomy_pa
 | FS-1 | Taxonomy missing | HALT + structured failure |
 | FS-2 | Diff empty/missing | HALT |
 | FS-3 | A finding lacks `standard_id` | DROP finding + log error to evidence |
-| FS-4 | Standards source unresolvable | HALT |
+| FS-4 | Standards order missing | HALT |
 | FS-5 | Match rule regex invalid | HALT — taxonomy is malformed |
 
 ## Reference
@@ -175,4 +172,4 @@ Two back-to-back invocations on the same `(diff_path, changed_paths, taxonomy_pa
 - Scanner: `scripts/scan_taxonomy.py` (the deterministic match engine — #454)
 - Input contract: `reference/input-contract.md`
 - Output schema: `reference/finding-schema.md`
-- Taxonomy: `core/components/memory/standards/rules/pr.md`
+- Taxonomy: the memory rule `standards/rules/pr.md`, read only through the short-term copy at `severity_taxonomy_path`

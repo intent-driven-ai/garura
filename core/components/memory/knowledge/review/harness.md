@@ -21,11 +21,16 @@ they get the deepest treatment.
 ## Treatment
 - **Reviewer:** human (the design) + tool (conformance).
 - **Layers:** Layer 1 **and** Layer 2.
-- **Linter (Layer 1):** structural conformance — `lint_play.py` for plays (coverage of every
-  constraint/failure/scenario by an eval, exactly one recovery per failure, required sections
-  present, a real intent fingerprint, no orphan references); `core/tools/lint-components` for skill/agent
-  shape; the play-pipeline rules (intent change must trace to an ICE source, not a hand-edited
-  compiled file). These exist in-repo.
+- **Linter (Layer 1):** structural conformance, run from the installed tools only —
+  `python3 .garura/core/tools/lint-play/lint_play.py <play>/SKILL.md --next-map <the short-term
+  copy of standards/rules/pipeline-next.md>` for plays (coverage of
+  every constraint/failure/scenario by an eval, exactly one recovery per failure, required
+  sections present, a real intent fingerprint, no orphan references);
+  `node .garura/core/tools/lint-components/index.js --layout installed --target .claude`
+  for skill/agent shape and for installed parts that name Garura's
+  source (`installed-paths/source-path`); the play-pipeline rules (intent change must trace to
+  an ICE source, not a hand-edited compiled file). When a tool is not installed, record
+  `not installed` for that check and go on.
 - **Design-grounding (Layer 2):** **yes.** Reconstruct the harness design principles from
   **committed** sources — `docs/philosophy/**`, `docs/adr/**`, the standards under
   `memory/standards/rules/**` (e.g. user-facing-voice, play-close, evidence-recording), and

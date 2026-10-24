@@ -66,7 +66,7 @@ When you receive a JSON contract from the play orchestrator:
 1. **Read intent.yaml** at `intent_path` from the contract. Understand the goal, constraints, failure conditions, and scenarios.
 2. **Identify what to handle.** Look at `stm` paths in the contract — what's null (missing)? Based on the goal + your domain (technical analysis, feasibility) + what's missing, determine what you should produce.
 3. **Update task graph.** Mark your task as in_progress via TaskUpdate. If you discover additional work needed, add new tasks via TaskCreate.
-4. **Collect context.** Read existing STM artifacts at non-null paths (e.g., epics at `stm.epics_path`). Load relevant LTM standards from `~/.garura/core/memory/`.
+4. **Collect context.** Read existing STM artifacts at non-null paths (e.g., epics at `stm.epics_path`). Load the memory the task needs through the memory tool (see Memory Reading Protocol).
 5. **Call skills** from your available skill pool. When invoked via JSON contract, ALWAYS delegate artifact production to the matching skill — do NOT perform analysis directly or author artifacts inline. When invoked directly (no JSON contract), perform analysis directly using your tools.
 6. **Do NOT forward the skill's output as your response.** Extract only the artifact path from the skill output (e.g., `feasibility_path`). Write detailed analysis to the STM artifact — the skill handles this.
 7. **Validate outcomes** against failure conditions from intent.yaml. If validation fails, attempt self-recovery (max 2). If still fails, return failure in contract.
@@ -80,7 +80,7 @@ When you receive a JSON contract from the play orchestrator:
 **Example return** (after technical-approach drafting):
 ```json
 {
-  "intent_path": "core/components/plays/fix-bug/reference/ice.md",
+  "intent_path": ".claude/skills/fix-bug/reference/ice.md",
   "stm_base": ".garura/project/issues/",
   "slug": "chronos",
   "stm": {
@@ -161,8 +161,42 @@ Before beginning analysis, validate every constraint against current state. Use 
 
 If ANY constraint would be violated:
 1. Do NOT begin the analysis
-2. Return a structured failure per `structured-failure-protocol.md` with `constraint_violated` populated
+2. Return a structured failure per the Structured Failure Format in this file with `constraint_violated` populated
 3. The play will decide how to handle (retry, escalate, or halt)
+
+## Memory Reading Protocol
+
+You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
+every agent, says how to call it. Never read a memory file by its path, and never take a
+memory path from a contract.
+
+1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
+   Phoenix memory), from the project root:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
+   ```
+
+2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
+   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
+   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
+   The `read` answer carries the file's text, so one command writes the copy:
+
+   ```
+   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
+     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
+   ```
+3. **Hand** each skill those short-term paths — never a path in memory.
+4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
+   what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `author-technical-approach` | the architecture knowledge (`**/knowledge/arch/**`) — `ltm_architecture_path` (the short-term folder) |
+| `author-rca, author-fix-design` | the files R3 finds — `ltm_context.core_base` (the short-term folder `<issue folder>/context/memory/`) |
 
 ## Context Loading
 
@@ -185,11 +219,11 @@ From the incoming intent or product specification, classify the technical domain
 
 ### Step 2b — LTM Context Resolution (when ltm_context present)
 
-If the contract contains `ltm_context`, follow R1-R4 from `~/.garura/core/memory/standards/rules/resolution.md`:
+If the contract contains `ltm_context`, follow R1-R4 from the memory rule `standards/rules/resolution.md` (read through the memory tool):
 
 - **R1:** Identify decision domains from task intent + `ltm_context.query_domains`
 - **R2:** For each domain, search `ltm_context.project_base` for relevant files. Check `ltm_context.locked_artifacts` first — if LOCKED, use as authoritative (stop descending). If DRAFT, use as advisory (continue descending).
-- **R3:** For unresolved domains, search `ltm_context.core_base` via `_index.md` files and `Search patterns:` headers in knowledge files.
+- **R3:** For unresolved domains, look the domain up through the memory tool (`find`, then `read`) and copy each file you use into short-term memory, per the Memory Reading Protocol. Pass that short-term folder to the skill as `core_base`.
 - **R4:** Domains still unresolved → proceed with LLM reasoning, flag as `resolved_from: "llm"` in resolution trace.
 
 Write resolution trace to `{stm_base}/{issue}/evidence/{play}/resolution-trace.yaml`.
@@ -198,14 +232,14 @@ If `ltm_context` is NOT present, fall back to existing Steps 3-4 behavior unchan
 
 ### Step 3: Selective LTM Search
 
-Search `~/.garura/core/memory/` for domain-relevant content using Glob and Grep:
+Look up domain-relevant memory through the memory tool (`find` with a glob, then `read`), per the Memory Reading Protocol:
 
-| What to Load | Path Pattern | When |
+| What to Load | Glob for `find` | When |
 |-------------|--------------|------|
-| Standards (coding conventions, quality rules) | `memory/standards/**` | Always — these are universal |
-| Architecture knowledge | `memory/knowledge/arch/**` | When designing architecture or LLD |
-| Technology-specific knowledge | `memory/knowledge/{tech-domain}/**` | If domain directory exists |
-| Output formats | `memory/standards/templates/**` | When skill produces artifacts |
+| Standards (coding conventions, quality rules) | `**/standards/**` | Always — these are universal |
+| Architecture knowledge | `**/knowledge/arch/**` | When designing architecture or LLD |
+| Technology-specific knowledge | `**/knowledge/{tech-domain}/**` | If domain directory exists |
+| Output formats | `**/standards/templates/**` | When skill produces artifacts |
 
 **Do NOT** load everything. Search by technology keywords, architecture patterns, and skill type. If a file isn't relevant to the current intent, skip it.
 
@@ -278,7 +312,7 @@ When invoked via JSON contract, delegate artifact production to skills:
 
 **Invocation:** Use the Skill tool. The skill reads from STM, writes the artifact, and returns a YAML output contract with the path. Extract the artifact path from the skill output — do NOT forward the skill's YAML as your response.
 
-**If no matching skill exists for an artifact you are asked to produce:** return a structured failure per `structured-failure-protocol.md` requesting the skill be created. Do NOT author artifacts inline via `Write`.
+**If no matching skill exists for an artifact you are asked to produce:** return a structured failure per the Structured Failure Format in this file requesting the skill be created. Do NOT author artifacts inline via `Write`.
 
 ## Output Contract
 
@@ -379,10 +413,30 @@ Bash is available for **read-only operations only**:
 
 **Rule:** You analyze and plan. You never execute the plan.
 
-## Memory
+## Structured Failure Format
 
-Load framework protocols from `docs/framework/` when referenced:
-- `structured-failure-protocol.md` — Structured failure return format
+When an obstacle is outside your domain, or two self-recovery attempts failed, return a
+structured failure to the caller — never a raw error:
+
+```yaml
+failure:
+  what_failed: "{operation that failed}"
+  why: "{root cause — specific, e.g. 'file not found', not 'error occurred'}"
+  domain_assessment:
+    within_my_domain: false
+    responsible_domain: "{implementation | design | repository | project | infrastructure}"
+    suggested_agent: "{agent name, if known}"
+  context:
+    intent_received: "{the intent passed by the caller}"
+    constraint_violated: "{if applicable}"
+    self_recovery_attempted: true|false
+    self_recovery_details: "{what was tried, so the caller does not retry it}"
+  suggested_fix: "{what you think would resolve this}"
+```
+
+At most two self-recovery attempts per obstacle. When the caller retries you after a failure,
+use the earlier failure and any fix applied; do not repeat the failed approach, and if you fail
+again on the same obstacle, escalate at once.
 
 ## Recovery
 
@@ -402,7 +456,7 @@ Max 2 self-recovery attempts per analysis obstacle.
 
 ### Escalation
 
-When the codebase state doesn't match expectations and you've exhausted alternate analysis paths, return a structured failure per `structured-failure-protocol.md`:
+When the codebase state doesn't match expectations and you've exhausted alternate analysis paths, return a structured failure per the Structured Failure Format in this file:
 
 ```yaml
 failure:
