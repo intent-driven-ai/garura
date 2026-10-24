@@ -82,7 +82,7 @@ person's typed yes, a stop that leaves writes, or an undo that removes a line th
 before (C12); landing outside the change plays or on the wrong branch (C13); a real person's
 name, or text a person cannot follow (C14); a hidden file that is missing or leaves out a
 line or a recovery (C15); a part with no ICE, or a thin ICE with one mark only (C16); a brief
-that hides a result of the run (C17); reading the rule for asking a person from a path (C18);
+that hides a result of the run (C17); reading the rule for asking a person from a place other than `_shared/asking-a-person.md` (C18);
 an agent that chooses, drafts, decides or writes content, or reshapes a skill's output, or a
 dispatch that names no skills (C19).
 
@@ -90,7 +90,7 @@ dispatch that names no skills (C19).
 
 | Agent | Domain | Skills it uses | Phases |
 |-------|--------|----------------|--------|
-| `product-os-keeper` | Gather context and pass it on: read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the rule for asking a person, the domain shelves, the grounding templates, the recovery rule); raise the one memory update when the rule for asking a person is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief |
+| `product-os-keeper` | Gather context and pass it on: read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the domain shelves, the grounding templates, the recovery rule); pass on the shared rule for asking a person (`_shared/asking-a-person.md`, beside the installed skills, not memory) and say when it is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief |
 | `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
 
 `product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
@@ -231,22 +231,23 @@ exists; every later contract names that page as the intent's source, never
 
 **Step 2 — Gather the model and memory; list the gaps** · Owner: `product-os-keeper` · Depends on: Step 1
 
-    { "task":    "gather what the product model and memory hold for this business intent, and have the gaps neither answers written as questions. Read the intent page, the spine and the pages of the domains, capabilities, features, ICE, personas and journeys it reaches. Look up Garura memory and Phoenix memory only through the memory tool, never by a file path: python3 .garura/core/tools/memory/memory.py search --issue <issue> --pattern <topic> --ignore-case (add --tier garura or --tier phoenix to go up a tier), then memory.py read --issue <issue> --tier <tier> --path <path> --start <n> --end <m> for each line you use; a tier_missing error is said, never read as 'nothing found'. Copy what you read into short-term memory. Get the rule for asking a person only through the memory tool (memory.py find --issue <issue> --glob '**/asking-a-person.md' --every-tier, then read) into asking_rule; never read it from a file path. When no tier holds it, write gather.json rule_missing {tiers: [the tiers looked in], memory_update: <id>} after raising ONE memory update with memory.py propose (missing: the rule for asking a person; draft: an install of the Garura source brings it; blocking: false), and the skills use the floor this play states (an opening that says what the person decides; one thing per question; Question, Answer, Why it matters, Example; examples from several domains; each question stands alone; plain words; personas); do not stop. Copy every domain shelf (**/knowledge/domains/*.md) into short-term memory and call find-work-placement with the intent's outcome as the work and the copies as domains_dir; pass its routing result on as placement.json. Then call find-slice-gaps (find mode) with the intent page, gather.json, placement.json, the record and asking_rule; pass its questions.json on as it is. The surface and the tester are never a question: find-slice-gaps writes none, and author-slice proposes them in Step 6. Gather and pass on only; the skills write the placement and the questions",
+    { "task":    "gather what the product model and memory hold for this business intent, and have the gaps neither answers written as questions. Read the intent page, the spine and the pages of the domains, capabilities, features, ICE, personas and journeys it reaches. Look up Garura memory and Phoenix memory only through the memory tool, never by a file path: python3 .garura/core/tools/memory/memory.py search --issue <issue> --pattern <topic> --ignore-case (add --tier garura or --tier phoenix to go up a tier), then memory.py read --issue <issue> --tier <tier> --path <path> --start <n> --end <m> for each line you use; a tier_missing error is said, never read as 'nothing found'. Copy what you read into short-term memory. The rule for asking a person is not memory: it is the shared file _shared/asking-a-person.md that the install lays beside the installed skills (../_shared/asking-a-person.md from this play's folder). Pass that path on as asking_rule and record it in gather.json as rule {path: _shared/asking-a-person.md}; never look for it through the memory tool and never read another copy. When the file is missing, write gather.json rule_missing {path: _shared/asking-a-person.md}, and the skills use the floor this play states (an opening that says what the person decides; one thing per question; Question, Answer, Why it matters, Example; examples from several domains; each question stands alone; plain words; personas); do not stop. Copy every domain shelf (**/knowledge/domains/*.md) into short-term memory and call find-work-placement with the intent's outcome as the work and the copies as domains_dir; pass its routing result on as placement.json. Then call find-slice-gaps (find mode) with the intent page, gather.json, placement.json, the record and asking_rule; pass its questions.json on as it is. The surface and the tester are never a question: find-slice-gaps writes none, and author-slice proposes them in Step 6. Gather and pass on only; the skills write the placement and the questions",
       "inputs":  { "intent_page": "<model>/intents/<intent>.md", "spine": "<model>/_spine.yaml",
                    "product_base": "<product_base>", "record": "<record>" },
       "outputs": { "gather": "<working>gather.json", "placement": "<working>placement.json",
                    "questions": "<working>questions.json",
-                   "asking_rule": "<working>asking-a-person.md" },
+                   "asking_rule": "../_shared/asking-a-person.md" },
       "skills":  ["find-work-placement", "find-slice-gaps"],
       "task_id": "shape-slice-gather" }
 
 `gather.json` names every model page and memory line it read (tier, path, lines and the
-fingerprint from each `memory.py read` answer), and the rule for asking a person (tier, path,
-fingerprint) or `rule_missing`. The skills read only what the agent put in short-term memory.
-**SE-22 (F18/C18):** `gather.json` shows the rule for asking a person found through the memory
-tool (tier, path and fingerprint from a `memory.py read` answer), or `rule_missing` with the
-tiers looked in and a memory update id; in that case the run did not stop and `brief.md`
-holds the line that says the rule is missing (Step 11).
+fingerprint from each `memory.py read` answer), and the rule for asking a person (`rule`, with
+its path) or `rule_missing`. The skills read only what the agent put in short-term memory, and
+the shared rule at `_shared/asking-a-person.md`.
+**SE-22 (F18/C18):** `gather.json` shows the rule for asking a person at its path
+`_shared/asking-a-person.md` beside the installed skills, never found through the memory tool,
+or `rule_missing` with that path; in that case the run did not stop and `brief.md` holds the
+line that says the rule is missing (Step 11).
 
 **Step 3 — Propose answers; check them** · Owner: `product-os-keeper`, then play (script) · Depends on: Step 2
 
@@ -283,7 +284,7 @@ again:
     { "task":    "call find-slice-gaps in rewrite mode with questions.json, the shape_problems of questions-checked.json and asking_rule; it rewrites only the questions the script refused and keeps every other question as it is; pass its questions.json on as it is. Gather and pass on only",
       "inputs":  { "questions": "<working>questions.json",
                    "problems": "<working>questions-checked.json",
-                   "asking_rule": "<working>asking-a-person.md", "gather": "<working>gather.json" },
+                   "asking_rule": "../_shared/asking-a-person.md", "gather": "<working>gather.json" },
       "outputs": { "questions": "<working>questions.json" },
       "skills":  ["find-slice-gaps"],
       "task_id": "shape-slice-rewrite" }
@@ -340,13 +341,13 @@ python3 scripts/record_questions.py early --split <working>split.json \
 A question is asked first only when it blocks the slice, has no proposed answer, and is not
 about the surface or the tester (C3). Every other question waits for the one brief. When
 `early-split.json` asks nothing, go to Step 6. Otherwise dispatch the agent to have the
-opening written, by the rule for asking a person (`standards/rules/asking-a-person.md`,
-the agent's short-term copy):
+opening written, by the rule for asking a person (`_shared/asking-a-person.md`, beside the
+installed skills):
 
     { "task":    "call author-slice-brief with kind early, the intent page, early-split.json, gather.json and asking_rule; it writes the opening of the early brief, two or three plain sentences that say what the person decides and what happens with the reply; pass its early-opening.md on as it is. Gather and pass on only",
       "inputs":  { "kind": "early", "intent_page": "<model>/intents/<intent>.md",
                    "split": "<working>early-split.json", "gather": "<working>gather.json",
-                   "asking_rule": "<working>asking-a-person.md" },
+                   "asking_rule": "../_shared/asking-a-person.md" },
       "outputs": { "opening": "<working>early-opening.md" },
       "skills":  ["author-slice-brief"],
       "task_id": "shape-slice-early-opening" }
@@ -625,7 +626,7 @@ records, so no part can be left out:
                    "intent_page": "<model>/intents/<intent>.md",
                    "intent_page_record": "<working>intent-page.json",
                    "split": "<working>brief-split.json", "gather": "<working>gather.json",
-                   "asking_rule": "<working>asking-a-person.md" },
+                   "asking_rule": "../_shared/asking-a-person.md" },
       "outputs": { "opening": "<working>opening.md" },
       "skills":  ["author-slice-brief"],
       "task_id": "shape-slice-opening" }
@@ -880,7 +881,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F15 | the hidden file is missing, outside the home plan's evals folder, has no entry for a feature, leaves out a "Fails if" line, or gives a line no recovery or more than one; or a working copy of its lines or ids stays outside the evals folder after it reads ok | write the missing entry or line from the two ICE, with one recovery each, in the home plan's evals folder; delete the working copies once it reads ok (`write_hidden_file.py check --clear-working`) | autonomous |
 | F16 | a part the slice needs has no ICE, a thin ICE lacks a minimum line, only one thin mark is set, the brief has no thin-ICE warning, or the run stopped or sent the person to a discovery play | write the missing lines or the missing mark, and add the warning; go on | autonomous |
 | F17 | the brief hid a result of the run (a reuse difference, a feature pulled in or pushed out, a field an upgrade set or dropped, a warning, an older problem, a thin ICE, an assumption) | show the hidden result in the brief, in plain words, and ask again | autonomous |
-| F18 | the run read the rule for asking a person from a file path, stopped because it was missing, or went on without saying it was missing | drop the copy read from a path, say the rule is missing, use the play's floor, and raise the memory update | autonomous |
+| F18 | the run read the rule for asking a person from a place other than `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because it was missing, or went on without saying it was missing | drop the copy read from another place and read `_shared/asking-a-person.md`; when it is missing, say so in the brief, use the play's floor, and go on | autonomous |
 | F19 | an agent dispatch asked the agent to do work no named skill does (choose, draft, decide or write content, or reshape a skill's output), or a dispatch named no skills | take back what the agent made and send the work to the named skill that does it, through the agent; when no skill does it, close HALTED and name the missing skill — the agent never does it | autonomous |
 
 ## Pause and Resume
@@ -896,7 +897,7 @@ closed HALTED at a stop has nothing to resume: its writes were undone.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:2637601190f72386c064e3967a6bca811cbf954701a218795331033fa97aaca4 (of `reference/ice.md`) |
+| fingerprint | sha256:7d9a650f2fab204c65ae626c285c2fa77e76aab7c7f03b3e4aa86a6f09a62124 (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |

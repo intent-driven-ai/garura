@@ -1,8 +1,13 @@
 # Asking a Person
 
-Canonical rule for how a play asks a person a question — at a checkpoint, in a draft the
-person approves, or in a brief that ends with questions. Every play that asks a person points
-to this file. It does not say *what* to ask; it says how each question is shown.
+The rule for how a play, a skill or an agent asks a person a question — at a checkpoint, in a
+draft the person approves, or in a brief that ends with questions. It does not say *what* to
+ask; it says how each question is shown.
+
+This file is not memory. The install lays it beside the installed skills, at
+`_shared/asking-a-person.md`, and each part that asks a person reads it there: the plays
+`edit-ontology` and `shape-slice`, the skills `author-product-ontology`, `find-slice-gaps` and
+`author-slice-brief`, and the `product-os-keeper` agent.
 
 ## The opening
 
@@ -41,5 +46,5 @@ not ready to show.
 
 ## Related
 
-- `rules/user-facing-voice.md` — the register of every reply to the user
-- `templates/approval-prompt.md` — the checkpoint rendering
+- `standards/rules/user-facing-voice.md` (memory) — the register of every reply to the user
+- `standards/templates/approval-prompt.md` (memory) — the checkpoint rendering

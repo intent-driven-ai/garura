@@ -22,7 +22,7 @@ the loops); it finds what this one slice needs.
 | `gather` | yes | `gather.json`: each model page and memory line the agent read (tier, path, lines, fingerprint), with the short-term copies |
 | `placement` | yes | The `find-work-placement` routing result for the intent's outcome |
 | `record` | yes | The question record (`grounding-questions.md`): a question answered there is a fact and is never asked again |
-| `asking_rule` | yes | The copy of `standards/rules/asking-a-person.md` the agent put in short-term memory, or `rule_missing` in `gather` — then use the floor below |
+| `asking_rule` | yes | The shared rule for asking a person, `_shared/asking-a-person.md`, beside the installed skills (`../_shared/asking-a-person.md` from this skill's folder); it is not memory. When `gather` has `rule_missing`, use the floor below |
 | `skill_gaps` | no | Gaps that other skills returned as data (for example an `enrich-capability-ice` manifest's `gaps`) on an earlier round |
 | `questions` | for `rewrite` | `questions.json` as it is |
 | `problems` | for `rewrite` | `questions-checked.json` `shape_problems`: each refused question id with what is wrong |

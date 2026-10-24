@@ -111,12 +111,12 @@ epic, no story and no eval.
   dropped; the slice check's warnings and the count of older model problems; and the count of
   questions with no proposed answer. The person replies yes, change: <what>, or stop, and answers
   any question by its id in the same reply; a plain yes accepts each proposed answer.
-- C18 — The run gets the rule for asking a person only through the memory tool. When no tier
-  holds it, the run says so in the brief, follows the floor that this play states (an opening
-  that says what the person decides; one thing per question; the four parts; examples from
-  several domains; each question stands alone; plain words; personas), and raises one memory
-  update that names the gap and says that an install brings the rule. The update does not
-  block, and the run does not stop.
+- C18 — The run reads the rule for asking a person only from the shared file the install lays
+  beside the installed skills, `_shared/asking-a-person.md`; the rule is not memory, so the run
+  never looks for it through the memory tool. When the file is missing, the run says so in the
+  brief (an install lays it), follows the floor that this play states (an opening that says
+  what the person decides; one thing per question; the four parts; examples from several
+  domains; each question stands alone; plain words; personas), and does not stop.
 - C19 — The agent only gathers context and passes it on: it reads the model, copies memory
   into short-term memory, calls the memory tool (find, read, cite, propose), calls a skill and
   passes the skill's output on as it is. Every choice, draft and decision is made by a named
@@ -167,8 +167,9 @@ epic, no story and no eval.
 - F17 — The brief hid a result of the run: a reuse difference, a feature pulled in or pushed
   out, a field a record upgrade set or dropped, a slice-check warning, an older model problem, a
   thin ICE, or an assumption.
-- F18 — The run read the rule for asking a person from a file path, stopped because the rule was
-  missing, or went on without saying it was missing.
+- F18 — The run read the rule for asking a person from a place other than
+  `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because
+  the rule was missing, or went on without saying it was missing.
 - F19 — An agent dispatch asks the agent to do work no named skill does: to choose, draft,
   decide or write content itself, or to reshape a skill's output; or a dispatch names no
   skills.
@@ -180,8 +181,8 @@ epic, no story and no eval.
   folders, Business Intent; Q33, Q34, Q36–Q40); `spine.yaml` and `slice.yaml` schemas; ADR 049
   (the shaping loop: /shape-slice, then /shape-plan, then /shape-eval) and ADR 052 (/shape-slice
   writes the hidden file and proposes a thin ICE).
-- The rules: `standards/rules/asking-a-person.md` (read through the memory tool only),
-  `standards/rules/user-questions.md`, `standards/rules/no-unbacked-recommendation.md`,
+- The rules: `_shared/asking-a-person.md` (the shared file beside the installed skills; not
+  memory), `standards/rules/user-questions.md`, `standards/rules/no-unbacked-recommendation.md`,
   `standards/rules/expectation-generation.md` ("A feature's recovery").
 - The question tier: `shape-slice.grill-tier` in config (xs 5, s 12, m 25, l 45, xl 70; default
   m), and the budget script built for #817.
@@ -307,8 +308,9 @@ epic, no story and no eval.
   Handoff: autonomous.
 - REC17 (F17) — show the hidden result in the brief, in plain words, and ask again. Handoff:
   autonomous.
-- REC18 (F18) — drop the copy read from a path, say the rule is missing, use the play's floor,
-  and raise the memory update. Handoff: autonomous.
+- REC18 (F18) — drop the copy read from another place and read `_shared/asking-a-person.md`;
+  when it is missing, say so in the brief, use the play's floor, and go on. Handoff:
+  autonomous.
 - REC19 (F19) — take back what the agent made, and send the work to the named skill that does
   it, through the agent; when no skill does it, close HALTED and name the missing skill. The
   agent never does it. Handoff: autonomous.

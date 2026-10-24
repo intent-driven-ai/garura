@@ -4,9 +4,6 @@ The one format for a checkpoint: the place where a play stops and a person decid
 play that waits for a person's approval uses this format. A play does not write its own
 prompt text.
 
-The rule for how to ask is `rules/asking-a-person.md`. This template shows that rule at a
-checkpoint. When the two do not agree, the rule is correct.
-
 Consumers: every checkpoint-gated play.
 
 ## Shape
@@ -153,6 +150,5 @@ your change, or **stop** to end the run.
 
 ## Related
 
-- `rules/asking-a-person.md` — the rule this format follows
 - `checkpoint.md` — the file the play writes next to the prompt
 - `delivery-report.md` — the final report a play gives at close (not a checkpoint)

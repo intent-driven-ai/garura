@@ -24,7 +24,7 @@ be left out.
 | `slice` | for `confirmation` | `slice.json`: the slice's name, its surface and its tester |
 | `intent_page_record` | for `confirmation` | `intent-page.json`: `written: true` when this run wrote the intent page from the issue |
 | `gather` | yes | `gather.json`: when it has `rule_missing`, use the floor below |
-| `asking_rule` | yes | The copy of `standards/rules/asking-a-person.md` the agent put in short-term memory |
+| `asking_rule` | yes | The shared rule for asking a person, `_shared/asking-a-person.md`, beside the installed skills (`../_shared/asking-a-person.md` from this skill's folder); it is not memory |
 | `out` | yes | Where to write the opening (`early-opening.md` or `opening.md`) |
 
 ## Process
