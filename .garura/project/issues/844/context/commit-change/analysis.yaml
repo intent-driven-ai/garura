@@ -1,0 +1,42 @@
+---
+needs_judgment: false
+change_groups:
+  - id: model-align-cap-718
+    issue: 844
+    commit_type: fix
+    scope: model
+    subject: "align cap-718 with the epic-and-story rule and list bi-717 on the domain"
+    files:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/intents/bi-788.md
+      - .garura/product/product-os/software-delivery-planning/cap-718/capability.md
+      - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  - id: stm-844-run-records
+    issue: 844
+    commit_type: chore
+    scope: stm
+    subject: "record review round-2 and commit-change run artifacts"
+    files:
+      - .garura/project/issues/844/review/context.yaml
+      - .garura/project/issues/844/review/design-findings-product-model.yaml
+      - .garura/project/issues/844/review/memory-updates/mu-20261024-003.json
+      - .garura/project/issues/844/review/pr.diff
+      - .garura/project/issues/844/review/memory-updates/mu-20261024-004.json
+      - .garura/project/issues/844/review/round1/categories.yaml
+      - .garura/project/issues/844/review/round1/context.yaml
+      - .garura/project/issues/844/review/round1/decision-comment.md
+      - .garura/project/issues/844/review/round1/decision.yaml
+      - .garura/project/issues/844/review/round1/design-findings-product-model.yaml
+      - .garura/project/issues/844/review/round1/findings.yaml
+      - .garura/project/issues/844/review/round1/posted.json
+      - .garura/project/issues/844/review/round1/quality-findings.yaml
+      - .garura/project/issues/844/review/round1/recommended_verdict.yaml
+      - .garura/project/issues/844/review/round1/runnable-checks.txt
+      - .garura/project/issues/844/context/commit-change/analysis.yaml
+      - .garura/project/issues/844/context/commit-change/porcelain.txt
+exclusions: []
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false

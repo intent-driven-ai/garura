@@ -1,0 +1,11 @@
+ M .garura/product/product-os/_spine.yaml
+ M .garura/product/product-os/intents/bi-788.md
+ M .garura/product/product-os/software-delivery-planning/cap-718/capability.md
+ M .garura/project/issues/844/review/context.yaml
+ M .garura/project/issues/844/review/design-findings-product-model.yaml
+ M .garura/project/issues/844/review/memory-updates/mu-20261024-003.json
+ M .garura/project/issues/844/review/pr.diff
+ M .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+?? .garura/project/issues/844/context/commit-change/
+?? .garura/project/issues/844/review/memory-updates/mu-20261024-004.json
+?? .garura/project/issues/844/review/round1/

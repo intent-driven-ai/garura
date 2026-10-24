@@ -1,7 +1,7 @@
 {
   "update": {
     "id": "mu-20261024-003",
-    "status": "waiting",
+    "status": "rejected",
     "issue": 844,
     "missing": "A domain shelf for software delivery planning: shaping a slice, planning it as an epic and stories, and writing an acceptance eval kept from the builder",
     "target_tier": "short-term",
@@ -11,12 +11,12 @@
     "sources": [],
     "requested_by": "product-os-keeper (shape-slice)",
     "requested_at": "2026-10-24T04:32:04Z",
-    "decided_by": null,
-    "reply": null,
-    "decided_at": null,
+    "decided_by": "product-owner",
+    "reply": "yes (to: reject mu-20261024-003 and raise a new one without the author names, with the sources marked as checked)",
+    "decided_at": "2026-10-24T09:59:08Z",
     "applied_version": null,
     "blocking": false,
-    "decided_in": null
+    "decided_in": "session"
   },
   "target_fingerprint_at_propose": null
 }
