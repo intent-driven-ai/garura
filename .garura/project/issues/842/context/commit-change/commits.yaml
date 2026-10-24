@@ -1,66 +1,52 @@
 commits:
-  - sha: 2f1d5176
-    message: "feat(skills): author-failure-recovery drafts each feature's hidden-file entry (#842)"
+  - sha: 79aeec2c
+    message: "fix(shape-slice): add safe_write and tighten the script modes, with tests (#842)"
     files:
-      - core/components/skills/author-failure-recovery/SKILL.md
-      - core/components/agents/product-os-keeper.md
-    branch: plan/788/842-shape-slice-follows-v11
-  - sha: 4a6eeff5
-    message: "fix(guard): the write guard allows the slice's one hidden file and nothing else under plans/ (#842)"
-    files:
-      - core/components/plays/create-play/references/test_scoped_write_guard.py
-      - core/components/plays/create-play/references/scoped_write_guard.py
-      - core/components/plays/discover-capabilities/scripts/scoped_write_guard.py
-      - core/components/plays/discover-domains/scripts/scoped_write_guard.py
-      - core/components/plays/discover-intent/scripts/scoped_write_guard.py
-      - core/components/plays/learn-outcomes/scripts/scoped_write_guard.py
-      - core/components/plays/shape-agentic-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-architecture-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-marketing-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-measure-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-quality-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-roadmap/scripts/scoped_write_guard.py
-      - core/components/plays/shape-run-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-scope/scripts/scoped_write_guard.py
-      - core/components/plays/shape-slice/scripts/scoped_write_guard.py
-      - core/components/plays/shape-ux-lens/scripts/scoped_write_guard.py
-    branch: plan/788/842-shape-slice-follows-v11
-  - sha: 3531a0f2
-    message: "feat(shape-slice): follow ontology v11: hidden file, thin ICE, one confirmation brief, slice changes, in-run page migration (#842)"
-    files:
-      - core/components/plays/shape-slice/SKILL.md
-      - core/components/plays/shape-slice/reference/ice.md
-      - core/components/plays/shape-slice/scripts/find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/safe_write.py
       - core/components/plays/shape-slice/scripts/persist_fills.py
       - core/components/plays/shape-slice/scripts/persist_slice.py
       - core/components/plays/shape-slice/scripts/record_questions.py
-      - core/components/plays/shape-slice/scripts/slice_check.py
-      - core/components/plays/shape-slice/scripts/test_find_serving_slice.py
-      - core/components/plays/shape-slice/scripts/test_persist_slice.py
-      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
-      - core/components/plays/shape-slice/stop-condition.yaml
       - core/components/plays/shape-slice/scripts/render_brief.py
-      - core/components/plays/shape-slice/scripts/test_render_brief.py
-      - core/components/plays/shape-slice/scripts/test_trace_check.py
-      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
-      - core/components/plays/shape-slice/scripts/trace_check.py
       - core/components/plays/shape-slice/scripts/write_hidden_file.py
+      - core/components/plays/shape-slice/scripts/write_intent_page.py
+      - core/components/plays/shape-slice/scripts/test_render_brief.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
     branch: plan/788/842-shape-slice-follows-v11
-  - sha: 8fd71212
-    message: "docs(model): fn-818 names the epic's feature-to-story map in its acceptance criteria (#842)"
+  - sha: 2ba6b2ab
+    message: "feat(skills): add author-slice, find-slice-gaps, author-slice-brief and enrich-grounding (#842)"
     files:
-      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      - core/components/skills/author-slice/SKILL.md
+      - core/components/skills/find-slice-gaps/SKILL.md
+      - core/components/skills/author-slice-brief/SKILL.md
+      - core/components/skills/enrich-grounding/SKILL.md
     branch: plan/788/842-shape-slice-follows-v11
-  - sha: 03456202
-    message: "chore(stm): record the edit-play and commit-change context for #842 (#842)"
+  - sha: ed8b37b1
+    message: "fix(skills): align five existing skills and the product-os-keeper agent with the slice flow (#842)"
     files:
-      - .garura/project/issues/842/context/commit-change/analysis.yaml
-      - .garura/project/issues/842/context/commit-change/porcelain.txt
-      - .garura/project/issues/842/context/edit-play/change-map.md
+      - core/components/skills/author-business-intent/SKILL.md
+      - core/components/skills/author-domains/SKILL.md
+      - core/components/skills/author-failure-recovery/SKILL.md
+      - core/components/skills/enrich-capability-ice/SKILL.md
+      - core/components/skills/propose-answers/SKILL.md
+      - core/components/agents/product-os-keeper.md
+    branch: plan/788/842-shape-slice-follows-v11
+  - sha: c263566c
+    message: "docs(standards): clarify naming rule 2 (#842)"
+    files:
+      - core/components/memory/standards/rules/naming.md
+    branch: plan/788/842-shape-slice-follows-v11
+  - sha: a3bbc5ba
+    message: "chore(stm): record the edit-play contract and agent audit (#842)"
+    files:
       - .garura/project/issues/842/context/edit-play/contract.md
+      - .garura/project/issues/842/context/edit-play/agent-audit.md
     branch: plan/788/842-shape-slice-follows-v11
 excluded_files:
-  []
+  - path: ".garura/project/issues/842/context/commit-change/analysis.yaml"
+    reason: "this play's own run record, rewritten by the run; recorded by the play's closing step"
+  - path: ".garura/project/issues/842/context/commit-change/porcelain.txt"
+    reason: "this play's own run record, rewritten by the run; recorded by the play's closing step"
 leftover_count: 0
 tree_clean: true
 pushed: false

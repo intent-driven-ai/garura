@@ -1,82 +1,78 @@
 needs_judgment: false
+
 change_groups:
-  - id: author-failure-recovery-hidden-entry
-    issue: 842
-    commit_type: feat
-    scope: skills
-    subject: "author-failure-recovery drafts each feature's hidden-file entry"
-    files:
-      - core/components/skills/author-failure-recovery/SKILL.md
-      - core/components/agents/product-os-keeper.md
-  - id: write-guard-hidden-file
+  - id: shape-slice-ice-and-play
     issue: 842
     commit_type: fix
-    scope: guard
-    subject: "the write guard allows the slice's one hidden file and nothing else under plans/"
-    files:
-      - core/components/plays/create-play/references/test_scoped_write_guard.py
-      - core/components/plays/create-play/references/scoped_write_guard.py
-      - core/components/plays/discover-capabilities/scripts/scoped_write_guard.py
-      - core/components/plays/discover-domains/scripts/scoped_write_guard.py
-      - core/components/plays/discover-intent/scripts/scoped_write_guard.py
-      - core/components/plays/learn-outcomes/scripts/scoped_write_guard.py
-      - core/components/plays/shape-agentic-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-architecture-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-marketing-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-measure-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-quality-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-roadmap/scripts/scoped_write_guard.py
-      - core/components/plays/shape-run-lens/scripts/scoped_write_guard.py
-      - core/components/plays/shape-scope/scripts/scoped_write_guard.py
-      - core/components/plays/shape-slice/scripts/scoped_write_guard.py
-      - core/components/plays/shape-ux-lens/scripts/scoped_write_guard.py
-  - id: shape-slice-follows-v11
-    issue: 842
-    commit_type: feat
     scope: shape-slice
-    subject: "follow ontology v11: hidden file, thin ICE, one confirmation brief, slice changes, in-run page migration"
+    subject: "round-2 review fixes to the play's ICE and recompiled SKILL.md"
     files:
-      - core/components/plays/shape-slice/SKILL.md
       - core/components/plays/shape-slice/reference/ice.md
-      - core/components/plays/shape-slice/scripts/find_serving_slice.py
+      - core/components/plays/shape-slice/SKILL.md
+  - id: shape-slice-scripts
+    issue: 842
+    commit_type: fix
+    scope: shape-slice
+    subject: "add safe_write and tighten the script modes, with tests"
+    files:
+      - core/components/plays/shape-slice/scripts/safe_write.py
       - core/components/plays/shape-slice/scripts/persist_fills.py
       - core/components/plays/shape-slice/scripts/persist_slice.py
       - core/components/plays/shape-slice/scripts/record_questions.py
-      - core/components/plays/shape-slice/scripts/slice_check.py
-      - core/components/plays/shape-slice/scripts/test_find_serving_slice.py
-      - core/components/plays/shape-slice/scripts/test_persist_slice.py
-      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
-      - core/components/plays/shape-slice/stop-condition.yaml
       - core/components/plays/shape-slice/scripts/render_brief.py
-      - core/components/plays/shape-slice/scripts/test_render_brief.py
-      - core/components/plays/shape-slice/scripts/test_trace_check.py
-      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
-      - core/components/plays/shape-slice/scripts/trace_check.py
       - core/components/plays/shape-slice/scripts/write_hidden_file.py
-  - id: fn-818-feature-map
+      - core/components/plays/shape-slice/scripts/write_intent_page.py
+      - core/components/plays/shape-slice/scripts/test_render_brief.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+  - id: new-slice-skills
+    issue: 842
+    commit_type: feat
+    scope: skills
+    subject: "add author-slice, find-slice-gaps, author-slice-brief and enrich-grounding"
+    files:
+      - core/components/skills/author-slice/SKILL.md
+      - core/components/skills/find-slice-gaps/SKILL.md
+      - core/components/skills/author-slice-brief/SKILL.md
+      - core/components/skills/enrich-grounding/SKILL.md
+  - id: existing-skills-and-keeper-fixes
+    issue: 842
+    commit_type: fix
+    scope: skills
+    subject: "align five existing skills and the product-os-keeper agent with the slice flow"
+    files:
+      - core/components/skills/author-business-intent/SKILL.md
+      - core/components/skills/author-domains/SKILL.md
+      - core/components/skills/author-failure-recovery/SKILL.md
+      - core/components/skills/enrich-capability-ice/SKILL.md
+      - core/components/skills/propose-answers/SKILL.md
+      - core/components/agents/product-os-keeper.md
+  - id: naming-rule-2
     issue: 842
     commit_type: docs
-    scope: model
-    subject: "fn-818 names the epic's feature-to-story map in its acceptance criteria"
+    scope: standards
+    subject: "clarify naming rule 2"
     files:
-      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
-  - id: stm-842-records
+      - core/components/memory/standards/rules/naming.md
+  - id: stm-edit-play-records
     issue: 842
     commit_type: chore
     scope: stm
-    subject: "record the edit-play and commit-change context for #842"
+    subject: "record the edit-play contract and agent audit"
     files:
-      - .garura/project/issues/842/context/commit-change/analysis.yaml
-      - .garura/project/issues/842/context/commit-change/porcelain.txt
-      - .garura/project/issues/842/context/edit-play/change-map.md
       - .garura/project/issues/842/context/edit-play/contract.md
-exclusions: []
+      - .garura/project/issues/842/context/edit-play/agent-audit.md
+
+exclusions:
+  - path: .garura/project/issues/842/context/commit-change/analysis.yaml
+    reason: "this play's own run record, rewritten by the run; recorded by the play's closing step"
+  - path: .garura/project/issues/842/context/commit-change/porcelain.txt
+    reason: "this play's own run record, rewritten by the run; recorded by the play's closing step"
+
 risks:
-  sensitive_files: []
-  breaking_changes: []
-  ambiguous_types: []
-  hotfix_branch: false
-  notes:
-    - "14 identical scoped_write_guard.py copies plus shape-slice's own copy: edit the source in create-play/references and confirm all copies match"
-    - "write guard is a safety control (restricts writes under plans/); review as risky, not sensitive"
-    - "product-os-keeper.md is a shared agent definition"
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every changed path is in exactly one group or in exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
