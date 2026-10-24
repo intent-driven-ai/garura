@@ -754,6 +754,40 @@ class AnEmptyProject(unittest.TestCase):
         self.assertTrue(any(n.startswith("naming rules skipped") for n in out.get("notes", [])))
         self.assertEqual([v for v in out["violations"] if v["rule"] == "installed-paths/source-path"], [])
 
+    def test_the_install_records_the_kind_of_every_part(self):
+        record = self.install(self.target)
+        kinds = record["kinds"]
+        for name, kind in (("create-play", "play"), ("edit-play", "play"), ("create-loop", "play"),
+                           ("edit-loop", "play"), ("check-change", "play"), ("check-pr-quality", "skill")):
+            self.assertEqual(kinds.get(os.path.join(".claude", "skills", name)), kind, name)
+        self.assertEqual(kinds.get(os.path.join(".claude", "agents", "change-reviewer.md")), "agent")
+        self.assertNotIn(os.path.join(".claude", "skills", "_shared"), kinds)
+
+    def test_every_installed_layout_error_shows_in_the_source_layout_for_the_same_part(self):
+        def errors(cwd, *args):
+            run = subprocess.run(["node", *args], capture_output=True, text=True, cwd=cwd)
+            self.assertIn(run.returncode, (0, 1), run.stderr)
+            return json.loads(run.stdout)["violations"]
+
+        def key(v, base):
+            rel = os.path.relpath(os.path.realpath(v["file"]), os.path.realpath(base)).split(os.sep)
+            part = rel[1][:-3] if rel[0] == "agents" else rel[1]  # skills/<part>/... or agents/<part>.md
+            return (part, "/".join(rel[2:]), v["rule"], v["message"])
+
+        source_base = os.path.join(ROOT, "core", "components")
+        source = {key(v, source_base) for v in errors(ROOT, "core/tools/lint-components/index.js",
+                                                      "--target", "core/components")
+                  if v["severity"] == "error"}
+        full = os.path.join(self.work, "full")
+        os.makedirs(full)
+        for target, scope in ((self.target, "harness"), (full, "full")):
+            self.install(target, scope)
+            installed = [v for v in errors(target, ".garura/core/tools/lint-components/index.js", "--layout",
+                                           "installed", "--target", ".claude") if v["severity"] == "error"]
+            only_installed = [k for k in (key(v, os.path.join(target, ".claude")) for v in installed)
+                              if k not in source]
+            self.assertEqual(only_installed, [], scope)
+
     def test_the_review_reads_the_taxonomy_through_the_memory_tool_and_scans_with_it(self):
         self.install(self.target)
         found = json.loads(self.run_here("python3", ".garura/core/tools/memory/memory.py", "find", "--issue", "7",

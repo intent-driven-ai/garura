@@ -62,8 +62,11 @@ function checkSkill(component) {
 
   const fm = frontmatter.parsed;
 
-  // Required frontmatter fields
-  const requiredFields = ['name', 'description', 'user-invocable', 'model', 'allowed-tools'];
+  // Required frontmatter fields. The install turns a skill's `model:` hint into the host's own
+  // model choice (install-garura adapters, the model tiers), so an installed skill has no
+  // `model:` line by design: the installed layout does not require it (#860).
+  const requiredFields = ['name', 'description', 'user-invocable', 'model', 'allowed-tools']
+    .filter((f) => !(component.installed && f === 'model'));
   for (const field of requiredFields) {
     if (fm[field] === undefined || fm[field] === null) {
       violations.push({

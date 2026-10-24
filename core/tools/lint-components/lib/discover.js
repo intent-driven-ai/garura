@@ -51,7 +51,34 @@ function walk(dir, predicate) {
 const PLAY_CLOSE = '# --- Standard Play Close (shared; see ../_shared/play-close.md) ---';
 const LOOP_RUN = '# --- Shared Loop Run (shared; see ../_shared/loop-run.md) ---';
 
+// The kind of each installed part, from the install manifest when it records one
+// (record.kinds: {".claude/skills/<name>": "play" | "loop" | "skill" | "agent"}).
+function manifestKinds(targetDir) {
+  const root = path.dirname(targetDir);
+  const file = path.join(root, '.garura', 'install-manifest.json');
+  try {
+    const kinds = (JSON.parse(fs.readFileSync(file, 'utf8')).record || {}).kinds || {};
+    const out = {};
+    for (const [rel, kind] of Object.entries(kinds)) out[path.resolve(root, rel)] = kind;
+    return out;
+  } catch (err) {
+    return {};
+  }
+}
+
+// With no manifest record, the front matter tells the kind: a loop says `kind: loop` or carries
+// the Shared Loop Run anchor; a play carries the Standard Play Close anchor, a pipeline
+// position, a Compiled From section, or is user-invocable (a skill never is, #778).
+function kindFromText(text) {
+  const fm = (text.match(/^---\n([\s\S]*?)\n---/) || [])[1] || '';
+  if (/^kind:\s*loop\s*$/m.test(fm) || text.includes(LOOP_RUN)) return 'loop';
+  if (text.includes(PLAY_CLOSE) || /^position:\s*\S/m.test(fm) || /^user-invo[ck]able:\s*true\s*$/m.test(fm) ||
+      /^#{1,6}\s+Compiled From\b/m.test(text)) return 'play';
+  return 'skill';
+}
+
 function discoverInstalled(targetDir) {
+  const recorded = manifestKinds(targetDir);
   const skills = [];
   const plays = [];
   const loops = [];
@@ -64,10 +91,11 @@ function discoverInstalled(targetDir) {
       const file = path.join(skillsDir, entry.name, 'SKILL.md');
       if (!fs.existsSync(file)) continue;
       const text = fs.readFileSync(file, 'utf8');
-      if (/^kind:\s*loop\s*$/m.test(text) || text.includes(LOOP_RUN)) {
-        loops.push({ file, name: entry.name, type: 'loop', playsShared: sharedDir });
-      } else if (text.includes(PLAY_CLOSE)) {
-        plays.push({ file, name: entry.name, type: 'play' });
+      const kind = recorded[path.join(skillsDir, entry.name)] || kindFromText(text);
+      if (kind === 'loop') {
+        loops.push({ file, name: entry.name, type: 'loop', playsShared: sharedDir, installed: true });
+      } else if (kind === 'play') {
+        plays.push({ file, name: entry.name, type: 'play', installed: true });
         const intentFile = path.join(skillsDir, entry.name, 'reference', 'intent.yaml');
         if (fs.existsSync(intentFile)) {
           const expectationFile = path.join(skillsDir, entry.name, 'reference', 'expectation.yaml');
@@ -79,7 +107,7 @@ function discoverInstalled(targetDir) {
           });
         }
       } else {
-        skills.push({ file, name: entry.name, type: 'skill' });
+        skills.push({ file, name: entry.name, type: 'skill', installed: true });
       }
     }
   }
@@ -88,7 +116,7 @@ function discoverInstalled(targetDir) {
   if (fs.existsSync(agentsDir)) {
     for (const entry of fs.readdirSync(agentsDir, { withFileTypes: true })) {
       if (entry.isFile() && entry.name.endsWith('.md')) {
-        agents.push({ file: path.join(agentsDir, entry.name), name: entry.name.slice(0, -3), type: 'agent' });
+        agents.push({ file: path.join(agentsDir, entry.name), name: entry.name.slice(0, -3), type: 'agent', installed: true });
       }
     }
   }
@@ -178,3 +206,4 @@ function discover(targetDir, layout = 'source') {
 }
 
 module.exports = discover;
+module.exports.kindFromText = kindFromText;

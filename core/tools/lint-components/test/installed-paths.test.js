@@ -74,6 +74,31 @@ t('installed layout: agents are .claude/agents/*.md', found.agents.map((c) => c.
 t('installed layout: a loop finds the shared close in skills/_shared',
   found.loops[0].playsShared, path.join(dir, 'skills', '_shared'));
 
+// --- each installed part judged by its real kind (round 3) ------------------
+const { kindFromText } = require('../lib/discover');
+const structural = require('../lib/rules/structural');
+t('front matter: a user-invocable SKILL.md with no close anchor is a play (create-play, edit-play)',
+  kindFromText('---\nname: create-play\nuser-invocable: true\n---\n# create-play\n'), 'play');
+t('front matter: a pipeline position or a Compiled From section makes a play',
+  [kindFromText('---\nname: p\nposition: end\n---\n'), kindFromText('---\nname: p\n---\n## Compiled From\n')],
+  ['play', 'play']);
+t('front matter: user-invocable false and no play mark is a skill',
+  kindFromText('---\nname: find-thing\nuser-invocable: false\n---\n## Input\n'), 'skill');
+const proj = tmp('ip-kinds-');
+const claudeDir = path.join(proj, '.claude');
+write(claudeDir, 'skills/edit-loop/SKILL.md', '---\nname: edit-loop\ndescription: x\n---\n# edit-loop\n');
+write(claudeDir, 'skills/find-thing/SKILL.md', '---\nname: find-thing\ndescription: x\nuser-invocable: false\nallowed-tools: Read\n---\n## Input\n## Process\n## Output\n');
+write(proj, '.garura/install-manifest.json', JSON.stringify({ record: { kinds: {
+  '.claude/skills/edit-loop': 'play', '.claude/skills/find-thing': 'skill' } } }));
+const kinds = discover(claudeDir, 'installed');
+t('the install manifest decides the kind: edit-loop is a play though its text has no play mark',
+  [kinds.plays.map((c) => c.name), kinds.skills.map((c) => c.name)], [['edit-loop'], ['find-thing']]);
+t('an installed skill with no model line is not an error (the install sets the host model)',
+  structural.check(kinds).filter((v) => v.file.includes('find-thing')).map((v) => v.message), []);
+t('a source skill with no model line is still an error',
+  structural.checkSkill({ file: path.join(claudeDir, 'skills/find-thing/SKILL.md'), name: 'find-thing', type: 'skill' })
+    .map((v) => v.message), ['Missing required frontmatter field: model']);
+
 // --- pointers to Garura's own docs (decision 10) -----------------------------
 t('a pointer to a Garura docs folder or file is found',
   ['Load from `docs/framework/` as needed', 'see ../../docs/standards/harness-standard.md',

@@ -286,6 +286,26 @@ def resolve_scope(scope, components):
 
 # --- the install --------------------------------------------------------------
 
+def component_kinds(components, paths):
+    """The kind of each component laid (play, loop, skill or agent), by where it sits in the
+    source. Plays, loops and skills share one installed folder, so the folder alone cannot tell
+    them apart; the linter's installed layout reads this record (#860)."""
+    kinds = {}
+    for rel in paths:
+        head, name = os.path.split(rel.rstrip("/"))
+        if name.startswith((".", "_")):
+            continue
+        if os.path.basename(head) == "agents" and name.endswith(".md"):
+            kinds[rel] = "agent"
+            continue
+        for kind, folder in (("play", "plays"), ("loop", "loops"), ("skill", "skills"), ("agent", "agents")):
+            if os.path.isdir(os.path.join(components, folder, name)) or \
+                    os.path.isfile(os.path.join(components, folder, name + ".md")):
+                kinds[rel] = kind
+                break
+    return kinds
+
+
 def install(source, target, tool, force, quiet, memory_dest, scope="full",
             phoenix_place=memory_system.PHOENIX_PLACE, phoenix_source=memory_system.PHOENIX_SOURCE):
     stop_if_deprecated(tool)
@@ -315,6 +335,7 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     paths, counts, _ = adapter.lay_components(components, target, _info, allow=allow)
     record["components"] = paths
     record["counts"] = counts
+    record["kinds"] = component_kinds(components, paths)
 
     # 2. machine-global host config (Codex profiles; Claude: none)
     record["global_files"] = adapter.write_global_config(_info)
