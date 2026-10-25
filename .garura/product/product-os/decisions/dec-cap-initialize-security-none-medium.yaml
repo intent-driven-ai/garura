@@ -1,16 +1,74 @@
 decision:
   id: dec-cap-initialize-security-none-medium
-  node_ref: cap-initialize
+  title: Raise the product's security level from none to medium so the box admits
+    cap-initialize
+  status: accepted
   level: product
-  title: Move security box none -> medium for cap-initialize
-  reason: The cap-initialize capability's need on security (medium) exceeds the committed
-    box (none); the box is raised to admit it.
+  node_ref: cap-initialize
+  reason: 'Context: /discover-capabilities detailed cap-initialize ("Initialize a
+    project for Garura") for #882 and rolled its needs into the product profile (the
+    box). The box was set with no security level, read as none. Initialize writes
+    to the project''s tracker (it makes the missing issue types, #881) and builds
+    the project''s memory, so it needs a security level of medium: nothing is written
+    to the tracker, and no tracker mapping is written, before the product owner''s
+    typed yes; and initialize writes no Phoenix memory and no other project''s memory.
+    A capability need above the box stops for the product owner, and the box moves
+    only by an approved decision. Decision: the product profile''s security level
+    goes from none to medium, with the gate "no tracker or mapping write before the
+    typed yes, on a test GitHub organization; no write to Phoenix memory or another
+    project''s memory".'
   alternatives:
   - name: keep security at none
-    why_not: would block cap-initialize's required security level
-  status: proposed
+    why_not: it would block cap-initialize's security need. Initialize writes to the
+      tracker, and a write that runs without the typed yes is the failure the medium
+      level guards against.
+  - name: move security to high
+    why_not: no source asks for more than the typed-yes guard and the memory scope.
+      Medium meets the need.
+  supersedes: []
+  amends: []
   superseded_by: null
+  amended_by: []
+  affects:
+  - .garura/product/product-os/_spine.yaml — profile.nfr.security (level medium and
+    its gate); the /discover-capabilities save script already wrote it on this branch,
+    pending this decision
+  - .garura/product/product-os/_spine.yaml — cap-initialize nfr_needs.security (level,
+    target, gate) and its decisions link to this record
+  - .garura/product/product-os/software-delivery-planning/initialize/capability.md
+    — the Boundary Never lines on the tracker and on Phoenix or another project's
+    memory, and the ICE Limit lines
+  - .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md
+    — no type made and no stand-in mapped before the typed yes
+  - .garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md
+    — the tracker rule holds on every run
+  - .garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md
+    — initialize never writes Phoenix memory or another project's memory; a changed
+    block only on a typed yes
+  ice_impact: 'none — no ICE text changes. The ICE of cap-initialize and of fn-881,
+    fn-883 and fn-rerun-initialize already carry the typed-yes and memory-scope limits;
+    this decision lets the box admit them. What agents read differently is the box:
+    the product profile now holds a security level of medium with a gate, so a later
+    capability''s security need is compared against medium, not none, and stops for
+    the product owner only when it is above medium.'
+  business_intent_check: none
+  consequences:
+    positive:
+    - cap-initialize's security need fits inside the box, so the capability is not
+      blocked.
+    - The typed-yes guard before any tracker write, and the memory scope, get a gate
+      that can be checked on a test GitHub organization.
+    negative:
+    - The product now commits to a medium security level with a gate that must be
+      run (a test GitHub organization, and a diff of Phoenix memory and another project's
+      memory before and after).
+    - A later capability whose security need is medium or below now fits the box with
+      no stop for the product owner.
+    - The spine already shows medium before this record is accepted; if the product
+      owner rejects it, the profile's security line must be taken back out.
   metadata:
     decided_by: /discover-capabilities
+    accepted_by: the product owner
+    decided_in: 882
     date: '2026-10-25'
     version: 1

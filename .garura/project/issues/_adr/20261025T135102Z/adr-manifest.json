@@ -1,0 +1,18 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+  "shape": "yaml",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261025T135102Z/adr-draft.yaml",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [],
+  "status": "accepted",
+  "accepted_by": "the product owner",
+  "pointers_written": [],
+  "pointers_missing": []
+}

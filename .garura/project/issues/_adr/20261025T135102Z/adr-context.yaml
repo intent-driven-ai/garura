@@ -1,0 +1,61 @@
+# Context gathered by adr-keeper for /record-decision (issue 882), Step 2.
+shape: yaml
+id: dec-cap-initialize-security-none-medium      # fixed by the caller; the spine already links it
+replaces_thin_record: .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml
+keep_from_thin_record:
+  title: kept in meaning, rewritten as a statement of the move
+  reason: kept and widened with the brief's need and the box rule
+  alternatives: 'kept "keep security at none"; added "move security to high" from the brief'
+  dates: metadata.date 2026-10-25 kept; metadata.decided_by /discover-capabilities kept; version 1 kept
+level: product
+node_ref: cap-initialize
+template: .garura/project/issues/_adr/20261025T135102Z/context/templates/standards/templates/adr.md
+decided_in: 882          # PR #886
+decided_by_play: /discover-capabilities
+accepted_by: null        # filled only when the product owner accepts
+
+overlaps:
+  script: "adr.py overlaps --adr <thin record> --dir .garura/product/product-os/decisions -> no candidates; same against docs/adr -> no candidates"
+  judged:
+    - dir: .garura/product/product-os/decisions
+      finding: the folder holds only the thin record this draft replaces (same id); it is not an older decision
+    - what: the box as set before (profile state set, written for #723 in commit 6b99cccd)
+      finding: that box named reliability and maintainability only; security was absent, read as none. No decision record was written for it, so there is nothing to supersede or amend
+    - what: ADR 014 (three-axis project profiling) and ADR 053 (product-profile.yaml text)
+      finding: not affected. This decision is one use of the box rule in product-profile.yaml ("the box moves only by an approved decision"); it does not change the rule
+  supersedes: []
+  amends: []
+
+affects:
+  - ".garura/product/product-os/_spine.yaml — profile.nfr.security (level medium, its gate); already written on this branch by the /discover-capabilities save script, pending this decision"
+  - ".garura/product/product-os/_spine.yaml — cap-initialize nfr_needs.security (level medium, target, gate) and its decisions link"
+  - ".garura/product/product-os/software-delivery-planning/initialize/capability.md — Boundary 'Never' lines on the tracker and on Phoenix or another project's memory; ICE Limit lines"
+  - ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md — no type made and no stand-in mapped before the typed yes"
+  - ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md — the tracker rule holds on every run"
+  - ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md — initialize never writes Phoenix memory or another project's memory; a changed block only on a typed yes"
+
+ice_impact: >-
+  none — no ICE text changes. The capability's ICE (capability.md) and the ICE of fn-881, fn-883 and
+  fn-rerun-initialize already carry the typed-yes and memory-scope limits; this decision lets the
+  product box admit them. What changes for agents is the box they read: the product profile now holds
+  a security level (medium) with a gate, so a later capability's security need is compared against
+  medium, not none, and stops for the product owner only when it is above medium.
+ontology_read: ".garura/project/issues/_adr/20261025T135102Z/context/memory/standards/schemas/product-os/ontology.md (phoenix, sha256:c07cbc67...)"
+
+business_intent_check: none
+business_intent_check_why: >-
+  No page in .garura/product/product-os/intents/ names initialize, the profile or security, and
+  cap-initialize links no business intent in the spine (intents: []). The decision raises a
+  product quality level to meet a capability's need; it does not change what any person wants.
+
+consequences_from_brief:
+  positive:
+    - cap-initialize's security need fits inside the box, so the capability is not blocked
+    - the typed-yes guard before any tracker write and the memory scope get a gate that can be checked
+  negative:
+    - the product now commits to a medium security level with a gate that must be run (a test GitHub organization, and a diff of Phoenix memory and another project's memory)
+    - a later capability whose security need is medium or below now fits the box with no stop for the product owner
+    - the spine already shows medium before acceptance; if the product owner rejects, the profile line must go back
+
+gaps: none — the brief gives the decision, the reason, two alternatives and who decided
+note_on_names: no real names; "the product owner"
