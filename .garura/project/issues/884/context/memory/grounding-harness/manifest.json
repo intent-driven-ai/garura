@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/grounding-eval.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:994ed0d07dd743c3fab0b102aa1df5c7afdd11922c72b48591b139d556ef3459",
+      "copy": ".garura/project/issues/884/context/memory/grounding-harness/standards/rules/grounding-eval.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/concurrent-fanout.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:b717c8606645f240e78cb7c9bb9783d8e7d06bda8b029ea0de3d35232a72df8e",
+      "copy": ".garura/project/issues/884/context/memory/grounding-harness/standards/rules/concurrent-fanout.md"
+    }
+  ]
+}
