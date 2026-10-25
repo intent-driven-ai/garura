@@ -139,3 +139,35 @@ The plays (`/discover-capabilities`, `/discover-domains`) again change through `
 - `python3 -m unittest test_grounding_gate` passes, with the new tests.
 - Every `grounding_gate.py` copy is byte for byte the same.
 - Component lint: no error in a new or touched file. No home path, no real name.
+
+## Round 3 (review round 2 of PR #885; decision 3: fix all six)
+
+The plays change through `/edit-play`, not here.
+
+- **N1 (P2) — a point that fails twice is a failure.** In a fix round, a criterion that failed
+  in the last verdict and fails again in this one is a failure, never a note — whatever its
+  `prior` entry says and whatever else changed on the page. Notes are only for criteria that
+  did not fail (and were not missing) in the last verdict. Test: fail a criterion; edit another
+  line; fail the same criterion on the same old text with `prior` fixed → exit 1.
+- **N2 (P2) — a missing point is remembered.** The record also keeps the criteria missing from
+  the last verdict. `prior` lists them in `prior_failures` (`{"id", "evidence": "missing from
+  the last verdict", "fix": ""}`), and N1's rule covers them: failing a criterion that was
+  missing last round is a failure. A missing criterion needs no `prior` entry from the judge;
+  scoring it `pass` or `na` clears it. Tests.
+- **N3 (P3) — a heading is not content.** A quoted fragment counts toward "unchanged text" only
+  when it is not a heading (a line starting with `#`) and has at least three words. A failing
+  criterion is a note only when it has at least one such fragment and every such fragment is
+  in the snapshot; a criterion whose quotes are only headings or short words is a failure.
+  Test: a new point quoting only `"# Rules and behavior"` → exit 1.
+- Copy the canonical gate unchanged over every other copy again.
+- **N4 (P4)** — `grounding-eval.md`: a fix counts only when its entry has **at least one
+  quote**, each found on the page now (not "every quote is found").
+- **N6 (P4)** — `grounding-eval.md`: say that when a stricter judge ends a kept pass, the doc
+  is judged again as a fix round, so the stricter judge's new points on unchanged text show as
+  notes for the person — they do not reject the doc.
+- **N1 (rule)** — `grounding-eval.md`: say that a point that failed, or was missing, in the
+  last round and fails again is a failure, not a note.
+
+### Checks the build runs before it reports (round 3)
+- `python3 -m unittest test_grounding_gate` passes, with the new tests; every copy identical;
+  component lint clean on touched files; no home path, no real name.
