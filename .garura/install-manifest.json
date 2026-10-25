@@ -21,6 +21,7 @@
       ".claude/skills/author-product-ontology",
       ".claude/skills/author-slice",
       ".claude/skills/author-slice-brief",
+      ".claude/skills/author-work-items",
       ".claude/skills/check-pr-quality",
       ".claude/skills/commit-files",
       ".claude/skills/cut-branch",
@@ -47,6 +48,7 @@
       ".claude/skills/merge-change",
       ".claude/skills/propose-change",
       ".claude/skills/record-decision",
+      ".claude/skills/shape-plan",
       ".claude/skills/shape-slice",
       ".claude/skills/start-change",
       ".claude/skills/.gitignore",
@@ -54,8 +56,8 @@
     ],
     "counts": {
       "agents": 7,
-      "skills": 23,
-      "plays": 14,
+      "skills": 24,
+      "plays": 15,
       "loops": 0
     },
     "instruction_surface": "CLAUDE.md.new",
@@ -84,6 +86,7 @@
       ".claude/skills/author-product-ontology": "skill",
       ".claude/skills/author-slice": "skill",
       ".claude/skills/author-slice-brief": "skill",
+      ".claude/skills/author-work-items": "skill",
       ".claude/skills/check-pr-quality": "skill",
       ".claude/skills/commit-files": "skill",
       ".claude/skills/cut-branch": "skill",
@@ -110,6 +113,7 @@
       ".claude/skills/merge-change": "play",
       ".claude/skills/propose-change": "play",
       ".claude/skills/record-decision": "play",
+      ".claude/skills/shape-plan": "play",
       ".claude/skills/shape-slice": "play",
       ".claude/skills/start-change": "play"
     },
