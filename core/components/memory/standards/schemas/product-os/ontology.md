@@ -84,7 +84,7 @@ In the tracker, an Epic is an issue of type Epic and a Story an issue of type St
   **Answered by:** Slice groups Feature; Story represents Feature (one Story in each Epic); Story sits in Epic
   **Status:** answered
 - **Q20** — Given a tracker issue, which kind is it?
-  **Answered by:** issue type Epic is an Epic and issue type Story is a Story, each with no label, found by its plan file's `represents` mark (Epic and Story rules R1 to R3); label `product` is a Business Intent; label `work-item` with its kind is a Spike, a Chore or a Bug
+  **Answered by:** the issue type names the kind: type Epic is an Epic and type Story is a Story, each with no label (rules R1, R2); label `product` is a Business Intent; label `work-item` with its kind is a Spike, a Chore or a Bug. Which Epic stands for a slice, and which Story for a feature, is found by the plan file's `represents` mark, never by type or title (rule R3).
   **Status:** answered
 - **Q21** — Given a spike, which built story is it on, what suggestion started it, and what building did it lead to?
   **Answered by:** Spike is a child of a built Story; Spike started from a suggestion; Spike led to Business Intent, Feature or Story

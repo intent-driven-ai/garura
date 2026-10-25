@@ -169,6 +169,11 @@ tree:
       kind: bug
       title: '/shape-plan files the Epic with issue type Feature; a slice''s Epic must be type Epic (P1)'
       status: now
+      children:
+      - issue: 892
+        kind: chore
+        title: 'The two medium findings left by the PR #891 review: amend ADR 048, and separate kind from finding in Q20'
+        status: now
       needs:
       - 876
     - issue: 879
