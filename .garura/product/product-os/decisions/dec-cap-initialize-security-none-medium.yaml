@@ -1,0 +1,16 @@
+decision:
+  id: dec-cap-initialize-security-none-medium
+  node_ref: cap-initialize
+  level: product
+  title: Move security box none -> medium for cap-initialize
+  reason: The cap-initialize capability's need on security (medium) exceeds the committed
+    box (none); the box is raised to admit it.
+  alternatives:
+  - name: keep security at none
+    why_not: would block cap-initialize's required security level
+  status: accepted
+  superseded_by: null
+  metadata:
+    decided_by: /discover-capabilities
+    date: '2026-10-25'
+    version: 1
