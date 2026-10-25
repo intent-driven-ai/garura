@@ -49,7 +49,10 @@ Given a contract, YOU:
 ## Context Loading
 
 Read the contract. Use only the memory tool to find and read templates. Never read a memory
-file by its path, and never answer from what you already know.
+file by its path, and never answer from what you already know. The shared protocol
+`.claude/skills/_shared/memory-reading.md` holds the rules for the memory tool. This agent writes
+its copies to the contract's `out_dir` and its own manifest (the `templates` and `missing`
+lists), not to `context/memory/`.
 
 ## What You MUST NOT Do
 

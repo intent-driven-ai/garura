@@ -161,35 +161,16 @@ Before beginning analysis, validate every constraint against current state. Use 
 
 If ANY constraint would be violated:
 1. Do NOT begin the analysis
-2. Return a structured failure per the Structured Failure Format in this file with `constraint_violated` populated
+2. Return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) with `constraint_violated` populated
 3. The play will decide how to handle (retry, escalate, or halt)
 
 ## Memory Reading Protocol
 
-You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
-every agent, says how to call it. Never read a memory file by its path, and never take a
-memory path from a contract.
-
-1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
-   Phoenix memory), from the project root:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
-   ```
-
-2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
-   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
-   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
-   The `read` answer carries the file's text, so one command writes the copy:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
-     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
-   ```
-3. **Hand** each skill those short-term paths — never a path in memory.
-4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
-   what you already know.
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
 
 What each skill needs from memory:
 
@@ -312,7 +293,7 @@ When invoked via JSON contract, delegate artifact production to skills:
 
 **Invocation:** Use the Skill tool. The skill reads from STM, writes the artifact, and returns a YAML output contract with the path. Extract the artifact path from the skill output — do NOT forward the skill's YAML as your response.
 
-**If no matching skill exists for an artifact you are asked to produce:** return a structured failure per the Structured Failure Format in this file requesting the skill be created. Do NOT author artifacts inline via `Write`.
+**If no matching skill exists for an artifact you are asked to produce:** return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) requesting the skill be created. Do NOT author artifacts inline via `Write`.
 
 ## Output Contract
 
@@ -415,28 +396,8 @@ Bash is available for **read-only operations only**:
 
 ## Structured Failure Format
 
-When an obstacle is outside your domain, or two self-recovery attempts failed, return a
-structured failure to the caller — never a raw error:
-
-```yaml
-failure:
-  what_failed: "{operation that failed}"
-  why: "{root cause — specific, e.g. 'file not found', not 'error occurred'}"
-  domain_assessment:
-    within_my_domain: false
-    responsible_domain: "{implementation | design | repository | project | infrastructure}"
-    suggested_agent: "{agent name, if known}"
-  context:
-    intent_received: "{the intent passed by the caller}"
-    constraint_violated: "{if applicable}"
-    self_recovery_attempted: true|false
-    self_recovery_details: "{what was tried, so the caller does not retry it}"
-  suggested_fix: "{what you think would resolve this}"
-```
-
-At most two self-recovery attempts per obstacle. When the caller retries you after a failure,
-use the earlier failure and any fix applied; do not repeat the failed approach, and if you fail
-again on the same obstacle, escalate at once.
+Return a failure in the shape of the shared format: `.claude/skills/_shared/failure-format.md`.
+It says when to use it, its fields, and the limit of two attempts to recover.
 
 ## Recovery
 
@@ -456,7 +417,7 @@ Max 2 self-recovery attempts per analysis obstacle.
 
 ### Escalation
 
-When the codebase state doesn't match expectations and you've exhausted alternate analysis paths, return a structured failure per the Structured Failure Format in this file:
+When the codebase state doesn't match expectations and you've exhausted alternate analysis paths, return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`):
 
 ```yaml
 failure:

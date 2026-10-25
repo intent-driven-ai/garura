@@ -50,8 +50,22 @@ Given the PR diff and `changed_paths`, derive the **work categories** actually p
   it.
 
 Write `categories.yaml`: each category present, the changed paths that put it there (the
-evidence), and the `knowledge/review/` playbook id that governs it (or `null` + a "playbook
-missing" note for a new category).
+evidence), the `knowledge/review/` playbook id that governs it (or `null` + a "playbook
+missing" note for a new category), and the category's treatment. Take the treatment from the
+playbook copy in short-term memory, never from what you already know:
+
+- `layers` — the layers that apply (Layer 1 linters, Layer 2 design-grounding);
+- `linters` — the linters to run, each with the command the playbook gives;
+- `runnable_checks` — the checks the play executes (a test suite, a language linter), and the
+  objective checks the play does by hand where the linter is a known gap.
+
+The play reads the treatment only from `categories.yaml`. It reads no playbook copy, so a
+treatment you leave out is a layer that does not run.
+
+This job copies all the memory the review shares, so no grounding job writes a shared file:
+the review shelf and the PR severity taxonomy (see the table under Memory Reading Protocol).
+The Next-line map is not yours to fetch: the play gets it from `template-manager` and hands it
+to the play linter.
 
 ## Job 2 — Design-ground a design-bearing category (Layer 2)
 
@@ -63,6 +77,12 @@ one category and write **only** that one file — never another category's, neve
 so the parallel dispatches never overlap or collide (the fan-out's distinct-output-path safety
 condition). If the contract omits `category` (a legacy whole-set dispatch), ground every
 design-bearing category into the single `design_findings` file.
+
+Read the shared copies the assessment made (the review shelf, the PR severity taxonomy) and do
+not copy them again. Put any extra memory this job copies only in the contract's `memory_dir`,
+`<issue folder>/context/memory/grounding-<category>/`, with its own manifest
+`<issue folder>/context/memory/grounding-<category>/manifest.json`. Never write the shared
+folder `<issue folder>/context/memory/` or its manifest.
 
 For the category in scope (whose playbook says design-grounding applies — harness, memory, and
 any new design-bearing category), run the Layer-2 sequence:
@@ -82,42 +102,23 @@ any new design-bearing category), run the Layer-2 sequence:
 
 Write the contract's `design_findings` file (the play names it per category, e.g.
 `design-findings-<category>.yaml`): each finding with its file, the principle violated, the
-committed source of that principle, and a severity drawn from the PR severity taxonomy
-(`standards/rules/pr.md`, read through the memory tool).
+committed source of that principle, and a severity drawn from the PR severity taxonomy (the
+short-term copy the assessment made).
 
 ## Memory Reading Protocol
 
-You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
-every agent, says how to call it. Never read a memory file by its path, and never take a
-memory path from a contract.
-
-1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
-   Phoenix memory), from the project root:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
-   ```
-
-2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
-   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
-   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
-   The `read` answer carries the file's text, so one command writes the copy:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
-     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
-   ```
-3. **Hand** each skill those short-term paths — never a path in memory.
-4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
-   what you already know.
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
 
 What you put in short-term memory (glob for `find`):
 
 | Job | What, and where |
 |-----|-----------------|
-| Assessment | every review playbook (`**/knowledge/review/*.md`) — the contract's `review_shelf` folder; the Next-line map (`**/standards/rules/pipeline-next.md`) — the contract's `next_map` file, which the play hands to the play linter |
-| Grounding | the standards and shelves the category's principles rest on (`**/standards/rules/*.md`, `**/knowledge/**`), the PR severity taxonomy (`**/standards/rules/pr.md`) — `<issue folder>/context/memory/<path as found>` |
+| Assessment | every review playbook (`**/knowledge/review/*.md`) — the contract's `review_shelf` folder, `<issue folder>/context/memory/knowledge/review/`; the PR severity taxonomy (`**/standards/rules/pr.md`) — the contract's `severity_taxonomy` file, `<issue folder>/context/memory/standards/rules/pr.md`. The manifest is `<issue folder>/context/memory/manifest.json` |
+| Grounding | only what the shared copies do not hold: the standards and shelves the category's principles rest on (`**/standards/rules/*.md`, `**/knowledge/**`) — `<issue folder>/context/memory/grounding-<category>/<path as found>`, with the manifest `<issue folder>/context/memory/grounding-<category>/manifest.json` |
 
 ## What You Do / MUST NOT Do
 
@@ -145,11 +146,12 @@ The play dispatches this agent in one of two shapes. **Assessment** (Job 1) runs
   "task": "assess the work categories present in the diff",
   "inputs": {
     "context": "<working>/context.yaml",
-    "diff": "<working>/pr.diff"
+    "diff": "<working>/pr.diff",
+    "next_map": "{stm_base}{issue}/context/templates/standards/rules/pipeline-next.md"
   },
   "outputs": { "categories": "<working>/categories.yaml",
                "review_shelf": "{stm_base}{issue}/context/memory/knowledge/review/",
-               "next_map": "{stm_base}{issue}/context/memory/standards/rules/pipeline-next.md" },
+               "severity_taxonomy": "{stm_base}{issue}/context/memory/standards/rules/pr.md" },
   "task_id": "<from play>"
 }
 ```
@@ -167,7 +169,8 @@ file:
     "category": "<the one design-bearing category to ground>",
     "diff": "<working>/pr.diff"
   },
-  "outputs": { "design_findings": "<working>/design-findings-<category>.yaml" },
+  "outputs": { "design_findings": "<working>/design-findings-<category>.yaml",
+               "memory_dir": "{stm_base}{issue}/context/memory/grounding-<category>/" },
   "task_id": "<from play>"
 }
 ```
@@ -175,9 +178,11 @@ file:
 A legacy combined dispatch (both outputs, no `category`) is still honored: categorize, then
 ground every design-bearing category into the single `design_findings` file.
 `context.yaml` carries `changed_paths`, the `base` ref and the `standards_order`. It names no
-memory folder: in the assessment you copy the review playbooks (`**/knowledge/review/*.md`)
-through the memory tool into the `review_shelf` folder the contract names, with their sources
-in the manifest beside them; the play reads each category's treatment from those copies.
+memory folder: in the assessment you copy the review playbooks and the PR severity taxonomy
+through the memory tool into the `review_shelf` folder and the `severity_taxonomy` file the
+contract names, with their sources in the manifest. The `next_map` input is the copy the play
+got from `template-manager`; it is the play linter's, and you do not fetch it. The play reads
+each category's treatment only from `categories.yaml`.
 
 ## Output Contract
 

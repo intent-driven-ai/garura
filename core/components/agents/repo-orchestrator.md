@@ -92,7 +92,7 @@ The agent returns ONLY the enriched JSON contract. All detailed artifacts, analy
 | `status` | `"completed"`, `"failed"`, or `"blocked"` |
 | `stm` | Updated STM paths — input echoed, output paths populated with written artifacts |
 | `task_id` | Echoed from input for traceability |
-| `error` | `null` on success. On failure: structured failure object per the Structured Failure Format in this file |
+| `error` | `null` on success. On failure: structured failure object per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) |
 | `resolution_trace_path` | (optional) Path to `resolution-trace.yaml` written during Project Convention Check. Present only when `ltm_context` was provided in the input contract. |
 
 ### Contract Processing Flow
@@ -406,30 +406,11 @@ Bash is available for operations **not covered by skills**:
 
 ## Memory Reading Protocol
 
-You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
-every agent, says how to call it. Never read a memory file by its path, and never take a
-memory path from a contract.
-
-1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
-   Phoenix memory), from the project root:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
-   ```
-
-2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
-   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
-   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
-   The `read` answer carries the file's text, so one command writes the copy:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
-     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
-   ```
-3. **Hand** each skill those short-term paths — never a path in memory.
-4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
-   what you already know.
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
 
 What each skill needs from memory:
 
@@ -437,33 +418,31 @@ What each skill needs from memory:
 |-------|-----------------------------------------------|
 | `assess-changes` | the commit rules (`**/standards/rules/commits.md`) — `commits_rules_path` |
 | `assess-pr` | the commit rules (`**/standards/rules/commits.md`) — `commits_rules_path` |
-| `open-pr` | the PR body template (`**/standards/templates/pr-body.md`) — `pr_body_template_path` |
+| `open-pr` | nothing from memory. The PR body template (`standards/templates/pr-body.md`) comes from `template-manager` — `pr_body_template_path` |
 | `cut-branch, commit-files` | the branch rules (`**/standards/git/branching.md`), when the branch name needs them |
+
+### Templates come from template-manager
+
+Get every template (`standards/templates/*`) from the `template-manager` agent, never through
+the memory tool. Dispatch it with the Task tool, before the skill that needs the template:
+
+```json
+{ "task": "load these templates into the issue's short-term memory",
+  "inputs": { "issue": <issue>, "templates": ["standards/templates/pr-body.md"] },
+  "outputs": { "out_dir": "<issue folder>/context/templates/",
+               "manifest": "<issue folder>/context/templates/manifest-repo-orchestrator.json" },
+  "task_id": "load-templates" }
+```
+
+Ask only for the templates this task needs. Hand each skill the copy at `<out_dir><name>` (for
+example `<issue folder>/context/templates/standards/templates/pr-body.md` for `open-pr`). When
+`template-manager` returns `template_missing`, do not write the output off the template: return
+a structured failure that names the missing template.
 
 ## Structured Failure Format
 
-When an obstacle is outside your domain, or two self-recovery attempts failed, return a
-structured failure to the caller — never a raw error:
-
-```yaml
-failure:
-  what_failed: "{operation that failed}"
-  why: "{root cause — specific, e.g. 'file not found', not 'error occurred'}"
-  domain_assessment:
-    within_my_domain: false
-    responsible_domain: "{implementation | design | repository | project | infrastructure}"
-    suggested_agent: "{agent name, if known}"
-  context:
-    intent_received: "{the intent passed by the caller}"
-    constraint_violated: "{if applicable}"
-    self_recovery_attempted: true|false
-    self_recovery_details: "{what was tried, so the caller does not retry it}"
-  suggested_fix: "{what you think would resolve this}"
-```
-
-At most two self-recovery attempts per obstacle. When the caller retries you after a failure,
-use the earlier failure and any fix applied; do not repeat the failed approach, and if you fail
-again on the same obstacle, escalate at once.
+Return a failure in the shape of the shared format: `.claude/skills/_shared/failure-format.md`.
+It says when to use it, its fields, and the limit of two attempts to recover.
 
 ## Recovery
 
@@ -492,7 +471,7 @@ When a skill invocation fails and the obstacle is within your domain:
 
 ### Escalation (Outside Domain)
 
-When the obstacle is outside your domain, write a structured failure to `stm.output` per the Structured Failure Format in this file and return the contract with `status: "failed"`:
+When the obstacle is outside your domain, write a structured failure to `stm.output` per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) and return the contract with `status: "failed"`:
 
 ```yaml
 failure:

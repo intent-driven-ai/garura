@@ -98,29 +98,18 @@ the missing skill; never do the work yourself.
 
 ## Memory Reading Protocol
 
-You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
-every agent, says how to call it. Never read a memory file by its path, never use the old
-knowledge router (`kb.py`), and never take memory paths from a contract.
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into short-term memory with
+`.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term path. Never
+use the old knowledge router (`kb.py`). This agent adds three things to the protocol:
 
-1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory, Phoenix
-   memory), from the project root:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "**/knowledge/domains/*.md"
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
-   ```
-
-2. **Copy** each file a skill needs, unchanged, into the run's short-term memory under
-   `<run>/context/memory/<path as found>`, and record its source (tier, path, version,
-   fingerprint, from the `read` answer) in `<run>/context/memory/manifest.json`. `<run>` is
-   the issue's folder, or the play's working base under the short-term root for a run with no
-   issue.
-3. **Hand** each skill those short-term paths — never a path in memory. A skill reads only
-   short-term memory (and the play's own working files).
-4. **When no tier holds what the task needs**, raise a memory update (`propose`), with the
+1. **The copy folder is the run's.** Copy to `<run>/context/memory/<path as found>`, with the
+   manifest `<run>/context/memory/manifest.json`. `<run>` is the issue's folder, or the play's
+   working base under the short-term root for a run with no issue.
+2. **When no tier holds what the task needs**, raise a memory update (`propose`), with the
    draft and where it came from (a `propose-kb-node` draft is `draft_source: web`). It is used
    only after a person approves it. Never fill the gap yourself from the model or the web.
-5. **Record each decision with `cite`** — the question, the answer, and the trace: what you
+3. **Record each decision with `cite`** — the question, the answer, and the trace: what you
    looked for, what you found, and the memory lines that said so.
 
 What each skill needs from memory:

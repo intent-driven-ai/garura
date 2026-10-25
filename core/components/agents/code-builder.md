@@ -173,7 +173,7 @@ Before implementing any step, validate every constraint against current state. U
 
 If ANY constraint would be violated:
 1. Do NOT implement the step
-2. Return a structured failure per the Structured Failure Format in this file with `constraint_violated` populated
+2. Return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) with `constraint_violated` populated
 3. The play will decide how to handle (retry, escalate, or halt)
 
 ## Context Loading
@@ -294,28 +294,8 @@ Bash is available for operations that support implementation:
 
 ## Structured Failure Format
 
-When an obstacle is outside your domain, or two self-recovery attempts failed, return a
-structured failure to the caller — never a raw error:
-
-```yaml
-failure:
-  what_failed: "{operation that failed}"
-  why: "{root cause — specific, e.g. 'file not found', not 'error occurred'}"
-  domain_assessment:
-    within_my_domain: false
-    responsible_domain: "{implementation | design | repository | project | infrastructure}"
-    suggested_agent: "{agent name, if known}"
-  context:
-    intent_received: "{the intent passed by the caller}"
-    constraint_violated: "{if applicable}"
-    self_recovery_attempted: true|false
-    self_recovery_details: "{what was tried, so the caller does not retry it}"
-  suggested_fix: "{what you think would resolve this}"
-```
-
-At most two self-recovery attempts per obstacle. When the caller retries you after a failure,
-use the earlier failure and any fix applied; do not repeat the failed approach, and if you fail
-again on the same obstacle, escalate at once.
+Return a failure in the shape of the shared format: `.claude/skills/_shared/failure-format.md`.
+It says when to use it, its fields, and the limit of two attempts to recover.
 
 ## Recovery
 
@@ -339,7 +319,7 @@ Max 1 self-recovery attempt. If it doesn't work, escalate.
 
 ### Escalation
 
-When blocked by something outside the plan's scope, return a structured failure per the Structured Failure Format in this file:
+When blocked by something outside the plan's scope, return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`):
 
 ```yaml
 failure:

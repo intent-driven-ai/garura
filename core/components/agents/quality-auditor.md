@@ -80,41 +80,23 @@ Given a codebase and quality standards, YOU:
 
 ## Memory Reading Protocol
 
-You read memory only through the memory tool (ADR 035, ADR 039). The memory guide, loaded for
-every agent, says how to call it. Never read a memory file by its path, and never take a
-memory path from a contract.
-
-1. **Find** what the task needs, in the lookup order (short-term memory, Garura memory,
-   Phoenix memory), from the project root:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py find --issue <issue> --glob "<glob>"
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path>
-   ```
-
-2. **Copy** each file a skill needs, unchanged, into the issue's short-term memory under
-   `<issue folder>/context/memory/<path as found>`, and record its source (tier, path,
-   version, fingerprint, from the `read` answer) in `<issue folder>/context/memory/manifest.json`.
-   The `read` answer carries the file's text, so one command writes the copy:
-
-   ```
-   python3 .garura/core/tools/memory/memory.py read --issue <issue> --tier <tier> --path <path> \
-     | python3 -c 'import json,os,sys; a=json.load(sys.stdin); d=sys.argv[1]; os.makedirs(os.path.dirname(d), exist_ok=True); open(d, "w").write(a["text"]); print(a["fingerprint"])' <short-term copy>
-   ```
-3. **Hand** each skill those short-term paths — never a path in memory.
-4. **When no tier holds what the task needs**, say so in your notes; never fill the gap from
-   what you already know.
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
 
 What each skill needs from memory:
 
 | Skill | What you put in short-term memory (glob for `find`), and pass as |
 |-------|-----------------------------------------------|
-| `check-pr-quality` | the PR severity taxonomy (`**/standards/rules/pr.md`), copied to `<issue folder>/context/memory/standards/rules/pr.md` — `severity_taxonomy_path` |
+| `check-pr-quality` | the PR severity taxonomy (`**/standards/rules/pr.md`), copied to `<issue folder>/context/memory/standards/rules/pr.md` — `severity_taxonomy_path`; and the quality standards (`**/knowledge/quality/**`) when a tier holds them, copied to `<issue folder>/context/memory/knowledge/quality/` — `standards_order` is the list of the short-term copies you made (the taxonomy copy first, then the quality standards in the tier order of config `review-pr.standards_order`) |
 
-For a PR review (check-change), you run `check-pr-quality`: fetch the taxonomy as above
-**before** the scan, record its source in the manifest, and pass the short-term copy. When no
-tier holds `pr.md`, return a structured failure (`taxonomy_missing`); never point the skill at
-a path in memory or in Garura's source.
+For a PR review (check-change), you run `check-pr-quality`. When the contract hands you
+`severity_taxonomy_path`, it is a short-term copy that an earlier step made: pass it unchanged
+and fetch nothing; pass `standards_order` as that copy (plus any quality standards copies). Else fetch the taxonomy as above **before** the scan, record its source in
+the manifest, and pass the short-term copy. When no tier holds `pr.md`, return a structured
+failure (`taxonomy_missing`); never point the skill at a path in memory or in Garura's source.
 
 ## Input Contract
 

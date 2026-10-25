@@ -39,6 +39,9 @@ python3 .garura/core/tools/memory/memory.py find --glob "**/standards/rules/buil
 python3 .garura/core/tools/memory/memory.py read --tier <tier> --path <path>
 ```
 
+The shared protocol `.claude/skills/_shared/memory-reading.md` holds the rules for the memory
+tool. This agent only reads the rule; it makes no short-term copy.
+
 ## Input Contract
 
 The play passes five things:
