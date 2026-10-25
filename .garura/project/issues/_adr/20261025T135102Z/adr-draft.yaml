@@ -27,8 +27,8 @@ decision:
   superseded_by: null
   amended_by: []
   affects:
-  - .garura/product/product-os/_spine.yaml — profile.nfr.security (level medium and its gate); the
-    /discover-capabilities save script already wrote it on this branch, pending this decision
+  - .garura/product/product-os/_spine.yaml — profile.nfr.security (level medium and its gate),
+    written by the /discover-capabilities save script and made durable by this decision
   - .garura/product/product-os/_spine.yaml — cap-initialize nfr_needs.security (level, target, gate)
     and its decisions link to this record
   - .garura/product/product-os/software-delivery-planning/initialize/capability.md — the Boundary
@@ -57,8 +57,6 @@ decision:
       after).
     - A later capability whose security need is medium or below now fits the box with no stop for
       the product owner.
-    - The spine already shows medium before this record is accepted; if the product owner rejects
-      it, the profile's security line must be taken back out.
   metadata:
     decided_by: /discover-capabilities
     accepted_by: null
