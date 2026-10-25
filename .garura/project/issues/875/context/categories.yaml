@@ -1,4 +1,4 @@
-# check-change, Step 2 (Assess Categories). PR #891, issue 875, base plan/788/base.
+# check-change, Step 2 (Assess Categories), round 2. PR #891, issue 875, base plan/788/base.
 # Derived from the content of the diff, not from a presumed list. Treatments are copied from the
 # playbook copies in short-term memory (.garura/project/issues/875/context/memory/knowledge/review/).
 pr: 891
@@ -31,7 +31,7 @@ categories:
       design_grounding: "Layer 2 from committed sources on the base ref (docs/philosophy/**, docs/adr/**, standards/rules/**, glossary); never from the branch's new prose."
 
   - name: memory
-    what: "The product ontology schema (version 11 to 12): the Epic is an issue of type Epic with no label; new rules R1 and R3; Q20 answer changed."
+    what: "The product ontology schema (version 11 to 12): the Epic is an issue of type Epic and the Story an issue of type Story, each with no label; new rules Epic R1 and R3, Story R2 and R3; the tracker paragraph and the five-line summary; Q20 ('which kind is it?') answered by the issue type; the change-log line."
     design_bearing: true
     evidence:
       - core/components/memory/standards/schemas/product-os/ontology.md
@@ -43,8 +43,8 @@ categories:
         - name: memory-integrity (GAP, no installed tool)
           command: null
       runnable_checks:
-        - "By hand, citing each: structure follows the schema's own shape; [[...]] and evolve_when cross-references resolve to real files; frontmatter version/updated moved together (11 to 12, 2026-10-25); the Epic's kind page, Q20 and the five-line summary agree with each other (the Epic row, R1, R3, the label rule)."
-        - "By hand: no duplicate or contradicting rule inside the ontology (for example, R2 is missing between R1 and R3; check that the numbering is intended)."
+        - "By hand, citing each: structure follows the schema's own shape; [[...]] and evolve_when cross-references resolve to real files; frontmatter version/updated moved together (11 to 12, 2026-10-25); the Epic's and the Story's kind pages, Q20 (including its Answered-by line, changed since round 1) and the tracker paragraph agree with each other (the type, the no-label rule, the label rules for product and work-item) and with ADR 056 as the base-ref-independent record of the decision."
+        - "By hand: no duplicate or contradicting rule inside the ontology (the Epic page holds R1 and R3 and the Story page R2 and R3; check that the numbering is intended and that R3 reads the same on both)."
       design_grounding: "Layer 2 from committed sources: the ontology on the base ref (git show plan/788/base:<path>), ADRs, the memory design files; not from the edit-ontology draft files this branch adds."
 
   - name: executable-code
@@ -93,8 +93,29 @@ categories:
         - "Also run the unchanged tests that use the changed code (test_check_plan.py, test_find_work_items.py, test_gather_plan.py, test_write_plan_file.py, test_record_approval.py, test_check_drafts.py), since plan_common.EPIC_TYPE is shared. If one cannot run, say 'not run', never 'passed'."
       design_grounding: "none."
 
+  - name: adrs
+    what: "New decision record ADR 056 (an Epic and a Story are marked by their issue type, with no label; amends ADR 048 Decision section 1 and a Consequences bullet), the forward pointer added to ADR 048's Status line, and the new ADR 056 row in the ADR index."
+    design_bearing: false
+    note: "Playbook review/adrs governs: the human judges the decision, Layer 1 only, no design-grounding (the decision is the design). The tool surfaces the structural checklist for the human. Cross-checks by hand: ADR 056 'Amends' text matches the quoted ADR 048 bullets; ADR 048 pointer matches ADR 056's Amends; the index row (number, title, Status, date) matches the ADR's own header."
+    evidence:
+      - docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md
+      - docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+      - docs/adr/_index.md
+    playbook: review/adrs
+    treatment:
+      reviewer: "human, line by line (the human judges whether the decision is right)"
+      layers: [1]
+      linters:
+        - name: adr-structure (GAP, no ADR linter in-repo; the structural check is a manual checklist the tool surfaces)
+          command: null
+      runnable_checks:
+        - "By hand, citing each: ADR 056 has the template sections (Status, Date, Level, Decided by, Amends/Affects, ICE impact, Context, Decision, Consequences); Status is an allowed value (Accepted); the file is numbered 056 and linked from docs/adr/_index.md with the same title, status and date; the markdown is well-formed; relative links resolve (048, 049)."
+        - "By hand: every file ADR 056 lists under Affects is in the PR's changed paths (ontology.md, ice.md, SKILL.md, the four scripts, the three tests, stop-condition.yaml, managing-work.md); no file is claimed that the PR does not change, and none is changed without being listed."
+        - "By hand: the edit to ADR 048 changes only the Status line (a forward pointer), not the decision text; the quoted bullets exist verbatim in ADR 048 on the base ref (git show plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md)."
+      design_grounding: "none (playbook: the decision is the design; the human owns the judgement)."
+
   - name: docs
-    what: "managing-work.md, the written rules for how work is tracked (CLAUDE.md points to it): the Epic is now filed as issue type Epic, and the type Feature is kept only from before. Human-read prose; not a play, skill, agent, ADR or memory file."
+    what: "managing-work.md, the written rules for how work is tracked (CLAUDE.md points to it): the Epic is now filed as issue type Epic and the Story as issue type Story, and the type Feature is kept only from before. Human-read prose; not a play, skill, agent, ADR or memory file."
     design_bearing: false
     note: "Playbook review/docs governs (Layer 1 only). The rule it states is the same fact the harness and memory categories change, so its agreement with them is checked by hand under Layer 1 (terminology consistency); the grounding of that fact is done under harness and memory, not here."
     evidence:
@@ -111,7 +132,7 @@ categories:
       design_grounding: "none."
 
   - name: plan-record
-    what: "A plan file (the work-order tree of business intent 788): status flips only (#875 next to now; #882 and #884 now/next to done)."
+    what: "A plan file (the work-order tree of business intent 788): status flips and one new child (#875 next to now with the new child chore #892, status now; #882 and #884 now/next to done)."
     design_bearing: false
     evidence:
       - .garura/project/plans/788.yaml
@@ -122,17 +143,25 @@ categories:
       layers: [1]
       linters: []
       runnable_checks:
-        - "By hand (no playbook): the YAML parses; each changed status is one of the plan's allowed values; the flips match the tracker state of #875, #882, #884; no other node changed."
+        - "By hand (no playbook): the YAML parses; each changed status is one of the plan's allowed values; the flips match the tracker state of #875, #882, #884; the new child #892 (kind chore, under #875) exists in the tracker and its title matches; no other node changed."
       design_grounding: "none until a playbook says otherwise."
 
   - name: run-records
-    what: "The change's own run records in the issue's short-term memory (analysis, branch, commits, PR body, self-review, edit-ontology draft files, a copy of the ontology template, the memory manifest). They record what the runs did; they are not shipped behaviour."
+    what: "The change's own run records in short-term memory: the issue's context (analysis, branch, commits, PR body, self-review, the two edit-ontology runs #875 and #892, a copy of the ontology template, the manifests, the review's working files and the round-1 review record) and the record-decision run that wrote ADR 056 (.garura/project/issues/_adr/). They record what the runs did; they are not shipped behaviour."
     design_bearing: false
-    note: "They are branch-added content and are never used as grounding for any principle. They are read only as the stated intent of the change."
+    note: "They are branch-added content and are never used as grounding for any principle. They are read only as the stated intent of the change. The adr-draft.md and the ADR run files are drafts of ADR 056, which is graded under the adrs category, not here. The round-1 review record is the prior verdict, read only to avoid repeating a closed finding."
     evidence:
       - .garura/project/issues/875/context/analysis.yaml
       - .garura/project/issues/875/context/branch.json
       - .garura/project/issues/875/context/commits.yaml
+      - .garura/project/issues/875/context/edit-ontology-892/ (change-check.json, decisions.json, draft-kinds.md, draft-links.md, draft-questions.md, need.md, ontology-before.md, ontology-check.json)
+      - .garura/project/issues/875/context/categories.yaml, context.yaml, pr.diff, layer1-findings.yaml, quality-findings.yaml, design-findings-harness.yaml, design-findings-memory.yaml, lint-components.txt (the review's own working files)
+      - .garura/project/issues/875/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/875/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/875/context/memory/knowledge/review/ and memory/standards/rules/pr.md (short-term copies of the review shelf and severity taxonomy)
+      - .garura/project/issues/875/context/templates/ (manifest-check-change.json, standards/rules/pipeline-next.md)
+      - .garura/project/issues/875/review/round-1/ (findings.yaml, outcome.yaml, recommended_verdict.yaml)
+      - .garura/project/issues/_adr/20261025T172428Z/ (adr-check.json, adr-context.yaml, adr-draft.md, adr-manifest.json, brief.md, decision.yaml, guard-report.json, hashes-before.json, porcelain-before.txt, porcelain-after.txt, run.json, context/templates/manifest-record-decision.json, context/templates/standards/templates/adr.md)
       - .garura/project/issues/875/context/edit-ontology/ (change-check.json, decisions.json, draft-kinds.md, draft-links.md, draft-questions.md, need.md, ontology-before.md, ontology-check.json)
       - .garura/project/issues/875/context/issue.json
       - .garura/project/issues/875/context/memory/manifest.json
@@ -150,9 +179,10 @@ categories:
       layers: []
       linters: []
       runnable_checks:
-        - "By hand (no playbook): no secret, token, or personal name in these files (the garura history must stay free of client and personal references)."
+        - "By hand (no playbook): no secret, token, or personal name in these files, and no run-record path inside a shipped file (core/components/**, docs/**) (the garura history must stay free of client and personal references)."
         - "Do not grade their design, and do not cite them as a basis for any finding."
       design_grounding: "none."
 
 design_bearing: [harness, memory]
 playbook_missing: [plan-record, run-records]
+not_design_bearing: [adrs, executable-code, tests, docs, plan-record, run-records]

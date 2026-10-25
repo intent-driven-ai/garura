@@ -1,4 +1,5 @@
-# check-change, Step 3 Layer 2 - category: harness. PR #891, issue 875, base plan/788/base (5b1f0d81b37f).
+# check-change, Step 3 Layer 2 - category: harness. PR #891, issue 875, round 2, base plan/788/base (5b1f0d81b37f).
+# Round 2 re-confirmation: shape-plan files are unchanged since the round 1 commit 0733bfcd (git diff 0733bfcd..HEAD -- core/components/plays/shape-plan is empty; the only commit touching them is 71c1788f). Grounding re-read from the base ref and the live tracker; H1 is round 1's HAR-1, still open.
 # Files graded: core/components/plays/shape-plan/SKILL.md, reference/ice.md, stop-condition.yaml.
 # Rule kept: no principle below rests on a file this branch adds or rewrites.
 pr: 891
@@ -26,6 +27,7 @@ principles:
     source: "git show plan/788/base:docs/standards/harness-standard.md, principle 5"
 
 conformance_passes:
+  - "Round 2 re-check: ice.md sha256 at head = 84f437cd... = the SKILL.md fingerprint; the tracker's issue types (read-only GraphQL, organization intent-driven-ai) still list Epic enabled; base harness-standard principles 4 and 5, ADR 048 Decision 1-3, ADR 049 and managing-work.md on plan/788/base read as cited. No source cited here is a file the branch adds."
   - "G1: the intent change (epic type Feature -> Epic in C13, F11, REC11, S1, D4, Context) is in reference/ice.md and SKILL.md in the same commit (71c1788f). SKILL.md's recorded fingerprint sha256:84f437cd... equals the sha256 of ice.md at the branch head (checked with shasum). The ICE-source rule holds. Whether /edit-play was the tool that ran cannot be seen from the diff; the content and fingerprint agree."
   - "G1/G2: the SKILL.md description, Step 6 write text, SE-15, the F11 row and the ICE agree with each other; stop-condition.yaml D4 and ice.md D4 carry the same wording. No leftover 'epic type Feature' text in the three files."
   - "G3: the base committed record said the org had no Epic type; the tracker now has it, and issue #875 says it was added on 2026-10-25. The new rule is grounded in the live tracker, not in branch prose. Old decision 5 is named as replaced in ice.md Context, so the superseded source is not left silent."
@@ -39,6 +41,7 @@ findings:
     where: "Scenarios S1-S7 (S3, lines ~114-117); SKILL.md has no matching line"
     principle: "G1 (Expectation = scenarios, recovery, what done means) and G5 (the check that proves a change is done)"
     source: "git show plan/788/base:docs/standards/harness-standard.md, principles 4 and 5; issue #875 'Done when' (tracker): the play 'sets type Epic on an Epic it reuses that has another type' and a rerun of /shape-plan 788 sets #794 to type Epic"
+    round_1_id: HAR-1
     finding: "The new guarantee 'a reused epic of another type is set to Epic' (C13, F11, REC11, SE-15, D4) is the heart of the migration, but no scenario in the ICE names it. S3 (a hand-made epic is used) only says no issue is made and no person line is lost; S1 only measures a first-time epic. The case that matters in practice (epic #794, filed as Feature, found and re-typed) is covered only by the stop condition D4 and by the tests in the scripts folder, not by an S- scenario, so the Expectation does not state it."
     suggested_fix: "Add a scenario (or a Measure on S3): given a hand-made epic of type Feature that the plan file marks, when the product owner types yes, then the epic is set to type Epic, no new issue is made, and the epic's text is kept. A small follow-up through /edit-play."
     fix_handoff: human
