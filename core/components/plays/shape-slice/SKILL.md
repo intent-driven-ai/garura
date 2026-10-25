@@ -839,7 +839,8 @@ surface and tester, the intents it serves, the parts added or filled in the mode
 deepened, the thin ICE, the hidden file, the intent page when this run wrote it, the count
 of questions with no proposed answer, the PR), and the **Next** line from the Next-line map
 (`$next_map`, from `template-manager`), per `play-close.md`; omit it when the map's command
-is null. Next Steps: `/shape-plan` (#818) reads this slice once it is built. End with a
+is null. Next Steps: run `/shape-plan <intent-issue>` to make the plan, the epic and the stories
+for this slice. End with a
 pointer to `$evidence_dest`. Always emitted; never gated.
 
 ```bash
