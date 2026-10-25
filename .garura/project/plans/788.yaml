@@ -157,7 +157,7 @@ tree:
     kind: feature
     represents: fn-818
     title: The plan play makes the plan file, the epic and one story per feature
-    status: next
+    status: done
     needs:
     - 795
   - issue: 796
@@ -214,6 +214,10 @@ tree:
   - issue: 872
     kind: chore
     title: 'The two small findings left by the PR #871 review'
+    status: later
+  - issue: 874
+    kind: chore
+    title: 'The findings left by the PR #873 review (the plan play)'
     status: later
 - issue: 833
   kind: chore
