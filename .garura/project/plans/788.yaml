@@ -171,6 +171,10 @@ tree:
       status: next
       needs:
       - 876
+    - issue: 879
+      kind: bug
+      title: '/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice''s stories'
+      status: next
   - issue: 796
     kind: feature
     title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
