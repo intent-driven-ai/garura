@@ -65,7 +65,6 @@
     "tools": [
       ".garura/core/tools/lint-components",
       ".garura/core/tools/lint-play",
-      ".garura/core/tools/naming",
       ".garura/core/tools/rebuild-eval"
     ],
     "kinds": {
@@ -131,10 +130,13 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version 1d3efd00e1e1."
+          "Phoenix memory: on this machine, at version 2f68683b1e44."
         ]
       }
     },
-    "retired": []
+    "tools_gitignore": ".garura/core/tools/.gitignore",
+    "retired": [
+      ".garura/core/tools/naming"
+    ]
   }
 }

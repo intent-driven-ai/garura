@@ -2,6 +2,20 @@
   "files": [
     {
       "tier": "phoenix",
+      "path": "standards/rules/pipeline-next.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412",
+      "copy": ".garura/project/issues/860/context/memory/standards/rules/pipeline-next.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/pr-findings.yaml",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:0788711e4ba7a68f448aeb9ec4151b21c389f3a18bcab1a99f8585ef775129a4",
+      "copy": ".garura/project/issues/860/context/memory/standards/schemas/pr-findings.yaml"
+    },
+    {
+      "tier": "phoenix",
       "path": "knowledge/review/_index.md",
       "version": "2f68683b1e44",
       "fingerprint": "sha256:e00495d6715687627f4799d9d5ebf966432301d5c2ff914ef4cb8833861996f5",
@@ -58,24 +72,10 @@
     },
     {
       "tier": "phoenix",
-      "path": "standards/rules/pipeline-next.md",
-      "version": "2f68683b1e44",
-      "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412",
-      "copy": ".garura/project/issues/860/context/memory/standards/rules/pipeline-next.md"
-    },
-    {
-      "tier": "phoenix",
       "path": "standards/rules/pr.md",
       "version": "2f68683b1e44",
       "fingerprint": "sha256:300f365ab65fd8ba044273af112769591aaf20b88d9e0f568f82f001933a2e07",
       "copy": ".garura/project/issues/860/context/memory/standards/rules/pr.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/schemas/pr-findings.yaml",
-      "version": "2f68683b1e44",
-      "fingerprint": "sha256:0788711e4ba7a68f448aeb9ec4151b21c389f3a18bcab1a99f8585ef775129a4",
-      "copy": ".garura/project/issues/860/context/memory/standards/schemas/pr-findings.yaml"
     }
   ]
 }
