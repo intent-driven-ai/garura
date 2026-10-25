@@ -12,14 +12,22 @@ page of each of the two ICE: the feature's and its capability's.
 For each feature it runs the ready check (check_ice_workable.py, beside this script) on both
 ICE. A feature is `ready: false`, with a `reason`, when either ICE is not ready, or has no
 lines. For each ready feature it writes one clean copy, `<working>/ice/<feature id>.md`, that
-holds both ICE with every "Fails if" line taken out. The skill reads only these copies. A clean
-copy left from an earlier run for a feature that is not ready now is deleted.
+holds both ICE with every "Fails if" block taken out: the line and every line under it (nested
+bullets, wrapped text). The clean copy names no ICE page. A clean copy left from an earlier
+run for a feature that is not ready now is deleted.
+
+It also writes `<working>/skill-input.json`, the only file the skill reads besides the clean
+copies: the intent and its title, and for each slice its id, name and outcome, and for each
+ready feature its id, name, one line and its clean copy's path. It holds no ICE page path.
 
 Output:
     {intent, intent_title, plan_id, plan_file,
      slices: [{id, slug, name, outcome,
                features: [{id, name, one_line, capability, ready, reason, ice_pages: [..],
                            clean_ice}]}]}
+
+skill-input.json:
+    {intent, intent_title, slices: [{id, name, outcome, features: [{id, name, one_line, clean_ice}]}]}
 
 Exit 0 written; 2 when no slice serves the intent, or an input is wrong (nothing written).
 No git, no network.
@@ -57,12 +65,12 @@ def ready_check(spine_path, intents_dir, node):
 
 
 def clean_copy(fid, parts):
-    """The clean copy's text: both ICE, headings one level down, no "Fails if" line."""
+    """The clean copy's text: both ICE, headings one level down, no "Fails if" block, and no
+    ICE page path."""
     out = [f"# The two ICE of {fid}", "",
-           "Written by gather_plan.py for /shape-plan from the pages named below. "
-           "The failure lines are taken out.", ""]
-    for label, pid, page, lines in parts:
-        out += [f"## {label} ICE — {pid} ({page})", ""]
+           "Written by gather_plan.py for /shape-plan. The failure lines are taken out.", ""]
+    for label, pid, lines in parts:
+        out += [f"## {label} ICE — {pid}", ""]
         for ln in pc.without_fails_if(lines):
             out.append("#" + ln if ln.startswith("#") else ln)
         out.append("")
@@ -120,8 +128,8 @@ def gather(args):
             if not reasons:
                 path = os.path.join(working, "ice", f"{fid}.md")
                 pc.atomic_write(path, clean_copy(fid, [
-                    ("Feature", fid, f_page, pc.ice_lines(args.root, spine, f)),
-                    ("Capability", cap["id"], c_page, pc.ice_lines(args.root, spine, cap))]))
+                    ("Feature", fid, pc.ice_lines(args.root, spine, f)),
+                    ("Capability", cap["id"], pc.ice_lines(args.root, spine, cap))]))
                 item["clean_ice"] = path
                 ready_ids.add(fid)
             features.append(item)
@@ -134,6 +142,16 @@ def gather(args):
     title = pc.page_title(args.root, os.path.join("intents", f"{args.intent}.md"), "") or f"Plan {plan_id}"
     return {"intent": args.intent, "intent_title": title, "plan_id": plan_id,
             "plan_file": os.path.join(args.plans, f"{plan_id}.yaml"), "slices": out_slices}
+
+
+def skill_input(result):
+    """What the skill may read: no ICE page path, no feature that is not ready."""
+    return {"intent": result["intent"], "intent_title": result["intent_title"],
+            "slices": [{"id": sl["id"], "name": sl["name"], "outcome": sl["outcome"],
+                        "features": [{"id": f["id"], "name": f["name"], "one_line": f["one_line"],
+                                      "clean_ice": f["clean_ice"]}
+                                     for f in sl["features"] if f["ready"]]}
+                       for sl in result["slices"]]}
 
 
 def main(argv=None):
@@ -151,6 +169,8 @@ def main(argv=None):
         print(json.dumps({"ok": False, "reason": str(exc)}))
         return 2
     pc.write_json(args.out, result)
+    pc.write_json(os.path.join(os.path.dirname(os.path.abspath(args.out)), "skill-input.json"),
+                  skill_input(result))
     print(json.dumps({"ok": True, "out": args.out, "slices": len(result["slices"]),
                       "not_ready": sum(not f["ready"] for s in result["slices"] for f in s["features"])}))
     return 0

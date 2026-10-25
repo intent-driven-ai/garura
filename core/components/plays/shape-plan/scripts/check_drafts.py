@@ -8,10 +8,13 @@
   - the drafts have the slice, with an epic title;
   - each ready feature has exactly one story, and no story is for a feature that is not ready
     or not in the slice;
-  - each story has a title, goals, limits and expectations that are not empty, the four
-    Context guidance fields (read, never_read, persona, in_out), and `written_from`;
-  - no text of the epic or of a story holds a "Fails if" line of its two ICE (read from the
-    original ICE pages that gather.json names), the words "Fails if", or a recovery phrase
+  - each story has a title, goals, limits and expectations that are not empty, and the four
+    Context guidance fields (read, never_read, persona, in_out); `written_from` is not the
+    skill's: write_work_items.py fills it from gather.json;
+  - no text of the epic or of a story holds any line of a "Fails if" block of its two ICE
+    (read from the original ICE pages that gather.json names: the line itself and every line
+    under it, nested bullets and wrapped text included), the words "Fails if", or a recovery
+    phrase
     ("the builder can fix this alone", "a person must decide"). The epic is checked against
     the lines of every feature of its slice.
 Each problem names its slice and feature, so the skill fixes only what is wrong.
@@ -98,8 +101,6 @@ def check(drafts, gather):
             for key in GUIDANCE:
                 if not filled(guide.get(key)):
                     bad(fid, f"the Context guidance has no '{key}' line")
-            if not filled(story.get("written_from")):
-                bad(fid, "the story does not name the two ICE it was written from")
             text = pc.all_text({k: v for k, v in story.items() if k != "written_from"})
             for reason in pc.forbidden_in(text, lines_of.get(fid)):
                 bad(fid, f"the story text: {reason}")

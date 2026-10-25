@@ -10,7 +10,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from test_support import (check, finish, gather, make_drafts, make_model, paths, read_json,  # noqa: E402
+from test_support import (check, finish, gather, make_drafts, make_model, paths, read, read_json,  # noqa: E402
                           run, set_slice, story_draft, write)
 
 
@@ -58,6 +58,17 @@ def main():
         bad("a story for a feature outside the slice",
             lambda d: d["slices"][0]["stories"].append(story_draft("ft-cancel", [])), "not in the slice")
         bad("no entry for the slice", lambda d: d["slices"].clear(), "no entry")
+
+        page = os.path.join(root, "clinic", "payment", "ft-pay", "feature.md")
+        write(page, read(page).replace("- Context:", "- Fails if:\n  - the fee is taken twice\n"
+                                       "    when the patient pays again\n- Context:"))
+        gather(root, p)
+        bad("a child line of a nested failure block, in the story",
+            lambda d: d["slices"][0]["stories"][2]["scope_of_work"]["limits"].append(
+                "Check that the fee is taken twice never happens."), "failure line of its ICE")
+        bad("a wrapped line of a nested failure block, in the story",
+            lambda d: d["slices"][0]["stories"][2]["scope_of_work"]["goals"].append(
+                "It works when the patient pays again."), "failure line of its ICE")
 
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-wait"])
         gather(root, p)

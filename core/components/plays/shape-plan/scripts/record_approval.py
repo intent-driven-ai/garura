@@ -2,12 +2,15 @@
 """record_approval.py — record the product owner's typed answer at the /shape-plan checkpoint (C8).
 
     python3 record_approval.py --decision yes|change|stop --reply "<the person's words>" \
-        --at <UTC timestamp> --out <working>/approval.json
+        --at <UTC timestamp> --brief <brief.md> --work-items <work-items.json> \
+        --drafts <drafts.json> --out <working>/approval.json
 
-Writes {"decision", "reply", "at", "history": [...]}: the latest answer on top, and every
-earlier answer of the run kept in `history` (a change sends the run back and the brief is shown
-again). Only the person's own typed reply is recorded: an empty reply is refused.
-Exit 0 written, 2 refused (nothing written).
+Writes {"decision", "reply", "at", "files", "history": [...]}: the latest answer on top, and
+every earlier answer of the run kept in `history` (a change sends the run back and the brief is
+shown again). `files` ties the answer to what the person saw: for the brief, work-items.json
+and drafts.json, its path and its sha256. write_work_items.py writes nothing when one of the
+three no longer matches. Only the person's own typed reply is recorded: an empty reply, or a
+file that cannot be read, is refused. Exit 0 written, 2 refused (nothing written).
 
     python3 record_approval.py verify --file <approval.json>
 
@@ -56,8 +59,19 @@ def main(argv=None):
     ap.add_argument("--decision", required=True, choices=DECISIONS)
     ap.add_argument("--reply", required=True)
     ap.add_argument("--at", required=True)
+    ap.add_argument("--brief", required=True)
+    ap.add_argument("--work-items", required=True)
+    ap.add_argument("--drafts", required=True)
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
+    files = {}
+    for key, path in (("brief", args.brief), ("work_items", args.work_items), ("drafts", args.drafts)):
+        digest = pc.sha256_of(path)
+        if digest is None:
+            sys.stderr.write(f"record_approval.py: cannot read {path}; the answer must be tied to what the person saw\n")
+            print(json.dumps({"ok": False, "reason": f"cannot read {path}"}))
+            return 2
+        files[key] = {"path": path, "sha256": digest}
     if not args.reply.strip():
         sys.stderr.write("record_approval.py: no reply — only the person's typed words are recorded\n")
         print(json.dumps({"ok": False, "reason": "the reply is empty"}))
@@ -67,10 +81,11 @@ def main(argv=None):
         try:
             old = json.loads(pc.read_text(args.out))
             history = list(old.get("history") or []) + [
-                {k: old.get(k) for k in ("decision", "reply", "at")}]
+                {k: old.get(k) for k in ("decision", "reply", "at", "files")}]
         except (OSError, json.JSONDecodeError, AttributeError):
             history = []
-    rec = {"decision": args.decision, "reply": args.reply, "at": args.at, "history": history}
+    rec = {"decision": args.decision, "reply": args.reply, "at": args.at, "files": files,
+           "history": history}
     pc.write_json(args.out, rec)
     print(json.dumps(rec, indent=2))
     return 0

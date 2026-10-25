@@ -152,6 +152,7 @@ def paths(tmp):
             "items": os.path.join(working, "work-items.json"),
             "drafts": os.path.join(working, "drafts.json"),
             "approval": os.path.join(working, "approval.json"),
+            "brief": os.path.join(working, "brief.md"),
             "record": os.path.join(working, "tracker-record.json")}
 
 
@@ -192,19 +193,27 @@ def flow(root, p, decision="yes"):
     make_drafts(p)
     codes["drafts"] = run("check_drafts.py", "--drafts", p["drafts"], "--gather", p["gather"],
                           "--out", os.path.join(p["working"], "drafts-check.json"))[0]
+    codes["brief"] = run("render_brief.py", "--gather", p["gather"], "--work-items", p["items"],
+                         "--drafts", p["drafts"], "--out", p["brief"])[0]
     codes["approval"] = run("record_approval.py", "--decision", decision, "--reply", decision,
-                            "--at", "2026-10-25T10:00:00Z", "--out", p["approval"])[0]
-    codes["write"] = run("write_work_items.py", "--work-items", p["items"], "--drafts", p["drafts"],
-                         "--approval", p["approval"], "--plan-id", "340", "--tracker-file", p["tracker"],
-                         "--out", p["record"])[0]
-    if codes["write"] == 0:
+                            "--at", "2026-10-25T10:00:00Z", "--brief", p["brief"], "--work-items", p["items"],
+                            "--drafts", p["drafts"], "--out", p["approval"])[0]
+    codes["write"] = write_items(p)
+    if codes["write"] in (0, 1):
         codes["plan"] = run("write_plan_file.py", "--plan-file", p["plan_file"], "--gather", p["gather"],
                             "--record", p["record"], "--out", os.path.join(p["working"], "plan-write.json"))[0]
+    if codes["write"] == 0:
         codes["check_plan"] = run("check_plan.py", "--plan-file", p["plan_file"], "--gather", p["gather"],
                                   "--record", p["record"], "--out", os.path.join(p["working"], "plan-check.json"))[0]
         codes["check_tracker"] = run("check_tracker.py", "--record", p["record"], "--tracker-file", p["tracker"],
                                      "--out", os.path.join(p["working"], "tracker-check.json"))[0]
     return codes
+
+
+def write_items(p, out=None):
+    return run("write_work_items.py", "--work-items", p["items"], "--drafts", p["drafts"],
+               "--gather", p["gather"], "--approval", p["approval"], "--plan-id", "340",
+               "--tracker-file", p["tracker"], "--out", out or p["record"])[0]
 
 
 def empty_tracker(p, issues=()):
@@ -214,7 +223,7 @@ def empty_tracker(p, issues=()):
 def main():
     print("plan_common.py")
     lines = ["- Goal: a.", "- Fails if: b goes", "  wrong for a long time.", "- Limit: c.",
-             "### Fails if", "- d.", "## Context", "**Fails if**", "- e.", "Plain line.",
+             "### Fails if", "- d.", "## Context", "**Fails if**", "- e.", "", "Plain line.",
              "- Context: f; the line fails if nothing"]
     kept = pc.without_fails_if(lines)
     check("without_fails_if keeps the other lines", kept[:2] == ["- Goal: a.", "- Limit: c."])
@@ -222,7 +231,16 @@ def main():
           not any("fails if" in ln.lower() for ln in kept) and "  wrong for a long time." not in kept
           and "- d." not in kept and "- e." not in kept)
     check("without_fails_if keeps the line after a bold block", "Plain line." in kept)
-    check("fails_if_texts reads each line", pc.fails_if_texts(lines) == ["b goes"])
+    check("fails_if_texts reads each line of each block",
+          pc.fails_if_texts(lines)[:4] == ["b goes", "wrong for a long time.", "d.", "e."])
+    nested = ["- Goal: a patient books.", "- Fails if:", "  - a card is charged twice", "  - two slots are booked",
+              "    and the patient pays for both", "- Fails if: a reminder goes out", "late at night",
+              "- Limit: open slots only."]
+    check("a nested block: the line and every line under it are taken out",
+          pc.without_fails_if(nested) == ["- Goal: a patient books.", "- Limit: open slots only."])
+    check("a nested block: every child line is read for the check",
+          pc.fails_if_texts(nested) == ["a card is charged twice", "two slots are booked",
+                                        "and the patient pays for both", "a reminder goes out", "late at night"])
     check("forbidden_in finds the words, the phrases and a line",
           len(pc.forbidden_in("It Fails If it breaks", ["a card is charged twice"])) == 1
           and pc.forbidden_in("then a person must decide")
@@ -240,40 +258,43 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         path = write(os.path.join(tmp, "t.json"), {"issues": [{"number": 5, "title": "x"}]})
         tr = pc.FileTracker(path)
-        n = tr.create("New", "body", "Story")
-        check("the file tracker gives the next free number", n == 6)
-        before = read(path)
-        check("the file tracker writes nothing before save", read(path) == before)
-        tr.add_sub(5, 6)
-        tr.save()
-        check("the file tracker saves", read_json(path)["issues"][0]["sub_issues"] == [6])
+        n = tr.create("New", "body", "Story", parent=5)
+        check("the file tracker gives the next free number and sets the parent in the same write",
+              n == 6 and read_json(path)["issues"][0]["sub_issues"] == [6])
+        write(path, dict(read_json(path), fail_at_write=2))
+        tr = pc.FileTracker(path)
+        tr.set_type(6, "Story")
+        try:
+            tr.set_body(6, "lost")
+            failed = False
+        except pc.TrackerError:
+            failed = True
+        check("fail_at_write makes that write fail and keeps every write before it",
+              failed and read_json(path)["issues"][1]["body"] == "body")
     calls = []
 
     class FakeAdapter:
-        GITHUB = "github"
-
         @staticmethod
         def dispatch(verb, args, config_path=None):
             calls.append((verb, args))
-            if verb == "create-issue":
-                return {"exit_code": 0, "stdout": "https://example.test/o/r/issues/41\n", "stderr": ""}
+            if verb == "create-issue-typed":
+                return {"exit_code": 0, "stdout": "41\n", "stderr": ""}
             return {"exit_code": 0, "stdout": "{}", "stderr": "", "tree_available": True}
 
-        @staticmethod
-        def _run(argv):
-            calls.append(tuple(argv))
-            return 0, "77\n", ""
-
     host = pc.HostTracker.__new__(pc.HostTracker)
-    host.pa, host.config, host.repo = FakeAdapter, "c.yaml", "o/r"
-    check("the host tracker makes an issue through the adapter and sets its type",
-          host.create("T", "B", "Story") == 41 and calls[0][0] == "create-issue"
-          and ("gh", "api", "-X", "PATCH", "repos/o/r/issues/41", "-f", "type=Story") in calls)
+    host.pa, host.config = FakeAdapter, "c.yaml"
+    check("the host tracker makes an issue with its type and parent in one adapter call",
+          host.create("T", "B", "Story", parent=40) == 41 and len(calls) == 1
+          and calls[0] == ("create-issue-typed", {"title": "T", "body": "B", "issue_type": "Story",
+                                                  "parent_number": "40"}))
+    host.set_type(41, "Story")
+    host.set_body(41, "x")
+    host.remove_labels(41, ["a"])
     host.add_sub(40, 41)
-    check("the host tracker adds a sub-issue through the adapter", calls[-1][0] == "attach-sub-issue")
     host.remove_sub(40, 41)
-    check("the host tracker takes off a sub-issue by its id",
-          calls[-1] == ("gh", "api", "-X", "DELETE", "repos/o/r/issues/40/sub_issue", "-F", "sub_issue_id=77"))
+    check("every other write is an adapter verb",
+          [c[0] for c in calls[1:]] == ["set-issue-type", "edit-issue-body", "remove-label",
+                                         "attach-sub-issue", "remove-sub-issue"])
     with tempfile.TemporaryDirectory() as tmp:
         root = make_model(tmp)
         check("the fixture model loads", os.path.isfile(os.path.join(root, "_spine.yaml")))

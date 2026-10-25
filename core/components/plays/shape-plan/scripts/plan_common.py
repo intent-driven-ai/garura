@@ -9,22 +9,28 @@ Not run on its own. The scripts beside it import it for four jobs:
   - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
     `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
     the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
-    `fails_if_texts` lists its "Fails if" lines and `without_fails_if` takes them out.
+    `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
+    under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
   - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
     recovery phrases (`forbidden_in`).
   - The tracker. `open_tracker` gives a file tracker (`--tracker-file <json>`, for tests and
-    dry runs) or the code host, reached through platform_adapter.py. Both have the same
-    methods: get, create, set_type, set_body, remove_labels, add_sub, remove_sub, save.
+    dry runs) or the code host, reached only through platform_adapter.py. Both have the same
+    methods: get, create (title, body, type and parent in one write), set_type, set_body,
+    remove_labels, add_sub, remove_sub, save.
+  - The hash of a file (`sha256_of`), so a yes stays tied to the files the person saw.
 
 The file tracker is a JSON file {"issues": [{"number", "title", "type", "labels": [],
-"state", "body", "sub_issues": [numbers]}]}. A new issue takes the next free number. Its
-changes are written to the file only by save(), so a run that fails half way changes nothing.
+"state", "body", "sub_issues": [numbers]}]}. A new issue takes the next free number. Like a
+real tracker, it keeps each write at once: the file is written after every write. A test can
+make one write fail: `"fail_at_write": <n>` in the file makes the n-th write of the run fail,
+with nothing changed by it.
 
-The code host is GitHub only. The adapter gives view-issue, create-issue and
-attach-sub-issue. It has no verb to set the issue type, change the body, take off a label or
-take off a sub-issue, so those four run as fixed gh commands on the repository the adapter
-names. No judgment is made here.
+The code host is reached through the adapter's verbs only: view-issue, create-issue-typed,
+set-issue-type, edit-issue-body, remove-label, attach-sub-issue and remove-sub-issue. No
+judgment is made here.
 """
+
+import hashlib
 
 import json
 import os
@@ -64,6 +70,15 @@ def atomic_write(path, text):
         if os.path.exists(tmp):
             os.remove(tmp)
         raise
+
+
+def sha256_of(path):
+    """The sha256 of a file's bytes, or None when it cannot be read."""
+    try:
+        with open(path, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()
+    except OSError:
+        return None
 
 
 def write_json(path, obj):
@@ -109,7 +124,7 @@ def forbidden_in(text, fails_lines=()):
             found.append(f'it holds the recovery phrase "{phrase}"')
     for line in fails_lines:
         n = norm(line)
-        if n and n in low:
+        if len(n.split()) >= 2 and n in low:
             found.append(f'it holds a failure line of its ICE: "{line}"')
     return found
 
@@ -129,6 +144,7 @@ def all_text(value):
 
 FAILS_BULLET = re.compile(r"^(?P<lead>\s*)[-*]\s+(?:\*\*)?Fails if:?(?:\*\*)?:?\s*(?P<text>.*?)\s*$",
                           re.IGNORECASE)
+NEW_ITEM = re.compile(r"^\s*(?:[-*+]\s|\d+[.)]\s|#|\*\*|>|```)")
 FAILS_HEAD = re.compile(r"^\s*(?:#+\s*|\*\*)Fails if\b", re.IGNORECASE)
 HEADING = re.compile(r"^(#+)\s")
 ICE_PARTS = ("## Intent", "## Context", "## Expectation")
@@ -178,48 +194,67 @@ def ice_lines(root, spine, part):
     return body if body is not None else []
 
 
-def fails_if_texts(lines):
-    """The text of each "Fails if" line."""
-    out = []
-    for ln in lines or []:
-        m = FAILS_BULLET.match(ln)
-        if m and m.group("text"):
-            out.append(m.group("text"))
-    return out
-
-
-def without_fails_if(lines):
-    """The lines with every "Fails if" line, its wrapped lines and a "Fails if" block taken out.
-    Any other line that still names the words is taken out too."""
-    out, skip_deeper, skip_block = [], None, None
+def _split(lines):
+    """(kept lines, blocks): each block is the lines of one "Fails if" line, label or heading,
+    with every line under it — deeper lines, nested bullets, wrapped text."""
+    kept, blocks, cur = [], [], None
     for ln in lines or []:
         indent = len(ln) - len(ln.lstrip())
-        if skip_block is not None:
-            hm = HEADING.match(ln.lstrip())
-            if skip_block == "label":
-                # a bold "Fails if" label: its list goes on while the lines are list items or blank
-                if not ln.strip() or ln.lstrip().startswith(("- ", "* ")) or indent > 0:
+        if cur is not None:
+            kind, depth, seen_blank = cur["kind"], cur["depth"], cur["blank"]
+            if not ln.strip():
+                cur["blank"] = True
+                continue
+            if kind == "heading":
+                hm = HEADING.match(ln.lstrip())
+                if not (hm and len(hm.group(1)) <= depth):
+                    cur["lines"].append(ln)
                     continue
-                skip_block = None
-            elif hm and len(hm.group(1)) <= skip_block:
-                skip_block = None
-            else:
+            elif indent > depth:
+                cur["lines"].append(ln)
                 continue
-        if skip_deeper is not None:
-            if ln.strip() and indent > skip_deeper and not ln.lstrip().startswith(("- ", "* ")):
+            elif kind == "label" and not seen_blank and ln.lstrip().startswith(("- ", "* ", "+ ")):
+                cur["lines"].append(ln)
                 continue
-            skip_deeper = None
+            elif not seen_blank and not NEW_ITEM.match(ln):
+                cur["lines"].append(ln)  # wrapped text that goes on from the line above
+                continue
+            blocks.append(cur["lines"])
+            cur = None
         if FAILS_BULLET.match(ln):
-            skip_deeper = indent
+            cur = {"kind": "bullet", "depth": indent, "blank": False, "lines": [ln]}
             continue
         if FAILS_HEAD.match(ln):
             hm = HEADING.match(ln.lstrip())
-            skip_block = len(hm.group(1)) if hm else "label"
+            cur = {"kind": "heading" if hm else "label", "depth": len(hm.group(1)) if hm else indent,
+                   "blank": False, "lines": [ln]}
             continue
         if "fails if" in ln.lower():
+            blocks.append([ln])
             continue
-        out.append(ln)
-    return out
+        kept.append(ln)
+    if cur is not None:
+        blocks.append(cur["lines"])
+    return kept, blocks
+
+
+def _text_of(line):
+    m = FAILS_BULLET.match(line)
+    if m:
+        return m.group("text")
+    text = re.sub(r"^\s*(?:[-*+]\s+|\d+[.)]\s+|#+\s*)", "", line).strip()
+    return re.sub(r"^(?:\*\*)?Fails if:?(?:\*\*)?:?\s*", "", text, flags=re.IGNORECASE).strip()
+
+
+def fails_if_texts(lines):
+    """The text of every line of every "Fails if" block, children included."""
+    return [t for block in _split(lines)[1] for t in (_text_of(ln) for ln in block) if t]
+
+
+def without_fails_if(lines):
+    """The lines with every "Fails if" block taken out: the line, label or heading and every
+    line under it. Any other line that still names the words is taken out too."""
+    return _split(lines)[0]
 
 
 def page_title(root, rel, prefix):
@@ -249,6 +284,24 @@ def approval_is_yes(path):
     return True, decision, "the person typed yes"
 
 
+def approval_matches(path, work_items, drafts):
+    """(ok, reason): ok only when the brief, work-items.json and drafts.json are still the
+    files the person saw when they typed their answer (their sha256 is the one recorded)."""
+    try:
+        files = json.loads(read_text(path)).get("files") or {}
+    except (OSError, json.JSONDecodeError, AttributeError):
+        return False, "no approval is recorded"
+    want = {"brief": (files.get("brief") or {}).get("path"), "work_items": work_items, "drafts": drafts}
+    for key, file_path in want.items():
+        seen = (files.get(key) or {}).get("sha256")
+        if not seen:
+            return False, f"the approval does not record which {key.replace('_', '-')} the person saw"
+        if not file_path or sha256_of(file_path) != seen:
+            return False, (f"{key.replace('_', '-')} ({file_path}) is not the file the person saw; "
+                           "show the brief again")
+    return True, "the files are the ones the person saw"
+
+
 # ---- the tracker ------------------------------------------------------------------------
 
 def _issue(raw):
@@ -259,13 +312,15 @@ def _issue(raw):
 
 
 class FileTracker:
-    """A tracker kept in a JSON file. Changes reach the file only on save()."""
+    """A tracker kept in a JSON file. Like a real tracker, each write is kept at once."""
 
     def __init__(self, path):
         self.path = path
         data = read_json(path, "the tracker file")
         if not isinstance(data, dict) or not isinstance(data.get("issues"), list):
             raise Refused('the tracker file must be {"issues": [...]}')
+        self.fail_at = data.get("fail_at_write")
+        self.writes = 0
         self.issues = {}
         for raw in data["issues"]:
             if not isinstance(raw, dict) or "number" not in raw:
@@ -273,7 +328,7 @@ class FileTracker:
             self.issues[int(raw["number"])] = _issue(raw)
 
     def get(self, number):
-        it = self.issues.get(int(number))
+        it = self.issues.get(int(number)) if number is not None else None
         return json.loads(json.dumps(it)) if it else None
 
     def _must(self, number):
@@ -282,51 +337,71 @@ class FileTracker:
             raise TrackerError(f"the tracker has no issue #{number}")
         return it
 
-    def create(self, title, body, type_):
+    def _write(self, what):
+        self.writes += 1
+        if self.fail_at is not None and self.writes == int(self.fail_at):
+            raise TrackerError(f"the tracker did not take write {self.writes} ({what})")
+
+    def _keep(self):
+        data = {"issues": [self.issues[n] for n in sorted(self.issues)]}
+        if self.fail_at is not None:
+            data["fail_at_write"] = self.fail_at
+        write_json(self.path, data)
+
+    def create(self, title, body, type_, parent=None):
+        self._write("make an issue")
+        if parent is not None:
+            self._must(parent)
         number = max(self.issues, default=0) + 1
         self.issues[number] = _issue({"number": number, "title": title, "type": type_,
                                       "labels": [], "state": "open", "body": body})
+        if parent is not None:
+            self.issues[int(parent)]["sub_issues"].append(number)
+        self._keep()
         return number
 
     def set_type(self, number, type_):
+        self._write("set the type")
         self._must(number)["type"] = type_
+        self._keep()
 
     def set_body(self, number, body):
+        self._write("change the body")
         self._must(number)["body"] = body
+        self._keep()
 
     def remove_labels(self, number, labels):
+        self._write("take off labels")
         it = self._must(number)
         it["labels"] = [lb for lb in it["labels"] if lb not in labels]
+        self._keep()
 
     def add_sub(self, parent, child):
+        self._write("add a sub-issue")
         self._must(child)
         subs = self._must(parent)["sub_issues"]
         if int(child) not in subs:
             subs.append(int(child))
+        self._keep()
 
     def remove_sub(self, parent, child):
+        self._write("take off a sub-issue")
         it = self._must(parent)
         it["sub_issues"] = [n for n in it["sub_issues"] if n != int(child)]
+        self._keep()
 
     def save(self):
-        write_json(self.path, {"issues": [self.issues[n] for n in sorted(self.issues)]})
+        return None
 
 
 class HostTracker:
-    """The code host (GitHub), reached through platform_adapter.py."""
+    """The code host, reached only through platform_adapter.py's verbs."""
 
     def __init__(self, config):
         import sys
         sys.path.insert(0, HERE)
         import platform_adapter as pa  # noqa: E402  (copied beside this script)
         self.pa, self.config = pa, config
-        if pa.resolve_platform(config) != pa.GITHUB:
-            raise Refused("the code host is not GitHub; /shape-plan writes work items on GitHub only. "
-                          "Give --tracker-file for a dry run")
-        self.owner, self.name = pa.resolve_repo(config)
-        if not self.owner or not self.name:
-            raise Refused("the config names no repository (host owner and name)")
-        self.repo = f"{self.owner}/{self.name}"
 
     def _adapter(self, verb, args):
         res = self.pa.dispatch(verb, args, config_path=self.config)
@@ -334,19 +409,16 @@ class HostTracker:
             raise TrackerError(f"{verb} failed: {res['stderr'].strip() or res['stdout'].strip()}")
         return res
 
-    def _gh(self, *argv):
-        rc, out, err = self.pa._run(["gh", *argv])
-        if rc != 0:
-            raise TrackerError(f"gh {argv[0]} failed: {err.strip() or out.strip()}")
-        return out
-
     def get(self, number):
+        if number is None:
+            return None
         try:
             res = self._adapter("view-issue", {"issue_number": str(number)})
         except TrackerError:
             return None
         if not res.get("tree_available"):
-            raise Refused("the tracker cannot show the issue type and sub-issues (gh 2.94.0 or later is needed)")
+            raise Refused("the tracker cannot show the issue type and sub-issues "
+                          "(on GitHub, gh 2.94.0 or later is needed)")
         raw = json.loads(res["stdout"])
         subs = raw.get("subIssues") or []
         if isinstance(subs, dict):
@@ -358,32 +430,31 @@ class HostTracker:
                        "state": raw.get("state"), "body": raw.get("body"),
                        "sub_issues": [s.get("number") for s in subs if isinstance(s, dict)]})
 
-    def create(self, title, body, type_):
-        res = self._adapter("create-issue", {"title": title, "body": body})
-        m = re.search(r"/issues/(\d+)", res["stdout"])
-        if not m:
-            raise TrackerError(f"create-issue gave no issue number: {res['stdout'].strip()}")
-        number = int(m.group(1))
-        self.set_type(number, type_)
-        return number
+    def create(self, title, body, type_, parent=None):
+        args = {"title": title, "body": body, "issue_type": type_}
+        if parent is not None:
+            args["parent_number"] = str(parent)
+        res = self._adapter("create-issue-typed", args)
+        number = res["stdout"].strip()
+        if not number.isdigit():
+            raise TrackerError(f"create-issue-typed gave no issue number: {number!r}")
+        return int(number)
 
     def set_type(self, number, type_):
-        self._gh("api", "-X", "PATCH", f"repos/{self.repo}/issues/{number}", "-f", f"type={type_}")
+        self._adapter("set-issue-type", {"issue_number": str(number), "issue_type": type_})
 
     def set_body(self, number, body):
-        self._gh("api", "-X", "PATCH", f"repos/{self.repo}/issues/{number}", "-f", f"body={body}")
+        self._adapter("edit-issue-body", {"issue_number": str(number), "body": body})
 
     def remove_labels(self, number, labels):
         for label in labels:
-            self._gh("issue", "edit", str(number), "-R", self.repo, "--remove-label", label)
+            self._adapter("remove-label", {"issue_number": str(number), "label": label})
 
     def add_sub(self, parent, child):
         self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
 
     def remove_sub(self, parent, child):
-        child_id = self._gh("api", f"repos/{self.repo}/issues/{child}", "--jq", ".id").strip()
-        self._gh("api", "-X", "DELETE", f"repos/{self.repo}/issues/{parent}/sub_issue",
-                 "-F", f"sub_issue_id={child_id}")
+        self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
 
     def save(self):
         return None

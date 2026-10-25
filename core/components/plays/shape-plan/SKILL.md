@@ -68,7 +68,7 @@ text a person cannot follow (C11); rewriting or deleting a line a person wrote o
 
 | Agent | Domain | Skills it uses | Phases |
 |-------|--------|----------------|--------|
-| `product-os-keeper` | Gather context and pass it on: hand the skill `gather.json` and the clean ICE copies it names (never an ICE page), check that no clean copy holds a failure line, call the skill, and pass its `drafts.json` on as it is | `author-work-items` | Draft |
+| `product-os-keeper` | Gather context and pass it on: hand the skill only `skill-input.json` and the clean ICE copies it names (never `gather.json`, never an ICE page), check that no clean copy holds a failure line, call the skill, and pass its `drafts.json` on as it is | `author-work-items` | Draft |
 | `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
 
 `product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
@@ -168,8 +168,11 @@ It lists every slice whose `intents` lists the intent, in the spine's order (C2)
 slice's features in build order, each feature's capability and the pages of its two ICE. It
 runs the ready check (`check_ice_workable.py`) on both ICE of each feature: a feature whose
 ICE is not ready is `ready: false` with its `reason`, and gets no clean copy (C9). For each
-ready feature it writes `<working>ice/<feature id>.md`: both ICE with every "Fails if" line
-taken out (C5). The play and the skill read only these copies, never an ICE page. Exit 2
+ready feature it writes `<working>ice/<feature id>.md`: both ICE with every "Fails if" block
+taken out — the line and every line under it, nested bullets and wrapped text included (C5).
+It also writes `<working>skill-input.json`: each slice's id, name and outcome, and each ready
+feature's id, name, one line and clean copy's path — no ICE page path. The skill reads only
+`skill-input.json` and the clean copies, never `gather.json` or an ICE page. Exit 2
 means no slice serves the intent: tell the person to run `/shape-slice <intent-issue>` first,
 and close HALTED.
 **SE-1 (F2/C1/C2):** `gather.json` `plan_id` equals `<intent-issue>` and `plan_file` is
@@ -178,8 +181,10 @@ and close HALTED.
 **SE-2 (F8/C9):** each feature with `ready: false` has a `reason` that is not empty and a null
 `clean_ice`; each feature with `ready: true` has a `clean_ice` file on disk; no other file is
 in `<working>ice/`.
-**SE-3 (F3/C5):** `grep -ril "fails if" <working>ice/` finds nothing, and no "Fails if" line of
-a feature's two ICE is in its clean copy.
+**SE-3 (F3/C5):** `grep -ril "fails if" <working>ice/` finds nothing; no line of a "Fails if"
+block of a feature's two ICE (children included) is in its clean copy; and neither
+`skill-input.json` nor a clean copy names an ICE page (`grep -l "feature.md\|capability.md\|ice.md"`
+over them finds nothing).
 
 ### Phase: Find
 
@@ -208,8 +213,8 @@ slice is in that slice's `move_out`, and no feature of the slice is.
 
 **Step 3 — Draft the epics and stories** · Owner: `product-os-keeper` · Depends on: Step 2
 
-    { "task":    "have the epic of each slice and one story for each ready feature drafted. Hand author-work-items gather.json and the clean ICE copies it names (clean_ice); never open or hand on a page in ice_pages, and never read an ICE page yourself. First check that no clean copy holds the words 'Fails if' (grep -il 'fails if' on each); if one does, stop with step_failure and name it. Call author-work-items with gather, the clean copies, and, on a re-run, the problems of drafts-check.json (fix mode) or the product owner's change (change mode) with the earlier drafts.json. Pass its drafts.json on as it is. Gather and pass on only; the skill writes every word",
-      "inputs":  { "gather": "<working>gather.json", "clean_ice": "<working>ice/",
+    { "task":    "have the epic of each slice and one story for each ready feature drafted. Hand author-work-items only skill-input.json and the clean ICE copies it names (clean_ice); never open or hand on gather.json or any ICE page. First check that no clean copy holds the words 'Fails if' (grep -il 'fails if' on each); if one does, stop with step_failure and name it. Call author-work-items with skill_input, the clean copies, and, on a re-run, the problems of drafts-check.json (fix mode) or the product owner's change (change mode) with the earlier drafts.json. Pass its drafts.json on as it is. Gather and pass on only; the skill writes every word",
+      "inputs":  { "skill_input": "<working>skill-input.json", "clean_ice": "<working>ice/",
                    "problems": "<working>drafts-check.json, on a fix", "change": "<the product owner's change, on a re-run>",
                    "drafts": "<working>drafts.json, on a re-run" },
       "outputs": { "drafts": "<working>drafts.json" },
@@ -223,13 +228,14 @@ python3 scripts/check_drafts.py --drafts <working>drafts.json --gather <working>
     --out <working>drafts-check.json
 ```
 
-It reads the original ICE pages itself, so the "Fails if" lines reach no skill and no person.
+It reads the original ICE pages itself, so the "Fails if" lines reach no skill and no person,
+and compares the drafts with every line of each "Fails if" block, children included.
 Exit 1 lists each problem by slice and feature: send `drafts-check.json` back to the
 `shape-plan-draft` contract (fix mode), then run Step 4 again (REC3). The run does not go on
 until it reads ok.
 **SE-6 (F3/C5/C6):** `drafts-check.json` reads `ok: true`: each slice has an epic title; no
-text of an epic or a story holds a "Fails if" line of its two ICE, the words "Fails if", or a
-recovery phrase; each story has goals, limits, expectations and the four Context guidance
+text of an epic or a story holds a line of a "Fails if" block of its two ICE, the words
+"Fails if", or a recovery phrase; each story has goals, limits, expectations and the four Context guidance
 lines.
 **SE-7 (F1/C9):** in `drafts.json`, each ready feature of each slice has exactly one story, and
 no story is for a feature that is not ready or not in its slice.
@@ -251,11 +257,12 @@ skipped feature with its reason (C9). The brief is never edited by hand: a probl
 back to the step whose record it reads. Frame the brief with the approval prompt from
 `template-manager` (`standards/templates/approval-prompt.md`) and show it. Ask the product
 owner to type **yes**, **change: <what>**, or **stop**. Save the reply word for word, and
-record it:
+record it with the files the person saw, so the yes stays tied to them (their sha256):
 
 ```
 python3 scripts/record_approval.py --decision <yes|change|stop> --reply "<their exact words>" \
-    --at <now, UTC> --out <working>approval.json
+    --at <now, UTC> --brief <working>brief.md --work-items <working>work-items.json \
+    --drafts <working>drafts.json --out <working>approval.json
 ```
 
 - **yes** → Step 6.
@@ -267,7 +274,8 @@ python3 scripts/record_approval.py --decision <yes|change|stop> --reply "<their 
   HALTED. A stop needs no undo; if any write is found after a stop, undo it with
   `scoped_write_guard.py --product-base <product_base> --base-ref HEAD --also-tree .garura/project/plans --restore --out <working>guard-restore.json`
   and REC5.
-**SE-8 (F5/C8):** `approval.json` holds the product owner's typed words; `brief.md` names every
+**SE-8 (F5/C8):** `approval.json` holds the product owner's typed words and the sha256 of
+`brief.md`, `work-items.json` and `drafts.json` as shown; `brief.md` names every
 epic and story in `work-items.json` with its action, and every `move_out`; no
 `tracker-record.json` exists before `approval.json` reads `decision: yes`; after a stop,
 `stop-check.txt` is empty, `plan-after-stop.txt` equals `plan-before.txt`, and there is no
@@ -287,22 +295,30 @@ reaches the tracker (C8):
 ```
 python3 scripts/record_approval.py verify --file <working>approval.json
 python3 scripts/write_work_items.py --work-items <working>work-items.json \
-    --drafts <working>drafts.json --approval <working>approval.json --plan-id <id> \
-    --out <working>tracker-record.json
+    --drafts <working>drafts.json --gather <working>gather.json \
+    --approval <working>approval.json --plan-id <id> --out <working>tracker-record.json
 ```
 
-`write_work_items.py` refuses again (exit 2, nothing written) unless the approval reads yes.
-It makes each epic as an issue of type Feature and each story as an issue of type Story, a
-sub-issue of its epic, with no label (C13); on a used item it sets the type when it is wrong
+`write_work_items.py` refuses again (exit 2, nothing written) unless the approval reads yes,
+and when the brief, `work-items.json` or `drafts.json` is no longer the file the person saw
+(its sha256 differs): then show the brief again (Step 5). It makes each epic as an issue of
+type Feature, and each story as an issue of type Story with its epic as parent, each in one
+write and with no label (C13); it adds each story's "Written from" line (the two ICE pages)
+from `gather.json`; on a used item it sets the type when it is wrong
 and takes off its labels; on `add-sections` it appends only the missing sections and keeps
 every line of the body (C12); it writes the epic's "Feature-to-story map" (C6); for
 `move_out` it takes the story off the epic's sub-issues and the map, and leaves it open (C4).
-Each write goes through the code-host adapter. Exit 1 means the tracker failed part way:
-`tracker-record.json` lists what was done; show it to the person (REC5).
+Each write goes through the code-host adapter's verbs, and `tracker-record.json` is written
+after every write. Exit 1 means the tracker failed part way: the record reads `ok: false`,
+names the `failed` step and keeps every issue made before it. Still run Step 7, so the plan
+file marks those issues and the next run finds them and makes no copy; then show the record to
+the person and close HALTED (REC5).
 **SE-11 (F7/C12):** each `updated` story in `tracker-record.json` has `lines_kept: true`, and for
 each `add-sections` story every line of its body before the run is in its body now, in order.
-**SE-12 (F5/C8):** `tracker-record.json` `approval_at` equals `approval.json` `at`; each issue in
-`created`, `updated` and `moved_out` matches an item of `work-items.json` that `brief.md` shows.
+**SE-12 (F5/C8):** `tracker-record.json` `approval_at` equals `approval.json` `at`; the sha256 of
+`brief.md`, `work-items.json` and `drafts.json` still equals what `approval.json` recorded; each
+issue in `created`, `updated` and `moved_out` matches an item of `work-items.json` that
+`brief.md` shows.
 
 **Step 7 — Write the plan file** · Owner: play (script) · Depends on: Step 6
 
@@ -311,7 +327,8 @@ python3 scripts/write_plan_file.py --plan-file <plan-file> --gather <working>gat
     --record <working>tracker-record.json --out <working>plan-write.json
 ```
 
-It makes the plan file when it is missing (`id`, `title`, `status: active`, `tree`), or
+It also takes a record that reads `ok: false`, and marks each issue it lists. It makes the
+plan file when it is missing (`id`, `title`, `status: active`, `tree`), or
 updates it: one epic node for each slice (`represents: <slice id>`) with one story node for
 each feature of its map (`represents: <feature id>`), and moved-out story nodes taken out. It
 changes the file line by line and keeps every other node, line and comment; with nothing to
@@ -506,9 +523,10 @@ gated.
 Steps run top to bottom. On entry, resolve the change issue from start-change's result, check
 the status marker, skip completed steps, reset an in-progress step to pending, and continue.
 Nothing reaches the tracker before Step 6, so a resume before it needs no undo. A resume after
-Step 6 started reads `tracker-record.json` first: when it reads `ok: true`, Step 6 is done —
-never run it again, because the plan file does not mark the new items until Step 7 — and the
-run goes on at Step 7 from the record; when it reads `ok: false`, show it to the person (REC5).
+Step 6 started reads `tracker-record.json` first. It is written after every tracker write, so
+it lists every issue made. Run Step 7 from it before anything else, so the plan file marks
+those issues; when the record reads `ok: false`, a new run then starts at Step 1 and finds them
+(Step 2 sees them as `use`), so no issue is made twice.
 A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 
 ## Compilation Metadata
@@ -524,6 +542,7 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 | utility_agents | 1 (template-manager — serves the approval prompt and the close) |
 | skills_used | author-work-items (built for this play) |
 | skills_missing | none |
+| tracker_verbs | view-issue, create-issue-typed (type and parent in one call), set-issue-type, edit-issue-body, remove-label, attach-sub-issue, remove-sub-issue — all through platform_adapter.py |
 | scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from create-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
 | tests | test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py |
 | step_evals | 18 (SE-1…SE-18) |

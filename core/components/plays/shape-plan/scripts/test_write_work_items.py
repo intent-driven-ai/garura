@@ -10,7 +10,7 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from test_support import (check, empty_tracker, finish, flow, make_model, paths, read,  # noqa: E402
-                          read_json, run, set_slice, write)
+                          read_json, run, set_slice, write, write_items)
 
 
 def issues(p):
@@ -30,7 +30,7 @@ def main():
         codes = flow(root, p)
         rec, its = read_json(p["record"]), issues(p)
         check("first plan: exit 0, one epic and three stories made", codes["write"] == 0
-              and [c["kind"] for c in rec["created"]] == ["story", "story", "story", "epic"])
+              and [c["kind"] for c in rec["created"]] == ["epic", "story", "story", "story"])
         epic = its[rec["epics"]["sl-self-booking"]]
         stories = [its[n] for n in rec["maps"]["sl-self-booking"].values()]
         check("the epic is type Feature with no label, and says what it represents",
@@ -42,6 +42,9 @@ def main():
               all("## Scope of work" in s["body"] and "## Context guidance" in s["body"]
                   and f"Represents: {f}" in s["body"] and "fails if" not in s["body"].lower()
                   for f, s in zip(rec["maps"]["sl-self-booking"], stories)))
+        check("each story says the two ICE pages it was written from, taken from gather.json",
+              all("Written from: " in s["body"] and "feature.md" in s["body"] and "capability.md" in s["body"]
+                  for s in stories))
         check("the epic's map has one line for each feature",
               all(f"- {f} → #{n}" in epic["body"] for f, n in rec["maps"]["sl-self-booking"].items()))
 
@@ -85,9 +88,45 @@ def main():
         check("the record lists each change", {u["issue"] for u in rec["updated"]} == {10, 11, 12}
               and all(u["lines_kept"] for u in rec["updated"]))
         code, _, _ = run("write_work_items.py", "--work-items", p["items"], "--drafts", os.path.join(tmp, "nope.json"),
-                         "--approval", p["approval"], "--plan-id", "340", "--tracker-file", p["tracker"],
-                         "--out", os.path.join(tmp, "r.json"))
+                         "--gather", p["gather"], "--approval", p["approval"], "--plan-id", "340",
+                         "--tracker-file", p["tracker"], "--out", os.path.join(tmp, "r.json"))
         check("drafts that cannot be read: exit 2, nothing written", code == 2 and not os.path.exists(os.path.join(tmp, "r.json")))
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp), paths(tmp)
+        empty_tracker(p)
+        flow(root, p)
+        tracker_before = read(p["tracker"])
+        for name, key in (("drafts.json", "drafts"), ("work-items.json", "items"), ("the brief", "brief")):
+            keep = read(p[key])
+            write(p[key], keep + " ")
+            out = os.path.join(tmp, f"r-{key}.json")
+            code = write_items(p, out)
+            check(f"{name} changed after the yes: exit 2, nothing written",
+                  code == 2 and not os.path.exists(out) and read(p["tracker"]) == tracker_before)
+            write(p[key], keep)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root, p = make_model(tmp), paths(tmp)
+        write(p["tracker"], {"issues": [], "fail_at_write": 3})
+        codes = flow(root, p)
+        rec = read_json(p["record"])
+        its = issues(p)
+        check("a write that fails part way: exit 1, the record keeps what was made and names the step",
+              codes["write"] == 1 and rec["ok"] is False and "ft-remind" in rec["failed"]
+              and [c["kind"] for c in rec["created"]] == ["epic", "story"] and len(its) == 2)
+        plan = read(p["plan_file"])
+        check("the plan file still marks the issues the record lists",
+              codes["plan"] == 0 and "represents: sl-self-booking" in plan and "represents: ft-pick" in plan)
+        data = read_json(p["tracker"])
+        data.pop("fail_at_write")
+        write(p["tracker"], data)
+        codes = flow(root, p)
+        rec, its = read_json(p["record"]), issues(p)
+        check("the next run uses the epic and story the first run made, and makes no copy",
+              codes["write"] == 0 and [c["represents"] for c in rec["created"]] == ["ft-remind", "ft-pay"]
+              and len(its) == 4 and sum(1 for i in its.values() if i["type"] == "Feature") == 1
+              and codes["check_plan"] == 0 and codes["check_tracker"] == 0)
     return finish()
 
 

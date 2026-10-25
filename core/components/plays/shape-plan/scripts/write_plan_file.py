@@ -17,7 +17,11 @@ The file is changed line by line: every other node, line and comment stays as it
 nothing to change, the file is not written and stays byte for byte the same. A new node's
 status is `next`.
 
-Output: {ok, path, made, changed, added: [{issue, kind, represents}], removed: [..]}
+A record that reads `ok: false` (the tracker failed part way) is still written: each issue it
+lists gets its node and its mark, so the next run finds it and makes no copy. The run then
+closes HALTED; `record_ok` in the output says so.
+
+Output: {ok, path, made, changed, added: [{issue, kind, represents}], removed: [..], record_ok}
 Exit 0 written (or nothing to change); 2 refused or bad input (the file is not written).
 No git, no network.
 """
@@ -214,8 +218,8 @@ def main(argv=None):
             raise pc.Refused("PyYAML is needed (pip install pyyaml)")
         gather = pc.read_json(args.gather, "gather.json")
         rec = pc.read_json(args.record, "tracker-record.json")
-        if not rec.get("ok"):
-            raise pc.Refused("the tracker record is not ok; the plan file is not written")
+        if not isinstance(rec.get("epics"), dict):
+            raise pc.Refused("the tracker record has no epics; the plan file is not written")
         made = not os.path.isfile(args.plan_file)
         if made:
             lines = [f"# Plan {gather['plan_id']}. Its ID is the business intent's issue number.",
@@ -242,7 +246,7 @@ def main(argv=None):
     if changed:
         pc.atomic_write(args.plan_file, text)
     result = {"ok": True, "path": args.plan_file, "made": made, "changed": changed,
-              "added": added, "removed": removed}
+              "added": added, "removed": removed, "record_ok": bool(rec.get("ok"))}
     pc.write_json(args.out, result)
     print(json.dumps(result))
     return 0

@@ -42,12 +42,32 @@ def main():
               all("fails if" not in read(c).lower() and "The line goes on here." not in read(c) for c in copies)
               and not any(FAILS[k] in read(c) for c in copies for k in FAILS))
 
+        si = read(os.path.join(p["working"], "skill-input.json"))
+        sij = read_json(os.path.join(p["working"], "skill-input.json"))
+        check("skill-input.json names each ready feature and its clean copy, and no ICE page",
+              [f["id"] for f in sij["slices"][0]["features"]] == ["ft-pick", "ft-remind", "ft-pay"]
+              and all(f["clean_ice"].endswith(f"ice/{f['id']}.md") for f in sij["slices"][0]["features"])
+              and "feature.md" not in si and "capability.md" not in si and "ice_pages" not in si)
+        check("the clean copy names no ICE page", not any("feature.md" in read(c) or "capability.md" in read(c)
+                                                          for c in copies))
+        page = os.path.join(root, "clinic", "payment", "ft-pay", "feature.md")
+        write(page, read(page).replace("- Context:", "- Fails if:\n  - the fee is taken twice\n"
+                                       "    and the patient is not told\n  - no receipt is sent\n- Context:"))
+        gather(root, p)
+        text = read(os.path.join(p["working"], "ice", "ft-pay.md"))
+        check("a nested block: no child line of it reaches the clean copy",
+              "taken twice" not in text and "not told" not in text and "receipt" not in text
+              and "- Context:" in text and "- Limit:" in text)
+
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-wait"])
         code, _, _ = gather(root, p)
         g = read_json(p["gather"])
         wait = g["slices"][0]["features"][1]
         check("a feature whose ICE is not ready is ready false, with a reason",
               code == 0 and wait["ready"] is False and "not ready" in wait["reason"] and wait["clean_ice"] is None)
+        check("skill-input.json leaves out a feature that is not ready",
+              [f["id"] for f in read_json(os.path.join(p["working"], "skill-input.json"))["slices"][0]["features"]]
+              == ["ft-pick"])
         check("no clean copy for it, and old copies of features not ready now are gone",
               sorted(os.path.basename(c) for c in glob.glob(os.path.join(p["working"], "ice", "*.md"))) == ["ft-pick.md"])
 
