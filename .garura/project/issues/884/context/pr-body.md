@@ -29,3 +29,19 @@ Where:
 | Fingerprints | match each `reference/ice.md` |
 | Component lint | no error in a changed file (36 old errors stay) |
 | Self-review | 0 blocking findings |
+
+## Round 2 — the review's seven points fixed (decision 2)
+
+- **A (P2):** in a fix round, an earlier failure counts as fixed only when the judge says so, the page changed since that failure, and every quote of the fix is on the page now. The judge's word alone no longer clears a failure.
+- **B, C:** the rule's "How the judge runs" and the content standard now say what a fix round hands the judge and how a note differs from a reject.
+- **D:** the judge's own text joins the fingerprint (`--judge`), so a stricter judge ends old kept passes. A calibration run uses no judge state.
+- **E:** one description of the earlier-failures input: the play hands it only when the round is `fix`.
+- **F:** a new `grounding_gate.py notes` command collects every note for the checkpoint; no copying by hand.
+- **G:** the rule is v2; both plays record the #884 build and gain a scenario where an unchanged second run sends no judge.
+
+| Round 2 check | Result |
+|---|---|
+| Hidden acceptance checks, round 2 (26) and round 1 (33) | 26 / 26 and 33 / 33 pass |
+| Gate tests | 22 pass |
+| Tests beside both plays | all pass |
+| lint_play on both plays / fingerprints / component lint | PASS / match / no new error |
