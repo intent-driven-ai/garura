@@ -1,7 +1,10 @@
+ M .garura/project/issues/884/context/porcelain.txt
  M core/components/memory/standards/rules/grounding-eval.md
+ M core/components/memory/standards/schemas/product-os/grounding/_content-standard.md
  M core/components/plays/discover-capabilities/SKILL.md
  M core/components/plays/discover-capabilities/reference/ice.md
  M core/components/plays/discover-capabilities/scripts/grounding_gate.py
+ M core/components/plays/discover-capabilities/scripts/test_grounding_gate.py
  M core/components/plays/discover-domains/SKILL.md
  M core/components/plays/discover-domains/reference/ice.md
  M core/components/plays/discover-domains/scripts/grounding_gate.py
@@ -14,5 +17,6 @@
  M core/components/plays/shape-run-lens/scripts/grounding_gate.py
  M core/components/plays/shape-ux-lens/scripts/grounding_gate.py
  M core/components/skills/judge-grounding/SKILL.md
-?? .garura/project/issues/884/context/porcelain.txt
-?? core/components/plays/discover-capabilities/scripts/test_grounding_gate.py
+?? .garura/project/issues/884/context/memory/
+?? .garura/project/issues/884/context/templates/
+?? .garura/project/issues/884/review/

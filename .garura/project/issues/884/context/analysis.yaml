@@ -1,17 +1,15 @@
 ---
-# assess-changes output (issue 884)
+# assess-changes output (round 2 of PR #885, issue 884)
 needs_judgment: false
 
 change_groups:
-  - id: settle-content-judge
-    concern: "The content judge settles: gate gains a kept pass, a fix round and notes; judge skill takes prior failures and returns a prior list; rule documents it"
+  - id: gate-script-fix
+    concern: "grounding gate script and its test (10 identical copies)"
     commit_type: fix
-    scope: grounding
-    subject: "settle the content judge with a kept pass, fix round and notes"
+    scope: grounding-gate
+    subject: "require a changed page and a real quote in a fix round, put --judge in the fingerprint and add a notes command"
     issue: 884
     files:
-      - core/components/memory/standards/rules/grounding-eval.md
-      - core/components/skills/judge-grounding/SKILL.md
       - core/components/plays/discover-capabilities/scripts/grounding_gate.py
       - core/components/plays/discover-capabilities/scripts/test_grounding_gate.py
       - core/components/plays/discover-domains/scripts/grounding_gate.py
@@ -23,30 +21,80 @@ change_groups:
       - core/components/plays/shape-quality-lens/scripts/grounding_gate.py
       - core/components/plays/shape-run-lens/scripts/grounding_gate.py
       - core/components/plays/shape-ux-lens/scripts/grounding_gate.py
-  - id: plays-call-settled-gate
-    concern: "discover-capabilities and discover-domains call the new gate and show notes at the checkpoint (ICE source plus compiled SKILL.md, via edit-play)"
+
+  - id: judge-rubric-and-rules
+    concern: "judge-grounding skill, grounding-eval rule and grounding content standard"
     commit_type: fix
-    scope: discover
-    subject: "call the settled content gate and show its notes at the checkpoint"
+    scope: grounding-judge
+    subject: "align the judge skill, the grounding-eval rule and the content standard with the settled gate"
     issue: 884
     files:
-      - core/components/plays/discover-capabilities/reference/ice.md
+      - core/components/skills/judge-grounding/SKILL.md
+      - core/components/memory/standards/rules/grounding-eval.md
+      - core/components/memory/standards/schemas/product-os/grounding/_content-standard.md
+
+  - id: discover-plays
+    concern: "discover-capabilities and discover-domains plays (ICE and compiled SKILL.md)"
+    commit_type: fix
+    scope: discover
+    subject: "pass --judge, show notes, send prior failures only in a fix round and add the new scenario"
+    issue: 884
+    files:
       - core/components/plays/discover-capabilities/SKILL.md
-      - core/components/plays/discover-domains/reference/ice.md
+      - core/components/plays/discover-capabilities/reference/ice.md
       - core/components/plays/discover-domains/SKILL.md
+      - core/components/plays/discover-domains/reference/ice.md
+
+  - id: round1-review-and-run-records
+    concern: "round-1 review records and memory/template copies (run records)"
+    commit_type: chore
+    scope: stm
+    subject: "record the round-1 review and the run's memory and template copies"
+    issue: 884
+    files:
+      - .garura/project/issues/884/review/categories.yaml
+      - .garura/project/issues/884/review/context.yaml
+      - .garura/project/issues/884/review/design-findings-harness.yaml
+      - .garura/project/issues/884/review/design-findings-memory.yaml
+      - .garura/project/issues/884/review/findings.yaml
+      - .garura/project/issues/884/review/lint-components.json
+      - .garura/project/issues/884/review/lint-play-discover-capabilities.txt
+      - .garura/project/issues/884/review/lint-play-discover-domains.txt
+      - .garura/project/issues/884/review/pr.diff
+      - .garura/project/issues/884/review/quality-findings.yaml
+      - .garura/project/issues/884/review/recommended_verdict.yaml
+      - .garura/project/issues/884/context/memory/manifest.json
+      - .garura/project/issues/884/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/884/context/memory/grounding-harness/standards/rules/concurrent-fanout.md
+      - .garura/project/issues/884/context/memory/grounding-harness/standards/rules/grounding-eval.md
+      - .garura/project/issues/884/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/884/context/memory/grounding-memory/standards/schemas/product-os/grounding/_content-standard.md
+      - .garura/project/issues/884/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/884/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/884/context/memory/knowledge/review/code.md
+      - .garura/project/issues/884/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/884/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/884/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/884/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/884/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/884/context/memory/standards/rules/pr.md
+      - .garura/project/issues/884/context/templates/manifest-check-change.json
+      - .garura/project/issues/884/context/templates/standards/rules/pipeline-next.md
 
 exclusions:
   - path: ".garura/project/issues/884/context/porcelain.txt"
-    reason: "run state; the executor commits it itself"
+    reason: "run bookkeeping, kept out of every group by the caller"
     blocking: false
   - path: ".garura/project/issues/884/context/analysis.yaml"
-    reason: "run state; the executor commits it itself"
+    reason: "this analysis file, kept out of every group by the caller"
     blocking: false
 
 risks:
   sensitive_files:
-    []
+    - path: ".garura/project/issues/884/context/memory/standards/rules/pr.md"
+      match: 'password\s*=' # content in prose/standards artifact — warning, not a block (#438)
+      blocking: false
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "all 17 changed files (16 modified, 1 new test) outside run state land in exactly one of 2 groups; the 2 run-state files are in exclusions; checked against git status --porcelain"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+  SE-1: {status: PASS, evidence: "all 48 changed files from git status --porcelain -uall are in exactly one of 4 groups or in exclusions (2 files, 46 grouped); porcelain.txt and analysis.yaml in no group"}
+  SE-5: {status: PASS, evidence: "content matches in prose artifacts only — non-blocking warnings surfaced"}
