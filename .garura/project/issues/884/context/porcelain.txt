@@ -1,6 +1,7 @@
  M .garura/project/issues/884/context/porcelain.txt
+ M .garura/project/issues/884/review/context.yaml
+ M .garura/project/issues/884/review/pr.diff
  M core/components/memory/standards/rules/grounding-eval.md
- M core/components/memory/standards/schemas/product-os/grounding/_content-standard.md
  M core/components/plays/discover-capabilities/SKILL.md
  M core/components/plays/discover-capabilities/reference/ice.md
  M core/components/plays/discover-capabilities/scripts/grounding_gate.py
@@ -16,7 +17,6 @@
  M core/components/plays/shape-quality-lens/scripts/grounding_gate.py
  M core/components/plays/shape-run-lens/scripts/grounding_gate.py
  M core/components/plays/shape-ux-lens/scripts/grounding_gate.py
- M core/components/skills/judge-grounding/SKILL.md
-?? .garura/project/issues/884/context/memory/
-?? .garura/project/issues/884/context/templates/
-?? .garura/project/issues/884/review/
+?? .garura/project/issues/884/review/design-findings-harness.yaml
+?? .garura/project/issues/884/review/design-findings-memory.yaml
+?? .garura/project/issues/884/review/quality-findings.yaml
