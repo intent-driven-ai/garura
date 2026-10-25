@@ -63,7 +63,7 @@
 - GitHub #881: "Garura files its work as issues of fixed types: Business Intent, Epic, Story, Bug, Chore and Spike. A tracker does not always have them."
 - GitHub #881: "On 2026-10-25 Garura's own GitHub organization had no Epic type, so `/shape-plan` could not file an Epic as an Epic (#875)."
 - GitHub #881, Done when: "It makes each missing type only after the person's typed yes, and records what it made"; "Where a tracker cannot make a type, it says so in plain words and names the type it uses in its place; the plays read that mapping"; "GitHub works first. Jira and Linear come through the same adapter, each with its own way to make a type."; "A play that writes to the tracker stops with a plain message when a type it needs is missing, and points to `initialize`."
-- ADR 048 (the product model and the work are two layers), as the review of PR #886 states its rule: "Business Intent is a product-layer tracker issue labelled product, not a work item"; the work layer is Epic, Story, Spike, Chore and Bug.
+- ADR 048, Decision 1 (the product model and the work are two layers): "Only the Business Intent is a product-layer tracker issue, labelled `product`."; "The **work layer** is tracker issues labelled `work-item`: Epic, Story, Spike, Chore and Bug."
 - Shelf: none; no knowledge shelf in memory covers setting up a software project.
 
 ## Agent intent (ICE)
