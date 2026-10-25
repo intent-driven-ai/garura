@@ -173,7 +173,7 @@ tree:
       - issue: 892
         kind: chore
         title: 'The two medium findings left by the PR #891 review: amend ADR 048, and separate kind from finding in Q20'
-        status: now
+        status: done
       needs:
       - 876
     - issue: 879
