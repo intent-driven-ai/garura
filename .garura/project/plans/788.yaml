@@ -164,7 +164,7 @@ tree:
     - issue: 876
       kind: bug
       title: An install into Garura's own repo leaves out the plan play, so /shape-plan cannot run
-      status: now
+      status: done
     - issue: 875
       kind: bug
       title: 'There is no Epic: the work order for a slice is a Feature, but Garura still names an Epic kind (P1)'
