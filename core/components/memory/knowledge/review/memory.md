@@ -24,11 +24,9 @@ same depth as harness code.
 - **Linter (Layer 1):** path / cross-reference / structure integrity — does each shelf file
   follow `_TEMPLATE.md` (Topic, Conditions, Recommendation, Rationale, Evolve when,
   Provenance); do `evolve_when` and `[[...]]` cross-references resolve to real files; is the
-  frontmatter `id` consistent with the path; is it listed in the shelf `_index`. **Gap:** a
-  dedicated memory-integrity linter is partial (the installed
-  `.garura/core/tools/lint-components` covers some shape); the
-  cross-reference resolution check is to be built. Until then the tool runs these checks and
-  cites each.
+  frontmatter `id` consistent with the path; is it listed in the shelf `_index`. **Gap:** no
+  installed tool checks memory integrity yet. Until one is built, the reviewer does these
+  checks by reading the changed files, and cites each check.
 - **Design-grounding (Layer 2):** **yes.** Reconstruct what the knowledge base is *for* and
   how a shelf is meant to be shaped from **committed** sources — `knowledge/_DESIGN.md`,
   `knowledge/_index.md`, `knowledge/_TEMPLATE.md`, and the relevant standards — never from the
