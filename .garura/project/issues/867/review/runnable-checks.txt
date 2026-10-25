@@ -1,0 +1,7 @@
+# Layer 1 — installed tools on the changed parts where they sit (source layout)
+lint-components --layout source --target core/components: errors on base 36, on head 36, new vs base 0, in agents/_shared 0
+test_copy_memory.py (unittest discover): OK
+hidden acceptance checks (written before the fix): 11/11
+install tests: 74 OK (builder run)
+Python linter: not installed (none committed)
+Deviation: in Step 2 change-reviewer ran core/components/agents/_shared/copy_memory.py (the branch's source) because the installed copy refused a version-null answer — the bug this PR fixes.

@@ -1,0 +1,295 @@
+diff --git a/.garura/project/issues/867/context/analysis.yaml b/.garura/project/issues/867/context/analysis.yaml
+new file mode 100644
+index 00000000..4ecbc82d
+--- /dev/null
++++ b/.garura/project/issues/867/context/analysis.yaml
+@@ -0,0 +1,32 @@
++needs_judgment: false
++
++change_groups:
++  - id: copy-memory-accepts-versionless
++    issue: 867
++    commit_type: fix
++    scope: agents
++    subject: "accept version-null answers from short-term and Garura memory in the copy script"
++    files:
++      - core/components/agents/_shared/copy_memory.py
++      - core/components/agents/_shared/test_copy_memory.py
++      - core/components/agents/_shared/memory-reading.md
++  - id: stm-run-records
++    issue: 867
++    commit_type: chore
++    scope: stm
++    subject: "record commit-change run records"
++    files:
++      - .garura/project/issues/867/context/analysis.yaml
++      - .garura/project/issues/867/context/porcelain.txt
++
++exclusions: []
++
++risks:
++  sensitive_files: []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "2 groups; all 5 changed files in exactly one group"}
++  SE-5: {status: PASS, evidence: "no sensitive filename or diff content patterns matched"}
+diff --git a/.garura/project/issues/867/context/branch.json b/.garura/project/issues/867/context/branch.json
+new file mode 100644
+index 00000000..5e234ba8
+--- /dev/null
++++ b/.garura/project/issues/867/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/788/867-copy-memory-versionless",
++  "base_sha": "5233562d6fd85e0cff29917e42e64026d81b95c4",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/788/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/867/context/commits.yaml b/.garura/project/issues/867/context/commits.yaml
+new file mode 100644
+index 00000000..cd20a4aa
+--- /dev/null
++++ b/.garura/project/issues/867/context/commits.yaml
+@@ -0,0 +1,13 @@
++commits:
++  - sha: 6a6bf913
++    message: "chore(stm): record commit-change run records (#867)"
++    files:
++      - .garura/project/issues/867/context/analysis.yaml
++      - .garura/project/issues/867/context/porcelain.txt
++    branch: plan/788/867-copy-memory-versionless
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/867/context/issue.json b/.garura/project/issues/867/context/issue.json
+new file mode 100644
+index 00000000..da4b474c
+--- /dev/null
++++ b/.garura/project/issues/867/context/issue.json
+@@ -0,0 +1 @@
++{"created":false,"issue_number":867,"resolved":true,"title":"[BUG] The agents' copy script refuses reads from short-term and Garura memory (no version)"}
+diff --git a/.garura/project/issues/867/context/plan.json b/.garura/project/issues/867/context/plan.json
+new file mode 100644
+index 00000000..d8e75dc5
+--- /dev/null
++++ b/.garura/project/issues/867/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "867",
++  "plan_id": "788",
++  "plan_branch": "plan/788/base",
++  "issue_branch": "plan/788/867-copy-memory-versionless"
++}
+diff --git a/.garura/project/issues/867/context/porcelain.txt b/.garura/project/issues/867/context/porcelain.txt
+new file mode 100644
+index 00000000..450afbe2
+--- /dev/null
++++ b/.garura/project/issues/867/context/porcelain.txt
+@@ -0,0 +1,4 @@
++ M core/components/agents/_shared/copy_memory.py
++ M core/components/agents/_shared/memory-reading.md
++ M core/components/agents/_shared/test_copy_memory.py
++?? .garura/project/issues/867/context/porcelain.txt
+diff --git a/.garura/project/issues/867/context/pr-body.md b/.garura/project/issues/867/context/pr-body.md
+new file mode 100644
+index 00000000..96ad222b
+--- /dev/null
++++ b/.garura/project/issues/867/context/pr-body.md
+@@ -0,0 +1,20 @@
++Agents can now copy a file from short-term or Garura memory into the issue's short-term memory. Before, the shared copy script refused every such read, because those two tiers are plain folders and the memory tool answers them with `version: null`. The script and its test only knew Phoenix answers, which always have a version.
++
++Closes #867.
++
++## What changes
++
++- `core/components/agents/_shared/copy_memory.py` accepts `version: null` when the tier is `short-term` or `garura`, and records `"version": null` in that file's manifest entry. It still refuses an answer with no tier, path or fingerprint, and a Phoenix answer with no version.
++- `test_copy_memory.py`: 5 new tests (Garura and short-term answers with no version are copied and recorded; a Phoenix answer with no version is refused; no tier, no path refused). 16 tests pass.
++- `memory-reading.md` (the agents' shared memory guide): one line says short-term and Garura memory answer with no version, and the manifest records null.
++
++## Checks
++
++| Check | Result |
++|---|---|
++| Hidden acceptance checks, written before the fix and kept from the builder | 11 / 11 pass (6 failed before the fix) |
++| test_copy_memory.py | 16 pass |
++| install tests | 74 OK |
++| Component lint | no error in a touched file |
++
++Found in the /shape-slice 788 re-run (#866), where every Garura memory copy had to be worked around.
+diff --git a/.garura/project/issues/867/context/pr.json b/.garura/project/issues/867/context/pr.json
+new file mode 100644
+index 00000000..ed4096df
+--- /dev/null
++++ b/.garura/project/issues/867/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 871,
++  "url": "https://github.com/intent-driven-ai/garura/pull/871",
++  "state": "OPEN",
++  "base": "plan/788/base"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/867/context/resolved-rules.json b/.garura/project/issues/867/context/resolved-rules.json
+new file mode 100644
+index 00000000..b8cb5bc2
+--- /dev/null
++++ b/.garura/project/issues/867/context/resolved-rules.json
+@@ -0,0 +1 @@
++{"resolved": true, "path": "~/.garura/core/memory/standards/rules/self-review.md", "source": "~/.garura/core/memory/standards/rules", "is_override": false}
+diff --git a/.garura/project/issues/867/context/self-review.md b/.garura/project/issues/867/context/self-review.md
+new file mode 100644
+index 00000000..d4a029ed
+--- /dev/null
++++ b/.garura/project/issues/867/context/self-review.md
+@@ -0,0 +1,22 @@
++# Self-review for #867
++
++Rules: ~/.garura/core/memory/standards/rules/self-review.md (base, not an override).
++Compared against: origin/plan/788/base (3 source files, 4 commits, plus run records under .garura/project/issues/867/).
++
++Blocking findings: none.
++
++## Scope
++
++- Matches the issue: PASS. The three source files all concern the copy script refusing version-null answers from short-term and Garura memory.
++- No scope creep: PASS. Only copy_memory.py, its test, and memory-reading.md changed outside the issue's own run records.
++- Reasonable size: PASS. About 66 lines of source and test added, 2 removed.
++- No stray artifacts: PASS. No debug prints or commented-out code. Note (non-blocking): the untracked context/pr-body.md is the PR description for this raise.
++
++## Quality
++
++- Tests present: PASS. 5 new tests; the 16 tests in test_copy_memory.py pass (run now).
++- Commits clean: PASS. Conventional format, each references #867.
++- No secrets: PASS. Scan of the diff found none.
++- Docs in step: PASS. memory-reading.md records the null-version behaviour.
++- Nothing obviously broken: PASS. Phoenix answers with no version are still refused (tested).
++- Note (non-blocking): the new sentence in memory-reading.md leaves one long line; reads fine.
+diff --git a/.garura/project/issues/867/context/target.json b/.garura/project/issues/867/context/target.json
+new file mode 100644
+index 00000000..a08bceae
+--- /dev/null
++++ b/.garura/project/issues/867/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/788/867-copy-memory-versionless",
++  "kind": "issue-in-plan",
++  "plan_id": "788",
++  "issue": "867",
++  "base": "plan/788/base"
++}
+diff --git a/core/components/agents/_shared/copy_memory.py b/core/components/agents/_shared/copy_memory.py
+index 75a71dae..26194332 100644
+--- a/core/components/agents/_shared/copy_memory.py
++++ b/core/components/agents/_shared/copy_memory.py
+@@ -11,6 +11,10 @@
+ 
+   {"files": [{"tier": ..., "path": ..., "version": ..., "fingerprint": ..., "copy": ...}]}
+ 
++Short-term memory and Garura memory are plain folders, so their answers have no version
++("version": null). The manifest records that version as null. Phoenix memory always gives a
++version.
++
+ It prints one line of JSON. It exits 1 with a plain message when the answer says
+ "ok": false, when the input is not a `read` answer, or when the manifest is not valid.
+ """
+@@ -21,6 +25,7 @@
+ import tempfile
+ 
+ FIELDS = ("tier", "path", "version", "fingerprint")
++FOLDER_TIERS = ("short-term", "garura")
+ 
+ 
+ class Stop(Exception):
+@@ -46,9 +51,14 @@ def parse_answer(raw):
+         raise Stop(f"The input is the answer of '{answer.get('command')}', not of 'read'.")
+     if not isinstance(answer.get("text"), str):
+         raise Stop("The read answer has no text.")
+-    for field in FIELDS:
++    for field in ("tier", "path", "fingerprint"):
+         if not isinstance(answer.get(field), str) or not answer.get(field):
+             raise Stop(f"The read answer has no '{field}'.")
++    version = answer.get("version")
++    if version is None and answer["tier"] in FOLDER_TIERS:
++        answer["version"] = None
++    elif not isinstance(version, str) or not version:
++        raise Stop(f"The read answer has no 'version'. An answer from {answer['tier']} memory must give one.")
+     return answer
+ 
+ 
+diff --git a/core/components/agents/_shared/memory-reading.md b/core/components/agents/_shared/memory-reading.md
+index ca188d6d..a32adc04 100644
+--- a/core/components/agents/_shared/memory-reading.md
++++ b/core/components/agents/_shared/memory-reading.md
+@@ -35,7 +35,8 @@ This file is not memory. The install lays it in the installed shared folder, at
+      | python3 .claude/skills/_shared/copy_memory.py <short-term copy> <manifest>
+    ```
+ 
+-   The script writes the text unchanged. A second copy of the same file replaces its line in
++   Short-term memory and Garura memory answer with no version (null), and the manifest records
++   it as null. The script writes the text unchanged. A second copy of the same file replaces its line in
+    the manifest. When the tool refuses the read, the script writes nothing, says why, and
+    exits 1.
+ 
+diff --git a/core/components/agents/_shared/test_copy_memory.py b/core/components/agents/_shared/test_copy_memory.py
+index 00ae8ed6..59ddf3cd 100644
+--- a/core/components/agents/_shared/test_copy_memory.py
++++ b/core/components/agents/_shared/test_copy_memory.py
+@@ -95,6 +95,49 @@ def test_an_answer_with_no_fingerprint_exits_1(self):
+         self.assertEqual(result.returncode, 1)
+         self.assertIn("fingerprint", result.stderr)
+ 
++    def test_a_garura_answer_with_no_version_is_copied_and_recorded_as_null(self):
++        copy = self.copy_path("standards/rules/commits.md")
++        result = self.run_script(answer(tier="garura", version=None), copy)
++        self.assertEqual(result.returncode, 0, result.stderr)
++        with open(copy, encoding="utf-8") as fh:
++            self.assertEqual(fh.read(), "# Commits\nSubject under 72.")
++        self.assertEqual(self.read_manifest(), {"files": [
++            {"tier": "garura", "path": "standards/rules/commits.md", "version": None,
++             "fingerprint": "sha256:abc", "copy": copy}]})
++
++    def test_a_short_term_answer_with_no_version_is_copied_and_recorded_as_null(self):
++        copy = self.copy_path("12/context/answers/reset-link.md")
++        result = self.run_script(answer(text="A reset link expires after one hour.", tier="short-term",
++                                        path="12/context/answers/reset-link.md", version=None), copy)
++        self.assertEqual(result.returncode, 0, result.stderr)
++        with open(copy, encoding="utf-8") as fh:
++            self.assertEqual(fh.read(), "A reset link expires after one hour.")
++        self.assertEqual(self.read_manifest(), {"files": [
++            {"tier": "short-term", "path": "12/context/answers/reset-link.md", "version": None,
++             "fingerprint": "sha256:abc", "copy": copy}]})
++
++    def test_a_phoenix_answer_with_no_version_exits_1_and_writes_nothing(self):
++        copy = self.copy_path("x.md")
++        result = self.run_script(answer(version=None), copy)
++        self.assertEqual(result.returncode, 1)
++        self.assertIn("version", result.stderr)
++        self.assertFalse(os.path.exists(copy))
++        self.assertFalse(os.path.exists(self.manifest))
++
++    def test_an_answer_with_no_tier_exits_1(self):
++        bad = json.loads(answer())
++        del bad["tier"]
++        result = self.run_script(json.dumps(bad), self.copy_path("x.md"))
++        self.assertEqual(result.returncode, 1)
++        self.assertIn("tier", result.stderr)
++
++    def test_an_answer_with_no_path_exits_1(self):
++        bad = json.loads(answer())
++        del bad["path"]
++        result = self.run_script(json.dumps(bad), self.copy_path("x.md"))
++        self.assertEqual(result.returncode, 1)
++        self.assertIn("path", result.stderr)
++
+     def test_the_answer_of_another_command_exits_1(self):
+         result = self.run_script(answer(command="find"), self.copy_path("x.md"))
+         self.assertEqual(result.returncode, 1)

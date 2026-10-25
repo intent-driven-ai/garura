@@ -1,0 +1,32 @@
+needs_judgment: false
+
+change_groups:
+  - id: copy-memory-accepts-versionless
+    issue: 867
+    commit_type: fix
+    scope: agents
+    subject: "accept version-null answers from short-term and Garura memory in the copy script"
+    files:
+      - core/components/agents/_shared/copy_memory.py
+      - core/components/agents/_shared/test_copy_memory.py
+      - core/components/agents/_shared/memory-reading.md
+  - id: stm-run-records
+    issue: 867
+    commit_type: chore
+    scope: stm
+    subject: "record commit-change run records"
+    files:
+      - .garura/project/issues/867/context/analysis.yaml
+      - .garura/project/issues/867/context/porcelain.txt
+
+exclusions: []
+
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "2 groups; all 5 changed files in exactly one group"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or diff content patterns matched"}

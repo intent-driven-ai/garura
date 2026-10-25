@@ -1,0 +1,13 @@
+commits:
+  - sha: 6a6bf913
+    message: "chore(stm): record commit-change run records (#867)"
+    files:
+      - .garura/project/issues/867/context/analysis.yaml
+      - .garura/project/issues/867/context/porcelain.txt
+    branch: plan/788/867-copy-memory-versionless
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
