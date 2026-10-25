@@ -1,21 +1,34 @@
 commits:
-  - sha: f61bd072
-    message: "docs(managing-work): State that a slice's Epic is filed with issue type Epic (#875)"
-    files:
-      - .garura/user-provided/managing-work.md
-    branch: plan/788/875-epic-issue-type
-  - sha: e7599d21
-    message: "chore(plan): Mark #882 and #884 done and #875 now in the plan for #788 (#875)"
-    files:
-      - .garura/project/plans/788.yaml
-    branch: plan/788/875-epic-issue-type
-  - sha: 47b25a41
-    message: "chore(stm): Record the run records of the change (#875)"
+  - sha: 0733bfcd
+    message: "chore(stm): record check-change round 1 run artifacts (#875)"
     files:
       - .garura/project/issues/875/context/analysis.yaml
-      - .garura/project/issues/875/context/porcelain.txt
       - .garura/project/issues/875/context/memory/manifest.json
-      - .garura/project/issues/875/context/memory/standards/templates/product-ontology.md
+      - .garura/project/issues/875/context/porcelain.txt
+      - .garura/project/issues/875/context/categories.yaml
+      - .garura/project/issues/875/context/context.yaml
+      - .garura/project/issues/875/context/design-findings-harness.yaml
+      - .garura/project/issues/875/context/design-findings-memory.yaml
+      - .garura/project/issues/875/context/layer1-findings.yaml
+      - .garura/project/issues/875/context/lint-components.txt
+      - .garura/project/issues/875/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/875/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/875/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/875/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/code.md
+      - .garura/project/issues/875/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/875/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/875/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/875/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/875/context/memory/standards/rules/pr.md
+      - .garura/project/issues/875/context/pr.diff
+      - .garura/project/issues/875/context/quality-findings.yaml
+      - .garura/project/issues/875/context/templates/manifest-check-change.json
+      - .garura/project/issues/875/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/875/review/round-1/findings.yaml
+      - .garura/project/issues/875/review/round-1/outcome.yaml
+      - .garura/project/issues/875/review/round-1/recommended_verdict.yaml
     branch: plan/788/875-epic-issue-type
 excluded_files:
   []
