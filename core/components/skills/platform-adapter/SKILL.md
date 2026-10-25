@@ -1,6 +1,6 @@
 ---
 name: platform-adapter
-description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 16 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
+description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 21 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
 user-invocable: false
 model: haiku
 allowed-tools: Bash, Read
@@ -27,7 +27,7 @@ Receive from caller (agent):
 
 ## Verb Interface
 
-The adapter exposes exactly 16 verbs:
+The adapter exposes exactly 21 verbs:
 
 | Verb | Purpose |
 |------|---------|
@@ -47,6 +47,11 @@ The adapter exposes exactly 16 verbs:
 | `attach-sub-issue` | Attach a child issue to a parent (GitHub only; GitLab falls back to related-link) |
 | `view-user` | Get the current authenticated user's login |
 | `update-comment` | Update an existing comment in place |
+| `create-issue-typed` | Create an issue with its type and its parent in one call (GitHub only; GitLab stops with a plain message) |
+| `set-issue-type` | Set an issue's type (GitHub only; GitLab stops with a plain message) |
+| `edit-issue-body` | Replace an issue's body (GitHub only; GitLab stops with a plain message) |
+| `remove-label` | Take a label off an issue (GitHub only; GitLab stops with a plain message) |
+| `remove-sub-issue` | Take a child issue off its parent (GitHub only; GitLab stops with a plain message) |
 
 ## Platform Resolution
 
