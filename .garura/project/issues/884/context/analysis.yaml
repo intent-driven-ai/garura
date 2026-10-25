@@ -1,0 +1,52 @@
+---
+# assess-changes output (issue 884)
+needs_judgment: false
+
+change_groups:
+  - id: settle-content-judge
+    concern: "The content judge settles: gate gains a kept pass, a fix round and notes; judge skill takes prior failures and returns a prior list; rule documents it"
+    commit_type: fix
+    scope: grounding
+    subject: "settle the content judge with a kept pass, fix round and notes"
+    issue: 884
+    files:
+      - core/components/memory/standards/rules/grounding-eval.md
+      - core/components/skills/judge-grounding/SKILL.md
+      - core/components/plays/discover-capabilities/scripts/grounding_gate.py
+      - core/components/plays/discover-capabilities/scripts/test_grounding_gate.py
+      - core/components/plays/discover-domains/scripts/grounding_gate.py
+      - core/components/plays/learn-outcomes/scripts/grounding_gate.py
+      - core/components/plays/shape-agentic-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-architecture-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-marketing-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-measure-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-quality-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-run-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-ux-lens/scripts/grounding_gate.py
+  - id: plays-call-settled-gate
+    concern: "discover-capabilities and discover-domains call the new gate and show notes at the checkpoint (ICE source plus compiled SKILL.md, via edit-play)"
+    commit_type: fix
+    scope: discover
+    subject: "call the settled content gate and show its notes at the checkpoint"
+    issue: 884
+    files:
+      - core/components/plays/discover-capabilities/reference/ice.md
+      - core/components/plays/discover-capabilities/SKILL.md
+      - core/components/plays/discover-domains/reference/ice.md
+      - core/components/plays/discover-domains/SKILL.md
+
+exclusions:
+  - path: ".garura/project/issues/884/context/porcelain.txt"
+    reason: "run state; the executor commits it itself"
+    blocking: false
+  - path: ".garura/project/issues/884/context/analysis.yaml"
+    reason: "run state; the executor commits it itself"
+    blocking: false
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "all 17 changed files (16 modified, 1 new test) outside run state land in exactly one of 2 groups; the 2 run-state files are in exclusions; checked against git status --porcelain"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

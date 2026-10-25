@@ -1,0 +1,18 @@
+ M core/components/memory/standards/rules/grounding-eval.md
+ M core/components/plays/discover-capabilities/SKILL.md
+ M core/components/plays/discover-capabilities/reference/ice.md
+ M core/components/plays/discover-capabilities/scripts/grounding_gate.py
+ M core/components/plays/discover-domains/SKILL.md
+ M core/components/plays/discover-domains/reference/ice.md
+ M core/components/plays/discover-domains/scripts/grounding_gate.py
+ M core/components/plays/learn-outcomes/scripts/grounding_gate.py
+ M core/components/plays/shape-agentic-lens/scripts/grounding_gate.py
+ M core/components/plays/shape-architecture-lens/scripts/grounding_gate.py
+ M core/components/plays/shape-marketing-lens/scripts/grounding_gate.py
+ M core/components/plays/shape-measure-lens/scripts/grounding_gate.py
+ M core/components/plays/shape-quality-lens/scripts/grounding_gate.py
+ M core/components/plays/shape-run-lens/scripts/grounding_gate.py
+ M core/components/plays/shape-ux-lens/scripts/grounding_gate.py
+ M core/components/skills/judge-grounding/SKILL.md
+?? .garura/project/issues/884/context/porcelain.txt
+?? core/components/plays/discover-capabilities/scripts/test_grounding_gate.py
