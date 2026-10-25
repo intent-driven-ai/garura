@@ -32,29 +32,38 @@ A judge reads the same page a little differently each time. Without a memory of 
 verdict, it finds a new point on every round, and the rewrite loop never ends. So the gate
 keeps a judge state: one record for each judged doc, in a state folder the play names. The
 record holds the fingerprint at the last verdict, whether it passed, the last failures, the
-doc's text at that verdict (the snapshot) and the notes.
+criteria missing from the last verdict, the doc's text at that verdict (the snapshot) and the
+notes.
 
 - **The kept pass.** The fingerprint is a hash of the doc, its parent doc, the guidance the
   judge was given and the judge's own text (the `judge-grounding` skill file, given with
   `--judge`), each kept apart. A pass is kept while all four are the same:
   `grounding_gate.py kept` says so, and the play does not dispatch a judge for that doc
   again. A change to any one of the four ends the kept pass, and the doc is judged again. So
-  a stricter judge ends the old passes: a pass given by a looser judge is not kept.
+  a stricter judge ends the old passes: a pass given by a looser judge is not kept. The doc
+  then has a record, so it is judged again as a fix round: the stricter judge's new points on
+  text that did not change show as notes for the person. They do not reject the doc.
 - **The fix round.** When a doc has a record, the next verdict is a fix round.
   `grounding_gate.py prior` gives the last failures, and the play hands them to the judge.
-  The judge says, for each one, whether the cited fix was made, with a quote. The gate
-  decides, not the judge: a last failure counts as fixed only when the judge says
-  `fixed: true`, the doc's text changed since the verdict that failed, and every quote in
-  the judge's evidence is found on the page now. Otherwise it fails, and so does a last
-  failure the judge does not answer (it fails closed). The judge still scores the five
-  criteria, but a new point stops the run only when it rests on text that changed since the
-  last verdict.
-- **The notes.** A new point is a note when its evidence quotes the doc and every quote is
-  found in the snapshot: it is about text that did not change. A note never blocks. The
+  It also lists each criterion that was missing from the last verdict. The judge says, for
+  each last failure, whether the cited fix was made, with a quote. The gate decides, not the
+  judge: a last failure counts as fixed only when the judge says `fixed: true`, the doc's
+  text changed since the verdict that failed, and the judge's evidence has at least one
+  quote, each found on the page now. Otherwise it fails, and so does a last failure the
+  judge does not answer (it fails closed). A missing criterion needs no answer: scoring it
+  `pass` or `na` clears it. The judge still scores the five criteria. A point that failed,
+  or was missing, in the last round and fails again is a failure, not a note, whatever the
+  judge says about its fix and whatever else changed on the page. Any other new point stops
+  the run only when it rests on text that changed since the last verdict.
+- **The notes.** A new point is a note when its evidence quotes the doc's content and every
+  such quote is found in the snapshot: it is about text that did not change. A quote counts
+  as content only when it is not a heading (a line that starts with `#`) and has at least
+  three words. A note never blocks. The
   record keeps its notes, and `grounding_gate.py kept` prints them too. At the checkpoint
   the play runs `grounding_gate.py notes`, which collects every note in the state (passed
   and kept docs included) into one file, and shows them to the person, who may act on them.
-  A new point with no quote, or with a quote not in the snapshot, is a failure.
+  A new point with no quote of content (only headings or short words), or with a quote not
+  in the snapshot, is a failure.
 
 A missing criterion still fails closed in every round. This is why the judge quotes the
 doc's exact text inside straight double quotes: the gate finds each quote in the snapshot to
