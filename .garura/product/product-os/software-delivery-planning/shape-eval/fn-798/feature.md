@@ -30,7 +30,7 @@
 - Encrypting the eval so that no builder can read it (#828).
 - The slice, the hidden file, the plan, the epic and the stories (fn-795, fn-818).
 
-> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.
+Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.

@@ -34,7 +34,7 @@
 - The loop that runs the three plays and its one approval (#796, decision 1).
 - Eval encryption (#828) and the author-slice skill (#838), decision 3.
 
-> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.
+Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: After /shape-slice <intent>, the spine holds one slice that serves the business intent, with its features in build order, its one surface and its tester.
