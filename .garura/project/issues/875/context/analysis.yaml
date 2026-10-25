@@ -1,0 +1,55 @@
+needs_judgment: false
+branch: plan/788/875-epic-issue-type
+issue: 875
+change_groups:
+- id: docs-managing-work-epic-type
+  issue: 875
+  commit_type: docs
+  scope: managing-work
+  subject: State that a slice's Epic is filed with issue type Epic
+  confidence: high
+  files:
+  - .garura/user-provided/managing-work.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: Work guide; Feature type is no longer used for Epics.
+- id: chore-plan-788-upkeep
+  issue: 875
+  commit_type: chore
+  scope: plan
+  subject: 'Mark #882 and #884 done and #875 now in the plan for #788'
+  confidence: high
+  files:
+  - .garura/project/plans/788.yaml
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: 'Plan upkeep only: three status lines.'
+- id: chore-stm-875-run-records
+  issue: 875
+  commit_type: chore
+  scope: stm
+  subject: Record the run records of the change
+  confidence: high
+  files:
+  - .garura/project/issues/875/context/analysis.yaml
+  - .garura/project/issues/875/context/porcelain.txt
+  - .garura/project/issues/875/context/memory/manifest.json
+  - .garura/project/issues/875/context/memory/standards/templates/product-ontology.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: Operational STM artifacts, not part of the fix. Committed last.
+exclusions: []
+risks:
+  sensitive_files: []
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: '14 changed paths: 10 in fix-shape-plan-epic-type, 1 in docs-managing-work-epic-type,
+      1 in chore-plan-788-upkeep, 4 in chore-stm-875-run-records (16 total listed;
+      12 tracked-modified + 4 untracked, 0 unassigned)'
+  SE-5:
+    status: PASS
+    evidence: no sensitive filename or diff-content patterns matched

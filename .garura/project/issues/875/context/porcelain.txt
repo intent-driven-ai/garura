@@ -1,0 +1,14 @@
+ M .garura/project/plans/788.yaml
+ M .garura/user-provided/managing-work.md
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-plan/reference/ice.md
+ M core/components/plays/shape-plan/scripts/check_tracker.py
+ M core/components/plays/shape-plan/scripts/plan_common.py
+ M core/components/plays/shape-plan/scripts/render_brief.py
+ M core/components/plays/shape-plan/scripts/test_check_tracker.py
+ M core/components/plays/shape-plan/scripts/test_render_brief.py
+ M core/components/plays/shape-plan/scripts/test_write_work_items.py
+ M core/components/plays/shape-plan/scripts/write_work_items.py
+ M core/components/plays/shape-plan/stop-condition.yaml
+?? .garura/project/issues/875/context/memory/
+?? .garura/project/issues/875/context/porcelain.txt
