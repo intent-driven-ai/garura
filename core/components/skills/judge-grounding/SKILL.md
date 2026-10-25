@@ -28,7 +28,7 @@ The doc, its parent when there is one, and the kind's guidance for the doc's own
 | `parent_doc` | no | Its parent: a capability's domain, a feature's capability. Only for `depth_gradient`. |
 | `guidance` | yes | The kind's guidance for the doc's own stage — its per-section guidance, the stage's heading contract and the every-stage agent intent, cut from the kind's template by the play's `guidance_block.py --stage` (never the gold example), as `template-manager` put it in the issue's short-term memory. |
 | `kind` | yes | `domain`, `capability`, `feature` or `epic`. |
-| `prior_failures` | no | Only in a fix round: the failures of the last verdict on this doc, each `{"id", "evidence", "fix"}`, as the play got them from `grounding_gate.py prior`. |
+| `prior_failures` | no | Only in a fix round: the failures of the last verdict on this doc, each `{"id", "evidence", "fix"}`. The play gets them from `grounding_gate.py prior`, which prints `{"round": "first"\|"fix", "prior_failures": [...]}`, and hands the list over only when `round` is `fix`. |
 | `out_verdict` | yes | Where to write the verdict JSON. |
 
 The guidance tells the judge what each section is *meant* to hold, so it judges a section
@@ -94,11 +94,21 @@ quote, use `...`. A pass quotes too.
 
 ### A fix round: check the prior failures
 
+The play reads `grounding_gate.py prior` first. Its output has this shape:
+
+```json
+{"round": "first|fix", "prior_failures": [{"id": "<criterion>", "evidence": "<quote>", "fix": "<fix>"}]}
+```
+
+When `round` is `first`, the play hands no `prior_failures`, and the doc is judged as above,
+with no `prior` in the verdict. When `round` is `fix`, the play hands `prior_failures`.
+
 When `prior_failures` is given, the doc was judged before and rewritten against those
 fixes. Then also write `prior`: one entry for each prior failure, with its `id`, `fixed`
 (`true` when the cited fix was made, `false` when it was not) and `evidence`, a quote of the
 doc's text that shows it. Say only whether that fix was made; do not judge the point again
-from the start.
+from the start. Your `fixed: true` is a claim, not the decision: the gate counts the fix as
+made only when the doc changed and your quote is on the page now.
 
 Still score all five criteria. A new point you raise is judged by the gate: on text that
 changed, it stops the run; on text that did not change, it is a note the person sees at the

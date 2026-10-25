@@ -52,3 +52,7 @@ Two guards enforce it, and they are different jobs:
 
 A doc that clears shape (linter) but fails any rubric line is rejected by the eval —
 the play does not proceed until it is rewritten to the bar.
+
+A fix round (the doc is judged again after a rewrite) follows the settling rule in
+`standards/rules/grounding-eval.md`: a new point on text that did not change is a note,
+shown to the person at the checkpoint, not a reject.
