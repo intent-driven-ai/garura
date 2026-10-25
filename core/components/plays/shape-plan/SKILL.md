@@ -2,7 +2,7 @@
 name: shape-plan
 position: both
 argument-hint: "<business intent issue number>"
-description: 'Make the one plan of a business intent that /shape-slice has served with a slice, or bring it up to date — the second play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Feature, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. It finds before it makes: an epic or a story that the plan file marks with represents is used and never made again, and a found story only gains the sections it lacks, keeping every line a person wrote. A feature that left the slice has its story moved out of the plan, and the story stays open in the tracker; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has one.'
+description: 'Make the one plan of a business intent that /shape-slice has served with a slice, or bring it up to date — the second play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. It finds before it makes: an epic or a story that the plan file marks with represents is used and never made again, and a found story only gains the sections it lacks, keeping every line a person wrote. A feature that left the slice has its story moved out of the plan, and the story stays open in the tracker; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has one.'
 user-invocable: true
 ---
 
@@ -302,7 +302,7 @@ python3 scripts/write_work_items.py --work-items <working>work-items.json \
 `write_work_items.py` refuses again (exit 2, nothing written) unless the approval reads yes,
 and when the brief, `work-items.json` or `drafts.json` is no longer the file the person saw
 (its sha256 differs): then show the brief again (Step 5). It makes each epic as an issue of
-type Feature, and each story as an issue of type Story with its epic as parent, each in one
+type Epic, and each story as an issue of type Story with its epic as parent, each in one
 write and with no label (C13); it adds each story's "Written from" line (the two ICE pages)
 from `gather.json`; on a used item it sets the type when it is wrong
 and takes off its labels; on `add-sections` it appends only the missing sections and keeps
@@ -362,7 +362,7 @@ exactly one story node under its slice's epic node, no story node stands for a f
 its slice, each epic's map names the same story for each feature as the tree, and each
 skipped feature is in `skipped`.
 **SE-15 (F11/C13):** `tracker-check.json` reads `ok: true`: each issue of the record exists, each
-epic has type Feature and each story type Story, none has a label, and each epic's sub-issues
+epic has type Epic and each story type Story, none has a label, and each epic's sub-issues
 are its stories.
 **SE-16 (F6/C4):** each story in `tracker-record.json` `moved_out` is open in the tracker, is not
 a sub-issue of its epic, and is in neither the plan file's tree nor the epic's map.
@@ -516,7 +516,7 @@ gated.
 | F8 | a story was built from an ICE that is not ready, or a skipped part is not named in the brief | take back the story built from the part that is not ready, skip the part, and name it in the brief | autonomous |
 | F9 | the change landed outside the change plays, or on the wrong branch | land the change through the change plays, on the branch the target script gives | human |
 | F10 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
-| F11 | an epic or a story carries a label, or an epic's issue type is not Feature, or a story's is not Story | take the label off, and set the issue type to Feature on an epic and to Story on a story | autonomous |
+| F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story | take the label off, and set the issue type to Epic on an epic and to Story on a story | autonomous |
 
 ## Pause and Resume
 
@@ -533,7 +533,7 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:cf5c10e55b618e1462993e66e499035a0c010930e395fb6a536bfc97d6105081 (of `reference/ice.md`) |
+| fingerprint | sha256:84f437cdaf98b047751bef1701da57d64b2bb4a95ecbb52f56b3844c437203dd (of `reference/ice.md`) |
 | compiled_by | create-play (#818) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |

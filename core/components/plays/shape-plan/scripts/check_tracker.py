@@ -7,7 +7,7 @@
 It reads each work item of the record back from the tracker (through platform_adapter.py, or
 the --tracker-file fixture). `ok: true` only when:
   - each issue the record names exists;
-  - each epic has type Feature and each story type Story, and none has a label;
+  - each epic has type Epic and each story type Story, and none has a label;
   - each epic's sub-issues are its stories: the stories of its map, no more and no fewer;
   - each story's body has the sections "Scope of work" and "Context guidance" and the line
     "Represents: <feature id>"; each epic's body has "Represents: <slice id>" and its map;

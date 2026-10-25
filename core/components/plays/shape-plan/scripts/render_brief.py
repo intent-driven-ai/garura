@@ -68,7 +68,7 @@ def render(gather, items, drafts):
         lines += [f"### Slice {sid}: {sl.get('name', '')}", ""]
         if epic.get("action") == "make":
             writes += 1
-            lines += [f"- Make a new epic, type Feature, no label: \"{depic.get('title', '')}\"",
+            lines += [f"- Make a new epic, type {pc.EPIC_TYPE}, no label: \"{depic.get('title', '')}\"",
                       f"  - Delivers: {depic.get('delivers', '')}",
                       f"  - It says it represents {sid}, and holds the feature-to-story map."]
             adds.append(f"an epic node for {sid}")
