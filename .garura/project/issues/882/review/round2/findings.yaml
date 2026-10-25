@@ -1,0 +1,85 @@
+pr: 886
+issue: 882
+round: 2
+findings:
+- id: NP-1
+  severity: P2
+  category: product-model
+  file: .garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md line 7 (also fn-883/feature.md
+    line 8; line 24 of fn-project-memory for a standards folder as a selection)
+  basis: G1 -- Garura memory is never a copy of a Phoenix file.
+  sources:
+  - origin/plan/788/base:core/grounding/glossary.md line 37; origin/plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+    lines 46-50
+  finding: The fix to PM-1 defines a part as 'one section of the file, or all of its sections when every one speaks to the
+    answer; either way the project's memory is built from it, never a copy of the file'. A part that holds all of a file's
+    sections is the file. The same page then says a project's memory must hold 'no file ... a copy of a whole Phoenix file'
+    (acceptance, line 41) and fails if it 'holds a whole Phoenix file' (ICE, line 70). Its Java criterion (line 37) asks for
+    'the Java standards, built from what the memory tool lists for them', and a standards file whose every section is about
+    Java is exactly that case. So the page allows a whole-file copy in one line and forbids it in two others, and a builder
+    cannot satisfy both. The committed rule is categorical (never a copy of a Phoenix file); whether a file that is wholly
+    relevant may be taken whole is not stated in ADR 039 or the glossary.
+  fix: 'Needs the product owner''s answer, because the committed sources do not give one: either a whole file is never taken
+    (drop ''or all of its sections'' and say how a wholly relevant file is cut), or it may be taken when every section is
+    relevant (then the product owner amends ADR 039 Decision 4 and the glossary row first, and the ''no whole file'' criterion
+    and Fails-if lines change). Until then the two lines cannot both stand.'
+- id: NP-2
+  severity: P4
+  category: product-model
+  file: .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md line 66 (Sources)
+  basis: G7 -- a Sources line cites a committed source and quotes it as written.
+  sources:
+  - 'origin/plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md lines 21-23; _content-standard.md
+    bar 5 (the stranger test: a cold reader can follow the source)'
+  finding: 'The line cites ADR 048 ''as the review of PR #886 states its rule'' and puts in quotes ''Business Intent is a
+    product-layer tracker issue labelled product, not a work item''. That sentence is the review''s wording. ADR 048 says
+    ''Only the Business Intent is a product-layer tracker issue, labelled `product`.'' A page that points a reader to a review
+    of its own pull request cites a record that will not be in the model, and the quote is not the ADR''s text.'
+  fix: Quote ADR 048 Decision 1 as it is written and drop the mention of the review.
+- id: NP-3
+  severity: P4
+  category: product-model
+  file: .garura/product/product-os/_spine.yaml (cap-initialize and its six features); capability.md line 23; fn-881 line 56;
+    fn-review-rule-groups line 38
+  basis: Every part of a business intent's Done-when has an owner in the model or the tracker.
+  sources:
+  - 'GitHub #881 Done-when, last line (''A play that writes to the tracker stops with a plain message when a type it needs
+    is missing, and points to initialize''); GitHub #862 Done-when (''the review record names the groups it skipped'')'
+  finding: 'Moving the ''stop and point to initialize'' behaviour out of fn-881 (the PM-6 fix) is right, but two later stories
+    now exist only as the words ''a later story of this business intent, not filed yet'': the change to the filing plays,
+    and the change to the review. No spine feature and no issue is named for either, so the last Done-when line of #881 and
+    the last-but-one of #862 have no owner when those stories close. The pages say so openly, so this is a visible gap, not
+    a hidden one.'
+  fix: Record the two later stories on the plan when the work is next shaped, so each Done-when line has an owner.
+- id: NP-4
+  severity: P4
+  category: product-model
+  file: .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml (affects line 1; consequences.negative
+    last line)
+  basis: G5 -- the consequences and affects of an accepted decision describe the accepted state.
+  sources:
+  - origin/plan/788/base:core/components/memory/standards/schemas/product-os/decision.yaml lines 34-36 and the immutability
+    line 43
+  finding: 'The record is now accepted (accepted_by: the product owner), yet two lines still read as if it were not: the affects
+    line says the save script wrote the profile level ''pending this decision'', and the last negative consequence says ''if
+    the product owner rejects it, the profile''s security line must be taken back out''. Both describe the time before the
+    yes. An accepted record is not edited later, so these lines will stay.'
+  fix: Reword the two lines to the accepted state before the record is merged.
+round1_fixed: PM-1, PM-2, PM-5, PM-6, PM-7 (grounding round 2 confirms each)
+known_open:
+- PM-3
+- PM-4
+- PM-8
+- PM-9
+- RR-1
+layer1:
+  quality: 'check-pr-quality: 0 findings (both .py files class as garura-prose under the pr.md path table)'
+  ruff: 2 files, all checks passed
+  lint_components:
+    in_changed_paths: 0
+    there_before: 37
+  lint_play: 'not run: no play SKILL.md changed'
+runnable_checks:
+- command: python3 core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+  result: 98 passed, 0 failed
+context_note: 'context bound from GitHub''s paged file list (#889): whole diff refused over 300 files'

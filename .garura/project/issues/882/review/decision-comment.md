@@ -1,6 +1,5 @@
-**Reject** — the product owner's verdict (human), check-change round 2.
+**Approve** — the product owner's verdict (human), check-change round 3.
 
-- Round 1's points are fixed and confirmed: PM-1 (memory is built from the part a project needs, never a copy of a Phoenix file), PM-2 (the capability's slug, through bug fix #887), PM-5 (the decision is accepted through /record-decision), PM-6 and PM-7.
-- NP-1 (P2): two feature pages let a "part" be all of a file's sections, which is the whole file. The product owner's rule: never take the whole file; read it, and build the project's memory. Fixed in round 3.
-- Also in round 3: NP-2 (fn-881 quotes ADR 048 itself), NP-4 (the accepted decision drops its "pending" and "if rejected" wording).
-- Script and test: 0 findings, ruff clean, 98 tests pass. The review context came from GitHub's paged file list, because the whole diff is over 300 files (#889). Path-table gap filed as #890.
+- Round 2's points are fixed and confirmed: NP-1 (initialize never takes a whole Phoenix file; it reads it and builds the project's memory), NP-2 (fn-881 quotes ADR 048 word for word), NP-4 (the accepted decision reads as accepted).
+- Script and test: 0 findings, ruff clean, 98 tests pass. Linter: 0 errors in changed files.
+- Left open: NP-5 (P4), two pages cite the round-2 review for the whole-file rule; it goes into the planned ADR 038/039 amendment. Also NP-3, PM-3, PM-4, PM-8, PM-9 as named on the pages.

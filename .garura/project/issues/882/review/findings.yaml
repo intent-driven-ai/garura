@@ -1,79 +1,43 @@
 pr: 886
 issue: 882
-round: 2
+round: 3
 findings:
-- id: NP-1
-  severity: P2
-  category: product-model
-  file: .garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md line 7 (also fn-883/feature.md
-    line 8; line 24 of fn-project-memory for a standards folder as a selection)
-  basis: G1 -- Garura memory is never a copy of a Phoenix file.
-  sources:
-  - origin/plan/788/base:core/grounding/glossary.md line 37; origin/plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
-    lines 46-50
-  finding: The fix to PM-1 defines a part as 'one section of the file, or all of its sections when every one speaks to the
-    answer; either way the project's memory is built from it, never a copy of the file'. A part that holds all of a file's
-    sections is the file. The same page then says a project's memory must hold 'no file ... a copy of a whole Phoenix file'
-    (acceptance, line 41) and fails if it 'holds a whole Phoenix file' (ICE, line 70). Its Java criterion (line 37) asks for
-    'the Java standards, built from what the memory tool lists for them', and a standards file whose every section is about
-    Java is exactly that case. So the page allows a whole-file copy in one line and forbids it in two others, and a builder
-    cannot satisfy both. The committed rule is categorical (never a copy of a Phoenix file); whether a file that is wholly
-    relevant may be taken whole is not stated in ADR 039 or the glossary.
-  fix: 'Needs the product owner''s answer, because the committed sources do not give one: either a whole file is never taken
-    (drop ''or all of its sections'' and say how a wholly relevant file is cut), or it may be taken when every section is
-    relevant (then the product owner amends ADR 039 Decision 4 and the glossary row first, and the ''no whole file'' criterion
-    and Fails-if lines change). Until then the two lines cannot both stand.'
-- id: NP-2
+- id: NP-5
   severity: P4
   category: product-model
-  file: .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md line 66 (Sources)
-  basis: G7 -- a Sources line cites a committed source and quotes it as written.
+  file: .garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md lines 23 and 63; .garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md
+    lines 11 and 75
+  basis: G7 -- a Sources line names a place a cold reader can follow, with its words in quotes as they are written; and a
+    rule in the model stands on committed records (G1), not on a pointer to the review of the page's own pull request.
   sources:
-  - 'origin/plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md lines 21-23; _content-standard.md
-    bar 5 (the stranger test: a cold reader can follow the source)'
-  finding: 'The line cites ADR 048 ''as the review of PR #886 states its rule'' and puts in quotes ''Business Intent is a
-    product-layer tracker issue labelled product, not a work item''. That sentence is the review''s wording. ADR 048 says
-    ''Only the Business Intent is a product-layer tracker issue, labelled `product`.'' A page that points a reader to a review
-    of its own pull request cites a record that will not be in the model, and the quote is not the ADR''s text.'
-  fix: Quote ADR 048 Decision 1 as it is written and drop the mention of the review.
-- id: NP-3
-  severity: P4
-  category: product-model
-  file: .garura/product/product-os/_spine.yaml (cap-initialize and its six features); capability.md line 23; fn-881 line 56;
-    fn-review-rule-groups line 38
-  basis: Every part of a business intent's Done-when has an owner in the model or the tracker.
-  sources:
-  - 'GitHub #881 Done-when, last line (''A play that writes to the tracker stops with a plain message when a type it needs
-    is missing, and points to initialize''); GitHub #862 Done-when (''the review record names the groups it skipped'')'
-  finding: 'Moving the ''stop and point to initialize'' behaviour out of fn-881 (the PM-6 fix) is right, but two later stories
-    now exist only as the words ''a later story of this business intent, not filed yet'': the change to the filing plays,
-    and the change to the review. No spine feature and no issue is named for either, so the last Done-when line of #881 and
-    the last-but-one of #862 have no owner when those stories close. The pages say so openly, so this is a visible gap, not
-    a hidden one.'
-  fix: Record the two later stories on the plan when the work is next shaped, so each Done-when line has an owner.
-- id: NP-4
-  severity: P4
-  category: product-model
-  file: .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml (affects line 1; consequences.negative
-    last line)
-  basis: G5 -- the consequences and affects of an accepted decision describe the accepted state.
-  sources:
-  - origin/plan/788/base:core/components/memory/standards/schemas/product-os/decision.yaml lines 34-36 and the immutability
-    line 43
-  finding: 'The record is now accepted (accepted_by: the product owner), yet two lines still read as if it were not: the affects
-    line says the save script wrote the profile level ''pending this decision'', and the last negative consequence says ''if
-    the product owner rejects it, the profile''s security line must be taken back out''. Both describe the time before the
-    yes. An accepted record is not edited later, so these lines will stay.'
-  fix: Reword the two lines to the accepted state before the record is merged.
-round1_fixed: PM-1, PM-2, PM-5, PM-6, PM-7 (grounding round 2 confirms each)
+  - 'origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md (''Sources'': ''the place
+    and its words''); _content-standard.md bar 5 (the stranger test); the same ground as round-2 NP-2, which the product owner
+    asked to be fixed in fn-881'
+  finding: 'The fix for NP-1 puts the product owner''s rule on two pages with a pointer to the review of this pull request.
+    The Rules line says ''This is the product owner''s rule (review of PR #886, round 2), beside ADR 039 Decision 4'' (fn-project-memory
+    line 23; fn-883 line 11). The Sources line says: ''The product owner, review of PR #886, round 2: "i agree never take
+    the whole file. read it, and build project''s memory."'' (fn-project-memory line 63; fn-883 line 75). Two faults. First,
+    a review of a pull request is not part of the model; in three months a reader who follows ''round 2'' of ''PR #886'' finds
+    a closed review, which is the pattern NP-2 raised for fn-881 and the owner had fixed there. Second, the quote is not the
+    words as written: the reply is ''i agree never take the whoel file. read it, and build project''s memory so reject: never
+    whole''; the page corrects the spelling inside the quotation marks and drops the tail with no ellipsis. The rule itself
+    needs no such pointer: the glossary row for Garura memory already says ''never a copy of a Phoenix file'' and ADR 039
+    Decision 4 already says ''It should not copy the file'', and both are quoted on the same Sources line.'
+  fix: 'Drop ''review of PR #886, round 2'' from the Rules lines and rest the rule on ADR 039 Decision 4 and the glossary
+    row (already quoted). If the product owner wants the ''even when every section speaks to the answer'' wording kept as
+    their own rule, quote their reply as written, with an ellipsis for what is left out, and say it is the product owner''s
+    reply, with no pull request number; or record the rule in ADR 039 and the glossary at the next amendment (the same planned
+    amendment as PM-9).'
+round2_fixed: NP-1, NP-2, NP-4
 known_open:
+- NP-3
 - PM-3
 - PM-4
 - PM-8
 - PM-9
 - RR-1
 layer1:
-  quality: 'check-pr-quality: 0 findings (both .py files class as garura-prose under the pr.md path table)'
+  quality: 'check-pr-quality: 0 findings (the two .py files class as garura-prose, #890)'
   ruff: 2 files, all checks passed
   lint_components:
     in_changed_paths: 0
@@ -82,4 +46,4 @@ layer1:
 runnable_checks:
 - command: python3 core/components/plays/discover-capabilities/scripts/test_persist_understand.py
   result: 98 passed, 0 failed
-context_note: 'context bound from GitHub''s paged file list (#889): whole diff refused over 300 files'
+context_note: context bound from GitHub's paged file list (#889)
