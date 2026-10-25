@@ -1,0 +1,47 @@
+pr: 891
+issue: 875
+round: 1
+findings:
+- id: MEM-1
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md (v12 log line); docs/adr/048 (Decision 1, line 32; line 82)
+  basis: "ADR 048 (base ref) is Accepted and lists ontology.md under Affects; the repo amends an accepted ADR with an 'amended in part by' Status line (ADR 048's own Status shows ADR 051 doing so); pr.md DOC-04/DOC-05/ARCH-23"
+  finding: "ADR 048 still says every work item is labelled work-item, Epic and Story included. Ontology v12 says an Epic and a Story carry no label, and ADR 048 gets no amendment pointer."
+  fix: "Amend ADR 048 in part (through /record-decision), naming ontology v12 / #875."
+- id: MEM-2
+  severity: P3
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md (Q20 Answered by)
+  basis: "Ontology template: a question's Answered-by line names the kinds and rules that answer it, with no conflict (base ref template); Epic/Story rule R3 in the same diff"
+  finding: "Q20 says 'issue type Epic is an Epic ... found by its plan file's represents mark', while R3 says a play finds them by the mark, never by type. For an issue outside any plan file it is unclear which one answers 'which kind is it'."
+  fix: "Say the type names the kind of an issue; the represents mark is how a play finds the one that stands for its slice or feature."
+- id: MEM-3
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md (Epic and Story rules)
+  basis: "Base ontology and template use no rule ids"
+  finding: "R1, R2, R3 are the first rule ids in the file; the Epic page shows R1 and R3 with no R2, which reads as a missing rule."
+  fix: "Drop the ids or number rules per kind."
+- id: MEM-4
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md (line 21)
+  basis: "Base ontology line 21 used 'work item' for the family that carried the work-item label"
+  finding: "Line 21 now limits the work-item label to Spike, Chore and Bug, then says the *-change plays act on work items only; 'work item' now means the family, not the label."
+  fix: "Say 'work items (Epic, Story, Spike, Chore, Bug)'."
+- id: HAR-1
+  severity: P4
+  category: harness
+  file: core/components/plays/shape-plan/reference/ice.md (Expectation)
+  basis: "harness-standard principles 4 and 5 (base ref); issue #875 Done when"
+  finding: "The new guarantee 'an epic found with another type is set to Epic' is covered by C13, F11, REC11, SE-15 and D4, but no scenario states it (S3 measures only that no issue is made and lines are kept)."
+  fix: "Add a Measure to S3 (or a scenario) through /edit-play."
+layer1:
+  quality: "check-pr-quality: 0 findings (quality-findings.yaml)"
+  lint_components: "0 in changed paths; 37 there before"
+  lint_play: "0 in changed paths; next-command gap there before (handed-out map lacks shape-plan)"
+  ruff: "clean"
+  tests: "10 suites, 133 passed, 0 failed"
+there_before:
+- "managing-work.md says 'No labels, for now' while the ontology keeps the product and work-item labels"

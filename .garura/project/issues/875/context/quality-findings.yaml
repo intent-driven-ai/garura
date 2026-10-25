@@ -1,0 +1,70 @@
+# check-change, Step 3 Layer 1 (standards-driven categories: executable-code, tests, docs).
+# PR #891, issue 875. Bounded to the diff (pr.diff, 33 changed paths). Read-only run.
+pr: 891
+issue: 875
+taxonomy: .garura/project/issues/875/context/memory/standards/rules/pr.md
+scan:
+  tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+  paths: 33
+  exit: 0
+  scan_coverage: 1.0
+  standards_relevant: 0
+  catchall: {CODE-20: 12}   # P4 catch-all, a count only, never blocks
+  errors: 0
+  counts: {P1: 0, P2: 0, P3: 0, P4: 0}
+  note: "Zero because of the taxonomy's prose guard, not because nothing was looked at: the scripts and tests live under core/components/**, which the taxonomy classifies as garura-prose, so grep rules (SEC-*, BE-*, TEST-01...) are not eligible, and the path-only code rules (CODE-03/04/09...) are dropped on prose. managing-work.md is docs-planning; its docs rows (DOC-*) name other paths. .garura/project/** is stm-evidence (no findings by rule #851). So the by-hand checks below carry the weight."
+findings: []
+categories:
+  executable-code:
+    linter:
+      ruff: {status: pass, command: "ruff check <4 changed scripts>", output: "All checks passed!"}
+    by_hand:
+      - check: "Change is the constant and its texts only"
+        result: pass
+        evidence: "plan_common.py:47 EPIC_TYPE 'Feature' -> 'Epic'; check_tracker.py docstring; write_work_items.py docstring lines 13 and 26; render_brief.py:71 now prints pc.EPIC_TYPE instead of the literal."
+      - check: "No leftover use of the old epic type in the scripts"
+        result: pass
+        evidence: "grep of the scripts: every epic-type use goes through pc.EPIC_TYPE (check_tracker.py:63-64, render_brief.py:71 and 76, write_work_items.py:161 and 234). The one remaining 'Feature' literal (gather_plan.py:131) is the product-model term, not the tracker type."
+      - check: "Data-safety path (write_work_items.py writes to the tracker)"
+        result: pass
+        evidence: "Diff touches only two docstring lines there; the write order, the approval check and the type-fix logic are not in the diff. The fix is idempotent by construction: it sets the type only when it differs from pc.EPIC_TYPE (docstring, lines 23-27), and test_write_work_items.py second-run check (no copy made, one Epic) passes."
+      - check: "No debug output, no secrets, deterministic"
+        result: pass
+        evidence: "No added print/log lines, no credential-shaped strings in the added lines."
+  tests:
+    linter:
+      ruff: {status: pass, command: "ruff check <3 changed test scripts>", output: "All checks passed!"}
+    run:
+      - {suite: test_check_tracker.py, result: "9 passed, 0 failed", exit: 0}
+      - {suite: test_render_brief.py, result: "11 passed, 0 failed", exit: 0}
+      - {suite: test_write_work_items.py, result: "21 passed, 0 failed", exit: 0}
+      - {suite: test_check_plan.py, result: "7 passed, 0 failed", exit: 0, kind: unchanged, uses_changed_code: true}
+      - {suite: test_find_work_items.py, result: "10 passed, 0 failed", exit: 0, kind: unchanged}
+      - {suite: test_gather_plan.py, result: "22 passed, 0 failed", exit: 0, kind: unchanged}
+      - {suite: test_write_plan_file.py, result: "9 passed, 0 failed", exit: 0, kind: unchanged}
+      - {suite: test_record_approval.py, result: "9 passed, 0 failed", exit: 0, kind: unchanged}
+      - {suite: test_check_drafts.py, result: "17 passed, 0 failed", exit: 0, kind: unchanged}
+    by_hand:
+      - check: "No skipped, disabled or empty tests; assertions stay meaningful"
+        result: pass
+        evidence: "Every changed line is an expected value flipped Feature <-> Epic. The old Epic fixture became Feature, so the 'wrong type gets corrected' tests still test a wrong type (test_check_tracker.py edit(type='Feature'); test_render_brief.py and test_write_work_items.py found-epic fixtures)."
+  docs:
+    file: .garura/user-provided/managing-work.md
+    linter: {status: gap, detail: "no prose-linter committed in the repo"}
+    by_hand:
+      - {check: "Spelling and grammar", result: pass}
+      - {check: "Dead links", result: pass, evidence: "docs/standards/harness-standard.md exists"}
+      - {check: "Heading hierarchy", result: pass, evidence: "no heading added or changed"}
+      - {check: "Leftover TODO/FIXME", result: pass}
+      - check: "Terminology consistent with the ontology and shape-plan"
+        result: pass
+        evidence: "Epic = issue type Epic, Story = issue type Story, Feature kept as a model term and as the old tracker type only. Agrees with ontology.md R1 (line 650) and the v12 entry (line 856), and with plan_common.EPIC_TYPE."
+      - check: "Completeness (tree line and the 'Type lives in the type field' bullet)"
+        result: pass
+        evidence: "Both changed, the tree line at line 21 and the bullet at lines 58-64."
+there_before:
+  - "managing-work.md still says 'No labels, for now ... open issues carry none' (line ~66), while ontology v12 keeps the work-item label on Spike, Chore and Bug. This line is not in the diff, so it is not a finding on this PR."
+gaps:
+  - "No prose linter is committed, so docs spelling and grammar were checked by reading only."
+  - "The taxonomy classifies core/components/** as prose, so the automated code and test rows cannot fire on the shape-plan scripts. ruff, the test runs and the hand review replace them."
+summary: "0 findings (P1 0, P2 0, P3 0, P4 0). ruff clean on 7 changed Python files. 9 of 9 test suites green (3 changed, 6 unchanged that share plan_common)."

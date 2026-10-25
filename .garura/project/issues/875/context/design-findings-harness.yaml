@@ -1,0 +1,55 @@
+# check-change, Step 3 Layer 2 - category: harness. PR #891, issue 875, base plan/788/base (5b1f0d81b37f).
+# Files graded: core/components/plays/shape-plan/SKILL.md, reference/ice.md, stop-condition.yaml.
+# Rule kept: no principle below rests on a file this branch adds or rewrites.
+pr: 891
+issue: 875
+category: harness
+base: plan/788/base
+severity_taxonomy: .garura/project/issues/875/context/memory/standards/rules/pr.md
+grounding_status: available
+
+principles:
+  - id: G1
+    principle: "A change to what a play guarantees is made in its ICE, and the compiled part is compiled again; the compiled part records the ICE fingerprint so the two never drift apart unseen."
+    source: "git show plan/788/base:docs/standards/harness-standard.md, principle 4 (cites ADR 027); CLAUDE.md 'Play Pipeline Rules' (intent change goes ICE -> /edit-play)"
+  - id: G2
+    principle: "Delivery work items are marked in the tracker by the issue type field, with no label; the Epic stands for one Slice and the Story for one Feature."
+    source: "git show plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Decision 1 and 3; git show plan/788/base:.garura/user-provided/managing-work.md ('Type lives in the type field', 'No labels, for now'); base shape-plan ice.md C13"
+  - id: G3
+    principle: "The tracker type used for the Epic must be a type the organization really has. On the base ref the organization had no Epic type, so the Epic was filed as Feature (#818 decision 5)."
+    source: "git show plan/788/base:.garura/project/issues/818/context/decisions.md, decision 5; git show plan/788/base:.garura/user-provided/managing-work.md lines 57-62. External check, read-only: GitHub GraphQL organization(login:intent-driven-ai).issueTypes now lists Business Intent, Feature, Story, Bug, Chore, Spike and Epic (all enabled)."
+  - id: G4
+    principle: "The shaping loop is /shape-slice, then /shape-plan, then /shape-eval; /shape-plan makes one epic per slice and one story per feature and writes only the plan file, epics and stories."
+    source: "git show plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision 2-3"
+  - id: G5
+    principle: "Build the eval first: the check that proves a change is done is built before the change and fails against today's code."
+    source: "git show plan/788/base:docs/standards/harness-standard.md, principle 5"
+
+conformance_passes:
+  - "G1: the intent change (epic type Feature -> Epic in C13, F11, REC11, S1, D4, Context) is in reference/ice.md and SKILL.md in the same commit (71c1788f). SKILL.md's recorded fingerprint sha256:84f437cd... equals the sha256 of ice.md at the branch head (checked with shasum). The ICE-source rule holds. Whether /edit-play was the tool that ran cannot be seen from the diff; the content and fingerprint agree."
+  - "G1/G2: the SKILL.md description, Step 6 write text, SE-15, the F11 row and the ICE agree with each other; stop-condition.yaml D4 and ice.md D4 carry the same wording. No leftover 'epic type Feature' text in the three files."
+  - "G3: the base committed record said the org had no Epic type; the tracker now has it, and issue #875 says it was added on 2026-10-25. The new rule is grounded in the live tracker, not in branch prose. Old decision 5 is named as replaced in ice.md Context, so the superseded source is not left silent."
+  - "G2/G4: the change touches only the type name. The play->agent->skill->script wiring, the single pinned checkpoint, the write guard (D5) and the find-before-make rule are unchanged."
+
+findings:
+  - id: H1
+    severity: P4
+    severity_note: "No pr.md row matches a missing scenario; P4 is the closest bucket (tech-debt / nit, surfaced only in evidence). Not a blocker."
+    file: core/components/plays/shape-plan/reference/ice.md
+    where: "Scenarios S1-S7 (S3, lines ~114-117); SKILL.md has no matching line"
+    principle: "G1 (Expectation = scenarios, recovery, what done means) and G5 (the check that proves a change is done)"
+    source: "git show plan/788/base:docs/standards/harness-standard.md, principles 4 and 5; issue #875 'Done when' (tracker): the play 'sets type Epic on an Epic it reuses that has another type' and a rerun of /shape-plan 788 sets #794 to type Epic"
+    finding: "The new guarantee 'a reused epic of another type is set to Epic' (C13, F11, REC11, SE-15, D4) is the heart of the migration, but no scenario in the ICE names it. S3 (a hand-made epic is used) only says no issue is made and no person line is lost; S1 only measures a first-time epic. The case that matters in practice (epic #794, filed as Feature, found and re-typed) is covered only by the stop condition D4 and by the tests in the scripts folder, not by an S- scenario, so the Expectation does not state it."
+    suggested_fix: "Add a scenario (or a Measure on S3): given a hand-made epic of type Feature that the plan file marks, when the product owner types yes, then the epic is set to type Epic, no new issue is made, and the epic's text is kept. A small follow-up through /edit-play."
+    fix_handoff: human
+
+observations_for_other_categories:
+  - to: memory (ontology) / ADR grounding
+    severity: P4
+    note: "ADR 048 Decision 1 (base) still says the work layer is 'tracker issues labelled work-item'. The branch's ontology R1 and the shape-plan C13 say no label. This conflict is there before (it was #818 DF-6); the branch does not add it, but the ADR carries no forward pointer. ADR 048 itself says older ADRs 'get only a forward pointer where they are amended'. Belongs to the memory/ontology grounding, not the harness."
+  - to: tests / code
+    note: "scripts/test_find_work_items.py, test_write_plan_file.py and test_support still build epics of type Feature as 'found' fixtures. That is fine for the migration case (an old epic found), and the unchanged tests are for the tests category to run; not graded here."
+
+not_checked:
+  - "Layer 1 linters (lint-components, lint-play) are the play's job, not this fan-out."
+  - "The 'build the eval first' proof (G5) for the code change is the tests category's to run; no plan eval file is in this diff."

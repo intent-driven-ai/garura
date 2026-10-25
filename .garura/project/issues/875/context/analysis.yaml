@@ -1,55 +1,55 @@
+---
+# assess-changes output (grouped by the analyze agent; judgment done)
 needs_judgment: false
-branch: plan/788/875-epic-issue-type
-issue: 875
+
 change_groups:
-- id: docs-managing-work-epic-type
-  issue: 875
-  commit_type: docs
-  scope: managing-work
-  subject: State that a slice's Epic is filed with issue type Epic
-  confidence: high
-  files:
-  - .garura/user-provided/managing-work.md
-  risks:
-    sensitive_files: []
-    breaking_changes: []
-  notes: Work guide; Feature type is no longer used for Epics.
-- id: chore-plan-788-upkeep
-  issue: 875
-  commit_type: chore
-  scope: plan
-  subject: 'Mark #882 and #884 done and #875 now in the plan for #788'
-  confidence: high
-  files:
-  - .garura/project/plans/788.yaml
-  risks:
-    sensitive_files: []
-    breaking_changes: []
-  notes: 'Plan upkeep only: three status lines.'
-- id: chore-stm-875-run-records
-  issue: 875
-  commit_type: chore
-  scope: stm
-  subject: Record the run records of the change
-  confidence: high
-  files:
-  - .garura/project/issues/875/context/analysis.yaml
-  - .garura/project/issues/875/context/porcelain.txt
-  - .garura/project/issues/875/context/memory/manifest.json
-  - .garura/project/issues/875/context/memory/standards/templates/product-ontology.md
-  risks:
-    sensitive_files: []
-    breaking_changes: []
-  notes: Operational STM artifacts, not part of the fix. Committed last.
+  - id: check-change-round-1-run-records
+    issue: 875
+    commit_type: chore
+    scope: stm
+    subject: "record check-change round 1 run artifacts"
+    files:
+      - .garura/project/issues/875/context/analysis.yaml
+      - .garura/project/issues/875/context/memory/manifest.json
+      - .garura/project/issues/875/context/porcelain.txt
+      - .garura/project/issues/875/context/categories.yaml
+      - .garura/project/issues/875/context/context.yaml
+      - .garura/project/issues/875/context/design-findings-harness.yaml
+      - .garura/project/issues/875/context/design-findings-memory.yaml
+      - .garura/project/issues/875/context/layer1-findings.yaml
+      - .garura/project/issues/875/context/lint-components.txt
+      - .garura/project/issues/875/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/875/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/875/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/875/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/code.md
+      - .garura/project/issues/875/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/875/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/875/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/875/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/875/context/memory/standards/rules/pr.md
+      - .garura/project/issues/875/context/pr.diff
+      - .garura/project/issues/875/context/quality-findings.yaml
+      - .garura/project/issues/875/context/templates/manifest-check-change.json
+      - .garura/project/issues/875/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/875/review/round-1/findings.yaml
+      - .garura/project/issues/875/review/round-1/outcome.yaml
+      - .garura/project/issues/875/review/round-1/recommended_verdict.yaml
+
 exclusions: []
+
 risks:
-  sensitive_files: []
-eval_gates:
-  SE-1:
-    status: PASS
-    evidence: '14 changed paths: 10 in fix-shape-plan-epic-type, 1 in docs-managing-work-epic-type,
-      1 in chore-plan-788-upkeep, 4 in chore-stm-875-run-records (16 total listed;
-      12 tracked-modified + 4 untracked, 0 unassigned)'
-  SE-5:
-    status: PASS
-    evidence: no sensitive filename or diff-content patterns matched
+  sensitive_files: []   # nothing blocks the run
+  warnings:
+    - path: ".garura/project/issues/875/context/memory/standards/rules/pr.md"
+      match: 'password\s*=  (pattern text inside the copied PR severity taxonomy, e.g. rule BE-08 and SEC-19)'
+      blocking: false
+      note: "pattern carrier by design - the taxonomy lists regexes that look for credentials; no real credential is present"
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+notes:
+  branch: plan/788/875-epic-issue-type
+  basis: "all paths under .garura/project/issues/875/ are run records of check-change round 1 for PR #891; single issue, single concern, one group"
