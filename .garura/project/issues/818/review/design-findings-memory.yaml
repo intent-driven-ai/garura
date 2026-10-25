@@ -1,0 +1,74 @@
+category: memory
+pr: '873'
+issue: 818
+base: plan/788/base
+artifact: core/components/memory/standards/rules/pipeline-next.md
+principles:
+- id: P-A
+  principle: The plan play runs after /shape-slice and before the eval play; it makes the intent's one
+    plan, one epic for each slice and one story for each feature; it writes nothing in the evals folder
+    (hidden file belongs to /shape-slice).
+  source: plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md (Decision 1,
+    2) as amended by plan/788/base:docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+    (Decision 2)
+- id: P-B
+  principle: A play's close names only its own successor from the map; where the map names none, no Next
+    line is printed and nothing else is pointed to.
+  source: 'plan/788/base:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md (Decision
+    2); plan/788/base:core/components/memory/standards/rules/pipeline-next.md (header: null command omits
+    the line)'
+- id: P-C
+  principle: 'No unbacked recommendation: a successor is named only when it exists and can be cited; otherwise
+    blank, never a default or substitute play name.'
+  source: 'memory tool, phoenix tier: standards/rules/no-unbacked-recommendation.md (version 3161dcdfe26f),
+    copied to grounding-memory/'
+- id: P-D
+  principle: The play is named /shape-plan and takes the business intent's issue number; the eval play
+    (#798) is later in the loop.
+  source: plan/788/base:.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+    and plan/788/base:.garura/product/product-os/slices/sl-intent-to-design.yaml (/shape-slice, then /shape-plan,
+    then /shape-eval)
+- id: P-E
+  principle: Every play named in the map exists; the map file keeps the structure of its base version
+    (yaml next map + meta_exempt).
+  source: plan/788/base:core/components/memory/standards/rules/pipeline-next.md; memory-category playbook
+    knowledge/review/memory.md (short-term copy)
+conformance_checks:
+- check: shape-slice -> command shape-plan (was null)
+  principle: P-A, P-B
+  result: 'conforms: ADR 049 puts the plan play right after /shape-slice; the previous null existed only
+    because the plan play was unbuilt (base map comment).'
+- check: 'shape-plan entry has command null because the eval play #798 is not built'
+  principle: P-B, P-C
+  result: 'conforms: same pattern the base map used for shape-slice; no default or substitute is named;
+    the line is omitted.'
+- check: 'loop prose: plan file, one epic for each slice, one story for each feature; no hidden file or
+    eval mentioned'
+  principle: P-A
+  result: conforms to ADR 049 and ADR 052 (plan play writes nothing in the evals folder).
+- check: /shape-plan <intent> form
+  principle: P-D
+  result: 'conforms: base product model feature fn-818 uses /shape-plan <intent>.'
+- check: yaml map parses; every command resolves to a play dir; shape-plan and shape-slice exist
+  principle: P-E
+  result: conforms (parsed with yaml.safe_load; no missing commands). lint_play on shape-plan reads FAIL
+    only against the base map, which lacks the entry this PR adds; expected, and noted in runnable-checks.txt.
+- check: ADR references (028, 029, 041, 049, 051, 053) resolve
+  principle: P-E
+  result: all exist on the base ref.
+findings: []
+notes:
+- 'Pre-existing, not from this branch: standards/rules/_index.md (garura memory) has no row for pipeline-next.md.
+  Not a finding.'
+- ADR 049 Decision 1 says the plan play runs right after /shape-slice with no stop; the map hands over
+  by Next line, consistent with base feature fn-818 ('runs after /shape-slice, on its own'). No conflict
+  found.
+- Grounding was read only from the base ref and the memory tool; no principle rests on text the diff adds.
+- Round 2 added platform_adapter verbs and skill/agent edits; none of them touch the memory category,
+  so no new memory finding.
+round: 2
+round_2_confirmation: 'core/components/memory/standards/rules/pipeline-next.md is unchanged since round
+  1: git diff 91cc5352 HEAD on the file is empty, and 91cc5352 is the only commit on plan/788/base..HEAD
+  that touches it. Re-checked at HEAD: the yaml map parses (yaml.safe_load), shape-slice -> shape-plan,
+  shape-plan -> null, every command resolves to a play or loop folder, ADRs 028/029/041/049/051/053 exist
+  on the base ref. Round-1 conclusions stand.'

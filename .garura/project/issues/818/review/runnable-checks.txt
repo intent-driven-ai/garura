@@ -1,0 +1,11 @@
+# Layer 1 round 2 — installed tools, source layout
+lint-components: errors base 36 head 36 new 0
+lint_play shape-plan: head [VERDICT: FAIL (1 gap(s))] base [new play]
+lint_play shape-slice: head [VERDICT: PASS (0 gap(s))] base [VERDICT: PASS (0 gap(s))]
+lint_play check-change: head [VERDICT: FAIL (1 gap(s))] base [VERDICT: FAIL (1 gap(s))]
+lint_play merge-change: head [VERDICT: PASS (0 gap(s))] base [VERDICT: PASS (0 gap(s))]
+lint_play propose-change: head [VERDICT: PASS (0 gap(s))] base [VERDICT: PASS (0 gap(s))]
+shape-plan tests failing: 0
+shape-slice tests failing: 0
+adapter test exit 0
+hidden acceptance checks: 21 / 21

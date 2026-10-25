@@ -1,0 +1,21 @@
+# shape-plan stop condition — baked from reference/ice.md "### Done means" (D1–D5).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
+# Paths are relative to the run's issue folder ({stm_base}<issue>/).
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the plan check reads ok: each feature of each slice the plan holds has exactly one story (or is named as skipped), and the plan file's tree agrees with each epic's map"
+      check: { type: field_equals, file: "context/shape-plan/plan-check.json", field: "ok", equals: true }
+    - id: D2
+      says: "the product owner's recorded answer is yes"
+      check: { type: field_equals, file: "context/shape-plan/approval.json", field: "decision", equals: "yes" }
+    - id: D3
+      says: "the draft check reads ok: no story and no epic holds a failure or recovery condition, and each story has its scope of work and its Context guidance"
+      check: { type: field_equals, file: "context/shape-plan/drafts-check.json", field: "ok", equals: true }
+    - id: D4
+      says: "the tracker check reads ok: each work item the run wrote is in the tracker as the record says, the epic with type Feature and each story with type Story, and none with a label"
+      check: { type: field_equals, file: "context/shape-plan/tracker-check.json", field: "ok", equals: true }
+    - id: D5
+      says: "the write guard reads ok: the run changed no file outside the plan file"
+      check: { type: field_equals, file: "context/shape-plan/guard-report.json", field: "ok", equals: true }
