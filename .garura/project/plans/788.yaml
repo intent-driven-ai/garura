@@ -197,10 +197,22 @@ tree:
     kind: chore
     title: 'The P4 findings left by the PR #858 review (a sub-issue of #855 on GitHub)'
     status: later
+  - issue: 868
+    kind: bug
+    title: 'The current ontology and other current standards are in no memory tier'
+    status: later
+  - issue: 870
+    kind: chore
+    title: 'check-change has no review playbook for product model pages or run records'
+    status: later
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
   status: done
+- issue: 867
+  kind: bug
+  title: "The agents' copy script refuses reads from short-term and Garura memory (no version)"
+  status: next
 - issue: 866
   kind: chore
   title: 'Run /shape-slice on business intent #788 again, with the current play (reuse path; input for #818)'
