@@ -1,7 +1,7 @@
 {
   "category": "product-model",
   "issue": 882,
-  "round": 2,
+  "round": 3,
   "files": [],
-  "note": "No extra memory was copied in round 2. Grounding came from the base ref plan/788/base (git show origin/plan/788/base:<path>): the spine and decision schemas, ADR 039 and ADR 048, and the glossary; from the shared short-term copies made by the assessment (the grounding templates, the content standard and the severity taxonomy at context/memory/standards/); from the product owner's tracker records #862, #881 and #883, read only; and from the product owner's memory rule given in the dispatch."
+  "note": "No extra memory was copied in round 3. Grounding came from the base ref plan/788/base (git show origin/plan/788/base:<path>, commit 32b2d190c066): ADR 039 Decision 4, ADR 048 Decision 1, the glossary row for Garura memory, and the decision and spine schemas; from the shared short-term copies the assessment made (the feature and capability grounding contracts, the content standard, the severity taxonomy under context/memory/standards/); from the product owner's tracker records #862, #881 and #883, read only; and from the product owner's round-2 rule (review/round2/decision.yaml, rule_given, and the dispatch)."
 }
