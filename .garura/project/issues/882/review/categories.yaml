@@ -1,9 +1,12 @@
-# check-change Step 2 -- categories present in PR #886 (issue 882), base plan/788/base
-# Derived from the content of the 234 changed files, not from a presumed list.
+# check-change Step 2 -- categories present in PR #886 (issue 882), review round 2, base plan/788/base
+# Derived from the content of the 335 changed files (GitHub's paged list; the whole diff is over
+# 300 files). Not from a presumed list.
 # Treatment comes from the playbook copies in short-term memory:
 #   .garura/project/issues/882/context/memory/knowledge/review/*.md
-# No harness, memory-shelf, executable-code, test, ADR or docs file is changed, so those
-# seeded categories are absent and not listed.
+# Shared copies: the eight review playbooks and pr.md were checked through the memory tool and
+# their fingerprints match the manifest lines from round 1 (Phoenix memory 44e1c4c4799a; pr.md from
+# Garura memory). Nothing was re-copied.
+round: 2
 playbooks_consulted:
   - review/_index
   - review/harness
@@ -11,16 +14,26 @@ playbooks_consulted:
   - review/docs
   - review/config-maps
   - review/adrs
+  - review/code
+  - review/tests
+changes_since_round_1: >
+  New in the diff since round 1: one play script and its test under core/components/plays/
+  discover-capabilities/scripts (the slug fix, #887); the decision record is now status accepted;
+  the decision's own run folder under .garura/project/issues/_adr/20261025T135102Z; a fourth
+  /understand run folder (20261025T132647Z); a second appended line in gate-evals.jsonl; the
+  round-1 review files. The decision record moved out of the product-model category into its own
+  category now that a playbook (review/adrs) names a decisions/ path.
 categories:
   - name: product-model
     what: >
-      The project's own product model: the new capability page (cap-initialize, "Initialize a
-      project for Garura"), six feature pages (fn-setup-questions, fn-project-memory,
-      fn-review-rule-groups, fn-881, fn-rerun-initialize, fn-883), the spine entries that
-      register them (with their nfr_needs), and one product-level decision record
-      (dec-cap-initialize-security-none-medium). These files state intent, boundaries, rules and
-      acceptance criteria for later plays -- they are the product's design, written as
-      Markdown/YAML, not framework harness and not the agents' knowledge shelves.
+      The project's own product model: the cap-initialize capability page ("Initialize a project
+      for Garura"), six feature pages (fn-setup-questions, fn-project-memory,
+      fn-review-rule-groups, fn-881, fn-rerun-initialize, fn-883), and the spine entries that
+      register them (capability, features, nfr_needs, decisions link, product-profile security
+      level). These files state intent, boundaries, rules and acceptance criteria for later
+      plays. They are the product's design, written as Markdown/YAML; not framework harness and
+      not the agents' knowledge shelves. The spine diff also re-wraps the unrelated cap-718
+      one_line (formatting only).
     evidence:
       - .garura/product/product-os/_spine.yaml
       - .garura/product/product-os/software-delivery-planning/initialize/capability.md
@@ -30,74 +43,198 @@ categories:
       - .garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md
       - .garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md
       - .garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md
-      - .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml
     playbook: null
     playbook_note: >
       PLAYBOOK MISSING. No playbook on the review shelf covers the product model. review/memory is
-      the nearest (shelf-shaped files agents read, Layers 1+2) and review/adrs the nearest for the
-      decision record, but neither names the product model, so neither is used to force-fit.
-      A follow-up task to write review/product-model is needed.
+      the nearest (shelf-shaped files agents read, Layers 1 and 2) but it names core/components/
+      memory, not the product model, so it is not force-fitted. A follow-up task to write
+      review/product-model is needed.
     design_bearing: true
     treatment:
       layers: [layer-1, layer-2]
       layer_2_note: >
-        Ground from committed sources only (base ref plan/788/base): docs/adr (e.g. 026
+        Ground from committed sources only (base ref plan/788/base): docs/adr (026
         direct-to-model-writes, 048 the-product-model-and-the-work-are-two-layers, 033
-        approval-in-the-product-model), core/grounding/glossary.md, docs/philosophy, and the
-        grounding schemas and the Phoenix domain shelves read through the memory tool. Never from
-        the new pages themselves. Conformance questions: does each page follow the grounding
-        contract; do capability boundaries (In/Out/Never) agree with the committed ADR/glossary
-        split between the Phoenix install, the Garura install and initialize; do spine nfr_needs
-        and the decision record follow the committed model rules.
+        approval-in-the-product-model), core/grounding/glossary.md, docs/philosophy, and, through
+        the memory tool only, the grounding schemas (capability, feature, _content-standard), the
+        spine schema and the domain shelves. Never from the new pages. Conformance questions: does
+        each page follow the grounding contract; do the capability's In / Out / Never lines agree
+        with the committed split between the Phoenix install, the Garura install and initialize;
+        do the spine nfr_needs, the profile security level and the decisions link follow the
+        committed model rules; does the profile move from none to medium rest on the accepted
+        decision record (read as the product owner's act, not as grounding for the page). Round 1
+        already grounded this category: the play may reuse round-1 principles only where their
+        committed source is on the base ref, and re-check anything the new commits touched.
       linters: []
       linter_note: >
         No installed tool checks the product model: .garura/core/tools holds lint-components
-        (skills/agents), lint-play (plays), memory and rebuild-eval only. The /discover-capabilities
-        run records (lint.txt, lint-spine.txt) are the play's own output, not a review linter run.
+        (skills and agents), lint-play (plays), memory and rebuild-eval only. The
+        /discover-capabilities run files (lint.txt, lint-spine.txt) are that play's own output,
+        not a review linter run.
       runnable_checks:
         - kind: by-hand
           check: >
-            each feature page has, in order, the headings What it does / Inputs / Outputs / Rules &
-            behavior / Acceptance criteria / Out of scope, then Sources, then Agent intent (ICE);
-            the capability page has Benefit hypothesis / Boundary (In / Out / Never) / Guiding rules
-            / Features / Sources / Agent intent (ICE) (contract: short-term copy of
+            each feature page has, in order, What it does / Inputs / Outputs / Rules & behavior /
+            Acceptance criteria / Out of scope, then Sources, then Agent intent (ICE); the
+            capability page has Benefit hypothesis / Boundary (In / Out / Never) / Guiding rules /
+            Features / Sources / Agent intent (ICE) (contract: the short-term copies of
             standards/schemas/product-os/grounding/{feature,capability}.md)
         - kind: by-hand
           check: >
             _spine.yaml parses; cap-initialize.doc and every feature doc path resolve to a changed
-            file; each fn-* in the spine has capability cap-initialize and a page; every capability
-            feature named in capability.md "## Features" exists in the spine; decisions
-            dec-cap-initialize-security-none-medium resolves to the decision file and its node_ref
-            is cap-initialize
+            file; every fn-* added has capability cap-initialize and a page; every feature named
+            in capability.md "## Features" exists in the spine; the capability's slug sits right
+            after its id (the slug fix, #887)
         - kind: by-hand
           check: >
-            the decision record fields are complete (id, node_ref, level, title, reason,
-            alternatives, status, metadata) and its claim (security box none -> medium) matches the
-            spine nfr_needs.security.level of cap-initialize
+            the decisions link on cap-initialize names dec-cap-initialize-security-none-medium and
+            that file exists; the spine's cap-initialize nfr_needs.security level and the profile
+            security level (medium) match what the decision record says
+        - kind: by-hand
+          check: confirm the cap-718 one_line re-wrap changed no content
+  - name: decision-record
+    what: >
+      One product-level decision record, now status accepted (accepted_by the product owner): it
+      raises the product's security level from none to medium so the box admits cap-initialize,
+      with reason, two alternatives, consequences and the files it affects. It is a decision
+      record kept as YAML under the product model's decisions/ folder.
+    evidence:
+      - .garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml
+    playbook: review/adrs
+    playbook_note: >
+      The playbook speaks of Markdown ADRs under docs/adr; this record is YAML under
+      product-os/decisions/, which the playbook's signal "**/decisions/*" covers by content (a
+      status, the context, the decision, the consequences). The structural checklist is applied to
+      the YAML fields.
+    design_bearing: false
+    treatment:
+      layers: [layer-1]
+      linters: []
+      linter_note: >
+        Playbook gap, stated by the playbook itself: no ADR linter exists in-repo. The structural
+        check is a manual checklist the tool surfaces for the human. The decision's own run
+        (adr-check.json under _adr/20261025T135102Z) records lint_ok true and linked true; that is
+        the record-decision play's output, not a review linter run, and is not counted as one.
+      design_grounding: >
+        No (review/adrs): the decision is the design. The human owns the judgement of whether it
+        is right. Its consistency with the spine and the pages is checked under product-model.
+      runnable_checks:
         - kind: by-hand
           check: >
-            note for the report: the spine diff also re-wraps the unrelated cap-718 one_line
-            (formatting only) -- confirm no content changed
+            required fields are present: id, title, status, level, node_ref, reason (context and
+            decision), alternatives (each with why_not), supersedes / amends / superseded_by /
+            amended_by, affects, consequences; the status is one of the allowed values (accepted)
+        - kind: by-hand
+          check: >
+            the record parses as YAML; the id matches the file name; node_ref is cap-initialize
+            and resolves in the spine; the spine links the record back
+        - kind: by-hand
+          check: >
+            every file named in "affects" is a changed file or exists; the "ice_impact: none" and
+            "business_intent_check: none" claims hold against the diff (no ICE text of an
+            existing capability is changed)
+        - kind: by-hand
+          check: >
+            note for the human: the record was proposed first, then accepted, and the spine
+            already showed medium before acceptance (the record says so); the commit that
+            accepted it is efffaad5
+  - name: executable-code
+    what: >
+      One Python script that is part of the discover-capabilities play: persist_understand.py now
+      sets a capability's slug from the manifest only when the entry has none (a set slug is
+      kept), placing it right after the id. It rewrites a dictionary in place and the script
+      writes the project's spine file, so a data-write path.
+    evidence:
+      - core/components/plays/discover-capabilities/scripts/persist_understand.py
+    playbook: review/code
+    playbook_note: >
+      Matches the playbook's "python scripts inside plays/skills". The harness category is not
+      raised: no SKILL.md, ICE source, skill or agent file changed; the file is a script the
+      runtime executes.
+    design_bearing: false
+    treatment:
+      layers: [layer-1]
+      linters:
+        - name: ruff
+          command: ruff check core/components/plays/discover-capabilities/scripts/persist_understand.py
+          note: >
+            The repository commits no ruff, pyproject or setup.cfg config, so ruff runs with its
+            defaults. If ruff is not installed, record "not installed"; it is not a pass.
+        - name: check-pr-quality
+          command: >
+            run by quality-auditor against the diff with the pr.md taxonomy copy (SEC-*, CODE-*,
+            ARCH-*, BE-*, PERF-*, DATA-* rows)
+        - name: lint-components
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          note: >
+            Source layout, because the changed path is under core/components. It checks skills and
+            agents; it is run so that the changed script folder is covered. Only a violation whose
+            file is a changed path is a finding; count the others as "there before".
+      design_grounding: >
+        No (review/code): the standard is industry best practice plus the pr.md taxonomy.
+      runnable_checks:
+        - kind: by-hand
+          check: >
+            data-safety path: the slug is inserted by clearing and rebuilding the live capability
+            mapping in order; confirm no other key is lost or reordered, an existing slug is never
+            overwritten, and a manifest with no slug leaves the entry untouched
+        - kind: by-hand
+          check: no stray debug output, no secrets, no broad except added
+  - name: tests
+    what: >
+      The fixture test file for that script: a new helper (set_capability_delta) and a new test
+      (test_slug) that cover a seeded capability getting the manifest's slug right after its id,
+      and an already-set slug being kept; the test is added to the file's main list.
+    evidence:
+      - core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+    playbook: review/tests
+    playbook_note: null
+    design_bearing: false
+    treatment:
+      layers: [layer-1]
+      linters:
+        - name: ruff
+          command: ruff check core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+          note: same default-config caveat as executable-code
+        - name: check-pr-quality
+          command: run by quality-auditor; the pr.md TEST-* rows
+      design_grounding: No (review/tests).
+      runnable_checks:
+        - kind: run-suite
+          check: >
+            Run the suite and confirm it passes; a red suite is a blocker. From the repo root:
+            python3 core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+            (exits non-zero when any check fails; prints "N passed, M failed"). Record the counts.
+        - kind: by-hand
+          check: >
+            the new test asserts something (slug equals the manifest value; slug sits at position
+            two; a set slug is kept); no skipped or disabled test was added
   - name: run-records
     what: >
-      Machine-written records of the plays that ran for issue 882 (propose-change,
-      commit-change, discover-capabilities, /understand rounds, judge verdicts and findings,
-      halted drafts, PR body, self-review, plan/branch/issue JSON, citations) plus verbatim copies
-      of Phoenix memory and templates laid into short-term memory (domain shelves, grounding
-      schemas, spine schema, templates) with their manifests. They are evidence of what a run did,
-      not authored design: the memory and template copies are not changes to the knowledge base
-      (the source is in the Phoenix tier; each copy carries a fingerprint in a manifest).
+      Machine-written records of the plays that ran for issue 882 and of the review itself:
+      /discover-capabilities and /understand runs (four run folders, with caps, judge verdicts and
+      findings, halted drafts, priors, sources, rollup, lint and guard output), the record-decision
+      run folder for the accepted decision (_adr/20261025T135102Z: brief, context, draft,
+      manifest, check, guard report, before/after files, run.json), propose-change and
+      commit-change output (PR body, plan, branch, commits, citations, self-review), and the
+      round-1 review files with this round's context.yaml and pr.diff. It also holds verbatim
+      copies of Phoenix and Garura memory and of templates laid into short-term memory (domain
+      shelves, grounding schemas, spine schema, review playbooks, pr.md, templates) with their
+      manifests. They are evidence of what a run did, not authored design; the copies are not
+      changes to the knowledge base.
     evidence:
-      - ".garura/project/issues/882/context/understand/**  (three runs: 20261025T102501Z, 20261025T111751Z, 20261025T122929Z -- caps, judge, halted-drafts, prior, sources, run/rollup/lint/guard JSON)"
-      - ".garura/project/issues/882/context/memory/**  (copies of Phoenix memory + manifest.json)"
-      - ".garura/project/issues/882/context/templates/**  (template copies + manifests)"
+      - ".garura/project/issues/882/context/understand/**  (four runs: 20261025T102501Z, 20261025T111751Z, 20261025T122929Z, 20261025T132647Z, plus start)"
+      - ".garura/project/issues/_adr/20261025T135102Z/**  (the record-decision run, including its memory and template copies)"
+      - ".garura/project/issues/882/context/memory/**  (copies and manifests, including the review shelf and pr.md)"
+      - ".garura/project/issues/882/context/templates/**"
       - ".garura/project/issues/882/context/judge-state/*.json"
       - ".garura/project/issues/882/context/{analysis.yaml,branch.json,citations.jsonl,commits.yaml,halt.md,issue.json,plan.json,porcelain.txt,pr-body.md,pr.json,resolved-rules.json,self-review.md,work-description.txt}"
+      - ".garura/project/issues/882/review/**  (round-1 files, this round's context.yaml and pr.diff)"
     playbook: null
     playbook_note: >
-      PLAYBOOK MISSING for run records. review/docs does not apply (the files are not human-facing
-      docs) and review/memory does not apply (the memory copies are verbatim, not edits). A
-      follow-up task to write review/run-records is needed.
+      PLAYBOOK MISSING for run records. review/docs does not apply (not human-facing docs) and
+      review/memory does not apply (the memory copies are verbatim, not edits). A follow-up task
+      to write review/run-records is needed.
     design_bearing: false
     treatment:
       layers: [layer-1]
@@ -108,32 +245,37 @@ categories:
           check: every .json / .jsonl / .yaml file in the set parses
         - kind: by-hand
           check: >
-            each short-term memory copy under context/memory/** and context/templates/** has a line
-            in its manifest (tier, path, version, fingerprint, copy) and the copy path exists
+            each short-term memory copy under context/memory/** and context/templates/** (and the
+            _adr run's own context copies) has a line in its manifest (tier, path, version,
+            fingerprint, copy) and the copy path exists
         - kind: by-hand
           check: >
-            scan the set for credentials, tokens, personal data, and any client or company
-            reference (history-clean rule) before the PR lands
+            scan the set for credentials, tokens, personal data, and any client, company or
+            personal references (history-clean rule) before the PR lands
         - kind: by-hand
           check: >
-            for the review (not a blocker): the halted drafts and judge findings in this set are the
-            judge's rejections of the same pages now committed under .garura/product/product-os;
-            note halt.md says the run halted and #884 blocks resume -- record whether the committed
-            product-model pages are the run-3 persisted result (persist-manifest.json) and not a
+            for the report, not a blocker: halt.md and the halted-drafts / judge findings are
+            rejections of earlier drafts; record that the committed product-model pages are the
+            persisted result of the last run (persist-manifest.json under 20261025T132647Z), not a
             halted draft
+        - kind: by-hand
+          check: >
+            the _adr run's porcelain-before/after and guard-report show the decision write touched
+            only the decision file and the spine link
   - name: tool-state-records
     what: >
       Two repo-level files a tool writes about itself: the install manifest (one line changes, the
       recorded Phoenix memory version 3161dcdfe26f -> 44e1c4c4799a) and the append-only gate-evals
-      log (one new JSON line for the issue 882 discover-capabilities run).
+      log (two new JSON lines for the issue 882 discover-capabilities runs 20261025T122929Z and
+      20261025T132647Z).
     evidence:
       - .garura/install-manifest.json
       - .garura/core/gate-evals.jsonl
     playbook: null
     playbook_note: >
       PLAYBOOK MISSING. review/config-maps was considered for the install manifest and not used:
-      the changed line is a recorded status message, not a pointer to a path. review/config-maps'
-      path-existence check is still cheap to run, listed below.
+      the changed line is a recorded status message, not a pointer to a path. A follow-up task to
+      write review/tool-state-records is needed.
     design_bearing: false
     treatment:
       layers: [layer-1]
@@ -143,13 +285,14 @@ categories:
         - kind: by-hand
           check: install-manifest.json parses and the diff is exactly the one version string
         - kind: by-hand
-          check: gate-evals.jsonl parses line by line; the diff is one appended line, no earlier line edited
+          check: gate-evals.jsonl parses line by line; the diff is two appended lines, no earlier line edited
         - kind: by-hand
           check: >
-            the install-manifest edit is a tool-written change in a file the project notes say is
-            the installed copy -- flag for the human to confirm it is intended in this PR
+            the install-manifest edit is a tool-written change in a file the project notes call the
+            installed copy; flag for the human to confirm it is intended in this PR
 absent_seeded_categories_note: >
-  Not present (no changed file): decision records (docs/adr), documentation (docs/**), harness
-  (plays/skills/agents/grounding in core/components or .claude), memory shelves in core/memory,
-  executable code, config maps (CLAUDE.md / config.yaml), tests. Because no changed path is a play,
-  lint-components and lint-play do not apply, and the pipeline-next map is not needed.
+  Not present: documentation (no docs/** or prose file changed), harness (no play SKILL.md, ICE
+  source, skill, agent or grounding file changed; the one play script is judged executable code),
+  memory shelves (nothing under core/components/memory changed; the memory files in the diff are
+  verbatim run copies), config maps (no CLAUDE.md or config.yaml). Because no changed file is a
+  play definition, lint-play does not apply and the pipeline-next map is not needed.

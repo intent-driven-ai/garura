@@ -1,5 +1,6 @@
-**Reject** — the product owner's verdict (human), check-change round 1.
+**Reject** — the product owner's verdict (human), check-change round 2.
 
-- PM-1, raised to P1 by the product owner: two feature pages make initialize copy whole Phoenix files into the project's memory. ADR 039 decision 4 and the glossary say Garura memory takes only the part a project needs and never copies a Phoenix file. Fix: a memory block is the relevant part of Phoenix memory, not whole files.
-- Also fixed in round 2: PM-2 (the capability's spine entry needs its `slug`), PM-5 (the decision record must show who accepted it and in which issue), PM-6 (the #881 page must name the later story that changes the filing plays), PM-7 (Business Intent is a product-layer issue type, not a work-item type).
-- Left open: PM-3 (no #862 intent page yet), PM-4 (no committed home yet for the setup-answer records), PM-9 (ADR 038 amendment, planned next), and two P4 notes.
+- Round 1's points are fixed and confirmed: PM-1 (memory is built from the part a project needs, never a copy of a Phoenix file), PM-2 (the capability's slug, through bug fix #887), PM-5 (the decision is accepted through /record-decision), PM-6 and PM-7.
+- NP-1 (P2): two feature pages let a "part" be all of a file's sections, which is the whole file. The product owner's rule: never take the whole file; read it, and build the project's memory. Fixed in round 3.
+- Also in round 3: NP-2 (fn-881 quotes ADR 048 itself), NP-4 (the accepted decision drops its "pending" and "if rejected" wording).
+- Script and test: 0 findings, ruff clean, 98 tests pass. The review context came from GitHub's paged file list, because the whole diff is over 300 files (#889). Path-table gap filed as #890.

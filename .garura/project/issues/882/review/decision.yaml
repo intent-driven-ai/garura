@@ -1,12 +1,12 @@
 decision: reject
 decided_by: human
-reply: "pm-1 is actually a p1. fix it\nand fix the 4 small ones"
-round: 1
-citing: [PM-1, PM-2, PM-5, PM-6, PM-7]
-recommended: approve (no P1 at first; one P2, five P3, four P4) — the product owner raised PM-1 to P1
+reply: "record that bug / enhancement. i agree never take the whoel file. read it, and build project's memory so reject: never whole"
+round: 2
+citing: [NP-1, NP-2, NP-4]
+recommended: approve (no P1; one P2, three P4)
+rule_given: 'Never take the whole file. Read it, and build the project''s memory. A fully relevant Phoenix file is still read and built for the project, never copied whole.'
+fixed_from_round_1: [PM-1, PM-2, PM-5, PM-6, PM-7]
 not_fixed_by_decision:
-  - PM-3 (P3) — no intent page for #862 yet; /shape-slice 862 writes it later
-  - PM-4 (P3) — no committed home for the setup-answer records; needs its own decision before initialize is built
-  - PM-8 (P4) — a spine line only re-wrapped
-  - PM-9 (P4) — ADR 038 amendment, already planned next
-  - RR-1 (P4) — six old run-1 gate records hold a text line before their JSON
+  - NP-3 (P4) — the two later stories are named on the pages, not filed yet
+  - PM-3, PM-4, PM-8, PM-9, RR-1 — left open, as in round 1
+filed: ["#889 check-change halts on a PR with more than 300 files", "#890 the path table treats scripts in plays and skills as prose"]
