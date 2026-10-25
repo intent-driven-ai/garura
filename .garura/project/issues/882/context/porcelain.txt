@@ -1,7 +1,16 @@
  M .garura/core/gate-evals.jsonl
- M .garura/install-manifest.json
  M .garura/project/issues/882/context/citations.jsonl
+ M .garura/project/issues/882/context/judge-state/14c903ee79944b392b5378e0a85f6e80.json
+ M .garura/project/issues/882/context/judge-state/22416247ccc9622aa2eaa623d672d4d1.json
+ M .garura/project/issues/882/context/judge-state/25eb502bbb5d5ded2b96efad61945098.json
+ M .garura/project/issues/882/context/judge-state/2a676eedb59bb6b97a0346f55a99d82a.json
+ M .garura/project/issues/882/context/judge-state/3ad41183dc5a1c787c99178a8803d36e.json
+ M .garura/project/issues/882/context/judge-state/a4fd669e095e5d9828a68169f3287423.json
+ M .garura/project/issues/882/context/judge-state/e21ff0b819aa98e25e564103ceeb0c3e.json
  M .garura/project/issues/882/context/memory/manifest.json
-?? .garura/project/issues/882/context/judge-state/
-?? .garura/project/issues/882/context/porcelain.txt
-?? .garura/project/issues/882/context/understand/20261025T122929Z/
+ M .garura/project/issues/882/context/porcelain.txt
+?? .garura/project/issues/882/context/memory/grounding-product-model/
+?? .garura/project/issues/882/context/memory/knowledge/review/
+?? .garura/project/issues/882/context/memory/standards/rules/
+?? .garura/project/issues/882/context/templates/manifest-check-change.json
+?? .garura/project/issues/882/context/understand/20261025T132647Z/

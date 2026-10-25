@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"It lists each needed type with its one-line meaning and says which are there, which are missing and which the tracker cannot make. After the product owner's typed yes, it makes each missing type and records what it made.\" \"Out: the mapping: each needed type and the tracker type it is filed as, its own or a stand-in the product owner said yes to.\" \"Given a GitHub project whose organization has no Epic type, when initialize runs, then the brief lists the six types with their meanings and marks Epic as missing.\" \"Filing epics, stories and other work items (/shape-plan and the other filing plays own them).\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"Nothing is made in the tracker and no stand-in is written to the mapping before the product owner's typed yes. A tracker is an outside system, and a new type there, or a work item filed as some other type, is seen by the whole team.\" \"When every needed type is already there, initialize says so and makes nothing, because a second copy of a type would split the team's work items between two types.\" \"that type gets no stand-in and stays unmapped, because a person with the right can still make the real type.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a brief that proposes a stand-in for Spike, when the product owner says no, then the mapping holds nothing for Spike and the brief names Spike as unmapped.\" \"When the person says yes to only some of the missing types, initialize makes only those.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"A tracker cannot make a type when the adapter says the tracker has no way to add a type of its own, for example a tracker with a fixed list of types; that type gets a proposed stand-in.\" \"Out: a record of what was made and what was mapped, kept beside the mapping in the project's settings\" \"Given the account has no right to add a type to the organization, when initialize tries to make Epic, then it says in plain words that the make failed and why, proposes no stand-in, and Epic stays unmapped.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"It exists because a tracker does not always have these types: on 2026-10-25 Garura's own GitHub organization had no Epic type, so /shape-plan could not file an Epic as an Epic (#875).\" \"The mapping is the record that tells the plays which of the tracker's own types to use for each type they file.\" \"Moving to a different tracker on a later run (Run initialize again, fn-rerun-initialize, owns it).\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}

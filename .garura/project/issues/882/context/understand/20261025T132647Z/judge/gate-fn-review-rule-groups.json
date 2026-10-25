@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "overall": "pass",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  "round": "fix",
+  "failures": [],
+  "notes": [],
+  "missing": [],
+  "fingerprint": "1f783a95c2ff024ce6f6ba6626424b76620caf1c4ef0da7e87c7a3f2dd35346c"
+}

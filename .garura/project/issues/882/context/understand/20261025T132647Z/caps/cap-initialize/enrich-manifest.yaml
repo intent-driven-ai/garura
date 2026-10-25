@@ -1,0 +1,153 @@
+enrich:
+  capability_ref: cap-initialize
+  grounded_in: 'no domain shelf (routing.yaml, re-routed in run 4: unmatched against the ten Phoenix shelves copied in the issue''s short-term memory, same as run 3); the domain page software-delivery-planning/domain.md and its sources; the product owner''s sources GitHub #862 (business intent), #881 (story) and #883 (story, the memory rule rewritten 2026-10-25); ADR 039 Decision 4 and the glossary row for Garura memory (sources/adr-039-decision-4.md); ADR 048 as the review of PR #886 states its rule (prior/review-findings.yaml, G6)'
+  capability:
+    id: cap-initialize
+    slug: initialize
+    domain: dom-software-delivery-planning
+    status: proposed
+    detail: detailed
+    one_line: 'After the install, set a project up for Garura: its memory, its review rules, and its tracker''s work-item types.'
+    doc: software-delivery-planning/initialize/capability.md
+    intents: []
+    nfr_needs:
+      reliability:
+        level: medium
+        target: a second run with every answer unchanged and no Phoenix memory change changes 0 files in the project's memory, its rule-group record and its tracker; an install changes 0 files in any project's Garura memory
+        gate: run initialize twice on a test project with the same answers and diff the memory folder, the rule-group record and the tracker's type list; install Garura and Phoenix again and diff the project's memory folder
+      security:
+        level: medium
+        target: 0 writes to the tracker or the type mapping before the product owner's typed yes; 0 writes to Phoenix memory or another project's memory from initialize; every type made is named in the run's record
+        gate: run initialize on a test GitHub organization with a missing type, answer no, and check the tracker's type list and the mapping are unchanged; answer yes and check the record names each type made; initialize two test projects and diff Phoenix memory and the other project's memory before and after
+      maintainability:
+        level: medium
+        target: a new tracker (Jira, Linear) is added by one entry in the adapter with 0 changes to any play; the plays read only the type mapping
+        gate: 'review of the change that adds the second tracker: its diff touches the adapter and no play'
+    compliance_needs: []
+    metadata:
+      created_by: /discover-capabilities
+  features:
+  - id: fn-setup-questions
+    slug: fn-setup-questions
+    capability: cap-initialize
+    intents: []
+    status: proposed
+    one_line: Ask the product owner the short set of setup questions built from Phoenix memory, each with choices and a proposed answer that names its source, and keep the confirmed answers for the other features.
+    doc: software-delivery-planning/initialize/fn-setup-questions/feature.md
+  - id: fn-project-memory
+    slug: fn-project-memory
+    capability: cap-initialize
+    intents: []
+    status: proposed
+    one_line: Set up the project's Garura memory from only the memory blocks the answers call for, and record the answers in the product profile.
+    doc: software-delivery-planning/initialize/fn-project-memory/feature.md
+  - id: fn-review-rule-groups
+    slug: fn-review-rule-groups
+    capability: cap-initialize
+    intents: []
+    status: proposed
+    one_line: Record which review rule groups fit the project, so a review runs only those and names the groups it skipped.
+    doc: software-delivery-planning/initialize/fn-review-rule-groups/feature.md
+  - id: fn-881
+    slug: fn-881
+    capability: cap-initialize
+    intents: []
+    status: proposed
+    one_line: Find which of the issue types Garura files (Business Intent, Epic, Story, Bug, Chore, Spike) the tracker has, make each missing one after a typed yes, and record a stand-in, also after a typed yes, where one cannot be made.
+    doc: software-delivery-planning/initialize/fn-881/feature.md
+  - id: fn-rerun-initialize
+    slug: fn-rerun-initialize
+    capability: cap-initialize
+    intents: []
+    status: proposed
+    one_line: Run initialize again when the project changes, with the earlier answers proposed, so the memory, rule groups and tracker set-up follow it.
+    doc: software-delivery-planning/initialize/fn-rerun-initialize/feature.md
+  - id: fn-883
+    slug: fn-883
+    capability: cap-initialize
+    intents: []
+    status: proposed
+    one_line: Give each project its own memory blocks from the one Phoenix memory on the machine, and on each run compare them with Phoenix memory so the project learns when a block changed.
+    doc: software-delivery-planning/initialize/fn-883/feature.md
+  implied_levels:
+    reliability:
+      level: medium
+      gate: run initialize twice on a test project with the same answers and diff the results; reinstall and diff the project's memory
+    security:
+      level: medium
+      gate: no tracker or mapping write before the typed yes, on a test GitHub organization; no write to Phoenix memory or another project's memory
+    maintainability:
+      level: medium
+      gate: the change that adds the second tracker touches the adapter and no play
+  compliance: []
+  gaps:
+  - about: cap-initialize
+    missing: 'the business intent id of #862 in the model'
+    why: '#862 is the business intent this capability serves, but the model has no intent page for it (intents/ holds bi-717, bi-722, bi-734, bi-756, bi-788), so the capability''s and features'' intents lists are left empty and their ICE is not workable until it is linked'
+  - about: fn-review-rule-groups
+    missing: the list of the review's rule groups and which setup answer decides each
+    why: '#862 names front end, back-end service, database and running service for Garura and #860 names permissions; the full list is not in the sources and no memory shelf holds it; the page writes six groups as our default and keeps any other group'
+  - about: fn-review-rule-groups
+    missing: Garura's own answer to the permissions question
+    why: the page keeps the permission group for Garura until that answer says no (our default, stated on the page)
+  defaults_written:
+  - about: fn-setup-questions
+    what: the confirmed answers are kept in the run's short-term memory (the issue's folder, or initialize's own folder when it runs with no issue) and handed to fn-project-memory for the product profile, where a later run finds them
+    marked_on_page: true
+  - about: fn-setup-questions
+    what: questions asked together in one brief; an answer outside the choices kept with a note; a partial reply asked again for the missing questions only
+    marked_on_page: true
+  - about: fn-project-memory
+    what: each choice of the setup questions is built from one named place in Phoenix memory (a standards folder, one domain shelf, or one part of a shelf), its block's selection; the block is built from only the parts of what the selection finds that speak to the answer, a part cut along the file's own sections (a heading and what is under it); a part two blocks need is built once and names both answers. What a block holds (only the part the project needs, never the whole file) is from ADR 039 Decision 4, not a default
+    marked_on_page: true
+  - about: fn-project-memory
+    what: an answer that selects nothing is named and the rest is built; stop and build nothing when Phoenix memory cannot be reached
+    marked_on_page: true
+  - about: fn-881
+    what: where the type mapping and its record are kept (with the project's settings)
+    marked_on_page: true
+  - about: fn-881
+    what: the one-line meaning of each work-item type
+    marked_on_page: true
+  - about: fn-881
+    what: initialize proposes a stand-in and the product owner's typed yes writes it; 'cannot make' gets a stand-in, 'making failed' stays unmapped
+    marked_on_page: true
+  - about: fn-883
+    what: how the part of a Phoenix file a block is built from is cut (set in fn-project-memory); what a block holds is from ADR 039 Decision 4, not a default
+    marked_on_page: true
+  - about: fn-883
+    what: the project's block list (answer, selection, each part with its place in Phoenix memory and its fingerprint, Phoenix version), the compare on each initialize run (parts changed, added, taken out), and a change built in only on a typed yes
+    marked_on_page: true
+  - about: fn-rerun-initialize
+    what: a changed tracker answer sets up the new tracker after a typed yes and leaves the old tracker as it is; where the change record is kept
+    marked_on_page: true
+  - about: fn-review-rule-groups
+    what: changing the review play (/check-change) to read the rule-group record, skip the skipped groups and name them in its own record is a later story of this business intent, outside this feature; the feature's goal, acceptance criteria and fails-if lines are the record's contract with the review
+    marked_on_page: true
+  - about: fn-883
+    what: the brief asks a yes or no per part (a reply to a whole block applies to every part under it); a yes rebuilds a changed part from Phoenix memory as it is now and updates its fingerprint, builds an added part in and lists it, removes what was built from a taken-out part and takes it off the list; it never copies a Phoenix file; a no leaves the part and its entry as they were
+    marked_on_page: true
+  - about: fn-rerun-initialize
+    what: a question new since the last run is asked as a first run does, with a proposal from the project or Phoenix memory, and marked as new in the brief
+    marked_on_page: true
+  - about: fn-rerun-initialize
+    what: a no to the tracker changes leaves the mapping on the old tracker, the memory and rule-group changes of the other confirmed answers still apply, and the change record shows the tracker part as declined
+    marked_on_page: true
+  - about: fn-881
+    what: changing the filing plays (/shape-plan and the plays that file work items) to read the mapping and stop with a message that points to initialize when a type is missing and not mapped is a later story of this business intent, not filed yet, outside this feature; the feature's acceptance criterion and fails-if line check only the mapping and the record initialize writes
+    marked_on_page: true
+  fixed_in_run_4:
+    cap-initialize: 'PM-1: Garura memory defined as built from only the part of Phoenix memory the project needs, never a copy of a Phoenix file; a memory block is the relevant part an answer selects, down to the part of a file (checkout, not all of commerce); new guiding rule ''built, never copied''; new Goal wording and Fails if (a whole Phoenix file, or a part the answers did not select); ADR 039 in Sources. PM-6: the plays'' stop-and-point behaviour named in Out as a later story not filed yet; the old Fails if replaced by initialize''s own check (a type neither made nor mapped is named as missing). PM-7: ''the issue types Garura files'', with Business Intent named once as the one product-layer type'
+    fn-project-memory: 'PM-1: block and part defined; the file-copy rules replaced by build-from-the-part rules; the claim that the sources are silent on what a block holds taken out; how a part is cut marked as our default; criteria for the checkout part and for no whole Phoenix file added; new Fails if; ADR 039 in Sources'
+    fn-883: 'PM-1: block, selection and part defined from ADR 039; the block list, the compare and the yes or no work per part; a yes rebuilds the part and never copies or overwrites with the Phoenix file; the claim that the sources are silent on what a block holds taken out; a checkout criterion and a new Fails if added; ADR 039 in Sources'
+    fn-rerun-initialize: 'PM-1: block definition and the Phoenix-change sentence follow ADR 039 (rebuild the part, never copy the file); change record lists blocks and parts; ADR 039 in Sources. PM-7: ''issue type'' in place of ''work-item type'''
+    fn-881: 'PM-6: the filing plays'' change named in Out of scope as a later story not filed yet; the rule says it is the plays'' contract; the acceptance line and the Fails if line now check only the mapping and the record; Checked by no longer depends on /shape-plan. PM-7: ''the issue types Garura files'', Business Intent named once as the one product-layer type; ADR 048 in Sources'
+    fn-setup-questions: unchanged, byte for byte the prior draft
+    fn-review-rule-groups: unchanged, byte for byte the prior draft
+  left_as_is:
+    PM-2: 'spine slug: the play''s scripts handle it (capability.slug stays initialize in this manifest)'
+    PM-5: 'decision record: the play''s scripts handle it'
+    PM-3: 'known gap the pages name (no #862 intent page, intents empty)'
+    PM-4: known gap the pages name (home of the setup records)
+    PM-9: known gap the pages name (ADR 038 amendment owed)
+    fn-881 title: 'the feature''s title keeps #881''s own words ''work-item types'' so that fn-setup-questions stays byte for byte the same; the six types are named as ''the issue types Garura files'' wherever a page lists them'

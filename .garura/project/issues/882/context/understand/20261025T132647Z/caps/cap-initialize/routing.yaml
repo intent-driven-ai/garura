@@ -1,0 +1,15 @@
+{
+  "routing_result": {
+    "work": "cap-initialize: after the install, set a project up for Garura: its memory, its review rules, and its tracker's issue types (domain dom-software-delivery-planning)",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "software-delivery-planning",
+        "why": "The work serves the field of building and delivering software (setting up a software project's memory, review rules and tracker types for the people and plays that build it). None of the ten shelves holds that field: analytics, collaboration, content-management, ecommerce, experience, marketing, notifications, payments, personalization and user-management each name a field a product serves its end users in (selling, paying, publishing, measuring, messaging, accounts), and none lists setting up a project, its standards, its code review or its work tracker. Collaboration's trigger (several people on one object) and user-management's (accounts, roles) touch only one detail (the permissions answer, the team's tracker) and hold none of the capability's main work, so the capability is not folded into either."
+      }
+    ],
+    "note": "Same result as run 3. The domain page software-delivery-planning/domain.md exists in the model and carries its own outside sources; no new KB node is drafted in this fix round, because the domain is already in the model and the caller's change is to the capability's pages only."
+  }
+}

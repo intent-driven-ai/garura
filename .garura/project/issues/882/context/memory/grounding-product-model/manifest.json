@@ -1,0 +1,6 @@
+{
+  "category": "product-model",
+  "issue": 882,
+  "files": [],
+  "note": "No extra memory was copied. Grounding came from the base ref plan/788/base (git show origin/plan/788/base:<path>): the spine schema, decision schema, grounding templates and content standard under core/components/memory/standards/schemas/product-os/, ADR 026, 038, 039, 048, the glossary, and the discover-capabilities play. The severity taxonomy came from the shared copy context/memory/standards/rules/pr.md."
+}

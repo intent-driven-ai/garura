@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Runs after the product owner confirms the setup answers.\" \"Out: when Phoenix memory cannot be reached, a plain message that says so and that the Phoenix install must run on this machine, and no project memory built.\" \"Given two answers whose blocks share one part, when the memory is built, then the project's Garura memory holds that part once and it names both answers.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"because a whole file brings context the project does not need (all of commerce for a project that needs only checkout), and the plays would read that context as if it fit the project.\" \"It goes on because one answer with no matching standard does not make the other answers wrong; this is unlike an unreachable Phoenix memory, where nothing read can be trusted.\" \"It never writes the profile's answers on their own either, so the project is never left half set up.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "\"How an answer is tied to its parts. Each choice that Ask the setup questions (fn-setup-questions) offers is built from one named place in Phoenix memory:\" \"An answer that names no place (for example database no) selects no block. A part that two selected blocks both need is built once and names both answers that selected it,\" \"Words this page uses. Phoenix memory is the one shared memory on a machine\"",
+      "fix": "Split the Rules & behavior bullet that starts \"How an answer is tied to its parts.\" into separate bullets, one rule each: (1) each choice maps to one named place in Phoenix memory (a standards folder, a domain shelf, or one part of a shelf), which is the block's selection; (2) to build a block, initialize asks the memory tool for what the selection finds and keeps only the parts that speak to the answer; (3) an answer that names no place (database no) selects no block; (4) a part two blocks both need is built once and names both answers, so dropping one answer keeps it for the other; (5) our default: a part is cut along the file's own sections and a section is kept when it speaks to the answer. Likewise split the \"Words this page uses.\" bullet into one bullet per term (Phoenix memory, Garura memory, memory block, part, product profile)."
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"A part that two selected blocks both need is built once and names both answers that selected it, so a later run that drops one of the two answers keeps it for the other.\" \"a part is cut along the file's own sections (a heading and what is under it), and a section is kept when it speaks to the answer\" \"The record says which blocks and parts were added and which were taken out\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Runs after the product owner confirms the setup answers. It sets up the project's Garura memory from only the memory blocks those answers call for, so a project with no database, no front end or no permissions gets none of those standards.\" \"Asking the questions and keeping the person's reply (Ask the setup questions, fn-setup-questions, owns it).\" \"Laying Phoenix memory on the machine and bringing it up to date: the Phoenix install owns it, once per machine.\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}
