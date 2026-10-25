@@ -923,7 +923,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:8554c3caf57b5853c62e16f6f394fe4b357d8e0555ba24f707f1509214cb4f95 (of `reference/ice.md`) |
+| fingerprint | sha256:8123401ff0f2e9e9d6a5168dacb6e8380f77c4a9ddeeacb0c2305744421f862c (of `reference/ice.md`) |
 | compiled_by | edit-play (#884 the content eval settles: kept pass, fix round, notes; C4, REC3, S5, S10); edit-play (#689 ADR 043: writes the capabilities and features, read off the screens, holding folder when no domain: C1, C2, C16); edit-play (#689 the screens decide the features, every page with its sources: C16); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#615 runs inside a loop; one run details every pending capability); edit-play (#616 stands alone); edit-play (#498 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /discover-domains) |

@@ -83,7 +83,7 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   feature) clears the content-quality eval, not just the linter — each section is
   self-explaining at product-manager altitude and the doc passes the stranger test.
   The eval settles (`standards/rules/grounding-eval.md`; Kapil, #884): a doc's pass is kept
-  while the doc, its parent doc and the guidance are unchanged, so it is not judged again; a
+  while the doc, its parent doc, the guidance and the judge are unchanged, so it is not judged again; a
   fix round checks each earlier failure and judges new points only on the text that changed;
   a new point on unchanged text is a note — shown to the person at the checkpoint with its
   doc — and never stops the run. The judge state lives in the issue's short-term memory, so a

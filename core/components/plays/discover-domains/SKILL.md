@@ -827,7 +827,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:648e0695fb82823234ed6ed4cb8d63d24300d65bd6a0baaffff1721859cc7273 (of `reference/ice.md`) |
+| fingerprint | sha256:0055028031462d2dd96cc4449dfdb4a39061d0c67bc0784fcd734862bab09a47 (of `reference/ice.md`) |
 | compiled_by | edit-play (#884 the content eval settles: kept pass, fix round, notes; C2, REC2, S4, S9); edit-play (#689 every main section in a domain whose research covers it; no domain from one shared feature: C5, C12); edit-play (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#614 runs inside a loop); edit-play (#637 one product model with /discover-intent); edit-play (#616 position both); edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C); create-play (edited via edit-play, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it |

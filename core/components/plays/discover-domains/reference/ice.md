@@ -65,7 +65,7 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   altitude per the content standard (it names the thing AND explains why it matters), and
   the whole doc passes the stranger test. A label-only or thin doc fails. A page the play
   only moves, unchanged, is not re-judged. The eval settles (`standards/rules/grounding-eval.md`;
-  Kapil, #884): a doc's pass is kept while the doc and the guidance are unchanged, so it is not
+  Kapil, #884): a doc's pass is kept while the doc, the guidance and the judge are unchanged, so it is not
   judged again; a fix round checks each earlier failure and judges new points only on the text
   that changed; a new point on unchanged text is a note — shown to the person at the checkpoint
   with its doc — and never stops the run. The judge state lives in the issue's short-term
