@@ -445,13 +445,40 @@ def test_seed_from_the_screens():
             check(f"a screens seed {label} is refused", run(base, work, seed) == 2)
 
 
+def set_capability_delta(work, delta):
+    path = os.path.join(work, "enrich.yaml")
+    with open(path) as fh:
+        man = yaml.safe_load(fh)
+    man["enrich"]["capability"].update(delta)
+    with open(path, "w") as fh:
+        yaml.safe_dump(man, fh)
+
+
+def test_slug():
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp)
+        set_capability_delta(work, {"slug": "checkout"})
+        check("a seeded capability is persisted", run(base, work, ANSWERS) == 0)
+        cap = spine(root)["capabilities"][0]
+        check("a seeded capability gets the slug its manifest gives", cap.get("slug") == "checkout")
+        check("the slug sits right after the id", list(cap)[:2] == ["id", "slug"])
+    with tempfile.TemporaryDirectory() as tmp:
+        base, root, work = setup(tmp, [{"id": "checkout", "slug": "pay-cart", "domain": "commerce",
+                                        "status": "proposed", "detail": "directional",
+                                        "doc": "commerce/checkout/capability.md"}])
+        set_capability_delta(work, {"slug": "checkout"})
+        check("an existing capability is persisted", run(base, work) == 0)
+        check("a slug already set is kept, never changed by the manifest",
+              spine(root)["capabilities"][0]["slug"] == "pay-cart")
+
+
 def main():
     for test in (test_existing_seed, test_seed_from_the_screens, test_absent_without_seed, test_absent_with_seed,
                  test_seed_refusals, test_domain_folder_differs_from_id, test_seed_not_a_mapping,
                  test_sibling_containment,
                  test_already_detailed, test_box_move_status, test_many_targets,
                  test_many_targets_refusals, test_profile_never_lowered, test_feature_ids,
-                 test_record_carries_decision_status):
+                 test_record_carries_decision_status, test_slug):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")
