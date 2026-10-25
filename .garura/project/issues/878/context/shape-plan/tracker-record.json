@@ -1,0 +1,80 @@
+{
+  "ok": true,
+  "plan_id": "788",
+  "approval_at": "2026-10-25T09:52:48Z",
+  "created": [],
+  "updated": [
+    {
+      "issue": 795,
+      "kind": "story",
+      "represents": "fn-795",
+      "changes": [
+        "section added: Scope of work",
+        "section added: Context guidance",
+        "line added: Represents",
+        "type set to Story"
+      ],
+      "lines_kept": true
+    },
+    {
+      "issue": 818,
+      "kind": "story",
+      "represents": "fn-818",
+      "changes": [
+        "section added: Scope of work",
+        "section added: Context guidance",
+        "line added: Represents",
+        "type set to Story"
+      ],
+      "lines_kept": true
+    },
+    {
+      "issue": 798,
+      "kind": "story",
+      "represents": "fn-798",
+      "changes": [
+        "section added: Scope of work",
+        "section added: Context guidance",
+        "line added: Represents",
+        "type set to Story"
+      ],
+      "lines_kept": true
+    },
+    {
+      "issue": 794,
+      "kind": "epic",
+      "represents": "sl-intent-to-design",
+      "changes": [
+        "line added: Represents",
+        "feature-to-story map written",
+        "type set to Feature"
+      ],
+      "lines_kept": true
+    }
+  ],
+  "moved_out": [],
+  "epics": {
+    "sl-intent-to-design": 794
+  },
+  "stories": {
+    "fn-795": 795,
+    "fn-818": 818,
+    "fn-798": 798
+  },
+  "maps": {
+    "sl-intent-to-design": {
+      "fn-795": 795,
+      "fn-818": 818,
+      "fn-798": 798
+    }
+  },
+  "titles": {
+    "794": "The shaping loop turns a business intent into a testable slice, its plan and its eval",
+    "795": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
+    "818": "The plan play makes the plan file, the epic and one story per feature",
+    "798": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface"
+  },
+  "skipped": [],
+  "failed": null,
+  "error": null
+}

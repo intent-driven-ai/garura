@@ -1,0 +1,51 @@
+{
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/878/context/templates/manifest-shape-plan.json"
+  },
+  "templates": [
+    {
+      "name": "standards/templates/approval-prompt.md",
+      "copy": ".garura/project/issues/878/context/templates/standards/templates/approval-prompt.md",
+      "source": {
+        "tier": "garura",
+        "path": "core/memory/standards/templates/approval-prompt.md",
+        "version": null,
+        "fingerprint": "sha256:75da06f293bf8f69e8b09e560f2da788f44b2ea56a6d1e3d91c071106b1272ac"
+      }
+    },
+    {
+      "name": "standards/templates/evidence-file.md",
+      "copy": ".garura/project/issues/878/context/templates/standards/templates/evidence-file.md",
+      "source": {
+        "tier": "garura",
+        "path": "core/memory/standards/templates/evidence-file.md",
+        "version": null,
+        "fingerprint": "sha256:9d2ec2ea00cd54c2aa2149a395b08537bd37fa0c5924cb3aa72ef1b6db56699b"
+      }
+    },
+    {
+      "name": "standards/templates/delivery-report.md",
+      "copy": ".garura/project/issues/878/context/templates/standards/templates/delivery-report.md",
+      "source": {
+        "tier": "garura",
+        "path": "core/memory/standards/templates/delivery-report.md",
+        "version": null,
+        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
+      }
+    },
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/878/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412"
+      }
+    }
+  ],
+  "missing": [],
+  "task_id": "load-shape-plan-templates",
+  "error": null
+}

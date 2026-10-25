@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "problems": [],
+  "skipped": [],
+  "slices": [
+    {
+      "slice": "sl-intent-to-design",
+      "epic": 794,
+      "stories": {
+        "fn-795": 795,
+        "fn-798": 798,
+        "fn-818": 818
+      }
+    }
+  ]
+}

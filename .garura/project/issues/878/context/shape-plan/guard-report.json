@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    ".garura/project/plans/788.yaml"
+  ],
+  "add_only": [],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [],
+  "violations": [],
+  "restored": [],
+  "also_tree": [
+    ".garura/project/plans"
+  ]
+}
