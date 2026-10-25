@@ -168,7 +168,7 @@ tree:
     - issue: 875
       kind: bug
       title: '/shape-plan files the Epic with issue type Feature; a slice''s Epic must be type Epic (P1)'
-      status: now
+      status: done
       children:
       - issue: 892
         kind: chore
