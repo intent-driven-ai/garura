@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every section the guidance asks for is present and substantive: What it does (\"Runs after the setup answers are confirmed. It records which rule groups of the review fit the project...\"), Inputs / Outputs (\"Out: the project's rule-group record, kept in the product profile... one entry per rule group: the group's name, kept or skipped, and the question and answer that decided it\"), Rules & behavior (six answer-to-group mappings plus the default-keep rule), five Given/When/Then criteria, Out of scope naming each owner, and an Agent intent (ICE) section with Goal, Limit, Fails if, Context and Checked by lines.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "Items carry their why: \"A database group on a project with no database gives only noise, but a group skipped by mistake hides real findings, so only a clear answer can skip one.\"; \"Database no: the database group is skipped, because there is no schema, query or data store for its rules to check.\"; \"it is never skipped by another answer, because a leak of personal data is the costliest miss.\"; \"kept in the product profile beside the setup answers, so the review reads it where every later play reads the project's facts.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Discrete bullets throughout, the feature states the function's behavior (\"It records which rule groups of the review fit the project and which do not\"), never a user story, and acceptance is Given/When/Then: \"Given answers that say there is no front end, no back-end service, no database and no running service, when the rule groups are chosen, then the record marks those four groups as skipped, each with the answer that decided it.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "The parent gives one line: \"Choose the review rule groups (fn-review-rule-groups): records which rule groups of the review fit the project, so a review runs only those and names the groups it skipped.\" The feature adds the record's shape (\"one entry per rule group: the group's name, kept or skipped, and the question and answer that decided it\"), the answer-to-group mapping for six groups, the default-keep edge case, the personal-data override and the Garura-specific permission case, so detail clearly increases.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "The node's core term is never defined: \"It records which rule groups of the review fit the project\" (a cold reader must infer that a rule group is a set of review rules that check one concern, such as database or front end). Two lines also point at a file the reader cannot see: \"see the manifest's gaps\" and \"Our default, held in the manifest's gaps.\"",
+      "fix": "Add a first bullet to What it does that defines the term, for example: \"A rule group is a set of the review's rules that check one kind of thing (front end, back-end service, database, running service, permissions, personal data); the review runs or skips a group as a whole.\" Replace both \"the manifest's gaps\" references with the gap stated in the doc itself, for example: \"(open question: the sources do not list every rule group the review has)\" and \"(open question: Garura's answer to the permissions question is not yet recorded)\"."
+    }
+  ]
+}

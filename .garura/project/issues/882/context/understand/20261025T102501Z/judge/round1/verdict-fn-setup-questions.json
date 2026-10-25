@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "\"Each question shows its choices and a proposed answer that names its source, and the product owner confirms or corrects each one.\" / Rules & behavior covers unconfirmed proposals, no-source proposals and an unreachable memory tier, but never says what happens on a correction or on a reply that skips questions.",
+      "fix": "Add two Rules & behavior lines (and a matching Given/When/Then for each): (1) what happens when the product owner's correction names something that is not among the choices (for example a domain Phoenix memory holds no shelf for) - whether initialize refuses it with a plain message and asks again, or records it with a note that no memory can be set up for it; (2) what happens when the reply leaves some questions unanswered - whether initialize asks again only for those, or stops, and that no unanswered question is recorded as an answer."
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A choice is offered only when Phoenix memory holds it. A domain, standard or tool that memory does not hold is never a choice, because initialize could not set up memory for it.\" / \"The questions are asked together in one brief, not one at a time, so the person sees the whole set-up at once.\" / \"The set is short: it asks only what decides memory, review rules or tracker types.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Every section is a list of discrete points; acceptance is Given/When/Then, e.g. \"Given Phoenix memory holds no shelf for a domain, when the domain question is built, then that domain is not a choice.\"; the feature states its behavior (\"Runs when the product owner starts `initialize` after the install...\"), with no user story.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent: \"Ask the setup questions (fn-setup-questions): asks the product owner the short set of questions built from Phoenix memory, each with choices and a proposed answer that names its source, and records the answers.\" Child adds the question topics, the inputs (domain shelves, standards, tools, review rule groups, project files, config, earlier answers), the output shape (\"each question with its id, its plain question, its choices and its proposed answer with the source\"), and edge cases such as \"When the memory tool cannot reach Phoenix memory ... initialize says so in plain words and stops\".",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "What: \"builds one short set of questions about the project from what memory holds\"; why: \"These are the facts that decide which memory and which review rules fit.\" and \"The confirmed answers are the input of every other feature of initialize.\"; edges: \"Building the project's memory from the answers (fn-project-memory owns it).\" and the three other owned exclusions.",
+      "fix": ""
+    }
+  ]
+}

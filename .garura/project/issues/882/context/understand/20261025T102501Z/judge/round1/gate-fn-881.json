@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md
+  completeness = fail
+    evidence: "In: the list of types the plays need, each with its one-line meaning: Business Intent, Epic, Story, Bug, Chore, Spike." and "Out: a record of what was made and what was mapped." The six one-line meanings the brief must show are never given, and the record has no named place. Rules & behavior covers yes, no, all-present and cannot-make, but not these branches: the product owner approves only some of the missing types; making a type fails (for example the account lacks the rights to add an organization-level type on GitHub); initialize runs again when a mapping already exists.
+    fix:      In Inputs / Outputs, write the one-line meaning of each of the six types (for example "Spike: a time-boxed look into an unknown, with a finding as its result") and name where the record is kept (for example beside the mapping in the project's settings). In Rules & behavior, add one line each for: a partial yes (make only the approved types; the rest stay missing and are named in the brief); a make that fails (say what failed in plain words, make nothing further for that type, leave it unmapped so plays stop with the initialize message); and a run where a mapping already exists (keep it, show it in the brief, and change it only on a new yes), pointing to fn-rerun-initialize for the rest of the re-run.
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  "failures": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "\"In: the list of types the plays need, each with its one-line meaning: Business Intent, Epic, Story, Bug, Chore, Spike.\" and \"Out: a record of what was made and what was mapped.\" The six one-line meanings the brief must show are never given, and the record has no named place. Rules & behavior covers yes, no, all-present and cannot-make, but not these branches: the product owner approves only some of the missing types; making a type fails (for example the account lacks the rights to add an organization-level type on GitHub); initialize runs again when a mapping already exists.",
+      "fix": "In Inputs / Outputs, write the one-line meaning of each of the six types (for example \"Spike: a time-boxed look into an unknown, with a finding as its result\") and name where the record is kept (for example beside the mapping in the project's settings). In Rules & behavior, add one line each for: a partial yes (make only the approved types; the rest stay missing and are named in the brief); a make that fails (say what failed in plain words, make nothing further for that type, leave it unmapped so plays stop with the initialize message); and a run where a mapping already exists (keep it, show it in the brief, and change it only on a new yes), pointing to fn-rerun-initialize for the rest of the re-run."
+    }
+  ],
+  "missing": []
+}

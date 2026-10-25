@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md
+  stranger_test = fail
+    evidence: What it does names "a new tracker" as a reason to run again ("it gains a database, a web surface, personal data or a new tracker"), but no rule or acceptance criterion says what a re-run does when the tracker itself changes; and the outputs lean on a bare id: "through fn-project-memory, fn-review-rule-groups and fn-881."
+    fix:      Add a rule to Rules & behavior for a changed tracker answer, for example: "When the tracker answer changes (for example from GitHub to Jira), the re-run sets up the work-item types in the new tracker as a first run does, after a typed yes, and leaves the old tracker as it is, because the old tracker may still hold the team's work items", and a matching Given/When/Then. In Inputs / Outputs and Out of scope, name each feature by its title beside its id, e.g. "Set up the tracker's work-item types (fn-881)", so a cold reader knows what fn-881 does.
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  "failures": [
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "What it does names \"a new tracker\" as a reason to run again (\"it gains a database, a web surface, personal data or a new tracker\"), but no rule or acceptance criterion says what a re-run does when the tracker itself changes; and the outputs lean on a bare id: \"through fn-project-memory, fn-review-rule-groups and fn-881.\"",
+      "fix": "Add a rule to Rules & behavior for a changed tracker answer, for example: \"When the tracker answer changes (for example from GitHub to Jira), the re-run sets up the work-item types in the new tracker as a first run does, after a typed yes, and leaves the old tracker as it is, because the old tracker may still hold the team's work items\", and a matching Given/When/Then. In Inputs / Outputs and Out of scope, name each feature by its title beside its id, e.g. \"Set up the tracker's work-item types (fn-881)\", so a cold reader knows what fn-881 does."
+    }
+  ],
+  "missing": []
+}

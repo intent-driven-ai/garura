@@ -1,0 +1,31 @@
+{
+  "task_id": "load-grounding-templates",
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/882/context/templates/manifest-grounding.json"
+  },
+  "templates": [
+    {
+      "name": "standards/schemas/product-os/grounding/capability.md",
+      "copy": ".garura/project/issues/882/context/templates/standards/schemas/product-os/grounding/capability.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/schemas/product-os/grounding/capability.md",
+        "version": "44e1c4c4799a",
+        "fingerprint": "sha256:57bcd198b8344c9cba9e84739714f44d6c85eac5dcde9e67d88629c698a3609f"
+      }
+    },
+    {
+      "name": "standards/schemas/product-os/grounding/feature.md",
+      "copy": ".garura/project/issues/882/context/templates/standards/schemas/product-os/grounding/feature.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/schemas/product-os/grounding/feature.md",
+        "version": "44e1c4c4799a",
+        "fingerprint": "sha256:8056d0c66a9ef96f306504087fa19aafaa16989e160c424cc497b2b073d3cd20"
+      }
+    }
+  ],
+  "missing": [],
+  "error": null
+}

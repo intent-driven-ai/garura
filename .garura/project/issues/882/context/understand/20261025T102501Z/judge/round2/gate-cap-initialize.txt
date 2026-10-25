@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/capability.md
+  stranger_test = fail
+    evidence: Boundary: 'In: ... These five jobs share one moment (the project is being set up) and one input (the product owner's answers)' and 'Out: the install itself, which copies the plays, agents, skills and tools but brings no memory of its own (the install play owns it). Initialize starts where the install stops, so the two never write the same files.' versus Features: 'Lay Phoenix memory once, give each project its own blocks (fn-883): treats every memory file in Garura's source as Phoenix memory, has one install lay it on the machine and a second install bring it up to date, so `initialize` gives each project only the blocks its answers call for.'
+    fix:      Resolve the edge contradiction around fn-883, and define its term. Either (a) add a sixth In line that names what this capability owns in fn-883 (for example: 'In: deciding which memory blocks a project gets from the Phoenix memory on the machine'), state that laying and updating Phoenix memory on the machine is done by the install play, and rewrite the fn-883 line so it names only initialize's part; or (b) move fn-883 to the install capability and remove it here. Change 'These five jobs' to match the In list once it is fixed. Define 'blocks' in one clause the first time it appears (for example: 'blocks, the separate parts of Phoenix memory such as one domain shelf or one standard'), so a cold reader knows what a project receives.
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+  "failures": [
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "Boundary: 'In: ... These five jobs share one moment (the project is being set up) and one input (the product owner's answers)' and 'Out: the install itself, which copies the plays, agents, skills and tools but brings no memory of its own (the install play owns it). Initialize starts where the install stops, so the two never write the same files.' versus Features: 'Lay Phoenix memory once, give each project its own blocks (fn-883): treats every memory file in Garura's source as Phoenix memory, has one install lay it on the machine and a second install bring it up to date, so `initialize` gives each project only the blocks its answers call for.'",
+      "fix": "Resolve the edge contradiction around fn-883, and define its term. Either (a) add a sixth In line that names what this capability owns in fn-883 (for example: 'In: deciding which memory blocks a project gets from the Phoenix memory on the machine'), state that laying and updating Phoenix memory on the machine is done by the install play, and rewrite the fn-883 line so it names only initialize's part; or (b) move fn-883 to the install capability and remove it here. Change 'These five jobs' to match the In list once it is fixed. Define 'blocks' in one clause the first time it appears (for example: 'blocks, the separate parts of Phoenix memory such as one domain shelf or one standard'), so a cold reader knows what a project receives."
+    }
+  ],
+  "missing": []
+}
