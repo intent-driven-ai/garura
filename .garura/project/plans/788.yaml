@@ -1,5 +1,7 @@
 # Plan 788 — its ID is the business intent's issue number (ontology v11, Plan).
 # Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later.
+# represents: the slice id an epic stands for, or the feature id a story stands for (#818,
+# Q-find-1); /shape-plan finds work items by it, never by title.
 # later = parked: open, but not the next work; done when the product owner picks it up.
 # A detour: found while working on plan 756. Its branch is cut from plan/756/base, takes in
 # 756's changes on each start, and lands back into plan/756/base (returns_to); then work goes
@@ -48,6 +50,7 @@ tree:
     status: done
 - issue: 794
   kind: capability
+  represents: sl-intent-to-design
   title: The shaping loop turns a business intent into a testable slice, its plan and its eval
   status: now
   children:
@@ -114,6 +117,7 @@ tree:
     status: done
   - issue: 795
     kind: feature
+    represents: fn-795
     title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
     status: done
     needs:
@@ -144,16 +148,29 @@ tree:
     - 795
   - issue: 798
     kind: feature
+    represents: fn-798
     title: "The eval play (/shape-eval) writes the slice's eval: is the business intent met, tested on the slice's surface"
     status: next
     needs:
     - 818
   - issue: 818
     kind: feature
+    represents: fn-818
     title: The plan play makes the plan file, the epic and one story per feature
-    status: next
+    status: done
     needs:
     - 795
+    children:
+    - issue: 876
+      kind: bug
+      title: An install into Garura's own repo leaves out the plan play, so /shape-plan cannot run
+      status: now
+    - issue: 875
+      kind: bug
+      title: 'There is no Epic: the work order for a slice is a Feature, but Garura still names an Epic kind (P1)'
+      status: next
+      needs:
+      - 876
   - issue: 796
     kind: feature
     title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
@@ -208,6 +225,10 @@ tree:
   - issue: 872
     kind: chore
     title: 'The two small findings left by the PR #871 review'
+    status: later
+  - issue: 874
+    kind: chore
+    title: 'The findings left by the PR #873 review (the plan play)'
     status: later
 - issue: 833
   kind: chore
