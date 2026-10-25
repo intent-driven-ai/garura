@@ -1,5 +1,6 @@
 pr: 864
 issue: 860
+round: 4
 findings:
 - standard_id: SEC-07
   severity: P1
@@ -9,25 +10,43 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: SEC-07
   category: standards
-  basis: linter rule SEC-07 (pr.md)
+  basis: linter rule SEC-07 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: SEC-07
   severity: P1
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 126
+  line: 146
   evidence: JSON.parse
   artifact_type: tests
   taxonomy_rule_id: SEC-07
   category: standards
-  basis: linter rule SEC-07 (pr.md)
+  basis: linter rule SEC-07 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: SEC-07
   severity: P1
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 128
+  line: 148
   evidence: JSON.parse
   artifact_type: tests
   taxonomy_rule_id: SEC-07
   category: standards
-  basis: linter rule SEC-07 (pr.md)
+  basis: linter rule SEC-07 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: SEC-07
+  severity: P1
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 66
+  evidence: JSON.parse
+  artifact_type: tests
+  taxonomy_rule_id: SEC-07
+  category: standards
+  basis: linter rule SEC-07 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: SEC-07
+  severity: P1
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 68
+  evidence: JSON.parse
+  artifact_type: tests
+  taxonomy_rule_id: SEC-07
+  category: standards
+  basis: linter rule SEC-07 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/index.js
@@ -36,7 +55,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/index.js
@@ -45,7 +64,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/index.js
@@ -54,7 +73,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/index.js
@@ -63,7 +82,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/lib/discover.js
@@ -72,7 +91,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/lib/discover.js
@@ -81,7 +100,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/lib/discover.js
@@ -90,7 +109,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/lib/discover.js
@@ -99,7 +118,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/lib/reporter.js
@@ -108,7 +127,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/lib/reporter.js
@@ -117,7 +136,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/lib/reporter.js
@@ -126,7 +145,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/lib/reporter.js
@@ -135,7 +154,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -144,7 +163,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -153,7 +172,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -162,7 +181,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -171,7 +190,43 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/lib/rules/naming.js
@@ -180,7 +235,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/lib/rules/naming.js
@@ -189,7 +244,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/lib/rules/naming.js
@@ -198,7 +253,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/lib/rules/naming.js
@@ -207,7 +262,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: BE-12
   severity: P2
   file: core/tools/lint-components/lib/rules/naming.js
@@ -216,7 +271,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: BE-12
   category: standards
-  basis: linter rule BE-12 (pr.md)
+  basis: linter rule BE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -225,7 +280,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -234,7 +289,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -243,7 +298,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -252,7 +307,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -261,7 +316,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -270,7 +325,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -279,7 +334,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -288,7 +343,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/lib/rules/structural.js
@@ -297,7 +352,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/lib/rules/structural.js
@@ -306,7 +361,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/lib/rules/structural.js
@@ -315,7 +370,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/lib/rules/structural.js
@@ -324,7 +379,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -333,7 +388,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -342,7 +397,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -351,7 +406,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -360,7 +415,43 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -369,7 +460,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -378,7 +469,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -387,7 +478,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -396,7 +487,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-02
   severity: P2
   file: core/tools/lint-play/lint_play.py
@@ -405,7 +496,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-02
   category: standards
-  basis: linter rule ARCH-02 (pr.md)
+  basis: linter rule ARCH-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-03
   severity: P2
   file: core/tools/lint-play/lint_play.py
@@ -414,7 +505,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-03
   category: standards
-  basis: linter rule CODE-03 (pr.md)
+  basis: linter rule CODE-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-04
   severity: P2
   file: core/tools/lint-play/lint_play.py
@@ -423,7 +514,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-04
   category: standards
-  basis: linter rule CODE-04 (pr.md)
+  basis: linter rule CODE-04 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-14
   severity: P2
   file: core/tools/lint-play/lint_play.py
@@ -432,7 +523,43 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-14
   category: standards
-  basis: linter rule CODE-14 (pr.md)
+  basis: linter rule CODE-14 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: DOC-01
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-01
+  category: standards
+  basis: linter rule DOC-01 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: DOC-09
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-09
+  category: standards
+  basis: linter rule DOC-09 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: DOC-10
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-10
+  category: standards
+  basis: linter rule DOC-10 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: DOC-11
+  severity: P3
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-11
+  category: standards
+  basis: linter rule DOC-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/index.js
@@ -441,7 +568,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/index.js
@@ -450,7 +577,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/index.js
@@ -459,7 +586,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/index.js
@@ -468,7 +595,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/index.js
@@ -477,7 +604,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/index.js
@@ -486,7 +613,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/index.js
@@ -495,7 +622,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/index.js
@@ -504,7 +631,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/index.js
@@ -513,7 +640,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/index.js
@@ -522,7 +649,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -531,7 +658,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -540,7 +667,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -549,7 +676,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -558,7 +685,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -567,7 +694,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -576,7 +703,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -585,7 +712,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -594,7 +721,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -603,7 +730,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -612,7 +739,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-25
   severity: P3
   file: core/tools/lint-components/lib/discover.js
@@ -621,7 +748,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-25
   category: standards
-  basis: linter rule CODE-25 (pr.md)
+  basis: linter rule CODE-25 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -630,7 +757,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -639,7 +766,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -648,7 +775,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -657,7 +784,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -666,7 +793,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -675,7 +802,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -684,7 +811,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -693,7 +820,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -702,7 +829,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/lib/reporter.js
@@ -711,7 +838,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -720,7 +847,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -729,7 +856,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -738,7 +865,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -747,7 +874,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -756,7 +883,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -765,7 +892,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -774,7 +901,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -783,7 +910,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -792,7 +919,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -801,16 +928,142 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: PERF-19
   severity: P3
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 57
+  line: 9
   evidence: cache
   artifact_type: runtime-code
   taxonomy_rule_id: PERF-19
   category: standards
-  basis: linter rule PERF-19 (pr.md)
+  basis: linter rule PERF-19 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: PERF-19
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 63
+  evidence: cache
+  artifact_type: runtime-code
+  taxonomy_rule_id: PERF-19
+  category: standards
+  basis: linter rule PERF-19 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: PERF-19
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 142
+  evidence: cache
+  artifact_type: runtime-code
+  taxonomy_rule_id: PERF-19
+  category: standards
+  basis: linter rule PERF-19 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: PERF-19
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 148
+  evidence: cache
+  artifact_type: runtime-code
+  taxonomy_rule_id: PERF-19
+  category: standards
+  basis: linter rule PERF-19 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 86
+  evidence: catch (
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  category: standards
+  basis: linter rule CODE-25 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -819,7 +1072,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -828,7 +1081,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -837,7 +1090,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -846,7 +1099,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -855,7 +1108,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -864,7 +1117,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -873,7 +1126,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -882,7 +1135,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -891,7 +1144,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/lib/rules/naming.js
@@ -900,7 +1153,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -909,7 +1162,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -918,7 +1171,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -927,7 +1180,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -936,7 +1189,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -945,7 +1198,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -954,7 +1207,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -963,7 +1216,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -972,7 +1225,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -981,7 +1234,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -990,7 +1243,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -999,7 +1252,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1008,7 +1261,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1017,7 +1270,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1026,7 +1279,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1035,7 +1288,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1044,7 +1297,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1053,7 +1306,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1062,7 +1315,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1071,7 +1324,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -1080,7 +1333,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1089,7 +1342,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1098,7 +1351,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1107,7 +1360,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1116,7 +1369,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1125,7 +1378,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1134,7 +1387,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1143,7 +1396,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1152,7 +1405,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1161,7 +1414,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/lib/rules/structural.js
@@ -1170,7 +1423,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1179,7 +1432,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1188,7 +1441,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1197,7 +1450,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1206,7 +1459,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1215,7 +1468,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1224,7 +1477,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1233,7 +1486,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1242,7 +1495,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1251,7 +1504,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1260,7 +1513,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-02
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1269,7 +1522,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-02
   category: standards
-  basis: linter rule TEST-02 (pr.md)
+  basis: linter rule TEST-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-03
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1278,7 +1531,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-03
   category: standards
-  basis: linter rule TEST-03 (pr.md)
+  basis: linter rule TEST-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-06
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1287,7 +1540,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-06
   category: standards
-  basis: linter rule TEST-06 (pr.md)
+  basis: linter rule TEST-06 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: OPS-09
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1296,7 +1549,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: OPS-09
   category: standards
-  basis: linter rule OPS-09 (pr.md)
+  basis: linter rule OPS-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: OPS-10
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -1305,43 +1558,232 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: OPS-10
   category: standards
-  basis: linter rule OPS-10 (pr.md)
+  basis: linter rule OPS-10 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: PERF-19
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 129
+  evidence: cache
+  artifact_type: tests
+  taxonomy_rule_id: PERF-19
+  category: standards
+  basis: linter rule PERF-19 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: PERF-19
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 136
+  evidence: cache
+  artifact_type: tests
+  taxonomy_rule_id: PERF-19
+  category: standards
+  basis: linter rule PERF-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-25
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 127
+  line: 147
   evidence: catch (
   artifact_type: tests
   taxonomy_rule_id: CODE-25
   category: standards
-  basis: linter rule CODE-25 (pr.md)
+  basis: linter rule CODE-25 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-30
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 127
+  line: 147
   evidence: catch
   artifact_type: tests
   taxonomy_rule_id: CODE-30
   category: standards
-  basis: linter rule CODE-30 (pr.md)
+  basis: linter rule CODE-30 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: OPS-09
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 145
+  line: 165
   evidence: console.log
   artifact_type: tests
   taxonomy_rule_id: OPS-09
   category: standards
-  basis: linter rule OPS-09 (pr.md)
+  basis: linter rule OPS-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: OPS-10
   severity: P3
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 145
+  line: 165
   evidence: console.log(`
   artifact_type: tests
   taxonomy_rule_id: OPS-10
   category: standards
-  basis: linter rule OPS-10 (pr.md)
+  basis: linter rule OPS-10 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: standards
+  basis: linter rule TEST-02 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: standards
+  basis: linter rule TEST-03 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: standards
+  basis: linter rule TEST-06 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 13
+  evidence: console.log
+  artifact_type: tests
+  taxonomy_rule_id: OPS-09
+  category: standards
+  basis: linter rule OPS-09 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: OPS-10
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 13
+  evidence: console.log(`
+  artifact_type: tests
+  taxonomy_rule_id: OPS-10
+  category: standards
+  basis: linter rule OPS-10 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 67
+  evidence: catch (
+  artifact_type: tests
+  taxonomy_rule_id: CODE-25
+  category: standards
+  basis: linter rule CODE-25 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-30
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 67
+  evidence: catch
+  artifact_type: tests
+  taxonomy_rule_id: CODE-30
+  category: standards
+  basis: linter rule CODE-30 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 73
+  evidence: console.log
+  artifact_type: tests
+  taxonomy_rule_id: OPS-09
+  category: standards
+  basis: linter rule OPS-09 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: OPS-10
+  severity: P3
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 73
+  evidence: console.log(`
+  artifact_type: tests
+  taxonomy_rule_id: OPS-10
+  category: standards
+  basis: linter rule OPS-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1350,7 +1792,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1359,7 +1801,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1368,7 +1810,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1377,7 +1819,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1386,7 +1828,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1395,7 +1837,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1404,7 +1846,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1413,7 +1855,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-18
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1422,7 +1864,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-18
   category: standards
-  basis: linter rule CODE-18 (pr.md)
+  basis: linter rule CODE-18 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: FE-08
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1431,7 +1873,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: FE-08
   category: standards
-  basis: linter rule FE-08 (pr.md)
+  basis: linter rule FE-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-02
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1440,7 +1882,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-02
   category: standards
-  basis: linter rule TEST-02 (pr.md)
+  basis: linter rule TEST-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-03
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1449,7 +1891,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-03
   category: standards
-  basis: linter rule TEST-03 (pr.md)
+  basis: linter rule TEST-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-06
   severity: P3
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -1458,7 +1900,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-06
   category: standards
-  basis: linter rule TEST-06 (pr.md)
+  basis: linter rule TEST-06 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-03
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1467,7 +1909,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-03
   category: standards
-  basis: linter rule ARCH-03 (pr.md)
+  basis: linter rule ARCH-03 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: ARCH-08
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1476,7 +1918,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: ARCH-08
   category: standards
-  basis: linter rule ARCH-08 (pr.md)
+  basis: linter rule ARCH-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-09
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1485,7 +1927,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-09
   category: standards
-  basis: linter rule CODE-09 (pr.md)
+  basis: linter rule CODE-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-10
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1494,7 +1936,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-10
   category: standards
-  basis: linter rule CODE-10 (pr.md)
+  basis: linter rule CODE-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-11
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1503,7 +1945,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-11
   category: standards
-  basis: linter rule CODE-11 (pr.md)
+  basis: linter rule CODE-11 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-12
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1512,7 +1954,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-12
   category: standards
-  basis: linter rule CODE-12 (pr.md)
+  basis: linter rule CODE-12 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-15
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1521,7 +1963,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-15
   category: standards
-  basis: linter rule CODE-15 (pr.md)
+  basis: linter rule CODE-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-17
   severity: P3
   file: core/tools/lint-play/lint_play.py
@@ -1530,16 +1972,25 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-17
   category: standards
-  basis: linter rule CODE-17 (pr.md)
+  basis: linter rule CODE-17 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-25
   severity: P3
   file: core/tools/lint-play/lint_play.py
-  line: 492
+  line: 491
   evidence: 'except '
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-25
   category: standards
-  basis: linter rule CODE-25 (pr.md)
+  basis: linter rule CODE-25 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 497
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  category: standards
+  basis: linter rule CODE-25 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DOC-01
   severity: P3
   file: core/tools/memory/README.md
@@ -1548,7 +1999,7 @@ findings:
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-01
   category: standards
-  basis: linter rule DOC-01 (pr.md)
+  basis: linter rule DOC-01 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DOC-09
   severity: P3
   file: core/tools/memory/README.md
@@ -1557,7 +2008,7 @@ findings:
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-09
   category: standards
-  basis: linter rule DOC-09 (pr.md)
+  basis: linter rule DOC-09 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DOC-10
   severity: P3
   file: core/tools/memory/README.md
@@ -1566,7 +2017,7 @@ findings:
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-10
   category: standards
-  basis: linter rule DOC-10 (pr.md)
+  basis: linter rule DOC-10 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DOC-11
   severity: P3
   file: core/tools/memory/README.md
@@ -1575,7 +2026,34 @@ findings:
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-11
   category: standards
-  basis: linter rule DOC-11 (pr.md)
+  basis: linter rule DOC-11 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: DOC-14
+  severity: P4
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-14
+  category: standards
+  basis: linter rule DOC-14 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: DOC-15
+  severity: P4
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-15
+  category: standards
+  basis: linter rule DOC-15 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: DOC-16
+  severity: P4
+  file: README.md
+  line: 1
+  evidence: README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-16
+  category: standards
+  basis: linter rule DOC-16 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/index.js
@@ -1584,7 +2062,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/index.js
@@ -1593,7 +2071,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/index.js
@@ -1602,7 +2080,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/index.js
@@ -1611,34 +2089,43 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/index.js
-  line: 64
-  evidence: const components =
+  line: 14
+  evidence: const memoryReading =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/index.js
   line: 65
-  evidence: const notes =
+  evidence: const components =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/index.js
   line: 66
+  evidence: const notes =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 67
   evidence: const namingFile =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1647,7 +2134,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1656,7 +2143,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1665,7 +2152,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1674,7 +2161,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1683,7 +2170,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1692,7 +2179,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1701,7 +2188,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1710,7 +2197,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1719,7 +2206,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1728,7 +2215,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1737,7 +2224,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1746,7 +2233,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1755,7 +2242,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1764,7 +2251,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1773,7 +2260,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1782,7 +2269,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1791,7 +2278,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1800,7 +2287,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1809,7 +2296,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1818,7 +2305,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/discover.js
@@ -1827,7 +2314,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/lib/reporter.js
@@ -1836,7 +2323,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/lib/reporter.js
@@ -1845,7 +2332,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/reporter.js
@@ -1854,7 +2341,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/reporter.js
@@ -1863,7 +2350,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -1872,7 +2359,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
@@ -1881,151 +2368,268 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 11
+  line: 13
   evidence: const fs =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 12
+  line: 14
   evidence: const path =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 27
+  line: 33
   evidence: const PATTERNS =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 54
+  line: 60
   evidence: const out =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 58
+  line: 64
   evidence: const full =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 66
+  line: 72
   evidence: const out =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 67
+  line: 73
   evidence: const lines =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 69
+  line: 75
   evidence: const doc =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 105
+  line: 111
   evidence: const parts =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
-- standard_id: CODE-22
-  severity: P4
-  file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 106
-  evidence: const folderKinds =
-  artifact_type: runtime-code
-  taxonomy_rule_id: CODE-22
-  category: standards
-  basis: linter rule CODE-22 (pr.md)
-- standard_id: CODE-22
-  severity: P4
-  file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 108
-  evidence: const dir =
-  artifact_type: runtime-code
-  taxonomy_rule_id: CODE-22
-  category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
   line: 112
+  evidence: const folderKinds =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 114
+  evidence: const dir =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 118
   evidence: const root =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 120
+  line: 126
   evidence: const agentsDir =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 124
+  line: 130
   evidence: const name =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 137
+  line: 145
+  evidence: const toolsDir =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 150
+  evidence: const root =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 160
   evidence: let out =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/installed-paths.js
-  line: 141
+  line: 164
   evidence: const inPart =
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/memory-reading.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 15
+  evidence: const fs =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 17
+  evidence: const MISSING =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 18
+  evidence: const PASTED =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 22
+  evidence: const HEADING =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 33
+  evidence: const out =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 45
+  evidence: const lines =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 46
+  evidence: let inFence =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 47
+  evidence: let inProtocol =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/memory-reading.js
+  line: 81
+  evidence: let out =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/lib/rules/naming.js
@@ -2034,7 +2638,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/lib/rules/naming.js
@@ -2043,7 +2647,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/naming.js
@@ -2052,7 +2656,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/naming.js
@@ -2061,7 +2665,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -2070,7 +2674,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/lib/rules/semantic.js
@@ -2079,7 +2683,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2088,7 +2692,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2097,7 +2701,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2106,7 +2710,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2115,7 +2719,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2124,7 +2728,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2133,7 +2737,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2142,7 +2746,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
@@ -2151,7 +2755,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/lib/rules/structural.js
@@ -2160,7 +2764,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/lib/rules/structural.js
@@ -2169,7 +2773,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/structural.js
@@ -2178,7 +2782,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/lib/rules/structural.js
@@ -2187,7 +2791,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2196,7 +2800,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2205,7 +2809,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-05
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2214,7 +2818,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-05
   category: standards
-  basis: linter rule TEST-05 (pr.md)
+  basis: linter rule TEST-05 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-07
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2223,7 +2827,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-07
   category: standards
-  basis: linter rule TEST-07 (pr.md)
+  basis: linter rule TEST-07 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-08
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2232,7 +2836,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-08
   category: standards
-  basis: linter rule TEST-08 (pr.md)
+  basis: linter rule TEST-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2241,7 +2845,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-22
   category: standards
-  basis: linter rule TEST-22 (pr.md)
+  basis: linter rule TEST-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2250,7 +2854,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2259,7 +2863,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2268,7 +2872,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2277,7 +2881,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2286,7 +2890,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2295,7 +2899,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2304,7 +2908,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2313,7 +2917,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2322,7 +2926,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2331,7 +2935,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2340,7 +2944,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2349,7 +2953,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2358,7 +2962,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
@@ -2367,34 +2971,241 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
   line: 123
+  evidence: const toolProj =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 124
+  evidence: const toolTarget =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 132
+  evidence: const re =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 143
   evidence: const index =
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 131
+  line: 151
   evidence: let out =
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/installed-paths.test.js
-  line: 138
+  line: 158
   evidence: const naming =
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: standards
+  basis: linter rule TEST-05 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: standards
+  basis: linter rule TEST-07 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: standards
+  basis: linter rule TEST-08 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/memory-reading.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: standards
+  basis: linter rule TEST-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 4
+  evidence: const assert =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 5
+  evidence: const fs =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 6
+  evidence: const os =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 7
+  evidence: const path =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 10
+  evidence: const discover =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 12
+  evidence: let passed =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 16
+  evidence: const FM =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 17
+  evidence: const POINTS =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 43
+  evidence: const full =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 47
+  evidence: const src =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 51
+  evidence: const names =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 55
+  evidence: const proj =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 56
+  evidence: const claude =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/memory-reading.test.js
+  line: 63
+  evidence: const index =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2403,7 +3214,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2412,7 +3223,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-05
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2421,7 +3232,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-05
   category: standards
-  basis: linter rule TEST-05 (pr.md)
+  basis: linter rule TEST-05 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-07
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2430,7 +3241,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-07
   category: standards
-  basis: linter rule TEST-07 (pr.md)
+  basis: linter rule TEST-07 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-08
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2439,7 +3250,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-08
   category: standards
-  basis: linter rule TEST-08 (pr.md)
+  basis: linter rule TEST-08 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: TEST-22
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2448,7 +3259,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: TEST-22
   category: standards
-  basis: linter rule TEST-22 (pr.md)
+  basis: linter rule TEST-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2457,7 +3268,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2466,7 +3277,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-22
   severity: P4
   file: core/tools/lint-components/test/shared-scripts.test.js
@@ -2475,7 +3286,7 @@ findings:
   artifact_type: tests
   taxonomy_rule_id: CODE-22
   category: standards
-  basis: linter rule CODE-22 (pr.md)
+  basis: linter rule CODE-22 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-13
   severity: P4
   file: core/tools/lint-play/lint_play.py
@@ -2484,7 +3295,7 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-13
   category: standards
-  basis: linter rule CODE-13 (pr.md)
+  basis: linter rule CODE-13 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: CODE-19
   severity: P4
   file: core/tools/lint-play/lint_play.py
@@ -2493,43 +3304,43 @@ findings:
   artifact_type: runtime-code
   taxonomy_rule_id: CODE-19
   category: standards
-  basis: linter rule CODE-19 (pr.md)
+  basis: linter rule CODE-19 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: BE-23
   severity: P4
   file: core/tools/lint-play/lint_play.py
-  line: 258
+  line: 257
   evidence: lock
   artifact_type: runtime-code
   taxonomy_rule_id: BE-23
   category: standards
-  basis: linter rule BE-23 (pr.md)
+  basis: linter rule BE-23 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DEBT-01
   severity: P4
   file: core/tools/lint-play/lint_play.py
-  line: 315
+  line: 314
   evidence: todo
   artifact_type: runtime-code
   taxonomy_rule_id: DEBT-01
   category: standards
-  basis: linter rule DEBT-01 (pr.md)
+  basis: linter rule DEBT-01 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DEBT-02
   severity: P4
   file: core/tools/lint-play/lint_play.py
-  line: 315
+  line: 314
   evidence: todo
   artifact_type: runtime-code
   taxonomy_rule_id: DEBT-02
   category: standards
-  basis: linter rule DEBT-02 (pr.md)
+  basis: linter rule DEBT-02 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DEBT-05
   severity: P4
   file: core/tools/lint-play/lint_play.py
-  line: 315
+  line: 314
   evidence: todo
   artifact_type: runtime-code
   taxonomy_rule_id: DEBT-05
   category: standards
-  basis: linter rule DEBT-05 (pr.md)
+  basis: linter rule DEBT-05 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DOC-14
   severity: P4
   file: core/tools/memory/README.md
@@ -2538,7 +3349,7 @@ findings:
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-14
   category: standards
-  basis: linter rule DOC-14 (pr.md)
+  basis: linter rule DOC-14 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DOC-15
   severity: P4
   file: core/tools/memory/README.md
@@ -2547,7 +3358,7 @@ findings:
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-15
   category: standards
-  basis: linter rule DOC-15 (pr.md)
+  basis: linter rule DOC-15 (pr.md, Phoenix 2f68683b1e44)
 - standard_id: DOC-16
   severity: P4
   file: core/tools/memory/README.md
@@ -2556,370 +3367,82 @@ findings:
   artifact_type: docs-planning
   taxonomy_rule_id: DOC-16
   category: standards
-  basis: linter rule DOC-16 (pr.md)
-- id: H1
-  severity: P2
-  file: core/components/plays/install-garura/scripts/tools_system.py
-  line: 13
-  also:
-  - installer/install.sh:226-239
-  - core/tools/lint-components/package.json
-  what_is_wrong: 'The installed component linter cannot run in a product project that
-    installs through the public installer. tools_system.py lays lint-components "with
-    its node_modules, so a Node tool runs with no install step", but node_modules
-    is git-ignored (.gitignore:24, git ls-files shows 0 tracked files) and install.sh
-    downloads the GitHub archive of the git tree, so the archive has no node_modules.
-    The tool requires js-yaml (parse-frontmatter.js:3, naming.js:8, structural.js:5),
-    so it fails with module-not-found. check-change C12 only handles "tool not installed";
-    a laid tool that crashes is neither a pass nor "not installed". It works in Garura''s
-    own checkout only because node_modules happens to exist there. The install also
-    runs no check that the laid tools run.
-
-    '
-  basis: 'G2 (ADR 038 s1: the install checks that the tool runs); G1 install purpose.
-    Product-project failure is the very case the branch exists to fix.'
-  suggested_fix: lay or install js-yaml at install time (npm ci in tools_system, or
-    vendor it), and have the install run each tool's smoke check.
-  category: harness
-- id: H2
-  severity: P2
-  file: core/components/plays/check-change/SKILL.md
-  line: 178
-  also:
-  - core/components/plays/check-change/reference/ice.md:86-93 (C12)
-  - core/components/memory/knowledge/review/harness.md:25-30
-  what_is_wrong: 'Layer 1 for harness now lints the installed copy (--layout installed
-    --target .claude, and <installed play>/SKILL.md), not the PR''s changed files.
-    In Garura''s repo the PR changes core/components/**, and .claude is a git-ignored
-    copy of the last install; check-change does not install, compare to the PR head
-    or bound the lint to the changed paths (SKILL.md Step 1 says everything downstream
-    is bounded to changed_paths). A broken change passes if the install is old, and
-    a missing install yields only "not installed". C12 also forbids naming Garura''s
-    source, but the source folders are the thing under review (the s5 exception for
-    "folders of the repository under review" was not applied to the lint target).
-
-    '
-  basis: 'G3 (ADR 040 s2: the installed copy changes only when an install is asked,
-    so it is not the PR); harness playbook Layer 1 (lint the changed plays); check-change
-    Step 1 bound.'
-  suggested_fix: pass the changed play paths and a source target to the installed
-    tools (--layout source --target core/components), or have the play prove the install
-    matches the PR head before it trusts the result.
-  category: harness
-- id: H3
-  severity: P2
-  file: core/components/agents/change-reviewer.md
-  line: 88
-  also:
-  - core/components/agents/change-reviewer.md:120 (Grounding row)
-  - core/components/plays/check-change/SKILL.md:197-206 (C11 fan-out)
-  what_is_wrong: 'The new Memory Reading Protocol makes every grounding dispatch copy
-    standards and shelves into the same <issue folder>/context/memory/<path as found>
-    and record each source in the single shared <issue folder>/context/memory/manifest.json.
-    Layer 2 runs one change-reviewer per design-bearing category concurrently. Parallel
-    read-modify-write of one manifest.json (and same-file copies) can lose entries
-    or corrupt the JSON, and the traceable memory source is the point of the manifest.
-    The same file already says "write only that one file - never a shared file".
-
-    '
-  basis: 'G4 (concurrent-fanout.md condition 2: distinct output paths; change-reviewer.md
-    base lines 58-64).'
-  suggested_fix: copy all grounding memory once in the serial assessment step, or
-    give each dispatch its own manifest path (for example manifest-<category>.json).
-  category: harness
-- id: H4
+  basis: linter rule DOC-16 (pr.md, Phoenix 2f68683b1e44)
+- id: R1
   severity: P3
-  file: core/tools/lint-play/lint_play.py
-  line: 331
+  file: docs/adr/055-installed-parts-read-only-installed-files.md
+  line: 8
   also:
-  - core/components/plays/create-play/scripts/lint_play.py:331
-  - core/components/plays/edit-play/scripts/lint_play.py:331
-  what_is_wrong: 'The tool that is laid in every project still finds the Next-line
-    map by joining a memory folder path (<play>/../../memory/standards/rules/pipeline-next.md)
-    and silently skips the Next-line check when it is absent. That is a memory read
-    by folder path inside an installed tool, built from path pieces so installed-paths/source-path
-    cannot see it. In an installed layout the folder never exists, so any caller that
-    omits --next-map gets a skipped check reported as clean.
+  - core/components/plays/record-decision/reference/ice.md (C2
+  - F2
+  - REC2)
+  - core/components/plays/record-decision/SKILL.md (fingerprint)
+  what_is_wrong: 'ADR 055''s ICE-impact line names check-change as the play whose
+    guarantees change, says discover-intent and shape-slice change in wording only,
+    and says other plays get direct edits to path text that change no guarantee. Commit
+    54191c55 changed record-decision''s ICE: C2 now says the play asks template-manager
+    for the ADR template and hands the copy to adr-keeper, F2 gained a clause (the
+    template did not come from template-manager), REC2 changed, the fingerprint was
+    recomputed and a utility agent was added. That is an intent change to a play,
+    and the record that justifies the branch does not name it.
 
     '
-  basis: 'G1 (ADR 035 s4 / ADR 039 s2: memory is read through the tool, never by a
-    path); a silent skip conflicts with C12 "never a pass".'
-  suggested_fix: make --next-map required for the installed tool (exit 2 without it)
-    and drop the path fallback; keep the fallback only in the source-only copies if
-    wanted.
+  basis: 'G8 (CLAUDE.md base lines 93-114: an intent change alters what a play decides
+    or guarantees; harness-standard base lines 138-140: the change is recorded). The
+    change itself followed the ICE route; only the record is incomplete.'
+  suggested_fix: add record-decision (C2, F2, REC2) to the ICE-impact line and the
+    Affects list of ADR 055.
   category: harness
-- id: H5
-  severity: P3
-  file: core/components/plays/check-change/SKILL.md
-  line: 169
-  also:
-  - core/components/plays/check-change/SKILL.md:224
-  - core/components/agents/change-reviewer.md:185-186
-  what_is_wrong: 'The play itself reads the playbook copies in review_shelf to decide
-    each category''s layers ("the play reads each category''s treatment from those
-    copies"). The copies sit in short-term memory, but they are memory content, and
-    the play is the reader. ADR 039 s2 says a play reads no memory and gets what it
-    needs from its sub-agents.
-
-    '
-  basis: 'G1 (ADR 039 s2 lines 48-55). Mitigation noted: the memory guide treats a
-    play''s own working files as not a lookup, so this is a judgment call; the clean
-    form is for change-reviewer to write the treatment (layers, linters, design-grounding
-    yes/no) into categories.yaml.'
-  category: harness
-- id: H6
-  severity: P3
-  file: core/components/agents/adr-keeper.md
-  line: 66
-  also:
-  - change-reviewer.md:88
-  - project-orchestrator.md:395
-  - quality-auditor.md:81
-  - repo-orchestrator.md:407
-  - tech-designer.md:167
-  - test-engineer.md:342 - the same ~25-line Memory Reading Protocol; Structured Failure
-    Format copied into code-builder.md:295
-  - project-orchestrator.md:429
-  - repo-orchestrator.md:443
-  - tech-designer.md:416
-  - test-engineer.md:512
-  what_is_wrong: 'Two blocks are now pasted word for word into 7 and 5 agents (product-os-keeper
-    already carried the protocol on the base ref). Fixing one means editing every
-    copy, and nothing lints that they stay equal. The failure format was a pointer
-    to a file that was never installed (structured-failure-protocol.md); inlining
-    repaired the dangling pointer but multiplied it. The protocol also has each agent
-    hand-assemble a copy-and-manifest pipeline with an inline python3 -c one-liner,
-    which is mechanical work done by a model on every run.
-
-    '
-  basis: 'G6 (ADR 039 s9, ADR 054 line 48, CLAUDE.md durability rule: one common file,
-    linted); G7 (harness standard principle 3).'
-  suggested_fix: one shared agents file (or a tiny copy-to-short-term script in the
-    memory tool folder) that the agents point to, plus a lint check for the pointer.
-  category: harness
-- id: H7
-  severity: P3
-  file: core/components/agents/repo-orchestrator.md
-  line: 407
-  also:
-  - adr-keeper.md:66 (ADR template)
-  - project-orchestrator.md:395 (issue and work-plan templates)
-  - change-reviewer.md:119 (Next-line map)
-  what_is_wrong: 'Agents now fetch templates themselves (standards/templates/adr.md,
-    pr-body.md, github-issue.md, work-plan.md) and change-reviewer fetches the Next-line
-    map. template-manager is the committed single owner of templates and lists the
-    Next-line map in its domain. ADR 055 does not amend ADR 039 s8, so there are now
-    two paths to a template.
-
-    '
-  basis: 'G5 (ADR 039 s8; template-manager.md "One owner for every template"). Mitigation:
-    only repo-orchestrator and project-orchestrator hold Task, so most agents cannot
-    call template-manager; the play can call it and hand paths in.'
-  category: harness
-- id: H8
-  severity: P3
-  file: core/tools/naming/check_old_names.py
-  line: 33
-  also:
-  - core/tools/lint-components/lib/rules/installed-paths.js:112-130 (partsOf scans
-    plays
-  - loops
-  - skills
-  - agents only)
-  - core/components/plays/install-garura/scripts/tools_system.py:34 (NOT_LAID = memory
-  - play-reviewer)
-  what_is_wrong: 'The install lays every tool except memory and play-reviewer, so
-    the naming tool (check_old_names.py, apply_renames.py) is laid into every project.
-    Both read core/components/... and the rename map, so they cannot work there. ADR
-    055 s1 lists "a tool" among the installed parts that never name the source, but
-    the rule never scans tools, so the one kind of part that does name the source
-    is not caught. A dev-only tool is shipped as if it were runnable.
-
-    '
-  basis: 'G2 (ADR 038 s1: the install lays what runs and checks it runs). Self-consistency
-    of ADR 055 s1/s3/s6 (noted as a branch-internal point, not grounding).'
-  suggested_fix: add naming to NOT_LAID (or name dev tools as a source-only exception),
-    and have installed-paths scan the laid tools.
-  category: harness
-- id: H9
-  severity: P3
+- id: R2
+  severity: P4
   file: core/components/skills/check-pr-quality/SKILL.md
-  line: 31
+  line: 46
   also:
-  - core/components/skills/check-pr-quality/reference/input-contract.md:8
-  - SKILL.md:45
-  - 167 (FS-4)
-  what_is_wrong: 'The skill''s input contract changed shape: the standards_set object
-    {kb, ltm, stm} is gone, replaced by a standards_order list; the pre-flight guard
-    "at least one standards source resolves - HALT" became "standards_order is given"
-    (always true); FS-4 was renamed. ADR 055''s ICE-impact line says check-pr-quality
-    changes "the values in its contract, not the shape". The record and the diff disagree,
-    and a guard was weakened without being recorded.
+  - core/components/skills/check-pr-quality/reference/input-contract.md:9
+  - core/components/agents/quality-auditor.md:99
+  what_is_wrong: 'The restored guard (at least one entry of standards_order resolves
+    to a short-term copy) cannot fail in a run that passed the taxonomy guard: quality-auditor
+    puts the taxonomy copy first in standards_order, and that copy must already exist.
+    So the old halt "no standards source resolvable" is always true, while FS-4 still
+    reads as a live failure.
 
     '
-  basis: G10 (a skill's input contract is its interface; base SKILL.md lines 32, 48,
-    170); ADR 055 ICE-impact statement against the diff.
+  basis: G10 (a skill's input contract and its guards are its public interface); the
+    base pre-flight table required a standards source besides the severity table.
+  suggested_fix: require at least one quality-standards entry after the taxonomy copy,
+    or say plainly that taxonomy-only is allowed and drop FS-4.
   category: harness
-- id: H10
-  severity: P3
-  file: core/components/plays/install-garura/SKILL.md
-  line: 62
-  also:
-  - core/components/plays/uninstall-garura/SKILL.md:47
-  what_is_wrong: 'ADR 055 lists install-garura/SKILL.md and uninstall''s behaviour
-    under Affects, but the SKILL.md changes only cover the Codex stop. The lists of
-    what the install lays (lines 53-80) and what uninstall removes name only the memory
-    tool; the new .garura/core/tools/<name>/ folders, the install-manifest "tools"
-    and "kinds" fields and their removal are not described, so the human summary the
-    play gives will omit them.
-
-    '
-  basis: G8 (the play's SKILL.md is its contract; it states every artifact the install
-    lays, base lines 53-80).
-  category: harness
-- id: H11
-  severity: P3
-  file: core/grounding/glossary.md
-  line: 165
-  also:
-  - CLAUDE.md:27
-  - README.md:131 - not in the diff
-  what_is_wrong: 'The Codex install is deprecated (ADR 055 s7, install.py exit 2),
-    but the glossary entry for /install-garura still describes a working codex adapter,
-    CLAUDE.md line 27 still tells a reader components deploy to .agents/skills/ (Codex),
-    and README says "OpenAI Codex CLI: via install-garura --tool codex". Only the
-    install play was updated.
-
-    '
-  basis: CLAUDE.md Reference section (the glossary holds the canonical definitions);
-    harness-standard "A change to the standard ... rule files and this page change
-    with it".
-  category: harness
-- id: H12
-  severity: P4
-  file: docs/standards/harness-standard.md
-  line: 113
-  also:
-  - docs/adr/055-installed-parts-read-only-installed-files.md:22
-  what_is_wrong: 'Principle 11 cites only "#860", while the standard''s own intro
-    says each principle names its ADR; it should cite ADR 055. Separately, ADR 055
-    says "ADR 038 s4 says agents call the memory tool, never a path"; ADR 038 s4 is
-    where the tool lives (.garura/tools/memory/). The "agents call the tool, never
-    a path" line is in ADR 038 s5 (on ADR 035 s4).
-
-    '
-  basis: G9 (harness-standard.md lines 3-5); docs/adr/038 (base) lines 45-47, 53.
-  category: harness
-- id: H13
-  severity: P4
-  file: core/components/skills/check-quality/SKILL.md
-  line: 51
-  also:
-  - core/components/skills/enrich-quality-profile/SKILL.md:37
-  what_is_wrong: 'check-quality (kb_base) and enrich-quality-profile (kb_quality_dir)
-    now say the calling agent fetches the quality knowledge into short-term memory,
-    but no agent''s "what each skill needs from memory" table lists either skill,
-    and no play dispatches them, so the contract has no owner yet.
-
-    '
-  basis: 'G1 (ADR 039 s2: a skill reads only what its agent puts in short-term memory).'
-  category: harness
-- id: H14
-  severity: P4
-  file: core/components/plays/install-garura/scripts/tools_system.py
-  line: 34
-  also:
-  - core/components/plays/install-garura/scripts/install.py:183-185 (STATUS_GITIGNORE)
-  what_is_wrong: 'The install now lays several tools (one with node_modules) under
-    .garura/core/tools/ but writes no ignore line for them; only this repo''s root
-    .gitignore ignores that folder. In a product project they show up as untracked
-    files, and ADR 038/039 left the question open. ADR 055 notes the size but does
-    not decide it.
-
-    '
-  basis: G2 (ADR 038 line 77 "not decided here"; ADR 039 line 94).
-  category: harness
-- id: H15
-  severity: P4
-  file: core/components/agents/intent-resolver.md
-  line: 10
-  what_is_wrong: 'intent-resolver gains the Bash tool so it can call the memory tool.
-    This widens the agent that guards builder isolation, and ADR 055 does not record
-    the grant. Low risk (it only reads memory), but worth one line in the record.
-
-    '
-  basis: G10 / builder-isolation.md (base) - the agent's role is context crafting
-    under a compartmentation contract.
-  category: harness
-- id: M1
-  severity: P3
-  file: core/components/memory/knowledge/review/harness.md
-  line: 29
-  what: The linter command is `--layout installed --target .claude`. That hard-codes
-    Claude Code's install folder in a shelf that every project reads from Phoenix
-    memory. A Codex project installs to .agents/skills/, so this command checks nothing
-    there (the same tool's own comment says the installed layout is '.claude or .agents').
-  basis: 'G3: CLAUDE.md (base) line 27 names both .claude/ and .agents/skills/ as
-    deploy targets.'
-  suggestion: Say 'the installed target folder (.claude or .agents)' instead of the
-    literal .claude.
-  category: memory
-- id: M2
-  severity: P3
-  file: core/components/memory/knowledge/review/memory.md
-  line: 28
-  what: The Gap sentence now says the installed `.garura/core/tools/lint-components`
-    'covers some shape' of memory integrity. The installed layout lints parts under
-    .claude or .agents; shelf files live in memory and are reached only through the
-    memory tool, so the installed tool cannot reach them. The base lint-components
-    has no knowledge-shelf or memory rule. The claim was already loose; the edit adds
-    an installed path to it and makes it read as a working check.
-  basis: G5 (the playbook's own honest-gap rule); G1 (memory is not read by a path,
-    so a path-based linter cannot be the memory check).
-  suggestion: Drop the lint-components claim and say no installed tool checks memory
-    integrity yet.
-  category: memory
-- id: M3
-  severity: P4
-  file: core/components/memory/knowledge/review/memory.md
-  line: 28
-  what: harness.md gets a full command and a 'not installed' fallback; memory.md gets
-    a bare folder path and no fallback. The two playbooks now treat the same tool
-    in different ways.
-  basis: 'G4: a missing tool must be reported the same way wherever the playbooks
-    name it.'
-  category: memory
-- id: M4
-  severity: P4
-  file: core/components/memory/knowledge/review/harness.md
-  line: 25
-  what: The lint_play.py command sits in a code span that wraps over a line break
-    ('<the short-term / copy of ...>'), so it cannot be pasted and run. The placeholder
-    is also a sentence, not a path.
-  basis: 'G1: the Next-line map is a short-term copy the agent names; the playbook
-    should name a placeholder (for example <next-map copy>), not describe one.'
-  category: memory
-- id: M5
-  severity: P4
-  file: core/components/memory/knowledge/review/harness.md
-  line: 31
-  what: 'The intro says ''run from the installed tools only'', but the next item,
-    the play-pipeline rule ''intent change must trace to an ICE source'', is not a
-    tool and has no installed form: an installed project holds no ICE source (reference/ice.md
-    lives in the source tree). The sentence now reads as if that check also runs from
-    installed tools.'
-  basis: 'G2 and G3: what an installed project holds, per base install-garura SKILL.md
-    line 74 and CLAUDE.md line 27.'
-  category: memory
-- id: M6
+- id: N2
+  carries: M6
   severity: P3
   file: core/components/memory/knowledge/review/harness.md
   line: 24
-  what: 'Grounding gap GU1 as a finding: the playbook now instructs every project
-    to run tools from .garura/core/tools/lint-components and .garura/core/tools/lint-play.
-    The base design lists only the memory tool in that folder, and the installer at
-    the base lays only that tool. The playbook is correct only if ADR 055 (new on
-    this branch) is accepted.'
+  what: The playbook tells every project that reads Phoenix memory to run .garura/core/tools/lint-components
+    and .garura/core/tools/lint-play. The base design and installer put only the memory
+    tool in that folder. The playbook is right only if ADR 055 (new on this branch)
+    is accepted, and a shelf in Phoenix memory outlives a branch that is not merged.
   basis: G2. Not a violation of a base principle; a missing base ground. A person
-    judges ADR 055.
+    judges ADR 055; merge the shelf edit with it, not before.
   category: memory
+- id: N1
+  carries: M1
+  severity: P4
+  file: core/components/memory/knowledge/review/harness.md
+  line: 30
+  what: 'The installed layout still names `.claude` only. The edit now says why (Codex
+    install stopped, #863) and the not-installed fallback covers a project with no
+    .claude. But the reason rests on ADR 055 (branch content), and the note holds
+    an issue number that goes stale when #863 lands; until then a Codex project at
+    the base (G3 allows it) gets ''not installed'', not a lint.'
+  basis: G3 (CLAUDE.md base line 27 names both targets); the stop itself is branch-only
+    (see GU1).
+  suggestion: 'Keep the note, and update the line in the same change that closes #863.'
+  category: memory
+- id: R4-L1
+  severity: P3
+  category: harness
+  file: core/components/plays/check-change/reference/ice.md
+  what_is_wrong: Layer 1 turns every lint error in a changed file into a finding,
+    also an old one; 29 old errors came in on this PR, 0 new against the base.
+  basis: runnable-checks.txt base comparison; check-change C5 (review only what the
+    change does)

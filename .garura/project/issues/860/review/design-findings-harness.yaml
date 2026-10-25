@@ -1,241 +1,91 @@
-# check-change Layer 2 - design-grounding, category: harness. PR #864, issue #860, base plan/788/base.
-# Grounded only from committed sources on origin/plan/788/base and the memory copies. ADR 055, the new
-# CLAUDE.md paragraph and harness-standard principle 11 are under review: they were checked for
-# agreement with the committed ADRs they amend, never used as a standard.
+# check-change Layer 2 - design-grounding, category: harness, round 4. PR #864, issue #860, base plan/788/base.
+# Grounded only from committed sources on origin/plan/788/base and the shared memory copies.
+# ADR 055, the CLAUDE.md paragraph and harness-standard principle 11 are under review: checked for
+# agreement with the ADRs they amend, never used as a standard.
 category: harness
 base: plan/788/base
-severity_source: standards/rules/pr.md (short-term copy); bucket definitions P1 blocker .. P4 nit
+round: 4
+severity_source: standards/rules/pr.md (short-term copy); P1 blocker .. P4 nit
 grounding_available: true
 
 principles:
   - id: G1
-    text: A play is a pure workflow and reads no memory; its sub-agents read memory, only through the memory tool; a skill reads only what its agent puts in short-term memory.
+    text: A play is a pure workflow and reads no memory; its sub-agents read memory only through the memory tool; a skill reads only what its agent puts in short-term memory.
     source: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (base) lines 48-55; docs/adr/035-agents-work-only-from-memory.md (base) lines 61-66
   - id: G2
-    text: The install lays the tool and checks that it runs and reaches the project's tiers. Whether the tools folder is kept out of git was left open.
-    source: docs/adr/038-install-brings-no-memory.md (base) lines 24-27, 77; docs/adr/039-... (base) lines 94-96
+    text: The install lays the tool and checks that it runs. Whether the tools folder is kept out of git was left open.
+    source: docs/adr/038-install-brings-no-memory.md (base) lines 24-27, 77; docs/adr/039 (base) lines 94-96
   - id: G3
-    text: .garura/ in the Garura repository is the installed copy, not source; it changes only when an install is asked. The source is core/.
+    text: .garura/ in Garura's repository is the installed copy; it changes only when an install is asked. The source is core/.
     source: docs/adr/040-config-source-is-core-config-yaml.md (base) lines 37-41
   - id: G4
-    text: A concurrent read-only fan-out is allowed only if each sub-task writes only its own output path - no two write the same file. change-reviewer's own grounding job says "never a shared file".
-    source: core/components/memory/standards/rules/concurrent-fanout.md (base) lines 12-27; core/components/agents/change-reviewer.md (base) lines 58-64
+    text: A concurrent read-only fan-out is allowed only if each sub-task writes only its own output path.
+    source: core/components/memory/standards/rules/concurrent-fanout.md (base) lines 12-27
   - id: G5
-    text: One owner for every template (template-manager). A play or agent names the template, template-manager loads it. The Next-line map is in its domain.
-    source: docs/adr/039-... (base) lines 110-116; core/components/agents/template-manager.md (base) lines 5, 22, 28
+    text: One owner for every template (template-manager); a play or agent names the template, template-manager loads it.
+    source: docs/adr/039 (base) lines 110-116; core/components/agents/template-manager.md (base) lines 5, 22, 28
   - id: G6
-    text: A block that several parts share lives once in a common file the parts point to, emitted by the compiler and linted. Not copied into each part.
-    source: docs/adr/039-... (base) lines 118-125; docs/adr/054-... (base) line 48; CLAUDE.md (base) lines 116-124
+    text: A block that several parts share lives once in a common file the parts point to, and is linted.
+    source: docs/adr/039 (base) lines 118-125; docs/adr/054 (base) line 48; CLAUDE.md (base) lines 116-124
   - id: G7
     text: Mechanical work is a script, judgment is a model.
     source: docs/standards/harness-standard.md (base) lines 42-48
   - id: G8
-    text: A change to what a play decides or guarantees goes through its ICE source and recompiles, and the compiled play carries the ICE fingerprint. Non-intent edits are direct.
-    source: CLAUDE.md (base) lines 93-114; docs/standards/harness-standard.md (base) lines 50-58
+    text: A change to what a play decides or guarantees goes through its ICE source and recompiles with the ICE fingerprint; non-intent edits are direct. A decision record states its effect on the plays truthfully.
+    source: CLAUDE.md (base) lines 93-114; docs/standards/harness-standard.md (base) lines 50-58, 138-140
   - id: G9
-    text: Each principle of the harness standard names the ADR it comes from; a change to the standard is a decision recorded as an ADR.
-    source: docs/standards/harness-standard.md (base) lines 3-5, 138-140
+    text: Each principle of the harness standard names the ADR it comes from.
+    source: docs/standards/harness-standard.md (base) lines 3-5
   - id: G10
-    text: An agent contract is JSON of paths; a skill's input contract is its public interface. Harness review checks wiring (play->agent->skill->script) and ICE-source discipline.
+    text: An agent contract is JSON of paths; a skill's input contract is its public interface. Harness review checks play->agent->skill->script wiring and ICE-source discipline.
     source: docs/adr/016-agent-json-contract.md (base); memory copy knowledge/review/harness.md lines 22-40
 
+old_findings_status:
+  H1:  {status: fixed, how: "tools_system.py gets each laid tools packages when node_modules is missing and smoke-checks every laid tool; a failure stops the install. Caveat: the public installer now needs npm and a network, or the install stops."}
+  H2:  {status: fixed, how: "check-change Step 3 lints the changed parts in place (source layout when changed_paths holds core/components, else installed layout); other violations are counted as there before."}
+  H3:  {status: fixed, how: "each grounding dispatch writes its own grounding-<category>/ folder and manifest; shared copies are made once in the serial assessment."}
+  H4:  {status: fixed, how: "lint_play.py (tool and both copies, identical) exits 2 without --next-map and never looks in a memory folder."}
+  H5:  {status: fixed, how: "change-reviewer writes layers, linters and runnable_checks into categories.yaml; the play reads only that (SE-2)."}
+  H6:  {status: fixed, how: "agents/_shared/memory-reading.md, failure-format.md and copy_memory.py; agents point to them; the new memory-reading lint rule is clean."}
+  H7:  {status: fixed, how: "repo-orchestrator and project-orchestrator get templates from template-manager; adr-keeper takes the copy from the play; check-change gets the Next-line map from template-manager."}
+  H8:  {status: fixed, how: "naming added to NOT_LAID; installed-paths scans the laid tools in the installed layout."}
+  H9:  {status: fixed, how: "ADR 055 ICE-impact now says the contract shape changed; the pre-flight guard is back (but see R2)."}
+  H10: {status: fixed, how: "install-garura and uninstall-garura SKILL.md describe the laid tools, the manifest tools and kinds records, the ignore file and their removal."}
+  H11: {status: fixed, how: "glossary, CLAUDE.md and README now say the Codex install is stopped (#863)."}
+  H12: {status: fixed, how: "principle 11 ends with ADR 055 records this decision; ADR 055 cites ADR 038 s5 for never a path."}
+  H13: {status: fixed, how: "check-quality and enrich-quality-profile now say no part invokes them today."}
+  H14: {status: fixed, how: "the tools .gitignore is written by the install and removed by uninstall; ADR 055 s3 decides it."}
+  H15: {status: fixed, how: "ADR 055 ICE-impact records that intent-resolver gains Bash only to call the memory tool."}
+
 conformance_held:
-  - "ICE discipline (G8): check-change, discover-intent and shape-slice changed both reference/ice.md and SKILL.md; the three recorded fingerprints equal sha256 of their ice.md (checked). The other plays' SKILL.md edits are path text only."
-  - "Memory by tool (G1): agents now read memory through the memory tool and hand skills short-term copies; fix-bug no longer hands core_base \"~/.garura/core/memory/\"; record-decision no longer hands a memory path for the ADR template."
-  - "ADR 055 against the ADRs it amends: its readings of ADR 035 s4/s8, ADR 039 s2/s9/s5, ADR 040 s2 and ADR 054 s2 agree with the committed text (one mis-cite, see H12). Its claim that no older ADR decided Codex install support is true (searched ADR 022, 029, 035, 041, 046: Codex appears only in passing)."
-  - CLAUDE.md paragraph, harness-standard principle 11 and ADR 055 s1/s5 list the same source-only parts and exceptions.
-  - Deleting the Recompile / Direct-edit deviation notes from compiled plays fits CLAUDE.md "add no deviation notes to skill files".
+  - "ICE discipline (G8): check-change, record-decision, discover-intent and shape-slice changed both reference/ice.md and SKILL.md; the fingerprint in each SKILL.md equals sha256 of its ice.md (checked this round, all four). The meta plays have no ICE; their change is one lint command line (non-intent, direct)."
+  - "Fan-out safety (G4): the grounding dispatch contract carries memory_dir; the agent file forbids writing the shared memory folder or manifest."
+  - "Wiring (G10): play -> change-reviewer, quality-auditor, template-manager by JSON contract; fetch_pr_context and post_verdict stay scripts; lint-play and lint-components are tools, not agents."
+  - "lint-components on core/components: installed-paths and memory-reading report 0 violations; the 36 errors are structural (missing sections or frontmatter) in files this round did not introduce. lint_play on check-change reports one gap (no-unbacked-recommendation), also on the base ref."
 
 findings:
-  - id: H1
-    severity: P2
-    file: core/components/plays/install-garura/scripts/tools_system.py
-    line: 13
-    also: [installer/install.sh:226-239, core/tools/lint-components/package.json]
-    what_is_wrong: >
-      The installed component linter cannot run in a product project that installs through the public installer.
-      tools_system.py lays lint-components "with its node_modules, so a Node tool runs with no install step", but
-      node_modules is git-ignored (.gitignore:24, git ls-files shows 0 tracked files) and install.sh downloads the GitHub
-      archive of the git tree, so the archive has no node_modules. The tool requires js-yaml (parse-frontmatter.js:3,
-      naming.js:8, structural.js:5), so it fails with module-not-found. check-change C12 only handles "tool not installed";
-      a laid tool that crashes is neither a pass nor "not installed". It works in Garura's own checkout only because
-      node_modules happens to exist there. The install also runs no check that the laid tools run.
-    basis: "G2 (ADR 038 s1: the install checks that the tool runs); G1 install purpose. Product-project failure is the very case the branch exists to fix."
-    suggested_fix: lay or install js-yaml at install time (npm ci in tools_system, or vendor it), and have the install run each tool's smoke check.
-
-  - id: H2
-    severity: P2
-    file: core/components/plays/check-change/SKILL.md
-    line: 178
-    also: [core/components/plays/check-change/reference/ice.md:86-93 (C12), core/components/memory/knowledge/review/harness.md:25-30]
-    what_is_wrong: >
-      Layer 1 for harness now lints the installed copy (--layout installed --target .claude, and
-      <installed play>/SKILL.md), not the PR's changed files. In Garura's repo the PR changes core/components/**,
-      and .claude is a git-ignored copy of the last install; check-change does not install, compare to the PR head or
-      bound the lint to the changed paths (SKILL.md Step 1 says everything downstream is bounded to changed_paths).
-      A broken change passes if the install is old, and a missing install yields only "not installed". C12 also forbids naming
-      Garura's source, but the source folders are the thing under review (the s5 exception for "folders of the repository under review"
-      was not applied to the lint target).
-    basis: "G3 (ADR 040 s2: the installed copy changes only when an install is asked, so it is not the PR); harness playbook Layer 1 (lint the changed plays); check-change Step 1 bound."
-    suggested_fix: pass the changed play paths and a source target to the installed tools (--layout source --target core/components), or have the play prove the install matches the PR head before it trusts the result.
-
-  - id: H3
-    severity: P2
-    file: core/components/agents/change-reviewer.md
-    line: 88
-    also: [core/components/agents/change-reviewer.md:120 (Grounding row), core/components/plays/check-change/SKILL.md:197-206 (C11 fan-out)]
-    what_is_wrong: >
-      The new Memory Reading Protocol makes every grounding dispatch copy standards and shelves into the same
-      <issue folder>/context/memory/<path as found> and record each source in the single shared
-      <issue folder>/context/memory/manifest.json. Layer 2 runs one change-reviewer per design-bearing category
-      concurrently. Parallel read-modify-write of one manifest.json (and same-file copies) can lose entries or corrupt the JSON,
-      and the traceable memory source is the point of the manifest. The same file already says "write only that one file -
-      never a shared file".
-    basis: "G4 (concurrent-fanout.md condition 2: distinct output paths; change-reviewer.md base lines 58-64)."
-    suggested_fix: copy all grounding memory once in the serial assessment step, or give each dispatch its own manifest path (for example manifest-<category>.json).
-
-  - id: H4
+  - id: R1
     severity: P3
-    file: core/tools/lint-play/lint_play.py
-    line: 331
-    also: [core/components/plays/create-play/scripts/lint_play.py:331, core/components/plays/edit-play/scripts/lint_play.py:331]
+    file: docs/adr/055-installed-parts-read-only-installed-files.md
+    line: 8
+    also: [core/components/plays/record-decision/reference/ice.md (C2, F2, REC2), core/components/plays/record-decision/SKILL.md (fingerprint)]
     what_is_wrong: >
-      The tool that is laid in every project still finds the Next-line map by joining a memory folder path
-      (<play>/../../memory/standards/rules/pipeline-next.md) and silently skips the Next-line check when it is absent.
-      That is a memory read by folder path inside an installed tool, built from path pieces so installed-paths/source-path
-      cannot see it. In an installed layout the folder never exists, so any caller that omits --next-map gets a skipped check
-      reported as clean.
-    basis: "G1 (ADR 035 s4 / ADR 039 s2: memory is read through the tool, never by a path); a silent skip conflicts with C12 \"never a pass\"."
-    suggested_fix: make --next-map required for the installed tool (exit 2 without it) and drop the path fallback; keep the fallback only in the source-only copies if wanted.
+      ADR 055's ICE-impact line names check-change as the play whose guarantees change, says discover-intent and shape-slice change
+      in wording only, and says other plays get direct edits to path text that change no guarantee. Commit 54191c55 changed
+      record-decision's ICE: C2 now says the play asks template-manager for the ADR template and hands the copy to adr-keeper, F2 gained
+      a clause (the template did not come from template-manager), REC2 changed, the fingerprint was recomputed and a utility agent was added.
+      That is an intent change to a play, and the record that justifies the branch does not name it.
+    basis: "G8 (CLAUDE.md base lines 93-114: an intent change alters what a play decides or guarantees; harness-standard base lines 138-140: the change is recorded). The change itself followed the ICE route; only the record is incomplete."
+    suggested_fix: add record-decision (C2, F2, REC2) to the ICE-impact line and the Affects list of ADR 055.
 
-  - id: H5
-    severity: P3
-    file: core/components/plays/check-change/SKILL.md
-    line: 169
-    also: [core/components/plays/check-change/SKILL.md:224, core/components/agents/change-reviewer.md:185-186]
-    what_is_wrong: >
-      The play itself reads the playbook copies in review_shelf to decide each category's layers ("the play reads each
-      category's treatment from those copies"). The copies sit in short-term memory, but they are memory content, and the
-      play is the reader. ADR 039 s2 says a play reads no memory and gets what it needs from its sub-agents.
-    basis: "G1 (ADR 039 s2 lines 48-55). Mitigation noted: the memory guide treats a play's own working files as not a lookup, so this is a judgment call; the clean form is for change-reviewer to write the treatment (layers, linters, design-grounding yes/no) into categories.yaml."
-
-  - id: H6
-    severity: P3
-    file: core/components/agents/adr-keeper.md
-    line: 66
-    also: [change-reviewer.md:88, project-orchestrator.md:395, quality-auditor.md:81, repo-orchestrator.md:407, tech-designer.md:167, test-engineer.md:342 - the same ~25-line Memory Reading Protocol; Structured Failure Format copied into code-builder.md:295, project-orchestrator.md:429, repo-orchestrator.md:443, tech-designer.md:416, test-engineer.md:512]
-    what_is_wrong: >
-      Two blocks are now pasted word for word into 7 and 5 agents (product-os-keeper already carried the protocol on the base ref).
-      Fixing one means editing every copy, and nothing lints that they stay equal. The failure format was a pointer to a
-      file that was never installed (structured-failure-protocol.md); inlining repaired the dangling pointer but multiplied it.
-      The protocol also has each agent hand-assemble a copy-and-manifest pipeline with an inline python3 -c one-liner,
-      which is mechanical work done by a model on every run.
-    basis: "G6 (ADR 039 s9, ADR 054 line 48, CLAUDE.md durability rule: one common file, linted); G7 (harness standard principle 3)."
-    suggested_fix: one shared agents file (or a tiny copy-to-short-term script in the memory tool folder) that the agents point to, plus a lint check for the pointer.
-
-  - id: H7
-    severity: P3
-    file: core/components/agents/repo-orchestrator.md
-    line: 407
-    also: [adr-keeper.md:66 (ADR template), project-orchestrator.md:395 (issue and work-plan templates), change-reviewer.md:119 (Next-line map)]
-    what_is_wrong: >
-      Agents now fetch templates themselves (standards/templates/adr.md, pr-body.md, github-issue.md, work-plan.md) and
-      change-reviewer fetches the Next-line map. template-manager is the committed single owner of templates and lists the
-      Next-line map in its domain. ADR 055 does not amend ADR 039 s8, so there are now two paths to a template.
-    basis: "G5 (ADR 039 s8; template-manager.md \"One owner for every template\"). Mitigation: only repo-orchestrator and project-orchestrator hold Task, so most agents cannot call template-manager; the play can call it and hand paths in."
-
-  - id: H8
-    severity: P3
-    file: core/tools/naming/check_old_names.py
-    line: 33
-    also: [core/tools/lint-components/lib/rules/installed-paths.js:112-130 (partsOf scans plays, loops, skills, agents only), core/components/plays/install-garura/scripts/tools_system.py:34 (NOT_LAID = memory, play-reviewer)]
-    what_is_wrong: >
-      The install lays every tool except memory and play-reviewer, so the naming tool (check_old_names.py, apply_renames.py)
-      is laid into every project. Both read core/components/... and the rename map, so they cannot work there. ADR 055 s1 lists
-      "a tool" among the installed parts that never name the source, but the rule never scans tools, so the one kind of part
-      that does name the source is not caught. A dev-only tool is shipped as if it were runnable.
-    basis: "G2 (ADR 038 s1: the install lays what runs and checks it runs). Self-consistency of ADR 055 s1/s3/s6 (noted as a branch-internal point, not grounding)."
-    suggested_fix: add naming to NOT_LAID (or name dev tools as a source-only exception), and have installed-paths scan the laid tools.
-
-  - id: H9
-    severity: P3
+  - id: R2
+    severity: P4
     file: core/components/skills/check-pr-quality/SKILL.md
-    line: 31
-    also: [core/components/skills/check-pr-quality/reference/input-contract.md:8, SKILL.md:45, 167 (FS-4)]
+    line: 46
+    also: [core/components/skills/check-pr-quality/reference/input-contract.md:9, core/components/agents/quality-auditor.md:99]
     what_is_wrong: >
-      The skill's input contract changed shape: the standards_set object {kb, ltm, stm} is gone, replaced by a standards_order list;
-      the pre-flight guard "at least one standards source resolves - HALT" became "standards_order is given" (always true);
-      FS-4 was renamed. ADR 055's ICE-impact line says check-pr-quality changes "the values in its contract, not the shape".
-      The record and the diff disagree, and a guard was weakened without being recorded.
-    basis: G10 (a skill's input contract is its interface; base SKILL.md lines 32, 48, 170); ADR 055 ICE-impact statement against the diff.
-
-  - id: H10
-    severity: P3
-    file: core/components/plays/install-garura/SKILL.md
-    line: 62
-    also: [core/components/plays/uninstall-garura/SKILL.md:47]
-    what_is_wrong: >
-      ADR 055 lists install-garura/SKILL.md and uninstall's behaviour under Affects, but the SKILL.md changes only cover the
-      Codex stop. The lists of what the install lays (lines 53-80) and what uninstall removes name only the memory tool; the
-      new .garura/core/tools/<name>/ folders, the install-manifest "tools" and "kinds" fields and their removal are not
-      described, so the human summary the play gives will omit them.
-    basis: G8 (the play's SKILL.md is its contract; it states every artifact the install lays, base lines 53-80).
-
-  - id: H11
-    severity: P3
-    file: core/grounding/glossary.md
-    line: 165
-    also: [CLAUDE.md:27, README.md:131 - not in the diff]
-    what_is_wrong: >
-      The Codex install is deprecated (ADR 055 s7, install.py exit 2), but the glossary entry for /install-garura still
-      describes a working codex adapter, CLAUDE.md line 27 still tells a reader components deploy to .agents/skills/ (Codex),
-      and README says "OpenAI Codex CLI: via install-garura --tool codex". Only the install play was updated.
-    basis: CLAUDE.md Reference section (the glossary holds the canonical definitions); harness-standard "A change to the standard ... rule files and this page change with it".
-
-  - id: H12
-    severity: P4
-    file: docs/standards/harness-standard.md
-    line: 113
-    also: [docs/adr/055-installed-parts-read-only-installed-files.md:22]
-    what_is_wrong: >
-      Principle 11 cites only "#860", while the standard's own intro says each principle names its ADR; it should cite ADR 055.
-      Separately, ADR 055 says "ADR 038 s4 says agents call the memory tool, never a path"; ADR 038 s4 is where the tool lives
-      (.garura/tools/memory/). The "agents call the tool, never a path" line is in ADR 038 s5 (on ADR 035 s4).
-    basis: G9 (harness-standard.md lines 3-5); docs/adr/038 (base) lines 45-47, 53.
-
-  - id: H13
-    severity: P4
-    file: core/components/skills/check-quality/SKILL.md
-    line: 51
-    also: [core/components/skills/enrich-quality-profile/SKILL.md:37]
-    what_is_wrong: >
-      check-quality (kb_base) and enrich-quality-profile (kb_quality_dir) now say the calling agent fetches the quality
-      knowledge into short-term memory, but no agent's "what each skill needs from memory" table lists either skill, and no play
-      dispatches them, so the contract has no owner yet.
-    basis: "G1 (ADR 039 s2: a skill reads only what its agent puts in short-term memory)."
-
-  - id: H14
-    severity: P4
-    file: core/components/plays/install-garura/scripts/tools_system.py
-    line: 34
-    also: [core/components/plays/install-garura/scripts/install.py:183-185 (STATUS_GITIGNORE)]
-    what_is_wrong: >
-      The install now lays several tools (one with node_modules) under .garura/core/tools/ but writes no ignore line for them;
-      only this repo's root .gitignore ignores that folder. In a product project they show up as untracked files, and ADR 038/039
-      left the question open. ADR 055 notes the size but does not decide it.
-    basis: G2 (ADR 038 line 77 "not decided here"; ADR 039 line 94).
-
-  - id: H15
-    severity: P4
-    file: core/components/agents/intent-resolver.md
-    line: 10
-    what_is_wrong: >
-      intent-resolver gains the Bash tool so it can call the memory tool. This widens the agent that guards builder isolation,
-      and ADR 055 does not record the grant. Low risk (it only reads memory), but worth one line in the record.
-    basis: G10 / builder-isolation.md (base) - the agent's role is context crafting under a compartmentation contract.
-
-summary:
-  P1: 0
-  P2: 3
-  P3: 8
-  P4: 4
+      The restored guard (at least one entry of standards_order resolves to a short-term copy) cannot fail in a run that passed the taxonomy
+      guard: quality-auditor puts the taxonomy copy first in standards_order, and that copy must already exist. So the old halt
+      "no standards source resolvable" is always true, while FS-4 still reads as a live failure.
+    basis: "G10 (a skill's input contract and its guards are its public interface); the base pre-flight table required a standards source besides the severity table."
+    suggested_fix: require at least one quality-standards entry after the taxonomy copy, or say plainly that taxonomy-only is allowed and drop FS-4.
