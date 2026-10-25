@@ -35,7 +35,8 @@ This file is not memory. The install lays it in the installed shared folder, at
      | python3 .claude/skills/_shared/copy_memory.py <short-term copy> <manifest>
    ```
 
-   The script writes the text unchanged. A second copy of the same file replaces its line in
+   Short-term memory and Garura memory answer with no version (null), and the manifest records
+   it as null. The script writes the text unchanged. A second copy of the same file replaces its line in
    the manifest. When the tool refuses the read, the script writes nothing, says why, and
    exits 1.
 

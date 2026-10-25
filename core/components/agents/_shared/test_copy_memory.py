@@ -95,6 +95,49 @@ class CopyMemoryTest(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("fingerprint", result.stderr)
 
+    def test_a_garura_answer_with_no_version_is_copied_and_recorded_as_null(self):
+        copy = self.copy_path("standards/rules/commits.md")
+        result = self.run_script(answer(tier="garura", version=None), copy)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        with open(copy, encoding="utf-8") as fh:
+            self.assertEqual(fh.read(), "# Commits\nSubject under 72.")
+        self.assertEqual(self.read_manifest(), {"files": [
+            {"tier": "garura", "path": "standards/rules/commits.md", "version": None,
+             "fingerprint": "sha256:abc", "copy": copy}]})
+
+    def test_a_short_term_answer_with_no_version_is_copied_and_recorded_as_null(self):
+        copy = self.copy_path("12/context/answers/reset-link.md")
+        result = self.run_script(answer(text="A reset link expires after one hour.", tier="short-term",
+                                        path="12/context/answers/reset-link.md", version=None), copy)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        with open(copy, encoding="utf-8") as fh:
+            self.assertEqual(fh.read(), "A reset link expires after one hour.")
+        self.assertEqual(self.read_manifest(), {"files": [
+            {"tier": "short-term", "path": "12/context/answers/reset-link.md", "version": None,
+             "fingerprint": "sha256:abc", "copy": copy}]})
+
+    def test_a_phoenix_answer_with_no_version_exits_1_and_writes_nothing(self):
+        copy = self.copy_path("x.md")
+        result = self.run_script(answer(version=None), copy)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("version", result.stderr)
+        self.assertFalse(os.path.exists(copy))
+        self.assertFalse(os.path.exists(self.manifest))
+
+    def test_an_answer_with_no_tier_exits_1(self):
+        bad = json.loads(answer())
+        del bad["tier"]
+        result = self.run_script(json.dumps(bad), self.copy_path("x.md"))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("tier", result.stderr)
+
+    def test_an_answer_with_no_path_exits_1(self):
+        bad = json.loads(answer())
+        del bad["path"]
+        result = self.run_script(json.dumps(bad), self.copy_path("x.md"))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("path", result.stderr)
+
     def test_the_answer_of_another_command_exits_1(self):
         result = self.run_script(answer(command="find"), self.copy_path("x.md"))
         self.assertEqual(result.returncode, 1)

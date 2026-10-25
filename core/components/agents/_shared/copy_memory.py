@@ -11,6 +11,10 @@ to the manifest, or replaces the entry with the same copy path:
 
   {"files": [{"tier": ..., "path": ..., "version": ..., "fingerprint": ..., "copy": ...}]}
 
+Short-term memory and Garura memory are plain folders, so their answers have no version
+("version": null). The manifest records that version as null. Phoenix memory always gives a
+version.
+
 It prints one line of JSON. It exits 1 with a plain message when the answer says
 "ok": false, when the input is not a `read` answer, or when the manifest is not valid.
 """
@@ -21,6 +25,7 @@ import sys
 import tempfile
 
 FIELDS = ("tier", "path", "version", "fingerprint")
+FOLDER_TIERS = ("short-term", "garura")
 
 
 class Stop(Exception):
@@ -46,9 +51,14 @@ def parse_answer(raw):
         raise Stop(f"The input is the answer of '{answer.get('command')}', not of 'read'.")
     if not isinstance(answer.get("text"), str):
         raise Stop("The read answer has no text.")
-    for field in FIELDS:
+    for field in ("tier", "path", "fingerprint"):
         if not isinstance(answer.get(field), str) or not answer.get(field):
             raise Stop(f"The read answer has no '{field}'.")
+    version = answer.get("version")
+    if version is None and answer["tier"] in FOLDER_TIERS:
+        answer["version"] = None
+    elif not isinstance(version, str) or not version:
+        raise Stop(f"The read answer has no 'version'. An answer from {answer['tier']} memory must give one.")
     return answer
 
 
