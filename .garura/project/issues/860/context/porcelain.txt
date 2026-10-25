@@ -1,0 +1,61 @@
+ M .garura/project/issues/860/context/decisions.md
+ M CLAUDE.md
+ M README.md
+ M core/components/agents/adr-keeper.md
+ M core/components/agents/change-reviewer.md
+ M core/components/agents/code-builder.md
+ M core/components/agents/intent-resolver.md
+ M core/components/agents/knowledge-builder.md
+ M core/components/agents/product-os-keeper.md
+ M core/components/agents/project-orchestrator.md
+ M core/components/agents/quality-auditor.md
+ M core/components/agents/repo-orchestrator.md
+ M core/components/agents/tech-designer.md
+ M core/components/agents/template-manager.md
+ M core/components/agents/test-engineer.md
+ M core/components/memory/knowledge/review/harness.md
+ M core/components/memory/knowledge/review/memory.md
+ M core/components/memory/standards/rules/pr.md
+ M core/components/plays/check-change/SKILL.md
+ M core/components/plays/check-change/reference/ice.md
+ M core/components/plays/create-loop/SKILL.md
+ M core/components/plays/create-loop/references/test_lint_loop.py
+ M core/components/plays/create-loop/scripts/lint_loop.py
+ M core/components/plays/create-play/SKILL.md
+ M core/components/plays/create-play/scripts/lint_play.py
+ M core/components/plays/edit-loop/SKILL.md
+ M core/components/plays/edit-loop/scripts/lint_loop.py
+ M core/components/plays/edit-play/SKILL.md
+ M core/components/plays/edit-play/scripts/lint_play.py
+ M core/components/plays/install-garura/SKILL.md
+ M core/components/plays/install-garura/scripts/adapters/common.py
+ M core/components/plays/install-garura/scripts/install.py
+ M core/components/plays/install-garura/scripts/test_install.py
+ M core/components/plays/install-garura/scripts/tools_system.py
+ M core/components/plays/record-decision/SKILL.md
+ M core/components/plays/record-decision/reference/ice.md
+ M core/components/plays/uninstall-garura/SKILL.md
+ M core/components/plays/uninstall-garura/scripts/uninstall.py
+ M core/components/skills/author-decision/SKILL.md
+ M core/components/skills/author-plan-file/SKILL.md
+ M core/components/skills/check-pr-quality/SKILL.md
+ M core/components/skills/check-pr-quality/reference/input-contract.md
+ M core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
+ M core/components/skills/check-quality/SKILL.md
+ M core/components/skills/enrich-quality-profile/SKILL.md
+ M core/components/skills/open-pr/SKILL.md
+ M core/components/skills/track-issue/SKILL.md
+ M core/grounding/glossary.md
+ M core/tools/lint-components/index.js
+ M core/tools/lint-components/lib/rules/installed-paths.js
+ M core/tools/lint-components/test/installed-paths.test.js
+ M core/tools/lint-play/lint_play.py
+ M docs/adr/055-installed-parts-read-only-installed-files.md
+ M docs/standards/harness-standard.md
+?? .garura/project/issues/860/context/analysis.yaml
+?? .garura/project/issues/860/context/memory/
+?? .garura/project/issues/860/context/porcelain.txt
+?? .garura/project/issues/860/review/
+?? core/components/agents/_shared/
+?? core/tools/lint-components/lib/rules/memory-reading.js
+?? core/tools/lint-components/test/memory-reading.test.js

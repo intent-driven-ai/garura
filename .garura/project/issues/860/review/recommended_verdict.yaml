@@ -1,0 +1,17 @@
+{
+  "verdict": "reject",
+  "reason": "3 P1 (blocker) finding(s)",
+  "blocking": [
+    "SEC-07",
+    "SEC-07",
+    "SEC-07"
+  ],
+  "counts": {
+    "P1": 3,
+    "P2": 48,
+    "P3": 138,
+    "P4": 116
+  },
+  "confidence": null,
+  "threshold": 0.5
+}

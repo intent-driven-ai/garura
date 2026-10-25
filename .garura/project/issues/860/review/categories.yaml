@@ -1,0 +1,82 @@
+# categories derived from the diff (base plan/788/base), PR #864, anchor issue #860
+# 279 changed files: 251 modified, 28 added
+categories:
+  - name: harness
+    design_bearing: true
+    playbook: harness
+    evidence:
+      - core/components/agents/*.md (9 agents: adr-keeper, change-reviewer, code-builder, intent-resolver, project-orchestrator, quality-auditor, repo-orchestrator, tech-designer, test-engineer)
+      - core/components/plays/*/SKILL.md (build-epic, check-change, discover-capabilities, discover-intent, fix-bug, install-garura, list-focus-issues, merge-change, propose-change, record-decision, refactor-code, shape-agentic-lens, shape-quality-lens, shape-run-lens, shape-slice, shape-ux-lens, start-change, validate-epic)
+      - core/components/plays/check-change/reference/ice.md
+      - core/components/plays/discover-intent/reference/ice.md
+      - core/components/plays/shape-slice/reference/ice.md
+      - core/components/plays/_shared/play-close.md
+      - core/components/loops/_shared/loop-run.md
+      - core/components/skills/*/SKILL.md (assess-changes, assess-pr, author-decision, author-plan-file, author-technical-approach, check-pr-quality, check-quality, enrich-quality-profile, open-pr, track-issue)
+      - core/components/skills/check-pr-quality/reference/{finding-schema,input-contract}.md
+      - core/components/skills/check-quality/reference/subagent-prompts.md
+      - core/components/skills/track-issue/reference/github-issue.md
+  - name: memory
+    design_bearing: true
+    playbook: memory
+    evidence:
+      - core/components/memory/knowledge/review/harness.md
+      - core/components/memory/knowledge/review/memory.md
+  - name: decision-records
+    design_bearing: false
+    playbook: adrs
+    note: "adrs playbook: Layer 1 only, design-grounding no - the decision is the design, a human judges it. ADR 055 is a new record; ADR 039 is amended by it."
+    evidence:
+      - docs/adr/055-installed-parts-read-only-installed-files.md (new)
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+      - docs/adr/_index.md
+  - name: documentation
+    design_bearing: false
+    playbook: docs
+    note: "CLAUDE.md is a host config map by the config-maps playbook signals, but the change is a prose rule paragraph (installed parts never touch the source), not a pointer; judged as documentation, as in the #841 review"
+    evidence:
+      - CLAUDE.md
+      - docs/standards/harness-standard.md
+      - core/tools/memory/README.md
+  - name: executable-code
+    design_bearing: false
+    playbook: code
+    evidence:
+      - core/components/plays/*/scripts/session_stamp.py (many copies across plays)
+      - core/components/loops/complete-discovery/scripts/*.py
+      - core/components/plays/{build-epic,discover-*,learn-outcomes,release-epic,shape-*-lens,shape-slice,validate-epic}/scripts/*.py
+      - core/components/plays/check-change/scripts/fetch_pr_context.py
+      - core/components/plays/create-play/references/*.py and scripts/lint_play.py
+      - core/components/plays/create-loop/references/**/*.py
+      - core/components/plays/edit-play/scripts/lint_play.py
+      - core/components/plays/install-garura/scripts/{install.py,tools_system.py (new),adapters/codex.py}
+      - core/components/plays/uninstall-garura/scripts/uninstall.py
+      - core/components/skills/{find-architecture-learnings,find-model-gaps,link-model-gaps}/scripts/*.py
+      - core/tools/lint-play/lint_play.py (new)
+      - core/tools/lint-components/index.js
+      - core/tools/lint-components/lib/{discover,reporter}.js
+      - core/tools/lint-components/lib/rules/{installed-paths (new),naming,semantic,shared-scripts,structural}.js
+      - installer/install.sh
+  - name: tests
+    design_bearing: false
+    playbook: tests
+    note: "run the suites: test_install.py, test_fetch_pr_context.py and the lint-components node tests"
+    evidence:
+      - core/components/plays/install-garura/scripts/test_install.py
+      - core/components/plays/create-play/references/test_fetch_pr_context.py
+      - core/tools/lint-components/test/installed-paths.test.js (new)
+      - core/tools/lint-components/test/shared-scripts.test.js
+  - name: config-maps
+    design_bearing: false
+    playbook: config-maps
+    note: "files that wire the install by path; config.yaml loses the standards.pr-severity-taxonomy path key"
+    evidence:
+      - .garura/install-manifest.json
+      - core/config.yaml
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    note: "playbook missing - short-term memory records of the change, ADR and review runs for issue 860; records, not a standard"
+    evidence:
+      - .garura/project/issues/860/context/**
+      - .garura/project/issues/_adr/20261024T211640Z/**

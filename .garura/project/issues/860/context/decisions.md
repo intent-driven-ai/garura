@@ -19,3 +19,15 @@
 14. open-pr and check-quality (model, allowed-tools, sections) go to chore #861.
 15. intent-resolver may have the Bash tool, for the memory tool.
 16. The note deletions in start-, propose- and merge-change stay; the conflict with plan 717 is resolved when the plans meet.
+
+## Round 4 (2026-10-25, the review of PR #864)
+
+17. Fix every finding of the review: the 3 SEC-07 hits, the 3 P2 (H1–H3), the 11 P3 (H4–H11, M1, M2, M6) and the 7 P4 (H12–H15, M3–M5). The product owner's words: "fix p1 and p2 and 14 small and 7 cosmetic ones too".
+18. SEC-07 is fixed in the rule, as #851 fixed SEC-18 and BE-19: it fires on an unsafe load (`pickle`, `marshal`, `yaml.load` without a safe loader, `yaml.unsafe_load`) and on `JSON.parse` of request-shaped input, not on every `JSON.parse`. The rule reaches Phoenix memory only after this change merges: the branch is never its own standard.
+19. Layer 1 lints the parts the PR changes, where they sit in the repository under review, with the installed tools: the source layout when the PR changes `core/components/`, the installed layout otherwise. Only violations in a changed path become findings; the rest are counted as there before.
+20. A laid tool that crashes is "did not run", never a pass. The install gets each tool's packages and runs each tool's smoke check; a failure stops the install and names the tool.
+21. The memory reading protocol and the failure format live once, in a shared file for agents, laid in the installed `_shared/` folder. A shared script writes a short-term copy and its manifest line. The concurrent grounding agents each write their own copy folder and manifest.
+22. Templates come only from template-manager. A play hands an agent without the Task tool the template copy it needs.
+23. The naming tool is a source-only tool: the install does not lay it.
+24. The install keeps the tools' packages and caches out of git in a project (an ignore file in `.garura/core/tools/`).
+25. ADR 055 gets four factual corrections before it merges: the check-pr-quality contract changes shape, the ADR 038 citation is §5, intent-resolver gains Bash only for the memory tool, and the agents' shared file and the tools ignore file are named.

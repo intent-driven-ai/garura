@@ -1,0 +1,2925 @@
+pr: 864
+issue: 860
+findings:
+- standard_id: SEC-07
+  severity: P1
+  file: core/tools/lint-components/lib/discover.js
+  line: 60
+  evidence: JSON.parse
+  artifact_type: runtime-code
+  taxonomy_rule_id: SEC-07
+  category: standards
+  basis: linter rule SEC-07 (pr.md)
+- standard_id: SEC-07
+  severity: P1
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 126
+  evidence: JSON.parse
+  artifact_type: tests
+  taxonomy_rule_id: SEC-07
+  category: standards
+  basis: linter rule SEC-07 (pr.md)
+- standard_id: SEC-07
+  severity: P1
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 128
+  evidence: JSON.parse
+  artifact_type: tests
+  taxonomy_rule_id: SEC-07
+  category: standards
+  basis: linter rule SEC-07 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: BE-12
+  severity: P2
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 14
+  evidence: fetch
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-12
+  category: standards
+  basis: linter rule BE-12 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: standards
+  basis: linter rule ARCH-02 (pr.md)
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: standards
+  basis: linter rule CODE-03 (pr.md)
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: standards
+  basis: linter rule CODE-04 (pr.md)
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: standards
+  basis: linter rule CODE-14 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/lint-components/lib/discover.js
+  line: 64
+  evidence: catch (
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  category: standards
+  basis: linter rule CODE-25 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: PERF-19
+  severity: P3
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 57
+  evidence: cache
+  artifact_type: runtime-code
+  taxonomy_rule_id: PERF-19
+  category: standards
+  basis: linter rule PERF-19 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: standards
+  basis: linter rule TEST-02 (pr.md)
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: standards
+  basis: linter rule TEST-03 (pr.md)
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: standards
+  basis: linter rule TEST-06 (pr.md)
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 14
+  evidence: console.log
+  artifact_type: tests
+  taxonomy_rule_id: OPS-09
+  category: standards
+  basis: linter rule OPS-09 (pr.md)
+- standard_id: OPS-10
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 14
+  evidence: console.log(`
+  artifact_type: tests
+  taxonomy_rule_id: OPS-10
+  category: standards
+  basis: linter rule OPS-10 (pr.md)
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 127
+  evidence: catch (
+  artifact_type: tests
+  taxonomy_rule_id: CODE-25
+  category: standards
+  basis: linter rule CODE-25 (pr.md)
+- standard_id: CODE-30
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 127
+  evidence: catch
+  artifact_type: tests
+  taxonomy_rule_id: CODE-30
+  category: standards
+  basis: linter rule CODE-30 (pr.md)
+- standard_id: OPS-09
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 145
+  evidence: console.log
+  artifact_type: tests
+  taxonomy_rule_id: OPS-09
+  category: standards
+  basis: linter rule OPS-09 (pr.md)
+- standard_id: OPS-10
+  severity: P3
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 145
+  evidence: console.log(`
+  artifact_type: tests
+  taxonomy_rule_id: OPS-10
+  category: standards
+  basis: linter rule OPS-10 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-18
+  category: standards
+  basis: linter rule CODE-18 (pr.md)
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: FE-08
+  category: standards
+  basis: linter rule FE-08 (pr.md)
+- standard_id: TEST-02
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-02
+  category: standards
+  basis: linter rule TEST-02 (pr.md)
+- standard_id: TEST-03
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-03
+  category: standards
+  basis: linter rule TEST-03 (pr.md)
+- standard_id: TEST-06
+  severity: P3
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-06
+  category: standards
+  basis: linter rule TEST-06 (pr.md)
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: standards
+  basis: linter rule ARCH-03 (pr.md)
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: standards
+  basis: linter rule ARCH-08 (pr.md)
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: standards
+  basis: linter rule CODE-09 (pr.md)
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: standards
+  basis: linter rule CODE-10 (pr.md)
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: standards
+  basis: linter rule CODE-11 (pr.md)
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: standards
+  basis: linter rule CODE-12 (pr.md)
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: standards
+  basis: linter rule CODE-15 (pr.md)
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: standards
+  basis: linter rule CODE-17 (pr.md)
+- standard_id: CODE-25
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 492
+  evidence: 'except '
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-25
+  category: standards
+  basis: linter rule CODE-25 (pr.md)
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-01
+  category: standards
+  basis: linter rule DOC-01 (pr.md)
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-09
+  category: standards
+  basis: linter rule DOC-09 (pr.md)
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-10
+  category: standards
+  basis: linter rule DOC-10 (pr.md)
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-11
+  category: standards
+  basis: linter rule DOC-11 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 1
+  evidence: core/tools/lint-components/index.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 4
+  evidence: const fs =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 13
+  evidence: const installedPaths =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 64
+  evidence: const components =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 65
+  evidence: const notes =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 66
+  evidence: const namingFile =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 1
+  evidence: core/tools/lint-components/lib/discover.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 57
+  evidence: const root =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 58
+  evidence: const file =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 60
+  evidence: const kinds =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 61
+  evidence: const out =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 73
+  evidence: const fm =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 81
+  evidence: const recorded =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 82
+  evidence: const skills =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 83
+  evidence: const plays =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 84
+  evidence: const loops =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 85
+  evidence: const intents =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 86
+  evidence: const sharedDir =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 87
+  evidence: const skillsDir =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 91
+  evidence: const file =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 93
+  evidence: const text =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 94
+  evidence: const kind =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 99
+  evidence: const intentFile =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 101
+  evidence: const expectationFile =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 114
+  evidence: const agents =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/discover.js
+  line: 115
+  evidence: const agentsDir =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/reporter.js
+  line: 1
+  evidence: core/tools/lint-components/lib/reporter.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/reporter.js
+  line: 10
+  evidence: const notes =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/reporter.js
+  line: 25
+  evidence: const out =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/installed-paths.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 11
+  evidence: const fs =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 12
+  evidence: const path =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 27
+  evidence: const PATTERNS =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 54
+  evidence: const out =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 58
+  evidence: const full =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 66
+  evidence: const out =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 67
+  evidence: const lines =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 69
+  evidence: const doc =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 105
+  evidence: const parts =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 106
+  evidence: const folderKinds =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 108
+  evidence: const dir =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 112
+  evidence: const root =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 120
+  evidence: const agentsDir =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 124
+  evidence: const name =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 137
+  evidence: let out =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/installed-paths.js
+  line: 141
+  evidence: const inPart =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/naming.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 22
+  evidence: const file =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/naming.js
+  line: 88
+  evidence: const loaded =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/semantic.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/semantic.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 34
+  evidence: const hasPlays =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 66
+  evidence: const candidates =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 74
+  evidence: const violations =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 76
+  evidence: const mainCopy =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 78
+  evidence: const mainBytes =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 79
+  evidence: const ruleName =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/structural.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 68
+  evidence: const requiredFields =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/lib/rules/structural.js
+  line: 416
+  evidence: const playsShared =
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: standards
+  basis: linter rule TEST-05 (pr.md)
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: standards
+  basis: linter rule TEST-07 (pr.md)
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: standards
+  basis: linter rule TEST-08 (pr.md)
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/installed-paths.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: standards
+  basis: linter rule TEST-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 5
+  evidence: const assert =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 6
+  evidence: const fs =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 7
+  evidence: const os =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 8
+  evidence: const path =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 11
+  evidence: const discover =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 13
+  evidence: let passed =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 17
+  evidence: const full =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 27
+  evidence: let dir =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 68
+  evidence: const found =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 79
+  evidence: const structural =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 87
+  evidence: const proj =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 88
+  evidence: const claudeDir =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 93
+  evidence: const kinds =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 112
+  evidence: const docsDir =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 123
+  evidence: const index =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 131
+  evidence: let out =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/installed-paths.test.js
+  line: 138
+  evidence: const naming =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: TEST-05
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-05
+  category: standards
+  basis: linter rule TEST-05 (pr.md)
+- standard_id: TEST-07
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-07
+  category: standards
+  basis: linter rule TEST-07 (pr.md)
+- standard_id: TEST-08
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-08
+  category: standards
+  basis: linter rule TEST-08 (pr.md)
+- standard_id: TEST-22
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 1
+  evidence: core/tools/lint-components/test/shared-scripts.test.js
+  artifact_type: tests
+  taxonomy_rule_id: TEST-22
+  category: standards
+  basis: linter rule TEST-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 30
+  evidence: const root =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 31
+  evidence: const comps =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-22
+  severity: P4
+  file: core/tools/lint-components/test/shared-scripts.test.js
+  line: 32
+  evidence: const toolDir =
+  artifact_type: tests
+  taxonomy_rule_id: CODE-22
+  category: standards
+  basis: linter rule CODE-22 (pr.md)
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: standards
+  basis: linter rule CODE-13 (pr.md)
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-play/lint_play.py
+  line: 1
+  evidence: core/tools/lint-play/lint_play.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: standards
+  basis: linter rule CODE-19 (pr.md)
+- standard_id: BE-23
+  severity: P4
+  file: core/tools/lint-play/lint_play.py
+  line: 258
+  evidence: lock
+  artifact_type: runtime-code
+  taxonomy_rule_id: BE-23
+  category: standards
+  basis: linter rule BE-23 (pr.md)
+- standard_id: DEBT-01
+  severity: P4
+  file: core/tools/lint-play/lint_play.py
+  line: 315
+  evidence: todo
+  artifact_type: runtime-code
+  taxonomy_rule_id: DEBT-01
+  category: standards
+  basis: linter rule DEBT-01 (pr.md)
+- standard_id: DEBT-02
+  severity: P4
+  file: core/tools/lint-play/lint_play.py
+  line: 315
+  evidence: todo
+  artifact_type: runtime-code
+  taxonomy_rule_id: DEBT-02
+  category: standards
+  basis: linter rule DEBT-02 (pr.md)
+- standard_id: DEBT-05
+  severity: P4
+  file: core/tools/lint-play/lint_play.py
+  line: 315
+  evidence: todo
+  artifact_type: runtime-code
+  taxonomy_rule_id: DEBT-05
+  category: standards
+  basis: linter rule DEBT-05 (pr.md)
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-14
+  category: standards
+  basis: linter rule DOC-14 (pr.md)
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-15
+  category: standards
+  basis: linter rule DOC-15 (pr.md)
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/memory/README.md
+  line: 1
+  evidence: core/tools/memory/README.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-16
+  category: standards
+  basis: linter rule DOC-16 (pr.md)
+- id: H1
+  severity: P2
+  file: core/components/plays/install-garura/scripts/tools_system.py
+  line: 13
+  also:
+  - installer/install.sh:226-239
+  - core/tools/lint-components/package.json
+  what_is_wrong: 'The installed component linter cannot run in a product project that
+    installs through the public installer. tools_system.py lays lint-components "with
+    its node_modules, so a Node tool runs with no install step", but node_modules
+    is git-ignored (.gitignore:24, git ls-files shows 0 tracked files) and install.sh
+    downloads the GitHub archive of the git tree, so the archive has no node_modules.
+    The tool requires js-yaml (parse-frontmatter.js:3, naming.js:8, structural.js:5),
+    so it fails with module-not-found. check-change C12 only handles "tool not installed";
+    a laid tool that crashes is neither a pass nor "not installed". It works in Garura''s
+    own checkout only because node_modules happens to exist there. The install also
+    runs no check that the laid tools run.
+
+    '
+  basis: 'G2 (ADR 038 s1: the install checks that the tool runs); G1 install purpose.
+    Product-project failure is the very case the branch exists to fix.'
+  suggested_fix: lay or install js-yaml at install time (npm ci in tools_system, or
+    vendor it), and have the install run each tool's smoke check.
+  category: harness
+- id: H2
+  severity: P2
+  file: core/components/plays/check-change/SKILL.md
+  line: 178
+  also:
+  - core/components/plays/check-change/reference/ice.md:86-93 (C12)
+  - core/components/memory/knowledge/review/harness.md:25-30
+  what_is_wrong: 'Layer 1 for harness now lints the installed copy (--layout installed
+    --target .claude, and <installed play>/SKILL.md), not the PR''s changed files.
+    In Garura''s repo the PR changes core/components/**, and .claude is a git-ignored
+    copy of the last install; check-change does not install, compare to the PR head
+    or bound the lint to the changed paths (SKILL.md Step 1 says everything downstream
+    is bounded to changed_paths). A broken change passes if the install is old, and
+    a missing install yields only "not installed". C12 also forbids naming Garura''s
+    source, but the source folders are the thing under review (the s5 exception for
+    "folders of the repository under review" was not applied to the lint target).
+
+    '
+  basis: 'G3 (ADR 040 s2: the installed copy changes only when an install is asked,
+    so it is not the PR); harness playbook Layer 1 (lint the changed plays); check-change
+    Step 1 bound.'
+  suggested_fix: pass the changed play paths and a source target to the installed
+    tools (--layout source --target core/components), or have the play prove the install
+    matches the PR head before it trusts the result.
+  category: harness
+- id: H3
+  severity: P2
+  file: core/components/agents/change-reviewer.md
+  line: 88
+  also:
+  - core/components/agents/change-reviewer.md:120 (Grounding row)
+  - core/components/plays/check-change/SKILL.md:197-206 (C11 fan-out)
+  what_is_wrong: 'The new Memory Reading Protocol makes every grounding dispatch copy
+    standards and shelves into the same <issue folder>/context/memory/<path as found>
+    and record each source in the single shared <issue folder>/context/memory/manifest.json.
+    Layer 2 runs one change-reviewer per design-bearing category concurrently. Parallel
+    read-modify-write of one manifest.json (and same-file copies) can lose entries
+    or corrupt the JSON, and the traceable memory source is the point of the manifest.
+    The same file already says "write only that one file - never a shared file".
+
+    '
+  basis: 'G4 (concurrent-fanout.md condition 2: distinct output paths; change-reviewer.md
+    base lines 58-64).'
+  suggested_fix: copy all grounding memory once in the serial assessment step, or
+    give each dispatch its own manifest path (for example manifest-<category>.json).
+  category: harness
+- id: H4
+  severity: P3
+  file: core/tools/lint-play/lint_play.py
+  line: 331
+  also:
+  - core/components/plays/create-play/scripts/lint_play.py:331
+  - core/components/plays/edit-play/scripts/lint_play.py:331
+  what_is_wrong: 'The tool that is laid in every project still finds the Next-line
+    map by joining a memory folder path (<play>/../../memory/standards/rules/pipeline-next.md)
+    and silently skips the Next-line check when it is absent. That is a memory read
+    by folder path inside an installed tool, built from path pieces so installed-paths/source-path
+    cannot see it. In an installed layout the folder never exists, so any caller that
+    omits --next-map gets a skipped check reported as clean.
+
+    '
+  basis: 'G1 (ADR 035 s4 / ADR 039 s2: memory is read through the tool, never by a
+    path); a silent skip conflicts with C12 "never a pass".'
+  suggested_fix: make --next-map required for the installed tool (exit 2 without it)
+    and drop the path fallback; keep the fallback only in the source-only copies if
+    wanted.
+  category: harness
+- id: H5
+  severity: P3
+  file: core/components/plays/check-change/SKILL.md
+  line: 169
+  also:
+  - core/components/plays/check-change/SKILL.md:224
+  - core/components/agents/change-reviewer.md:185-186
+  what_is_wrong: 'The play itself reads the playbook copies in review_shelf to decide
+    each category''s layers ("the play reads each category''s treatment from those
+    copies"). The copies sit in short-term memory, but they are memory content, and
+    the play is the reader. ADR 039 s2 says a play reads no memory and gets what it
+    needs from its sub-agents.
+
+    '
+  basis: 'G1 (ADR 039 s2 lines 48-55). Mitigation noted: the memory guide treats a
+    play''s own working files as not a lookup, so this is a judgment call; the clean
+    form is for change-reviewer to write the treatment (layers, linters, design-grounding
+    yes/no) into categories.yaml.'
+  category: harness
+- id: H6
+  severity: P3
+  file: core/components/agents/adr-keeper.md
+  line: 66
+  also:
+  - change-reviewer.md:88
+  - project-orchestrator.md:395
+  - quality-auditor.md:81
+  - repo-orchestrator.md:407
+  - tech-designer.md:167
+  - test-engineer.md:342 - the same ~25-line Memory Reading Protocol; Structured Failure
+    Format copied into code-builder.md:295
+  - project-orchestrator.md:429
+  - repo-orchestrator.md:443
+  - tech-designer.md:416
+  - test-engineer.md:512
+  what_is_wrong: 'Two blocks are now pasted word for word into 7 and 5 agents (product-os-keeper
+    already carried the protocol on the base ref). Fixing one means editing every
+    copy, and nothing lints that they stay equal. The failure format was a pointer
+    to a file that was never installed (structured-failure-protocol.md); inlining
+    repaired the dangling pointer but multiplied it. The protocol also has each agent
+    hand-assemble a copy-and-manifest pipeline with an inline python3 -c one-liner,
+    which is mechanical work done by a model on every run.
+
+    '
+  basis: 'G6 (ADR 039 s9, ADR 054 line 48, CLAUDE.md durability rule: one common file,
+    linted); G7 (harness standard principle 3).'
+  suggested_fix: one shared agents file (or a tiny copy-to-short-term script in the
+    memory tool folder) that the agents point to, plus a lint check for the pointer.
+  category: harness
+- id: H7
+  severity: P3
+  file: core/components/agents/repo-orchestrator.md
+  line: 407
+  also:
+  - adr-keeper.md:66 (ADR template)
+  - project-orchestrator.md:395 (issue and work-plan templates)
+  - change-reviewer.md:119 (Next-line map)
+  what_is_wrong: 'Agents now fetch templates themselves (standards/templates/adr.md,
+    pr-body.md, github-issue.md, work-plan.md) and change-reviewer fetches the Next-line
+    map. template-manager is the committed single owner of templates and lists the
+    Next-line map in its domain. ADR 055 does not amend ADR 039 s8, so there are now
+    two paths to a template.
+
+    '
+  basis: 'G5 (ADR 039 s8; template-manager.md "One owner for every template"). Mitigation:
+    only repo-orchestrator and project-orchestrator hold Task, so most agents cannot
+    call template-manager; the play can call it and hand paths in.'
+  category: harness
+- id: H8
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 33
+  also:
+  - core/tools/lint-components/lib/rules/installed-paths.js:112-130 (partsOf scans
+    plays
+  - loops
+  - skills
+  - agents only)
+  - core/components/plays/install-garura/scripts/tools_system.py:34 (NOT_LAID = memory
+  - play-reviewer)
+  what_is_wrong: 'The install lays every tool except memory and play-reviewer, so
+    the naming tool (check_old_names.py, apply_renames.py) is laid into every project.
+    Both read core/components/... and the rename map, so they cannot work there. ADR
+    055 s1 lists "a tool" among the installed parts that never name the source, but
+    the rule never scans tools, so the one kind of part that does name the source
+    is not caught. A dev-only tool is shipped as if it were runnable.
+
+    '
+  basis: 'G2 (ADR 038 s1: the install lays what runs and checks it runs). Self-consistency
+    of ADR 055 s1/s3/s6 (noted as a branch-internal point, not grounding).'
+  suggested_fix: add naming to NOT_LAID (or name dev tools as a source-only exception),
+    and have installed-paths scan the laid tools.
+  category: harness
+- id: H9
+  severity: P3
+  file: core/components/skills/check-pr-quality/SKILL.md
+  line: 31
+  also:
+  - core/components/skills/check-pr-quality/reference/input-contract.md:8
+  - SKILL.md:45
+  - 167 (FS-4)
+  what_is_wrong: 'The skill''s input contract changed shape: the standards_set object
+    {kb, ltm, stm} is gone, replaced by a standards_order list; the pre-flight guard
+    "at least one standards source resolves - HALT" became "standards_order is given"
+    (always true); FS-4 was renamed. ADR 055''s ICE-impact line says check-pr-quality
+    changes "the values in its contract, not the shape". The record and the diff disagree,
+    and a guard was weakened without being recorded.
+
+    '
+  basis: G10 (a skill's input contract is its interface; base SKILL.md lines 32, 48,
+    170); ADR 055 ICE-impact statement against the diff.
+  category: harness
+- id: H10
+  severity: P3
+  file: core/components/plays/install-garura/SKILL.md
+  line: 62
+  also:
+  - core/components/plays/uninstall-garura/SKILL.md:47
+  what_is_wrong: 'ADR 055 lists install-garura/SKILL.md and uninstall''s behaviour
+    under Affects, but the SKILL.md changes only cover the Codex stop. The lists of
+    what the install lays (lines 53-80) and what uninstall removes name only the memory
+    tool; the new .garura/core/tools/<name>/ folders, the install-manifest "tools"
+    and "kinds" fields and their removal are not described, so the human summary the
+    play gives will omit them.
+
+    '
+  basis: G8 (the play's SKILL.md is its contract; it states every artifact the install
+    lays, base lines 53-80).
+  category: harness
+- id: H11
+  severity: P3
+  file: core/grounding/glossary.md
+  line: 165
+  also:
+  - CLAUDE.md:27
+  - README.md:131 - not in the diff
+  what_is_wrong: 'The Codex install is deprecated (ADR 055 s7, install.py exit 2),
+    but the glossary entry for /install-garura still describes a working codex adapter,
+    CLAUDE.md line 27 still tells a reader components deploy to .agents/skills/ (Codex),
+    and README says "OpenAI Codex CLI: via install-garura --tool codex". Only the
+    install play was updated.
+
+    '
+  basis: CLAUDE.md Reference section (the glossary holds the canonical definitions);
+    harness-standard "A change to the standard ... rule files and this page change
+    with it".
+  category: harness
+- id: H12
+  severity: P4
+  file: docs/standards/harness-standard.md
+  line: 113
+  also:
+  - docs/adr/055-installed-parts-read-only-installed-files.md:22
+  what_is_wrong: 'Principle 11 cites only "#860", while the standard''s own intro
+    says each principle names its ADR; it should cite ADR 055. Separately, ADR 055
+    says "ADR 038 s4 says agents call the memory tool, never a path"; ADR 038 s4 is
+    where the tool lives (.garura/tools/memory/). The "agents call the tool, never
+    a path" line is in ADR 038 s5 (on ADR 035 s4).
+
+    '
+  basis: G9 (harness-standard.md lines 3-5); docs/adr/038 (base) lines 45-47, 53.
+  category: harness
+- id: H13
+  severity: P4
+  file: core/components/skills/check-quality/SKILL.md
+  line: 51
+  also:
+  - core/components/skills/enrich-quality-profile/SKILL.md:37
+  what_is_wrong: 'check-quality (kb_base) and enrich-quality-profile (kb_quality_dir)
+    now say the calling agent fetches the quality knowledge into short-term memory,
+    but no agent''s "what each skill needs from memory" table lists either skill,
+    and no play dispatches them, so the contract has no owner yet.
+
+    '
+  basis: 'G1 (ADR 039 s2: a skill reads only what its agent puts in short-term memory).'
+  category: harness
+- id: H14
+  severity: P4
+  file: core/components/plays/install-garura/scripts/tools_system.py
+  line: 34
+  also:
+  - core/components/plays/install-garura/scripts/install.py:183-185 (STATUS_GITIGNORE)
+  what_is_wrong: 'The install now lays several tools (one with node_modules) under
+    .garura/core/tools/ but writes no ignore line for them; only this repo''s root
+    .gitignore ignores that folder. In a product project they show up as untracked
+    files, and ADR 038/039 left the question open. ADR 055 notes the size but does
+    not decide it.
+
+    '
+  basis: G2 (ADR 038 line 77 "not decided here"; ADR 039 line 94).
+  category: harness
+- id: H15
+  severity: P4
+  file: core/components/agents/intent-resolver.md
+  line: 10
+  what_is_wrong: 'intent-resolver gains the Bash tool so it can call the memory tool.
+    This widens the agent that guards builder isolation, and ADR 055 does not record
+    the grant. Low risk (it only reads memory), but worth one line in the record.
+
+    '
+  basis: G10 / builder-isolation.md (base) - the agent's role is context crafting
+    under a compartmentation contract.
+  category: harness
+- id: M1
+  severity: P3
+  file: core/components/memory/knowledge/review/harness.md
+  line: 29
+  what: The linter command is `--layout installed --target .claude`. That hard-codes
+    Claude Code's install folder in a shelf that every project reads from Phoenix
+    memory. A Codex project installs to .agents/skills/, so this command checks nothing
+    there (the same tool's own comment says the installed layout is '.claude or .agents').
+  basis: 'G3: CLAUDE.md (base) line 27 names both .claude/ and .agents/skills/ as
+    deploy targets.'
+  suggestion: Say 'the installed target folder (.claude or .agents)' instead of the
+    literal .claude.
+  category: memory
+- id: M2
+  severity: P3
+  file: core/components/memory/knowledge/review/memory.md
+  line: 28
+  what: The Gap sentence now says the installed `.garura/core/tools/lint-components`
+    'covers some shape' of memory integrity. The installed layout lints parts under
+    .claude or .agents; shelf files live in memory and are reached only through the
+    memory tool, so the installed tool cannot reach them. The base lint-components
+    has no knowledge-shelf or memory rule. The claim was already loose; the edit adds
+    an installed path to it and makes it read as a working check.
+  basis: G5 (the playbook's own honest-gap rule); G1 (memory is not read by a path,
+    so a path-based linter cannot be the memory check).
+  suggestion: Drop the lint-components claim and say no installed tool checks memory
+    integrity yet.
+  category: memory
+- id: M3
+  severity: P4
+  file: core/components/memory/knowledge/review/memory.md
+  line: 28
+  what: harness.md gets a full command and a 'not installed' fallback; memory.md gets
+    a bare folder path and no fallback. The two playbooks now treat the same tool
+    in different ways.
+  basis: 'G4: a missing tool must be reported the same way wherever the playbooks
+    name it.'
+  category: memory
+- id: M4
+  severity: P4
+  file: core/components/memory/knowledge/review/harness.md
+  line: 25
+  what: The lint_play.py command sits in a code span that wraps over a line break
+    ('<the short-term / copy of ...>'), so it cannot be pasted and run. The placeholder
+    is also a sentence, not a path.
+  basis: 'G1: the Next-line map is a short-term copy the agent names; the playbook
+    should name a placeholder (for example <next-map copy>), not describe one.'
+  category: memory
+- id: M5
+  severity: P4
+  file: core/components/memory/knowledge/review/harness.md
+  line: 31
+  what: 'The intro says ''run from the installed tools only'', but the next item,
+    the play-pipeline rule ''intent change must trace to an ICE source'', is not a
+    tool and has no installed form: an installed project holds no ICE source (reference/ice.md
+    lives in the source tree). The sentence now reads as if that check also runs from
+    installed tools.'
+  basis: 'G2 and G3: what an installed project holds, per base install-garura SKILL.md
+    line 74 and CLAUDE.md line 27.'
+  category: memory
+- id: M6
+  severity: P3
+  file: core/components/memory/knowledge/review/harness.md
+  line: 24
+  what: 'Grounding gap GU1 as a finding: the playbook now instructs every project
+    to run tools from .garura/core/tools/lint-components and .garura/core/tools/lint-play.
+    The base design lists only the memory tool in that folder, and the installer at
+    the base lays only that tool. The playbook is correct only if ADR 055 (new on
+    this branch) is accepted.'
+  basis: G2. Not a violation of a base principle; a missing base ground. A person
+    judges ADR 055.
+  category: memory

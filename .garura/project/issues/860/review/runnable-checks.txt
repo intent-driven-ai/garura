@@ -1,0 +1,16 @@
+# Layer 1 — installed linters and runnable suites (check-change C12), run from the project root
+# Memory: Phoenix memory 2f68683b1e44 (review rules promoted from plan/788/base)
+lint-components --layout installed --target .claude:
+  errors 19 (all also in the source on plan/788/base) | installed-paths 0
+lint_play (installed tool, Next-line map from Phoenix 2f68683b1e44) on the plays this PR changed:
+  check-change: FAIL (1 gap) no-unbacked-recommendation — also on plan/788/base; not from this PR
+  shape-slice: PASS
+  list-focus-issues: PASS
+  start-change: PASS
+  propose-change: PASS
+  merge-change: PASS
+  discover-intent, fix-bug, install-garura: not installed at harness scope (expected)
+Runnable suites:
+  install-garura test_install.py (unittest): 62 tests OK
+  create-play test_fetch_pr_context.py: 13 passed, 0 failed
+  lint-components node --test: pass 5, fail 0

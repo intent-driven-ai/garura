@@ -1,0 +1,81 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/_index.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:e00495d6715687627f4799d9d5ebf966432301d5c2ff914ef4cb8833861996f5",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/adrs.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:374f00d044b749d5f72b5440942d1eb0e290fd925be239f9084c7f6225a5177e",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/adrs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/code.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:1ccf4b6516600b0ebcaf9ab9eeaa995eb158e8d20b03e577ea0300d7f0425645",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/code.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/config-maps.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:95e283ea6c36541dd63428c57edaa95fca913e4814ceb5bb6453cca60d009d40",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/config-maps.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/docs.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:673a338c1dd38889aad23a36f7c0acd9e059989877451e4a3682b9e283e888f7",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/docs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/harness.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:274cb10cd519bb4347280e24e06f74b0886f040c0ae5d0e0bd46637a48ff955f",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/harness.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/memory.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:ee59e043d45c14118401a5cabdfb312b8c2910c95e8fb0d0bf70fc7368e0d6b9",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/memory.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/tests.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:b5a2d6929776efe3d0a81018309869110edefcc4687d6db70cb8ea85cdfd06eb",
+      "copy": ".garura/project/issues/860/context/memory/knowledge/review/tests.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pipeline-next.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412",
+      "copy": ".garura/project/issues/860/context/memory/standards/rules/pipeline-next.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pr.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:300f365ab65fd8ba044273af112769591aaf20b88d9e0f568f82f001933a2e07",
+      "copy": ".garura/project/issues/860/context/memory/standards/rules/pr.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/pr-findings.yaml",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:0788711e4ba7a68f448aeb9ec4151b21c389f3a18bcab1a99f8585ef775129a4",
+      "copy": ".garura/project/issues/860/context/memory/standards/schemas/pr-findings.yaml"
+    }
+  ]
+}
