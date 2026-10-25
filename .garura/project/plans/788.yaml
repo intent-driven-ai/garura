@@ -258,7 +258,7 @@ tree:
 - issue: 884
   kind: bug
   title: 'The content judge passes a page and then fails the same page unchanged, so a model run cannot finish'
-  status: next
+  status: done
 - issue: 844
   kind: chore
   title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
