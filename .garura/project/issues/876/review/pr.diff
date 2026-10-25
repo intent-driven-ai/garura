@@ -1,0 +1,225 @@
+diff --git a/.garura/project/issues/876/context/analysis.yaml b/.garura/project/issues/876/context/analysis.yaml
+new file mode 100644
+index 00000000..9444e84c
+--- /dev/null
++++ b/.garura/project/issues/876/context/analysis.yaml
+@@ -0,0 +1,26 @@
++---
++# analyze_changeset.py output (C8 fast path), grouped by assess-changes
++# issue: 876
++needs_judgment: false
++
++change_groups:
++  - id: install-lays-shape-plan
++    concern: harness install leaves shape-plan and author-work-items off its list; add both and test it
++    commit_type: fix
++    scope: install-garura
++    subject: lay shape-plan and author-work-items in a harness install
++    issue: 876
++    files:
++      - core/components/plays/install-garura/scripts/install.py
++      - core/components/plays/install-garura/scripts/test_install.py
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "2 changed files (excluding the play's own run files) all land in 1 group; single-issue branch plan/788/876-install-lays-shape-plan, one concern (harness install list plus its test), commit type fix"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/876/context/branch.json b/.garura/project/issues/876/context/branch.json
+new file mode 100644
+index 00000000..8d337e16
+--- /dev/null
++++ b/.garura/project/issues/876/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/788/876-install-lays-shape-plan",
++  "base_sha": "9d41d9ca79c2fdb8afb096d60712bfca8d645577",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/788/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/876/context/commits.yaml b/.garura/project/issues/876/context/commits.yaml
+new file mode 100644
+index 00000000..16d0cef8
+--- /dev/null
++++ b/.garura/project/issues/876/context/commits.yaml
+@@ -0,0 +1,13 @@
++commits:
++  - sha: 0c51e70c
++    message: "fix(install-garura): lay shape-plan and author-work-items in a harness install (#876)"
++    files:
++      - core/components/plays/install-garura/scripts/install.py
++      - core/components/plays/install-garura/scripts/test_install.py
++    branch: plan/788/876-install-lays-shape-plan
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/876/context/issue.json b/.garura/project/issues/876/context/issue.json
+new file mode 100644
+index 00000000..720de305
+--- /dev/null
++++ b/.garura/project/issues/876/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 876, "title": "An install into Garura's own repo leaves out the plan play, so /shape-plan cannot run", "created": false}
+diff --git a/.garura/project/issues/876/context/plan.json b/.garura/project/issues/876/context/plan.json
+new file mode 100644
+index 00000000..0a138895
+--- /dev/null
++++ b/.garura/project/issues/876/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "876",
++  "plan_id": "788",
++  "plan_branch": "plan/788/base",
++  "issue_branch": "plan/788/876-install-lays-shape-plan"
++}
+diff --git a/.garura/project/issues/876/context/porcelain.txt b/.garura/project/issues/876/context/porcelain.txt
+new file mode 100644
+index 00000000..d6f0fa57
+--- /dev/null
++++ b/.garura/project/issues/876/context/porcelain.txt
+@@ -0,0 +1,3 @@
++ M core/components/plays/install-garura/scripts/install.py
++ M core/components/plays/install-garura/scripts/test_install.py
++?? .garura/project/issues/876/context/commit-change/
+diff --git a/.garura/project/issues/876/context/pr-body.md b/.garura/project/issues/876/context/pr-body.md
+new file mode 100644
+index 00000000..88810f88
+--- /dev/null
++++ b/.garura/project/issues/876/context/pr-body.md
+@@ -0,0 +1,21 @@
++An install into Garura's own repo now lays the plan play. The harness install keeps a fixed list of plays and skills. #818 built `/shape-plan` and its skill `author-work-items` but did not add them to that list, so after an install `/shape-plan` was not there.
++
++Closes #876.
++
++## What changes
++
++- `install-garura/scripts/install.py`: the harness list names the play `shape-plan` and the skill `author-work-items`.
++- `install-garura/scripts/test_install.py`: a test installs with the harness scope and finds both.
++
++## Checks
++
++| Check | Result |
++|---|---|
++| Hidden acceptance check (4), written before the fix | 4 / 4 pass (1 / 4 before) |
++| Install tests | 75 pass |
++| Component lint | no new error (36 old errors stay) |
++| Self-review | 0 blocking findings |
++
++## Self-review
++
++See `.garura/project/issues/876/context/self-review.md`.
+diff --git a/.garura/project/issues/876/context/pr.json b/.garura/project/issues/876/context/pr.json
+new file mode 100644
+index 00000000..36a6ba7c
+--- /dev/null
++++ b/.garura/project/issues/876/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 877,
++  "url": "https://github.com/intent-driven-ai/garura/pull/877",
++  "state": "OPEN",
++  "base": "plan/788/base"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/876/context/resolved-rules.json b/.garura/project/issues/876/context/resolved-rules.json
+new file mode 100644
+index 00000000..725c8d8b
+--- /dev/null
++++ b/.garura/project/issues/876/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/876/context/self-review.md b/.garura/project/issues/876/context/self-review.md
+new file mode 100644
+index 00000000..d5298527
+--- /dev/null
++++ b/.garura/project/issues/876/context/self-review.md
+@@ -0,0 +1,26 @@
++# Self-review: issue 876
++
++Rules: ~/.garura/core/memory/standards/rules/self-review.md (resolved path in resolved-rules.json)
++Diff: git diff plan/788/base...HEAD
++Issue: #876 - an install into Garura's own repo leaves out the plan play, so /shape-plan cannot run
++
++Informational only. Not the approve/reject gate.
++
++## Scope checks
++
++- [PASS] Matches the issue. The change adds shape-plan and author-work-items to the harness install list in install.py, plus one test.
++- [PASS] No scope creep. Only two source files changed: install.py (5 lines) and test_install.py (6 lines). The rest of the diff is the play's own run records under .garura/project/issues/876/.
++- [PASS] Reasonable size. 11 added source lines in total.
++- [PASS] No stray artifacts. No debug prints, commented-out code or scratch files. The added comments explain why each name is listed.
++
++## Quality checks
++
++- [PASS] Tests present. test_the_harness_scope_lays_the_plan_play_and_its_skill checks that both shape-plan and author-work-items land after an install. The RetiresOldNames test class passes (3 tests, OK).
++- [PASS] Commits are clean. One fix commit for the source change, three chore(stm) commits for run records, all conventional format and all referencing #876.
++- [PASS] No secrets. The diff holds no credentials, tokens or keys.
++- [PASS] Docs in step. No user-facing interface changed. The install list is internal. Both added parts exist in the source tree (shape-plan play, author-work-items skill).
++- [PASS] Nothing obviously broken. No leftover TODOs and no failing path introduced.
++
++## Summary
++
++Blocking findings: none (0).
+diff --git a/.garura/project/issues/876/context/work-description.txt b/.garura/project/issues/876/context/work-description.txt
+new file mode 100644
+index 00000000..a54ef951
+--- /dev/null
++++ b/.garura/project/issues/876/context/work-description.txt
+@@ -0,0 +1 @@
++The harness install leaves out the plan play. Add shape-plan and its skill author-work-items to the harness list in install-garura, with a test that a harness install lays both. Serves #788; under story #818.
+diff --git a/core/components/plays/install-garura/scripts/install.py b/core/components/plays/install-garura/scripts/install.py
+index 064211d9..0841647f 100644
+--- a/core/components/plays/install-garura/scripts/install.py
++++ b/core/components/plays/install-garura/scripts/install.py
+@@ -244,6 +244,9 @@ def portable(path):
+             # shape-slice shapes the slice for each of Garura's own business intents (plan 788).
+             # Its workers: product-os-keeper + the skills listed below; template-manager is kept.
+             "shape-slice",
++            # shape-plan makes the plan, and its work items, for each of Garura's own business
++            # intents (#818). Its workers: product-os-keeper + author-work-items; template-manager is kept.
++            "shape-plan",
+         },
+         # a harness repo builds loops but runs none: no product loop installs there
+         "loops": set(),
+@@ -256,6 +259,8 @@ def portable(path):
+             # the skills shape-slice calls (#842)
+             "author-business-intent", "author-domains", "propose-answers", "author-slice",
+             "find-slice-gaps", "author-slice-brief", "enrich-grounding", "author-failure-recovery",
++            # the skill shape-plan calls (#818)
++            "author-work-items",
+         },
+         "agents": {
+             "change-reviewer", "project-orchestrator",
+diff --git a/core/components/plays/install-garura/scripts/test_install.py b/core/components/plays/install-garura/scripts/test_install.py
+index e2858249..a7836e70 100644
+--- a/core/components/plays/install-garura/scripts/test_install.py
++++ b/core/components/plays/install-garura/scripts/test_install.py
+@@ -414,6 +414,12 @@ def test_every_old_name_of_one_new_name_goes(self):
+         self.assertFalse(os.path.exists(self.path(".claude", "skills", "shape-features")))
+         self.assertTrue(os.path.isfile(self.path(".claude", "skills", "shape-slice", "SKILL.md")))
+ 
++    def test_the_harness_scope_lays_the_plan_play_and_its_skill(self):
++        # #876: /shape-plan and author-work-items were left off the harness list
++        self.install()
++        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "shape-plan", "SKILL.md")))
++        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "author-work-items", "SKILL.md")))
++
+ 
+ class LeavesTheProductModelAsItIs(Installed):
+     """The install never changes a product model the project already has (#813; upgrades: #835)."""
