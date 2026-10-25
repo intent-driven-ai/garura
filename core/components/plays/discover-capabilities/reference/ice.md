@@ -82,6 +82,12 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
 - C4 — Content quality: every grounding doc (the detailed capability and each
   feature) clears the content-quality eval, not just the linter — each section is
   self-explaining at product-manager altitude and the doc passes the stranger test.
+  The eval settles (`standards/rules/grounding-eval.md`; Kapil, #884): a doc's pass is kept
+  while the doc, its parent doc and the guidance are unchanged, so it is not judged again; a
+  fix round checks each earlier failure and judges new points only on the text that changed;
+  a new point on unchanged text is a note — shown to the person at the checkpoint with its
+  doc — and never stops the run. The judge state lives in the issue's short-term memory, so a
+  later run on the same issue keeps the passes.
 - C5 — The capability's NFR needs are per-capability and concrete: each dimension it
   constrains carries a `level` (none<low<medium<high<xhigh), a measurable `target`, and a
   `gate` (how it is checked); `compliance_needs` are listed. No vague adjective.
@@ -312,7 +318,9 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   ready, when the checkpoint is presented, then it shows each detailed capability, its
   features, its NFR needs, and, for each box-move, an explicit line naming the
   capability, the dimension, the from→to levels, and the ADR it will create — rendered inline,
-  over the full written delta. Measure: each box-move appears as its own line item; no
+  over the full written delta — and each doc's content-eval notes beside its doc. Measure:
+  each box-move appears as its own line item; every note in the gate results appears with its
+  doc; no
   product-model change is COMMITTED before the approval, and on cancel the working tree
   returns byte-clean to HEAD (`git restore` + `git clean`) — or, on the auto-pass path (a
   policy-listed shape), the gate resolves with no wait and the recorded auto-pass, the
@@ -389,8 +397,9 @@ record.
   restore consistency before the checkpoint. handoff: autonomous.
 - REC3 (F3) — trigger: a grounding doc fails the content-quality eval. direction: rewrite
   the failing doc to the judge's cited fixes — raise each flagged section to a
-  self-explaining, product-manager-altitude statement — and re-judge until the gate passes.
-  handoff: autonomous.
+  self-explaining, product-manager-altitude statement — and re-judge it as a fix round (the
+  judge gets its earlier failures, and the gate keeps a new point on unchanged text as a note)
+  until the gate passes. handoff: autonomous.
 - REC4 (F4) — trigger: the capability stayed directional, or a feature lacks its entry
   or its doc. direction: complete the promotion (flip the entry to `detail: detailed`) and
   emit the missing feature entry or doc before the checkpoint. handoff: autonomous.

@@ -352,11 +352,33 @@ template's gold example (it sees neither the brief nor the author's reasoning), 
 from `grounding-eval.judge.model` (default the session model). The three safety conditions
 hold: each judge only READS its own doc, writes only its own verdict JSON, and no judge
 depends on another. **Join** — wait for every verdict to return before gating any. Then gate
-every returned verdict (order-stable, so the outcome is identical to a serial run):
+every returned verdict (order-stable, so the outcome is identical to a serial run).
+
+**The eval settles (C2, #884; `standards/rules/grounding-eval.md`).** The judge state lives in
+the issue's short-term memory, `{stm_base}<issue>/context/judge-state/` (`<judge-state>`), so a
+later run on the same issue keeps its passes. A domain doc has no parent doc. Before the
+batch, for each doc:
 
 ```
-python3 scripts/grounding_gate.py --verdict <verdict.json>
+python3 scripts/grounding_gate.py kept --state <judge-state> --doc <doc> \
+    --guidance <working>/judge/guidance-domain.md
+python3 scripts/grounding_gate.py prior --state <judge-state> --doc <doc> \
+    > <working>/judge/prior-<domain id>.json
 ```
+
+`kept` exit 0 → the doc's pass is kept (the doc and the guidance are unchanged): dispatch no
+judge for it, and record it as kept. Every other doc is judged; its contract adds
+`"prior_failures": "<working>/judge/prior-<domain id>.json"` — on a `fix` round the judge says,
+for each earlier failure, whether the cited fix was made. After the join, gate each returned
+verdict with the state:
+
+```
+python3 scripts/grounding_gate.py --verdict <working>/judge/verdict-<domain id>.json --state <judge-state> \
+    --doc <doc> --guidance <working>/judge/guidance-domain.md > <working>/judge/gate-<domain id>.json
+```
+
+The gate's `notes` (a new point on text that did not change) never stop the run; the play
+collects every doc's notes into `<working>/judge/notes.json` for the checkpoint (Step 6).
 
 **SE-1 (F1/C1):** `lint_grounding.py` exits 0 over the live docs this run wrote — every
 domain doc conforms to the Theme template's detailed stage; full spine↔doc consistency for
@@ -364,7 +386,10 @@ the new entries completes after the keyed persist (Step 5). A "not ready until i
 attributed" warning on another play's capability or feature is not a failure.
 **SE-2 (F2/C2):** the content-quality eval gate (`grounding_gate.py`) passes for EVERY
 domain doc — each section self-explains at CXO altitude and the doc clears the stranger
-test. A label-only or thin doc fails.
+test. A label-only or thin doc fails. For each doc, `kept` read exit 0 (its pass is kept), or
+its `gate-<domain id>.json` reads `ok: true`, gated with `--state <judge-state>`; every judged
+doc's contract named its `prior_failures` file; and every gate result's `notes` are in
+`<working>/judge/notes.json`.
 **SE-3 (F3/C3):** no over-reach — no capability or feature doc was written or moved
 by this run, the manifest's spine-delta holds no capability, feature, slice or epic
 entry or update, no acceptance criteria appear, and the manifest's profile is not
@@ -381,7 +406,8 @@ main section sits in a listed domain with the evidence and source that its field
 work, and every domain the run adds holds a main section.
 On any GAP, apply the matching recovery (REC1–REC4) and re-run before the checkpoint —
 for a content-eval fail (SE-2), REC2 rewrites the doc to the judge's cited fixes and
-re-judges until the gate passes.
+re-judges it as a fix round (`prior` hands the judge its earlier failures; the gate keeps a
+new point on unchanged text as a note) until the gate passes.
 
 ### Phase: Persist (write the full delta first, ADR 026 write-then-review)
 
@@ -518,8 +544,10 @@ records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions r
 proceeds). When on, present the proposed change **inline over the real model git diff** — each
 domain (its intent, the bet, its guiding rules, the kinds of capability it covers, its
 sources; raised from a light page when it was one), the intent links written (each intent's
-Touches list), the persist's `warnings`, and the directional profile (shape + rough NFR
-levels) —
+Touches list), the persist's `warnings`, the directional profile (shape + rough NFR
+levels), and, beside each domain, its content-eval notes from `<working>/judge/notes.json`
+(points the judge found on text that did not change: shown for the person to weigh, never a
+stop; C2) —
 render the approval prompt — the template `standards/templates/approval-prompt.md`, which
 the play asks `template-manager` for (it never reads it from memory) — and wait for the
 typed response. Approve → continue to Step 7 (commit). **Cancel → revert the working tree
@@ -636,7 +664,8 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
   every other pre-existing entry is in `skipped`, the keep-check and scoped-guard reports read
   `ok`, and a re-run with nothing new leaves every model file byte-identical.
 - **SCE-4 (S4 — reviewer):** the Step 6 checkpoint showed each domain and the
-  directional profile inline over the real model git diff, and no
+  directional profile inline over the real model git diff, every note in
+  `<working>/judge/notes.json` beside its doc, and no
   product-model change was COMMITTED before that gate resolved — on cancel the working tree
   returns byte-clean to HEAD — or, on the auto-pass path (a policy-listed shape), the gate
   resolved with no wait and the recorded auto-pass, the appended ledger line, and the diff
@@ -783,7 +812,7 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c57d4ad7c750d27e50f4fde8784111ce33b140d1c0be936ed45875ff823c5bb5 (of `reference/ice.md`) |
+| fingerprint | sha256:a7edfec249a2e0bac0c363206bc75b2bae0d3b2e0e1c7633edf3e7cc0e4afc0e (of `reference/ice.md`) |
 | compiled_by | edit-play (#689 every main section in a domain whose research covers it; no domain from one shared feature: C5, C12); edit-play (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#614 runs inside a loop); edit-play (#637 one product model with /discover-intent); edit-play (#616 position both); edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C); create-play (edited via edit-play, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it |

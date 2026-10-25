@@ -394,15 +394,44 @@ kind, before the batch:
 ```
 python3 scripts/guidance_block.py --template {stm_base}<issue>/context/templates/standards/schemas/product-os/grounding/<kind>.md \
     --stage detailed --out <working>/judge/guidance-<kind>.md   # /discover-capabilities writes the detailed stage
-python3 scripts/grounding_gate.py --verdict <verdict.json>
 ```
+
+**The eval settles (C4, #884; `standards/rules/grounding-eval.md`).** The judge state lives in
+the issue's short-term memory, `{stm_base}<issue>/context/judge-state/` (`<judge-state>`), so a
+later run on the same issue keeps its passes. Before the batch, for each doc (with `--parent`
+for a doc that has one — a feature's capability, a capability's domain):
+
+```
+python3 scripts/grounding_gate.py kept --state <judge-state> --doc <doc> \
+    --guidance <working>/judge/guidance-<kind>.md [--parent <parent doc>]
+python3 scripts/grounding_gate.py prior --state <judge-state> --doc <doc> \
+    > <working>/judge/prior-<doc id>.json
+```
+
+`kept` exit 0 → the doc's pass is kept (the doc, its parent and the guidance are unchanged):
+dispatch no judge for it, and record it as kept. Every other doc is judged; its contract adds
+`"prior_failures": "<working>/judge/prior-<doc id>.json"` — on a `fix` round the judge says, for
+each earlier failure, whether the cited fix was made. After the join, gate each returned
+verdict with the state:
+
+```
+python3 scripts/grounding_gate.py --verdict <working>/judge/verdict-<doc id>.json --state <judge-state> \
+    --doc <doc> --guidance <working>/judge/guidance-<kind>.md [--parent <parent doc>] \
+    > <working>/judge/gate-<doc id>.json
+```
+
+The gate's `notes` (a new point on text that did not change) never stop the run; the play
+collects every doc's notes into `<working>/judge/notes.json` for the checkpoint (Step 6).
 
 **SE-3 (F2/C3):** `lint_grounding.py` exits 0 over the live docs this run wrote — each
 detailed `capability.md` conforms to the capability template's detailed stage and every
 new `feature.md` conforms to the feature template.
 **SE-4 (F3/C4):** the content-quality eval gate (`grounding_gate.py`) passes for EVERY
 grounding doc — each section self-explains at product-manager altitude and clears the
-stranger test.
+stranger test: for each doc, `kept` read exit 0 (its pass is kept), or its
+`gate-<doc id>.json` reads `ok: true`, gated with `--state <judge-state>`; every judged doc's
+contract named its `prior_failures` file; and every gate result's `notes` are in
+`<working>/judge/notes.json`.
 **SE-5 (F4/C2):** each target's manifest promotes its capability
 (`enrich.capability.detail: detailed`) and every feature it names carries both a manifest
 `features` entry and a live `feature.md` doc (the keyed persist in Step 6 writes the entries; the docs are on disk
@@ -415,7 +444,9 @@ whole thing a person does or sees on the screens — no panel made a function of
 concrete — a `level`, a measurable `target`, and a `gate` — and the needs sit on the
 capability, not globally.
 On any GAP, apply the matching recovery (REC2–REC6) and re-run before the checkpoint — a
-content-eval fail (SE-4) is REC3: rewrite the doc to the judge's cited fixes and re-judge. A
+content-eval fail (SE-4) is REC3: rewrite the doc to the judge's cited fixes and re-judge it
+as a fix round (`prior` hands the judge its earlier failures; the gate keeps a new point on
+unchanged text as a note). A
 target that still fails after its recovery halts the whole run and nothing is committed
 (C14/REC16): revert the uncommitted delta with the guard's `--restore` and an empty allow set.
 
@@ -598,7 +629,9 @@ features, the per-capability NFR needs, and the profile changes **inline over th
 model git diff**, one section per target — for each box-move in `rollup.json`, render its
 **own explicit line item** (the capability, the dimension, the from→to levels, and the
 product-level decision (ADR) it will create),
-distinct from the grounding approval — render the approval prompt — the template
+distinct from the grounding approval — and, beside each doc, its content-eval notes from
+`<working>/judge/notes.json` (points the judge found on text that did not change: shown for
+the person to weigh, never a stop; C4) — render the approval prompt — the template
 `standards/templates/approval-prompt.md`, which the play asks `template-manager` for (it never
 reads it from memory) — and wait for the typed response. Approve →
 continue to Step 7 (commit). **Cancel → revert the working tree (ADR 026 step 6):** the full
@@ -720,7 +753,7 @@ merged); and the
   the profile, and decisions, and no dimension was lowered.
 - **SCE-5 (S5 — reviewer, the checkpoint):** each detailed capability, its features,
   its NFR needs, and each box-move (capability, dimension, from→to, ADR) appeared inline over the full
-  written delta, and no SHARED model change was COMMITTED before approval — the full delta
+  written delta, every note in `<working>/judge/notes.json` appeared beside its doc, and no SHARED model change was COMMITTED before approval — the full delta
   written in place (docs + spine/profile/decisions) shows as the branch diff and is reverted
   byte-clean on cancel (ADR 026 step 6) — or, on the auto-pass path (a policy-listed shape),
   the gate resolved with no wait and the recorded auto-pass, the appended ledger line, and
@@ -876,7 +909,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:4b88eae2873fca672336cb09074d6b93512af214f086683c1a5a834d4a2606f0 (of `reference/ice.md`) |
+| fingerprint | sha256:90c19127cbf3efe683ad3d0e3a226e753daf9f5b7c3ec343d445f1e0715ab25a (of `reference/ice.md`) |
 | compiled_by | edit-play (#689 ADR 043: writes the capabilities and features, read off the screens, holding folder when no domain: C1, C2, C16); edit-play (#689 the screens decide the features, every page with its sources: C16); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#615 runs inside a loop; one run details every pending capability); edit-play (#616 stands alone); edit-play (#498 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
 | position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /discover-domains) |
