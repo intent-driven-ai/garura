@@ -1,0 +1,88 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/analytics.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/analytics.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/collaboration.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/collaboration.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/content-management.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/content-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/ecommerce.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/experience.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/marketing.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/marketing.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/notifications.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/payments.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/personalization.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/personalization.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+      "copy": ".garura/project/issues/866/context/memory/knowledge/domains/user-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:ad9dcb4327d378e0a3c1c5a69320f753faadd6b50cdd47e3f0857d9eb022101d",
+      "copy": ".garura/project/issues/866/context/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/expectation-generation.md",
+      "version": null,
+      "fingerprint": "sha256:90e109ef67c23d146f9ad7835cd336ca816d8001f7a43816aa8343c57985d3a4",
+      "copy": ".garura/project/issues/866/context/memory/core/memory/standards/rules/expectation-generation.md"
+    }
+  ]
+}

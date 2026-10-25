@@ -1,0 +1,16 @@
+{
+  "routing_result": {
+    "work": "The product owner names a piece of work. Agents shape it into a slice that one person can test, make its plan and write its eval. The product owner confirms each part as it is made.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "software delivery planning",
+        "why": "The field the work serves is software delivery: the job is to shape a piece of work into a testable slice, plan it as work items and write its outside check before the build. None of the ten shelves lists that kind of work. Collaboration is about several people working on the same content, Analytics about measuring behaviour, and the other eight (content, commerce, experience, marketing, notifications, payments, personalization, user management) are about what a product offers its own users."
+      }
+    ],
+    "shelves_read": ["analytics", "collaboration", "content-management", "ecommerce", "experience", "marketing", "notifications", "payments", "personalization", "user-management"],
+    "confidence_note": "high: no shelf trigger is about planning or designing software work"
+  }
+}

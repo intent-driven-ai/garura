@@ -1,0 +1,43 @@
+{
+  "asked": [
+    {
+      "id": "Q-change-1",
+      "topic": "change",
+      "blocking": false,
+      "question": "When a feature is added to a slice or taken out of it after its plan exists, what must the plan play do with the stories of that slice?",
+      "why": "If the plan play makes new stories, or deletes old ones, without a rule, the plan and the tracker stop agreeing, or the work already done on a story is lost.",
+      "examples": [
+        "a shop: an order changes after packing, so the new item goes in the same parcel and the removed item goes back to the shelf, with a note on the order",
+        "a clinic: a treatment plan drops one visit, so that visit is cancelled but kept in the record, and a new visit is booked",
+        "a building project: one room is added to the plan, so a new task is added under the same project, and no task is deleted"
+      ],
+      "assume": "The plan play adds one story for each feature that comes in, closes the story of each feature that goes out with a note, deletes nothing, and changes nothing in the tracker before the product owner's yes.",
+      "settled": false,
+      "basis": {
+        "kind": "model",
+        "ref": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md:20-22 (a second run makes no copies; nothing goes to the tracker before the yes; what the play does when the slice changes is not set yet) and :44-46 (fails if a feature of the slice has no story, or a second story is made for one feature)"
+      },
+      "proposed_answer": "When a feature comes into the slice, the plan play adds one story for it, so that each feature of the slice has a story; it makes no second story for a feature that has one; and nothing goes to the tracker before the product owner's yes. What it does with the story of a feature that goes out is not set by the model: the product owner says."
+    },
+    {
+      "id": "Q-evalformat-1",
+      "topic": "eval",
+      "blocking": false,
+      "question": "In what form must the eval play write the eval of a slice, so that a person can run it from the outside?",
+      "why": "If the form is not set, each eval is written in a different way, a person cannot run it the same way twice, and the eval play cannot be checked.",
+      "examples": [
+        "a bank: a list of steps a tester follows at the counter, each with the result to expect",
+        "a shop: a script that places a test order on the web site and checks the receipt",
+        "a school: an exam paper with a marking guide kept apart from the students"
+      ],
+      "assume": "The eval is one plain-words file in the plan's evals folder: for each goal, expectation and failure condition, one check (a step to run on the slice's surface and the result to expect), or a note that it cannot be tested yet.",
+      "settled": false,
+      "basis": {
+        "kind": "model",
+        "ref": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md:11-13 (one eval in the plan's evals folder; the format is not set yet), :18-20 (checks from the outside on the slice's surface, often a play on a test project; says when it cannot test a line yet) and :25 (each goal, expectation and failure condition has a check or a note)"
+      },
+      "proposed_answer": "The eval is written in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). For each goal and expectation of the stories, and each failure condition of the slice's hidden file, it holds one check run from the outside on the slice's surface (for Garura often a run of the play on a test project), or a note that it cannot be tested yet. The layout of the file itself is not set by the model: the product owner says."
+    }
+  ],
+  "assumptions": []
+}

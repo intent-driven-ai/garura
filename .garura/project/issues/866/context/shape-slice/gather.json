@@ -1,0 +1,380 @@
+{
+  "issue": 866,
+  "intent": "bi-788",
+  "play": "shape-slice",
+  "task_id": "shape-slice-gather",
+  "decided_by": "product-os-keeper",
+  "intent_page": ".garura/product/product-os/intents/bi-788.md",
+  "spine": ".garura/product/product-os/_spine.yaml",
+  "outcome": "The product owner names a piece of work. Agents shape it into a slice that one person can test, make its plan and write its eval. The product owner confirms each part as it is made.",
+  "model_pages": [
+    {
+      "role": "intent page",
+      "model_path": ".garura/product/product-os/intents/bi-788.md",
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 1,
+      "end": 33,
+      "fingerprint": "sha256:d76707acdde999be58bf6bbe4b7a6f0bb52eadddfb01885cb043fbb94b759950"
+    },
+    {
+      "role": "spine",
+      "model_path": ".garura/product/product-os/_spine.yaml",
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 1,
+      "end": 473,
+      "fingerprint": "sha256:fdb8da13f2e15f80818ee58215bf885fa2dbe760008b039ce688fd81b0f8a66b"
+    },
+    {
+      "role": "slice record (kept slice for bi-788)",
+      "model_path": ".garura/product/product-os/slices/sl-intent-to-design.yaml",
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 1,
+      "end": 20,
+      "fingerprint": "sha256:f4313a8f1e0f497b4d6d6534c7a8a960aeadf92809db99cf9b9b076f07e9e7c8"
+    },
+    {
+      "role": "domain dom-software-delivery-planning",
+      "model_path": ".garura/product/product-os/software-delivery-planning/domain.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/domain.md",
+      "start": 1,
+      "end": 17,
+      "fingerprint": "sha256:9d389a3ecd26d594fa05ca797818f51eb76513b572ec09e95768bc34b4a797a5"
+    },
+    {
+      "role": "capability cap-718 (Build a plan), its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/cap-718/capability.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/capability.md",
+      "start": 1,
+      "end": 30,
+      "fingerprint": "sha256:5b808fc0fd887b3a7a1e5e9974664e86d8bef66b46ac2c6017a319284de91897"
+    },
+    {
+      "role": "feature fn-727 (cap-718, bi-717), its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-727/feature.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/fn-727/feature.md",
+      "start": 1,
+      "end": 10,
+      "fingerprint": "sha256:cd92889a9d524b098092e98f4e4302893e78c0c70fcffacd346ab8651e04c11e"
+    },
+    {
+      "role": "feature fn-728 (cap-718, bi-717), its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/fn-728/feature.md",
+      "start": 1,
+      "end": 12,
+      "fingerprint": "sha256:40b9dc40f7aa25fc69d32f4a68cfdfde80a7dea8a2f049ccc502de095b28abec"
+    },
+    {
+      "role": "feature fn-818 (slice feature 2), its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "start": 1,
+      "end": 48,
+      "fingerprint": "sha256:6c46603885e2f53dd0c72949f2cc41b3c01e84cd138bfeec3ee4cb877f01d2e6"
+    },
+    {
+      "role": "capability cap-shape-eval, its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "start": 1,
+      "end": 24,
+      "fingerprint": "sha256:010d996295d049e955a8acd8748c819e5c09e371ae8e9ca3413adc92a1401272"
+    },
+    {
+      "role": "feature fn-798 (slice feature 3), its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "start": 1,
+      "end": 43,
+      "fingerprint": "sha256:c382a4e436c0e7e212ab3d5b449a33b1bcc6d0c1156e17b24541cb698c9c501c"
+    },
+    {
+      "role": "capability cap-shape-slice, its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/shape-slice/capability.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-slice/capability.md",
+      "start": 1,
+      "end": 26,
+      "fingerprint": "sha256:acf52c6c489efeb630acca2d8c2b7e50a689e7e606b9cf7ae2cd691cf92c3e06"
+    },
+    {
+      "role": "feature fn-795 (slice feature 1), its ICE",
+      "model_path": ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "start": 1,
+      "end": 47,
+      "fingerprint": "sha256:33452128fef6bb151de50d0fd05ab9e509f304c2655e143148db1b6e69ab8a5f"
+    },
+    {
+      "role": "intent bi-756 (named by bi-788's issue as where it was identified)",
+      "model_path": ".garura/product/product-os/intents/bi-756.md",
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-756.md",
+      "start": 1,
+      "end": 25,
+      "fingerprint": "sha256:61054b41f1dc2fe95a390a8a5c237db0af4d4d85652b2b7367caf7b8facad565"
+    },
+    {
+      "role": "capability cap-723 (the ready check and its three answers), lines on what 'ready' means",
+      "model_path": ".garura/product/product-os/capabilities/cap-723/capability.md",
+      "tier": "garura",
+      "path": "product/product-os/capabilities/cap-723/capability.md",
+      "start": 8,
+      "end": 12,
+      "fingerprint": "sha256:2242f51cafd20becb8c05c97fa423d6794f9a5a25e7ab8f5e76124227ec99e21"
+    }
+  ],
+  "model_holds": {
+    "kept_slice": {
+      "id": "sl-intent-to-design",
+      "record": ".garura/product/product-os/slices/sl-intent-to-design.yaml",
+      "feature_refs": [
+        "fn-795",
+        "fn-818",
+        "fn-798"
+      ],
+      "surface": "the Claude Code command line",
+      "persona_ref": "product-owner",
+      "note": "the hidden file under .garura/project/plans/788/evals/intent-to-design/ was not opened: the evals folder is not read here"
+    },
+    "domains": [
+      "dom-software-delivery-planning"
+    ],
+    "capabilities": [
+      "cap-shape-slice",
+      "cap-718",
+      "cap-shape-eval"
+    ],
+    "features": [
+      "fn-795",
+      "fn-818",
+      "fn-798"
+    ],
+    "thin_marks": [
+      "cap-718",
+      "cap-shape-slice",
+      "cap-shape-eval",
+      "fn-795",
+      "fn-818",
+      "fn-798"
+    ],
+    "personas": {
+      "found": [],
+      "note": "the model has no persona pages; the intent page (Asked by) and the slice record (persona_ref product-owner) name the product owner"
+    },
+    "journeys": {
+      "found": [],
+      "note": "the model has no journey pages"
+    }
+  },
+  "memory_lines": [
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/expectation-generation.md",
+      "start": 44,
+      "end": 92,
+      "fingerprint": "sha256:6bb933262cc711446ab5053c7c1428b6445944079c779cc0491cf44a8cde3ada",
+      "used_for": "How each feature's recovery goes into the slice's hidden file; the handoff rule (who fixes)",
+      "text": "- `derivable_at_l4`: `true` for autonomous entries the runtime can execute without a\n  human; `false` for human entries.\n\n### The handoff rule (autonomous vs human)\n\nThis is the core routing decision, and the seed of `intent-resolver`'s runtime\nrecovery routing and Level 4 autonomous recovery.\n\n- **`autonomous`** when recovering is **mechanical** \u2014 a deterministic transform of\n  output the builder already controls: regrouping, rewording, re-staging, re-running,\n  filling a missing field, correcting a format. No new external judgment required.\n- **`human`** when recovering needs **judgment or authority the builder does not\n  hold** \u2014 choosing among genuinely ambiguous options, mapping to an external entity\n  (an issue, an owner), granting an approval, or any irreversible / outward-facing\n  decision.\n\n**The test:** \"Can the builder fix this from information it already has,\ndeterministically?\" Yes \u2192 `autonomous`. No (needs a human pick, an approval, or a\nsource of truth it cannot see) \u2192 `human`.\n\nWorked example (commit-code): \"a commit mixes concerns\" \u2192 autonomous (regroup is\nmechanical); \"a commit references the wrong issue\" \u2192 human (issue mapping is external\njudgment); \"a below-confidence mapping was committed without approval\" \u2192 human\n(approval is an authority the builder lacks).\n\n## A feature's recovery (product ICE)\n\nA product ICE has no recovery part. When `/shape-slice` shapes a slice (ontology v11), it\nwrites each feature's recovery itself, into the slice's hidden file\n(`.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`), one entry for\neach feature, by the same rule as above: for each \"Fails if\" line of the feature's two\nICE (its own and its capability's), exactly one recovery condition. When one of the two\nICE is thin, the entry says so. The plan play writes nothing in the evals folder; the\nepic's feature-to-story map tells the eval play which story each entry is for.\n\n- **when** \u2014 the \"Fails if\" line restated as a symptom the eval sees (the `trigger`).\n- **way back** \u2014 the inverse of the failure, as guidance, never code (the `direction`).\n- **who fixes** \u2014 \"the builder can fix this alone\" or \"a person must decide\", by the\n  handoff rule above (`autonomous` / `human`).\n\nExample (a shop): \"Fails if: a card is charged twice\" \u2192 when: one order has two charges;\nway back: refund the second charge; who fixes: a person must decide (money goes out).\n\nThe story that delivers the feature never holds these lines. The running eval reads only the recovery\nparts of the hidden file, and the builder gets only the handoff plan made from them.\n\n## Provenance\n\nEvery generated expectation carries:",
+      "copy": null,
+      "copy_note": "copy_memory.py refuses every Garura memory read (the read answer's version is null), so the read lines are kept here as text"
+    },
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/builder-isolation.md",
+      "start": 30,
+      "end": 40,
+      "fingerprint": "sha256:bb7d812a7164abf39608903c57dbad068ea509868b20563adbb771b8cdd42d9c",
+      "used_for": "The builder never sees the checks it is judged by",
+      "text": "| Audience         | Receives                                       | Source                                      |\n|------------------|------------------------------------------------|---------------------------------------------|\n| Builder agent    | goal + constraints + Context bundle            | `intent.yaml` + assembled Context           |\n| Validator agent  | failure_conditions + vetted `success_scenarios` | `intent.yaml` + approved `expectation.yaml` |\n\nThe builder never receives success_scenarios under any circumstance. The rule is: **the builder cannot teach to a test it cannot see.**\n\nRouting this way keeps the builder focused on making the goal true within the constraints,\nand keeps the validator focused on checking the objective exit criteria. When a builder\nsees the scenarios it is supposed to satisfy, it optimizes toward the test rather than\ntoward the goal. The compartmentation contract prevents that.",
+      "copy": null,
+      "copy_note": "copy_memory.py refuses every Garura memory read (the read answer's version is null), so the read lines are kept here as text"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "start": 1,
+      "end": 14,
+      "fingerprint": "sha256:ad9dcb4327d378e0a3c1c5a69320f753faadd6b50cdd47e3f0857d9eb022101d",
+      "used_for": "The product ontology memory holds (version 4): it has no Slice kind",
+      "copy": ".garura/project/issues/866/context/memory/standards/schemas/product-os/ontology.md"
+    }
+  ],
+  "memory_searches": [
+    {
+      "tier": "short-term",
+      "patterns": [
+        "shaping loop",
+        "one approval",
+        "builder.*eval|eval.*builder",
+        "slice"
+      ],
+      "found": "only this issue's run files (intent-issue.json, work-description.txt, branch, plan)"
+    },
+    {
+      "tier": "short-term",
+      "path": "866/context/work-description.txt",
+      "found": "this run checks the reuse path: the slice already serves #788 and must be kept, not made again"
+    },
+    {
+      "tier": "garura",
+      "patterns": [
+        "shaping loop",
+        "one approval",
+        "hidden file|evals folder",
+        "slice",
+        "surface",
+        "tester",
+        "thin ICE",
+        "product owner"
+      ],
+      "found": "the model pages above; standards/rules/expectation-generation.md and builder-isolation.md; nothing on the shaping loop beyond the model pages"
+    },
+    {
+      "tier": "phoenix",
+      "patterns": [
+        "shaping loop",
+        "one approval",
+        "hidden file|evals folder",
+        "slice",
+        "surface",
+        "tester",
+        "thin ICE",
+        "product owner"
+      ],
+      "found": "older-chain rules and schemas (pipeline-next, slice.yaml, surface-contract) and the version-4 ontology; nothing on the hidden file or a thin ICE"
+    },
+    {
+      "tier": "every",
+      "globs": [
+        "**/*persona*",
+        "**/*journey*",
+        "**/ontology*"
+      ],
+      "found": "no persona or journey pages; the only ontology is Phoenix's version 4, with no Slice kind"
+    },
+    {
+      "tier": "garura",
+      "patterns": [
+        "ready check|is ready|not ready",
+        "handoff plan",
+        "eval format|eval template",
+        "plan file",
+        "slice changes|slice is changed"
+      ],
+      "found": "cap-723 defines ready, partly ready and not ready; fn-818 and fn-798 say the plan's and the eval's formats, and what the plan play does when the slice changes, are not set yet; no memory line sets them"
+    },
+    {
+      "tier": "phoenix",
+      "patterns": [
+        "ready check|is ready|not ready",
+        "handoff plan",
+        "eval format|eval template",
+        "plan file",
+        "slice changes|slice is changed"
+      ],
+      "found": "nothing that sets these"
+    }
+  ],
+  "domain_shelves": {
+    "dir": ".garura/project/issues/866/context/memory/knowledge/domains/",
+    "files": [
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/analytics.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/analytics.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/collaboration.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/collaboration.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/content-management.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/content-management.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/ecommerce.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/ecommerce.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/experience.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/experience.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/marketing.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/marketing.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/notifications.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/notifications.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/payments.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/payments.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/personalization.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/personalization.md"
+      },
+      {
+        "tier": "phoenix",
+        "path": "knowledge/domains/user-management.md",
+        "version": "3161dcdfe26f",
+        "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+        "copy": ".garura/project/issues/866/context/memory/knowledge/domains/user-management.md"
+      }
+    ]
+  },
+  "memory_manifest": ".garura/project/issues/866/context/memory/manifest.json",
+  "record": {
+    "path": ".garura/project/issues/866/context/grounding-questions.md",
+    "exists": false
+  },
+  "rule": {
+    "path": "_shared/asking-a-person.md",
+    "installed_at": ".claude/skills/_shared/asking-a-person.md"
+  },
+  "not_found": [
+    "the current product ontology (v11, Slice kind) is not reachable through the memory tool; only Phoenix's version 4 answers"
+  ],
+  "tool_issues": [
+    "copy_memory.py refuses every Garura memory read because its version is null; model pages are read in place as the play's working files, and the Garura memory lines are kept as text in this file"
+  ]
+}

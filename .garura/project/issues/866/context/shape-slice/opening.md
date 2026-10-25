@@ -1,0 +1,1 @@
+You decide whether the slice "From a named piece of work to its design" shows that the business intent "Agents design a named piece of work" is served, and you answer the two questions under it. Type yes to keep the slice, change with what to change, or stop to undo every write.
