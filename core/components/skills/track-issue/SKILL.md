@@ -25,7 +25,7 @@ Receive from agent:
 - `description` — (required for `create`, optional for `resolve_or_create`)
 - `parent_issue_number` — (optional) If provided, attach created/resolved issue as sub-issue
 - `issue_template_path` — (required for `create`) the short-term copy of the memory template
-  `standards/templates/github-issue.md` that the agent fetched through the memory tool
+  `standards/templates/github-issue.md` that the agent got from template-manager
 - `platform` — `github` (from config)
 - `labels` — (optional) Comma-separated labels to apply on create
 - `reason` — (optional, `close` only) Close reason: `completed` (default) or `not_planned`

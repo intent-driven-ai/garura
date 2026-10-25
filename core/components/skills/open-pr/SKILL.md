@@ -25,7 +25,7 @@ Receive from caller (agent):
 | `draft` | No | Create as draft PR (default: false) |
 | `labels` | No | Labels to add |
 | `assignees` | No | Assignees to add |
-| `pr_body_template_path` | Yes | The short-term copy of the memory template `standards/templates/pr-body.md` that the agent fetched through the memory tool |
+| `pr_body_template_path` | Yes | The short-term copy of the memory template `standards/templates/pr-body.md` that the agent got from template-manager |
 
 ## Platform Dispatch
 

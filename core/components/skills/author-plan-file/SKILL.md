@@ -24,7 +24,7 @@ Receive from the agent:
 | `context_path` | `create`, `update` | the plan context file the agent wrote (see below) |
 | `change` | `update` | what happened, in plain words — e.g. "item 2 is finished", "Kapil moved #619 to the front", "item 4 is dropped: covered by #612" |
 | `report_path` | yes | where to write the check report (e.g. `{stm_base}{issue}/context/plan-check.json`) |
-| `template_path` | yes | the work-plan format: the short-term copy of `standards/templates/work-plan.md` that the agent fetched through the memory tool |
+| `template_path` | yes | the work-plan format: the short-term copy of `standards/templates/work-plan.md` that the agent got from template-manager |
 | `rules_path` | yes | the work-plan rules: the short-term copy of `standards/rules/work-plan.md` that the agent fetched through the memory tool |
 
 The **plan context file** (written by the agent, YAML or JSON) holds:

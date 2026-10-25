@@ -29,7 +29,8 @@ diff_path: "{stm_base}/{issue}/evidence/review-pr/diff.patch"   # unified diff
 changed_paths:                                                    # array; absolute repo-relative paths
   - src/api/users.ts
   - src/db/migrations/0042_add_email.sql
-standards_order: [kb, ltm, stm]                                  # from config review-pr.standards_order
+standards_order:                                                  # short-term copies: the taxonomy copy first, then any quality standards, in the tier order of config review-pr.standards_order
+  - "{stm_base}/{issue}/context/memory/knowledge/quality/"
 severity_taxonomy_path: "{stm_base}/{issue}/context/memory/standards/rules/pr.md"  # the short-term copy quality-auditor fetched
 intent_summary: "Add email verification flow"                     # 1–3 sentences from spec/intent.yaml or PR body
 output_path: "{stm_base}/{issue}/evidence/review-pr/findings.yaml"
@@ -42,7 +43,7 @@ output_path: "{stm_base}/{issue}/evidence/review-pr/findings.yaml"
 | `severity_taxonomy_path` exists (the short-term copy of `standards/rules/pr.md`) | HALT — "PR severity taxonomy missing at {path}" |
 | `diff_path` exists and non-empty | HALT — "Empty or missing diff" |
 | `changed_paths` non-empty | HALT — "No changed paths supplied" |
-| `standards_order` is given | HALT — "No standards order given" |
+| At least one entry of `standards_order` resolves to a short-term copy (the path exists in the issue's short-term memory) | HALT — "No standards source resolvable" |
 
 ## Process
 
@@ -164,7 +165,7 @@ Two back-to-back invocations on the same `(diff_path, changed_paths, taxonomy_pa
 | FS-1 | Taxonomy missing | HALT + structured failure |
 | FS-2 | Diff empty/missing | HALT |
 | FS-3 | A finding lacks `standard_id` | DROP finding + log error to evidence |
-| FS-4 | Standards order missing | HALT |
+| FS-4 | No entry of `standards_order` resolves to a short-term copy | HALT |
 | FS-5 | Match rule regex invalid | HALT — taxonomy is malformed |
 
 ## Reference

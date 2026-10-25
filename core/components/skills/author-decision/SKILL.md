@@ -23,7 +23,7 @@ You draft; you never accept. Every record you write has status `proposed`. A per
 |-------|----------|---------|
 | `brief` | yes | The decision brief (`<working>/brief.md`): what is decided, why now, the options considered, who is deciding, where it was decided |
 | `context` | yes | The gathered context (`<working>/adr-context.yaml`) from `adr-keeper`: the shape, the number or id, the older ADRs it supersedes or amends (each with the part), what it affects, its ICE impact, its business-intent check, related ADRs |
-| `template_path` | yes | The short-term copy of `standards/templates/adr.md` that `adr-keeper` fetched through the memory tool |
+| `template_path` | yes | The short-term copy of `standards/templates/adr.md` that template-manager wrote and the play handed to `adr-keeper` |
 | `draft_path` | yes | Where to write the record |
 
 ## Process

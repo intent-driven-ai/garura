@@ -45,6 +45,8 @@ dimensions:
 
 ## Step 2: Load KB Standards
 
+No part invokes this skill today; its caller fetches the quality knowledge into short-term memory.
+
 Memory is read only through the memory tool. The agent that runs this skill finds the quality
 knowledge (`**/knowledge/quality/**`) through the memory tool, in its lookup order (short-term
 memory, Garura memory, Phoenix memory), copies it into the issue's short-term memory, and

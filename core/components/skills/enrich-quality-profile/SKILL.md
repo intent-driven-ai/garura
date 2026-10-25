@@ -27,6 +27,8 @@ Outputs always carry a `delta_log[]` recording every adjustment (field, before, 
 
 Receive from the `tech-designer` agent. All paths resolve against `{product_base}` and `{ltm_base}` supplied by the play via JSON contract.
 
+No part invokes this skill today (no play dispatches `tech-designer` to run it); its caller fetches the quality knowledge into short-term memory.
+
 - `specify_qp_path` (path, required) — `{product_base}specification/quality-profile.yaml`. When missing or DRAFT under C1 soft pre-flight, the play writes `{product_base}specification/quality-profile-stand-in.yaml` from user answers; this skill reads that instead.
 - `scope_path` (path, required) — `{product_base}scope/scope.yaml`.
 - `epics_dir` (path, required) — `{product_base}scope/epics/`. Per-epic constraints may force a stricter target than the /specify QP allowed for.
