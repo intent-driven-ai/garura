@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md
+  stranger_test = fail
+    evidence: "When a tracker cannot make a type, initialize says so in plain words, names the type it uses in its place, and records that in the mapping." and "Given a tracker that cannot make a type, when initialize runs, then it says so in plain words, names the stand-in type, and the mapping holds that stand-in." versus "When a mapping already exists from an earlier run, initialize keeps it ... and changes it only on a new typed yes"; also "Jira and Linear come through the same adapter".
+    fix:      Add a rule in Rules & behavior that says who picks a stand-in and how (for example: initialize proposes the closest existing tracker type, such as a label or the plain Issue type, shows it in the brief, and writes it to the mapping only on the product owner's typed yes), and add that yes to the matching acceptance criterion, so a reader can tell whether a first stand-in needs the same yes that a later change to the mapping needs. Say in one line how initialize tells "the tracker cannot make this type" (gets a stand-in) apart from "making it failed" (left unmapped). Explain "the adapter" in one line the first time it appears: the one piece that talks to a given tracker, so the plays never call a tracker directly.
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  "failures": [
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"When a tracker cannot make a type, initialize says so in plain words, names the type it uses in its place, and records that in the mapping.\" and \"Given a tracker that cannot make a type, when initialize runs, then it says so in plain words, names the stand-in type, and the mapping holds that stand-in.\" versus \"When a mapping already exists from an earlier run, initialize keeps it ... and changes it only on a new typed yes\"; also \"Jira and Linear come through the same adapter\".",
+      "fix": "Add a rule in Rules & behavior that says who picks a stand-in and how (for example: initialize proposes the closest existing tracker type, such as a label or the plain Issue type, shows it in the brief, and writes it to the mapping only on the product owner's typed yes), and add that yes to the matching acceptance criterion, so a reader can tell whether a first stand-in needs the same yes that a later change to the mapping needs. Say in one line how initialize tells \"the tracker cannot make this type\" (gets a stand-in) apart from \"making it failed\" (left unmapped). Explain \"the adapter\" in one line the first time it appears: the one piece that talks to a given tracker, so the plays never call a tracker directly."
+    }
+  ],
+  "missing": []
+}

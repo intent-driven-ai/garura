@@ -14,3 +14,7 @@ Main round-2 findings:
 - fn-project-memory has no rule for when Phoenix memory cannot be reached;
 - fn-rerun-initialize has no rule for a changed tracker;
 - fn-review-rule-groups does not define a "rule group".
+
+## Run 2 (20261025T111751Z) halted too
+
+Run 2 started from the kept drafts, fixed every round-2 finding and wrote the product owner's three-step memory rule (#883). The shape and source checks passed. The judge passed 1 of 7 pages (fn-review-rule-groups). fn-setup-questions, unchanged since it passed in run 1, failed on a new point. That shows the judge gives different verdicts on the same page: bug #884. The model writes were undone; the drafts are in run 2's halted-drafts/, its findings in run 2's judge/. #882 resumes when #884 lands.

@@ -1,24 +1,24 @@
 # Capability Grounding Doc — TEMPLATE & CONTRACT
 
 > Locked contract for a capability's `capability.md`. A capability reads as a
-> **capability / feature** — more specific than its theme, less concrete than its
-> functionalities. No acceptance criteria at this level (that lives on the
-> functionality).
+> **capability** — more specific than its theme, less concrete than its
+> features. No acceptance criteria at this level (that lives on the
+> feature).
 >
 > **This doc is STAGE-AWARE — it has two valid shapes, and the spine records which
 > one applies via the capability entry's `detail:` field (`directional | detailed`):**
 >
-> - **directional** — written by `/intent` (from a source) or `/vision` (from the KB and
+> - **directional** — written by `/discover-intent` (from a source) or `/discover-domains` (from the KB and
 >   the intents). It NAMES the capability and gives it directionality only; it does not
->   detail it and never touches functionalities. Any play may add to it later, keeping
+>   detail it and never touches features. Any play may add to it later, keeping
 >   what is there (ontology v3: no play owns a kind).
-> - **detailed** — written by `/understand`. Understand is the last detailing step: it
->   fills the full capability and creates its functionality nodes + docs.
+> - **detailed** — written by `/discover-capabilities`. Understand is the last detailing step: it
+>   fills the full capability and creates its feature nodes + docs.
 >
 > The linter validates the doc against the shape its `detail:` field names; the eval
 > scores depth and self-explanation against `_content-standard.md`.
 
-## Heading contract — DIRECTIONAL stage (required, in order) · usually /intent or /vision
+## Heading contract — DIRECTIONAL stage (required, in order) · usually /discover-intent or /discover-domains
 
 ```
 # Capability: <Capability Name>
@@ -28,17 +28,30 @@
 - **Directional intent** — what this capability is about, the rough direction of its
   scope (what it will broadly own), and why it matters to the domain. A substantive
   paragraph a stranger understands at a directional level — not the full detail, which
-  is /understand's job. It must still self-explain (the *why*), not just name the area.
+  is /discover-capabilities's job. It must still self-explain (the *why*), not just name the area.
 
-## Heading contract — DETAILED stage (required, in order) · usually /understand
+## Heading contract — DETAILED stage (required, in order) · usually /discover-capabilities
 
 ```
 # Capability: <Capability Name>
 ## Benefit hypothesis
 ## Boundary (In / Out / Never)
 ## Guiding rules
-## Functionalities
+## Features
 ```
+
+## Sources — after the other sections, before the agent intent (#689)
+
+```
+## Sources
+- <where it is seen: the screen or document, and the exact words on it in quotes>
+- Shelf: <the knowledge shelf it matches, when one does>
+```
+
+Where this part comes from: for a prototype, each screen it is seen on and the exact words a
+person reads there, in quotes ("Finish review"); for a document, the place and its words.
+One source per line. A part nothing shows is not written. Optional for older pages; every
+play that writes the page writes it.
 
 ## Agent intent (ICE) — the last section, at every stage
 
@@ -73,11 +86,11 @@ agent works from. Each line explains itself (at least five words), like every ot
   refuse to do. Each line explained, so a reader knows *why* the edge is there.
 - **Guiding rules** — rules specific to this capability (the domain's rules already
   apply). Each with its reason.
-- **Functionalities** — each functionality this capability contains, with one
+- **Features** — each feature this capability contains, with one
   explained line, linked to its spine node. The detailed spec lives in each
-  functionality's own doc.
+  feature's own doc.
 
-## Gold example — DIRECTIONAL stage (/vision)
+## Gold example — DIRECTIONAL stage (/discover-domains)
 
 ```markdown
 # Capability: Data Gathering
@@ -99,7 +112,7 @@ that trust is won or lost.
 - Fails if: a source is missing or partial and no view shows that it is.
 ```
 
-## Gold example — DETAILED stage (/understand)
+## Gold example — DETAILED stage (/discover-capabilities)
 
 ```markdown
 # Capability: Data Gathering
@@ -130,7 +143,7 @@ labels, and no raw private content ever reaches a shared row.
 - Every record is labeled at collection time, not lazily later, because an unlabeled
   record that escapes into a view is already a trust failure.
 
-## Functionalities
+## Features
 - Source & usage ingest (collect/source-usage-ingest) — reads each tool/harness
   source and extracts burn, time, and context.
 - Privacy & trust labeling (collect/privacy-trust-labeling) — scans and stamps every

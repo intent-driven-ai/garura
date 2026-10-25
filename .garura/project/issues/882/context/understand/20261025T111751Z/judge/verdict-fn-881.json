@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every required section is present and substantive: What it does (5 points incl. \"It lists each needed type with its one-line meaning and says which are there, which are missing and which the tracker cannot make\"), Inputs / Outputs (each of the six types with its meaning, the brief, the mapping, the record), Rules & behavior (11 branches), Acceptance criteria (9 Given/When/Then), Out of scope (5 items each naming its owner), Agent intent (ICE) with Goal, Limit, Fails if, Context, Checked by.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"Nothing is made in the tracker and no stand-in is written to the mapping before the product owner's typed yes. A tracker is an outside system, and a new type there, or a work item filed as some other type, is seen by the whole team.\"; \"It goes on with the other approved types, because one failure says nothing about them.\"; \"changes it only on a new typed yes, because the plays already file work by it.\" Items carry their why or their implication, and the defaults are flagged as defaults (\"Our default; the sources do not say...\").",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "\"Given a tracker whose adapter entry says it cannot make the Spike type, when initialize runs, then the brief says so in plain words and proposes a stand-in with why; when the product owner types yes, then the mapping holds that stand-in; when the product owner says no, then Spike stays unmapped and the brief names it.\" Also \"Given that brief, when the product owner types yes, ...\" and \"Given that brief, when the product owner does not type yes, ...\" depend on the criterion before them instead of standing alone.",
+      "fix": "Split the Spike criterion into three separate Given/When/Then lines (brief proposes a stand-in with why; on yes the mapping holds the stand-in; on no Spike stays unmapped and the brief names it). Rewrite the two \"Given that brief\" lines so each states its own Given, e.g. \"Given a GitHub organization with no Epic type and a brief that marks Epic missing, when the product owner types yes, then ...\"."
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent capability gives one line: \"Set up the tracker's work-item types (fn-881): finds the tracker the project uses and the types it has, makes each missing type after a typed yes, and records a stand-in, also after a typed yes, where a type cannot be made.\" The feature adds the six type meanings, the cannot-make vs making-failed split (\"'Cannot make' and 'making failed' are two different cases, and the adapter tells them apart before anything is tried\"), partial yes, re-run mapping, and the play stop message.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "What: \"compares them with the types Garura's plays file: Business Intent, Epic, Story, Bug, Chore and Spike\" and makes missing ones after a typed yes. Why: \"on 2026-10-25 Garura's own GitHub organization had no Epic type, so /shape-plan could not file an Epic as an Epic (#875). Every project meets the same gap the first time a play writes to its tracker.\" Edges: \"Filing epics, stories and other work items (/shape-plan and the other filing plays own them)\"; \"Moving to a different tracker on a later run (Run initialize again, fn-rerun-initialize, owns it).\" The adapter is defined in place: \"the one piece that reads and writes the tracker\".",
+      "fix": ""
+    }
+  ]
+}
