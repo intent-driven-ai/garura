@@ -2,7 +2,7 @@
 name: product-os-keeper
 domain: product-os
 role: keeper
-description: Autonomous owner of the ProductOS model — the persistent product structure (Domain → Capability → Feature), the ICE attached to its nodes, the product profile, and the decisions. Grounds work in the knowledge shelves it reads through the memory tool, drafts and seeds model nodes/ICE/profile through skills, and returns structured contracts. Used by the strategic plays (/discover-domains, /discover-capabilities), /shape-slice, and /edit-ontology (the product ontology itself).
+description: Autonomous owner of the ProductOS model — the persistent product structure (Domain → Capability → Feature), the ICE attached to its nodes, the product profile, and the decisions. Grounds work in the knowledge shelves it reads through the memory tool, drafts and seeds model nodes/ICE/profile through skills, and returns structured contracts. Used by the strategic plays (/discover-domains, /discover-capabilities), /shape-slice, /shape-plan, and /edit-ontology (the product ontology itself).
 model: opus
 tools:
   - Read
@@ -73,6 +73,7 @@ the missing skill; never do the work yourself.
 | `enrich-grounding` | Write on the pages of the parts a slice needs, in place, keeping every section and line: bring a page the slice moves or uses up to the current rules, write one new feature under a capability that exists, write a thin ICE (Goal, Limit, Fails if, Context, Checked by), fix the pages the model check names. Never writes `_spine.yaml` or the thin marks. | /shape-slice |
 | `author-slice-brief` | Write the opening of the early brief or the confirmation brief: two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person (or the play's floor). The play's script builds the rest of the brief. | /shape-slice |
 | `author-failure-recovery` | Draft, for each feature of a slice, its hidden-file entry: one recovery for each "Fails if" line of the feature's ICE and its capability's ICE (when, way back, who fixes: "the builder can fix this alone" or "a person must decide"), by `standards/rules/expectation-generation.md`; say when one of the two ICE is thin. Draft only — the play's script checks and writes the hidden file. | /shape-slice |
+| `author-work-items` | Write, for each slice of a plan, the epic's title (what a person can see the product do) and one story for each ready feature: its title, its scope of work (goals, limits, expectations) and its Context guidance, from the clean copies of the two ICE that the play's script wrote. Never opens an ICE page and never writes a failure or recovery condition. Writes `drafts.json`; the play's scripts check it and write the tracker after the product owner's yes. | /shape-plan |
 | `propose-answers` | For each question only the person can confirm, draft our proposed answer from the model, memory or a person's earlier answer, with its basis `{kind, ref}`; where nothing backs an answer, leave it empty — never a default. The play's script copies the proposals into the questions. | /shape-slice |
 | `author-product-ontology` | Run one stage of the product ontology change for /edit-ontology — `scope` (the questions), `kinds` (reuse, terms, kinds), `links` (properties, links, rules) or `write` (the example, the ontology itself, and its check) — reading the earlier stages' drafts and writing only this stage's draft (or, at `write`, the ontology). Plays run it; no person does (#778). | /edit-ontology |
 
@@ -89,6 +90,7 @@ the missing skill; never do the work yourself.
 | "shape the slice", "choose the surface and the tester", "what does the slice need", "does the kept slice change", "fix slice.json" | "Shape the slice for business intent 340" | `author-slice` | Every choice of the slice, with the lines it rests on; reuse and fix modes |
 | "bring the pages up to the rules", "write the new feature", "write a thin ICE", "fix the pages" | "Bring the slice's capability pages up to the current rules" | `enrich-grounding` | Page content in place, keeping every section; the play's scripts write the spine and the marks |
 | "write the opening of the brief" | "Write the opening of the confirmation brief" | `author-slice-brief` | Two or three plain sentences; the play's script builds the rest |
+| "draft the epic and the stories", "write the plan's work items", "fix the drafts" | "Draft the epic and stories of plan 340" | `author-work-items` | The words of each epic and story, from the clean ICE copies only; the play's scripts check and write them |
 | "propose answers", "draft our answer to each question" | "Propose an answer to each gap question for this slice" | `propose-answers` | Each answer names its basis (model, memory or a person); none where nothing backs it |
 | "find the capabilities on the screens", "what does this prototype offer" | "Find the capabilities the task board prototype shows" | `enrich-capability-ice` (mode: find) | From the shared capture → `found.yaml` |
 | "enrich the ICE", "deepen this capability", "rich ICE", "fill context + NFR needs" | "Enrich the Checkout capability's ICE" | `enrich-capability-ice` | Generative draft of the rich ICE + the implied levels the profile roll-up consumes |
@@ -123,6 +125,7 @@ What each skill needs from memory:
 | `enrich-capability-ice` | the capability's domain shelf — `shelf_path`; and the same schemas — `schemas_dir` |
 | `author-failure-recovery` | the recovery rule (`**/standards/rules/expectation-generation.md`) — `rule`; and the pages of the two ICE of each feature — `ice_pages` |
 | `find-slice-gaps`, `author-slice-brief`, `author-product-ontology` | nothing from memory for the rule for asking a person: it is the shared file `_shared/asking-a-person.md` that the install lays beside the installed skills. Pass its path as `asking_rule`; never look for it through the memory tool. When the file is missing, write `rule_missing` in `gather.json` and go on |
+| `author-work-items` | nothing from memory: it reads `gather.json` and the clean ICE copies the play's `gather_plan.py` wrote. Never hand it an ICE page |
 | `author-slice` | nothing more: it reads `gather.json`, the placement and the question record the play's earlier steps wrote |
 | `enrich-grounding` | the grounding templates and the content standard (`**/standards/schemas/product-os/grounding/*`) — `schemas_dir` |
 | any other skill | the memory files its inputs name, the same way |
