@@ -1,5 +1,6 @@
 # Plan 788 — its ID is the business intent's issue number (ontology v11, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later.
+# later = parked: open, but not the next work; done when the product owner picks it up.
 # A detour: found while working on plan 756. Its branch is cut from plan/756/base, takes in
 # 756's changes on each start, and lands back into plan/756/base (returns_to); then work goes
 # back to 756. Not a "needs" link. #791 (in plan 717, under #721) teaches start-change and
@@ -146,7 +147,7 @@ tree:
     title: "The eval play (/shape-eval) writes the slice's eval: is the business intent met, tested on the slice's surface"
     status: next
     needs:
-    - 795
+    - 818
   - issue: 818
     kind: feature
     title: The plan play makes the plan file, the epic and one story per feature
@@ -175,24 +176,35 @@ tree:
 - issue: 860
   kind: bug
   title: 'Installed skills read the source tree (core/components, core/tools) at run time (P1)'
-  status: next
-- issue: 861
-  kind: chore
-  title: 'The three P3 findings left by the PR #858 review, round 2'
-  status: next
+  status: done
 - issue: 855
   kind: chore
   title: Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install
   status: done
+- title: 'Parked chores: findings left by PR reviews'
+  kind: group
+  status: later
   children:
+  - issue: 865
+    kind: chore
+    title: 'The three small findings left by the PR #864 review, round 4'
+    status: later
+  - issue: 861
+    kind: chore
+    title: 'The three P3 findings left by the PR #858 review, round 2'
+    status: later
   - issue: 859
     kind: chore
-    title: 'The P4 findings left by the PR #858 review'
-    status: next
+    title: 'The P4 findings left by the PR #858 review (a sub-issue of #855 on GitHub)'
+    status: later
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
   status: done
+- issue: 866
+  kind: chore
+  title: 'Run /shape-slice on business intent #788 again, with the current play (reuse path; input for #818)'
+  status: now
 - issue: 844
   kind: chore
   title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
