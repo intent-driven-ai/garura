@@ -1,92 +1,39 @@
 commits:
-  - sha: 48f8c34e
-    message: "chore(stm): record review round 1 and discover-capabilities run 4 artifacts (#882)"
+  - sha: e6b4fcc3
+    message: "chore(stm): record round-3 understand run artifacts (#882)"
     files:
       - .garura/core/gate-evals.jsonl
       - .garura/project/issues/882/context/analysis.yaml
-      - .garura/project/issues/882/context/citations.jsonl
-      - .garura/project/issues/882/context/judge-state/14c903ee79944b392b5378e0a85f6e80.json
       - .garura/project/issues/882/context/judge-state/22416247ccc9622aa2eaa623d672d4d1.json
-      - .garura/project/issues/882/context/judge-state/25eb502bbb5d5ded2b96efad61945098.json
       - .garura/project/issues/882/context/judge-state/2a676eedb59bb6b97a0346f55a99d82a.json
-      - .garura/project/issues/882/context/judge-state/3ad41183dc5a1c787c99178a8803d36e.json
       - .garura/project/issues/882/context/judge-state/a4fd669e095e5d9828a68169f3287423.json
-      - .garura/project/issues/882/context/judge-state/e21ff0b819aa98e25e564103ceeb0c3e.json
       - .garura/project/issues/882/context/memory/grounding-product-model/manifest.json
-      - .garura/project/issues/882/context/memory/knowledge/review/_index.md
-      - .garura/project/issues/882/context/memory/knowledge/review/adrs.md
-      - .garura/project/issues/882/context/memory/knowledge/review/code.md
-      - .garura/project/issues/882/context/memory/knowledge/review/config-maps.md
-      - .garura/project/issues/882/context/memory/knowledge/review/docs.md
-      - .garura/project/issues/882/context/memory/knowledge/review/harness.md
-      - .garura/project/issues/882/context/memory/knowledge/review/memory.md
-      - .garura/project/issues/882/context/memory/knowledge/review/tests.md
-      - .garura/project/issues/882/context/memory/manifest.json
-      - .garura/project/issues/882/context/memory/standards/rules/pr.md
       - .garura/project/issues/882/context/porcelain.txt
-      - .garura/project/issues/882/context/templates/manifest-check-change.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/enrich-manifest.yaml
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/drafts/capability.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/drafts/fn-881/feature.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/drafts/fn-883/feature.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/drafts/fn-project-memory/feature.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/drafts/fn-rerun-initialize/feature.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/drafts/fn-review-rule-groups/feature.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/drafts/fn-setup-questions/feature.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/enrich-manifest.yaml
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/prior/review-findings.yaml
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/routing.yaml
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/seed.yaml
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/sources/adr-039-decision-4.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/sources/issue-862.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/sources/issue-881.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/sources/issue-883.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/guard-report.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/gate-cap-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/gate-fn-881.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/gate-fn-883.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/gate-fn-project-memory.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/gate-fn-rerun-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/gate-fn-review-rule-groups.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/gate-fn-setup-questions.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/guidance-capability.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/guidance-feature.md
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/kept-cap-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/kept-fn-881.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/kept-fn-883.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/kept-fn-project-memory.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/kept-fn-rerun-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/kept-fn-review-rule-groups.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/kept-fn-setup-questions.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/notes.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/prior-cap-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/prior-fn-881.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/prior-fn-883.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/prior-fn-project-memory.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/prior-fn-rerun-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/prior-fn-review-rule-groups.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/prior-fn-setup-questions.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round1/gate-fn-883.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round1/gate-fn-project-memory.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round1/verdict-fn-883.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round1/verdict-fn-project-memory.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/verdict-cap-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/verdict-fn-881.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/verdict-fn-883.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/verdict-fn-project-memory.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/verdict-fn-rerun-initialize.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/verdict-fn-review-rule-groups.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/verdict-fn-setup-questions.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/lint-spine.txt
-      - .garura/project/issues/882/context/understand/20261025T132647Z/lint.txt
-      - .garura/project/issues/882/context/understand/20261025T132647Z/persist-manifest.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/persist.out
-      - .garura/project/issues/882/context/understand/20261025T132647Z/proposed-profile.yaml
-      - .garura/project/issues/882/context/understand/20261025T132647Z/rollup.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/run.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/shape.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/sources-check.json
-      - .garura/project/issues/882/context/understand/20261025T132647Z/targets.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/sources/adr-048-decision-1.md
+      - .garura/project/issues/882/context/understand/20261025T132647Z/caps/cap-initialize/sources/product-owner-round-2.md
+      - .garura/project/issues/882/context/understand/20261025T132647Z/guard-report-round3.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/gate-fn-881.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/gate-fn-883.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/gate-fn-project-memory.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/kept-cap-initialize.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/kept-fn-881.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/kept-fn-883.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/kept-fn-project-memory.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/kept-fn-rerun-initialize.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/kept-fn-review-rule-groups.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/kept-fn-setup-questions.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/notes.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/prior-cap-initialize.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/prior-fn-881.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/prior-fn-883.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/prior-fn-project-memory.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/prior-fn-rerun-initialize.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/prior-fn-review-rule-groups.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/prior-fn-setup-questions.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/verdict-fn-881.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/verdict-fn-883.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/judge/round3/verdict-fn-project-memory.json
+      - .garura/project/issues/882/context/understand/20261025T132647Z/lint-round3.txt
     branch: plan/788/882-record-cap-initialize
 excluded_files:
   []
