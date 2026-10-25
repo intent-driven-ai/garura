@@ -1,0 +1,183 @@
+category: harness
+round: 1
+base: plan/788/base
+pr: 885
+issue: 884
+grounding_sources_used:
+- id: G1
+  principle: Plays orchestrate, agents gather context, skills do the work; a play hands each agent a contract
+    of file paths, and the record of what happened is on disk.
+  source: plan/788/base:docs/standards/harness-standard.md principle 2
+- id: G2
+  principle: Mechanical work is a script; a model is used only where judgment is needed.
+  source: plan/788/base:docs/standards/harness-standard.md principle 3
+- id: G3
+  principle: A change to what a part guarantees is made in its ICE and the part is compiled again; the compiled
+    part records a fingerprint of its ICE; the Expectation holds the scenarios that prove the guarantee.
+  source: plan/788/base:docs/standards/harness-standard.md principles 4 and 5; plan/788/base:CLAUDE.md
+    Play Pipeline Rules
+- id: G4
+  principle: The judge prompt, rubric and verdict shape live in one place, the judge-grounding skill; the judge
+    only scores and evidences, the deterministic gate decides, so a judge cannot wave a doc through with a
+    self-declared result.
+  source: plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (section
+    7); plan/788/base:core/components/plays/discover-capabilities/scripts/grounding_gate.py (docstring);
+    plan/788/base:core/components/skills/judge-grounding/SKILL.md (Output, last paragraph)
+- id: G5
+  principle: The judge always runs as a clean-context sub-agent, handed only the kind's guidance, the doc and
+    its parent, never the play's context, the brief or the author's reasoning; the skill states "and only these".
+  source: 'memory: standards/rules/grounding-eval.md (Phoenix 44e1c4c4799a, section "How the judge runs");
+    copy .garura/project/issues/884/context/memory/grounding-harness/standards/rules/grounding-eval.md;
+    plan/788/base:core/components/skills/judge-grounding/SKILL.md (Input)'
+- id: G6
+  principle: The judge fan-out is concurrent and read-only. Each judge reads its own doc and writes only its own
+    verdict, no judge depends on another, and the gate runs after the join.
+  source: 'memory: standards/rules/concurrent-fanout.md (Phoenix 44e1c4c4799a); copy .garura/project/issues/884/context/memory/grounding-harness/standards/rules/concurrent-fanout.md'
+- id: G7
+  principle: Installed parts name only installed paths; a play reads no memory and names a rule, never reads it.
+  source: plan/788/base:docs/standards/harness-standard.md principle 11; plan/788/base:CLAUDE.md Behavioral
+    Rules 1
+old_findings_status: []
+checked_clean:
+- 'ICE and compiled play agree: the sha256 of each changed reference/ice.md equals the fingerprint now in its
+  SKILL.md (discover-capabilities 90c19127..., discover-domains a7edfec2...; the base fingerprints equal the
+  base ICE hashes). The intent change (C4 / C2, S4, REC3 / REC2) sits in the ICE and the SKILL carries the
+  same three rules: kept pass, fix round, note on unchanged text.'
+- 'No edit note or change log was added to either SKILL.md or to judge-grounding; the "Direct-edit deviation
+  note" blocks in discover-capabilities were already on the base ref.'
+- 'Wiring intact: play -> isolated judge sub-agent -> judge-grounding skill -> scripts/grounding_gate.py. The
+  play still decides nothing itself; the gate gives exit 0 or 1; the judge is still not handed the brief or
+  the gold example; the guidance is still cut by guidance_block.py. lint_play on both plays: PASS, 0 gaps.'
+- 'The command lines in both plays (kept, prior, --verdict with --state --doc --guidance --parent) match the
+  flags in grounding_gate.py; discover-domains correctly omits --parent (a domain has no parent).'
+- 'Installed paths: only scripts/grounding_gate.py (beside the play), <working>/judge/*, and the issue''s
+  short-term memory folder context/judge-state/ are named; no core/components or docs path. The rule is named
+  (standards/rules/grounding-eval.md), not read, as on the base.'
+- 'Fan-out safety holds: kept and prior run before the batch, the gate writes its per-doc record in the serial
+  order-stable loop after the join, so no judge writes a shared file. The old command line (--verdict only)
+  still gives the old all-pass result for the nine other plays that carry the copy; their SKILL.md was not
+  touched.'
+findings:
+- id: DF-1
+  severity: P3
+  file:
+  - core/components/skills/judge-grounding/SKILL.md (Input, Quote the doc exactly, A fix round)
+  - core/components/memory/standards/rules/grounding-eval.md (section "How the judge runs", unchanged)
+  principle: G5 - the judge runs with a clean context and is handed only the guidance, the doc and its parent;
+    the skill says "and only these".
+  principle_source: 'memory: standards/rules/grounding-eval.md (Phoenix 44e1c4c4799a, "How the judge runs");
+    plan/788/base:core/components/skills/judge-grounding/SKILL.md (Input)'
+  finding: 'The branch hands the judge a fourth input, prior_failures (the last verdict''s evidence and fixes
+    for this doc), and the skill now says "Read only doc, parent_doc and guidance, and use prior_failures".
+    The committed isolation rule was not amended: "How the judge runs" in grounding-eval.md still says the judge
+    gets "only" the guidance, the doc and the parent, and that clean context is what stops context bleed and
+    reward hacking. The new text gives the judge an earlier verdict to anchor on, which is a departure from the
+    stated reason for clean context, and it is made in the skill alone. The two now disagree on what the judge
+    may see.'
+  suggested_fix: 'Amend the isolation paragraph of grounding-eval.md in the same change (the judge gets the last
+    failures in a fix round, and only those; still no brief, no author reasoning, no gold example) and say why
+    that does not undo the clean-context aim; or drop the input and let the gate compare rounds alone.'
+- id: DF-2
+  severity: P3
+  file:
+  - core/components/plays/discover-capabilities/SKILL.md (Step 2 eval, "The eval settles")
+  - core/components/plays/discover-domains/SKILL.md (Step 2 eval, "The eval settles")
+  - core/components/skills/judge-grounding/SKILL.md (Input row prior_failures, "A fix round")
+  principle: G1 - the play hands the agent and skill a contract of file paths; the skill page is the stated
+    interface of what it receives (base skill Input table).
+  principle_source: plan/788/base:docs/standards/harness-standard.md principle 2; plan/788/base:core/components/skills/judge-grounding/SKILL.md
+    (Input)
+  finding: 'The two plays and the skill describe prior_failures differently. The plays add the key to the
+    contract of EVERY judged doc, as a path to prior-<id>.json, and say "on a fix round the judge says, for
+    each earlier failure...". grounding_gate.py prior writes {round: first|fix, prior_failures: [...]} (an
+    empty list and round "first" for a doc never judged). The skill says prior_failures is "only in a fix round",
+    describes it as a list of {id, evidence, fix} (not a path, not a wrapper with a round), tells the judge
+    "when prior_failures is given, the doc was judged before", and says to leave prior out "in a first round".
+    So for a first-round doc the contract carries the key, the skill reads that as a fix round, and nothing in
+    the skill tells the judge to read the round field. A judge that follows the skill writes an empty prior
+    list on a first round (harmless to the gate, which ignores it) but the interface is not what the skill
+    says.'
+  suggested_fix: 'Say one thing in all three places: the play adds prior_failures (a path to the file the
+    prior command wrote) only when the round is fix, or the skill states the file shape (round and the list)
+    and treats round: first as a first round.'
+- id: DF-3
+  severity: P3
+  file:
+  - core/components/plays/discover-capabilities/SKILL.md (Step 2 "the play collects every doc's notes into <working>/judge/notes.json", SE-4, SCE-5, Step 6)
+  - core/components/plays/discover-domains/SKILL.md (same text, SE-2, SCE-4, Step 6)
+  principle: G2 - a fixed sequence like merging files runs as a script the step calls, not as a model; a model
+    is used only where judgment is needed.
+  principle_source: plan/788/base:docs/standards/harness-standard.md principle 3
+  finding: 'The notes the checkpoint must show reach the person only if the play (the model) copies each
+    gate-<id>.json notes list into notes.json by hand. No script or gate sub-command is named for it, "record
+    it as kept" has no defined record, and SE-4 / SE-2 check that "every gate result''s notes are in notes.json"
+    with no command that proves it. The C4 / C2 guarantee (every note appears beside its doc) rests on a
+    merge a model does from memory of several JSON files. The notes also are not recoverable for a doc that
+    is kept on a later run: kept returns only kept, fingerprint and reason, so the notes saved in its record
+    are not read again, and a resumed run shows none for it.'
+  suggested_fix: 'Add a gate sub-command (or a small script in scripts/) that reads the gate-<id>.json files
+    and the kept results and writes notes.json, name it in Step 2, and make the SE-4 / SE-2 check run it; have
+    kept return the notes stored in the record.'
+- id: DF-4
+  severity: P3
+  file:
+  - core/components/plays/discover-capabilities/scripts/grounding_gate.py (gate_with_state, fix round)
+  - core/components/skills/judge-grounding/SKILL.md (A fix round)
+  principle: G4 - the judge only scores and evidences; the gate decides, so a judge cannot wave a doc through
+    with a self-declared result.
+  principle_source: plan/788/base:core/components/plays/discover-capabilities/scripts/grounding_gate.py
+    (docstring); plan/788/base:core/components/skills/judge-grounding/SKILL.md (Output, "The judge does NOT
+    decide overall pass or fail"); plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+    section 7
+  finding: 'In a fix round the gate takes the judge''s "fixed: true" at its word. It does not check that the
+    doc changed since the failing verdict, and it does not check the entry''s evidence quote against the doc.
+    I ran it: a first verdict failing completeness (exit 1), then a second verdict on the SAME unchanged doc
+    that says prior completeness fixed: true and still scores completeness fail on the old text. The gate
+    printed "note (text did not change, does not block)" and returned ok: true, exit 0. So a judge that says
+    "fixed" on a doc nobody touched passes it, which is the self-declared pass the judge/gate split exists
+    to prevent. (The same hole is a code defect for the executable-code category; it is reported here as the
+    design rule it breaks.)'
+  suggested_fix: 'In a fix round, fail closed when the fingerprint of the doc equals the failing record''s (no
+    change, so no fix was made), and require the prior entry''s evidence to be a quote found in the current
+    doc; add a test for both.'
+- id: DF-5
+  severity: P4
+  file:
+  - core/components/plays/discover-capabilities/SKILL.md (Compile Metadata, compiled_by)
+  - core/components/plays/discover-domains/SKILL.md (Compile Metadata, compiled_by)
+  principle: G3 - an intent change is made in the ICE and the play is compiled again; the compiled part records
+    it so the two never drift apart unseen.
+  principle_source: plan/788/base:docs/standards/harness-standard.md principle 4; plan/788/base:core/components/plays/discover-capabilities/SKILL.md
+    (compiled_by holds one "edit-play (#NNN ...)" entry per intent edit)
+  finding: 'Both ICE and SKILL.md changed in one commit with the new fingerprint, and the fingerprint matches,
+    so there is no drift. But compiled_by was not extended: every earlier intent edit on the base adds an
+    "edit-play (#NNN ...)" entry, and this one adds none. Nothing in the file shows whether /edit-play produced
+    the body or it was refreshed by hand (the base file has a hand-compile note for #498 that says that run left
+    convergence unverified).'
+  suggested_fix: 'Append "edit-play (#884 the eval settles: C4 / C2)" to compiled_by in both plays, and run
+    /edit-play against each ice.md to confirm it emits the same body.'
+- id: DF-6
+  severity: P4
+  file:
+  - core/components/plays/discover-capabilities/reference/ice.md (C4, S-checkpoint scenario, REC3)
+  - core/components/plays/discover-domains/reference/ice.md (C2, S4, REC2)
+  principle: G3 - the Expectation holds the scenarios that prove a guarantee; the check that proves a change
+    is built first and must fail first.
+  principle_source: plan/788/base:docs/standards/harness-standard.md principles 4 and 5
+  finding: 'The new guarantees (a kept pass is not judged again; a fix round checks each earlier failure; a
+    note on unchanged text never stops the run) sit in the constraint only. The only scenario edited is the
+    checkpoint one, and it proves just that notes are shown. No ICE scenario has a run that re-runs on an
+    unchanged doc and shows no judge was dispatched, or a note that does not stop the run. They are checked
+    only by the step eval (SE-4 / SE-2) text and the gate''s own unit tests.'
+  suggested_fix: 'Add one scenario to each ICE (second run, nothing changed, no judge dispatched; a fix round
+    with a note that does not stop) and recompile.'
+held:
+- 'The judge-grounding skill is a skill, so a direct edit is allowed; it carries no edit note, and the rubric,
+  prompt and verdict shape stay in the one skill (ADR 039 section 7). The new "prior" field is optional in the
+  verdict shape, so old verdicts still gate.'
+- 'The play dispatches the judges, the gate decides pass or fail, and the plays do not restate the rubric.'
+counts:
+  P1: 0
+  P2: 0
+  P3: 4
+  P4: 2

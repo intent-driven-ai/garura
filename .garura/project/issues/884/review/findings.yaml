@@ -1,0 +1,18 @@
+pr: 885
+issue: 884
+round: 1
+findings:
+- {id: A, severity: P2, sources: [memory F1, harness DF-4], basis: "grounding-eval.md (base): the gate decides, not the judge", finding: "In a fix round the gate takes the judge's fixed: true at its word; on an unchanged doc a prior failure is cleared and the doc passes (both reviewers ran it).", fix: "A prior failure counts as fixed only when the judge says fixed, the doc changed since that failure, and the entry's evidence quote is in the current doc; tests."}
+- {id: B, severity: P3, sources: [memory F3, harness DF-1], basis: "grounding-eval.md How the judge runs (base)", finding: "The isolation paragraph still says the judge gets only guidance, doc and parent; the fix round also hands it the last failures.", fix: "Amend the paragraph: in a fix round the judge also gets its own last failures, and only those; say why that keeps the clean-context aim."}
+- {id: C, severity: P3, sources: [memory F2], basis: "grounding/_content-standard.md: every line must pass", finding: "The rule now lets a doc pass with a line at fail (a note on unchanged text); the content standard still says a doc failing any line is rejected.", fix: "Amend the content standard to point to the settling rule for fix rounds."}
+- {id: D, severity: P3, sources: [memory F4], basis: "grounding-eval.md Calibration (base)", finding: "The kept-pass fingerprint ignores the judge's rubric and prompt, so tightening the judge does not end earlier kept passes; calibration's use of state is not stated.", fix: "Add the judge skill's text to the fingerprint (a --judge input), and say calibration runs with no judge state."}
+- {id: E, severity: P3, sources: [harness DF-2], basis: "ADR 039 §7: one source for the judge's inputs", finding: "The plays add prior_failures to every judged doc's contract; the skill says only in a fix round, and the file shape differs.", fix: "Say one thing: the play hands prior_failures only when prior reads round fix; the skill names the file shape."}
+- {id: F, severity: P3, sources: [harness DF-3], basis: "create-play: mechanical work runs in scripts", finding: "The notes reach the checkpoint only if the model copies each gate result's notes into notes.json by hand; no script does it, and SE-4 / SE-2 have no command that proves it.", fix: "A gate sub-command writes notes.json from the gate results and the kept records; kept returns its stored notes; Step 2 and the SE check run it."}
+- {id: G, severity: P4, sources: [memory F5, harness DF-5, harness DF-6], basis: "edit-play record keeping; rule version", finding: "The rule title still reads v1; compiled_by in both plays has no #884 entry; no ICE scenario shows an unchanged second run dispatching no judge, or a note that does not stop.", fix: "Raise the rule to v2; add the compiled_by entry; add one scenario to each ICE."}
+layer1:
+  quality: {ran: check-pr-quality, findings: 0}
+  lint_components: {command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components", in_changed_paths: 0, there_before: 36}
+  lint_play: {discover-capabilities: "PASS (0 gaps), next-command check ran", discover-domains: "PASS (0 gaps), next-command check ran"}
+runnable_checks:
+  - {command: "python3 -m unittest test_grounding_gate", result: "14 tests OK"}
+layer2: {harness: design-findings-harness.yaml, memory: design-findings-memory.yaml}
