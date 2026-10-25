@@ -128,7 +128,7 @@ Garura uses a dual memory architecture:
 Garura is designed to work with multiple AI agent platforms:
 
 - **Claude Code**: Anthropic's official CLI for Claude
-- **OpenAI Codex CLI**: via `install-garura --tool codex`
+- **OpenAI Codex CLI**: the Codex install is stopped for now (#863). `install-garura --tool codex` stops with a plain message and changes nothing, until the Codex install is redesigned
 
 ## Installation
 

@@ -16,15 +16,17 @@ core/components/           # Source of truth (edit here)
 ├── loops/                 # loops: higher-order plays that run plays (ADR 029, ADR 045); built by /create-loop
 └── memory/                # LTM: standards, formats, knowledge
 
-{target}/.claude/          # Deployment into a target project (via install-garura)
-├── agents/                # Deployed agents
-└── skills/                # Deployed skills + plays
+{target}/.claude/          # Deployment into a target project (via install-garura; Claude Code only:
+├── agents/                #   the Codex install is stopped for now, #863)
+└── skills/                # Deployed skills + plays, and the shared files in skills/_shared/
+
+{target}/.garura/core/tools/  # Deployed tools (lint-components, lint-play, rebuild-eval, the memory tool)
 
 ~/.garura/core/memory/     # Machine-global KB (via install-garura)
 ```
 
 **Note:** `.claude/` and `.garura/core/memory/` are NO LONGER tracked in the repository. They are gitignored.
-- Components deploy into the target's `.claude/` (Claude Code) or `.agents/skills/` (Codex CLI) via the `install-garura` play
+- Components deploy into the target's `.claude/` (Claude Code) via the `install-garura` play. The Codex install (to `.agents/skills/`) is stopped for now (#863): `--tool codex` stops with a plain message and changes nothing
 - Memory deploys to the machine-global `~/.garura/core/memory/` (default; overridable via `--memory-dest`)
 
 **Data Flow:** Play → invokes agents via Task tool → agents invoke skills → skills produce artifacts to STM (`{stm_base}/{issue}/` — resolved from `stm.base-path` in `.garura/core/config.yaml`)

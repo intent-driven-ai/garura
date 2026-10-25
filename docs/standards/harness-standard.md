@@ -128,7 +128,8 @@ The source-only parts are the exception, by design: `create-play`, `edit-play`, 
 `author-product-ontology`; the dev tests; and the text that sorts the paths of the repo under review
 (the changeset analysis of `commit-change`, the review playbooks' signal globs, the artifact-type
 globs of the PR severity taxonomy, the trigger in `assess-pr`'s quality rules). The component
-linter's rule `installed-paths/source-path` enforces this in both layouts (#860).
+linter's rule `installed-paths/source-path` enforces this in both layouts (#860). ADR 055 records
+this decision.
 
 *Why:* a project that installs Garura has no `core/` folder. A part that reaches into the source
 works only inside Garura's own repository, and fails everywhere else.
