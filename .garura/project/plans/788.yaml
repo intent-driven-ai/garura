@@ -242,6 +242,10 @@ tree:
   kind: chore
   title: 'Run /shape-slice on business intent #788 again, with the current play (reuse path; input for #818)'
   status: done
+- issue: 878
+  kind: chore
+  title: 'Run /shape-plan on business intent #788 for the first time (make or update its plan)'
+  status: now
 - issue: 844
   kind: chore
   title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
