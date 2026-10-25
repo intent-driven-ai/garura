@@ -130,13 +130,11 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version 2f68683b1e44."
+          "Phoenix memory: on this machine, at version 3161dcdfe26f."
         ]
       }
     },
     "tools_gitignore": ".garura/core/tools/.gitignore",
-    "retired": [
-      ".garura/core/tools/naming"
-    ]
+    "retired": []
   }
 }
