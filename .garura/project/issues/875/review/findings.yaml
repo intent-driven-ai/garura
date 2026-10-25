@@ -1,0 +1,35 @@
+pr: 891
+issue: 875
+round: 2
+round1_fixed: [MEM-1, MEM-2]
+findings:
+- id: HAR-1
+  severity: P4
+  category: harness
+  file: core/components/plays/shape-plan/reference/ice.md (Expectation, S3)
+  basis: "harness-standard principles 4 and 5 (base ref); issue #875 Done when"
+  finding: "No scenario states that an epic found with another type is set to Epic; C13, F11, REC11, SE-15 and D4 cover it."
+  fix: "Add a Measure to S3 through /edit-play."
+- id: MEM-3
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md (Epic and Story rules)
+  basis: "Base ontology and template use no rule ids"
+  finding: "R1–R3 are the only rule ids in the ontology; the Epic page shows R1 and R3 with no R2."
+  fix: "Drop the ids or number rules per kind."
+- id: MEM-4
+  severity: P4
+  category: memory
+  file: core/components/memory/standards/schemas/product-os/ontology.md (line 21)
+  basis: "Base ontology line 21 used 'work item' for the family that carried the work-item label"
+  finding: "'the *-change plays act on work items only' now means the family, while the work-item label marks only Spike, Chore and Bug."
+  fix: "Say 'work items (Epic, Story, Spike, Chore, Bug)'."
+layer1:
+  quality: "check-pr-quality: 0 findings; ADR 056 lint valid, index byte-identical to a fresh rebuild, ADR 048 changes only its Status line"
+  lint_components: "0 in changed paths; 37 there before"
+  lint_play: "0 in changed paths; next-command gap there before (handed-out map lacks shape-plan)"
+  ruff: "clean"
+  tests: "10 suites, 133 passed, 0 failed"
+plan_record: "#892 exists in the tracker (type Chore, sub-issue of #875); title matches"
+there_before:
+- "managing-work.md says 'No labels, for now' while the ontology keeps the product and work-item labels (recorded in ADR 056, Work This Creates)"

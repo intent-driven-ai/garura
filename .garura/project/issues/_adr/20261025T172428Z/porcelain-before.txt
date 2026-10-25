@@ -1,0 +1,25 @@
+ M .garura/project/issues/875/context/memory/manifest.json
+?? .garura/project/issues/875/context/categories.yaml
+?? .garura/project/issues/875/context/context.yaml
+?? .garura/project/issues/875/context/design-findings-harness.yaml
+?? .garura/project/issues/875/context/design-findings-memory.yaml
+?? .garura/project/issues/875/context/layer1-findings.yaml
+?? .garura/project/issues/875/context/lint-components.txt
+?? .garura/project/issues/875/context/memory/grounding-harness/manifest.json
+?? .garura/project/issues/875/context/memory/grounding-memory/manifest.json
+?? .garura/project/issues/875/context/memory/knowledge/review/_index.md
+?? .garura/project/issues/875/context/memory/knowledge/review/adrs.md
+?? .garura/project/issues/875/context/memory/knowledge/review/code.md
+?? .garura/project/issues/875/context/memory/knowledge/review/config-maps.md
+?? .garura/project/issues/875/context/memory/knowledge/review/docs.md
+?? .garura/project/issues/875/context/memory/knowledge/review/harness.md
+?? .garura/project/issues/875/context/memory/knowledge/review/memory.md
+?? .garura/project/issues/875/context/memory/knowledge/review/tests.md
+?? .garura/project/issues/875/context/memory/standards/rules/pr.md
+?? .garura/project/issues/875/context/pr.diff
+?? .garura/project/issues/875/context/quality-findings.yaml
+?? .garura/project/issues/875/context/templates/manifest-check-change.json
+?? .garura/project/issues/875/context/templates/standards/rules/pipeline-next.md
+?? .garura/project/issues/875/review/findings.yaml
+?? .garura/project/issues/875/review/recommended_verdict.yaml
+?? .garura/project/issues/_adr/20261025T172428Z/porcelain-before.txt

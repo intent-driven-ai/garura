@@ -1,0 +1,48 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261025T172428Z/adr-draft.md",
+  "number": "056",
+  "lint": {
+    "command": "adr.py lint --adr adr-draft.md",
+    "exit": 0,
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "command": "adr.py guard --adr adr-draft.md --intents-dir .garura/product/product-os/intents",
+    "exit": 0,
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes",
+    "agrees_with_context": true
+  },
+  "overlaps_on_draft": {
+    "candidates": [
+      "048",
+      "049",
+      "029",
+      "035",
+      "043",
+      "052",
+      "033",
+      "047"
+    ],
+    "judged": {
+      "048": "amended in part",
+      "others": "not affected: shared paths only (ontology.md, managing-work.md); none names a label or an issue type"
+    }
+  },
+  "supersedes": [],
+  "amends": [
+    {
+      "id": "048",
+      "part": "Decision \u00a71 second bullet, and Consequences Positive fourth bullet"
+    }
+  ],
+  "real_names_in_body": false,
+  "retries": 1,
+  "fixes_applied": [
+    "Decided by set to 'the product owner' (as ADR 055)",
+    "Affects: find_work_items.py removed; check_tracker.py, render_brief.py, write_work_items.py, their three tests and stop-condition.yaml named, verified by git diff --stat plan/788/base...HEAD -- core/components/plays/shape-plan"
+  ]
+}

@@ -1,0 +1,99 @@
+# check-change, Step 3 Layer 1, round 2 (standards-driven categories: executable-code, tests, docs, adrs).
+# PR #891, issue 875, base plan/788/base. Bounded to the diff (pr.diff, 81 changed paths). Read-only run.
+pr: 891
+issue: 875
+round: 2
+taxonomy: .garura/project/issues/875/context/memory/standards/rules/pr.md
+scan:
+  tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+  paths: 81
+  exit: 0
+  scan_coverage: 1.0
+  standards_relevant: 0
+  catchall: {CODE-20: 12}   # P4 catch-all, a count only, never blocks
+  errors: 0
+  counts: {P1: 0, P2: 0, P3: 0, P4: 0}
+  note: "Zero because of the taxonomy's prose guard and the stm-evidence / docs/adr scoping (#438, #454, #851), not because nothing was looked at: the shape-plan scripts and tests live under core/components/**, which the taxonomy classes as garura-prose, so grep rules are not eligible; .garura/project/** is stm-evidence; docs/adr/** gets no finding by rule. The by-hand checks below carry the weight."
+findings: []
+counts: {P1: 0, P2: 0, P3: 0, P4: 0}
+categories:
+  executable-code:
+    linter:
+      ruff: {status: pass, command: "ruff check check_tracker.py plan_common.py render_brief.py write_work_items.py", output: "All checks passed!"}
+    by_hand:
+      - check: "Change is the constant and its texts only"
+        result: pass
+        evidence: "plan_common.py:47 EPIC_TYPE 'Feature' -> 'Epic'; check_tracker.py docstring (epic has type Epic); write_work_items.py docstring (two lines); render_brief.py:71 now prints pc.EPIC_TYPE instead of the literal."
+      - check: "No leftover use of the old epic type in the scripts"
+        result: pass
+        evidence: "grep of scripts/*.py for 'Feature': only the product-model term (gather_plan.py:124,131), the map heading 'Feature-to-story map' (plan_common.py:514, write_work_items.py:14), and GRAPHQL_FEATURES (platform_adapter.py:248). None is the tracker epic type."
+      - check: "Data-safety path (write_work_items.py writes to the tracker)"
+        result: pass
+        evidence: "The diff touches only two docstring lines there; the approval check, write order and type-fix logic are not in the diff. The type fix stays idempotent: it sets the type only when it differs from pc.EPIC_TYPE, and the second-run check in test_write_work_items.py (no copy, one Epic) passes."
+      - check: "Stray debug output, secrets, determinism"
+        result: pass
+        evidence: "Added lines hold no print/debug, no credential-like text; scan found no SEC-* match."
+  tests:
+    linter:
+      ruff: {status: pass, command: "ruff check test_check_tracker.py test_render_brief.py test_write_work_items.py", output: "All checks passed!"}
+    run:
+      - {suite: test_check_tracker.py, passed: 9, failed: 0}
+      - {suite: test_render_brief.py, passed: 11, failed: 0}
+      - {suite: test_write_work_items.py, passed: 21, failed: 0}
+      - {suite: test_check_plan.py, passed: 7, failed: 0}
+      - {suite: test_find_work_items.py, passed: 10, failed: 0}
+      - {suite: test_gather_plan.py, passed: 22, failed: 0}
+      - {suite: test_write_plan_file.py, passed: 9, failed: 0}
+      - {suite: test_record_approval.py, passed: 9, failed: 0}
+      - {suite: test_check_drafts.py, passed: 17, failed: 0}
+      - {suite: test_support.py, passed: 18, failed: 0}
+      - total: "10 suites, 133 passed, 0 failed (all exit 0)"
+    by_hand:
+      - check: "Tests still test something (no weakened or skipped assertion)"
+        result: pass
+        evidence: "Each changed check swaps Epic and Feature consistently: the good case expects Epic, and the wrong-type fixtures now use Feature (test_check_tracker.py epic type edit; test_render_brief.py and test_write_work_items.py found-epic fixtures). No test skipped, disabled or emptied; assertion counts unchanged. TEST-* rows: none fired."
+  docs:
+    file: .garura/user-provided/managing-work.md
+    by_hand:
+      - {check: "Spelling and grammar", result: pass, evidence: "Lines 21 and 57-63 read cleanly."}
+      - {check: "Dead links", result: pass, evidence: "docs/standards/harness-standard.md exists."}
+      - {check: "Heading hierarchy and leftover TODOs", result: pass, evidence: "Headings unchanged; no TODO/FIXME in the file."}
+      - check: "Terminology consistent with the ontology, ADR 056 and shape-plan"
+        result: pass
+        evidence: "Tree line 21 says 'Epic (issue type Epic)'; the 'Type lives in the type field' bullet says Epic and Story filed by their own type, Feature kept only from before, and Feature in the model is a different thing. Agrees with ADR 056 Decision 1 and plan_common.EPIC_TYPE."
+      - check: "Completeness"
+        result: pass
+        evidence: "Both the tree line and the type bullet are changed. The remaining 'No labels, for now' bullet vs the labels the ontology keeps on four kinds is a known gap, recorded in ADR 056 (Negative / Risks, Work This Creates), not a new defect."
+  adrs:
+    by_hand:
+      - check: "ADR 056 has the template sections"
+        result: pass
+        evidence: "Matches the template copy in the record-decision run: Status, Date, Level, Decided by, Amends, Affects, ICE impact, Business intent check, Related, Context, Decision, Consequences (Positive, Negative / Risks), Alternatives Considered, Work This Creates, References."
+        rule: "docs/adr template (standards/templates/adr.md)"
+      - check: "Status is an allowed value"
+        result: pass
+        evidence: "'Accepted' (allowed: proposed, accepted, superseded, rejected). Date 2026-10-25, Level framework (allowed)."
+      - check: "Structural lint"
+        result: pass
+        evidence: "adr.py lint on ADR 056: valid true, problems []."
+      - check: "Numbered 056 and linked from the index with the same title, status and date"
+        result: pass
+        evidence: "docs/adr/_index.md row 056: title 'An Epic and a Story Are Marked by Their Issue Type, With No Label', Accepted, 2026-10-25 = the ADR's header. adr.py index regenerated to a scratch file is byte-identical to the committed _index.md."
+      - check: "Markdown well-formed; relative links resolve"
+        result: pass
+        evidence: "ADR 056 holds no markdown links (048 and 049 are named as text). The new link in ADR 048's Status line, 056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md, resolves. Existing 049 link resolves."
+      - check: "Affects files match the PR's changed paths"
+        result: pass
+        evidence: "Affects lists ontology.md, ice.md, SKILL.md, plan_common.py, check_tracker.py, render_brief.py, write_work_items.py, the three test files, stop-condition.yaml, managing-work.md = exactly the 13 non-ADR, non-record files the PR changes under core/components and .garura/user-provided. None claimed and unchanged; none changed and unlisted (the plan file 788.yaml and the ADR files themselves are records of the change, not files the decision changes)."
+      - check: "ADR 048 changes only the Status line"
+        result: pass
+        evidence: "git diff plan/788/base...HEAD on ADR 048: 1 file, 1 insertion, 1 deletion, the **Status:** line only (an appended forward pointer; the earlier 049 and 051 pointers are kept verbatim). Decision text untouched. Form follows the template rule (forward pointer in the Status line only)."
+      - check: "Quoted ADR 048 bullets exist verbatim on the base ref"
+        result: pass
+        evidence: "plan/788/base ADR 048 line 32: 'The **work layer** is tracker issues labelled `work-item`: Epic, Story, Spike, Chore and Bug.' (Decision 1, second bullet); line 82: 'The tracker filters cleanly: `product` for business intents, `work-item` for everything that is worked.' (Consequences, Positive, fourth bullet). Both match the quotes in ADR 056 Amends and the 048 pointer."
+      - check: "ADR 048 pointer matches ADR 056 Amends"
+        result: pass
+        evidence: "Both name Decision section 1 second bullet and the Consequences Positive fourth bullet, with the same meaning (only a Spike, a Chore or a Bug keeps work-item)."
+  plan_record_and_run_records:
+    note: "Out of this agent's categories (plan-record, run-records have no playbook); not graded here."
+summary: "No findings at any class (P1 0, P2 0, P3 0, P4 0). ruff clean; 10 test suites run, 133 passed, 0 failed; ADR 056 passes every hand check and adr.py lint; the ADR index matches a fresh regeneration; docs line up with the ontology and ADR 056."

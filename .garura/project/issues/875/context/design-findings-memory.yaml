@@ -1,0 +1,81 @@
+# check-change Step 3, Layer 2, category: memory. PR #891, issue 875, round 2, base plan/788/base.
+# Grounded only in committed sources on the base ref (git show plan/788/base:<path>) and the shared
+# short-term copies (the ontology template, the pr.md taxonomy). Nothing is grounded in files this
+# branch adds (docs/adr/056-*, anything under .garura/project/issues/**). ADR 056 was opened only to
+# confirm that the pointer in ADR 048's Status line resolves to a real file, not as a source of any principle.
+pr: 891
+issue: 875
+round: 2
+category: memory
+changed_artifact: core/components/memory/standards/schemas/product-os/ontology.md
+also_read_for_the_round_1_fix: docs/adr/048-the-product-model-and-the-work-are-two-layers.md (Status line, changed by chore #892)
+taxonomy: .garura/project/issues/875/context/memory/standards/rules/pr.md
+
+principles:
+  - id: P-A
+    principle: "A schema file follows the shape of the ontology template: frontmatter (ontology, integer version bumped when a kind changes, updated date), Questions, Kinds (Rules as bullets), a Log entry per version."
+    source: "core/components/memory/standards/templates/product-ontology.md (not changed by this branch; short-term copy context/memory/standards/templates/product-ontology.md)"
+  - id: P-B
+    principle: "An accepted ADR that states a rule the schema now changes is marked 'amended in part by' the later decision, in its Status line."
+    source: "plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Status line ('amended in part by ADR 051'); 'Affects' names ontology.md"
+  - id: P-C
+    principle: "A question's Answered-by line names the kinds and rules that answer it, with no conflict between them; an Epic and a Story are found by the plan file's represents mark, never by title."
+    source: "ontology template (P-A); plan/788/base:core/components/plays/shape-plan/SKILL.md (represents marks); base ontology Q20"
+  - id: P-D
+    principle: "The tracker marks an Epic by the organization's Epic type; an Epic was filed as type Feature only under #818 decision 5, which the Epic type overtakes."
+    source: "plan/788/base:core/components/plays/shape-plan/reference/ice.md line 96 ('decision 5: the Epic's tracker type is Feature'); plan/788/base:.garura/user-provided/managing-work.md ('Type lives in the type field')"
+  - id: P-E
+    principle: "Rule lists on a kind are plain bullets of what must always be true; no kind carries rule ids."
+    source: "ontology template Rules section; plan/788/base ontology (no 'R<n>' rule id anywhere in the base file)"
+  - id: P-F
+    principle: "'Work item' names the family that the *-change plays act on, and the label work-item once marked every member of it."
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md line 21; plan/788/base ADR 048 Decision 1"
+
+round_1_followup:
+  - id: MEM-1
+    status: resolved
+    evidence: "ADR 048's Status line on the branch now ends with 'amended in part by ADR 056', naming Decision 1 second bullet and Consequences/Positive fourth bullet. Both quoted bullets exist word for word on the base ref (ADR 048 base lines 32 and 82), so the pointer names the right text. The link target docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md exists and the ADR index lists it. The form follows P-B (same wording style as the ADR 051 amendment already on the base). Ontology v12 and ADR 048 no longer disagree on the record."
+  - id: MEM-2
+    status: resolved
+    evidence: "Q20 now reads 'Given a tracker issue, which kind is it?'. Its Answered-by says the issue type names the kind (type Epic, type Story, no label; label product; label work-item with Spike/Chore/Bug), then a separate sentence says the represents mark finds which Epic stands for a slice and which Story for a feature, 'never by type or title (rule R3)'. Kind and finding are now two different jobs and no longer conflict with R3 (P-C)."
+  - id: MEM-3
+    status: still_open
+    severity: P4
+    note: "Left on purpose for a later change. R1/R3 on the Epic page and R2/R3 on the Story page are still the only rule ids in the file; Q20 now cites them ('rules R1, R2', 'rule R3'), so the ids are used, but P-E still holds."
+  - id: MEM-4
+    status: still_open
+    severity: P4
+    note: "Left on purpose for a later change. Line 21 and the Epic page rule still say 'The *-change plays act on work items only' while the work-item label now sits on Spike, Chore and Bug only (P-F)."
+
+hand_checks:
+  - check: "Structure follows the schema's own shape"
+    result: pass
+    cite: "frontmatter ontology/version/updated kept; Epic and Story pages keep the template's field order (What it is, Who reads it, Layer, In the tracker as, Lives at, Properties, Relationships, Rules, Example). author-product-ontology check_ontology.py run read-only on the branch file: valid true, problems [], not_yet_defined []."
+  - check: "[[...]] and evolve_when cross-references resolve"
+    result: pass
+    cite: "the diff adds no [[...]] link and no evolve_when; ontology.md is a schema, not a shelf file. The only new reference is ADR 048 -> ADR 056 (relative link), which resolves."
+  - check: "Frontmatter version and updated moved together"
+    result: pass
+    cite: "version 11 -> 12 and updated 2026-10-24 -> 2026-10-25; one new Log line, '2026-10-25 -- v12 (#875 ...)', same day; no other version text changed."
+  - check: "Epic page, Story page, Q20 and the tracker paragraph agree"
+    result: pass
+    cite: "line 21: Epic type Epic and Story type Story, no label; product on a Business Intent only; work-item on a Spike, Chore or Bug only. Q20 (lines 86-88) says the same and keeps the represents mark apart. Epic 'In the tracker as' (line 617), Story (line 666) and the Epic examples (lines 655-659) say type Epic/Story, no label. Spike, Chore, Bug pages (lines 720, 764, 801) still say labelled work-item, as line 21 says. Remaining 'labelled work-item' hits elsewhere are the v7 Log line (historical)."
+  - check: "No duplicate or contradicting rule; R1/R2/R3 numbering"
+    result: pass_with_notes
+    cite: "Epic holds R1 and R3, Story holds R2 and R3 (lines 650-651, 704-705); R3 is the same sentence on both, so no contradiction, and the numbering is one shared set that Q20 cites. The ids themselves are MEM-3 (P4, left open)."
+  - check: "The v12 Log line's claim 'overtakes #818 decision 5' rests on a real base decision"
+    result: pass
+    cite: "plan/788/base:core/components/plays/shape-plan/reference/ice.md line 96 holds 'decision 5: the Epic's tracker type is Feature'."
+  - check: "Nothing in installed code reads the work-item label to find an Epic or Story"
+    result: pass
+    cite: "grep of work-item in core/components, .garura/user-provided and docs: ontology, shape-plan (updated in this PR), install scripts, the gitlab adapter note, file names such as author-work-items; no *-change play uses the label."
+
+findings: []
+# MEM-1 and MEM-2 are resolved. MEM-3 and MEM-4 are carried over as P4 (suppressed by default; shown only in evidence).
+# No new finding in the memory category this round.
+summary:
+  p1: 0
+  p2: 0
+  p3: 0
+  p4_carried: 2
+  new: 0

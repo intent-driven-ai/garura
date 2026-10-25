@@ -168,7 +168,12 @@ tree:
     - issue: 875
       kind: bug
       title: '/shape-plan files the Epic with issue type Feature; a slice''s Epic must be type Epic (P1)'
-      status: next
+      status: now
+      children:
+      - issue: 892
+        kind: chore
+        title: 'The two medium findings left by the PR #891 review: amend ADR 048, and separate kind from finding in Q20'
+        status: done
       needs:
       - 876
     - issue: 879
@@ -254,11 +259,11 @@ tree:
 - issue: 882
   kind: chore
   title: 'Record cap-initialize in the product model with /discover-capabilities (#862, #881)'
-  status: now
+  status: done
 - issue: 884
   kind: bug
   title: 'The content judge passes a page and then fails the same page unchanged, so a model run cannot finish'
-  status: next
+  status: done
 - issue: 844
   kind: chore
   title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'

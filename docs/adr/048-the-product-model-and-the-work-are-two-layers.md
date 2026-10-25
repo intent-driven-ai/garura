@@ -1,6 +1,6 @@
 # ADR 048 — The Product Model and the Work Are Two Layers Joined by the Plan: Functionality Becomes Feature, a Slice Is in the Model, and an Epic Is a Work Item That Delivers One Slice
 
-**Status:** Accepted — superseded by [ADR 049](049-a-slice-is-shaped-then-planned-then-given-its-eval.md): §2 first paragraph (the plan picks slices by two tests); and amended in part by [ADR 051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md): Work This Creates, #803 (/next stops reading the epic record): not done, the play is deleted
+**Status:** Accepted — superseded by [ADR 049](049-a-slice-is-shaped-then-planned-then-given-its-eval.md): §2 first paragraph (the plan picks slices by two tests); and amended in part by [ADR 051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md): Work This Creates, #803 (/next stops reading the epic record): not done, the play is deleted; and amended in part by [ADR 056](056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md): Decision §1, the second bullet ("The work layer is tracker issues labelled `work-item`: Epic, Story, Spike, Chore and Bug") — an Epic is now an issue of type Epic and a Story an issue of type Story, each with no label; only a Spike, a Chore or a Bug keeps `work-item`. And Consequences, Positive, the fourth bullet ("`work-item` for everything that is worked") — `work-item` now marks only a Spike, a Chore or a Bug.
 **Date:** 2026-10-23
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja 

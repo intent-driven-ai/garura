@@ -44,7 +44,7 @@ except ImportError:  # the scripts say so in plain words
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RECOVERY_PHRASES = ("the builder can fix this alone", "a person must decide")
-EPIC_TYPE, STORY_TYPE = "Feature", "Story"
+EPIC_TYPE, STORY_TYPE = "Epic", "Story"
 
 
 class Refused(Exception):

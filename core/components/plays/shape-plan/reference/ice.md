@@ -51,7 +51,7 @@ condition. A second run makes no copies.
   sections when they are missing, and keeps every line a person wrote; it never rewrites or
   deletes a person's text.
 - C13 — An epic and a story are marked in the tracker by the issue type field, with no label:
-  an epic is an issue of type Feature, and a story is an issue of type Story.
+  an epic is an issue of type Epic, and a story is an issue of type Story.
 
 ### Failure conditions
 
@@ -70,7 +70,7 @@ condition. A second run makes no copies.
   brief.
 - F9 — The change landed outside the change plays, or on the wrong branch.
 - F10 — A page names a real person, or a person cannot follow it.
-- F11 — An epic or a story carries a label, or an epic's issue type is not Feature, or a story's
+- F11 — An epic or a story carries a label, or an epic's issue type is not Epic, or a story's
   issue type is not Story.
 
 ## Context
@@ -87,13 +87,14 @@ condition. A second run makes no copies.
   hand until update-plan (#730) exists; the play writes only its slice, epic and story nodes and
   keeps every other node as it is.
 - The rules: `managing-work.md` ("Type lives in the type field", "No labels, for now"; an Epic
-  is filed as type Feature, the organization's type for it),
+  is filed as type Epic),
   `standards/rules/expectation-generation.md`, `_shared/asking-a-person.md`.
 - The agent that gathers the model and runs the skill: `product-os-keeper`. The skill that
   writes the epic's title and each story's scope of work and Context guidance:
   `author-work-items` (new). The tracker writes go through the code-host adapter.
 - The product owner's decisions: `.garura/project/issues/818/context/decisions.md` (Q-find-1,
-  Q-found-1, Q-label-1, Q-change-1, and decision 5: the Epic's tracker type is Feature).
+  Q-found-1, Q-label-1, Q-change-1). #875 replaced decision 5 (the Epic's tracker type was
+  Feature, while the organization had no Epic type): an Epic is now type Epic.
 - Personas: the product owner (runs /shape-plan, approves the tracker writes, tracks the plan);
   the build play, which reads the stories; the eval play (#798), which reads the epic, its map
   and its stories.
@@ -105,7 +106,7 @@ condition. A second run makes no copies.
 - S1 — (product owner, first plan) Given an intent served by one slice with three features and no
   plan file, when the product owner runs /shape-plan and types yes, then the plan file, one epic
   and three stories exist, one for each feature, and the epic's map names the three stories.
-  Measure: the plan check reads ok, the epic is in the tracker with type Feature and the three
+  Measure: the plan check reads ok, the epic is in the tracker with type Epic and the three
   stories with type Story, none with a label, and no story holds a "Fails if" line of its two ICE.
 - S2 — (product owner, second run) Given a plan made by an earlier run and no change to the slice,
   when the product owner runs /shape-plan again and types yes, then no new issue is made.
@@ -142,7 +143,7 @@ condition. A second run makes no copies.
   each story has its scope of work and its Context guidance.
   check: { type: field_equals, file: "context/shape-plan/drafts-check.json", field: "ok", equals: true }
 - D4 — the tracker check reads ok: each work item the run wrote is in the tracker as the record
-  says, the epic with type Feature and each story with type Story, and none with a label.
+  says, the epic with type Epic and each story with type Story, and none with a label.
   check: { type: field_equals, file: "context/shape-plan/tracker-check.json", field: "ok", equals: true }
 - D5 — the write guard reads ok: the run changed no file outside the plan file.
   check: { type: field_equals, file: "context/shape-plan/guard-report.json", field: "ok", equals: true }
@@ -168,5 +169,5 @@ condition. A second run makes no copies.
 - REC9 (F9) — land the change through the change plays, on the branch the target script gives.
   Handoff: human.
 - REC10 (F10) — rewrite with personas and plain words. Handoff: autonomous.
-- REC11 (F11) — take the label off, and set the issue type to Feature on an epic and to Story on
+- REC11 (F11) — take the label off, and set the issue type to Epic on an epic and to Story on
   a story. Handoff: autonomous.

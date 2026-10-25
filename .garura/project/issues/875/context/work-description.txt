@@ -1,0 +1,7 @@
+Make /shape-plan file each slice's Epic with the GitHub issue type Epic, not Feature.
+
+The agreed model: a Slice in the product model is an Epic in GitHub, and each Feature of the slice is a Story. The organization had no Epic type when /shape-plan was built (#818 decision 5), so it filed the Epic as type Feature. The Epic type now exists.
+
+Done when /shape-plan makes each Epic with type Epic and resets a reused Epic of another type (its ICE C13, F11, SE-15, through /edit-play, with check_tracker.py and its tests); the ontology says an Epic is filed with type Epic and a Story with type Story, no label (/edit-ontology); managing-work.md says an Epic is filed with type Epic; and /shape-plan 788 runs again and sets #794 to type Epic.
+
+It runs in plan 788 (under #818) and lands into plan/788/base.

@@ -33,8 +33,8 @@ def main():
               and [c["kind"] for c in rec["created"]] == ["epic", "story", "story", "story"])
         epic = its[rec["epics"]["sl-self-booking"]]
         stories = [its[n] for n in rec["maps"]["sl-self-booking"].values()]
-        check("the epic is type Feature with no label, and says what it represents",
-              epic["type"] == "Feature" and epic["labels"] == [] and "Represents: sl-self-booking" in epic["body"])
+        check("the epic is type Epic with no label, and says what it represents",
+              epic["type"] == "Epic" and epic["labels"] == [] and "Represents: sl-self-booking" in epic["body"])
         check("each story is type Story with no label, a sub-issue of the epic",
               all(s["type"] == "Story" and s["labels"] == [] for s in stories)
               and sorted(epic["sub_issues"]) == sorted(s["number"] for s in stories))
@@ -71,7 +71,7 @@ def main():
               "    kind: story\n    represents: ft-pick\n  - issue: 12\n    kind: story\n    represents: ft-remind\n")
         person = "A person wrote this.\n\nAnd this line too.\n"
         empty_tracker(p, [
-            {"number": 10, "title": "Self-booking", "type": "Epic", "labels": ["work-item"], "body": "The epic, by hand."},
+            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": "The epic, by hand."},
             {"number": 11, "title": "Pick a free slot", "type": "Story", "body": person},
             {"number": 12, "title": "Send a reminder", "type": "Story", "body": person + "\n## Scope of work\n\n- kept\n"}])
         codes = flow(root, p)
@@ -82,8 +82,8 @@ def main():
               and "## Context guidance" in its[11]["body"]
               and its[12]["body"].count("## Scope of work") == 1 and "- kept" in its[12]["body"]
               and its[12]["body"].startswith(person))
-        check("the found epic gets type Feature, loses its label, keeps its text and gains its map",
-              its[10]["type"] == "Feature" and its[10]["labels"] == [] and its[10]["body"].startswith("The epic, by hand.")
+        check("the found epic gets type Epic, loses its label, keeps its text and gains its map",
+              its[10]["type"] == "Epic" and its[10]["labels"] == [] and its[10]["body"].startswith("The epic, by hand.")
               and "- ft-pick → #11" in its[10]["body"] and sorted(its[10]["sub_issues"]) == [11, 12])
         check("the record lists each change", {u["issue"] for u in rec["updated"]} == {10, 11, 12}
               and all(u["lines_kept"] for u in rec["updated"]))
@@ -125,7 +125,7 @@ def main():
         rec, its = read_json(p["record"]), issues(p)
         check("the next run uses the epic and story the first run made, and makes no copy",
               codes["write"] == 0 and [c["represents"] for c in rec["created"]] == ["ft-remind", "ft-pay"]
-              and len(its) == 4 and sum(1 for i in its.values() if i["type"] == "Feature") == 1
+              and len(its) == 4 and sum(1 for i in its.values() if i["type"] == "Epic") == 1
               and codes["check_plan"] == 0 and codes["check_tracker"] == 0)
     return finish()
 

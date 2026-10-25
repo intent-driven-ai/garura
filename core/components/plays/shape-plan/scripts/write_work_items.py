@@ -10,7 +10,7 @@ words, and unless the brief, work-items.json and drafts.json are still the files
 saw (their sha256 is the one approval.json recorded). It also refuses when an item it must
 make or change has no draft, or an issue it must use is not in the tracker. Then, for each
 slice:
-  - the epic to `make` becomes an issue of type Feature, with no label, in one write. Its body
+  - the epic to `make` becomes an issue of type Epic, with no label, in one write. Its body
     holds "Represents: <slice id>", "Plan: <id>", what it delivers and the "Feature-to-story
     map";
   - each story to `make` becomes an issue of type Story, with no label and with the epic as
@@ -23,7 +23,7 @@ slice:
   - a used story gets type Story when it has another type or none, its labels taken off, the
     line "Represents: <feature id>" at the end when it has none, and becomes a sub-issue of
     its epic when it is not one;
-  - a used epic gets type Feature when it has another type or none, its labels taken off, and
+  - a used epic gets type Epic when it has another type or none, its labels taken off, and
     the "Represents" line when it has none; an epic's map section is written again only when
     a line changes (every other line of its body stays);
   - each story in `move_out` is taken off the epic's sub-issues (and so off the map) and stays

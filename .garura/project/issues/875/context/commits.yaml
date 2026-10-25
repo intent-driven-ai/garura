@@ -1,0 +1,38 @@
+commits:
+  - sha: 0733bfcd
+    message: "chore(stm): record check-change round 1 run artifacts (#875)"
+    files:
+      - .garura/project/issues/875/context/analysis.yaml
+      - .garura/project/issues/875/context/memory/manifest.json
+      - .garura/project/issues/875/context/porcelain.txt
+      - .garura/project/issues/875/context/categories.yaml
+      - .garura/project/issues/875/context/context.yaml
+      - .garura/project/issues/875/context/design-findings-harness.yaml
+      - .garura/project/issues/875/context/design-findings-memory.yaml
+      - .garura/project/issues/875/context/layer1-findings.yaml
+      - .garura/project/issues/875/context/lint-components.txt
+      - .garura/project/issues/875/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/875/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/875/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/875/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/code.md
+      - .garura/project/issues/875/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/875/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/875/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/875/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/875/context/memory/standards/rules/pr.md
+      - .garura/project/issues/875/context/pr.diff
+      - .garura/project/issues/875/context/quality-findings.yaml
+      - .garura/project/issues/875/context/templates/manifest-check-change.json
+      - .garura/project/issues/875/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/875/review/round-1/findings.yaml
+      - .garura/project/issues/875/review/round-1/outcome.yaml
+      - .garura/project/issues/875/review/round-1/recommended_verdict.yaml
+    branch: plan/788/875-epic-issue-type
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

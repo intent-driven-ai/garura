@@ -1,0 +1,55 @@
+---
+# assess-changes output (grouped by the analyze agent; judgment done)
+needs_judgment: false
+
+change_groups:
+  - id: check-change-round-1-run-records
+    issue: 875
+    commit_type: chore
+    scope: stm
+    subject: "record check-change round 1 run artifacts"
+    files:
+      - .garura/project/issues/875/context/analysis.yaml
+      - .garura/project/issues/875/context/memory/manifest.json
+      - .garura/project/issues/875/context/porcelain.txt
+      - .garura/project/issues/875/context/categories.yaml
+      - .garura/project/issues/875/context/context.yaml
+      - .garura/project/issues/875/context/design-findings-harness.yaml
+      - .garura/project/issues/875/context/design-findings-memory.yaml
+      - .garura/project/issues/875/context/layer1-findings.yaml
+      - .garura/project/issues/875/context/lint-components.txt
+      - .garura/project/issues/875/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/875/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/875/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/875/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/code.md
+      - .garura/project/issues/875/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/875/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/875/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/875/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/875/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/875/context/memory/standards/rules/pr.md
+      - .garura/project/issues/875/context/pr.diff
+      - .garura/project/issues/875/context/quality-findings.yaml
+      - .garura/project/issues/875/context/templates/manifest-check-change.json
+      - .garura/project/issues/875/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/875/review/round-1/findings.yaml
+      - .garura/project/issues/875/review/round-1/outcome.yaml
+      - .garura/project/issues/875/review/round-1/recommended_verdict.yaml
+
+exclusions: []
+
+risks:
+  sensitive_files: []   # nothing blocks the run
+  warnings:
+    - path: ".garura/project/issues/875/context/memory/standards/rules/pr.md"
+      match: 'password\s*=  (pattern text inside the copied PR severity taxonomy, e.g. rule BE-08 and SEC-19)'
+      blocking: false
+      note: "pattern carrier by design - the taxonomy lists regexes that look for credentials; no real credential is present"
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+notes:
+  branch: plan/788/875-epic-issue-type
+  basis: "all paths under .garura/project/issues/875/ are run records of check-change round 1 for PR #891; single issue, single concern, one group"
