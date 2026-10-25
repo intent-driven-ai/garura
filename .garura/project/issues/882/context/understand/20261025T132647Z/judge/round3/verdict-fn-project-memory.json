@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Runs after the product owner confirms the setup answers.\" \"Out: when Phoenix memory cannot be reached, a plain message that says so and that the Phoenix install must run on this machine, and no project memory built.\" \"An answer that names no place (for example database no) selects no block.\" \"Given answers that say the project has no database, when the memory is built, then the project's Garura memory holds no database standard.\" \"Recording the review rule groups (Choose the review rule groups, fn-review-rule-groups, owns it).\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"Every read goes through the memory tool, because every part of Garura reads memory that way and the tool is what records where each part came from.\" \"A whole file brings context the project does not need (all of commerce for a project that needs only checkout), and the plays would read that context as if it fit the project.\" \"It goes on because one answer with no matching standard does not make the other answers wrong; this is unlike an unreachable Phoenix memory, where nothing read can be trusted.\" \"It never writes the profile's answers on their own either, so the project is never left half set up.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a checkout answer and a commerce knowledge file in Phoenix memory that also holds catalog, cart and orders, when the memory is built, then the project's Garura memory holds what was built from the checkout part and nothing built from the rest of that file.\" \"It records the answers in the product profile, so every later play reads the same facts about the project without asking again.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"How an answer is tied to its parts: each choice that Ask the setup questions (fn-setup-questions) offers is built from one named place in Phoenix memory\" \"A part that two selected blocks both need is built once and names both answers that selected it, so a later run that drops one of the two answers keeps it for the other.\" \"The record says which blocks and parts were added and which were taken out, so the product owner sees what the new answers changed before a later play relies on it.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"It sets up the project's Garura memory from only the memory blocks those answers call for, so a project with no database, no front end or no permissions gets none of those standards.\" \"A part (a word this page uses) is what a block takes from one Phoenix memory file: the sections of that file that speak to the answer, as initialize reads them through the memory tool.\" \"Laying Phoenix memory on the machine and bringing it up to date: the Phoenix install owns it, once per machine. This feature only reads what is already laid.\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}

@@ -1,3 +1,4 @@
 {"ts": "20261022-041322", "play": "discover-capabilities", "issue": "723", "shape": "discover-capabilities:prose_edits+sections_rewritten", "predicted": "gate", "human": "approved_edited"}
 {"ts": "20261025T122929Z", "play": "discover-capabilities", "issue": "882", "shape": "discover-capabilities:decisions_added+nodes_added+prose_edits+sections_rewritten", "predicted": "gate", "human": "approved_clean"}
 {"ts": "20261025T132647Z", "play": "discover-capabilities", "issue": "882", "shape": "discover-capabilities:decisions_added+nodes_added+prose_edits+sections_rewritten", "predicted": "gate", "human": "approved_clean"}
+{"ts": "20261025T132647Z-round3", "play": "discover-capabilities", "issue": "882", "shape": "discover-capabilities:prose_edits+sections_rewritten", "predicted": "gate", "human": "approved_clean"}
