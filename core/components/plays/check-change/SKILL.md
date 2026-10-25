@@ -36,10 +36,12 @@ You delegate the agentic assessment and the design-grounding to `change-reviewer
 standards linter to `quality-auditor` — genuine judgment, via JSON contracts over files on
 disk. The mechanical PR/host I/O (context bind, verdict post) runs in bundled scripts, not
 an agent (C10, #484). You presume **no** work categories and **no** review
-treatment: the categories are assessed every run, and each category's treatment is resolved
-from the `knowledge/review/` shelf, which `change-reviewer` copies into short-term memory
-through the memory tool (C2). Layer 1 runs the installed tools in `.garura/core/tools/` (C12). You run only the layers and steps that apply to the
-categories present. You never invent the verdict — you compute a *recommendation*; the gate
+treatment: the categories are assessed every run, and `change-reviewer` resolves each
+category's treatment from the `knowledge/review/` shelf, which it copies into short-term
+memory through the memory tool, and writes it into `categories.yaml`. You read the treatment
+only from `categories.yaml` (C2). Layer 1 lints the changed parts where they sit in the
+repository under review, with the installed tools in `.garura/core/tools/` (C12). You run only
+the layers and steps that apply to the categories present. You never invent the verdict — you compute a *recommendation*; the gate
 resolution (C8) decides who owns the decision: the human when the gate is on, the
 recommendation itself (recorded as a harness verdict) when it is off.
 
@@ -57,8 +59,9 @@ no cited basis.
 
 | Agent | Domain | Skill/script it invokes | Phases | Role type |
 |-------|--------|-------------------------|--------|-----------|
-| `change-reviewer` | (Assessment) assess work categories from the diff; (Review) design-ground **one** design-bearing category from committed sources — dispatched once per design-bearing category as a concurrent read-only fan-out (C11) | copies the `knowledge/review/` shelf through the memory tool; `git show <base>:<path>` | Assessment, Review | Domain |
-| `quality-auditor` | Run the standards linter (`check-pr-quality`) against the diff for the standards-driven categories, with the PR severity taxonomy it fetched through the memory tool | `check-pr-quality` | Review | Domain |
+| `template-manager` | Hand out the Next-line map (`standards/rules/pipeline-next.md`) before Step 2, and the close's templates | the memory tool | Assessment, Close | Utility |
+| `change-reviewer` | (Assessment) assess work categories from the diff, write each category's treatment into `categories.yaml`, and copy the memory the review shares (the review shelf, the PR severity taxonomy); (Review) design-ground **one** design-bearing category from committed sources — dispatched once per design-bearing category as a concurrent read-only fan-out (C11) | the memory tool; `git show <base>:<path>` | Assessment, Review | Domain |
+| `quality-auditor` | Run the standards linter (`check-pr-quality`) against the diff for the standards-driven categories, with the PR severity taxonomy copy that Step 2 made | `check-pr-quality` | Review | Domain |
 
 The mechanical PR/host I/O has **no agent** (C10): `fetch_pr_context.py` binds the PR context
 (Step 1) and `post_verdict.py` posts the decision + commits the run artifacts (Step 6), both
@@ -99,7 +102,8 @@ python3 scripts/session_stamp.py --phase start \
 The open-PR check and `gh` availability are live host reads; the standards set and the PR
 diff/`changed_paths`/base ref are resolved by the bundled `fetch_pr_context.py` (Step 1, via
 `platform_adapter.py`) — no agent (C10). It names no memory folder: the check-knowledge shelf
-comes through the memory tool in Step 2 (C2). Record the standards set, the PR's
+comes through the memory tool in Step 2 (C2), and the Next-line map from `template-manager`
+at the end of Step 1 (C12). Record the standards set, the PR's
 `changed_paths`, and the base ref; everything downstream is bounded to those paths.
 
 ## Task DAG
@@ -141,22 +145,40 @@ python3 scripts/fetch_pr_context.py --config .garura/core/config.yaml \
 any size gives every path. When the host's file count and the count of paths in the diff do
 not agree, the script writes no context file and exits 3: stop the review and show its message.
 
+Then, before Step 2, dispatch `template-manager` for the Next-line map (C12). Its copy is the
+one `change-reviewer` gets as an input and every play-linter run gets as `--next-map`;
+`change-reviewer` does not fetch it.
+
+    { "task":    "load these templates into the issue's short-term memory",
+      "inputs":  { "issue": <issue>, "templates": ["standards/rules/pipeline-next.md"] },
+      "outputs": { "out_dir": "{stm_base}{issue}/context/templates/",
+                   "manifest": "{stm_base}{issue}/context/templates/manifest-check-change.json" },
+      "task_id": "load-next-map" }
+
+`next_map` is `{stm_base}{issue}/context/templates/standards/rules/pipeline-next.md`. When
+`template-manager` returns `template_missing`, the play-linter runs record
+`did not run: no Next-line map` and the review goes on.
+
 **Step 2 — Assess Categories** · Owner: `change-reviewer` · Depends on: Step 1
-The agent first copies the `knowledge/review/` shelf (`**/knowledge/review/*.md`) through the
-memory tool into `review_shelf` in the issue's short-term memory, and the Next-line map
-(`**/standards/rules/pipeline-next.md`) into `next_map`, with each source in the manifest
-beside it (C2, C12). It then reads the diff and derives the work categories actually
-present — judging each changed file by its content, consulting those copies to recognise
-seeded categories but never limited to them. It writes `categories.yaml`: each present category, the
-changed paths that evidence it, and the governing playbook id (or `null` + "playbook missing"
-for a new category).
+This one dispatch copies all the memory the review shares, so no later dispatch writes a
+shared file (C11): the `knowledge/review/` shelf (`**/knowledge/review/*.md`) into
+`review_shelf`, and the PR severity taxonomy (`**/standards/rules/pr.md`) into
+`severity_taxonomy`, each through the memory tool into the issue's short-term memory, with
+each source in the manifest beside them (C2). The agent then reads the diff and derives the
+work categories actually present — judging each changed file by its content, consulting the
+playbook copies to recognise seeded categories but never limited to them. It writes
+`categories.yaml`: each present category, the changed paths that evidence it, the governing
+playbook id (or `null` + "playbook missing" for a new category), and the category's
+treatment from that playbook — the layers that apply, the linters to run, and the runnable
+checks.
 
     {
-      "task":    "assess the work categories present in the diff; cite changed-path evidence and the governing playbook",
-      "inputs":  { "context": "<working>/context.yaml", "diff": "<working>/pr.diff" },
+      "task":    "assess the work categories present in the diff; cite changed-path evidence and the governing playbook; write each category's treatment",
+      "inputs":  { "context": "<working>/context.yaml", "diff": "<working>/pr.diff",
+                   "next_map": "{stm_base}{issue}/context/templates/standards/rules/pipeline-next.md" },
       "outputs": { "categories": "<working>/categories.yaml",
                    "review_shelf": "{stm_base}{issue}/context/memory/knowledge/review/",
-                   "next_map":     "{stm_base}{issue}/context/memory/standards/rules/pipeline-next.md" }
+                   "severity_taxonomy": "{stm_base}{issue}/context/memory/standards/rules/pr.md" }
     }
 
 **SE-1 (F1/C1):** every category in `categories.yaml` cites the changed paths that put it
@@ -166,24 +188,35 @@ there, and the set was derived from the diff — no presumed/hardcoded category 
 ### Phase: Review
 
 **Step 3 — Review Per Category** · Owner: play (dispatch) · Depends on: Step 2
-For each category in `categories.yaml`, resolve its treatment from its playbook's short-term
-copy in `review_shelf`, then run **only the layers that apply**:
+For each category in `categories.yaml`, read its treatment from its entry there (never from
+a playbook copy), then run **only the layers that apply**:
 
 - **Layer 1 — linters.** For the standards-driven categories (code, config, tests, docs-prose)
   the play dispatches `quality-auditor` to run `check-pr-quality` against the diff →
   `quality-findings.yaml`. For harness/memory the play runs the installed structural linters
-  the playbook names, from the project root (C12):
+  the treatment names, from the project root, on the changed parts where they sit in the
+  repository under review (C12). When `changed_paths` holds a path under `core/components`:
+
+  ```
+  node .garura/core/tools/lint-components/index.js --layout source --target core/components
+  python3 .garura/core/tools/lint-play/lint_play.py <the changed play's SKILL.md> --next-map "<next_map>"
+  ```
+
+  with the play linter run once for each changed play, on its `plays/<play>/SKILL.md` under
+  `core/components`. Else:
 
   ```
   node .garura/core/tools/lint-components/index.js --layout installed --target .claude
-  python3 .garura/core/tools/lint-play/lint_play.py <installed play>/SKILL.md \
-      --next-map "{stm_base}{issue}/context/memory/standards/rules/pipeline-next.md"
+  python3 .garura/core/tools/lint-play/lint_play.py .claude/skills/<play>/SKILL.md --next-map "<next_map>"
   ```
 
-  The play linter always gets the Next-line map `change-reviewer` copied in Step 2, so its
-  Next-line check runs. It folds their output into findings. When an installed tool is
-  not there, it records `not installed` for that check in the findings and goes on — never a
-  pass, never a halt. No step runs a file from Garura's source. For
+  with the play linter run once for each changed installed play. `<next_map>` is the copy
+  `template-manager` handed out at the end of Step 1, so the Next-line check runs. Only a
+  violation whose file is in `changed_paths` becomes a finding; count the others, and record
+  the count as "there before". When an installed tool is not there, record `not installed`
+  for that check; when a tool exits with a crash, record `did not run: <first error line>`.
+  Neither is a pass, and neither stops the review. Every tool runs from its installed place;
+  reading the repository under review is not running Garura's source. For
   categories whose linter is a known gap (ADRs, config-map path-existence), the play performs
   the playbook's objective checks and records the basis. Where a category has a **runnable**
   check (a test suite, a language linter), the play executes it — it is not merely read.
@@ -196,7 +229,9 @@ copy in `review_shelf`, then run **only the layers that apply**:
   reads any output — see `standards/rules/concurrent-fanout.md`). Each agent reconstructs its
   category's principles from committed sources (base ref, `docs/philosophy/**`, `docs/adr/**`,
   `standards/rules/**`, read through the memory tool) and checks conformance; grounding reads are read-only and never
-  from diff-added content. The batch is bounded (the design-bearing set fixed by Step 2) and its
+  from diff-added content. Each agent writes the extra memory it copies only under
+  `{stm_base}{issue}/context/memory/grounding-<category>/`, with its own `manifest.json` there,
+  and reads the shared copies Step 2 made, so no two dispatches write one file. The batch is bounded (the design-bearing set fixed by Step 2) and its
   outputs are collected in a stable category order, so the result is identical to a serial run.
   A single design-bearing category is a fan-out of width one.
 
@@ -209,21 +244,24 @@ One grounding dispatch per design-bearing category `<cat>`, all sent as one conc
       "task":    "design-ground ONLY the '<cat>' category from committed sources; emit conformance findings",
       "inputs":  { "context": "<working>/context.yaml", "categories": "<working>/categories.yaml",
                    "category": "<cat>", "diff": "<working>/pr.diff" },
-      "outputs": { "design_findings": "<working>/design-findings-<cat>.yaml" }
+      "outputs": { "design_findings": "<working>/design-findings-<cat>.yaml",
+                   "memory_dir": "{stm_base}{issue}/context/memory/grounding-<cat>/" }
     }
 
 The standards linter (a single dispatch across all standards-driven categories):
 
     {
-      "task":    "run the standards linter against the diff for the standards-driven categories; first copy the PR severity taxonomy (**/standards/rules/pr.md) through the memory tool into {stm_base}{issue}/context/memory/standards/rules/pr.md and pass that copy as severity_taxonomy_path",
-      "inputs":  { "context": "<working>/context.yaml", "categories": "<working>/categories.yaml" },
+      "task":    "run the standards linter against the diff for the standards-driven categories, with the PR severity taxonomy copy Step 2 made as severity_taxonomy_path",
+      "inputs":  { "context": "<working>/context.yaml", "categories": "<working>/categories.yaml",
+                   "severity_taxonomy_path": "{stm_base}{issue}/context/memory/standards/rules/pr.md" },
       "outputs": { "quality_findings": "<working>/quality-findings.yaml" }
     }
 
 **SE-2 (F2/C2):** each reviewed category's treatment is sourced from its `knowledge/review/`
-playbook, read from its short-term copy in `review_shelf` (the record cites the playbook id,
-and the manifest names its memory source) — no treatment is carried in the play body, and no
-memory folder was read by its path.
+playbook and written by `change-reviewer` into its `categories.yaml` entry (the entry cites the
+playbook id, and the manifest names its memory source); the play read the treatment only from
+`categories.yaml` — no treatment is carried in the play body, the play read no playbook copy,
+and no memory folder was read by its path.
 **SE-3 (F3/C3):** the layers executed equal the union of the applicable layers for the
 categories present — no layer ran for an absent category, and no applicable layer was skipped.
 **SE-4 (F4/C4):** every grounded principle across the `design-findings-<category>.yaml` set
@@ -234,15 +272,19 @@ which are read-only and committed — no full-repo scan ran.
 its result recorded; none was merely read.
 **SE-12 (F12/C11):** design-grounding ran as a concurrent read-only fan-out — the count of
 grounding dispatches equals the count of design-bearing categories in `categories.yaml`; each
-wrote only its own `design-findings-<category>.yaml` (distinct paths, no overlap); the batch was
+wrote only its own `design-findings-<category>.yaml` and only its own
+`grounding-<category>/` memory folder and manifest (distinct paths, no overlap); the batch was
 joined before Step 4 read any of them; and the collected result is order-stable (a serial re-run
 would produce the same consolidated findings).
 **SE-13 (F13/C12):** every Layer 1 linter that ran was an installed tool under
-`.garura/core/tools/` (the command lines recorded in the findings show it); each play-linter
-run carried `--next-map` with the short-term copy of the Next-line map, and its output shows
-the `next-command (pipeline-next)` check; no step ran, read or
-named a file in Garura's source (its components or tools folders); each tool that was not installed has a
-`not installed` entry in the findings, and the review went on.
+`.garura/core/tools/` (the command lines recorded in the findings show it), run on the layout
+where the changed parts sit (source when `changed_paths` holds a path under `core/components`,
+else installed); every Layer 1 finding names a file in `changed_paths`, and the other
+violations are recorded as a "there before" count; each play-linter run carried `--next-map`
+with the copy `template-manager` handed out, and its output shows the
+`next-command (pipeline-next)` check; each tool that was not installed has a `not installed`
+entry, each tool that crashed has a `did not run: <first error line>` entry, and the review
+went on.
 
 ### Phase: Decision
 
@@ -421,7 +463,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | categories presumed or hardcoded | re-run the category assessment from the diff and discard any presumed list | autonomous |
-| F2 | treatment taken from the play body | re-resolve the category's treatment from the `knowledge/review/` shelf | autonomous |
+| F2 | treatment taken from the play body or from a playbook copy | have `change-reviewer` re-resolve the category's treatment from the `knowledge/review/` shelf into `categories.yaml`, and read it from there | autonomous |
 | F3 | a layer ran for an absent category, or an applicable layer was skipped | recompute applicability from the assessed categories — skip absent-category layers, run every applicable one | autonomous |
 | F4 | grounding drawn from the branch's own new content | re-ground the design from committed/external sources only and re-check conformance | autonomous |
 | F5 | the review expanded beyond the diff | re-scope to the diff; keep any outside reads read-only and grounding-only | autonomous |
@@ -432,7 +474,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F10 | with the gate off, `decision.yaml` differs from the computed recommendation, or the posted comment does not identify its decider | rewrite `decision.yaml` from `recommended_verdict.yaml` (`decided_by: harness`, recommendation verbatim, citing findings) and re-post the comment with the decider named | autonomous |
 | F11 | a mechanical PR/host op (context bind, or verdict post + artifact commit/push) ran through an agent instead of its bundled script | route it through `fetch_pr_context.py` / `post_verdict.py` (via `platform_adapter.py`) and remove the agent dispatch | autonomous |
 | F12 | design-grounding ran as a serial monolithic pass, or a grounding agent crossed category scope / wrote a shared output, or the batch wasn't joined before consolidation | re-dispatch grounding as a concurrent read-only fan-out — one read-only `change-reviewer` per design-bearing category, each scoped to its category and its own `design-findings-<category>.yaml`, joined before consolidation | autonomous |
-| F13 | a Layer 1 linter ran from Garura's source, memory was read by a path, the play linter ran without the Next-line map, or a missing installed tool was passed over or halted the run | re-run Layer 1 with the installed tools in `.garura/core/tools/`, fetch memory (the Next-line map too) through the memory tool, and record `not installed` for a tool that is not there | autonomous |
+| F13 | a Layer 1 linter ran from Garura's source or on the wrong layout, a violation outside `changed_paths` became a finding, memory was read by a path, the play linter ran without the Next-line map, or a missing or crashed tool was passed over or halted the run | re-run Layer 1 with the installed tools in `.garura/core/tools/` on the layout where the changed parts sit, keep as findings only the violations in `changed_paths` (count the rest as "there before"), get the Next-line map from `template-manager`, and record `not installed` or `did not run: <first error line>` for a tool that is missing or crashed | autonomous |
 
 ## Pause and Resume
 
@@ -447,15 +489,15 @@ current decision rather than adding a conflicting second one.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:3abdc04a9a696ed8191ab00c5ba3671d90f310ea3e3591af17d4d723014fb65f (of `reference/ice.md`) |
+| fingerprint | sha256:0205d7b77d832711125bf40ce6160b962a15749106c914a8a5ef68eecb8807f7 (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #496 grounding fan-out; #536 Done means; #860 installed tools) |
 | pipeline_position | end |
 | workflow_structure | A (multi-agent; agentic assessment → concurrent read-only design-grounding fan-out (one agent per design-bearing category) → consolidation; config-resolved verdict gate; gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
 | domain_agents | 2 (change-reviewer — assessment ×1, grounding ×N design-bearing categories in a concurrent batch; quality-auditor) |
-| utility_agents | 0 (#484 — mechanical PR/host I/O moved to bundled scripts) |
+| utility_agents | 1 (template-manager — the Next-line map before Step 2 and the close's templates; mechanical PR/host I/O runs in bundled scripts) |
 | skills_reused | check-pr-quality; installed tools .garura/core/tools/lint-components and .garura/core/tools/lint-play |
-| knowledge_consumed | through the memory tool: knowledge/review/ (category playbooks); standards/rules/pipeline-next.md (the Next-line map, for the play linter); standards/rules/pr.md (severity taxonomy); standards/rules/concurrent-fanout.md (Layer-2 fan-out); standards_order set |
+| knowledge_consumed | through the memory tool: knowledge/review/ (category playbooks) and standards/rules/pr.md (severity taxonomy), copied once in Step 2; standards/rules/pipeline-next.md (the Next-line map, from template-manager, for the play linter); standards/rules/concurrent-fanout.md (Layer-2 fan-out); standards_order set |
 | scripts | 7 (preflight.py — pre-flight facts; compute_verdict.py — recommended verdict over classified findings; check_stop_condition.py — Done-means gate; session_stamp.py — #463 identity stamp; platform_adapter.py — code-host adapter; fetch_pr_context.py — bind PR context; post_verdict.py — post decision + commit artifacts) |
 | step_evals | 13 (SE-1…SE-13) |
 | scenario_evals | 6 (SCE-1…SCE-6) |

@@ -35,8 +35,10 @@ enforced by pre-flight (an open PR must exist).
 - C2 — Each category's review treatment — which layers run, which linters apply, the
   rubric, and whether design-grounding is required — is resolved from the check-knowledge
   memory shelf, never carried in the play body. The shelf is read only through the memory
-  tool: `change-reviewer` copies the playbooks into the issue's short-term memory, and the
-  play reads the treatment from those copies — never from a memory folder by its path.
+  tool: `change-reviewer` copies the playbooks into the issue's short-term memory and writes
+  each present category's treatment (the layers that apply, the linters to run, the runnable
+  checks) into `categories.yaml`. The play reads the treatment only from `categories.yaml` —
+  never from the playbook copies, and never from a memory folder by its path.
 - C3 — Only the layers and steps applicable to the categories present are run; a category
   that is absent has its layer skipped, not failed (applicability is universal).
 - C4 — Design-grounding reconstructs each design's principles from committed/external
@@ -83,21 +85,33 @@ enforced by pre-flight (an open PR must exist).
   safety conditions hold (read-only over shared inputs; distinct output paths; no sibling
   dependency), and outputs are collected in a stable category order, so the result is
   identical to a serial run — concurrency changes only wall-clock. A single design-bearing
-  category is a fan-out of width one.
-- C12 — Layer 1 runs the installed tools, never Garura's source: the component linter is
-  `.garura/core/tools/lint-components/index.js --layout installed --target .claude`, and the
-  play linter is `.garura/core/tools/lint-play/lint_play.py`, run with `--next-map` set to
-  the Next-line map (`standards/rules/pipeline-next.md`) that `change-reviewer` copied
-  through the memory tool into the issue's short-term memory, so the play linter's Next-line
-  check runs. No step reads, runs or names a file in Garura's source (its components or
-  tools folders). When an installed tool is not there, the play records "not installed" for that check in the
-  findings and goes on; a missing tool is never a pass and never a halt.
+  category is a fan-out of width one. No two dispatches write one file: the one assessment
+  dispatch (Step 2) copies all the memory the review shares — the review shelf and the PR
+  severity taxonomy — and each grounding agent writes the extra memory it copies only under
+  `{stm_base}{issue}/context/memory/grounding-<category>/`, with its own `manifest.json`
+  there. The `quality-auditor` dispatch uses the taxonomy copy that Step 2 made.
+- C12 — Layer 1 lints the changed parts where they sit in the repository under review, with
+  the installed tools in `.garura/core/tools/`. When `changed_paths` holds a path under
+  `core/components`, the component linter runs
+  `node .garura/core/tools/lint-components/index.js --layout source --target core/components`,
+  and the play linter `.garura/core/tools/lint-play/lint_play.py` runs on the `SKILL.md` of
+  each changed play in `plays/<play>/` under `core/components`. Else the component linter runs
+  `--layout installed --target .claude`, and the play linter runs on each changed installed
+  play (`.claude/skills/<play>/SKILL.md`). Only a violation whose file is in `changed_paths`
+  becomes a finding; the play counts the others as "there before". This reads the repository
+  under review; it never runs Garura's source: every tool runs from its installed place. Before
+  Step 2 the play asks `template-manager` for the Next-line map
+  (`standards/rules/pipeline-next.md`) and hands that copy to `change-reviewer` as an input and
+  to each play-linter run as `--next-map`, so the Next-line check runs; `change-reviewer` does
+  not fetch it. When an installed tool is not there, the play records "not installed" for that
+  check; when a tool exits with a crash, it records "did not run: <first error line>". Neither
+  is ever a pass, and neither stops the review.
 
 ### Failure conditions
 
 - F1 — Categories are presumed or hardcoded instead of assessed from the diff.
 - F2 — A category's treatment is taken from the play body instead of the check-knowledge
-  memory shelf.
+  memory shelf, or the play read it from a playbook copy instead of `categories.yaml`.
 - F3 — A layer runs for a category that is absent, or an applicable layer is skipped.
 - F4 — Design-grounding is drawn from the branch's own new content (a circular review).
 - F5 — The review expands beyond the diff into a full-repo scan.
@@ -112,12 +126,15 @@ enforced by pre-flight (an open PR must exist).
   commit/push) was run through an agent dispatch instead of its bundled script.
 - F12 — Design-grounding was run as a single monolithic pass over all design-bearing
   categories (a serial sweep) instead of a per-category concurrent fan-out; or a grounding
-  agent grounded outside its assigned category or wrote a shared/overlapping output path;
+  agent grounded outside its assigned category or wrote a shared/overlapping output path (a
+  findings file, a memory copy or a manifest outside its own `grounding-<category>/` folder);
   or the batch was not joined before consolidation read its outputs.
-- F13 — Layer 1 ran a linter from Garura's source (its components or tools folders)
-  instead of its installed place, or read memory by a path, or ran the play linter without
-  the Next-line map; or a missing installed tool was
-  reported as a pass or stopped the review instead of being recorded as "not installed".
+- F13 — Layer 1 ran a linter from Garura's source instead of its installed place, linted a
+  layout other than the one where the changed parts sit, or made a finding of a violation in a
+  file outside `changed_paths`; or read memory by a path, or ran the play linter without the
+  Next-line map that `template-manager` handed over; or a missing or crashed tool was reported
+  as a pass or stopped the review instead of being recorded as "not installed" or "did not
+  run: <first error line>".
 
 ## Expectation
 
@@ -169,8 +186,10 @@ enforced by pre-flight (an open PR must exist).
 
 - REC1 (F1) — trigger: categories presumed or hardcoded. direction: re-run the category
   assessment from the diff and discard any presumed list. handoff: autonomous.
-- REC2 (F2) — trigger: treatment taken from the play body. direction: re-resolve the
-  category's treatment from the check-knowledge memory shelf. handoff: autonomous.
+- REC2 (F2) — trigger: treatment taken from the play body or from a playbook copy.
+  direction: have `change-reviewer` re-resolve the category's treatment from the
+  check-knowledge memory shelf into `categories.yaml`, and read it from there. handoff:
+  autonomous.
 - REC3 (F3) — trigger: a layer ran for an absent category, or an applicable layer was
   skipped. direction: recompute applicability from the assessed categories — skip absent-
   category layers, run every applicable one. handoff: autonomous.
@@ -205,8 +224,11 @@ enforced by pre-flight (an open PR must exist).
   read-only `change-reviewer` per design-bearing category, each scoped to its category and
   its own `design-findings-<category>.yaml`, joined before consolidation. handoff:
   autonomous.
-- REC13 (F13) — trigger: a Layer 1 linter ran from the source, memory was read by a path, the
-  play linter ran without the Next-line map, or a missing tool was passed over or halted the
-  run. direction: re-run Layer 1 with the installed tools in `.garura/core/tools/`, fetch
-  memory (the Next-line map too) through the memory tool, and record
-  "not installed" for a tool that is not there. handoff: autonomous.
+- REC13 (F13) — trigger: a Layer 1 linter ran from the source or on the wrong layout, a
+  violation outside `changed_paths` became a finding, memory was read by a path, the play
+  linter ran without the Next-line map, or a missing or crashed tool was passed over or halted
+  the run. direction: re-run Layer 1 with the installed tools in `.garura/core/tools/` on the
+  layout where the changed parts sit, keep as findings only the violations in `changed_paths`
+  (count the rest as "there before"), get the Next-line map from `template-manager`, and record
+  "not installed" or "did not run: <first error line>" for a tool that is missing or crashed.
+  handoff: autonomous.
