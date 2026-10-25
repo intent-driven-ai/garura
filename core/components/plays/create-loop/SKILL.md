@@ -167,7 +167,8 @@ Write the folder:
 From the repository root:
 
 ```
-python3 core/components/plays/create-loop/scripts/lint_loop.py core/components/loops/<loop>/SKILL.md
+python3 core/components/plays/create-loop/scripts/lint_loop.py core/components/loops/<loop>/SKILL.md \
+    --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 It runs every play check (coverage, one recovery per failure, no orphans, required sections,

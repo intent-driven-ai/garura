@@ -22,7 +22,8 @@ shared close, the stop condition, a real fingerprint, the Next line) — plus th
   - every input the loop hands a play (`inputs.<play>.<key>`) appears in that play's SKILL.md.
 
 It counts; it does not judge. Usage: python3 lint_loop.py <path-to-loop/SKILL.md>
-Exit: 0 clean, 1 gaps found, 2 could not read the file or find lint_play.py.
+Exit: 0 clean, 1 gaps found, 2 no --next-map, or could not read the file or the map,
+or could not find lint_play.py.
 """
 
 import hashlib
@@ -327,8 +328,9 @@ def defang(text):
 
 
 def main(argv):
-    if len(argv) != 2:
-        print("usage: python3 lint_loop.py <loop/SKILL.md>", file=sys.stderr)
+    if len(argv) != 4 or argv[2] != "--next-map":
+        print("usage: python3 lint_loop.py <loop/SKILL.md> --next-map <pipeline-next.md>",
+              file=sys.stderr)
         return 2
     if lp is None:
         print("lint_loop.py: cannot find lint_play.py (beside this script, or in "
@@ -340,7 +342,15 @@ def main(argv):
     except OSError as exc:
         print(f"cannot read {argv[1]}: {exc}", file=sys.stderr)
         return 2
+    try:
+        with open(argv[3], encoding="utf-8") as fh:
+            next_map_text = fh.read()
+    except OSError as exc:
+        print(f"cannot read the Next-line map {argv[3]}: {exc}", file=sys.stderr)
+        return 2
     ctx = lp.load_context(argv[1], defang(text))
+    ctx["next_map"] = argv[3]
+    ctx["next_map_text"] = next_map_text
     results = []
     for check in play_checks() + LOOP_CHECKS:
         results.extend(check(ctx))
