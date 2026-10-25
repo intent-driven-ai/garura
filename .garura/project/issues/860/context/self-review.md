@@ -1,35 +1,36 @@
 # Self-review: issue 860 (every installed part reads only installed files)
 
-Rules file: the base self-review rules (no project override), at ~/.garura/core/memory/standards/rules/self-review.md. Branch plan/788/860-installed-parts-read-installed-copy against origin/plan/788/base (the plan base). Informational only; the approve or reject decision belongs to check-change.
+Rules file: the base self-review rules (no project override), at ~/.garura/core/memory/standards/rules/self-review.md (recorded in resolved-rules.json). Branch plan/788/860-installed-parts-read-installed-copy against plan/788/base (PR #864). Informational only; the approve or reject decision belongs to check-change.
 
-Blocking items: none. The rules file marks nothing as blocking: the self-review does not block the raise on its own, and no check below failed.
+Blocking items: none. The rules file marks nothing as blocking, and no check below failed.
 
-The branch carries one issue (#860, a priority-one change) with 9 commits: the tools install, the installed lint tools, the memory reads, the play recompiles, the stamped-script notes, ADR 055, and three run-record commits.
+The branch carries one issue (#860) in 24 commits against the plan base: 325 files, +21,830 and -990 lines. This run looked hardest at the 11 round-4 commits (c7c8c372 to dda82774), which answer the review of PR #864 (decisions 17 to 25 and the "Round 4" work order). Round 4 alone is 84 files, +17,871 and -806 lines.
 
 ## Scope checks
 
-- [PASS] Matches the issue. Each part of the diff maps to a section of the build contract or to a decision in decisions.md:
-  - Section 1 (tools are deployed): install-garura and the public installer lay every tool except the prototype, and uninstall removes them; lint_play.py moved to its own tool, with the copies in create-play and edit-play identical to it (3 files, one checksum).
-  - Section 2 (uses name the installed place): check-change, its two review playbooks and discover-intent name the installed tools; check-change also hands the Next-line map to the installed play lint (decision 12).
-  - Section 3 (memory through the memory tool): check-pr-quality, quality-auditor, check-change's fetch script, intent-resolver (decision 15) and the architecture-learnings search script no longer read memory by path; the standards entry for the severity taxonomy left core/config.yaml.
-  - Section 4 (pointers and notes of origin): the origin notes are gone from the installed parts and the stamped scripts; the pointers (list-focus-issues, track-issue, close step, shape-slice) name installed files.
-  - Section 5 (check, rule, test): the new installed-paths/source-path lint rule and its tests, the installed layout of lint-components, the rule in CLAUDE.md and in the harness standard, and the empty-project install tests.
-  - Round 2 (decisions 10 to 13): no pointer to Garura's docs, the Codex installer stops with a message that names #863, the copies of lint_play.py are kept identical by a lint check with a test, and ADR 055 holds the rule.
-- [PASS] Deleted notes in start-, propose- and merge-change are the ones decision 16 names.
-- [REVIEW] Scope creep. 18 files sit outside core, installer, docs and CLAUDE.md. They are run records under the project folder: 8 for this issue and 10 for the ADR run (the _adr folder). They are the run records the commits name, not product code. Reviewers may confirm they want them in the PR.
-- [REVIEW] Size. 273 files, 4,399 lines added and 880 removed. Large, but 192 of the files are plays and about 100 of those change by a few lines each (a stamped script or a deleted origin note). The new logic is in a few files: the installed-paths lint rule, the installed layout of lint-components, the lint-play tool, and the install scripts. The commits are split by concern so each can be read alone.
-- [PASS] No stray artifacts. The added lines hold no TODO, FIXME, debug print or leftover block. The only console output in added lines is the pass report of the new test file. No file under the deployed copies (.claude, .garura/core) was touched.
+- [PASS] Matches the issue. Every round-4 commit maps to a finding group of the work order:
+  - SEC-07 narrowed to unsafe loads and request-shaped JSON parsing (decision 18), with a hit and a non-hit test.
+  - H1 and H14: the install lays each tool's packages, runs each smoke check, writes the tools ignore file; uninstall removes it (decisions 20, 24).
+  - H2 and H5 to H7: check-change lints the changed parts in place, takes review treatment from categories, and loads templates through template-manager; the agents' memory protocol and failure format moved to shared files with a copy script (decisions 19, 21, 22).
+  - H4: lint_play needs the Next-line map; the create and edit callers pass it.
+  - H8: the naming tool is no longer laid (decision 23). H9: check-pr-quality's guard is back. H10, H11: install and uninstall name what they lay; Codex stop stated in the glossary, CLAUDE.md and README.
+  - H12 to H15, M1 to M5: ADR 055 facts, harness-standard principle 11, the review playbooks (harness, memory), the two skills' memory tables. M6: no change, as the work order says.
+- [PASS] No unrelated edits. Outside .garura, core, docs, installer, CLAUDE.md and README.md the branch touches no file. Nothing under the deployed copies (.claude, .garura/core) was changed.
+- [REVIEW] Size and run records. Round 4 is large mostly because 25 files are run records under .garura/project/issues/860 (+16,389 lines; the review's pr.diff alone is 9,410 lines and findings.yaml 2,925). The product change is 59 files and about 1,480 added lines, split by concern across 8 commits. Reviewers may confirm they want the review run files in the PR.
+- [PASS] No stray artifacts. Added product lines hold no TODO, FIXME, debug print or commented-out block. The only console output is the pass report of the new test files.
+- [REVIEW] The working tree shows one uncommitted change: .garura/project/issues/860/context/pr-body.md (written by this propose-change run, not part of any commit).
 
 ## Quality checks
 
-- [PASS] Tests present and green. New tests cover the installed-paths rule (23 checks) and the shared-scripts rule; the other lint-components test files pass (18, 16, 13, 2 checks). The install test passes in full (60 tests), including the empty-project tests and the Codex stop. The check-change fetch script test passes (13 checks).
-- [PASS] Lint. The component linter, run from the repo root, gives 36 errors and 1 warning on the branch against 102 errors on the base. No error is new: every one of the 36 is also on the base, and none is an installed-paths/source-path error.
-- [PASS] Play lint. For each of the 18 plays the change touches, the lint output shows the same count of gap lines as on the base. No play gains a gap. check-change passes every listed check.
-- [PASS] Old-name check. check_old_names.py reports no finding.
-- [PASS] Source-path rule. The new rule finds no installed part, outside the named exceptions, that names core/components/ or core/tools/.
-- [PASS] Commits are clean. 9 commits, all conventional format, all naming #860.
+- [PASS] Tests present and green. Run here: check-pr-quality scan tests 27 passed; lint-components 23, 27, 12, 16, 13 and 2 passed (installed-paths and memory-reading are new or extended); copy_memory 11 tests OK; create-loop lint 39 tests OK; install-garura 74 tests OK (includes the Node tool whose packages are missing from the source, and the failing smoke check).
+- [PASS] Component lint, run from the repo root: 36 errors and 1 warning, the same as at the previous review of this branch. All 36 are structural gaps that exist on the base (missing sections in source-only plays and in open-pr and check-quality, which decision 14 hands to #861). None comes from the installed-paths or memory-reading rules.
+- [PASS] Play lint. record-decision passes with 0 gaps. check-change shows one gap (the no-unbacked-recommendation wiring) that was also there before round 4, when it showed two; round 4 removed the pre-flight resolver gap. install-garura and uninstall-garura are source-only plays with their old gaps, unchanged.
+- [PASS] Fingerprints match. check-change and record-decision carry the sha256 of their current reference/ice.md.
+- [PASS] The three copies of lint_play.py (the tool, create-play, edit-play) are byte-identical.
+- [PASS] Commits are clean. All 11 round-4 commits use the conventional format and end with (#860). Each is one concern; run-record commits are labelled chore(stm).
 - [PASS] No secrets. The added lines hold no credential or key patterns.
-- [PASS] Public repo hygiene. The added lines hold no local home path and no real person name.
-- [PASS] Merge. A trial merge with origin/plan/788/base gives no conflict.
-- [PASS] Docs in step. CLAUDE.md, the harness standard (principle 11), the memory tool README, ADR 055 with its index entry, and one earlier ADR carry the rule and its pointer.
-- [REVIEW] Not run here: the hidden acceptance checks and a full-repo pass of every script test beside a touched script. The ones named above were run.
+- [PASS] Public repo hygiene. The added lines in core, docs, installer, CLAUDE.md and README.md hold no local home path.
+- [PASS] Merge. A trial merge with plan/788/base and with origin/main both give no conflict.
+- [PASS] Docs in step. ADR 055 carries the four corrections of decision 25 (contract shape change, ADR 038 section 5, intent-resolver Bash for the memory tool only, the shared files and tools ignore file). The glossary, CLAUDE.md, README and harness standard match the Codex stop and the new rule.
+- [PASS] Contract of the rule. SEC-07 in the severity taxonomy now fires on pickle, marshal, yaml.load without a safe loader, yaml.unsafe_load and request-shaped JSON.parse, with a one-line reason as the #851 rows do. It still carries its priority-one severity for those unsafe loads, which is intended.
+- [REVIEW] Not run here: the hidden acceptance checks, and a live install into a fresh project. Per decision 18, the SEC-07 rule reaches Phoenix memory only after this change merges, so the PR check will still use the old rule for this PR.
