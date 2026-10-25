@@ -64,7 +64,12 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   content-quality eval, not just the linter — each section is self-explaining at CXO
   altitude per the content standard (it names the thing AND explains why it matters), and
   the whole doc passes the stranger test. A label-only or thin doc fails. A page the play
-  only moves, unchanged, is not re-judged.
+  only moves, unchanged, is not re-judged. The eval settles (`standards/rules/grounding-eval.md`;
+  Kapil, #884): a doc's pass is kept while the doc, the guidance and the judge are unchanged, so it is not
+  judged again; a fix round checks each earlier failure and judges new points only on the text
+  that changed; a new point on unchanged text is a note — shown to the person at the checkpoint
+  with its doc — and never stops the run. The judge state lives in the issue's short-term
+  memory, so a later run on the same issue keeps the passes.
 - C3 — Altitude and scope: the play writes **domains only**, each in full (ADR 043 part 2). It
   never writes, names as an entry, places, moves or details a capability, never writes a
   feature, never writes acceptance criteria — those belong to /discover-capabilities and /shape-slice. A
@@ -279,8 +284,8 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   `skipped`; the keep check and the scoped-write guard reports read `ok`; a re-run with
   nothing new leaves every model file byte-identical.
 - S4 — (reviewer, the checkpoint) Given the proposed seed is written in place, when the
-  checkpoint is presented, then it shows each domain and the directional profile, rendered inline over the real model git diff. Measure: each of those
-  sections is present in the checkpoint; no product-model change is COMMITTED before the
+  checkpoint is presented, then it shows each domain and the directional profile, rendered inline over the real model git diff, and each doc's content-eval notes beside its doc. Measure: each of those
+  sections is present in the checkpoint; every note in the gate results appears with its doc; no product-model change is COMMITTED before the
   approval, and on cancel the working tree returns byte-clean to HEAD (`git restore` +
   `git clean`) — or, on the auto-pass path (a policy-listed shape), the gate resolves with
   no wait and the recorded auto-pass, the appended ledger line, and the diff summary stand
@@ -324,6 +329,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   sits in a listed domain with its evidence and source, every added domain holds a main section,
   and no capability was written; the rebuild eval's review reads `recognised: true` for each
   domain.
+- S9 — (product strategist, a second run on the same issue) Given an earlier run on this issue
+  whose domain docs passed the content-quality eval, when /discover-domains runs again and a
+  doc, the guidance and the judge are unchanged, then no judge is dispatched for that doc and
+  its pass stands; and in a fix round, a new point the judge finds on text that did not change
+  is a note that does not stop the run (#884). Measure: `kept` reads exit 0 for each unchanged
+  doc and no verdict file is written for it; a fix-round gate result with such a point reads
+  `ok: true` and holds it in `notes`; `notes.json` lists it beside its doc.
 
 ### Done means
 
@@ -357,8 +369,9 @@ not per-node docs.
   handoff: autonomous.
 - REC2 (F2) — trigger: a grounding doc fails the content-quality eval. direction:
   rewrite the failing doc to the judge's cited fixes — raise each flagged section to a
-  self-explaining, CXO-altitude statement — and re-judge until it passes the gate.
-  handoff: autonomous.
+  self-explaining, CXO-altitude statement — and re-judge it as a fix round (the judge gets
+  its earlier failures, and the gate keeps a new point on unchanged text as a note) until it
+  passes the gate. handoff: autonomous.
 - REC3 (F3) — trigger: a capability page, entry, update or placement, acceptance criteria, a
   `set`/`locked` profile, or a lowered `detail` appears. direction: strip the over-reach —
   drop every capability and feature write (they are /discover-capabilities's), remove the

@@ -1,0 +1,89 @@
+category: memory
+pr: '885'
+issue: 884
+round: 2
+base: plan/788/base
+artifact: core/components/memory/standards/rules/grounding-eval.md
+also_read:
+  - core/components/memory/standards/schemas/product-os/grounding/_content-standard.md (changed in this PR; read as an artifact, not as grounding)
+  - core/components/skills/judge-grounding/SKILL.md (rubric text; the harness category owns the skill itself)
+  - core/components/plays/discover-capabilities/scripts/grounding_gate.py (the rule's behaviour check)
+principles:
+  - {id: P-A, principle: "The rubric, the judge prompt and the verdict shape have one source, the judge-grounding skill; the rule keeps the gate rule, how the judge runs, how the eval is trusted.", source: "plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (Decision 7); plan/788/base:core/components/memory/standards/rules/grounding-eval.md (intro paragraph)"}
+  - {id: P-B, principle: "The gate decides pass or fail, not the judge; the judge only scores and evidences, so it cannot wave a doc through. Any fail rejects the doc; a missing criterion fails closed.", source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (The gate rule); plan/788/base:core/components/skills/judge-grounding/SKILL.md (Output, last paragraph)"}
+  - {id: P-C, principle: "The content standard is the bar; a doc that fails any rubric line is rejected by the eval.", source: "plan/788/base:core/components/memory/standards/schemas/product-os/grounding/_content-standard.md (Eval rubric, last paragraph); memory tool, phoenix tier, copy in grounding-memory/"}
+  - {id: P-D, principle: "The judge runs in an isolated clean-context sub-agent; its inputs are named in one place and the rule and skill agree.", source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (How the judge runs); plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (Decision 2)"}
+  - {id: P-E, principle: "Calibration: the eval must separate known answers (gold passes, thin fails); a tighter prompt is re-run.", source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (Calibration)"}
+  - {id: P-F, principle: "Memory writes go to the issue's short-term memory; a play reads no memory; a lookup reads only its own issue.", source: "plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (Decision 1, 2, 11); plan/788/base:docs/adr/035-agents-work-only-from-memory.md"}
+round1_status:
+  # findings.yaml A-G (memory-side and the harness ones the rule/gate text can settle)
+  A: {fixed: false, note: "partly. The unchanged-doc case is closed; a doc edited anywhere still clears. See N1.", quote: "rule: \"a last failure counts as fixed only when the judge says `fixed: true`, the doc's text changed since the verdict that failed, and every quote in the judge's evidence is found on the page now\""}
+  B: {fixed: true, quote: "rule: \"In a fix round the judge also gets its own earlier failures for that doc (`prior_failures`), and only those. It still gets no brief, no author reasoning and no gold example.\""}
+  C: {fixed: true, quote: "content standard: \"A fix round ... follows the settling rule in `standards/rules/grounding-eval.md`: a new point on text that did not change is a note, shown to the person at the checkpoint, not a reject.\""}
+  D: {fixed: true, quote: "rule: \"the judge's own text (the `judge-grounding` skill file, given with `--judge`) ... a stricter judge ends the old passes\" and \"A calibration run uses no judge state: every doc is judged fresh, in a first round, with all-pass.\"; gate: fingerprint(doc, guidance, parent, judge)"}
+  E: {fixed: true, quote: "skill: \"the play hands over the list only when `round` is `fix`\"; discover-capabilities: \"adds prior_failures ... only when that file reads `round: fix`\" (harness owns the play side)"}
+  F: {fixed: true, quote: "rule: \"the play runs `grounding_gate.py notes`, which collects every note in the state (passed and kept docs included) into one file\"; gate has run_notes; both plays run it and SE-4 names it"}
+  G: {fixed: true, quote: "rule title: \"# Grounding Content-Quality Eval — v2\"; compiled_by has \"edit-play (#884 ...)\" in both plays; ice.md gains S10 / S9 (second run, no judge dispatched)"}
+  F1: {fixed: false, note: "same as A / N1"}
+  F2: {fixed: true, note: "same as C"}
+  F3: {fixed: true, note: "same as B"}
+  F4: {fixed: true, note: "same as D"}
+  F5: {fixed: true, note: "same as G"}
+conformance_checks:
+  - {check: "One source for the rubric", principle: P-A, result: "conforms: the rule names the criteria by name only; the new text is gate behaviour, not rubric. The quote rule (\"inside straight double quotes\") is verdict-shape and sits in the skill; the rule restates only why."}
+  - {check: "The gate decides, not the judge", principle: P-B, result: "partly: missing criterion and first round conform; the fix round still lets a judge word clear a failure (N1) and a quote choice turn a fail into a note (N2)."}
+  - {check: "Rule against the content standard", principle: P-C, result: "conforms: the content standard now points to the settling rule. The heading still reads \"all must pass\" and the next sentence is unchanged; the new paragraph limits it to fix rounds. Six rubric lines in the standard against five criteria is on the base ref, not from this branch."}
+  - {check: "Isolation against the judge's inputs", principle: P-D, result: "conforms: the rule adds the fix-round paragraph; skill Input table names prior_failures the same way."}
+  - {check: "Calibration", principle: P-E, result: "conforms: calibration runs state-free; a changed judge file ends kept passes."}
+  - {check: "Judge state in short-term memory, plays read no memory", principle: P-F, result: "conforms: the state folder is the issue's context/judge-state/, named by the play; the gate reads and writes only that folder."}
+  - {check: "Cross-references resolve", principle: P-A, result: "conforms: _content-standard.md, the judge-grounding skill, grounding_gate.py kept / prior / notes, standards/rules/grounding-eval.md all exist on the branch. No frontmatter in the file, none required."}
+  - {check: "Rule reachable from the rules index", principle: P-A, result: "not listed; pre-existing on the base ref (no row for grounding-eval.md). Not a finding."}
+  - {check: "Rule against the gate script", principle: P-B, result: "conforms except N1, N2, N3: kept (four-part fingerprint), prior, notes, fail-closed on missing criterion and on an unanswered last failure all match the rule text."}
+findings:
+  - id: N1
+    class: P2
+    file: core/components/memory/standards/rules/grounding-eval.md
+    location: How the gate settles, The fix round (and gate_with_state in grounding_gate.py)
+    finding: >
+      Round-1 finding A is only partly fixed. The rule counts a last failure as fixed when the judge writes
+      fixed: true, the doc changed somewhere, and the judge's quote is still on the page. In a real fix round
+      the doc always changed (the author rewrote it), and a failure's cited text is usually still there, so
+      the two checks add little: one wrong word still clears the failure. The judge may also score the same
+      criterion fail again on that same unchanged text, and the gate turns it into a note. Run on a scratch
+      folder with the canonical gate: round 1 stranger_test fail quoting "It is local only."; a one-word edit
+      in another section; round 2 stranger_test fail again quoting the same text plus prior fixed: true with
+      the same quote -> ok: true, round fix, failures [], notes [stranger_test]. The failure the doc was sent
+      back for is shown as a note. Fix: a criterion that was a last failure and still scores fail is a failure,
+      never a note; and a fix counts only when the failing text is gone or changed (the last failure's quotes
+      are not all still in the page unchanged), not when the doc changed anywhere.
+    principle_violated: P-B
+    committed_source: "plan/788/base:core/components/skills/judge-grounding/SKILL.md (Output, last paragraph: the gate decides so the judge cannot wave a doc through); plan/788/base:core/components/memory/standards/rules/grounding-eval.md (The gate rule: any fail rejects the doc)"
+  - id: N2
+    class: P3
+    file: core/components/memory/standards/rules/grounding-eval.md
+    location: How the gate settles, The notes
+    finding: >
+      A new point is a note when every quote in its evidence is found in the snapshot, so it is the judge's
+      choice of quote that tells changed text from unchanged text. A defect the rewrite just made can be
+      quoted by an unchanged anchor (a heading) and so stop being a failure. Run on a scratch folder: round 1
+      all pass; the author replaces a section body with "TBD"; round 2 completeness = fail with evidence
+      "## Other" holds only a placeholder (quote is the unchanged heading) -> ok: true, notes [completeness],
+      failures []. The rule is silent on a quote that is only a heading or a few words. Fix: say a point is a
+      note only when the whole span it rests on is unchanged, for example the gate compares the section the
+      quote sits in, or the quote must be a full line from the body, not a heading.
+    principle_violated: P-B
+    committed_source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (The gate rule: any fail rejects the doc, the gate prints each failing criterion for the rewrite loop)"
+  - id: N3
+    class: P4
+    file: core/components/memory/standards/rules/grounding-eval.md
+    location: How the gate settles, The fix round
+    finding: >
+      The rule says a fix counts when "every quote in the judge's evidence is found on the page now". With no
+      quote at all that is true by default, but the gate fails it (quotes_found needs at least one quote).
+      One clause removes the doubt: the evidence must hold at least one quote.
+    principle_violated: P-B
+    committed_source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (The gate rule)"
+notes:
+  - "Grounding came from the base ref (git show plan/788/base:...), ADR 035 and 039 on the base ref, and the content standard through the memory tool (copy in .garura/project/issues/884/context/memory/grounding-memory/). Nothing is grounded in text this branch adds; the new rule text was only the artifact checked."
+  - "N1 and N2 were confirmed by running the canonical grounding_gate.py on a throwaway doc in a scratch folder; nothing under review was changed."
+  - "Pre-existing, not from this branch: no row for grounding-eval.md in standards/rules/_index.md; the content standard lists six rubric lines against five criteria."
