@@ -234,6 +234,18 @@ tree:
     kind: chore
     title: 'The findings left by the PR #873 review (the plan play)'
     status: later
+  - issue: 888
+    kind: bug
+    title: 'The change plays push with no scan for client, company or personal references'
+    status: later
+  - issue: 889
+    kind: bug
+    title: '/check-change halts on a PR with more than 300 files'
+    status: later
+  - issue: 890
+    kind: bug
+    title: "The review's path table treats scripts in plays and skills as prose, so code rules never check them"
+    status: later
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
@@ -254,7 +266,12 @@ tree:
 - issue: 882
   kind: chore
   title: 'Record cap-initialize in the product model with /discover-capabilities (#862, #881)'
-  status: now
+  status: done
+  children:
+  - issue: 887
+    kind: bug
+    title: "/discover-capabilities drops the capability's slug when it writes the spine"
+    status: done
 - issue: 884
   kind: bug
   title: 'The content judge passes a page and then fails the same page unchanged, so a model run cannot finish'
