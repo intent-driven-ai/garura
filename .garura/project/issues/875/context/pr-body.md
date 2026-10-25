@@ -7,6 +7,7 @@ Part of #875 (plan #788). #875 closes after this lands and `/shape-plan 788` run
 - **The plan play (`/shape-plan`)** files a new epic as type Epic, and sets a reused epic of another type (for example Feature) to Epic. Its rules C13, F11 and SE-15 say so, through `/edit-play`: the ICE, the compiled play, the stop condition, the scripts (one setting, `EPIC_TYPE`) and their tests. A reused-epic test now starts from type Feature, so it proves the reset.
 - **The ontology, v12** (through `/edit-ontology`, three checkpoints agreed by the product owner): an Epic is an issue of type Epic and a Story an issue of type Story, each with no label. An Epic is never filed as type Feature; one found with another type is set to Epic. A play finds an epic or a story by the plan file's `represents` mark, never by its type or title. Spike, Chore, Bug and Business Intent keep their labels in this change.
 - **The work guide (`managing-work.md`)** says an Epic is filed with type Epic.
+- **Review round 1 fixes (#892, a chore under #875)**: ADR 056 records that an Epic and a Story are marked by their issue type with no label, and amends ADR 048 in part (finding MEM-1). The ontology's Q20 answer now separates the kind (the issue type) from finding the work item (the plan file's `represents` mark), still version 12 (finding MEM-2). Both accepted by the product owner. The three small findings of round 1 (MEM-3, MEM-4, HAR-1) are not in this PR.
 - **Plan 788** marks #882 and #884 done and #875 in progress.
 
 ## Self-review
