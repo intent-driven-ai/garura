@@ -1,0 +1,154 @@
+{
+  "id": "sl-intent-to-design",
+  "slug": "intent-to-design",
+  "name": "From a named piece of work to its design",
+  "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.",
+  "feature_refs": [
+    "fn-795",
+    "fn-818",
+    "fn-798"
+  ],
+  "vertical": "the Claude Code command line",
+  "intents": [
+    "bi-788"
+  ],
+  "surface": {
+    "id": "surf-claude-code-cli",
+    "name": "the Claude Code command line",
+    "persona_ref": "product-owner",
+    "user_action": "runs /shape-slice, then /shape-plan, then /shape-eval on a business intent, and confirms each one"
+  },
+  "why_this_order": "/shape-plan needs the slice that /shape-slice writes, and /shape-eval needs the epic and stories of the plan and the slice's hidden file. So the product owner can test each play only after the play before it has run.",
+  "left_out": [
+    {
+      "what": "fn-727 (build the plan tree) and fn-728 (create or link the epic and story issues), the older features of cap-718",
+      "why": "They serve bi-717, not bi-788. fn-818 holds what this intent needs from the plan: the plan file, one epic and one story for each feature."
+    },
+    {
+      "what": "The loop that runs the three plays and its one approval (#796)",
+      "why": "The proof asks that each of the three plays ends at its own confirmation; fn-795 puts the loop out of scope."
+    },
+    {
+      "what": "Encrypting the eval (#828)",
+      "why": "Until it exists, a read rule keeps builders out of the evals folder; fn-798 and cap-shape-eval put encryption out of scope."
+    },
+    {
+      "what": "The design, build, test or validation of an epic (#819), the release plays, /learn-outcomes and the upgrade of an older product model (#835)",
+      "why": "The intent's Must not excludes them."
+    },
+    {
+      "what": "Running the eval after the build",
+      "why": "The intent asks for the eval to be written before the build, not run; fn-798 puts running it out of scope."
+    }
+  ],
+  "decisions": [
+    {
+      "question": "Which surface does the tester use?",
+      "answer": "the Claude Code command line, where the product owner runs the three plays",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/slices/sl-intent-to-design.yaml",
+          "start": 15,
+          "end": 20
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+          "start": 46,
+          "end": 47
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+          "start": 48,
+          "end": 48
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+          "start": 43,
+          "end": 43
+        }
+      ]
+    },
+    {
+      "question": "Who tests the slice there?",
+      "answer": "the product owner, who names the work and confirms each part",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/intents/bi-788.md",
+          "start": 3,
+          "end": 7
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/domain.md",
+          "start": 4,
+          "end": 4
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/slices/sl-intent-to-design.yaml",
+          "start": 18,
+          "end": 18
+        }
+      ]
+    },
+    {
+      "question": "Which features does the slice need?",
+      "answer": "fn-795 (/shape-slice writes the slice and its hidden file), fn-818 (/shape-plan writes the plan, the epic and the stories) and fn-798 (/shape-eval writes the hidden eval)",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/intents/bi-788.md",
+          "start": 9,
+          "end": 16
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+          "start": 4,
+          "end": 4
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+          "start": 4,
+          "end": 4
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+          "start": 4,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "question": "In what order are the features built?",
+      "answer": "fn-795, then fn-818, then fn-798",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/domain.md",
+          "start": 13,
+          "end": 13
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+          "start": 17,
+          "end": 17
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+          "start": 16,
+          "end": 17
+        }
+      ]
+    }
+  ]
+}

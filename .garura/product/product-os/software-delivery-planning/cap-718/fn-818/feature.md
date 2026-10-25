@@ -33,7 +33,7 @@
 - The eval. /shape-eval writes it (fn-798).
 - The build, and the design, test or validation of an epic (#819).
 
-> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.
+Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.

@@ -11,7 +11,7 @@ Write the eval that checks, from the outside, that a business intent is met on i
 - Specification by Example: How Successful Teams Deliver the Right Software (Manning, 2011, https://oreilly.com/library/view/specification-by-example/9781617290084).
 - GitHub #798 (open).
 
-> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7); deepen with /discover-capabilities.
+Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: Each slice has one eval that says, from the outside, if its business intent is met on the slice's surface.

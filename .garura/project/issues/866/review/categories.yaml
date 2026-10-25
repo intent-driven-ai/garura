@@ -1,0 +1,82 @@
+# check-change Step 2 (assessment) for PR #869, issue 866, base plan/788/base
+# Derived from the diff (73 changed paths). No playbook on the review shelf covers either category;
+# the treatments below are the assessor's proposal, flagged as such, not taken from a playbook.
+shelf_copy:
+  folder: .garura/project/issues/866/context/memory/knowledge/review/
+  tier: phoenix
+  version: 3161dcdfe26f
+severity_taxonomy:
+  file: .garura/project/issues/866/context/memory/standards/rules/pr.md
+  tier: phoenix
+  version: 3161dcdfe26f
+categories:
+  - id: product-model-pages
+    name: Product model pages (capability and feature pages with their ICE)
+    design_bearing: true
+    evidence:
+      - .garura/product/product-os/software-delivery-planning/cap-718/capability.md
+      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      - .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+      - .garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+      - .garura/product/product-os/software-delivery-planning/shape-slice/capability.md
+      - .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+    what_changed: >
+      Each page swaps the line "> Thin ICE: proposed by /shape-slice for bi-788 (#844, decision 7);
+      deepen with /discover-capabilities." for "Thin: proposed by `/shape-slice` from the person's
+      answers; deepen with `/discover-capabilities`." cap-718/capability.md also drops its old line
+      in the middle of its changed-notes block. The pages hold the Goal/Limit/ICE the agents build from.
+    playbook: null
+    playbook_note: >
+      PLAYBOOK MISSING. No file on knowledge/review/ covers product-model pages (none names
+      product-os or the product model). memory.md covers core/components/memory/** (shelves, rules,
+      schemas, templates), not the product model, so it is not force-fitted. A playbook
+      "review/product-model" should be written.
+    treatment:
+      source: assessor proposal (no playbook); the nearest playbook, memory.md, asks for Layer 1 and Layer 2
+      layers: [layer-1, layer-2-design-grounding]
+      linters: []
+      linters_note: >
+        No installed tool checks product-model pages (installed tools: lint-components, lint-play,
+        memory, rebuild-eval; none reads .garura/product/**). Record "not installed" for a model-page linter.
+      runnable_checks:
+        - by hand, Layer 1: each changed page still has the sections of its kind (frontmatter, "## Agent intent (ICE)" with Goal and Limit); the new "Thin:" line is the same on all six pages; every [[...]]/path/issue reference on a changed page resolves; no leftover old "Thin ICE:" line on any page.
+        - by hand, Layer 1: the old line's meaning is kept (Thin marker + pointer to /discover-capabilities); the removed #844 and decision-7 pointer is a loss of provenance to name, not a pass.
+      design_grounding:
+        required: true
+        ground_from: >
+          Committed sources on the base ref only: git show plan/788/base:<each page> for the prior
+          version; docs/adr/048 and 049 (named in cap-718/capability.md); the product ontology and
+          standards/rules/direct-model-write.md read through the memory tool; docs/philosophy/**.
+        never_ground_from: >
+          The ontology copy at issues/866/context/memory/standards/schemas/product-os/ontology.md
+          (it is an added file in this diff, says version 4 while the pages cite v9/v10, so it is
+          not grounding) and any text this branch adds.
+  - id: run-records
+    name: Run records (short-term memory files of the /shape-slice 788 re-run, issue 866)
+    design_bearing: false
+    evidence:
+      - ".garura/project/issues/866/context/** (67 files): analysis.yaml, branch.json, citations.jsonl, commits.yaml, grounding-questions.md, issue.json, plan.json, pr.json, pr-body.md, self-review.md, resolved-rules.json, target.json, work-description.txt, porcelain.txt"
+      - ".garura/project/issues/866/context/shape-slice/** (answers, approval, brief, budget, citations*, fills, gather, guard-report, hidden-file/-write, intent-*, lint-before-run, persist-*, placement, proposals, questions*, reply*, reuse, serving, slice*, split, start-*, trace-check, run-id, opening)"
+      - ".garura/project/issues/866/context/templates/** (manifest-shape-slice.json, approval-prompt.md)"
+      - ".garura/project/issues/866/context/memory/** (copies of memory files plus manifest.json: 1 rule, 10 domain shelves, ontology.md)"
+    what_changed: >
+      Evidence the run left behind. The context/memory/** files are short-term copies of memory, written
+      by the memory tool, not memory authored on this branch, so they are not the memory category.
+    playbook: null
+    playbook_note: >
+      PLAYBOOK MISSING. No review playbook covers run records. A playbook "review/run-records" should be written.
+    treatment:
+      source: assessor proposal (no playbook)
+      layers: [layer-1]
+      linters: []
+      linters_note: No installed tool checks run records. Record "not installed".
+      runnable_checks:
+        - by hand, Layer 1: every .json parses (python3 -c "import json,sys;json.load(open(sys.argv[1]))" <file>), every .jsonl line parses, every .yaml parses (python3 -c "import yaml,sys;yaml.safe_load(open(sys.argv[1]))" <file>).
+        - by hand, Layer 1: context/memory/manifest.json lists a copy file for every memory file under context/memory/ and its fingerprints match (sha256 of the copy).
+        - by hand, Layer 1: no secret, token or path outside the repo appears in the records (search the changed files for "token", "secret", "password", "/Users/").
+        - by hand, Layer 1: the records say the same thing about the run (run-id.txt, start-sha.txt, branch.json, pr.json name issue 866 / PR 869).
+      design_grounding:
+        required: false
+absent_categories_note: >
+  Not present: decision records, documentation, harness, executable code, config maps, tests, memory
+  (no path under core/components/memory/**). Every changed path falls in one of the two categories above.

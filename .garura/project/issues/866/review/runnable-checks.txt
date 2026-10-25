@@ -1,0 +1,5 @@
+# Layer 1 — objective checks (by hand: no installed linter reads .garura/product/**)
+slice_check (installed shape-slice script) exit 0: valid True own/new problems 0 older 70
+run records: 67 files; parse errors 0 []
+private paths / names / secrets in added lines: 0
+ 6 files changed, 7 insertions(+), 6 deletions(-)

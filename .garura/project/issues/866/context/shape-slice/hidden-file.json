@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "path": "788/evals/intent-to-design/failure-and-recovery.md",
+  "entries": [
+    {
+      "feature": "fn-795",
+      "capability": "cap-shape-slice",
+      "thin": [
+        "feature",
+        "capability"
+      ],
+      "lines": 6
+    },
+    {
+      "feature": "fn-818",
+      "capability": "cap-718",
+      "thin": [
+        "feature",
+        "capability"
+      ],
+      "lines": 6
+    },
+    {
+      "feature": "fn-798",
+      "capability": "cap-shape-eval",
+      "thin": [
+        "feature",
+        "capability"
+      ],
+      "lines": 6
+    }
+  ],
+  "counts": {
+    "lines": 18,
+    "builder_alone": 9,
+    "person": 9
+  },
+  "problems": [],
+  "cleared": []
+}
