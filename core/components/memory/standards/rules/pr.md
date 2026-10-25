@@ -107,7 +107,7 @@ legitimately review documentation still fire.
 | SEC-04 | P2 | `grep:(req\.body\|req\.query\|req\.params\|request\.json)` | file, line, snippet |
 | SEC-05 | P2 | `path:**/{middleware,server,app}.{js,ts,py,go}` | file, line, header-config |
 | SEC-06 | P1 | `grep:(multer\|upload\|formidable\|FileUpload)` | file, line, validation-snippet |
-| SEC-07 | P1 | `grep:(JSON\.parse\|yaml\.load\|pickle\.load\|unmarshal)` | file, line, snippet |
+| SEC-07 | P1 | `grep:(pickle\.loads?\s*\(\|marshal\.loads?\s*\(\|yaml\.unsafe_load\s*\(\|yaml\.load\s*\((?!.*SafeLoader)\|JSON\.parse\s*\(\s*(?:await\s+)?(?:\w+\.)*(?:req\|request\|body\|event\|payload\|params\|query\|input)\b)` | file, line, snippet (unsafe loads only: pickle.load(s), marshal.load(s), yaml.load without a safe loader on the line, yaml.unsafe_load, and JSON.parse of request input; not JSON.parse of a file or of a tool's own output, #860) |
 | SEC-08 | P3 | `path:.github/workflows/**,.gitlab-ci.yml,Jenkinsfile` | file, line |
 | SEC-09 | P3 | `path:.github/workflows/**,.gitlab-ci.yml` | file, line |
 | SEC-10 | P4 | `path:docs/security/**` | file |
