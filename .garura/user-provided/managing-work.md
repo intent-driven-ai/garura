@@ -18,7 +18,7 @@ Product model                          Tracker
 Business Intent                 ── issue: Business Intent   (its issue number is its plan's ID)
 Capability + its ICE            ── never an issue
 └─ Feature + its ICE            ── issue: Story, one in each Epic that delivers it
-Slice (features from any        ── issue: Epic (issue type Feature), made by the plan play for each slice
+Slice (features from any        ── issue: Epic (issue type Epic), made by the plan play for each slice
        capabilities, in order)     └─ Story, one per feature of the slice
                                       ├─ Spike / Chore   ── issue, when the work needs one
                                       └─ Bug             ── issue, always under the Story that introduced it
@@ -57,9 +57,10 @@ standard (`docs/standards/harness-standard.md`).
 
 - **Type lives in the type field.** Each of the six types above is an issue
   type in the `intent-driven-ai` organization. An Epic is filed with the issue
-  type **Feature**: the organization's types are Business Intent, Feature, Story,
-  Bug, Chore and Spike, and Feature is the Epic's type. (In the product model, a
-  Feature is a different thing; it is never an issue.) Never encode the type as a
+  type **Epic**, and a Story with the issue type **Story**. The organization also
+  has the type Feature, from before the Epic type existed; a slice's Epic is never
+  filed as Feature. (In the product model, a Feature is a different thing; it is
+  never an issue.) Never encode the type as a
   title prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
 - **No labels, for now.** Not for type, status, area, or severity. A severity
   and priority taxonomy will be designed later; until then, open issues carry
