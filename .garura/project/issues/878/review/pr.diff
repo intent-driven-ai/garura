@@ -1,0 +1,1682 @@
+diff --git a/.garura/install-manifest.json b/.garura/install-manifest.json
+index e1374806d..ee8915df3 100644
+--- a/.garura/install-manifest.json
++++ b/.garura/install-manifest.json
+@@ -21,6 +21,7 @@
+       ".claude/skills/author-product-ontology",
+       ".claude/skills/author-slice",
+       ".claude/skills/author-slice-brief",
++      ".claude/skills/author-work-items",
+       ".claude/skills/check-pr-quality",
+       ".claude/skills/commit-files",
+       ".claude/skills/cut-branch",
+@@ -47,6 +48,7 @@
+       ".claude/skills/merge-change",
+       ".claude/skills/propose-change",
+       ".claude/skills/record-decision",
++      ".claude/skills/shape-plan",
+       ".claude/skills/shape-slice",
+       ".claude/skills/start-change",
+       ".claude/skills/.gitignore",
+@@ -54,8 +56,8 @@
+     ],
+     "counts": {
+       "agents": 7,
+-      "skills": 23,
+-      "plays": 14,
++      "skills": 24,
++      "plays": 15,
+       "loops": 0
+     },
+     "instruction_surface": "CLAUDE.md.new",
+@@ -84,6 +86,7 @@
+       ".claude/skills/author-product-ontology": "skill",
+       ".claude/skills/author-slice": "skill",
+       ".claude/skills/author-slice-brief": "skill",
++      ".claude/skills/author-work-items": "skill",
+       ".claude/skills/check-pr-quality": "skill",
+       ".claude/skills/commit-files": "skill",
+       ".claude/skills/cut-branch": "skill",
+@@ -110,6 +113,7 @@
+       ".claude/skills/merge-change": "play",
+       ".claude/skills/propose-change": "play",
+       ".claude/skills/record-decision": "play",
++      ".claude/skills/shape-plan": "play",
+       ".claude/skills/shape-slice": "play",
+       ".claude/skills/start-change": "play"
+     },
+diff --git a/.garura/project/issues/878/context/analysis.yaml b/.garura/project/issues/878/context/analysis.yaml
+new file mode 100644
+index 000000000..0475846a3
+--- /dev/null
++++ b/.garura/project/issues/878/context/analysis.yaml
+@@ -0,0 +1,57 @@
++---
++# assess-changes output (grouping done by the repo-orchestrator)
++# issue: 878
++needs_judgment: false
++
++change_groups:
++  - id: shape-plan-run-records
++    concern: "Run records of the first /shape-plan 788 run: decisions, gathered inputs, drafts, brief, approval, tracker writes, checks, ICE clean copies and issue body backups"
++    commit_type: chore
++    scope: stm
++    subject: "record the shape-plan 788 run"
++    issue: 878
++    files:
++      - .garura/project/issues/878/context/decisions.md
++      - .garura/project/issues/878/context/shape-plan/approval.json
++      - .garura/project/issues/878/context/shape-plan/body-before-794.md
++      - .garura/project/issues/878/context/shape-plan/body-before-795.md
++      - .garura/project/issues/878/context/shape-plan/body-before-798.md
++      - .garura/project/issues/878/context/shape-plan/body-before-818.md
++      - .garura/project/issues/878/context/shape-plan/brief.md
++      - .garura/project/issues/878/context/shape-plan/drafts-check.json
++      - .garura/project/issues/878/context/shape-plan/drafts.json
++      - .garura/project/issues/878/context/shape-plan/gather.json
++      - .garura/project/issues/878/context/shape-plan/guard-report.json
++      - .garura/project/issues/878/context/shape-plan/ice/
++      - .garura/project/issues/878/context/shape-plan/plan-before.txt
++      - .garura/project/issues/878/context/shape-plan/plan-check.json
++      - .garura/project/issues/878/context/shape-plan/plan-write.json
++      - .garura/project/issues/878/context/shape-plan/skill-input.json
++      - .garura/project/issues/878/context/shape-plan/start-sha.txt
++      - .garura/project/issues/878/context/shape-plan/tracker-check.json
++      - .garura/project/issues/878/context/shape-plan/tracker-record.json
++      - .garura/project/issues/878/context/shape-plan/work-items.json
++  - id: shape-plan-template-copies
++    concern: "Template copies the shape-plan run loaded into short-term memory (manifest, pipeline-next rule, approval prompt, delivery report, evidence file)"
++    commit_type: chore
++    scope: stm
++    subject: "record the templates loaded for the shape-plan run"
++    issue: 878
++    files:
++      - .garura/project/issues/878/context/templates/
++
++exclusions:
++  - path: ".garura/project/issues/878/context/analysis.yaml"
++    reason: "commit-change play run file; committed by the executor in the final run-state chore group"
++    blocking: false
++  - path: ".garura/project/issues/878/context/porcelain.txt"
++    reason: "commit-change play run file; committed by the executor in the final run-state chore group"
++    blocking: false
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "all 21 untracked run-record files from git status --porcelain (23 entries less analysis.yaml and porcelain.txt) land in exactly one group; the two play run files are in exclusions"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched; grep for tokens, private keys, password/api key/secret assignments over decisions.md, shape-plan/ and templates/ found nothing"}
+diff --git a/.garura/project/issues/878/context/branch.json b/.garura/project/issues/878/context/branch.json
+new file mode 100644
+index 000000000..4b71c8ee1
+--- /dev/null
++++ b/.garura/project/issues/878/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/788/878-shape-plan-788",
++  "base_sha": "2401387e0fe9db8782ad82170195270e07a305b0",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/788/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/878/context/commits.yaml b/.garura/project/issues/878/context/commits.yaml
+new file mode 100644
+index 000000000..5123bbb6a
+--- /dev/null
++++ b/.garura/project/issues/878/context/commits.yaml
+@@ -0,0 +1,39 @@
++commits:
++  - sha: b811f222
++    message: "chore(stm): record the shape-plan 788 run (#878)"
++    files:
++      - .garura/project/issues/878/context/decisions.md
++      - .garura/project/issues/878/context/shape-plan/approval.json
++      - .garura/project/issues/878/context/shape-plan/body-before-794.md
++      - .garura/project/issues/878/context/shape-plan/body-before-795.md
++      - .garura/project/issues/878/context/shape-plan/body-before-798.md
++      - .garura/project/issues/878/context/shape-plan/body-before-818.md
++      - .garura/project/issues/878/context/shape-plan/brief.md
++      - .garura/project/issues/878/context/shape-plan/drafts-check.json
++      - .garura/project/issues/878/context/shape-plan/drafts.json
++      - .garura/project/issues/878/context/shape-plan/gather.json
++      - .garura/project/issues/878/context/shape-plan/guard-report.json
++      - .garura/project/issues/878/context/shape-plan/ice/
++      - .garura/project/issues/878/context/shape-plan/plan-before.txt
++      - .garura/project/issues/878/context/shape-plan/plan-check.json
++      - .garura/project/issues/878/context/shape-plan/plan-write.json
++      - .garura/project/issues/878/context/shape-plan/skill-input.json
++      - .garura/project/issues/878/context/shape-plan/start-sha.txt
++      - .garura/project/issues/878/context/shape-plan/tracker-check.json
++      - .garura/project/issues/878/context/shape-plan/tracker-record.json
++      - .garura/project/issues/878/context/shape-plan/work-items.json
++    branch: plan/788/878-shape-plan-788
++  - sha: 3fcbfad6
++    message: "chore(stm): record the templates loaded for the shape-plan run (#878)"
++    files:
++      - .garura/project/issues/878/context/templates/
++    branch: plan/788/878-shape-plan-788
++excluded_files:
++  - path: ".garura/project/issues/878/context/analysis.yaml"
++    reason: "commit-change play run file; committed by the executor in the final run-state chore group"
++  - path: ".garura/project/issues/878/context/porcelain.txt"
++    reason: "commit-change play run file; committed by the executor in the final run-state chore group"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/878/context/decisions.md b/.garura/project/issues/878/context/decisions.md
+new file mode 100644
+index 000000000..a1a31df60
+--- /dev/null
++++ b/.garura/project/issues/878/context/decisions.md
+@@ -0,0 +1,14 @@
++# Decisions — #878, the first /shape-plan 788 run
++
++## 1. The tracker check's failure on #794 (2026-10-25)
++
++The tracker check failed: work order #794 holds 16 sub-issues besides its three stories (#795, #818, #798). 14 are closed; #796 and #828 are open. They come from plan 788's tree, which was filed by hand before /shape-plan existed.
++
++Choice: option 2. Nothing changes in GitHub. A bug is filed against the check.
++
++The product owner's words: "2 Also, we have to record that what we are running is plan splines. We are in the middle of the splines, or shake right, or whatever we call it, shape plan, kind of a thing, right? This is an existing and running plan. Once the plan is built, it is built differently, and the plan can continue to evolve. I think we can mark the runner as closed and okay."
++
++What this means:
++- /shape-plan ran in the middle of plan 788, a plan that already existed and was running. A plan that /shape-plan builds from the start is shaped differently.
++- A plan keeps evolving after it is built, so a work order can hold more than the stories of its slice.
++- The run is closed and accepted by the product owner. Its stop condition reads unmet on D4 (the tracker check) for this reason only; every other check passed, and every tracker write the brief showed was made.
+diff --git a/.garura/project/issues/878/context/issue.json b/.garura/project/issues/878/context/issue.json
+new file mode 100644
+index 000000000..6f88a8bfe
+--- /dev/null
++++ b/.garura/project/issues/878/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 878, "title": "[TASK] shape-plan: make the plan for business intent #788", "created": true}
+diff --git a/.garura/project/issues/878/context/plan.json b/.garura/project/issues/878/context/plan.json
+new file mode 100644
+index 000000000..4c9c67185
+--- /dev/null
++++ b/.garura/project/issues/878/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "878",
++  "plan_id": "788",
++  "plan_branch": "plan/788/base",
++  "issue_branch": "plan/788/878-shape-plan-788"
++}
+diff --git a/.garura/project/issues/878/context/porcelain.txt b/.garura/project/issues/878/context/porcelain.txt
+new file mode 100644
+index 000000000..f8002b039
+--- /dev/null
++++ b/.garura/project/issues/878/context/porcelain.txt
+@@ -0,0 +1,22 @@
++?? .garura/project/issues/878/context/decisions.md
++?? .garura/project/issues/878/context/porcelain.txt
++?? .garura/project/issues/878/context/shape-plan/approval.json
++?? .garura/project/issues/878/context/shape-plan/body-before-794.md
++?? .garura/project/issues/878/context/shape-plan/body-before-795.md
++?? .garura/project/issues/878/context/shape-plan/body-before-798.md
++?? .garura/project/issues/878/context/shape-plan/body-before-818.md
++?? .garura/project/issues/878/context/shape-plan/brief.md
++?? .garura/project/issues/878/context/shape-plan/drafts-check.json
++?? .garura/project/issues/878/context/shape-plan/drafts.json
++?? .garura/project/issues/878/context/shape-plan/gather.json
++?? .garura/project/issues/878/context/shape-plan/guard-report.json
++?? .garura/project/issues/878/context/shape-plan/ice/
++?? .garura/project/issues/878/context/shape-plan/plan-before.txt
++?? .garura/project/issues/878/context/shape-plan/plan-check.json
++?? .garura/project/issues/878/context/shape-plan/plan-write.json
++?? .garura/project/issues/878/context/shape-plan/skill-input.json
++?? .garura/project/issues/878/context/shape-plan/start-sha.txt
++?? .garura/project/issues/878/context/shape-plan/tracker-check.json
++?? .garura/project/issues/878/context/shape-plan/tracker-record.json
++?? .garura/project/issues/878/context/shape-plan/work-items.json
++?? .garura/project/issues/878/context/templates/
+diff --git a/.garura/project/issues/878/context/pr-body.md b/.garura/project/issues/878/context/pr-body.md
+new file mode 100644
+index 000000000..1e1582798
+--- /dev/null
++++ b/.garura/project/issues/878/context/pr-body.md
+@@ -0,0 +1,36 @@
++The first run of `/shape-plan 788`. It ran in the middle of plan 788, a plan that already existed and was running. It used the work items the plan file marks, and made no new issue.
++
++Closes #878.
++
++## What the run wrote
++
++After the product owner's yes, four issues changed in GitHub:
++- #794, the slice's work order: type Feature, the line "Represents: sl-intent-to-design", and its feature-to-story map (fn-795 → #795, fn-818 → #818, fn-798 → #798).
++- #795, #818 and #798, the three stories: type Story, and two new sections, "Scope of work" and "Context guidance". Every line already there stayed.
++
++The plan file did not change: it already marked all four issues. No feature was skipped.
++
++## What this change holds
++
++- The run's records under `.garura/project/issues/878/`: the gather, the find, the drafts, the brief, the yes with the hashes of what was shown, the tracker record and the checks.
++- The install record: the install laid `/shape-plan` and `author-work-items` (#876).
++
++## Checks
++
++| Check | Result |
++|---|---|
++| Draft check | ok, 0 problems |
++| Plan check | ok |
++| Write guard | ok: nothing in the product model or the plans folder changed |
++| Every old line kept on the four issues | yes |
++| Tracker check | unmet: #794 also holds 16 older children from the hand-made tree |
++
++## The product owner's decision
++
++The tracker check fails only because plan 788 was built by hand before the play existed, and a plan keeps evolving after it is built. The product owner accepted the run as closed and okay. Bug #879 changes the check so a work order can hold more than its slice's stories. See `.garura/project/issues/878/context/decisions.md`.
++
++## Found by this run
++
++- #879: the tracker check on a plan that was already running.
++- Two story lines come from feature ICE pages that are out of date (#795's hidden-file line, #818's "not built yet"). The ICE pages must change first.
++- The gather step writes full paths in its records; noted on chore #874. The paths in this change were made relative before the commit.
+diff --git a/.garura/project/issues/878/context/pr.json b/.garura/project/issues/878/context/pr.json
+new file mode 100644
+index 000000000..310f63976
+--- /dev/null
++++ b/.garura/project/issues/878/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 880,
++  "url": "https://github.com/intent-driven-ai/garura/pull/880",
++  "state": "OPEN",
++  "base": "plan/788/base"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/878/context/resolved-rules.json b/.garura/project/issues/878/context/resolved-rules.json
+new file mode 100644
+index 000000000..725c8d8b8
+--- /dev/null
++++ b/.garura/project/issues/878/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/878/context/self-review.md b/.garura/project/issues/878/context/self-review.md
+new file mode 100644
+index 000000000..ce17d7902
+--- /dev/null
++++ b/.garura/project/issues/878/context/self-review.md
+@@ -0,0 +1,31 @@
++# Self-review for #878: the first /shape-plan 788 run
++
++Rules: the base self-review rules (resolved-rules.json, not an override).
++Compared: plan/788/base...HEAD, 4 commits, 36 files, 1322 lines added, 2 changed lines removed.
++This review is information for the reviewer. It is not the approve or reject gate.
++
++What the change is: the run records of the first /shape-plan 788 run (under .garura/project/issues/878/) and the install record (.garura/install-manifest.json), which now lists the shape-plan play and the author-work-items skill. The run wrote four GitHub issues (#794, #795, #818, #798) after the product owner's yes. The plan file did not change.
++
++## Scope checks
++
++- [PASS] Matches the issue. 35 of the 36 files are run records for #878. The one other file is the install record, and it changed because the install laid shape-plan and author-work-items for this run.
++- [PASS] No scope creep. Nothing outside .garura/project/issues/878/ and .garura/install-manifest.json is touched. The plan file and the product model are untouched.
++- [PASS] Reasonable size. The 1322 added lines are records (drafts, briefs, checks, copies of the templates the run loaded). There is no code to read line by line.
++- [PASS] No stray artifacts. No scratch, backup or log files, no debug prints and no TODO marks in the added lines.
++
++## Quality checks
++
++- [PASS] Tests present. No behavior changed in the source, so no tests are needed. The run's own checks are in the records (drafts-check.json, plan-check.json, guard-report.json).
++- [PASS] Commits are clean. All 4 commits use the chore(stm) form and each names #878.
++- [PASS] No secrets. A scan of the added lines for tokens, keys, passwords and private-key headers found nothing.
++- [PASS] No home paths. No absolute home path appears in the added lines.
++- [PASS] Docs in step. The install record matches the new counts (24 skills, 15 plays). No user-facing doc is affected.
++- [REVIEW] Nothing obviously broken. The tracker check read unmet on #794's older children: #794 holds 16 other sub-issues from plan 788's hand-filed tree (14 closed, #796 and #828 open). The product owner accepted the run on 2026-10-25 and chose to change nothing in GitHub. Bug #879 holds the fix for the check. The reason is written in .garura/project/issues/878/context/decisions.md. This is a known and accepted state, not a fault in the change.
++
++## Notes
++
++- context/resolved-rules.json is untracked at review time. It is this review's own input record, written by the play.
++
++## Result
++
++Blocking findings: 0
+diff --git a/.garura/project/issues/878/context/shape-plan/approval.json b/.garura/project/issues/878/context/shape-plan/approval.json
+new file mode 100644
+index 000000000..cea6c8bd4
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/approval.json
+@@ -0,0 +1,20 @@
++{
++  "decision": "yes",
++  "reply": "yes",
++  "at": "2026-10-25T09:52:48Z",
++  "files": {
++    "brief": {
++      "path": ".garura/project/issues/878/context/shape-plan/brief.md",
++      "sha256": "4bf08448c1233356239f7da3da4fcb5798109d6284ea0caecc1bcd627f5012b4"
++    },
++    "work_items": {
++      "path": ".garura/project/issues/878/context/shape-plan/work-items.json",
++      "sha256": "dda5b46670ced59ac8c4ba9d24886398a9bab183b7b91467885224be274221df"
++    },
++    "drafts": {
++      "path": ".garura/project/issues/878/context/shape-plan/drafts.json",
++      "sha256": "412b86d71d2233e7bce0f660f71baf543c046421fc10eb8cc91baf57a0aac060"
++    }
++  },
++  "history": []
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/body-before-794.md b/.garura/project/issues/878/context/shape-plan/body-before-794.md
+new file mode 100644
+index 000000000..db293e493
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/body-before-794.md
+@@ -0,0 +1,13 @@
++Capability: the shaping loop (ADR 049) gets a business intent and turns it into three things, one play each: `/shape-slice` shapes a slice a person can test end to end; the plan play makes a plan that can be run and tracked; the eval play builds an eval that tests whether the business intent is met. The person approves once, at the end of the loop, before anything goes to the tracker.
++
++## Results
++1. An eval that tests whether the slice delivers its business intent, from the outside, on its surface. It tests what is known at that time (the UX design may not be known yet).
++2. A plan that is ready to run and can be tracked: the epic and one story per feature, each carrying what an agent needs to build it.
++
++## Not in this capability
++- Design, build, test and validate of an epic. These moved to their own business intent (decided 2026-10-23).
++
++## Links
++- Serves: #788
++
++
+diff --git a/.garura/project/issues/878/context/shape-plan/body-before-795.md b/.garura/project/issues/878/context/shape-plan/body-before-795.md
+new file mode 100644
+index 000000000..720e7cd06
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/body-before-795.md
+@@ -0,0 +1,22 @@
++Feature: `/shape-slice` gets a business intent, grills the person within the grilling tier, and puts together the slice that delivers the intent. It writes the slice into the product model with its link to the intent.
++
++## Done when
++- It takes a business intent issue number as its entry point, finds that intent in the product model, and works from the model. If the model has no page for it, it writes the page from the issue. It does not need a slice that the seven lenses stamped "realized".
++- It reads the product model and memory first, and asks only about the gaps — all at once, each question standing alone — within the tier's budget (#817). It records the answers in short-term memory.
++- It picks the features that serve the intent, from any capability, and names the person who tests the slice and the one surface they test it on. A slice with no such surface is not written.
++- It finds a slice that already serves the intent before it makes a new one.
++- It fills the model as it goes: a domain, capability, feature or ICE the slice needs and the model lacks is added at the depth it knows, never skipped.
++- It writes the slice (`features` in build order, `vertical`, `intents`) into the spine's `slices` list, with its record at `product-os/slices/<id>.yaml` (a slice links to capabilities, and through them to its domains; it has no domain home), and the grounding linter passes.
++- Until #796, it shows the slice at a typed checkpoint (yes / change / stop) and commits only after yes.
++- Built fresh with `/create-play` (the old play's job, cutting epics, is gone; decisions: `.garura/project/issues/795/context/decisions.md`).
++
++## Not in this issue
++- The eval (#798), the plan (#818), the pinned checkpoint (#796), the tier setting (#817).
++- The design, build and test of the epic (the build-stage business intent).
++
++## Links
++- Serves: #788
++- Part of: #794
++- Needs: #816
++
++
+diff --git a/.garura/project/issues/878/context/shape-plan/body-before-798.md b/.garura/project/issues/878/context/shape-plan/body-before-798.md
+new file mode 100644
+index 000000000..dccb15108
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/body-before-798.md
+@@ -0,0 +1,18 @@
++Feature: the **eval play** is the third play of the shaping loop (ADR 049). It runs after the plan play and builds the slice's eval: does the slice deliver its business intent? The eval tests from the outside, on the slice's one surface, and no builder can read it.
++
++## Done when
++- A new play (built with `/create-play`) reads the epic, its stories and the slice's hidden failure-and-recovery file, and never the ICE directly (ontology v10, Q29). It never reads the usage guide or the code when it builds the eval.
++- It writes the eval into `.garura/project/plans/<plan-id>/evals/<slug>/`, which no builder reads (CLAUDE.md).
++- Each check is black-box: when the eval runs after the build, it reaches the slice only through its usage guide (`guides/<slug>.md`) and checks that every goal and expectation is met and no failure condition happens. It says what it cannot test yet.
++- When a check fails, the eval writes a handoff plan that names the symptom, never the failure condition or the check.
++- For Garura, the surface is often a play, so the eval runs the play on a test project (Griffin is the first candidate).
++
++## Not in this issue
++- Running the eval, and encrypting it (#828).
++- The one checkpoint for the loop (#796).
++
++## Links
++- Serves: #788
++- Part of: #794
++- Needs: #818
++
+diff --git a/.garura/project/issues/878/context/shape-plan/body-before-818.md b/.garura/project/issues/878/context/shape-plan/body-before-818.md
+new file mode 100644
+index 000000000..3bd8041c5
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/body-before-818.md
+@@ -0,0 +1,22 @@
++Feature: the **plan play** is the second play of the shaping loop (ADR 049). It runs right after `/shape-slice`, with no stop between them. It makes the plan for the business intent: the plan file, one epic for the slice and one story for each feature. It writes nothing in the evals folder: /shape-slice writes the slice's hidden file (ontology v11, ADR 052). Each story carries what an agent needs to build it, and the plan can be tracked.
++
++## Done when
++- A new play (built with `/create-play`) takes the slice `/shape-slice` wrote and writes `.garura/project/plans/<business intent>.yaml` — the one plan for that intent; a second slice for the same intent joins the same plan (ontology Q30).
++- It makes, in the tracker, one epic for the slice, and one story for each feature of the slice as a sub-issue of the epic.
++- Each story holds the goal, the limits, the Context guidance and the expectations from its feature's ICE and its capability's ICE, and never a failure or recovery condition (ontology v11, ADR 049 §4, ADR 052).
++- The epic keeps the feature-to-story map: an entry for each feature, with the story that delivers it. It agrees with the plan's Tree.
++- It finds the epic and stories that exist before it makes new ones. A second run makes no duplicates.
++- When a feature leaves the slice after its plan exists, its story moves out of the plan; the plan play does not delete it, and the story stays in the tracker. A feature that comes in gets one story (the product owner's answer Q-change-1, /shape-slice run #866).
++- The epic is in the tracker only; the spine `epics` list and `epic.md` pages leave the product model.
++
++## Not in this issue
++- The eval (#798) and the one checkpoint for the loop (#796).
++- Building the epic (the build-stage business intent).
++
++## Links
++- Serves: #788
++- Part of: #794
++- Needs: #795
++
++
++
+diff --git a/.garura/project/issues/878/context/shape-plan/brief.md b/.garura/project/issues/878/context/shape-plan/brief.md
+new file mode 100644
+index 000000000..81512aef5
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/brief.md
+@@ -0,0 +1,78 @@
++# The plan for business intent #788: Agents design a named piece of work
++
++This run makes the plan for this business intent, or brings it up to date: the plan file, one epic for each slice and one story for each feature. Nothing below is written yet. Read each write, then type yes to write all of it, change: <what> to have it drafted again, or stop to write nothing.
++
++## What the run writes in the tracker
++
++### Slice sl-intent-to-design: From a named piece of work to its design
++
++- Use epic #794 "The shaping loop turns a business intent into a testable slice, its plan and its eval": set its type to Feature (it is not set now); add the line "Represents: sl-intent-to-design" at the end of its text; write its feature-to-story map: fn-795 → #795, fn-818 → #818, fn-798 → #798.
++- Use story #795 "/shape-slice grills within the tier and assembles the slice that delivers the business intent" for fn-795: add the sections "Scope of work" and "Context guidance" at the end; every line a person wrote stays; set its type to Story (it is not set now).
++  - Goals:
++    - When the product owner runs /shape-slice on a business intent, the spine gets one slice that serves that intent, with its features in build order, its one surface and the persona who tests it.
++    - One person can test the slice end to end on that one surface.
++    - The same run puts the slice's hidden file in the plan's evals folder, with one entry for each feature of the slice and each entry closed by exactly one way back. This part is not built yet; decision 6 adds it.
++  - Limits:
++    - Write only the slice, its link to the business intent it serves, its record, the model parts the slice lacks (each marked to be deepened) and the hidden file.
++    - Write no plan, epic, story or eval.
++    - Put the hidden file only in .garura/project/plans/<plan-id>/evals/<slug>/.
++    - The confirmation the product owner sees shows the slice only.
++    - Ask the product owner only what the product model and memory do not answer, and stay inside the question tier.
++  - Expectations:
++    - The product owner runs /shape-slice 788 in Claude Code and finds one slice in the spine and the hidden file in plans/788/evals/<slug>/.
++    - No other new file appears outside the product model.
++    - Run on a real business intent, the play writes one slice and its hidden file, and no plan, epic, story or eval.
++  - Read: the business intent's page, the spine, the Slice kind in the ontology, memory, and the play's own folder in core/components/plays/shape-slice/ (built in #795)
++  - Never read: the plan, its epics and stories, and the eval: they come after this play
++  - Persona: the product owner, who names the intent, answers the questions and approves in Claude Code; /shape-plan and /shape-eval read the slice after
++  - In and out: in: the intent page when the model has none, the questions, reuse of a slice that already serves, the missing model parts, the slice, its record and its hidden file, and the stop at a typed yes, change or stop; out: the plan, the epic, the stories and the eval
++- Use story #818 "The plan play makes the plan file, the epic and one story per feature" for fn-818: add the sections "Scope of work" and "Context guidance" at the end; every line a person wrote stays; set its type to Story (it is not set now).
++  - Goals:
++    - When the product owner runs /shape-plan on a business intent, the intent's one plan file (.garura/project/plans/<intent>.yaml) exists, with one epic for each slice that serves the intent and one story for each feature of that slice.
++    - The plan names every capability and feature it holds, each with its ICE.
++    - A second run finds the plan, the epics and the stories that exist, and makes no copies of them.
++  - Limits:
++    - Write only the plan file, the epics and the stories.
++    - Each story holds the goals, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE, and nothing from the hidden file.
++    - The hidden file and all that it holds belong to /shape-slice (decision 6); the eval belongs to /shape-eval.
++    - Nothing goes to the tracker before the product owner types yes.
++    - Do not pick, rank or test slices; the product owner chose the slice at /shape-slice.
++    - Do not wait for a full product model; write a missing model page as a light page during the run.
++  - Expectations:
++    - The product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic, and one story for each feature of the slice.
++    - No story holds any line from the hidden file.
++    - Building the plans for #717 and its partner gives the same trees that were filed by hand on 2026-10-21.
++  - Read: the slice in the spine, and the ICE of each feature and of its capability, once for each story
++  - Never read: the slice's hidden file and the evals folder
++  - Persona: the product owner, who runs and tracks the plan; the build play reads the stories after
++  - In and out: in: the plan file in .garura/project/plans/ and the tracker's epics and stories; out: picking the slice, the hidden file, the eval and the build (not built yet, #818)
++- Use story #798 "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface" for fn-798: add the sections "Scope of work" and "Context guidance" at the end; every line a person wrote stays; set its type to Story (it is not set now).
++  - Goals:
++    - When the product owner runs /shape-eval on a business intent, the slice's evals folder holds one eval for that slice.
++    - The eval checks from the outside, on the slice's surface, each goal and expectation of the stories, and checks that nothing the hidden file warns about happens.
++    - The eval says if the business intent is met on the slice's surface.
++  - Limits:
++    - Read only the epic, its stories and the slice's hidden file.
++    - Never read an ICE page, the usage guide or the code.
++    - Write the eval only in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/), and nowhere else.
++  - Expectations:
++    - The product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/.
++    - No build play's inputs name the evals folder.
++  - Read: the epic and the stories that /shape-plan wrote, and the hidden file that /shape-slice wrote
++  - Never read: any ICE page, the usage guide (guides/<slug>.md) and the code
++  - Persona: the product owner, who wants proof that the intent is met; the running eval after the build uses what this play writes
++  - In and out: in: writing the eval, which for Garura often runs a play on a test project and reaches the slice only through its usage guide; out: running the eval and encrypting it (until #828 only a read rule keeps builders away from the folder; not built yet, #798)
++
++## The plan file
++
++- Update `.garura/project/plans/788.yaml`. Every other node and line stays as it is.
++- No node changes. The file stays as it is.
++
++## Skipped features
++
++- None. Every feature's ICE is ready.
++
++## Your answer
++
++The run makes 4 tracker write(s) of the kinds above, and then the plan-file change.
++Type **yes** to write all of it, **change: <what>** to have the epic or stories drafted again, or **stop** to write nothing.
+diff --git a/.garura/project/issues/878/context/shape-plan/drafts-check.json b/.garura/project/issues/878/context/shape-plan/drafts-check.json
+new file mode 100644
+index 000000000..6ba9869a5
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/drafts-check.json
+@@ -0,0 +1,8 @@
++{
++  "ok": true,
++  "problems": [],
++  "counts": {
++    "slices": 1,
++    "stories": 3
++  }
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/drafts.json b/.garura/project/issues/878/context/shape-plan/drafts.json
+new file mode 100644
+index 000000000..ba0437dc8
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/drafts.json
+@@ -0,0 +1,98 @@
++{
++  "slices": [
++    {
++      "slice": "sl-intent-to-design",
++      "epic": {
++        "title": "The product owner names a piece of work and gets its slice, its plan and its hidden eval",
++        "delivers": "The product owner runs three plays on one business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read."
++      },
++      "stories": [
++        {
++          "feature": "fn-795",
++          "title": "The product owner gets one slice to test for a business intent, with its hidden file",
++          "scope_of_work": {
++            "goals": [
++              "When the product owner runs /shape-slice on a business intent, the spine gets one slice that serves that intent, with its features in build order, its one surface and the persona who tests it.",
++              "One person can test the slice end to end on that one surface.",
++              "The same run puts the slice's hidden file in the plan's evals folder, with one entry for each feature of the slice and each entry closed by exactly one way back. This part is not built yet; decision 6 adds it."
++            ],
++            "limits": [
++              "Write only the slice, its link to the business intent it serves, its record, the model parts the slice lacks (each marked to be deepened) and the hidden file.",
++              "Write no plan, epic, story or eval.",
++              "Put the hidden file only in .garura/project/plans/<plan-id>/evals/<slug>/.",
++              "The confirmation the product owner sees shows the slice only.",
++              "Ask the product owner only what the product model and memory do not answer, and stay inside the question tier."
++            ],
++            "expectations": [
++              "The product owner runs /shape-slice 788 in Claude Code and finds one slice in the spine and the hidden file in plans/788/evals/<slug>/.",
++              "No other new file appears outside the product model.",
++              "Run on a real business intent, the play writes one slice and its hidden file, and no plan, epic, story or eval."
++            ]
++          },
++          "context_guidance": {
++            "read": "the business intent's page, the spine, the Slice kind in the ontology, memory, and the play's own folder in core/components/plays/shape-slice/ (built in #795)",
++            "never_read": "the plan, its epics and stories, and the eval: they come after this play",
++            "persona": "the product owner, who names the intent, answers the questions and approves in Claude Code; /shape-plan and /shape-eval read the slice after",
++            "in_out": "in: the intent page when the model has none, the questions, reuse of a slice that already serves, the missing model parts, the slice, its record and its hidden file, and the stop at a typed yes, change or stop; out: the plan, the epic, the stories and the eval"
++          }
++        },
++        {
++          "feature": "fn-818",
++          "title": "The product owner gets the plan of a business intent, with one epic for the slice and one story for each feature",
++          "scope_of_work": {
++            "goals": [
++              "When the product owner runs /shape-plan on a business intent, the intent's one plan file (.garura/project/plans/<intent>.yaml) exists, with one epic for each slice that serves the intent and one story for each feature of that slice.",
++              "The plan names every capability and feature it holds, each with its ICE.",
++              "A second run finds the plan, the epics and the stories that exist, and makes no copies of them."
++            ],
++            "limits": [
++              "Write only the plan file, the epics and the stories.",
++              "Each story holds the goals, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE, and nothing from the hidden file.",
++              "The hidden file and all that it holds belong to /shape-slice (decision 6); the eval belongs to /shape-eval.",
++              "Nothing goes to the tracker before the product owner types yes.",
++              "Do not pick, rank or test slices; the product owner chose the slice at /shape-slice.",
++              "Do not wait for a full product model; write a missing model page as a light page during the run."
++            ],
++            "expectations": [
++              "The product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic, and one story for each feature of the slice.",
++              "No story holds any line from the hidden file.",
++              "Building the plans for #717 and its partner gives the same trees that were filed by hand on 2026-10-21."
++            ]
++          },
++          "context_guidance": {
++            "read": "the slice in the spine, and the ICE of each feature and of its capability, once for each story",
++            "never_read": "the slice's hidden file and the evals folder",
++            "persona": "the product owner, who runs and tracks the plan; the build play reads the stories after",
++            "in_out": "in: the plan file in .garura/project/plans/ and the tracker's epics and stories; out: picking the slice, the hidden file, the eval and the build (not built yet, #818)"
++          }
++        },
++        {
++          "feature": "fn-798",
++          "title": "The product owner gets an eval that shows from the outside if the business intent is met",
++          "scope_of_work": {
++            "goals": [
++              "When the product owner runs /shape-eval on a business intent, the slice's evals folder holds one eval for that slice.",
++              "The eval checks from the outside, on the slice's surface, each goal and expectation of the stories, and checks that nothing the hidden file warns about happens.",
++              "The eval says if the business intent is met on the slice's surface."
++            ],
++            "limits": [
++              "Read only the epic, its stories and the slice's hidden file.",
++              "Never read an ICE page, the usage guide or the code.",
++              "Write the eval only in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/), and nowhere else."
++            ],
++            "expectations": [
++              "The product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/.",
++              "No build play's inputs name the evals folder."
++            ]
++          },
++          "context_guidance": {
++            "read": "the epic and the stories that /shape-plan wrote, and the hidden file that /shape-slice wrote",
++            "never_read": "any ICE page, the usage guide (guides/<slug>.md) and the code",
++            "persona": "the product owner, who wants proof that the intent is met; the running eval after the build uses what this play writes",
++            "in_out": "in: writing the eval, which for Garura often runs a play on a test project and reaches the slice only through its usage guide; out: running the eval and encrypting it (until #828 only a read rule keeps builders away from the folder; not built yet, #798)"
++          }
++        }
++      ]
++    }
++  ]
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/gather.json b/.garura/project/issues/878/context/shape-plan/gather.json
+new file mode 100644
+index 000000000..f6cd8d95a
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/gather.json
+@@ -0,0 +1,55 @@
++{
++  "intent": "bi-788",
++  "intent_title": "Agents design a named piece of work",
++  "plan_id": "788",
++  "plan_file": ".garura/project/plans/788.yaml",
++  "slices": [
++    {
++      "id": "sl-intent-to-design",
++      "slug": "intent-to-design",
++      "name": "From a named piece of work to its design",
++      "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.",
++      "features": [
++        {
++          "id": "fn-795",
++          "name": "/shape-slice writes the slice and its hidden file",
++          "one_line": "From a business intent, /shape-slice writes one slice, its link to the intent and its hidden file, and no plan, epic, story or eval.",
++          "capability": "cap-shape-slice",
++          "ready": true,
++          "reason": "",
++          "ice_pages": [
++            ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
++            ".garura/product/product-os/software-delivery-planning/shape-slice/capability.md"
++          ],
++          "clean_ice": ".garura/project/issues/878/context/shape-plan/ice/fn-795.md"
++        },
++        {
++          "id": "fn-818",
++          "name": "/shape-plan writes the plan, the epic and the stories",
++          "one_line": "From a shaped slice, /shape-plan writes the intent's one plan file, one epic for the slice and one story for each feature.",
++          "capability": "cap-718",
++          "ready": true,
++          "reason": "",
++          "ice_pages": [
++            ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
++            ".garura/product/product-os/software-delivery-planning/cap-718/capability.md"
++          ],
++          "clean_ice": ".garura/project/issues/878/context/shape-plan/ice/fn-818.md"
++        },
++        {
++          "id": "fn-798",
++          "name": "/shape-eval writes the hidden eval",
++          "one_line": "From the plan's epic and stories, /shape-eval writes the eval for the business intent in the plan's evals folder, where no builder reads.",
++          "capability": "cap-shape-eval",
++          "ready": true,
++          "reason": "",
++          "ice_pages": [
++            ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
++            ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md"
++          ],
++          "clean_ice": ".garura/project/issues/878/context/shape-plan/ice/fn-798.md"
++        }
++      ]
++    }
++  ]
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/guard-report.json b/.garura/project/issues/878/context/shape-plan/guard-report.json
+new file mode 100644
+index 000000000..734aab24a
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/guard-report.json
+@@ -0,0 +1,18 @@
++{
++  "ok": true,
++  "base_ref": "HEAD",
++  "tree": ".garura/product/product-os",
++  "allow": [
++    ".garura/project/plans/788.yaml"
++  ],
++  "add_only": [],
++  "modify_only": [],
++  "remove_only": [],
++  "restore": false,
++  "changed": [],
++  "violations": [],
++  "restored": [],
++  "also_tree": [
++    ".garura/project/plans"
++  ]
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/ice/fn-795.md b/.garura/project/issues/878/context/shape-plan/ice/fn-795.md
+new file mode 100644
+index 000000000..3b913110b
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/ice/fn-795.md
+@@ -0,0 +1,20 @@
++# The two ICE of fn-795
++
++Written by gather_plan.py for /shape-plan. The failure lines are taken out.
++
++## Feature ICE — fn-795
++
++- Goal: After /shape-slice <intent>, the spine holds one slice that serves the business intent, with its features in build order, its one surface and its tester.
++- Goal: After /shape-slice <intent>, the plan's evals folder holds the slice's hidden file, with one entry for each feature of the slice. (Not built yet: decision 6 adds it.)
++- Limit: Write no plan, epic, story or eval. The hidden file goes only in .garura/project/plans/<plan-id>/evals/<slug>/, and the confirmation the person sees shows the slice only.
++- Context: serves the product owner, who runs it in Claude Code; built in #795 (core/components/plays/shape-slice/): it reads the intent from the model and writes the intent page from the issue when the model has none, asks within the tier, reuses a slice that serves, fills the model, writes the slice and its record, and stops at a typed yes / change / stop.
++- Checked by: the product owner runs /shape-slice 788 in Claude Code and finds one slice in the spine, the hidden file in plans/788/evals/<slug>/, and no other new file outside the model.
++
++## Capability ICE — cap-shape-slice
++
++- Goal: A business intent has one slice that one person can test end to end on one surface, with its features in build order.
++- Goal: The slice's hidden file holds each feature's failure conditions and its capability's, with exactly one recovery for each.
++- Limit: Write only the slice, its link "slice serves business intent", its record, the model parts the slice lacks (marked to be deepened), and the hidden file. Never a plan, an epic, a story or an eval.
++- Limit: Ask the person only what the model and memory do not answer, within the question tier.
++- Context: serves the product owner (names the intent, answers, approves) and the plays after it, /shape-plan and /shape-eval, which read the slice; reads the intent page, the spine, the ontology (Slice kind) and memory; writes the spine's slices list, product-os/slices/<id>.yaml and .garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md; out are the plan, the epic, the stories and the eval.
++- Checked by: /shape-slice run on a real business intent writes one slice and its hidden file, and no plan, epic, story or eval.
+diff --git a/.garura/project/issues/878/context/shape-plan/ice/fn-798.md b/.garura/project/issues/878/context/shape-plan/ice/fn-798.md
+new file mode 100644
+index 000000000..383688f9f
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/ice/fn-798.md
+@@ -0,0 +1,19 @@
++# The two ICE of fn-798
++
++Written by gather_plan.py for /shape-plan. The failure lines are taken out.
++
++## Feature ICE — fn-798
++
++- Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.
++- Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.
++- Limit: The play writes the eval only in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/) and nowhere else.
++- Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).
++- Checked by: the product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/, and no build play's inputs name that folder.
++
++## Capability ICE — cap-shape-eval
++
++- Goal: Each slice has one eval that says, from the outside, if its business intent is met on the slice's surface.
++- Limit: Read the epic, its stories and the hidden file; never an ICE page, the usage guide or the code.
++- Limit: Write only in the plan's evals folder: .garura/project/plans/<plan-id>/evals/<slug>/.
++- Context: serves the product owner, who wants proof that the intent is met, and the running eval after the build; reads what /shape-plan and /shape-slice wrote; until #828 only a read rule keeps the folder from builders; out are running the eval and encrypting it.
++- Checked by: /shape-eval run after /shape-plan writes the eval in the plan's evals folder, and no build play's inputs name that folder.
+diff --git a/.garura/project/issues/878/context/shape-plan/ice/fn-818.md b/.garura/project/issues/878/context/shape-plan/ice/fn-818.md
+new file mode 100644
+index 000000000..98dc8a974
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/ice/fn-818.md
+@@ -0,0 +1,24 @@
++# The two ICE of fn-818
++
++Written by gather_plan.py for /shape-plan. The failure lines are taken out.
++
++## Feature ICE — fn-818
++
++- Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.
++- Goal: A second run finds the plan, the epic and the stories that exist, and makes no copies.
++- Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.
++- Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.
++- Limit: Nothing goes to the tracker before the product owner's yes.
++- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval and the build. Not built yet (#818).
++- Checked by: the product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.
++
++## Capability ICE — cap-718
++
++- Goal: Given a business intent, a plan file exists with every capability and feature named, each with its ICE, with one epic per slice and one story per feature.
++- Limit: It never waits for a full product model; missing model pages are written as light pages on the fly.
++- Checked by: building the plans for #717 and its partner gives the same trees that were filed by hand on 2026-10-21.
++- Goal: A business intent has exactly one plan, and the plan holds one epic for each slice that serves the intent and one story for each feature of that slice.
++- Limit: The plan does not pick, rank or test slices; the person chose the slice at /shape-slice.
++- Limit: The plan play writes only the plan file, the epic and the stories; the slice's hidden file and its failure and recovery conditions are /shape-slice's (decision 6).
++- Context: serves the product owner, who runs and tracks the plan; reads the slice and the two ICE of each story once; writes .garura/project/plans/<intent>.yaml and the tracker's epic and stories; out are picking slices, the hidden file and the eval.
++- Checked by: /shape-plan run after /shape-slice on a real business intent writes the plan file, one epic and one story for each feature of the slice.
+diff --git a/.garura/project/issues/878/context/shape-plan/plan-before.txt b/.garura/project/issues/878/context/shape-plan/plan-before.txt
+new file mode 100644
+index 000000000..3f4e9d2ab
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/plan-before.txt
+@@ -0,0 +1 @@
++b351a1ef84b466e2fca2d6f4954b30d657be0f48d64a18c06d5cbebb003b5cd6  .garura/project/plans/788.yaml
+diff --git a/.garura/project/issues/878/context/shape-plan/plan-check.json b/.garura/project/issues/878/context/shape-plan/plan-check.json
+new file mode 100644
+index 000000000..5a47c5744
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/plan-check.json
+@@ -0,0 +1,16 @@
++{
++  "ok": true,
++  "problems": [],
++  "skipped": [],
++  "slices": [
++    {
++      "slice": "sl-intent-to-design",
++      "epic": 794,
++      "stories": {
++        "fn-795": 795,
++        "fn-798": 798,
++        "fn-818": 818
++      }
++    }
++  ]
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/plan-write.json b/.garura/project/issues/878/context/shape-plan/plan-write.json
+new file mode 100644
+index 000000000..02dd72f1f
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/plan-write.json
+@@ -0,0 +1,9 @@
++{
++  "ok": true,
++  "path": ".garura/project/plans/788.yaml",
++  "made": false,
++  "changed": false,
++  "added": [],
++  "removed": [],
++  "record_ok": true
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/skill-input.json b/.garura/project/issues/878/context/shape-plan/skill-input.json
+new file mode 100644
+index 000000000..8609c4d24
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/skill-input.json
+@@ -0,0 +1,31 @@
++{
++  "intent": "bi-788",
++  "intent_title": "Agents design a named piece of work",
++  "slices": [
++    {
++      "id": "sl-intent-to-design",
++      "name": "From a named piece of work to its design",
++      "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.",
++      "features": [
++        {
++          "id": "fn-795",
++          "name": "/shape-slice writes the slice and its hidden file",
++          "one_line": "From a business intent, /shape-slice writes one slice, its link to the intent and its hidden file, and no plan, epic, story or eval.",
++          "clean_ice": ".garura/project/issues/878/context/shape-plan/ice/fn-795.md"
++        },
++        {
++          "id": "fn-818",
++          "name": "/shape-plan writes the plan, the epic and the stories",
++          "one_line": "From a shaped slice, /shape-plan writes the intent's one plan file, one epic for the slice and one story for each feature.",
++          "clean_ice": ".garura/project/issues/878/context/shape-plan/ice/fn-818.md"
++        },
++        {
++          "id": "fn-798",
++          "name": "/shape-eval writes the hidden eval",
++          "one_line": "From the plan's epic and stories, /shape-eval writes the eval for the business intent in the plan's evals folder, where no builder reads.",
++          "clean_ice": ".garura/project/issues/878/context/shape-plan/ice/fn-798.md"
++        }
++      ]
++    }
++  ]
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/start-change.json b/.garura/project/issues/878/context/shape-plan/start-change.json
+new file mode 100644
+index 000000000..b3ca15cbd
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/start-change.json
+@@ -0,0 +1 @@
++{"play": "start-change", "issue": 878, "branch": "plan/788/878-shape-plan-788", "plan_branch": "plan/788/base", "status": "COMPLETED"}
+diff --git a/.garura/project/issues/878/context/shape-plan/start-sha.txt b/.garura/project/issues/878/context/shape-plan/start-sha.txt
+new file mode 100644
+index 000000000..8a4486028
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/start-sha.txt
+@@ -0,0 +1 @@
++086f4e1691a4c40bcea79b40395a67084c9d2bec
+diff --git a/.garura/project/issues/878/context/shape-plan/tracker-check.json b/.garura/project/issues/878/context/shape-plan/tracker-check.json
+new file mode 100644
+index 000000000..b3dfd24fe
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/tracker-check.json
+@@ -0,0 +1,12 @@
++{
++  "ok": false,
++  "problems": [
++    "epic #794's sub-issues [795, 796, 798, 816, 817, 818, 820, 821, 824, 825, 826, 828, 829, 830, 831, 836, 837, 838, 854] are not its stories [795, 798, 818]"
++  ],
++  "checked": [
++    794,
++    795,
++    798,
++    818
++  ]
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/tracker-record.json b/.garura/project/issues/878/context/shape-plan/tracker-record.json
+new file mode 100644
+index 000000000..45d716682
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/tracker-record.json
+@@ -0,0 +1,80 @@
++{
++  "ok": true,
++  "plan_id": "788",
++  "approval_at": "2026-10-25T09:52:48Z",
++  "created": [],
++  "updated": [
++    {
++      "issue": 795,
++      "kind": "story",
++      "represents": "fn-795",
++      "changes": [
++        "section added: Scope of work",
++        "section added: Context guidance",
++        "line added: Represents",
++        "type set to Story"
++      ],
++      "lines_kept": true
++    },
++    {
++      "issue": 818,
++      "kind": "story",
++      "represents": "fn-818",
++      "changes": [
++        "section added: Scope of work",
++        "section added: Context guidance",
++        "line added: Represents",
++        "type set to Story"
++      ],
++      "lines_kept": true
++    },
++    {
++      "issue": 798,
++      "kind": "story",
++      "represents": "fn-798",
++      "changes": [
++        "section added: Scope of work",
++        "section added: Context guidance",
++        "line added: Represents",
++        "type set to Story"
++      ],
++      "lines_kept": true
++    },
++    {
++      "issue": 794,
++      "kind": "epic",
++      "represents": "sl-intent-to-design",
++      "changes": [
++        "line added: Represents",
++        "feature-to-story map written",
++        "type set to Feature"
++      ],
++      "lines_kept": true
++    }
++  ],
++  "moved_out": [],
++  "epics": {
++    "sl-intent-to-design": 794
++  },
++  "stories": {
++    "fn-795": 795,
++    "fn-818": 818,
++    "fn-798": 798
++  },
++  "maps": {
++    "sl-intent-to-design": {
++      "fn-795": 795,
++      "fn-818": 818,
++      "fn-798": 798
++    }
++  },
++  "titles": {
++    "794": "The shaping loop turns a business intent into a testable slice, its plan and its eval",
++    "795": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
++    "818": "The plan play makes the plan file, the epic and one story per feature",
++    "798": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface"
++  },
++  "skipped": [],
++  "failed": null,
++  "error": null
++}
+diff --git a/.garura/project/issues/878/context/shape-plan/work-items.json b/.garura/project/issues/878/context/shape-plan/work-items.json
+new file mode 100644
+index 000000000..83cba307d
+--- /dev/null
++++ b/.garura/project/issues/878/context/shape-plan/work-items.json
+@@ -0,0 +1,68 @@
++{
++  "ok": true,
++  "plan_file_exists": true,
++  "problems": [],
++  "duplicates": [],
++  "slices": [
++    {
++      "slice": "sl-intent-to-design",
++      "epic": {
++        "action": "use",
++        "issue": 794,
++        "title": "The shaping loop turns a business intent into a testable slice, its plan and its eval",
++        "type": null,
++        "labels": [],
++        "represents_line": false,
++        "map": null
++      },
++      "stories": [
++        {
++          "feature": "fn-795",
++          "action": "add-sections",
++          "issue": 795,
++          "missing": [
++            "Scope of work",
++            "Context guidance"
++          ],
++          "reason": "",
++          "title": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
++          "type": null,
++          "labels": [],
++          "represents_line": false,
++          "attached": true
++        },
++        {
++          "feature": "fn-818",
++          "action": "add-sections",
++          "issue": 818,
++          "missing": [
++            "Scope of work",
++            "Context guidance"
++          ],
++          "reason": "",
++          "title": "The plan play makes the plan file, the epic and one story per feature",
++          "type": null,
++          "labels": [],
++          "represents_line": false,
++          "attached": true
++        },
++        {
++          "feature": "fn-798",
++          "action": "add-sections",
++          "issue": 798,
++          "missing": [
++            "Scope of work",
++            "Context guidance"
++          ],
++          "reason": "",
++          "title": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface",
++          "type": null,
++          "labels": [],
++          "represents_line": false,
++          "attached": true
++        }
++      ],
++      "move_out": []
++    }
++  ]
++}
+diff --git a/.garura/project/issues/878/context/templates/manifest-shape-plan.json b/.garura/project/issues/878/context/templates/manifest-shape-plan.json
+new file mode 100644
+index 000000000..54c733962
+--- /dev/null
++++ b/.garura/project/issues/878/context/templates/manifest-shape-plan.json
+@@ -0,0 +1,51 @@
++{
++  "status": "completed",
++  "outputs": {
++    "manifest": ".garura/project/issues/878/context/templates/manifest-shape-plan.json"
++  },
++  "templates": [
++    {
++      "name": "standards/templates/approval-prompt.md",
++      "copy": ".garura/project/issues/878/context/templates/standards/templates/approval-prompt.md",
++      "source": {
++        "tier": "garura",
++        "path": "core/memory/standards/templates/approval-prompt.md",
++        "version": null,
++        "fingerprint": "sha256:75da06f293bf8f69e8b09e560f2da788f44b2ea56a6d1e3d91c071106b1272ac"
++      }
++    },
++    {
++      "name": "standards/templates/evidence-file.md",
++      "copy": ".garura/project/issues/878/context/templates/standards/templates/evidence-file.md",
++      "source": {
++        "tier": "garura",
++        "path": "core/memory/standards/templates/evidence-file.md",
++        "version": null,
++        "fingerprint": "sha256:9d2ec2ea00cd54c2aa2149a395b08537bd37fa0c5924cb3aa72ef1b6db56699b"
++      }
++    },
++    {
++      "name": "standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/878/context/templates/standards/templates/delivery-report.md",
++      "source": {
++        "tier": "garura",
++        "path": "core/memory/standards/templates/delivery-report.md",
++        "version": null,
++        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
++      }
++    },
++    {
++      "name": "standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/878/context/templates/standards/rules/pipeline-next.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/rules/pipeline-next.md",
++        "version": "3161dcdfe26f",
++        "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412"
++      }
++    }
++  ],
++  "missing": [],
++  "task_id": "load-shape-plan-templates",
++  "error": null
++}
+diff --git a/.garura/project/issues/878/context/templates/standards/rules/pipeline-next.md b/.garura/project/issues/878/context/templates/standards/rules/pipeline-next.md
+new file mode 100644
+index 000000000..2279f09a7
+--- /dev/null
++++ b/.garura/project/issues/878/context/templates/standards/rules/pipeline-next.md
+@@ -0,0 +1,95 @@
++# Pipeline-next — the successor map (single source of truth)
++
++Every user-invocable compiled play — and every loop, which closes like a play (ADR 029) —
++when it finishes, tells the user what to run next when it has one successor. This file is the one place that mapping lives. The **Standard Play Close**
++(`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
++`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
++`meta_exempt`.
++
++The rendered line reads:
++
++> **Next:** `/<command>` — <why>.
++
++When a play's `command` is `null`, the play has no single successor and the close leaves the
++Next line out. The person picks the next piece of work from the plan (one plan for each
++business intent, with done / now / next) or from `/list-focus-issues` (ADR 051).
++
++## The flow
++
++The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
++
++- **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/research-knowledge`, `/check-knowledge`) run only inside it.
++- **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then the plan play (#818), then the eval play (#798). Neither of those is built yet, so `/shape-slice` has no Next line. The Discovery plays hand to it (`/shape-slice <intent>`, the business intent's issue number).
++- **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
++  - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
++  - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
++  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/shape-slice` no longer reads that mark (ADR 049).
++  ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
++- **Execute loop (per epic):** `/build-epic → /validate-epic → /release-epic`. `/release-epic` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
++- **Change loop (git):** `/start-change` (injected at a play's head) `→ /commit-change → /propose-change → /check-change → /merge-change`.
++- **Learn loop:** `/learn-outcomes`. `/list-focus-issues` lists the open issues worth attention.
++- Branch points (at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
++
++## The map
++
++```yaml
++next:
++  # Standalone (no loop)
++  record-decision:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
++  # Discovery loop, then the Shaping loop (/shape-slice <intent>)
++  complete-discovery:      { command: shape-slice,          why: "the model holds the business intents — shape the slice that serves one (/shape-slice <intent>)" }
++  discover-intent:         { command: discover-domains,         why: "seed the product model from a confirmed business intent (give /discover-domains its title, outcome and why as the goal)" }
++  discover-domains:         { command: discover-capabilities,     why: "expand this capability's intent (ICE)" }
++  discover-capabilities:     { command: shape-slice,     why: "the capabilities are detailed — shape the slice that serves a business intent (/shape-slice <intent>)" }
++  # Older chain, stale (#855): old Shape loop — design plays, functional (ux → agentic → marketing)
++  shape-ux-lens:             { command: shape-agentic-lens,        why: "next lens in the functional pipe" }
++  shape-agentic-lens:        { command: shape-marketing-lens,      why: "next lens in the functional pipe" }
++  shape-marketing-lens:      { command: null,           why: "functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain, stale (#855): old Shape loop — design plays, non-functional (arch → quality → run)
++  shape-architecture-lens:           { command: shape-quality-lens,        why: "next lens in the non-functional pipe" }
++  shape-quality-lens:        { command: shape-run-lens,            why: "next lens in the non-functional pipe" }
++  shape-run-lens:            { command: null,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
++  shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /shape-slice, not from this mark" }
++
++  # Shaping loop (ADR 049) — the live shape loop; the plan play (#818) and the eval play (#798) are not built yet
++  shape-slice:          { command: null,           why: "the slice is shaped; the shaping loop's next play, the plan play (#818), is not built yet" }
++
++  # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
++  build-epic:      { command: validate-epic,       why: "independently verify the built epic" }
++  validate-epic:       { command: release-epic,         why: "land the validated epic on human acceptance" }
++  release-epic:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
++  release-increment:         { command: null,           why: "increment deployed — the plan shows what comes next" }
++
++  # Defect and refactor lanes (ADR 023); /learn-outcomes is the Learn loop
++  fix-bug:        { command: null,           why: "defect resolved — the plan shows what comes next" }
++  refactor-code:       { command: null,           why: "refactor landed — the plan shows what comes next" }
++  learn-outcomes:          { command: null,           why: "model updated from outcomes — the plan shows what comes next" }
++
++  # Navigation
++  list-focus-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
++
++  # Loop members (run by a loop inside its rounds, never on their own)
++  search-knowledge: { command: null,         why: "runs inside a loop; /research-knowledge follows" }
++  research-knowledge:  { command: null,         why: "runs inside a loop; /check-knowledge follows" }
++  check-knowledge: { command: null,         why: "runs inside a loop; the loop shows the brief and waits for the person" }
++
++  # Change loop (git members)
++  start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
++  commit-change:  { command: propose-change, why: "raise the committed change" }
++  propose-change: { command: check-change,  why: "review the raised PR" }
++  check-change:  { command: merge-change,   why: "merge on approval" }
++  merge-change:   { command: null,           why: "change landed — the plan shows what comes next" }
++
++# Meta / bootstrap plays — not part of the product pipeline; no Next required.
++meta_exempt:
++  - install-garura
++  - uninstall-garura
++  - create-play
++  - edit-play
++  - create-loop
++  - edit-loop
++  - edit-ontology
++```
+\ No newline at end of file
+diff --git a/.garura/project/issues/878/context/templates/standards/templates/approval-prompt.md b/.garura/project/issues/878/context/templates/standards/templates/approval-prompt.md
+new file mode 100644
+index 000000000..4e8f07104
+--- /dev/null
++++ b/.garura/project/issues/878/context/templates/standards/templates/approval-prompt.md
+@@ -0,0 +1,154 @@
++# Approval Prompt Format
++
++The one format for a checkpoint: the place where a play stops and a person decides. Every
++play that waits for a person's approval uses this format. A play does not write its own
++prompt text.
++
++Consumers: every checkpoint-gated play.
++
++## Shape
++
++```markdown
++## {Stage title} — {product or issue slug}
++
++{Opening — two or three plain sentences. What the person decides, and what happens
++with their answer.}
++
++**Under review:**
++- `{path/to/primary-artifact}` — {one line: what it holds}
++{add more paths as needed}
++
++{Optional note — one to three lines. Only for something the person must know: this is
++a second round after a change they asked for, or a check found a warning.}
++
++### Question 1
++
++- **Question:** {the one thing the person decides, in plain words}
++- **Answer:** {the real answer the draft gives, in general words. If there is no
++  answer yet, write the proposed answer and say "proposed".}
++- **Why it matters:** {what goes wrong, or what changes, if the answer is wrong}
++- **Example:** {several examples from different domains — for example a clinic, a
++  shop and a bank}
++
++### Question 2
++
++{the same four parts}
++
++---
++
++Reply **yes** to go on, **change: {what to change}** to run {this stage} again with
++your change, or **stop** to end the run.
++```
++
++## Before you show it
++
++- Each question asks one thing. A question with an "and" in it is two questions.
++- Read each question back with no context: not the issue, not the other questions, not
++  the files. Show it only when a stranger could answer it. If a stranger could not,
++  rewrite it.
++- Plain English in the style of ASD-STE100: short sentences, one idea each, common words.
++- Personas only (for example "the clinic manager"). Never a real person's name.
++- Never paste the whole artifact. Give its path under **Under review**.
++
++## Field rules
++
++| Field | Rule |
++|-------|------|
++| Stage title | Sentence case. Names the stage the person approves (for example "Market brief", "Domain selection"). Never a general word ("Review", "Checkpoint"). |
++| Product / issue slug | The slug from the play's context. The same slug in every checkpoint of one run. |
++| Opening | Two or three sentences. Says what the person decides and what happens next. Counts help ("12 capabilities kept, 2 dropped"). |
++| Under review | Full paths from the workspace root, each with one line that says what it holds. |
++| Optional note | Only for a second round, a warning, or a fact the person cannot see from the draft. |
++| Questions | One block for each decision, with the four parts in order: Question, Answer, Why it matters, Example. |
++| Reply line | Always this line: `Reply **yes** to go on, **change: {what to change}** to run {this stage} again with your change, or **stop** to end the run.` |
++
++## Reading the reply
++
++The reply is a plain typed answer.
++
++| Reply | Meaning | Action |
++|-------|---------|--------|
++| `yes` (or `y`, `approve`, `go`) | Approved | Set the checkpoint to `APPROVED` and go to the next step. |
++| `change: {text}` (or other text that asks for a change) | Change asked for | Keep the text. Set the checkpoint to `CHANGE_REQUESTED`. Run the step that made the draft again, with the text as added context. Then show the checkpoint again. |
++| `stop` (or `no`, `cancel`) | Rejected | Set the checkpoint to `REJECTED`. Clean up as the play's intent says (branch, drafts). Halt. |
++| Anything else | Not clear | Ask again: "Reply yes, change: <what>, or stop." Show the prompt again. |
++
++**Do not use `AskUserQuestion` for checkpoints.** Show the prompt text and wait for the
++typed reply. This is a global rule from CLAUDE.md.
++
++## Gate switch (#466, three kinds per #467)
++
++Before rendering, resolve the checkpoint's switch per `standards/rules/gate-config.md`
++(first match wins):
++
++0. **Pinned** (declared in the play: `class: <class>, pinned`) → always render and wait.
++   No config value, policy, or ledger can turn a pinned gate off.
++1. `gates.plays.<play>` — explicit per-play override.
++2. **Conditional plays only** (the eleven document plays — vision, understand, shape,
++   roadmap, and the seven realize lenses): consult the learned policy —
++   `classify_change.py` names the change's shape key; a shape in the policy's `auto:`
++   block (and not in `never_auto:`) → **auto-pass**; anything else → on. A draft
++   carrying ANY blocking finding (lint gap, grounding-eval fail) → on, regardless of
++   policy.
++3. `gates.classes.<the class this checkpoint declares>` — each checkpoint declares its
++   risk class in the compiled play (`class: docs-only | standard | one-way-door`;
++   undeclared ⇒ standard).
++4. `gates.default` → absent ⇒ on.
++
++- **on** → render and wait, exactly as above. Afterwards, a conditional play appends the
++  live-eval line (`gate_eval.py append`): shape, `predicted: gate`, and the human's real
++  action (`approved_clean` | `approved_edited` | `rejected`).
++- **auto-pass** (conditional plays) → do NOT wait: record `gate auto-passed by learned
++  policy (shape: <shape-key>, policy v<version>)` as a Checkpoint Decisions row, include
++  the draft's diff summary in the run record, append the ledger line
++  (`predicted: auto, human: auto_pass`), and proceed. An auto-pass is always visible in
++  the run record — never silent.
++- **off** → do NOT wait: record `gate skipped by config (<resolution path>)` as a
++  Checkpoint Decisions row in the evidence file and proceed. A skip is always visible in
++  evidence — never silent.
++
++The switch gates human checkpoints ONLY. Pre-flight halts, sensitive-file blocks,
++stop-condition gates, and eval failures are machine walls and never resolve here.
++
++## Example
++
++```markdown
++## Domain selection — appointment-booking
++
++You decide which business areas the product covers first. When you approve, the next
++step writes the capabilities for these areas only. Areas you leave out wait for a later
++round.
++
++**Under review:**
++- `.garura/product/product-os/_spine.yaml` — the areas, kept and dropped, with reasons
++
++### Question 1
++
++- **Question:** Must the first release take payment when a person books?
++- **Answer:** Proposed: no. The first release books a time and sends a reminder. Payment
++  comes in a later release.
++- **Why it matters:** If payment is needed at booking, the first release must also
++  cover refunds and failed payments. That makes it about twice as large.
++- **Example:** A clinic often takes payment after the visit. A hair salon may take a
++  deposit at booking. A bank branch takes no payment for an appointment.
++
++### Question 2
++
++- **Question:** Can one person book for another person?
++- **Answer:** Proposed: yes. A parent can book for a child, and a carer for the person
++  they care for.
++- **Why it matters:** If the answer is no, families and carers must make an account for
++  each person. Many will not.
++- **Example:** A parent books a child at a clinic. An assistant books a manager at a
++  bank. A person books a friend at a shop's repair desk.
++
++---
++
++Reply **yes** to go on, **change: {what to change}** to run domain selection again with
++your change, or **stop** to end the run.
++```
++
++## Related
++
++- `checkpoint.md` — the file the play writes next to the prompt
++- `delivery-report.md` — the final report a play gives at close (not a checkpoint)
+\ No newline at end of file
+diff --git a/.garura/project/issues/878/context/templates/standards/templates/delivery-report.md b/.garura/project/issues/878/context/templates/standards/templates/delivery-report.md
+new file mode 100644
+index 000000000..c557fdb31
+--- /dev/null
++++ b/.garura/project/issues/878/context/templates/standards/templates/delivery-report.md
+@@ -0,0 +1,72 @@
++# Delivery Report Template
++
++Canonical shape for the human-readable terminal report a play presents to the user at close. This is the user-facing output, not the machine-readable STM evidence file (see `templates/evidence-file.md` for that).
++
++Consumers: `ship`, `fix-it`, `implement`, every play that closes with a delivery step.
++
++## Shape
++
++```markdown
++## {Play Name} Delivered — {context}
++
++### Run Summary
++
++| Field | Value |
++|-------|-------|
++| Play | {play-name} |
++| Issue | #{issue} |
++| Status | {COMPLETE \| PARTIAL \| FAILED} |
++| Started | {ISO-8601 timestamp} |
++| Completed | {ISO-8601 timestamp} |
++
++### Pipeline Steps
++
++| Step | Description | Status | Key Output |
++|------|-------------|--------|------------|
++| {n} | {step description} | {PASS/FAIL/SKIP} | {primary artifact or action taken} |
++
++### Artifacts Produced
++
++| Artifact | Path | Notes |
++|----------|------|-------|
++| {artifact name} | {path} | {description or status} |
++
++### Next
++
++{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. If the mapped command is null, the play has no single successor: omit the line.}
++
++{Optional: any other real follow-ons beyond the mapped next command — open defects, uncommitted artifacts. Omit if none.}
++```
++
++## Field Rules
++
++| Field | Required | Rule |
++|-------|----------|------|
++| `play` | yes | Exact play slug (e.g. `ship`, `fix-it`, `implement`). |
++| `issue` | yes | Issue number. Required for all project-scoped plays. |
++| `status` | yes | `COMPLETE` when all steps passed; `PARTIAL` when some steps skipped by configuration; `FAILED` when a step halted. |
++| `started` / `completed` | yes | ISO-8601 timestamps. |
++| `pipeline_steps` table | yes | At least one row per major step executed. Status: `PASS`, `FAIL`, or `SKIP`. |
++| `artifacts` table | no | Include when the play produces named artifacts (evidence files, PRs, SHAs). |
++| `next_steps` | no | Optional. Use when there are explicit follow-on actions (e.g., "Run validate after implement"). |
++
++## Per-Play Notes
++
++### ship
++Include in Pipeline Steps: commit, PR creation, review-pr (if run), merge, distill.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, distill output.
++
++### fix-it
++Include in Pipeline Steps: RCA, design, approval gate, implement, quality check, PR, merge.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, issue comment dispatch status.
++Add to Run Summary: Root Cause (summary), Fix Strategy (summary).
++
++### implement
++Include in Pipeline Steps: context build, eval generation, test authoring, code authoring, quality audit.
++Include in Artifacts: quality report, judge report, status report.
++Add to Run Summary: Milestone, Scope Items count, Quality status, Judge pass rate.
++
++## Related
++
++- `templates/evidence-file.md` — machine-readable STM evidence file (distinct from this human-facing report)
++- `templates/checkpoint.md` — checkpoint artifact written at each approval gate during the run
+\ No newline at end of file
+diff --git a/.garura/project/issues/878/context/templates/standards/templates/evidence-file.md b/.garura/project/issues/878/context/templates/standards/templates/evidence-file.md
+new file mode 100644
+index 000000000..2dfeaf6e3
+--- /dev/null
++++ b/.garura/project/issues/878/context/templates/standards/templates/evidence-file.md
+@@ -0,0 +1,156 @@
++# Evidence File Format
++
++Canonical format for evidence files emitted at play close. Every play writes one of these at its final step, and the file is self-committed as part of the STM audit trail.
++
++Consumers: `specify`, `design`, `arch`, `implement`, every play that closes with an evidence step.
++
++## File path convention
++
++Product-scoped plays:
++
++```
++{product_base}/_evidence/{play-name}/{YYYYMMDD-HHMMSS}.md
++```
++
++Project-scoped plays:
++
++```
++{stm_base}/{issue}/evidence/{play-name}/{YYYYMMDD-HHMMSS}.md
++```
++
++One file per play run. Re-runs of the same play create a new timestamped file; evidence is append-only across runs.
++
++## Shape
++
++```markdown
++---
++play: {play-name}
++run_id: {unique id — timestamp-based is fine}
++issue: {issue number or null}
++product_slug: {slug or null}
++started_at: {ISO-8601}
++completed_at: {ISO-8601}
++status: COMPLETED | HALTED | ABORTED
++exit_reason: success | validation_failed | user_stop | pre_flight_failed | recovery_exhausted | {other}
++session_id: {Claude Code session UUID from session_stamp.py, or null}
++ledger_file: {path to the session's JSONL ledger, or null}
++ledger_start_offset: {ledger byte size at play pre-flight, or null}
++ledger_end_offset: {ledger byte size at play close, or null}
++stop_condition: held | unmet | not_defined
++---
++
++# {Play Title} Evidence — {slug or issue}
++
++## Context
++{One-paragraph summary of what the run was doing — intent, product slug,
++or issue title. Pulled from the play's invocation context.}
++
++## Artifacts Produced
++| Artifact | Path | Notes |
++|----------|------|-------|
++| {name} | {workspace-relative path} | {size, line count, or content summary} |
++| ... | ... | ... |
++
++## Step Eval Results
++| Eval ID | Source | Status | Detail |
++|---------|--------|--------|--------|
++| SE-1 | F1 | PASS \| FAIL | {one-line detail if FAIL; skip if PASS} |
++| SE-2 | F3 | PASS | {optional note} |
++| ... | ... | ... | ... |
++
++Summary: `{N}/{M}` step evals passed.
++
++## Scenario Eval Results
++| Eval ID | Source | Status | Detail |
++|---------|--------|--------|--------|
++| SCE-1 | S1 | PASS | {optional note} |
++| ... | ... | ... | ... |
++
++Summary: `{N}/{M}` scenario evals passed.
++
++## Checkpoint Decisions
++| Stage | Cycle | Decision | Timestamp |
++|-------|-------|----------|-----------|
++| {stage-slug} | 1 | change | {timestamp} |
++| {stage-slug} | 2 | yes | {timestamp} |
++| ... | ... | ... | ... |
++
++{One line per checkpoint cycle. A round after a change reply is its own row.}
++
++## Resolution Gate Outcomes
++{Only when the play had a pre-lock resolution gate (e.g. specify).
++Lists every issue surfaced at the gate and how it was resolved (RESOLVED
++audit entries or a stop reply).}
++
++| Issue | Severity | Resolution | Note |
++|-------|----------|------------|------|
++| {field path} | blocker \| warning | RESOLVED \| stopped | {user's resolution text} |
++
++## Stop Condition
++{Only when the play carries a baked stop-condition.yaml (#464). The Step C0
++verdict — one row per done-clause, statuses verbatim from
++check_stop_condition.py. On `held` this section may be a single summary line;
++on `unmet` every unmet clause is listed — the reason the run closed HALTED.}
++
++| Clause | Says | Status | Detail |
++|--------|------|--------|--------|
++| {D-id} | {human sentence} | held \| unmet \| error | {evaluated detail} |
++
++## Gate Outcomes
++{Only when the run executed the quality lens's binding cards (#462, via
++check-quality-gates). One row per card in quality-gates.yaml — nothing dropped:
++a human-owned or unmeasured gate is a visible row, never an omission. The
++missing-tool rows are the build loop's provisioning work-list.}
++
++| Gate | Owner | Status | Detail |
++|------|-------|--------|--------|
++| {id (dimension)} | machine \| human | pass \| fail \| error \| missing-tool \| human | {measure=value vs threshold; demanded tool when missing; review edge when human} |
++
++Summary: `{passes}/{machine-card count}` machine gates pass; `{n}` missing-tool; `{n}` human-owned.
++
++## Recovery Attempts
++{Only when any agent returned a structured failure and the play invoked
++recovery. Lists each recovery cycle, which agent was dispatched, and
++whether it succeeded.}
++
++| Cycle | Agent | Reason | Outcome |
++|-------|-------|--------|---------|
++| 1 | {agent-name} | {failure category} | resolved \| escalated |
++| ... | ... | ... | ... |
++
++## Commit Reference
++Self-commit SHA: `{short sha}` ({subject line})
++
++## Next Consumers
++{1-3 lines naming the downstream plays / consumers that will read these
++artifacts. For specify: "design reads enriched-capabilities.yaml
++and epics/; arch reads quality-profile.yaml and epics/". For
++implement: "/validate-epic checks the built epic against expectations;
++the close chain follows acceptance".}
++```
++
++## Field rules
++
++| Field | Rule |
++|-------|------|
++| `play` | Exact play slug. |
++| `run_id` | Unique per run. Timestamp-based (`{play}-{YYYYMMDD-HHMMSS}`) is fine. |
++| `status` | `COMPLETED` on normal close; `HALTED` on an explicit `stop` reply from the user; `ABORTED` on unrecoverable failure. |
++| `exit_reason` | Short token describing why the run ended. Specific values are per-play. |
++| `session_id` / `ledger_*` | The session identity stamp (#463), copied verbatim from `session_stamp.py --phase close`. The offline join key for spend attribution — a run's exact token cost is computable later from the ledger slice `[start_offset, end_offset)`. Null when the ledger was unresolved; never fabricate. |
++| `stop_condition` | The Step C0 verdict (#464), verbatim from `check_stop_condition.py`. `held` is the only value that permits `status: COMPLETED`; `unmet` (or an unevaluable `error`) forces `HALTED` with `exit_reason: stop_condition_unmet` and the Stop Condition section filled. `not_defined` only for legacy plays whose recompile has not yet baked a manifest. |
++| Step Eval Results | Must list EVERY SE-n defined in the compiled play — no silent skips. PASS / FAIL only; DEFERRED / N-A are allowed if the corresponding step was not reached (e.g., the clean-up path after a `stop` reply). |
++| Scenario Eval Results | Must list EVERY SCE-n defined in the compiled play. |
++| Checkpoint Decisions | One row per checkpoint cycle. A change reply produces multiple rows for the same stage. |
++| Gate Outcomes | Must list EVERY card in the lens's quality-gates.yaml when the run executed gates — one row per card, statuses verbatim from check-quality-gates. A gate that didn't run appears as missing-tool/error, never as a dropped row. |
++| Commit Reference | Populated AFTER the self-commit step. If the commit step failed, use `N/A — commit failed, see recovery`. |
++
++## Non-blocking
++
++The evidence file is self-committed but the commit is non-blocking. If pre-commit hooks reject the commit, the evidence file remains on disk and the run still closes. A warning is recorded in `Recovery Attempts` if applicable.
++
++## Related
++
++- `checkpoint.md` — referenced by `Checkpoint Decisions` rows
++- `approval-prompt.md` — rendered for each checkpoint; the user's responses feed `Checkpoint Decisions`
++- `delivery-report.md` — the user-facing summary (different artifact — user-visible, not STM-scoped)
+\ No newline at end of file
+diff --git a/.garura/project/issues/878/context/work-description.txt b/.garura/project/issues/878/context/work-description.txt
+new file mode 100644
+index 000000000..ad984f32a
+--- /dev/null
++++ b/.garura/project/issues/878/context/work-description.txt
+@@ -0,0 +1,7 @@
++Run /shape-plan on business intent #788 for the first time.
++
++The slice sl-intent-to-design serves #788. This run makes the plan for it, or brings it up to date: one epic (an issue of type Feature) for the slice, and one story (type Story) for each of its features, each written from its feature's ICE and its capability's ICE. The plan file already marks #794 as the slice's work order and #795, #818 and #798 as its stories, so the run must use them and make no copy.
++
++Done when: /shape-plan 788 closes COMPLETED with its stop condition held; the plan file and the tracker agree; the change lands on plan/788/base through the change plays.
++
++Serves: #788. Part of: plan 788 (top level, like #866).

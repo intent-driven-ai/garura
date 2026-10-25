@@ -1,0 +1,12 @@
+pr: 880
+issue: 878
+round: 1
+findings: []
+layer1:
+  quality: {ran: check-pr-quality (quality-auditor), findings: 0, file: quality-findings.yaml}
+  lint_components: {ran: false, why: "no path under core/components and no installed play in changed_paths"}
+  lint_play: {ran: false, why: "no play SKILL.md in changed_paths"}
+  config_maps_by_hand: {basis: "playbook review/config-maps (known linter gap)", result: "install-manifest.json parses; counts 24 skills / 15 plays match the kind map; shape-plan and author-work-items exist in source and installed; no home path in added lines"}
+runnable_checks:
+  - {command: "python3 -c 'import json; json.load(open(\".garura/install-manifest.json\"))'", result: "parses"}
+layer2: {ran: false, why: "categories.yaml holds no design-bearing category"}
