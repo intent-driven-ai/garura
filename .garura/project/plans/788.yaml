@@ -175,6 +175,10 @@ tree:
 - issue: 860
   kind: bug
   title: 'Installed skills read the source tree (core/components, core/tools) at run time (P1)'
+  status: done
+- issue: 865
+  kind: chore
+  title: 'The three small findings left by the PR #864 review, round 4'
   status: next
 - issue: 861
   kind: chore
