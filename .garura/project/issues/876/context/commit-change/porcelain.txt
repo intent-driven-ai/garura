@@ -1,0 +1,3 @@
+ M core/components/plays/install-garura/scripts/install.py
+ M core/components/plays/install-garura/scripts/test_install.py
+?? .garura/project/issues/876/context/commit-change/

@@ -1,0 +1,13 @@
+commits:
+  - sha: 0c51e70c
+    message: "fix(install-garura): lay shape-plan and author-work-items in a harness install (#876)"
+    files:
+      - core/components/plays/install-garura/scripts/install.py
+      - core/components/plays/install-garura/scripts/test_install.py
+    branch: plan/788/876-install-lays-shape-plan
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
