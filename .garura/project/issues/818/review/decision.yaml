@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "approve and merge"
+round: 2
+citing: []
+recommended: approve (no P1, no P2; three P3, two P4 new)
+not_fixed_by_decision:
+  - NF-1, NF-2, NF-3 (P3), NF-4, NF-5 (P4) and DF-7 to DF-12 (P4) — chore #874
+  - DF-6 (P3) — the ontology's "labelled work-item" lines; its own /edit-ontology change (decision 3)

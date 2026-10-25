@@ -64,3 +64,11 @@ notes:
   by Next line, consistent with base feature fn-818 ('runs after /shape-slice, on its own'). No conflict
   found.
 - Grounding was read only from the base ref and the memory tool; no principle rests on text the diff adds.
+- Round 2 added platform_adapter verbs and skill/agent edits; none of them touch the memory category,
+  so no new memory finding.
+round: 2
+round_2_confirmation: 'core/components/memory/standards/rules/pipeline-next.md is unchanged since round
+  1: git diff 91cc5352 HEAD on the file is empty, and 91cc5352 is the only commit on plan/788/base..HEAD
+  that touches it. Re-checked at HEAD: the yaml map parses (yaml.safe_load), shape-slice -> shape-plan,
+  shape-plan -> null, every command resolves to a play or loop folder, ADRs 028/029/041/049/051/053 exist
+  on the base ref. Round-1 conclusions stand.'

@@ -1,9 +1,9 @@
-# categories.yaml - check-change Step 2 (assessment), PR #873, issue 818, base plan/788/base
+# categories.yaml - check-change Step 2 (assessment), PR #873 round 2, issue 818, base plan/788/base
 # Treatments are taken from the short-term playbook copies in
 # .garura/project/issues/818/context/memory/knowledge/review/ (Phoenix memory, version 3161dcdfe26f).
 # Severity taxonomy copy: .garura/project/issues/818/context/memory/standards/rules/pr.md (Garura memory tier, version null).
 next_map: .garura/project/issues/818/context/templates/standards/rules/pipeline-next.md
-changed_plays: [shape-plan, shape-slice]
+changed_plays: [shape-plan, shape-slice, check-change, merge-change, propose-change, create-play]
 categories:
   - name: harness
     design_bearing: true
@@ -15,6 +15,7 @@ categories:
       - core/components/plays/shape-slice/SKILL.md           # play, one close line changed
       - core/components/skills/author-work-items/SKILL.md    # new skill
       - core/components/agents/product-os-keeper.md          # agent definition changed
+      - core/components/skills/platform-adapter/SKILL.md     # round 2: skill page documents the five new adapter verbs
     treatment:
       layers: [layer-1-linters, layer-2-design-grounding]
       reviewer: human (design) + tool (conformance)
@@ -26,8 +27,10 @@ categories:
           command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-plan/SKILL.md --next-map .garura/project/issues/818/context/templates/standards/rules/pipeline-next.md"
         - id: lint-play-shape-slice
           command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-slice/SKILL.md --next-map .garura/project/issues/818/context/templates/standards/rules/pipeline-next.md"
+        - note: "check-change, merge-change, propose-change and create-play have no SKILL.md change in this PR (only an adapter script copy or a reference file), so no lint_play run for them."
       runnable_checks:
-        - "ICE-source rule (repository holds the plays' source): the shape-plan SKILL.md traces to core/components/plays/shape-plan/reference/ice.md; the shape-slice SKILL.md change is a non-intent close-line edit only if it alters no constraint, failure, scenario, flow or eval - check by reading the diff and cite it."
+        - "ICE-source rule (repository holds the plays' source): the shape-plan SKILL.md traces to core/components/plays/shape-plan/reference/ice.md; the shape-slice SKILL.md change (Next Steps wording now says run /shape-plan <intent-issue>) is a non-intent close-line edit only if it alters no constraint, failure, scenario, flow or eval - check by reading the diff and cite it."
+        - "Round 2 wiring check: the six platform_adapter.py copies (create-play/references plus check-change, merge-change, propose-change, shape-plan, shape-slice scripts) must stay byte-identical (cmp each against core/components/plays/create-play/references/platform_adapter.py); the platform-adapter SKILL.md must name exactly the verbs the script defines."
         - "Layer 2: reconstruct principles from committed sources on plan/788/base (docs/philosophy/**, docs/adr/**, standards via the memory tool, glossary); never from content this branch adds."
       design_grounding: true
       grounding_sources: "docs/philosophy/**, docs/adr/**, standards/rules/** (user-facing-voice, play-close, evidence-recording), glossary - all read from the base ref or the memory tool"
@@ -51,6 +54,11 @@ categories:
     design_bearing: false
     playbook: review/code
     evidence:
+      - core/components/plays/check-change/scripts/platform_adapter.py     # round 2: five new verbs (adapter copy)
+      - core/components/plays/merge-change/scripts/platform_adapter.py
+      - core/components/plays/propose-change/scripts/platform_adapter.py
+      - core/components/plays/shape-slice/scripts/platform_adapter.py
+      - core/components/plays/create-play/references/platform_adapter.py   # the reference every copy comes from
       - core/components/plays/shape-plan/scripts/check_drafts.py
       - core/components/plays/shape-plan/scripts/check_ice_workable.py
       - core/components/plays/shape-plan/scripts/check_plan.py
@@ -73,12 +81,12 @@ categories:
       reviewer: tool, against industry best practice
       linters:
         - id: ruff
-          command: "ruff check core/components/plays/shape-plan/scripts --exclude 'test_*.py' --exclude __pycache__"
+          command: "ruff check core/components/plays/shape-plan/scripts core/components/plays/check-change/scripts core/components/plays/merge-change/scripts core/components/plays/propose-change/scripts core/components/plays/shape-slice/scripts core/components/plays/create-play/references --exclude 'test_*.py' --exclude __pycache__"
           note: "Language linter for Python; ruff is on this machine. Not installed -> record 'not installed'."
         - id: check-pr-quality
           command: "run by the play / quality-auditor against the PR diff with the pr.md severity taxonomy copy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)"
       runnable_checks:
-        - "Read hard the data-safety and idempotency paths: write_plan_file.py, write_work_items.py, platform_adapter.py (tracker writes), scoped_write_guard.py, record_approval.py. Check error handling, no stray debug output, no secrets, safe handling of destructive operations, determinism where claimed."
+        - "Read hard the data-safety and idempotency paths: write_plan_file.py, write_work_items.py, platform_adapter.py (tracker writes), scoped_write_guard.py, record_approval.py. The five new adapter verbs (tracker writes) in the reference and its five copies get the same hard read. Check error handling, no stray debug output, no secrets, safe handling of destructive operations, determinism where claimed."
       design_grounding: false
   - name: tests
     design_bearing: false
@@ -94,12 +102,13 @@ categories:
       - core/components/plays/shape-plan/scripts/test_write_plan_file.py
       - core/components/plays/shape-plan/scripts/test_write_work_items.py
       - core/components/plays/shape-plan/scripts/test_support.py   # shared helper for the tests
+      - core/components/plays/create-play/references/test_platform_adapter.py   # round 2: adapter tests for the five new verbs
     treatment:
       layers: [layer-1-linters, run-the-suite]
       reviewer: tool
       linters:
         - id: ruff-tests
-          command: "ruff check core/components/plays/shape-plan/scripts --select F,E9 --exclude __pycache__"
+          command: "ruff check core/components/plays/shape-plan/scripts core/components/plays/create-play/references --select F,E9 --exclude __pycache__"
           note: "Best-practice lint on the test code; also look for skipped/disabled tests and tests that assert nothing. Plus the pr.md TEST-* rows via check-pr-quality (run by the play)."
       runnable_checks:
         - "Run each test from the scripts folder (a red suite is a blocker; a test that did not run is 'not run', never 'passed'). test_support.py is a helper, not a test."
@@ -112,6 +121,7 @@ categories:
         - "cd core/components/plays/shape-plan/scripts && python3 test_render_brief.py"
         - "cd core/components/plays/shape-plan/scripts && python3 test_write_plan_file.py"
         - "cd core/components/plays/shape-plan/scripts && python3 test_write_work_items.py"
+        - "cd core/components/plays/create-play/references && python3 test_platform_adapter.py"
       design_grounding: false
   - name: documentation
     design_bearing: false
@@ -156,6 +166,9 @@ categories:
       - .garura/project/issues/818/context/resolved-rules.json
       - .garura/project/issues/818/context/self-review.md
       - .garura/project/issues/818/context/target.json
+      - .garura/project/issues/818/review/*  # this review's own working files (context, diff, categories, findings, verdict, runnable-checks): the review's output, never grounding
+      - .garura/project/issues/818/context/memory/**  # short-term copies of shelf, severity taxonomy and grounding standards (with manifests): copies of memory, not changes to it
+      - .garura/project/issues/818/context/templates/**  # template-manager copies (Next-line map, manifest)
     treatment:
       layers: [layer-1-linters]
       reviewer: tool
