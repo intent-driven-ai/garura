@@ -119,6 +119,26 @@ t('installed layout: a docs pointer fails in an agent and a reference file; repo
 t('a docs pointer is reported under installed-paths/source-path with its own message',
   check(docsDir, 'installed').every((v) => v.rule === RULE_ID && v.message.includes("Garura's documentation")), true);
 
+// --- the tools laid beside the target (decision 23) -------------------------
+const toolProj = tmp('ip-tools-');
+const toolTarget = path.join(toolProj, '.claude');
+write(toolTarget, 'skills/find-thing/SKILL.md', '---\nname: find-thing\n---\nclean\n');
+write(toolProj, '.garura/core/tools/run-thing/run.py', 'SRC = "core/components/plays"\nOK = ".garura/core/tools/memory/memory.py"\n');
+write(toolProj, '.garura/core/tools/run-thing/README.md', 'Read `~/.garura/core/memory/standards`.\n');
+write(toolProj, '.garura/core/tools/run-thing/test_run.py', 'SRC = "core/components/"\n');
+write(toolProj, '.garura/core/tools/run-thing/__pycache__/run.py', 'core/components/\n');
+write(toolProj, '.garura/core/tools/node-thing/index.js', 'module.exports = 1;\n');
+write(toolProj, '.garura/core/tools/node-thing/node_modules/dep/index.js', '// core/tools/x\n');
+write(toolProj, '.garura/core/tools/lint-components/lib/rules/installed-paths.js', "const re = /core\\/components\\//; // core/components/\n");
+function toolLines() {
+  return check(toolTarget, 'installed').map((v) => `${path.relative(toolProj, v.file)}:${v.line}`).sort();
+}
+t('installed layout: a laid tool that names the source or a memory folder fails; tests, caches, node_modules and the linter rule pass',
+  toolLines(), ['.garura/core/tools/run-thing/README.md:1', '.garura/core/tools/run-thing/run.py:1']);
+t('a laid tool is named in the message',
+  check(toolTarget, 'installed').every((v) => v.message.startsWith('The tool run-thing')), true);
+t('the source layout does not scan the laid tools', check(toolTarget, 'source'), []);
+
 // --- the command line ------------------------------------------------------
 const index = path.join(__dirname, '..', 'index.js');
 function run(args) {

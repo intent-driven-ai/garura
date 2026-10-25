@@ -4,7 +4,9 @@
 // loop, agent or skill, every file in its folder (its reference files and scripts), and the
 // shared files must not name Garura's source (core/components/, core/tools/), a memory
 // folder (~/.garura/core/memory, .garura/core/memory/) or Garura's own documentation (docs/). The memory tool's place,
-// .garura/core/tools/memory/, is an installed place and passes. It runs in both layouts.
+// .garura/core/tools/memory/, is an installed place and passes. It runs in both layouts. In the
+// installed layout it also scans the tools the install lays beside the target
+// (<project>/.garura/core/tools/<tool>/, not node_modules or caches).
 //
 // Named exceptions, which work on the source only by design: the meta plays and the skill
 // they run, dev tests, and the repo-layout text that sorts the paths of the repo under review.
@@ -22,6 +24,10 @@ const SOURCE_ONLY_PARTS = new Set([
 const REPO_LAYOUT_FILES = new Set([
   'commit-change/scripts/analyze_changeset.py',
   'assess-pr/reference/quality-rules.md',
+  // the component linter's own rules: this rule's patterns, and where the source layout keeps
+  // the lint_play.py tool (the linter checks Garura's source layout too)
+  'lint-components/lib/rules/installed-paths.js',
+  'lint-components/lib/rules/shared-scripts.js',
 ]);
 
 const PATTERNS = [
@@ -126,7 +132,24 @@ function partsOf(targetDir, layout) {
       }
     }
   }
+  if (layout === 'installed') parts.push(...laidTools(targetDir));
   return parts;
+}
+
+/**
+ * The tools the install lays beside the target: <project>/.garura/core/tools/<tool>/, where the
+ * target is <project>/.claude (or .agents). Each tool is one entry; filesUnder skips
+ * node_modules, caches and dev tests.
+ */
+function laidTools(targetDir) {
+  const toolsDir = path.join(path.dirname(path.resolve(targetDir)), '.garura', 'core', 'tools');
+  if (!fs.existsSync(toolsDir)) return [];
+  return fs.readdirSync(toolsDir, { withFileTypes: true })
+    .filter((e) => e.isDirectory() && !e.name.startsWith('.') && e.name !== 'node_modules' && e.name !== '__pycache__')
+    .map((e) => {
+      const root = path.join(toolsDir, e.name);
+      return { name: `tool:${e.name}`, label: `The tool ${e.name}`, root, files: filesUnder(root) };
+    });
 }
 
 /**
