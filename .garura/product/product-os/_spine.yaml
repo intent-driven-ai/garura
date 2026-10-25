@@ -63,8 +63,7 @@ capabilities:
   - bi-788
   status: proposed
   detail: directional
-  one_line: 'Build a plan from a business intent: a plan file, one epic per slice
-    and one story per feature'
+  one_line: 'Build a plan from a business intent: a plan file, one epic per slice and one story per feature'
   doc: software-delivery-planning/cap-718/capability.md
   depends_on: []
   identified_by: ''
@@ -173,41 +172,6 @@ capabilities:
     created_by: /shape-slice
     deepen: true
     thin: true
-- id: cap-initialize
-  domain: dom-software-delivery-planning
-  intents: []
-  status: proposed
-  detail: detailed
-  one_line: 'After the install, set a project up for Garura: its memory, its review
-    rules, and its tracker''s work-item types.'
-  doc: software-delivery-planning/initialize/capability.md
-  nfr_needs:
-    reliability:
-      level: medium
-      target: a second run with every answer unchanged and no Phoenix memory change
-        changes 0 files in the project's memory, its rule-group record and its tracker;
-        an install changes 0 files in any project's Garura memory
-      gate: run initialize twice on a test project with the same answers and diff
-        the memory folder, the rule-group record and the tracker's type list; install
-        Garura and Phoenix again and diff the project's memory folder
-    security:
-      level: medium
-      target: 0 writes to the tracker or the type mapping before the product owner's
-        typed yes; 0 writes to Phoenix memory or another project's memory from initialize;
-        every type made is named in the run's record
-      gate: run initialize on a test GitHub organization with a missing type, answer
-        no, and check the tracker's type list and the mapping are unchanged; answer
-        yes and check the record names each type made; initialize two test projects
-        and diff Phoenix memory and the other project's memory before and after
-    maintainability:
-      level: medium
-      target: a new tracker (Jira, Linear) is added by one entry in the adapter with
-        0 changes to any play; the plays read only the type mapping
-      gate: 'review of the change that adds the second tracker: its diff touches the
-        adapter and no play'
-  compliance_needs: []
-  decisions:
-  - dec-cap-initialize-security-none-medium
 features:
 - id: fn-724
   slug: fn-724
@@ -486,57 +450,6 @@ features:
     created_by: /shape-slice
     deepen: true
     thin: true
-- id: fn-setup-questions
-  slug: fn-setup-questions
-  capability: cap-initialize
-  intents: []
-  status: proposed
-  one_line: Ask the product owner the short set of setup questions built from Phoenix
-    memory, each with choices and a proposed answer that names its source, and keep
-    the confirmed answers for the other features.
-  doc: software-delivery-planning/initialize/fn-setup-questions/feature.md
-- id: fn-project-memory
-  slug: fn-project-memory
-  capability: cap-initialize
-  intents: []
-  status: proposed
-  one_line: Set up the project's Garura memory from only the memory blocks the answers
-    call for, and record the answers in the product profile.
-  doc: software-delivery-planning/initialize/fn-project-memory/feature.md
-- id: fn-review-rule-groups
-  slug: fn-review-rule-groups
-  capability: cap-initialize
-  intents: []
-  status: proposed
-  one_line: Record which review rule groups fit the project, so a review runs only
-    those and names the groups it skipped.
-  doc: software-delivery-planning/initialize/fn-review-rule-groups/feature.md
-- id: fn-881
-  slug: fn-881
-  capability: cap-initialize
-  intents: []
-  status: proposed
-  one_line: Find the tracker's work-item types, make each missing one (Business Intent,
-    Epic, Story, Bug, Chore, Spike) after a typed yes, and record a stand-in, also
-    after a typed yes, where one cannot be made.
-  doc: software-delivery-planning/initialize/fn-881/feature.md
-- id: fn-rerun-initialize
-  slug: fn-rerun-initialize
-  capability: cap-initialize
-  intents: []
-  status: proposed
-  one_line: Run initialize again when the project changes, with the earlier answers
-    proposed, so the memory, rule groups and tracker set-up follow it.
-  doc: software-delivery-planning/initialize/fn-rerun-initialize/feature.md
-- id: fn-883
-  slug: fn-883
-  capability: cap-initialize
-  intents: []
-  status: proposed
-  one_line: Give each project its own memory blocks from the one Phoenix memory on
-    the machine, and on each run compare them with Phoenix memory so the project learns
-    when a block changed.
-  doc: software-delivery-planning/initialize/fn-883/feature.md
 profile:
   state: set
   nfr:
@@ -546,10 +459,6 @@ profile:
     maintainability:
       level: medium
       gate: ready-check and linter tests; spine before/after diff on the rename
-    security:
-      level: medium
-      gate: no tracker or mapping write before the typed yes, on a test GitHub organization;
-        no write to Phoenix memory or another project's memory
   compliance: []
 slices:
 - id: sl-intent-to-design
