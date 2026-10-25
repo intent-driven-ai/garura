@@ -329,6 +329,13 @@ Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM aut
   sits in a listed domain with its evidence and source, every added domain holds a main section,
   and no capability was written; the rebuild eval's review reads `recognised: true` for each
   domain.
+- S9 — (product strategist, a second run on the same issue) Given an earlier run on this issue
+  whose domain docs passed the content-quality eval, when /discover-domains runs again and a
+  doc, the guidance and the judge are unchanged, then no judge is dispatched for that doc and
+  its pass stands; and in a fix round, a new point the judge finds on text that did not change
+  is a note that does not stop the run (#884). Measure: `kept` reads exit 0 for each unchanged
+  doc and no verdict file is written for it; a fix-round gate result with such a point reads
+  `ok: true` and holds it in `notes`; `notes.json` lists it beside its doc.
 
 ### Done means
 

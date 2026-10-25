@@ -362,6 +362,13 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   scope (its domain's folder or `capabilities/<id>/`); `check_sources.py` over every target's
   manifest, with `--source-text`, exits 0;
   the rebuild eval's review reads no feature `invented` or `panel`.
+- S10 — (product manager, a second run on the same issue) Given an earlier run on this issue
+  whose docs passed the content-quality eval, when /discover-capabilities runs again and a
+  doc, its parent, the guidance and the judge are unchanged, then no judge is dispatched for
+  that doc and its pass stands; and in a fix round, a new point the judge finds on text that
+  did not change is a note that does not stop the run (#884). Measure: `kept` reads exit 0
+  for each unchanged doc and no verdict file is written for it; a fix-round gate result with
+  such a point reads `ok: true` and holds it in `notes`; `notes.json` lists it beside its doc.
 
 ### Done means
 
