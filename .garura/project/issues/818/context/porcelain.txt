@@ -1,8 +1,28 @@
- M .garura/user-provided/managing-work.md
+ M .garura/project/issues/818/context/build/contract.md
+ M .garura/project/issues/818/context/decisions.md
+ M .garura/project/issues/818/context/porcelain.txt
  M core/components/agents/product-os-keeper.md
- M core/components/memory/standards/rules/pipeline-next.md
- M core/components/plays/shape-slice/SKILL.md
-?? .garura/project/issues/818/context/decisions.md
-?? .garura/project/issues/818/context/porcelain.txt
-?? core/components/plays/shape-plan/
-?? core/components/skills/author-work-items/
+ M core/components/plays/check-change/scripts/platform_adapter.py
+ M core/components/plays/create-play/references/platform_adapter.py
+ M core/components/plays/create-play/references/test_platform_adapter.py
+ M core/components/plays/merge-change/scripts/platform_adapter.py
+ M core/components/plays/propose-change/scripts/platform_adapter.py
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-plan/scripts/check_drafts.py
+ M core/components/plays/shape-plan/scripts/gather_plan.py
+ M core/components/plays/shape-plan/scripts/plan_common.py
+ M core/components/plays/shape-plan/scripts/platform_adapter.py
+ M core/components/plays/shape-plan/scripts/record_approval.py
+ M core/components/plays/shape-plan/scripts/test_check_drafts.py
+ M core/components/plays/shape-plan/scripts/test_gather_plan.py
+ M core/components/plays/shape-plan/scripts/test_record_approval.py
+ M core/components/plays/shape-plan/scripts/test_support.py
+ M core/components/plays/shape-plan/scripts/test_write_work_items.py
+ M core/components/plays/shape-plan/scripts/write_plan_file.py
+ M core/components/plays/shape-plan/scripts/write_work_items.py
+ M core/components/plays/shape-slice/scripts/platform_adapter.py
+ M core/components/skills/author-work-items/SKILL.md
+ M core/components/skills/platform-adapter/SKILL.md
+?? .garura/project/issues/818/context/memory/
+?? .garura/project/issues/818/context/templates/
+?? .garura/project/issues/818/review/

@@ -1,85 +1,92 @@
+---
 needs_judgment: false
+
 change_groups:
-  - id: shape-plan-play
+  - id: shape-plan-round-2-fixes
     issue: 818
-    commit_type: feat
+    commit_type: fix
     scope: shape-plan
-    subject: "Add the shape-plan play"
+    subject: "create typed work items in one call, record after every write, nest fails-if blocks, write skill-input.json and tie the yes to the brief hashes"
     files:
       - core/components/plays/shape-plan/SKILL.md
-      - core/components/plays/shape-plan/reference/ice.md
       - core/components/plays/shape-plan/scripts/check_drafts.py
-      - core/components/plays/shape-plan/scripts/check_ice_workable.py
-      - core/components/plays/shape-plan/scripts/check_plan.py
-      - core/components/plays/shape-plan/scripts/check_stop_condition.py
-      - core/components/plays/shape-plan/scripts/check_tracker.py
-      - core/components/plays/shape-plan/scripts/find_work_items.py
       - core/components/plays/shape-plan/scripts/gather_plan.py
-      - core/components/plays/shape-plan/scripts/model_names.py
       - core/components/plays/shape-plan/scripts/plan_common.py
-      - core/components/plays/shape-plan/scripts/platform_adapter.py
-      - core/components/plays/shape-plan/scripts/preflight.py
       - core/components/plays/shape-plan/scripts/record_approval.py
-      - core/components/plays/shape-plan/scripts/render_brief.py
-      - core/components/plays/shape-plan/scripts/scoped_write_guard.py
-      - core/components/plays/shape-plan/scripts/session_stamp.py
       - core/components/plays/shape-plan/scripts/test_check_drafts.py
-      - core/components/plays/shape-plan/scripts/test_check_plan.py
-      - core/components/plays/shape-plan/scripts/test_check_tracker.py
-      - core/components/plays/shape-plan/scripts/test_find_work_items.py
       - core/components/plays/shape-plan/scripts/test_gather_plan.py
       - core/components/plays/shape-plan/scripts/test_record_approval.py
-      - core/components/plays/shape-plan/scripts/test_render_brief.py
       - core/components/plays/shape-plan/scripts/test_support.py
-      - core/components/plays/shape-plan/scripts/test_write_plan_file.py
       - core/components/plays/shape-plan/scripts/test_write_work_items.py
       - core/components/plays/shape-plan/scripts/write_plan_file.py
       - core/components/plays/shape-plan/scripts/write_work_items.py
-      - core/components/plays/shape-plan/stop-condition.yaml
-  - id: author-work-items-skill
+  - id: platform-adapter-verbs
     issue: 818
     commit_type: feat
-    scope: skills
-    subject: "Add the author-work-items skill"
+    scope: platform-adapter
+    subject: "add five verbs to the platform adapter and copy it to every play"
     files:
-      - core/components/skills/author-work-items/SKILL.md
-  - id: keeper-agent
+      - core/components/plays/check-change/scripts/platform_adapter.py
+      - core/components/plays/create-play/references/platform_adapter.py
+      - core/components/plays/create-play/references/test_platform_adapter.py
+      - core/components/plays/merge-change/scripts/platform_adapter.py
+      - core/components/plays/propose-change/scripts/platform_adapter.py
+      - core/components/plays/shape-plan/scripts/platform_adapter.py
+      - core/components/plays/shape-slice/scripts/platform_adapter.py
+      - core/components/skills/platform-adapter/SKILL.md
+  - id: skill-input-json-docs
     issue: 818
-    commit_type: feat
-    scope: agents
-    subject: "Name shape-plan and author-work-items in product-os-keeper"
+    commit_type: fix
+    scope: skills
+    subject: "read skill-input.json in author-work-items and product-os-keeper"
     files:
       - core/components/agents/product-os-keeper.md
-  - id: pipeline-next-rule
-    issue: 818
-    commit_type: feat
-    scope: memory
-    subject: "Point the next-step map from shape-slice to shape-plan"
-    files:
-      - core/components/memory/standards/rules/pipeline-next.md
-  - id: shape-slice-close
-    issue: 818
-    commit_type: docs
-    scope: shape-slice
-    subject: "Point the shape-slice close line to shape-plan"
-    files:
-      - core/components/plays/shape-slice/SKILL.md
-  - id: managing-work
-    issue: 818
-    commit_type: docs
-    scope: docs
-    subject: "File an Epic with issue type Feature in managing-work"
-    files:
-      - .garura/user-provided/managing-work.md
-  - id: stm-records
+      - core/components/skills/author-work-items/SKILL.md
+  - id: stm-run-records
     issue: 818
     commit_type: chore
     scope: stm
-    subject: "Record the run files"
+    subject: "record the round-2 run files"
     files:
       - .garura/project/issues/818/context/analysis.yaml
+      - .garura/project/issues/818/context/build/contract.md
       - .garura/project/issues/818/context/decisions.md
       - .garura/project/issues/818/context/porcelain.txt
-exclusions: []
+      - .garura/project/issues/818/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/818/context/memory/grounding-harness/standards/rules/expectation-generation.md
+      - .garura/project/issues/818/context/memory/grounding-harness/standards/rules/gate-config.md
+      - .garura/project/issues/818/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/818/context/memory/grounding-memory/standards/rules/_index.md
+      - .garura/project/issues/818/context/memory/grounding-memory/standards/rules/no-unbacked-recommendation.md
+      - .garura/project/issues/818/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/818/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/818/context/memory/knowledge/review/code.md
+      - .garura/project/issues/818/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/818/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/818/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/818/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/818/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/818/context/memory/manifest.json
+      - .garura/project/issues/818/context/memory/standards/rules/pr.md
+      - .garura/project/issues/818/context/templates/manifest-check-change.json
+      - .garura/project/issues/818/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/818/review/categories.yaml
+      - .garura/project/issues/818/review/context.yaml
+      - .garura/project/issues/818/review/design-findings-harness.yaml
+      - .garura/project/issues/818/review/design-findings-memory.yaml
+      - .garura/project/issues/818/review/findings.yaml
+      - .garura/project/issues/818/review/pr.diff
+      - .garura/project/issues/818/review/quality-findings.yaml
+      - .garura/project/issues/818/review/recommended_verdict.yaml
+      - .garura/project/issues/818/review/runnable-checks.txt
+
+exclusions:
+  []
+
 risks:
   sensitive_files: []
+  warnings:
+    - path: ".garura/project/issues/818/context/memory/standards/rules/pr.md"
+      match: 'password\s*='
+      blocking: false
+      note: "short-term copy of the review rules; pattern text in a grep rule (line 161), not a secret"

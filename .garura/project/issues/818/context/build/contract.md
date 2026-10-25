@@ -114,3 +114,39 @@ writes) updates in place, giving a new issue the next free number.
 - The fingerprint in SKILL.md equals `shasum -a 256` of `reference/ice.md`.
 - `node core/tools/lint-components/index.js --target core/components` from the repo root: no
   error in a new or touched file.
+
+## Round 2 (the review of PR #873; decision 6)
+
+- **DF-1 — a write that fails part way makes no copy on the next run.** Make each new issue in
+  one call that sets its type and its parent together (GitHub GraphQL `createIssue` with
+  `issueTypeId` and `parentIssueId`). `write_work_items.py` writes `tracker-record.json` after
+  every tracker write, not only at the end, so a failure keeps every issue already made; the
+  record then reads `ok: false` with the `failed` step. `write_plan_file.py` accepts a record
+  that reads `ok: false` and writes the marks for every issue the record lists (the run still
+  closes HALTED). A test makes the second write fail and shows the next run uses the issue the
+  first run made.
+- **DF-2 — a "Fails if" line with lines under it never leaks.** `gather_plan.py` removes a
+  "Fails if" line and every line under it that is indented deeper or continues it (nested
+  bullets, wrapped text). `check_drafts.py` compares the drafts with every line of each "Fails
+  if" block, children included. Tests with a nested form.
+- **DF-3 — the skill gets no ICE page path.** `gather_plan.py` also writes
+  `<working>/skill-input.json`: for each slice its id, name and outcome, and for each ready
+  feature its id and its clean copy's path — no ICE page path. The skill reads only that file and
+  the clean copies. `written_from` is filled by `write_work_items.py` from `gather.json`, not by
+  the skill. The skill and the play's contract say so.
+- **DF-4 — the tracker jobs go through the shared adapter.** Add verbs to
+  `core/components/plays/create-play/references/platform_adapter.py`: `create-issue-typed`
+  (title, body, issue type, parent — one call), `set-issue-type`, `edit-issue-body`,
+  `remove-label`, `remove-sub-issue`. On GitLab each one stops with a plain message (no issue
+  types there). Copy the new adapter unchanged over every copy (`find core/components -name
+  platform_adapter.py`). `write_work_items.py` and `check_tracker.py` call the adapter only — no
+  raw `gh` in the play's scripts. Tests for the new verbs with a fake runner.
+- **DF-5 — the yes is tied to what the person saw.** `record_approval.py` takes `--brief
+  <brief.md> --work-items <> --drafts <>` and records the sha256 of each. `write_work_items.py`
+  refuses (exit 2, writes nothing) when any of the three files no longer matches its recorded
+  hash. Tests.
+
+### Checks the build runs before it reports
+- The checks above, plus every test beside the scripts and beside the adapter's other copies'
+  plays that have tests, lint_play on shape-plan, the fingerprint, and lint-components (no new
+  error).

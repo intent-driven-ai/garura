@@ -1,0 +1,270 @@
+category: harness
+base: origin/plan/788/base
+pr: 873
+issue: 818
+grounding_sources_used:
+- id: G1
+  principle: The plan finds the work items that exist before it creates new ones; one story per feature
+    per epic; a second run makes no copies.
+  source: origin/plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md (Plan rules;
+    Epic rules; Story rules)
+- id: G2
+  principle: No failure or recovery condition reaches the story, the epic or the builder; /shape-slice
+    is the one reader of 'Fails if' lines; the plan play reads every other ICE line.
+  source: origin/plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md (Decision
+    4, ICE impact); origin/plan/788/base:docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+    (Decision, ICE impact); ontology.md kinds ICE, Story
+- id: G3
+  principle: The plan play writes only the plan file, the epic and the stories; nothing in the plan's
+    evals folder, nothing in the product model; the epic holds the feature-to-story map and it agrees
+    with the plan tree.
+  source: origin/plan/788/base:ontology.md (Plan rules, Epic rules); origin/plan/788/base:docs/adr/049
+    Decision 3
+- id: G4
+  principle: Plays orchestrate, agents gather context and call skills, skills write the content; mechanical
+    work is a script.
+  source: origin/plan/788/base:docs/standards/harness-standard.md principles 2 and 3 (ADR 001, 005, 016,
+    025)
+- id: G5
+  principle: Installed parts name only installed paths, never core/components, core/tools or Garura docs/;
+    memory only through the memory tool.
+  source: origin/plan/788/base:docs/standards/harness-standard.md principle 11; origin/plan/788/base:CLAUDE.md
+    Behavioral Rules 1
+- id: G6
+  principle: A pinned checkpoint always fires and no config value turns it off; a one-way-door class suits
+    an irreversible shared-state write.
+  source: 'memory: standards/rules/gate-config.md (Phoenix 3161dcdfe26f), copy in context/memory/grounding-harness/'
+- id: G7
+  principle: The code-host adapter is the one fixed-command-per-verb script library for the code host,
+    config-switchable between GitHub and GitLab.
+  source: origin/plan/788/base:core/components/plays/create-play/references/platform_adapter.py (module
+    docstring)
+- id: G8
+  principle: A play is compiled from its ICE; the compiled play records the ICE fingerprint; a non-intent
+    edit (close scaffolding) is a direct edit of SKILL.md.
+  source: origin/plan/788/base:docs/standards/harness-standard.md principle 4; origin/plan/788/base:CLAUDE.md
+    Play Pipeline Rules
+- id: G9
+  principle: The product owner's decisions of issue 818 (mark by represents, add missing sections only,
+    type Feature for an epic and Story for a story with no label, moved-out story stays open).
+  source: .garura/project/issues/818/context/decisions.md (person's decisions, used for intent only)
+memory_copies: .garura/project/issues/818/context/memory/grounding-harness/manifest.json
+findings:
+- id: DF-1
+  severity: P2
+  file:
+  - core/components/plays/shape-plan/scripts/plan_common.py (HostTracker.create, lines ~363-372)
+  - core/components/plays/shape-plan/scripts/write_work_items.py (write, main)
+  - core/components/plays/shape-plan/scripts/write_plan_file.py (line 217)
+  - core/components/plays/shape-plan/SKILL.md (Step 6, Pause and Resume)
+  principle: G1 - the plan finds before it makes; a second run makes no copies
+  principle_source: origin/plan/788/base:ontology.md Plan rules ('finds the work items that exist before
+    it creates new ones'); origin/plan/788/base:ontology.md Epic/Story rules (one per slice / per feature)
+  finding: 'A tracker failure part way leaves issues the plan file does not mark, so the next run finds
+    nothing and makes copies. Two ways: (a) HostTracker.create makes the issue and then sets its type
+    in a second call; if set_type fails, the new issue number is only in a TrackerError text and never
+    reaches tracker-record.json (the issue is an orphan the run cannot name); (b) on exit 1 the record
+    has ok:false, write_plan_file.py refuses an ok:false record (line 217), and the play''s only instruction
+    is ''show it to the person (REC5)''. REC5 undoes pre-yes writes, not a part-way write. The Represents
+    line in each issue body is not read by find_work_items.py (it reads the plan file only, by decision
+    1), so the issues made before the failure are invisible on re-run. A fresh session (new change issue)
+    has no resume file either.'
+  suggested_fix: 'Carry the issue number in the error from create (record the orphan), and let write_plan_file.py
+    write the marks for the items an ok:false record lists as created, or let find_work_items.py also
+    match a ''Represents: <id>'' body line with the plan id as a second source and report it as a duplicate/found
+    item for the person; add a test for create-succeeds-set_type-fails.'
+- id: DF-2
+  severity: P3
+  file:
+  - core/components/plays/shape-plan/scripts/plan_common.py (without_fails_if, fails_if_texts)
+  - core/components/plays/shape-plan/scripts/check_drafts.py
+  principle: G2 - no 'Fails if' line reaches the skill or a story
+  principle_source: 'origin/plan/788/base:ADR 049 Decision 4; origin/plan/788/base:ADR 052 ICE impact;
+    origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md (the
+    line format is ''- Fails if: <text>'')'
+  finding: 'The cleaner and the backstop both depend on the one-line form ''- Fails if: text''. Run on
+    a nested form (''- Fails if:'' followed by indented ''- A ...'' bullets) without_fails_if drops only
+    the header line and leaves the child bullets in the clean copy, and fails_if_texts finds no text for
+    the backstop, so SE-3 (grep for the words) and check_drafts are both blind. Tested by calling without_fails_if
+    on that input. The bold-label form (''**Fails if:**'' + bullets) over-removes: it also drops the next
+    sibling bullet (for example a Limit line), which fails closed but loses story content. The template
+    form is single-line, so this is a robustness gap, not a hit on today''s pages.'
+  suggested_fix: Treat list items nested under a 'Fails if' header as part of it (skip children by indent);
+    add the nested and bold-label cases to a test; end the bold-label skip at the next non-'Fails if'
+    label.
+- id: DF-3
+  severity: P3
+  file:
+  - core/components/plays/shape-plan/SKILL.md (Step 3 contract)
+  - core/components/skills/author-work-items/SKILL.md (Input, Process 1)
+  - core/components/plays/shape-plan/scripts/gather_plan.py (item.ice_pages)
+  principle: G2 - no 'Fails if' line reaches the skill
+  principle_source: origin/plan/788/base:ADR 049 Consequences ('Today the eval is kept from the builder
+    by a read rule only'); origin/plan/788/base:ADR 052 Consequences ('each line of an ICE is interpreted
+    once, by its one reader')
+  finding: The skill has Read on any path, and gather.json (which the skill reads) lists ice_pages, the
+    original pages that hold the 'Fails if' lines. The only thing that keeps the skill off them is the
+    sentence 'never open an ICE page'. The backstop, check_drafts, matches a failure line only when its
+    normalized text appears verbatim in a draft, so a paraphrase would pass. The real guard is the clean
+    copy plus that read rule - the same kind of rule ADR 049 accepts for the evals folder, but here a
+    path list invites the read.
+  suggested_fix: Give the skill a gather.json without ice_pages (written_from can be added by a script
+    from the page list), so no path to a page is in its hands.
+- id: DF-4
+  severity: P3
+  file:
+  - 'core/components/plays/shape-plan/scripts/plan_common.py (HostTracker.set_type, set_body, remove_labels,
+    remove_sub: four raw gh calls, five invocations)'
+  principle: G7 - code-host calls go through the config-switchable adapter
+  principle_source: 'origin/plan/788/base:core/components/plays/create-play/references/platform_adapter.py
+    (module docstring: ''config-switchable'' GitHub/GitLab, a fixed command per verb)'
+  finding: set-issue-type, update-issue body, remove-label and detach-sub-issue (which reads the child
+    id first, then DELETEs) are raw 'gh' calls through pa._run (a private helper), and HostTracker refuses
+    any platform but GitHub. The cause is named honestly in the plan_common docstring (the adapter has
+    no such verb), and base prior art has raw gh in submit_pr.py and read_merge_state.py, so this is a
+    known gap and not a break. It keeps /shape-plan from running on the adapter's other platform and spreads
+    gh syntax into a plan script. Fixed commands, no judgment, argv lists (no shell), so the harness-standard
+    script rule holds.
+  suggested_fix: File an issue to add the four verbs to the shared adapter (set-issue-type, set-issue-body,
+    remove-label, detach-sub-issue) so HostTracker uses only dispatch(); until then keep the docstring
+    note.
+- id: DF-5
+  severity: P3
+  file:
+  - core/components/plays/shape-plan/scripts/record_approval.py
+  - core/components/plays/shape-plan/scripts/plan_common.py (approval_is_yes)
+  - core/components/plays/shape-plan/scripts/write_work_items.py
+  principle: 'G6 - the pinned one-way-door checkpoint must be the person''s yes to what the brief showed
+    (C8: no write the brief did not show)'
+  principle_source: 'memory: standards/rules/gate-config.md (pinned gates); .garura/project/issues/818/context/decisions.md
+    is silent'
+  finding: approval.json holds the decision, the typed words and a time, but nothing that ties it to the
+    brief, work-items.json or drafts.json that were shown. write_work_items.py checks only that a yes
+    with a non-empty reply exists. If drafts.json or work-items.json change after the yes (a resume, a
+    re-run of Step 2 or 3), the old yes still opens the tracker. The tracker may also move between Step
+    2 (find) and Step 6; the precheck re-reads existence but not the action each item was shown with.
+  suggested_fix: Record a hash of brief.md (or of work-items.json plus drafts.json) in approval.json and
+    have record_approval verify and write_work_items.py refuse when it differs.
+- id: DF-6
+  severity: P3
+  file:
+  - core/components/plays/shape-plan/SKILL.md (C13)
+  - core/components/plays/shape-plan/reference/ice.md (C13, F11)
+  - .garura/user-provided/managing-work.md
+  principle: G9/G1 - the model the play serves must say what the play does
+  principle_source: 'origin/plan/788/base:ontology.md kinds Epic and Story (''In the tracker as: an issue
+    labelled `work-item`''; Plan ''Lives at''); decisions.md items 3 and 5 (type Feature, no label; ontology
+    line fixed later with /edit-ontology)'
+  finding: 'The base ontology v11 still says an Epic and a Story are ''an issue labelled work-item''.
+    The play (C13, F11, check_tracker) enforces the opposite: no label, Epic = issue type Feature. The
+    product owner decided this (decisions 3 and 5) and said the ontology is fixed in its own change, so
+    it is a declared gap, not a drift found by surprise. Until /edit-ontology lands, the play is checked
+    against a rule the model contradicts. Also: ''Feature'' is both the model kind (never an issue) and
+    the tracker type of an epic; managing-work.md now says so in one sentence, which is the only place.'
+  suggested_fix: Land the /edit-ontology change that drops the 'work-item' label and names the Epic's
+    tracker type; name that change in the PR so the gap is tracked.
+- id: DF-7
+  severity: P4
+  file:
+  - core/components/plays/shape-plan/SKILL.md (Recovery F5, Step 5 stop branch)
+  - core/components/plays/shape-plan/reference/ice.md (REC5)
+  principle: G8 - every failure condition has a recovery that can be carried out
+  principle_source: origin/plan/788/base:docs/standards/harness-standard.md principle 4 (the ICE's recovery
+    is what the play guarantees)
+  finding: REC5 says 'undo each tracker write the record lists'. The only undo tool named is scoped_write_guard.py
+    --restore, which restores files, not tracker issues. The play has no script that closes or reverts
+    an issue; the handoff is 'human', which is honest, but the text reads as if it were a step.
+  suggested_fix: Say in REC5 that tracker writes are undone by the person from the record; or give the
+    step a script.
+- id: DF-8
+  severity: P4
+  file:
+  - 'core/components/plays/shape-plan/SKILL.md (Step 5 ''class: one-way-door, pinned'')'
+  principle: G6 - the pinned set is enumerated in the gate rule
+  principle_source: 'memory: standards/rules/gate-config.md (line 98: ''the pinned set is: grill, launch,
+    learn, ...'')'
+  finding: 'The rule lists the pinned set by name and shape-plan''s checkpoint is not in it. Base shape-slice
+    also declares ''pinned'' and is not listed, so this is a doc lag, not a break: the play''s own intent
+    mandates it, which the rule allows (''a checkpoint whose play''s own intent mandates it declares pinned'').'
+  suggested_fix: Add shape-slice and shape-plan to the list when the rule is next edited.
+- id: DF-9
+  severity: P4
+  file:
+  - core/components/plays/shape-plan/SKILL.md (Step 0, Step 11 SCE-6)
+  - core/components/plays/shape-plan/reference/ice.md (C8, F5, S6)
+  principle: G1/G6 - nothing reaches the tracker before the yes
+  principle_source: .garura/project/issues/818/context/decisions.md; ontology Plan
+  finding: 'Held for epics and stories: Steps 1-4 only read (the adapter verb used is view-issue; gather,
+    find and draft check write only the working folder), Step 6 runs record_approval verify and write_work_items.py
+    refuses again without a yes. One wording gap: start-change (Step 0) opens the run''s own change issue
+    before the brief, so ''nothing goes to the tracker before the yes'' and ''the record lists no tracker
+    write'' in S6 are literally false. Same as every position:both play, so the wording only.'
+  suggested_fix: Say 'no epic, story or edit of an existing issue' in C8/S6.
+- id: DF-10
+  severity: P4
+  file:
+  - core/components/plays/shape-plan/scripts/write_plan_file.py (render, edit)
+  - core/components/plays/shape-plan/SKILL.md
+  principle: G3 - the Plan's tree shape and the loop order
+  principle_source: 'origin/plan/788/base:ontology.md Plan (''Tree: Business Intent -> Slice -> Epic ->
+    Story ...''); origin/plan/788/base:ADR 049 Decision 1.2 (''runs right after it, with no stop between
+    them'')'
+  finding: 'The tree the play writes has the epic node at the top with represents: <slice id>, with no
+    Slice level; the ontology tree names the Slice level. And the play is a separate run with its own
+    change and its own checkpoint instead of ''no stop'' after /shape-slice. The ICE (C8 note, #796) and
+    decision records already name the loop''s one checkpoint as later work, and the hand-kept plan 788.yaml
+    has no Slice level either, so neither is a new break.'
+  suggested_fix: Note both in the plan-file section of the next /edit-ontology change.
+- id: DF-11
+  severity: P4
+  file:
+  - core/components/plays/shape-plan/SKILL.md (description, Compiled From)
+  - core/components/plays/shape-plan/reference/ice.md (Context)
+  - core/components/plays/shape-plan/scripts/check_ice_workable.py, platform_adapter.py, scoped_write_guard.py
+    (docstrings)
+  principle: G5 - an installed part holds no pointer to Garura's docs/ and no note of origin
+  principle_source: origin/plan/788/base:docs/standards/harness-standard.md principle 11
+  finding: ADR numbers, issue numbers and the path .garura/project/issues/818/context/decisions.md appear
+    in the play's description, its ICE and the copied scripts. The scripts are unchanged copies of the
+    base files, and base shape-slice's description and ICE carry the same kind of text, and no path is
+    read (they are not a pointer into docs/). No core/components, core/tools or docs/ path was found in
+    the play, the skill or the scripts. Held in the sense of the linter; the ADR text is background.
+  suggested_fix: Drop the ADR numbers from the descriptions at the next rebuild.
+- id: DF-12
+  severity: P4
+  file:
+  - core/components/plays/shape-plan/SKILL.md (Forbidden C5)
+  - core/components/plays/shape-plan/scripts/gather_plan.py
+  - core/components/plays/shape-plan/scripts/check_drafts.py
+  principle: G2 - one reader of each ICE line
+  principle_source: origin/plan/788/base:ADR 052 Consequences; ontology.md ICE rules
+  finding: C5 says 'the play never reads the Fails if lines', but two of the play's own scripts read them
+    (the cleaner removes them, check_drafts matches against them). They interpret nothing, and reading
+    is what keeps them from the skill, so the intent holds; the word 'play' in C5 and the Forbidden line
+    means the agent, the skill and the person.
+  suggested_fix: Word C5 as 'no agent, skill, brief or story reads or holds'.
+held:
+- 'Agent only gathers: product-os-keeper is told to hand over paths and pass drafts.json on as it is;
+  the agent file edit (skills table, routing row, memory row ''nothing from memory'') matches that. The
+  skill author-work-items writes every word (title, scope of work, Context guidance); nothing in the brief
+  or the plan file is written by the agent. Held.'
+- 'Scripts do the fixed work: gather, find, draft check, brief, approval record, tracker writes, plan
+  file, checks, guard, stop condition are all scripts; the only judgment is the skill. Held.'
+- 'Nothing to the tracker before the yes: Steps 1-4 read only; Step 6 gate verified twice (play and script);
+  stop path writes nothing and Step 5 checks it (SE-8, SCE-6). Held, with DF-5 and DF-9 as notes.'
+- 'A second run makes no copies on the normal path (marks in the plan file, all items ''use'', no body
+  change, byte-for-byte plan file). Not held on a part-way failure: DF-1.'
+- 'Installed parts name only installed paths: no core/components, core/tools or docs/ path found in play,
+  skill or scripts (grep). Held (DF-11 is wording).'
+- Fingerprint in SKILL.md equals sha256 of reference/ice.md (cf5c10e5...). The seven copied scripts are
+  byte-identical to the base copies in create-play/references. The play agrees with its ICE (C1-C13, F1-F11,
+  REC1-REC11, D1-D5 to stop-condition.yaml). The ICE agrees with the ontology v11 on Plan/Epic/Story except
+  the tracker marking (DF-6, decided by the person).
+- 'shape-slice change: only the Next Steps line of the close (and the Next-line map row in pipeline-next.md,
+  memory category); no constraint, failure, scenario, flow or eval changed, so a direct edit is the right
+  path. Held.'
+counts:
+  P1: 0
+  P2: 1
+  P3: 5
+  P4: 6

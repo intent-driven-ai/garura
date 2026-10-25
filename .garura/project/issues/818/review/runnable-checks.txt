@@ -1,0 +1,9 @@
+# Layer 1 — installed tools on the changed parts where they sit (source layout)
+lint-components --layout source --target core/components: errors on base 36, on head 36, new vs base 0
+lint_play (installed tool, --next-map = template-manager copy, Phoenix 3161dcdfe26f):
+  shape-slice: PASS
+  shape-plan: FAIL (1 gap) next-command: "shape-plan has no entry in pipeline-next.md" — the entry is added by this PR
+    (core/components/memory/standards/rules/pipeline-next.md); the review map is the base's, as it must be. With the
+    PR's own map the play reads PASS (builder run). The gap closes when the map reaches Phoenix memory after the merge.
+Runnable checks (python3 test_<name>.py in core/components/plays/shape-plan/scripts): 10 / 10 exit 0
+Hidden acceptance checks (written before the build, kept from the builder): 16 / 16

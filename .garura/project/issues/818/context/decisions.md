@@ -7,3 +7,7 @@ The product owner approved the draft intent (C1–C11, F1–F9) with a plain "ye
 3. Q-label-1 — an epic and a story are marked by the tracker's issue type field (Epic, Story), with no label (managing-work.md "No labels, for now"). The ontology's "labelled work-item" line is fixed with /edit-ontology as its own small change.
 4. Q-change-1 (from the /shape-slice 788 run, #866) — a feature that leaves the slice has its story moved out of the plan; the story stays in the tracker and is never deleted. A feature that comes in gets one story.
 5. Q-label-1, the type (2026-10-25) — the organization has no Epic issue type; it has Feature (checked with the GitHub API: Business Intent, Feature, Story, Bug, Chore, Spike). The product owner's words: "use Feature instead of EPIC.. organization has feature - right? change work types to use feature as well". An epic is filed as an issue of type Feature, a story as type Story, no label. The kind keeps its name, Epic, in the ontology; only its tracker type is Feature. managing-work.md's work types say so.
+
+## Round 2 (2026-10-25, the review of PR #873)
+
+6. Fix the P2 (DF-1) and the P3s (DF-2, DF-3, DF-4, DF-5) in this PR. The product owner's words: "fix p2 and p3s". DF-6 (the ontology's "labelled work-item" lines) is its own /edit-ontology change right after this PR (decision 3). The P4s (DF-7 to DF-12) go to one parked chore.
