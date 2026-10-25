@@ -414,6 +414,12 @@ class RetiresOldNames(Installed):
         self.assertFalse(os.path.exists(self.path(".claude", "skills", "shape-features")))
         self.assertTrue(os.path.isfile(self.path(".claude", "skills", "shape-slice", "SKILL.md")))
 
+    def test_the_harness_scope_lays_the_plan_play_and_its_skill(self):
+        # #876: /shape-plan and author-work-items were left off the harness list
+        self.install()
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "shape-plan", "SKILL.md")))
+        self.assertTrue(os.path.isfile(self.path(".claude", "skills", "author-work-items", "SKILL.md")))
+
 
 class LeavesTheProductModelAsItIs(Installed):
     """The install never changes a product model the project already has (#813; upgrades: #835)."""

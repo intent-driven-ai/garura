@@ -244,6 +244,9 @@ SCOPES = {
             # shape-slice shapes the slice for each of Garura's own business intents (plan 788).
             # Its workers: product-os-keeper + the skills listed below; template-manager is kept.
             "shape-slice",
+            # shape-plan makes the plan, and its work items, for each of Garura's own business
+            # intents (#818). Its workers: product-os-keeper + author-work-items; template-manager is kept.
+            "shape-plan",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -256,6 +259,8 @@ SCOPES = {
             # the skills shape-slice calls (#842)
             "author-business-intent", "author-domains", "propose-answers", "author-slice",
             "find-slice-gaps", "author-slice-brief", "enrich-grounding", "author-failure-recovery",
+            # the skill shape-plan calls (#818)
+            "author-work-items",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",

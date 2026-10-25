@@ -1,0 +1,12 @@
+pr: 877
+issue: 876
+round: 1
+findings: []
+layer1:
+  quality: {ran: check-pr-quality (quality-auditor), findings: 0, file: quality-findings.yaml}
+  lint_components: {command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components", in_changed_paths: 0, there_before: 37, file: lint-components.json}
+  lint_play: {ran: false, why: "no play SKILL.md in changed_paths"}
+  ruff: {command: "ruff check install.py test_install.py", result: "All checks passed"}
+runnable_checks:
+  - {command: "cd core/components/plays/install-garura/scripts && python3 test_install.py", result: "Ran 75 tests, OK"}
+layer2: {ran: false, why: "categories.yaml holds no design-bearing category"}
