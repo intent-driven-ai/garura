@@ -54,19 +54,28 @@ SHARED = "_shared"  # blocks the plays, loops and skills share (ADR 039 §9), la
 SKILL_KINDS = ("skills", "plays", "loops")
 
 
+# the folders whose _shared/ is laid as the one installed _shared/ folder; agents share the memory
+# reading protocol, the failure format and the copy script there (decision 21 of #860)
+SHARED_KINDS = ("plays", "loops", "skills", "agents")
+# dev tests and caches in a _shared/ folder are not laid
+_SHARED_SKIP = shutil.ignore_patterns("test_*", "*.test.js", "__pycache__")
+
+
 def lay_shared(components, skills_root, rel_root, paths, info):
-    """Lay plays/_shared/, loops/_shared/ and skills/_shared/ as one <skills_root>/_shared/:
-    every installed play points to ../_shared/play-close.md, every installed loop also to
-    ../_shared/loop-run.md, and the parts that ask a person to ../_shared/asking-a-person.md.
-    A folder starting with `_` is otherwise never deployed."""
-    sources = [os.path.join(components, kind, SHARED) for kind in ("plays", "loops", "skills")]
+    """Lay plays/_shared/, loops/_shared/, skills/_shared/ and agents/_shared/ as one
+    <skills_root>/_shared/: every installed play points to ../_shared/play-close.md, every
+    installed loop also to ../_shared/loop-run.md, the parts that ask a person to
+    ../_shared/asking-a-person.md, and the agents that read memory to its memory-reading.md.
+    A folder starting with `_` is otherwise never deployed (agents/_shared/ is never an agent)."""
+    sources = [os.path.join(components, kind, SHARED) for kind in SHARED_KINDS]
     sources = [s for s in sources if os.path.isdir(s)]
     if not sources:
         return
     dest = os.path.join(skills_root, SHARED)
-    copy_tree_fresh(sources[0], dest)
-    for src in sources[1:]:
-        copy_tree_merge(src, dest)
+    if os.path.isdir(dest):
+        shutil.rmtree(dest)
+    for src in sources:
+        shutil.copytree(src, dest, dirs_exist_ok=True, ignore=_SHARED_SKIP)
     paths.append(os.path.join(rel_root, SHARED))
     info(f"  shared blocks: {os.path.join(rel_root, SHARED)}")
 

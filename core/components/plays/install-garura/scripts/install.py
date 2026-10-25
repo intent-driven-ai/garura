@@ -45,13 +45,15 @@ installer): the memory tool in `.garura/core/tools/memory/` with its settings, s
 memory's folder, and the memory guide where the host tool loads it for every agent. It then
 checks the tool runs and reaches the project's tiers. The install brings no memory.
 
-It also lays every other tool (`tools_system.py`, shared with the public installer) in
-`.garura/core/tools/<name>/`, because plays and skills run them after the install.
+It also lays every other tool but the naming tool (`tools_system.py`, shared with the public
+installer) in `.garura/core/tools/<name>/`, because plays and skills run them after the
+install. It gets each tool's packages, runs each tool's smoke check, and writes
+`.garura/core/tools/.gitignore`.
 
 The install never changes a product model the project already has (#813).
 
-Exit: 0 = installed, 1 = installed but the memory check failed, 2 = bad input /
-prerequisite missing.
+Exit: 0 = installed, 1 = installed but the memory check failed or a tool does not load
+(the message names the tool), 2 = bad input / prerequisite missing.
 Idempotent: re-running re-lays garura in place; it never duplicates.
 """
 
@@ -388,9 +390,15 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     record["memory_system"] = memory_system.lay(source, target, tool, phoenix_place, phoenix_source, _info)
     record["memory_system"]["check"] = memory_system.check(target, _info)
 
-    # 8. the tools (decision 6 of #860): every tool but the memory tool (laid above) and the
-    #    play-reviewer prototype, in .garura/core/tools/<name>/
-    record["tools"] = tools_system.lay(source, target, _info)
+    # 8. the tools (decision 6 of #860): every tool but the memory tool (laid above), the
+    #    naming tool and the play-reviewer prototype, in .garura/core/tools/<name>/, each with
+    #    its packages and a smoke check, and the tools' ignore file (decisions 20, 23, 24)
+    try:
+        record["tools"] = tools_system.lay(source, target, _info)
+    except tools_system.ToolFailed as exc:
+        record["tools"] = exc.laid
+        record["tools_failed"] = exc.failures
+    record["tools_gitignore"] = tools_system.GITIGNORE
 
     return record
 
@@ -521,6 +529,10 @@ def main(argv=None):
     c = record["counts"]
     n = c.get("skills", 0) + c.get("plays", 0) + c.get("loops", 0)
     retired = f", retired {len(record['retired'])} stale" if record["retired"] else ""
+    for why in record.get("tools_failed") or []:
+        sys.stderr.write(f"install.py: stopped: {why}. Plays that run it cannot use it until it is fixed\n")
+    if record.get("tools_failed"):
+        sys.exit(1)
     if not record["memory_system"]["check"]["ok"]:
         sys.stderr.write("install.py: installed, but the memory check failed (see above) — "
                          "the project's agents cannot use memory until it is fixed\n")

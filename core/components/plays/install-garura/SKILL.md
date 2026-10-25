@@ -43,6 +43,10 @@ in the orchestrator, stop — that belongs in the adapter.
 - `.claude/skills/<id>/` — one per garura skill, and one per garura **play** (Claude Code has
   no separate play type), copied whole with their own `references/`/`scripts/`. The `model:`
   line is dropped on skills (a Claude skill has no model field).
+- `.claude/skills/_shared/` — the shared files the plays point to (for example
+  `play-close.md`), and the agents' shared files from `core/components/agents/_shared/` (the
+  Memory Reading Protocol, the Structured Failure Format and the script that writes a
+  short-term copy), laid in the same `_shared/` folder.
 
 `install.py --tool codex` is deprecated (#863). It stops before it writes anything, with a
 plain message that names #863. The Codex adapter (`scripts/adapters/codex.py`) stays in the
@@ -58,7 +62,26 @@ The install also lays:
 - `.garura/.gitignore` — keeps status/resume markers (`**/status/`, `**/_status/`) machine-local
   and out of git; they sit on disk for resume and are never committed (ADR 021).
 - `.garura/install-manifest.json` — the exact list of what was placed (including the tool and
-  any machine-global files), so `uninstall-garura` can reverse precisely this set.
+  any machine-global files), so `uninstall-garura` can reverse precisely this set. Its `tools`
+  record lists each laid tool's folder; its `kinds` record names the kind of each component
+  laid (play, loop, skill or agent), because plays, loops and skills share `.claude/skills/`
+  and the installed layout of `lint-components` reads the kind from there.
+- **The tools** (decision 6 of #860), laid by `scripts/tools_system.py`, which the public
+  installer runs too: every folder under `core/tools/` goes to `.garura/core/tools/<name>/`
+  (today `lint-components`, `lint-play` and `rebuild-eval`), except the memory tool (laid by
+  the memory system, below), the `play-reviewer` prototype and the `naming` tool, which is
+  source-only. Test files and caches are not laid. Installed parts run a tool only from its
+  laid folder.
+  - **Packages.** A tool with a `package.json` gets its packages in the laid folder: the
+    install keeps the source's `node_modules` when it is there, else it runs
+    `npm ci --omit=dev` (or `npm install --omit=dev` when there is no lock file).
+  - **Smoke checks.** After it lays the tools, the install runs each tool's smoke check (a
+    short command that exits 0 when the tool loads). When one fails, the install stops with a
+    plain message that names the tool.
+  - **The tools ignore file.** `.garura/core/tools/.gitignore` (`node_modules/`,
+    `__pycache__/`) keeps the tools' packages and caches out of the project's git.
+  - A re-install replaces each tool whole and removes a tool that left the source (it is in
+    the old manifest's `tools` record but not laid again).
 - **The memory system** (ADR 035 §8), laid by `scripts/memory_system.py`, which the public
   installer (`installer/install.sh`) runs too:
   - `.garura/core/tools/memory/` — the memory tool (from `core/tools/memory/`, without its
