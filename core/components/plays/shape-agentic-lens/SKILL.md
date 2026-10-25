@@ -526,6 +526,6 @@ and convergence is UNVERIFIED.** An interactive `/edit-play` convergence run aga
 `reference/ice.md` is REQUIRED — confirming the emitted SKILL matches this hand-compiled body and
 refreshing the fingerprint — before this play is relied on. `reference/ice.md` C13 distinguishes the
 model-delta commit from the Standard Play Close (evidence + delivery report) that /shape-agentic-lens still runs;
-the close anchor block is retained (required by `core/tools/lint-components` and the create-play G12 emit on
+the close anchor block is retained (required by the component linter and the create-play G12 emit on
 every play), and the `feat(model)` commit is the separate lightweight persist step, so both coexist as
 C13 describes.

@@ -3,7 +3,8 @@
 test_scan_taxonomy.py — tests for scan_taxonomy.py (#851).
 
 Covers: BE-19 and SEC-18 of the real taxonomy (pr.md) fire on SQL-shaped and
-permission code and not on plain words; a changed ADR gets no finding; a stm-evidence path gets no finding; a
+permission code and not on plain words; SEC-07 fires on an unsafe load and
+not on a JSON.parse of a file or a tool's output; a changed ADR gets no finding; a stm-evidence path gets no finding; a
 `+++` line inside a hunk is an added line, not a file header; a `--paths` entry
 that is not a path is dropped and listed in rejected_paths. It also checks that
 scan() keeps its result keys.
@@ -151,6 +152,32 @@ def test_sec18_permission_only():
     check("the plain word role or Role gives no finding", _real_hits("SEC-18", words) == [])
 
 
+def test_sec07_unsafe_load_only():
+    print("SEC-07 fires on an unsafe load only")
+    code = ["obj = pickle.loads(blob)",
+            "obj = pickle.load(fh)",
+            "code = marshal.loads(raw)",
+            "cfg = yaml.load(text)",
+            "cfg = yaml.load(fh, Loader=yaml.FullLoader)",
+            "cfg = yaml.unsafe_load(text)",
+            "const data = JSON.parse(req.body);",
+            "const data = JSON.parse(event.body)",
+            "const p = JSON.parse(payload)",
+            "const q = JSON.parse(ctx.request.query.filter)"]
+    check("each unsafe load is a finding",
+          _real_hits("SEC-07", code) == list(range(1, len(code) + 1)))
+    safe = ["const cfg = JSON.parse(fs.readFileSync(configPath, 'utf8'));",
+            "const out = JSON.parse(execSync('git status --porcelain').toString());",
+            "const res = JSON.parse(child.stdout)",
+            "const meta = JSON.parse(inputFile)",
+            "cfg = yaml.safe_load(text)",
+            "cfg = yaml.load(fh, Loader=yaml.SafeLoader)",
+            "cfg = yaml.load(fh, Loader=CSafeLoader)",
+            "rows = json.loads(raw)"]
+    check("a file read, a tool's output and a safe load give no finding",
+          _real_hits("SEC-07", safe) == [])
+
+
 if __name__ == "__main__":
     test_adr_skipped()
     test_stm_skipped()
@@ -159,5 +186,6 @@ if __name__ == "__main__":
     test_keys()
     test_be19_sql_only()
     test_sec18_permission_only()
+    test_sec07_unsafe_load_only()
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)

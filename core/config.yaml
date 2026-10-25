@@ -65,10 +65,6 @@ stm:
     context: "{issue-number}/context/"
     review: "{issue-number}/review/"
 
-# Standards resolution — first play-specific section; pattern for future plays
-standards:
-  pr-severity-taxonomy: ./.garura/core/memory/standards/rules/pr.md
-
 # start-change play configuration
 start-change:
   worktree: false   # set up a git worktree on start only when true (C3)

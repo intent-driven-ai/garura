@@ -29,6 +29,9 @@ class LintLoop(unittest.TestCase):
         self.loop = os.path.join(comp, "loops", "sample-loop")
         shutil.copytree(EXAMPLE, self.loop)
         self.skill = os.path.join(self.loop, "SKILL.md")
+        self.next_map = os.path.join(self.root, "pipeline-next.md")
+        with open(self.next_map, "w") as fh:
+            fh.write("```yaml\nnext:\n  sample-loop: { command: null, why: \"the test loop\" }\n```\n")
 
     def edit(self, old, new):
         with open(self.skill) as fh:
@@ -38,7 +41,8 @@ class LintLoop(unittest.TestCase):
             fh.write(text.replace(old, new))
 
     def lint(self):
-        run = subprocess.run([sys.executable, LINT, self.skill], capture_output=True, text=True)
+        run = subprocess.run([sys.executable, LINT, self.skill, "--next-map", self.next_map],
+                             capture_output=True, text=True)
         return run.returncode, run.stdout
 
     def gaps(self):

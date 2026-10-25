@@ -85,6 +85,9 @@ def test_large_pr():
     check("paths in diff order", ctx is not None and ctx["changed_paths"] == paths)
     check("changed_files_reported is 150",
           ctx is not None and ctx["changed_files_reported"] == 150)
+    check("context names no memory folder (#860)",
+          ctx is not None and "review_shelf" not in ctx
+          and ".garura/core/memory" not in json.dumps(ctx))
 
 
 def test_mismatch():

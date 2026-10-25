@@ -21,11 +21,32 @@ they get the deepest treatment.
 ## Treatment
 - **Reviewer:** human (the design) + tool (conformance).
 - **Layers:** Layer 1 **and** Layer 2.
-- **Linter (Layer 1):** structural conformance — `lint_play.py` for plays (coverage of every
-  constraint/failure/scenario by an eval, exactly one recovery per failure, required sections
-  present, a real intent fingerprint, no orphan references); `core/tools/lint-components` for skill/agent
-  shape; the play-pipeline rules (intent change must trace to an ICE source, not a hand-edited
-  compiled file). These exist in-repo.
+- **Linter (Layer 1):** structural conformance. Run the installed tools only, on the changed
+  parts where they sit in the repository under review:
+  - When the PR changes `core/components/` (the repository holds Garura's source), use the
+    source layout:
+    `node .garura/core/tools/lint-components/index.js --layout source --target core/components`
+    and, for each changed play:
+    `python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/<play>/SKILL.md --next-map <next-map copy>`
+  - Else, use the installed layout. The installed target is `.claude`. (The Codex install, to
+    `.agents`, is stopped for now, #863.)
+    `node .garura/core/tools/lint-components/index.js --layout installed --target .claude`
+    and, for each changed play:
+    `python3 .garura/core/tools/lint-play/lint_play.py .claude/skills/<play>/SKILL.md --next-map <next-map copy>`
+  - `<next-map copy>` is the short-term copy of `standards/rules/pipeline-next.md` that the
+    review got from `template-manager`.
+  - `lint_play.py` checks a play: every constraint, failure and scenario has an eval, there is
+    exactly one recovery for each failure, the required sections are there, the intent
+    fingerprint is real, and no reference is an orphan. `lint-components` checks the shape of
+    skills and agents, and finds installed parts that name Garura's source
+    (`installed-paths/source-path`).
+  - Only a violation whose file is in the PR's changed paths is a finding. Count the other
+    violations, and record the count as "there before".
+  - When a tool is not installed, record `not installed` for that check. When a tool crashes,
+    record `did not run: <first error line>`. Neither is a pass, and the review goes on.
+  - The ICE-source rule (an intent change traces to the play's ICE source, not to a hand edit
+    of the compiled file) applies only where the repository under review holds the plays'
+    source. An installed copy has no ICE source to trace.
 - **Design-grounding (Layer 2):** **yes.** Reconstruct the harness design principles from
   **committed** sources — `docs/philosophy/**`, `docs/adr/**`, the standards under
   `memory/standards/rules/**` (e.g. user-facing-voice, play-close, evidence-recording), and
@@ -33,8 +54,9 @@ they get the deepest treatment.
   agent for conformance to those signed-off principles (agent-first delegation, JSON contracts
   over files, play orchestrates / skills produce / scripts do mechanical work, ICE-source
   discipline).
-- **Rubric:** does the change keep the play→agent→skill→script wiring intact; does an intent
-  change trace to its ICE source; does it hold the standards it is subject to.
+- **Rubric:** does the change keep the play→agent→skill→script wiring intact; where the
+  repository holds the plays' source, does an intent change trace to its ICE source; does it
+  hold the standards it is subject to.
 
 ## Rationale
 A harness PR can be internally consistent and still wrong against the framework's design. The

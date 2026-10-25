@@ -40,8 +40,9 @@ Given the PR diff and `changed_paths`, derive the **work categories** actually p
 - Read the changed files' paths and content. Judge what each one *is* — a decision record, a
   documentation page, harness code (a play/skill/agent), a memory/knowledge file, executable
   code, a config map, a test. Path is a hint; the content decides.
-- Consult the check-knowledge shelf (`memory/knowledge/review/_index.md` and the per-category
-  playbooks) to recognise the seeded categories — but you are not limited to them. If the diff
+- Consult the check-knowledge shelf (`knowledge/review/_index.md` and the per-category
+  playbooks), which you first copy into short-term memory through the memory tool (see Memory
+  Reading Protocol), to recognise the seeded categories — but you are not limited to them. If the diff
   contains a kind of work no playbook covers, name the new category and say a playbook is
   missing (do not force-fit).
 - Do **not** start from a fixed list and pattern-match the diff onto it. Derive the set from
@@ -49,8 +50,22 @@ Given the PR diff and `changed_paths`, derive the **work categories** actually p
   it.
 
 Write `categories.yaml`: each category present, the changed paths that put it there (the
-evidence), and the `knowledge/review/` playbook id that governs it (or `null` + a "playbook
-missing" note for a new category).
+evidence), the `knowledge/review/` playbook id that governs it (or `null` + a "playbook
+missing" note for a new category), and the category's treatment. Take the treatment from the
+playbook copy in short-term memory, never from what you already know:
+
+- `layers` — the layers that apply (Layer 1 linters, Layer 2 design-grounding);
+- `linters` — the linters to run, each with the command the playbook gives;
+- `runnable_checks` — the checks the play executes (a test suite, a language linter), and the
+  objective checks the play does by hand where the linter is a known gap.
+
+The play reads the treatment only from `categories.yaml`. It reads no playbook copy, so a
+treatment you leave out is a layer that does not run.
+
+This job copies all the memory the review shares, so no grounding job writes a shared file:
+the review shelf and the PR severity taxonomy (see the table under Memory Reading Protocol).
+The Next-line map is not yours to fetch: the play gets it from `template-manager` and hands it
+to the play linter.
 
 ## Job 2 — Design-ground a design-bearing category (Layer 2)
 
@@ -63,13 +78,20 @@ so the parallel dispatches never overlap or collide (the fan-out's distinct-outp
 condition). If the contract omits `category` (a legacy whole-set dispatch), ground every
 design-bearing category into the single `design_findings` file.
 
+Read the shared copies the assessment made (the review shelf, the PR severity taxonomy) and do
+not copy them again. Put any extra memory this job copies only in the contract's `memory_dir`,
+`<issue folder>/context/memory/grounding-<category>/`, with its own manifest
+`<issue folder>/context/memory/grounding-<category>/manifest.json`. Never write the shared
+folder `<issue folder>/context/memory/` or its manifest.
+
 For the category in scope (whose playbook says design-grounding applies — harness, memory, and
 any new design-bearing category), run the Layer-2 sequence:
 
 1. **Reconstruct the principles from committed sources.** Read the design from outside the
    branch: `git show <base>:<path>` for the prior version, the philosophy docs
-   (`docs/philosophy/**`), the decision records (`docs/adr/**`), the standards
-   (`memory/standards/rules/**`), the glossary, and the relevant `knowledge/` shelves. Record
+   (`docs/philosophy/**`), the decision records (`docs/adr/**`), the glossary, and, read
+   only through the memory tool, the standards (`standards/rules/**`) and the relevant
+   `knowledge/` shelves. Record
    each principle with the committed source it came from.
 2. **Never ground from the branch's new content.** If a principle can only be found in a file
    the diff *adds or rewrites*, it is not grounding — flag the gap instead. A source you cite
@@ -80,13 +102,28 @@ any new design-bearing category), run the Layer-2 sequence:
 
 Write the contract's `design_findings` file (the play names it per category, e.g.
 `design-findings-<category>.yaml`): each finding with its file, the principle violated, the
-committed source of that principle, and a severity drawn from the PR severity taxonomy
-(`memory/standards/rules/pr.md`).
+committed source of that principle, and a severity drawn from the PR severity taxonomy (the
+short-term copy the assessment made).
+
+## Memory Reading Protocol
+
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
+
+What you put in short-term memory (glob for `find`):
+
+| Job | What, and where |
+|-----|-----------------|
+| Assessment | every review playbook (`**/knowledge/review/*.md`) — the contract's `review_shelf` folder, `<issue folder>/context/memory/knowledge/review/`; the PR severity taxonomy (`**/standards/rules/pr.md`) — the contract's `severity_taxonomy` file, `<issue folder>/context/memory/standards/rules/pr.md`. The manifest is `<issue folder>/context/memory/manifest.json` |
+| Grounding | only what the shared copies do not hold: the standards and shelves the category's principles rest on (`**/standards/rules/*.md`, `**/knowledge/**`) — `<issue folder>/context/memory/grounding-<category>/<path as found>`, with the manifest `<issue folder>/context/memory/grounding-<category>/manifest.json` |
 
 ## What You Do / MUST NOT Do
 
 **Do:**
-- Read the diff, `changed_paths`, the check-knowledge shelf, and committed sources.
+- Read the diff, `changed_paths`, committed sources, and memory through the memory tool only.
 - Use `git show <base>:<path>` (and `git log`/`git cat-file`) to read the base-ref design.
 - Cite a committed source for every grounded principle and a basis for every finding.
 
@@ -97,6 +134,8 @@ committed source of that principle, and a severity drawn from the PR severity ta
   grounding (grounding reads are read-only).
 - Modify any file under review — you observe, categorize, and report.
 - Emit a finding with no cited basis.
+- Read memory by a path (a memory folder, or a folder of Garura's source): memory comes only
+  through the memory tool.
 
 ## Input Contract
 
@@ -108,9 +147,11 @@ The play dispatches this agent in one of two shapes. **Assessment** (Job 1) runs
   "inputs": {
     "context": "<working>/context.yaml",
     "diff": "<working>/pr.diff",
-    "review_shelf": "<resolved memory>/knowledge/review/"
+    "next_map": "{stm_base}{issue}/context/templates/standards/rules/pipeline-next.md"
   },
-  "outputs": { "categories": "<working>/categories.yaml" },
+  "outputs": { "categories": "<working>/categories.yaml",
+               "review_shelf": "{stm_base}{issue}/context/memory/knowledge/review/",
+               "severity_taxonomy": "{stm_base}{issue}/context/memory/standards/rules/pr.md" },
   "task_id": "<from play>"
 }
 ```
@@ -128,14 +169,20 @@ file:
     "category": "<the one design-bearing category to ground>",
     "diff": "<working>/pr.diff"
   },
-  "outputs": { "design_findings": "<working>/design-findings-<category>.yaml" },
+  "outputs": { "design_findings": "<working>/design-findings-<category>.yaml",
+               "memory_dir": "{stm_base}{issue}/context/memory/grounding-<category>/" },
   "task_id": "<from play>"
 }
 ```
 
 A legacy combined dispatch (both outputs, no `category`) is still honored: categorize, then
 ground every design-bearing category into the single `design_findings` file.
-`context.yaml` carries `changed_paths`, the `base` ref, and the resolved memory paths.
+`context.yaml` carries `changed_paths`, the `base` ref and the `standards_order`. It names no
+memory folder: in the assessment you copy the review playbooks and the PR severity taxonomy
+through the memory tool into the `review_shelf` folder and the `severity_taxonomy` file the
+contract names, with their sources in the manifest. The `next_map` input is the copy the play
+got from `template-manager`; it is the play linter's, and you do not fetch it. The play reads
+each category's treatment only from `categories.yaml`.
 
 ## Output Contract
 
@@ -168,7 +215,8 @@ On failure, return:
 Error types:
 - `diff_unreadable` — the diff or `changed_paths` could not be read.
 - `base_ref_unavailable` — the base ref could not be resolved to read committed grounding.
-- `shelf_unreadable` — the check-knowledge shelf at the resolved path is missing or unreadable.
+- `shelf_unreadable` — no memory tier holds the check-knowledge shelf (`knowledge/review/`), or
+  the memory tool cannot be reached (`tier_missing`).
 
 ## Recovery
 

@@ -132,7 +132,7 @@ never inline content:
 
     {
       "task":    "read the tracked issue host for /list-focus-issues's chosen mode and capture the raw issue set to disk. Invoke platform-adapter with verb list-issues ONLY — never a write verb. For mode `today` or `review`: one query with state=open. For mode `recent`: one query with state=closed limited to issues closed within window_days. Pass fields=number,title,url,state,createdAt,updatedAt,closedAt,labels,assignees and a limit high enough to cover the repo (200). Merge, deduplicate by number, and write {capture_complete, operator, queries, issues:[...]} to out_json. `operator` is the host login of the person running — read it with platform-adapter's `view-user` verb, which returns the authenticated user's login on GitHub and GitLab alike; leave it null if that verb fails. Append the NAME of every platform-adapter verb you invoke, one per line, to verbs_log as you go — that log is the play's read-only proof at Step 3, and a missing log fails the run. Set capture_complete=false and return the host error if ANY query failed or was truncated — never write a partial set as complete. Make no selection, ordering, or ranking decision; capture only.",
-      "intent":  "core/components/plays/list-focus-issues/reference/ice.md",
+      "intent":  "<play-dir>/reference/ice.md",
       "inputs":  { "mode_record": "<working>/mode.json",
                    "config":      ".garura/core/config.yaml" },
       "outputs": { "out_json":  "<working>/issues.json",

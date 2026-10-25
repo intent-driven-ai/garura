@@ -3,8 +3,7 @@
 
 This is the V1 grep-backed reader. It only serves STRUCTURE; the MODEL does the
 matching by reasoning over each learning's Conditions. Swappable later for a
-`kb` CLI over a server (same commands, same output shape) — see
-core/components/memory/knowledge/_DESIGN.md.
+`kb` CLI over a server (same commands, same output shape).
 
 Commands:
   index            Emit the manifest as JSON: one entry per learning with id,
@@ -13,8 +12,8 @@ Commands:
   grep <terms...>  Emit ids of learnings whose text contains ALL terms
                    (coarse pre-filter only — NOT the matcher).
 
-KB root resolution order: --kb-root, then $KB_ROOT, then a path next to this
-script's deployment, then the repo source path.
+--kb-root is required: the short-term copy of the architecture and technology shelves the
+agent fetched through the memory tool. The script never reads memory by a path of its own.
 """
 import argparse
 import glob
@@ -72,21 +71,10 @@ def parse_frontmatter(text):
 
 
 def resolve_kb_root(arg):
-    if arg:
-        return arg
-    if os.environ.get("KB_ROOT"):
-        return os.environ["KB_ROOT"]
-    here = os.path.dirname(os.path.abspath(__file__))
-    candidates = [
-        # deployed: skills/find-architecture-learnings/scripts/ -> ../../../memory/knowledge
-        os.path.normpath(os.path.join(here, "..", "..", "..", "memory", "knowledge")),
-        # repo source, run from root
-        "core/components/memory/knowledge",
-    ]
-    for c in candidates:
-        if os.path.isdir(c):
-            return c
-    return "core/components/memory/knowledge"
+    if not os.path.isdir(arg):
+        sys.stderr.write(f"kb_search.py: --kb-root is not a folder: {arg}\n")
+        sys.exit(2)
+    return arg
 
 
 def iter_learnings(root):
@@ -147,7 +135,8 @@ def cmd_grep(root, terms):
 
 def main():
     p = argparse.ArgumentParser(description="find-architecture-learnings v1 engine")
-    p.add_argument("--kb-root", default=None)
+    p.add_argument("--kb-root", required=True,
+                   help="the short-term copy of the shelves, fetched through the memory tool")
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("index")
     g = sub.add_parser("get")

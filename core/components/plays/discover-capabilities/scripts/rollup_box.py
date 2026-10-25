@@ -49,7 +49,7 @@ SCALE = ["none", "low", "medium", "high", "xhigh"]
 
 import os  # noqa: E402
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def rank(level):

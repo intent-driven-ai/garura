@@ -5,8 +5,7 @@ Whichever checker ran (a sub-agent on another model, or a coding agent), its ver
 the shape `judge-loop-result` defines. This script checks that shape against the bundle's
 manifest — every criterion judged, no other, each with evidence, the verdict agreeing with the
 criteria, a reason for each failure — and writes `check.yaml`, the file the loop's stop
-condition reads. Canonical copy lives at create-loop/references/record_check.py and is
-stamped into each loop's scripts/.
+condition reads.
 
     python3 record_check.py --verdict <working>/check/verdict.json \
         --manifest <working>/check/manifest.json --kind subagent|coding-agent [--model M] \

@@ -34,7 +34,7 @@ HOLDING = "capabilities/"
 FIELD = re.compile(r"^\*\*(?P<k>Outcome|Why|Stage):\*\*\s*(?P<v>.*)$")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def read_page(path):

@@ -62,6 +62,57 @@
     "config": ".garura/core/config.yaml",
     "memory": "~/.garura/core/memory",
     "global_files": [],
+    "tools": [
+      ".garura/core/tools/lint-components",
+      ".garura/core/tools/lint-play",
+      ".garura/core/tools/rebuild-eval"
+    ],
+    "kinds": {
+      ".claude/agents/adr-keeper.md": "agent",
+      ".claude/agents/change-reviewer.md": "agent",
+      ".claude/agents/product-os-keeper.md": "agent",
+      ".claude/agents/project-orchestrator.md": "agent",
+      ".claude/agents/quality-auditor.md": "agent",
+      ".claude/agents/repo-orchestrator.md": "agent",
+      ".claude/agents/template-manager.md": "agent",
+      ".claude/skills/assess-changes": "skill",
+      ".claude/skills/assess-pr": "skill",
+      ".claude/skills/author-business-intent": "skill",
+      ".claude/skills/author-decision": "skill",
+      ".claude/skills/author-domains": "skill",
+      ".claude/skills/author-failure-recovery": "skill",
+      ".claude/skills/author-product-ontology": "skill",
+      ".claude/skills/author-slice": "skill",
+      ".claude/skills/author-slice-brief": "skill",
+      ".claude/skills/check-pr-quality": "skill",
+      ".claude/skills/commit-files": "skill",
+      ".claude/skills/cut-branch": "skill",
+      ".claude/skills/enrich-capability-ice": "skill",
+      ".claude/skills/enrich-grounding": "skill",
+      ".claude/skills/find-matching-issues": "skill",
+      ".claude/skills/find-slice-gaps": "skill",
+      ".claude/skills/find-work-placement": "skill",
+      ".claude/skills/judge-grounding": "skill",
+      ".claude/skills/merge-pr": "skill",
+      ".claude/skills/open-pr": "skill",
+      ".claude/skills/platform-adapter": "skill",
+      ".claude/skills/propose-answers": "skill",
+      ".claude/skills/track-issue": "skill",
+      ".claude/skills/check-change": "play",
+      ".claude/skills/commit-change": "play",
+      ".claude/skills/create-loop": "play",
+      ".claude/skills/create-play": "play",
+      ".claude/skills/discover-capabilities": "play",
+      ".claude/skills/edit-loop": "play",
+      ".claude/skills/edit-ontology": "play",
+      ".claude/skills/edit-play": "play",
+      ".claude/skills/list-focus-issues": "play",
+      ".claude/skills/merge-change": "play",
+      ".claude/skills/propose-change": "play",
+      ".claude/skills/record-decision": "play",
+      ".claude/skills/shape-slice": "play",
+      ".claude/skills/start-change": "play"
+    },
     "status_gitignore": ".garura/.gitignore",
     "memory_system": {
       "tool": ".garura/core/tools/memory",
@@ -79,10 +130,13 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version 1d3efd00e1e1."
+          "Phoenix memory: on this machine, at version 2f68683b1e44."
         ]
       }
     },
-    "retired": []
+    "tools_gitignore": ".garura/core/tools/.gitignore",
+    "retired": [
+      ".garura/core/tools/naming"
+    ]
   }
 }

@@ -223,6 +223,21 @@ install_memory_system() {
   python3 "$script" --target "$TARGET_DIR" --tool claude --source "$SRC_DIR" || MEMORY_CHECK_FAILED=1
 }
 
+# --- The tools (#860) ---
+# Plays and skills run Garura's tools after the install, so every tool goes to
+# .garura/core/tools/<name>/, laid by the same script the install-garura play uses.
+# The memory tool is laid by the memory system above. A release without the script installs
+# as before.
+
+install_tools() {
+  local script="$COMPONENTS_DIR/plays/install-garura/scripts/tools_system.py"
+  if [ ! -f "$script" ]; then
+    return 0
+  fi
+  info "  Installing the tools..."
+  python3 "$script" --target "$TARGET_DIR" --source "$SRC_DIR" > /dev/null
+}
+
 # Called after the version is recorded, as install.py writes its manifest first: a failed
 # check leaves an install the next run can see and lay again.
 stop_if_memory_check_failed() {
@@ -358,6 +373,7 @@ if [ "$MODE" = "init" ]; then
 
   # 8. The memory system
   install_memory_system
+  install_tools
 
   # 9. Record the installed version
   mkdir -p "$(dirname "$VERSION_FILE")"
@@ -372,6 +388,7 @@ if [ "$MODE" = "init" ]; then
   ok "  .claude/skills/      — Skills and plays"
   ok "  .claude/rules/garura-memory.md — The memory guide every agent reads"
   ok "  .garura/core/tools/memory/ — The memory tool"
+  ok "  .garura/core/tools/   — The tools plays and skills run"
   ok "  .garura/core/    — Memory and config"
   ok "  .garura/project/ — Project artifacts"
   ok "  src/                 — Source code"
@@ -455,6 +472,7 @@ else
 
   # 7. The memory system (the tool is replaced; its settings are kept)
   install_memory_system
+  install_tools
 
   # 8. Record the installed version
   echo "$INSTALLED_VERSION" > "$VERSION_FILE"

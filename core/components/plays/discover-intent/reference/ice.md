@@ -149,7 +149,7 @@ play pulls out what the person wants; it never copies how the source does it.
   asked by a persona, why the business reason, proof a measurable result. They are never left
   open and never asked. The test of the result is whether another builder, given only the
   intents and the model, rebuilds what the prototype does (the rebuild eval,
-  `core/tools/rebuild-eval`).
+  the installed `.garura/core/tools/rebuild-eval/run_eval.py`).
 
 ### Failure conditions
 
@@ -202,7 +202,7 @@ play pulls out what the person wants; it never copies how the source does it.
 ## Context
 
 The Business Intent is the person's interface to the product; the product model and the ICE
-built for its parts are the agents' interface (`docs/philosophy/idsd.md`, two interfaces). This
+built for its parts are the agents' interface (the two interfaces). This
 play writes the person's side only. ADR 043 (21 October, after Kickoff run 7) made each Discovery
 play write one kind: when `/discover-intent` also drafted the ICE and capabilities, its reading of the
 screens flowed into every play after it, and one wrong intent spread to the whole model. Now

@@ -23,8 +23,7 @@ Use, right after the YAML is parsed:
     check_model(data, path)      # any other model YAML
     check_pages(model_dir)       # the product-os folder, before reading its pages
 
-SHARED script: the main copy is plays/create-play/references/model_names.py, and every copy
-must match it byte for byte (the component linter checks this). Standard library only.
+SHARED script: every copy matches the others byte for byte (the component linter checks this). Standard library only.
 """
 
 import os

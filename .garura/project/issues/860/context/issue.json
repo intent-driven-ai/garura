@@ -1,0 +1,6 @@
+{
+  "resolved": true,
+  "issue_number": "860",
+  "title": "[BUG] Installed skills read Garura's source tree (core/components, core/tools) at run time, so they break after an install (P1)",
+  "created": false
+}

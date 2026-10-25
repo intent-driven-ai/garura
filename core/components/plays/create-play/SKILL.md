@@ -382,7 +382,7 @@ Let the script count, not the model: hand-counting burns tokens and miscounts. R
 `scripts/lint_play.py` on the play you just wrote:
 
 ```
-python3 scripts/lint_play.py <path-to-the-compiled-play>
+python3 scripts/lint_play.py <path-to-the-compiled-play> --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 It mechanically checks the wiring: every constraint/failure/scenario is covered by its
@@ -405,7 +405,7 @@ When asked to review an existing play, report gaps — **change nothing**.
 Start with the linter; it does the mechanical half for free:
 
 ```
-python3 scripts/lint_play.py <path-to-the-play>
+python3 scripts/lint_play.py <path-to-the-play> --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 That covers coverage, one-recovery-per-failure, orphan references, required sections, and

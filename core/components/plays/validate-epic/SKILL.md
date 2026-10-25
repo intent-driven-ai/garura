@@ -524,7 +524,7 @@ at Step 1. Each round is its own progress marker; a resumed round never re-count
 | domain_agents | 1 (quality-auditor) |
 | utility_agents | 2 (project-orchestrator, repo-orchestrator) |
 | skills_used | author-validation-checks, judge-validation-results, find-architecture-learnings, track-issue |
-| standards_consumed | standards/rules/gate-config.md (Step 4 switch); core/components/plays/_shared/play-close.md; standards/rules/pipeline-next.md |
+| standards_consumed | standards/rules/gate-config.md (Step 4 switch); ../_shared/play-close.md; standards/rules/pipeline-next.md |
 | scripts | 13 + 8 runners (preflight.py, check_ready_validate.py, resolve_blast_scope.py, run_checks.py, check_gates.py, check_kb_grounding.py, compute_verdict.py, stamp_epic.py, render_fix_report.py, check_validate.py, session_stamp.py — session identity stamp, check_stop_condition.py — Done-means gate, runners/_runner_common.py + 7 runner_*.py) |
 | step_evals | 16 (SE-1…SE-16; every failure condition covered; SE-14 covers the surface contract F13/C13 at the plan and verdict halves; SE-15 covers the gated close F14/C14; SE-16 covers the gate-off manifest-grounding precondition F15/C15) |
 | scenario_evals | 5 (SCE-1…SCE-5) |

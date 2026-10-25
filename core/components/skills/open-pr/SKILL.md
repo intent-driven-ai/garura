@@ -25,6 +25,7 @@ Receive from caller (agent):
 | `draft` | No | Create as draft PR (default: false) |
 | `labels` | No | Labels to add |
 | `assignees` | No | Assignees to add |
+| `pr_body_template_path` | Yes | The short-term copy of the memory template `standards/templates/pr-body.md` that the agent got from template-manager |
 
 ## Platform Dispatch
 
@@ -46,9 +47,7 @@ git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || git push -u 
 
 ### 2. Format PR Body
 
-Load `~/.garura/core/memory/standards/templates/pr-body.md` and instantiate with `summary`, `checklist.required`, `checklist.optional`, `eval_results`, and the generated-by footer values. Follow the Eval Results rules in the template.
-
-> **Direct-edit deviation note (fix-it/#209):** Format pointer substitution only. Reconcile at next `/create-play --build open-pr` run.
+Load the template at `pr_body_template_path` and instantiate with `summary`, `checklist.required`, `checklist.optional`, `eval_results`, and the generated-by footer values. Follow the Eval Results rules in the template.
 
 ### 3. Create PR
 

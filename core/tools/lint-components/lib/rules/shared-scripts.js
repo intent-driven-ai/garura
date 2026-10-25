@@ -31,9 +31,9 @@ function copiesOf(targetDir, script) {
 function check(targetDir) {
   const violations = [];
   const playsDir = path.join(targetDir, 'plays');
-  if (!fs.existsSync(playsDir)) return violations;
+  const hasPlays = fs.existsSync(playsDir);
 
-  for (const script of SHARED_SCRIPTS) {
+  for (const script of hasPlays ? SHARED_SCRIPTS : []) {
     const mainCopy = path.join(playsDir, 'create-play', 'references', script);
     if (!fs.existsSync(mainCopy)) continue;
     const mainBytes = fs.readFileSync(mainCopy);
@@ -52,7 +52,44 @@ function check(targetDir) {
     }
   }
 
+  violations.push(...checkToolCopies(targetDir));
   return violations;
 }
 
-module.exports = { check, SHARED_SCRIPTS };
+// Scripts whose main copy is a tool (#860): lint_play.py lives in core/tools/lint-play/, and
+// create-play and edit-play keep stamped copies. Every copy must match the tool byte for byte.
+// The tool is found beside the components folder (source layout: core/tools/) or in the
+// project's install folder (installed layout: .garura/core/tools/ beside .claude).
+const TOOL_SCRIPTS = [{ script: 'lint_play.py', tool: 'lint-play' }];
+
+function toolMainCopy(targetDir, tool, script) {
+  const candidates = [
+    path.join(targetDir, '..', 'tools', tool, script),
+    path.join(targetDir, '..', '.garura', 'core', 'tools', tool, script),
+  ];
+  return candidates.find((c) => fs.existsSync(c)) || null;
+}
+
+function checkToolCopies(targetDir) {
+  const violations = [];
+  for (const { script, tool } of TOOL_SCRIPTS) {
+    const mainCopy = toolMainCopy(targetDir, tool, script);
+    if (!mainCopy) continue;
+    const mainBytes = fs.readFileSync(mainCopy);
+    const ruleName = script.replace(/\.py$/, '');
+    for (const copy of copiesOf(targetDir, script)) {
+      if (!fs.readFileSync(copy).equals(mainBytes)) {
+        violations.push({
+          file: copy,
+          rule: `structural/${ruleName}-drift`,
+          severity: 'error',
+          message: `This copy of ${script} differs from the tool's copy (the ${tool} tool). Copy the tool's ${script} over it unchanged (change the tool first if the change is wanted).`,
+          line: 1,
+        });
+      }
+    }
+  }
+  return violations;
+}
+
+module.exports = { check, SHARED_SCRIPTS, TOOL_SCRIPTS };

@@ -27,12 +27,14 @@ Outputs always carry a `delta_log[]` recording every adjustment (field, before, 
 
 Receive from the `tech-designer` agent. All paths resolve against `{product_base}` and `{ltm_base}` supplied by the play via JSON contract.
 
+No part invokes this skill today (no play dispatches `tech-designer` to run it); its caller fetches the quality knowledge into short-term memory.
+
 - `specify_qp_path` (path, required) — `{product_base}specification/quality-profile.yaml`. When missing or DRAFT under C1 soft pre-flight, the play writes `{product_base}specification/quality-profile-stand-in.yaml` from user answers; this skill reads that instead.
 - `scope_path` (path, required) — `{product_base}scope/scope.yaml`.
 - `epics_dir` (path, required) — `{product_base}scope/epics/`. Per-epic constraints may force a stricter target than the /specify QP allowed for.
 - `inventory_dir` (path, required) — `{product_base}architecture/systems-inventory/`. Each system file's Scale Profile and Tradeoffs sections may cap or force NFR targets.
 - `project_profile_path` (path, required) — `{product_base}user-provided/project-profile.yaml`. `grounded_tools.nfr_floors[]` and security/compliance pins are authoritative.
-- `kb_quality_dir` (path, required) — `{ltm_base}components/memory/knowledge/quality/`. ISO 25010 characteristic definitions and standard targets.
+- `kb_quality_dir` (path, required) — the short-term copy of the quality knowledge (`knowledge/quality/`) that the agent fetched through the memory tool. ISO 25010 characteristic definitions and standard targets.
 - `output_path` (string, required) — `{product_base}architecture/quality-profile.yaml`.
 - `decision_manifest_path` (string, required) — `{product_base}architecture/decision-manifest-refine-quality-profile.yaml`.
 

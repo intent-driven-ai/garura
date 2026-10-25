@@ -62,8 +62,11 @@ function checkSkill(component) {
 
   const fm = frontmatter.parsed;
 
-  // Required frontmatter fields
-  const requiredFields = ['name', 'description', 'user-invocable', 'model', 'allowed-tools'];
+  // Required frontmatter fields. The install turns a skill's `model:` hint into the host's own
+  // model choice (install-garura adapters, the model tiers), so an installed skill has no
+  // `model:` line by design: the installed layout does not require it (#860).
+  const requiredFields = ['name', 'description', 'user-invocable', 'model', 'allowed-tools']
+    .filter((f) => !(component.installed && f === 'model'));
   for (const field of requiredFields) {
     if (fm[field] === undefined || fm[field] === null) {
       violations.push({
@@ -352,7 +355,7 @@ function checkPlay(component, sharedCloseDir) {
     }
   }
 
-  // Standard Play Close — the shared close, see core/components/plays/_shared/play-close.md
+  // Standard Play Close — the shared close, see plays/_shared/play-close.md
   // (ADR 039 §9). Anchors must match byte-for-byte, appear exactly once each, opener before
   // closer; the play carries only its own values between them.
   const closeOpener =
@@ -368,7 +371,7 @@ function checkPlay(component, sharedCloseDir) {
       message:
         `Standard Play Close anchors must appear exactly once each ` +
         `(found opener ${openerCount}, closer ${closerCount}). ` +
-        `See core/components/plays/_shared/play-close.md.`,
+        `See ../_shared/play-close.md.`,
       line: 1,
     });
   } else if (body.indexOf(closeOpener) >= body.indexOf(closeCloser)) {
@@ -378,7 +381,7 @@ function checkPlay(component, sharedCloseDir) {
       severity: 'error',
       message:
         'Standard Play Close opener anchor must appear before the closer anchor. ' +
-        'See core/components/plays/_shared/play-close.md.',
+        'See ../_shared/play-close.md.',
       line: 1,
     });
   }
@@ -404,13 +407,14 @@ function checkPlay(component, sharedCloseDir) {
 }
 
 /**
- * Check a loop (core/components/loops/<loop>/SKILL.md, #613). A loop is a higher-order
- * play (ADR 029): it passes every play check — its shared close lives with the plays, in
- * core/components/plays/_shared/ — plus `kind: loop` and the Shared Loop Run anchors
- * (core/components/loops/_shared/loop-run.md). lint_loop.py checks the rest.
+ * Check a loop (loops/<loop>/SKILL.md, #613). A loop is a higher-order play (ADR 029): it
+ * passes every play check — its shared close lives with the plays, in plays/_shared/ (in the
+ * installed layout, skills/_shared/) — plus `kind: loop` and the Shared Loop Run anchors
+ * (loops/_shared/loop-run.md). lint_loop.py checks the rest.
  */
 function checkDrive(component) {
-  const playsShared = path.join(path.dirname(component.file), '..', '..', 'plays', '_shared');
+  const playsShared = component.playsShared ||
+    path.join(path.dirname(component.file), '..', '..', 'plays', '_shared');
   const { violations } = checkPlay(component, playsShared);
   const content = fs.readFileSync(component.file, 'utf8');
   const { frontmatter, body } = extractParts(content);
@@ -435,7 +439,7 @@ function checkDrive(component) {
       severity: 'error',
       message:
         `Shared Loop Run anchors must appear exactly once each, opener first ` +
-        `(found opener ${nOpen}, closer ${nClose}). See core/components/loops/_shared/loop-run.md.`,
+        `(found opener ${nOpen}, closer ${nClose}). See ../_shared/loop-run.md.`,
       line: 1,
     });
   }

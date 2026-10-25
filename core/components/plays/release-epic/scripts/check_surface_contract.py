@@ -52,7 +52,7 @@ RUN_TELLS = ("python3", "python ", "unittest", "pytest", "npm test", "go test",
              "make test", "./", "java -", "node ")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def yload(path):

@@ -599,7 +599,7 @@ the deliverable included the documentation the change requires.
 ### Phase: Evidence & Close
 
 Closes with the **Standard Play Close** — the canonical three-table delivery report (Run
-Summary / Pipeline Steps / Artifacts), not prose. See `core/components/plays/_shared/play-close.md`.
+Summary / Pipeline Steps / Artifacts), not prose. See `../_shared/play-close.md`.
 The close is stop-condition gated (C20/F16): the gate step below evaluates the baked
 `stop-condition.yaml` and binds the verdict.
 

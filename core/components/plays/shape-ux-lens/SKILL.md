@@ -723,7 +723,7 @@ SKILL matches this hand-compiled body and refreshing the fingerprint. This migra
 merged /discover-capabilities reference implementation (#498) and the just-migrated /discover-domains, /shape-slice, /learn-outcomes
 on this branch. Note also: `reference/ice.md` C13 distinguishes the model-delta commit from the
 Standard Play Close (evidence + delivery report) that /shape-ux-lens still runs; the close anchor block is
-retained (required by `core/tools/lint-components` structural.js and the create-play G12 emit on every play),
+retained (required by the component linter structural.js and the create-play G12 emit on every play),
 and the `feat(model)` commit is the separate lightweight persist step, so both coexist as C13
 describes.
 

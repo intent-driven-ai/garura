@@ -12,8 +12,12 @@ it is *meaningful*; whether a constraint is *referenced*, not whether it is trul
 structural. Treat a clean run as "the mechanical wiring holds" and a gap as "fix the
 wiring" — writing the missing eval/recovery/section is still the model's job.
 
-Usage:   python3 lint_play.py <path-to-compiled-play.md>
-Exit:    0 = clean, 1 = gaps found, 2 = could not read the file.
+Usage:   python3 lint_play.py <path-to-compiled-play.md> --next-map <pipeline-next.md>
+Exit:    0 = clean, 1 = gaps found, 2 = no --next-map, or could not read the play or the map.
+
+--next-map names a copy of standards/rules/pipeline-next.md (the Next-line map). It is
+required: the caller gets the copy through the memory tool (or template-manager). The script
+never looks for the map in a memory folder.
 
 Checks
   - Required sections present (matched anywhere in a header — a phase counts).
@@ -316,19 +320,14 @@ def check_fingerprint(ctx):
 # --- next-command recommendation (pipeline-next.md) --------------------------------
 def check_next_command(ctx):
     # A compiled play with a valid position must resolve in the successor map and
-    # render a Next line at close — unless it is meta_exempt. Non-breaking: only
-    # runs when the play has a valid position AND pipeline-next.md is found.
-    if not (ctx["fm"] and ctx["pos_ok"]):
+    # render a Next line at close — unless it is meta_exempt. Runs only when the play
+    # has a valid position and the caller gave the map (main() reads --next-map).
+    if not (ctx["fm"] and ctx["pos_ok"]) or ctx.get("next_map_text") is None:
         return []
     nm = re.search(r"(?m)^name:\s*(\S+)", ctx["fm"].group(1))
     play_name = (nm.group(1).strip().strip("\"'") if nm
                  else os.path.basename(ctx["play_dir"]))
-    map_path = os.path.normpath(os.path.join(
-        ctx["play_dir"], "..", "..", "memory", "standards", "rules", "pipeline-next.md"))
-    if not os.path.isfile(map_path):
-        return []
-    with open(map_path, encoding="utf-8") as fh:
-        mp = fh.read()
+    mp = ctx["next_map_text"]
     after_exempt = re.split(r"meta_exempt:", mp)[1] if "meta_exempt:" in mp else ""
     exempt = set(re.findall(r"(?m)^\s*-\s*([a-z0-9-]+)\s*$", after_exempt))
     mapped = set(re.findall(r"(?m)^\s{2,}([a-z0-9-]+):\s*\{", mp))
@@ -473,8 +472,24 @@ CHECKS = [
 
 
 def main(argv):
+    next_map = None
+    if len(argv) == 4 and argv[2] == "--next-map":
+        next_map = argv[3]
+        argv = argv[:2]
     if len(argv) != 2:
-        print("usage: python3 lint_play.py <compiled-play.md>", file=sys.stderr)
+        print("usage: python3 lint_play.py <compiled-play.md> --next-map <pipeline-next.md>",
+              file=sys.stderr)
+        return 2
+    if next_map is None:
+        print("lint_play.py needs the Next-line map: give --next-map <a copy of "
+              "standards/rules/pipeline-next.md>. Get the copy through the memory tool.",
+              file=sys.stderr)
+        return 2
+    try:
+        with open(next_map, encoding="utf-8") as fh:
+            next_map_text = fh.read()
+    except OSError as exc:
+        print(f"cannot read the Next-line map {next_map}: {exc}", file=sys.stderr)
         return 2
     try:
         with open(argv[1], encoding="utf-8") as fh:
@@ -484,6 +499,8 @@ def main(argv):
         return 2
 
     ctx = load_context(argv[1], text)
+    ctx["next_map"] = next_map
+    ctx["next_map_text"] = next_map_text
     results = []
     for check in CHECKS:
         results.extend(check(ctx))

@@ -58,7 +58,7 @@ import sys
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 import intent_touches as touches  # noqa: E402
 
 REQUIRED = ("title", "outcome", "why", "asked_by", "proof")

@@ -24,7 +24,8 @@ the pipeline.
 ## What makes this safe: the manifest
 
 `sud:install-garura` writes `.garura/install-manifest.json` in the target, recording the exact set
-of skills, agents, plays, config, CLAUDE.md, and the shared-memory path it created.
+of skills, agents, plays, shared files, tools, config, CLAUDE.md, and the shared-memory path
+it created. Its `kinds` record (the kind of each component) goes with the manifest.
 `uninstall-garura` reads that manifest and removes **only that set**. It never guesses and
 never removes a file it cannot prove the installer placed. No manifest means nothing was
 installed here (by us), so there is nothing to remove — the script says so and exits cleanly.
@@ -42,12 +43,16 @@ Each only if the manifest recorded it:
 
 - every `.claude/skills/<id>` the manifest lists (skills and plays both live here),
 - every `.claude/agents/<id>.md` the manifest lists,
+- the shared files in `.claude/skills/_shared/` the manifest lists, the agents' shared files
+  among them,
 - the target's `.garura/core/config.yaml`,
 - `CLAUDE.md.new` (only the installer-written variant — never the user's own `CLAUDE.md`),
 - the memory tool (`.garura/core/tools/memory/`, or `.garura/tools/memory/` from an older
   install, with its settings) and the memory guide: the
   file `.claude/rules/garura-memory.md`, or the marked block in `AGENTS.md` — only the
   block; the rest of the user's `AGENTS.md` stays,
+- every laid tool in the manifest's `tools` record (`.garura/core/tools/<name>/`, with the
+  packages the install put in it) and the tools ignore file `.garura/core/tools/.gitignore`,
 - `.garura/install-manifest.json`,
 - then any directories left empty by the above. Short-term memory's folder
   (`.garura/project/issues/`) goes only when it is empty.

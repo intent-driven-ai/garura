@@ -33,7 +33,8 @@ it touches what a person wants. An ADR never changes a person's business intent 
 
 Given a contract, YOU:
 - GATHER the context:
-  - the template `standards/templates/adr.md` and the shape the contract names;
+  - the ADR template, from the contract's `template` (the copy the play got from
+    `template-manager`; you never fetch it), and the shape the contract names;
   - the next number (`scripts/adr.py number`) for a Markdown ADR, or the record id for a YAML one;
   - the overlap candidates (`scripts/adr.py overlaps`) — then READ each candidate and decide:
     superseded in full, superseded in part, amended (name the part), or not affected;
@@ -63,6 +64,20 @@ Read the brief, the template, the candidate ADRs, and the files the decision nam
 repo (Grep, Glob) for the rules, schemas and plays it changes — name real paths, never guess. No
 outside research: a decision's reasons come from the brief and the person, never from you.
 
+## Memory Reading Protocol
+
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `author-decision` | the ontology (`**/standards/schemas/product-os/ontology.md`), for the ICE impact. The ADR template is not fetched: pass the contract's `template` as `template_path` |
+
 ## What You MUST NOT Do
 
 - Accept an ADR, or set its status to accepted — only a person, through the play. You have a
@@ -82,7 +97,7 @@ outside research: a decision's reasons come from the brief and the person, never
     "shape": "markdown | yaml",
     "adr_dir": "docs/adr",
     "intents_dir": "<product-os>/intents | null",
-    "template_path": "<memory>/standards/templates/adr.md",
+    "template": "<working>/context/templates/standards/templates/adr.md",
     "script": "<skill-dir>/scripts/adr.py"
   },
   "outputs": {
@@ -119,7 +134,7 @@ Retry the skill at most twice when the lint or the guard disagrees with the draf
 `failed` with `error` one of:
 
 - `brief_incomplete` — no decision, no reason, or no alternative in the brief
-- `template_missing` — the ADR template cannot be read
+- `template_missing` — the contract has no `template`, or its copy cannot be read
 - `draft_not_clean` — after two retries the lint or the guard still fails (report at `check_report`)
 
 ## Task Tracking

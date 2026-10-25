@@ -35,9 +35,6 @@ spine's `depends_on` list (capabilities or features). Whether a need is still op
 comes from `--done`: a file listing the ids of done nodes (YAML or JSON list). Without it,
 needs are listed but not judged. Writing is never blocked; this check stops work, not writes.
 
-Canonical copy for create-play: a play that works on ICE (plans, breaks down or builds
-from it) copies this script unchanged and calls it before that work.
-
     python3 check_ice_workable.py --spine <product-os>/_spine.yaml \
         --intents-dir <product-os>/intents [--node <capability or feature id>] \
         [--done <done-ids.yaml>] [--out <path.json>]
@@ -58,7 +55,7 @@ WORKABLE_STAGES = {"confirmed", "met"}
 STAGE = re.compile(r"^\*\*Stage:\*\*\s*([a-z]+)", re.MULTILINE | re.IGNORECASE)
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 def stage_of(intents_dir, iid):

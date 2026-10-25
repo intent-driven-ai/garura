@@ -42,7 +42,7 @@ SECTIONS = {"domain": "domains", "capability": "capabilities", "feature": "featu
 HOLDING = {"capability": "capabilities", "feature": "features"}
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import model_names  # noqa: E402  (stamped from create-play/references)
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 class OutOfScope(ValueError):

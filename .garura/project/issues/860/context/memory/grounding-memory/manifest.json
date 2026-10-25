@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_DESIGN.md",
+      "version": "2f68683b1e44",
+      "fingerprint": "sha256:7ec9aaa84087511bd72d4fecce54fcb4d43eb7de549296878fe7d435f160bf68",
+      "copy": ".garura/project/issues/860/context/memory/grounding-memory/knowledge/_DESIGN.md"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import contextlib
 import io
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -24,6 +25,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "core", "components", "plays", "uninstall-garura", "scripts"))
 import install  # noqa: E402
 import memory_system  # noqa: E402
+import tools_system  # noqa: E402
 import uninstall  # noqa: E402
 from adapters import claude, codex  # noqa: E402
 
@@ -143,18 +145,32 @@ class LaysTheMemorySystem(Installed):
         a = self.tool("search", "--pattern", "Garura memory", "--tier", "garura")
         self.assertEqual(a["hits"], [])
 
-    def test_codex_keeps_the_projects_own_agents_md_and_adds_one_block(self):
+    def stopped(self, call):
+        """Run an install call; return its exit code and what it wrote to stderr."""
+        err = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err), \
+                self.assertRaises(SystemExit) as stop:
+            call()
+        return stop.exception.code, err.getvalue()
+
+    def test_codex_is_deprecated_and_the_install_stops_and_changes_nothing(self):
         os.makedirs(self.target)
         with open(self.path("AGENTS.md"), "w") as fh:
             fh.write("# Our own rules\nKeep it simple.\n")
-        self.install("codex")
-        self.install("codex")  # a re-install replaces the block, never adds a second
+        code, err = self.stopped(lambda: self.install("codex"))
+        self.assertEqual(code, 2)
+        self.assertIn("Codex installer is deprecated", err)
+        self.assertIn("#863", err)
+        self.assertEqual(os.listdir(self.target), ["AGENTS.md"])
         with open(self.path("AGENTS.md")) as fh:
-            text = fh.read()
-        self.assertTrue(text.startswith("# Our own rules\nKeep it simple.\n"))
-        self.assertEqual(text.count(memory_system.BLOCK_START), 1)
-        self.assertIn("python3 .garura/core/tools/memory/memory.py search", text)
-        self.assertFalse(os.path.exists(self.path(".claude", "rules")))
+            self.assertEqual(fh.read(), "# Our own rules\nKeep it simple.\n")
+        self.assertFalse(os.path.exists(codex.CODEX_HOME))
+
+    def test_the_command_line_stops_for_codex_before_it_makes_the_target(self):
+        code, err = self.stopped(lambda: install.main(["--target", self.target, "--tool", "codex", "--quiet"]))
+        self.assertEqual(code, 2)
+        self.assertIn("#863", err)
+        self.assertFalse(os.path.exists(self.target))
 
     def test_the_shared_play_close_is_laid_beside_the_plays(self):
         self.install()
@@ -162,10 +178,6 @@ class LaysTheMemorySystem(Installed):
         self.assertTrue(os.path.isfile(self.path(".claude", "agents", "template-manager.md")))
         with open(self.path(".claude", "skills", "start-change", "SKILL.md")) as fh:
             self.assertIn("../_shared/play-close.md", fh.read())
-
-    def test_codex_gets_the_shared_play_close_too(self):
-        self.install("codex")
-        self.assertTrue(os.path.isfile(self.path(".agents", "skills", "_shared", "play-close.md")))
 
     def test_the_config_comes_from_core_config_yaml(self):
         self.install()
@@ -303,7 +315,9 @@ class Uninstall(Installed):
         os.makedirs(self.target)
         with open(self.path("AGENTS.md"), "w") as fh:
             fh.write("# Our own rules\nKeep it simple.\n")
-        self.run_main("codex")
+        memory_system.put_block(self.path("AGENTS.md"), "the guide")
+        removed = []
+        self.assertTrue(uninstall.rm_block(self.path("AGENTS.md"), removed, dry=False))
         with open(self.path("AGENTS.md")) as fh:
             self.assertEqual(fh.read(), "# Our own rules\nKeep it simple.\n")
 
@@ -444,6 +458,30 @@ class LaysLoops(unittest.TestCase):
         self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "play-close.md")))
         self.assertTrue(os.path.isfile(os.path.join(skills, "_shared", "loop-run.md")))
         self.assertIn(os.path.join(".claude", "skills", "complete-discovery"), paths)
+
+    def test_the_agents_shared_files_are_laid_in_shared_and_never_as_an_agent(self):
+        for rel, text in (("agents/finder.md", "---\nname: finder\n---\n"),
+                          ("agents/_shared/memory-reading.md", "# reading\n"),
+                          ("agents/_shared/copy_memory.py", "print('copy')\n"),
+                          ("agents/_shared/test_copy_memory.py", "print('test')\n")):
+            path = os.path.join(self.src, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as fh:
+                fh.write(text)
+        paths, counts, _ = self.lay(claude)
+        shared = os.path.join(self.target, ".claude", "skills", "_shared")
+        for name in ("memory-reading.md", "copy_memory.py", "play-close.md", "loop-run.md"):
+            self.assertTrue(os.path.isfile(os.path.join(shared, name)), name)
+        self.assertFalse(os.path.exists(os.path.join(shared, "test_copy_memory.py")))
+        self.assertEqual(counts["agents"], 1)
+        self.assertEqual(sorted(os.listdir(os.path.join(self.target, ".claude", "agents"))), ["finder.md"])
+        self.assertNotIn(os.path.join(".claude", "agents", "_shared"), paths)
+
+    def test_a_missing_agents_shared_folder_lays_the_others(self):
+        self.assertFalse(os.path.exists(os.path.join(self.src, "agents", "_shared")))
+        self.lay(claude)
+        shared = os.path.join(self.target, ".claude", "skills", "_shared")
+        self.assertEqual(sorted(os.listdir(shared)), ["loop-run.md", "play-close.md"])
 
     def test_codex_lays_a_loop_too(self):
         _, counts, _ = self.lay(codex)
@@ -621,6 +659,394 @@ class InstallFindings(unittest.TestCase):
         self.assertIn("**/__pycache__/", install.STATUS_GITIGNORE)
 
 
+# The parts that work on Garura's source only, by design (#860), and the files that sort the paths
+# of the repo under review. An installed file outside them names no path in the source.
+SOURCE_ONLY = {"create-play", "edit-play", "create-loop", "edit-loop", "install-garura",
+               "uninstall-garura", "edit-ontology", "author-product-ontology"}
+REPO_LAYOUT = {os.path.join("commit-change", "scripts", "analyze_changeset.py"),
+               os.path.join("assess-pr", "reference", "quality-rules.md")}
+# Tools whose job includes Garura's own repository: the component linter's source layout.
+# The old-name check (naming) is not laid at all (decision 23).
+REPO_TOOLS = {"lint-components"}
+SOURCE_PATH = re.compile(r"core/components/|(?<!\.garura/)core/tools/")
+# A pointer to Garura's own docs, which the install never copies (decision 10); a glob over the
+# reviewed repo (docs/philosophy/**) is repo layout, not a pointer.
+GARURA_DOCS = re.compile(r"(?<![A-Za-z0-9_-])docs/(?:agentic-methodology|components|design|framework|philosophy"
+                         r"|standards|usage)(?![A-Za-z0-9_-])[^\s`'\"(),;]*")
+
+
+def names_the_source(line):
+    return bool(SOURCE_PATH.search(line)) or any("*" not in m for m in GARURA_DOCS.findall(line))
+
+FAKE_ADAPTER_RUN = """
+import json, sys
+sys.path.insert(0, sys.argv[1])
+import fetch_pr_context as f
+diff = "diff --git a/src/app.py b/src/app.py\\n--- a/src/app.py\\n+++ b/src/app.py\\n@@ -1 +1 @@\\n-a\\n+b\\n"
+def fake(verb, args, config_path=None):
+    if verb == "view-pr":
+        return {"exit_code": 0, "stdout": json.dumps({"number": 7, "baseRefName": "main", "changedFiles": 1}), "stderr": ""}
+    if verb == "diff-pr":
+        return {"exit_code": 0, "stdout": diff, "stderr": ""}
+    return {"exit_code": 1, "stdout": "", "stderr": "unexpected verb"}
+f.pa.dispatch = fake
+f.main(sys.argv[2:])
+"""
+
+
+class AnEmptyProject(unittest.TestCase):
+    """#860: install into a folder with no core/; every installed part runs from the install alone."""
+
+    def setUp(self):
+        self.work = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
+        self.target = os.path.join(self.work, "shop")
+        os.makedirs(self.target)
+        self.place = os.path.join(self.work, "machine", "phoenix-memory")
+        self.source = os.path.join(self.work, "phoenix-source")
+        rules = os.path.join(self.source, "standards", "rules")
+        os.makedirs(rules)
+        shutil.copy(os.path.join(ROOT, "core", "components", "memory", "standards", "rules", "pr.md"), rules)
+        git(self.source, "init", "-q", "-b", "main")
+        # Demo address: sample data for this throwaway repository, not personal data.
+        git(self.source, "config", "user.email", "t@example.com")
+        git(self.source, "config", "user.name", "test")
+        git(self.source, "add", "-A")
+        git(self.source, "commit", "-q", "-m", "seed")
+        old_home = codex.CODEX_HOME
+        codex.CODEX_HOME = os.path.join(self.work, "codex-home")
+        self.addCleanup(setattr, codex, "CODEX_HOME", old_home)
+
+    def install(self, target, scope="harness"):
+        with contextlib.redirect_stdout(io.StringIO()):
+            record = install.install(ROOT, target, "claude", False, True, os.path.join(self.work, "shared-memory"),
+                                     scope=scope, phoenix_place=self.place, phoenix_source=self.source)
+        install.write_manifest(target, record, True)
+        return record
+
+    def run_here(self, *cmd):
+        env = {k: v for k, v in os.environ.items() if not k.startswith("MEMORY_")}
+        return subprocess.run(list(cmd), capture_output=True, text=True, env=env, cwd=self.target)
+
+    def path(self, *parts):
+        return os.path.join(self.target, *parts)
+
+    def test_the_tools_are_laid_without_their_tests(self):
+        record = self.install(self.target)
+        self.assertFalse(os.path.exists(self.path("core")))
+        tools = self.path(".garura", "core", "tools")
+        self.assertEqual(sorted(n for n in os.listdir(tools) if not n.startswith(".")),
+                         ["lint-components", "lint-play", "memory", "rebuild-eval"])
+        self.assertFalse(os.path.exists(os.path.join(tools, "naming")))  # source-only (decision 23)
+        self.assertTrue(os.path.isfile(os.path.join(tools, "lint-components", "index.js")))
+        self.assertTrue(os.path.isdir(os.path.join(tools, "lint-components", "node_modules", "js-yaml")))
+        self.assertFalse(os.path.exists(os.path.join(tools, "lint-components", "test")))
+        self.assertTrue(os.path.isfile(os.path.join(tools, "lint-play", "lint_play.py")))
+        self.assertTrue(os.path.isfile(os.path.join(tools, "rebuild-eval", "run_eval.py")))
+        for d, _dirs, names in os.walk(tools):
+            if "node_modules" in d or os.path.relpath(d, tools).split(os.sep)[0] == "memory":
+                continue  # the memory tool is laid and checked by memory_system.py
+            for n in names:
+                self.assertFalse(n.startswith("test_") or n.endswith(".test.js"), os.path.join(d, n))
+            self.assertFalse({"__pycache__", ".ruff_cache"} & set(_dirs), d)
+        self.assertEqual(sorted(record["tools"]), sorted(os.path.join(".garura", "core", "tools", n)
+                                                         for n in ("lint-components", "lint-play", "rebuild-eval")))
+
+    def test_a_reinstall_removes_a_tool_that_left_the_source_and_uninstall_removes_them_all(self):
+        self.install(self.target)
+        gone = self.path(".garura", "core", "tools", "old-tool")
+        os.makedirs(gone)
+        man = self.path(".garura", "install-manifest.json")
+        with open(man) as fh:
+            data = json.load(fh)
+        data["record"]["tools"].append(os.path.join(".garura", "core", "tools", "old-tool"))
+        with open(man, "w") as fh:
+            json.dump(data, fh)
+        with contextlib.redirect_stdout(io.StringIO()):
+            install.main(["--target", self.target, "--scope", "harness", "--memory-dest",
+                          os.path.join(self.work, "shared-memory"), "--phoenix-place", self.place,
+                          "--phoenix-source", self.source, "--quiet"])
+        self.assertFalse(os.path.exists(gone))
+        ignore = self.path(".garura", "core", "tools", ".gitignore")
+        with open(ignore) as fh:
+            self.assertEqual(fh.read().splitlines()[1:], ["node_modules/", "__pycache__/"])
+        with open(man) as fh:
+            self.assertEqual(json.load(fh)["record"]["tools_gitignore"], os.path.join(".garura", "core", "tools", ".gitignore"))
+        with contextlib.redirect_stdout(io.StringIO()):
+            uninstall.uninstall(self.target, purge=False, quiet=True, dry=False)
+        self.assertFalse(os.path.exists(ignore))
+        self.assertFalse(os.path.exists(self.path(".garura", "core", "tools")))
+
+    def test_the_installed_linter_runs_in_the_installed_layout_and_finds_no_source_path(self):
+        self.install(self.target)
+        run = self.run_here("node", ".garura/core/tools/lint-components/index.js", "--layout", "installed",
+                            "--target", ".claude")
+        self.assertIn(run.returncode, (0, 1), run.stderr)
+        out = json.loads(run.stdout)
+        self.assertEqual(out["layout"], "installed")
+        self.assertTrue(any(n.startswith("naming rules skipped") for n in out.get("notes", [])))
+        self.assertEqual([v for v in out["violations"] if v["rule"] == "installed-paths/source-path"], [])
+
+    def test_the_install_records_the_kind_of_every_part(self):
+        record = self.install(self.target)
+        kinds = record["kinds"]
+        for name, kind in (("create-play", "play"), ("edit-play", "play"), ("create-loop", "play"),
+                           ("edit-loop", "play"), ("check-change", "play"), ("check-pr-quality", "skill")):
+            self.assertEqual(kinds.get(os.path.join(".claude", "skills", name)), kind, name)
+        self.assertEqual(kinds.get(os.path.join(".claude", "agents", "change-reviewer.md")), "agent")
+        self.assertNotIn(os.path.join(".claude", "skills", "_shared"), kinds)
+
+    def test_every_installed_layout_error_shows_in_the_source_layout_for_the_same_part(self):
+        def errors(cwd, *args):
+            run = subprocess.run(["node", *args], capture_output=True, text=True, cwd=cwd)
+            self.assertIn(run.returncode, (0, 1), run.stderr)
+            return json.loads(run.stdout)["violations"]
+
+        def key(v, base):
+            rel = os.path.relpath(os.path.realpath(v["file"]), os.path.realpath(base)).split(os.sep)
+            part = rel[1][:-3] if rel[0] == "agents" else rel[1]  # skills/<part>/... or agents/<part>.md
+            return (part, "/".join(rel[2:]), v["rule"], v["message"])
+
+        source_base = os.path.join(ROOT, "core", "components")
+        source = {key(v, source_base) for v in errors(ROOT, "core/tools/lint-components/index.js",
+                                                      "--target", "core/components")
+                  if v["severity"] == "error"}
+        full = os.path.join(self.work, "full")
+        os.makedirs(full)
+        for target, scope in ((self.target, "harness"), (full, "full")):
+            self.install(target, scope)
+            installed = [v for v in errors(target, ".garura/core/tools/lint-components/index.js", "--layout",
+                                           "installed", "--target", ".claude") if v["severity"] == "error"]
+            only_installed = [k for k in (key(v, os.path.join(target, ".claude")) for v in installed)
+                              if k not in source]
+            self.assertEqual(only_installed, [], scope)
+
+    def test_the_review_reads_the_taxonomy_through_the_memory_tool_and_scans_with_it(self):
+        self.install(self.target)
+        found = json.loads(self.run_here("python3", ".garura/core/tools/memory/memory.py", "find", "--issue", "7",
+                                         "--glob", "**/standards/rules/pr.md").stdout.splitlines()[0])
+        self.assertTrue(found["ok"], found)
+        hit = found["matches"][0]
+        answer = json.loads(self.run_here("python3", ".garura/core/tools/memory/memory.py", "read", "--issue", "7",
+                                          "--tier", hit["tier"], "--path", hit["path"]).stdout.splitlines()[0])
+        self.assertTrue(answer["ok"], answer)
+        copy = self.path(".garura", "project", "issues", "7", "context", "memory", "standards", "rules", "pr.md")
+        os.makedirs(os.path.dirname(copy))
+        with open(copy, "w", encoding="utf-8") as fh:
+            fh.write(answer["text"])
+        working = self.path(".garura", "project", "issues", "7", "review")
+        os.makedirs(working)
+        with open(os.path.join(working, "pr.diff"), "w") as fh:
+            fh.write("diff --git a/src/app.py b/src/app.py\n--- a/src/app.py\n+++ b/src/app.py\n@@ -1 +1 @@\n-a\n+b\n")
+        with open(os.path.join(working, "changed-paths.txt"), "w") as fh:
+            fh.write("src/app.py\n")
+        run = self.run_here("python3", ".claude/skills/check-pr-quality/scripts/scan_taxonomy.py",
+                            "--taxonomy", os.path.relpath(copy, self.target),
+                            "--diff", ".garura/project/issues/7/review/pr.diff",
+                            "--paths", ".garura/project/issues/7/review/changed-paths.txt",
+                            "--out", ".garura/project/issues/7/review/findings.yaml")
+        self.assertEqual(run.returncode, 0, run.stderr)
+        with open(os.path.join(working, "findings.yaml")) as fh:
+            self.assertIn("context/memory/standards/rules/pr.md", fh.read())
+
+    def test_the_installed_pr_context_script_names_no_memory_folder(self):
+        self.install(self.target)
+        run = self.run_here("python3", "-c", FAKE_ADAPTER_RUN, ".claude/skills/check-change/scripts",
+                            "--config", ".garura/core/config.yaml", "--pr-number", "7",
+                            "--out-context", "context.json", "--out-diff", "pr.diff")
+        self.assertEqual(run.returncode, 0, run.stderr)
+        with open(self.path("context.json")) as fh:
+            context = json.load(fh)
+        self.assertEqual(context["changed_paths"], ["src/app.py"])
+        self.assertNotIn("review_shelf", context)
+        self.assertNotIn(".garura/core/memory", json.dumps(context))
+
+    def test_no_installed_file_names_the_source(self):
+        full = os.path.join(self.work, "full")
+        os.makedirs(full)
+        found = []
+        for target, scope in ((self.target, "harness"), (full, "full")):
+            self.install(target, scope)
+            skills = os.path.join(target, ".claude", "skills")
+            roots = [(os.path.join(skills, n), n) for n in os.listdir(skills)
+                     if os.path.isdir(os.path.join(skills, n)) and n not in SOURCE_ONLY]
+            roots.append((os.path.join(target, ".claude", "agents"), "agents"))
+            tools = os.path.join(target, ".garura", "core", "tools")
+            roots += [(os.path.join(tools, n), n) for n in os.listdir(tools) if n not in REPO_TOOLS]
+            for root, name in roots:
+                for d, dirs, names in os.walk(root):
+                    dirs[:] = [x for x in dirs if x not in ("node_modules", "__pycache__")]
+                    for n in names:
+                        f = os.path.join(d, n)
+                        rel = os.path.relpath(f, os.path.dirname(root))
+                        if rel in REPO_LAYOUT or n.startswith("test_") or n.endswith(".test.js"):
+                            continue
+                        try:
+                            with open(f, encoding="utf-8") as fh:
+                                text = fh.read()
+                        except (UnicodeDecodeError, OSError):
+                            continue
+                        found += [f"{scope}: {rel}:{i}" for i, line in enumerate(text.splitlines(), 1)
+                                  if names_the_source(line)]
+        self.assertEqual(found, [])
+        with open(os.path.join(full, ".garura", "core", "config.yaml")) as fh:
+            self.assertIsNone(SOURCE_PATH.search(fh.read()))
+
+
+FAKE_NPM = """
+import json, os, sys
+with open(os.environ["FAKE_NPM_LOG"], "a") as fh:
+    fh.write(json.dumps({"args": sys.argv[1:], "cwd": os.getcwd()}) + "\\n")
+if os.environ.get("FAKE_NPM_FAIL"):
+    sys.stderr.write("npm ERR! network down\\n")
+    sys.exit(1)
+pkg = os.path.join("node_modules", "tiny-dep")
+os.makedirs(pkg)
+with open(os.path.join(pkg, "index.js"), "w") as fh:
+    fh.write("module.exports = 1;\\n")
+with open(os.path.join(pkg, "package.json"), "w") as fh:
+    fh.write('{"name": "tiny-dep", "main": "index.js"}\\n')
+"""
+
+
+class LaidToolsRun(unittest.TestCase):
+    """Decisions 20 and 24 of #860: a laid tool gets its packages and must load; its packages
+    and caches stay out of git."""
+
+    def setUp(self):
+        self.work = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.work, ignore_errors=True)
+        self.source = os.path.join(self.work, "garura")
+        self.target = os.path.join(self.work, "shop")
+        os.makedirs(self.target)
+        self.log = os.path.join(self.work, "npm.log")
+        npm = os.path.join(self.work, "fake_npm.py")
+        with open(npm, "w") as fh:
+            fh.write(FAKE_NPM)
+        env = {"GARURA_NPM": f"{sys.executable} {npm}", "FAKE_NPM_LOG": self.log}
+        patcher = mock.patch.dict(os.environ, env)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def tool(self, name, files):
+        for rel, text in files.items():
+            path = os.path.join(self.source, "core", "tools", name, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as fh:
+                fh.write(text)
+
+    def node_tool(self, lock=True):
+        files = {"package.json": '{"name": "node-tool", "main": "index.js", "dependencies": {"tiny-dep": "1.0.0"}}\n',
+                 "index.js": "const d = require('tiny-dep');\nconsole.log(d);\n"}
+        if lock:
+            files["package-lock.json"] = '{"lockfileVersion": 3}\n'
+        self.tool("node-tool", files)
+
+    def npm_calls(self):
+        if not os.path.isfile(self.log):
+            return []
+        with open(self.log) as fh:
+            return [json.loads(line) for line in fh]
+
+    def lay(self):
+        return tools_system.lay(self.source, self.target, lambda _m: None)
+
+    def test_a_node_tool_without_its_packages_gets_them_and_loads(self):
+        self.node_tool()
+        laid = self.lay()
+        self.assertEqual(laid, [os.path.join(".garura", "core", "tools", "node-tool")])
+        calls = self.npm_calls()
+        self.assertEqual([c["args"] for c in calls], [["ci", "--omit=dev"]])
+        folder = os.path.join(self.target, laid[0])
+        self.assertTrue(os.path.isfile(os.path.join(folder, "node_modules", "tiny-dep", "index.js")))
+        self.assertFalse(os.path.isdir(os.path.join(self.source, "core", "tools", "node-tool", "node_modules")))
+        run = subprocess.run(["node", "index.js"], cwd=folder, capture_output=True, text=True)
+        self.assertEqual(run.returncode, 0, run.stderr)
+
+    def test_a_node_tool_with_no_lock_file_gets_npm_install(self):
+        self.node_tool(lock=False)
+        self.lay()
+        self.assertEqual([c["args"] for c in self.npm_calls()], [["install", "--omit=dev"]])
+
+    def test_the_sources_packages_are_kept_and_npm_does_not_run(self):
+        self.node_tool()
+        self.tool("node-tool", {"node_modules/tiny-dep/index.js": "module.exports = 2;\n",
+                                "node_modules/tiny-dep/package.json": '{"name": "tiny-dep"}\n'})
+        laid = self.lay()
+        self.assertEqual(self.npm_calls(), [])
+        with open(os.path.join(self.target, laid[0], "node_modules", "tiny-dep", "index.js")) as fh:
+            self.assertIn("2", fh.read())
+
+    def test_npm_that_fails_stops_the_install_and_names_the_tool(self):
+        self.node_tool()
+        with mock.patch.dict(os.environ, {"FAKE_NPM_FAIL": "1"}):
+            with self.assertRaises(tools_system.ToolFailed) as caught:
+                self.lay()
+        self.assertIn("node-tool", str(caught.exception))
+        self.assertIn("network down", str(caught.exception))
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".garura", "core", "tools", "node-tool")))
+        self.assertFalse(os.path.exists(os.path.join(self.target, ".garura", "core", "tools", "node-tool.new")))
+
+    def test_the_smoke_check_runs_for_each_tool(self):
+        self.node_tool()
+        self.tool("py-tool", {"run.py": "import json\n", "test_run.py": "raise SystemExit(1)\n"})
+        seen = []
+
+        def run(cmd, **kw):
+            seen.append((os.path.basename(kw["cwd"]), cmd))
+            return subprocess.run(cmd, **kw)
+
+        laid = tools_system.lay(self.source, self.target, lambda _m: None, run=run)
+        self.assertEqual(len(laid), 2)
+        smoked = {name for name, cmd in seen if cmd[0] in ("node", "python3")}
+        self.assertEqual(smoked, {"node-tool", "py-tool"})
+        py = [cmd for name, cmd in seen if name == "py-tool"][0]
+        self.assertIn("import run", py[-1])
+        self.assertNotIn("test_run", py[-1])
+
+    def test_a_tool_that_does_not_load_stops_the_install_and_names_the_tool(self):
+        self.tool("broken-tool", {"main.py": "import a_module_that_is_not_there\n"})
+        self.tool("good-tool", {"main.py": "import json\n"})
+        with self.assertRaises(tools_system.ToolFailed) as caught:
+            self.lay()
+        self.assertEqual(len(caught.exception.failures), 1)
+        self.assertIn("broken-tool", caught.exception.failures[0])
+        self.assertIn("a_module_that_is_not_there", caught.exception.failures[0])
+        self.assertEqual(len(caught.exception.laid), 2)
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            code = tools_system.main(["--target", self.target, "--source", self.source])
+        self.assertEqual(code, 1)
+        self.assertIn("stopped: the tool broken-tool does not load", err.getvalue())
+
+    def test_the_install_stops_with_exit_1_and_writes_the_manifest(self):
+        record = {"counts": {}, "memory_system": {"check": {"ok": True}}, "components": [],
+                  "tools": [os.path.join(".garura", "core", "tools", "broken-tool")],
+                  "tools_failed": ["the tool broken-tool does not load: ModuleNotFoundError"]}
+        err = io.StringIO()
+        with mock.patch.object(install, "install", return_value=record), \
+                mock.patch.object(install, "retire_stale", return_value=[]), \
+                mock.patch.object(install, "retire_renamed", return_value=[]), \
+                contextlib.redirect_stderr(err), self.assertRaises(SystemExit) as caught:
+            install.main(["--target", self.target, "--quiet"])
+        self.assertEqual(caught.exception.code, 1)
+        self.assertIn("broken-tool", err.getvalue())
+        self.assertTrue(os.path.isfile(os.path.join(self.target, ".garura", "install-manifest.json")))
+
+    def test_the_ignore_file_keeps_packages_and_caches_out_of_git(self):
+        self.tool("py-tool", {"run.py": "import json\n"})
+        self.lay()
+        with open(os.path.join(self.target, tools_system.GITIGNORE)) as fh:
+            lines = [ln for ln in fh.read().splitlines() if not ln.startswith("#")]
+        self.assertEqual(lines, ["node_modules/", "__pycache__/"])
+
+    def test_the_naming_tool_is_not_laid(self):
+        self.tool("naming", {"check_old_names.py": "import json\n"})
+        self.tool("py-tool", {"run.py": "import json\n"})
+        self.assertEqual(self.lay(), [os.path.join(".garura", "core", "tools", "py-tool")])
+        self.assertNotIn("naming", tools_system.tool_names(ROOT))
+
+
 class PublicInstaller(unittest.TestCase):
     """installer/install.sh, run whole, with a local Garura served in place of the download."""
 
@@ -634,6 +1060,12 @@ class PublicInstaller(unittest.TestCase):
         with open(os.path.join(self.bin, "curl"), "w") as fh:
             fh.write(FAKE_CURL)
         os.chmod(os.path.join(self.bin, "curl"), 0o755)
+        # the release has no node_modules: the installer gets the packages from npm, answered here
+        # from this checkout's packages (no network)
+        with open(os.path.join(self.bin, "npm"), "w") as fh:
+            fh.write(f"#!/bin/sh\necho \"$@\" >> {self.work}/npm.log\n"
+                     f"cp -R {os.path.join(ROOT, 'core', 'tools', 'lint-components', 'node_modules')} ./node_modules\n")
+        os.chmod(os.path.join(self.bin, "npm"), 0o755)
 
     def archive(self, change=None):
         """A copy of this Garura as a release archive; `change` edits the copy first."""
@@ -678,6 +1110,16 @@ class PublicInstaller(unittest.TestCase):
         with open(self.path(".garura", "core", "garura-version")) as fh:
             self.assertEqual(fh.read().strip(), "main@01234567")
 
+    def test_the_installer_gets_a_tools_packages_when_the_release_has_none(self):
+        run = self.run_installer(self.archive())
+        self.assertEqual(run.returncode, 0, run.stderr)
+        with open(os.path.join(self.work, "npm.log")) as fh:
+            self.assertEqual(fh.read().split(), ["ci", "--omit=dev"])
+        tools = self.path(".garura", "core", "tools")
+        self.assertTrue(os.path.isdir(os.path.join(tools, "lint-components", "node_modules", "js-yaml")))
+        self.assertFalse(os.path.exists(os.path.join(tools, "naming")))
+        self.assertTrue(os.path.isfile(os.path.join(tools, ".gitignore")))
+
     def test_a_failed_check_exits_1_after_the_version_is_recorded(self):
         def broken(copy):
             with open(os.path.join(copy, "core", "tools", "memory", "memory.py"), "w") as fh:
@@ -718,7 +1160,8 @@ class PublicInstaller(unittest.TestCase):
 
     def test_a_release_without_the_memory_system_installs_as_before(self):
         def older(copy):
-            os.remove(os.path.join(copy, "core", "components", "plays", "install-garura", "scripts", "memory_system.py"))
+            for name in ("memory_system.py", "tools_system.py"):
+                os.remove(os.path.join(copy, "core", "components", "plays", "install-garura", "scripts", name))
         run = self.run_installer(self.archive(older))
         self.assertEqual(run.returncode, 0, run.stderr)
         self.assertIn("no memory system; skipped", run.stdout)

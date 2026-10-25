@@ -1,0 +1,91 @@
+# check-change Layer 2 - design-grounding, category: harness, round 4. PR #864, issue #860, base plan/788/base.
+# Grounded only from committed sources on origin/plan/788/base and the shared memory copies.
+# ADR 055, the CLAUDE.md paragraph and harness-standard principle 11 are under review: checked for
+# agreement with the ADRs they amend, never used as a standard.
+category: harness
+base: plan/788/base
+round: 4
+severity_source: standards/rules/pr.md (short-term copy); P1 blocker .. P4 nit
+grounding_available: true
+
+principles:
+  - id: G1
+    text: A play is a pure workflow and reads no memory; its sub-agents read memory only through the memory tool; a skill reads only what its agent puts in short-term memory.
+    source: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (base) lines 48-55; docs/adr/035-agents-work-only-from-memory.md (base) lines 61-66
+  - id: G2
+    text: The install lays the tool and checks that it runs. Whether the tools folder is kept out of git was left open.
+    source: docs/adr/038-install-brings-no-memory.md (base) lines 24-27, 77; docs/adr/039 (base) lines 94-96
+  - id: G3
+    text: .garura/ in Garura's repository is the installed copy; it changes only when an install is asked. The source is core/.
+    source: docs/adr/040-config-source-is-core-config-yaml.md (base) lines 37-41
+  - id: G4
+    text: A concurrent read-only fan-out is allowed only if each sub-task writes only its own output path.
+    source: core/components/memory/standards/rules/concurrent-fanout.md (base) lines 12-27
+  - id: G5
+    text: One owner for every template (template-manager); a play or agent names the template, template-manager loads it.
+    source: docs/adr/039 (base) lines 110-116; core/components/agents/template-manager.md (base) lines 5, 22, 28
+  - id: G6
+    text: A block that several parts share lives once in a common file the parts point to, and is linted.
+    source: docs/adr/039 (base) lines 118-125; docs/adr/054 (base) line 48; CLAUDE.md (base) lines 116-124
+  - id: G7
+    text: Mechanical work is a script, judgment is a model.
+    source: docs/standards/harness-standard.md (base) lines 42-48
+  - id: G8
+    text: A change to what a play decides or guarantees goes through its ICE source and recompiles with the ICE fingerprint; non-intent edits are direct. A decision record states its effect on the plays truthfully.
+    source: CLAUDE.md (base) lines 93-114; docs/standards/harness-standard.md (base) lines 50-58, 138-140
+  - id: G9
+    text: Each principle of the harness standard names the ADR it comes from.
+    source: docs/standards/harness-standard.md (base) lines 3-5
+  - id: G10
+    text: An agent contract is JSON of paths; a skill's input contract is its public interface. Harness review checks play->agent->skill->script wiring and ICE-source discipline.
+    source: docs/adr/016-agent-json-contract.md (base); memory copy knowledge/review/harness.md lines 22-40
+
+old_findings_status:
+  H1:  {status: fixed, how: "tools_system.py gets each laid tools packages when node_modules is missing and smoke-checks every laid tool; a failure stops the install. Caveat: the public installer now needs npm and a network, or the install stops."}
+  H2:  {status: fixed, how: "check-change Step 3 lints the changed parts in place (source layout when changed_paths holds core/components, else installed layout); other violations are counted as there before."}
+  H3:  {status: fixed, how: "each grounding dispatch writes its own grounding-<category>/ folder and manifest; shared copies are made once in the serial assessment."}
+  H4:  {status: fixed, how: "lint_play.py (tool and both copies, identical) exits 2 without --next-map and never looks in a memory folder."}
+  H5:  {status: fixed, how: "change-reviewer writes layers, linters and runnable_checks into categories.yaml; the play reads only that (SE-2)."}
+  H6:  {status: fixed, how: "agents/_shared/memory-reading.md, failure-format.md and copy_memory.py; agents point to them; the new memory-reading lint rule is clean."}
+  H7:  {status: fixed, how: "repo-orchestrator and project-orchestrator get templates from template-manager; adr-keeper takes the copy from the play; check-change gets the Next-line map from template-manager."}
+  H8:  {status: fixed, how: "naming added to NOT_LAID; installed-paths scans the laid tools in the installed layout."}
+  H9:  {status: fixed, how: "ADR 055 ICE-impact now says the contract shape changed; the pre-flight guard is back (but see R2)."}
+  H10: {status: fixed, how: "install-garura and uninstall-garura SKILL.md describe the laid tools, the manifest tools and kinds records, the ignore file and their removal."}
+  H11: {status: fixed, how: "glossary, CLAUDE.md and README now say the Codex install is stopped (#863)."}
+  H12: {status: fixed, how: "principle 11 ends with ADR 055 records this decision; ADR 055 cites ADR 038 s5 for never a path."}
+  H13: {status: fixed, how: "check-quality and enrich-quality-profile now say no part invokes them today."}
+  H14: {status: fixed, how: "the tools .gitignore is written by the install and removed by uninstall; ADR 055 s3 decides it."}
+  H15: {status: fixed, how: "ADR 055 ICE-impact records that intent-resolver gains Bash only to call the memory tool."}
+
+conformance_held:
+  - "ICE discipline (G8): check-change, record-decision, discover-intent and shape-slice changed both reference/ice.md and SKILL.md; the fingerprint in each SKILL.md equals sha256 of its ice.md (checked this round, all four). The meta plays have no ICE; their change is one lint command line (non-intent, direct)."
+  - "Fan-out safety (G4): the grounding dispatch contract carries memory_dir; the agent file forbids writing the shared memory folder or manifest."
+  - "Wiring (G10): play -> change-reviewer, quality-auditor, template-manager by JSON contract; fetch_pr_context and post_verdict stay scripts; lint-play and lint-components are tools, not agents."
+  - "lint-components on core/components: installed-paths and memory-reading report 0 violations; the 36 errors are structural (missing sections or frontmatter) in files this round did not introduce. lint_play on check-change reports one gap (no-unbacked-recommendation), also on the base ref."
+
+findings:
+  - id: R1
+    severity: P3
+    file: docs/adr/055-installed-parts-read-only-installed-files.md
+    line: 8
+    also: [core/components/plays/record-decision/reference/ice.md (C2, F2, REC2), core/components/plays/record-decision/SKILL.md (fingerprint)]
+    what_is_wrong: >
+      ADR 055's ICE-impact line names check-change as the play whose guarantees change, says discover-intent and shape-slice change
+      in wording only, and says other plays get direct edits to path text that change no guarantee. Commit 54191c55 changed
+      record-decision's ICE: C2 now says the play asks template-manager for the ADR template and hands the copy to adr-keeper, F2 gained
+      a clause (the template did not come from template-manager), REC2 changed, the fingerprint was recomputed and a utility agent was added.
+      That is an intent change to a play, and the record that justifies the branch does not name it.
+    basis: "G8 (CLAUDE.md base lines 93-114: an intent change alters what a play decides or guarantees; harness-standard base lines 138-140: the change is recorded). The change itself followed the ICE route; only the record is incomplete."
+    suggested_fix: add record-decision (C2, F2, REC2) to the ICE-impact line and the Affects list of ADR 055.
+
+  - id: R2
+    severity: P4
+    file: core/components/skills/check-pr-quality/SKILL.md
+    line: 46
+    also: [core/components/skills/check-pr-quality/reference/input-contract.md:9, core/components/agents/quality-auditor.md:99]
+    what_is_wrong: >
+      The restored guard (at least one entry of standards_order resolves to a short-term copy) cannot fail in a run that passed the taxonomy
+      guard: quality-auditor puts the taxonomy copy first in standards_order, and that copy must already exist. So the old halt
+      "no standards source resolvable" is always true, while FS-4 still reads as a live failure.
+    basis: "G10 (a skill's input contract and its guards are its public interface); the base pre-flight table required a standards source besides the severity table."
+    suggested_fix: require at least one quality-standards entry after the taxonomy copy, or say plainly that taxonomy-only is allowed and drop FS-4.

@@ -2,8 +2,7 @@
 """loop_preflight.py — a loop's pre-flight facts, as JSON (Shared Loop Run, step R1).
 
 The mechanical hand of a loop's pre-flight. It reads the config and the installed plays, and
-returns facts; the loop keeps the policy (what halts). Canonical copy lives at
-create-loop/references/loop_preflight.py and is stamped into each loop's scripts/.
+returns facts; the loop keeps the policy (what halts).
 
     python3 loop_preflight.py --config .garura/core/config.yaml --loop discovery \
         --skills-root .. --plays intent,vision,understand --branch "<current branch>" \

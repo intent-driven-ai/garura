@@ -6,14 +6,14 @@
 |---|---|---|
 | `diff_path` | string | Absolute or repo-relative path to a unified diff file |
 | `changed_paths` | string[] | Repo-relative paths of files touched by the diff |
-| `standards_set` | object | `{kb, ltm, stm}` paths resolved from `.garura/core/config.yaml` `standards_order` |
-| `severity_taxonomy_path` | string | Resolved from `.garura/core/config.yaml` `standards.pr-severity-taxonomy` |
+| `standards_order` | string[] | Short-term copies that `quality-auditor` fetched through the memory tool: the PR severity taxonomy copy first, then the quality standards when a tier holds them, in the tier order of `.garura/core/config.yaml` `review-pr.standards_order`. At least one entry must resolve to a short-term copy |
+| `severity_taxonomy_path` | string | The short-term copy of the memory rule `standards/rules/pr.md`, which `quality-auditor` fetched through the memory tool (`<issue folder>/context/memory/standards/rules/pr.md`) |
 | `intent_summary` | string | 1–3 sentences from `spec/intent.yaml` or PR body |
 | `output_path` | string | Where to write `findings.yaml` |
 
 ## Resolution
 
-The caller (review-pr Step 2 via `quality-auditor`) MUST resolve all paths from `.garura/core/config.yaml` — never hardcode. Pre-flight in the play validates `severity_taxonomy_path` exists before invoking the skill.
+The caller (check-change Step 3 via `quality-auditor`) reads memory only through the memory tool: it copies `standards/rules/pr.md` into the issue's short-term memory and passes that copy. No path in this contract points into memory or into Garura's source. Pre-flight validates that `severity_taxonomy_path` exists, and that at least one entry of `standards_order` resolves to a short-term copy, before the scan runs; else it halts.
 
 ## Optional fields
 
@@ -27,11 +27,10 @@ changed_paths:
   - src/api/users.ts
   - src/db/migrations/0042_add_email.sql
   - .env.example
-standards_set:
-  kb: ~/.garura/core/memory/knowledge/quality/
-  ltm: .garura/core/memory/knowledge/quality/
-  stm: .garura/project/issues/208/spec/quality/
-severity_taxonomy_path: ./core/components/memory/standards/rules/pr.md
+standards_order:
+  - .garura/project/issues/208/context/memory/standards/rules/pr.md
+  - .garura/project/issues/208/context/memory/knowledge/quality/
+severity_taxonomy_path: .garura/project/issues/208/context/memory/standards/rules/pr.md
 intent_summary: "Add email verification flow with token expiry."
 output_path: .garura/project/issues/208/evidence/review-pr/findings.yaml
 ```

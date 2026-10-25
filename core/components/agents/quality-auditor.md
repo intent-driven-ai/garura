@@ -78,6 +78,26 @@ Given a codebase and quality standards, YOU:
 - Judge reports or eval pass/fail results
 - Evals-engineer prompts or spec interpretations
 
+## Memory Reading Protocol
+
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `check-pr-quality` | the PR severity taxonomy (`**/standards/rules/pr.md`), copied to `<issue folder>/context/memory/standards/rules/pr.md` — `severity_taxonomy_path`; and the quality standards (`**/knowledge/quality/**`) when a tier holds them, copied to `<issue folder>/context/memory/knowledge/quality/` — `standards_order` is the list of the short-term copies you made (the taxonomy copy first, then the quality standards in the tier order of config `review-pr.standards_order`) |
+
+For a PR review (check-change), you run `check-pr-quality`. When the contract hands you
+`severity_taxonomy_path`, it is a short-term copy that an earlier step made: pass it unchanged
+and fetch nothing; pass `standards_order` as that copy (plus any quality standards copies). Else fetch the taxonomy as above **before** the scan, record its source in
+the manifest, and pass the short-term copy. When no tier holds `pr.md`, return a structured
+failure (`taxonomy_missing`); never point the skill at a path in memory or in Garura's source.
+
 ## Input Contract
 
 ```json

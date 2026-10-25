@@ -16,7 +16,9 @@ changes points forward to it.
   decision.
 - C2 — Every record is written from the one ADR template, in the shape the decision needs (a
   person-read record for the framework's own decisions, a structured record for a product
-  decision), and passes the template's structural check.
+  decision), and passes the template's structural check. The play asks `template-manager`
+  for the template (`standards/templates/adr.md`) and hands its short-term copy to `adr-keeper`
+  in the contract; `adr-keeper` does not fetch the template itself.
 - C3 — Every older ADR it supersedes or amends is named, with the part it changes. Candidates
   are found mechanically; which ones really apply is judged by reading them.
 - C4 — What it changes is recorded with real names: the files, rules, schemas, plays and agents
@@ -47,7 +49,8 @@ changes points forward to it.
 
 - F1 — A record was written without a decision brief, or the brief lacks the decision, the
   reason, or the options.
-- F2 — A record does not follow the template, or fails its structural check.
+- F2 — A record does not follow the template, or fails its structural check; or the template
+  did not come from `template-manager` through the play's contract.
 - F3 — An older ADR the decision supersedes or amends is not named, or is named without the
   part it changes.
 - F4 — What the decision affects, or its effect on agent intent, is missing or names things
@@ -128,8 +131,10 @@ run by hand the play starts before its issue exists.
 - REC1 (F1) — trigger: no brief, or the brief lacks the decision, the reason or the options.
   direction: ask the person (or the calling play) for what is missing; never fill it in.
   handoff: human.
-- REC2 (F2) — trigger: the record fails the structural check. direction: re-draft against the
-  template with the check's report. handoff: autonomous.
+- REC2 (F2) — trigger: the record fails the structural check, or the template did not come
+  through the play's contract. direction: load the template through `template-manager`, hand
+  its copy to `adr-keeper`, and re-draft against it with the check's report. handoff:
+  autonomous.
 - REC3 (F3) — trigger: an older ADR it changes is unnamed or has no part. direction: re-read
   the overlap candidates, name each one with the part, re-draft. handoff: autonomous.
 - REC4 (F4) — trigger: affects or ICE impact missing or naming things that do not exist.

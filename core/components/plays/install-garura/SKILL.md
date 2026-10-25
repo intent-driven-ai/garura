@@ -1,6 +1,6 @@
 ---
 name: install-garura
-description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by a host coding tool — Claude Code or the OpenAI Codex CLI. Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models; for codex, .agents/skills Agent Skills plus AGENTS.md and ~/.codex model/sandbox/approval profiles. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo for claude or codex — "install garura into X", "set up garura in this repo for codex", "bootstrap garura", "make codex see the garura skills". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays and the harness-only skills, the default; harness = meta plays + harness-only skills + change chain + discover-capabilities + their workers only). For the reverse, see uninstall-garura.'
+description: 'Install Garura into a target project or repository so its skills, agents, and plays become discoverable by Claude Code (the Codex installer is deprecated, #863: --tool codex stops with a plain message and changes nothing). Reads this garura checkout''s core/components and runs a per-tool ADAPTER that lays them down in the host''s native shape: for claude, .claude/ skills + agents with model tiers resolved to Claude models. Always writes a .garura/ tooling tree (config + STM scaffold) and copies shared memory to the machine-global ~/.garura, and records an install manifest so uninstall-garura can reverse exactly what was placed. Use when the user wants to install, set up, bootstrap, add, or enable Garura in another folder or repo — "install garura into X", "set up garura in this repo", "bootstrap garura". Takes the target path, an optional --tool, and an optional --scope (full = every component except the meta harness plays and the harness-only skills, the default; harness = meta plays + harness-only skills + change chain + discover-capabilities + their workers only). For the reverse, see uninstall-garura.'
 user-invocable: true
 ---
 
@@ -9,12 +9,12 @@ user-invocable: true
 Install **this** garura checkout into a **target** project so a host coding tool can discover
 and run its skills, agents, and plays there. You run this from the garura repo (where the
 source lives); the target is some other folder or repo the user names. The host tool is
-chosen with `--tool`: **claude** (Claude Code, the default) or **codex** (the OpenAI Codex
-CLI).
+chosen with `--tool`: **claude** (Claude Code, the default). The Codex installer is
+deprecated (#863): it is to be redesigned completely, and `--tool codex` stops at once with a
+plain message that names #863 and changes nothing in the target.
 
 After a successful install the target has a `.garura/` tooling tree (config + an STM scaffold)
-and — depending on the tool — either a `.claude/` tree (Claude Code) or a `.agents/skills/`
-tree plus an `AGENTS.md` (Codex). Shared memory (the standards/KB) always goes to the
+and a `.claude/` tree (Claude Code). Shared memory (the standards/KB) always goes to the
 machine-global `~/.garura`.
 
 ## How this play is built (read this first)
@@ -43,22 +43,16 @@ in the orchestrator, stop — that belongs in the adapter.
 - `.claude/skills/<id>/` — one per garura skill, and one per garura **play** (Claude Code has
   no separate play type), copied whole with their own `references/`/`scripts/`. The `model:`
   line is dropped on skills (a Claude skill has no model field).
+- `.claude/skills/_shared/` — the shared files the plays point to (for example
+  `play-close.md`), and the agents' shared files from `core/components/agents/_shared/` (the
+  Memory Reading Protocol, the Structured Failure Format and the script that writes a
+  short-term copy), laid in the same `_shared/` folder.
 
-`install.py --tool codex` produces, in the target:
+`install.py --tool codex` is deprecated (#863). It stops before it writes anything, with a
+plain message that names #863. The Codex adapter (`scripts/adapters/codex.py`) stays in the
+source, marked deprecated, until the redesign replaces it.
 
-- `.agents/skills/<id>/` — one Codex Agent Skill per garura skill, play, **and agent** (Codex
-  has no separate agent type), carrying only `name` + `description` frontmatter, with the
-  recommended tier noted in the body (Codex can't pin a model per skill).
-- `AGENTS.md` — the project instructions (`project-instructions.md`: how plays run, memory only
-  through its tool, how to talk to the person — not Garura's own development guide), retitled
-  for the target (Codex's equivalent of CLAUDE.md). Written as `AGENTS.md.new` if one already exists. The memory guide is the one
-  exception: it is added to an existing `AGENTS.md` as a marked block (below).
-- `~/.codex/config.toml` + `~/.codex/{deep,standard,fast}.config.toml` — base defaults and the
-  three tier profiles (model + reasoning effort + sandbox + approval), so the model and the
-  "forking"/sandbox settings the tier implies are actually selectable via `codex --profile`.
-  Existing files are **kept**, never clobbered; only files this run creates are recorded.
-
-Both tools also get:
+The install also lays:
 
 - `.garura/core/config.yaml` — garura's config (source: `core/config.yaml`) transformed for the target (name, type
   `Project`, component paths pointed at the tool's install location, memory at
@@ -68,7 +62,26 @@ Both tools also get:
 - `.garura/.gitignore` — keeps status/resume markers (`**/status/`, `**/_status/`) machine-local
   and out of git; they sit on disk for resume and are never committed (ADR 021).
 - `.garura/install-manifest.json` — the exact list of what was placed (including the tool and
-  any machine-global files), so `uninstall-garura` can reverse precisely this set.
+  any machine-global files), so `uninstall-garura` can reverse precisely this set. Its `tools`
+  record lists each laid tool's folder; its `kinds` record names the kind of each component
+  laid (play, loop, skill or agent), because plays, loops and skills share `.claude/skills/`
+  and the installed layout of `lint-components` reads the kind from there.
+- **The tools** (decision 6 of #860), laid by `scripts/tools_system.py`, which the public
+  installer runs too: every folder under `core/tools/` goes to `.garura/core/tools/<name>/`
+  (today `lint-components`, `lint-play` and `rebuild-eval`), except the memory tool (laid by
+  the memory system, below), the `play-reviewer` prototype and the `naming` tool, which is
+  source-only. Test files and caches are not laid. Installed parts run a tool only from its
+  laid folder.
+  - **Packages.** A tool with a `package.json` gets its packages in the laid folder: the
+    install keeps the source's `node_modules` when it is there, else it runs
+    `npm ci --omit=dev` (or `npm install --omit=dev` when there is no lock file).
+  - **Smoke checks.** After it lays the tools, the install runs each tool's smoke check (a
+    short command that exits 0 when the tool loads). When one fails, the install stops with a
+    plain message that names the tool.
+  - **The tools ignore file.** `.garura/core/tools/.gitignore` (`node_modules/`,
+    `__pycache__/`) keeps the tools' packages and caches out of the project's git.
+  - A re-install replaces each tool whole and removes a tool that left the source (it is in
+    the old manifest's `tools` record but not laid again).
 - **The memory system** (ADR 035 §8), laid by `scripts/memory_system.py`, which the public
   installer (`installer/install.sh`) runs too:
   - `.garura/core/tools/memory/` — the memory tool (from `core/tools/memory/`, without its
@@ -79,8 +92,7 @@ Both tools also get:
     replaces the tool and keeps settings a person edited; a tool an older install laid at
     `.garura/tools/memory/` is removed, and its settings are written new.
   - The memory guide every agent reads (`core/tools/memory/GUIDE.md`): for Claude Code,
-    `.claude/rules/garura-memory.md`, which loads for every session and every sub-agent; for
-    Codex, one marked block in `AGENTS.md`, added to the project's own file when it has one.
+    `.claude/rules/garura-memory.md`, which loads for every session and every sub-agent.
   - **The install brings no memory into the project.** The tool downloads Phoenix memory to
     its place the first time a command needs it. A play run after the install, `initialize`
     (not built yet), will set up the project's own memory. The old machine-wide copy of all
@@ -106,8 +118,9 @@ Before running, confirm:
 
 1. **A target is named.** The user must say which folder/repo to install into. If they didn't,
    ask — don't guess. The target is created if absent.
-2. **The tool is known.** Default is `claude`. Install for Codex with `--tool codex`. If the
-   user said "for codex" (or "for claude"), pass it through.
+2. **The tool is known.** The tool is `claude`. The Codex installer is deprecated (#863):
+   `--tool codex` stops at once with a plain message that names #863 and changes nothing. If
+   the user asks for Codex, say so and stop.
 3. **You're in (or can point at) the garura checkout.** The script auto-derives the source by
    walking up until it finds `core/components/` and `core/config.yaml` (the config's source,
    ADR 040; an older checkout keeps it at `.garura/core/config.yaml`). When run
@@ -118,15 +131,15 @@ If a pre-flight fails, say what's missing in plain words and stop.
 
 ## Run it
 
-From the garura repo root the source is auto-derived; you normally only pass `--target` and,
-for Codex, `--tool codex`:
+From the garura repo root the source is auto-derived; you normally only pass `--target`:
 
 ```
-python3 core/components/plays/install-garura/scripts/install.py --target <path> [--tool claude|codex]
+python3 core/components/plays/install-garura/scripts/install.py --target <path> [--tool claude]
 ```
 
 Options:
-- `--tool claude|codex` — which host tool to target (default `claude`).
+- `--tool claude` — which host tool to target (default `claude`). `codex` is deprecated (#863)
+  and stops with a plain message.
 - `--scope full|harness` — which component set the target receives (default `full`, every
   component except the meta harness plays and the harness-only skills). `harness` installs
   only the meta plays (create-play, edit-play), the harness-only skills
@@ -142,8 +155,7 @@ Options:
 - `--source <garura-checkout>` — point at the garura checkout explicitly (needed only when the
   script can't sit beside the source).
 - `--memory-dest <path>` — where shared memory goes (default `~/.garura/core/memory`). Point it
-  at a temp dir for a dry test so you never touch the real machine KB. For a Codex dry test,
-  also set `CODEX_HOME=<tempdir>` in the environment so the profile writes are isolated.
+  at a temp dir for a dry test so you never touch the real machine KB.
 - `--force-config` — overwrite an existing target `.garura/core/config.yaml` instead of keeping
   it.
 - `--phoenix-place <path>` / `--phoenix-source <address>` — where Phoenix memory lives on this
@@ -167,8 +179,6 @@ After the script returns, read the printed summary and the written
 
 - which target it installed into and **for which tool**,
 - how many agents and skills/plays were installed,
-- for Codex: that the tier profiles were written (or kept) under `~/.codex` and the next step
-  is `codex --profile deep|standard|fast`,
 - whether a config was written fresh or an existing one was kept,
 - where the shared memory went,
 - what the memory check said: each tier reached or not, and that Phoenix memory arrives on
@@ -187,9 +197,8 @@ Keep it short. The detail lives in the manifest; your job is the human summary.
   `AGENTS.md` it adds only the memory guide's marked block, which the manifest records and
   uninstall removes, keeping the rest). Removing install
   artifacts is `uninstall-garura`'s job, and even that reverses only what the manifest records.
-- **Protect the shared memory and the Codex home.** `~/.garura/core/memory` and any existing
-  `~/.codex/*` are machine-global and merged into, never wiped, on install. When testing,
-  redirect `--memory-dest` and `CODEX_HOME` to temp dirs.
+- **Protect the shared memory.** `~/.garura/core/memory` is machine-global and merged into,
+  never wiped, on install. When testing, redirect `--memory-dest` to a temp dir.
 
 **Direct-edit deviation note (#434):** this bootstrap meta-play is hand-authored (no
 `intent.yaml`); the adapter split, the `--tool` parameter, and the Codex adapter were added by
