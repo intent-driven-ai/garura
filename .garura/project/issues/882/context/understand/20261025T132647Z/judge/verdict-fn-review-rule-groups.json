@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Out: the project's rule-group record, kept in the product profile beside the setup answers, so the review reads it where every later play reads the project's facts.\" \"Given a rule group that no answer speaks to, when the groups are chosen, then that group is kept.\" \"Writing or changing the rules inside a group (the review's own memory owns them).\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A group is skipped only when an answer says the project lacks what the group checks; otherwise it is kept. A database group on a project with no database gives only noise, but a group skipped by mistake hides real findings, so only a clear answer can skip one.\" \"Database no: the database group is skipped, because there is no schema, query or data store for its rules to check.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given answers that say the project has no permissions, when the rule groups are chosen, then the record marks the permission group as skipped with the permissions answer; given the answer yes, the group is kept.\" \"Surfaces with no web and no mobile: the front-end group is skipped, because there is no screen for its rules to check.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Which answer decides which group is our default.\" \"Personal data no: the personal-data group is skipped, because the project holds no data about a person for its rules to check. Personal data yes keeps it, and it is never skipped by another answer, because a leak of personal data is the costliest miss.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A rule group is a set of the review's rules that check one kind of thing (front end, back-end service, database, running service, permissions, personal data); the review runs or skips a group as a whole, so this feature decides per group, never per rule.\" \"Each kept or skipped group names the answer that decided it, so a person can see why a rule did not run.\" \"Running the review and deciding its findings (the review play, /check-change, owns it).\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}

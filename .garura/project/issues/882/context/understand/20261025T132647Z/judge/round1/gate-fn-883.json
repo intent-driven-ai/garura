@@ -1,0 +1,16 @@
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "round": "fix",
+  "failures": [
+    {
+      "id": "discreteness_form",
+      "evidence": "\"Words this page uses. Phoenix memory is the one shared memory on a machine (the domain shelves, the standards, the templates) that every project on that machine draws from.\" \"What a yes is given to and what it does. The brief lists each changed, added or taken-out part under its block and asks for a yes or no to each part;\"",
+      "fix": "Two bullets each pack many separate points into one long paragraph. Split the 'Words this page uses.' bullet in What it does into one bullet per term (Phoenix memory, Garura memory, memory block, selection, part, brief), keeping the closing source note as its own bullet. Split the 'What a yes is given to and what it does.' bullet in Rules & behavior into one bullet per case: the per-part reply (and a reply to a whole block), a yes to a changed part, a yes to an added part, a yes to a taken-out part, and a no to any part. The Given/When/Then acceptance criteria already have the right form and need no change."
+    }
+  ],
+  "notes": [],
+  "missing": [],
+  "fingerprint": "dc239303872a85f125e017a30f78be3c513ab36f496f35b0fe82b207f71d94a6"
+}

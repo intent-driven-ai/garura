@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "overall": "pass",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  "round": "fix",
+  "failures": [],
+  "notes": [],
+  "missing": [],
+  "fingerprint": "68e24d8075442a2189dbda0664898f52bde851b57f3aad8d870bb9fad60d210d"
+}

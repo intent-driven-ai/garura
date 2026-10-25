@@ -1,0 +1,10 @@
+{
+  "round": "fix",
+  "prior_failures": [
+    {
+      "id": "completeness",
+      "evidence": "\"A file the list holds that the selection no longer finds is taken out.\" \"A changed block is taken in only on the product owner's typed yes in that run's brief\" \"Given a project that took the database block and Phoenix memory added a new file where the block's selection looks, when `initialize` next runs in the project, then its brief names the new file as added under the database block.\"",
+      "fix": "In Rules & behavior, add one rule that says what a yes is given to (each file, each block, or the whole brief at once) and what a yes does to each of the three kinds of change: a changed file is overwritten and its fingerprint updated, an added file is copied into the project and added to the block list, a taken-out file is removed from the project's memory and from the block list (or kept, if that is the default, with the reason). Then add Given/When/Then acceptance criteria for a taken-out file being named in the brief, for a yes on an added file and a yes on a taken-out file, and, if the yes is per file, for a yes on one file and a no on another in the same block."
+    }
+  ]
+}

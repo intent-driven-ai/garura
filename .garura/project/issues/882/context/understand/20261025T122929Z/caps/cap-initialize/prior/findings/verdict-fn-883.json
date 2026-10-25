@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every guided section is substantive: What it does (\"Memory reaches a project in three steps, and this feature is the third...\"), Inputs / Outputs (\"Out: the project's block list ... for each block, the answer that selected it, the place in Phoenix memory of each of its files, each file's fingerprint ... and the version of Phoenix memory it was taken from\"), Rules & behavior (fingerprint comparison, yes/no branch, unreachable Phoenix memory, changed answer), six Given/When/Then criteria, Out of scope naming each owner, and a full ICE with all six labels.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"It never writes Phoenix memory and never writes another project's memory, because Phoenix memory is shared by every project on the machine and a write there from one project would change what the others draw from.\"; \"A changed block is taken in only on the product owner's typed yes ... because the blocks a project holds are its product owner's choice and a new standard can change what a review finds.\"; \"An empty answer there would look like \\\"no block fits\\\" and leave the project with too little memory.\" Each default is also marked as ours versus the sources.",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Every section is bullets, one point each; the feature states the function's behavior (\"On each run, `initialize` compares the project's blocks with Phoenix memory and names each block that changed\"), never a user story; acceptance is Given/When/Then: \"Given an initialized project, when Garura is installed again in it, then no file in that project's Garura memory changes.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "The capability gives one line: \"compares them with Phoenix memory so the project learns when a block changed.\" The feature adds the block list's contents (answer, file places, fingerprints, Phoenix memory version), how changed, added and taken-out files are found, the yes/no branch and what the list keeps on a no, when the check runs, and the unreachable-memory stop.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"a file Phoenix memory now holds in the block's place that the list does not is added\" \u2014 but the block list records only \"the place in Phoenix memory of each of its files\", never a place for the block as a whole, and a block is defined as \"the set of Phoenix memory files that one setup answer selects\". A cold reader cannot tell how a new file is found to belong to a block. Also \"named in the run's brief\" / \"that run's brief\": the brief is never defined on this page.",
+      "fix": "In Rules & behavior, say how an added file is found: for example \"a file is added when the selection for the block's answer (fn-project-memory) now yields a file the list does not hold\", or record in the block list a place or selection rule for the whole block and compare against that; add that field to the block-list output in Inputs / Outputs. In the Two words bullet of What it does, define the brief in one clause, for example \"the brief is the summary `initialize` shows the product owner at the end of a run, where they type yes or no\"."
+    }
+  ]
+}

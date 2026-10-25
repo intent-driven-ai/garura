@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md
+  stranger_test = fail
+    evidence: "a file Phoenix memory now holds in the block's place that the list does not is added" — but the block list records only "the place in Phoenix memory of each of its files", never a place for the block as a whole, and a block is defined as "the set of Phoenix memory files that one setup answer selects". A cold reader cannot tell how a new file is found to belong to a block. Also "named in the run's brief" / "that run's brief": the brief is never defined on this page.
+    fix:      In Rules & behavior, say how an added file is found: for example "a file is added when the selection for the block's answer (fn-project-memory) now yields a file the list does not hold", or record in the block list a place or selection rule for the whole block and compare against that; add that field to the block-list output in Inputs / Outputs. In the Two words bullet of What it does, define the brief in one clause, for example "the brief is the summary `initialize` shows the product owner at the end of a run, where they type yes or no".
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "failures": [
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"a file Phoenix memory now holds in the block's place that the list does not is added\" \u2014 but the block list records only \"the place in Phoenix memory of each of its files\", never a place for the block as a whole, and a block is defined as \"the set of Phoenix memory files that one setup answer selects\". A cold reader cannot tell how a new file is found to belong to a block. Also \"named in the run's brief\" / \"that run's brief\": the brief is never defined on this page.",
+      "fix": "In Rules & behavior, say how an added file is found: for example \"a file is added when the selection for the block's answer (fn-project-memory) now yields a file the list does not hold\", or record in the block list a place or selection rule for the whole block and compare against that; add that field to the block-list output in Inputs / Outputs. In the Two words bullet of What it does, define the brief in one clause, for example \"the brief is the summary `initialize` shows the product owner at the end of a run, where they type yes or no\"."
+    }
+  ],
+  "missing": []
+}

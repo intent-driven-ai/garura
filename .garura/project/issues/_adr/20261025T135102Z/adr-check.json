@@ -1,0 +1,29 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261025T135102Z/adr-draft.yaml",
+  "shape": "yaml",
+  "lint": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261025T135102Z/adr-draft.yaml",
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "exit": 0,
+    "intents_dir": ".garura/product/product-os/intents",
+    "adr": ".garura/project/issues/_adr/20261025T135102Z/adr-draft.yaml",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "declared_business_intent_check": "none",
+  "guard_agrees": true,
+  "overlaps": {
+    "decisions_dir": [],
+    "docs_adr": [],
+    "supersedes": 0,
+    "amends": 0
+  },
+  "retries": 0,
+  "clean": true
+}

@@ -1,0 +1,50 @@
+# check-change Step 3, Layer 1 -- check-pr-quality, PR #886 (issue 882), review round 2.
+# Categories: executable-code, tests. Scope: the changed lines of two files.
+meta:
+  generated_at: '2026-10-25T14:15:00Z'
+  diff_path: .garura/project/issues/882/review/pr.diff   # scanned: the two-file slice of it (git diff plan/788/base...HEAD)
+  taxonomy_path: .garura/project/issues/882/context/memory/standards/rules/pr.md
+  changed_paths:
+    - core/components/plays/discover-capabilities/scripts/persist_understand.py
+    - core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+  changed_paths_count: 2
+  scan_coverage: 1.0
+  standards_relevant: 0
+  catchall:
+    CODE-20: 2
+  errors: []
+commands:
+  - command: ruff check core/components/plays/discover-capabilities/scripts/persist_understand.py
+    tool: ruff 0.15.20 (default config; the repo commits no ruff config)
+    exit_code: 0
+    result: "All checks passed!"
+  - command: ruff check core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+    tool: ruff 0.15.20 (default config)
+    exit_code: 0
+    result: "All checks passed!"
+  - command: python3 core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+    cwd: repo root
+    exit_code: 0
+    result: "98 passed, 0 failed. Includes the new test_slug: slug set from manifest, slug at position two after id, existing slug kept."
+  - command: >
+      python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy <pr.md copy>
+      --diff <two-file slice of the diff> --out <findings> --paths <the two changed paths>
+    exit_code: 0
+    result: "P1=0 P2=0 P3=0 P4=0 (CODE-20 catch-all=2) errors=0"
+findings: []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0
+notes:
+  - >
+    Scope of the taxonomy scan: under the taxonomy's Artifact-Type table, first match wins, and
+    core/components/** is garura-prose. Both files therefore classify as garura-prose (a prose
+    type), not runtime-code or tests. Grep rules are ineligible on prose types and the path rules
+    that name *.py are not docs-targeting globs, so the scan emits no finding by the taxonomy's
+    own rules. This is the rule working as written, not proof the code is free of the patterns.
+  - >
+    By-hand look at the added lines (not taxonomy findings, nothing to report): no TODO/FIXME,
+    no broad except, no debug output, no secrets, no unsafe load (yaml.safe_load / safe_dump
+    only), no skipped or disabled test. The new test asserts three things.

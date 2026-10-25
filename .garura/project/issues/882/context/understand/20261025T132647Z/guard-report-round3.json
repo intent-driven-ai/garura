@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+    "product-os/software-delivery-planning/initialize/fn-883/feature.md",
+    "product-os/software-delivery-planning/initialize/fn-881/feature.md",
+    "product-os/decisions/*"
+  ],
+  "add_only": [],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "status": "M"
+    }
+  ],
+  "violations": [],
+  "restored": []
+}

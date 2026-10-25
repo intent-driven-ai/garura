@@ -1,0 +1,43 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Out: the project's rule-group record, kept in the product profile beside the setup answers\" \"Given a rule group that no answer speaks to, when the groups are chosen, then that group is kept.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A database group on a project with no database gives only noise, but a group skipped by mistake hides real findings, so only a clear answer can skip one.\" \"Database no: the database group is skipped, because there is no schema, query or data store for its rules to check.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given answers that say the project has no permissions, when the rule groups are chosen, then the record marks the permission group as skipped with the permissions answer; given the answer yes, the group is kept.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"Surfaces with no API and no running service: the back-end service group is skipped, because there is no service code for its rules to check.\" \"It holds one entry per rule group: the group's name, kept or skipped, and the question and answer that decided it\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A rule group is a set of the review's rules that check one kind of thing\" \"This feature only writes the record the review reads.\" \"Goal: The record names every rule group as kept or skipped with the answer that decided it, so that a review which reads it (changed by a later story of this business intent) can run only the kept groups and name the groups it skipped.\"",
+      "fix": ""
+    }
+  ],
+  "prior": [
+    {
+      "id": "stranger_test",
+      "fixed": true,
+      "evidence": "\"Changing the review play (/check-change) to read this record, run no rule of a skipped group and name the skipped groups in its own record: a later story of this business intent owns it, outside this feature, because it changes the review and not initialize.\" \"Given that record, when it is read from the product profile, then it lists every rule group by name as kept or skipped, each with the answer that decided it, which is all a review needs to run no rule of a skipped group and to name the groups it skipped.\""
+    }
+  ]
+}

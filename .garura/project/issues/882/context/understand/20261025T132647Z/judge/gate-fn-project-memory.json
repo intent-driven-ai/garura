@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "overall": "pass",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "round": "fix",
+  "failures": [],
+  "notes": [],
+  "missing": [],
+  "fingerprint": "be518d5d05b588f7e7cf8f0dbf9c6f2800433b81e5dd69adf1adecd86cfbbb51"
+}

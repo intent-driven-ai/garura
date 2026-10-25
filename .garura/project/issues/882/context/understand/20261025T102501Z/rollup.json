@@ -1,0 +1,18 @@
+{
+  "capabilities": [
+    "cap-initialize"
+  ],
+  "state_before": "set",
+  "state_after": "set",
+  "establishing": false,
+  "out_of_box": true,
+  "box_moves": [
+    {
+      "capability": "cap-initialize",
+      "dimension": "security",
+      "from": "none",
+      "to": "medium"
+    }
+  ],
+  "compliance_added": []
+}

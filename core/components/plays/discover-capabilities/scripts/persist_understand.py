@@ -262,6 +262,14 @@ def main(argv=None):
         # --- 1. the target capability entry: apply its manifest delta, keyed to cap_id -
         enrich = enriches[cap_id]
         cap_delta = enrich.get("capability") or {}
+        # The slug comes from the manifest only when the entry has none; a set slug is kept.
+        if cap_delta.get("slug") and not live_cap.get("slug"):
+            items = list(live_cap.items())
+            live_cap.clear()
+            for key, value in items:
+                live_cap[key] = value
+                if key == "id":
+                    live_cap["slug"] = cap_delta["slug"]
         for field in ("detail", "nfr_needs", "compliance_needs", "one_line", "doc"):
             if field in cap_delta:
                 live_cap[field] = cap_delta[field]

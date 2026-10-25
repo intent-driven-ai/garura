@@ -1,0 +1,10 @@
+{
+  "round": "fix",
+  "prior_failures": [
+    {
+      "id": "stranger_test",
+      "evidence": "\"Given that record, when a review runs in the project, then it runs no rule of a skipped group and its record names the groups it skipped.\" \"Running the review and deciding its findings (the review play, /check-change, owns it).\" \"Goal: A review in the project runs only the kept groups, and its record names the groups it skipped.\"",
+      "fix": "Say who makes the review read and obey the record. The feature puts running the review out of scope, yet its fourth acceptance criterion and its second Goal can only be met if the review play skips the groups and names them. Add one line under Out of scope or Rules & behavior that states it plainly, for example: \"Changing the review play (/check-change) to read this record, skip the skipped groups and name them in its record is part of this feature\" or \"... is owned by <named story>; this feature only writes the record the review reads.\" If it is owned elsewhere, recast the fourth acceptance criterion and the second Goal as the record's contract with the review, so done does not depend on work this feature does not do."
+    }
+  ]
+}

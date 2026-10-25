@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "Rules & behavior covers: \"A memory file is taken only when an answer calls for it\", \"Every read goes through the memory tool\", \"When an answer selects nothing in Phoenix memory ... the record says so in plain words\", and \"When a run is repeated (fn-rerun-initialize), the memory is rebuilt\". No rule says what happens when the memory tool cannot reach Phoenix memory at all, and Out of scope does not name the sibling fn-883 (\"Lay Phoenix memory once, give each project its own blocks\"), whose parent line says it also has \"`initialize` give each project only the blocks its answers call for\".",
+      "fix": "Add a rule to Rules & behavior: \"When the memory tool cannot reach Phoenix memory, initialize stops, says Phoenix memory could not be reached, and builds no project memory, because an empty result here would look like 'no file fits' and leave the project with too little memory.\" Add a matching Given/When/Then. Add an Out of scope line: \"Laying Phoenix memory on the machine and bringing it up to date (fn-883 owns it); this feature only picks from what is already laid.\""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "Out of scope: \"Installed parts that read the source tree (#860).\" and \"Moving the memory tool's home to Phoenix, and removing the machine-global Garura memory folder (later, by the business intent).\" Most other items carry their why (for example \"because later plays treat the profile as the product owner's own word\"), but these two give only an issue number or \"later\", with no plain reason why they sit outside this feature and no owner in words.",
+      "fix": "Rewrite the #860 line in plain words, for example: \"Stopping installed plays and tools from reading Garura's source folders (issue #860 owns it); this feature builds memory, it does not change how installed parts find files.\" Rewrite the move line to say why it waits: \"Moving the memory tool's home to Phoenix and removing the machine-global Garura memory folder: the business intent puts this after the memory tool is fully live, so this feature keeps today's folders.\""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Every section is a list of discrete points. Acceptance uses Given/When/Then: \"Given answers that say the project has no database, when the memory is built, then the project's Garura memory holds no database standard.\" The feature states the function's behaviour (\"Runs after the product owner confirms the setup answers. It sets up the project's Garura memory ...\"), not a user story.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent gives one line: \"Build the project's memory (fn-project-memory): sets up the project's Garura memory from only the part of Phoenix memory the answers call for, and records the answers in the profile.\" The feature adds the full input list (\"domains, kinds of features, technology standards, tools and frameworks, surfaces, and whether there is a database, personal data, permissions or a running service\"), per-file provenance, a build record of files taken and left out, the no-match branch, the rerun diff, and four testable acceptance criteria.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "What: \"sets up the project's Garura memory from only the part of Phoenix memory those answers call for\". Why: \"so a project with no database, no front end or no permissions gets none of those standards\" and \"so every later play reads the same facts about the project without asking again\". Edges: \"Asking the questions and recording the person's reply (fn-setup-questions owns it)\", \"Recording the review rule groups (fn-review-rule-groups owns it)\". A cold reader can say what it builds, why, and which neighbour owns the questions and the review rules.",
+      "fix": ""
+    }
+  ]
+}

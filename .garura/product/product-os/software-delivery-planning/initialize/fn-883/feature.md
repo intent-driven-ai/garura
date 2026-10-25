@@ -1,0 +1,92 @@
+# Feature: Give each project its own memory blocks
+
+## What it does
+- Phoenix memory (a word this page uses) is the one shared memory on a machine (the domain shelves, the standards, the templates) that every project on that machine draws from.
+- Garura memory (a word this page uses): a project's Garura memory is the project's own memory, kept in the project's own folders and read before Phoenix memory; it is built from only the part of Phoenix memory the project needs and is never a copy of a Phoenix file.
+- A memory block (a word this page uses) is the relevant part of Phoenix memory that one setup answer selects, down to the part of a file: for example only the checkout part of the commerce knowledge for a project that needs checkout, the Java standards for a Java answer, the .NET standards for a .NET answer, or the React front-end standards for a React answer.
+- The block's selection (a word this page uses) is the place in Phoenix memory where the part for that choice is kept (for example the folder of the Java standards, or the checkout part of the commerce shelf).
+- A part (a word this page uses) is what a block takes from one Phoenix memory file: the sections of that file that speak to the answer, as initialize reads them through the memory tool. The project's memory is built from a part; a part is never taken into the project as it is.
+- The brief (a word this page uses) is the summary `initialize` shows the product owner at the end of a run, where they type yes or no.
+- Where these words come from: the sources say what a block holds: only the part the project needs, never the whole file (ADR 039 Decision 4).
+- Initialize never takes a whole Phoenix file into the project, even when every section of it speaks to the answer: it reads the file through the memory tool and builds the project's own memory from what it read, written for the project and never a copy. This is the product owner's rule (review of PR #886, round 2), beside ADR 039 Decision 4.
+- How a project's memory is written from a file is our default, set in Build the project's memory (fn-project-memory).
+- Memory reaches a project in three steps, and this feature is the third. First, the Phoenix install runs once per machine and lays Phoenix memory from the Phoenix memory repository. Second, the Garura install runs once per project and lays only the pieces (the plays, agents, skills, tools and the memory tool) and no memory. Third, `initialize` runs in the project, asks the questions, and sets up the project's Garura memory from Phoenix memory with only the blocks the answers call for.
+- It keeps each project's blocks its own. A person installs Phoenix once on a machine and initializes many projects there, each with different answers, so two projects hold different blocks taken from the one Phoenix memory, and initializing one project never changes another project or Phoenix memory.
+- It records, in the project, which blocks the project holds and which parts of Phoenix memory each was built from, as they were then, so the project can learn later that Phoenix memory changed. On each run, `initialize` compares those parts with Phoenix memory and names in the brief each block whose parts changed, so the product owner can have the block rebuilt from Phoenix memory as it is now. A re-run rebuilds the relevant part; it never copies the new Phoenix file. No install ever reaches into a project to do this.
+
+## Inputs / Outputs
+- In: one project's confirmed setup answers (from Ask the setup questions, fn-setup-questions), which decide the blocks.
+- In: Phoenix memory on the machine, read only through the memory tool. The tool's interface hides where Phoenix memory is kept: today it is a folder in the person's home folder that the Phoenix install laid, and later a remote place, and this feature does not change when that moves.
+- In: on a later run, the project's own block list from the earlier run.
+- Out: the project's own Garura memory, holding only the blocks its answers call for (the blocks are built through Build the project's memory, fn-project-memory).
+- Out: the project's block list, kept in the project's own Garura memory beside the blocks. For each block it holds the answer that selected it, the block's selection, for each part the block was built from its place in Phoenix memory (the file and the part of it) and its fingerprint (a short code that changes when that part's content changes), and the version of Phoenix memory the block was built from. The selection is kept so that a later run can find a part Phoenix memory has added to the block; the fingerprints are kept so that it can find a part that changed. Where the list is kept and what it holds is our default; the sources do not say how a project records its blocks.
+- Out: on a later run, a plain list in the brief of each block that changed in Phoenix memory since it was built: the parts changed, added or taken out, each with the Phoenix file it is in, and the answer that selected the block.
+- Out: when Phoenix memory cannot be reached, a plain message that says so and that the Phoenix install must run on this machine, and no memory built.
+
+## Rules & behavior
+- The Garura install lays no memory. A project that has had the Garura install and no `initialize` run holds no Garura memory of its own, and `initialize` is the only part that sets it up.
+- `initialize` reads Phoenix memory and writes only the project's own Garura memory. It never writes Phoenix memory and never writes another project's memory, because Phoenix memory is shared by every project on the machine and a write there from one project would change what the others draw from.
+- A project takes a block only when one of its answers calls for it. Two projects with different answers (one Java, one .NET; one with a React front end, one with none) hold different blocks from the one Phoenix memory.
+- How a project learns that a block changed. Each run of `initialize` reads through the memory tool, for each block in the list, the parts its selection finds in Phoenix memory now and the current fingerprint of each. A part the list holds whose fingerprint differs is changed. A part the selection now finds that the list does not hold is added. A part the list holds that the selection no longer finds is taken out. The brief names each one under its block. Our default; the sources say only that `initialize` "can run again to take in changes".
+- A changed block is taken in only on the product owner's typed yes in that run's brief, because the blocks a project holds are its product owner's choice and a new standard can change what a review finds. When the product owner says no, the project keeps the block as it was and the list keeps the old fingerprints, so the next run names the change again. Our default; the sources do not say who decides.
+- What a yes is given to: the brief lists each changed, added or taken-out part under its block and asks for a yes or no to each part; a yes or no typed against a whole block applies to every part named under it. The reply is per part because one changed standard can be welcome and another in the same block not, and a yes for the whole block only would force the product owner to take both. Our default, as for each reply below.
+- A yes to a changed part rebuilds what the project's Garura memory holds for that part from what Phoenix memory holds now, and puts the new fingerprint in the block list; it never copies the changed Phoenix file. Our default.
+- A yes to an added part builds what the project's Garura memory holds for it from what Phoenix memory holds now, never a copy of the Phoenix file, and adds the part, with its place in Phoenix memory and its fingerprint, to the block list. Our default.
+- A yes to a taken-out part removes what the project's memory built from it and takes it out of the block list, because a standard Phoenix memory no longer keeps is no longer kept up to date. Our default.
+- A no to any of the three leaves that part and its block-list entry as they were, so the next run names it again, and each other part of the block follows its own reply. Our default; ADR 039 Decision 4 says a project's memory is built from the part it needs and never copied, but the sources do not say how a change is taken in.
+- The check runs only when `initialize` runs. No install and no other play changes a project's memory or checks its blocks, so a project's memory never changes in the middle of other work. A product owner who wants a Phoenix memory change runs `initialize` again (Run initialize again, fn-rerun-initialize). Our default; the sources do not say when a project checks.
+- A second Phoenix install or a second Garura install changes no file in any project's Garura memory. Phoenix memory may change under a project, but the project's own memory changes only on its next `initialize` run, after the product owner's yes.
+- When the memory tool cannot reach Phoenix memory (it says the tier is missing), `initialize` stops, builds and changes no project memory, and says in plain words that Phoenix memory could not be reached and the Phoenix install must run on this machine. An empty answer there would look like "no block fits" and leave the project with too little memory. It never takes memory from Garura's source or from another project instead, because installed parts read memory only through the memory tool.
+- A block whose answer the product owner changed is no longer a change to take in: the re-run adds or takes out the whole block from the new answer (Run initialize again, fn-rerun-initialize, owns that), because the new answer, not Phoenix memory, decided it.
+
+## Acceptance criteria
+- Given a project after the Garura install and before `initialize`, when its Garura memory is read, then it holds no memory files.
+- Given two projects on one machine, one answering Java and one answering .NET, when `initialize` runs in each, then only the first holds the Java standards block, only the second holds the .NET standards block, and both block lists name the same Phoenix memory as the source.
+- Given a project already initialized, when `initialize` runs in a second project, then no file in the first project's Garura memory and no file in Phoenix memory changes.
+- Given a project that took the database block, when a second Phoenix install changes a part that block was built from, then no file in the project's Garura memory changes.
+- Given a project that took the database block and a part that block was built from changed in Phoenix memory, when `initialize` next runs in the project, then its brief names the database block and the changed part, with the Phoenix file it is in.
+- Given a project that took the database block and Phoenix memory added a new part where the block's selection looks, when `initialize` next runs in the project, then its brief names the new part as added under the database block.
+- Given a project that took the database block and Phoenix memory no longer keeps one of the parts the block was built from, when `initialize` next runs in the project, then its brief names that part as taken out under the database block.
+- Given a brief that names an added part under the database block, when the product owner types yes to it, then the project's Garura memory holds what was built from that part and the block list holds the part with its fingerprint.
+- Given a brief that names a taken-out part under the database block, when the product owner types yes to it, then what was built from that part is no longer in the project's Garura memory and the part is no longer in the block list.
+- Given a brief that names two changed parts in the database block, when the product owner types yes to the first and no to the second, then the project's memory holds what was rebuilt from the first part and what was built before from the second, and the block list holds the new fingerprint of the first and the old fingerprint of the second.
+- Given a brief that names three changes under the database block, when the product owner types yes to the whole block, then all three are taken in.
+- Given a brief that names a changed part in the database block, when the product owner types yes, then the project's database block is rebuilt from what Phoenix memory holds now for that part, the block list holds the new fingerprint, and no whole Phoenix file is in the project's Garura memory.
+- Given a project whose checkout block was built from the checkout part of the commerce knowledge, when that part changes in Phoenix memory and the product owner types yes, then the project's Garura memory holds the rebuilt checkout part and none of the rest of the commerce file.
+- Given a brief that names a changed part in the database block, when the product owner says no, then the block and the block list are unchanged.
+- Given a project whose product owner said no to a changed part on the last run, when `initialize` runs again, then the brief names the same change again.
+- Given an initialized project, when Garura is installed again in it, then no file in that project's Garura memory changes.
+- Given a machine where the memory tool cannot reach Phoenix memory, when `initialize` runs, then it builds no memory and says that the Phoenix install must run on this machine.
+
+## Out of scope
+- Laying Phoenix memory on the machine and bringing it up to date: the Phoenix install owns it, once per machine. This feature only reads what that install laid.
+- Laying the plays, agents, skills, tools and the memory tool in a project: the Garura install owns it, and it lays no memory.
+- Which part of Phoenix memory each answer selects, building it into the project, and recording the answers in the product profile: Build the project's memory (fn-project-memory) owns it.
+- Adding or taking out a whole block when an answer changes: Run initialize again (fn-rerun-initialize) owns it.
+- How Garura's source memory reaches the Phoenix memory repository without hand copying: issue #868 owns it, and it is outside this capability because it is about keeping Phoenix memory itself up to date.
+- Promoting a person's answer or an approved memory update from a project up to Phoenix memory: a person does it on purpose, outside this work, because a promotion changes what every project on the machine draws from.
+
+## Sources
+- GitHub #883, the Phoenix install, once per machine: "It lays Phoenix memory from the `phoenix-memory` repo"; "The memory tool reads Phoenix memory only through its own interface."; "later it points at a remote place, and nothing else changes."
+- GitHub #883, the Garura install, once per project: "It lays only the pieces: the plays, agents, skills, tools and the memory tool. It lays no memory."
+- GitHub #883, `initialize`: "It asks the questions that decide which memory fits the project (for example Java or .NET, a React front end or none) and sets up the project's Garura memory from Phoenix memory. It can run again to bring changes in."; "A person installs Phoenix once on a machine and initializes many projects, each with different memory blocks."
+- GitHub #883, Done when: "`initialize` builds the project's Garura memory from Phoenix memory, with only the blocks its answers call for, and can run again to take in changes."; "Two projects on one machine, initialized with different answers, get different memory blocks from the one Phoenix memory."; "A play reads memory only through the memory tool."
+- GitHub #883, Open: "How the source memory reaches the `phoenix-memory` repo without hand copying (#868)."
+- The product owner, review of PR #886, round 2: "i agree never take the whole file. read it, and build project's memory."
+- ADR 039, Decision 4 (the memory tool never copies a Phoenix file): "The tool reads Phoenix memory. It does not copy a file from it into the project."; "A project's Garura memory is built separately, from only the part the project needs: by `initialize`, and by promotion." The product owner, in the same decision: "You don't need to copy the entire file. You only need to bring in the context which is relevant to the checkout part of the commerce ... It should not copy the file." The glossary row for Garura memory: "never a copy of a Phoenix file"; "NOT: a copy of Phoenix memory — checkout, not all of commerce."
+- Shelf: none; no knowledge shelf in memory covers setting up a software project.
+
+## Agent intent (ICE)
+- Goal: `initialize` gives each project only the memory blocks its answers call for, from the one Phoenix memory on the machine.
+- Goal: Two projects on one machine with different answers hold different blocks, and each project's blocks are its own.
+- Goal: On each run, `initialize` compares the project's blocks with Phoenix memory by selection and fingerprint, and names in the brief each part that changed, was added or was taken out.
+- Limit: Never write Phoenix memory or another project's memory from `initialize`, and read memory only through the memory tool.
+- Limit: Take a changed block into a project only on the product owner's typed yes.
+- Fails if: a project holds a memory block its own answers did not call for, or `initialize` in one project changes another project's memory.
+- Fails if: a project's Garura memory holds a whole Phoenix file, or a part of Phoenix memory its answers did not select, after a first run or after a yes to a change.
+- Fails if: an install changes a file in a project's Garura memory.
+- Fails if: a block changed in Phoenix memory and the next `initialize` run in a project that holds it does not name the change.
+- Fails if: `initialize` builds a project's memory while Phoenix memory cannot be reached.
+- Context: serves the product owner who installs Phoenix once on a machine and initializes many projects; touches Phoenix memory (read only, through the memory tool), each project's Garura memory and its block list; out are the Phoenix install, the Garura install, the file selection (fn-project-memory) and a changed answer on a re-run (fn-rerun-initialize).
+- Checked by: initialize two test projects on one machine with different answers, change one part that a block of the first project was built from and lay Phoenix memory again, then check that no project file changed, that the first project's next `initialize` run names the changed part, and that a yes rebuilds that part without copying the Phoenix file.
+- Quality need: an install changes 0 files in any project's Garura memory.
