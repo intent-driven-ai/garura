@@ -205,6 +205,10 @@ tree:
     kind: chore
     title: 'check-change has no review playbook for product model pages or run records'
     status: later
+  - issue: 872
+    kind: chore
+    title: 'The two small findings left by the PR #871 review'
+    status: later
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
@@ -212,7 +216,7 @@ tree:
 - issue: 867
   kind: bug
   title: "The agents' copy script refuses reads from short-term and Garura memory (no version)"
-  status: next
+  status: done
 - issue: 866
   kind: chore
   title: 'Run /shape-slice on business intent #788 again, with the current play (reuse path; input for #818)'
