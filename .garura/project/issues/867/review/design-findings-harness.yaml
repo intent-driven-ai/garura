@@ -1,0 +1,95 @@
+pr: 871
+category: harness
+base: plan/788/base
+grounding_note: All principles come from the base ref; none from lines this diff adds. Nothing was copied
+  into memory_dir (the base copies were read with git show; the PR severity taxonomy is the assessment's
+  shared copy).
+principles:
+- id: G1
+  principle: Only Phoenix memory has a version (the commit its approved ref names). Short-term and Garura
+    memory are folders and answer version null; the contract allows null on read.
+  source:
+  - 'origin/plan/788/base:core/tools/memory/contract/v5.json (read response: version required, type string|null;
+    update rule: ''null for a folder''; tier enum short-term|garura|phoenix)'
+  - 'origin/plan/788/base:core/tools/memory/memory.py (version(): phoenix -> commit via phoenix_git.version,
+    which refuses with tier_missing when none; any other tier -> None; cmd_read always returns version)'
+  - origin/plan/788/base:docs/adr/035-agents-work-only-from-memory.md (s1 three tiers, folders vs Phoenix
+    git repo; s4 agents call the tool; s6 every decision cites tier/file/lines, trace keeps version)
+- id: G2
+  principle: A read answer must carry tier, path, fingerprint and version (all five answer fields are
+    required by the contract); a Phoenix read without a version is an error, not an answer.
+  source:
+  - 'origin/plan/788/base:core/tools/memory/contract/v5.json (read response: version required, type string|null;
+    update rule: ''null for a folder''; tier enum short-term|garura|phoenix)'
+  - 'origin/plan/788/base:core/tools/memory/memory.py (version(): phoenix -> commit via phoenix_git.version,
+    which refuses with tier_missing when none; any other tier -> None; cmd_read always returns version)'
+- id: G3
+  principle: 'The manifest is the record of what was copied and from which version of memory; it must
+    report what the tool said, not what the script assumed (ADR 035 s6 and ADR 037: the version a source
+    was read from is kept).'
+  source:
+  - origin/plan/788/base:docs/adr/035-agents-work-only-from-memory.md (s1 three tiers, folders vs Phoenix
+    git repo; s4 agents call the tool; s6 every decision cites tier/file/lines, trace keeps version)
+  - origin/plan/788/base:core/components/agents/_shared/memory-reading.md
+- id: G4
+  principle: The script only copies mechanically; the agent copies through the memory tool and hands skills
+    the short-term copy (play -> agent -> skill -> script wiring).
+  source:
+  - origin/plan/788/base:docs/adr/055-installed-parts-read-only-installed-files.md (s2 agent fetches into
+    short-term memory, skill reads that copy)
+  - origin/plan/788/base:core/components/agents/_shared/memory-reading.md
+conformance:
+  G1: Holds. FOLDER_TIERS = (short-term, garura) matches the tool, which gives None for exactly those
+    tiers. A later server-backed tier that gives a string version is still accepted.
+  G2: 'Mostly holds. Phoenix with null, empty, or non-string version is still refused with nothing written
+    (checked by running the head script); an unknown tier with null is refused; a folder-tier empty string
+    or integer is refused. One gap: see F1.'
+  G3: 'Holds for answers that carry version: null is recorded as JSON null, a Phoenix commit is recorded
+    as given. See F1 for the one case where the record says null though the tool said nothing.'
+  G4: Holds. Wiring unchanged; the memory-reading.md line matches G1.
+findings:
+- id: F1
+  severity: P3
+  file: core/components/agents/_shared/copy_memory.py
+  lines: parse_answer, the new 'version = answer.get("version")' block (about line 54-59)
+  principle: 'G2/G3: the tool''s read answer always includes the version field (null for a folder); an
+    answer without the field is not a contract answer and was refused before this change.'
+  source:
+  - 'origin/plan/788/base:core/tools/memory/contract/v5.json (read response: version required, type string|null;
+    update rule: ''null for a folder''; tier enum short-term|garura|phoenix)'
+  - 'origin/plan/788/base:core/components/agents/_shared/copy_memory.py (old rule: tier, path, version,
+    fingerprint all non-empty strings)'
+  finding: 'answer.get(''version'') returns None for a missing key as well as for an explicit null, so
+    a folder-tier answer with no version field at all is now accepted and the manifest records ''version'':
+    null, as if the tool had said so. Run on the head script: {tier: garura, no version key} exits 0.
+    The refusal for a malformed answer is weakened for those two tiers; it is not the Phoenix refusal,
+    which stands. No test covers it.'
+  suggested_fix: 'Test the key, not the value: accept only when ''version'' in answer and answer[''version'']
+    is None and tier in FOLDER_TIERS; add a test that a garura answer with the key missing exits 1 and
+    writes nothing.'
+- id: F2
+  severity: P4
+  file: core/components/agents/_shared/copy_memory.py
+  lines: the Stop raised for a bad version
+  principle: 'G4: the script says plainly why it refuses (the guide: the script ''says why'').'
+  source:
+  - origin/plan/788/base:core/components/agents/_shared/memory-reading.md
+  - 'origin/plan/788/base:core/components/agents/_shared/copy_memory.py (old rule: tier, path, version,
+    fingerprint all non-empty strings)'
+  finding: 'For a short-term or Garura answer whose version is an empty or non-string value, the message
+    says ''An answer from garura memory must give one'', which is wrong: those tiers give null. The refusal
+    itself is right; only the wording misleads. memory-reading.md also does not say a Phoenix answer with
+    no version is still refused.'
+checked_and_clear:
+- 'Phoenix answer with version null, empty, or non-string: refused, no copy, no manifest (head script
+  run).'
+- 'Missing tier, path, or fingerprint: still refused; two new tests cover tier and path.'
+- 'Atomic write order unchanged: nothing is written when parse_answer raises.'
+- No other base reader of the manifest 'version' field was found (git grep on the base ref), so a null
+  version breaks no consumer.
+- 'memory-reading.md line agrees with the contract: short-term and Garura answer with null.'
+summary:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 1
