@@ -167,10 +167,14 @@ tree:
       status: done
     - issue: 875
       kind: bug
-      title: 'There is no Epic: the work order for a slice is a Feature, but Garura still names an Epic kind (P1)'
+      title: '/shape-plan files the Epic with issue type Feature; a slice''s Epic must be type Epic (P1)'
       status: next
       needs:
       - 876
+    - issue: 879
+      kind: bug
+      title: '/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice''s stories'
+      status: next
   - issue: 796
     kind: feature
     title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
@@ -245,6 +249,11 @@ tree:
 - issue: 878
   kind: chore
   title: 'Run /shape-plan on business intent #788 for the first time (make or update its plan)'
+  status: done
+# #882 serves #862 (initialize), but runs here: its domain lives only on plan/788/base today.
+- issue: 882
+  kind: chore
+  title: 'Record cap-initialize in the product model with /discover-capabilities (#862, #881)'
   status: now
 - issue: 844
   kind: chore
