@@ -167,7 +167,7 @@ tree:
       status: done
     - issue: 875
       kind: bug
-      title: 'There is no Epic: the work order for a slice is a Feature, but Garura still names an Epic kind (P1)'
+      title: '/shape-plan files the Epic with issue type Feature; a slice''s Epic must be type Epic (P1)'
       status: next
       needs:
       - 876
