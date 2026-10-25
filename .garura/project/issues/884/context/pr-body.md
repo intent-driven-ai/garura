@@ -45,3 +45,15 @@ Where:
 | Gate tests | 22 pass |
 | Tests beside both plays | all pass |
 | lint_play on both plays / fingerprints / component lint | PASS / match / no new error |
+
+## Round 3 — the round-2 review's six points fixed (decision 3)
+
+- **N1, N2 (P2):** a point that failed, or was missing, in the last round and fails again is a failure, never a note — whatever the judge's "fixed" says and whatever else changed. The record keeps missing points, and `prior` lists them.
+- **N3 (P3):** a quote that is only a heading, or under three words, does not count as unchanged content.
+- **N4–N6 (P4):** the rule says a fix needs at least one quote; it says a stricter judge's new points on unchanged text show as notes; both plays' content rule names the judge among what a kept pass depends on.
+
+| Round 3 check | Result |
+|---|---|
+| Hidden acceptance checks: rounds 1, 2, 3 | 33 / 33, 26 / 26, 13 / 13 pass |
+| Gate tests | 31 pass |
+| lint_play on both plays / fingerprints / component lint | PASS / match / no new error |
