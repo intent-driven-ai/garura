@@ -1,0 +1,43 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"What a yes is given to and what it does.\" \"A yes to a taken-out file removes it from the project's Garura memory and from the block list\" \"Given a brief that names two changed files in the database block, when the product owner types yes to the first and no to the second\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"The reply is per file because one changed standard can be welcome and another in the same block not\" \"An empty answer there would look like \"no block fits\" and leave the project with too little memory.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a project that took the database block and Phoenix memory no longer keeps one of its files, when `initialize` next runs in the project, then its brief names that file as taken out under the database block.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"A file the list holds whose fingerprint differs is changed.\" \"A yes to an added file copies it into the project's Garura memory and adds it, with its place in Phoenix memory and its fingerprint, to the block list.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Memory reaches a project in three steps, and this feature is the third.\" \"It keeps each project's blocks its own.\"",
+      "fix": ""
+    }
+  ],
+  "prior": [
+    {
+      "id": "completeness",
+      "fixed": true,
+      "evidence": "\"The brief lists each changed, added or taken-out file under its block and asks for a yes or no to each file\" \"A yes to a changed file overwrites the project's copy with the content Phoenix memory holds now and puts the new fingerprint in the block list.\" \"Given a brief that names a taken-out file under the database block, when the product owner types yes to it, then the file is no longer in the project's Garura memory or in the block list.\""
+    }
+  ]
+}

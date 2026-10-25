@@ -1,0 +1,43 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Runs after the product owner confirms the setup answers.\" \"Out: when Phoenix memory cannot be reached, a plain message that says so and that the Phoenix install must run on this machine, and no project memory built.\" \"Given a second run where the database answer changed from yes to no, when the memory is rebuilt, then the profile holds the new answer and the record names the database files that were taken out.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"It goes on because one answer with no matching standard does not make the other answers wrong; this is unlike an unreachable Phoenix memory, where nothing read can be trusted.\" \"An empty result here would look like \"no file fits\" and leave the project with too little memory.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a Java answer, when the memory is built, then every file the memory tool lists for the Java standards is in the project's Garura memory and no .NET standard is.\" \"Given two answers whose blocks share one file, when the memory is built, then the project's Garura memory holds that file once and it names both answers.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"That place is the block's selection, and the block of the answer is every file the memory tool finds in that place when the memory is built.\" \"A file that sits in two selected blocks is taken once and names both answers that selected it, so the project holds one copy and a later run that drops one of the two answers keeps the file for the other.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Each choice that Ask the setup questions (fn-setup-questions) offers is built from one named place in Phoenix memory\" \"So a builder ties an answer to its files by one step: ask the memory tool for the files in the place its choice names, and take those and no others.\" \"An answer that names no place (for example database no) selects no block.\"",
+      "fix": ""
+    }
+  ],
+  "prior": [
+    {
+      "id": "stranger_test",
+      "fixed": true,
+      "evidence": "\"How an answer is tied to its files. Each choice that Ask the setup questions (fn-setup-questions) offers is built from one named place in Phoenix memory\" \"A file that sits in two selected blocks is taken once and names both answers that selected it\" \"Given a Java answer, when the memory is built, then every file the memory tool lists for the Java standards is in the project's Garura memory and no .NET standard is.\""
+    }
+  ]
+}

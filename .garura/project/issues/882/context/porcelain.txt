@@ -1,0 +1,7 @@
+ M .garura/core/gate-evals.jsonl
+ M .garura/install-manifest.json
+ M .garura/project/issues/882/context/citations.jsonl
+ M .garura/project/issues/882/context/memory/manifest.json
+?? .garura/project/issues/882/context/judge-state/
+?? .garura/project/issues/882/context/porcelain.txt
+?? .garura/project/issues/882/context/understand/20261025T122929Z/

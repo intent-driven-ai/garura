@@ -1,0 +1,40 @@
+{
+  "written": [
+    "seed:cap-initialize",
+    "decision:dec-cap-initialize-security-none-medium",
+    "spine:_spine.yaml"
+  ],
+  "capability_refs": [
+    "cap-initialize"
+  ],
+  "seeded": [
+    "cap-initialize"
+  ],
+  "changed": {
+    "capabilities": [
+      "cap-initialize"
+    ],
+    "features_added": [
+      "fn-setup-questions",
+      "fn-project-memory",
+      "fn-review-rule-groups",
+      "fn-881",
+      "fn-rerun-initialize",
+      "fn-883"
+    ],
+    "profile": true,
+    "decisions": [
+      "dec-cap-initialize-security-none-medium"
+    ]
+  },
+  "box_moves": [
+    {
+      "capability": "cap-initialize",
+      "dimension": "security",
+      "from": "none",
+      "to": "medium",
+      "decision": "dec-cap-initialize-security-none-medium",
+      "status": "accepted"
+    }
+  ]
+}

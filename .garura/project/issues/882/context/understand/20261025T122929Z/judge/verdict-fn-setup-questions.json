@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Out: the question set, each question with its id, its plain question, its choices and its proposed answer with the source of that answer, shown together in one brief.\" \"When the memory tool cannot reach Phoenix memory (it says a tier is missing), initialize stops, asks nothing,\" \"Given a reply that answers four of six questions, when initialize reads it, then a new brief asks only the two unanswered questions.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A choice is offered only when Phoenix memory holds it. A domain, standard or tool that memory does not hold is never a choice, because initialize could not set up memory for it.\" \"there is never a default in place of a source, because a default would look like a fact the project showed.\" \"A question whose answer changes none of these is not asked, because it costs the person time and sets up nothing.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a question that nothing in the project or memory answers, when the brief is shown, then that question carries no proposed answer.\" \"Each question shows its choices and a proposed answer that names its source, and the product owner confirms or corrects each one.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"When the reply leaves some questions unanswered, initialize asks again only for those questions, in one short brief, and keeps the answers already given.\" \"When a correction names something that is not among the choices (for example a domain Phoenix memory holds no shelf for), initialize records the person's answer as given,\" \"Out: the confirmed answers, each kept with its question in the run's short-term memory:\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Runs when the product owner starts `initialize` after the Garura install. It reads Phoenix memory through the memory tool and builds one short set of questions about the project from what memory holds, so the choices always match what memory can give.\" \"These are the facts that decide which memory and which review rules fit.\" \"Building the project's memory from the answers and recording them in the product profile (Build the project's memory, fn-project-memory, owns it).\"",
+      "fix": ""
+    }
+  ]
+}

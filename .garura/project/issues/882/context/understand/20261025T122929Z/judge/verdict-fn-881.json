@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Given a GitHub project whose organization has no Epic type, when initialize runs, then the brief lists the six types with their meanings and marks Epic as missing.\" \"How Jira and Linear each make a type inside the adapter, which comes after GitHub\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"When every needed type is already there, initialize says so and makes nothing, because a second copy of a type would split the team's work items between two types.\" \"that type gets no stand-in and stays unmapped, because a person with the right can still make the real type.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given the account has no right to add a type to the organization, when initialize tries to make Epic, then it says in plain words that the make failed and why, proposes no stand-in, and Epic stays unmapped.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"When the person says yes to only some of the missing types, initialize makes only those.\" \"When a mapping already exists from an earlier run, initialize keeps it, shows it in the brief, and changes it only on a new typed yes\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"It exists because a tracker does not always have these types: on 2026-10-25 Garura's own GitHub organization had no Epic type, so /shape-plan could not file an Epic as an Epic (#875).\" \"Filing epics, stories and other work items (/shape-plan and the other filing plays own them).\"",
+      "fix": ""
+    }
+  ]
+}

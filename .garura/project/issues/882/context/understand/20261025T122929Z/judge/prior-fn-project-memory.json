@@ -1,0 +1,10 @@
+{
+  "round": "fix",
+  "prior_failures": [
+    {
+      "id": "stranger_test",
+      "evidence": "\"The block of an answer is the set of files Phoenix memory keeps for that choice (for example the Java standards for a Java answer).\" \"but do not say how a block is found.\"",
+      "fix": "State in Rules & behavior how an answer is tied to its files, since that is the core of this function and a cold reader or builder cannot explain it from the page now. For example: each choice that Ask the setup questions (fn-setup-questions) offers is built from one named place in Phoenix memory (a standards folder such as the Java standards, or one domain shelf), and the block of that answer is every file the memory tool finds in that place; say what happens to a file that sits in two blocks (taken once, naming both answers). Keep the 'Our default' note, and add one Given/When/Then that checks it, such as: Given a Java answer, when the memory is built, then every file the memory tool lists for the Java standards is in the project's Garura memory and no .NET standard is."
+    }
+  ]
+}
