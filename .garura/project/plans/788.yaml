@@ -147,7 +147,7 @@ tree:
     title: "The eval play (/shape-eval) writes the slice's eval: is the business intent met, tested on the slice's surface"
     status: next
     needs:
-    - 795
+    - 818
   - issue: 818
     kind: feature
     title: The plan play makes the plan file, the epic and one story per feature
@@ -201,6 +201,10 @@ tree:
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
   status: done
+- issue: 866
+  kind: chore
+  title: 'Run /shape-slice on business intent #788 again, with the current play (reuse path; input for #818)'
+  status: now
 - issue: 844
   kind: chore
   title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
