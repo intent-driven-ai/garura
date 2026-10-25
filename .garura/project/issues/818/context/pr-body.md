@@ -38,8 +38,24 @@ Closes #818.
 | Fingerprint | matches `reference/ice.md` |
 | Component lint | no error in a new or touched file |
 
+## Round 2 — the review's P2 and P3 findings fixed (decision 6)
+
+- **DF-1:** each new issue is made in one GitHub call with its type and its parent. The run's record is saved after every tracker write. A record from a run that failed part way still gives the plan file its marks, so the next run reuses what the first run made. A test makes the third write fail.
+- **DF-2:** a "Fails if" line with lines under it is removed in full from the clean copy, and the draft check compares every line of the block.
+- **DF-3:** the skill reads only `skill-input.json` and the clean copies, and no ICE page path. "Written from" is filled by the tracker writer.
+- **DF-4:** the shared code-host adapter gains five verbs (`create-issue-typed`, `set-issue-type`, `edit-issue-body`, `remove-label`, `remove-sub-issue`). On GitLab they stop with a plain message. All 6 copies are identical, and the play's scripts run no raw `gh`. The adapter skill page lists 21 verbs.
+- **DF-5:** the yes records the sha256 of the brief, the work list and the drafts. A change after the yes is refused, and nothing is written.
+
+| Round 2 check | Result |
+|---|---|
+| Hidden acceptance checks (21; 5 new) | 21 / 21 pass |
+| Tests beside shape-plan and shape-slice, and the adapter's tests | all pass |
+| lint_play (source map) / fingerprint / component lint | PASS / matches / no new error |
+
+DF-6, the ontology's "labelled work-item" lines, gets its own `/edit-ontology` change next. The P4 findings go to one parked chore.
+
 ## For the product owner's eye
 
-- The code-host adapter cannot set an issue type, edit a body, or take off a label or a sub-issue. Those 4 jobs run as fixed GitHub commands in `write_work_items.py`. They are tested only against a fake tracker. The first real run (`/shape-plan 788`) is their first test on GitHub.
+- The new adapter verbs are tested with a fake runner. The first real run (`/shape-plan 788`) is their first test on GitHub.
 - On a story it reuses, the play also sets type Story and takes off any label, so the tracker check passes on hand-made stories.
 - Still to do as its own change: the ontology's "labelled work-item" lines for Epic and Story, with `/edit-ontology`.
