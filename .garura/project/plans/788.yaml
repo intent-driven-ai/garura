@@ -249,7 +249,7 @@ tree:
 - issue: 878
   kind: chore
   title: 'Run /shape-plan on business intent #788 for the first time (make or update its plan)'
-  status: now
+  status: done
 - issue: 844
   kind: chore
   title: 'Run /shape-slice on business intent #788: the slice from a named piece of work to its design'
