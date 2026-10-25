@@ -1,0 +1,14 @@
+pr: 869
+issue: 866
+findings:
+- id: F1
+  severity: P4
+  file: all six pages (e.g. .garura/product/product-os/software-delivery-planning/shape-slice/capability.md)
+  principle: C16 fixes the Thin line wording, which carries no run or issue pointer;
+    the old pointer (#844, decision 7) is dropped from the pages.
+  source: origin/plan/788/base:core/components/plays/shape-slice/reference/ice.md
+    C16
+  note: Conforms to the rule; provenance now lives only in the commit/issue. Nit,
+    no action required.
+  category: product-model-pages
+  basis: see design-findings-product-model-pages.yaml

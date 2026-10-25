@@ -1,0 +1,35 @@
+category: product-model-pages
+principles:
+- id: C16
+  text: 'A thin ICE is marked in two places that agree - the line "Thin: proposed by `/shape-slice` from
+    the person''s answers; deepen with `/discover-capabilities`." just before `## Agent intent (ICE)`
+    for inline ICE, and metadata.thin true on the spine entry.'
+  source: origin/plan/788/base:core/components/plays/shape-slice/reference/ice.md (C16, lines 95-104)
+- id: THIN_LINE
+  text: Exact wording of the Thin line.
+  source: .claude/skills/shape-slice/scripts/persist_fills.py THIN_LINE (installed tool, not in the diff)
+- id: SPINE
+  text: metadata.thin true on cap-718, cap-shape-slice, cap-shape-eval, fn-795, fn-818, fn-798; _spine.yaml
+    is unchanged by the branch.
+  source: origin/plan/788/base:.garura/product/product-os/_spine.yaml (lines 72, 160, 174, 426, 439, 452)
+conformance:
+- 'all six pages carry the exact THIN_LINE once, immediately before "## Agent intent (ICE)" (blank line
+  between): pass'
+- 'no leftover "Thin ICE:" line on any page: pass'
+- 'every other line kept: pass (only the old Thin line removed; cap-718/capability.md keeps both changed-notes
+  lines, blank line added before the Thin line)'
+- 'Thin line agrees with spine metadata.thin on all six pages: pass'
+- 'no real person named (only the role "product owner"): pass'
+findings:
+- id: F1
+  severity: P4
+  file: all six pages (e.g. .garura/product/product-os/software-delivery-planning/shape-slice/capability.md)
+  principle: C16 fixes the Thin line wording, which carries no run or issue pointer; the old pointer (#844,
+    decision 7) is dropped from the pages.
+  source: origin/plan/788/base:core/components/plays/shape-slice/reference/ice.md C16
+  note: Conforms to the rule; provenance now lives only in the commit/issue. Nit, no action required.
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1
