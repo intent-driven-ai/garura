@@ -1,0 +1,8 @@
+decision: approve
+decided_by: human
+reply: "approve"
+round: 3
+citing: []
+recommended: approve (no P1, no P2, no P3; one P4)
+not_fixed_by_decision:
+  - N4 (P4) — a short changed quote beside an unchanged quote makes a note; parked in chore #874

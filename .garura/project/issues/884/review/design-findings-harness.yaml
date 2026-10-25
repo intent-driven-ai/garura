@@ -1,0 +1,48 @@
+category: harness
+round: 3
+base: plan/788/base
+pr: 885
+issue: 884
+grounding_sources_used:
+- id: G1
+  principle: Mechanical work is a script; a model is used only where judgment is needed.
+  source: plan/788/base:docs/standards/harness-standard.md principle 3
+- id: G2
+  principle: A change to what a part guarantees is made in its ICE and the part is compiled again; the compiled part records a fingerprint of its ICE; the Expectation holds the scenarios that prove the guarantee.
+  source: plan/788/base:docs/standards/harness-standard.md principles 4 and 5; plan/788/base:CLAUDE.md Play Pipeline Rules
+- id: G3
+  principle: The judge prompt, rubric and verdict shape live in one place, the judge-grounding skill; the judge only scores and evidences, the deterministic gate decides.
+  source: plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 7; plan/788/base:core/components/plays/discover-capabilities/scripts/grounding_gate.py (docstring)
+- id: G4
+  principle: A verdict missing any of the five criteria fails closed.
+  source: 'memory: standards/rules/grounding-eval.md (Phoenix 44e1c4c4799a, "The gate rule"); copy .garura/project/issues/884/context/memory/grounding-harness/standards/rules/grounding-eval.md'
+- id: G5
+  principle: The judge runs as a clean-context sub-agent; the play dispatches it, a script gates it; a play reads no memory and writes only to the issue's short-term memory.
+  source: 'memory: standards/rules/grounding-eval.md "How the judge runs"; plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md sections 1 and 2; plan/788/base:docs/standards/harness-standard.md principle 11'
+- id: G6
+  principle: The judge fan-out is concurrent and read-only; each judge writes only its own verdict; the gate runs after the join.
+  source: 'memory: standards/rules/concurrent-fanout.md (Phoenix 44e1c4c4799a); copy .garura/project/issues/884/context/memory/grounding-harness/standards/rules/concurrent-fanout.md'
+round2_status:
+  N1:
+    status: fixed
+    quote: 'gate_with_state: "last_out = {f.get(\"id\") for f in last_failures} | set(last_missing(rec))" and "if cid in last_out: ... failed again; it failed or was missing in the last verdict"; record keeps "missing": missing'
+    checked: 'scratch run: round 1 drops stranger_test -> exit 1, missing; round 2 same unchanged doc, stranger_test fails on unchanged text -> FAIL "failed again; it failed or was missing in the last verdict", round fix. A different criterion that passed in round 1 and fails on unchanged text stays a note (the settled rule). 31 tests OK.'
+  N2:
+    status: fixed
+    quote: 'discover-capabilities ice.md C4: "a doc''s pass is kept while the doc, its parent doc, the guidance and the judge are unchanged"; discover-domains ice.md C2: "while the doc, the guidance and the judge are unchanged"; fingerprints in both SKILL.md equal sha256 of ice.md (8123401f..., 00550280...)'
+  N3:
+    status: fixed
+    quote: 'grounding-eval.md: "a stricter judge ends the old passes ... The doc then has a record, so it is judged again as a fix round: the stricter judge''s new points on text that did not change show as notes for the person. They do not reject the doc."'
+    checked: 'scratch run: passed doc, judge file changed -> kept false; fail on unchanged text -> PASS with a note, round fix'
+  fixed_count: 3 of 3
+checked_clean:
+- 'lint_play on both plays: PASS, 0 gaps. lint-components: 36 errors, none in the changed paths. The ten grounding_gate.py copies share one md5. Unit suite: 31 tests OK.'
+- 'Wiring intact: play -> isolated judge sub-agent -> judge-grounding skill -> grounding_gate.py; the gate decides, the judge only scores; no brief and no gold example to the judge; no edit note in either SKILL.md or in judge-grounding.'
+- 'Skill, both plays, both ICE sources and the rule state the same command lines (kept, prior, gate with --state and --judge, notes) and the same three settled rules.'
+- 'Fan-out safety holds: kept and prior run before the batch, the per-doc record is written in the serial gate loop after the join, notes runs after all gates; state lives in the issue short-term memory (ADR 039 sections 1 and 2).'
+findings: []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0
