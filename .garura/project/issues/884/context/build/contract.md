@@ -101,3 +101,41 @@ all-pass rule for the first round.
 - `node core/tools/lint-components/index.js --target core/components` from the repo root: no
   error in a new or touched file.
 - No absolute home path and no real name in any changed file.
+
+## Round 2 (review of PR #885; decision 2: fix all seven)
+
+The plays (`/discover-capabilities`, `/discover-domains`) again change through `/edit-play`, not here.
+
+- **A (P2) — the gate decides, not the judge.** In a fix round, a prior failure counts as fixed
+  only when all three hold: the prior entry says `fixed: true`; the doc's text changed since the
+  verdict that failed (compare with the snapshot); and the entry's `evidence` holds at least one
+  quoted fragment, each found in the doc's current text. Otherwise it is a failure. Tests: an
+  unchanged doc with `fixed: true` fails; a quote not on the current page fails; a changed page
+  with a quote of the new text passes.
+- **D (P3) — a stricter judge ends old passes.** Add `--judge J` to the gate (with `--state`)
+  and to `kept`: the judge skill file whose bytes join the fingerprint (doc, parent, guidance,
+  judge, kept apart). A changed judge file ends the kept pass. Tests.
+- **F (P3) — a script collects the notes.** New command `grounding_gate.py notes --state DIR
+  --out FILE`: writes `{"notes": [{"doc", "id", "evidence", "fix"}]}` with every note held in
+  the state's records (passed and kept docs included). `kept` also prints the record's stored
+  `notes`. Tests.
+- Copy the canonical gate unchanged over every other copy again.
+- **B (P3)** — `grounding-eval.md`, "How the judge runs": in a fix round the judge also gets its
+  own earlier failures for that doc (`prior_failures`), and only those; still no brief, no
+  author reasoning, no gold example. Say why this keeps the clean-context aim (the failures are
+  the judge's own words, not the author's).
+- **C (P3)** — `standards/schemas/product-os/grounding/_content-standard.md`: where it says a
+  doc failing any line is rejected, add that a fix round follows the settling rule in
+  `standards/rules/grounding-eval.md`: a new point on unchanged text is a note, shown at the
+  checkpoint, not a reject.
+- **D (rule)** — `grounding-eval.md`: the fingerprint includes the judge's own text; a
+  calibration run uses no judge state (every doc is judged fresh).
+- **E (P3)** — `judge-grounding/SKILL.md`: name the shape of the prior file the play hands over
+  (`{"round": "first"|"fix", "prior_failures": [...]}`), say the play hands it only when `round`
+  is `fix`, and that a `first` round is judged as today.
+- **G (P4)** — `grounding-eval.md` title: v2 (from v1).
+
+### Checks the build runs before it reports (round 2)
+- `python3 -m unittest test_grounding_gate` passes, with the new tests.
+- Every `grounding_gate.py` copy is byte for byte the same.
+- Component lint: no error in a new or touched file. No home path, no real name.
