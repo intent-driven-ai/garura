@@ -6,8 +6,10 @@ Pins how the content judge settles: the old use (no state) is unchanged; a first
 is recorded and `prior` lists it; a fix round checks each prior failure, and the gate (not the
 judge) decides a fix was made: the page changed and the judge's quote is on the page now; a
 new point on text that did not change is a note that does not block; a new point on changed
-text, or with no quote, fails; a passed page is kept while the page, its parent, the guidance
-and the judge skill file do not change; `notes` collects every note the state holds.
+text, or with no quote, fails; a point that failed, or was missing, last time and fails again
+is a failure, never a note; a quote of a heading or of fewer than three words is not unchanged
+text; a passed page is kept while the page, its parent, the guidance and the judge skill file
+do not change; `notes` collects every note the state holds.
 
     python3 -m unittest test_grounding_gate
 """
@@ -36,6 +38,10 @@ A person who forgot their password gets back in without calling support.
 ## Boundary
 
 Reset links last one hour, because a longer life gives an attacker more time.
+
+## Rules and behavior
+
+A reset link works once.
 """
 
 DOC_V2 = DOC_V1 + """
@@ -234,6 +240,108 @@ class GateTest(unittest.TestCase):
         code, out = self.judge(v)
         self.assertEqual(code, 1)
         self.assertEqual(out["missing"], ["depth_gradient"])
+
+    # --------------------------------------------------------------------- a point that fails twice
+
+    def test_a_point_that_fails_twice_is_a_failure(self):
+        self.first_round_fail()
+        self.write("password-reset.md", DOC_V2)  # another line changed
+        v = verdict({"self_explanation": "\"A person who forgot their password gets back in\""},
+                    prior=FIXED)
+        code, out = self.judge(v)
+        self.assertEqual(code, 1)
+        self.assertEqual([f["id"] for f in out["failures"]], ["self_explanation"])
+        self.assertIn("failed again", out["failures"][0]["evidence"])
+        self.assertEqual(out["notes"], [])
+
+    def test_a_point_that_fails_twice_is_listed_once(self):
+        self.first_round_fail()
+        v = verdict({"self_explanation": "\"without calling support\""},
+                    prior=[{"id": "self_explanation", "fixed": False,
+                            "evidence": "\"without calling support\""}])
+        code, out = self.judge(v)
+        self.assertEqual(code, 1)
+        self.assertEqual([f["id"] for f in out["failures"]], ["self_explanation"])
+
+    # --------------------------------------------------------------------- a missing point
+
+    def first_round_missing(self):
+        """A first round that drops depth_gradient (it fails closed)."""
+        code, out = self.judge(verdict(drop="depth_gradient"))
+        self.assertEqual(code, 1)
+        self.assertEqual((out["failures"], out["missing"]), ([], ["depth_gradient"]))
+        return out
+
+    def test_a_missing_point_is_remembered_and_prior_lists_it(self):
+        self.first_round_missing()
+        code, out = self.prior()
+        self.assertEqual((code, out), (0, {"round": "fix", "prior_failures": [
+            {"id": "depth_gradient", "evidence": "missing from the last verdict", "fix": ""}]}))
+
+    def test_failing_a_point_that_was_missing_is_a_failure(self):
+        self.first_round_missing()
+        v = verdict({"depth_gradient": "\"Reset links last one hour\""})
+        code, out = self.judge(v)
+        self.assertEqual(code, 1)
+        self.assertEqual([f["id"] for f in out["failures"]], ["depth_gradient"])
+        self.assertEqual(out["notes"], [])
+
+    def test_scoring_a_missing_point_clears_it_with_no_prior_entry(self):
+        for score in ("pass", "na"):
+            with self.subTest(score=score):
+                shutil.rmtree(self.state, ignore_errors=True)
+                self.first_round_missing()
+                v = verdict()
+                for c in v["criteria"]:
+                    if c["id"] == "depth_gradient":
+                        c["verdict"] = score
+                code, out = self.judge(v)
+                self.assertEqual(code, 0)
+                self.assertEqual((out["failures"], out["missing"]), ([], []))
+                self.assertEqual(self.prior()[1]["prior_failures"], [])
+
+    def test_a_point_both_failed_and_missing_is_listed_once_by_prior(self):
+        self.first_round_fail()
+        v = verdict(drop="self_explanation",
+                    prior=[{"id": "self_explanation", "fixed": False, "evidence": ""}])
+        self.assertEqual(self.judge(v)[0], 1)
+        code, out = self.prior()
+        self.assertEqual([p["id"] for p in out["prior_failures"]], ["self_explanation"])
+
+    def test_a_record_with_no_missing_list_still_reads(self):
+        self.first_round_fail()
+        path = gg.record_path(self.state, self.doc)
+        rec = json.loads(self.read(path))
+        del rec["missing"]
+        self.write(os.path.relpath(path, self.dir), json.dumps(rec))
+        code, out = self.prior()
+        self.assertEqual([p["id"] for p in out["prior_failures"]], ["self_explanation"])
+
+    # --------------------------------------------------------------------- a heading is not content
+
+    def test_a_point_quoting_only_a_heading_or_short_words_fails(self):
+        for evidence in ("\"# Rules and behavior\"",
+                         "\"Rules and behavior\"",
+                         "\"one hour\"",
+                         "\"## Boundary\" \"works once\""):
+            with self.subTest(evidence=evidence):
+                shutil.rmtree(self.state, ignore_errors=True)
+                self.write("password-reset.md", DOC_V1)
+                self.first_round_fail()
+                self.write("password-reset.md", DOC_V2)
+                code, out = self.judge(verdict({"completeness": evidence}, prior=FIXED))
+                self.assertEqual(code, 1)
+                self.assertEqual([f["id"] for f in out["failures"]], ["completeness"])
+                self.assertEqual(out["notes"], [])
+
+    def test_a_heading_beside_a_content_quote_is_a_note(self):
+        self.first_round_fail()
+        self.write("password-reset.md", DOC_V2)
+        v = verdict({"completeness": "\"# Rules and behavior\" \"A reset link works once.\""},
+                    prior=FIXED)
+        code, out = self.judge(v)
+        self.assertEqual(code, 0)
+        self.assertEqual([n["id"] for n in out["notes"]], ["completeness"])
 
     # --------------------------------------------------------------------- the gate checks a fix
 

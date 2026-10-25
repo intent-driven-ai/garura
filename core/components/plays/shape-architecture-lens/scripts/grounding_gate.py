@@ -20,10 +20,13 @@ Usage:
         The gate with the judge state. First round (no record for the doc): all-pass, as
         above. Fix round (a record exists): each last failure counts as fixed only when
         its `prior` entry says fixed: true, the doc's text changed since the failing
-        verdict, and every quoted fragment of the entry's evidence is found in the doc's
-        text now. The gate decides this, not the judge. A criterion that fails only on text
-        that did not change since the last verdict (every quoted fragment of its evidence is
-        found in the snapshot) is a note, not a failure. Then writes the record. Prints
+        verdict, and its evidence quotes at least one fragment, each found in the doc's
+        text now. The gate decides this, not the judge. A criterion that failed, or was
+        missing, in the last verdict and fails again is a failure, never a note. Any other
+        criterion that fails only on text that did not change since the last verdict is a
+        note, not a failure: its evidence quotes at least one content fragment (not a
+        heading, three words or more), and every content fragment is found in the
+        snapshot. Then writes the record. Prints
         {ok, overall, doc, round, failures[], notes[], missing[], fingerprint}.
 
     python3 grounding_gate.py kept --state DIR --doc D --guidance G [--parent P] [--judge J]
@@ -34,7 +37,8 @@ Usage:
 
     python3 grounding_gate.py prior --state DIR --doc D
         Prints {round: first|fix, prior_failures[]}, exit 0. The play hands
-        prior_failures to the judge in a fix round.
+        prior_failures to the judge in a fix round. A criterion missing from the last
+        verdict is listed too, with the evidence "missing from the last verdict".
 
     python3 grounding_gate.py notes --state DIR --out FILE
         Writes {notes: [{doc, id, evidence, fix}]} to FILE: every note held in the state's
@@ -65,6 +69,10 @@ PASS_VERDICTS = {"pass", "na"}
 QUOTE_RE = re.compile(r'"([^"]*)"')
 ELLIPSIS_RE = re.compile(r"\.\.\.|…")
 SPACE_RE = re.compile(r"\s+")
+WORD_RE = re.compile(r"\w+")
+HEADING_RE = re.compile(r"^\s*#+\s*(.*?)\s*#*\s*$")
+MIN_WORDS = 3
+MISSING_EVIDENCE = "missing from the last verdict"
 RECORD_RE = re.compile(r"[0-9a-f]{32}\.json")
 
 
@@ -147,6 +155,12 @@ def item(i, evidence, fix):
     return {"id": i, "evidence": evidence or "", "fix": fix or ""}
 
 
+def last_missing(rec):
+    """The criteria missing from the last verdict (none in a record from before they were
+    kept)."""
+    return [m for m in (rec.get("missing") or []) if isinstance(m, str)]
+
+
 # ---------------------------------------------------------------- notes
 
 
@@ -168,15 +182,49 @@ def quotes_found(evidence, text):
     return all(p in whole for p in parts)
 
 
+def fragment_parts(fragment):
+    return [p for p in (collapse(x) for x in ELLIPSIS_RE.split(fragment)) if p]
+
+
+def heading_texts(text):
+    """The text of every heading line (a line starting with '#'), marks stripped."""
+    out = []
+    for line in text.splitlines():
+        m = HEADING_RE.match(line)
+        if m and m.group(1):
+            out.append(collapse(m.group(1)))
+    return out
+
+
+def is_content(fragment, headings):
+    """A quoted fragment counts as content only when it is not a heading and has at least
+    three words. A heading is a fragment that starts with '#', or whose every part is found
+    inside one heading line of the doc (a heading quoted without its marks)."""
+    parts = fragment_parts(fragment)
+    if not parts or parts[0].startswith("#"):
+        return False
+    if any(all(p in h for p in parts) for h in headings):
+        return False
+    return sum(len(WORD_RE.findall(p)) for p in parts) >= MIN_WORDS
+
+
 def on_unchanged_text(evidence, snapshot):
-    """A new point rests on text that did not change: every quote is in the snapshot."""
-    return quotes_found(evidence, snapshot)
+    """A new point rests on text that did not change: its evidence quotes at least one
+    content fragment, and every content fragment is found in the snapshot. Headings and
+    fragments of fewer than three words do not count, so a point quoting only those is a
+    failure."""
+    headings = heading_texts(snapshot)
+    content = [f for f in QUOTE_RE.findall(evidence or "") if is_content(f, headings)]
+    if not content:
+        return False
+    whole = collapse(snapshot)
+    return all(p in whole for f in content for p in fragment_parts(f))
 
 
 def why_not_fixed(entry, snapshot, now):
     """None when the gate counts a prior failure as fixed, else the reason in plain words.
     All three must hold: the judge says fixed, the doc changed since the failing verdict,
-    and every quote of the entry's evidence is on the page now."""
+    and the entry's evidence holds at least one quote, each found on the page now."""
     if entry.get("fixed") is not True:
         return ""
     if collapse(snapshot) == collapse(now):
@@ -250,11 +298,14 @@ def gate_with_state(verdict, args):
     else:
         rnd = "fix"
         snapshot = rec.get("snapshot") or ""
+        last_failures = [f for f in (rec.get("failures") or []) if isinstance(f, dict)]
+        # A criterion that failed, or was missing, in the last verdict.
+        last_out = {f.get("id") for f in last_failures} | set(last_missing(rec))
         # Each last failure must be answered by one prior entry, and the gate checks the
         # fix: the judge says fixed, the page changed, and the quote is on the page now.
         entries = [e for e in (verdict.get("prior") or []) if isinstance(e, dict)]
         used = set()
-        for last in [f for f in (rec.get("failures") or []) if isinstance(f, dict)]:
+        for last in last_failures:
             lid = last.get("id")
             idx = next((k for k, e in enumerate(entries) if k not in used and e.get("id") == lid), None)
             if idx is None:
@@ -274,10 +325,21 @@ def gate_with_state(verdict, args):
             if reason:
                 evidence = f"{reason}. Judge evidence: {evidence}"
             failures.append(item(lid, evidence, last.get("fix")))
-        # A new point is a note only when it rests on text that did not change.
+        # A point that failed, or was missing, last time and fails again is a failure,
+        # whatever its prior entry says. Any other new point is a note only when it rests
+        # on text that did not change.
         for cid in REQUIRED_CRITERIA:
             c = by_id.get(cid)
             if c is None or c.get("verdict") in PASS_VERDICTS:
+                continue
+            if cid in last_out:
+                if all(f["id"] != cid for f in failures):
+                    failures.append(item(
+                        cid,
+                        "failed again; it failed or was missing in the last verdict. "
+                        "Judge evidence: " + (c.get("evidence") or ""),
+                        c.get("fix"),
+                    ))
                 continue
             point = item(cid, c.get("evidence"), c.get("fix"))
             (notes if on_unchanged_text(c.get("evidence"), snapshot) else failures).append(point)
@@ -288,6 +350,7 @@ def gate_with_state(verdict, args):
         "fingerprint": fp,
         "passed": ok,
         "failures": failures,
+        "missing": missing,
         "snapshot": snapshot_now,
         "notes": notes,
     })
@@ -391,13 +454,11 @@ def run_prior(argv):
     if rec is None:
         out = {"round": "first", "prior_failures": []}
     else:
-        out = {
-            "round": "fix",
-            "prior_failures": [
-                item(f.get("id"), f.get("evidence"), f.get("fix"))
-                for f in (rec.get("failures") or []) if isinstance(f, dict)
-            ],
-        }
+        prior = [item(f.get("id"), f.get("evidence"), f.get("fix"))
+                 for f in (rec.get("failures") or []) if isinstance(f, dict)]
+        listed = {p["id"] for p in prior}
+        prior += [item(m, MISSING_EVIDENCE, "") for m in last_missing(rec) if m not in listed]
+        out = {"round": "fix", "prior_failures": prior}
     print(json.dumps(out, indent=2))
     return 0
 
