@@ -160,6 +160,17 @@ tree:
     status: done
     needs:
     - 795
+    children:
+    - issue: 876
+      kind: bug
+      title: An install into Garura's own repo leaves out the plan play, so /shape-plan cannot run
+      status: now
+    - issue: 875
+      kind: bug
+      title: 'There is no Epic: the work order for a slice is a Feature, but Garura still names an Epic kind (P1)'
+      status: next
+      needs:
+      - 876
   - issue: 796
     kind: feature
     title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
