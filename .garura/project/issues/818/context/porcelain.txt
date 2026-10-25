@@ -1,0 +1,8 @@
+ M .garura/user-provided/managing-work.md
+ M core/components/agents/product-os-keeper.md
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/plays/shape-slice/SKILL.md
+?? .garura/project/issues/818/context/decisions.md
+?? .garura/project/issues/818/context/porcelain.txt
+?? core/components/plays/shape-plan/
+?? core/components/skills/author-work-items/
