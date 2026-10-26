@@ -1,0 +1,21 @@
+# shape-eval stop condition — baked from reference/ice.md "### Done means" (D1–D5).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
+# Paths are relative to the run's issue folder ({stm_base}<issue>/).
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the eval file check reads ok: every story file parses as Gherkin with its story as its Feature, every goal, expectation and failure condition is covered or named as untestable, no scenario covers anything else, every step is a sentence of the surface kind's step library, every name is listed, and the slice file lists every story in build order with a time limit"
+      check: { type: field_equals, file: "context/shape-eval/eval-check.json", field: "ok", equals: true }
+    - id: D2
+      says: "the product owner's recorded answer is yes"
+      check: { type: field_equals, file: "context/shape-eval/approval.json", field: "decision", equals: "yes" }
+    - id: D3
+      says: "the input check reads ok: the skill and the agent were given only the copies of the epic, its stories and the hidden file"
+      check: { type: field_equals, file: "context/shape-eval/inputs-check.json", field: "ok", equals: true }
+    - id: D4
+      says: "the yardstick check reads ok: no scenario that was there changed or went away"
+      check: { type: field_equals, file: "context/shape-eval/yardstick-check.json", field: "ok", equals: true }
+    - id: D5
+      says: "the write guard reads ok: the run changed no file outside the slices' eval files"
+      check: { type: field_equals, file: "context/shape-eval/guard-report.json", field: "ok", equals: true }
