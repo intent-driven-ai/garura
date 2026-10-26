@@ -23,7 +23,6 @@
 ## Acceptance criteria
 - Given a plan with an epic and its stories, when the product owner runs /shape-eval, then the eval is in the plan's evals folder.
 - Given the eval, when a person reads it, then each goal and expectation of the stories, and each failure condition of the hidden file, has a check or a note that it cannot be tested yet.
-- Given the build plays, when a person reads their inputs, then none names the evals folder.
 
 ## Out of scope
 - Running the eval after the build.
@@ -33,7 +32,7 @@
 
 ## Sources
 - GitHub #798 (open): the eval play.
-- The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26): the product owner dropped encryption and #828; the evals stay in the repo in plain text.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 - GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
 
 Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
@@ -42,8 +41,8 @@ Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discov
 - Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.
 - Limit: Read only the epic, its stories and the slice's hidden file; never an ICE page, the usage guide or the code.
 - Limit: The play writes the eval only in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/) and nowhere else.
-- Fails if: the eval is written outside the plan's evals folder, or a builder's inputs name that folder.
+- Fails if: the eval is written outside the plan's evals folder.
 - Fails if: a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.
 - Fails if: a handoff plan that the eval writes names a failure condition, its id or the check.
 - Context: serves the product owner; for Garura the surface is often a play, so the eval runs the play on a test project; the running eval reaches the slice only through its usage guide (guides/<slug>.md). Not built yet (#798).
-- Checked by: the product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/, and no build play's inputs name that folder.
+- Checked by: the product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/.

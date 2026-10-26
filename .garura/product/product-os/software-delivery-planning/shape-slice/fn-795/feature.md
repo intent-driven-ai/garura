@@ -38,7 +38,7 @@
 ## Sources
 - GitHub #795 (closed): the /shape-slice play.
 - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md, Decisions 1 and 5.
-- The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26): the product owner dropped encryption and #828; the evals stay in the repo in plain text.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 
 Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 

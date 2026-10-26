@@ -13,7 +13,7 @@ Features: fn-798 (/shape-eval writes the hidden eval) and fn-898 (the build is g
 - Specification by Example: How Successful Teams Deliver the Right Software (Manning, 2011, https://oreilly.com/library/view/specification-by-example/9781617290084).
 - GitHub #798 (open).
 - GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
-- The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26): the product owner dropped encryption and #828; the evals stay in the repo in plain text.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 
 Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 

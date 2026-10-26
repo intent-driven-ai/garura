@@ -15,5 +15,5 @@ This domain turns a business intent into work that agents can build and that a c
 - docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier: the evals are kept away from the builders.
 - Memory (phoenix) knowledge/domains/*.md, the ten shelves: no shelf has a trigger for software delivery work (placement-routing.json, unmatched).
 - GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
-- The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26): the product owner dropped encryption and #828; the evals stay in the repo in plain text.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 - Note: the four outside sources were checked on the web on 2026-10-24.

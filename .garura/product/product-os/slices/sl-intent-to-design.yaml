@@ -1,7 +1,7 @@
 slice:
   id: sl-intent-to-design
   slug: intent-to-design
-  name: From a named piece of work to its design
+  name: Name a business intent, and three plays write its slice, plan and eval
   outcome: The product owner runs three plays on a business intent and gets a slice
     to test, a plan with one epic and one story for each feature, and an eval that
     no build is given; a check flags each build session that read the evals folder,
