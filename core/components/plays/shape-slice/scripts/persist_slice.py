@@ -31,7 +31,10 @@ REUSE (--reuse <slice-id>, C7): the slice <slice-id> already serves the intent
 spine entry and to its record (appended, no duplicates). It keeps that slice's feature_refs,
 vertical and surface as they are, and makes no second slice. The result's `differences`
 lists, in plain words, how the new shape differs from the slice it reuses, so the person
-sees it at the checkpoint. An older entry with fields ontology v10 removed (status, order,
+sees it at the checkpoint: its features, its surface, its tester, its outcome and the
+tester's action. When the shaped slice is the kept slice reshaped for an intent it already
+serves (no new intent, the same surface and the same tester), the record takes the shaped
+outcome and tester's action; else it keeps its own, and the difference says so. An older entry with fields ontology v10 removed (status, order,
 effort, depends_on, domain_ref) is written back with the six fields only; the result names
 the fields it dropped.
 
@@ -234,6 +237,28 @@ def differences(existing, rec, sl, surface):
     return out
 
 
+def reshape_text(rec, existing, sl, surface, own):
+    """The outcome and the tester's action of a reused record, against the shaped slice.
+
+    Each one that differs is listed. When the shaped slice is the kept slice reshaped for an
+    intent it already serves (`own`: no new intent, and the same surface and tester), the
+    record takes the shaped text, which the person sees in the brief before their yes (C7);
+    else the record keeps its text. Changes `rec` in place; returns the difference lines."""
+    out = []
+    body, have_s = rec["slice"], rec.get("surface") or {}
+    own = own and surface.get("name") == existing.get("vertical") \
+        and surface.get("persona_ref") == have_s.get("persona_ref")
+    how = "the record takes the new text" if own else "the record keeps its text"
+    for label, part, key, new in (("outcome", body, "outcome", sl.get("outcome")),
+                                  ("tester's action", have_s, "user_action", surface.get("user_action"))):
+        if _text(new) and part.get(key) != new:
+            out.append(f"{label} differs: the slice keeps '{part.get(key)}'; the new shape says "
+                       f"'{new}' — {how}")
+            if own:
+                part[key] = new
+    return out
+
+
 def in_progress(spine, sid):
     return any(isinstance(e, dict) and e.get("slice_ref") == sid and e.get("status") in IN_PROGRESS
                for e in (spine.get("epics") or []))
@@ -329,6 +354,8 @@ def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
         body["intents"] = rec_intents + [i for i in intents if i not in rec_intents]
         if features != old_features:
             body["feature_refs"] = list(features)
+        if reuse:
+            diffs += reshape_text(rec_new, existing, sl, surface, own=not added)
         rec_changed = rec_new != rec
     if rec is None:
         upgraded = []

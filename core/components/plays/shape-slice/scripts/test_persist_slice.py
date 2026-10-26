@@ -131,6 +131,9 @@ def test_reuse():
         check("reuse: the result lists how the new shape differs",
               "differ" in diffs and "ft-3" in diffs and "the mobile app" in diffs
               and "nurse" in diffs)
+        check("reuse: a shape for another intent leaves the record's tester action as it was, and says so",
+              rec["surface"]["user_action"] == "books a free slot"
+              and "tester's action differs" in diffs and "the record keeps its text" in diffs)
         check("reuse: the result says it reused", out["reused"] is True and out["id"] == "sl-self-booking")
         code, out, _ = run(root, sp, shaped, "--reuse", "sl-self-booking")
         check("reuse: a second run adds no duplicate intent",
@@ -257,6 +260,20 @@ def test_change_reused():
         check("pull-in: the result names it, and the slice keeps its surface and tester",
               out["pulled_in"] == ["ft-2"] and out["pushed_out"] == []
               and entry["vertical"] == "the booking screen" and rec["surface"]["persona_ref"] == "patient")
+        reshaped = slice_file(tmp, feature_refs=["ft-1", "ft-2", "ft-3"], intents=["bi-10"],
+                              outcome="A patient books a visit and gets a reminder.",
+                              surface={"id": "sf-booking", "name": "the booking screen",
+                                       "persona_ref": "patient", "user_action": "books, then reads the reminder"})
+        code, out, _ = run(root, sp, reshaped, "--reuse", "sl-old")
+        rec = load(os.path.join(root, "slices", "sl-old.yaml"))
+        diffs = " ".join(out.get("differences") or [])
+        check("reshape for an intent it serves: the record takes the new outcome and tester action",
+              code == 0 and rec["slice"]["outcome"] == "A patient books a visit and gets a reminder."
+              and rec["surface"]["user_action"] == "books, then reads the reminder"
+              and out["action"] == "updated")
+        check("reshape: the result lists both differences for the brief",
+              "outcome differs" in diffs and "tester's action differs" in diffs
+              and "the record takes the new text" in diffs)
         code, out, _ = run(root, sp, shaped, "--reuse", "sl-old", "--push-out", "ft-3")
         check("push-out: the feature leaves the slice",
               code == 0 and load(sp)["slices"][0]["feature_refs"] == ["ft-1", "ft-2"]
