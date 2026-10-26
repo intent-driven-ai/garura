@@ -42,9 +42,4 @@ From the stories' Context guidance: what to read, what never to read, the person
 - <one line each>
 ```
 
-## Rules
-
-- The build order is the order of the epic's feature-to-story map.
-- "Out of the slice" is there only when a story file's feature left the slice.
-- Every name a story file uses is listed under "Names"; the list holds no name that no story file uses.
-- The time limit is a whole number of seconds, more than 0.
+The rules for this file are in `standards/rules/eval-format.md`.

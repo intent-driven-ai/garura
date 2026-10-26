@@ -37,21 +37,11 @@ slice's hidden file.
 ## Untestable
 
 - `@goal-<n>`: <why it cannot be tested yet>
+
+## Lines covered
+
+- `@goal-<n>`: <the story's goal line, word for word>
+- `@expectation-<n>`: <the story's expectation line, word for word>
 ```
 
-## Rules
-
-- One tag line above each `## Scenario:`, in backticks: what the scenario covers. `@goal-<n>` and `@expectation-<n>`
-  are the n-th line of the story's "Goals:" and "Expectations:" lists in its "Scope of work" (counted from 1);
-  `@F<n>` is a failure condition of the story's feature in the slice's hidden file. A scenario may carry more than one
-  tag. It covers nothing else.
-- Each step starts with `* ` and is a sentence of the step library, with Given, When, Then, And or But. A value is a
-  literal in double quotes, or a name in square brackets for what only the build will make (`[the booking page]`);
-  each name is listed in the slice file.
-- Each Then is an exact result a tester can see. There is no score: the scenario passes only when every step passes.
-- A failure-condition scenario shows that the condition does not happen. The recovery (when, way back, who fixes)
-  stays in the hidden file: the story file holds no recovery and no handoff text.
-- `## Untestable` lists, one line each with its tag, every goal, expectation or failure condition that has no
-  scenario, with the reason. It is prose to a Gherkin parser.
-- A story whose feature left the slice keeps its file; its first tag line gains `@out-of-slice`. No scenario of a
-  story file is ever changed or deleted by a later run: a later run only adds scenarios and untestable lines.
+The rules for this file are in `standards/rules/eval-format.md`.
