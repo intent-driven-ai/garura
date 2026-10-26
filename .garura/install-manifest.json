@@ -7,6 +7,7 @@
     "components": [
       ".claude/agents/adr-keeper.md",
       ".claude/agents/change-reviewer.md",
+      ".claude/agents/evals-engineer.md",
       ".claude/agents/product-os-keeper.md",
       ".claude/agents/project-orchestrator.md",
       ".claude/agents/quality-auditor.md",
@@ -21,6 +22,7 @@
       ".claude/skills/author-product-ontology",
       ".claude/skills/author-slice",
       ".claude/skills/author-slice-brief",
+      ".claude/skills/author-slice-eval",
       ".claude/skills/author-work-items",
       ".claude/skills/check-pr-quality",
       ".claude/skills/commit-files",
@@ -48,6 +50,7 @@
       ".claude/skills/merge-change",
       ".claude/skills/propose-change",
       ".claude/skills/record-decision",
+      ".claude/skills/shape-eval",
       ".claude/skills/shape-plan",
       ".claude/skills/shape-slice",
       ".claude/skills/start-change",
@@ -55,9 +58,9 @@
       ".claude/skills/_shared"
     ],
     "counts": {
-      "agents": 7,
-      "skills": 24,
-      "plays": 15,
+      "agents": 8,
+      "skills": 25,
+      "plays": 16,
       "loops": 0
     },
     "instruction_surface": "CLAUDE.md.new",
@@ -72,6 +75,7 @@
     "kinds": {
       ".claude/agents/adr-keeper.md": "agent",
       ".claude/agents/change-reviewer.md": "agent",
+      ".claude/agents/evals-engineer.md": "agent",
       ".claude/agents/product-os-keeper.md": "agent",
       ".claude/agents/project-orchestrator.md": "agent",
       ".claude/agents/quality-auditor.md": "agent",
@@ -86,6 +90,7 @@
       ".claude/skills/author-product-ontology": "skill",
       ".claude/skills/author-slice": "skill",
       ".claude/skills/author-slice-brief": "skill",
+      ".claude/skills/author-slice-eval": "skill",
       ".claude/skills/author-work-items": "skill",
       ".claude/skills/check-pr-quality": "skill",
       ".claude/skills/commit-files": "skill",
@@ -113,6 +118,7 @@
       ".claude/skills/merge-change": "play",
       ".claude/skills/propose-change": "play",
       ".claude/skills/record-decision": "play",
+      ".claude/skills/shape-eval": "play",
       ".claude/skills/shape-plan": "play",
       ".claude/skills/shape-slice": "play",
       ".claude/skills/start-change": "play"
@@ -134,7 +140,7 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version 44e1c4c4799a."
+          "Phoenix memory: on this machine, at version 767117348e1a."
         ]
       }
     },
