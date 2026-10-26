@@ -1,0 +1,867 @@
+diff --git a/.garura/project/issues/879/context/analysis.yaml b/.garura/project/issues/879/context/analysis.yaml
+new file mode 100644
+index 000000000..69509d764
+--- /dev/null
++++ b/.garura/project/issues/879/context/analysis.yaml
+@@ -0,0 +1,51 @@
++# assess-changes output (commit-change, loop round 1) — executor schema
++# issue is left out of the group on purpose: the mapping step resolves it
++needs_judgment: false
++branch: plan/788/879-epic-other-children
++
++change_groups:
++  - id: fix-shape-plan-epic-other-children
++    commit_type: fix
++    scope: shape-plan
++    subject: "Let the tracker check accept an epic that holds other children besides its slice's stories"
++    confidence: high
++    files:
++      - core/components/plays/shape-plan/reference/ice.md
++      - core/components/plays/shape-plan/SKILL.md
++      - core/components/plays/shape-plan/stop-condition.yaml
++      - core/components/plays/shape-plan/scripts/check_tracker.py
++      - core/components/plays/shape-plan/scripts/find_work_items.py
++      - core/components/plays/shape-plan/scripts/render_brief.py
++      - core/components/plays/shape-plan/scripts/write_work_items.py
++      - core/components/plays/shape-plan/scripts/test_check_tracker.py
++      - core/components/plays/shape-plan/scripts/test_find_work_items.py
++      - core/components/plays/shape-plan/scripts/test_render_brief.py
++      - core/components/plays/shape-plan/scripts/test_write_work_items.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: >-
++      One concern, one commit: the ICE source (reference/ice.md), the compiled SKILL.md and
++      stop-condition.yaml, the four scripts and their tests all carry the same rule (C13, F11,
++      D4) — an epic may hold other children; the play never adds, removes or changes them.
++      Intent change, so the ICE source was edited and SKILL.md carries the new ice.md
++      fingerprint. check_tracker.py output gains an "others" key and write_work_items.py's
++      tracker-record gains "others" (additive, not breaking).
++
++exclusions:
++  - path: ".garura/project/issues/879/context/analysis.yaml"
++    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
++    blocking: false
++  - path: ".garura/project/issues/879/context/porcelain.txt"
++    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
++    blocking: false
++  - path: ".garura/project/issues/879/context/templates/"
++    reason: "the play's own run state (template copies) — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
++    blocking: false
++
++risks:
++  sensitive_files: []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "the single group holds one concern (the shape-plan epic-other-children rule, ICE to tests); no unrelated file sets"}
++  SE-5: {status: PASS, evidence: "no sensitive filename patterns; no credential patterns (password/api_key/secret/token/private_key) in the diff"}
+diff --git a/.garura/project/issues/879/context/branch.json b/.garura/project/issues/879/context/branch.json
+new file mode 100644
+index 000000000..8e9fe6799
+--- /dev/null
++++ b/.garura/project/issues/879/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "plan/788/879-epic-other-children",
++  "base_sha": "27f85a60002795b65cf1527fc02f4da7cdcdce39",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/879/context/commits.yaml b/.garura/project/issues/879/context/commits.yaml
+new file mode 100644
+index 000000000..284043c09
+--- /dev/null
++++ b/.garura/project/issues/879/context/commits.yaml
+@@ -0,0 +1,27 @@
++commits:
++  - sha: 07e5a4a8
++    message: "fix(shape-plan): Let the tracker check accept an epic that holds other children besides its slice's stories (#879)"
++    files:
++      - core/components/plays/shape-plan/reference/ice.md
++      - core/components/plays/shape-plan/SKILL.md
++      - core/components/plays/shape-plan/stop-condition.yaml
++      - core/components/plays/shape-plan/scripts/check_tracker.py
++      - core/components/plays/shape-plan/scripts/find_work_items.py
++      - core/components/plays/shape-plan/scripts/render_brief.py
++      - core/components/plays/shape-plan/scripts/write_work_items.py
++      - core/components/plays/shape-plan/scripts/test_check_tracker.py
++      - core/components/plays/shape-plan/scripts/test_find_work_items.py
++      - core/components/plays/shape-plan/scripts/test_render_brief.py
++      - core/components/plays/shape-plan/scripts/test_write_work_items.py
++    branch: plan/788/879-epic-other-children
++excluded_files:
++  - path: ".garura/project/issues/879/context/analysis.yaml"
++    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
++  - path: ".garura/project/issues/879/context/porcelain.txt"
++    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
++  - path: ".garura/project/issues/879/context/templates/"
++    reason: "the play's own run state (template copies) — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/879/context/issue-mappings.yaml b/.garura/project/issues/879/context/issue-mappings.yaml
+new file mode 100644
+index 000000000..34401a662
+--- /dev/null
++++ b/.garura/project/issues/879/context/issue-mappings.yaml
+@@ -0,0 +1,24 @@
++# find-matching-issues output (commit-change, loop round 1, step 2) -- read-only on GitHub
++branch: plan/788/879-epic-other-children
++branch_signal:
++  issue_reference: 879
++  note: "branch is plan/<plan>/<issue>-<slug>: 788 is the plan, 879 is the issue (second segment)"
++issue_read:
++  number: 879
++  title: "/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice's stories"
++  state: open
++  type: Bug
++  parent: {number: 818, state: closed}
++mappings:
++  - group: fix-shape-plan-epic-other-children
++    commit_type: fix
++    issue: 879
++    confidence: high
++    signals:
++      branch: "match (879 in plan/788/879-epic-other-children)"
++      semantic: "issue is a Bug (fix); its title and Done-when name /shape-plan, the tracker check, C13/D4/SE-15 and the brief naming other children; the group touches shape-plan ICE, SKILL.md, stop-condition, check_tracker, render_brief and their tests"
++      proximity: "single group, one concern"
++    reasoning: "Branch names 879 and the issue's Done-when matches every file set in the group."
++unmapped: []
++conflicts: []
++summary: {total: 1, high: 1, medium: 0, low: 0, unmapped: 0, approval_recommended: false}
+diff --git a/.garura/project/issues/879/context/issue.json b/.garura/project/issues/879/context/issue.json
+new file mode 100644
+index 000000000..ff195764c
+--- /dev/null
++++ b/.garura/project/issues/879/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 879, "title": "/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice's stories", "created": false}
+diff --git a/.garura/project/issues/879/context/porcelain.txt b/.garura/project/issues/879/context/porcelain.txt
+new file mode 100644
+index 000000000..b52746e54
+--- /dev/null
++++ b/.garura/project/issues/879/context/porcelain.txt
+@@ -0,0 +1,13 @@
++ M core/components/plays/shape-plan/SKILL.md
++ M core/components/plays/shape-plan/reference/ice.md
++ M core/components/plays/shape-plan/scripts/check_tracker.py
++ M core/components/plays/shape-plan/scripts/find_work_items.py
++ M core/components/plays/shape-plan/scripts/render_brief.py
++ M core/components/plays/shape-plan/scripts/test_check_tracker.py
++ M core/components/plays/shape-plan/scripts/test_find_work_items.py
++ M core/components/plays/shape-plan/scripts/test_render_brief.py
++ M core/components/plays/shape-plan/scripts/test_write_work_items.py
++ M core/components/plays/shape-plan/scripts/write_work_items.py
++ M core/components/plays/shape-plan/stop-condition.yaml
++?? .garura/project/issues/879/context/porcelain.txt
++?? .garura/project/issues/879/context/templates/
+diff --git a/.garura/project/issues/879/context/pr-body.md b/.garura/project/issues/879/context/pr-body.md
+new file mode 100644
+index 000000000..4c9a012df
+--- /dev/null
++++ b/.garura/project/issues/879/context/pr-body.md
+@@ -0,0 +1,42 @@
++The plan play (`/shape-plan`) now accepts a slice's epic that holds more than the slice's stories. A plan that was already running when the play first ran, or one that kept growing after it was made, has older or later work under its epic. Plan 788's epic #794 holds 16 such items. The tracker check used to fail on them, although every write the play made was right.
++
++Closes #879 once `/shape-plan 788` runs again after this lands and closes COMPLETED (plan #788, under #818).
++
++## What changes
++
++- **The rule (through `/edit-play`).** Each story of a slice is a sub-issue of its epic, and the epic may also hold other children. The play never adds, removes or changes those other children; the brief names them; only `/shape-slice` decides whether one joins the slice. So #796 and #828 stay as other children of #794. The ICE's C13, F11, REC11, S3 and D4 say so, and the compiled play's brief step, SE-15, SCE-3 and recovery row follow.
++- **The tracker check** passes when every story of the slice is a sub-issue of its epic, whatever else the epic holds, and lists the others. It fails when a story of the slice is not a sub-issue, or when an other child the run recorded is no longer one.
++- **The find step** records the epic's other children; **the brief** names them ("The epic also holds 2 other work items … They stay as they are"); **the write step** carries them into its record.
++- **Tests:** six new checks across four files, among them the case the issue names: a work order with its three stories and two closed chores passes, and one that lacks a story fails. All 10 shape-plan test files pass (139 checks); the play linter reads PASS.
++
++## Self-review
++
++# Self-review: #879 (plan/788/879-epic-other-children)
++
++Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
++Diff reviewed: `git diff plan/788/base...HEAD` (3 commits, 21 files, +425 / -26).
++
++Verdict: ready to raise. Zero findings that block the raise.
++
++## Scope checks
++
++- [PASS] Matches the issue. #879 asks that the tracker check accept an epic that holds its slice's stories plus other children, still reject a missing slice story or a moved-out story that is still a child, go through /edit-play, name the other children in the brief, and carry a test. The diff does exactly that and nothing else.
++- [PASS] No scope creep. Every file under `core/components/plays/shape-plan/` is the play's ICE source (`reference/ice.md`), the compiled `SKILL.md`, `stop-condition.yaml`, the five scripts that handle the epic's children, or their tests. The other 10 files are the issue's own short-term memory records under `.garura/project/issues/879/context/` (committed by start-change and commit-change).
++- [PASS] Change path. Intent change (C13, F11, S3, D4, REC11) was made in `reference/ice.md` first, and `SKILL.md` and `stop-condition.yaml` follow it. The fingerprint in `SKILL.md` (51fa6509...) matches the sha256 of the new `ice.md`. Nothing in the diff touches the installed copy under `.claude/` or `.garura/core/`.
++- [PASS] Reasonable size. About 160 changed lines in play source and tests, readable in one sitting.
++- [PASS] No stray artifacts. No debug prints, TODO or FIXME, or commented-out blocks in the added lines. One untracked file, `.garura/project/issues/879/context/resolved-rules.json`, is the run's own record and is not part of the commits.
++
++## Quality checks
++
++- [PASS] Tests present. `test_check_tracker.py` covers both sides: an epic missing a slice story is refused, an epic with its stories plus two closed chores passes and lists them as `others`, and an other child the record names that was taken off the epic is refused. `test_find_work_items.py`, `test_render_brief.py` and `test_write_work_items.py` each gained a case for the others list, the brief line, and the others staying sub-issues after the write.
++- [PASS] Tests run. Every shape-plan test was run by hand: check_drafts 17/0, check_plan 7/0, check_tracker 11/0, find_work_items 12/0, gather_plan 22/0, record_approval 9/0, render_brief 12/0, support 18/0, write_plan_file 9/0, write_work_items 22/0 (passed/failed). The play linter on `SKILL.md` with the pipeline-next map reads VERDICT: PASS (0 gaps).
++- [PASS] Commits are clean. Three commits in conventional form, each ends with (#879): the `fix(shape-plan)` commit holds the code, ICE and tests; two `chore(stm)` commits hold the issue's records. No Claude attribution trailer.
++- [PASS] No secrets. Nothing credential-like in the added lines.
++- [PASS] Docs in step. The ICE source, the compiled play (C13, SE-15, SCE-3, the F11 row), the stop-condition text and the script docstrings all say the same new rule.
++- [PASS] Nothing obviously broken. No leftover TODO. The old rule that an epic's sub-issues must equal its stories is gone from the code and from the docs (grep finds no remaining copy).
++
++## Notes for the reviewer (not blocking)
++
++- The refusal of a moved-out story that is still a child of the epic is unchanged code and behavior (`check_tracker.py`), but no test in `test_check_tracker.py` exercises that branch, before or after this change. The issue's "still fails when a moved-out story is still a child" therefore rests on untouched code. A one-case test would close it; it is not needed for this issue.
++- The last "done when" item (`/shape-plan 788` runs again and closes COMPLETED) runs after this lands and is not in the diff.
++- Existing tracker records written before this change have no `others` key; `check_tracker.py` reads it with a default, so older records still check cleanly.
+diff --git a/.garura/project/issues/879/context/pr.json b/.garura/project/issues/879/context/pr.json
+new file mode 100644
+index 000000000..427b4aa20
+--- /dev/null
++++ b/.garura/project/issues/879/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 894,
++  "url": "https://github.com/intent-driven-ai/garura/pull/894",
++  "state": "OPEN",
++  "base": "plan/788/base"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/879/context/propose-change-checkpoint.yaml b/.garura/project/issues/879/context/propose-change-checkpoint.yaml
+new file mode 100644
+index 000000000..95bd5c89b
+--- /dev/null
++++ b/.garura/project/issues/879/context/propose-change-checkpoint.yaml
+@@ -0,0 +1,3 @@
++checkpoint: confirm-raise
++decision: gate skipped by config (gates.plays.propose-change)
++check_self_review: {command: "check_self_review.py --self-review self-review.md", exit: 0}
+diff --git a/.garura/project/issues/879/context/resolved-rules.json b/.garura/project/issues/879/context/resolved-rules.json
+new file mode 100644
+index 000000000..70b8f4318
+--- /dev/null
++++ b/.garura/project/issues/879/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/879/context/self-review.md b/.garura/project/issues/879/context/self-review.md
+new file mode 100644
+index 000000000..7ef5aae7d
+--- /dev/null
++++ b/.garura/project/issues/879/context/self-review.md
+@@ -0,0 +1,29 @@
++# Self-review: #879 (plan/788/879-epic-other-children)
++
++Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
++Diff reviewed: `git diff plan/788/base...HEAD` (3 commits, 21 files, +425 / -26).
++
++Verdict: ready to raise. Zero findings that block the raise.
++
++## Scope checks
++
++- [PASS] Matches the issue. #879 asks that the tracker check accept an epic that holds its slice's stories plus other children, still reject a missing slice story or a moved-out story that is still a child, go through /edit-play, name the other children in the brief, and carry a test. The diff does exactly that and nothing else.
++- [PASS] No scope creep. Every file under `core/components/plays/shape-plan/` is the play's ICE source (`reference/ice.md`), the compiled `SKILL.md`, `stop-condition.yaml`, the five scripts that handle the epic's children, or their tests. The other 10 files are the issue's own short-term memory records under `.garura/project/issues/879/context/` (committed by start-change and commit-change).
++- [PASS] Change path. Intent change (C13, F11, S3, D4, REC11) was made in `reference/ice.md` first, and `SKILL.md` and `stop-condition.yaml` follow it. The fingerprint in `SKILL.md` (51fa6509...) matches the sha256 of the new `ice.md`. Nothing in the diff touches the installed copy under `.claude/` or `.garura/core/`.
++- [PASS] Reasonable size. About 160 changed lines in play source and tests, readable in one sitting.
++- [PASS] No stray artifacts. No debug prints, TODO or FIXME, or commented-out blocks in the added lines. One untracked file, `.garura/project/issues/879/context/resolved-rules.json`, is the run's own record and is not part of the commits.
++
++## Quality checks
++
++- [PASS] Tests present. `test_check_tracker.py` covers both sides: an epic missing a slice story is refused, an epic with its stories plus two closed chores passes and lists them as `others`, and an other child the record names that was taken off the epic is refused. `test_find_work_items.py`, `test_render_brief.py` and `test_write_work_items.py` each gained a case for the others list, the brief line, and the others staying sub-issues after the write.
++- [PASS] Tests run. Every shape-plan test was run by hand: check_drafts 17/0, check_plan 7/0, check_tracker 11/0, find_work_items 12/0, gather_plan 22/0, record_approval 9/0, render_brief 12/0, support 18/0, write_plan_file 9/0, write_work_items 22/0 (passed/failed). The play linter on `SKILL.md` with the pipeline-next map reads VERDICT: PASS (0 gaps).
++- [PASS] Commits are clean. Three commits in conventional form, each ends with (#879): the `fix(shape-plan)` commit holds the code, ICE and tests; two `chore(stm)` commits hold the issue's records. No Claude attribution trailer.
++- [PASS] No secrets. Nothing credential-like in the added lines.
++- [PASS] Docs in step. The ICE source, the compiled play (C13, SE-15, SCE-3, the F11 row), the stop-condition text and the script docstrings all say the same new rule.
++- [PASS] Nothing obviously broken. No leftover TODO. The old rule that an epic's sub-issues must equal its stories is gone from the code and from the docs (grep finds no remaining copy).
++
++## Notes for the reviewer (not blocking)
++
++- The refusal of a moved-out story that is still a child of the epic is unchanged code and behavior (`check_tracker.py`), but no test in `test_check_tracker.py` exercises that branch, before or after this change. The issue's "still fails when a moved-out story is still a child" therefore rests on untouched code. A one-case test would close it; it is not needed for this issue.
++- The last "done when" item (`/shape-plan 788` runs again and closes COMPLETED) runs after this lands and is not in the diff.
++- Existing tracker records written before this change have no `others` key; `check_tracker.py` reads it with a default, so older records still check cleanly.
+diff --git a/.garura/project/issues/879/context/templates/manifest-close-start-change.json b/.garura/project/issues/879/context/templates/manifest-close-start-change.json
+new file mode 100644
+index 000000000..b9136a2b2
+--- /dev/null
++++ b/.garura/project/issues/879/context/templates/manifest-close-start-change.json
+@@ -0,0 +1,28 @@
++{
++  "task_id": "load-templates",
++  "status": "completed",
++  "templates": [
++    {
++      "name": "standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/879/context/templates/standards/templates/delivery-report.md",
++      "source": {
++        "tier": "garura",
++        "path": "core/memory/standards/templates/delivery-report.md",
++        "version": null,
++        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
++      }
++    },
++    {
++      "name": "standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/879/context/templates/standards/rules/pipeline-next.md",
++      "source": {
++        "tier": "phoenix",
++        "path": "standards/rules/pipeline-next.md",
++        "version": "44e1c4c4799a",
++        "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412"
++      }
++    }
++  ],
++  "missing": [],
++  "error": null
++}
+diff --git a/.garura/project/issues/879/context/templates/standards/rules/pipeline-next.md b/.garura/project/issues/879/context/templates/standards/rules/pipeline-next.md
+new file mode 100644
+index 000000000..2279f09a7
+--- /dev/null
++++ b/.garura/project/issues/879/context/templates/standards/rules/pipeline-next.md
+@@ -0,0 +1,95 @@
++# Pipeline-next — the successor map (single source of truth)
++
++Every user-invocable compiled play — and every loop, which closes like a play (ADR 029) —
++when it finishes, tells the user what to run next when it has one successor. This file is the one place that mapping lives. The **Standard Play Close**
++(`_shared/play-close.md` (beside the plays), step C2) renders each play's **Next** line by resolving the play here;
++`lint_play.py` fails any user-invocable compiled play that is neither listed here nor in
++`meta_exempt`.
++
++The rendered line reads:
++
++> **Next:** `/<command>` — <why>.
++
++When a play's `command` is `null`, the play has no single successor and the close leaves the
++Next line out. The person picks the next piece of work from the plan (one plan for each
++business intent, with done / now / next) or from `/list-focus-issues` (ADR 051).
++
++## The flow
++
++The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
++
++- **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/research-knowledge`, `/check-knowledge`) run only inside it.
++- **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then the plan play (#818), then the eval play (#798). Neither of those is built yet, so `/shape-slice` has no Next line. The Discovery plays hand to it (`/shape-slice <intent>`, the business intent's issue number).
++- **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
++  - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
++  - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
++  - Then `/shape-measure-lens`. It still stamps a slice *realized*, but `/shape-slice` no longer reads that mark (ADR 049).
++  ADR 028 moves design to once per project, makes each area optional, and leaves measure out. That is not built yet (#594, #595), so the map below still routes through `/shape-measure-lens`.
++- **Execute loop (per epic):** `/build-epic → /validate-epic → /release-epic`. `/release-epic` hands to `/release-increment`, which belongs to the future deployment-and-run loop.
++- **Change loop (git):** `/start-change` (injected at a play's head) `→ /commit-change → /propose-change → /check-change → /merge-change`.
++- **Learn loop:** `/learn-outcomes`. `/list-focus-issues` lists the open issues worth attention.
++- Branch points (at the end of the functional/non-functional design plays) have no single successor: their `command` is `null`, and the `why` names the real options.
++
++## The map
++
++```yaml
++next:
++  # Standalone (no loop)
++  record-decision:            { command: null,           why: "a decision record stands on its own; nothing follows it by default" }
++  # Discovery loop, then the Shaping loop (/shape-slice <intent>)
++  complete-discovery:      { command: shape-slice,          why: "the model holds the business intents — shape the slice that serves one (/shape-slice <intent>)" }
++  discover-intent:         { command: discover-domains,         why: "seed the product model from a confirmed business intent (give /discover-domains its title, outcome and why as the goal)" }
++  discover-domains:         { command: discover-capabilities,     why: "expand this capability's intent (ICE)" }
++  discover-capabilities:     { command: shape-slice,     why: "the capabilities are detailed — shape the slice that serves a business intent (/shape-slice <intent>)" }
++  # Older chain, stale (#855): old Shape loop — design plays, functional (ux → agentic → marketing)
++  shape-ux-lens:             { command: shape-agentic-lens,        why: "next lens in the functional pipe" }
++  shape-agentic-lens:        { command: shape-marketing-lens,      why: "next lens in the functional pipe" }
++  shape-marketing-lens:      { command: null,           why: "functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain, stale (#855): old Shape loop — design plays, non-functional (arch → quality → run)
++  shape-architecture-lens:           { command: shape-quality-lens,        why: "next lens in the non-functional pipe" }
++  shape-quality-lens:        { command: shape-run-lens,            why: "next lens in the non-functional pipe" }
++  shape-run-lens:            { command: null,           why: "non-functional pipe done — run the other pipe, or /shape-measure-lens once both are done" }
++
++  # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
++  shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /shape-slice, not from this mark" }
++
++  # Shaping loop (ADR 049) — the live shape loop; the plan play (#818) and the eval play (#798) are not built yet
++  shape-slice:          { command: null,           why: "the slice is shaped; the shaping loop's next play, the plan play (#818), is not built yet" }
++
++  # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
++  build-epic:      { command: validate-epic,       why: "independently verify the built epic" }
++  validate-epic:       { command: release-epic,         why: "land the validated epic on human acceptance" }
++  release-epic:         { command: release-increment,         why: "deploy the delivered epic to a cloud environment" }
++  release-increment:         { command: null,           why: "increment deployed — the plan shows what comes next" }
++
++  # Defect and refactor lanes (ADR 023); /learn-outcomes is the Learn loop
++  fix-bug:        { command: null,           why: "defect resolved — the plan shows what comes next" }
++  refactor-code:       { command: null,           why: "refactor landed — the plan shows what comes next" }
++  learn-outcomes:          { command: null,           why: "model updated from outcomes — the plan shows what comes next" }
++
++  # Navigation
++  list-focus-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
++
++  # Loop members (run by a loop inside its rounds, never on their own)
++  search-knowledge: { command: null,         why: "runs inside a loop; /research-knowledge follows" }
++  research-knowledge:  { command: null,         why: "runs inside a loop; /check-knowledge follows" }
++  check-knowledge: { command: null,         why: "runs inside a loop; the loop shows the brief and waits for the person" }
++
++  # Change loop (git members)
++  start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
++  commit-change:  { command: propose-change, why: "raise the committed change" }
++  propose-change: { command: check-change,  why: "review the raised PR" }
++  check-change:  { command: merge-change,   why: "merge on approval" }
++  merge-change:   { command: null,           why: "change landed — the plan shows what comes next" }
++
++# Meta / bootstrap plays — not part of the product pipeline; no Next required.
++meta_exempt:
++  - install-garura
++  - uninstall-garura
++  - create-play
++  - edit-play
++  - create-loop
++  - edit-loop
++  - edit-ontology
++```
+\ No newline at end of file
+diff --git a/.garura/project/issues/879/context/templates/standards/templates/delivery-report.md b/.garura/project/issues/879/context/templates/standards/templates/delivery-report.md
+new file mode 100644
+index 000000000..c557fdb31
+--- /dev/null
++++ b/.garura/project/issues/879/context/templates/standards/templates/delivery-report.md
+@@ -0,0 +1,72 @@
++# Delivery Report Template
++
++Canonical shape for the human-readable terminal report a play presents to the user at close. This is the user-facing output, not the machine-readable STM evidence file (see `templates/evidence-file.md` for that).
++
++Consumers: `ship`, `fix-it`, `implement`, every play that closes with a delivery step.
++
++## Shape
++
++```markdown
++## {Play Name} Delivered — {context}
++
++### Run Summary
++
++| Field | Value |
++|-------|-------|
++| Play | {play-name} |
++| Issue | #{issue} |
++| Status | {COMPLETE \| PARTIAL \| FAILED} |
++| Started | {ISO-8601 timestamp} |
++| Completed | {ISO-8601 timestamp} |
++
++### Pipeline Steps
++
++| Step | Description | Status | Key Output |
++|------|-------------|--------|------------|
++| {n} | {step description} | {PASS/FAIL/SKIP} | {primary artifact or action taken} |
++
++### Artifacts Produced
++
++| Artifact | Path | Notes |
++|----------|------|-------|
++| {artifact name} | {path} | {description or status} |
++
++### Next
++
++{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. If the mapped command is null, the play has no single successor: omit the line.}
++
++{Optional: any other real follow-ons beyond the mapped next command — open defects, uncommitted artifacts. Omit if none.}
++```
++
++## Field Rules
++
++| Field | Required | Rule |
++|-------|----------|------|
++| `play` | yes | Exact play slug (e.g. `ship`, `fix-it`, `implement`). |
++| `issue` | yes | Issue number. Required for all project-scoped plays. |
++| `status` | yes | `COMPLETE` when all steps passed; `PARTIAL` when some steps skipped by configuration; `FAILED` when a step halted. |
++| `started` / `completed` | yes | ISO-8601 timestamps. |
++| `pipeline_steps` table | yes | At least one row per major step executed. Status: `PASS`, `FAIL`, or `SKIP`. |
++| `artifacts` table | no | Include when the play produces named artifacts (evidence files, PRs, SHAs). |
++| `next_steps` | no | Optional. Use when there are explicit follow-on actions (e.g., "Run validate after implement"). |
++
++## Per-Play Notes
++
++### ship
++Include in Pipeline Steps: commit, PR creation, review-pr (if run), merge, distill.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, distill output.
++
++### fix-it
++Include in Pipeline Steps: RCA, design, approval gate, implement, quality check, PR, merge.
++Include in Artifacts: PR URL, merge SHA, branch deletion status, issue comment dispatch status.
++Add to Run Summary: Root Cause (summary), Fix Strategy (summary).
++
++### implement
++Include in Pipeline Steps: context build, eval generation, test authoring, code authoring, quality audit.
++Include in Artifacts: quality report, judge report, status report.
++Add to Run Summary: Milestone, Scope Items count, Quality status, Judge pass rate.
++
++## Related
++
++- `templates/evidence-file.md` — machine-readable STM evidence file (distinct from this human-facing report)
++- `templates/checkpoint.md` — checkpoint artifact written at each approval gate during the run
+\ No newline at end of file
+diff --git a/.garura/project/issues/879/context/work-description.txt b/.garura/project/issues/879/context/work-description.txt
+new file mode 100644
+index 000000000..328581ca0
+--- /dev/null
++++ b/.garura/project/issues/879/context/work-description.txt
+@@ -0,0 +1,7 @@
++Make /shape-plan's tracker check accept a work order (epic) that holds more than the stories of its slice.
++
++A plan that existed before /shape-plan, or that kept evolving after it was built, holds other children under its epic: plan 788's epic #794 holds 16 older work items besides its three stories. The product owner (2026-10-25): /shape-plan can run in the middle of a plan that already exists and runs, and a plan keeps evolving after it is built, so the play must accept a work order that holds more than the stories of its slice.
++
++Done when the tracker check passes when an epic holds its slice's stories plus other children, and still fails when a story of the slice is not a child or a moved-out story still is; the change goes through /edit-play (C13, D4, SE-15); the brief names the epic's other children; a test covers both cases; and /shape-plan 788 runs again and closes COMPLETED.
++
++It runs in plan 788 (under #818) and lands into plan/788/base.
+diff --git a/core/components/plays/shape-plan/SKILL.md b/core/components/plays/shape-plan/SKILL.md
+index 411c3688c..fbb6b945c 100644
+--- a/core/components/plays/shape-plan/SKILL.md
++++ b/core/components/plays/shape-plan/SKILL.md
+@@ -62,7 +62,8 @@ a tracker write before the typed yes, a write the brief did not show, or a check
+ by config (C8); a story built from an ICE that is not ready, or a skipped feature not named
+ (C9); landing outside the change plays or on the wrong branch (C10); a real person's name, or
+ text a person cannot follow (C11); rewriting or deleting a line a person wrote on a found story
+-(C12); a label on an epic or a story, or a wrong issue type (C13).
++(C12); a label on an epic or a story, a wrong issue type, a story that is not a sub-issue of its
++epic, or an epic's other child added, removed or changed (C13).
+ 
+ **Agent boundaries:**
+ 
+@@ -252,7 +253,8 @@ python3 scripts/render_brief.py --gather <working>gather.json \
+ 
+ The script builds the whole brief from the run's records, so no write can be left out (C8):
+ each epic and story the run will make, use, add sections to or move out, with the text a new
+-item or section gets and each type, label or sub-issue change; the plan-file change; and each
++item or section gets and each type, label or sub-issue change; each epic's other children, which
++stay as they are (C13); the plan-file change; and each
+ skipped feature with its reason (C9). The brief is never edited by hand: a problem in it goes
+ back to the step whose record it reads. Frame the brief with the approval prompt from
+ `template-manager` (`standards/templates/approval-prompt.md`) and show it. Ask the product
+@@ -362,8 +364,9 @@ exactly one story node under its slice's epic node, no story node stands for a f
+ its slice, each epic's map names the same story for each feature as the tree, and each
+ skipped feature is in `skipped`.
+ **SE-15 (F11/C13):** `tracker-check.json` reads `ok: true`: each issue of the record exists, each
+-epic has type Epic and each story type Story, none has a label, and each epic's sub-issues
+-are its stories.
++epic has type Epic and each story type Story, none has a label, and each story of a slice is a
++sub-issue of its epic; an epic's other children are allowed, and `tracker-check.json` lists
++them (`others`), each still a sub-issue after the run.
+ **SE-16 (F6/C4):** each story in `tracker-record.json` `moved_out` is open in the tracker, is not
+ a sub-issue of its epic, and is in neither the plan file's tree nor the epic's map.
+ **SE-17 (F7/C7):** `guard-report.json` reads `ok: true` — no path in the product model and no
+@@ -419,7 +422,9 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
+   `plan-before.txt`.
+ - **SCE-3 (S3 — product owner, items made by hand):** `tracker-record.json` `created` is empty;
+   each `add-sections` story is in `updated` with only `section added` changes and
+-  `lines_kept: true`; `tracker-check.json` reads `ok: true`.
++  `lines_kept: true`; `tracker-check.json` reads `ok: true`; when the epic holds other children,
++  `work-items.json` lists them in the epic's `others`, `brief.md` names each, and
++  `tracker-check.json` `others` shows each still a sub-issue of the epic.
+ - **SCE-4 (S4 — product owner, the slice changed):** `tracker-record.json` `moved_out` names the
+   story of the feature that left, `check_tracker.py` finds it open, `created` holds one story
+   for the feature that came in, and `plan-check.json` reads `ok: true`.
+@@ -516,7 +521,7 @@ gated.
+ | F8 | a story was built from an ICE that is not ready, or a skipped part is not named in the brief | take back the story built from the part that is not ready, skip the part, and name it in the brief | autonomous |
+ | F9 | the change landed outside the change plays, or on the wrong branch | land the change through the change plays, on the branch the target script gives | human |
+ | F10 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
+-| F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story | take the label off, and set the issue type to Epic on an epic and to Story on a story | autonomous |
++| F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story, or a story of the slice is not a sub-issue of its epic, or the run changed one of the epic's other children | take the label off, set the issue type to Epic on an epic and to Story on a story, make a missing story a sub-issue of its epic, and put back any other child the run took off | autonomous |
+ 
+ ## Pause and Resume
+ 
+@@ -533,7 +538,7 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:84f437cdaf98b047751bef1701da57d64b2bb4a95ecbb52f56b3844c437203dd (of `reference/ice.md`) |
++| fingerprint | sha256:51fa6509b1ddd4f119bfaf25f6354c0df284d602f3d3d1bdb004298e8edea3b6 (of `reference/ice.md`) |
+ | compiled_by | create-play (#818) |
+ | pipeline_position | both (start-change head; commit → propose → review → merge close) |
+ | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |
+diff --git a/core/components/plays/shape-plan/reference/ice.md b/core/components/plays/shape-plan/reference/ice.md
+index 4a6ecaa9a..307e71b72 100644
+--- a/core/components/plays/shape-plan/reference/ice.md
++++ b/core/components/plays/shape-plan/reference/ice.md
+@@ -51,7 +51,11 @@ condition. A second run makes no copies.
+   sections when they are missing, and keeps every line a person wrote; it never rewrites or
+   deletes a person's text.
+ - C13 — An epic and a story are marked in the tracker by the issue type field, with no label:
+-  an epic is an issue of type Epic, and a story is an issue of type Story.
++  an epic is an issue of type Epic, and a story is an issue of type Story. Each story of a slice
++  is a sub-issue of its epic. An epic may also hold other children — older or later work of the
++  plan that is not a story of the slice (a plan already running, or one that kept evolving, #879).
++  The play never adds, removes or changes those other children, and the brief names them; only
++  `/shape-slice` decides whether one of them joins the slice.
+ 
+ ### Failure conditions
+ 
+@@ -71,7 +75,8 @@ condition. A second run makes no copies.
+ - F9 — The change landed outside the change plays, or on the wrong branch.
+ - F10 — A page names a real person, or a person cannot follow it.
+ - F11 — An epic or a story carries a label, or an epic's issue type is not Epic, or a story's
+-  issue type is not Story.
++  issue type is not Story, or a story of the slice is not a sub-issue of its epic, or the run
++  added, removed or changed one of the epic's other children.
+ 
+ ## Context
+ 
+@@ -114,7 +119,9 @@ condition. A second run makes no copies.
+ - S3 — (product owner, items made by hand) Given a plan file that marks a hand-made epic and its
+   stories with `represents`, when the product owner runs /shape-plan and types yes, then the play
+   uses them. Measure: no new issue is made; each marked story gains only the missing sections;
+-  every line a person wrote is still on it.
++  every line a person wrote is still on it. When the epic also holds other children (for example
++  two closed chores), the brief names them, the tracker check reads ok, and they are still its
++  sub-issues after the run.
+ - S4 — (product owner, the slice changed) Given a plan whose slice lost one feature and gained
+   another, when the product owner runs /shape-plan and types yes, then the story of the feature
+   that left is out of the plan file's tree and the epic's map and is still open in the tracker,
+@@ -143,7 +150,8 @@ condition. A second run makes no copies.
+   each story has its scope of work and its Context guidance.
+   check: { type: field_equals, file: "context/shape-plan/drafts-check.json", field: "ok", equals: true }
+ - D4 — the tracker check reads ok: each work item the run wrote is in the tracker as the record
+-  says, the epic with type Epic and each story with type Story, and none with a label.
++  says, the epic with type Epic and each story with type Story, none with a label, and each story
++  a sub-issue of its epic (the epic may hold other children).
+   check: { type: field_equals, file: "context/shape-plan/tracker-check.json", field: "ok", equals: true }
+ - D5 — the write guard reads ok: the run changed no file outside the plan file.
+   check: { type: field_equals, file: "context/shape-plan/guard-report.json", field: "ok", equals: true }
+@@ -169,5 +177,6 @@ condition. A second run makes no copies.
+ - REC9 (F9) — land the change through the change plays, on the branch the target script gives.
+   Handoff: human.
+ - REC10 (F10) — rewrite with personas and plain words. Handoff: autonomous.
+-- REC11 (F11) — take the label off, and set the issue type to Epic on an epic and to Story on
+-  a story. Handoff: autonomous.
++- REC11 (F11) — take the label off, set the issue type to Epic on an epic and to Story on a
++  story, make a missing story a sub-issue of its epic, and put back any other child the run
++  took off. Handoff: autonomous.
+diff --git a/core/components/plays/shape-plan/scripts/check_tracker.py b/core/components/plays/shape-plan/scripts/check_tracker.py
+index 3aa5b2368..22a4e29d6 100644
+--- a/core/components/plays/shape-plan/scripts/check_tracker.py
++++ b/core/components/plays/shape-plan/scripts/check_tracker.py
+@@ -8,14 +8,15 @@
+ the --tracker-file fixture). `ok: true` only when:
+   - each issue the record names exists;
+   - each epic has type Epic and each story type Story, and none has a label;
+-  - each epic's sub-issues are its stories: the stories of its map, no more and no fewer;
++  - each story of a slice is a sub-issue of its epic; the epic may hold other children (C13,
++    #879), and each one the record names (`others`) is still a sub-issue;
+   - each story's body has the sections "Scope of work" and "Context guidance" and the line
+     "Represents: <feature id>"; each epic's body has "Represents: <slice id>" and its map;
+     and no body this run made holds the words "Fails if" or a recovery phrase (a found item's
+     own lines are a person's, and are kept as they are);
+   - each moved-out story is open and is not a sub-issue of its epic.
+ 
+-Output: {ok, problems: [..], checked: [issue numbers]}
++Output: {ok, problems: [..], checked: [issue numbers], others: {slice id: [issue numbers]}}
+ Exit 0 ok; 1 not ok (written); 2 bad input (nothing written). Reads only; writes nothing in the tracker.
+ """
+ 
+@@ -29,7 +30,7 @@
+ 
+ 
+ def check(rec, tracker):
+-    problems, checked = [], []
++    problems, checked, others = [], [], {}
+     made = {int(c["issue"]) for c in rec.get("created") or []}
+ 
+     def fetch(number, what):
+@@ -71,9 +72,14 @@ def fetch(number, what):
+         if int(epic_no) in made:
+             for reason in pc.forbidden_in(epic["body"]):
+                 problems.append(f"epic #{epic_no}: {reason}")
+-        if sorted(epic["sub_issues"]) != sorted(stories.values()):
+-            problems.append(f"epic #{epic_no}'s sub-issues {sorted(epic['sub_issues'])} are not its "
+-                            f"stories {sorted(stories.values())}")
++        subs = {int(n) for n in epic["sub_issues"]}
++        for fid, n in stories.items():
++            if n not in subs:
++                problems.append(f"story #{n} of {fid} is not a sub-issue of epic #{epic_no}")
++        for n in (rec.get("others") or {}).get(sid) or []:
++            if int(n) not in subs:
++                problems.append(f"epic #{epic_no}'s other child #{n} is no longer its sub-issue")
++        others[sid] = sorted(subs - set(stories.values()))
+     for mo in rec.get("moved_out") or []:
+         st = fetch(mo["issue"], "the moved-out story")
+         if st is not None and st["state"] != "open":
+@@ -84,7 +90,7 @@ def fetch(number, what):
+     for item in (rec.get("created") or []) + (rec.get("updated") or []):
+         if int(item["issue"]) not in checked:
+             fetch(item["issue"], f"the {item.get('kind', 'work item')}")
+-    return {"ok": not problems, "problems": problems, "checked": sorted(set(checked))}
++    return {"ok": not problems, "problems": problems, "checked": sorted(set(checked)), "others": others}
+ 
+ 
+ def main(argv=None):
+diff --git a/core/components/plays/shape-plan/scripts/find_work_items.py b/core/components/plays/shape-plan/scripts/find_work_items.py
+index e0f79ac4f..2b477ab7c 100644
+--- a/core/components/plays/shape-plan/scripts/find_work_items.py
++++ b/core/components/plays/shape-plan/scripts/find_work_items.py
+@@ -65,7 +65,7 @@ def find(gather, plan, tracker):
+                                "copies": [e.get("issue") for e in epics[1:]]})
+         node = epics[0] if epics else None
+         epic = {"action": "make", "issue": None, "title": None, "type": None, "labels": [],
+-                "represents_line": False, "map": None}
++                "represents_line": False, "map": None, "others": []}
+         kids = pc.children(node) if node else []
+         sub_issues = []
+         if node is not None:
+@@ -109,6 +109,13 @@ def find(gather, plan, tracker):
+             rep = str(k.get("represents") or "")
+             if rep and rep not in feature_ids:
+                 move_out.append({"issue": k.get("issue"), "feature": rep, "title": k.get("title")})
++        # Other children: older or later work of the plan that is no story of this slice (C13,
++        # #879). The run never adds, removes or changes them; the brief names them.
++        own = {int(s["issue"]) for s in stories if s.get("issue") is not None}
++        own |= {int(m["issue"]) for m in move_out if m.get("issue") is not None}
++        titles = {int(k["issue"]): k.get("title") for k in kids if k.get("issue") is not None}
++        epic["others"] = [{"issue": int(n), "title": titles.get(int(n))}
++                          for n in sorted(sub_issues) if int(n) not in own]
+         out.append({"slice": sid, "epic": epic, "stories": stories, "move_out": move_out})
+     return {"ok": not problems and not duplicates, "plan_file_exists": plan is not None,
+             "problems": problems, "duplicates": duplicates, "slices": out}
+diff --git a/core/components/plays/shape-plan/scripts/render_brief.py b/core/components/plays/shape-plan/scripts/render_brief.py
+index f722d6ca2..ccca87cd0 100644
+--- a/core/components/plays/shape-plan/scripts/render_brief.py
++++ b/core/components/plays/shape-plan/scripts/render_brief.py
+@@ -114,6 +114,12 @@ def render(gather, items, drafts):
+             elif act == "skip":
+                 skipped.append((sl["id"], fid, st.get("reason"), st.get("issue")))
+                 lines.append(f"- Skip {fid}: no story is made or changed. Why: {st.get('reason')}")
++        others = epic.get("others") or []
++        if others:
++            lines.append(f"- The epic also holds {len(others)} other work item"
++                         + ("s" if len(others) > 1 else "")
++                         + " that are not stories of this slice. They stay as they are: "
++                         + ", ".join(f"#{o.get('issue')}" for o in others) + ".")
+         for mo in it.get("move_out") or []:
+             writes += 1
+             lines.append(f"- Move story #{mo.get('issue')} out of the plan: {mo.get('feature')} is no "
+diff --git a/core/components/plays/shape-plan/scripts/test_check_tracker.py b/core/components/plays/shape-plan/scripts/test_check_tracker.py
+index 3135e2ba5..f162546f1 100644
+--- a/core/components/plays/shape-plan/scripts/test_check_tracker.py
++++ b/core/components/plays/shape-plan/scripts/test_check_tracker.py
+@@ -55,7 +55,28 @@ def main():
+         write(p["tracker"], json.loads(good))
+         edit(p, epic, sub_issues=[story])
+         code, res = verdict(p)
+-        check("an epic whose sub-issues are not its stories: not ok", code == 1 and any("sub-issues" in x for x in res["problems"]))
++        check("an epic that lacks a story of its slice: not ok",
++              code == 1 and any("is not a sub-issue of epic" in x for x in res["problems"]))
++        write(p["tracker"], json.loads(good))
++        # #879: a work order with its three stories and two closed chores passes, and lists them.
++        data = read_json(p["tracker"])
++        stories = sorted(rec["maps"]["sl-self-booking"].values())
++        data["issues"] += [{"number": 90, "title": "Old chore", "type": "Chore", "labels": [], "state": "closed",
++                            "body": "", "sub_issues": []},
++                           {"number": 91, "title": "Older chore", "type": "Chore", "labels": [], "state": "closed",
++                            "body": "", "sub_issues": []}]
++        write(p["tracker"], data)
++        edit(p, epic, sub_issues=stories + [90, 91])
++        code, res = verdict(p)
++        check("an epic with its stories and two closed chores: ok, and the chores are its others",
++              code == 0 and res["ok"] and res["others"] == {"sl-self-booking": [90, 91]})
++        rec2 = dict(rec, others={"sl-self-booking": [90, 91]})
++        write(p["record"], rec2)
++        edit(p, epic, sub_issues=stories + [90])
++        code, res = verdict(p)
++        check("an other child the record names, taken off the epic: not ok",
++              code == 1 and any("other child #91" in x for x in res["problems"]))
++        write(p["record"], rec)
+         write(p["tracker"], json.loads(good))
+         edit(p, story, body="Represents: ft-pick\n")
+         code, res = verdict(p)
+diff --git a/core/components/plays/shape-plan/scripts/test_find_work_items.py b/core/components/plays/shape-plan/scripts/test_find_work_items.py
+index 24e2fb150..dbe6c6a5d 100644
+--- a/core/components/plays/shape-plan/scripts/test_find_work_items.py
++++ b/core/components/plays/shape-plan/scripts/test_find_work_items.py
+@@ -91,6 +91,17 @@ def main():
+               st["ft-pay"]["action"] == "make" and st["ft-pay"]["issue"] is None)
+         check("a marked story whose feature left the slice is moved out",
+               sl["move_out"] == [{"issue": 13, "feature": "ft-cancel", "title": "Cancel online"}])
++        check("an epic with no child beyond its stories has no others", sl["epic"]["others"] == [])
++
++        data = read_json(p["tracker"])
++        for it in data["issues"]:
++            if it["number"] == 10:
++                it["sub_issues"] = [11, 13, 40, 41]
++        write(p["tracker"], data)
++        find(p)
++        sl = read_json(p["items"])["slices"][0]
++        check("an epic's other children (#879) are listed, not its stories or the moved-out story",
++              [o["issue"] for o in sl["epic"]["others"]] == [40, 41])
+ 
+         set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-wait"])
+         gather(root, p)
+diff --git a/core/components/plays/shape-plan/scripts/test_render_brief.py b/core/components/plays/shape-plan/scripts/test_render_brief.py
+index 0f3a94800..1f4e55928 100644
+--- a/core/components/plays/shape-plan/scripts/test_render_brief.py
++++ b/core/components/plays/shape-plan/scripts/test_render_brief.py
+@@ -47,7 +47,8 @@ def main():
+               "  title: Self-booking\n  represents: sl-self-booking\n  children:\n  - issue: 11\n"
+               "    represents: ft-pick\n  - issue: 13\n    represents: ft-cancel\n")
+         empty_tracker(p, [
+-            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": ""},
++            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": "",
++             "sub_issues": [11, 13, 40, 41]},
+             {"number": 11, "title": "Pick a free slot", "type": "Story", "body": "Text a person wrote."},
+             {"number": 13, "title": "Cancel online", "type": "Story", "body": ""}])
+         code, text = brief(p)
+@@ -57,6 +58,8 @@ def main():
+         check("a found story shows the sections it gains", "Use story #11" in text and "\"Scope of work\" and \"Context guidance\"" in text)
+         check("a moved-out story is shown, and it stays open", "Move story #13 out of the plan" in text and "stays\nopen" not in text
+               and "stays open in the tracker" in text)
++        check("the epic's other children (#879) are named, and stay as they are",
++              "2 other work items" in text and "#40, #41" in text and "They stay as they are" in text)
+         check("the plan file is shown as updated, with the node taken out",
+               f"Update `{p['plan_file']}`" in text and "Take out the story node #13" in text)
+     return finish()
+diff --git a/core/components/plays/shape-plan/scripts/test_write_work_items.py b/core/components/plays/shape-plan/scripts/test_write_work_items.py
+index 00aa6f1f7..584132c3f 100644
+--- a/core/components/plays/shape-plan/scripts/test_write_work_items.py
++++ b/core/components/plays/shape-plan/scripts/test_write_work_items.py
+@@ -71,7 +71,10 @@ def main():
+               "    kind: story\n    represents: ft-pick\n  - issue: 12\n    kind: story\n    represents: ft-remind\n")
+         person = "A person wrote this.\n\nAnd this line too.\n"
+         empty_tracker(p, [
+-            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": "The epic, by hand."},
++            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": "The epic, by hand.",
++             "sub_issues": [50, 51]},
++            {"number": 50, "title": "Old chore", "type": "Chore", "state": "closed", "body": ""},
++            {"number": 51, "title": "Older chore", "type": "Chore", "state": "closed", "body": ""},
+             {"number": 11, "title": "Pick a free slot", "type": "Story", "body": person},
+             {"number": 12, "title": "Send a reminder", "type": "Story", "body": person + "\n## Scope of work\n\n- kept\n"}])
+         codes = flow(root, p)
+@@ -84,7 +87,9 @@ def main():
+               and its[12]["body"].startswith(person))
+         check("the found epic gets type Epic, loses its label, keeps its text and gains its map",
+               its[10]["type"] == "Epic" and its[10]["labels"] == [] and its[10]["body"].startswith("The epic, by hand.")
+-              and "- ft-pick → #11" in its[10]["body"] and sorted(its[10]["sub_issues"]) == [11, 12])
++              and "- ft-pick → #11" in its[10]["body"] and sorted(its[10]["sub_issues"]) == [11, 12, 50, 51])
++        check("the epic's other children (#879) stay its sub-issues, and the record names them",
++              rec["others"] == {"sl-self-booking": [50, 51]} and its[50]["state"] == "closed")
+         check("the record lists each change", {u["issue"] for u in rec["updated"]} == {10, 11, 12}
+               and all(u["lines_kept"] for u in rec["updated"]))
+         code, _, _ = run("write_work_items.py", "--work-items", p["items"], "--drafts", os.path.join(tmp, "nope.json"),
+diff --git a/core/components/plays/shape-plan/scripts/write_work_items.py b/core/components/plays/shape-plan/scripts/write_work_items.py
+index d0d7189fc..94c3d0e88 100644
+--- a/core/components/plays/shape-plan/scripts/write_work_items.py
++++ b/core/components/plays/shape-plan/scripts/write_work_items.py
+@@ -165,6 +165,7 @@ def keep_map():
+         number = int(epic["issue"])
+         rec["titles"][str(number)] = tracker.get(number)["title"]
+     rec["epics"][sid] = number
++    rec["others"][sid] = [int(o["issue"]) for o in epic.get("others") or []]
+     keep_map()
+     w.save()
+     subs = tracker.get(number)["sub_issues"]
+@@ -279,6 +280,7 @@ def main(argv=None):
+     approval = pc.read_json(args.approval, "approval.json")
+     rec = {"ok": True, "plan_id": str(args.plan_id), "approval_at": approval.get("at"),
+            "created": [], "updated": [], "moved_out": [], "epics": {}, "stories": {}, "maps": {},
++           "others": {},
+            "titles": {}, "skipped": [], "failed": None, "error": None}
+     w = Writer(tracker, rec, args.out)
+     try:
+diff --git a/core/components/plays/shape-plan/stop-condition.yaml b/core/components/plays/shape-plan/stop-condition.yaml
+index 9f012782a..e3dae6d02 100644
+--- a/core/components/plays/shape-plan/stop-condition.yaml
++++ b/core/components/plays/shape-plan/stop-condition.yaml
+@@ -14,7 +14,7 @@ content:
+       says: "the draft check reads ok: no story and no epic holds a failure or recovery condition, and each story has its scope of work and its Context guidance"
+       check: { type: field_equals, file: "context/shape-plan/drafts-check.json", field: "ok", equals: true }
+     - id: D4
+-      says: "the tracker check reads ok: each work item the run wrote is in the tracker as the record says, the epic with type Epic and each story with type Story, and none with a label"
++      says: "the tracker check reads ok: each work item the run wrote is in the tracker as the record says, the epic with type Epic and each story with type Story, none with a label, and each story a sub-issue of its epic (the epic may hold other children)"
+       check: { type: field_equals, file: "context/shape-plan/tracker-check.json", field: "ok", equals: true }
+     - id: D5
+       says: "the write guard reads ok: the run changed no file outside the plan file"

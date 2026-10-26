@@ -1,0 +1,69 @@
+# quality-findings.yaml — check-change Step 3, Layer 1 (standards-driven), PR #894, issue 879
+# Categories: executable-code, tests. Bounded to context/pr.diff. Taxonomy: context/memory/standards/rules/pr.md
+meta:
+  pr: 894
+  issue: 879
+  categories: [executable-code, tests]
+  taxonomy_path: .garura/project/issues/879/context/memory/standards/rules/pr.md
+  scan:
+    tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+    changed_paths_count: 26
+    result: "P1=0 P2=0 P3=0 P4=0, CODE-20 catch-all=11, errors=0, scan_coverage 1.0"
+    blind_spot: >-
+      The taxonomy classifies every path under core/components/** as artifact type garura-prose
+      (first match wins). That swallows the 8 Python files (4 scripts, 4 tests) of this PR, so the
+      grep rules are ineligible on them and the authoritative scan returns zero. The zero is a
+      statement about the taxonomy's scoping, not proof the code is clean. Advisory re-run below.
+    advisory_rerun: >-
+      Scratch copy of pr.md with core/components/** taken out of garura-prose, run on the 8 .py
+      paths only (not authoritative, nothing written to the repo). Every grep rule: 0 hits.
+      Path-only rules fired as checklist rows (ARCH-02/03/08, CODE-03/04/09-15/17/19, FE-16);
+      their evidence was gathered by hand below.
+  tests_run:
+    - {file: test_check_tracker.py, passed: 11, failed: 0, exit: 0}
+    - {file: test_find_work_items.py, passed: 12, failed: 0, exit: 0}
+    - {file: test_render_brief.py, passed: 12, failed: 0, exit: 0}
+    - {file: test_write_work_items.py, passed: 22, failed: 0, exit: 0}
+  linters:
+    ruff_check: "All checks passed on the 4 scripts and 4 tests (default rules; the repo commits no ruff config, so this is the gap noted in categories.yaml)"
+    ruff_format: "Not a finding: write_work_items.py and test_write_work_items.py would be reformatted, but so would 14 files in total, and the base file check_tracker.py too; the repo does not use ruff format. 'There before'."
+findings:
+  - standard_id: CODE-10
+    severity: P3
+    taxonomy_rule_id: CODE-10
+    artifact_type: runtime-code   # classified as garura-prose by the taxonomy; treated as code by hand
+    files:
+      - {file: core/components/plays/shape-plan/scripts/check_tracker.py, function: check, line_count: 62}
+      - {file: core/components/plays/shape-plan/scripts/find_work_items.py, function: find, line_count: 66}
+      - {file: core/components/plays/shape-plan/scripts/render_brief.py, function: render, line_count: 101}
+    evidence: >-
+      This diff adds lines to three functions that are already long (+6 to +7 net each; counted
+      with ast, after the change). write_slice (100 lines) gains one line. No threshold is set in
+      the taxonomy or in a copied quality standard, so this is a highlight, not a blocker.
+    verdict: highlight only (P3 does not block)
+hand_checks:
+  data_safety_write_work_items:
+    result: pass
+    evidence:
+      - "The diff to write_work_items.py is two added lines: rec['others'][sid] = [...] and 'others': {} in the record. Both only record the issue numbers; neither calls the tracker."
+      - "The only tracker calls that touch an epic's children are add_sub (lines 210, 220: a story of the slice) and remove_sub (line 238: only for a move_out story). Both are unchanged by this diff."
+      - "find_work_items.py excludes the slice's own stories and the move_out stories from epic.others, so remove_sub can never be reached for an other child."
+      - "test_write_work_items.py: the epic with other children 50 and 51 ends with sub_issues [11, 12, 50, 51], the record names them in 'others', and issue 50 is still closed."
+  data_safety_check_tracker:
+    result: pass
+    evidence:
+      - "check_tracker.py calls no create/set_*/add_sub/remove_sub; its only write is pc.write_json to its own --out result file (line 111). find_work_items.py and render_brief.py are the same."
+      - "Behaviour change, by design (C13): an extra child no longer fails the check. A missing story of the slice, and a named other child that left the epic, both fail; both are tested."
+  tests_assert_something: >-
+    The new tests assert exact values (res['others'] == {...}, the problem text, the sub-issue list),
+    none are skipped or disabled. The old 'sub-issues are not its stories' test was replaced by
+    'lacks a story of its slice' (still fails), plus an ok case and a named-child-removed case.
+observations_outside_taxonomy:
+  # No taxonomy row, so by F3 these are not findings. Passed on for the layers that read behaviour and wording.
+  - "render_brief.py: with exactly one other child the line reads '1 other work item that are not stories of this slice' (the verb stays plural). The test only covers two."
+  - "find_work_items.py: epic.others[].title is read from the plan file's nodes only, so a child that is not in the plan file always gets title null. The brief and the record use only the number."
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 0

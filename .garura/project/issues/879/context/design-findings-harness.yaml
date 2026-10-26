@@ -1,0 +1,138 @@
+# design-findings-harness.yaml - check-change Step 3, Layer 2 (design-grounding), category: harness
+# PR #894, issue 879. Base ref: plan/788/base. Changed artifacts in scope:
+#   core/components/plays/shape-plan/SKILL.md, reference/ice.md, stop-condition.yaml
+# Every principle below is from a source committed on the base ref (git show plan/788/base:<path>)
+# or from Phoenix memory read through the memory tool; none is from prose this branch adds.
+# Severity from .garura/project/issues/879/context/memory/standards/rules/pr.md buckets. The table
+# has no Standard ID row for a design finding, so the bucket definition is the basis, named per finding.
+pr: 894
+issue: 879
+category: harness
+base: plan/788/base
+grounding_status: available
+memory_dir: .garura/project/issues/879/context/memory/grounding-harness/   # user-facing-voice copy + manifest.json
+
+principles:
+  - id: PR-1
+    principle: "An Epic holds Stories (one per feature of its slice); a Spike, Chore or Bug is a child of one Story, never of an Epic."
+    sources:
+      - "plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Decision section 3 (Accepted)"
+      - "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md, kinds Epic (Relationships: Epic -> Story; Rules: 'Its stories are one for each feature of its slice'), Spike/Chore/Bug (Parent: its one story, required)"
+      - "plan/788/base:core/grounding/glossary.md, row 'Epic (ProductOS)': 'holding one Story for each feature of the slice'"
+      - "plan/788/base:.garura/user-provided/managing-work.md, work-type table: Epic 'holds one Story for each feature'; 'every Bug, Spike and Chore under a Story'"
+      - "plan/788/base:CLAUDE.md, Work Tracking: Epic -> one Story per feature -> Spike/Chore/Bug under a story"
+  - id: PR-2
+    principle: "A change to what a part guarantees is made in its ICE and the part is compiled again; the compiled part carries the fingerprint of its ICE, so the two never drift apart unseen."
+    sources:
+      - "plan/788/base:docs/standards/harness-standard.md, principle 4 (ADR 027)"
+      - "plan/788/base:CLAUDE.md, Play Pipeline Rules (intent change goes through reference/ice.md)"
+  - id: PR-3
+    principle: "Plays orchestrate; mechanical work (find, check, render) is a script, judgment is a model."
+    sources:
+      - "plan/788/base:docs/standards/harness-standard.md, principles 2 and 3 (ADR 001, 005, 016, 025)"
+  - id: PR-4
+    principle: "The check that proves a guarantee must be able to fail on the guarantee (build the eval first; a check that cannot fail may check nothing)."
+    sources:
+      - "plan/788/base:docs/standards/harness-standard.md, principle 5 (#734)"
+  - id: PR-5
+    principle: "The brief the product owner reads before the one typed yes is in plain words and shows what each item is (C11); a human-facing message leads in product language, not bare identifiers."
+    sources:
+      - "plan/788/base:core/components/plays/shape-plan/reference/ice.md, C11 and C8 (base wording)"
+      - "Phoenix memory (memory tool, --tier phoenix): standards/rules/user-facing-voice.md, fingerprint sha256:8ead1cfefb30b7efa09d46f72574bded3f9e511029dfdf8ad6480db0faca8443 (copy in memory_dir)"
+
+hand_checks:
+  - check: "ICE-source rule: the intent change in SKILL.md (C13 wording, F11 row, SE-15, SCE-3) traces to the same change in reference/ice.md"
+    result: pass
+    evidence: "C13 -> SKILL.md Constraint-list line (epic's other child added, removed or changed); F11 + REC11 -> SKILL.md F11 row (same trigger and recovery text); D4 -> SE-15; S3 -> SCE-3. No SKILL.md intent change lacks an ice.md source."
+  - check: "SKILL.md fingerprint row equals sha256 of the changed reference/ice.md"
+    result: pass
+    evidence: "sha256sum core/components/plays/shape-plan/reference/ice.md = 51fa6509b1ddd4f119bfaf25f6354c0df284d602f3d3d1bdb004298e8edea3b6 = the fingerprint row. The base ice.md hashes to 84f437cd... (the old row), so the stamp moved with the file."
+  - check: "stop-condition.yaml D4 text agrees with ice.md D4"
+    result: pass
+    evidence: "Same words: 'the tracker check reads ok: ... none with a label, and each story a sub-issue of its epic (the epic may hold other children)'; same check (field_equals tracker-check.json ok true)."
+  - check: "Wiring: play orchestrates, scripts do the mechanical work (PR-3)"
+    result: pass
+    evidence: "find_work_items.py finds others, render_brief.py shows them, write_work_items.py records them, check_tracker.py reads back; no judgment moved into prose."
+
+findings:
+  - id: H-1
+    severity: P2
+    file: core/components/plays/shape-plan/reference/ice.md
+    lines_hint: "C13, S3 (and the matching SKILL.md constraint line, F11 row, SE-15, SCE-3; stop-condition.yaml D4)"
+    principle_violated: PR-1
+    committed_source: "plan/788/base:docs/adr/048-...two-layers.md Decision 3; plan/788/base ontology.md Epic and Spike/Chore/Bug rules; glossary 'Epic (ProductOS)'; managing-work.md; CLAUDE.md Work Tracking"
+    severity_basis: "pr.md bucket P2 (structural violation). No Standard ID row covers a harness design finding; the bucket is the basis."
+    finding: >-
+      The play now guarantees that an epic may hold 'other children' that are not stories of the
+      slice (S3's example is two closed chores directly under the epic). The accepted design says an
+      Epic holds only Stories and that a Chore, Spike or Bug has a Story as its required parent.
+      The branch changes none of those sources (ontology, ADR 048, glossary, managing-work.md,
+      CLAUDE.md): the changed paths are the play, its tests and run records only, and no ADR
+      amends ADR 048 Decision 3. So the play now accepts, as correct, a shape the model calls
+      drift, and any reader that follows the model (the alignment check, anything that walks Epic
+      -> Story -> child) will disagree with the play. The product owner's rule (issue 879 body,
+      2026-10-25) is the reason for the change, but it is not yet a committed decision.
+    suggested_fix: >-
+      Record the decision where the model lives, in the same change or a named follow-up before
+      merge: amend ADR 048 Decision 3 (as ADR 056 amended ADR 048 for the marking), and change the
+      ontology Epic and Chore/Spike/Bug rules (via /edit-ontology) plus managing-work.md so that an
+      epic's other children are described once. The product owner decides; the reviewer only
+      shows the gap. Note: the issue's open question ('#796 and #828 join through /shape-slice or
+      stay as other children') is answered in C13 (only /shape-slice decides), which is consistent.
+
+  - id: H-2
+    severity: P3
+    file: core/components/plays/shape-plan/SKILL.md
+    lines_hint: "Step 8, the paragraph after the check commands ('check_tracker.py exit 1: a label or a wrong type is REC11, a deleted or closed moved-out story is REC6')"
+    principle_violated: PR-2
+    committed_source: "plan/788/base:docs/standards/harness-standard.md principle 4; the play's own base-ref wiring, where each exit-1 cause of a script names its recovery (base SKILL.md Step 8)"
+    severity_basis: "pr.md bucket P3 (minor: incomplete wiring text, no behaviour break)"
+    finding: >-
+      F11 and REC11 now also cover 'a story of the slice is not a sub-issue of its epic' and
+      'the run changed or removed one of the epic's other children', and check_tracker.py now
+      reports both. Step 8 still routes only 'a label or a wrong type' to REC11, so a run that
+      exits 1 for the new causes has no line telling it which recovery applies. The ICE and the
+      F11 row were updated; the step that uses them was not.
+    suggested_fix: "Extend the Step 8 sentence to name the new causes under REC11."
+
+  - id: H-3
+    severity: P3
+    file: core/components/plays/shape-plan/SKILL.md
+    lines_hint: "SE-15; reference/ice.md C13 and F11; check_tracker.py reads rec.others"
+    principle_violated: PR-4
+    committed_source: "plan/788/base:docs/standards/harness-standard.md principle 5 ('a check that never failed may not check anything at all')"
+    severity_basis: "pr.md bucket P3 (minor: the guarantee is wider than its check)"
+    finding: >-
+      C13 says the play 'never adds, removes or changes' an epic's other children, and F11 fails
+      the run if it does. The only check (SE-15, D4, check_tracker.py) proves that each child
+      recorded before the write is still a sub-issue (a removal). An added child, or a changed
+      title, type, label, body or state, passes. The post-run list (`others`) is printed but not
+      compared with the recorded one. The same words in F11 promise more than the stop condition
+      can catch. (Writes come only from write_work_items.py, which this diff does not point at the
+      children, so the risk is low today.)
+    suggested_fix: >-
+      Either narrow C13/F11 to what is checked (not removed), or compare the post-run `others`
+      with the recorded ones and fail on a difference.
+
+  - id: H-4
+    severity: P3
+    file: core/components/plays/shape-plan/SKILL.md
+    lines_hint: "Step 5 brief text and SCE-3 ('brief.md names each'); the brief line is rendered by scripts/render_brief.py"
+    principle_violated: PR-5
+    committed_source: "plan/788/base:core/components/plays/shape-plan/reference/ice.md C11 and C8; Phoenix memory standards/rules/user-facing-voice.md"
+    severity_basis: "pr.md bucket P3 (naming / readability, no behaviour break)"
+    finding: >-
+      The play promises that the brief 'names' the epic's other children so the person sees them.
+      The line the brief gets is 'The epic also holds N other work items ... : #816, #817, ...'
+      with bare issue numbers only. For the plan this was found on, that is 16 numbers with no
+      title. The finder already holds each title (`others[].title`), and the same brief shows a
+      title for the epic and for each story it uses. The person cannot tell, before the typed yes,
+      what those items are. The wording 'work item' is also the model's word, not the product
+      owner's.
+    suggested_fix: "Show 'title (#n)' for each other child, as the brief already does for used stories, and say what they are in plain words."
+
+checked_and_no_finding:
+  - "Issue references such as '#879' in ice.md and script comments: base-ref files carry the same kind of reference throughout (ice.md '#875', '#796'); harness-standard principle 11 deletes notes of origin that point to source paths, not issue numbers."
+  - "REC11 'put back any other child the run took off' is an autonomous tracker write not shown in the brief (C8 asks the person to see every write the run will make). It restores the state the brief said would stay, so it is read as undoing a fault, not a new write. Noted, not raised."
+  - "write_work_items.py never adds, removes or edits other children: it only records them (diff adds `rec['others']`). Detailed data-safety review belongs to the executable-code category."
+  - "Layer 1 linters (lint-components, lint-play) are run by the play, not by this agent."
