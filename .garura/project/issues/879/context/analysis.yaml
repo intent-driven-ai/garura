@@ -1,51 +1,47 @@
-# assess-changes output (commit-change, loop round 1) — executor schema
-# issue is left out of the group on purpose: the mapping step resolves it
 needs_judgment: false
 branch: plan/788/879-epic-other-children
-
+issue: 879
 change_groups:
-  - id: fix-shape-plan-epic-other-children
-    commit_type: fix
-    scope: shape-plan
-    subject: "Let the tracker check accept an epic that holds other children besides its slice's stories"
-    confidence: high
-    files:
-      - core/components/plays/shape-plan/reference/ice.md
-      - core/components/plays/shape-plan/SKILL.md
-      - core/components/plays/shape-plan/stop-condition.yaml
-      - core/components/plays/shape-plan/scripts/check_tracker.py
-      - core/components/plays/shape-plan/scripts/find_work_items.py
-      - core/components/plays/shape-plan/scripts/render_brief.py
-      - core/components/plays/shape-plan/scripts/write_work_items.py
-      - core/components/plays/shape-plan/scripts/test_check_tracker.py
-      - core/components/plays/shape-plan/scripts/test_find_work_items.py
-      - core/components/plays/shape-plan/scripts/test_render_brief.py
-      - core/components/plays/shape-plan/scripts/test_write_work_items.py
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: >-
-      One concern, one commit: the ICE source (reference/ice.md), the compiled SKILL.md and
-      stop-condition.yaml, the four scripts and their tests all carry the same rule (C13, F11,
-      D4) — an epic may hold other children; the play never adds, removes or changes them.
-      Intent change, so the ICE source was edited and SKILL.md carries the new ice.md
-      fingerprint. check_tracker.py output gains an "others" key and write_work_items.py's
-      tracker-record gains "others" (additive, not breaking).
-
-exclusions:
-  - path: ".garura/project/issues/879/context/analysis.yaml"
-    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
-    blocking: false
-  - path: ".garura/project/issues/879/context/porcelain.txt"
-    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
-    blocking: false
-  - path: ".garura/project/issues/879/context/templates/"
-    reason: "the play's own run state (template copies) — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
-    blocking: false
-
+- id: docs-managing-work-one-slice-per-epic
+  issue: 879
+  commit_type: docs
+  scope: managing-work
+  subject: add the one-slice-per-epic rule to the work guide
+  confidence: high
+  files:
+  - .garura/user-provided/managing-work.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: 8 added lines under the tracker section; no existing line changed.
+- id: chore-stm-879-round-2-records
+  issue: 879
+  commit_type: chore
+  scope: stm
+  subject: record the round-2 design and move log
+  confidence: high
+  files:
+  - .garura/project/issues/879/context/analysis.yaml
+  - .garura/project/issues/879/context/issue-mappings.yaml
+  - .garura/project/issues/879/context/moves.jsonl
+  - .garura/project/issues/879/context/porcelain.txt
+  - .garura/project/issues/879/specs/design.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: Operational run records, not part of the feature. specs/ holds one file (design.md,
+    approved). analysis.yaml and porcelain.txt are this run's own scan and analysis
+    files.
+exclusions: []
 risks:
   sensitive_files: []
-
 eval_gates:
-  SE-1: {status: PASS, evidence: "the single group holds one concern (the shape-plan epic-other-children rule, ICE to tests); no unrelated file sets"}
-  SE-5: {status: PASS, evidence: "no sensitive filename patterns; no credential patterns (password/api_key/secret/token/private_key) in the diff"}
+  SE-1:
+    status: PASS
+    evidence: 15 changed paths (13 files + untracked moves.jsonl and specs/design.md);
+      each in exactly one group; one concern per group
+  SE-5:
+    status: PASS
+    evidence: no sensitive filename patterns; no secret patterns in added lines of
+      the core diff; not a hotfix branch
+round: 4

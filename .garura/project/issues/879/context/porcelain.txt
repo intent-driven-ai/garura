@@ -1,13 +1,6 @@
- M core/components/plays/shape-plan/SKILL.md
- M core/components/plays/shape-plan/reference/ice.md
- M core/components/plays/shape-plan/scripts/check_tracker.py
- M core/components/plays/shape-plan/scripts/find_work_items.py
- M core/components/plays/shape-plan/scripts/render_brief.py
- M core/components/plays/shape-plan/scripts/test_check_tracker.py
- M core/components/plays/shape-plan/scripts/test_find_work_items.py
- M core/components/plays/shape-plan/scripts/test_render_brief.py
- M core/components/plays/shape-plan/scripts/test_write_work_items.py
- M core/components/plays/shape-plan/scripts/write_work_items.py
- M core/components/plays/shape-plan/stop-condition.yaml
-?? .garura/project/issues/879/context/porcelain.txt
-?? .garura/project/issues/879/context/templates/
+ M .garura/project/issues/879/context/analysis.yaml
+ M .garura/project/issues/879/context/issue-mappings.yaml
+ M .garura/project/issues/879/context/porcelain.txt
+M  .garura/user-provided/managing-work.md
+?? .garura/project/issues/879/context/moves.jsonl
+?? .garura/project/issues/879/specs/
