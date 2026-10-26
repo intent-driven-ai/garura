@@ -2,46 +2,32 @@ needs_judgment: false
 branch: plan/788/879-epic-other-children
 issue: 879
 change_groups:
-- id: docs-managing-work-one-slice-per-epic
-  issue: 879
-  commit_type: docs
-  scope: managing-work
-  subject: add the one-slice-per-epic rule to the work guide
-  confidence: high
-  files:
-  - .garura/user-provided/managing-work.md
-  risks:
-    sensitive_files: []
-    breaking_changes: []
-  notes: 8 added lines under the tracker section; no existing line changed.
-- id: chore-stm-879-round-2-records
+- id: chore-stm-record-842-bug-move
   issue: 879
   commit_type: chore
   scope: stm
-  subject: record the round-2 design and move log
+  subject: 'record #842 typed as a Bug in the move log'
   confidence: high
   files:
-  - .garura/project/issues/879/context/analysis.yaml
-  - .garura/project/issues/879/context/issue-mappings.yaml
   - .garura/project/issues/879/context/moves.jsonl
   - .garura/project/issues/879/context/porcelain.txt
-  - .garura/project/issues/879/specs/design.md
   risks:
     sensitive_files: []
     breaking_changes: []
-  notes: Operational run records, not part of the feature. specs/ holds one file (design.md,
-    approved). analysis.yaml and porcelain.txt are this run's own scan and analysis
-    files.
-exclusions: []
+  notes: Run record. moves.jsonl gains one line (#842, Bug, parent 788). porcelain.txt
+    is the run's own scan input.
+exclusions:
+- path: .garura/project/issues/879/context/self-review.md
+  reason: 'left out on purpose: propose-change commits it with its own records'
+  blocking: false
 risks:
   sensitive_files: []
 eval_gates:
   SE-1:
     status: PASS
-    evidence: 15 changed paths (13 files + untracked moves.jsonl and specs/design.md);
-      each in exactly one group; one concern per group
+    evidence: every scan path is in one group or in exclusions; analysis.yaml is this
+      output, committed with the run state
   SE-5:
     status: PASS
-    evidence: no sensitive filename patterns; no secret patterns in added lines of
-      the core diff; not a hotfix branch
-round: 4
+    evidence: no sensitive patterns matched; only plan and run-record files changed
+round: 2

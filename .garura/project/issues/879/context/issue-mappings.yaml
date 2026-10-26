@@ -1,52 +1,54 @@
-# find-matching-issues output (commit-change, loop round 1, step 2) -- read-only on GitHub
+---
+# find-matching-issues output (read-only on GitHub; issue 879 read via the platform adapter's view-issue)
 branch: plan/788/879-epic-other-children
 branch_signal:
   issue_reference: 879
-  note: "branch is plan/<plan>/<issue>-<slug>: 788 is the plan, 879 is the issue (second segment)"
-issue_read:
+  also_in_branch: 788   # the plan id (the business intent's issue), not the work item
+  note: "plan/<plan-id>/<issue>-<slug>: 788 is the plan, 879 is the issue the branch works. The resolver read 788; the work item is 879."
+
+resolved_issue:
   number: 879
-  title: "/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice's stories"
-  state: open
+  title: "/shape-plan stops when an epic holds work that is not its slice's: an epic stands for one slice"
   type: Bug
+  state: open
   parent: {number: 818, state: closed}
-  note: "issue text still carries round 1's wording (accept other children); the round-2 rule is in specs/design.md"
+  url: https://github.com/intent-driven-ai/garura/issues/879
+  title_note: "issue.json holds the older title; GitHub now shows the title above. Group 1 is the plan-node rename to it."
+
 mappings:
-  - group: fix-shape-plan-epic-slice
-    commit_type: fix
-    issue: 879
-    confidence: high
-    signals:
-      branch: "match (879)"
-      semantic: "Bug on /shape-plan's tracker check; design.md section 1 is this group (C13, find step, tracker check)"
-      proximity: "same issue as the other three groups"
-    reasoning: "Branch names 879; issue and design.md section 1 cover every file in the group."
-  - group: chore-plan-788-moves
+  - group: chore-plan-rename-879-node
     commit_type: chore
-    issue: 879
+    scope: plan
+    mapped_issue: 879
     confidence: high
     signals:
-      branch: "match (879)"
-      semantic: "design.md section 2 names the 16 moves out from under #794 as a chore of #879; matches moves.jsonl"
-      proximity: "same issue as the other groups"
-    reasoning: "Design assigns these moves to #879 explicitly."
-  - group: docs-managing-work-one-slice-per-epic
-    commit_type: docs
-    issue: 879
-    confidence: high
-    signals:
-      branch: "match (879)"
-      semantic: "design.md section 3 is the three-line blocker/one-slice rule written into managing-work.md"
-      proximity: "same issue as the other groups"
-    reasoning: "Design assigns this edit to #879 explicitly."
-  - group: chore-stm-879-round-2-records
+      branch: match
+      semantic: "The group renames the #879 node in plan 788 to the issue's current GitHub title; its subject names #879."
+      proximity: "Same issue as the other group; the issue body's 'Done when' says the plan file moves items out from under #794."
+    reasoning: "Branch names 879, the analysis names 879, and the change is the plan node of 879 itself."
+
+  - group: chore-stm-record-842-bug-move
     commit_type: chore
-    issue: 879
+    scope: stm
+    mapped_issue: 879
     confidence: high
     signals:
-      branch: "match (879)"
-      semantic: "all files sit in #879's own STM folder (issues/879/)"
-      proximity: "records of the work in the other groups"
-    reasoning: "Run records of issue 879 itself."
-unmapped: []
+      branch: match
+      semantic: "Files sit under issues/879/context/; the move log records #842 typed as Bug and taken off #794, which is the 'Done when' item 'the 16 items get the type of their kind and come off #794'."
+      proximity: "Same issue as the other group."
+    reasoning: "Run record of the work #879 asks for, in #879's own short-term memory folder."
+
+unmapped_groups: []
 conflicts: []
-summary: {total: 4, high: 4, medium: 0, low: 0, unmapped: 0, approval_recommended: false}
+excluded_not_mapped:
+  - path: .garura/project/issues/879/context/self-review.md
+    reason: "left out of commits by the analysis (propose-change commits it); not a group"
+
+summary:
+  total_groups: 2
+  high: 2
+  medium: 0
+  low: 0
+  unmapped: 0
+  approval_recommended: false
+  commit_issue: 879
