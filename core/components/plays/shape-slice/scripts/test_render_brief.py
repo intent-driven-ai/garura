@@ -191,6 +191,28 @@ def main():
               code == 0 and "Too vague to judge, so a person must decide: 2 line(s) of ft-send" in text)
 
     with tempfile.TemporaryDirectory() as tmp:
+        root, work, spine_p, opening = setup(tmp)
+        flag = {"id": "Q-flag-1", "blocking": False, "question": "Where does the flag show?",
+                "why": "x", "examples": ["a shop: a", "a bank: b"], "proposed_answer": None}
+        split = json.loads(read(os.path.join(work, "split.json")))
+        split["asked"].append(flag)
+        write(os.path.join(work, "split.json"), split)
+        write(os.path.join(work, "questions-checked.json"), {"no_proposed_answer": 2})
+        rec = os.path.join(tmp, "grounding-questions.md")
+        one = write(os.path.join(tmp, "flag-split.json"), {"asked": [flag], "assumptions": []})
+        run("record_questions.py", "add", "--record", rec, "--issue", "1", "--split", one,
+            "--at", "t", "--run", "r")
+        run("record_questions.py", "answer", "--record", rec, "--answers",
+            write(os.path.join(tmp, "flag-ans.json"), [{"id": "Q-flag-1", "answer": "in the run's evidence"}]),
+            "--at", "t", "--run", "r")
+        code, text, _ = render(root, work, spine_p, opening)
+        check("render again: a question the person answered shows their answer, not 'no proposed answer yet'",
+              code == 0 and "**Answer** yours: in the run's evidence" in text
+              and text.count("no proposed answer yet") == 0)
+        check("render again: an answered question is not counted as having no proposed answer",
+              "Questions with no proposed answer: 1" in text)
+
+    with tempfile.TemporaryDirectory() as tmp:
         work = os.path.join(tmp, "work")
         early = write(os.path.join(work, "early-split.json"), {
             "asked": [dict(Q, id="Q-pay-1", blocking=True, topic="payment",

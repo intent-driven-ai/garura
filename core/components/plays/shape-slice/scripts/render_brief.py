@@ -37,6 +37,9 @@ brief.md is the opening, then these H2 sections:
   Model check    — Older problems: <n>, then each older problem and warning, word for word
   Questions      — Questions with no proposed answer: <n>, then each asked question as
                    ### <id> with **Question**, **Answer**, **Why it matters**, **Example**;
+                   a question the person already answered (the question record beside <dir>,
+                   ../grounding-questions.md) shows their answer as "yours: ..." and is not
+                   counted as having no proposed answer;
                    when gather.json has rule_missing, a line that says the rule for asking a
                    person is missing from its shared place and that an install lays it
   Your reply     — yes, change: <what>, or stop; answer a question by its id
@@ -67,6 +70,7 @@ except ImportError:
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from safe_write import atomic_write  # noqa: E402
+from record_questions import ACCEPTED, Refused as BadRecord, has_answer, read_record  # noqa: E402
 
 RECORDS = ("slice.json", "fills.json", "persist-fills.json", "persist-slice.json",
            "slice-check.json", "hidden-file.json", "split.json", "questions-checked.json",
@@ -199,14 +203,31 @@ def kept_section(root, ps):
     return out or ["- The kept slice is as it was; this run only adds the intent to it."]
 
 
-def question_block(q):
+def question_block(q, entry=None):
     ans = q.get("proposed_answer")
     examples = [str(e) for e in q.get("examples") or [] if str(e).strip()]
+    if entry is not None and has_answer(entry) and entry["user_answer"] != ACCEPTED:
+        answer = "yours: " + " ".join(str(entry["user_answer"]).split())
+    elif entry is not None and has_answer(entry):
+        answer = f"proposed: {ans} (you accepted it)"
+    else:
+        answer = 'proposed: ' + str(ans) if ans not in (None, '') else 'no proposed answer yet'
     return [f"### {q['id']}", "",
             f"**Question** {q.get('question') or ''}", "",
-            f"**Answer** {'proposed: ' + str(ans) if ans not in (None, '') else 'no proposed answer yet'}",
+            f"**Answer** {answer}",
             "", f"**Why it matters** {q.get('why') or ''}", "",
             "**Example** " + " ".join(f"({chr(97 + i)}) {e}" for i, e in enumerate(examples)), ""]
+
+
+def recorded(working):
+    """The question record beside the working folder ({issue}/context/grounding-questions.md),
+    by id: a brief shown again after a change shows each answer the person already gave."""
+    path = os.path.join(os.path.dirname(os.path.normpath(working)), "grounding-questions.md")
+    try:
+        _text, entries = read_record(path)
+    except (BadRecord, OSError, ValueError):  # unreadable: show the questions as the split has them
+        return {}
+    return {e.get("id"): e for e in entries if isinstance(e, dict)}
 
 
 def rule_missing_lines(gather):
@@ -281,13 +302,16 @@ def render(working, root, spine, opening, out_dir=None):
     lines.append("")
     skip = {q.get("id") for q in early.get("asked") or []}
     asked = [q for q in split.get("asked") or [] if q.get("id") not in skip]
+    record = recorded(working)
+    yours = [q for q in asked if q.get("proposed_answer") in (None, "")
+             and has_answer(record.get(q.get("id")) or {})]
     lines += ["## Questions", "",
-              f"Questions with no proposed answer: {qc.get('no_proposed_answer', 0)}", ""]
+              f"Questions with no proposed answer: {max(0, qc.get('no_proposed_answer', 0) - len(yours))}", ""]
     lines += rule_missing_lines(gather)
     if not asked:
         lines += ["No question is open.", ""]
     for q in asked:
-        lines += question_block(q)
+        lines += question_block(q, record.get(q.get("id")))
     lines += ["## Your reply", "",
               "Type **yes**, **change: <what>**, or **stop**. Answer any question by its id in the "
               "same reply (for example `Q-scope-1: ...`). A plain yes accepts each proposed answer.",
