@@ -62,7 +62,8 @@ a tracker write before the typed yes, a write the brief did not show, or a check
 by config (C8); a story built from an ICE that is not ready, or a skipped feature not named
 (C9); landing outside the change plays or on the wrong branch (C10); a real person's name, or
 text a person cannot follow (C11); rewriting or deleting a line a person wrote on a found story
-(C12); a label on an epic or a story, or a wrong issue type (C13).
+(C12); a label on an epic or a story, a wrong issue type, a story that is not a sub-issue of its
+epic, or an epic's other child added, removed or changed (C13).
 
 **Agent boundaries:**
 
@@ -252,7 +253,8 @@ python3 scripts/render_brief.py --gather <working>gather.json \
 
 The script builds the whole brief from the run's records, so no write can be left out (C8):
 each epic and story the run will make, use, add sections to or move out, with the text a new
-item or section gets and each type, label or sub-issue change; the plan-file change; and each
+item or section gets and each type, label or sub-issue change; each epic's other children, which
+stay as they are (C13); the plan-file change; and each
 skipped feature with its reason (C9). The brief is never edited by hand: a problem in it goes
 back to the step whose record it reads. Frame the brief with the approval prompt from
 `template-manager` (`standards/templates/approval-prompt.md`) and show it. Ask the product
@@ -362,8 +364,9 @@ exactly one story node under its slice's epic node, no story node stands for a f
 its slice, each epic's map names the same story for each feature as the tree, and each
 skipped feature is in `skipped`.
 **SE-15 (F11/C13):** `tracker-check.json` reads `ok: true`: each issue of the record exists, each
-epic has type Epic and each story type Story, none has a label, and each epic's sub-issues
-are its stories.
+epic has type Epic and each story type Story, none has a label, and each story of a slice is a
+sub-issue of its epic; an epic's other children are allowed, and `tracker-check.json` lists
+them (`others`), each still a sub-issue after the run.
 **SE-16 (F6/C4):** each story in `tracker-record.json` `moved_out` is open in the tracker, is not
 a sub-issue of its epic, and is in neither the plan file's tree nor the epic's map.
 **SE-17 (F7/C7):** `guard-report.json` reads `ok: true` — no path in the product model and no
@@ -419,7 +422,9 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
   `plan-before.txt`.
 - **SCE-3 (S3 — product owner, items made by hand):** `tracker-record.json` `created` is empty;
   each `add-sections` story is in `updated` with only `section added` changes and
-  `lines_kept: true`; `tracker-check.json` reads `ok: true`.
+  `lines_kept: true`; `tracker-check.json` reads `ok: true`; when the epic holds other children,
+  `work-items.json` lists them in the epic's `others`, `brief.md` names each, and
+  `tracker-check.json` `others` shows each still a sub-issue of the epic.
 - **SCE-4 (S4 — product owner, the slice changed):** `tracker-record.json` `moved_out` names the
   story of the feature that left, `check_tracker.py` finds it open, `created` holds one story
   for the feature that came in, and `plan-check.json` reads `ok: true`.
@@ -516,7 +521,7 @@ gated.
 | F8 | a story was built from an ICE that is not ready, or a skipped part is not named in the brief | take back the story built from the part that is not ready, skip the part, and name it in the brief | autonomous |
 | F9 | the change landed outside the change plays, or on the wrong branch | land the change through the change plays, on the branch the target script gives | human |
 | F10 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
-| F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story | take the label off, and set the issue type to Epic on an epic and to Story on a story | autonomous |
+| F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story, or a story of the slice is not a sub-issue of its epic, or the run changed one of the epic's other children | take the label off, set the issue type to Epic on an epic and to Story on a story, make a missing story a sub-issue of its epic, and put back any other child the run took off | autonomous |
 
 ## Pause and Resume
 
@@ -533,7 +538,7 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:84f437cdaf98b047751bef1701da57d64b2bb4a95ecbb52f56b3844c437203dd (of `reference/ice.md`) |
+| fingerprint | sha256:51fa6509b1ddd4f119bfaf25f6354c0df284d602f3d3d1bdb004298e8edea3b6 (of `reference/ice.md`) |
 | compiled_by | create-play (#818) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |

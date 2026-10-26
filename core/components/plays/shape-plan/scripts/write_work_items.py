@@ -165,6 +165,7 @@ def write_slice(w, sl, d, pages, plan_id):
         number = int(epic["issue"])
         rec["titles"][str(number)] = tracker.get(number)["title"]
     rec["epics"][sid] = number
+    rec["others"][sid] = [int(o["issue"]) for o in epic.get("others") or []]
     keep_map()
     w.save()
     subs = tracker.get(number)["sub_issues"]
@@ -279,6 +280,7 @@ def main(argv=None):
     approval = pc.read_json(args.approval, "approval.json")
     rec = {"ok": True, "plan_id": str(args.plan_id), "approval_at": approval.get("at"),
            "created": [], "updated": [], "moved_out": [], "epics": {}, "stories": {}, "maps": {},
+           "others": {},
            "titles": {}, "skipped": [], "failed": None, "error": None}
     w = Writer(tracker, rec, args.out)
     try:

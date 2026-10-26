@@ -91,6 +91,17 @@ def main():
               st["ft-pay"]["action"] == "make" and st["ft-pay"]["issue"] is None)
         check("a marked story whose feature left the slice is moved out",
               sl["move_out"] == [{"issue": 13, "feature": "ft-cancel", "title": "Cancel online"}])
+        check("an epic with no child beyond its stories has no others", sl["epic"]["others"] == [])
+
+        data = read_json(p["tracker"])
+        for it in data["issues"]:
+            if it["number"] == 10:
+                it["sub_issues"] = [11, 13, 40, 41]
+        write(p["tracker"], data)
+        find(p)
+        sl = read_json(p["items"])["slices"][0]
+        check("an epic's other children (#879) are listed, not its stories or the moved-out story",
+              [o["issue"] for o in sl["epic"]["others"]] == [40, 41])
 
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-wait"])
         gather(root, p)

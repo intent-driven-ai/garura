@@ -65,7 +65,7 @@ def find(gather, plan, tracker):
                                "copies": [e.get("issue") for e in epics[1:]]})
         node = epics[0] if epics else None
         epic = {"action": "make", "issue": None, "title": None, "type": None, "labels": [],
-                "represents_line": False, "map": None}
+                "represents_line": False, "map": None, "others": []}
         kids = pc.children(node) if node else []
         sub_issues = []
         if node is not None:
@@ -109,6 +109,13 @@ def find(gather, plan, tracker):
             rep = str(k.get("represents") or "")
             if rep and rep not in feature_ids:
                 move_out.append({"issue": k.get("issue"), "feature": rep, "title": k.get("title")})
+        # Other children: older or later work of the plan that is no story of this slice (C13,
+        # #879). The run never adds, removes or changes them; the brief names them.
+        own = {int(s["issue"]) for s in stories if s.get("issue") is not None}
+        own |= {int(m["issue"]) for m in move_out if m.get("issue") is not None}
+        titles = {int(k["issue"]): k.get("title") for k in kids if k.get("issue") is not None}
+        epic["others"] = [{"issue": int(n), "title": titles.get(int(n))}
+                          for n in sorted(sub_issues) if int(n) not in own]
         out.append({"slice": sid, "epic": epic, "stories": stories, "move_out": move_out})
     return {"ok": not problems and not duplicates, "plan_file_exists": plan is not None,
             "problems": problems, "duplicates": duplicates, "slices": out}

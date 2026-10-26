@@ -55,7 +55,28 @@ def main():
         write(p["tracker"], json.loads(good))
         edit(p, epic, sub_issues=[story])
         code, res = verdict(p)
-        check("an epic whose sub-issues are not its stories: not ok", code == 1 and any("sub-issues" in x for x in res["problems"]))
+        check("an epic that lacks a story of its slice: not ok",
+              code == 1 and any("is not a sub-issue of epic" in x for x in res["problems"]))
+        write(p["tracker"], json.loads(good))
+        # #879: a work order with its three stories and two closed chores passes, and lists them.
+        data = read_json(p["tracker"])
+        stories = sorted(rec["maps"]["sl-self-booking"].values())
+        data["issues"] += [{"number": 90, "title": "Old chore", "type": "Chore", "labels": [], "state": "closed",
+                            "body": "", "sub_issues": []},
+                           {"number": 91, "title": "Older chore", "type": "Chore", "labels": [], "state": "closed",
+                            "body": "", "sub_issues": []}]
+        write(p["tracker"], data)
+        edit(p, epic, sub_issues=stories + [90, 91])
+        code, res = verdict(p)
+        check("an epic with its stories and two closed chores: ok, and the chores are its others",
+              code == 0 and res["ok"] and res["others"] == {"sl-self-booking": [90, 91]})
+        rec2 = dict(rec, others={"sl-self-booking": [90, 91]})
+        write(p["record"], rec2)
+        edit(p, epic, sub_issues=stories + [90])
+        code, res = verdict(p)
+        check("an other child the record names, taken off the epic: not ok",
+              code == 1 and any("other child #91" in x for x in res["problems"]))
+        write(p["record"], rec)
         write(p["tracker"], json.loads(good))
         edit(p, story, body="Represents: ft-pick\n")
         code, res = verdict(p)

@@ -51,7 +51,11 @@ condition. A second run makes no copies.
   sections when they are missing, and keeps every line a person wrote; it never rewrites or
   deletes a person's text.
 - C13 — An epic and a story are marked in the tracker by the issue type field, with no label:
-  an epic is an issue of type Epic, and a story is an issue of type Story.
+  an epic is an issue of type Epic, and a story is an issue of type Story. Each story of a slice
+  is a sub-issue of its epic. An epic may also hold other children — older or later work of the
+  plan that is not a story of the slice (a plan already running, or one that kept evolving, #879).
+  The play never adds, removes or changes those other children, and the brief names them; only
+  `/shape-slice` decides whether one of them joins the slice.
 
 ### Failure conditions
 
@@ -71,7 +75,8 @@ condition. A second run makes no copies.
 - F9 — The change landed outside the change plays, or on the wrong branch.
 - F10 — A page names a real person, or a person cannot follow it.
 - F11 — An epic or a story carries a label, or an epic's issue type is not Epic, or a story's
-  issue type is not Story.
+  issue type is not Story, or a story of the slice is not a sub-issue of its epic, or the run
+  added, removed or changed one of the epic's other children.
 
 ## Context
 
@@ -114,7 +119,9 @@ condition. A second run makes no copies.
 - S3 — (product owner, items made by hand) Given a plan file that marks a hand-made epic and its
   stories with `represents`, when the product owner runs /shape-plan and types yes, then the play
   uses them. Measure: no new issue is made; each marked story gains only the missing sections;
-  every line a person wrote is still on it.
+  every line a person wrote is still on it. When the epic also holds other children (for example
+  two closed chores), the brief names them, the tracker check reads ok, and they are still its
+  sub-issues after the run.
 - S4 — (product owner, the slice changed) Given a plan whose slice lost one feature and gained
   another, when the product owner runs /shape-plan and types yes, then the story of the feature
   that left is out of the plan file's tree and the epic's map and is still open in the tracker,
@@ -143,7 +150,8 @@ condition. A second run makes no copies.
   each story has its scope of work and its Context guidance.
   check: { type: field_equals, file: "context/shape-plan/drafts-check.json", field: "ok", equals: true }
 - D4 — the tracker check reads ok: each work item the run wrote is in the tracker as the record
-  says, the epic with type Epic and each story with type Story, and none with a label.
+  says, the epic with type Epic and each story with type Story, none with a label, and each story
+  a sub-issue of its epic (the epic may hold other children).
   check: { type: field_equals, file: "context/shape-plan/tracker-check.json", field: "ok", equals: true }
 - D5 — the write guard reads ok: the run changed no file outside the plan file.
   check: { type: field_equals, file: "context/shape-plan/guard-report.json", field: "ok", equals: true }
@@ -169,5 +177,6 @@ condition. A second run makes no copies.
 - REC9 (F9) — land the change through the change plays, on the branch the target script gives.
   Handoff: human.
 - REC10 (F10) — rewrite with personas and plain words. Handoff: autonomous.
-- REC11 (F11) — take the label off, and set the issue type to Epic on an epic and to Story on
-  a story. Handoff: autonomous.
+- REC11 (F11) — take the label off, set the issue type to Epic on an epic and to Story on a
+  story, make a missing story a sub-issue of its epic, and put back any other child the run
+  took off. Handoff: autonomous.
