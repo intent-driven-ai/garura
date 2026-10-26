@@ -6,10 +6,12 @@
     "scope": "harness",
     "components": [
       ".claude/agents/adr-keeper.md",
+      ".claude/agents/business-intent-keeper.md",
       ".claude/agents/change-reviewer.md",
       ".claude/agents/evals-engineer.md",
       ".claude/agents/product-os-keeper.md",
       ".claude/agents/project-orchestrator.md",
+      ".claude/agents/prototype-reader.md",
       ".claude/agents/quality-auditor.md",
       ".claude/agents/repo-orchestrator.md",
       ".claude/agents/template-manager.md",
@@ -38,11 +40,13 @@
       ".claude/skills/platform-adapter",
       ".claude/skills/propose-answers",
       ".claude/skills/track-issue",
+      ".claude/skills/walk-prototype",
       ".claude/skills/check-change",
       ".claude/skills/commit-change",
       ".claude/skills/create-loop",
       ".claude/skills/create-play",
       ".claude/skills/discover-capabilities",
+      ".claude/skills/discover-intent",
       ".claude/skills/edit-loop",
       ".claude/skills/edit-ontology",
       ".claude/skills/edit-play",
@@ -58,9 +62,9 @@
       ".claude/skills/_shared"
     ],
     "counts": {
-      "agents": 8,
-      "skills": 25,
-      "plays": 16,
+      "agents": 10,
+      "skills": 26,
+      "plays": 17,
       "loops": 0
     },
     "instruction_surface": "CLAUDE.md.new",
@@ -74,10 +78,12 @@
     ],
     "kinds": {
       ".claude/agents/adr-keeper.md": "agent",
+      ".claude/agents/business-intent-keeper.md": "agent",
       ".claude/agents/change-reviewer.md": "agent",
       ".claude/agents/evals-engineer.md": "agent",
       ".claude/agents/product-os-keeper.md": "agent",
       ".claude/agents/project-orchestrator.md": "agent",
+      ".claude/agents/prototype-reader.md": "agent",
       ".claude/agents/quality-auditor.md": "agent",
       ".claude/agents/repo-orchestrator.md": "agent",
       ".claude/agents/template-manager.md": "agent",
@@ -106,11 +112,13 @@
       ".claude/skills/platform-adapter": "skill",
       ".claude/skills/propose-answers": "skill",
       ".claude/skills/track-issue": "skill",
+      ".claude/skills/walk-prototype": "skill",
       ".claude/skills/check-change": "play",
       ".claude/skills/commit-change": "play",
       ".claude/skills/create-loop": "play",
       ".claude/skills/create-play": "play",
       ".claude/skills/discover-capabilities": "play",
+      ".claude/skills/discover-intent": "play",
       ".claude/skills/edit-loop": "play",
       ".claude/skills/edit-ontology": "play",
       ".claude/skills/edit-play": "play",
@@ -140,7 +148,7 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version 767117348e1a."
+          "Phoenix memory: on this machine, at version 23387be24c0d."
         ]
       }
     },

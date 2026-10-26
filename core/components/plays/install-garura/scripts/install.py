@@ -250,6 +250,10 @@ SCOPES = {
             # shape-eval writes each slice's eval for Garura's own business intents (#798).
             # Its workers: evals-engineer + author-slice-eval; template-manager is kept.
             "shape-eval",
+            # discover-intent writes and changes Garura's own business intents (plan 788, #798).
+            # Its workers: business-intent-keeper + author-business-intent, prototype-reader +
+            # walk-prototype; template-manager is kept.
+            "discover-intent",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -266,6 +270,8 @@ SCOPES = {
             "author-work-items",
             # the skill shape-eval calls (#798)
             "author-slice-eval",
+            # the skill discover-intent's prototype walk calls
+            "walk-prototype",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
@@ -275,6 +281,8 @@ SCOPES = {
             "product-os-keeper",
             # the agent shape-eval dispatches (#798)
             "evals-engineer",
+            # the agents discover-intent dispatches
+            "business-intent-keeper", "prototype-reader",
         },
     },
 }
