@@ -24,7 +24,9 @@ brief.md is the opening, then these H2 sections:
                        Domain: [<domain name>](<link to the domain's page>)
                        <n>. <feature name> (<feature id>) — <new|filled|reused>
                    (n is the place in build order; a part is new when persist-fills.json
-                   `written` names it, filled when `updated` names it, else reused)
+                   `written` names it, filled when `updated` names it, else reused); then,
+                   when persist-fills.json `one_lines` names any, ### One-lines replaced with
+                   each part's id and its old and new spine one-line
   Hidden file    — Place, Fails if lines, The builder can fix alone, A person must decide;
                    and, from hidden-write.json when it is there, each feature with lines too
                    vague to judge
@@ -272,6 +274,10 @@ def render(working, root, spine, opening, out_dir=None):
               f"- What the tester does there: {surface.get('user_action') or 'not given'}", ""]
     lines += ["## Who tests it", "", f"- {surface.get('persona_ref') or 'not given'}", ""]
     lines += ["## Features", ""] + features_section(root, spine, sl, pf, out_dir)
+    if pf.get("one_lines"):
+        lines += ["### One-lines replaced", ""]
+        lines += [f"- {o['id']} ({o['kind']}): was \"{o.get('was') or ''}\"; now \"{o['now']}\""
+                  for o in pf["one_lines"]] + [""]
     counts = hidden.get("counts") or {}
     lines += ["## Hidden file", "",
               f"- Place: {hidden.get('path')}",

@@ -161,6 +161,7 @@ def main():
         check("render: a question asked before the slice was shaped is not asked again",
               "### Q-pay-1" not in text)
         check("render: no Kept slice section for a new slice", "## Kept slice" not in text)
+        check("render: no One-lines block when no one-line was replaced", "One-lines replaced" not in text)
         code, out, _ = run("record_questions.py", "brief", "--brief", os.path.join(work, "brief.md"),
                            "--split", os.path.join(work, "brief-split.json"))
         check("brief check: the rendered brief passes, and its opening may name a question id",
@@ -189,6 +190,15 @@ def main():
         code, text, _ = render(root, work, spine_p, opening)
         check("render: a line too vague to judge is shown in the Hidden file section",
               code == 0 and "Too vague to judge, so a person must decide: 2 line(s) of ft-send" in text)
+        pf = json.loads(read(os.path.join(work, "persist-fills.json")))
+        pf["one_lines"] = [{"id": "cap-booking", "kind": "capability", "was": "Book a visit.",
+                            "now": "A patient books a visit online."}]
+        write(os.path.join(work, "persist-fills.json"), pf)
+        code, text, _ = render(root, work, spine_p, opening)
+        check("render: each replaced one-line is shown under Features, old and new",
+              code == 0 and "### One-lines replaced" in text
+              and '- cap-booking (capability): was "Book a visit."; now "A patient books a visit online."' in text
+              and text.index("### One-lines replaced") < text.index("## Hidden file"))
 
     with tempfile.TemporaryDirectory() as tmp:
         root, work, spine_p, opening = setup(tmp)

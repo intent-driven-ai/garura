@@ -578,6 +578,27 @@ def test_fills_v11(tmp):
     f = write(os.path.join(tmp, "v11d.json"), {"updates": [{"id": "cap-none", "kind": "capability"}]})
     code, _, err = run("persist_fills.py", "--root", root2, "--spine", sp2, "--fills", f, "--intent", "bi-1")
     check("fills v11: an update of a part not in the spine is refused", code == 2 and "not in the spine" in err)
+    f = write(os.path.join(tmp, "v11e.json"),
+              {"updates": [{"id": "cap-z", "kind": "capability", "add_intents": ["bi-1"],
+                            "one_line": "Send each  patient a reminder."}]})
+    code, out, _ = run("persist_fills.py", "--root", root2, "--spine", sp2, "--fills", f, "--intent", "bi-1")
+    z = next(c for c in yaml.safe_load(read(sp2))["capabilities"] if c["id"] == "cap-z")
+    check("fills v11: an update replaces the one-line it gives, keeps every other field, and lists it",
+          code == 0 and z["one_line"] == "Send each patient a reminder." and z["domain"] == "dm-care"
+          and z["doc"] == "care/z/capability.md"
+          and out["one_lines"] == [{"id": "cap-z", "kind": "capability", "was": "x",
+                                    "now": "Send each patient a reminder."}])
+    f = write(os.path.join(tmp, "v11f.json"), {"updates": [{"id": "cap-z", "kind": "capability",
+                                                             "one_line": "  "}]})
+    code, _, err = run("persist_fills.py", "--root", root2, "--spine", sp2, "--fills", f, "--intent", "bi-1")
+    check("fills v11: an empty one-line on an update is refused", code == 2 and "one_line" in err)
+    f = write(os.path.join(tmp, "v11g.json"), {"updates": [{"id": "cap-z", "kind": "capability",
+                                                             "add_intents": ["bi-1"]}]})
+    code, out, _ = run("persist_fills.py", "--root", root2, "--spine", sp2, "--fills", f, "--intent", "bi-1")
+    check("fills v11: an update with no one-line keeps the one there, and lists none",
+          code == 0 and out["one_lines"] == [] and next(
+              c for c in yaml.safe_load(read(sp2))["capabilities"] if c["id"] == "cap-z")["one_line"]
+          == "Send each patient a reminder.")
 
 
 def test_slice_check_v11(tmp):

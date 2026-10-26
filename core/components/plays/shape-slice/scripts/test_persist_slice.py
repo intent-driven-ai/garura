@@ -274,6 +274,17 @@ def test_change_reused():
         check("reshape: the result lists both differences for the brief",
               "outcome differs" in diffs and "tester's action differs" in diffs
               and "the record takes the new text" in diffs)
+        renamed = slice_file(tmp, feature_refs=["ft-1", "ft-2", "ft-3"], intents=["bi-10"],
+                             name="A patient books a visit online",
+                             outcome="A patient books a visit and gets a reminder.",
+                             surface={"id": "sf-booking", "name": "the booking screen",
+                                      "persona_ref": "patient", "user_action": "books, then reads the reminder"})
+        code, out, _ = run(root, sp, renamed, "--reuse", "sl-old")
+        rec = load(os.path.join(root, "slices", "sl-old.yaml"))
+        diffs = " ".join(out.get("differences") or [])
+        check("reshape: the record takes the new name, and the result lists it for the brief",
+              code == 0 and rec["slice"]["name"] == "A patient books a visit online"
+              and "name differs" in diffs and "outcome differs" not in diffs)
         code, out, _ = run(root, sp, shaped, "--reuse", "sl-old", "--push-out", "ft-3")
         check("push-out: the feature leaves the slice",
               code == 0 and load(sp)["slices"][0]["feature_refs"] == ["ft-1", "ft-2"]

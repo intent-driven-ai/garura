@@ -238,7 +238,7 @@ def differences(existing, rec, sl, surface):
 
 
 def reshape_text(rec, existing, sl, surface, own):
-    """The outcome and the tester's action of a reused record, against the shaped slice.
+    """The name, the outcome and the tester's action of a reused record, against the shaped slice.
 
     Each one that differs is listed. When the shaped slice is the kept slice reshaped for an
     intent it already serves (`own`: no new intent, and the same surface and tester), the
@@ -249,7 +249,8 @@ def reshape_text(rec, existing, sl, surface, own):
     own = own and surface.get("name") == existing.get("vertical") \
         and surface.get("persona_ref") == have_s.get("persona_ref")
     how = "the record takes the new text" if own else "the record keeps its text"
-    for label, part, key, new in (("outcome", body, "outcome", sl.get("outcome")),
+    for label, part, key, new in (("name", body, "name", sl.get("name")),
+                                  ("outcome", body, "outcome", sl.get("outcome")),
                                   ("tester's action", have_s, "user_action", surface.get("user_action"))):
         if _text(new) and part.get(key) != new:
             out.append(f"{label} differs: the slice keeps '{part.get(key)}'; the new shape says "

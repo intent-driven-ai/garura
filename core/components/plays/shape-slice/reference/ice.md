@@ -45,7 +45,9 @@ epic, no story and no eval.
   before the person's yes.
 - C8 — The run reuses what exists, fills what exists in part, and adds what is missing. A fill
   of an existing domain, capability or feature adds the intent to its `intents`, sets its domain
-  or capability when it has none, and adds to its page and ICE; it keeps what is there. Each new
+  or capability when it has none, and adds to its page and ICE; it keeps what is there. When the
+  person's change asks for it, a fill also replaces the part's spine one-line, so that it says what
+  the part's page now says; no other field it has is changed. Each new
   page goes under its parent's folder: a domain at `<domain>/domain.md`, a capability at
   `<domain folder>/<capability>/capability.md`, a feature at
   `<capability folder>/<feature>/feature.md`; a part with no parent goes in its holding folder.
@@ -108,7 +110,7 @@ epic, no story and no eval.
   file (its place, the count of "Fails if" lines, how many the builder can fix alone and how many
   a person must decide); what is left out; each assumption; the thin-ICE warning; for a reuse,
   each difference, each feature pulled in or pushed out, and each field a record upgrade set or
-  dropped; the slice check's warnings and the count of older model problems; and the count of
+  dropped; each spine one-line a fill replaced, old and new; the slice check's warnings and the count of older model problems; and the count of
   questions with no proposed answer. The person replies yes, change: <what>, or stop, and answers
   any question by its id in the same reply; a plain yes accepts each proposed answer.
 - C18 — The run reads the rule for asking a person only from the shared file the install lays
@@ -147,8 +149,9 @@ epic, no story and no eval.
   serves; a slice in progress was changed; or a reused slice was changed so that a person can no
   longer test it end to end.
 - F8 — A part the slice needs was skipped; an existing part was left unfilled (no intent link,
-  or no domain the run knows); a page is outside its parent's folder; or a page the run moved or
-  used still breaks a current rule.
+  or no domain the run knows); a page is outside its parent's folder; a page the run moved or
+  used still breaks a current rule; or a fill changed a field of an existing part other than its
+  intents, its missing parent, or the one-line the person's change asked for.
 - F9 — The run wrote something outside C9: a plan, an epic, a story, an eval, or any file under
   `.garura/project/plans/` other than the slice's hidden file, or another file.
 - F10 — A proposed answer has no source the run can name, a trace names a source that was not
@@ -167,8 +170,8 @@ epic, no story and no eval.
   only one of the two thin marks is set; the brief has no thin-ICE warning; or the run stopped or
   sent the person to a discovery play.
 - F17 — The brief hid a result of the run: a reuse difference, a feature pulled in or pushed
-  out, a field a record upgrade set or dropped, a slice-check warning, an older model problem, a
-  thin ICE, or an assumption.
+  out, a field a record upgrade set or dropped, a spine one-line a fill replaced, a slice-check
+  warning, an older model problem, a thin ICE, or an assumption.
 - F18 — The run read the rule for asking a person from a place other than
   `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because
   the rule was missing, or went on without saying it was missing.
@@ -291,7 +294,8 @@ epic, no story and no eval.
   back a slice in progress as it was and shape a new slice; or put back the feature whose change
   broke the end-to-end test. Handoff: autonomous.
 - REC8 (F8) — add or fill the part at the depth known, at its folder, marked to be deepened, and
-  bring each page the run moved or used up to the current rules. Handoff: autonomous.
+  bring each page the run moved or used up to the current rules; put back any other field a fill
+  changed. Handoff: autonomous.
 - REC9 (F9) — undo the write outside the allowed set. Handoff: autonomous.
 - REC10 (F10) — strip the proposed answer that has no source (never replace it with another),
   read the source through the memory tool before citing it, and report the count. Handoff:

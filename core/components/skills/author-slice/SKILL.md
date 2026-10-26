@@ -66,7 +66,10 @@ on; the play's scripts write the spine, the slice record and the pages' marks.
      `{id, kind: domain|capability|feature, add_intents: [<intent>], domain | capability: <id>, page: true}`.
      Give the domain or capability only when the part has none. Set `page: true` for each
      part whose page the slice moves or uses (each feature of the slice, its capability and
-     their domains), so that `enrich-grounding` brings that page up to the current rules;
+     their domains), so that `enrich-grounding` brings that page up to the current rules.
+     When the person's change asks for a part's spine one-line to say what its page now says,
+     give the new text as `one_line` in its entry; give no `one_line` otherwise, so the one
+     there is kept;
    - the model lacks it: write it in `domains`, `capabilities`, `features` or `ices`, with
      its id, slug, one_line, parent and `doc` in its folder — a domain at `<domain>/domain.md`,
      a capability at `<folder of its domain's page>/<capability>/capability.md`, a feature at

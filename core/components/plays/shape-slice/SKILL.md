@@ -410,7 +410,9 @@ the reason and no slice was written.
 `fills.json`; every page `fills.json` names is on disk in its folder (`persist_fills.py`
 refuses a page outside it); every existing part the slice needs that lacked the intent or a
 known domain is in `fills.json` `updates` and, after Step 8, in `persist-fills.json`
-`updated` — no part the slice needs was skipped or left unfilled.
+`updated` — no part the slice needs was skipped or left unfilled; and every spine field of an
+updated part is as it was before the run, except its `intents`, a parent it had none of, and
+the one-lines `persist-fills.json` `one_lines` names, each one asked for by the person's change.
 
 **Step 7 — Reuse a slice that already serves** · Owner: play (script), then `product-os-keeper` · Depends on: Step 6
 
@@ -455,8 +457,9 @@ python3 scripts/persist_slice.py --root <model> --spine <model>/_spine.yaml \
 
 `persist_fills.py` adds a spine entry for each new part, marked to be deepened (status
 proposed, detail directional, `metadata.deepen: true`); fills each existing part in
-`updates` (the intent added, its domain or capability set when it has none, what is there
-kept); refuses a page outside its folder; moves a capability that gets its domain, and its
+`updates` (the intent added, its domain or capability set when it has none, its spine
+one-line replaced when the update gives one from the person's change, listed in `one_lines`
+with the old and new text; every other field kept); refuses a page outside its folder; moves a capability that gets its domain, and its
 features, out of the holding folder and fixes every link to them; sets `metadata.thin: true`
 and the one Thin line, just before the ICE section, for each part in `thin` (an old-form thin
 line is replaced); and puts each new domain and capability on the intent page's Touches list
@@ -643,7 +646,7 @@ each capability, each capability linked to its domain and each part marked new, 
 reused; the hidden file (its place, its "Fails if" lines, how many the builder can fix alone
 and how many a person must decide, and the lines too vague to judge); what is left out; each assumption; the thin-ICE warning;
 for a reuse, each difference, each feature pulled in or pushed out, and each field a record
-upgrade set or dropped; the model check's older problems and warnings; the count of questions
+upgrade set or dropped; each spine one-line a fill replaced, old and new; the model check's older problems and warnings; the count of questions
 with no proposed answer and each open question with its four parts; and, when the rule for
 asking a person is missing, the line that says so. `record_questions.py brief` checks the
 structure only: it is a floor, and the person's read of the brief is the full test. Exit 1
@@ -691,7 +694,8 @@ Hidden file, Left out, Assumptions, Model check, Questions; Thin ICE when a part
 Kept slice on a reuse); the questions appear only inside it (and in the early brief of Step
 5).
 **SE-18 (F17/C17):** every line of `persist-slice.json` `differences`, `pulled_in`,
-`pushed_out`, `upgraded_to_v2` and `dropped_fields`, every `slice-check.json` warning and
+`pushed_out`, `upgraded_to_v2` and `dropped_fields`, every `persist-fills.json` `one_lines`
+entry (old and new), every `slice-check.json` warning and
 older problem, each thin part and each assumption has a plain-words line in `brief.md`.
 **SE-7 (F5/C5):** `record_questions.py check` reads `ok: true` (exit 0) — every asked question
 and every assumption of `split.json` is in `<record>`, every asked question has an answer
@@ -873,7 +877,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F5 | a question or answer is not in the record, or an answered question was asked again | record every question and answer, and take back any repeat question | autonomous |
 | F6 | a slice has no tester, no surface, or more than one surface | take the slice back; propose one surface and its tester from the model and memory, and show them in the one brief — never ask for them; when nothing names a surface a person can test end to end, write no slice, say why, and close | autonomous |
 | F7 | a new slice was made for an intent a slice not in progress already serves, a slice in progress was changed, or a reused slice can no longer be tested end to end | remove the new slice and add the intent to the slice that serves it; put back a slice in progress and shape a new slice; or put back the feature whose change broke the end-to-end test | autonomous |
-| F8 | a part the slice needs was skipped or left unfilled, a page is outside its parent's folder, or a moved or used page still breaks a current rule | add or fill the part at the depth known, at its folder, marked to be deepened, and bring each moved or used page up to the current rules | autonomous |
+| F8 | a part the slice needs was skipped or left unfilled, a page is outside its parent's folder, a moved or used page still breaks a current rule, or a fill changed a field of an existing part other than its intents, its missing parent, or the one-line the person's change asked for | add or fill the part at the depth known, at its folder, marked to be deepened, and bring each moved or used page up to the current rules; put back any other field a fill changed | autonomous |
 | F9 | the run wrote outside the allowed set (a plan, an epic, a story, an eval, a file under the plans folder other than the hidden file, or another file) | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`) | autonomous |
 | F10 | a proposed answer has no source the run can name, a trace names a source not read through the memory tool, or the count of questions with no proposed answer is missing or wrong | strip the proposed answer that has no source — never replace it with another — read the source through the memory tool before citing it, and report the count | autonomous |
 | F11 | a problem in the slice's own pages, or a new problem, was left and the run went on; or the run stopped on an older problem in a page it does not move or use | fix each problem in the slice's own pages and each new problem, and run the check again; show an older problem elsewhere as a warning, not a stop | autonomous |
@@ -882,7 +886,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F14 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
 | F15 | the hidden file is missing, outside the home plan's evals folder, has no entry for a feature, leaves out a "Fails if" line, or gives a line no recovery or more than one; or a working copy of its lines or ids stays outside the evals folder after it reads ok | write the missing entry or line from the two ICE, with one recovery each, in the home plan's evals folder; delete the working copies once it reads ok (`write_hidden_file.py check --clear-working`) | autonomous |
 | F16 | a part the slice needs has no ICE, a thin ICE lacks a minimum line, only one thin mark is set, the brief has no thin-ICE warning, or the run stopped or sent the person to a discovery play | write the missing lines or the missing mark, and add the warning; go on | autonomous |
-| F17 | the brief hid a result of the run (a reuse difference, a feature pulled in or pushed out, a field an upgrade set or dropped, a warning, an older problem, a thin ICE, an assumption) | show the hidden result in the brief, in plain words, and ask again | autonomous |
+| F17 | the brief hid a result of the run (a reuse difference, a feature pulled in or pushed out, a field an upgrade set or dropped, a replaced spine one-line, a warning, an older problem, a thin ICE, an assumption) | show the hidden result in the brief, in plain words, and ask again | autonomous |
 | F18 | the run read the rule for asking a person from a place other than `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because it was missing, or went on without saying it was missing | drop the copy read from another place and read `_shared/asking-a-person.md`; when it is missing, say so in the brief, use the play's floor, and go on | autonomous |
 | F19 | an agent dispatch asked the agent to do work no named skill does (choose, draft, decide or write content, or reshape a skill's output), or a dispatch named no skills | take back what the agent made and send the work to the named skill that does it, through the agent; when no skill does it, close HALTED and name the missing skill — the agent never does it | autonomous |
 
@@ -899,7 +903,7 @@ closed HALTED at a stop has nothing to resume: its writes were undone.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:87a13a3bf106c696c6ad1ed5e35092f676ae19874819648fae6c17725cb564d4 (of `reference/ice.md`) |
+| fingerprint | sha256:f1002e6869bc21e4f2f9667d7371fd5397d9d316fd712d0daf51f521d2084cd5 (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |
