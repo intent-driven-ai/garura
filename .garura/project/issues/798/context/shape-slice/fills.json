@@ -1,0 +1,61 @@
+{
+  "domains": [],
+  "capabilities": [],
+  "features": [
+    {
+      "id": "fn-898",
+      "slug": "fn-898",
+      "capability": "cap-shape-eval",
+      "one_line": "A build is given the business intent, never the eval, and a check flags each build session that read the plan's evals folder.",
+      "doc": "software-delivery-planning/shape-eval/fn-898/feature.md"
+    }
+  ],
+  "ices": [],
+  "updates": [
+    {
+      "id": "dom-software-delivery-planning",
+      "kind": "domain",
+      "add_intents": [],
+      "page": true
+    },
+    {
+      "id": "cap-shape-slice",
+      "kind": "capability",
+      "add_intents": [],
+      "page": true
+    },
+    {
+      "id": "cap-718",
+      "kind": "capability",
+      "add_intents": [],
+      "page": true
+    },
+    {
+      "id": "cap-shape-eval",
+      "kind": "capability",
+      "add_intents": [],
+      "page": true
+    },
+    {
+      "id": "fn-795",
+      "kind": "feature",
+      "add_intents": [],
+      "page": true
+    },
+    {
+      "id": "fn-818",
+      "kind": "feature",
+      "add_intents": [],
+      "page": true
+    },
+    {
+      "id": "fn-798",
+      "kind": "feature",
+      "add_intents": [],
+      "page": true
+    }
+  ],
+  "thin": [
+    "fn-898"
+  ]
+}

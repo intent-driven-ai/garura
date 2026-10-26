@@ -1,0 +1,85 @@
+{
+  "questions": [
+    {
+      "id": "Q-builders-1",
+      "topic": "builders",
+      "blocking": false,
+      "question": "Which plays must the new check treat as build plays, whose inputs may never name the evals folder?",
+      "why": "Garura has no build play for an epic yet (that work is business intent #819). If the check names only some plays, a play that builds code but is not on the list can be handed the eval, and a pass then proves less than the intent asks.",
+      "examples": [
+        "a clinic: every staff member except the two auditors is kept from the audit file",
+        "a school: every teacher except the exam board is kept from the exam paper",
+        "a bank: every team except internal audit is kept from the audit test plan"
+      ],
+      "assume": "Every play, skill and agent is a build play for the check, except the plays that write or run the eval: /shape-slice (which writes the hidden file), /shape-eval and the eval itself.",
+      "settled": false,
+      "basis": {
+        "kind": "model",
+        "ref": "product/product-os/software-delivery-planning/shape-eval/capability.md:4"
+      },
+      "proposed_answer": "Every play, skill and agent that builds the software, and every context sub-agent it starts, is a build play for the check. Only /shape-slice (which writes the hidden file into the evals folder), /shape-eval and the eval itself may name the evals folder."
+    },
+    {
+      "id": "Q-flag-1",
+      "topic": "flag",
+      "blocking": false,
+      "question": "Where must the product owner see the flag when a build session read the evals folder?",
+      "why": "The check does not block a build; it only makes the read visible. If the flag sits where no person looks, the shortcut stays hidden in practice, and the product owner trusts an eval pass that the builder could aim at.",
+      "examples": [
+        "a shop: the alert shows on the store manager's daily report",
+        "a hospital: the note is added to the patient record the doctor opens next",
+        "a bank: the warning goes on the review form the approver signs"
+      ],
+      "assume": "The flag is written in the build run's evidence file and named in that run's close report, so the product owner sees it when the run ends.",
+      "settled": false,
+      "basis": null,
+      "proposed_answer": null
+    },
+    {
+      "id": "Q-proof-1",
+      "topic": "proof",
+      "blocking": false,
+      "question": "Must the proof line of business intent 788 that says no builder can read the eval change to say that no builder is given the eval, with each read flagged?",
+      "why": "The product owner dropped encryption: the eval is plain text in the repo, so a builder can open it. The intent page still says no builder can read it. If the words stay, the eval tests a promise the design no longer keeps, and the model and the intent disagree.",
+      "examples": [
+        "a school: 'students cannot see the exam' becomes 'students are not given the exam, and each look is logged'",
+        "a bank: 'tellers cannot open the audit plan' becomes 'tellers are not given the audit plan, and each open is logged'",
+        "a newsroom: 'reporters cannot read the fact check' becomes 'reporters are not sent the fact check, and each read is logged'"
+      ],
+      "assume": "The intent page is left as it is in this run. The capability and feature pages say that the build is given the intent, never the eval, and that a read is flagged; the brief names the gap between those words and the intent's proof line for the product owner.",
+      "settled": false,
+      "basis": {
+        "kind": "person",
+        "ref": "798/specs/design.md:7-10"
+      },
+      "proposed_answer": "Yes. Change the proof line 'The eval is kept in a place where no builder can read it.' to 'No builder is given the eval, and a check flags each build session that read the evals folder.'"
+    }
+  ],
+  "settled": [
+    {
+      "id": "Q-encrypt-1",
+      "topic": "encryption",
+      "blocking": false,
+      "question": "Must the eval be encrypted so that no builder can read it?",
+      "why": "Encryption changes what the eval play writes, and the model pages of the eval capability still name it as later work.",
+      "examples": [
+        "a school: the exam paper is kept in plain text in the staff room",
+        "a bank: the audit test plan is kept in a locked safe",
+        "a shop: the mystery-shopper checklist is kept on the open shared drive"
+      ],
+      "assume": "The eval is not encrypted; it is plain text in the repo, and the build is simply not given it.",
+      "settled": true,
+      "basis": {
+        "kind": "memory",
+        "ref": "short-term 798/specs/design.md lines 8-12: the product owner dropped encryption and #828 on 2026-10-26; everything is plain text and evals stay in the repo"
+      },
+      "settled_basis": {
+        "kind": "person",
+        "ref": "798/specs/design.md:7-11"
+      }
+    }
+  ],
+  "no_proposed_answer": 1,
+  "stripped": [],
+  "shape_problems": {}
+}

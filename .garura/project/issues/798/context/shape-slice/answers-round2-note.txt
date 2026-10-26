@@ -1,0 +1,1 @@
+round 2 plain yes: answers not applied — record_questions answers maps a plain yes to "accepted as proposed" for Q-flag-1, which has no proposal and already holds the person's answer (2026-10-26T06:54:02Z). Q-builders-1 and Q-proof-1 were already accepted in round 1.

@@ -1,4 +1,14 @@
- M .garura/project/plans/788.yaml
-?? .garura/project/issues/798/context/porcelain.txt
-?? .garura/project/issues/798/context/templates/
-?? .garura/project/issues/798/specs/
+ M .garura/project/issues/798/context/analysis.yaml
+ M .garura/project/issues/798/context/porcelain.txt
+ M core/components/plays/shape-slice/scripts/persist_slice.py
+ M core/components/plays/shape-slice/scripts/record_questions.py
+ M core/components/plays/shape-slice/scripts/render_brief.py
+ M core/components/plays/shape-slice/scripts/test_persist_slice.py
+ M core/components/plays/shape-slice/scripts/test_render_brief.py
+ M core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+?? .garura/project/issues/798/context/citations.jsonl
+?? .garura/project/issues/798/context/grounding-questions.md
+?? .garura/project/issues/798/context/memory/
+?? .garura/project/issues/798/context/shape-slice/
+?? .garura/project/issues/798/context/templates/manifest-shape-slice.json
+?? .garura/project/issues/798/context/templates/standards/templates/approval-prompt.md
