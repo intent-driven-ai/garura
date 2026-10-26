@@ -1,6 +1,3 @@
- M .garura/project/issues/879/context/analysis.yaml
- M .garura/project/issues/879/context/issue-mappings.yaml
+ M .garura/project/issues/879/context/moves.jsonl
  M .garura/project/issues/879/context/porcelain.txt
-M  .garura/user-provided/managing-work.md
-?? .garura/project/issues/879/context/moves.jsonl
-?? .garura/project/issues/879/specs/
+ M .garura/project/plans/788.yaml

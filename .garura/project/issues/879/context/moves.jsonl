@@ -14,3 +14,4 @@
 {"issue": 837, "type": "Chore", "parent": null, "checked": "read back from GitHub after the moves"}
 {"issue": 854, "type": "Chore", "parent": null, "checked": "read back from GitHub after the moves"}
 {"issue": 831, "type": "Chore", "parent": null, "checked": "read back from GitHub after the moves"}
+{"issue": 842, "type": "Bug", "parent": 788, "checked": "read back from GitHub; typed by its plan-file kind (bug); it sat under #794 in the plan file only"}
