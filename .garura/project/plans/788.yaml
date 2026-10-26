@@ -15,7 +15,7 @@ branch: plan/788/base
 identified_by:
 - 756
 returns_to: 756
-updated: '2026-10-25'
+updated: '2026-10-26'
 tree:
 - issue: 792
   kind: capability
@@ -96,7 +96,11 @@ tree:
     - issue: 879
       kind: bug
       title: '/shape-plan stops when an epic holds work that is not its slice''s: an epic stands for one slice'
-      status: next
+      status: done
+- issue: 895
+  kind: chore
+  title: 'The open points left by the PR #894 review: where misplaced work sits until a play places it, and blocker work as its own slice'
+  status: next
 # Moved out from under epic #794 on 2026-10-26 (#879): not stories of its slice. Each is filed as its own
 # story, bug or chore; /shape-slice and /shape-plan place them when they run.
 - issue: 816
