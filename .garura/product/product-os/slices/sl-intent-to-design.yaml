@@ -4,7 +4,8 @@ slice:
   name: From a named piece of work to its design
   outcome: The product owner runs three plays on a business intent and gets a slice
     to test, a plan with one epic and one story for each feature, and an eval that
-    no builder can read.
+    no build is given; a check flags each build session that read the evals folder,
+    and the flag is recorded in that build run's evidence.
   feature_refs:
   - fn-795
   - fn-818
@@ -18,4 +19,5 @@ surface:
   name: the Claude Code command line
   persona_ref: product-owner
   user_action: runs /shape-slice, then /shape-plan, then /shape-eval on a business
-    intent
+    intent, then runs the check that shows no build play's inputs name the evals folder,
+    and finds the flag of a build session that read it in that build run's evidence
