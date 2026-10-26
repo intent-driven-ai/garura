@@ -8,15 +8,14 @@ It reads each work item of the record back from the tracker (through platform_ad
 the --tracker-file fixture). `ok: true` only when:
   - each issue the record names exists;
   - each epic has type Epic and each story type Story, and none has a label;
-  - each story of a slice is a sub-issue of its epic; the epic may hold other children (C13,
-    #879), and each one the record names (`others`) is still a sub-issue;
+  - each epic's sub-issues are its stories: the stories of its map, no more and no fewer;
   - each story's body has the sections "Scope of work" and "Context guidance" and the line
     "Represents: <feature id>"; each epic's body has "Represents: <slice id>" and its map;
     and no body this run made holds the words "Fails if" or a recovery phrase (a found item's
     own lines are a person's, and are kept as they are);
   - each moved-out story is open and is not a sub-issue of its epic.
 
-Output: {ok, problems: [..], checked: [issue numbers], others: {slice id: [issue numbers]}}
+Output: {ok, problems: [..], checked: [issue numbers]}
 Exit 0 ok; 1 not ok (written); 2 bad input (nothing written). Reads only; writes nothing in the tracker.
 """
 
@@ -30,7 +29,7 @@ import plan_common as pc  # noqa: E402
 
 
 def check(rec, tracker):
-    problems, checked, others = [], [], {}
+    problems, checked = [], []
     made = {int(c["issue"]) for c in rec.get("created") or []}
 
     def fetch(number, what):
@@ -76,10 +75,11 @@ def check(rec, tracker):
         for fid, n in stories.items():
             if n not in subs:
                 problems.append(f"story #{n} of {fid} is not a sub-issue of epic #{epic_no}")
-        for n in (rec.get("others") or {}).get(sid) or []:
-            if int(n) not in subs:
-                problems.append(f"epic #{epic_no}'s other child #{n} is no longer its sub-issue")
-        others[sid] = sorted(subs - set(stories.values()))
+        for n in sorted(subs - set(stories.values())):
+            it = tracker.get(n)
+            title = f" \"{it['title']}\"" if it else ""
+            problems.append(f"epic #{epic_no} holds #{n}{title}, which is not a story of its slice: "
+                            "file it in its own place and take it off the epic (C13)")
     for mo in rec.get("moved_out") or []:
         st = fetch(mo["issue"], "the moved-out story")
         if st is not None and st["state"] != "open":
@@ -90,7 +90,7 @@ def check(rec, tracker):
     for item in (rec.get("created") or []) + (rec.get("updated") or []):
         if int(item["issue"]) not in checked:
             fetch(item["issue"], f"the {item.get('kind', 'work item')}")
-    return {"ok": not problems, "problems": problems, "checked": sorted(set(checked)), "others": others}
+    return {"ok": not problems, "problems": problems, "checked": sorted(set(checked))}
 
 
 def main(argv=None):

@@ -114,12 +114,6 @@ def render(gather, items, drafts):
             elif act == "skip":
                 skipped.append((sl["id"], fid, st.get("reason"), st.get("issue")))
                 lines.append(f"- Skip {fid}: no story is made or changed. Why: {st.get('reason')}")
-        others = epic.get("others") or []
-        if others:
-            lines.append(f"- The epic also holds {len(others)} other work item"
-                         + ("s" if len(others) > 1 else "")
-                         + " that are not stories of this slice. They stay as they are: "
-                         + ", ".join(f"#{o.get('issue')}" for o in others) + ".")
         for mo in it.get("move_out") or []:
             writes += 1
             lines.append(f"- Move story #{mo.get('issue')} out of the plan: {mo.get('feature')} is no "

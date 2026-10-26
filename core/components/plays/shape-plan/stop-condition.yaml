@@ -14,7 +14,7 @@ content:
       says: "the draft check reads ok: no story and no epic holds a failure or recovery condition, and each story has its scope of work and its Context guidance"
       check: { type: field_equals, file: "context/shape-plan/drafts-check.json", field: "ok", equals: true }
     - id: D4
-      says: "the tracker check reads ok: each work item the run wrote is in the tracker as the record says, the epic with type Epic and each story with type Story, none with a label, and each story a sub-issue of its epic (the epic may hold other children)"
+      says: "the tracker check reads ok: each work item the run wrote is in the tracker as the record says, the epic with type Epic and each story with type Story, and none with a label"
       check: { type: field_equals, file: "context/shape-plan/tracker-check.json", field: "ok", equals: true }
     - id: D5
       says: "the write guard reads ok: the run changed no file outside the plan file"

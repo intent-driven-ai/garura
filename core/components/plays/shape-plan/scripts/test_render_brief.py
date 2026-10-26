@@ -47,8 +47,7 @@ def main():
               "  title: Self-booking\n  represents: sl-self-booking\n  children:\n  - issue: 11\n"
               "    represents: ft-pick\n  - issue: 13\n    represents: ft-cancel\n")
         empty_tracker(p, [
-            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": "",
-             "sub_issues": [11, 13, 40, 41]},
+            {"number": 10, "title": "Self-booking", "type": "Feature", "labels": ["work-item"], "body": ""},
             {"number": 11, "title": "Pick a free slot", "type": "Story", "body": "Text a person wrote."},
             {"number": 13, "title": "Cancel online", "type": "Story", "body": ""}])
         code, text = brief(p)
@@ -58,8 +57,6 @@ def main():
         check("a found story shows the sections it gains", "Use story #11" in text and "\"Scope of work\" and \"Context guidance\"" in text)
         check("a moved-out story is shown, and it stays open", "Move story #13 out of the plan" in text and "stays\nopen" not in text
               and "stays open in the tracker" in text)
-        check("the epic's other children (#879) are named, and stay as they are",
-              "2 other work items" in text and "#40, #41" in text and "They stay as they are" in text)
         check("the plan file is shown as updated, with the node taken out",
               f"Update `{p['plan_file']}`" in text and "Take out the story node #13" in text)
     return finish()
