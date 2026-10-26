@@ -538,6 +538,19 @@ features:
     the machine, and on each run compare them with Phoenix memory so the project learns
     when a block changed.
   doc: software-delivery-planning/initialize/fn-883/feature.md
+- id: fn-898
+  slug: fn-898
+  capability: cap-shape-eval
+  intents:
+  - bi-788
+  status: proposed
+  one_line: A build is given the business intent, never the eval, and a check flags
+    each build session that read the plan's evals folder.
+  doc: software-delivery-planning/shape-eval/fn-898/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
 profile:
   state: set
   nfr:
@@ -559,6 +572,7 @@ slices:
   - fn-795
   - fn-818
   - fn-798
+  - fn-898
   vertical: the Claude Code command line
   intents:
   - bi-788

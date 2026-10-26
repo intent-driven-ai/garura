@@ -19,6 +19,7 @@
 - The play never writes a failure or recovery condition. The slice's hidden file belongs to /shape-slice (decision 6).
 - A second run finds the plan, the epic and the stories that exist, and makes no copies.
 - Nothing goes to the tracker before the product owner's yes.
+- The stories are the build's whole brief: a story never names the eval, the hidden file or the plan's evals folder, so the build is given the intent, never the eval (fn-898).
 - Thin: what the play does when the slice changes after a plan exists is not set yet.
 
 ## Acceptance criteria
@@ -32,6 +33,12 @@
 - The slice and its hidden file. /shape-slice writes them (fn-795).
 - The eval. /shape-eval writes it (fn-798).
 - The build, and the design, test or validation of an epic (#819).
+- The checks that no build is given the evals folder and that flag a build session that read it (fn-898).
+
+## Sources
+- GitHub #818 (open): the plan play.
+- docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decisions 1.2, 2 and 4.
+- GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
 
 Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 

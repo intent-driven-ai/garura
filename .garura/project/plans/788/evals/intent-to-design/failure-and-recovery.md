@@ -92,41 +92,86 @@ Rule: standards/rules/expectation-generation.md, "A feature's recovery (product 
 
 ## fn-798: /shape-eval writes the hidden eval
 
-- Capability: cap-shape-eval (Write the hidden eval)
-- Thin: both ICE (the feature's and its capability's) are thin.
+- Capability: cap-shape-eval
+- Written from: the feature ICE (thin) and the capability ICE (thin).
+- Thin ICE: the feature ICE is thin, so its recovery may be weak until `/discover-capabilities` deepens it.
+- Thin ICE: the capability ICE is thin, so its recovery may be weak until `/discover-capabilities` deepens it.
 
 ### Failure conditions
 
-- F13 (from the feature ICE): The eval is written outside the plan's evals folder, or a builder's inputs name that folder.
-- F14 (from the feature ICE): A story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.
-- F15 (from the feature ICE): A handoff plan that the eval writes names a failure condition, its id or the check.
-- F16 (from the capability ICE): A builder can read the eval.
-- F17 (from the capability ICE): The eval checks something the business intent does not ask for.
-- F18 (from the capability ICE): The eval play reads an ICE page, the usage guide or the code.
+- F13 (from the feature ICE): the eval is written outside the plan's evals folder, or a builder's inputs name that folder.
+- F14 (from the feature ICE): a story's goal or expectation, or a failure condition in the hidden file, has no check, and the eval does not say that it cannot test it yet.
+- F15 (from the feature ICE): a handoff plan that the eval writes names a failure condition, its id or the check.
+- F19 (from the capability ICE): a builder is given the eval, or a build session read the evals folder and that build run's evidence has no flag that names the read.
+- F17 (from the capability ICE): the eval checks something the business intent does not ask for.
+- F18 (from the capability ICE): the eval play reads an ICE page, the usage guide or the code.
 
 ### Recovery
 
 - For F13
-  - When: An eval file is outside plans/788/evals/intent-to-design/, or the inputs of a build play, a build skill or a context sub-agent name the evals folder.
-  - Way back: Move the eval into the evals folder and take the folder out of the builder's inputs. The person decides if the eval must be made again, because a builder may have read it.
-  - Who fixes: a person must decide
+  - When: after /shape-eval runs, the eval is found in a place other than the plan's evals folder, or the inputs of a build play name that folder
+  - Way back: keep the eval only in the plan's evals folder, and take the folder out of every input a builder is given
+  - Who fixes: the builder can fix this alone
 - For F14
-  - When: A goal, an expectation or a failure line has no check in the eval and no note that it cannot be tested yet.
-  - Way back: Add a check from the outside, on the slice's surface, or a note that says why it cannot be tested yet.
+  - When: a goal or an expectation of a story, or a failure condition of the hidden file, has no check in the eval and no note that the eval cannot test it yet
+  - Way back: give each goal, each expectation and each failure condition one check, or a note that says it cannot be tested yet
   - Who fixes: the builder can fix this alone
 - For F15
-  - When: A handoff plan holds a failure line, an F id or the name of a check.
-  - Way back: Rewrite the handoff plan so that it says only what the product does wrong, as a symptom, and the way back.
+  - When: a handoff plan that the eval wrote names a failure condition, its id or its check
+  - Way back: write the handoff plan again with only the way back to follow, and with no failure condition, no id and no check in it
   - Who fixes: the builder can fix this alone
-- For F16
-  - When: The eval or the hidden file is in a place that a build play, a build skill or a context sub-agent reads, or a builder's short-term memory holds its text.
-  - Way back: Keep the eval only in the evals folder, remove its text from the builder's short-term memory, and treat a pass of that build as not proven.
+- For F19
+  - When: a builder was given the eval, or a build session read the plan's evals folder and that build run's evidence holds no flag that names the read
+  - Way back: take the eval out of every input a builder is given, record in that build run's evidence a flag that names the read, and let the product owner say if the build's pass still counts
   - Who fixes: a person must decide
 - For F17
-  - When: A check traces to no line of the business intent, its epic or its stories.
-  - Way back: Remove the check, or trace it to the line of the intent that it serves.
-  - Who fixes: a person must decide
+  - When: the eval holds a check that no goal, expectation or failure condition of the business intent's stories and hidden file asks for
+  - Way back: remove that check, so each check of the eval comes from one goal, expectation or failure condition of the intent
+  - Who fixes: the builder can fix this alone
 - For F18
-  - When: The eval run's reads name an ICE page, a usage guide or a code file.
-  - Way back: Build the eval again from only the epic, its stories and the hidden file.
+  - When: the eval play's run shows that it read an ICE page, the usage guide or the code
+  - Way back: write the eval again from only the epic, its stories and the hidden file
+  - Who fixes: the builder can fix this alone
+
+## fn-898: The build is given the business intent, never the eval
+
+- Capability: cap-shape-eval
+- Written from: the feature ICE (thin) and the capability ICE (thin).
+- Thin ICE: the feature ICE is thin, so its recovery may be weak until `/discover-capabilities` deepens it.
+- Thin ICE: the capability ICE is thin, so its recovery may be weak until `/discover-capabilities` deepens it.
+
+### Failure conditions
+
+- F20 (from the feature ICE): a build play's inputs name the evals folder, the eval or the hidden file, and the lint check passes.
+- F21 (from the feature ICE): a build session read the plan's evals folder, and that build run's evidence has no flag that names the read.
+- F22 (from the feature ICE): a clean build session gets a flag, or the check stops a build.
+- F23 (from the capability ICE): a builder is given the eval, or a build session read the evals folder and that build run's evidence has no flag that names the read.
+- F24 (from the capability ICE): the eval checks something the business intent does not ask for.
+- F25 (from the capability ICE): the eval play reads an ICE page, the usage guide or the code.
+
+### Recovery
+
+- For F20
+  - When: a build play's inputs name the evals folder, the eval or the hidden file, and the lint check still passes
+  - Way back: the lint check fails each build play whose inputs name the evals folder, the eval or the hidden file, and names each of those inputs
+  - Who fixes: the builder can fix this alone
+- For F21
+  - When: a build session's ledger shows a read of the plan's evals folder, and that build run's evidence holds no flag that names the read
+  - Way back: the ledger check records, in that build run's evidence, one flag for each read of the plan's evals folder
+  - Who fixes: the builder can fix this alone
+- For F22
+  - When: a build session with no read of the evals folder gets a flag, or a build stops because of the ledger check
+  - Way back: a clean build session gets no flag, and the ledger check only records a flag and never stops a build
+  - Who fixes: the builder can fix this alone
+- For F23
+  - When: a builder was given the eval, or a build session read the plan's evals folder and that build run's evidence holds no flag that names the read
+  - Way back: take the eval out of every input a builder is given, record in that build run's evidence a flag that names the read, and let the product owner say if the build's pass still counts
+  - Who fixes: a person must decide
+- For F24
+  - When: the eval holds a check that no goal, expectation or failure condition of the business intent's stories and hidden file asks for
+  - Way back: remove that check, so each check of the eval comes from one goal, expectation or failure condition of the intent
+  - Who fixes: the builder can fix this alone
+- For F25
+  - When: the eval play's run shows that it read an ICE page, the usage guide or the code
+  - Way back: write the eval again from only the epic, its stories and the hidden file
   - Who fixes: the builder can fix this alone

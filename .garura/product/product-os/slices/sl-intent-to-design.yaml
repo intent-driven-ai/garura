@@ -9,6 +9,7 @@ slice:
   - fn-795
   - fn-818
   - fn-798
+  - fn-898
   vertical: the Claude Code command line
   intents:
   - bi-788
