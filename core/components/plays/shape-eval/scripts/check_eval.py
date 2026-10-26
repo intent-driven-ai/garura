@@ -21,6 +21,10 @@ inputs.json gather_eval.py wrote. It never runs an eval. For each ready slice:
     But; each scenario has a Then (C3, C4, C12). A value the build will make is a [name] (C13).
   - Every goal, expectation and failure condition is covered by a scenario or by a line under
     "Untestable" with a reason (C5).
+  - Each goal and expectation a scenario covers is recorded under "Lines covered" with the story
+    line's exact text. On a story file the slice had before the run, a recorded line that no longer
+    matches the story (it moved, changed or is gone) is listed under `moved`, for a person: the
+    scenario stays as it is, and it is not a problem (C16).
   - No line holds a recovery or handoff text: "the builder can fix this alone", "a person must
     decide", "Way back:", "Who fixes:", or a recovery line of the hidden file (C6). A phrase quoted
     in a "does not contain" step checks that the phrase is absent, so it does not count.
@@ -28,9 +32,10 @@ inputs.json gather_eval.py wrote. It never runs an eval. For each ready slice:
     problem (C14).
 A slice that is not ready must have got no file from this run (place.json) (C8).
 
-Writes eval-check.json {ok, problems, slices: [{slice, ready, reason, stories: [{issue, feature,
+Writes eval-check.json {ok, problems, moved: [{file, tag, scenarios, was, now}], slices: [{slice, ready, reason, stories: [{issue, feature,
 title, scenarios, goals: [covered, total], expectations: [...], failure_conditions: [...],
-untestable: [{tags, reason}]}]}]}. Exit 0 ok, 1 problems, 2 refused.
+untestable: [{tags, reason, partly}]}]}]}: every Untestable line, `partly` true when each of its tags
+also has a scenario (the line names the part the scenario cannot check). Exit 0 ok, 1 problems, 2 refused.
 """
 
 import argparse
@@ -45,9 +50,15 @@ sys.path.insert(0, HERE)
 import eval_common as ec  # noqa: E402
 
 
-def check_story(sl, story, text, lib, problems, names):
+def check_story(sl, story, text, lib, problems, names, before=None, moved=None):
+    """`before` is the story file as the slice had it before the run (None for a new file). A tag the
+    file had before keeps its scenario: when its story line moved or changed, it goes to `moved`
+    for a person (C16), never to the problems."""
     where = ec.story_file_name(story["feature"])
     p = ec.parse_story_file(text)
+    old = ec.parse_story_file(before) if before is not None else None
+    old_tags = ({t for sc in old["scenarios"] for t in sc["tags"]} | set(old["lines_covered"])) if old else set()
+    moved = moved if moved is not None else []
     for e in p["errors"]:
         problems.append(f"{where}: {e}")
     if not p["feature"] or not p["feature"].startswith(f"Story #{story['issue']}"):
@@ -76,6 +87,8 @@ def check_story(sl, story, text, lib, problems, names):
         if not sc["tags"]:
             problems.append(f"{where}: {label} has no tag that says what it covers")
         for t in sc["tags"]:
+            if t not in valid and t in old_tags and ec.story_line(story, t) is None and re.match(r"^(goal|expectation)-\d+$", t):
+                continue  # its story line is gone: named under moved below, never a problem
             if t not in valid:
                 problems.append(f"{where}: {label} covers '{t}', which story #{story['issue']} and "
                                 "its hidden-file entry do not say")
@@ -96,6 +109,20 @@ def check_story(sl, story, text, lib, problems, names):
     open_tags = {t for u in untestable for t in u["tags"]} - covered
     for t in sorted(valid - covered - open_tags):
         problems.append(f"{where}: '{t}' has no scenario and no Untestable line")
+    # C16: each covered story line is recorded with its text; a line that moved or changed is named, not fixed
+    for t in sorted({t for sc in p["scenarios"] for t in sc["tags"]} | set(p["lines_covered"])):
+        if not re.match(r"^(goal|expectation)-\d+$", t):
+            continue
+        now, recorded = ec.story_line(story, t), p["lines_covered"].get(t)
+        titles = [sc["title"] for sc in p["scenarios"] if t in sc["tags"]]
+        if t in old_tags:
+            if recorded is None or now is None or not ec.same_line(recorded, now):
+                moved.append({"file": where, "tag": t, "scenarios": titles,
+                              "was": recorded, "now": now if now is not None else "(the line is gone)"})
+        elif titles and recorded is None:
+            problems.append(f"{where}: '{t}' has no line under 'Lines covered' with its story line's text")
+        elif recorded is not None and not ec.same_line(recorded, now):
+            problems.append(f"{where}: the Lines covered text of '{t}' is not story #{story['issue']}'s line now")
     # a recovery phrase quoted in a "does not contain" step checks that it is absent; it is not recovery text
     low = "\n".join(re.sub(r'(does not contain\s+)"[^"]*"', r'\1""', ln) for ln in text.splitlines()).lower()
     for w in ec.RECOVERY_WORDS:
@@ -114,11 +141,11 @@ def check_story(sl, story, text, lib, problems, names):
             "goals": count("goal-", len(story["goals"])),
             "expectations": count("expectation-", len(story["expectations"])),
             "failure_conditions": [len({t for t in covered if t.startswith("F")}), len(fails)],
-            "untestable": [{"tags": [t for t in u["tags"] if t not in covered], "reason": u["reason"]}
-                           for u in untestable if [t for t in u["tags"] if t not in covered]]}
+            "untestable": [{"tags": u["tags"], "reason": u["reason"],
+                            "partly": all(t in covered for t in u["tags"])} for u in untestable]}
 
 
-def check_slice(sl, problems):
+def check_slice(sl, problems, working=None, moved=None):
     lib = ec.load_library(sl["library"])
     folder, out = sl["folder"], {"slice": sl["slice_id"], "ready": True, "reason": None, "stories": []}
     sname = ec.slice_file_name(sl["slice_id"])
@@ -132,7 +159,11 @@ def check_slice(sl, problems):
         if not os.path.isfile(path):
             problems.append(f"{sl['slice_id']}: no story file {name} for story #{story['issue']}")
             continue
-        out["stories"].append(check_story(sl, story, ec.read_text(path, "a story file"), lib, problems, names))
+        prior = os.path.join(working or "", "inputs", "existing", sl["slug"], name)
+        before = ec.read_text(prior, "the story file from before the run") if working and name in sl["existing"] \
+            and os.path.isfile(prior) else None
+        out["stories"].append(check_story(sl, story, ec.read_text(path, "a story file"), lib, problems, names,
+                                          before, moved))
     allowed = in_slice | set(sl["out_of_slice"]) | {sname}
     for path in sorted(glob.glob(os.path.join(folder, "eval.*"))):
         if os.path.basename(path) not in allowed:
@@ -161,8 +192,8 @@ def check_slice(sl, problems):
     return out
 
 
-def check(inputs, place):
-    problems, slices = [], []
+def check(inputs, place, working=None):
+    problems, slices, moved = [], [], []
     made = {p for s in place.get("slices") or [] for p in s.get("new_files") or []}
     for sl in inputs["slices"]:
         if not sl["ready"]:
@@ -171,8 +202,8 @@ def check(inputs, place):
             if folder and any(p.startswith(folder + os.sep) for p in made):
                 problems.append(f"{sl['slice_id']}: is not ready but got an eval file in this run")
             continue
-        slices.append(check_slice(sl, problems))
-    return {"ok": not problems, "problems": problems, "slices": slices}
+        slices.append(check_slice(sl, problems, working, moved))
+    return {"ok": not problems, "problems": problems, "moved": moved, "slices": slices}
 
 
 def main(argv=None):
@@ -182,7 +213,8 @@ def main(argv=None):
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     try:
-        res = check(ec.read_json(args.inputs, "inputs.json"), ec.read_json(args.place, "place.json"))
+        res = check(ec.read_json(args.inputs, "inputs.json"), ec.read_json(args.place, "place.json"),
+                    os.path.dirname(os.path.abspath(args.inputs)))
     except ec.Refused as exc:
         sys.stderr.write(f"check_eval.py: {exc}\n")
         print(json.dumps({"ok": False, "reason": str(exc)}))

@@ -20,7 +20,8 @@ Not run on its own. The scripts beside it import it for six jobs:
     is, or None.
   - The eval files. `parse_story_file` reads a story file (Markdown with Gherkin, the
     `eval-story.feature.md` template): its tags, its `Feature:` title, its Background, each
-    Scenario with its tags, steps and raw text, and its Untestable lines. `parse_slice_file`
+    Scenario with its tags, steps and raw text, its Untestable lines and its Lines covered list
+    (the text of each story line a tag covers, as the file recorded it). `parse_slice_file`
     reads the slice file (`eval-slice.md`).
 
 No judgment is made here: every rule is fixed.
@@ -257,6 +258,7 @@ def names_in(text):
 TAG_LINE = re.compile(r"^\s*(`@[\w.-]+`\s*)+$")
 KEYWORD = re.compile(r"^#+\s*(?P<kw>Feature|Business Need|Ability|Background|Rule|Scenario|Example)\s*:\s*(?P<title>.*)$")
 STEP = re.compile(r"^\s*[-*]\s+(?P<kw>Given|When|Then|And|But)\s+(?P<text>.+?)\s*$")
+COVERED = re.compile(r"^\s*[-*]\s*`@(?P<tag>[\w.-]+)`\s*:\s*(?P<text>.+)$")
 UNTESTABLE = re.compile(r"^\s*[-*]\s*(?P<tags>(?:`@[\w.-]+`\s*)+):\s*(?P<reason>.+)$")
 
 
@@ -265,9 +267,11 @@ def tags_of(line):
 
 
 def parse_story_file(text):
-    """{top_tags, feature, background, scenarios: [{tags, title, steps: [(kw, text)], raw}], untestable, errors}."""
+    """{top_tags, feature, background, scenarios: [{tags, title, steps: [(kw, text)], raw}], untestable,
+    lines_covered: {tag: the story line's text as the file recorded it}, errors}."""
     lines = text.splitlines()
-    res = {"top_tags": [], "feature": None, "background": [], "scenarios": [], "untestable": [], "errors": []}
+    res = {"top_tags": [], "feature": None, "background": [], "scenarios": [], "untestable": [],
+           "lines_covered": {}, "errors": []}
     pending, block, current, section = [], None, None, None
     for i, line in enumerate(lines):
         if TAG_LINE.match(line):
@@ -296,6 +300,9 @@ def parse_story_file(text):
         if re.match(r"^#+\s*Untestable\s*$", line):
             current, section, pending, block = None, "untestable", [], None
             continue
+        if re.match(r"^#+\s*Lines covered\s*$", line):
+            current, section, pending, block = None, "covered", [], None
+            continue
         if re.match(r"^#+\s", line):
             current, section, pending, block = None, "prose", [], None
             continue
@@ -305,6 +312,11 @@ def parse_story_file(text):
             target.append((s["kw"], s["text"]))
             if current is not None:
                 current["raw"].append(line)
+            continue
+        if section == "covered":
+            c = COVERED.match(line)
+            if c:
+                res["lines_covered"][c["tag"]] = c["text"].strip()
             continue
         if section == "untestable":
             u = UNTESTABLE.match(line)
@@ -364,6 +376,20 @@ def parse_slice_file(text):
             if m:
                 res["names"].append(m.group(1))
     return res
+
+
+def story_line(story, tag):
+    """The story's line a `goal-<k>` or `expectation-<k>` tag points at now, or None."""
+    m = re.match(r"^(goal|expectation)-(\d+)$", tag)
+    if not m:
+        return None
+    items = story.get("goals" if m.group(1) == "goal" else "expectations") or []
+    k = int(m.group(2))
+    return items[k - 1] if 1 <= k <= len(items) else None
+
+
+def same_line(a, b):
+    return " ".join(str(a or "").split()) == " ".join(str(b or "").split())
 
 
 def story_file_name(feature):

@@ -128,10 +128,22 @@ def project(tmp, features=(("fn-pick", 3), ("fn-remind", 4)), surface=None):
     return plans, tracker, working
 
 
-def story_draft(feature, issue, scenarios, untestable=""):
+LINES = {3: {"goal-1": "A patient books a free slot.", "expectation-1": "The booking shows as booked.",
+             "expectation-2": "The slot is gone from the list."},
+         4: {"goal-1": "A patient gets a reminder.", "expectation-1": "The reminder names the visit.",
+             "expectation-2": "It is sent one day before."},
+         5: {"goal-1": "A patient cancels.", "expectation-1": "The slot is free.", "expectation-2": "The patient gets a note."}}
+
+
+def story_draft(feature, issue, scenarios, untestable="", covered=None):
+    import re as _re
+    tags = sorted({t for t in _re.findall(r"`@((?:goal|expectation)-\d+)`", scenarios)})
+    covered = covered if covered is not None else {t: LINES.get(issue, {}).get(t, "?") for t in tags}
+    cov = "".join(f"- `@{t}`: {x}\n" for t, x in covered.items())
     return (f"`@story-{issue}`\n# Feature: Story #{issue} — {feature}\n\nFeature {feature} of slice sl-self-booking.\n\n"
             "## Background:\n* Given [the clinic] is set up\n\n" + scenarios
-            + (f"\n## Untestable\n\n{untestable}" if untestable else ""))
+            + (f"\n## Untestable\n\n{untestable}" if untestable else "")
+            + (f"\n## Lines covered\n\n{cov}" if cov else ""))
 
 
 PICK = """`@goal-1` `@expectation-1`
@@ -257,9 +269,20 @@ def test_first_eval():
                          "--inputs", os.path.join(working, "inputs.json"), "--out", os.path.join(working, "summary.md"))
         summary = read(os.path.join(working, "summary.md"))
         check("summary: one line per story with its counts, the untestable item, and where the files are",
-              code == 0 and "2 stories, 5 scenarios" in summary and "| #3 Pick a free slot | 3 | 1/1 | 2/2 | 1/1 | 0 |" in summary
+              code == 0 and "the 2 stories of this slice" in summary and "5 scenarios" in summary and "| #3 Pick a free slot | 3 | 1/1 | 2/2 | 1/1 | 0 |" in summary
               and "expectation-2: it is sent one day before" in summary and folder in summary)
         check("summary: it is short, never the eval itself", "Scenario:" not in summary and len(summary.splitlines()) < 30)
+        ec_path = os.path.join(working, "eval-check.json")
+        partial = json.loads(read(ec_path))
+        partial["slices"][0]["stories"][0]["untestable"] = [
+            {"tags": ["@goal-1"], "reason": "the step library cannot count lines", "partly": True}]
+        write(os.path.join(working, "eval-check-partly.json"), partial)
+        code, _, _ = run("render_summary.py", "--check", os.path.join(working, "eval-check-partly.json"),
+                         "--place", os.path.join(working, "place.json"),
+                         "--inputs", os.path.join(working, "inputs.json"), "--out", os.path.join(working, "summary-partly.md"))
+        check("summary: a note on a part of a tested line is shown, marked partly tested",
+              code == 0 and "#3 @goal-1 (partly tested): the step library cannot count lines"
+              in read(os.path.join(working, "summary-partly.md")))
 
         before = {n: read(os.path.join(folder, n)) for n in os.listdir(folder)}
         os.unlink(os.path.join(working, "place.json"))
@@ -322,6 +345,57 @@ def test_absent_phrase_is_allowed():
               code == 0 and res["ok"]) or print("   ", res["problems"])
 
 
+def test_lines_covered_and_moved():
+    print("lines covered, moved lines, clear, home plan, the summary's opening")
+    with tempfile.TemporaryDirectory() as tmp:
+        plans, tracker, working = project(tmp)
+        gather(plans, tracker, working)
+        d = drafts(working)
+        p = os.path.join(d, "self-booking", "eval.fn-pick.feature.md")
+        write(p, read(p).replace("- `@goal-1`: A patient books a free slot.\n", ""))
+        place(working, d)
+        code, res = evalcheck(working)
+        check("eval file check: a covered line missing from 'Lines covered' fails",
+              code == 1 and any("has no line under 'Lines covered'" in x for x in res["problems"]))
+    with tempfile.TemporaryDirectory() as tmp:
+        plans, tracker, working = project(tmp)
+        gather(plans, tracker, working)
+        place(working, drafts(working))
+        folder = os.path.join(plans, "1", "evals", "self-booking")
+        before = read(os.path.join(folder, "eval.fn-pick.feature.md"))
+        t = json.loads(read(tracker))
+        t["issues"][1]["body"] = t["issues"][1]["body"].replace("The booking shows as booked.", "The booking shows on the calendar.")
+        write(tracker, t)
+        os.unlink(os.path.join(working, "place.json"))
+        gather(plans, tracker, working)
+        place(working, drafts(working))
+        code, res = evalcheck(working)
+        check("later run: a story line that changed is named under moved, for a person, and is not a problem",
+              code == 0 and res["ok"] and [m["tag"] for m in res["moved"]] == ["expectation-1"]
+              and res["moved"][0]["was"] == "The booking shows as booked.")
+        check("later run: the scenario of the changed line is word for word as it was",
+              read(os.path.join(folder, "eval.fn-pick.feature.md")) == before)
+        run("render_summary.py", "--check", os.path.join(working, "eval-check.json"), "--place", os.path.join(working, "place.json"),
+            "--inputs", os.path.join(working, "inputs.json"), "--out", os.path.join(working, "summary.md"))
+        summary = read(os.path.join(working, "summary.md"))
+        check("summary: it opens with a plain sentence, names the slice by its epic, and names the moved line",
+              "This eval checks, from the outside" in summary and '"Self booking"' in summary
+              and "moved or changed" in summary and "The booking shows on the calendar." in summary)
+        code, out, _ = run("place_eval.py", "--clear", os.path.join(working, "clear.json"),
+                           "--inputs", os.path.join(working, "inputs.json"))
+        left = [p for p in ("drafts", os.path.join("inputs", "existing"), os.path.join("inputs", "hidden-self-booking.md"))
+                if os.path.exists(os.path.join(working, p))]
+        check("clear: no draft, no copy of an eval file and no hidden-file copy is left; the eval files stay",
+              code == 0 and out["ok"] and left == [] and os.path.isfile(os.path.join(folder, "eval.fn-pick.feature.md")))
+    with tempfile.TemporaryDirectory() as tmp:
+        plans, tracker, working = project(tmp)
+        os.rename(os.path.join(plans, "1"), os.path.join(plans, "7"))  # the slice's home plan is another plan
+        code, out, _ = gather(plans, tracker, working)
+        sl = json.loads(read(os.path.join(working, "inputs.json")))["slices"][0]
+        check("gather: the hidden file is found in the slice's home plan, not only the plan being run",
+              code == 0 and sl["ready"] and sl["folder"].endswith(os.path.join("7", "evals", "self-booking")))
+
+
 def test_yardstick():
     print("fixed yardstick")
     with tempfile.TemporaryDirectory() as tmp:
@@ -331,7 +405,6 @@ def test_yardstick():
         folder = os.path.join(plans, "1", "evals", "self-booking")
         old_pick = read(os.path.join(folder, "eval.fn-pick.feature.md"))
         # the slice changes: fn-remind leaves, fn-cancel comes in
-        plans2 = os.path.join(plans, "1.yaml")
         t = json.loads(read(tracker))
         t["issues"][0]["body"] = "## Feature-to-story map\n\n- fn-pick → #3\n- fn-cancel → #5\n"
         write(tracker, t)
@@ -366,14 +439,16 @@ def test_yardstick():
         # the merge keeps a scenario the draft lacks, and adds only what is not covered yet
         sys.path.insert(0, HERE)
         import place_eval as pe
-        old = old_pick + "\n`@goal-1`\n## Scenario: kept from before\n* When I run [the list command]\n* Then the exit code is 0\n"
+        old = story_draft("fn-pick", 3, PICK + "\n`@goal-1`\n## Scenario: kept from before\n* When I run [the list command]\n* Then the exit code is 0\n")
         text, n_sc, n_un = pe.merge_story(old, story_draft("fn-pick", 3, reworded))
         check("merge: a scenario the draft lacks stays, and a draft that adds nothing changes nothing",
               text == old and n_sc == 0 and n_un == 0)
         extra = reworded + "\n`@F9`\n## Scenario: new cover\n* When I run [the list command]\n* Then the exit code is 0\n"
         text, n_sc, _ = pe.merge_story(old, story_draft("fn-pick", 3, extra))
+        old_sc = [sc["raw"] for sc in pe.ec.parse_story_file(old)["scenarios"]]
         check("merge: only the scenario for something not covered yet is added, after the old ones",
-              n_sc == 1 and text.startswith(old.rstrip("\n")) and "new cover" in text and "any slot" not in text)
+              n_sc == 1 and all(r in text for r in old_sc) and "new cover" in text and "any slot" not in text
+              and text.index("new cover") > text.index(old_sc[-1]) and text.index("new cover") < text.index("## Lines covered"))
 
 
 def test_not_ready_and_undo():
@@ -432,6 +507,7 @@ def main():
     test_first_eval()
     test_bad_drafts()
     test_absent_phrase_is_allowed()
+    test_lines_covered_and_moved()
     test_yardstick()
     test_not_ready_and_undo()
     print(f"\n{PASSED} passed, {FAILED} failed")

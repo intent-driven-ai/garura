@@ -10,8 +10,10 @@ id>`), it reads, and only reads:
   - the epic, from the tracker, and its feature-to-story map, in its order (the build order);
   - each story of the map, from the tracker: its "Scope of work" (Goals, Limits, Expectations)
     and its "Context guidance";
-  - the slice's hidden file, found in `<plans>/<id>/evals/<slug>/failure-and-recovery.md` by
-    the slice id of its first heading: its Surface line and each feature's failure conditions.
+  - the slice's hidden file, found by the slice id of its first heading in
+    `<plans>/<home>/evals/<slug>/failure-and-recovery.md`, where <home> is the slice's home plan (the
+    plan of its first intent, which need not be this plan): its Surface line and each feature's
+    failure conditions. The eval is read and written in that same folder.
 It never reads an ICE page, the usage guide, the code or the product model (C1). It copies the
 epic, each story and the hidden file into `<working>inputs/`, and any eval files the slice
 already has into `<working>inputs/existing/<slug>/` (the state before this run), so the agent
@@ -48,7 +50,12 @@ def walk(nodes):
 
 
 def find_hidden(plans, plan_id, slice_id):
-    for path in sorted(glob.glob(os.path.join(plans, str(plan_id), "evals", "*", "failure-and-recovery.md"))):
+    """The slice's hidden file, in its home plan's evals folder (the plan of its first intent, which need
+    not be this plan): this plan's folder first, then every other plan's."""
+    own = sorted(glob.glob(os.path.join(plans, str(plan_id), "evals", "*", "failure-and-recovery.md")))
+    rest = [p for p in sorted(glob.glob(os.path.join(plans, "*", "evals", "*", "failure-and-recovery.md")))
+            if p not in own]
+    for path in own + rest:
         if ec.parse_hidden(ec.read_text(path, "a hidden file"))["slice_id"] == slice_id:
             return path
     return None

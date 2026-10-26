@@ -52,6 +52,13 @@ changes a scenario that is there.
 - C14 — The eval is bounded: it covers only its own slice's stories, and the slice file sets a time limit for each
   scenario (a scenario that runs out of time fails), so the count of scenarios and the longest run are known before
   it runs.
+- C15 — No copy of the eval or of the hidden file stays in the run's short-term memory after the run: the drafts, the
+  hidden-file copy and the copies of the slice's eval files from before the run are deleted when the eval is committed,
+  and after a stop's undo. Only the eval files in the evals folder, and the run's records with no eval text, remain.
+- C16 — Each story file records the exact text of each story line its scenarios cover (a "Lines covered" list: the tag
+  and the line as the story said it). A later run compares each recorded line with the story's line now; for each
+  scenario whose line moved or changed, it names the scenario for a person in the summary and in the run's record, and
+  never rewrites or deletes it.
 
 ### Failure conditions
 
@@ -75,6 +82,9 @@ changes a scenario that is there.
 - F13 — A step holds a guessed address, command or field in place of a name, or a name the eval uses is not in the
   slice file's list.
 - F14 — The slice file has no time limit for its scenarios, or the eval covers a story that is not in its slice.
+- F15 — A copy of the eval or of the hidden file stays in the run's short-term memory after the run.
+- F16 — A story file does not record the line text its scenarios cover, or a later run does not name a scenario whose
+  story line moved or changed, or rewrites it.
 
 ## Context
 
@@ -117,7 +127,7 @@ changes a scenario that is there.
   feature that left is tagged out of the slice and stays, and the slice file lists the stories in the new order.
   Measure: the yardstick check reads ok — every scenario that was there is there, word for word.
 - S4 — (product owner, a slice not ready) Given a plan whose second slice has no epic yet, when the product owner runs
-  /shape-eval, then that slice gets no eval and the brief names it with the reason. Measure: the record lists the
+  /shape-eval, then that slice gets no eval and the summary names it with the reason. Measure: the record lists the
   slice as skipped with its reason, and its evals folder holds no eval file.
 - S5 — (product owner, stop) Given any plan, when the product owner types stop at the checkpoint, then no eval file is
   written. Measure: the write guard shows no change under the plans folder.
@@ -128,6 +138,11 @@ changes a scenario that is there.
   step library exists, when the product owner runs /shape-eval, then that slice gets no eval and the summary names it
   with the reason. Measure: the record lists the slice as skipped (no step library), and its evals folder holds no eval
   file.
+
+- S8 — (product owner, a story line changed) Given an eval made by an earlier run, and a story whose second goal line was
+  reworded since, when the product owner runs /shape-eval, then the summary names the scenario tagged with that goal as
+  "its story line changed", for a person to judge, and the scenario is word for word as it was. Measure: the eval file
+  check lists the scenario under `moved`, and the yardstick check reads ok.
 
 ### Done means
 
@@ -145,6 +160,9 @@ changes a scenario that is there.
   check: { type: field_equals, file: "context/shape-eval/yardstick-check.json", field: "ok", equals: true }
 - D5 — the write guard reads ok: the run changed no file outside the slices' eval files.
   check: { type: field_equals, file: "context/shape-eval/guard-report.json", field: "ok", equals: true }
+- D6 — the copies are cleared: no draft, no hidden-file copy and no copy of an eval file is left in the run's
+  short-term memory.
+  check: { type: field_equals, file: "context/shape-eval/clear.json", field: "ok", equals: true }
 
 ### Recovery (one per failure condition)
 
@@ -158,13 +176,17 @@ changes a scenario that is there.
   outside, on the surface. Handoff: autonomous.
 - REC6 (F6) — take out the handoff text or the recovery. Handoff: autonomous.
 - REC7 (F7) — put back each scenario that was there, word for word, and add only what is new. Handoff: autonomous.
-- REC8 (F8) — take back the eval of the slice that is not ready, and name it in the brief with its reason. Handoff:
+- REC8 (F8) — take back the eval of the slice that is not ready, and name it in the summary with its reason. Handoff:
   autonomous.
-- REC9 (F9) — take the commit back, or undo the writes the stop left; show the brief again. Handoff: human.
+- REC9 (F9) — take the commit back, or undo the writes the stop left; show the summary again. Handoff: human.
 - REC10 (F10) — land the change through the change plays, on the plan's branch. Handoff: human.
 - REC11 (F11) — rewrite with personas and plain words. Handoff: autonomous.
 - REC12 (F12) — write the step again with a sentence of the library; when the slice's surface kind has no library,
-  take back its eval and name it in the brief. Handoff: autonomous.
+  take back its eval and name it in the summary. Handoff: autonomous.
 - REC13 (F13) — put a name in place of the guess, and add each name to the slice file's list. Handoff: autonomous.
 - REC14 (F14) — set the time limit in the slice file, and take out the story that is not in the slice. Handoff:
   autonomous.
+- REC15 (F15) — delete the drafts, the hidden-file copy and the copies of the eval files from the run's short-term
+  memory, and from its records commit when they were committed. Handoff: autonomous.
+- REC16 (F16) — write the Lines covered list with each covered line's exact text; for a line that moved or changed, put
+  back the scenario as it was and name it in the summary. Handoff: autonomous.

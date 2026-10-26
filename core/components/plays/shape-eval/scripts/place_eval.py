@@ -4,6 +4,7 @@
     python3 place_eval.py --inputs <working>inputs.json --drafts <working>drafts \
         --out <working>place.json --yardstick-out <working>yardstick-check.json
     python3 place_eval.py --undo <working>place.json --inputs <working>inputs.json
+    python3 place_eval.py --clear <working>clear.json --inputs <working>inputs.json
 
 The drafts are in `<drafts>/<slug>/`: one story file `eval.<feature-id>.feature.md` for each
 story of the slice's map, and the slice file `eval.<slice-id>.md`. For each ready slice:
@@ -26,7 +27,11 @@ in `<working>inputs/existing/<slug>/`, so placing again after a fix gives the sa
 The yardstick check reads each story file the slice had before and the file now: every scenario
 it had must be in it, word for word (C7). It writes yardstick-check.json {ok, problems, kept,
 added}. place.json lists each file written, with whether it was there before, for the guard and
-for --undo, which puts back each file as it was before the run (a stop or a change, C9).
+for --undo, which puts back each file as it was before the run (a stop or a change, C9). A story
+file's "Lines covered" list only grows: a placed scenario's covered lines are added, and a line the
+file had stays as it was (C16). --clear deletes the drafts, the hidden-file copy and the copies of
+the slice's eval files from before the run, and writes clear.json {ok, removed, left}: run it after
+the eval commit and after a stop's undo (C15).
 Exit 0 written and the yardstick holds, 1 the yardstick does not hold, 2 refused.
 """
 
@@ -58,24 +63,44 @@ def merge_story(old, draft):
     new_sc = [sc for sc in pd["scenarios"] if set(sc["tags"]) - have]
     after = have | {t for sc in new_sc for t in sc["tags"]}
     new_un = [u for u in pd["untestable"] if set(u["tags"]) - after]
+    new_cov = {t: x for t, x in pd["lines_covered"].items()
+               if t not in po["lines_covered"] and t in {t for sc in new_sc for t in sc["tags"]}}
     if not new_sc and not new_un:
         return old, 0, 0
     lines = old.rstrip("\n").split("\n")
-    at = next((i for i, ln in enumerate(lines) if ln.strip().lstrip("#").strip() == "Untestable"
-               and ln.lstrip().startswith("#")), None)
-    head, tail = (lines, []) if at is None else (lines[:at], lines[at:])
+
+    def section(name):
+        return next((i for i, ln in enumerate(lines) if ln.lstrip().startswith("#")
+                     and ln.strip().lstrip("#").strip() == name), None)
+
+    first = min([i for i in (section("Untestable"), section("Lines covered")) if i is not None], default=None)
+    head, tail = (lines, []) if first is None else (lines[:first], lines[first:])
     while head and not head[-1].strip():
         head.pop()
     for sc in new_sc:
         head += ["", sc["raw"]]
-    if new_un:
-        if not tail:
-            tail = ["## Untestable", ""]
-        while tail and not tail[-1].strip():
-            tail.pop()
-        tail += ["- " + " ".join(f"`@{t}`" for t in u["tags"]) + f": {u['reason']}" for u in new_un]
+    tail = add_lines(tail, "Untestable",
+                     ["- " + " ".join(f"`@{t}`" for t in u["tags"]) + f": {u['reason']}" for u in new_un])
+    tail = add_lines(tail, "Lines covered", [f"- `@{t}`: {x}" for t, x in new_cov.items()])
     text = "\n".join(head + ([""] + tail if tail else [])) + "\n"
     return text, len(new_sc), len(new_un)
+
+
+def add_lines(tail, name, new):
+    """Append lines at the end of the `## <name>` section of `tail` (made at the end when missing)."""
+    if not new:
+        return tail
+    at = next((i for i, ln in enumerate(tail) if ln.lstrip().startswith("#")
+               and ln.strip().lstrip("#").strip() == name), None)
+    if at is None:
+        while tail and not tail[-1].strip():
+            tail.pop()
+        return tail + ([""] if tail else []) + [f"## {name}", ""] + new
+    end = next((i for i in range(at + 1, len(tail)) if tail[i].lstrip().startswith("#")), len(tail))
+    body = tail[at + 1:end]
+    while body and not body[-1].strip():
+        body.pop()
+    return tail[:at + 1] + body + new + ([""] + tail[end:] if end < len(tail) else [])
 
 
 def mark_out(text):
@@ -176,6 +201,23 @@ def place(inputs, working, drafts):
     return record, yard
 
 
+def clear(working, inputs):
+    """C15: delete every copy of an eval or the hidden file from the run's short-term memory."""
+    import shutil
+    removed = []
+    for path in [os.path.join(working, "drafts"), os.path.join(working, "inputs", "existing")] + \
+            [s["hidden"] for s in inputs["slices"] if s.get("hidden")]:
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+            removed.append(path)
+        elif os.path.isfile(path):
+            os.unlink(path)
+            removed.append(path)
+    left = [p for p in (os.path.join(working, "drafts"), os.path.join(working, "inputs", "existing"))
+            if os.path.exists(p)] + [s["hidden"] for s in inputs["slices"] if s.get("hidden") and os.path.exists(s["hidden"])]
+    return {"ok": not left, "removed": removed, "left": left}
+
+
 def undo(place_path, inputs):
     rec = ec.read_json(place_path, "the place record")
     slug_of = {s["folder"]: s["slug"] for s in inputs["slices"] if s.get("folder")}
@@ -199,6 +241,7 @@ def main(argv=None):
     ap.add_argument("--out")
     ap.add_argument("--yardstick-out")
     ap.add_argument("--undo", help="a place.json: put back each file as it was before the run")
+    ap.add_argument("--clear", help="write clear.json here: delete the drafts and every copy of an eval or hidden file (C15)")
     args = ap.parse_args(argv)
     try:
         inputs = ec.read_json(args.inputs, "inputs.json")
@@ -206,7 +249,13 @@ def main(argv=None):
         if args.undo:
             inputs["_working"] = working
             print(json.dumps(undo(args.undo, inputs), indent=2))
-            return 0
+            if not args.clear:
+                return 0
+        if args.clear:
+            res = clear(working, inputs)
+            ec.write_json(args.clear, res)
+            print(json.dumps(res, indent=2))
+            return 0 if res["ok"] else 1
         if not (args.drafts and args.out and args.yardstick_out):
             raise ec.Refused("give --drafts, --out and --yardstick-out (or --undo)")
         if os.path.isfile(args.out):  # placing again after a fix starts from the state before the run

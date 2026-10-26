@@ -1,4 +1,4 @@
-# shape-eval stop condition — baked from reference/ice.md "### Done means" (D1–D5).
+# shape-eval stop condition — baked from reference/ice.md "### Done means" (D1–D6).
 # Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
 # Paths are relative to the run's issue folder ({stm_base}<issue>/).
 schema: { name: stop-condition }
@@ -19,3 +19,6 @@ content:
     - id: D5
       says: "the write guard reads ok: the run changed no file outside the slices' eval files"
       check: { type: field_equals, file: "context/shape-eval/guard-report.json", field: "ok", equals: true }
+    - id: D6
+      says: "the copies are cleared: no draft, no hidden-file copy and no copy of an eval file is left in the run's short-term memory"
+      check: { type: field_equals, file: "context/shape-eval/clear.json", field: "ok", equals: true }
