@@ -1,0 +1,5 @@
+{
+  "category": "slice-evals",
+  "copies": [],
+  "note": "No extra memory was copied. Grounding came from committed sources on the base ref plan/788/base, read with git show: core/components/memory/standards/schemas/product-os/ontology.md (Slice kind, hidden file row, Q28, Q29, Q31, Q32, Q33, Q35, Q36), docs/adr/049-*.md, docs/adr/052-*.md, docs/philosophy/idd-principles.md (Routing Table), core/components/memory/standards/rules/expectation-generation.md (A feature's recovery; the handoff rule). The shared copy of the severity taxonomy (memory/standards/rules/pr.md) was read, not copied again. No review playbook covers this category."
+}

@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/builder-isolation.md",
+      "version": null,
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/798/context/memory/grounding-memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/_index.md",
+      "version": null,
+      "fingerprint": "sha256:f007ce02ee092000ca6183a7de6fe33bc25c403c4f6166b0f0d7c1700483fc27",
+      "copy": ".garura/project/issues/798/context/memory/grounding-memory/standards/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/work-plan.md",
+      "version": "767117348e1a",
+      "fingerprint": "sha256:1bee2838dc5f571f17e54e60d8569c68d442fb164aefa730f775082570bc2ce0",
+      "copy": ".garura/project/issues/798/context/memory/grounding-memory/standards/templates/work-plan.md"
+    }
+  ]
+}

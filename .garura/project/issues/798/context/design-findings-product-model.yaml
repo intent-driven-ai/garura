@@ -1,0 +1,135 @@
+# Layer 2 design-grounding: category product-model, change #798, PR #900, base plan/788/base
+category: product-model
+playbook: null   # none covers the product model (follow-up: write review/product-model)
+severity_source: .garura/project/issues/798/context/memory/standards/rules/pr.md (P1-P4 buckets; no table row covers the model, so the bucket text decides)
+
+principles:
+  - id: PM-1
+    text: "A slice is one vertical outcome a person can test end to end, on one surface; its spine entry holds id, slug, feature_refs, vertical, intents, record, and its record holds name/outcome (one line) and the surface."
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md (v12), kind Slice; plan/788/base:.../product-os/slice.yaml (slice record, 'outcome: one line')"
+  - id: PM-2
+    text: "A feature page has the headings What it does, Inputs / Outputs, Rules & behavior, Acceptance criteria, Out of scope, then optional Sources, then Agent intent (ICE); Sources are where the part is seen, one per line."
+    source: "plan/788/base:.../product-os/grounding/feature.md (heading contract, Sources section)"
+  - id: PM-3
+    text: "A thin ICE carries the mark in two agreeing places: the Thin line on its page and thin: true in its spine entry metadata; thin is the mark, not the size. The legacy '## Agent intent (ICE)' section is drift, not an error."
+    source: "plan/788/base:ontology.md, kind ICE (Rules); plan/788/base:docs/adr/052 section 5; docs/adr/047"
+  - id: PM-4
+    text: "A business intent's Touches list names domains and capabilities (adds/changes/removes), not features; only a person confirms or drops a business intent."
+    source: "plan/788/base:ontology.md, kind Business Intent (Touches property) and 'Who writes' paragraph"
+  - id: PM-5
+    text: "The builder reads the story and the context its context sub-agent collected from the story's Context guidance; never an ICE page, the eval, the hidden file or a plan's evals folder."
+    source: "plan/788/base:ontology.md, kind Story (Rules) and kind Slice (Rules); plan/788/base:docs/adr/049 section 4"
+  - id: PM-6
+    text: "Each line of an ICE has one reader that writes from it; the 'Fails if' lines go to the slice's hidden file, one entry per feature. A rule that a play must keep belongs in that play's feature ICE, so the hidden file and the stories carry it."
+    source: "plan/788/base:ontology.md, kind ICE (Rules) and kind Slice (hidden file); plan/788/base:docs/adr/052 section 1"
+  - id: PM-7
+    text: "A person and an agent reading the model use the same words for the same things: a capability's or feature's spine one-line and its page say the same."
+    source: "plan/788/base:ontology.md, opening paragraph and Capability property 'Name and one line'"
+  - id: PM-8
+    text: "Design rests on committed sources. Base ADR 049 section 4 and its Negative/Work lines say the evals are kept from the builder by a read rule, with encryption (#828) to come."
+    source: "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md"
+
+conformance_passes:
+  - "Slice six fields: the spine entry of sl-intent-to-design still has id, slug, feature_refs, vertical, intents, record, and fn-898 is in feature_refs in both the spine and slices/sl-intent-to-design.yaml, in the same order (PM-1)."
+  - "Spine fn-898 entry has the same shape as fn-795/fn-798/fn-818 (capability cap-shape-eval, intents [bi-788], status proposed, one_line, doc, metadata created_by/deepen/thin); the doc path exists (PM-3)."
+  - "Thin mark: fn-898 has the Thin line (feature.md:41) and thin: true in its spine metadata; the two agree (PM-3)."
+  - "Feature page sections: fn-898 and the edited fn-795, fn-798, fn-818 keep the five required headings in order, add ## Sources after Out of scope and before the Thin line and the ICE section (PM-2)."
+  - "Touches list: intents/bi-788.md is not in the diff, so its Touches list is kept; cap-shape-eval is already listed, and a feature is reached through its capability, so no new line is owed (PM-4)."
+  - "Failure-and-recovery for fn-898 (F20-F25) is in the hidden file for the new feature, and the changed capability 'Fails if' reached fn-798's entry (F19) (PM-6)."
+  - "Citations checked on the base ref: builder-isolation.md quote 'the builder cannot teach to a test it cannot see' exists; evidence-file.md lines 34-38 hold session_id and the ledger offsets."
+
+findings:
+  - id: PM-F1
+    severity: P3
+    file: .garura/product/product-os/_spine.yaml
+    line: 170
+    also: [".garura/product/product-os/_spine.yaml:484"]
+    principle: PM-7
+    source: "plan/788/base:ontology.md, opening paragraph; Capability property 'Name and one line'"
+    finding: "The spine one-lines were not updated with the pages. cap-shape-eval still says 'keep it where no builder can read it' and fn-798 still says 'where no builder reads', while capability.md and fn-798/feature.md now say the build is given the intent, never the eval, and a read is flagged, not prevented. Agents read the spine first, so they get the old design."
+    fix: "Reword both one_line values to the new wording (kept in plain text; the build is never given it; a read is flagged)."
+
+  - id: PM-F2
+    severity: P3
+    file: .garura/product/product-os/slices/sl-intent-to-design.yaml
+    line: 5
+    also: [".garura/product/product-os/slices/sl-intent-to-design.yaml:21"]
+    principle: PM-1
+    source: "plan/788/base:ontology.md, kind Slice ('one vertical outcome a person can test end to end'); slice.yaml (name, 'outcome: one line')"
+    finding: "Adding fn-898 stretches the slice past its name and surface. The slice is 'From a named piece of work to its design' and its tester runs three plays; the new user_action also has the tester run a lint check over build plays and find a flag from a build session, which only exists after a build the slice does not run. The outcome is now a multi-clause sentence, not one line. The six fields are all present and agree, so this is about fit, not shape."
+    fix: "Product owner to confirm that fn-898 belongs in this slice (and whether its flag can be tested end to end without a build), or give it its own slice; shorten the outcome to one line."
+
+  - id: PM-F3
+    severity: P3
+    file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+    line: 22
+    principle: PM-5
+    source: "plan/788/base:ontology.md, kind Story (Rules: the builder reads the story and the collected context); docs/adr/049 section 4"
+    finding: "'The stories are the build's whole brief' is not what the committed design says. The builder reads the story and also the context its context sub-agent collected from the story's Context guidance. The clause 'a story never names the eval, the hidden file or the plan's evals folder' is fine; the 'whole brief' claim is wrong and may mislead the plan play. fn-898/feature.md:15 repeats it more carefully ('inputs are the slice's stories, each with its scope of work and Context guidance') but also leaves out the collected context."
+    fix: "Drop 'whole brief'; say the story and its Context guidance are what the build starts from."
+
+  - id: PM-F4
+    severity: P3
+    file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+    line: 22
+    principle: PM-6
+    source: "plan/788/base:ontology.md, kind ICE (Rules: each line has one reader that writes from it); docs/adr/052 section 1"
+    finding: "The new rule for /shape-plan (a story never names the eval, hidden file or evals folder) is in Rules & behavior only. fn-818's ICE has no goal or 'Fails if' line for it, so the plan play does not read it as intent and the hidden file has no failure condition for it (F8 and F11 cover failure/recovery conditions in stories, not naming the eval). The guarantee is not carried anywhere an agent or the eval reads."
+    fix: "Add a 'Fails if' line to fn-818's ICE (and its hidden-file entry), or state in the page that fn-898's lint check covers it and leave the plan play out."
+
+  - id: PM-F5
+    severity: P3
+    file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+    line: 25
+    principle: PM-8
+    source: "plan/788/base:docs/adr/049 section 4 and Negative/Work lines (the read rule, encryption #828 to come); plan/788/base:ontology.md, Slice rules"
+    finding: "The acceptance criterion 'Given the ontology and managing-work.md ... they say the build is given the intent, never the eval, and not that the eval is encrypted' cannot hold after this change: ontology.md and managing-work.md are not in the diff. The committed ontology v12 says the builder 'never reads' the eval and managing-work.md says 'a builder never reads the evals folder'. The change is therefore shipping a page whose own criterion is false, and the base design (ADR 049 section 4, #828) still names encryption. Only ADR 057, added by this branch, amends ADR 049, so it cannot ground this check; the human owns whether the decision is right."
+    fix: "Update ontology and managing-work.md in this change, or move the criterion to the work that does it."
+
+  - id: PM-F6
+    severity: P3
+    file: .garura/product/product-os/software-delivery-planning/domain.md
+    line: 18
+    also:
+      - ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md:16"
+      - ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md:36"
+      - ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md:41"
+      - ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md:36-37"
+    principle: PM-2
+    source: "plan/788/base:.../product-os/grounding/feature.md ('## Sources': where it is seen, one source per line)"
+    finding: "Five model pages now cite '798/specs/design.md, lines 7-10' and 'grounding-questions.md' as sources. Those are one issue's working files in short-term memory (a partial path, line numbers that move), not a durable source a later reader can open. The same sentence ('the product owner dropped encryption and #828') is pasted into four pages. The durable record is ADR 057, which the pages do not cite."
+    fix: "Cite ADR 057 (once accepted) and the GitHub issue; drop the line-numbered working-file citations."
+
+  - id: PM-F7
+    severity: P3
+    file: .garura/product/product-os/intents/bi-788.md
+    line: 16
+    also: [".garura/product/product-os/intents/bi-788.md:18"]
+    principle: PM-4
+    source: "plan/788/base:ontology.md, kind Business Intent ('Who writes' paragraph: only a person confirms or drops a business intent)"
+    finding: "Not in the diff, so unchanged: bi-788 still says 'The eval is kept in a place where no builder can read it' and 'Do not let a builder read the eval'. The model pages now say the eval is in plain text and a read is only flagged. The agents must not change the intent, so this is for the product owner: confirm the wording stays or edit it."
+    fix: "Ask the product owner; do not edit."
+
+  - id: PM-F8
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+    line: 6
+    principle: PM-3
+    source: "plan/788/base:docs/adr/052 section 5 (a thin ICE and its pages); pages fn-795/fn-798/fn-818 as committed on the base"
+    finding: "fn-898 is a thin feature but lacks the '> To be deepened later: written by /shape-slice ...' line that fn-795, fn-798 and fn-818 carry under What it does. The two thin marks agree, so it is still valid; this is only inconsistency."
+    fix: "Add the line, or leave."
+
+  - id: PM-F9
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+    line: 6
+    principle: PM-1
+    source: "plan/788/base:ontology.md, kind Capability ('something the product can do'; features hang off it through the spine)"
+    finding: "fn-898 holds two checks (a lint check on build-play inputs and a ledger check on a build session), both about the build and not about writing the eval, and sits under cap-shape-eval 'Write the hidden eval'. The capability's own base 'Checked by' line already expects the build-input check, so this is a judgement call. The capability page also now lists its features in prose, which the spine already holds."
+    fix: "Product owner to confirm the parent capability and whether the two checks are one feature."
+
+grounding_unavailable: []
+notes:
+  - "The ADR 057 text and docs/philosophy/idd-principles.md edits are in the diff and were not used to ground any finding."
+  - "No P1 or P2 finding. The mechanical shape (slice six fields, Touches list, thin mark, feature headings) conforms."
+counts: {P1: 0, P2: 0, P3: 7, P4: 2}

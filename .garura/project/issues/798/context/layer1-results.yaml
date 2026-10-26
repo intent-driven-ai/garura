@@ -1,0 +1,23 @@
+# Layer 1 of /check-change for PR #900 — the installed tools, run from the project root on the source layout
+lint_components:
+  command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+  summary: { errors: 36, warnings: 1 }
+  in_changed_paths: 0
+  there_before: 37
+lint_play:
+  next_map: ".garura/project/issues/798/context/templates/standards/rules/pipeline-next.md (phoenix 767117348e1a)"
+  runs:
+    - { play: shape-eval, changed: SKILL.md, verdict: PASS, next_command_check: PASS }
+    - { play: shape-slice, changed: scripts only, verdict: PASS }
+    - { play: discover-domains, changed: scripts only, verdict: PASS }
+    - { play: discover-intent, changed: scripts only, verdict: PASS }
+    - { play: create-play, changed: references only (SKILL.md unchanged), verdict: "FAIL (6 gaps, there before — a bootstrap meta-play with no compiled sections)" }
+    - { play: install-garura, changed: scripts only (SKILL.md unchanged), verdict: "FAIL (5 gaps, there before — a bootstrap meta-play)" }
+runnable_checks:
+  - { suite: core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py, result: "34 passed, 0 failed" }
+  - { suite: core/components/plays/shape-slice/scripts/test_persist_slice.py, result: "100 passed, 0 failed" }
+  - { suite: core/components/plays/shape-slice/scripts/test_render_brief.py, result: "29 passed, 0 failed" }
+  - { suite: core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py, result: "124 passed, 0 failed" }
+  - { suite: core/components/plays/create-play/references/test_intent_touches.py, result: "21 passed, 0 failed (the six copies are identical)" }
+  - { suite: core/components/plays/install-garura/scripts/test_install.py, result: "OK" }
+  - { suite: "slice-evals (the eval runner)", result: "not run — the runner is a later play (#819)" }
