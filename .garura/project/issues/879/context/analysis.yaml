@@ -1,0 +1,51 @@
+# assess-changes output (commit-change, loop round 1) — executor schema
+# issue is left out of the group on purpose: the mapping step resolves it
+needs_judgment: false
+branch: plan/788/879-epic-other-children
+
+change_groups:
+  - id: fix-shape-plan-epic-other-children
+    commit_type: fix
+    scope: shape-plan
+    subject: "Let the tracker check accept an epic that holds other children besides its slice's stories"
+    confidence: high
+    files:
+      - core/components/plays/shape-plan/reference/ice.md
+      - core/components/plays/shape-plan/SKILL.md
+      - core/components/plays/shape-plan/stop-condition.yaml
+      - core/components/plays/shape-plan/scripts/check_tracker.py
+      - core/components/plays/shape-plan/scripts/find_work_items.py
+      - core/components/plays/shape-plan/scripts/render_brief.py
+      - core/components/plays/shape-plan/scripts/write_work_items.py
+      - core/components/plays/shape-plan/scripts/test_check_tracker.py
+      - core/components/plays/shape-plan/scripts/test_find_work_items.py
+      - core/components/plays/shape-plan/scripts/test_render_brief.py
+      - core/components/plays/shape-plan/scripts/test_write_work_items.py
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: >-
+      One concern, one commit: the ICE source (reference/ice.md), the compiled SKILL.md and
+      stop-condition.yaml, the four scripts and their tests all carry the same rule (C13, F11,
+      D4) — an epic may hold other children; the play never adds, removes or changes them.
+      Intent change, so the ICE source was edited and SKILL.md carries the new ice.md
+      fingerprint. check_tracker.py output gains an "others" key and write_work_items.py's
+      tracker-record gains "others" (additive, not breaking).
+
+exclusions:
+  - path: ".garura/project/issues/879/context/analysis.yaml"
+    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
+    blocking: false
+  - path: ".garura/project/issues/879/context/porcelain.txt"
+    reason: "the play's own run state — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
+    blocking: false
+  - path: ".garura/project/issues/879/context/templates/"
+    reason: "the play's own run state (template copies) — committed by the executor's final chore(stm) run-state commit (--run-state-dir)"
+    blocking: false
+
+risks:
+  sensitive_files: []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "the single group holds one concern (the shape-plan epic-other-children rule, ICE to tests); no unrelated file sets"}
+  SE-5: {status: PASS, evidence: "no sensitive filename patterns; no credential patterns (password/api_key/secret/token/private_key) in the diff"}

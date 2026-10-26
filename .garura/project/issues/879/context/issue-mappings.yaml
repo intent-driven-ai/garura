@@ -1,0 +1,24 @@
+# find-matching-issues output (commit-change, loop round 1, step 2) -- read-only on GitHub
+branch: plan/788/879-epic-other-children
+branch_signal:
+  issue_reference: 879
+  note: "branch is plan/<plan>/<issue>-<slug>: 788 is the plan, 879 is the issue (second segment)"
+issue_read:
+  number: 879
+  title: "/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice's stories"
+  state: open
+  type: Bug
+  parent: {number: 818, state: closed}
+mappings:
+  - group: fix-shape-plan-epic-other-children
+    commit_type: fix
+    issue: 879
+    confidence: high
+    signals:
+      branch: "match (879 in plan/788/879-epic-other-children)"
+      semantic: "issue is a Bug (fix); its title and Done-when name /shape-plan, the tracker check, C13/D4/SE-15 and the brief naming other children; the group touches shape-plan ICE, SKILL.md, stop-condition, check_tracker, render_brief and their tests"
+      proximity: "single group, one concern"
+    reasoning: "Branch names 879 and the issue's Done-when matches every file set in the group."
+unmapped: []
+conflicts: []
+summary: {total: 1, high: 1, medium: 0, low: 0, unmapped: 0, approval_recommended: false}
