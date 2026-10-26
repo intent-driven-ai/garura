@@ -1,0 +1,27 @@
+stop_condition: held
+clauses:
+- id: D1
+  says: 'the plan check reads ok: each feature of each slice the plan holds has exactly
+    one story (or is named as skipped), and the plan file''s tree agrees with each
+    epic''s map'
+  status: held
+  detail: ok = True (want True)
+- id: D2
+  says: the product owner's recorded answer is yes
+  status: held
+  detail: decision = 'yes' (want 'yes')
+- id: D3
+  says: 'the draft check reads ok: no story and no epic holds a failure or recovery
+    condition, and each story has its scope of work and its Context guidance'
+  status: held
+  detail: ok = True (want True)
+- id: D4
+  says: 'the tracker check reads ok: each work item the run wrote is in the tracker
+    as the record says, the epic with type Epic and each story with type Story, and
+    none with a label'
+  status: held
+  detail: ok = True (want True)
+- id: D5
+  says: 'the write guard reads ok: the run changed no file outside the plan file'
+  status: held
+  detail: ok = True (want True)
