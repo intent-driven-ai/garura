@@ -6,7 +6,7 @@ user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
 stale: true
-stale_note: 'waits for the rebuild of /build-epic (#855)'
+stale_note: 'waits for the rebuild of /build-epic (#855); evals-engineer no longer dispatches it (#798, ADR 057) — the rebuild picks a new owner or retires it'
 ---
 
 # author-steelman-evals
