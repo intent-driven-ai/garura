@@ -1,19 +1,22 @@
-# categories.yaml — check-change Step 2 (Assess Categories), PR #894, issue 879
-# Derived from the diff content (26 changed paths), not from a presumed list.
+# categories.yaml - check-change Step 2 (Assess Categories), PR #894, issue 879, ROUND 2
+# Derived from the round-2 diff content (51 changed paths), not from a presumed list.
 # Treatments are taken from the short-term copies in context/memory/knowledge/review/.
+# Round-1 note: the round-2 diff no longer holds stop-condition.yaml, render_brief.py or
+# write_work_items.py (and their tests); they are not listed. The earlier "other children are
+# allowed" design is replaced by "misplaced work stops the run" (C13, F12, S8, REC12).
 pr: 894
 issue: 879
+round: 2
 base: plan/788/base
 review_shelf: .garura/project/issues/879/context/memory/knowledge/review/
 severity_taxonomy: .garura/project/issues/879/context/memory/standards/rules/pr.md
 next_map_copy: .garura/project/issues/879/context/templates/standards/rules/pipeline-next.md
 categories:
   - name: harness
-    what: "The shape-plan play's compiled surface and its ICE source: the play SKILL.md, reference/ice.md (constraint C13, failure F11, scenario S3, done-check D4, recovery REC11) and stop-condition.yaml (D4). Together they change what the play decides and guarantees (an epic may hold other children)."
+    what: "The shape-plan play's compiled surface and its ICE source. ice.md adds an intent change (constraint C13 reworded; failure F12; scenario S8; recovery REC12); SKILL.md carries the same change (C13, F12 row, SE-19, SCE-8, S8 row, REC12 reference, counts, fingerprint row). The play now stops, before any tracker write, when an epic holds work that is not its slice's. stop-condition.yaml is NOT in the diff (D1-D5 unchanged)."
     evidence:
       - core/components/plays/shape-plan/SKILL.md
       - core/components/plays/shape-plan/reference/ice.md
-      - core/components/plays/shape-plan/stop-condition.yaml
     playbook: review/harness
     design_bearing: true
     treatment:
@@ -21,91 +24,138 @@ categories:
       linters:
         - name: lint-components
           command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
-          note: "Repository holds Garura's source (core/components is in the changed paths), so the source layout applies. Only violations in changed paths are findings; count the rest as 'there before'."
+          note: "Repository holds Garura's source (core/components is in the changed paths), so the source layout applies. Only violations in changed paths are findings; count the rest as 'there before'. Not installed -> 'not installed'; crash -> 'did not run: <first error line>'. Neither is a pass."
         - name: lint-play
           command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-plan/SKILL.md --next-map .garura/project/issues/879/context/templates/standards/rules/pipeline-next.md"
-          note: "Not installed -> record 'not installed'; crash -> record 'did not run: <first error line>'. Neither is a pass."
+          note: "Checks every C/F/S has an eval, one recovery per failure, required sections, a real intent fingerprint, no orphan reference. Not installed -> 'not installed'; crash -> 'did not run: <first error line>'."
       runnable_checks:
-        - "ICE-source rule (the repo holds the plays' source): the intent change in SKILL.md (C13 wording, F11 row, SE-15, SCE-3) traces to the same change in reference/ice.md, and the SKILL.md fingerprint row equals the sha256 of the changed reference/ice.md (done by hand: sha256sum core/components/plays/shape-plan/reference/ice.md vs the fingerprint row)."
-        - "stop-condition.yaml D4 text agrees with ice.md D4 (by hand)."
+        - "ICE-source rule (the repo holds the plays' source): the intent change in SKILL.md (C13 wording, F12, SE-19, SCE-8, S8, REC12) traces to the same change in reference/ice.md. By hand."
+        - "Fingerprint: the SKILL.md fingerprint row (sha256:06f818c9...) equals sha256sum of the changed core/components/plays/shape-plan/reference/ice.md. By hand."
+        - "Counts agree: SKILL.md says F1-F12, S1-S8, 19 step evals, 8 scenario evals, 12 recovery entries (5 human); they match the numbered items present. By hand."
+        - "stop-condition.yaml is unchanged and D1-D5 still hold with the new stop; confirm ice.md's done-checks were not changed. By hand."
       design_grounding:
         required: true
-        sources_to_ground_from: "base-ref (git show plan/788/base:<path>), docs/philosophy/**, docs/adr/**, standards/rules/** (user-facing-voice, play-close, evidence-recording) through the memory tool, glossary. Never from the branch's added prose."
+        sources_to_ground_from: "base ref (git show plan/788/base:<path>: the prior ice.md, SKILL.md and managing-work.md), docs/philosophy/**, docs/adr/** (ADR 049 one plan per intent, ADR 051), standards/rules/** (user-facing-voice, play-close, evidence-recording, asking-a-person) through the memory tool, glossary. Never from the branch's added prose (the new C13 text, specs/design.md and the managing-work.md rule are all added by this branch and are not grounding)."
         reviewer: "human (the design) + tool (conformance)"
 
   - name: executable-code
-    what: "Python scripts the shape-plan play runs: the tracker check now accepts other children under an epic (check_tracker.py), the finder lists them (find_work_items.py), the brief names them (render_brief.py), the writer records them (write_work_items.py). The tracker check touches a real tracker, so its data-safety path matters."
+    what: "Python the shape-plan play runs. check_tracker.py now checks the epic's sub-issues are exactly its slice's stories and reports each other sub-issue as misplaced work (read-only). find_work_items.py lists misplaced sub-issues with titles into work-items.json, flips ok to false and so keeps the run from writing. The tracker check touches a real tracker, so the data-safety path matters."
     evidence:
       - core/components/plays/shape-plan/scripts/check_tracker.py
       - core/components/plays/shape-plan/scripts/find_work_items.py
-      - core/components/plays/shape-plan/scripts/render_brief.py
-      - core/components/plays/shape-plan/scripts/write_work_items.py
     playbook: review/code
     design_bearing: false
     treatment:
       layers: [layer-1]
       linters:
         - name: language-linter (ruff)
-          command: "ruff check core/components/plays/shape-plan/scripts/check_tracker.py core/components/plays/shape-plan/scripts/find_work_items.py core/components/plays/shape-plan/scripts/render_brief.py core/components/plays/shape-plan/scripts/write_work_items.py"
-          note: "ruff is on PATH; the repo commits no ruff config, so defaults apply. Record that gap."
+          command: "ruff check core/components/plays/shape-plan/scripts/check_tracker.py core/components/plays/shape-plan/scripts/find_work_items.py"
+          note: "The repo commits no ruff config, so defaults apply; record that gap."
         - name: check-pr-quality
           command: "check-pr-quality against pr.diff with the pr.md taxonomy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)"
           note: "Run by the play or quality-auditor, not by this agent."
       runnable_checks:
-        - "Review the data-safety path by hand: write_work_items.py (writes the tracker) must never add, remove or change an epic's other children; check_tracker.py reads only."
+        - "Data-safety path, by hand: find_work_items.py and check_tracker.py only read the tracker; a non-empty misplaced list must leave ok false and stop the write path (no tracker-record.json). A misplaced item with a missing tracker entry must not crash the message (check_tracker.py handles tracker.get(n) being None)."
       design_grounding:
         required: false
-        note: "Standard is industry best practice plus the pr.md taxonomy (playbook review/code). Design of the behaviour itself is covered in the harness category."
+        note: "Standard is industry best practice plus the pr.md taxonomy (playbook review/code). The behaviour's design is covered in the harness category."
 
   - name: tests
-    what: "Automated tests for the shape-plan scripts, covering both cases the issue names: an epic with other children passes, and a missing story of the slice or a removed named other child fails."
+    what: "Tests for the two changed scripts: a misplaced sub-issue fails the tracker check with its title; the finder lists misplaced items and reports ok false."
     evidence:
       - core/components/plays/shape-plan/scripts/test_check_tracker.py
       - core/components/plays/shape-plan/scripts/test_find_work_items.py
-      - core/components/plays/shape-plan/scripts/test_render_brief.py
-      - core/components/plays/shape-plan/scripts/test_write_work_items.py
     playbook: review/tests
     design_bearing: false
     treatment:
       layers: [layer-1]
       linters:
         - name: language-linter (ruff) on the test code
-          command: "ruff check core/components/plays/shape-plan/scripts/test_check_tracker.py core/components/plays/shape-plan/scripts/test_find_work_items.py core/components/plays/shape-plan/scripts/test_render_brief.py core/components/plays/shape-plan/scripts/test_write_work_items.py"
+          command: "ruff check core/components/plays/shape-plan/scripts/test_check_tracker.py core/components/plays/shape-plan/scripts/test_find_work_items.py"
           note: "Also look for skipped or disabled tests and tests that assert nothing."
         - name: check-pr-quality (TEST-* rows)
           command: "check-pr-quality against pr.diff with the pr.md taxonomy"
-          note: "Run by the play or quality-auditor. Note the pr.md 'tests' path glob does not match test_*.py names; the content decides here."
+          note: "Run by the play or quality-auditor. The pr.md 'tests' path glob does not match test_*.py names; the content decides here."
       runnable_checks:
-        - "Run, do not just read. From core/components/plays/shape-plan/scripts: python3 test_check_tracker.py; python3 test_find_work_items.py; python3 test_render_brief.py; python3 test_write_work_items.py. A red suite is a blocker."
-        - "Also run the unchanged siblings that share test_support.py only if a changed test helper changed (none did in this diff)."
+        - "Run, do not just read. From core/components/plays/shape-plan/scripts: python3 test_check_tracker.py; python3 test_find_work_items.py. A red suite is a blocker. If a suite does not run on this machine, say so (not run is not passed)."
+      design_grounding:
+        required: false
+
+  - name: documentation
+    what: "The project's work guide gains a rule: an Epic holds only its slice's work (its Stories, with Chore/Spike/Bug under the Story it serves); other work is filed on its own; work that blocks the plan gets its own Epic and merges back. It is prose that people and agents read before filing work. It is not a decision record, harness file or memory file, so the docs playbook governs, with one added hand check because the rule restates what the play now enforces."
+    evidence:
+      - .garura/user-provided/managing-work.md
+    playbook: review/docs
+    design_bearing: false
+    treatment:
+      layers: [layer-1]
+      linters:
+        - name: prose checks (tool performs directly; no committed prose linter yet)
+          command: "none committed - the tool checks spelling, grammar, links, heading hierarchy, leftover TODOs, terminology consistency, completeness, and cites each"
+          note: "Gap named in the docs playbook. Terminology: Epic/Story/Chore/Spike/Bug as the guide already uses them; the guide names no title prefixes or labels."
+      runnable_checks:
+        - "Cross-check by hand: the added rule says the same as the play's C13 in ice.md (an epic holds its slice's stories; other work is filed on its own; /shape-slice and /shape-plan place it). The rule names '/shape-slice' and '/shape-plan' and '#879' - confirm each resolves. This is a consistency check, not grounding: both texts come from this branch."
+        - "Note for the play: the guide is also read by agents as a rule. If the harness grounding finds the rule diverges from ADR 049, raise it under harness, not here."
+      design_grounding:
+        required: false
+
+  - name: plan-upkeep
+    what: "The business-intent plan file for #788: 17 nodes move out from under epic #794 (they are listed at the plan's top level instead) and #794's kind changes from capability to epic. A plan file mirrors the tracker work and is the people-facing work list. Structured YAML data, not prose, not a harness file, not memory."
+    evidence:
+      - .garura/project/plans/788.yaml
+    playbook: null
+    playbook_missing: true
+    note: "playbook missing: no review playbook covers a plan file. Not forced into 'config-maps' (it points at issue numbers, not paths) nor 'docs'. Follow-up: write a review/plan-upkeep playbook (suggested treatment: layer 1 only; YAML parses; every moved issue number appears exactly once in the tree; no node lost or duplicated; parent/child and 'needs' links still resolve; statuses unchanged; titles match the tracker; no design-grounding, because the plan's shape is set by ADR 049 and managing-work.md)."
+    design_bearing: false
+    treatment:
+      layers: [layer-1]
+      linters: []
+      runnable_checks:
+        - "Parse the YAML at HEAD and at plan/788/base; compare node sets: every node removed from under #794 reappears exactly once elsewhere in the tree, none is lost or duplicated, and each 'needs' target still exists. By hand (python3 -I yaml parse)."
+        - "The kind change capability -> epic on #794 and the '(1 title change)' named in the task: confirm the new title matches the tracker issue title (read the issue json in context/, no tracker call)."
+        - "The moves agree with specs/design.md section 2 (17 items: 16 listed + #831); that spec is a record of intent, not grounding."
 
   - name: run-evidence
-    what: "Records the earlier plays (start-change, commit-change, propose-change) left in the issue's short-term memory: analysis, branch, commits, issue and PR JSON, PR body, self-review, resolved rules, template copies. Mechanical run output, not authored work."
+    what: "Records the earlier plays (start-change, commit-change, propose-change, check-change round 1) left in the issue's short-term memory: analysis, branch, commits, issue and PR JSON, PR body, self-review, resolved rules, template copies, memory copies, the round-1 findings, decision and posted records, the design note (specs/design.md) and the move log. Mechanical run output or a working record, not reviewed work."
     evidence:
       - .garura/project/issues/879/context/analysis.yaml
       - .garura/project/issues/879/context/branch.json
+      - .garura/project/issues/879/context/categories.yaml
       - .garura/project/issues/879/context/commits.yaml
+      - .garura/project/issues/879/context/context.yaml
+      - .garura/project/issues/879/context/decision-comment.md
+      - .garura/project/issues/879/context/design-findings-harness.yaml
       - .garura/project/issues/879/context/issue-mappings.yaml
       - .garura/project/issues/879/context/issue.json
+      - .garura/project/issues/879/context/layer1-findings.yaml
+      - .garura/project/issues/879/context/lint-components.txt
+      - .garura/project/issues/879/context/memory/**
+      - .garura/project/issues/879/context/moves.jsonl
       - .garura/project/issues/879/context/porcelain.txt
+      - .garura/project/issues/879/context/posted.json
       - .garura/project/issues/879/context/pr-body.md
+      - .garura/project/issues/879/context/pr.diff
       - .garura/project/issues/879/context/pr.json
       - .garura/project/issues/879/context/propose-change-checkpoint.yaml
+      - .garura/project/issues/879/context/quality-findings.yaml
       - .garura/project/issues/879/context/resolved-rules.json
       - .garura/project/issues/879/context/self-review.md
-      - .garura/project/issues/879/context/templates/manifest-close-start-change.json
-      - .garura/project/issues/879/context/templates/standards/rules/pipeline-next.md
-      - .garura/project/issues/879/context/templates/standards/templates/delivery-report.md
+      - .garura/project/issues/879/context/templates/**
       - .garura/project/issues/879/context/work-description.txt
+      - .garura/project/issues/879/review/decision.yaml
+      - .garura/project/issues/879/review/findings.yaml
+      - .garura/project/issues/879/review/posted.json
+      - .garura/project/issues/879/review/recommended_verdict.yaml
+      - .garura/project/issues/879/specs/design.md
     playbook: null
     playbook_missing: true
-    note: "playbook missing: no review playbook covers recorded run evidence. pr.md classifies these paths as artifact type 'stm-evidence' (.garura/project/**), which is exempt from the grep rules. Not forced into 'docs' (they are not human-facing prose) nor 'memory'. Follow-up: write a review/run-evidence playbook (suggested treatment: layer 1 only, check no secrets and no real names, no design-grounding)."
+    note: "playbook missing: no review playbook covers recorded run evidence. pr.md classifies .garura/project/** as artifact type 'stm-evidence', exempt from the grep rules. Not forced into 'docs' or 'memory'. Follow-up: write a review/run-evidence playbook (suggested: layer 1 only; no secrets, no real names; no design-grounding). specs/design.md is the author's own design note: reading it explains intent but it is never a grounding source (it is added by this branch)."
     design_bearing: false
     treatment:
       layers: []
       linters: []
       runnable_checks:
-        - "No playbook treatment. Suggested by hand until a playbook exists: scan for secrets and tokens in the recorded JSON/YAML (SEC rows via check-pr-quality on the diff); no design-grounding."
+        - "No playbook treatment. By hand until a playbook exists: scan the recorded JSON/YAML in the diff for secrets and tokens (SEC rows via check-pr-quality on the diff). No design-grounding."
 
 design_bearing_categories: [harness]
-playbook_missing_categories: [run-evidence]
+playbook_missing_categories: [plan-upkeep, run-evidence]

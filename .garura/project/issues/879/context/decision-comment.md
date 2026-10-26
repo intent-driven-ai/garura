@@ -1,7 +1,10 @@
-Reviewer verdict (the product owner, round 1): reject
+Reviewer verdict (the product owner, round 2): approve
 
-The rule stays: an epic holds only the work of its own slice (its stories, and the chores and other work that serve that slice). Work found along the way goes under its own epic; a plan may hold several epics when they serve the same business intent. Work that blocks the plan gets its own epic, is delivered, and merges back where it spawned.
+Round 2 resolves round 1's findings (H-1 to H-4): an epic stands for its slice, and misplaced work under it stops `/shape-plan` before any tracker write. 10 test suites, 137 passed, 0 failed; ruff clean; no linter error in a changed path; the plan file keeps all 51 nodes, with the 16 moved out from under #794 once each.
 
-This PR taught `/shape-plan` to accept other children under an epic (finding H-1), which is the opposite of that rule. #879 is reworked: the play keeps the rule, its brief names an epic's misplaced work by title as work that belongs under its own epic, and the check fails with that message; plan 788's extra items under #794 move to their own epic(s) after the product owner's yes; and the blocker rule is written into the work guide.
+Left open, to one follow-up issue:
+- H-5 / Q2 (P3): until `/shape-slice` or `/shape-plan` places it, misplaced work filed on its own has no parent; the work guide and the play's recovery should say so, since the guide and the ontology say every Story hangs under its Epic and every Bug under its Story.
+- H-6 (P3): blocker work as "its own slice" against ADR 049 (a slice is testable end to end) — the product owner decides.
+- Q1 (P3, CODE-09) and H-7 (P4): two functions grew more complex; Step 8 does not route the tracker check's misplaced-work failure to REC12.
 
-Other findings of this round (H-2, H-3, H-4, CODE-1, CODE-10) are folded into the rework or dropped with it.
+Next: merge into plan/788/base, then `/shape-plan 788` runs again.
