@@ -95,7 +95,7 @@ tree:
       - 876
     - issue: 879
       kind: bug
-      title: '/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice''s stories'
+      title: '/shape-plan stops when an epic holds work that is not its slice''s: an epic stands for one slice'
       status: next
 # Moved out from under epic #794 on 2026-10-26 (#879): not stories of its slice. Each is filed as its own
 # story, bug or chore; /shape-slice and /shape-plan place them when they run.
