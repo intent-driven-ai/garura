@@ -247,6 +247,9 @@ SCOPES = {
             # shape-plan makes the plan, and its work items, for each of Garura's own business
             # intents (#818). Its workers: product-os-keeper + author-work-items; template-manager is kept.
             "shape-plan",
+            # shape-eval writes each slice's eval for Garura's own business intents (#798).
+            # Its workers: evals-engineer + author-slice-eval; template-manager is kept.
+            "shape-eval",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -261,6 +264,8 @@ SCOPES = {
             "find-slice-gaps", "author-slice-brief", "enrich-grounding", "author-failure-recovery",
             # the skill shape-plan calls (#818)
             "author-work-items",
+            # the skill shape-eval calls (#798)
+            "author-slice-eval",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
@@ -268,6 +273,8 @@ SCOPES = {
             # every play's close asks template-manager for its templates (ADR 039 §8–9)
             "template-manager",
             "product-os-keeper",
+            # the agent shape-eval dispatches (#798)
+            "evals-engineer",
         },
     },
 }
