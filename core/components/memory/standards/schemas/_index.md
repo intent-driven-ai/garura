@@ -10,6 +10,7 @@ Agents and skills query this category when they need to know: **"What does a val
 |------|-------------|-----------|
 | `intent.yaml` | Canonical intent.yaml contract — the 4 content fields (intent, constraints, failure_conditions, scenarios) plus the metadata zone (name, description, version, checksum). Produced by `intent-crafter`, consumed by `intent-resolver` and `/create-play`. | `intent-crafter`, `intent-resolver`, `create-play`, every play's `reference/intent.yaml` |
 | `pr-findings.yaml` | Canonical schema for the `findings.yaml` artifact produced by `check-pr-quality`. Defines meta fields, findings array (standard_id, severity, file, line, evidence), counts, sort order, and rejection rules. | `check-pr-quality`, `review-pr`, `check-quality` |
+| `eval/steps-<kind>.yaml` | The step library of one surface kind for a slice's eval (#798): every sentence an eval step may use, each one exact action or check that a runner does with no agent. `eval/steps-command-line.yaml` is the first; a library for the browser, the mobile app and the backend endpoint is added when a slice first needs it. | `/shape-eval`, `author-slice-eval`, the eval runner (later) |
 
 ## ProductOS v1 schemas (`product-os/`)
 
