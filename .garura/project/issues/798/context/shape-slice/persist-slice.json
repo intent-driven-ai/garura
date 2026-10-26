@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "action": "updated",
+  "id": "sl-intent-to-design",
+  "reused": true,
+  "added_intents": [],
+  "record": "slices/sl-intent-to-design.yaml",
+  "record_written": true,
+  "differences": [
+    "name differs: the slice keeps 'From a named piece of work to its design'; the new shape says 'Name a business intent, and three plays write its slice, plan and eval' \u2014 the record takes the new text"
+  ],
+  "dropped_fields": [],
+  "upgraded_to_v2": [],
+  "pulled_in": [],
+  "pushed_out": []
+}

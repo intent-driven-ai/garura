@@ -1,0 +1,88 @@
+{
+  "id": "sl-intent-to-design",
+  "slug": "intent-to-design",
+  "name": "From a named piece of work to its design",
+  "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no build is given; a check flags each build session that read the evals folder, and the flag is recorded in that build run's evidence.",
+  "feature_refs": ["fn-795", "fn-818", "fn-798", "fn-898"],
+  "vertical": "the Claude Code command line",
+  "intents": ["bi-788"],
+  "surface": {
+    "id": "surf-claude-code-cli",
+    "name": "the Claude Code command line",
+    "persona_ref": "product-owner",
+    "user_action": "runs /shape-slice, then /shape-plan, then /shape-eval on a business intent, then runs the check that shows no build play's inputs name the evals folder, and finds the flag of a build session that read it in that build run's evidence"
+  },
+  "why_this_order": "The slice must exist before its plan, and the plan's epic and stories before the eval that reads them. The check of fn-898 comes last, because it can only be tested when the evals folder holds an eval that a build must not be given.",
+  "left_out": [
+    {
+      "what": "Running the eval after the build (also on Griffin)",
+      "why": "fn-798 lists it as out of scope (fn-798/feature.md line 29), and the shape-eval capability's ICE puts running the eval out (shape-eval/capability.md line 27); the eval runner is a later play (#819)."
+    },
+    {
+      "what": "Blocking a read of the evals folder by a hook (#893)",
+      "why": "fn-898's check only flags the read and does not block it; blocking is the guardrails work (#893), out of scope on fn-898's page (fn-898/feature.md lines 16 and 28)."
+    },
+    {
+      "what": "Encrypting the eval (#828)",
+      "why": "The product owner dropped encryption and closed #828 on 2026-10-26: the eval stays in plain text, and the build is given the business intent through the stories, never the eval (ADR 057, section 7)."
+    },
+    {
+      "what": "Showing the flag anywhere other than the build run's evidence: in the run's close report, or as drift checks and evidence warnings in Griffin",
+      "why": "The product owner said the flag is recorded in the build run's evidence for now, and that the drift checks and evidence warnings that show it will be built in Griffin later (Q-flag-1, #798)."
+    },
+    {
+      "what": "Changing the proof line of business intent 788 that says no builder can read the eval",
+      "why": "The product owner said yes to the new words (Q-proof-1, #798: 'No builder is given the eval, and a check flags each build session that read the evals folder.'), but this slice changes no word of a confirmed intent page except its Touches list: the play that owns the intent page writes the proof line later (Q-proof-2, settled)."
+    },
+    {
+      "what": "The design, build, test or validation of an epic (#819)",
+      "why": "The intent's Must not excludes it (bi-788.md line 18); so the slice has no build play of its own, and the check of fn-898 treats every play, skill and agent that builds the software, and every context sub-agent it starts, as a build play; only /shape-slice, /shape-eval and the eval may name the evals folder (Q-builders-1, #798)."
+    },
+    {
+      "what": "Changing the eval files that /shape-eval wrote in run 1",
+      "why": "The eval is a fixed yardstick, and the product owner said a later /shape-eval names the moved story lines for a person (Q5 of the #798 run 2 change, change.md line 3); this run changes pages, ICE lines and hidden-file entries only."
+    }
+  ],
+  "decisions": [
+    {
+      "question": "Which features does the slice hold?",
+      "answer": "fn-795, fn-818, fn-798 and fn-898, kept as they are in the slice: the product owner said fn-898 stays in the slice and the slice keeps the same features (Q1 of the #798 run 2 change). fn-898 serves the answers to Q-flag-1 and Q-builders-1.",
+      "sources": [
+        {"tier": "garura", "path": "product/product-os/slices/sl-intent-to-design.yaml", "start": 9, "end": 13},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 568, "end": 579},
+        {"tier": "short-term", "path": "798/context/shape-slice/change.md", "start": 3, "end": 5},
+        {"tier": "short-term", "path": "798/context/grounding-questions.md", "start": 7, "end": 33},
+        {"tier": "short-term", "path": "798/context/grounding-questions.md", "start": 34, "end": 53}
+      ],
+      "from_record": ["Q-flag-1", "Q-builders-1"]
+    },
+    {
+      "question": "In which order are the features built?",
+      "answer": "fn-795, then fn-818, then fn-798, then fn-898, the order the slice already has (Q1 of the #798 run 2 change).",
+      "sources": [
+        {"tier": "garura", "path": "product/product-os/slices/sl-intent-to-design.yaml", "start": 9, "end": 13},
+        {"tier": "garura", "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md", "start": 4, "end": 4},
+        {"tier": "garura", "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md", "start": 4, "end": 4},
+        {"tier": "short-term", "path": "798/context/shape-slice/change.md", "start": 5, "end": 5}
+      ]
+    },
+    {
+      "question": "Which surface does the tester use?",
+      "answer": "the Claude Code command line",
+      "sources": [
+        {"tier": "garura", "path": "product/product-os/slices/sl-intent-to-design.yaml", "start": 17, "end": 23},
+        {"tier": "garura", "path": "product/product-os/intents/bi-788.md", "start": 3, "end": 3},
+        {"tier": "short-term", "path": "798/context/shape-slice/change.md", "start": 5, "end": 5}
+      ]
+    },
+    {
+      "question": "Who tests the slice?",
+      "answer": "the product owner (persona product-owner)",
+      "sources": [
+        {"tier": "garura", "path": "product/product-os/intents/bi-788.md", "start": 7, "end": 7},
+        {"tier": "garura", "path": "product/product-os/slices/sl-intent-to-design.yaml", "start": 20, "end": 20},
+        {"tier": "short-term", "path": "798/context/shape-slice/change.md", "start": 5, "end": 5}
+      ]
+    }
+  ]
+}

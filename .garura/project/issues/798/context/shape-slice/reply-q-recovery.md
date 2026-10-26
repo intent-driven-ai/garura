@@ -1,0 +1,1 @@
+What we're building is Shape Slice. Why does it care about what it is building? All you have to do is to build this play called Shape Slice. The question you were asking me: it builds the files for itself. Why does it even matter? Why is that question important?

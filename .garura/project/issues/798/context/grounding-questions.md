@@ -76,4 +76,147 @@ questions:
   user_answer: yes — accepted as proposed
   resolved_at: '2026-10-26T06:52:29Z'
   resolved_by_run: shape-slice-798-898
+- id: Q-recovery-1
+  kind: asked
+  blocking: false
+  asked_at: '2026-10-26T13:44:19Z'
+  topic: recovery
+  question: When the thing a feature builds is itself the hidden list of failure lines,
+    the tests folder or a check, may the fix that the builder is given name that thing
+    as part of what it builds?
+  proposed_answer: Yes. Where the hidden list, the tests folder or a check is the
+    very thing the feature builds (fn-795 writes the hidden file; fn-898 builds the
+    lint check and the ledger check), a fix given to the builder names it as that
+    product, because it is what the builder sees and changes in the product. It never
+    names the eval, or the check that found the failure. Every other fix given to
+    the builder names none of them, and a fix that cannot be said without them goes
+    to 'a person must decide'.
+  basis:
+    kind: memory
+    ref: phoenix standards/rules/expectation-generation.md:88-92
+  pipeline_source: /shape-slice shape-slice-20261026-run2
+  pipeline_guess: Yes. Where the hidden list, the tests folder or a check is the very
+    thing the feature builds (fn-795 writes the hidden file; fn-898 builds the lint
+    check and the ledger check), a fix given to the builder names it as that product,
+    because it is what the builder sees and changes in the product. It never names
+    the eval, or the check that found the failure. Every other fix given to the builder
+    names none of them, and a fix that cannot be said without them goes to 'a person
+    must decide'.
+  impact_if_unknown: The rule says a fix given to the builder never names the tests
+    folder, the eval, the hidden list or the check that found the failure. Read word
+    for word, the fixes for the play that writes the hidden list, and for the checks
+    that flag a build that read the tests, lose their meaning or all go to a person,
+    so the builder can fix fewer things alone. Read too loosely, a builder gets a
+    pointer to the tests, builds to pass them, and a pass proves less than the business
+    intent asks.
+  user_decision: null
+  user_answer: null
+  resolved_at: null
+  resolved_by_run: null
+- id: Q-recovery-1-2
+  kind: asked
+  blocking: false
+  asked_at: '2026-10-26T14:48:15Z'
+  topic: recovery
+  question: When a feature builds the hidden file, the plan's evals folder or a check,
+    may the fix that the builder gets name that thing?
+  proposed_answer: Yes. When a feature builds the hidden file, the plan's evals folder
+    or a check, the fix that the builder gets may name that thing. It is part of the
+    product that the builder sees and changes. For example, fn-795 writes the hidden
+    file, and fn-898 builds the lint check and the ledger check. The fix never names
+    the eval, or the check that found the failure. Every other fix that the builder
+    gets names none of them. A fix that cannot be said without them goes to 'a person
+    must decide'.
+  basis:
+    kind: memory
+    ref: phoenix standards/rules/expectation-generation.md:88-92
+  pipeline_source: /shape-slice shape-slice-20261026-run2-round2
+  pipeline_guess: Yes. When a feature builds the hidden file, the plan's evals folder
+    or a check, the fix that the builder gets may name that thing. It is part of the
+    product that the builder sees and changes. For example, fn-795 writes the hidden
+    file, and fn-898 builds the lint check and the ledger check. The fix never names
+    the eval, or the check that found the failure. Every other fix that the builder
+    gets names none of them. A fix that cannot be said without them goes to 'a person
+    must decide'.
+  impact_if_unknown: 'The hidden file (failure-and-recovery.md) lists how each feature
+    can fail. It also says how to fix each failure. Some features of this slice build
+    one of these things: fn-795 writes the hidden file, and fn-898 builds the lint
+    check and the ledger check. The recovery rule says a fix for the builder never
+    names the evals folder, the eval, the hidden file or the check that found the
+    failure (expectation-generation.md, lines 88-92). The rule does not say what happens
+    when the feature builds one of these things. If the fix cannot name it, the builder
+    cannot fix these features alone, and each fix goes to a person. If the fix names
+    too much, the builder learns where the eval is, and a pass proves less.'
+  user_decision: null
+  user_answer: null
+  resolved_at: null
+  resolved_by_run: null
+- id: Q-recovery-1-3
+  kind: asked
+  blocking: false
+  asked_at: '2026-10-26T14:55:40Z'
+  topic: recovery
+  question: When a feature builds the hidden file, the plan's evals folder or a check,
+    may the fix that the builder gets name that thing?
+  proposed_answer: Yes. When a feature builds the hidden file, the plan's evals folder
+    or a check, the fix that the builder gets may name that thing. It is part of the
+    product that the builder sees and changes. For example, fn-795 writes the hidden
+    file, and fn-898 builds the lint check and the ledger check. The fix never names
+    the eval, or the check that found the failure. Every other fix that the builder
+    gets names none of them. A fix that cannot be said without them goes to 'a person
+    must decide'.
+  basis:
+    kind: memory
+    ref: phoenix standards/rules/expectation-generation.md:88-92
+  pipeline_source: /shape-slice shape-slice-20261026-run2-round2
+  pipeline_guess: Yes. When a feature builds the hidden file, the plan's evals folder
+    or a check, the fix that the builder gets may name that thing. It is part of the
+    product that the builder sees and changes. For example, fn-795 writes the hidden
+    file, and fn-898 builds the lint check and the ledger check. The fix never names
+    the eval, or the check that found the failure. Every other fix that the builder
+    gets names none of them. A fix that cannot be said without them goes to 'a person
+    must decide'.
+  impact_if_unknown: 'The hidden file (failure-and-recovery.md) lists how each feature
+    can fail. It also says how to fix each failure. Some features of this slice build
+    one of these things: fn-795 writes the hidden file, and fn-898 builds the lint
+    check and the ledger check. The recovery rule says a fix for the builder never
+    names the evals folder, the eval, the hidden file or the check that found the
+    failure (expectation-generation.md, lines 88-92). The rule does not say what happens
+    when the feature builds one of these things. If the fix cannot name it, the builder
+    cannot fix these features alone, and each fix goes to a person. If the fix names
+    too much, the builder learns where the eval is, and a pass proves less.'
+  user_decision: null
+  user_answer: null
+  resolved_at: null
+  resolved_by_run: null
+- id: Q-recovery-1-4
+  kind: asked
+  blocking: false
+  asked_at: '2026-10-26T15:47:19Z'
+  topic: recovery
+  question: Some features build the test files themselves. When one of them breaks,
+    may the fix we give the builder name those test files?
+  proposed_answer: Yes. The fix may name the test file that the feature builds. It
+    never says which test caught the problem.
+  basis:
+    kind: memory
+    ref: phoenix standards/rules/expectation-generation.md:88-92
+  pipeline_source: /shape-slice shape-slice-20261026-run2-round2
+  pipeline_guess: Yes. The fix may name the test file that the feature builds. It
+    never says which test caught the problem.
+  impact_if_unknown: 'The hidden file lists, for every feature, the cases where it
+    breaks, and the fix for each case. Some of those fixes go to the builder. The
+    rule says a builder''s fix never names the test files (the hidden file and the
+    evals folder), so the builder never learns where the tests are. But two features
+    in this slice build those very files: /shape-slice writes the hidden file, and
+    fn-898 builds the check that catches a build reading the evals folder. Their fixes
+    cannot be written without naming those files. If the answer is no, five fixes
+    move from the builder to a person.'
+  user_decision: in_scope
+  user_answer: 'What we''re building is Shape Slice. Why does it care about what it
+    is building? All you have to do is to build this play called Shape Slice. The
+    question you were asking me: it builds the files for itself. Why does it even
+    matter? Why is that question important?'
+  resolved_at: '2026-10-26T15:51:37Z'
+  resolved_by_run: shape-slice-20261026-run2-round2
 ```

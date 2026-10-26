@@ -1,0 +1,46 @@
+{
+  "mode": "update",
+  "updated": [
+    {"id": "dom-software-delivery-planning", "doc": "software-delivery-planning/domain.md", "added_sections": [], "renamed": [],
+     "changed_lines": [{"was": "Sources: 'The approved design for #798 and #898 (798/specs/design.md, lines 7-10 ...)'", "now": "Sources: ADR 057, its Context and section 7", "why": "change item 4 (PM-F6)"}]},
+    {"id": "cap-shape-slice", "doc": "software-delivery-planning/shape-slice/capability.md", "added_sections": [], "renamed": [], "changed_lines": [], "note": "already at the current directional rules; the change asks nothing of it"},
+    {"id": "cap-718", "doc": "software-delivery-planning/cap-718/capability.md", "added_sections": [], "renamed": [], "changed_lines": [], "note": "already at the current directional rules; the change asks nothing of it"},
+    {"id": "cap-shape-eval", "doc": "software-delivery-planning/shape-eval/capability.md", "added_sections": [], "renamed": [],
+     "changed_lines": [{"was": "Sources: the approved design (798/specs/design.md, lines 7-10)", "now": "Sources: ADR 057, its Context and section 7", "why": "change item 4 (PM-F6)"}],
+     "not_on_page": "the spine one-line (change item 1, PM-F1) is a spine field; it is in fills.json updates for the play's persist script"},
+    {"id": "fn-795", "doc": "software-delivery-planning/shape-slice/fn-795/feature.md", "added_sections": [], "renamed": [],
+     "changed_lines": [{"was": "Sources: the approved design (798/specs/design.md, lines 7-10)", "now": "Sources: ADR 057, its Context and section 7", "why": "change item 4 (PM-F6)"}]},
+    {"id": "fn-818", "doc": "software-delivery-planning/cap-718/fn-818/feature.md", "added_sections": [], "renamed": [],
+     "changed_lines": [
+       {"was": "Rules: 'The stories are the build's whole brief: ...'", "now": "Rules: the stories are not the whole brief; the builder reads the story and the context its context sub-agent collects from the story's Context guidance; a story, its Context guidance included, never names the eval, the hidden file or the evals folder", "why": "change item 2 (PM-F3)"},
+       {"was": "ICE Context: '... the build play, which reads the stories;'", "now": "'... which reads the stories and the context its context sub-agent collects from their Context guidance;'", "why": "change item 2 (PM-F3)"}],
+     "added_lines": [
+       "ICE Limit: A story, its Context guidance included, never names the eval, the hidden file or the plan's evals folder.",
+       "ICE Fails if: a story or its Context guidance names the eval, the hidden file or the plan's evals folder."],
+     "why_added": "change item 2 (PM-F4): the rule goes into the ICE, with a 'Fails if' line"},
+    {"id": "fn-798", "doc": "software-delivery-planning/shape-eval/fn-798/feature.md", "added_sections": [], "renamed": [],
+     "changed_lines": [
+       {"was": "Fails if: the eval is written outside the plan's evals folder, or a builder's inputs name that folder.", "now": "Fails if: the eval is written outside the plan's evals folder.", "why": "change item 6: the build-input part is fn-898's only"},
+       {"was": "Checked by: ... finds the eval in plans/788/evals/<slug>/, and no build play's inputs name that folder.", "now": "Checked by: ... finds the eval in plans/788/evals/<slug>/.", "why": "Q-scope-1 (settled)"},
+       {"was": "Sources: the approved design (798/specs/design.md, lines 7-10)", "now": "Sources: ADR 057, its Context and section 7", "why": "change item 4 (PM-F6)"}],
+     "removed_by_change": [{"line": "Given the build plays, when a person reads their inputs, then none names the evals folder.", "why": "Q-scope-1 (settled): the build-input check is fn-898's only; fn-898 keeps it as its first acceptance criterion"}],
+     "not_on_page": "the spine one-line (change item 1, PM-F1) is a spine field; it is in fills.json updates for the play's persist script"},
+    {"id": "fn-898", "doc": "software-delivery-planning/shape-eval/fn-898/feature.md", "added_sections": [], "renamed": [],
+     "added_lines": ["> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth. (under What it does; change item 5, PM-F8)"],
+     "changed_lines": [
+       {"was": "Rules: 'A build's inputs are the slice's stories, each with its scope of work ... and its Context guidance. The eval and the hidden file are never part of that brief, ...'", "now": "the inputs also name the context the build's context sub-agent collects from that Context guidance", "why": "change item 2 (PM-F3)"},
+       {"was": "Sources: the approved design (798/specs/design.md, lines 7-10 and 22-23), with a quote of the product owner", "now": "Sources: ADR 057, its Context and section 7", "why": "change item 4 (PM-F6)"},
+       {"was": "Sources: 'The question record of #798 (grounding-questions.md): Q-builders-1 ...; Q-flag-1 ...'", "now": "Sources: 'The product owner's answers in #798: Q-builders-1 ...; Q-flag-1 ...' (by question id, no file path)", "why": "change item 4 (PM-F6)"}],
+     "removed_by_change": [{"line": "Given the ontology and managing-work.md, when a person reads them, then they say that the build is given the intent, never the eval, and not that the eval is encrypted.", "why": "change item 3 (PM-F5), the product owner's Q3"}]}
+  ],
+  "new_features": [],
+  "thin": [],
+  "fixed": [],
+  "not_mine": [
+    {"what": "the spine one-lines of cap-shape-eval and fn-798 (change item 1, PM-F1)", "owner": "the play's persist script, from fills.json updates"},
+    {"what": "the hidden file entries (change item 6: F13 to 'a person must decide'; builder-routed recoveries that name the evals folder, the eval, the hidden file or the check; the fn-798 and fn-818 entries drafted again)", "owner": "author-failure-recovery and the play's write_hidden_file.py"}
+  ],
+  "lint": "lint_grounding.py passes each of the eight pages (domain and capabilities at the directional stage), 0 errors, 0 warnings",
+  "kept_every_section": true,
+  "note": "Every section of every page is kept. Two lines are removed and five source lines are replaced, each because the person's change (change.md items 3, 4, 6) or a settled answer (Q-scope-1) asks for it; each is named above."
+}

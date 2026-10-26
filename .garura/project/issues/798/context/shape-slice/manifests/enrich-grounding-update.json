@@ -1,0 +1,25 @@
+{
+  "skill": "enrich-grounding",
+  "mode": "update",
+  "pages": [
+    "software-delivery-planning/domain.md",
+    "software-delivery-planning/shape-slice/capability.md",
+    "software-delivery-planning/cap-718/capability.md",
+    "software-delivery-planning/shape-eval/capability.md",
+    "software-delivery-planning/shape-slice/fn-795/feature.md",
+    "software-delivery-planning/cap-718/fn-818/feature.md",
+    "software-delivery-planning/shape-eval/fn-798/feature.md",
+    "software-delivery-planning/shape-eval/fn-898/feature.md"
+  ],
+  "pages_changed": [
+    "software-delivery-planning/domain.md",
+    "software-delivery-planning/shape-eval/capability.md",
+    "software-delivery-planning/shape-slice/fn-795/feature.md",
+    "software-delivery-planning/cap-718/fn-818/feature.md",
+    "software-delivery-planning/shape-eval/fn-798/feature.md",
+    "software-delivery-planning/shape-eval/fn-898/feature.md"
+  ],
+  "report": ".garura/project/issues/798/context/shape-slice/grounding-report.json",
+  "schemas_dir": ".garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/",
+  "gaps": []
+}

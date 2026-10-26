@@ -1,0 +1,18 @@
+{
+  "pull_in": [],
+  "push_out": [],
+  "why": "The kept slice sl-intent-to-design already holds the four features the shaped slice holds, in the same order: fn-795, fn-818, fn-798 and fn-898. Each of them serves business intent bi-788, so no feature is pulled in and none is pushed out. The slice keeps its one surface (the Claude Code command line), its tester (the product owner) and four features, so it stays testable end to end. No slice is in progress, so the kept slice may be used.",
+  "decisions": [
+    {
+      "question": "Which slice serves this business intent, and does it change?",
+      "answer": "The kept slice sl-intent-to-design serves bi-788. It does not change: pull in none, push out none, because its features are the shaped slice's features and each serves bi-788.",
+      "sources": [
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 569, "end": 579},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 454, "end": 455},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 467, "end": 468},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 480, "end": 481},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 544, "end": 545}
+      ]
+    }
+  ]
+}

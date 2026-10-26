@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    ".garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md",
+    ".garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md",
+    ".garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md",
+    ".garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md",
+    ".garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md"
+  ],
+  "add_only": [],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md",
+      "status": "A"
+    }
+  ],
+  "violations": [],
+  "restored": [],
+  "also_tree": [
+    ".garura/project/plans"
+  ]
+}

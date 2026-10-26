@@ -1,0 +1,61 @@
+{
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/798/context/shape-eval/templates/manifest-shape-eval.json"
+  },
+  "templates": [
+    {
+      "name": "standards/templates/eval-story.feature.md",
+      "copy": ".garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-story.feature.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/templates/eval-story.feature.md",
+        "version": "23387be24c0d",
+        "fingerprint": "sha256:32c0b256591a5c86e676b0f41658fed23f2eb961a95ca21d4e9215b03b54d848"
+      }
+    },
+    {
+      "name": "standards/templates/eval-slice.md",
+      "copy": ".garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-slice.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/templates/eval-slice.md",
+        "version": "23387be24c0d",
+        "fingerprint": "sha256:1d40682309f9dcd01c2f214e5828e042f88e910eb61e931fe8fbe50d595616b8"
+      }
+    },
+    {
+      "name": "standards/rules/eval-format.md",
+      "copy": ".garura/project/issues/798/context/shape-eval/templates/standards/rules/eval-format.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/eval-format.md",
+        "version": "23387be24c0d",
+        "fingerprint": "sha256:0a908a1955dc8709f8837c2c4d6b29becea9ca5ee438103408b1f2c99644206a"
+      }
+    },
+    {
+      "name": "standards/schemas/eval/steps-command-line.yaml",
+      "copy": ".garura/project/issues/798/context/shape-eval/templates/standards/schemas/eval/steps-command-line.yaml",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/schemas/eval/steps-command-line.yaml",
+        "version": "23387be24c0d",
+        "fingerprint": "sha256:a4fc679d6e88a2b8c2984ba72bbde374e1f1269909dde39c54847285bc693b9a"
+      }
+    },
+    {
+      "name": "standards/templates/approval-prompt.md",
+      "copy": ".garura/project/issues/798/context/shape-eval/templates/standards/templates/approval-prompt.md",
+      "source": {
+        "tier": "short-term",
+        "path": "798/context/templates/standards/templates/approval-prompt.md",
+        "version": null,
+        "fingerprint": "sha256:75da06f293bf8f69e8b09e560f2da788f44b2ea56a6d1e3d91c071106b1272ac"
+      }
+    }
+  ],
+  "missing": [],
+  "task_id": "shape-eval-templates",
+  "error": null
+}

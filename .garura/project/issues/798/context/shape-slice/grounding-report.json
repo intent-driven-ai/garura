@@ -1,0 +1,167 @@
+{
+  "mode": "update",
+  "updated": [
+    {
+      "id": "dom-software-delivery-planning",
+      "doc": "software-delivery-planning/domain.md",
+      "added_sections": [],
+      "renamed": [],
+      "changed_lines": [
+        {
+          "was": "Sources: The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26)",
+          "now": "Sources: ADR 057, its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.",
+          "why": "change.md item 4 (PM-F6)"
+        }
+      ]
+    },
+    {
+      "id": "cap-shape-slice",
+      "doc": "software-delivery-planning/shape-slice/capability.md",
+      "added_sections": [],
+      "renamed": [],
+      "changed_lines": [],
+      "note": "The page is at the current directional rules. The change asks nothing of it."
+    },
+    {
+      "id": "cap-718",
+      "doc": "software-delivery-planning/cap-718/capability.md",
+      "added_sections": [],
+      "renamed": [],
+      "changed_lines": [],
+      "note": "The page is at the current directional rules. The change asks nothing of it."
+    },
+    {
+      "id": "cap-shape-eval",
+      "doc": "software-delivery-planning/shape-eval/capability.md",
+      "added_sections": [],
+      "renamed": [],
+      "changed_lines": [
+        {
+          "was": "Sources: The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26)",
+          "now": "Sources: ADR 057, its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.",
+          "why": "change.md item 4 (PM-F6)"
+        }
+      ],
+      "not_on_page": "The spine one-line (change.md item 1, PM-F1) is a spine field. It is in fills.json updates, for the play's persist script."
+    },
+    {
+      "id": "fn-795",
+      "doc": "software-delivery-planning/shape-slice/fn-795/feature.md",
+      "added_sections": [],
+      "renamed": [],
+      "changed_lines": [
+        {
+          "was": "Sources: The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26)",
+          "now": "Sources: ADR 057, its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.",
+          "why": "change.md item 4 (PM-F6)"
+        }
+      ]
+    },
+    {
+      "id": "fn-818",
+      "doc": "software-delivery-planning/cap-718/fn-818/feature.md",
+      "added_sections": [],
+      "renamed": [],
+      "changed_lines": [
+        {
+          "was": "Rules: \"The stories are the build's whole brief: a story never names the eval, the hidden file or the plan's evals folder, so the build is given the intent, never the eval (fn-898).\"",
+          "now": "Two rules. \"The story is not the build's whole brief. The builder reads the story and the context that its context sub-agent collects from the story's Context guidance.\" And: \"A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898).\"",
+          "why": "change.md item 2 (PM-F3); one idea in each line (change-round2.md item 3)"
+        },
+        {
+          "was": "ICE Context: \"... and the build play, which reads the stories;\"",
+          "now": "\"... and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance;\"",
+          "why": "change.md item 2 (PM-F3)"
+        }
+      ],
+      "added_lines": [
+        "ICE Limit: A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.",
+        "ICE Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.",
+        "Sources: ADR 057, its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval."
+      ],
+      "why_added": "change.md item 2 (PM-F4): the rule goes into the ICE, with a Fails if line. ADR 057 is the source of the rule (change.md item 4)."
+    },
+    {
+      "id": "fn-798",
+      "doc": "software-delivery-planning/shape-eval/fn-798/feature.md",
+      "added_sections": [],
+      "renamed": [],
+      "changed_lines": [
+        {
+          "was": "Fails if: the eval is written outside the plan's evals folder, or a builder's inputs name that folder.",
+          "now": "Fails if: the eval is written outside the plan's evals folder.",
+          "why": "change.md item 6: the build-input part is fn-898's only"
+        },
+        {
+          "was": "Checked by: ... finds the eval in plans/788/evals/<slug>/, and no build play's inputs name that folder.",
+          "now": "Checked by: ... finds the eval in plans/788/evals/<slug>/.",
+          "why": "Q-scope-1 (settled)"
+        },
+        {
+          "was": "Sources: The approved design for #798 and #898 (798/specs/design.md, lines 7-10, 2026-10-26)",
+          "now": "Sources: ADR 057, its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.",
+          "why": "change.md item 4 (PM-F6)"
+        }
+      ],
+      "removed_by_change": [
+        {
+          "line": "Given the build plays, when a person reads their inputs, then none names the evals folder.",
+          "why": "Q-scope-1 (settled): the build-input check is fn-898's only. fn-898 keeps it as its first acceptance criterion."
+        }
+      ],
+      "not_on_page": "The spine one-line (change.md item 1, PM-F1) is a spine field. It is in fills.json updates, for the play's persist script."
+    },
+    {
+      "id": "fn-898",
+      "doc": "software-delivery-planning/shape-eval/fn-898/feature.md",
+      "added_sections": [],
+      "renamed": [],
+      "added_lines": [
+        "> To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth. (under What it does; change.md item 5, PM-F8)"
+      ],
+      "changed_lines": [
+        {
+          "was": "Rules: \"A build's inputs are the slice's stories, each with its scope of work (goals, limits, expectations) and its Context guidance. The eval and the hidden file are never part of that brief, ...\"",
+          "now": "Two rules. \"A build's inputs are the slice's stories and the context that the build's context sub-agent collects from each story's Context guidance. Each story holds its scope of work (goals, limits, expectations) and its Context guidance.\" And: \"The eval and the hidden file are never part of a build's inputs. A builder that sees the test can build to the test, and then a pass proves nothing.\"",
+          "why": "change.md item 2 (PM-F3); one idea in each line (change-round2.md item 3)"
+        },
+        {
+          "was": "Sources: \"The approved design for #798 and #898 (798/specs/design.md, lines 7-10 and 22-23)\", with a quote of the product owner",
+          "now": "Sources: ADR 057, its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.",
+          "why": "change.md item 4 (PM-F6)"
+        },
+        {
+          "was": "Sources: \"The question record of #798 (grounding-questions.md): Q-builders-1 ...; Q-flag-1 ...\"",
+          "now": "Sources: \"The product owner's answers in #798: Q-builders-1, accepted as proposed. Q-flag-1: 'For now we should record this under evidence.'\"",
+          "why": "change.md item 4 (PM-F6): a person's answer is cited by its question id, never by a file path"
+        }
+      ],
+      "removed_by_change": [
+        {
+          "line": "Given the ontology and managing-work.md, when a person reads them, then they say that the build is given the intent, never the eval, and not that the eval is encrypted.",
+          "why": "change.md item 3 (PM-F5), the product owner's Q3"
+        }
+      ]
+    }
+  ],
+  "new_features": [],
+  "thin": [],
+  "fixed": [],
+  "not_mine": [
+    {
+      "what": "the spine one-lines of cap-shape-eval and fn-798 (change.md item 1, PM-F1)",
+      "owner": "the play's persist script, from fills.json updates"
+    },
+    {
+      "what": "the hidden file entries (change.md item 6: F13 to 'a person must decide'; a recovery for the builder never names the evals folder, the eval, the hidden file or the check; the fn-798 and fn-818 entries drafted again)",
+      "owner": "author-failure-recovery and the play's write_hidden_file.py"
+    },
+    {
+      "what": "the question Q-recovery-1 and the brief's opening (change-round2.md items 2 and 3)",
+      "owner": "find-slice-gaps and author-slice-brief, in the play's later steps"
+    }
+  ],
+  "lint": "lint_grounding.py passes each of the eight pages (the domain and the capabilities at the directional stage): 0 errors, 0 warnings.",
+  "kept_every_section": true,
+  "note": "Every section of every page is kept. Two acceptance criteria and one part of a Fails if line and of a Checked by line go out, because the person's change (change.md items 3 and 6) and a settled answer (Q-scope-1) ask for it. Two rules are split into two lines each, with no idea lost. Each change is named above."
+}
