@@ -1,112 +1,153 @@
 commits:
-  - sha: 7397833e
-    message: "feat(shape-eval): add the /shape-eval play that writes the eval of each slice of a business intent (#798)"
-    files:
-      - core/components/plays/shape-eval/SKILL.md
-      - core/components/plays/shape-eval/reference/ice.md
-      - core/components/plays/shape-eval/scripts/check_eval.py
-      - core/components/plays/shape-eval/scripts/check_inputs.py
-      - core/components/plays/shape-eval/scripts/check_stop_condition.py
-      - core/components/plays/shape-eval/scripts/eval_common.py
-      - core/components/plays/shape-eval/scripts/gather_eval.py
-      - core/components/plays/shape-eval/scripts/place_eval.py
-      - core/components/plays/shape-eval/scripts/platform_adapter.py
-      - core/components/plays/shape-eval/scripts/preflight.py
-      - core/components/plays/shape-eval/scripts/record_approval.py
-      - core/components/plays/shape-eval/scripts/render_summary.py
-      - core/components/plays/shape-eval/scripts/scoped_write_guard.py
-      - core/components/plays/shape-eval/scripts/session_stamp.py
-      - core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
-      - core/components/plays/shape-eval/stop-condition.yaml
-    branch: plan/788/798-shape-eval
-  - sha: 60d97d3f
-    message: "feat(shape-eval): add the author-slice-eval skill and narrow the evals-engineer agent to the eval job (#798)"
+  - sha: 69167da9
+    message: "feat(evals-engineer): bring the eval agent and the slice-eval skill to the eval format standard (#798)"
     files:
       - core/components/agents/evals-engineer.md
       - core/components/skills/author-slice-eval/SKILL.md
     branch: plan/788/798-shape-eval
-  - sha: afa358aa
-    message: "chore(pipeline): hand /shape-plan on to /shape-eval and add the play, skill and agent to the install list (#798)"
+  - sha: c4c3c3d6
+    message: "fix(shape-slice): let a fill replace an existing part's one-line and let a kept slice take its new name (#798)"
     files:
-      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/reference/ice.md
+      - core/components/plays/shape-slice/scripts/persist_fills.py
+      - core/components/plays/shape-slice/scripts/persist_slice.py
+      - core/components/plays/shape-slice/scripts/render_brief.py
+      - core/components/plays/shape-slice/scripts/test_persist_slice.py
+      - core/components/plays/shape-slice/scripts/test_render_brief.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/skills/author-slice/SKILL.md
+    branch: plan/788/798-shape-eval
+  - sha: 04a434c2
+    message: "feat(shape-eval): apply the round-2 changes to the eval play (#798)"
+    files:
+      - core/components/plays/shape-eval/SKILL.md
+      - core/components/plays/shape-eval/reference/ice.md
+      - core/components/plays/shape-eval/stop-condition.yaml
+      - core/components/plays/shape-eval/scripts/check_eval.py
+      - core/components/plays/shape-eval/scripts/eval_common.py
+      - core/components/plays/shape-eval/scripts/gather_eval.py
+      - core/components/plays/shape-eval/scripts/place_eval.py
+      - core/components/plays/shape-eval/scripts/render_summary.py
+      - core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
+    branch: plan/788/798-shape-eval
+  - sha: a5366588
+    message: "docs(components): remove stale notes from the build-epic play, the encrypted and steelman eval skills and the agents doc (#798)"
+    files:
+      - core/components/plays/build-epic/SKILL.md
+      - core/components/skills/author-encrypted-evals/SKILL.md
+      - core/components/skills/author-steelman-evals/SKILL.md
+      - docs/components/agents.md
+    branch: plan/788/798-shape-eval
+  - sha: 8cbf8f0f
+    message: "chore(install-garura): add shape-eval and discover-intent to the install list and record the install (#798)"
+    files:
       - core/components/plays/install-garura/scripts/install.py
-    branch: plan/788/798-shape-eval
-  - sha: 9a16e0ef
-    message: "docs(philosophy): say the evals are no longer encrypted (ADR 057) (#798)"
-    files:
-      - docs/philosophy/idd-principles.md
-    branch: plan/788/798-shape-eval
-  - sha: 55007a07
-    message: "chore(install): update the install records (#798)"
-    files:
       - .garura/install-manifest.json
     branch: plan/788/798-shape-eval
-  - sha: e0072c86
-    message: "chore(stm): record the shape-slice, shape-plan and shape-eval runs for #798 (#798)"
+  - sha: 9c1a10c8
+    message: "chore(stm): record the shape-slice run 2, shape-eval run 2 and review records (#798)"
     files:
       - .garura/project/issues/798/context/analysis.yaml
       - .garura/project/issues/798/context/citations.jsonl
-      - .garura/project/issues/798/context/commits.yaml
+      - .garura/project/issues/798/context/grounding-questions.md
+      - .garura/project/issues/798/context/memory/manifest.json
       - .garura/project/issues/798/context/porcelain.txt
-      - .garura/project/issues/798/context/shape-slice/citations-check.json
-      - .garura/project/issues/798/context/shape-slice/citations-live.json
-      - .garura/project/issues/798/context/shape-slice/guard-report.json
-      - .garura/project/issues/798/context/shape-slice/hidden-file.json
-      - .garura/project/issues/798/context/shape-slice/persist-slice.json
-      - .garura/project/issues/798/context/shape-slice/trace-check.json
+      - .garura/project/issues/798/context/templates/manifest-shape-slice.json
+      - .garura/project/issues/798/context/memory/standards/rules/builder-isolation.md
+      - .garura/project/issues/798/context/memory/standards/rules/expectation-generation.md
+      - .garura/project/issues/798/context/memory/standards/templates/evidence-file.md
       - .garura/project/issues/798/context/shape-eval/approval.json
+      - .garura/project/issues/798/context/shape-eval/change.md
+      - .garura/project/issues/798/context/shape-eval/clear.json
       - .garura/project/issues/798/context/shape-eval/contract.json
-      - .garura/project/issues/798/context/shape-eval/drafts/intent-to-design/eval.fn-795.feature.md
-      - .garura/project/issues/798/context/shape-eval/drafts/intent-to-design/eval.fn-798.feature.md
-      - .garura/project/issues/798/context/shape-eval/drafts/intent-to-design/eval.fn-818.feature.md
-      - .garura/project/issues/798/context/shape-eval/drafts/intent-to-design/eval.fn-898.feature.md
-      - .garura/project/issues/798/context/shape-eval/drafts/intent-to-design/eval.sl-intent-to-design.md
       - .garura/project/issues/798/context/shape-eval/eval-check.json
       - .garura/project/issues/798/context/shape-eval/guard-report.json
       - .garura/project/issues/798/context/shape-eval/inputs-check.json
       - .garura/project/issues/798/context/shape-eval/inputs.json
       - .garura/project/issues/798/context/shape-eval/inputs/epic-794.md
-      - .garura/project/issues/798/context/shape-eval/inputs/hidden-intent-to-design.md
       - .garura/project/issues/798/context/shape-eval/inputs/story-795.md
       - .garura/project/issues/798/context/shape-eval/inputs/story-798.md
       - .garura/project/issues/798/context/shape-eval/inputs/story-818.md
       - .garura/project/issues/798/context/shape-eval/inputs/story-898.md
       - .garura/project/issues/798/context/shape-eval/place.json
       - .garura/project/issues/798/context/shape-eval/reply.md
-      - .garura/project/issues/798/context/shape-eval/start-change.json
+      - .garura/project/issues/798/context/shape-eval/round1/eval-check.json
+      - .garura/project/issues/798/context/shape-eval/round1/guard-report.json
+      - .garura/project/issues/798/context/shape-eval/round1/place.json
+      - .garura/project/issues/798/context/shape-eval/round1/summary.md
+      - .garura/project/issues/798/context/shape-eval/round1/yardstick-check.json
       - .garura/project/issues/798/context/shape-eval/start-sha.txt
       - .garura/project/issues/798/context/shape-eval/summary.md
       - .garura/project/issues/798/context/shape-eval/templates/manifest-shape-eval.json
+      - .garura/project/issues/798/context/shape-eval/templates/standards/rules/eval-format.md
       - .garura/project/issues/798/context/shape-eval/templates/standards/schemas/eval/steps-command-line.yaml
       - .garura/project/issues/798/context/shape-eval/templates/standards/templates/approval-prompt.md
       - .garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-slice.md
       - .garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-story.feature.md
       - .garura/project/issues/798/context/shape-eval/yardstick-check.json
-      - .garura/project/issues/798/context/shape-plan/approval.json
-      - .garura/project/issues/798/context/shape-plan/brief.md
-      - .garura/project/issues/798/context/shape-plan/drafts-check.json
-      - .garura/project/issues/798/context/shape-plan/drafts.json
-      - .garura/project/issues/798/context/shape-plan/gather.json
-      - .garura/project/issues/798/context/shape-plan/guard-report.json
-      - .garura/project/issues/798/context/shape-plan/ice/fn-795.md
-      - .garura/project/issues/798/context/shape-plan/ice/fn-798.md
-      - .garura/project/issues/798/context/shape-plan/ice/fn-818.md
-      - .garura/project/issues/798/context/shape-plan/ice/fn-898.md
-      - .garura/project/issues/798/context/shape-plan/plan-before.txt
-      - .garura/project/issues/798/context/shape-plan/plan-check.json
-      - .garura/project/issues/798/context/shape-plan/plan-write.json
-      - .garura/project/issues/798/context/shape-plan/reply.md
-      - .garura/project/issues/798/context/shape-plan/skill-input.json
-      - .garura/project/issues/798/context/shape-plan/start-change.json
-      - .garura/project/issues/798/context/shape-plan/start-sha.txt
-      - .garura/project/issues/798/context/shape-plan/tracker-check.json
-      - .garura/project/issues/798/context/shape-plan/tracker-record.json
-      - .garura/project/issues/798/context/shape-plan/work-items.json
-      - .garura/project/issues/798/context/shape-slice/persist-fills-repair-refused.json
-      - .garura/project/issues/798/context/shape-slice/round2-persist-fills.json
-      - .garura/project/issues/798/context/shape-slice/round2-persist-slice.json
-      - .garura/project/issues/798/context/templates/manifest-shape-plan.json
-      - .garura/project/issues/798/specs/shape-eval-intent.md
+      - .garura/project/issues/798/context/shape-slice/answers-not-applied.json
+      - .garura/project/issues/798/context/shape-slice/answers-q-recovery.json
+      - .garura/project/issues/798/context/shape-slice/answers.json
+      - .garura/project/issues/798/context/shape-slice/approval.json
+      - .garura/project/issues/798/context/shape-slice/brief-split.json
+      - .garura/project/issues/798/context/shape-slice/brief.md
+      - .garura/project/issues/798/context/shape-slice/budget.json
+      - .garura/project/issues/798/context/shape-slice/change-round2.md
+      - .garura/project/issues/798/context/shape-slice/change.md
+      - .garura/project/issues/798/context/shape-slice/citations-check.json
+      - .garura/project/issues/798/context/shape-slice/citations-live.json
+      - .garura/project/issues/798/context/shape-slice/citations.json
+      - .garura/project/issues/798/context/shape-slice/early-split.json
+      - .garura/project/issues/798/context/shape-slice/fills-undo.json
+      - .garura/project/issues/798/context/shape-slice/fills.json
+      - .garura/project/issues/798/context/shape-slice/gather.json
+      - .garura/project/issues/798/context/shape-slice/grounding-report.json
+      - .garura/project/issues/798/context/shape-slice/guard-report.json
+      - .garura/project/issues/798/context/shape-slice/guard-restore-2.json
+      - .garura/project/issues/798/context/shape-slice/guard-restore.json
+      - .garura/project/issues/798/context/shape-slice/hidden-file.json
+      - .garura/project/issues/798/context/shape-slice/hidden-write.json
+      - .garura/project/issues/798/context/shape-slice/intent-issue.json
+      - .garura/project/issues/798/context/shape-slice/intent-page.json
+      - .garura/project/issues/798/context/shape-slice/lint-before-run.json
+      - .garura/project/issues/798/context/shape-slice/manifests/enrich-grounding-update.json
+      - .garura/project/issues/798/context/shape-slice/opening.md
+      - .garura/project/issues/798/context/shape-slice/persist-fills.json
+      - .garura/project/issues/798/context/shape-slice/persist-slice.json
+      - .garura/project/issues/798/context/shape-slice/placement.json
+      - .garura/project/issues/798/context/shape-slice/proposals.json
+      - .garura/project/issues/798/context/shape-slice/questions-checked.json
+      - .garura/project/issues/798/context/shape-slice/questions-open-list.json
+      - .garura/project/issues/798/context/shape-slice/questions-open.json
+      - .garura/project/issues/798/context/shape-slice/questions.json
+      - .garura/project/issues/798/context/shape-slice/reply-q-recovery.md
+      - .garura/project/issues/798/context/shape-slice/reply.md
+      - .garura/project/issues/798/context/shape-slice/reuse.json
+      - .garura/project/issues/798/context/shape-slice/round1/brief.md
+      - .garura/project/issues/798/context/shape-slice/round1/citations-check.json
+      - .garura/project/issues/798/context/shape-slice/round1/citations-live.json
+      - .garura/project/issues/798/context/shape-slice/round1/fills.json
+      - .garura/project/issues/798/context/shape-slice/round1/grounding-report.json
+      - .garura/project/issues/798/context/shape-slice/round1/guard-report.json
+      - .garura/project/issues/798/context/shape-slice/round1/hidden-file.json
+      - .garura/project/issues/798/context/shape-slice/round1/hidden-write.json
+      - .garura/project/issues/798/context/shape-slice/round1/opening.md
+      - .garura/project/issues/798/context/shape-slice/round1/persist-fills.json
+      - .garura/project/issues/798/context/shape-slice/round1/persist-slice.json
+      - .garura/project/issues/798/context/shape-slice/round1/reply.md
+      - .garura/project/issues/798/context/shape-slice/round1/reuse.json
+      - .garura/project/issues/798/context/shape-slice/round1/serving.json
+      - .garura/project/issues/798/context/shape-slice/round1/slice-check.json
+      - .garura/project/issues/798/context/shape-slice/round1/slice.json
+      - .garura/project/issues/798/context/shape-slice/round1/trace-check.json
+      - .garura/project/issues/798/context/shape-slice/serving.json
+      - .garura/project/issues/798/context/shape-slice/slice-check.json
+      - .garura/project/issues/798/context/shape-slice/slice.json
+      - .garura/project/issues/798/context/shape-slice/split.json
+      - .garura/project/issues/798/context/shape-slice/start-sha.txt
+      - .garura/project/issues/798/context/shape-slice/trace-check.json
+      - .garura/project/issues/798/context/templates/standards/templates/approval-prompt.md
     branch: plan/788/798-shape-eval
 excluded_files:
   []
