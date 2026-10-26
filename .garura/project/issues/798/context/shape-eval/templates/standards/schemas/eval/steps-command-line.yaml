@@ -1,0 +1,74 @@
+# The step library of the command-line surface kind (eval format, #798).
+#
+# Every step of an eval scenario on a command-line surface is one of these sentences. Each
+# sentence stands for one exact action or one exact check, so a runner does it with no agent
+# and no judgment. A Claude Code play is a command-line surface: the runner starts the play as
+# a command in the test project and gives it the scripted answers.
+#
+# In a sentence:
+#   {value}  a literal in double quotes ("plans/1.yaml"), or a name in square brackets for what
+#            only the build will make ([the shape command]); the usage guide maps each name
+#   {name}   a name in square brackets only
+#   {n}      a whole number
+# A step starts with Given, When or Then; And and But take the keyword of the step before.
+# Paths are inside the test project. Answers in `and answer` are given in order, split by " | ".
+schema: { name: eval-step-library, version: 1 }
+kind: command-line
+matches: ["command line", "command-line", "terminal", "cli"]
+steps:
+  - id: setup
+    keyword: Given
+    text: "{name} is set up"
+    does: run the named setup the usage guide gives, in the test project
+  - id: file-holds
+    keyword: Given
+    text: "the file {value} holds {value}"
+    does: write the text into the file in the test project
+  - id: run
+    keyword: When
+    text: "I run {value}"
+    does: run the command in the test project and wait, up to the time limit, for it to end
+  - id: run-answer
+    keyword: When
+    text: "I run {value} and answer {value}"
+    does: run the command and give each answer, in order, when it waits for input
+  - id: exit-code
+    keyword: Then
+    text: "the exit code is {n}"
+    does: compare the exit code of the last command with the number
+  - id: output-has
+    keyword: Then
+    text: "the output contains {value}"
+    does: look for the text in what the last command printed
+  - id: output-lacks
+    keyword: Then
+    text: "the output does not contain {value}"
+    does: check that the text is not in what the last command printed
+  - id: file-exists
+    keyword: Then
+    text: "the file {value} exists"
+    does: check that the file is in the test project
+  - id: file-missing
+    keyword: Then
+    text: "the file {value} does not exist"
+    does: check that the file is not in the test project
+  - id: file-has
+    keyword: Then
+    text: "the file {value} contains {value}"
+    does: look for the text in the file
+  - id: file-lacks
+    keyword: Then
+    text: "the file {value} does not contain {value}"
+    does: check that the text is not in the file
+  - id: field-equals
+    keyword: Then
+    text: "the file {value} field {value} equals {value}"
+    does: read the JSON or YAML file, follow the dotted field, and compare its value as text
+  - id: field-count
+    keyword: Then
+    text: "the file {value} field {value} has {n} items"
+    does: read the JSON or YAML file, follow the dotted field, and count the items of its list
+  - id: folder-count
+    keyword: Then
+    text: "the folder {value} holds {n} files"
+    does: count the files in the folder, not in its sub-folders

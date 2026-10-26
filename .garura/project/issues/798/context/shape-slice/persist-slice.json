@@ -6,11 +6,12 @@
   "added_intents": [],
   "record": "slices/sl-intent-to-design.yaml",
   "record_written": true,
-  "differences": [],
+  "differences": [
+    "outcome differs: the slice keeps 'The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.'; the new shape says 'The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no build is given; a check flags each build session that read the evals folder, and the flag is recorded in that build run's evidence.' \u2014 the record takes the new text",
+    "tester's action differs: the slice keeps 'runs /shape-slice, then /shape-plan, then /shape-eval on a business intent'; the new shape says 'runs /shape-slice, then /shape-plan, then /shape-eval on a business intent, then runs the check that shows no build play's inputs name the evals folder, and finds the flag of a build session that read it in that build run's evidence' \u2014 the record takes the new text"
+  ],
   "dropped_fields": [],
   "upgraded_to_v2": [],
-  "pulled_in": [
-    "fn-898"
-  ],
+  "pulled_in": [],
   "pushed_out": []
 }

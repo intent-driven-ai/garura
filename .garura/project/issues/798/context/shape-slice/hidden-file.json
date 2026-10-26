@@ -45,8 +45,5 @@
     "person": 8
   },
   "problems": [],
-  "cleared": [
-    ".garura/project/issues/798/context/shape-slice/hidden-lines.json",
-    ".garura/project/issues/798/context/shape-slice/hidden-recoveries.json"
-  ]
+  "cleared": []
 }

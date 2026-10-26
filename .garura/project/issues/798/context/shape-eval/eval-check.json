@@ -1,0 +1,129 @@
+{
+  "ok": true,
+  "problems": [],
+  "slices": [
+    {
+      "slice": "sl-intent-to-design",
+      "ready": true,
+      "reason": null,
+      "stories": [
+        {
+          "issue": 795,
+          "feature": "fn-795",
+          "title": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
+          "scenarios": 10,
+          "goals": [
+            2,
+            3
+          ],
+          "expectations": [
+            2,
+            3
+          ],
+          "failure_conditions": [
+            6,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "goal-3"
+              ],
+              "reason": "the story says the hidden file's entries, each closed by exactly one way back, are not built yet (decision 6 adds them), and no library sentence counts the way-back lines of a Markdown file. That the hidden file exists and holds a recovery part is checked under `@expectation-1` and `@F3`."
+            },
+            {
+              "tags": [
+                "expectation-2"
+              ],
+              "reason": "no library sentence lists every new file of a project, so \"no other new file appears outside the product model\" cannot be checked as a whole. The plans folder and the evals folder are checked under `@expectation-3`."
+            }
+          ]
+        },
+        {
+          "issue": 818,
+          "feature": "fn-818",
+          "title": "The plan play makes the plan file, the epic and one story per feature",
+          "scenarios": 12,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            2,
+            3
+          ],
+          "failure_conditions": [
+            6,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "expectation-3"
+              ],
+              "reason": "the trees filed by hand on 2026-10-21 for #717 and its partner are not in the story, so no exact result can be written. The eval can compare them when the usage guide maps them."
+            }
+          ]
+        },
+        {
+          "issue": 798,
+          "feature": "fn-798",
+          "title": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface",
+          "scenarios": 9,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            2,
+            2
+          ],
+          "failure_conditions": [
+            4,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "F15"
+              ],
+              "reason": "a handoff plan is written only when a check of the eval fails after the build, and this eval writes none, so there is no handoff plan to check yet."
+            },
+            {
+              "tags": [
+                "F17"
+              ],
+              "reason": "no library sentence can say that a check asks for more than the goals, expectations and failure conditions of the stories; each scenario of the story files carries the tag of the line that it covers, and a person reads the tags."
+            }
+          ]
+        },
+        {
+          "issue": 898,
+          "feature": "fn-898",
+          "title": "Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval",
+          "scenarios": 12,
+          "goals": [
+            4,
+            4
+          ],
+          "expectations": [
+            3,
+            3
+          ],
+          "failure_conditions": [
+            5,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "F24"
+              ],
+              "reason": "no library sentence can say that a check asks for more than the goals, expectations and failure conditions of the stories; each scenario of the story files carries the tag of the line that it covers, and a person reads the tags."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
