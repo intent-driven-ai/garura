@@ -99,6 +99,7 @@ tree:
       status: done
   - issue: 898
     kind: feature
+    represents: fn-898
     title: 'Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval'
     status: next
 - issue: 895
