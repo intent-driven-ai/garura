@@ -1,6 +1,6 @@
-decision: reject
+decision: approve
 decided_by: human
-reviewer_reply: "yes rejet and rework."
-round: 1
-citing_findings: [H-1]
-reason: "The rule stays: an epic holds only the work of its own slice. Work found along the way goes under its own epic in the same plan; blocker work gets its own epic, is delivered, and merges back where it spawned. The PR taught the play to accept other children, the opposite of that rule."
+reviewer_reply: "aprove and merge"
+round: 2
+citing_findings: []
+open: [H-5, Q2, H-6, Q1, H-7]

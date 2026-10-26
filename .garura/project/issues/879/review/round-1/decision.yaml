@@ -1,0 +1,6 @@
+decision: reject
+decided_by: human
+reviewer_reply: "yes rejet and rework."
+round: 1
+citing_findings: [H-1]
+reason: "The rule stays: an epic holds only the work of its own slice. Work found along the way goes under its own epic in the same plan; blocker work gets its own epic, is delivered, and merges back where it spawned. The PR taught the play to accept other children, the opposite of that rule."
