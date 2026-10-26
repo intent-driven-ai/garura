@@ -1,113 +1,83 @@
-# quality-findings.yaml - check-change Step 3, Layer 1 (standards-driven), PR #894, issue 879, ROUND 2
-# Categories: executable-code, tests, documentation, plan-upkeep. Bounded to the round-2 diff
-# (context/pr.diff; base plan/788/base). Overwrites the round-1 file.
+# quality-findings.yaml - check-change Step 3, Layer 1 (standards-driven), PR #897, issue 879
+# Category: documentation (4 files). Bounded to the PR diff (plan/788/base...HEAD, 42 changed paths).
+# Overwrites the round-1 / PR #894 file.
 # Taxonomy: context/memory/standards/rules/pr.md (short-term copy). No quality-standards copy exists in
-# any memory tier (memory find "**/knowledge/quality/**", every tier: no match), so rule meanings beyond
-# the taxonomy row (id, class, match rule, evidence fields) are not available; none is assumed.
+# any memory tier (memory find "**/knowledge/quality/**", every tier: no match), so no rule meaning beyond
+# the taxonomy rows is available; none is assumed.
 meta:
-  pr: 894
+  pr: 897
   issue: 879
-  round: 2
-  categories: [executable-code, tests, documentation, plan-upkeep]
+  categories: [documentation]
   taxonomy_path: .garura/project/issues/879/context/memory/standards/rules/pr.md
   scan:
     tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
-    changed_paths_count: 51
-    result: "P1=0 P2=0 P3=0 P4=0, CODE-20 catch-all=7, errors=0, scan_coverage 1.0"
-    blind_spot: >-
-      The taxonomy classifies every path under core/components/** as garura-prose (first match wins), and
-      every .md as docs-planning and .garura/project/** as stm-evidence. That swallows the 4 Python files of
-      this PR, so grep rules are ineligible on them, and no DOC-* row matches managing-work.md (the DOC rows
-      are path rules for README, openapi, CHANGELOG, docs/adr). The authoritative zero says what the
-      taxonomy's scoping allows, not that the code or prose is clean.
-    advisory_rerun: >-
-      Scratch copy of pr.md with core/components/** taken out of garura-prose, run on the 4 .py paths only
-      (not authoritative; nothing written to the repo): every grep rule, 0 hits. Path-only rules fired as
-      checklist rows (ARCH-02/03/08, CODE-03/04/09-15/17/19, FE-16); evidence for the ones that bear on this
-      diff is below. No quality-standards copy exists to say what a path-only row asks beyond its evidence
-      fields.
-  tests_run:
-    - {file: test_check_tracker.py, passed: 11, failed: 0, exit: 0}
-    - {file: test_find_work_items.py, passed: 12, failed: 0, exit: 0}
-    - {scope: "all 10 test_*.py under plays/shape-plan/scripts (run with python3 -I)", failed_suites: 0}
-  linters:
-    ruff_check: "All checks passed on the 2 scripts and 2 tests (defaults; the repo commits no ruff config, so that is the gap categories.yaml names)."
-    ruff_format: "Not a finding: the 4 files would be reformatted, and so would their base versions; the repo does not use ruff format. There before."
-    mccabe_c901_via_ruff: "check_tracker.check 26 -> 28, find_work_items.find 13 -> 15 (base -> head). Basis for finding Q1."
-    lint_play: >-
-      shape-plan SKILL.md: all play checks pass except one GAP, 'next-command: shape-plan has no entry in
-      pipeline-next.md'. The same GAP is there on the base SKILL.md. Harness category, not this layer's; named
-      so it is not lost.
+    changed_paths_count: 42
+    result: "P1=0 P2=0 P3=0 P4=0, CODE-20 catch-all=0, errors=0, scan_coverage 1.0"
+    note: >-
+      All 42 paths are under .garura/project/issues/879/, so the taxonomy classes every one as
+      stm-evidence and gives no finding by rule (pr.md, Artifact-Type Scoping, #851). The four prose files
+      therefore get no taxonomy finding. The findings below come from the hand checks of the review/docs
+      playbook (spelling, grammar, heading hierarchy, TODOs, paths, claims vs records, voice); each cites
+      that playbook check as its basis. No taxonomy standard id applies, so none is invented.
+  playbook: review/docs
+  files_checked:
+    - .garura/project/issues/879/context/pr-body.md
+    - .garura/project/issues/879/context/self-review.md
+    - .garura/project/issues/879/context/shape-plan/brief.md
+    - .garura/project/issues/879/simulation/shape-plan/dry-run.md
 findings:
   - id: Q1
-    category: executable-code
-    standard_id: CODE-09
-    taxonomy_rule_id: CODE-09
-    severity: P3
-    artifact_type: runtime-code   # the taxonomy calls it garura-prose; treated as code by hand (see blind_spot)
+    class: P3
+    rule: "review/docs: claims agree with the records (completeness/consistency); no taxonomy row"
     files:
-      - {file: core/components/plays/shape-plan/scripts/check_tracker.py, function: check, complexity: "26 -> 28", length: "57 -> 63 lines"}
-      - {file: core/components/plays/shape-plan/scripts/find_work_items.py, function: find, complexity: "13 -> 15", length: "59 -> 67 lines"}
-    evidence: >-
-      The diff adds two branches to each function that was already complex (ruff C901 counts above). The
-      taxonomy and the copied standards set no threshold, so this is a highlight only. Splitting the new
-      loops out (a helper that returns the misplaced sub-issues) would keep the next change cheap.
-    verdict: highlight only (P3 does not block)
+      - {file: .garura/project/issues/879/context/pr-body.md, lines: [19, 30]}
+      - {file: .garura/project/issues/879/context/self-review.md, lines: [4, 15]}
+    what: "The size figures are stale. The text says '4 commits, 38 files, 1303 added lines, 54 removed' and '38 files, all run records'. The PR diff now has 6 commits, 42 files, 1353 added, 114 removed."
+    evidence: "git diff --shortstat plan/788/base...14e8d6cb = 38 files, 1303 ins, 54 del (the figures in the text, true at the fourth commit); git diff --shortstat plan/788/base...HEAD = 42 files, 1353 ins, 114 del; git log plan/788/base..HEAD = 6 commits (the two later commits are the propose-change records 3f7c09a4 and 3e56cdbe)."
+    note: "Every other claim checked agrees with the records: 0 created / 0 updated / 0 moved out (tracker-record.json), tracker copy unchanged, plan-file hash equal (sha256 45b293e6... for plans/788.yaml and plan-before.txt), D1-D5 held (stop-condition-shape-plan.yaml), 'nothing outside .garura/project/issues/879/' (0 paths outside), 'no plan file touched' (0 paths under plans/)."
+    fix: "Update the figures to 6 commits, 42 files, 1353 added, 114 removed, or drop the counts."
   - id: Q2
-    category: documentation
-    standard_id: "review/docs: terminology consistency and completeness (no pr.md DOC-* row matches this path)"
-    taxonomy_rule_id: null
-    severity: P3
-    artifact_type: docs-planning
-    file: .garura/user-provided/managing-work.md
-    line: "65-72 (the added bullet, new file lines)"
-    evidence: >-
-      The new bullet says work that is not the slice's "is filed on its own, as a Story, Bug or Chore, never
-      under the Epic". Two statements the diff leaves as they were say the opposite: 'Where does it hang?'
-      ("every Story hangs under its Epic, and every Bug, Spike and Chore under a Story"), and 'Is it ready
-      to work?' ("A Story is ready when it has ... a parent Epic linked"; the table says a Bug is "filed
-      under the Story that introduced it"). The new bullet's own words "/shape-slice and /shape-plan place it
-      when they run" read as a temporary state, but neither of those passages names the exception, so a
-      reader of the guide (a person or an agent) gets two rules for where a stray Story or Bug hangs.
-    suggested_fix: "Add the exception to 'Where does it hang?' and to the Story and Bug readiness lines in a clause each, or say in the new bullet that the parent link comes when the play places the item."
-    verdict: highlight only (P3 does not block)
-hand_checks:
-  executable_code_data_safety:
-    result: pass
-    evidence:
-      - "check_tracker.py and find_work_items.py call only tracker.get and pc.write_json (their own --out file); no create, set, add_sub or remove_sub. Read-only, as their docstrings say."
-      - "A non-empty misplaced list makes find()['ok'] false and the script exit 1. write_work_items.py refuses when work-items.json is not ok (line 269: Refused 'work-items.json is not ok'), and it also needs a matching typed approval first, so no tracker write follows and no tracker-record.json is made."
-      - "A misplaced item with no tracker entry does not crash: run ad hoc, find() gives title None and check() leaves the title out of the message (tracker.get returns None; both branches guard it)."
-      - "Own-work set in find(): the slice's marked stories (including skipped ones, which are left as they are) and the moved-out stories are excluded, so none of them is flagged; a duplicate story copy is flagged, and duplicates stops the run on its own account."
-  tests:
-    result: pass
-    evidence:
-      - "Both changed suites ran green (11 and 12 checks) and the other 8 suites in the folder too. No skipped, disabled or assertion-free test in the diff."
-      - "New checks assert exact values: the epic that lacks a story names it ('is not a sub-issue of epic'); the chore under the epic is named with its title; the finder lists {slice, epic, issue, title}, flips ok to false and exits 1; the earlier ok case asserts misplaced == []; a moved-out story still on its epic is caught."
-      - "Not covered by a test (verified by hand above, not a finding): a misplaced item the tracker does not have (title absent); two misplaced items; misplaced work under a second slice's epic."
-  documentation:
-    result: "one finding (Q2); the rest pass"
-    evidence:
-      - "Cross-check with C13 in reference/ice.md: same meaning (an epic holds its slice's stories; work under a story hangs from the story; anything else is filed in its own place; /shape-slice and /shape-plan place it). Both texts are from this branch, so this is consistency, not grounding."
-      - "/shape-slice and /shape-plan resolve (core/components/plays/shape-slice and shape-plan exist); #879 resolves (GitHub, open, type Bug)."
-      - "No spelling or grammar fault, no TODO, heading hierarchy untouched, terms Epic, Story, Chore, Spike, Bug as the guide already uses them; no title prefix or label named."
-  plan_upkeep:
-    result: pass
-    evidence:
-      - "788.yaml parses at HEAD and at plan/788/base (python3 -I yaml). 51 nodes in each, no duplicate issue number in either, no node lost or added."
-      - "16 nodes moved from under #794 to the plan's top level: 796, 816, 817, 820, 821, 824, 825, 826, 828, 829, 830, 836, 837, 838, 842, 854. Each appears once, at the top level, and #794's children are now 795, 798, 818. The categories text says 17: the 17th, #831, is not in the plan file at base or HEAD (its own comment, line 192: dropped 2026-10-24) and design.md section 2 lists 16 plus #831, so the plan file correctly moves 16."
-      - "Every moved node is otherwise unchanged (kind, title, status, needs). The only other node changes are #794 kind capability -> epic and the #879 title. The statuses match (done 38, later 8, next 4, now 1, same counts at base and HEAD). Header fields identical."
-      - "No 'needs' target is lost: every needs target in HEAD (816, 807, 798, 842, 826, 817, 820, 824, 795, 818 and the others) exists in the tree; none was missing at base either."
-      - "#794 kind epic matches its GitHub issue type (Epic) and is the value write_plan_file.py writes for an epic. The #879 node title equals the GitHub title read now: \"/shape-plan stops when an epic holds work that is not its slice's: an epic stands for one slice\" (gh issue view 879, a read). The context/issue.json title is the older one."
-      - "Matches design.md section 2 (a record of intent, not grounding) and moves.jsonl (16 moved issues plus #831)."
-observations_not_findings:
-  - "write_work_items.py line 269 still says 'work-items.json is not ok (a problem or a duplicate)'. A misplaced item now also gives ok false. The file is outside this diff, so it is not a finding; it is a one-word follow-up."
-  - "check_tracker.py reports a moved-out story that is still on its epic twice: once as 'holds #n, which is not a story of its slice', once as 'is still a sub-issue'. Redundant, not wrong."
-  - "788.yaml 'updated' stays 2026-10-25 although the tree changed on 2026-10-26. The previous commits that changed this file did not bump it either, so it reads as a field nobody keeps, not a fault of this PR."
-  - "No review/plan-upkeep playbook exists (categories.yaml names the gap); the plan-upkeep checks above are the hand checks listed there."
+    class: P4
+    rule: "review/docs: voice, no real person's name (per user-facing-voice); terminology consistency"
+    files:
+      - {file: .garura/project/issues/879/context/pr-body.md, lines: [18, 38, 44]}
+      - {file: .garura/project/issues/879/context/self-review.md, lines: [3, 23, 29]}
+    what: "The 'Rules:' line prints a full absolute path with the real machine user name (/Users/kapilahuja/.garura/...). The same text says at pr-body.md:38/44 that the user folder is not named and writes it as <machine user> in the notes. The two do not agree."
+    evidence: "pr-body.md:18 and self-review.md:3 hold '/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md'; pr-body.md:44 uses '/Users/<machine user>/...'."
+    fix: "Write the rules path as ~/.garura/core/memory/standards/rules/self-review.md."
+  - id: Q3
+    class: P4
+    rule: "review/docs: spelling"
+    files:
+      - {file: .garura/project/issues/879/simulation/shape-plan/dry-run.md, lines: [3]}
+    what: "Spelling 'befor' (should read 'before')."
+    evidence: 'dry-run.md:3: ... "yes run it as a dry run to test the play befor we land this work".'
+    note: "It sits inside the product owner's verbatim quote. A reviewer may leave it as typed; there is no spelling fault anywhere else in the four files."
+  - id: Q4
+    class: P4
+    rule: "review/docs: terminology consistency"
+    files:
+      - {file: .garura/project/issues/879/context/pr-body.md, lines: [12]}
+    what: "#896 is called 'the enhancement'. In the tracker it is a Story with no label; the product model's words for a tracker item are Story / Epic / Bug."
+    evidence: "gh issue view 896: issueType Story, labels []; pr-body.md:12 'Recorded alongside: #896, the enhancement ...'."
+    fix: "Say 'the story #896' (or 'the new story')."
+  - id: Q5
+    class: P4
+    rule: "review/docs: grammar / completeness (generated wording)"
+    files:
+      - {file: .garura/project/issues/879/context/shape-plan/brief.md, lines: [16, 17]}
+    what: "The brief says 'Update .garura/project/plans/788.yaml' and then 'No node changes. The file stays as it is.' The heading verb promises a change that the next line denies."
+    evidence: "brief.md:16-17. The brief is the play's approval-prompt output, so the wording comes from the template, not from the author."
+    note: "Not a defect in this PR to fix by hand; recorded for the template owner."
+checked_clean:
+  - "Spelling and grammar: no other fault in the four files."
+  - "Heading hierarchy: pr-body.md embeds the self-review (its own '# Self-review' H1 at line 16 sits under the '## Self-review' H2 at line 14, so the H1 is nested under an H2; harmless, only a quirk of embedding). brief.md and dry-run.md go H1, H2 (brief also H3) with no skipped level. self-review.md H1, H2."
+  - "Leftover TODO / FIXME / TBD / XXX: none. The only hits are the words 'TODO or FIXME' in the self-review's own check line (pr-body.md:40, self-review.md:25)."
+  - "Dead paths: every path named resolves. simulation/shape-plan/dry-run.md, plans/788.yaml, simulation/shape-plan/{tracker-copy.json,plan-check.json,tracker-check.json,guard-report.json,stop-condition-shape-plan.yaml}, context/shape-plan/plan-before.txt, ~/.garura/core/memory/standards/rules/self-review.md all exist. No specs/ path is named."
+  - "Issue and PR references: #717 (Business Intent), #794 (type Epic), #795/#818/#798 (Story), #879 (Bug), #894 (merged PR), #896 (Story) all exist and match the text."
+  - "Voice: pr-body.md and brief.md lead in product terms and name no person; only the personas 'the product owner' and later plays appear."
 counts:
   P1: 0
   P2: 0
-  P3: 2
-  P4: 0
-blockers: 0
+  P3: 1
+  P4: 4
