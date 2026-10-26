@@ -1,33 +1,67 @@
+# assess-changes output (agent judgment applied to the analyze_changeset.py scan)
+# issue: 879  branch: plan/788/879-shape-plan-rerun
 needs_judgment: false
-branch: plan/788/879-epic-other-children
-issue: 879
+
 change_groups:
-- id: chore-stm-record-842-bug-move
-  issue: 879
-  commit_type: chore
-  scope: stm
-  subject: 'record #842 typed as a Bug in the move log'
-  confidence: high
-  files:
-  - .garura/project/issues/879/context/moves.jsonl
-  - .garura/project/issues/879/context/porcelain.txt
-  risks:
-    sensitive_files: []
-    breaking_changes: []
-  notes: Run record. moves.jsonl gains one line (#842, Bug, parent 788). porcelain.txt
-    is the run's own scan input.
+  - id: shape-plan-run-records
+    issue: 879
+    commit_type: chore
+    scope: stm
+    subject: "record shape-plan 788 run records"
+    files:
+      - .garura/project/issues/879/context/shape-plan/approval.json
+      - .garura/project/issues/879/context/shape-plan/brief.md
+      - .garura/project/issues/879/context/shape-plan/drafts-check.json
+      - .garura/project/issues/879/context/shape-plan/drafts.json
+      - .garura/project/issues/879/context/shape-plan/gather.json
+      - .garura/project/issues/879/context/shape-plan/ice/fn-795.md
+      - .garura/project/issues/879/context/shape-plan/ice/fn-798.md
+      - .garura/project/issues/879/context/shape-plan/ice/fn-818.md
+      - .garura/project/issues/879/context/shape-plan/plan-before.txt
+      - .garura/project/issues/879/context/shape-plan/skill-input.json
+      - .garura/project/issues/879/context/shape-plan/start-change.json
+      - .garura/project/issues/879/context/shape-plan/start-sha.txt
+      - .garura/project/issues/879/context/shape-plan/work-items.json
+      - .garura/project/issues/879/context/templates/manifest-shape-plan.json
+      - .garura/project/issues/879/context/templates/standards/templates/approval-prompt.md
+  - id: shape-plan-dry-run-simulation
+    issue: 879
+    commit_type: chore
+    scope: stm
+    subject: "record shape-plan 788 dry-run simulation"
+    files:
+      - .garura/project/issues/879/simulation/shape-plan/788.yaml
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/approval.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/drafts-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/guard-report.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/plan-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/plan-write.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/tracker-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/tracker-record.json
+      - .garura/project/issues/879/simulation/shape-plan/dry-run.md
+      - .garura/project/issues/879/simulation/shape-plan/guard-report.json
+      - .garura/project/issues/879/simulation/shape-plan/plan-check.json
+      - .garura/project/issues/879/simulation/shape-plan/plan-write.json
+      - .garura/project/issues/879/simulation/shape-plan/stop-condition-shape-plan.yaml
+      - .garura/project/issues/879/simulation/shape-plan/tracker-before.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-check.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-copy.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-record.json
+
 exclusions:
-- path: .garura/project/issues/879/context/self-review.md
-  reason: 'left out on purpose: propose-change commits it with its own records'
-  blocking: false
+  - path: ".garura/project/issues/879/context/analysis.yaml"
+    reason: "this play's own run state; committed by the final run-state chore(stm) commit"
+    blocking: false
+  - path: ".garura/project/issues/879/context/porcelain.txt"
+    reason: "this play's own run state; committed by the final run-state chore(stm) commit"
+    blocking: false
+
 risks:
   sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
 eval_gates:
-  SE-1:
-    status: PASS
-    evidence: every scan path is in one group or in exclusions; analysis.yaml is this
-      output, committed with the run state
-  SE-5:
-    status: PASS
-    evidence: no sensitive patterns matched; only plan and run-record files changed
-round: 2
+  SE-1: {status: PASS, evidence: "2 groups, all 32 paths grouped or excluded; single issue 879"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched (grep of shape-plan, templates, simulation)"}

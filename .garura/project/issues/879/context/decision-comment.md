@@ -1,10 +1,7 @@
-Reviewer verdict (the product owner, round 2): approve
+Reviewer verdict (the product owner): approve
 
-Round 2 resolves round 1's findings (H-1 to H-4): an epic stands for its slice, and misplaced work under it stops `/shape-plan` before any tracker write. 10 test suites, 137 passed, 0 failed; ruff clean; no linter error in a changed path; the plan file keeps all 51 nodes, with the 16 moved out from under #794 once each.
+The PR carries only the run records of the `/shape-plan 788` dry run for #879. All 42 changed paths sit under `.garura/project/issues/879/`; no plan file, source or product-model file changes. The hand checks pass: every record parses; no secret; the approval's hashes match the brief, work items and drafts the product owner saw; the plan file and the tracker copy are unchanged; the dry run's plan check, tracker check and write guard read ok and its stop condition held.
 
-Left open, to one follow-up issue:
-- H-5 / Q2 (P3): until `/shape-slice` or `/shape-plan` places it, misplaced work filed on its own has no parent; the work guide and the play's recovery should say so, since the guide and the ontology say every Story hangs under its Epic and every Bug under its Story.
-- H-6 (P3): blocker work as "its own slice" against ADR 049 (a slice is testable end to end) — the product owner decides.
-- Q1 (P3, CODE-09) and H-7 (P4): two functions grew more complex; Step 8 does not route the tracker check's misplaced-work failure to REC12.
+Left as notes (P3/P4): the PR text's size figures are from before the last two record commits (D-1); a few lines print a local path with the user folder (D-2, R-1); #896 is a story, not "an enhancement" (D-3).
 
-Next: merge into plan/788/base, then `/shape-plan 788` runs again.
+Next: merge into plan/788/base.

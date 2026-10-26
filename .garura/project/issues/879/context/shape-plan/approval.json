@@ -1,0 +1,20 @@
+{
+  "decision": "yes",
+  "reply": "yes run it as a dry run to test the play befor we land this work",
+  "at": "2026-10-26T04:10:09Z",
+  "files": {
+    "brief": {
+      "path": ".garura/project/issues/879/context/shape-plan/brief.md",
+      "sha256": "857487bb99ca60693d408b8cfe70d67449b3d1e2510b9bde8429686aabd03f2a"
+    },
+    "work_items": {
+      "path": ".garura/project/issues/879/context/shape-plan/work-items.json",
+      "sha256": "1432539d1dad0fd3bd8fc94816c52442b14e4962f2d5881013047a2cf3f54bcd"
+    },
+    "drafts": {
+      "path": ".garura/project/issues/879/context/shape-plan/drafts.json",
+      "sha256": "aff15470f77fe35dfd0ad7fa7fc933b0d2618aa1fc5b6d0e58c83317eb5e3828"
+    }
+  },
+  "history": []
+}
