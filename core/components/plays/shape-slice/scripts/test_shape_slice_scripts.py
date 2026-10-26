@@ -377,6 +377,14 @@ def test_fills_undo(tmp):
     check("fills undo: a page that said **Touches:** none yet keeps that line after a later edit",
           code == 0 and "**Touches:** none yet" in text and "A line the person added." in text
           and "(domain) — adds" not in text and out["how"] == "lines removed")
+    free = "- fn-7 and fn-8 (features of cap-x) — moved under cap-x's folder"
+    listed = f"# One\n\n**Touches:**\n- [notify](../notify/domain.md) (domain) — adds\n{free}\n"
+    write(page, listed)
+    run("persist_fills.py", "--root", root, "--spine", write(spine, {"domains": [], "capabilities": [],
+                                                                      "features": []}),
+        "--fills", fills, "--intent", "bi-1", "--out", res)
+    check("fills: a Touches line in a form the scripts cannot read stays on the intent page",
+          read(page) == listed and json.loads(read(res))["touches_added"] == [])
     commented = "# The clinic spine. Keep this note.\ndomains:\n  # booking first\n  - id: dm-b\n    slug: b\n"
     write(spine, commented + "capabilities: []\nfeatures: []\n")
     run("persist_fills.py", "--root", root, "--spine", spine, "--fills", fills, "--intent", "bi-1",
@@ -876,6 +884,37 @@ def test_safe_write(tmp):
     check("safe_write: the five writing scripts use it", users == [])
 
 
+def test_plain_yes(tmp):
+    ex = {"why": "x", "examples": ["a clinic: a", "a shop: b"], "blocking": False}
+    qs = [dict(ex, id="Q-scope-1", question="Is a reminder in scope?", proposed_answer="yes",
+               basis={"kind": "model", "ref": "intents/bi-340.md L4"}),
+          dict(ex, id="Q-flag-1", question="Where does the flag show?", proposed_answer=None)]
+    sp = write(os.path.join(tmp, "py-split.json"), {"asked": qs, "assumptions": []})
+    reply = write(os.path.join(tmp, "py-reply.md"), "yes\n")
+    ans = os.path.join(tmp, "py-answers.json")
+    code, out, _ = run("record_questions.py", "answers", "--reply", reply, "--split", sp, "--out", ans)
+    check("answers: a plain yes accepts only a question that has a proposed answer",
+          code == 0 and [a["id"] for a in json.loads(read(ans))] == ["Q-scope-1"]
+          and out["unanswered"] == ["Q-flag-1"])
+    rec = os.path.join(tmp, "py-ctx", "grounding-questions.md")
+    run("record_questions.py", "add", "--record", rec, "--issue", "1", "--split", sp, "--at", "t", "--run", "r")
+    run("record_questions.py", "answer", "--record", rec, "--answers", ans, "--at", "t", "--run", "r")
+    code, out, _ = run("record_questions.py", "check", "--record", rec, "--split", sp)
+    check("check: a question a plain yes could not accept is still open (exit 1)",
+          code == 1 and out["unanswered"] == ["Q-flag-1"])
+    own = write(os.path.join(tmp, "py-own.json"), [{"id": "Q-flag-1", "answer": "in the run's evidence"}])
+    run("record_questions.py", "answer", "--record", rec, "--answers", own, "--at", "t2", "--run", "r")
+    again = write(os.path.join(tmp, "py-again.json"),
+                  [{"id": "Q-flag-1", "answer": "yes — accepted as proposed", "decision": "accepted"},
+                   {"id": "Q-scope-1", "answer": "yes — accepted as proposed", "decision": "accepted"}])
+    code, out, _ = run("record_questions.py", "answer", "--record", rec, "--answers", again,
+                       "--at", "t3", "--run", "r")
+    text = read(rec)
+    check("answer: a later plain yes never writes over the person's own answer",
+          code == 0 and out["kept"] == ["Q-flag-1"] and out["answered"] == ["Q-scope-1"]
+          and "in the run's evidence" in text)
+
+
 def main():
     with tempfile.TemporaryDirectory() as tmp:
         root = test_intent_page(tmp)
@@ -891,6 +930,7 @@ def main():
         test_slice_check_v11(tmp)
         test_questions_v11(tmp)
         test_merge_proposals(tmp)
+        test_plain_yes(tmp)
         test_safe_write(tmp)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)

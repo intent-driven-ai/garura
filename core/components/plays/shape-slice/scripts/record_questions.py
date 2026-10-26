@@ -63,8 +63,10 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               "skip" or "defer" and says more ("Skip the dashboard, use the CLI") is not
               guessed: it is listed in `unclear`, gets no answer, and is asked again. When the
               first line of the reply that is not empty is a bare "yes", each asked question the
-              reply does not answer by its id is recorded as {"id", "answer": "yes — accepted as
-              proposed", "decision": "accepted"}. Prints {answers, unanswered, unclear, unknown}.
+              reply does not answer by its id and that has a proposed answer is recorded as
+              {"id", "answer": "yes — accepted as proposed", "decision": "accepted"}. A question
+              with no proposed answer is not accepted by a yes: it stays in `unanswered`, and
+              is asked again (C5). Prints {answers, unanswered, unclear, unknown}.
   early     — splits the asked questions of grill_budget.py's split in two. A question is
               asked before the slice is shaped (`early-split.json`) only when it blocks the
               slice, has no proposed answer, and is not about the surface or the tester (topic
@@ -78,7 +80,9 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
   answer    — writes the person's answers ([{id, decision, answer}]) onto asked entries. An
               answer with no text is refused (exit 2, nothing written): an empty answer is not
               an answer. An answer with no decision is deferred when its text is a bare
-              "skip" or "defer", else in scope.
+              "skip" or "defer", else in scope. A plain-yes acceptance never writes over an
+              answer the person already typed in their own words: that entry is kept as it
+              is and named in `kept`.
   brief     — checks the brief shown to the person before it is sent. The opening is the text
               before the first Markdown heading: two or three sentences that say what the person
               decides (it may name a question id). The brief has the H2 headings What you run,
@@ -358,6 +362,8 @@ ANSWER_START = re.compile(r"^\s*(?:[-*]\s*)?(?:\*\*)?(?P<key>Q-[\w-]*\w|\d+)(?:\
 def cmd_answers(args):
     split = load_json(args.split, "split")
     asked = [q["id"] for q in split.get("asked") or []]
+    proposed = {q["id"] for q in split.get("asked") or []
+                if str(q.get("proposed_answer") or "").strip()}
     try:
         with open(args.reply, encoding="utf-8") as fh:
             reply = fh.read()
@@ -390,7 +396,7 @@ def cmd_answers(args):
     for qid in asked:
         text = "\n".join(found.get(qid, [])).strip()
         if not text:
-            if yes:
+            if yes and qid in proposed:  # a yes accepts a proposal; with none, there is nothing to accept
                 answers.append({"id": qid, "answer": ACCEPTED, "decision": "accepted"})
             continue
         if DEFER_START.match(text) and not is_deferral(text):
@@ -452,15 +458,20 @@ def cmd_answer(args):
         if not isinstance(a.get("answer"), str) or not a["answer"].strip():
             raise Refused(f"the answer to '{a.get('id')}' has no text; an empty answer is not "
                           "an answer — ask the question again")
+    done, kept = [], []
     for a in answers:
         e = by_id[a["id"]]
+        if a.get("answer") == ACCEPTED and has_answer(e) and e["user_answer"] != ACCEPTED:
+            kept.append(a["id"])  # a later plain yes never writes over the person's own words
+            continue
         e["user_decision"] = a.get("decision") or (
             "deferred" if is_deferral(a.get("answer")) else "in_scope")
         e["user_answer"] = a.get("answer")
         e["resolved_at"] = args.at
         e["resolved_by_run"] = args.run
+        done.append(a["id"])
     write_record(args.record, text, entries)
-    print(json.dumps({"answered": [a["id"] for a in answers]}, indent=2))
+    print(json.dumps({"answered": done, "kept": kept}, indent=2))
     return 0
 
 
