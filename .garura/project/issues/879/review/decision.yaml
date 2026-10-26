@@ -1,6 +1,6 @@
 decision: approve
 decided_by: human
-reviewer_reply: "aprove and merge"
-round: 2
+reviewer_reply: "approve and merge"
+pr: 897
 citing_findings: []
-open: [H-5, Q2, H-6, Q1, H-7]
+open: [D-1, D-2, R-1, D-3]
