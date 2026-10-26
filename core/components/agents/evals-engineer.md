@@ -32,7 +32,7 @@ build, so you never see a build, and it runs later with no agent, so it must be 
    - each story in `stories` has its copy at `path`, and that copy has a "Scope of work" section;
    - the hidden-file copy is there, and `failures` has an entry for each story's feature;
    - the step library for its `surface_kind` is in `library`;
-   - the two templates are in `templates`.
+   - the two templates and the rules page `eval-format.md` are in `templates`.
    When one is missing, stop with `step_failure` and name it. Do not call the skill: a part of
    an eval is worse than no eval.
 3. Call the skill `author-slice-eval` with the contract's inputs and output, and, on a fix, the
@@ -62,7 +62,8 @@ build, so you never see a build, and it runs later with no agent, so it must be 
     "inputs": "<working>inputs.json",
     "copies": "<working>inputs/",
     "library": ["<working>memory/.../steps-<kind>.yaml"],
-    "templates": ["<working>templates/.../eval-story.feature.md", "<working>templates/.../eval-slice.md"],
+    "templates": ["<working>templates/.../eval-story.feature.md", "<working>templates/.../eval-slice.md",
+                  "<working>templates/.../eval-format.md"],
     "problems": "<working>eval-check.json, on a fix",
     "change": "<working>change.md, on a re-run"
   },

@@ -23,7 +23,7 @@ drafts after it.
 | `inputs` | yes | `inputs.json` from the play's `gather_eval.py`. For each slice: `slice_id`, `slug`, `epic`, `ready`, `surface`, `surface_kind`, `stories` (in build order: `feature`, `issue`, `title`, `goals`, `expectations`, `context`, `path` of the story copy), `failures` (each feature's failure conditions with their ids), `existing` and `out_of_slice` (the eval files the slice already has, and the story files whose feature left the slice). Write only for slices with `ready: true` |
 | `copies` | yes | The folder of copies: `epic-<n>.md`, `story-<n>.md`, `hidden-<slug>.md`, and `existing/<slug>/` (the eval files the slice already has). These are the only story, epic and hidden-file text you read |
 | `library` | yes | The step library of each surface kind the ready slices use (`steps-<kind>.yaml`): every sentence a step may be |
-| `templates` | yes | The two templates: `eval-story.feature.md` and `eval-slice.md` |
+| `templates` | yes | The two templates, `eval-story.feature.md` and `eval-slice.md` (the shape), and the rules page `eval-format.md` (the rules of both) |
 | `problems` | no | On a fix: the `problems` of `eval-check.json`, by file |
 | `change` | no | On a re-run: the product owner's words after `change:` at the checkpoint |
 | `out` | yes | The drafts folder: write `<out>/<slug>/` for each ready slice |
@@ -45,6 +45,9 @@ drafts after it.
    - `## Untestable`: one line for each goal, expectation or failure condition you cannot write
      a scenario for yet, with its tag and the reason (for example, the story says the part is
      not built yet, or the check would need a wait the time limit does not allow).
+   - `## Lines covered`: one line for each goal and expectation a scenario covers, with its tag and
+     the story line's exact text as `inputs.json` gives it (`` - `@goal-2`: A patient gets a reminder. ``).
+     A later run compares these lines with the story to find a line that moved or changed.
 3. **Write each step as a sentence of the library** of the slice's surface kind, with `* Given`,
    `* When`, `* Then`, `* And` or `* But`. Do not change a sentence's words. A value is a literal
    in double quotes when the story names it ("/shape-slice 1", "plans/1.yaml"); what only the
@@ -65,8 +68,10 @@ drafts after it.
    must decide", not "Way back:", not "Who fixes:", and no recovery line of the hidden file. The
    recovery stays in the hidden file.
 7. **A slice that already has eval files** (`existing`): never change or drop a scenario that is
-   there. Write the story file with the scenarios it has, word for word, and add only scenarios for
-   what it does not cover yet; the play's `place_eval.py` keeps the file's lines in any case.
+   there, and never change a line of its "Lines covered" list, also when the story's line moved or
+   changed (the play names that for a person). Write the story file with the scenarios it has, word
+   for word, and add only scenarios, and their Lines covered lines, for what it does not cover yet;
+   the play's `place_eval.py` keeps the file's lines in any case.
 8. **On a fix,** rewrite only what each problem names, and keep every other draft as it is. **On a
    change,** draft again what the product owner's change names, and keep the rest.
 
