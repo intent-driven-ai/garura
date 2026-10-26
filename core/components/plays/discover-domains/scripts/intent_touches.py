@@ -86,19 +86,32 @@ def read(text):
 def upsert(text, entries):
     """Add each entry whose link is not listed yet; an entry already listed keeps its mark.
 
-    A page with the pre-v4 list has it turned into a Touches list (each capability `adds`).
-    A page with no list gets one, just before "What was done", or at the end."""
+    Every line already in the list stays, as it is and in its place, also a line in a form
+    this module cannot read (a person wrote it); new entries go after the last line. With
+    nothing new, the page is returned unchanged. A page with the pre-v4 list has it turned
+    into a Touches list (each capability `adds`). A page with no list gets one, just before
+    "What was done", or at the end."""
     lines = text.splitlines()
     found = _block(lines)
     merged = list(found[2]) if found else []
     listed = {e["link"] for e in merged}
+    new = []
     for e in entries:
         if e["link"] not in listed:
-            merged.append(e)
+            new.append(e)
             listed.add(e["link"])
     if found:
-        lines[found[0]:found[1]] = render(merged)
+        start, end, _entries, old = found
+        if not new and not old:
+            return text
+        kept = []
+        for line in lines[start + 1:end]:
+            m = OLD_LINE.match(line.strip()) if old else None
+            kept.append(render([entry(m["title"], m["link"], "capability", "adds")])[1] if m else line)
+        added = render(new)[1:] if new else []
+        lines[start:end] = [HEADER] + kept + added if kept or added else render([])
     else:
+        merged = new
         at = next((i for i, line in enumerate(lines) if line.startswith(NEXT_ANCHOR)), len(lines))
         while at > 0 and not lines[at - 1].strip():
             at -= 1

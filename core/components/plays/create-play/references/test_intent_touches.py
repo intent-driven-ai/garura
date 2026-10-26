@@ -66,6 +66,18 @@ def test_write_and_read():
           again.replace("\n".join(it.render([CHECKOUT, COMMERCE])) + "\n\n", "") == PAGE)
 
 
+def test_a_line_a_person_wrote_stays():
+    free = "- fn-727 and fn-728 (features of cap-718) — moved under cap-718's folder"
+    page = PAGE.replace("**What was done:**", "**Touches:**\n- [Checkout](../commerce/checkout/capability.md) "
+                        f"(capability) — adds\n{free}\n\n**What was done:**")
+    check("upsert with nothing new returns the page unchanged, a free-form line and all",
+          it.upsert(page, [CHECKOUT]) == page)
+    text = it.upsert(page, [COMMERCE])
+    check("a line in a form the module cannot read stays, in its place; a new entry goes after it",
+          f"capability) — adds\n{free}\n- [Commerce](../commerce/domain.md) (domain) — changes\n" in text)
+    check("only the new line is added", text.replace("- [Commerce](../commerce/domain.md) (domain) — changes\n", "") == page)
+
+
 def test_none_yet():
     empty = it.upsert(PAGE, [])
     check("a page that touches nothing yet says so", "**Touches:** none yet" in empty and it.read(empty) == [])
@@ -114,7 +126,7 @@ def test_every_copy_is_identical():
 
 
 def main():
-    for test in (test_write_and_read, test_none_yet, test_the_old_list_is_converted, test_relink, test_bad_entries,
+    for test in (test_write_and_read, test_a_line_a_person_wrote_stays, test_none_yet, test_the_old_list_is_converted, test_relink, test_bad_entries,
                  test_every_copy_is_identical):
         print(test.__name__)
         test()
