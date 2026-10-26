@@ -51,7 +51,11 @@ condition. A second run makes no copies.
   sections when they are missing, and keeps every line a person wrote; it never rewrites or
   deletes a person's text.
 - C13 — An epic and a story are marked in the tracker by the issue type field, with no label:
-  an epic is an issue of type Epic, and a story is an issue of type Story.
+  an epic is an issue of type Epic, and a story is an issue of type Story. An epic stands for its
+  slice: its sub-issues are the stories of its slice, and the work under a story hangs from that
+  story. Anything else under an epic is misplaced work: the play names each item with its title
+  and writes nothing until a person files it in its own place (its own story, bug or chore, which
+  `/shape-slice` and `/shape-plan` place when they run) (#879).
 
 ### Failure conditions
 
@@ -72,6 +76,8 @@ condition. A second run makes no copies.
 - F10 — A page names a real person, or a person cannot follow it.
 - F11 — An epic or a story carries a label, or an epic's issue type is not Epic, or a story's
   issue type is not Story.
+- F12 — An epic holds a sub-issue that is not a story of its slice, and the run wrote to the
+  tracker, or did not name that item with its title.
 
 ## Context
 
@@ -131,6 +137,11 @@ condition. A second run makes no copies.
   the product owner runs /shape-plan, then that feature's story is not made and the brief names
   it, and the other stories are made after the yes. Measure: the record lists the skipped feature
   with its reason, the brief names it, and the plan check reads ok for the other features.
+- S8 — (product owner, misplaced work) Given an epic that holds work that is not a story of its
+  slice (for example closed chores filed under the epic), when the product owner runs
+  /shape-plan, then the run names each item with its title as not this slice's work and stops
+  before any tracker write. Measure: `work-items.json` lists each item in `misplaced` with its
+  title, there is no `tracker-record.json`, and the plan file is as it was.
 
 ### Done means
 
@@ -171,3 +182,6 @@ condition. A second run makes no copies.
 - REC10 (F10) — rewrite with personas and plain words. Handoff: autonomous.
 - REC11 (F11) — take the label off, and set the issue type to Epic on an epic and to Story on
   a story. Handoff: autonomous.
+- REC12 (F12) — stop before any tracker write and name each misplaced item with its title; a
+  person files it in its own place and takes it off the epic, then runs the play again.
+  Handoff: human.

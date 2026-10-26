@@ -62,6 +62,14 @@ standard (`docs/standards/harness-standard.md`).
   filed as Feature. (In the product model, a Feature is a different thing; it is
   never an issue.) Never encode the type as a
   title prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
+- **An Epic stands for one slice, and holds only that slice's work.** Its
+  sub-issues are the Stories of its slice; a Chore, Spike or Bug hangs from the
+  Story it serves. A plan holds one Epic for each slice that serves its business
+  intent, so a plan can hold several Epics. Work found along the way that is not
+  the slice's is filed on its own, as a Story, Bug or Chore, never under the Epic;
+  `/shape-slice` and `/shape-plan` place it when they run. Work that blocks the plan
+  gets its own Epic (its own slice), is delivered there, and merges back into the
+  plan branch it spawned from. (The product owner, 2026-10-26, #879.)
 - **No labels, for now.** Not for type, status, area, or severity. A severity
   and priority taxonomy will be designed later; until then, open issues carry
   none. Closed issues keep their old labels as history.

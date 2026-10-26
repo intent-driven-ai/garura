@@ -49,72 +49,11 @@ tree:
     title: Archive or remove the retired intent-epic pipeline and its feature-catalog names
     status: done
 - issue: 794
-  kind: capability
+  kind: epic
   represents: sl-intent-to-design
   title: The shaping loop turns a business intent into a testable slice, its plan and its eval
   status: now
   children:
-  - issue: 816
-    kind: feature
-    title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
-    status: done
-    needs:
-    - 807
-  - issue: 817
-    kind: feature
-    title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
-    status: done
-  - issue: 820
-    kind: feature
-    title: One shared rule for how a play asks a person a question
-    status: done
-  - issue: 826
-    kind: bug
-    title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
-    status: done
-    needs:
-    - 816
-  - issue: 828
-    kind: feature
-    title: Encrypt each slice's eval and hidden file so a builder cannot read them
-    status: next
-    needs:
-    - 798
-    - 842
-  - issue: 824
-    kind: chore
-    title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
-    status: done
-    needs:
-    - 826
-  - issue: 829
-    kind: chore
-    title: The spine's slice entry names the business intents the slice serves
-    status: done
-    needs:
-    - 824
-  - issue: 830
-    kind: chore
-    title: 'managing-work.md follows ADR 049: one plan per intent, no slice picking'
-    status: done
-    needs:
-    - 824
-  - issue: 821
-    kind: feature
-    title: 'Lint: a play that asks a person must point to the asking-a-person rule'
-    status: done
-    needs:
-    - 820
-  - issue: 825
-    kind: chore
-    title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
-    status: done
-    needs:
-    - 820
-  - issue: 854
-    kind: chore
-    title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
-    status: done
   - issue: 795
     kind: feature
     represents: fn-795
@@ -124,28 +63,6 @@ tree:
     - 816
     - 817
     - 826
-  - issue: 836
-    kind: chore
-    title: 'Drop /next: the plan is the work list (ADR 051)'
-    status: done
-  - issue: 842
-    kind: bug
-    title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
-    status: done
-    needs:
-    - 795
-  - issue: 837
-    kind: chore
-    title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
-    status: done
-    needs:
-    - 795
-  - issue: 838
-    kind: feature
-    title: An author-slice skill picks the slice's features, surface and tester
-    status: done
-    needs:
-    - 795
   - issue: 798
     kind: feature
     represents: fn-798
@@ -178,15 +95,100 @@ tree:
       - 876
     - issue: 879
       kind: bug
-      title: '/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice''s stories'
+      title: '/shape-plan stops when an epic holds work that is not its slice''s: an epic stands for one slice'
       status: next
-  - issue: 796
-    kind: feature
-    title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
-    status: next
-    needs:
-    - 798
-    - 818
+# Moved out from under epic #794 on 2026-10-26 (#879): not stories of its slice. Each is filed as its own
+# story, bug or chore; /shape-slice and /shape-plan place them when they run.
+- issue: 816
+  kind: feature
+  title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
+  status: done
+  needs:
+  - 807
+- issue: 817
+  kind: feature
+  title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
+  status: done
+- issue: 820
+  kind: feature
+  title: One shared rule for how a play asks a person a question
+  status: done
+- issue: 826
+  kind: bug
+  title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
+  status: done
+  needs:
+  - 816
+- issue: 828
+  kind: feature
+  title: Encrypt each slice's eval and hidden file so a builder cannot read them
+  status: next
+  needs:
+  - 798
+  - 842
+- issue: 824
+  kind: chore
+  title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
+  status: done
+  needs:
+  - 826
+- issue: 829
+  kind: chore
+  title: The spine's slice entry names the business intents the slice serves
+  status: done
+  needs:
+  - 824
+- issue: 830
+  kind: chore
+  title: 'managing-work.md follows ADR 049: one plan per intent, no slice picking'
+  status: done
+  needs:
+  - 824
+- issue: 821
+  kind: feature
+  title: 'Lint: a play that asks a person must point to the asking-a-person rule'
+  status: done
+  needs:
+  - 820
+- issue: 825
+  kind: chore
+  title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
+  status: done
+  needs:
+  - 820
+- issue: 854
+  kind: chore
+  title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
+  status: done
+- issue: 836
+  kind: chore
+  title: 'Drop /next: the plan is the work list (ADR 051)'
+  status: done
+- issue: 842
+  kind: bug
+  title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
+  status: done
+  needs:
+  - 795
+- issue: 837
+  kind: chore
+  title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
+  status: done
+  needs:
+  - 795
+- issue: 838
+  kind: feature
+  title: An author-slice skill picks the slice's features, surface and tester
+  status: done
+  needs:
+  - 795
+- issue: 796
+  kind: feature
+  title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
+  status: next
+  needs:
+  - 798
+  - 818
 # Dropped on 2026-10-24: #831 (not planned; replaced by #854).
 # Not in this plan (standalone): #839 (review the agent's memory), #843 (a sandbox install scope), #847 (check-change's
 # review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan

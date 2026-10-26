@@ -1,0 +1,54 @@
+---
+# find-matching-issues output (read-only on GitHub; issue 879 read via the platform adapter's view-issue)
+branch: plan/788/879-epic-other-children
+branch_signal:
+  issue_reference: 879
+  also_in_branch: 788   # the plan id (the business intent's issue), not the work item
+  note: "plan/<plan-id>/<issue>-<slug>: 788 is the plan, 879 is the issue the branch works. The resolver read 788; the work item is 879."
+
+resolved_issue:
+  number: 879
+  title: "/shape-plan stops when an epic holds work that is not its slice's: an epic stands for one slice"
+  type: Bug
+  state: open
+  parent: {number: 818, state: closed}
+  url: https://github.com/intent-driven-ai/garura/issues/879
+  title_note: "issue.json holds the older title; GitHub now shows the title above. Group 1 is the plan-node rename to it."
+
+mappings:
+  - group: chore-plan-rename-879-node
+    commit_type: chore
+    scope: plan
+    mapped_issue: 879
+    confidence: high
+    signals:
+      branch: match
+      semantic: "The group renames the #879 node in plan 788 to the issue's current GitHub title; its subject names #879."
+      proximity: "Same issue as the other group; the issue body's 'Done when' says the plan file moves items out from under #794."
+    reasoning: "Branch names 879, the analysis names 879, and the change is the plan node of 879 itself."
+
+  - group: chore-stm-record-842-bug-move
+    commit_type: chore
+    scope: stm
+    mapped_issue: 879
+    confidence: high
+    signals:
+      branch: match
+      semantic: "Files sit under issues/879/context/; the move log records #842 typed as Bug and taken off #794, which is the 'Done when' item 'the 16 items get the type of their kind and come off #794'."
+      proximity: "Same issue as the other group."
+    reasoning: "Run record of the work #879 asks for, in #879's own short-term memory folder."
+
+unmapped_groups: []
+conflicts: []
+excluded_not_mapped:
+  - path: .garura/project/issues/879/context/self-review.md
+    reason: "left out of commits by the analysis (propose-change commits it); not a group"
+
+summary:
+  total_groups: 2
+  high: 2
+  medium: 0
+  low: 0
+  unmapped: 0
+  approval_recommended: false
+  commit_issue: 879

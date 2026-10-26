@@ -1,0 +1,3 @@
+ M .garura/project/issues/879/context/moves.jsonl
+ M .garura/project/issues/879/context/porcelain.txt
+ M .garura/project/plans/788.yaml

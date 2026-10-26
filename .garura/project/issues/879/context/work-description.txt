@@ -1,0 +1,7 @@
+Make /shape-plan's tracker check accept a work order (epic) that holds more than the stories of its slice.
+
+A plan that existed before /shape-plan, or that kept evolving after it was built, holds other children under its epic: plan 788's epic #794 holds 16 older work items besides its three stories. The product owner (2026-10-25): /shape-plan can run in the middle of a plan that already exists and runs, and a plan keeps evolving after it is built, so the play must accept a work order that holds more than the stories of its slice.
+
+Done when the tracker check passes when an epic holds its slice's stories plus other children, and still fails when a story of the slice is not a child or a moved-out story still is; the change goes through /edit-play (C13, D4, SE-15); the brief names the epic's other children; a test covers both cases; and /shape-plan 788 runs again and closes COMPLETED.
+
+It runs in plan 788 (under #818) and lands into plan/788/base.

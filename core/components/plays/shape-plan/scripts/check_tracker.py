@@ -71,9 +71,15 @@ def check(rec, tracker):
         if int(epic_no) in made:
             for reason in pc.forbidden_in(epic["body"]):
                 problems.append(f"epic #{epic_no}: {reason}")
-        if sorted(epic["sub_issues"]) != sorted(stories.values()):
-            problems.append(f"epic #{epic_no}'s sub-issues {sorted(epic['sub_issues'])} are not its "
-                            f"stories {sorted(stories.values())}")
+        subs = {int(n) for n in epic["sub_issues"]}
+        for fid, n in stories.items():
+            if n not in subs:
+                problems.append(f"story #{n} of {fid} is not a sub-issue of epic #{epic_no}")
+        for n in sorted(subs - set(stories.values())):
+            it = tracker.get(n)
+            title = f" \"{it['title']}\"" if it else ""
+            problems.append(f"epic #{epic_no} holds #{n}{title}, which is not a story of its slice: "
+                            "file it in its own place and take it off the epic (C13)")
     for mo in rec.get("moved_out") or []:
         st = fetch(mo["issue"], "the moved-out story")
         if st is not None and st["state"] != "open":

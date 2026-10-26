@@ -1,0 +1,52 @@
+pr: 894
+issue: 879
+round: 1
+findings:
+- id: H-1
+  severity: P2
+  category: harness
+  file: core/components/plays/shape-plan/reference/ice.md (C13, S3)
+  basis: "ADR 048 Decision 3, the ontology's Epic/Spike/Chore/Bug rules, the glossary, managing-work.md and CLAUDE.md Work Tracking (base ref): an Epic holds only Stories; a Spike, Chore or Bug has a Story as its parent"
+  finding: "C13 and S3 now let an epic hold other children that are not stories of its slice (S3's example: two closed chores directly under the epic). The accepted model says an Epic holds only Stories. Nothing in this PR records the product owner's rule (in #879's body) in the ADRs or the ontology."
+  fix: "Record the decision where the model lives: an ADR that amends ADR 048 Decision 3 in part, and the ontology and managing-work.md through /edit-ontology (as ADR 056 did for #875)."
+- id: H-2
+  severity: P3
+  category: harness
+  file: core/components/plays/shape-plan/SKILL.md (Step 8)
+  basis: "harness-standard principle 4 (base ref): the compiled play routes each failure to its recovery"
+  finding: "Step 8 routes only 'a label or a wrong type' to REC11; F11/REC11 now also cover a story that is not a sub-issue and an other child taken off."
+  fix: "Name both new cases in Step 8's routing line."
+- id: H-3
+  severity: P3
+  category: harness
+  file: core/components/plays/shape-plan/reference/ice.md (C13, F11); scripts/check_tracker.py
+  basis: "harness-standard principle 5 (base ref): every guarantee has a check that proves it"
+  finding: "C13/F11 say the play never adds, removes or changes the other children; the check proves only that each recorded child is still a sub-issue. An added child or a changed one would pass."
+  fix: "Narrow the wording to what the play can prove, or compare the post-run others with the recorded ones."
+- id: H-4
+  severity: P3
+  category: harness
+  file: core/components/plays/shape-plan/scripts/render_brief.py
+  basis: "base-ref ice.md C11 (a person can follow the brief); Phoenix user-facing-voice rule"
+  finding: "The brief names the other children as bare issue numbers; for plan 788 that is 16 numbers with no titles, though the find step holds titles for those in the plan file."
+  fix: "Show each other child with its title."
+- id: CODE-1
+  severity: P3
+  category: executable-code
+  file: core/components/plays/shape-plan/scripts/render_brief.py
+  basis: "base-ref ice.md C11 (plain words a person can follow)"
+  finding: "With exactly one other child the brief reads '1 other work item that are not stories of this slice'. The test covers only two."
+  fix: "Use 'that is' for one; add a one-child test."
+- id: CODE-10
+  severity: P3
+  category: executable-code
+  file: check_tracker.py check(), find_work_items.py find(), render_brief.py render()
+  basis: "pr.md CODE-10 (function length), highlight only"
+  finding: "Each already-long function gains 6-7 lines (62, 66, 101 lines)."
+  fix: "Leave for a later refactor; no threshold exists."
+layer1:
+  quality: "check-pr-quality: 0 grep findings (core/components scripts class as prose); hand data-safety checks pass"
+  lint_components: "0 in changed paths; 37 there before"
+  lint_play: "0 in changed paths; next-command gap there before"
+  ruff: "clean"
+  tests: "10 suites, 139 passed, 0 failed"

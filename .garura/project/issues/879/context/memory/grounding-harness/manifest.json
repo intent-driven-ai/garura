@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:8ead1cfefb30b7efa09d46f72574bded3f9e511029dfdf8ad6480db0faca8443",
+      "copy": ".garura/project/issues/879/context/memory/grounding-harness/standards/rules/user-facing-voice.md"
+    }
+  ]
+}

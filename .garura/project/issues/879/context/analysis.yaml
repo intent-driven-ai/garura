@@ -1,0 +1,33 @@
+needs_judgment: false
+branch: plan/788/879-epic-other-children
+issue: 879
+change_groups:
+- id: chore-stm-record-842-bug-move
+  issue: 879
+  commit_type: chore
+  scope: stm
+  subject: 'record #842 typed as a Bug in the move log'
+  confidence: high
+  files:
+  - .garura/project/issues/879/context/moves.jsonl
+  - .garura/project/issues/879/context/porcelain.txt
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: Run record. moves.jsonl gains one line (#842, Bug, parent 788). porcelain.txt
+    is the run's own scan input.
+exclusions:
+- path: .garura/project/issues/879/context/self-review.md
+  reason: 'left out on purpose: propose-change commits it with its own records'
+  blocking: false
+risks:
+  sensitive_files: []
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: every scan path is in one group or in exclusions; analysis.yaml is this
+      output, committed with the run state
+  SE-5:
+    status: PASS
+    evidence: no sensitive patterns matched; only plan and run-record files changed
+round: 2

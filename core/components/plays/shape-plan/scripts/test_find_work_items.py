@@ -91,6 +91,25 @@ def main():
               st["ft-pay"]["action"] == "make" and st["ft-pay"]["issue"] is None)
         check("a marked story whose feature left the slice is moved out",
               sl["move_out"] == [{"issue": 13, "feature": "ft-cancel", "title": "Cancel online"}])
+        check("an epic that holds only its stories and a moved-out story has no misplaced work",
+              read_json(p["items"])["misplaced"] == [])
+
+        data = read_json(p["tracker"])
+        for it in data["issues"]:
+            if it["number"] == 10:
+                it["sub_issues"] = [11, 13, 40]
+        data["issues"].append({"number": 40, "title": "Old chore", "type": "Chore", "labels": [],
+                               "state": "closed", "body": ""})
+        write(p["tracker"], data)
+        code, _, _ = find(p)
+        items = read_json(p["items"])
+        check("work under the epic that is not its slice's (#879): exit 1, named with its title",
+              code == 1 and items["ok"] is False
+              and items["misplaced"] == [{"slice": "sl-self-booking", "epic": 10, "issue": 40, "title": "Old chore"}])
+        for it in data["issues"]:
+            if it["number"] == 10:
+                it["sub_issues"] = [11, 13]
+        write(p["tracker"], data)
 
         set_slice(root, "sl-self-booking", ["ft-pick", "ft-remind", "ft-wait"])
         gather(root, p)

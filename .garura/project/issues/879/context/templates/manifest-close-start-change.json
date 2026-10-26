@@ -1,0 +1,28 @@
+{
+  "task_id": "load-templates",
+  "status": "completed",
+  "templates": [
+    {
+      "name": "standards/templates/delivery-report.md",
+      "copy": ".garura/project/issues/879/context/templates/standards/templates/delivery-report.md",
+      "source": {
+        "tier": "garura",
+        "path": "core/memory/standards/templates/delivery-report.md",
+        "version": null,
+        "fingerprint": "sha256:2783a07fa60a3c414e276f619e938a8b355f3070a77cde30b1c290a90bcfa587"
+      }
+    },
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/879/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "44e1c4c4799a",
+        "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412"
+      }
+    }
+  ],
+  "missing": [],
+  "error": null
+}

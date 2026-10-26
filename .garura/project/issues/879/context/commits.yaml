@@ -1,0 +1,14 @@
+commits:
+  - sha: 58bfc0c3
+    message: "chore(stm): record #842 typed as a Bug in the move log (#879)"
+    files:
+      - .garura/project/issues/879/context/moves.jsonl
+      - .garura/project/issues/879/context/porcelain.txt
+    branch: plan/788/879-epic-other-children
+excluded_files:
+  - path: ".garura/project/issues/879/context/self-review.md"
+    reason: "left out on purpose: propose-change commits it with its own records"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

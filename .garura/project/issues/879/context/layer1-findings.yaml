@@ -1,0 +1,16 @@
+# check-change Layer 1 — installed tools, source layout (changed_paths hold core/components)
+lint_components:
+  command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+  exit: 1
+  findings_in_changed_paths: 0
+  there_before: 37
+lint_play:
+  command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-plan/SKILL.md --next-map .garura/project/issues/879/context/templates/standards/rules/pipeline-next.md"
+  verdict: FAIL
+  gaps:
+    - check: "next-command (pipeline-next)"
+      detail: "the handed-out Next-line map (Phoenix copy) has no shape-plan entry; the source map has one"
+      there_before: true   # the base-ref SKILL.md fails the same check with this map (seen on PR #891)
+  findings_in_changed_paths: 0
+ruff: "All checks passed (4 scripts, 4 tests)"
+tests: "10 suites, 139 passed, 0 failed"
