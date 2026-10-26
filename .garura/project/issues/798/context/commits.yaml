@@ -1,0 +1,14 @@
+commits:
+  - sha: 8586da71
+    message: "chore(stm): record the template copies from start-change's close (#798)"
+    files:
+      - .garura/project/issues/798/context/templates/manifest-close-start-change.json
+      - .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/798/context/templates/standards/templates/delivery-report.md
+    branch: plan/788/798-shape-eval
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

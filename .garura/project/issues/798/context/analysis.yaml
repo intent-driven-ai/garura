@@ -1,0 +1,27 @@
+needs_judgment: false
+change_groups:
+- id: g3
+  issue: 798
+  commit_type: chore
+  scope: stm
+  subject: record the template copies from start-change's close
+  files:
+  - .garura/project/issues/798/context/templates/manifest-close-start-change.json
+  - .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+  - .garura/project/issues/798/context/templates/standards/templates/delivery-report.md
+exclusions: []
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+  notes:
+  - context/analysis.yaml and context/porcelain.txt are this play's own run artifacts;
+    left out of the groups, recorded by the play's closing record commit.
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: 3 groups, every changed path in exactly one group, one concern each
+  SE-5:
+    status: PASS
+    evidence: no sensitive patterns matched in plan, design or template files

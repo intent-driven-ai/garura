@@ -1,0 +1,4 @@
+ M .garura/project/plans/788.yaml
+?? .garura/project/issues/798/context/porcelain.txt
+?? .garura/project/issues/798/context/templates/
+?? .garura/project/issues/798/specs/
