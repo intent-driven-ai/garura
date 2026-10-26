@@ -1,13 +1,49 @@
 commits:
-  - sha: 58bfc0c3
-    message: "chore(stm): record #842 typed as a Bug in the move log (#879)"
+  - sha: 39374306
+    message: "chore(stm): record shape-plan 788 run records (#879)"
     files:
-      - .garura/project/issues/879/context/moves.jsonl
-      - .garura/project/issues/879/context/porcelain.txt
-    branch: plan/788/879-epic-other-children
+      - .garura/project/issues/879/context/shape-plan/approval.json
+      - .garura/project/issues/879/context/shape-plan/brief.md
+      - .garura/project/issues/879/context/shape-plan/drafts-check.json
+      - .garura/project/issues/879/context/shape-plan/drafts.json
+      - .garura/project/issues/879/context/shape-plan/gather.json
+      - .garura/project/issues/879/context/shape-plan/ice/fn-795.md
+      - .garura/project/issues/879/context/shape-plan/ice/fn-798.md
+      - .garura/project/issues/879/context/shape-plan/ice/fn-818.md
+      - .garura/project/issues/879/context/shape-plan/plan-before.txt
+      - .garura/project/issues/879/context/shape-plan/skill-input.json
+      - .garura/project/issues/879/context/shape-plan/start-change.json
+      - .garura/project/issues/879/context/shape-plan/start-sha.txt
+      - .garura/project/issues/879/context/shape-plan/work-items.json
+      - .garura/project/issues/879/context/templates/manifest-shape-plan.json
+      - .garura/project/issues/879/context/templates/standards/templates/approval-prompt.md
+    branch: plan/788/879-shape-plan-rerun
+  - sha: ce9b5919
+    message: "chore(stm): record shape-plan 788 dry-run simulation (#879)"
+    files:
+      - .garura/project/issues/879/simulation/shape-plan/788.yaml
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/approval.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/drafts-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/guard-report.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/plan-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/plan-write.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/tracker-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/tracker-record.json
+      - .garura/project/issues/879/simulation/shape-plan/dry-run.md
+      - .garura/project/issues/879/simulation/shape-plan/guard-report.json
+      - .garura/project/issues/879/simulation/shape-plan/plan-check.json
+      - .garura/project/issues/879/simulation/shape-plan/plan-write.json
+      - .garura/project/issues/879/simulation/shape-plan/stop-condition-shape-plan.yaml
+      - .garura/project/issues/879/simulation/shape-plan/tracker-before.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-check.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-copy.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-record.json
+    branch: plan/788/879-shape-plan-rerun
 excluded_files:
-  - path: ".garura/project/issues/879/context/self-review.md"
-    reason: "left out on purpose: propose-change commits it with its own records"
+  - path: ".garura/project/issues/879/context/analysis.yaml"
+    reason: "this play's own run state; committed by the final run-state chore(stm) commit"
+  - path: ".garura/project/issues/879/context/porcelain.txt"
+    reason: "this play's own run state; committed by the final run-state chore(stm) commit"
 leftover_count: 0
 tree_clean: true
 pushed: false
