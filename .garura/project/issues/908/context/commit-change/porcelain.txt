@@ -1,0 +1,10 @@
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/reference/ice.md
+ M core/components/plays/shape-slice/scripts/record_questions.py
+ M core/components/plays/shape-slice/scripts/render_brief.py
+ M core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+ M core/components/plays/shape-slice/scripts/write_hidden_file.py
+ M core/components/skills/author-slice/SKILL.md
+?? .garura/project/issues/908/context/commit-change/
+?? core/components/plays/shape-slice/scripts/edit_slice.py
+?? core/components/plays/shape-slice/scripts/test_edit_slice.py
