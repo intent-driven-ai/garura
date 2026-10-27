@@ -1,6 +1,6 @@
-# Layer 2 design-grounding: category product-model, change #798, PR #900, round 4, base plan/788/base
+# Layer 2 design-grounding: category product-model, change #798, PR #900, round 5 (carried forward from round 4, nothing re-grounded), base plan/788/base
 category: product-model
-round: 4
+round: 5
 playbook: null   # none covers the product model (follow-up: write review/product-model)
 severity_source: '.garura/project/issues/798/context/memory/standards/rules/pr.md (P1-P4 buckets, lines 8-11; no table row covers the model, so the bucket text decides - P3 = missing docs/naming, P4 = style-only nit)'
 
@@ -14,20 +14,19 @@ principles:
   - {id: PM-7, text: "A person and an agent use the same words for the same things.", source: "plan/788/base:ontology.md opening paragraph"}
   - {id: PM-8, text: "A directional capability page names the capability and gives it direction only; it never touches features. Its features are in the spine.", source: "plan/788/base:core/components/memory/standards/schemas/product-os/grounding/capability.md ('directional' stage)"}
 
-what_changed_since_round_3:
-  model_pages: "None. git log over .garura/product after the round 3 base shows nothing newer than 96567014 (2026-10-26 22:03), which round 3 already read; git status over .garura/product and .garura/project/plans is clean. The nine product-model paths are the same as in round 3."
-  hidden_file: ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md changed only in commit 8fceddab (six 'Who fixes' lines), before round 3; round 3 already read it."
-  ground_truth_files: "git diff plan/788/base..HEAD over core/components/memory/standards/schemas/product-os is empty, so the base ontology (v12), slice.yaml and the grounding pages are the same on the branch and the base. The principles still stand."
-  pr_911_edit_mode: "Change #908 (the /shape-slice edit mode, ADR 058, edit_slice.py, product-os-keeper agent) touched no product-model file. The base ontology says nothing about editing a slice in progress or redrafting a hidden-file entry (Q34 only says /shape-slice 'adds an entry when the slice gains a feature'), so there is no base source to check fn-795's page against. Whether fn-795 should name the edit path is a question for ADR 058, which is a branch file and cannot ground a finding. Not raised."
+what_changed_since_round_4:
+  model_pages: "None. git diff --stat 36ba257f..HEAD over .garura/product, .garura/project/plans and core/components/memory/standards/schemas/product-os is empty; git status over .garura/product and .garura/project/plans is clean; the last commit touching the product model is 8fceddab (2026-10-27 08:53), which round 4 already read. The nine product-model paths are the same as in round 4."
+  ground_truth_files: "git diff --stat plan/788/base..HEAD over core/components/memory/standards/schemas/product-os is empty, so the base ontology, slice.yaml and the grounding pages are the same on the branch and the base. The principles still stand."
+  round_5_commit: "ca37fdfe (/shape-slice: history line and out-of-date epics) touched no product-model file, so no new check applies to this category."
 
-round_3_status:
-  - {id: PM-F2, state: open_carried, check: "slices/sl-intent-to-design.yaml:5-8 outcome still a long sentence with three parts and a trailing clause."}
-  - {id: PM-F6, state: open_carried, check: "fn-898/feature.md lines 16, 20, 39 still cite Q-builders-1 and Q-flag-1; line 41 still cites 'lines 34-38'; the ADR 057 sentence is still in six pages."}
-  - {id: PM-F7, state: open_carried, check: "intents/bi-788.md:18 still says 'Do not let a builder read the eval' while line 16 says no builder is given the eval and a read is only flagged; footer line 20 unchanged."}
-  - {id: PM-F9, state: open_carried, check: "shape-eval/capability.md:6 still has the 'Features:' paragraph."}
-  - {id: PM-F10, state: open_carried, check: "Hidden file header line 3 still reads 'Slice: From a named piece of work to its design'."}
-  - {id: PM-F11, state: open_carried, check: "fn-898/feature.md:16 still carries 'When the list named only some plays, ...'."}
-  - note: "Round 3 logged only DF-H-7 (filed as #903) as not fixed; it is a harness finding, not a model one, and is not raised here. The six model findings above were never fixed (no model edit) and none was a blocker; they are carried at the severity round 3 gave them, not re-argued."
+round_4_status:
+  - {id: PM-F2, state: open_carried}
+  - {id: PM-F6, state: open_carried}
+  - {id: PM-F7, state: open_carried}
+  - {id: PM-F9, state: open_carried}
+  - {id: PM-F10, state: open_carried}
+  - {id: PM-F11, state: open_carried}
+  - note: "Carried as they were in round 4, at the severity round 4 gave them, not re-argued. Each is P4 and none blocks."
 
 conformance_passes:
   - "The nine model paths are byte-for-byte what round 3 passed: slice six fields and feature_refs order (PM-1); the fn-898 spine entry and its thin mark in two places (PM-3); spine one-line and page agree (PM-7); feature page headings (PM-2); the fn-818 Story rule is stricter than, and does not clash with, the base Story rule (PM-5); the 'Fails if' lines of fn-818, fn-798, the capability and fn-898 are in the hidden file with ids (PM-6); bi-788 Touches, Stage and 'confirmed by' lines (PM-4)."
@@ -35,6 +34,7 @@ conformance_passes:
 
 findings:
   - id: PM-F2
+    status: carried   # from round 4, unchanged
     title: "The slice's outcome runs to a paragraph"
     severity: P4
     file: .garura/product/product-os/slices/sl-intent-to-design.yaml
@@ -46,6 +46,7 @@ findings:
     fix: "Shorten the outcome to one sentence, for example the three written parts and 'an eval no build is given', and leave the flag to fn-898."
 
   - id: PM-F6
+    status: carried   # from round 4, unchanged
     title: "fn-898's sources point at things a later reader cannot open"
     severity: P4
     file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
@@ -58,6 +59,7 @@ findings:
     fix: "Replace the question ids with the words of the answer, or with #898 where they are recorded; drop the line range; cite ADR 057 once in each page in the page's own words."
 
   - id: PM-F7
+    status: carried   # from round 4, unchanged
     title: "The intent page states two different limits on the eval"
     severity: P4
     file: .garura/product/product-os/intents/bi-788.md
@@ -70,6 +72,7 @@ findings:
     fix: "Ask the product owner whether the Must-not line stays as written. Leave the footer note to #901, which records who asked, when and the words; do not edit the intent page again by hand."
 
   - id: PM-F9
+    status: carried   # from round 4, unchanged
     title: "A directional capability page lists its features"
     severity: P4
     file: .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
@@ -81,6 +84,7 @@ findings:
     fix: "Delete the 'Features:' paragraph. Product owner to say whether cap-shape-eval is the right parent for fn-898."
 
   - id: PM-F10
+    status: carried   # from round 4, unchanged
     title: "The hidden file's header still has the slice's old name"
     severity: P4
     file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
@@ -92,6 +96,7 @@ findings:
     fix: "Make the hidden file again from the renamed slice record (the play writes it), so the header carries the new name."
 
   - id: PM-F11
+    status: carried   # from round 4, unchanged
     title: "A rule tells the story of an earlier draft"
     severity: P4
     file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
@@ -107,6 +112,6 @@ notes:
   - "Grounded only in plan/788/base (ontology v12, slice.yaml, grounding/feature.md, grounding/capability.md, ADR 049 through the ontology's own citations). ADR 057, ADR 058 and the new page text were used only to see what a citation points at, never as a source of a principle."
   - "No P1, P2 or P3 finding. The mechanical shape of the model still conforms."
   - "Round 3's P1 (the --redraft option in /shape-slice) is a harness finding, answered by #908; it is not a model finding and is for the harness reviewer."
-  - "Nothing was written outside the two outputs; no commit."
+  - "Round 5: no model file changed since round 4 (confirmed with git), so the six round 4 findings are carried forward as they are and nothing new is raised. Nothing was written outside the two outputs; no commit."
 counts: {P1: 0, P2: 0, P3: 0, P4: 6}
-round_3_summary: {fixed: 0, still_open_carried: 6, new: 0}
+round_4_summary: {fixed: 0, still_open_carried: 6, new: 0}

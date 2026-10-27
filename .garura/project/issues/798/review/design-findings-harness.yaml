@@ -1,105 +1,67 @@
-# Layer 2 design-grounding, category harness, PR #900, round 4 (change #798 with #908 merged in).
-# Grounded only in committed sources on the base ref plan/788/base, CLAUDE.md, and standards/rules through the
-# memory tool (copies already in context/memory/grounding-harness/, manifest.json there; nothing new copied this
-# round; the severity taxonomy is context/memory/standards/rules/pr.md). ADR 057, ADR 058, the edit-design notes
-# under specs/ and the ICE as rewritten by this branch are not used as grounding.
+# Layer 2 design-grounding, category harness, PR #900, round 5 (change #798).
+# Grounded only in committed sources: plan/788/base docs/standards/harness-standard.md, CLAUDE.md,
+# plan/788/base shape-slice ICE, and the severity taxonomy (context/memory/standards/rules/pr.md).
+# Nothing new copied to memory this round (grounding-harness/manifest.json is unchanged from round 4).
+# Round 4 findings DF-H-4, 5, 6, 8 (harness P4) were kept as known and are not raised again.
+# Scope: only the commit ca37fdfe (the fix for DF-H-11).
 pr: '900'
 issue: 798
-round: 4
+round: 5
 base: plan/788/base
 category: harness
-treatment_source: "context/categories.yaml (harness, layers 1 and 2; ICE-source rule; check that --redraft is gone and that no shaping run can reach the edit path)"
 grounding:
-  - principle: "Every part is built from its intent. A change to what a part guarantees is made in the ICE and the part is compiled again; the compiled part records the fingerprint of its ICE so the two never drift apart unseen (harness-standard principle 4)."
-    source: "git show plan/788/base:docs/standards/harness-standard.md, principle 4 (lines 50-58)"
-  - principle: "A change to a play's intent (what it decides or guarantees, its constraints, failure conditions, scenarios, flow) goes through the play's ICE and /edit-play; a compiled SKILL.md is hand-edited only for a non-intent change."
-    source: "CLAUDE.md, 'Play Pipeline Rules' (Intent change / Non-intent change)"
-  - principle: "Plays orchestrate, agents gather context, skills do the work; mechanical work is a script, judgment is a model (harness-standard principles 2 and 3)."
-    source: "git show plan/788/base:docs/standards/harness-standard.md, principles 2 and 3 (lines 33-48); CLAUDE.md 'Agents hold the role of Context Crafting'"
-  - principle: "Installed parts name only installed files; no pointer to Garura's docs; no edit notes in skill files."
-    source: "git show plan/788/base:docs/standards/harness-standard.md principle 11 (lines 113-135); CLAUDE.md 'Source of Truth' and 'Play Pipeline Rules'"
-  - principle: "The play, and only the play, records the full artifact set, the checkpoint decisions and the eval results of its run."
-    source: "memory standards/rules/evidence-recording.md lines 25-31 (copy in context/memory/grounding-harness/standards/rules/)"
-  - principle: "The shape-slice play before this branch guarantees that a reused slice changes only by pulling a feature in or pushing one out, and that the run keeps every other entry of the hidden file as it is."
-    source: "git show plan/788/base:core/components/plays/shape-slice/reference/ice.md C7 and C15"
-  - principle: "Severity buckets: P2 major (lint errors, missing tests, structural violations), P3 minor (missing docs, naming), P4 nit (style only)."
+  - principle: "A change to what a play guarantees is made in its ICE and the play is compiled again; the compiled play records the fingerprint of its ICE (harness-standard principle 4)."
+    source: "git show plan/788/base:docs/standards/harness-standard.md, principle 4; CLAUDE.md 'Play Pipeline Rules'"
+  - principle: "Mechanical work is a script, judgment is a model; agents only gather context; skills do the work (harness-standard principles 2 and 3; CLAUDE.md 'Agents hold the role of Context Crafting')."
+    source: "git show plan/788/base:docs/standards/harness-standard.md principles 2 and 3"
+  - principle: "Installed parts name only installed files, and carry no edit notes."
+    source: "git show plan/788/base:docs/standards/harness-standard.md principle 11; CLAUDE.md 'Source of Truth' and 'Play Pipeline Rules'"
+  - principle: "The base shape-slice ICE named only the intent added and features pulled in or pushed out as a reuse's changes (C7), and the base edit path wrote a history list `edits:` of {at, by, words, changed}."
+    source: "git show plan/788/base:core/components/plays/shape-slice/reference/ice.md C7; plan/788/base:core/components/plays/shape-slice/scripts/edit_slice.py history_entry"
+  - principle: "Severity buckets: P3 minor (missing docs, naming), P4 nit."
     source: "context/memory/standards/rules/pr.md lines 8-11"
-round_3_status:
-  DF-H-9:
-    status: answered
-    evidence: "The round 3 P1 was that --redraft was added to /shape-slice by a hand edit of SKILL.md with no design the product owner saw and nothing in the ICE. grep for 'redraft' over core/ (plays/shape-slice, skills/author-slice, scripts, tests, ICE, SKILL.md) finds no hit in shape-slice or author-slice: the only hits are the unrelated word in discover-intent. Commit ae92ece9 removed the option from write_hidden_file.py and its test (the script is back to the base behaviour, plus the new check --lines); SKILL.md Step 8b (from line 520) no longer has the path and still says the script keeps each kept entry byte for byte. The replacement was built as the issue-908 path: a design draft for the product owner (specs/edit-908-design.md), then the ICE (C20, F20, REC20, S11 plus the C7, C8, C15, C17 and F7 changes), then the compiled play. Fingerprint check: shasum -a 256 reference/ice.md = ef0098bb7b64d25652e723324bcd886c8d619483dda1d6c2f6465c405e58e7a3 = the fingerprint in SKILL.md Compilation Metadata (line 1123), and compiled_by now names edit-play (#842, #908) and C20 (line 1124), which round 3 also found missing. The compiled text carries C20 (pre-flight row line 120, the edit DAG lines 184-203, Phase: Edit lines 773-934, SE-26 and SE-27, SCE-11, row F20 line 1106), the counts in the metadata agree (20 failure rows, 18 autonomous and 2 human, 28 step checks, 11 scenario checks), and lint_play reads PASS, 0 gaps."
-  DF-H-10:
-    status: answered
-    evidence: "Both gaps were about the --redraft step (a feature chosen in free text, and SE-19 unable to tell a requested redraft from one that was not). The step is gone. The edit path replaces them with a list the person sees and a script that refuses any change not on the list (edit_slice.py check, SE-27)."
-  DF-H-7:
-    status: "logged as not fixed by the product owner (round 3 decision); filed as #903. Not raised again."
-  DF-H-4: "still open, unchanged (carried below)"
-  DF-H-5: "still open, unchanged (carried below)"
-  DF-H-6: "still open, unchanged (carried below)"
-  DF-H-8: "still open, unchanged (carried below)"
-checks_asked:
-  redraft_gone: "held. No 'redraft' in shape-slice SKILL.md, reference/ice.md, scripts/ or tests, or in skills/author-slice/SKILL.md."
-  edit_path_built_through_ice: "held. C20, F20, REC20, S11 are in reference/ice.md, compiled into SKILL.md; the fingerprint matches; the one intent text added to SKILL.md outside the ICE is surface (close step, X4 wording), which CLAUDE.md allows as a direct edit."
-  no_shaping_run_reaches_edit_path: "held. The edit steps (X1-X6, SKILL.md 773-934) run only when '--edit:' is in the arguments (pre-flight line 120, DAG line 184); the shaping DAG T1-T12 does not call edit_slice.py or the edit mode of author-slice; the only code a shaping run shares with the edit is write_hidden_file.py check --lines, which refuses a kept entry that changed (so a shaping run cannot alter a kept entry, which is what F20 and C15 say). The one other way a shaping run changes an existing record is the finding below."
-  stop_condition_fits_the_edit_run: "held. D1-D6 of stop-condition.yaml read slice-check.json, approval.json, guard-report.json, trace-check.json, hidden-file.json and the question record, and the edit run writes each of them (X1-X5)."
-  shared_script_copies_in_step: "held. intent_touches.py (5 copies) and platform_adapter.py (6 copies) are byte-identical to the create-play reference copies; fetch_pr_context.py in check-change equals its reference copy."
-  agent_gathers_skill_works_scripts_mechanical: "held. The agent page product-os-keeper.md and author-slice edit mode only gather and write a list; the apply, the before-and-after check and the restore are scripts. The agent page now lists edit mode in the author-slice row and the memory table."
-  installed_paths_only_and_no_edit_notes: "held. The new text names only scripts/, the working folder, .garura/core/tools/memory and installed skills; no docs/ pointer and no change log in SKILL.md or the author-slice skill. The seven P4s kept by the #908 review (R3-01 to R3-03, N-04 to N-07) are not raised again."
-not_raised:
-  - note: "Two routes now change the same text of an existing record: the shaping run's fill may replace a part's spine one-line when the person's change asks for it (C8, kept), and an edit may replace it too (C20). Both show old and new in the brief before the yes; only the edit leaves a history line. Each route is in the ICE. The reason to keep one, not two, is in the edit-design notes under specs/, which this branch adds, so there is no committed source to hold it against. For the product owner to decide; not a finding."
+df_h_11_status:
+  id: DF-H-11
+  status: fixed
+  evidence:
+    - "ICE: reference/ice.md C7 now says a re-run of the same surface and tester takes the new name, outcome and tester's action, the brief shows each old and new, the record keeps a history line, and the brief names the slice's epic as out of date. F7, REC7 and S12 match it. This is the decision round 4 asked for (option a)."
+    - "Compiled play: SKILL.md F7 summary, F7 recovery row, SE-29, SE-18 (now lists replaced and out_of_date), SCE-12, scenario row S12, the brief paragraph, the counts (SE-1..SE-29, SCE-1..SCE-12, S1..S12) and the 'Compiled From' and compiled_by lines all carry it."
+    - "Code: persist_slice.py takes the three texts only when no new intent came in and the surface and tester are the same; it then refuses without --at, writes one history entry at the end of the record, and returns replaced and out_of_date (the spine epics of that slice). render_brief.py shows both in the Kept slice section. I ran persist_slice.py on a scratch model: one run gave one history entry and the epic out of date; a second run added a second entry and kept the first; a run with no new text added none."
+    - "Tests: test_persist_slice.py 106 passed, test_render_brief.py 34 passed, test_edit_slice.py 35 passed, test_shape_slice_scripts.py 127 passed, test_find_serving_slice.py 21 passed; none failed."
+checks_of_the_commit:
+  fingerprint: "ok. shasum -a 256 core/components/plays/shape-slice/reference/ice.md = 8650a0e271b48ebb8c85180214a1ce455e5730d4ac82ad6a2c6b975361ebea79, the value in SKILL.md Compilation Metadata (line 1136)."
+  every_intent_change_traces_to_ice: "ok for the guarantee: each new SKILL.md rule (F7 text, SE-29, SCE-12, S12 row) has its source in C7, F7, REC7 or S12. The one gap is the Step 8 prose (DF-H-12)."
+  agent_gathers_skill_works_scripts_mechanical: "ok. No agent contract or skill changed. The history entry, the replaced list and the out-of-date list are computed by persist_slice.py; the wording of the brief by render_brief.py."
+  plain_words: "ok. The brief lines use 'takes the new name', 'history line', 'Out of date (named, not changed)', the same words as the edit brief. They name the epic by its id and status."
+  installed_paths_only: "ok. The new text names only scripts of the play."
+  no_edit_notes: "ok. The only history text is the compiled_by field and 'Compiled From' (#798), the same fields earlier changes (#842, #908) already used."
+  no_write_before_yes: "ok. The write happens in Step 8 as every shaping write does (write, then review); a change or a stop restores the slice record and spine with scoped_write_guard.py --restore, so the history line goes with them (Step 11)."
+  history_list_compatible_with_edit_path: "ok. Same file, same list name `edits:`, same four keys, same part names (slice.name, slice.outcome, surface.user_action). I called edit_slice.expected on a record holding two shaping-run entries: the edit path appended its own entry after them and kept both."
 findings:
-  - id: DF-H-11
-    severity: P3
-    category: harness
-    title: "A second run of /shape-slice on a slice that already exists can replace the slice's name, outcome and tester's action, and the ICE and the play text never say so"
-    file: core/components/plays/shape-slice/scripts/persist_slice.py
-    line: 240-260, 358-359
-    basis: "H4 and the Play Pipeline Rules: what a play guarantees or decides is stated in its ICE, and the compiled play is built from it; a change to what it does is an intent change that goes ICE -> /edit-play, not a script change. plan/788/base:docs/standards/harness-standard.md principle 4 (lines 50-58); CLAUDE.md 'Play Pipeline Rules'. The base ICE says a reuse adds the intent, pulls features in and pushes features out (plan/788/base:core/components/plays/shape-slice/reference/ice.md C7), and the base persist_slice.py docstring says a reuse 'keeps that slice's feature_refs, vertical and surface as they are'."
-    problem: "Commits dbeb5eaa (#795) and c4c3c3d6 (#798, subject 'let a kept slice take its new name') added reshape_text to persist_slice.py. When a shaping run finds a slice that already serves the intent and the shaped slice has the same surface and tester and no new intent, the kept record's name, outcome and tester's action are overwritten with the new ones, and the difference line says 'the record takes the new text'. The ICE does not say this: reference/ice.md C7 (lines 41-49) names only the intent added and features pulled in or pushed out, and the words 'name', 'outcome' and 'tester's action' appear in the ICE only in C20, the edit. SKILL.md Step 8 (the persist_slice.py paragraph, lines 501-508) says a reuse 'lists differences' and does not say it replaces anything. The commit changed SKILL.md and the ICE for the one-line part of the same change (C8, F8, F17) but not for this part. The brief does show the difference before the person types yes (SE-18), so nothing is hidden; the missing piece is the guarantee."
-    leads_to: "The play now does something its ICE does not say: a rebuild of the play from its ICE keeps the script, but a reader or a later author of the ICE cannot tell that a re-run may rewrite a confirmed slice's name and outcome, and no failure condition covers it (F7 covers a reuse that can no longer be tested, not a reuse that rewrote the record's words). It also sits beside the new edit rule, which says the name, outcome and tester's action change through an edit that leaves a history line; a re-run changes the same three texts and leaves none. The epic and stories written from the old outcome are not named as out of date, as the edit brief does. This is the same pattern as round 3's DF-H-9, on a smaller change."
-    fix: "Decide with the product owner whether a re-run should replace these three texts. If yes, say it in the ICE (C7: a reuse of the same surface and tester takes the shaped name, outcome and tester's action, shown old and new in the brief; and F7 or F17 to match), compile again with /edit-play, and have the brief name the epic and stories as out of date, as the edit does. If no, take reshape_text out of persist_slice.py (and its tests) and leave the change of these texts to --edit."
-  - id: DF-H-4
+  - id: DF-H-12
     severity: P4
     category: harness
-    title: "The /shape-eval ICE says the run reads only three kinds of file, and the play reads more"
-    file: core/components/plays/shape-eval/reference/ice.md
-    line: 16-17, 65-66
-    basis: "H4: the ICE is the one place the play's wording is decided, and the compiled play traces to it. ADR 049 Decision 4 names three files for the eval play to read. plan/788/base:docs/standards/harness-standard.md principle 4; plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md Decision 4. (Carried from rounds 1 to 3, unchanged by round 4: no commit touched shape-eval since 086b74b8.)"
-    problem: "C1 and F1 still say the run reads only the epic, its stories and the hidden file, and that reading any other file is a failure. The play also reads the plan file and the tracker (to find the epics), the slice's existing eval files (copied to inputs/existing/ so a later run keeps every scenario), and the templates and step library. Read literally, F1 is false on every second run."
-    leads_to: "Nothing is harmed. A reader who trusts F1 does not know the real list of files, and a check written from F1 would fail a valid run."
-    fix: "State the real list in C1 and F1 (the epic, its stories, the hidden file, and the slice's earlier eval files), and compile again with /edit-play."
-    carried_from: "round 3"
-  - id: DF-H-5
+    title: The Step 8 text of /shape-slice does not say that a re-run now rewrites a kept slice's words and leaves a history line
+    where: core/components/plays/shape-slice/SKILL.md, Step 8 text after the command block (the sentence that starts "With --reuse it appends the intent", about lines 506-509)
+    basis: "H4 / harness-standard principle 4: the compiled play is built from the ICE, so what the ICE guarantees should be readable in the steps the run follows. The ICE (C7) now guarantees the rewrite, the history line and the out-of-date epic. pr.md P4 (style-only nit); the guarantee itself is present in the ICE, F7, SE-29 and the brief."
+    problem: "The commit added --at to the Step 8 command and wrote the rule in SE-29, but the sentence that tells the runner what persist_slice.py does on a reuse still lists only `differences`, `upgraded_to_v2` and `dropped_fields`. It does not say that the script takes the new name, outcome and tester's action, adds a history line, or returns `replaced` and `out_of_date`."
+    leads_to: "A runner who reads Step 8 only learns of the rewrite when it reaches the SE-29 check or the brief. Nothing breaks, because the script does the work, but the step and the intent do not read the same."
+    fix: "Add one sentence to that Step 8 paragraph: on a reuse with no new intent, the same surface and the same tester, the script takes the shaped name, outcome and tester's action, writes a history line, and returns `replaced` and `out_of_date` for the brief. This is a non-intent edit of SKILL.md (the rule is already in the ICE)."
+  - id: DF-H-13
     severity: P4
     category: harness
-    title: "The whole hidden file, recovery lines included, is copied to the eval-writing skill, which is told in prose never to use the recovery text"
-    file: core/components/plays/shape-eval/scripts/gather_eval.py
-    line: 95
-    basis: "P4-ROUTE: the eval author's column for Recovery in the routing table is empty. Mechanical guards beat a prompt rule (harness principle 3). plan/788/base:docs/philosophy/idd-principles.md - The Routing Table; plan/788/base:docs/standards/harness-standard.md principle 3. Counter-weight: ADR 049 Decision 4 lets the eval play read the hidden file, so this is a tension, not a violation. (Carried, unchanged.)"
-    problem: "gather_eval.py copies the whole hidden file to the skill; check_eval.py then greps for the exact lines. A cleaner design gives the skill only the failure lines (inputs.json already holds them in 'failures')."
-    leads_to: "A skill that ignores the prose rule could copy recovery text into an eval. The check catches the exact lines only."
-    fix: "Copy only the failure lines to the skill's inputs, and keep the full file for the checker."
-    carried_from: "round 3"
-  - id: DF-H-6
+    title: F7 and REC7 say the brief must name the slice's epic as out of date, but a slice shaped again before /shape-plan has no epic
+    where: core/components/plays/shape-slice/reference/ice.md C7, F7, REC7; the matching F7 text and F7 recovery row in SKILL.md
+    basis: "H4: a failure condition must be one the play can meet. In the pipeline /shape-slice comes before /shape-plan (ADR 049, in the base ICE position note), so a slice shaped again often has no epic yet. SE-29 already says 'each spine epic whose slice_ref is the slice', which is empty in that case. pr.md P4."
+    problem: "F7 reads 'without the brief naming the slice's epic as out of date'. Read as written it fails when the slice has no epic, because there is nothing to name. REC7 'name the slice's epic as out of date in the brief' cannot be done either."
+    leads_to: "A reader or a later check written from F7 could flag a correct run. The script is right (it returns an empty out_of_date list and the brief then names none)."
+    fix: "Say 'each epic of the slice, when it has any' in C7, F7 and REC7, and compile again with /edit-play."
+  - id: DF-H-14
     severity: P4
     category: harness
-    title: "Step check SE-6 of /shape-eval names the wrong folder for a slice whose home plan is another intent"
-    file: core/components/plays/shape-eval/SKILL.md
-    line: 243-244
-    basis: "A49-2-3 and H4: an eval of a slice shared by two plans is written once, in the home plan's folder; the step checks of the compiled play must say what the scripts do. plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md Decision 3; plan/788/base:docs/standards/harness-standard.md principle 4. (Carried, unchanged.)"
-    problem: "The scripts write under the slice's home plan, but SE-6 says every placed path is '<plans>/<id>/evals/<slug>/...' where <id> is the plan being run. For a slice whose home plan is another intent, SE-6 read as written fails although the scripts are right."
-    leads_to: "A run for the second plan that shares a slice fails its own step check for a correct write."
-    fix: "Say '<home plan id>' in SE-6 and in the ICE line it traces to."
-    carried_from: "round 3"
-  - id: DF-H-8
-    severity: P4
-    category: harness
-    title: "Two documents still describe the evals-engineer agent by its old job"
-    file: core/components/agents/evals-engineer.md
-    line: 1-7
-    basis: "STALE: when a shared agent is rewritten, the documents that name its old job are kept in step or marked old. plan/788/base:docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md; plan/788/base:core/components/agents/evals-engineer.md stale_note. (Carried, unchanged: docs/components/agents.md is in step; docs/philosophy/garura-reference-implementation.md and docs/components/plays.md line 298 are not touched by the diff.)"
-    problem: "The agent now has one job (draft the eval for /shape-eval). The reference implementation still lists evals-engineer as the steelman author of /build-epic, and plays.md line 298 still gives it 'draft verification scenarios'. Both describe the old /implement pipeline."
-    leads_to: "A reader of those pages expects a job the agent no longer has. Old text, not a wrong rule."
-    fix: "Mark both passages as the old pipeline, or update them."
-    carried_from: "round 3"
-counts: {P1: 0, P2: 0, P3: 1, P4: 4}
+    title: The history line a shaping run leaves names every intent the slice serves, not the intent of this run
+    where: core/components/plays/shape-slice/scripts/persist_slice.py, history() called with list(body.get("intents")) (history() at lines 273-278, called at line 382 with the record's whole intents list)
+    basis: "The base edit path writes in `words` what was asked in that run (edit_slice.py history_entry); C7 says the line records 'when, that a shaping run changed it, and which parts'. A history line is only useful if it says what happened. pr.md P4."
+    problem: "`body` is the kept slice's spine entry, so its intents are all of the slice's intents. For a slice that serves bi-10 and bi-788, a run for bi-788 writes 'shaped again by /shape-slice for bi-10, bi-788'."
+    leads_to: "A reader of the record cannot tell which intent's run made the change. The date, the actor and the parts changed are right, so nothing is lost beyond that detail."
+    fix: "Pass the intent of the run (the --slice file's intents) instead of the kept slice's list, or drop the 'for ...' part of the words."
