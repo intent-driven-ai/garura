@@ -1,28 +1,3 @@
- M .garura/project/issues/798/context/context.yaml
  M .garura/project/issues/798/context/porcelain.txt
- M .garura/project/issues/798/context/pr.diff
-R  .garura/project/issues/798/review/categories.yaml -> .garura/project/issues/798/review/round-1/final/categories.yaml
-R  .garura/project/issues/798/review/decision-comment.md -> .garura/project/issues/798/review/round-1/final/decision-comment.md
-R  .garura/project/issues/798/review/decision.yaml -> .garura/project/issues/798/review/round-1/final/decision.yaml
-R  .garura/project/issues/798/review/design-findings-harness.yaml -> .garura/project/issues/798/review/round-1/final/design-findings-harness.yaml
-R  .garura/project/issues/798/review/design-findings-memory.yaml -> .garura/project/issues/798/review/round-1/final/design-findings-memory.yaml
-R  .garura/project/issues/798/review/design-findings-product-model.yaml -> .garura/project/issues/798/review/round-1/final/design-findings-product-model.yaml
-R  .garura/project/issues/798/review/design-findings-slice-evals.yaml -> .garura/project/issues/798/review/round-1/final/design-findings-slice-evals.yaml
-R  .garura/project/issues/798/review/findings.yaml -> .garura/project/issues/798/review/round-1/final/findings.yaml
-R  .garura/project/issues/798/review/layer1-results.yaml -> .garura/project/issues/798/review/round-1/final/layer1-results.yaml
-R  .garura/project/issues/798/review/posted.json -> .garura/project/issues/798/review/round-1/final/posted.json
-R  .garura/project/issues/798/review/quality-findings.yaml -> .garura/project/issues/798/review/round-1/final/quality-findings.yaml
-R  .garura/project/issues/798/review/recommended_verdict.yaml -> .garura/project/issues/798/review/round-1/final/recommended_verdict.yaml
- M core/components/plays/check-change/scripts/fetch_pr_context.py
- M core/components/plays/check-change/scripts/platform_adapter.py
- M core/components/plays/create-play/references/platform_adapter.py
- M core/components/plays/create-play/references/test_platform_adapter.py
- M core/components/plays/merge-change/scripts/platform_adapter.py
- M core/components/plays/propose-change/scripts/platform_adapter.py
- M core/components/plays/shape-eval/scripts/platform_adapter.py
- M core/components/plays/shape-plan/scripts/platform_adapter.py
- M core/components/plays/shape-slice/scripts/platform_adapter.py
- M core/components/skills/platform-adapter/SKILL.md
- M core/components/skills/platform-adapter/reference/github/verbs.md
- M core/components/skills/platform-adapter/reference/gitlab/verbs.md
-?? core/components/plays/check-change/scripts/test_fetch_pr_context.py
+ M .garura/project/issues/798/context/self-review.md
+ M core/components/plays/create-play/references/fetch_pr_context.py
