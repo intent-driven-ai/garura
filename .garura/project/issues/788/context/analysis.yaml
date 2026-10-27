@@ -1,0 +1,30 @@
+---
+# analyze_changeset.py output (C8 fast path)
+# issue: 788
+needs_judgment: false
+
+change_groups:
+  - id: group-1
+    issue: 788
+    concern: "single-directory chore change"
+    commit_type: chore
+    scope: stm
+    subject: "record the landing evidence for plan 788: tests and linters, commit reviews, plan against GitHub, and the self-review with the product owner's ruling"
+    subject_source: script-draft  # orchestrator may reword in place
+    files:
+      - .garura/project/issues/788/context/landing-evidence.md
+      - .garura/project/issues/788/context/landing-tests.md
+      - .garura/project/issues/788/context/porcelain.txt
+      - .garura/project/issues/788/context/resolved-rules.json
+      - .garura/project/issues/788/context/self-review.md
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one script-classified group, one directory, one concern"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

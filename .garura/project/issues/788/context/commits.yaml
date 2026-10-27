@@ -1,0 +1,16 @@
+commits:
+  - sha: 4b599928
+    message: "chore(stm): record the landing evidence for plan 788: tests and linters, commit reviews, plan against GitHub, and the self-review with the product owner's ruling (#788)"
+    files:
+      - .garura/project/issues/788/context/landing-evidence.md
+      - .garura/project/issues/788/context/landing-tests.md
+      - .garura/project/issues/788/context/porcelain.txt
+      - .garura/project/issues/788/context/resolved-rules.json
+      - .garura/project/issues/788/context/self-review.md
+    branch: plan/788/base
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
