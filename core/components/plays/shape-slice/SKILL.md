@@ -489,11 +489,14 @@ the person to a discovery play.
 **Step 8b — Write the hidden file** · Owner: play (script), then `product-os-keeper`, then play (script) · Depends on: Step 8
 The slice's hidden file goes in its home plan's evals folder, made also when no plan file
 exists (C15). The script lists the "Fails if" lines of each feature's ICE and its
-capability's ICE, and keeps the ids of the entries already in the file:
+capability's ICE, and keeps the ids of the entries already in the file. An entry whose lines
+did not change is kept as it is; when the person's change names a feature whose recoveries must
+be drafted again, pass it as `--redraft <feature id>` (one for each):
 
 ```
 python3 scripts/write_hidden_file.py lines --root <model> --spine <model>/_spine.yaml \
-    --slice-id <id from persist-slice.json> --plans-root <plans> --out <working>hidden-lines.json
+    --slice-id <id from persist-slice.json> --plans-root <plans> --out <working>hidden-lines.json \
+    $(each feature the person's change names, as --redraft <feature id>)
 ```
 
     { "task":    "copy standards/rules/expectation-generation.md into short-term memory through the memory tool (rule); gather the pages of the two ICE of each feature in hidden-lines.json that is not kept (ice_pages: each part's page with its ## Agent intent (ICE) section, or its ice.md, as the spine names them); call author-failure-recovery with lines, ice_pages and rule; it drafts one recovery per Fails if line — when, way_back, who_fixes exactly 'the builder can fix this alone' or 'a person must decide' — and lists vague lines. Pass its hidden-recoveries.json on as it is; never write the hidden file. Gather and pass on only",

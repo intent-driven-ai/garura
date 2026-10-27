@@ -26,7 +26,8 @@ reads this file.
           section of the part's ice.md. It says which of the two ICE is thin (`metadata.thin`
           or the Thin line). An entry already in the file with the same lines and thin marks is
           `kept: true` and keeps its ids; a changed entry keeps the ids of its lines that did
-          not change. Lines match with case, spacing and a closing full stop not counted. New lines take the next free id (F1, F2, ... unique in the whole file).
+          not change. `--redraft <feature id>` (repeatable, from the person's change) marks that
+          entry not kept, with its ids, so its recoveries are drafted again. Lines match with case, spacing and a closing full stop not counted. New lines take the next free id (F1, F2, ... unique in the whole file).
           hidden-lines.json:
               {slice, plan_id, path (relative to plans-root),
                entries: [{feature, name, capability, thin: ["feature"|"capability", ...],
@@ -238,13 +239,18 @@ def cmd_lines(args):
     by_feature = {b["feature"]: b for b in blocks}
     used = {int(f["id"][1:]) for b in blocks for f in b["failures"]}
     nxt = max(used, default=0)
+    redraft = set(getattr(args, "redraft", None) or [])
+    unknown = redraft - {w["feature"] for w in want}
+    if unknown:
+        raise Refused(f"--redraft names {', '.join(sorted(unknown))}, which is not a feature of the slice")
     entries = []
     for w in want:
         old = by_feature.get(w["feature"])
         old_ids = {(f["from"], same_text(f["text"])): f["id"] for f in (old["failures"] if old else [])}
         want_keys = [(frm, same_text(text)) for frm, text in w["lines"]]
         same = old is not None and sorted(old_ids) == sorted(want_keys) \
-            and len(old["failures"]) == len(w["lines"]) and sorted(old["thin"]) == sorted(w["thin"])
+            and len(old["failures"]) == len(w["lines"]) and sorted(old["thin"]) == sorted(w["thin"]) \
+            and w["feature"] not in redraft
         lines = []
         for frm, text in w["lines"]:
             lid = old_ids.get((frm, same_text(text)))
@@ -452,6 +458,9 @@ def main(argv=None):
         p.add_argument("--slice-id", required=True)
         p.add_argument("--plans-root", required=True)
         p.add_argument("--out", required=True)
+        if name == "lines":
+            p.add_argument("--redraft", action="append", default=[],
+                           help="a feature whose entry is drafted again; repeatable")
         if name == "check":
             p.add_argument("--clear-working", action="append", default=[],
                            help="a working file to delete when the check reads ok; repeatable")

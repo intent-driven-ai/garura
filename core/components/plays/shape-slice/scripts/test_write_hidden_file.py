@@ -187,6 +187,18 @@ def main():
         code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
                       "--plans-root", plans, "--out", res_p)
         check("check: ok after the new entry", code == 0)
+        run("lines", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+            "--plans-root", plans, "--out", lines_p, "--redraft", "ft-pick")
+        lines = json.loads(read(lines_p))
+        pick = lines["entries"][0]
+        check("lines --redraft: the named entry is not kept, keeps its ids, and the others stay kept",
+              pick["feature"] == "ft-pick" and not pick["kept"]
+              and [ln["id"] for ln in pick["lines"]] == ["F1", "F2", "F3"]
+              and [e["kept"] for e in lines["entries"][1:]] == [True, True])
+        code, err = run("lines", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+                        "--plans-root", plans, "--out", lines_p, "--redraft", "ft-none")
+        check("lines --redraft: a feature not in the slice is refused (exit 2)",
+              code == 2 and "not a feature of the slice" in err)
         code, err = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
                         "--plans-root", plans, "--out", res_p, "--clear-working", lines_p,
                         "--clear-working", hidden)
