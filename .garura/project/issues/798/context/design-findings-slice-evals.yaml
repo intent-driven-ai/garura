@@ -1,27 +1,31 @@
 category: slice-evals
-round: 4
+round: 5
 base: plan/788/base
-grounding_status: grounded
+grounding_status: carried
 grounding_note: >
-  Same sources as round 3, all committed on the base ref plan/788/base (read with git show): ontology.md (Slice: Eval row,
-  Q29-Q36), docs/adr/049-*.md section 4, docs/adr/052-*.md, docs/philosophy/idd-principles.md (Routing Table),
-  core/components/memory/standards/rules/expectation-generation.md (the handoff rule, lines 47-70; A feature's recovery),
-  and the short-term copies found with the memory tool (standards/rules/builder-isolation.md, standards/rules/pr.md). Nothing from
-  ADR 057, ADR 058, the eval templates or the lines the branch adds to shape-slice was used as grounding. No review playbook
-  covers this category (playbook_missing). Nothing here is run: the eval runner is a later play (#819); "not run" is not "passed".
-  No extra memory was copied (grounding-slice-evals/manifest.json says so).
-principles: "Unchanged from round 3: PR-1 to PR-7 (see round-3/design-findings-slice-evals.yaml; each source is on the base ref)."
-changed_since_round_3:
+  Carried forward from round 4 with nothing re-grounded. Confirmed with git that the six slice-eval files are unchanged:
+  git diff --stat 8fceddab HEAD -- .garura/project/plans/788/ is empty, git status for that folder is empty, and 8fceddab is
+  still the last commit that touched the folder (git log). The product model (.garura/product) is also empty in
+  git diff 8fceddab HEAD, so the stories the evals test are the same. Round 4's sources (all committed on the base ref
+  plan/788/base: ontology.md Slice/Eval row and Q29-Q36, docs/adr/049-*.md section 4, docs/adr/052-*.md,
+  docs/philosophy/idd-principles.md Routing Table, core/components/memory/standards/rules/expectation-generation.md lines 47-70,
+  standards/rules/builder-isolation.md) stand as they were. Nothing from ADR 057, ADR 058, the eval templates or lines the
+  branch adds was used as grounding. No review playbook covers this category (playbook_missing). No extra memory was copied.
+principles: "Carried from round 4 (PR-1 to PR-7; see review/round-4/design-findings-slice-evals.yaml and its round-3 file; each source is on the base ref)."
+changed_since_round_4:
   result: none
-  evidence: >
-    git diff 8fceddab HEAD -- .garura/project/plans/788/ is empty (and so is git status for that folder). 8fceddab is the last
-    commit that touched the six eval files and is the state round 3 read. All six files are byte-identical, including the
-    hidden file. The product model (.garura/product) is also unchanged since 8fceddab, so the stories the evals test are the same.
-carried_verdict: >
-  Round 3's verdict stands unchanged: 0 P1, 0 P2, 0 P3, 7 P4. Every principle PR-1 to PR-7 holds as it did in round 3.
+  files:
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md
+    - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  evidence: "git diff --stat 8fceddab HEAD -- .garura/project/plans/788/ is empty; git log shows 8fceddab as the last commit touching it."
+carried_verdict: "Round 4's verdict stands unchanged: 0 P1, 0 P2, 0 P3, 7 P4. Nothing new this round."
 six_who_fixes_lines:
   file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-  result: still as the product owner set them
+  result: unchanged since round 4 (file byte-identical)
   lines:
     - {id: F7,  line: 74,  value: "a person must decide"}
     - {id: F8,  line: 78,  value: "a person must decide"}
@@ -29,25 +33,15 @@ six_who_fixes_lines:
     - {id: F11, line: 94,  value: "a person must decide"}
     - {id: F24, line: 180, value: "a person must decide (way back at lines 178-179 unchanged)"}
     - {id: F25, line: 184, value: "a person must decide (way back at lines 182-183 unchanged)"}
-  note: >
-    The file is byte-identical to the one round 3 checked, and none of the six lines was touched by the removal of --redraft or
-    by the merge of #908. The edit mode (/shape-slice --edit) that #908 adds can change a "who fixes" line, but only when a person
-    runs it and says yes; the merge changed no line of the hidden file. The 25 failure ids still have 25 recoveries.
-redraft_check: >
-  grep of the six eval files for "redraft", "edit", "in progress", "second run" finds nothing that names --redraft or depends on it.
-  The fn-795 eval runs only "/shape-slice 788" and "/shape-slice 788" over an existing slice (F2 scenario), neither of which the
-  removal changes. The hidden file's fn-795 failure lines (F1-F6) come from the unchanged story and do not mention a slice in
-  progress, so the narrowed shape-slice F7 and the new F20 do not need an eval line: the evals test the stories of #788, and
-  the edit mode is #908's, not a goal of those stories.
 new_findings: []
-round_3_status_carried:
-  - {id: SE-10, severity: P4, status: still_open, note: "two layouts of the hidden file; not re-raised"}
-  - {id: SE-11, severity: P4, status: still_open, note: "fn-898 lint check and ledger flag have no base source; not re-raised"}
-  - {id: SE-14, severity: P4, status: still_open, note: "fn-818 F12 scenario does not check the hidden file is the same; not re-raised"}
-  - {id: SE-18, severity: P4, status: still_open, note: "no note that the handoff-plan command has no work behind it until #819; not re-raised"}
-  - {id: SE-19, severity: P4, status: still_open, note: "evals folder defined as two folders; not re-raised"}
-  - {id: SE-20, severity: P4, status: still_open, note: "fn-898 goal 1 covers skill/agent/sub-agent only through what they read; not re-raised"}
-  - {id: SE-21, severity: P4, status: still_open, note: "F8 and F11 way back lacks the sentence that says what the person decides (lines 77, 93); not re-raised"}
+carried_findings:
+  - {id: SE-10, severity: P4, status: carried, note: "two layouts of the hidden file"}
+  - {id: SE-11, severity: P4, status: carried, note: "fn-898 lint check and ledger flag have no base source"}
+  - {id: SE-14, severity: P4, status: carried, note: "fn-818 F12 scenario does not check the hidden file is the same"}
+  - {id: SE-18, severity: P4, status: carried, note: "no note that the handoff-plan command has no work behind it until #819"}
+  - {id: SE-19, severity: P4, status: carried, note: "evals folder defined as two folders"}
+  - {id: SE-20, severity: P4, status: carried, note: "fn-898 goal 1 covers skill/agent/sub-agent only through what they read"}
+  - {id: SE-21, severity: P4, status: carried, note: "F8 and F11 way back lacks the sentence that says what the person decides (lines 77, 93)"}
 findings: []
 summary:
   P1: 0
@@ -55,6 +49,6 @@ summary:
   P3: 0
   P4: 7
   total_open: 7
-  new_in_round_4: 0
-  note: "The 7 P4 are round 3's, carried forward and not re-raised. Severity basis: standards/rules/pr.md - P4 is a nit that does not block and is shown only in the evidence."
+  new_in_round_5: 0
+  note: "The 7 P4 are carried from round 4, unchanged. Severity basis: standards/rules/pr.md - P4 is a nit that does not block and is shown only in the evidence."
 runner_status: "The eval runner is #819. These evals were read, not run. Not run is not passed."

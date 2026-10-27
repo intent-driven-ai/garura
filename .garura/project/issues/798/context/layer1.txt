@@ -1,47 +1,15 @@
-## lint-components (installed, source layout)
-in changed paths: 0 there before: 37
-## lint-play shape-slice
-VERDICT: PASS (0 gap(s))
-## lint-play shape-eval
-VERDICT: PASS (0 gap(s))
-## lint-play shape-plan
-VERDICT: PASS (0 gap(s))
-## adr lint
-  "valid": true,
-  "valid": true,
-## tests
-(eval):10: no matches found: core/components/plays/create-play/references/scripts/test_*.py
-## tests
-core/components/plays/check-change/scripts/test_fetch_pr_context.py exit 0
-core/components/plays/create-play/references/test_merge_scripts.py exit 0
-core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py exit 0
-core/components/plays/shape-slice/scripts/test_grill_budget.py exit 0
-core/components/plays/shape-slice/scripts/test_find_serving_slice.py exit 0
-core/components/plays/shape-slice/scripts/test_render_brief.py exit 0
-core/components/plays/shape-slice/scripts/test_trace_check.py exit 0
-core/components/plays/shape-slice/scripts/test_edit_slice.py exit 0
-core/components/plays/shape-slice/scripts/test_persist_slice.py exit 0
-core/components/plays/shape-slice/scripts/test_write_hidden_file.py exit 0
-core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py exit 0
-core/components/plays/shape-plan/scripts/test_support.py exit 0
-core/components/plays/shape-plan/scripts/test_check_tracker.py exit 0
-core/components/plays/shape-plan/scripts/test_check_drafts.py exit 0
-core/components/plays/shape-plan/scripts/test_write_work_items.py exit 0
-core/components/plays/shape-plan/scripts/test_record_approval.py exit 0
-core/components/plays/shape-plan/scripts/test_find_work_items.py exit 0
-core/components/plays/shape-plan/scripts/test_check_plan.py exit 0
-core/components/plays/shape-plan/scripts/test_render_brief.py exit 0
-core/components/plays/shape-plan/scripts/test_write_plan_file.py exit 0
-core/components/plays/shape-plan/scripts/test_gather_plan.py exit 0
-## lint-play build-epic: VERDICT: PASS (0 gap(s))
-## lint-play check-change: VERDICT: FAIL (1 gap(s))
-## lint-play create-play: VERDICT: FAIL (6 gap(s))
-## lint-play discover-domains: VERDICT: PASS (0 gap(s))
-## lint-play discover-intent: VERDICT: PASS (0 gap(s))
-## lint-play install-garura: VERDICT: FAIL (5 gap(s))
-## lint-play merge-change: VERDICT: PASS (0 gap(s))
-## lint-play propose-change: VERDICT: PASS (0 gap(s))
-## lint-play shape-eval: VERDICT: PASS (0 gap(s))
-## lint-play shape-plan: VERDICT: PASS (0 gap(s))
-## lint-play shape-slice: VERDICT: PASS (0 gap(s))
-## lint-play failures: check-change (1 gap), create-play (6), install-garura (5) — identical on plan/788/base, so 'there before', not findings
+## round 5 layer 1
+lint-components: in changed paths: 0 there before: 37
+lint-play build-epic: VERDICT: PASS (0 gap(s))
+lint-play check-change: VERDICT: FAIL (1 gap(s))
+lint-play create-play: VERDICT: FAIL (6 gap(s))
+lint-play discover-domains: VERDICT: PASS (0 gap(s))
+lint-play discover-intent: VERDICT: PASS (0 gap(s))
+lint-play install-garura: VERDICT: FAIL (5 gap(s))
+lint-play merge-change: VERDICT: PASS (0 gap(s))
+lint-play propose-change: VERDICT: PASS (0 gap(s))
+lint-play shape-eval: VERDICT: PASS (0 gap(s))
+lint-play shape-plan: VERDICT: PASS (0 gap(s))
+lint-play shape-slice: VERDICT: PASS (0 gap(s))
+tests done
+lint-play failures (check-change, create-play, install-garura) are identical on plan/788/base (checked in round 4): there before, not findings

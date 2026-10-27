@@ -1,9 +1,7 @@
-**Reviewer verdict (human): reject.** Round 3's P1 (`--redraft`) is answered: the option is gone and the edit option is built through the slice play's intent (#908, PR #911, ADR 058).
+**Reviewer verdict (human): reject.** Round 4's defect is fixed: a re-run that changes a kept slice's text is now in the slice play's intent, with a history line and the epic named out of date. The product owner asked for three findings of round 5 to be fixed:
 
-**Defect. A re-run of the slice play replaces a kept slice's text, and the play's intent never says so** (P3)
-- Where: `core/components/plays/shape-slice/scripts/persist_slice.py` lines 240–260 and 358–359 (`reshape_text`); the play's intent, `reference/ice.md` C7.
-- Problem: when `/shape-slice` runs again on a slice it made, with the same surface and tester and no new intent, the slice record takes the new name, outcome and tester's action. The brief shows the difference before the yes, but C7 says only that a re-run adds the intent and pulls features in or out.
-- What it leads to: the play does something its intent does not state; the edit option changes the same three texts with a history line, a re-run with none, and neither the epic nor its stories are named as out of date.
-- Fix (the product owner's choice, option a): state it in the intent first and recompile with `/edit-play`; the re-run keeps a history line on the slice record, and the brief names the slice's epic and stories as out of date.
+1. **The same run twice can overwrite text the first run kept** (P2). `scripts/persist_slice.py` 257–258, 343, 377 decides whether to take a kept slice's new text from whether this run adds an intent; a second run with the same input sees the intent already there and replaces the name the first run kept (reproduced: "Old" became "New name"). Fix: decide from the slice as it was when the run started.
+2. **The history line's date is not checked** (P3). `persist_slice.py` 378–382, 466–467 and `edit_slice.py` accept any text as the date. Fix: accept only a year-month-day date.
+3. **No test covers either case** (P3). `scripts/test_persist_slice.py` 270–306. Fix: add both.
 
-Thirteen severity-4 findings carried from round 3, and round 3's seven slice-evals notes, stay in the review record: `.garura/project/issues/798/review/findings.yaml`.
+Four severity-4 findings of this round (DF-H-12, DF-H-13, DF-H-14, Q5-4) and the thirteen carried from earlier rounds stay in the review record: `.garura/project/issues/798/review/findings.yaml`.
