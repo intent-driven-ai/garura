@@ -1,0 +1,10 @@
+decision: reject
+decided_by: human
+reply: "Defect 1: lock it. 2, 3, and 4: you fix it."
+round: 2
+blocking:
+  - SE-15 (defect 2) — fixes for F8 and F11 send the builder to edit its own stories
+  - SE-16 (defect 3) — fixes for F10 and F7 are marked builder-alone but need the product owner's yes
+  - SE-17 (defect 4) — fn-898's fixes for F24 and F25 let the builder change the eval or learn of it
+logged_not_fixed:
+  - DF-H-7 (defect 1) — the GitLab instructions for pr-files use an undefined placeholder; filed as its own issue
