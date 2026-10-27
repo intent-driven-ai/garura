@@ -1,309 +1,238 @@
 pr: 900
 issue: 798
 base: plan/788/base
-round: 3
-layer1: layer1-results.yaml
+round: 4
+layer1: context/layer1.txt
+layer1_summary:
+  lint-components: 0 in changed paths; 37 there before
+  lint-play: 8 of 11 changed plays PASS; check-change, create-play, install-garura fail identically on the base
+    (there before)
+  adr-lint: ADR 057 and 058 valid
+  tests: 21 test files pass
+  ruff: pass
+round_3: 'DF-H-9 (P1, --redraft) answered by #908 / PR #911; DF-H-10 gone with it; DF-H-7 filed as #903'
 findings:
-- id: DF-H-7
+- id: DF-H-11
   severity: P3
   category: harness
-  file: core/components/skills/platform-adapter/reference/gitlab/verbs.md
-  line: 27-33
-  basis: 'ADAPTER: verbs.md is the normative reference with the exact command and defined substitution tokens; the
-    python adapter and the skill must give the same result on both platforms. plan/788/base:core/components/skills/platform-adapter/reference/gitlab/verbs.md
-    header and ''Note on project encoding''; plan/788/base:core/components/skills/platform-adapter/SKILL.md Step
-    3 (''Missing required argument'')'
-  finding: The new GitLab pr-files section is `glab api projects/{project}/merge_requests/{pr_number}/diffs --paginate`.
-    {project} is not a token the file or the skill defines (the other sections use {encoded_owner%2Fname}), so the
-    verb halts with a missing-argument error when run from the skill. The GitHub section gives one JSON object a
-    line and the GitLab section gives raw pages. The python adapter builds the right command, so only the skill
-    route is broken, and GitLab is not the platform in use here. Round 2 recorded this as not fixed and filed as
-    its own issue.
-- id: DF-H-9
-  severity: P3
-  category: harness
-  file: core/components/plays/shape-slice/SKILL.md
-  line: 489-499
-  basis: 'H4 and ICE-C15: a change to what the play guarantees is made in the ICE and the play is compiled again.
-    The ICE guarantees that the hidden file keeps every entry as it is, except that a new feature''s entry is added.
-    plan/788/base:docs/standards/harness-standard.md principle 4; plan/788/base:core/components/plays/shape-slice/reference/ice.md
-    C15 line 95 (''keeps every other entry as it is''); CLAUDE.md ''Play Pipeline Rules'' (a change to a guarantee,
-    decision or flow is an intent change and goes ICE -> /edit-play, never a hand edit of SKILL.md).'
-  finding: 'Commit d756e304 gives Step 8b a new path: when the person''s change names a feature, pass --redraft
-    <feature id>, and that entry is drafted again by author-failure-recovery even when its Fails if lines did not
-    change. The commit edited only SKILL.md and the script and test; reference/ice.md was not touched. The ICE still
-    says (C15) that the run keeps every other entry as it is, and has no constraint, failure condition, recovery
-    or scenario for the person asking for a redraft. Step 8b''s own next paragraph still says the script ''keeps
-    each kept entry byte for byte''. The play now does something its ICE does not say, so the play and its ICE disagree,
-    and the fingerprint check cannot show it because the ICE hash did not change. This is the drift principle 4
-    exists to prevent. What it leads to: a person-requested redraft replaces recoveries and ''who fixes'' answers
-    that may have been set by a person earlier in this same change (commit 8fceddab routed six entries to ''a person
-    must decide''), and no failure condition would catch a redraft that overwrites them. A later rebuild of the
-    play from its ICE will also remove the --redraft step without any warning. The Compilation Metadata compiled_by
-    line (910) was not updated for the #798 edits to shape-slice either (it still reads as the base version).'
-- id: DF-H-10
-  severity: P4
-  category: harness
-  file: core/components/plays/shape-slice/SKILL.md
-  line: 493-499, 532-536
-  basis: 'H3: a judgment is made by a model and a fixed sequence by a script; a step check proves each guarantee
-    (the SE checks). plan/788/base:docs/standards/harness-standard.md principle 3 (script vs model) and principle
-    4 (the ICE carries Expectation: scenarios, recovery, what done means)'
-  finding: Two small gaps in the new step. (a) Which feature 'the person's change names' is decided by the orchestrating
-    play in free text and written as $(each feature ..., as --redraft <id>) in a command block; no skill picks the
-    features and nothing records the choice, so the brief and the record cannot show what was redrafted (the base
-    brief lists hidden-file counts only). (b) SE-19 checks only that the file reads ok and every line has one recovery,
-    so it cannot tell a redraft that was asked for from one that was not; the script test covers the 'lines' command
-    with --redraft and the unknown-feature refusal but not 'write' after a redraft. A redraft that goes wrong would
-    pass every check.
+  title: A second run of /shape-slice on a slice that already exists can replace the slice's name, outcome and tester's
+    action, and the ICE and the play text never say so
+  where: null
+  basis: 'H4 and the Play Pipeline Rules: what a play guarantees or decides is stated in its ICE, and the compiled
+    play is built from it; a change to what it does is an intent change that goes ICE -> /edit-play, not a script
+    change. plan/788/base:docs/standards/harness-standard.md principle 4 (lines 50-58); CLAUDE.md ''Play Pipeline
+    Rules''. The base ICE says a reuse adds the intent, pulls features in and pushes features out (plan/788/base:core/components/plays/shape-slice/reference/ice.md
+    C7), and the base persist_slice.py docstring says a reuse ''keeps that slice''s feature_refs, vertical and surface
+    as they are''.'
+  problem: 'Commits dbeb5eaa (#795) and c4c3c3d6 (#798, subject ''let a kept slice take its new name'') added reshape_text
+    to persist_slice.py. When a shaping run finds a slice that already serves the intent and the shaped slice has
+    the same surface and tester and no new intent, the kept record''s name, outcome and tester''s action are overwritten
+    with the new ones, and the difference line says ''the record takes the new text''. The ICE does not say this:
+    reference/ice.md C7 (lines 41-49) names only the intent added and features pulled in or pushed out, and the
+    words ''name'', ''outcome'' and ''tester''s action'' appear in the ICE only in C20, the edit. SKILL.md Step
+    8 (the persist_slice.py paragraph, lines 501-508) says a reuse ''lists differences'' and does not say it replaces
+    anything. The commit changed SKILL.md and the ICE for the one-line part of the same change (C8, F8, F17) but
+    not for this part. The brief does show the difference before the person types yes (SE-18), so nothing is hidden;
+    the missing piece is the guarantee.'
+  leads_to: 'The play now does something its ICE does not say: a rebuild of the play from its ICE keeps the script,
+    but a reader or a later author of the ICE cannot tell that a re-run may rewrite a confirmed slice''s name and
+    outcome, and no failure condition covers it (F7 covers a reuse that can no longer be tested, not a reuse that
+    rewrote the record''s words). It also sits beside the new edit rule, which says the name, outcome and tester''s
+    action change through an edit that leaves a history line; a re-run changes the same three texts and leaves none.
+    The epic and stories written from the old outcome are not named as out of date, as the edit brief does. This
+    is the same pattern as round 3''s DF-H-9, on a smaller change.'
+  fix: 'Decide with the product owner whether a re-run should replace these three texts. If yes, say it in the ICE
+    (C7: a reuse of the same surface and tester takes the shaped name, outcome and tester''s action, shown old and
+    new in the brief; and F7 or F17 to match), compile again with /edit-play, and have the brief name the epic and
+    stories as out of date, as the edit does. If no, take reshape_text out of persist_slice.py (and its tests) and
+    leave the change of these texts to --edit.'
+  carried: null
 - id: DF-H-4
   severity: P4
   category: harness
-  file: core/components/plays/shape-eval/reference/ice.md
-  line: 16-17, 65-66
+  title: The /shape-eval ICE says the run reads only three kinds of file, and the play reads more
+  where: null
   basis: 'H4: the ICE is the one place the play''s wording is decided, and the compiled play traces to it. ADR 049
     Decision 4 names three files for the eval play to read. plan/788/base:docs/standards/harness-standard.md principle
     4; plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md Decision 4. (Carried from
-    round 1 and 2, unchanged.)'
-  finding: ICE C1 and F1 still say the run reads only the epic, its stories and the hidden file, and that reading
-    any other file is a failure. The play also reads the plan file and the tracker (to find the epics), the slice's
-    existing eval files (copied to inputs/existing/ so a later run can keep every scenario), and the templates and
-    step library. F1 read literally is false on every second run. Nothing is harmed.
+    rounds 1 to 3, unchanged by round 4: no commit touched shape-eval since 086b74b8.)'
+  problem: C1 and F1 still say the run reads only the epic, its stories and the hidden file, and that reading any
+    other file is a failure. The play also reads the plan file and the tracker (to find the epics), the slice's
+    existing eval files (copied to inputs/existing/ so a later run keeps every scenario), and the templates and
+    step library. Read literally, F1 is false on every second run.
+  leads_to: Nothing is harmed. A reader who trusts F1 does not know the real list of files, and a check written
+    from F1 would fail a valid run.
+  fix: State the real list in C1 and F1 (the epic, its stories, the hidden file, and the slice's earlier eval files),
+    and compile again with /edit-play.
+  carried: null
 - id: DF-H-5
   severity: P4
   category: harness
-  file: core/components/plays/shape-eval/scripts/gather_eval.py
-  line: 95
+  title: The whole hidden file, recovery lines included, is copied to the eval-writing skill, which is told in prose
+    never to use the recovery text
+  where: null
   basis: 'P4-ROUTE: the eval author''s column for Recovery in the routing table is empty. Mechanical guards beat
     a prompt rule (harness principle 3). plan/788/base:docs/philosophy/idd-principles.md - The Routing Table; plan/788/base:docs/standards/harness-standard.md
     principle 3. Counter-weight: ADR 049 Decision 4 lets the eval play read the hidden file, so this is a tension,
     not a violation. (Carried, unchanged.)'
-  finding: The whole hidden file, recovery lines included, is copied to the skill, which is told in prose never
-    to write recovery text; check_eval.py then greps for the exact lines. A cleaner design gives the skill only
-    the failure lines (inputs.json already holds them in 'failures').
+  problem: gather_eval.py copies the whole hidden file to the skill; check_eval.py then greps for the exact lines.
+    A cleaner design gives the skill only the failure lines (inputs.json already holds them in 'failures').
+  leads_to: A skill that ignores the prose rule could copy recovery text into an eval. The check catches the exact
+    lines only.
+  fix: Copy only the failure lines to the skill's inputs, and keep the full file for the checker.
+  carried: null
 - id: DF-H-6
   severity: P4
   category: harness
-  file: core/components/plays/shape-eval/SKILL.md
-  line: 243-244
+  title: Step check SE-6 of /shape-eval names the wrong folder for a slice whose home plan is another intent
+  where: null
   basis: 'A49-2-3 and H4: an eval of a slice shared by two plans is written once, in the home plan''s folder; the
     step checks of the compiled play must say what the scripts do. plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
     Decision 3; plan/788/base:docs/standards/harness-standard.md principle 4. (Carried, unchanged.)'
-  finding: The scripts write under the slice's home plan, but step check SE-6 still says every placed path is '<plans>/<id>/evals/<slug>/...'
+  problem: The scripts write under the slice's home plan, but SE-6 says every placed path is '<plans>/<id>/evals/<slug>/...'
     where <id> is the plan being run. For a slice whose home plan is another intent, SE-6 read as written fails
     although the scripts are right.
+  leads_to: A run for the second plan that shares a slice fails its own step check for a correct write.
+  fix: Say '<home plan id>' in SE-6 and in the ICE line it traces to.
+  carried: null
 - id: DF-H-8
   severity: P4
   category: harness
-  file: core/components/agents/evals-engineer.md
-  line: 1-7
+  title: Two documents still describe the evals-engineer agent by its old job
+  where: null
   basis: 'STALE: when a shared agent is rewritten, the documents that name its old job are kept in step or marked
     old. plan/788/base:docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md;
-    plan/788/base:core/components/agents/evals-engineer.md stale_note'
-  finding: The agent now has one job (draft the eval for /shape-eval). docs/components/agents.md and the stale notes
-    are in step. The reference implementation still lists evals-engineer as the steelman author of /build-epic and
-    plays.md line 298 still gives it 'draft verification scenarios'. Both describe the old /implement pipeline,
-    so this is old text, not a wrong rule, and neither file is touched by the diff.
+    plan/788/base:core/components/agents/evals-engineer.md stale_note. (Carried, unchanged: docs/components/agents.md
+    is in step; docs/philosophy/garura-reference-implementation.md and docs/components/plays.md line 298 are not
+    touched by the diff.)'
+  problem: The agent now has one job (draft the eval for /shape-eval). The reference implementation still lists
+    evals-engineer as the steelman author of /build-epic, and plays.md line 298 still gives it 'draft verification
+    scenarios'. Both describe the old /implement pipeline.
+  leads_to: A reader of those pages expects a job the agent no longer has. Old text, not a wrong rule.
+  fix: Mark both passages as the old pipeline, or update them.
+  carried: null
 - id: MEM-5
   severity: P4
   category: memory
-  file: docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md
-  line: 8
-  basis: 'M7 plan/788/base:core/components/memory/standards/templates/adr.md line 73 (''Affects: <files, rules,
-    schemas, plays, agents>''); plan/788/base:core/components/memory/standards/rules/_index.md ''When to Add Here'''
-  finding: 'ADR 057''s Affects line (line 8) names the two templates, the step library and two index files, but
-    not the file that now holds every eval format rule (rules/eval-format.md), nor rules/_index.md, schemas/eval/_index.md,
-    rules/expectation-generation.md or rules/pipeline-next.md, which this change also edits. The same rules file
-    (lines 22, 24 and 39) carries three mechanisms the ADR never states: the ''Lines covered'' list, the ''@out-of-slice''
-    tag and naming a moved story line for a person. They fit the ADR''s fixed-yardstick idea, but no decision record
-    holds them, so a later reader cannot tell who decided them. Fix: add the five files to the Affects line, and
-    add one sentence to section 2 or 5 stating the three mechanisms.'
+  title: ADR 057 does not list every memory file it changes, and states three rules only the rules file holds
+  where: null
+  basis: null
+  problem: 'The Affects line of ADR 057 names the two templates, the step library and two index files. It leaves
+    out rules/eval-format.md, which now holds every eval format rule, and rules/_index.md, schemas/eval/_index.md,
+    rules/expectation-generation.md and rules/pipeline-next.md, which this change also edits. That rules file also
+    carries three mechanisms the ADR never states: the ''Lines covered'' list, the ''@out-of-slice'' tag, and naming
+    a moved story line for a person.'
+  leads_to: A later reader cannot tell who decided those three mechanisms, and a change to one of the five unlisted
+    files will not be traced back to this decision.
+  fix: Add the five files to the Affects line, and add one sentence to section 2 or 5 stating the three mechanisms.
+  carried: null
 - id: MEM-6
   severity: P4
   category: memory
-  file: core/components/memory/standards/rules/eval-format.md
-  line: 22
-  basis: M7 plan/788/base:core/components/memory/standards/rules/_index.md line 65 ('It is the single source of
-    truth for the domain')
-  finding: 'The rule that a later run changes nothing already there is written twice in rules/eval-format.md, and
-    the two copies differ. Lines 22-23 say a later run ''only adds scenarios and untestable lines''; lines 36-38
-    say it adds scenarios, Untestable lines and Lines covered lines. A reader who stops at the first block would
-    think adding a Lines covered line breaks the rule, and a checker written from it would reject a valid run. Fix:
-    keep the rule in ''A fixed yardstick'' only, and in ''A story file'' say just that a story whose feature left
-    the slice keeps its file with ''@out-of-slice'' on its first tag line.'
+  title: The 'a later run changes nothing already there' rule is written twice and the two copies differ
+  where: null
+  basis: null
+  problem: Lines 22-23 say a later run 'only adds scenarios and untestable lines'. Lines 36-38 (under 'A fixed yardstick')
+    say it adds scenarios, Untestable lines and Lines covered lines.
+  leads_to: A reader who stops at the first block would think adding a Lines covered line breaks the rule, and a
+    checker written from that block would reject a valid run.
+  fix: Keep the rule in 'A fixed yardstick' only. In 'A story file', say just that a story whose feature left the
+    slice keeps its file with '@out-of-slice' on its first tag line.
+  carried: null
 - id: MEM-7
   severity: P4
   category: memory
-  file: core/components/memory/standards/schemas/_index.md
-  line: 13
-  basis: M3 plan/788/base:core/components/memory/standards/schemas/_index.md line 26 ('See `product-os/_index.md`
-    for the full set and storage lifecycle.')
-  finding: 'The new schemas/eval/ folder has its own _index.md, but the parent schemas/_index.md (line 13) only
-    has a pattern row and never points to it. On the base, the parent index ends its product-os section with a ''See
-    product-os/_index.md'' line, so that folder''s index is reachable from the parent. Here, an agent that reads
-    schemas/_index.md will not learn that a list of step libraries exists, and a second library added later will
-    not be found from the parent. Fix: add ''See eval/_index.md for the set of step libraries.'' after the eval
-    row.'
-- id: PM-F10
-  severity: P4
-  category: product-model
-  file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-  line: 3
-  basis: PM-7 plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md, kind Slice (Id and
-    name; hidden file 'the slice' entry) and the opening paragraph (same words for the same things)
-  finding: 'Carried from round 2, unchanged by run 3. The slice was renamed to ''Name a business intent, and three
-    plays write its slice, plan and eval'', but the hidden file''s header (line 3) still says ''Slice: From a named
-    piece of work to its design''. It is the only place the old name is left, so a person searching the eval by
-    the slice name finds two names for one slice. (This file is outside the product-model paths; it is found while
-    checking the rename.)'
-- id: PM-F11
-  severity: P4
-  category: product-model
-  file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
-  line: 16
-  basis: 'PM-2 plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md (''Rules &
-    behavior'': the logic, states and edge cases; each line explains itself)'
-  finding: Carried from round 2, unchanged. A rule says 'When the list named only some plays, a play that builds
-    code and is not on the list could be given the eval'. It tells the story of an earlier draft that a later reader
-    has never seen, so it does not say what holds now.
+  title: The parent schemas index does not point to the new eval step-library index
+  where: null
+  basis: null
+  problem: schemas/eval/ has its own _index.md, but the parent index has only a pattern row for it and no 'See eval/_index.md'
+    line. The base parent index does carry that kind of line for product-os/.
+  leads_to: An agent that reads schemas/_index.md will not learn that a list of step libraries exists, and a second
+    library added later will not be found from the parent.
+  fix: Add 'See `eval/_index.md` for the set of step libraries.' after the eval row.
+  carried: null
 - id: PM-F2
   severity: P4
   category: product-model
-  file: .garura/product/product-os/slices/sl-intent-to-design.yaml
-  line: 5
-  basis: 'PM-1 plan/788/base:core/components/memory/standards/schemas/product-os/slice.yaml, slice.outcome (''one
-    line: the usable thing this slice delivers''); ontology.md, kind Slice'
-  finding: Carried from round 2, unchanged. The slice outcome (lines 5-8) is a long sentence with three parts and
-    a trailing clause about the flag being recorded in a build run's evidence. The slice record asks for one line.
-    A reader and the play that reads the spine line get a paragraph where the model promises one line. The product
-    owner already kept fn-898 in the slice and approved the name, so only the length is left.
+  title: The slice's outcome runs to a paragraph
+  where: null
+  basis: null
+  problem: Carried from round 3, unchanged. The outcome (lines 5-8) is one long sentence with three parts and a
+    trailing clause about the flag being recorded in a build run's evidence. The model promises one line.
+  leads_to: A reader, and the play that reads the spine line, get a paragraph where the model promises a line. Nothing
+    breaks. The product owner already kept fn-898 in the slice and approved the name, so only the length is left.
+  fix: Shorten the outcome to one sentence, for example the three written parts and 'an eval no build is given',
+    and leave the flag to fn-898.
+  carried: null
 - id: PM-F6
   severity: P4
   category: product-model
-  file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
-  line: 39
-  basis: 'PM-2 plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md (''## Sources'':
-    where it is seen, one source per line, in words a later reader can open)'
-  finding: Carried from round 2, unchanged. Sources point to 'Q-builders-1' and 'Q-flag-1', which are question ids
-    in one issue's working file, and to 'evidence-file.md, lines 34-38', a line range that moves. The rules (lines
-    16 and 20) also say 'the product owner's answer to Q-builders-1 / Q-flag-1', so a later reader of the page cannot
-    open the answer. The same ADR 057 sentence is pasted into six pages (domain.md:18, capability.md:16, fn-795:41,
-    fn-798:35, fn-818:43, fn-898:38), so six places must be kept in step.
+  title: fn-898's sources point at things a later reader cannot open
+  where: null
+  basis: null
+  problem: Carried from round 3, unchanged. Sources cite 'Q-builders-1' and 'Q-flag-1', which are question ids in
+    one issue's working file, and 'evidence-file.md, lines 34-38', a line range that moves. The rules (lines 16
+    and 20) also lean on 'the product owner's answer to Q-builders-1 / Q-flag-1'. The same ADR 057 sentence is pasted
+    into six pages (domain.md:18, capability.md:16, fn-795:41, fn-798:35, fn-818:43, fn-898:38).
+  leads_to: A later reader cannot open the answer the page rests on, and six places must be kept in step when the
+    ADR changes.
+  fix: 'Replace the question ids with the words of the answer, or with #898 where they are recorded; drop the line
+    range; cite ADR 057 once in each page in the page''s own words.'
+  carried: null
 - id: PM-F7
   severity: P4
   category: product-model
-  file: .garura/product/product-os/intents/bi-788.md
-  line: 18
-  basis: PM-4 plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md, kind Business Intent
-    (Properties 'Must not' and 'Confirmed by and when'; Rules 'Only a person confirms or drops it')
-  finding: 'Carried from round 2, unchanged. Two small points on the hand-edited intent, both for the product owner
-    and neither a fault of the edit. (a) The Must-not list still says ''Do not let a builder read the eval'', while
-    the new proof line (line 16) and every model page say the build is given the intent and a read is only flagged,
-    never blocked. The owner approved the proof line, not this line, so the page states two different limits. (b)
-    The confirmation footer (line 20, ''confirmed it on 2026-10-24 (#844)'') still reads as covering the old proof
-    line; the page does not show that the line changed later on the owner''s word. The reason sits in commit 96567014
+  title: The intent page states two different limits on the eval
+  where: null
+  basis: null
+  problem: 'Carried from round 3, unchanged. The Must-not list (line 18) says ''Do not let a builder read the eval'',
+    while the proof line (line 16) and every model page say the build is given the intent and a read is only flagged,
+    never blocked. The owner approved the proof line, not this Must-not line. The confirmation footer (line 20,
+    2026-10-24, #844) still reads as covering the old proof line; the reason it changed later is in commit 96567014
     and #901, not on the page.'
+  leads_to: A reader finds two limits on the same thing and cannot tell which the owner means. No effect on a run
+    today.
+  fix: 'Ask the product owner whether the Must-not line stays as written. Leave the footer note to #901, which records
+    who asked, when and the words; do not edit the intent page again by hand.'
+  carried: null
 - id: PM-F9
   severity: P4
   category: product-model
-  file: .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
-  line: 6
-  basis: 'PM-8 plan/788/base:core/components/memory/standards/schemas/product-os/grounding/capability.md (directional
-    stage: ''never touches features''); ontology.md, kind Capability'
-  finding: 'Carried from round 2, unchanged. cap-shape-eval is a directional capability (spine detail: directional),
-    and its page has a ''Features:'' paragraph (line 6) that lists fn-798 and fn-898 with a summary of each. The
-    directional stage keeps features out of the page; the spine already holds them, so the paragraph can drift from
-    the spine. The earlier question also stays: fn-898 holds two checks about the build, not about writing the eval,
-    under a capability named ''Write the hidden eval''. The product owner kept the feature in the slice but did
-    not say which capability owns it.'
-- id: SE-10
+  title: A directional capability page lists its features
+  where: null
+  basis: null
+  problem: 'Carried from round 3, unchanged. cap-shape-eval is directional, and its page has a ''Features:'' paragraph
+    (line 6) naming fn-798 and fn-898 with a summary of each. The directional stage keeps features out of the page;
+    the spine already holds them. The question also stays open: fn-898 holds two checks about the build under a
+    capability named ''Write the hidden eval'', and the owner has not said which capability owns it.'
+  leads_to: The paragraph can drift from the spine, and a reader may take a build-side check as part of writing
+    the eval.
+  fix: Delete the 'Features:' paragraph. Product owner to say whether cap-shape-eval is the right parent for fn-898.
+  carried: null
+- id: PM-F10
   severity: P4
-  category: slice-evals
-  file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-  line: 52
-  basis: 'PR-5 plan/788/base ontology.md (Slice hidden-file row: the feature, its capability, the two ICE and which
-    is thin, ids such as F1)'
-  finding: 'Still open from round 1. The fn-795 entry has the header ''- Capability: ... (Shape a slice)'' and ''-
-    Thin: both ICE ...'', and failure lines that start in capitals; the fn-818, fn-798 and fn-898 entries have ''-
-    Written from'' and two ''Thin ICE'' lines, the capability name dropped, and lower-case failure lines. F26, F27
-    and F19 stand before F10, F14 and F17 in the lists. All the parts the ontology asks for are there; the file
-    has two layouts. This matters a little more now because the eval checks the Fails if lines ''word for word''
-    (eval.fn-795.feature.md 111-117): a play that writes the first letter in capitals in one entry and not in another
-    cannot satisfy that check in both.'
-  carried_from: round 2
-- id: SE-11
+  category: product-model
+  title: The hidden file's header still has the slice's old name
+  where: null
+  basis: null
+  problem: 'Carried from round 3, unchanged. The slice was renamed ''Name a business intent, and three plays write
+    its slice, plan and eval'', but the hidden file''s header (line 3) still reads ''Slice: From a named piece of
+    work to its design''. It is the only place the old name is left. (The file is outside the product-model paths;
+    found while checking the rename.)'
+  leads_to: A person searching the eval by the slice name finds two names for one slice.
+  fix: Make the hidden file again from the renamed slice record (the play writes it), so the header carries the
+    new name.
+  carried: null
+- id: PM-F11
   severity: P4
-  category: slice-evals
-  file: .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
-  line: 1
-  basis: 'PR-5 grounding gap: feature fn-898, its ICE and its story are added by this branch (74f10249, 78751e02);
-    no base page exists'
-  finding: Still open from round 1. The fn-898 eval is checked only against the ICE and the story that this branch
-    adds. Only the builder-isolation core (ontology Q28, Q32; ADR 049 section 4; the Routing Table) is grounded
-    on the base. The lint check over build-play inputs and the ledger flag have no base source.
-  carried_from: round 2
-- id: SE-14
-  severity: P4
-  category: slice-evals
-  file: .garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md
-  line: 93
-  basis: PR-5 plan/788/base docs/adr/052-*.md section 2 ('The plan play writes nothing in the evals folder'); hidden
-    file F12
-  finding: Still open from round 1. The F12 scenario checks that the evals folder holds 1 file and that the slice
-    file is absent. A play that edits the hidden file in place still passes. Add a step that the hidden file is
-    the same as before, or say in Untestable that the format cannot show it.
-  carried_from: round 2
-- id: SE-18
-  severity: P4
-  category: slice-evals
-  file: .garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md
-  line: 80
-  basis: PR-3 / PR-2 plan/788/base ontology.md Q35 (the running eval writes the handoff plan from the recovery condition)
-    and Q29; the eval runner is a later play (#819), per categories.yaml
-  finding: 'F15 moved from ''untestable'' to a scenario. The scenario runs ''the command that makes the handoff
-    plan for a failed check of the first failure condition'' (eval.sl-intent-to-design.md line 58), which makes
-    the eval report a failed check and write the handoff plan. That is the work of the running eval and its runner,
-    not a small reader of files as the Names section describes a command (line 27). Until #819, nothing behind the
-    name exists, and neither the scenario nor the Context says so. Say it in the Context or in Untestable so that
-    a run that cannot start this command is read as ''not run'', never as ''passed''.'
-  carried_from: round 2
-- id: SE-19
-  severity: P4
-  category: slice-evals
-  file: .garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md
-  line: 69
-  basis: PR-1 plan/788/base ontology.md Q31 (the usage guide is the eval's way into the product; names must map
-    to one real thing); the folder-count step counts one folder's files (step library, format only)
-  finding: 'The name [the slice''s evals folder] is defined as two folders: ''.garura/project/plans/788/evals/ and
-    the slice''s own folder in it''. The scenarios count its files (''holds 1 files'', ''holds 4 files'') and look
-    for ''new files outside'' it. Those only make sense for the slice''s own folder; for the parent folder the count
-    is 0 files. Define the name as the slice''s own folder.'
-  carried_from: round 2
-- id: SE-20
-  severity: P4
-  category: slice-evals
-  file: .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
-  line: 9
-  basis: 'PR-2 plan/788/base ontology.md (Slice: Eval row, every goal and expectation is met; what the eval cannot
-    test it says so); story #898 goal 1 (inputs/story-898.md; the story text is the thing the eval is built from)'
-  finding: 'Goal 1 says no build play, build skill, build agent or context sub-agent is given the eval, the hidden
-    file or the evals folder. The ''given'' part is tested by one lint check that reads the inputs of build plays
-    only (Names line 59). A skill, agent or sub-agent is covered only for what it reads (the ledger scenarios, lines
-    30-55). The Untestable section says ''None'' for #898 apart from F24. Say that ''given to a skill, agent or
-    sub-agent'' is covered only through the read check, or add the case.'
-  carried_from: round 2
-- id: SE-21
-  severity: P4
-  category: slice-evals
-  file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-  line: 77
-  basis: 'PR-6 / PR-5 plan/788/base failure-and-recovery.md, F8 way back: ''The person decides if the eval must
-    be made again, because a builder may have read the line''; plan/788/base expectation-generation.md ''A feature''s
-    recovery (product ICE)'' (who fixes follows the handoff rule). Round 2 (SE-15) allowed either route: to a person,
-    or the sentence added back.'
-  finding: 'F8 (line 77) and F11 (line 93) now go to a person, which is right. Their way back, though, only tells
-    the person to keep the goals, the limits and the expectations in a story. It no longer says what the person
-    has to decide. The base F8 said it (a builder may have read the line, so a person says if the eval or the build
-    must be made again), and F26 in the same entry still says it (line 85: ''A person decides if a build that read
-    the story must run again''). A person who gets F8 or F11 with no question has the mechanical fix and not the
-    reason it is theirs. Add one sentence to each, as F26 has it. It does not block anything.'
+  category: product-model
+  title: A rule tells the story of an earlier draft
+  where: null
+  basis: null
+  problem: Carried from round 3, unchanged. A rule says 'When the list named only some plays, a play that builds
+    code and is not on the list could be given the eval'. It tells the story of an earlier draft that a later reader
+    has never seen.
+  leads_to: The page does not say what holds now; a reader may think a list of plays still exists.
+  fix: 'Say it as a rule: every play, skill and agent that builds the software is covered, so a play not on any
+    list is still checked.'
+  carried: null

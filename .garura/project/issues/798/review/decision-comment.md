@@ -1,11 +1,9 @@
-**Reviewer verdict (human): reject.** Defect A is raised to P1.
+**Reviewer verdict (human): reject.** Round 3's P1 (`--redraft`) is answered: the option is gone and the edit option is built through the slice play's intent (#908, PR #911, ADR 058).
 
-**Defect A. The slice play now does something its own intent forbids** (P1)
-- Where: `core/components/plays/shape-slice/SKILL.md` Step 8b and `scripts/write_hidden_file.py` (the `--redraft` option); the play's intent, `reference/ice.md` line 95, was not changed.
-- Problem: the option was built without the product owner asking for it and without a design they saw, as a direct edit, while the intent says a run "keeps every other entry as it is". The play and its intent disagree, and the play's check cannot see it.
-- What it leads to: a rebuild of the play from its intent drops the option silently; until then a run can redraft an entry and undo a "who fixes" answer a person set.
-- Fix: design one standard way for plays to edit a record that already exists (product model, slice, hidden file, story, epic; not code) with the product owner first; put it in each play's ICE; build it with /edit-play.
+**Defect. A re-run of the slice play replaces a kept slice's text, and the play's intent never says so** (P3)
+- Where: `core/components/plays/shape-slice/scripts/persist_slice.py` lines 240–260 and 358–359 (`reshape_text`); the play's intent, `reference/ice.md` C7.
+- Problem: when `/shape-slice` runs again on a slice it made, with the same surface and tester and no new intent, the slice record takes the new name, outcome and tester's action. The brief shows the difference before the yes, but C7 says only that a re-run adds the intent and pulls features in or out.
+- What it leads to: the play does something its intent does not state; the edit option changes the same three texts with a history line, a re-run with none, and neither the epic nor its stories are named as out of date.
+- Fix (the product owner's choice, option a): state it in the intent first and recompile with `/edit-play`; the re-run keeps a history line on the slice record, and the brief names the slice's epic and stories as out of date.
 
-**Defect B.** The GitLab instructions for `pr-files` (P3) — filed as #903.
-
-21 smaller findings (P4), each with its committed source: `.garura/project/issues/798/review/findings.yaml`.
+Thirteen severity-4 findings carried from round 3, and round 3's seven slice-evals notes, stay in the review record: `.garura/project/issues/798/review/findings.yaml`.

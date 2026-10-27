@@ -1,122 +1,105 @@
-# Layer-2 design findings - category: memory - PR #900 (change #798), round 3, base plan/788/base
+# Layer-2 design findings - category: memory - PR #900 (change #798), round 4, base plan/788/base
 category: memory
-round: 3
+round: 4
 base: plan/788/base
-severity_source: standards/rules/pr.md (P1-P4 buckets; short-term copy at context/memory/standards/rules/pr.md)
-grounding_copies: context/memory/grounding-memory/  # via the memory tool; manifest.json beside it, unchanged from rounds 1 and 2 (builder-isolation.md fingerprint sha256:ed2e720d... re-checked)
+severity_source: standards/rules/pr.md (P1-P4 buckets; short-term copy at context/memory/standards/rules/pr.md; P3 = "Missing docs, borderline complexity, naming", P4 = "Nit ... style-only")
+grounding_copies: context/memory/grounding-memory/  # via the memory tool; manifest.json beside it, unchanged from rounds 1-3 (builder-isolation.md fingerprint sha256:ed2e720d... re-checked this round)
 
-changed_since_round_2:
+changed_since_round_3:
   memory_files: none
-  note: "git diff 3e82e325 HEAD over core/ and docs/ is empty. No memory file, ADR or template changed between round 2 and now (the round-3 commit d756e304 touched shape-slice, which is not a memory file). The round-2 findings are therefore re-checked against the same files and carried."
+  how_checked: >
+    git diff --stat d756e304 HEAD over core/components/memory and docs/adr/057* is empty (d756e304 is the round-3
+    commit). The ten memory paths in categories.yaml are the same files at the same content. The only new
+    authored files since round 3 are ADR 058, edit_slice.py, test_edit_slice.py and the shape-slice / author-slice /
+    product-os-keeper changes; none is a memory file, and ADR 058's Affects line names no memory file. Nothing new
+    reaches the memory category, so there is nothing new to ground.
+  decision: "Round 3's memory verdict is carried forward unchanged."
 
 grounding:
   note: >
     Every principle comes from a file on the base ref (git show plan/788/base:<path>) or from the memory tool.
-    Nothing is grounded in ADR 057, the new templates, the new step library, the new eval-format rule or the
-    shape-eval ICE. ADR 057 is read only as the decision under review, never as a source of a principle.
+    Nothing is grounded in ADR 057, ADR 058, the new templates, the new step library or the new eval-format rule.
+    The base-ref sources were re-read this round and all still exist at the lines cited.
   principles:
-    - id: M1
-      principle: "templates/ hold the shape of an output; rules about artifact content belong in rules/."
-      sources:
-        - "plan/788/base:core/components/memory/standards/templates/_index.md ('When to Add Here')"
-        - "memory tool, phoenix: standards/templates/work-plan.md line 7 (copy in context/memory/grounding-memory/)"
-    - id: M2
-      principle: "Schema discipline: every schema carries a validation-rules comment block at the end."
-      sources:
-        - "plan/788/base:core/components/memory/standards/schemas/_index.md ('Schema discipline')"
     - id: M3
-      principle: "A schemas/ sub-folder carries its own _index.md, and schemas/_index.md points to it ('See product-os/_index.md')."
+      principle: "A schemas/ sub-folder carries its own _index.md, and schemas/_index.md points to it."
       sources:
         - "plan/788/base:core/components/memory/standards/schemas/_index.md line 26 ('See `product-os/_index.md` for the full set and storage lifecycle.')"
-        - "plan/788/base:core/components/memory/standards/schemas/product-os/_index.md, product-os/lens/_index.md"
+    - id: M7
+      principle: "A rules/ file is 'the single source of truth for the domain'; an ADR's Affects line names the files, rules, schemas, plays and agents the decision changes."
+      sources:
+        - "plan/788/base:core/components/memory/standards/rules/_index.md line 65 ('When to Add Here')"
+        - "plan/788/base:core/components/memory/standards/templates/adr.md (Affects field, line 73)"
+    - id: M1
+      principle: "templates/ hold the shape of an output; rules about artifact content belong in rules/."
+      sources: ["plan/788/base:core/components/memory/standards/templates/_index.md ('When to Add Here')"]
+    - id: M2
+      principle: "Every schema carries a validation-rules comment block at the end."
+      sources: ["plan/788/base:core/components/memory/standards/schemas/_index.md ('Schema discipline')"]
     - id: M4
-      principle: "Builder isolation: the builder never receives the success scenarios or failure-condition ids; the hidden file's recovery goes to the builder only as a handoff plan."
+      principle: "Builder isolation: the builder never receives the success scenarios or failure-condition ids."
       sources:
         - "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md (Decision 4)"
         - "memory tool, garura: core/memory/standards/rules/builder-isolation.md"
-        - "plan/788/base:core/components/memory/standards/rules/expectation-generation.md ('A feature's recovery')"
-    - id: M5
-      principle: "A story's scope of work holds 'Goals:', 'Limits:' and 'Expectations:' lists written by the plan play."
-      sources:
-        - "plan/788/base:core/components/plays/shape-plan/reference/ice.md (C5, C12)"
     - id: M6
       principle: "The Next-line map is the one place a play's successor lives; the prose flow and the yaml map agree."
-      sources:
-        - "plan/788/base:core/components/memory/standards/rules/pipeline-next.md (header, 'The flow')"
-    - id: M7
-      principle: "A rules/ file is 'the single source of truth for the domain - not a copy of skill prose'; an ADR's Affects line names 'the files, rules, schemas, plays and agents the decision changes'."
-      sources:
-        - "plan/788/base:core/components/memory/standards/rules/_index.md ('When to Add Here', line 65)"
-        - "plan/788/base:core/components/memory/standards/templates/adr.md (Affects field, line 73)"
+      sources: ["plan/788/base:core/components/memory/standards/rules/pipeline-next.md (header, 'The flow')"]
 
-round_2_status:
-  - id: MEM-5
-    status: open
-    how: "Still holds. ADR 057 is unchanged since round 2: its Affects line still omits rules/eval-format.md, rules/_index.md, schemas/eval/_index.md, rules/expectation-generation.md and rules/pipeline-next.md, and its body (grep for 'Lines covered', 'out-of-slice', 'moved', 'eval-format') still never states the Lines covered list, the @out-of-slice tag or the moved-line naming."
-  - id: MEM-6
-    status: open
-    how: "Still holds. rules/eval-format.md is unchanged: lines 22-23 list what a later run adds as 'scenarios and untestable lines', lines 36-38 list 'scenarios, Untestable lines and Lines covered lines'."
-  - id: MEM-7
-    status: open
-    how: "Still holds. schemas/_index.md (45 lines) still has only the 'eval/steps-<kind>.yaml' row at line 13 and no pointer to eval/_index.md."
-  - id: MEM-1
-    status: fixed
-    how: "Fixed in round 2 and still fixed: the eval templates end with a pointer to standards/rules/eval-format.md and hold no '## Rules' block."
-  - id: MEM-2
-    status: fixed
-    how: "Fixed in round 2 and still fixed (ADR 057 section 5 decides the append-only rule; eval-format.md cites it). Its residual is MEM-5."
-  - id: MEM-3
-    status: fixed
-    how: "Fixed in round 2 and still fixed: steps-command-line.yaml has its header key list (lines 16-20) and the trailing '# Validation rules' block."
-  - id: MEM-4
-    status: fixed
-    how: "Fixed in round 2 and still fixed: schemas/eval/_index.md exists and lists steps-command-line.yaml. Its residual is MEM-7."
+round_3_status:
+  - {id: MEM-5, status: open, how: "ADR 057 line 8 (Affects) unchanged; still omits rules/eval-format.md, rules/_index.md, schemas/eval/_index.md, rules/expectation-generation.md, rules/pipeline-next.md."}
+  - {id: MEM-6, status: open, how: "rules/eval-format.md unchanged; lines 22-23 still say a later run 'only adds scenarios and untestable lines', lines 36-38 still add 'Lines covered lines'."}
+  - {id: MEM-7, status: open, how: "schemas/_index.md line 13 still has only the eval/steps-<kind>.yaml row and no pointer to eval/_index.md."}
+  - {id: DF-H-7, status: "not raised here", how: "Round 3 logged it as not fixed (filed as #903); it is a harness finding, not a memory one."}
 
 findings:
   - id: MEM-5
+    title: "ADR 057 does not list every memory file it changes, and states three rules only the rules file holds"
     severity: P4
+    carried_from: round 3 (unchanged; no new instance)
     file: docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md
     line: 8
     also: [core/components/memory/standards/rules/eval-format.md:22, core/components/memory/standards/rules/eval-format.md:24, core/components/memory/standards/rules/eval-format.md:39]
     principle: M7
-    committed_source: "plan/788/base:core/components/memory/standards/templates/adr.md line 73 ('Affects: <files, rules, schemas, plays, agents>'); plan/788/base:core/components/memory/standards/rules/_index.md 'When to Add Here'"
-    message: "ADR 057's Affects line (line 8) names the two templates, the step library and two index files, but not the file that now holds every eval format rule (rules/eval-format.md), nor rules/_index.md, schemas/eval/_index.md, rules/expectation-generation.md or rules/pipeline-next.md, which this change also edits. The same rules file (lines 22, 24 and 39) carries three mechanisms the ADR never states: the 'Lines covered' list, the '@out-of-slice' tag and naming a moved story line for a person. They fit the ADR's fixed-yardstick idea, but no decision record holds them, so a later reader cannot tell who decided them. Fix: add the five files to the Affects line, and add one sentence to section 2 or 5 stating the three mechanisms."
+    committed_source: "plan/788/base:core/components/memory/standards/templates/adr.md line 73 ('Affects: <files, rules, schemas, plays, agents>'); plan/788/base:core/components/memory/standards/rules/_index.md line 65"
+    basis_for_severity: "pr.md P4 (Nit): a record-keeping gap that blocks nothing; round 3 classed it the same."
+    problem: "The Affects line of ADR 057 names the two templates, the step library and two index files. It leaves out rules/eval-format.md, which now holds every eval format rule, and rules/_index.md, schemas/eval/_index.md, rules/expectation-generation.md and rules/pipeline-next.md, which this change also edits. That rules file also carries three mechanisms the ADR never states: the 'Lines covered' list, the '@out-of-slice' tag, and naming a moved story line for a person."
+    leads_to: "A later reader cannot tell who decided those three mechanisms, and a change to one of the five unlisted files will not be traced back to this decision."
+    fix: "Add the five files to the Affects line, and add one sentence to section 2 or 5 stating the three mechanisms."
   - id: MEM-6
+    title: "The 'a later run changes nothing already there' rule is written twice and the two copies differ"
     severity: P4
+    carried_from: round 3 (unchanged; no new instance)
     file: core/components/memory/standards/rules/eval-format.md
     line: 22
     also: [core/components/memory/standards/rules/eval-format.md:36]
     principle: M7
     committed_source: "plan/788/base:core/components/memory/standards/rules/_index.md line 65 ('It is the single source of truth for the domain')"
-    message: "The rule that a later run changes nothing already there is written twice in rules/eval-format.md, and the two copies differ. Lines 22-23 say a later run 'only adds scenarios and untestable lines'; lines 36-38 say it adds scenarios, Untestable lines and Lines covered lines. A reader who stops at the first block would think adding a Lines covered line breaks the rule, and a checker written from it would reject a valid run. Fix: keep the rule in 'A fixed yardstick' only, and in 'A story file' say just that a story whose feature left the slice keeps its file with '@out-of-slice' on its first tag line."
+    basis_for_severity: "pr.md P4 (Nit): wording inside one file; round 3 classed it the same. It would be P3 only if a checker were already built from the first copy; none is."
+    problem: "Lines 22-23 say a later run 'only adds scenarios and untestable lines'. Lines 36-38 (under 'A fixed yardstick') say it adds scenarios, Untestable lines and Lines covered lines."
+    leads_to: "A reader who stops at the first block would think adding a Lines covered line breaks the rule, and a checker written from that block would reject a valid run."
+    fix: "Keep the rule in 'A fixed yardstick' only. In 'A story file', say just that a story whose feature left the slice keeps its file with '@out-of-slice' on its first tag line."
   - id: MEM-7
+    title: "The parent schemas index does not point to the new eval step-library index"
     severity: P4
+    carried_from: round 3 (unchanged; no new instance)
     file: core/components/memory/standards/schemas/_index.md
     line: 13
     principle: M3
     committed_source: "plan/788/base:core/components/memory/standards/schemas/_index.md line 26 ('See `product-os/_index.md` for the full set and storage lifecycle.')"
-    message: "The new schemas/eval/ folder has its own _index.md, but the parent schemas/_index.md (line 13) only has a pattern row and never points to it. On the base, the parent index ends its product-os section with a 'See product-os/_index.md' line, so that folder's index is reachable from the parent. Here, an agent that reads schemas/_index.md will not learn that a list of step libraries exists, and a second library added later will not be found from the parent. Fix: add 'See eval/_index.md for the set of step libraries.' after the eval row."
+    basis_for_severity: "pr.md P4 (Nit): the new folder is listed through its pattern row, so the file is findable; only the pointer is missing. Round 3 classed it the same."
+    problem: "schemas/eval/ has its own _index.md, but the parent index has only a pattern row for it and no 'See eval/_index.md' line. The base parent index does carry that kind of line for product-os/."
+    leads_to: "An agent that reads schemas/_index.md will not learn that a list of step libraries exists, and a second library added later will not be found from the parent."
+    fix: "Add 'See `eval/_index.md` for the set of step libraries.' after the eval row."
 
 layer1_by_hand:
   result: pass_with_notes
   checks:
-    - "Indexes: rules/_index.md lists eval-format.md (Eval rules section, description and consumers); schemas/_index.md lists eval/steps-<kind>.yaml (line 13); schemas/eval/_index.md lists steps-command-line.yaml; templates/_index.md lists eval-story.feature.md and eval-slice.md. Every new file is listed. Note: MEM-7."
-    - "Frontmatter and ids: base templates, rules and schemas under standards/ carry no frontmatter or knowledge-shelf fields, so knowledge/_TEMPLATE.md fields do not apply; no knowledge/ file is in the diff, so knowledge/_DESIGN.md and knowledge/_index.md do not govern it. No frontmatter id to match to a path."
-    - "Cross-references resolve: eval-format.md names templates/eval-story.feature.md, templates/eval-slice.md and schemas/eval/steps-<kind>.yaml (all exist); both templates and the step library point back to standards/rules/eval-format.md (exists). No [[...]] link or evolve_when field is used in any changed memory file."
-    - "Template conformance: every changed file follows the shape of its folder (rules: title, intro, headed bullet lists; templates: purpose paragraph, Shape block, pointer to the rule; schemas: header comment, keys, validation-rules block)."
-    - "pipeline-next.md: prose ('/shape-plan hands to /shape-eval ... /shape-eval has no Next line, build stage #819') and the yaml map (shape-plan: shape-eval; shape-eval: null) agree, and the section comment names the same three-play order. The next-map check was run by the play linter against this map (shape-eval is a known key); not re-run here."
-    - "No duplicate template or schema: the base has no Gherkin, '.feature' or eval-step file under core/components."
-    - "Templates, rule and library agree: template steps are sentences of steps-command-line.yaml; tag forms (@story, @goal-<n>, @expectation-<n>, @F<n>, @out-of-slice) match between the rule and the story template; the slice template's sections (Pass rule, Stories in build order, Out of the slice, Names, Context) match the rule's slice section."
-    - "M4 builder isolation: the paragraph added to expectation-generation.md says the builder's handoff plan names what the builder sees and changes, never the evals folder, the eval, the hidden file or the check; this agrees with ADR 049 Decision 4 (base) and builder-isolation.md. The eval rule keeps recovery and handoff text out of story files."
+    - "Memory files unchanged since round 3 (git diff d756e304 HEAD empty over core/components/memory); every round 3 by-hand check therefore still holds: all new files are listed in their _index.md files (rules, schemas, schemas/eval, templates); cross-references resolve; templates, rule and step library agree; no duplicate template or schema; pipeline-next.md prose ('/shape-plan hands to /shape-eval') and the yaml map (shape-plan: shape-eval; shape-eval: null) agree. Note: MEM-7."
+    - "The play linter next-map check was run by the play for Layer 1; not re-run here."
+    - "ADR 058 (new this round) names no memory file in Affects and adds no memory-standard rule, so it opens no new memory conformance question."
 
 conformance_passed:
   - "M1: the eval templates hold shape only; the rules sit in rules/eval-format.md."
-  - "M2: the step library has its trailing validation-rules block and documents its keys."
+  - "M2: the step library has its trailing validation-rules block."
   - "M4: expectation-generation.md and eval-format.md keep recovery and handoff text from the builder and out of story files."
-  - "M5: '@goal-<n>' and '@expectation-<n>' refer to the 'Goals:' and 'Expectations:' lists of the Scope of work that /shape-plan writes."
   - "M6: the Next-line map and its prose agree."
-
-notes_not_findings:
-  - "core/components/plays/shape-plan/SKILL.md (lines 17 and 496-497 in round 2) said 'The eval play (#798) comes next, once it is built.' It is not a memory file and was not in the diff in round 2; it disagrees with pipeline-next.md (shape-plan -> shape-eval). Left for the harness reviewer, as in rounds 1 and 2."
-  - "surface-contract.md (base) names the surface types cli, web_dashboard, server_api, library, service_read_model; the step library kind 'command-line' lists 'cli' in 'matches', which bridges them. No finding."
-  - "Standards read through the memory tool: the same three copies as rounds 1 and 2 (builder-isolation.md, standards/_index.md, templates/work-plan.md) in context/memory/grounding-memory/. No new copy was needed in round 3."

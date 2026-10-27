@@ -1,10 +1,15 @@
 pr: '900'
 change: '798'
-round: 3
+round: 4
 base: plan/788/base
-changed_files: 425
+changed_files: 524
 diff_source: pr-files
-note: 'Round 3. Every path re-assigned from this diff (425 paths; each in exactly one category). Round 2 guided only the treatments, which were re-read from the playbook copies in the short-term review shelf (phoenix v23387be24c0d, fingerprints identical to round 2). New since round 2: 86 paths (see new_since_round_2 per category).'
+note: 'Round 4. Every path re-assigned from this diff (524 paths; each in exactly one category). Change #908 (shape-slice --edit, ADR 058) is merged in as PR #911 and answers the round 3 P1 (--redraft). The review shelf and the PR severity taxonomy were re-read from the phoenix tier (v23387be24c0d); fingerprints are identical to rounds 2 and 3, so the treatments are unchanged except for the new files. New since round 3: 99 paths (4 authored: ADR 058, edit_slice.py, test_edit_slice.py, agents/product-os-keeper.md; plus the two edit-design notes under specs; the rest run records).'
+design_bearing_categories:
+- harness
+- memory
+- product-model
+- slice-evals
 categories:
 - id: decision-records
   playbook: review/adrs
@@ -12,9 +17,9 @@ categories:
   paths:
   - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
   - docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md
+  - docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
   - docs/adr/_index.md
-  new_since_round_2: []
-  evidence: docs/adr/057 is a new decision record (Status, Date, Decided by, Amends, Affects, Related); docs/adr/049 changes its Status line to record the amendment by 057; docs/adr/_index.md lists 057.
+  evidence: 'docs/adr/057 (new in round 2) and docs/adr/058 (new, from #908: an edit the person approves may change a slice in progress) are decision records (Status, Date, Level, Decided by, Affects, Related); docs/adr/049 changes its Status line to record the amendment by 057; docs/adr/_index.md lists 057 and 058.'
   treatment:
     reviewer: human, line by line
     layers:
@@ -24,18 +29,21 @@ categories:
       command: 'none installed (playbook gap): the tool surfaces a manual checklist - required sections present, Status one of the allowed values, ADR numbered and linked from docs/adr/_index.md, markdown well-formed'
       kind: manual-checklist
     runnable_checks:
-    - 'by hand: 057 is in docs/adr/_index.md; 049 Status line links to 057 and 057 Amends names the same places; the sections are present'
+    - 'by hand: 057 and 058 are in docs/adr/_index.md; 049 Status line links to 057 and 057 Amends names the same places; the required sections are present in 057 and 058; 058 Affects names files that exist on the branch (edit_slice.py, render_brief.py, record_questions.py, author-slice) and says what it does not supersede'
     design_grounding: no - the human owns whether the decision is right
+  new_since_round_3:
+  - docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
 - id: documentation
   playbook: review/docs
   design_bearing: false
   paths:
   - .garura/project/issues/798/specs/design.md
+  - .garura/project/issues/798/specs/edit-908-design.md
+  - .garura/project/issues/798/specs/edit-design.md
   - .garura/project/issues/798/specs/shape-eval-intent.md
   - docs/components/agents.md
   - docs/philosophy/idd-principles.md
-  new_since_round_2: []
-  evidence: docs/philosophy/idd-principles.md and docs/components/agents.md are human-facing prose (encrypted evals reworded; evals-engineer description); specs/design.md and specs/shape-eval-intent.md are prose design notes for the issue, not decision records, harness or memory files.
+  evidence: docs/philosophy/idd-principles.md and docs/components/agents.md are human-facing prose; the four notes under issues/798/specs/ (design.md, shape-eval-intent.md and, new, edit-design.md and edit-908-design.md) are prose design drafts for the issue, not decision records, harness or memory files.
   treatment:
     reviewer: the tool (the human may opt out)
     layers:
@@ -45,14 +53,18 @@ categories:
       command: 'none committed (playbook gap): the tool performs spelling, grammar, dead-link, heading, leftover-TODO and terminology checks directly and cites each'
       kind: by-hand
     runnable_checks:
-    - 'by hand: links in the four files resolve (idd-principles.md to ADR 057); no leftover encrypt wording in touched lines that contradicts ADR 057'
+    - 'by hand: links in the touched files resolve (idd-principles.md to ADR 057); no leftover encrypt wording in touched lines that contradicts ADR 057; the edit-design notes name no option (such as --redraft) that the final code does not have'
     design_grounding: 'no'
     note: docs/philosophy/idd-principles.md is a philosophy source the harness review grounds from; this branch edits it, so its new lines are not grounding for the harness category (use git show of the base version).
+  new_since_round_3:
+  - .garura/project/issues/798/specs/edit-908-design.md
+  - .garura/project/issues/798/specs/edit-design.md
 - id: harness
   playbook: review/harness
   design_bearing: true
   paths:
   - core/components/agents/evals-engineer.md
+  - core/components/agents/product-os-keeper.md
   - core/components/plays/build-epic/SKILL.md
   - core/components/plays/shape-eval/SKILL.md
   - core/components/plays/shape-eval/reference/ice.md
@@ -66,8 +78,7 @@ categories:
   - core/components/skills/platform-adapter/SKILL.md
   - core/components/skills/platform-adapter/reference/github/verbs.md
   - core/components/skills/platform-adapter/reference/gitlab/verbs.md
-  new_since_round_2: []
-  evidence: core/components/plays/shape-eval/SKILL.md + reference/ice.md + stop-condition.yaml are a new play and its ICE source; shape-slice/SKILL.md + reference/ice.md and build-epic/SKILL.md are changed plays; agents/evals-engineer.md is an agent definition (rewritten to one job); skills author-slice-eval (new), author-slice, author-encrypted-evals, author-steelman-evals and platform-adapter (+ its github/gitlab verbs.md) are skills. The python under plays/skills is counted as executable-code and tests; lint_play also runs for each play whose only change is scripts.
+  evidence: 'core/components/plays/shape-eval/SKILL.md + reference/ice.md + stop-condition.yaml are a new play and its ICE source; shape-slice/SKILL.md + reference/ice.md and build-epic/SKILL.md are changed plays (round 4: shape-slice now has an edit path, #908, in place of round 3''s --redraft); agents/evals-engineer.md and, new, agents/product-os-keeper.md are agent definitions; skills author-slice-eval (new), author-slice (gains an edit mode), author-encrypted-evals, author-steelman-evals and platform-adapter (+ its github/gitlab verbs.md) are skills. The python under plays/skills is counted as executable-code and tests; lint_play also runs for each play whose only change is scripts.'
   treatment:
     reviewer: human (design) + tool (conformance)
     layers:
@@ -113,10 +124,12 @@ categories:
     runnable_checks:
     - only a violation whose file is in changed_paths is a finding; count the other violations and record the count as "there before"
     - 'record "not installed" or "did not run: <first error line>" if a tool is missing or crashes; neither is a pass'
-    - 'ICE-source rule applies (the repository holds the plays source): the intent in shape-eval/SKILL.md and shape-slice/SKILL.md (round 3 changed shape-slice/SKILL.md again, commit d756e304: the hidden-file step may draft named entries on request, keeping line ids) must trace to the play ICE source (reference/ice.md) and stop-condition.yaml, not a hand edit of the compiled file; build-epic/SKILL.md likewise'
+    - 'ICE-source rule applies (the repository holds the plays source): the intent in shape-eval/SKILL.md and shape-slice/SKILL.md (round 4: the edit path, C7/C20/F7/F20 per ADR 058) must trace to the play ICE source (reference/ice.md) and stop-condition.yaml, not a hand edit of the compiled file; build-epic/SKILL.md likewise; check that --redraft (the round 3 P1) is gone from SKILL.md, ice.md and the author-slice skill and that no shaping run can reach the edit path'
     - lint_play is also run for plays whose only change is scripts (check-change, create-play, discover-domains, discover-intent, install-garura, merge-change, propose-change, shape-plan) for completeness; their SKILL.md did not change
-    design_grounding: 'yes - reconstruct from base-ref committed sources only: docs/philosophy/** (idd-principles.md is edited here: read the base version with git show plan/788/base:...), docs/adr/** on the base ref (047, 048, 049, 052, 054 - NOT 057, which this branch adds), standards/rules/** through the memory tool, the glossary. Never ground from shape-eval/reference/ice.md or ADR 057.'
-    grounding_gap: 'ADR 057 and the idd-principles.md edits are in the diff: they cannot ground the harness check'
+    design_grounding: 'yes - reconstruct from base-ref committed sources only: docs/philosophy/** (idd-principles.md is edited here: read the base version with git show plan/788/base:...), docs/adr/** on the base ref (047, 048, 049, 052, 054 - NOT 057 or 058, which this branch adds), standards/rules/** through the memory tool, the glossary. Never ground from shape-eval/reference/ice.md, shape-slice/reference/ice.md as rewritten, ADR 057, ADR 058 or the edit-design notes.'
+    grounding_gap: 'ADR 057, ADR 058 and the idd-principles.md edits are in the diff: they cannot ground the harness check'
+  new_since_round_3:
+  - core/components/agents/product-os-keeper.md
 - id: memory
   playbook: review/memory
   design_bearing: true
@@ -131,7 +144,6 @@ categories:
   - core/components/memory/standards/templates/_index.md
   - core/components/memory/standards/templates/eval-slice.md
   - core/components/memory/standards/templates/eval-story.feature.md
-  new_since_round_2: []
   evidence: 'core/components/memory/standards/** is the long-term knowledge agents read: rules/eval-format.md (new), rules/expectation-generation.md, rules/pipeline-next.md (Next-line map gains shape-eval), rules/_index.md, new templates (eval-slice.md, eval-story.feature.md), new schema (eval/steps-command-line.yaml, eval/_index.md) and the _index.md files that list them.'
   treatment:
     reviewer: human (design) + tool (conformance)
@@ -151,6 +163,7 @@ categories:
     - 'by hand: nothing duplicates an existing template or schema; eval templates agree with the step library schema and with rules/eval-format.md'
     design_grounding: yes - from base-ref knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read through the memory tool; never from the new template text or ADR 057
     grounding_gap: 'the eval templates, schema and eval-format rule are new in this branch: only the base-ref index/design conventions can ground them'
+  new_since_round_3: []
 - id: executable-code
   playbook: review/code
   design_bearing: false
@@ -178,6 +191,7 @@ categories:
   - core/components/plays/shape-eval/scripts/scoped_write_guard.py
   - core/components/plays/shape-eval/scripts/session_stamp.py
   - core/components/plays/shape-plan/scripts/platform_adapter.py
+  - core/components/plays/shape-slice/scripts/edit_slice.py
   - core/components/plays/shape-slice/scripts/intent_touches.py
   - core/components/plays/shape-slice/scripts/persist_fills.py
   - core/components/plays/shape-slice/scripts/persist_slice.py
@@ -187,25 +201,25 @@ categories:
   - core/components/plays/shape-slice/scripts/write_hidden_file.py
   - core/components/skills/find-model-gaps/scripts/intent_touches.py
   - core/components/skills/link-model-gaps/scripts/intent_touches.py
-  new_since_round_2:
-  - core/components/plays/shape-slice/scripts/write_hidden_file.py
-  evidence: 'python the runtime runs: shape-eval scripts (gather, check, place, preflight, guard, adapter, session stamp...), shape-slice scripts (persist_fills, persist_slice, record_questions, render_brief and, new since round 2, write_hidden_file.py), fetch_pr_context.py and platform_adapter.py copies across plays, install.py, and the stamped intent_touches.py copies.'
+  evidence: 'python the runtime runs: shape-eval scripts (gather, check, place, preflight, guard, adapter, session stamp...), shape-slice scripts (persist_fills, persist_slice, record_questions, render_brief, write_hidden_file and, new since round 3, edit_slice.py), fetch_pr_context.py and platform_adapter.py copies across plays, install.py, and the stamped intent_touches.py copies.'
   treatment:
     reviewer: the tool, against industry best practice
     layers:
     - 1
     linters:
     - name: ruff
-      command: ruff check core/components/plays/check-change/scripts/fetch_pr_context.py core/components/plays/check-change/scripts/platform_adapter.py core/components/plays/create-play/references/fetch_pr_context.py core/components/plays/create-play/references/intent_touches.py core/components/plays/create-play/references/platform_adapter.py core/components/plays/discover-domains/scripts/intent_touches.py core/components/plays/discover-intent/scripts/intent_touches.py core/components/plays/install-garura/scripts/install.py core/components/plays/merge-change/scripts/platform_adapter.py core/components/plays/propose-change/scripts/platform_adapter.py core/components/plays/shape-eval/scripts/check_eval.py core/components/plays/shape-eval/scripts/check_inputs.py core/components/plays/shape-eval/scripts/check_stop_condition.py core/components/plays/shape-eval/scripts/eval_common.py core/components/plays/shape-eval/scripts/gather_eval.py core/components/plays/shape-eval/scripts/place_eval.py core/components/plays/shape-eval/scripts/platform_adapter.py core/components/plays/shape-eval/scripts/preflight.py core/components/plays/shape-eval/scripts/record_approval.py core/components/plays/shape-eval/scripts/render_summary.py core/components/plays/shape-eval/scripts/scoped_write_guard.py core/components/plays/shape-eval/scripts/session_stamp.py core/components/plays/shape-plan/scripts/platform_adapter.py core/components/plays/shape-slice/scripts/intent_touches.py core/components/plays/shape-slice/scripts/persist_fills.py core/components/plays/shape-slice/scripts/persist_slice.py core/components/plays/shape-slice/scripts/platform_adapter.py core/components/plays/shape-slice/scripts/record_questions.py core/components/plays/shape-slice/scripts/render_brief.py core/components/plays/shape-slice/scripts/write_hidden_file.py core/components/skills/find-model-gaps/scripts/intent_touches.py core/components/skills/link-model-gaps/scripts/intent_touches.py
+      command: ruff check core/components/plays/check-change/scripts/fetch_pr_context.py core/components/plays/check-change/scripts/platform_adapter.py core/components/plays/create-play/references/fetch_pr_context.py core/components/plays/create-play/references/intent_touches.py core/components/plays/create-play/references/platform_adapter.py core/components/plays/discover-domains/scripts/intent_touches.py core/components/plays/discover-intent/scripts/intent_touches.py core/components/plays/install-garura/scripts/install.py core/components/plays/merge-change/scripts/platform_adapter.py core/components/plays/propose-change/scripts/platform_adapter.py core/components/plays/shape-eval/scripts/check_eval.py core/components/plays/shape-eval/scripts/check_inputs.py core/components/plays/shape-eval/scripts/check_stop_condition.py core/components/plays/shape-eval/scripts/eval_common.py core/components/plays/shape-eval/scripts/gather_eval.py core/components/plays/shape-eval/scripts/place_eval.py core/components/plays/shape-eval/scripts/platform_adapter.py core/components/plays/shape-eval/scripts/preflight.py core/components/plays/shape-eval/scripts/record_approval.py core/components/plays/shape-eval/scripts/render_summary.py core/components/plays/shape-eval/scripts/scoped_write_guard.py core/components/plays/shape-eval/scripts/session_stamp.py core/components/plays/shape-plan/scripts/platform_adapter.py core/components/plays/shape-slice/scripts/edit_slice.py core/components/plays/shape-slice/scripts/intent_touches.py core/components/plays/shape-slice/scripts/persist_fills.py core/components/plays/shape-slice/scripts/persist_slice.py core/components/plays/shape-slice/scripts/platform_adapter.py core/components/plays/shape-slice/scripts/record_questions.py core/components/plays/shape-slice/scripts/render_brief.py core/components/plays/shape-slice/scripts/write_hidden_file.py core/components/skills/find-model-gaps/scripts/intent_touches.py core/components/skills/link-model-gaps/scripts/intent_touches.py
       kind: tool
     - name: check-pr-quality
       command: 'check-pr-quality against the diff with the pr.md taxonomy (copy: .garura/project/issues/798/context/memory/standards/rules/pr.md); SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows'
       kind: skill
     runnable_checks:
-    - 'review the data-safety and idempotency paths hard: shape-eval/scripts/scoped_write_guard.py, place_eval.py, platform_adapter.py (all copies), session_stamp.py, install.py, fetch_pr_context.py, and shape-slice/scripts/write_hidden_file.py (new since round 2: it writes the hidden model file and keeps line ids; check it cannot lose or renumber lines silently) (they touch git, the filesystem or external services)'
-    - 'tests that cover this code: python3 core/components/plays/check-change/scripts/test_fetch_pr_context.py; python3 core/components/plays/create-play/references/test_intent_touches.py; python3 core/components/plays/create-play/references/test_platform_adapter.py; python3 core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py; python3 core/components/plays/shape-slice/scripts/test_persist_slice.py; python3 core/components/plays/shape-slice/scripts/test_render_brief.py; python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py; python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py; python3 core/components/plays/create-play/references/test_fetch_pr_context.py (unchanged, covers the fetch_pr_context.py copy); python3 core/components/plays/install-garura/scripts/test_install.py (unchanged, covers install.py)'
+    - 'review the data-safety and idempotency paths hard: shape-eval/scripts/scoped_write_guard.py, place_eval.py, platform_adapter.py (all copies), session_stamp.py, install.py, fetch_pr_context.py, shape-slice/scripts/write_hidden_file.py (writes the hidden model file and keeps line ids), and shape-slice/scripts/edit_slice.py (new since round 3: applies an exact list of edits to the slice record, the hidden file and spine one-lines; check it refuses a line whose old text no longer matches, changes nothing off the list, and cannot lose or renumber lines silently) (they touch git, the filesystem or external services)'
+    - 'tests that cover this code: python3 core/components/plays/check-change/scripts/test_fetch_pr_context.py; python3 core/components/plays/create-play/references/test_intent_touches.py; python3 core/components/plays/create-play/references/test_platform_adapter.py; python3 core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py; python3 core/components/plays/shape-slice/scripts/test_edit_slice.py; python3 core/components/plays/shape-slice/scripts/test_persist_slice.py; python3 core/components/plays/shape-slice/scripts/test_render_brief.py; python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py; python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py; python3 core/components/plays/create-play/references/test_fetch_pr_context.py (unchanged, covers the fetch_pr_context.py copy); python3 core/components/plays/install-garura/scripts/test_install.py (unchanged, covers install.py)'
     - the intent_touches.py and platform_adapter.py copies are covered by the create-play reference tests (they check the copies are identical)
     design_grounding: 'no'
+  new_since_round_3:
+  - core/components/plays/shape-slice/scripts/edit_slice.py
 - id: tests
   playbook: review/tests
   design_bearing: false
@@ -214,20 +228,19 @@ categories:
   - core/components/plays/create-play/references/test_intent_touches.py
   - core/components/plays/create-play/references/test_platform_adapter.py
   - core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
+  - core/components/plays/shape-slice/scripts/test_edit_slice.py
   - core/components/plays/shape-slice/scripts/test_persist_slice.py
   - core/components/plays/shape-slice/scripts/test_render_brief.py
   - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
   - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
-  new_since_round_2:
-  - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
-  evidence: 'eight python test files: shape-eval test_shape_eval_scripts.py (new), check-change test_fetch_pr_context.py (new), shape-slice test_persist_slice.py, test_render_brief.py, test_shape_slice_scripts.py and (new since round 2) test_write_hidden_file.py, and create-play/references test_intent_touches.py and test_platform_adapter.py (changed).'
+  evidence: '9 python test files: shape-eval test_shape_eval_scripts.py (new), check-change test_fetch_pr_context.py (new), shape-slice test_persist_slice.py, test_render_brief.py, test_shape_slice_scripts.py, test_write_hidden_file.py and, new since round 3, test_edit_slice.py, and create-play/references test_intent_touches.py and test_platform_adapter.py (changed).'
   treatment:
     reviewer: the tool
     layers:
     - 1
     linters:
     - name: ruff on the test files
-      command: ruff check core/components/plays/check-change/scripts/test_fetch_pr_context.py core/components/plays/create-play/references/test_intent_touches.py core/components/plays/create-play/references/test_platform_adapter.py core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py core/components/plays/shape-slice/scripts/test_persist_slice.py core/components/plays/shape-slice/scripts/test_render_brief.py core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+      command: ruff check core/components/plays/check-change/scripts/test_fetch_pr_context.py core/components/plays/create-play/references/test_intent_touches.py core/components/plays/create-play/references/test_platform_adapter.py core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py core/components/plays/shape-slice/scripts/test_edit_slice.py core/components/plays/shape-slice/scripts/test_persist_slice.py core/components/plays/shape-slice/scripts/test_render_brief.py core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py core/components/plays/shape-slice/scripts/test_write_hidden_file.py
       kind: tool
     - name: check-pr-quality TEST-* rows
       command: 'check-pr-quality against the diff with the pr.md taxonomy (copy: .garura/project/issues/798/context/memory/standards/rules/pr.md)'
@@ -237,6 +250,7 @@ categories:
     - python3 core/components/plays/create-play/references/test_intent_touches.py
     - python3 core/components/plays/create-play/references/test_platform_adapter.py
     - python3 core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
+    - python3 core/components/plays/shape-slice/scripts/test_edit_slice.py
     - python3 core/components/plays/shape-slice/scripts/test_persist_slice.py
     - python3 core/components/plays/shape-slice/scripts/test_render_brief.py
     - python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
@@ -244,6 +258,8 @@ categories:
     - python3 core/components/plays/create-play/references/test_fetch_pr_context.py  (unchanged; covers the changed fetch_pr_context.py copy)
     - python3 core/components/plays/install-garura/scripts/test_install.py  (unchanged; covers the changed install.py)
     run_policy: run each; a red suite is a blocker. Check for skipped or disabled tests and tests that assert nothing. Slice-evals have no suite yet.
+  new_since_round_3:
+  - core/components/plays/shape-slice/scripts/test_edit_slice.py
 - id: product-model
   playbook: null
   design_bearing: true
@@ -257,8 +273,7 @@ categories:
   - .garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
   - .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
   - .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
-  new_since_round_2: []
-  evidence: _spine.yaml (feature/slice entries), slices/sl-intent-to-design.yaml, intents/bi-788.md and the domain, capability and feature pages (fn-795, fn-798, fn-818, new fn-898) of the product model, the agents interface to what the product is.
+  evidence: _spine.yaml (feature/slice entries), slices/sl-intent-to-design.yaml, intents/bi-788.md and the domain, capability and feature pages (fn-795, fn-798, fn-818, fn-898) of the product model, the agents interface to what the product is.
   treatment:
     reviewer: unspecified by a playbook (human + tool suggested)
     layers: []
@@ -268,6 +283,7 @@ categories:
     design_grounding: needed (the model is design-bearing); ground from base-ref ontology/standards, never from the new page text
     note: 'treatment withheld: no playbook'
   playbook_missing: 'No playbook in knowledge/review/ covers the product model (.garura/product/product-os: spine, slice, intent, capability, feature, domain pages). Not forced onto docs or memory. Follow-up: write a review/product-model playbook.'
+  new_since_round_3: []
 - id: slice-evals
   playbook: null
   design_bearing: true
@@ -278,7 +294,6 @@ categories:
   - .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
   - .garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md
   - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-  new_since_round_2: []
   evidence: eval.fn-795/798/818/898.feature.md, eval.sl-intent-to-design.md Gherkin files for slice sl-intent-to-design and failure-and-recovery.md, written by /shape-eval.
   treatment:
     reviewer: unspecified by a playbook
@@ -289,12 +304,12 @@ categories:
     design_grounding: 'needed: each eval must test what the business intent promises; ground in base-ref ADR 049 and the stories ICE/intent, NOT in ADR 057 or the eval templates, which this branch adds'
     note: 'treatment withheld: no playbook'
   playbook_missing: 'No playbook covers a slice eval (plain-text Gherkin yardsticks under .garura/project/plans/<id>/evals/). Closest is review/tests but these are not run by a suite yet: the eval runner is a later play (#819). Follow-up: write a review/slice-evals playbook.'
+  new_since_round_3: []
 - id: work-plan-record
   playbook: null
   design_bearing: false
   paths:
   - .garura/project/plans/788.yaml
-  new_since_round_2: []
   evidence: '788.yaml adds issue 898 as a feature story and drops #828 with a dated comment.'
   treatment:
     reviewer: unspecified by a playbook
@@ -304,6 +319,7 @@ categories:
     - 'no playbook treatment; suggested: the YAML parses and every issue in the tree is on the product model (fn-898 -> issue 898)'
     note: 'treatment withheld: no playbook'
   playbook_missing: 'No playbook covers the plan file (.garura/project/plans/788.yaml): a work-tracking record. Follow-up: cover it in a work-records playbook.'
+  new_since_round_3: []
 - id: run-records
   playbook: null
   design_bearing: false
@@ -633,6 +649,84 @@ categories:
   - .garura/project/issues/798/review/round-1/final/recommended_verdict.yaml
   - .garura/project/issues/798/review/round-1/findings.yaml
   - .garura/project/issues/798/review/round-1/recommended_verdict.yaml
+  - .garura/project/issues/798/review/round-2/categories.yaml
+  - .garura/project/issues/798/review/round-2/decision-comment.md
+  - .garura/project/issues/798/review/round-2/decision.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-harness.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-memory.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-product-model.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-slice-evals.yaml
+  - .garura/project/issues/798/review/round-2/findings.yaml
+  - .garura/project/issues/798/review/round-2/layer1-results.yaml
+  - .garura/project/issues/798/review/round-2/posted.json
+  - .garura/project/issues/798/review/round-2/quality-findings.yaml
+  - .garura/project/issues/798/review/round-2/recommended_verdict.yaml
+  - .garura/project/issues/908/context/analysis-round2.yaml
+  - .garura/project/issues/908/context/analysis-round3.yaml
+  - .garura/project/issues/908/context/analysis.yaml
+  - .garura/project/issues/908/context/branch.json
+  - .garura/project/issues/908/context/categories.yaml
+  - .garura/project/issues/908/context/commits-round2.yaml
+  - .garura/project/issues/908/context/commits-round2b.yaml
+  - .garura/project/issues/908/context/commits.yaml
+  - .garura/project/issues/908/context/context.yaml
+  - .garura/project/issues/908/context/decision-comment.md
+  - .garura/project/issues/908/context/design-findings-harness.yaml
+  - .garura/project/issues/908/context/issue.json
+  - .garura/project/issues/908/context/layer1.txt
+  - .garura/project/issues/908/context/lint-components.json
+  - .garura/project/issues/908/context/memory/grounding-harness/manifest.json
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/builder-isolation.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/direct-model-write.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/evidence-recording.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/expectation-generation.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/gate-config.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+  - .garura/project/issues/908/context/memory/knowledge/review/_index.md
+  - .garura/project/issues/908/context/memory/knowledge/review/adrs.md
+  - .garura/project/issues/908/context/memory/knowledge/review/code.md
+  - .garura/project/issues/908/context/memory/knowledge/review/config-maps.md
+  - .garura/project/issues/908/context/memory/knowledge/review/docs.md
+  - .garura/project/issues/908/context/memory/knowledge/review/harness.md
+  - .garura/project/issues/908/context/memory/knowledge/review/memory.md
+  - .garura/project/issues/908/context/memory/knowledge/review/tests.md
+  - .garura/project/issues/908/context/memory/manifest.json
+  - .garura/project/issues/908/context/memory/standards/rules/pr.md
+  - .garura/project/issues/908/context/porcelain.txt
+  - .garura/project/issues/908/context/pr-body.md
+  - .garura/project/issues/908/context/pr.diff
+  - .garura/project/issues/908/context/pr.json
+  - .garura/project/issues/908/context/quality-findings.yaml
+  - .garura/project/issues/908/context/resolved-rules.json
+  - .garura/project/issues/908/context/self-review.md
+  - .garura/project/issues/908/context/templates/manifest-check-change.json
+  - .garura/project/issues/908/context/templates/standards/rules/pipeline-next.md
+  - .garura/project/issues/908/context/work-description.txt
+  - .garura/project/issues/908/review/categories.yaml
+  - .garura/project/issues/908/review/decision-comment.md
+  - .garura/project/issues/908/review/decision.yaml
+  - .garura/project/issues/908/review/design-findings-harness.yaml
+  - .garura/project/issues/908/review/findings.yaml
+  - .garura/project/issues/908/review/merge-gate.json
+  - .garura/project/issues/908/review/posted.json
+  - .garura/project/issues/908/review/quality-findings.yaml
+  - .garura/project/issues/908/review/recommended_verdict.yaml
+  - .garura/project/issues/908/review/round-1/categories.yaml
+  - .garura/project/issues/908/review/round-1/decision-comment.md
+  - .garura/project/issues/908/review/round-1/decision.yaml
+  - .garura/project/issues/908/review/round-1/design-findings-harness.yaml
+  - .garura/project/issues/908/review/round-1/findings.yaml
+  - .garura/project/issues/908/review/round-1/posted.json
+  - .garura/project/issues/908/review/round-1/quality-findings.yaml
+  - .garura/project/issues/908/review/round-1/recommended_verdict.yaml
+  - .garura/project/issues/908/review/round-2/categories.yaml
+  - .garura/project/issues/908/review/round-2/decision-comment.md
+  - .garura/project/issues/908/review/round-2/decision.yaml
+  - .garura/project/issues/908/review/round-2/design-findings-harness.yaml
+  - .garura/project/issues/908/review/round-2/findings.yaml
+  - .garura/project/issues/908/review/round-2/posted.json
+  - .garura/project/issues/908/review/round-2/quality-findings.yaml
+  - .garura/project/issues/908/review/round-2/recommended_verdict.yaml
   - .garura/project/issues/_adr/20261026T094549Z/adr-check.json
   - .garura/project/issues/_adr/20261026T094549Z/adr-context.yaml
   - .garura/project/issues/_adr/20261026T094549Z/adr-draft.md
@@ -646,92 +740,22 @@ categories:
   - .garura/project/issues/_adr/20261026T094549Z/porcelain-after.txt
   - .garura/project/issues/_adr/20261026T094549Z/porcelain-before.txt
   - .garura/project/issues/_adr/20261026T094549Z/start-change.json
-  new_since_round_2:
-  - .garura/project/issues/798/context/memory/product/product-os/_spine.yaml
-  - .garura/project/issues/798/context/memory/product/product-os/intents/bi-788.md
-  - .garura/project/issues/798/context/memory/product/product-os/slices/sl-intent-to-design.yaml
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/capability.md
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/domain.md
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/capability.md
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/capability.md
-  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
-  - .garura/project/issues/798/context/shape-slice/run2/answers-not-applied.json
-  - .garura/project/issues/798/context/shape-slice/run2/answers-q-recovery.json
-  - .garura/project/issues/798/context/shape-slice/run2/answers.json
-  - .garura/project/issues/798/context/shape-slice/run2/approval.json
-  - .garura/project/issues/798/context/shape-slice/run2/brief-split.json
-  - .garura/project/issues/798/context/shape-slice/run2/brief.md
-  - .garura/project/issues/798/context/shape-slice/run2/budget.json
-  - .garura/project/issues/798/context/shape-slice/run2/change-round2.md
-  - .garura/project/issues/798/context/shape-slice/run2/change.md
-  - .garura/project/issues/798/context/shape-slice/run2/citations-check.json
-  - .garura/project/issues/798/context/shape-slice/run2/citations-live.json
-  - .garura/project/issues/798/context/shape-slice/run2/citations.json
-  - .garura/project/issues/798/context/shape-slice/run2/early-split.json
-  - .garura/project/issues/798/context/shape-slice/run2/fills-undo.json
-  - .garura/project/issues/798/context/shape-slice/run2/fills.json
-  - .garura/project/issues/798/context/shape-slice/run2/gather.json
-  - .garura/project/issues/798/context/shape-slice/run2/grounding-report.json
-  - .garura/project/issues/798/context/shape-slice/run2/guard-report.json
-  - .garura/project/issues/798/context/shape-slice/run2/guard-restore-2.json
-  - .garura/project/issues/798/context/shape-slice/run2/guard-restore.json
-  - .garura/project/issues/798/context/shape-slice/run2/hidden-file.json
-  - .garura/project/issues/798/context/shape-slice/run2/hidden-write.json
-  - .garura/project/issues/798/context/shape-slice/run2/intent-issue.json
-  - .garura/project/issues/798/context/shape-slice/run2/intent-page.json
-  - .garura/project/issues/798/context/shape-slice/run2/lint-before-run.json
-  - .garura/project/issues/798/context/shape-slice/run2/manifests/enrich-grounding-update.json
-  - .garura/project/issues/798/context/shape-slice/run2/opening.md
-  - .garura/project/issues/798/context/shape-slice/run2/persist-fills.json
-  - .garura/project/issues/798/context/shape-slice/run2/persist-slice.json
-  - .garura/project/issues/798/context/shape-slice/run2/placement.json
-  - .garura/project/issues/798/context/shape-slice/run2/proposals.json
-  - .garura/project/issues/798/context/shape-slice/run2/questions-checked.json
-  - .garura/project/issues/798/context/shape-slice/run2/questions-open-list.json
-  - .garura/project/issues/798/context/shape-slice/run2/questions-open.json
-  - .garura/project/issues/798/context/shape-slice/run2/questions.json
-  - .garura/project/issues/798/context/shape-slice/run2/reply-q-recovery.md
-  - .garura/project/issues/798/context/shape-slice/run2/reply.md
-  - .garura/project/issues/798/context/shape-slice/run2/reuse.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/brief.md
-  - .garura/project/issues/798/context/shape-slice/run2/round1/citations-check.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/citations-live.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/fills.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/grounding-report.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/guard-report.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/hidden-file.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/hidden-write.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/opening.md
-  - .garura/project/issues/798/context/shape-slice/run2/round1/persist-fills.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/persist-slice.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/reply.md
-  - .garura/project/issues/798/context/shape-slice/run2/round1/reuse.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/serving.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/slice-check.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/slice.json
-  - .garura/project/issues/798/context/shape-slice/run2/round1/trace-check.json
-  - .garura/project/issues/798/context/shape-slice/run2/serving.json
-  - .garura/project/issues/798/context/shape-slice/run2/slice-check.json
-  - .garura/project/issues/798/context/shape-slice/run2/slice.json
-  - .garura/project/issues/798/context/shape-slice/run2/split.json
-  - .garura/project/issues/798/context/shape-slice/run2/start-sha.txt
-  - .garura/project/issues/798/context/shape-slice/run2/trace-check.json
-  - .garura/project/issues/798/review/categories.yaml
-  - .garura/project/issues/798/review/decision-comment.md
-  - .garura/project/issues/798/review/decision.yaml
-  - .garura/project/issues/798/review/design-findings-harness.yaml
-  - .garura/project/issues/798/review/design-findings-memory.yaml
-  - .garura/project/issues/798/review/design-findings-product-model.yaml
-  - .garura/project/issues/798/review/design-findings-slice-evals.yaml
-  - .garura/project/issues/798/review/findings.yaml
-  - .garura/project/issues/798/review/layer1-results.yaml
-  - .garura/project/issues/798/review/posted.json
-  - .garura/project/issues/798/review/quality-findings.yaml
-  - .garura/project/issues/798/review/recommended_verdict.yaml
-  evidence: '338 paths under .garura/ : run and review records of the shape-slice, shape-plan, shape-eval, record-decision and check-change runs for #798 (including the shape-slice run2 records moved in this round and the round-1/round-2 review records), the short-term memory copies (context/memory/**, including the product-model copies), this review''s pr.diff and context.yaml, the ADR run folder _adr/20261026T094549Z, and .garura/install-manifest.json. All are produced by plays; none is authored design.'
+  - .garura/project/issues/_adr/20261027T053132Z/adr-check.json
+  - .garura/project/issues/_adr/20261027T053132Z/adr-context.yaml
+  - .garura/project/issues/_adr/20261027T053132Z/adr-draft.md
+  - .garura/project/issues/_adr/20261027T053132Z/adr-manifest.json
+  - .garura/project/issues/_adr/20261027T053132Z/brief.md
+  - .garura/project/issues/_adr/20261027T053132Z/context/memory/manifest.json
+  - .garura/project/issues/_adr/20261027T053132Z/context/memory/standards/schemas/product-os/ontology.md
+  - .garura/project/issues/_adr/20261027T053132Z/context/templates/manifest-record-decision.json
+  - .garura/project/issues/_adr/20261027T053132Z/context/templates/standards/templates/adr.md
+  - .garura/project/issues/_adr/20261027T053132Z/decision.yaml
+  - .garura/project/issues/_adr/20261027T053132Z/guard-report.json
+  - .garura/project/issues/_adr/20261027T053132Z/hashes-before.json
+  - .garura/project/issues/_adr/20261027T053132Z/porcelain-after.txt
+  - .garura/project/issues/_adr/20261027T053132Z/porcelain-before.txt
+  - .garura/project/issues/_adr/20261027T053132Z/run.json
+  evidence: '431 paths under .garura/ : run and review records of the shape-slice, shape-plan, shape-eval, record-decision, check-change and propose-change runs for #798 and for #908 (the edit option, merged in as PR #911: issues/908/context and review, including its own review rounds), the short-term memory copies (context/memory/**), this review''s pr.diff and context.yaml, the review rounds 1-3 under issues/798/review, the ADR run folders _adr/20261026T094549Z and _adr/20261027T053132Z (the second records ADR 058), and .garura/install-manifest.json. All are produced by plays; none is authored design.'
   treatment:
     reviewer: unspecified by a playbook
     layers: []
@@ -740,3 +764,102 @@ categories:
     - 'no playbook treatment; suggested: scan the changed run records for secrets, personal data and stale absolute paths; confirm install-manifest.json components match core/components'
     note: 'treatment withheld: no playbook'
   playbook_missing: 'No playbook covers play run artifacts, review records and install records (STM files of the shape-slice, shape-plan, shape-eval, record-decision and check-change runs for #798, short-term memory copies, the pr.diff and context.yaml of this very review, the round-1 review records, and .garura/install-manifest.json). Generated evidence, not authored design. Follow-up: add a review/run-records playbook (what to scan: secrets, personal data, stale paths).'
+  new_since_round_3:
+  - .garura/project/issues/798/review/round-2/categories.yaml
+  - .garura/project/issues/798/review/round-2/decision-comment.md
+  - .garura/project/issues/798/review/round-2/decision.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-harness.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-memory.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-product-model.yaml
+  - .garura/project/issues/798/review/round-2/design-findings-slice-evals.yaml
+  - .garura/project/issues/798/review/round-2/findings.yaml
+  - .garura/project/issues/798/review/round-2/layer1-results.yaml
+  - .garura/project/issues/798/review/round-2/posted.json
+  - .garura/project/issues/798/review/round-2/quality-findings.yaml
+  - .garura/project/issues/798/review/round-2/recommended_verdict.yaml
+  - .garura/project/issues/908/context/analysis-round2.yaml
+  - .garura/project/issues/908/context/analysis-round3.yaml
+  - .garura/project/issues/908/context/analysis.yaml
+  - .garura/project/issues/908/context/branch.json
+  - .garura/project/issues/908/context/categories.yaml
+  - .garura/project/issues/908/context/commits-round2.yaml
+  - .garura/project/issues/908/context/commits-round2b.yaml
+  - .garura/project/issues/908/context/commits.yaml
+  - .garura/project/issues/908/context/context.yaml
+  - .garura/project/issues/908/context/decision-comment.md
+  - .garura/project/issues/908/context/design-findings-harness.yaml
+  - .garura/project/issues/908/context/issue.json
+  - .garura/project/issues/908/context/layer1.txt
+  - .garura/project/issues/908/context/lint-components.json
+  - .garura/project/issues/908/context/memory/grounding-harness/manifest.json
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/builder-isolation.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/direct-model-write.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/evidence-recording.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/expectation-generation.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/gate-config.md
+  - .garura/project/issues/908/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+  - .garura/project/issues/908/context/memory/knowledge/review/_index.md
+  - .garura/project/issues/908/context/memory/knowledge/review/adrs.md
+  - .garura/project/issues/908/context/memory/knowledge/review/code.md
+  - .garura/project/issues/908/context/memory/knowledge/review/config-maps.md
+  - .garura/project/issues/908/context/memory/knowledge/review/docs.md
+  - .garura/project/issues/908/context/memory/knowledge/review/harness.md
+  - .garura/project/issues/908/context/memory/knowledge/review/memory.md
+  - .garura/project/issues/908/context/memory/knowledge/review/tests.md
+  - .garura/project/issues/908/context/memory/manifest.json
+  - .garura/project/issues/908/context/memory/standards/rules/pr.md
+  - .garura/project/issues/908/context/porcelain.txt
+  - .garura/project/issues/908/context/pr-body.md
+  - .garura/project/issues/908/context/pr.diff
+  - .garura/project/issues/908/context/pr.json
+  - .garura/project/issues/908/context/quality-findings.yaml
+  - .garura/project/issues/908/context/resolved-rules.json
+  - .garura/project/issues/908/context/self-review.md
+  - .garura/project/issues/908/context/templates/manifest-check-change.json
+  - .garura/project/issues/908/context/templates/standards/rules/pipeline-next.md
+  - .garura/project/issues/908/context/work-description.txt
+  - .garura/project/issues/908/review/categories.yaml
+  - .garura/project/issues/908/review/decision-comment.md
+  - .garura/project/issues/908/review/decision.yaml
+  - .garura/project/issues/908/review/design-findings-harness.yaml
+  - .garura/project/issues/908/review/findings.yaml
+  - .garura/project/issues/908/review/merge-gate.json
+  - .garura/project/issues/908/review/posted.json
+  - .garura/project/issues/908/review/quality-findings.yaml
+  - .garura/project/issues/908/review/recommended_verdict.yaml
+  - .garura/project/issues/908/review/round-1/categories.yaml
+  - .garura/project/issues/908/review/round-1/decision-comment.md
+  - .garura/project/issues/908/review/round-1/decision.yaml
+  - .garura/project/issues/908/review/round-1/design-findings-harness.yaml
+  - .garura/project/issues/908/review/round-1/findings.yaml
+  - .garura/project/issues/908/review/round-1/posted.json
+  - .garura/project/issues/908/review/round-1/quality-findings.yaml
+  - .garura/project/issues/908/review/round-1/recommended_verdict.yaml
+  - .garura/project/issues/908/review/round-2/categories.yaml
+  - .garura/project/issues/908/review/round-2/decision-comment.md
+  - .garura/project/issues/908/review/round-2/decision.yaml
+  - .garura/project/issues/908/review/round-2/design-findings-harness.yaml
+  - .garura/project/issues/908/review/round-2/findings.yaml
+  - .garura/project/issues/908/review/round-2/posted.json
+  - .garura/project/issues/908/review/round-2/quality-findings.yaml
+  - .garura/project/issues/908/review/round-2/recommended_verdict.yaml
+  - .garura/project/issues/_adr/20261027T053132Z/adr-check.json
+  - .garura/project/issues/_adr/20261027T053132Z/adr-context.yaml
+  - .garura/project/issues/_adr/20261027T053132Z/adr-draft.md
+  - .garura/project/issues/_adr/20261027T053132Z/adr-manifest.json
+  - .garura/project/issues/_adr/20261027T053132Z/brief.md
+  - .garura/project/issues/_adr/20261027T053132Z/context/memory/manifest.json
+  - .garura/project/issues/_adr/20261027T053132Z/context/memory/standards/schemas/product-os/ontology.md
+  - .garura/project/issues/_adr/20261027T053132Z/context/templates/manifest-record-decision.json
+  - .garura/project/issues/_adr/20261027T053132Z/context/templates/standards/templates/adr.md
+  - .garura/project/issues/_adr/20261027T053132Z/decision.yaml
+  - .garura/project/issues/_adr/20261027T053132Z/guard-report.json
+  - .garura/project/issues/_adr/20261027T053132Z/hashes-before.json
+  - .garura/project/issues/_adr/20261027T053132Z/porcelain-after.txt
+  - .garura/project/issues/_adr/20261027T053132Z/porcelain-before.txt
+  - .garura/project/issues/_adr/20261027T053132Z/run.json
+playbooks_missing:
+- product-model
+- slice-evals
+- work-plan-record
+- run-records
