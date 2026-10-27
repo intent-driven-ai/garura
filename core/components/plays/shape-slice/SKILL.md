@@ -806,14 +806,17 @@ and names each epic past ready, with its status, and the run goes on.
 ```
 python3 scripts/edit_slice.py check-list --before <working>edit-before.json \
     --list <working>edit-list.json --evals <working>edit-evals.txt \
+    --request <working>edit-request.md --forbid-name "$(git config user.name)" \
     --out <working>edit-list-check.json
 ```
 
 `check-list` exits 1 for a change to a part an edit may not change, an old text that is not
 what the record says now, an empty or unchanged new text, a "who fixes" that is neither of the
-two sentences, one part changed twice, or an out-of-date eval file that is not one of the
-slice's eval files: send `edit-list-check.json` back to the
-`shape-slice-edit` contract as `refused`, and check again. When the list names no change and
+two sentences, one part changed twice, an out-of-date eval file that is not one of the
+slice's eval files, or a real person's name in a new text (C14): send `edit-list-check.json` back to the
+`shape-slice-edit` contract as `refused`, and check again. When it says the person's own words
+name a real person, ask them, before any brief, to say it as a role, and write their new words
+to `<working>edit-request.md`; nothing is written to a record. When the list names no change and
 `not_editable` is not empty, the words ask for nothing an edit may change: show the person
 each `not_editable` line in plain words, write nothing, clear the copy of the hidden file
 (`write_hidden_file.py check --root <model> --spine <model>/_spine.yaml --slice-id <id> --plans-root <plans> --out <working>hidden-file.json --clear-working <working>edit-before/hidden.md`),
@@ -892,14 +895,17 @@ slice record always, and on the hidden file when it changes. When `edit-check.js
 python3 scripts/edit_slice.py restore --before <working>edit-before.json --out <working>edit-restore.json
 ```
 
-then send the problems to Step X2 as `refused`, and run Steps X2–X4 again: the person sees the
-new list before it is written. The hidden-file check runs last, so the copy of the hidden file
+then send the report that is not ok (`edit-check.json`, `slice-check.json`,
+`guard-report.json` or `hidden-file.json`; it holds the problems) to Step X2 as `refused`, and
+run Steps X2–X4 again: the person sees the new list before it is written, and may type stop. The hidden-file check runs last, so the copy of the hidden file
 is cleared only when every check reads ok.
 **SE-27 (F20/C20):** `edit-check.json` reads `ok: true`, with `changes` equal to the count of
 changes in `edit-list.json`; `edit-apply.json` was written after `approval.json` read
 `decision: yes`; the slice record holds an `edits:` entry with the person's words, and the
 hidden file holds an "Edited on" line when the list changed it; `slice-check.json`,
-`guard-report.json` and `hidden-file.json` read ok; `<working>edit-before/hidden.md` is gone.
+`guard-report.json` and `hidden-file.json` read ok; `<working>edit-before/hidden.md` is gone;
+`edit-list-check.json` ran with `--forbid-name`, and `grep -i "$(git config user.name)"` over
+`edit-request.md`, the slice record and the hidden file finds nothing (C14).
 
 **Step X5 — Trace each change to the person's words** · Owner: `product-os-keeper`, then play (script) · Depends on: Step X4
 
@@ -1035,7 +1041,11 @@ page (and whether this run wrote it), `lint-before-run.json`, `questions-checked
 `split.json`, the question record, `slice.json`, `fills.json`, `serving.json`, `reuse.json`,
 `persist-fills.json`, `persist-slice.json`, `hidden-file.json` and the hidden file's path,
 `slice-check.json`, `guard-report.json`, `trace-check.json`, `brief.md`, `approval.json`, the
-model commit sha, and the skills each agent contract named; step and scenario eval results SE-1…SE-25 / SCE-1…SCE-10; the checkpoint
+model commit sha, and the skills each agent contract named (on an edit run: `edit-request.md`,
+`edit-before.json`, `edit-list.json`, `edit-list-check.json`, `edit-apply.json`,
+`edit-check.json`, `hidden-file.json`, `slice-check.json`, `guard-report.json`,
+`trace-check.json`, `brief.md`, `approval.json`); step and scenario eval results SE-1…SE-28 /
+SCE-1…SCE-11 (an edit run reports SE-26, SE-27 and SCE-11, a shaping run the others); the checkpoint
 answers in the person's words; the session identity stamp fields from $session_stamp (#463);
 and stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the body.
 
@@ -1110,7 +1120,7 @@ check reads ok, so a resume after X4 can still put every record back.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:6947e417b338137ca4dd206fe5d26e60ebc9fba034216f28f473b812f13404ed (of `reference/ice.md`) |
+| fingerprint | sha256:ef0098bb7b64d25652e723324bcd886c8d619483dda1d6c2f6465c405e58e7a3 (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842, #908) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19); the edit path, which changes only what the person named, after their yes, with a history line (C20) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |

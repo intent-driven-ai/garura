@@ -30,7 +30,8 @@ the slice is in progress (`in_progress`, and each `epics` entry {id, status} pas
 find_serving_slice.py holds): an edit may change a slice in progress, and the brief says so. check-list refuses
 (exit 1) a change to another file or part, an `old` that is not the part's text now, an empty
 `new`, a `new` equal to `old`, a who fixes that is neither answer, or two changes to one part;
-with --evals, it also refuses an out-of-date eval file that is not one of the slice's eval files.
+with --evals, it also refuses an out-of-date eval file that is not one of the slice's eval files;
+with --forbid-name (and --request), a real person's name in the words or in a new text (C14).
 apply writes exactly the list through safe_write.atomic_write: the slice record keeps its layout
 (spine_text), the hidden file changes only the named field lines, and the spine only the named
 one-lines; it adds a history line (who asked, when, their words) to the slice record (`edits:`)
@@ -222,12 +223,29 @@ def eval_problems(lst, evals_path):
     return problems
 
 
+def name_problems(lst, request_path, names):
+    """The person's words and each new text are kept in the records, so they name no real person
+    (C14). A name in the words goes back to the person; a name in a new text, to the skill."""
+    names = [n.strip() for n in names if n and n.strip()]
+    words = read(request_path) if request_path else ""
+    problems = []
+    for n in names:
+        if re.search(re.escape(n), words, re.I):
+            problems.append(f"the person's words name '{n}'; ask them to say it as a role")
+        for c in lst.get("changes") or []:
+            if re.search(re.escape(n), str(c.get("new") or ""), re.I):
+                problems.append(f"{c.get('part')}: the new text names '{n}'; write it as a role")
+    return problems
+
+
 def cmd_check_list(args):
     before = load_json(args.before, "edit-before.json")
     lst = load_json(args.list, "edit-list.json")
     problems = list_problems(before, lst)
     if args.evals:
         problems += eval_problems(lst, args.evals)
+    if args.forbid_name:
+        problems += name_problems(lst, args.request, args.forbid_name)
     return emit(args.out, {"ok": not problems, "problems": problems}, 0 if not problems else 1)
 
 
@@ -336,6 +354,9 @@ def main(argv=None):
             p.add_argument("--list", required=True)
         if name == "check-list":
             p.add_argument("--evals", help="edit-evals.txt: the names of the slice's eval files")
+            p.add_argument("--request", help="edit-request.md: the person's words, checked with --forbid-name")
+            p.add_argument("--forbid-name", action="append", default=[],
+                           help="a real person's name that the words and new texts must not hold; repeatable")
         if name in ("apply", "check"):
             p.add_argument("--request", required=True)
         if name == "apply":

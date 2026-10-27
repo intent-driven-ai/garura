@@ -148,7 +148,8 @@ words changes only the parts they named, after they see each change and say yes.
   the writes and the trace are checked as in a shaping run. An edit may change a slice in
   progress: the person is told it is in progress, and its epic, with its status, is named as
   out of date. A run that stops writes nothing and leaves no copy of the hidden file's lines
-  behind.
+  behind. The person's words are kept in the history lines, so they name no real person (C14):
+  words that name one are refused before the brief, and the person says it as a role.
 
 ### Failure conditions
 

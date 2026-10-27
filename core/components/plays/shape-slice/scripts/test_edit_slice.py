@@ -165,6 +165,14 @@ def main():
                            "--out", os.path.join(work, "lc-e2.json"))
         check("check-list --evals: an eval file that is not the slice's is refused (exit 1)",
               code == 1 and "not one of the slice's eval files" in " ".join(out["problems"]))
+        named_req = write(os.path.join(work, "named-request.md"), "Ask Jo Bloggs: F1 should go to a person.\n")
+        code, out, _ = run("check-list", "--before", before, "--list", two, "--request", named_req,
+                           "--forbid-name", "Jo Bloggs", "--out", os.path.join(work, "lc-n.json"))
+        check("check-list --forbid-name: words that name a real person are refused (exit 1)",
+              code == 1 and "say it as a role" in " ".join(out["problems"]))
+        code, out, _ = run("check-list", "--before", before, "--list", two, "--request", req,
+                           "--forbid-name", "Jo Bloggs", "--out", os.path.join(work, "lc-n2.json"))
+        check("check-list --forbid-name: words with no name hold", code == 0)
         code, out, _ = run("apply", "--before", before, "--list", two, "--request", req,
                            "--by", "the product owner", "--at", "2026-10-27",
                            "--out", os.path.join(work, "apply.json"))
