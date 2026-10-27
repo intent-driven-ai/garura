@@ -1,56 +1,15 @@
 commits:
-  - sha: 086b74b8
-    message: "feat(platform-adapter): add the pr-files verb that lists every changed file of a PR with its patch, page by page, past the 300-file diff limit (#798)"
+  - sha: ba0224df
+    message: "fix(create-play): match the reference fetch_pr_context.py to the review play's copy, falling back to the pr-files verb past 300 files (#798)"
     files:
-      - core/components/plays/create-play/references/platform_adapter.py
-      - core/components/plays/create-play/references/test_platform_adapter.py
-      - core/components/plays/check-change/scripts/platform_adapter.py
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/shape-eval/scripts/platform_adapter.py
-      - core/components/plays/shape-plan/scripts/platform_adapter.py
-      - core/components/plays/shape-slice/scripts/platform_adapter.py
-      - core/components/skills/platform-adapter/SKILL.md
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+      - core/components/plays/create-play/references/fetch_pr_context.py
     branch: plan/788/798-shape-eval
-  - sha: 01f54a32
-    message: "fix(check-change): fall back to the pr-files verb when the PR is over 300 files (#798)"
+  - sha: 76048933
+    message: "chore(stm): record the self-review, porcelain and analysis context artifacts (#798)"
     files:
-      - core/components/plays/check-change/scripts/fetch_pr_context.py
-      - core/components/plays/check-change/scripts/test_fetch_pr_context.py
-    branch: plan/788/798-shape-eval
-  - sha: 7c7053c6
-    message: "chore(stm): record round 1 review under review/round-1/final and the new PR context (#798)"
-    files:
-      - .garura/project/issues/798/context/analysis.yaml
-      - .garura/project/issues/798/context/context.yaml
+      - .garura/project/issues/798/context/self-review.md
       - .garura/project/issues/798/context/porcelain.txt
-      - .garura/project/issues/798/context/pr.diff
-      - .garura/project/issues/798/review/categories.yaml
-      - .garura/project/issues/798/review/round-1/final/categories.yaml
-      - .garura/project/issues/798/review/decision-comment.md
-      - .garura/project/issues/798/review/round-1/final/decision-comment.md
-      - .garura/project/issues/798/review/decision.yaml
-      - .garura/project/issues/798/review/round-1/final/decision.yaml
-      - .garura/project/issues/798/review/design-findings-harness.yaml
-      - .garura/project/issues/798/review/round-1/final/design-findings-harness.yaml
-      - .garura/project/issues/798/review/design-findings-memory.yaml
-      - .garura/project/issues/798/review/round-1/final/design-findings-memory.yaml
-      - .garura/project/issues/798/review/design-findings-product-model.yaml
-      - .garura/project/issues/798/review/round-1/final/design-findings-product-model.yaml
-      - .garura/project/issues/798/review/design-findings-slice-evals.yaml
-      - .garura/project/issues/798/review/round-1/final/design-findings-slice-evals.yaml
-      - .garura/project/issues/798/review/findings.yaml
-      - .garura/project/issues/798/review/round-1/final/findings.yaml
-      - .garura/project/issues/798/review/layer1-results.yaml
-      - .garura/project/issues/798/review/round-1/final/layer1-results.yaml
-      - .garura/project/issues/798/review/posted.json
-      - .garura/project/issues/798/review/round-1/final/posted.json
-      - .garura/project/issues/798/review/quality-findings.yaml
-      - .garura/project/issues/798/review/round-1/final/quality-findings.yaml
-      - .garura/project/issues/798/review/recommended_verdict.yaml
-      - .garura/project/issues/798/review/round-1/final/recommended_verdict.yaml
+      - .garura/project/issues/798/context/analysis.yaml
     branch: plan/788/798-shape-eval
 excluded_files:
   []
