@@ -1,0 +1,5 @@
+?? .garura/project/issues/788/context/landing-evidence.md
+?? .garura/project/issues/788/context/landing-tests.md
+?? .garura/project/issues/788/context/porcelain.txt
+?? .garura/project/issues/788/context/resolved-rules.json
+?? .garura/project/issues/788/context/self-review.md
