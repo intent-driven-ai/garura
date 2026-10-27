@@ -1,4 +1,4 @@
-## round 5 layer 1
+## round 6 layer 1
 lint-components: in changed paths: 0 there before: 37
 lint-play build-epic: VERDICT: PASS (0 gap(s))
 lint-play check-change: VERDICT: FAIL (1 gap(s))
@@ -11,5 +11,5 @@ lint-play propose-change: VERDICT: PASS (0 gap(s))
 lint-play shape-eval: VERDICT: PASS (0 gap(s))
 lint-play shape-plan: VERDICT: PASS (0 gap(s))
 lint-play shape-slice: VERDICT: PASS (0 gap(s))
+(check-change, create-play, install-garura fail identically on the base: there before)
 tests done
-lint-play failures (check-change, create-play, install-garura) are identical on plan/788/base (checked in round 4): there before, not findings

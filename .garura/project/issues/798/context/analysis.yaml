@@ -1,39 +1,61 @@
-# assess-changes output (issue 798) - grouped by concern
+---
+# analyze_changeset.py output (C8 fast path), grouped by assess-changes
+# issue: 798
 needs_judgment: false
 
 change_groups:
-  - id: shape-slice-repeatable-step-and-history-date
+  - id: shape-slice-resume-and-start-copy-fix
     issue: 798
     commit_type: fix
     scope: shape-slice
-    subject: "make a repeated shape-slice step give the same result and require a YYYY-MM-DD date in the history line"
+    subject: "keep the start copies on a resume and refuse a malformed start copy cleanly"
     files:
-      - core/components/plays/shape-slice/reference/ice.md
       - core/components/plays/shape-slice/SKILL.md
       - core/components/plays/shape-slice/scripts/persist_slice.py
-      - core/components/plays/shape-slice/scripts/edit_slice.py
       - core/components/plays/shape-slice/scripts/test_persist_slice.py
-      - core/components/plays/shape-slice/scripts/test_edit_slice.py
 
 exclusions:
-  - {path: ".garura/project/issues/798/context/analysis.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/categories.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/context.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/decision-comment.md", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/design-findings-harness.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/design-findings-memory.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/design-findings-product-model.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/design-findings-slice-evals.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/layer1.txt", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/memory/grounding-slice-evals/manifest.json", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/porcelain.txt", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/pr.diff", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
-  - {path: ".garura/project/issues/798/context/quality-findings.yaml", reason: "run state (issue 798 STM), left to the executor's run-state chore group", blocking: false}
+  - path: ".garura/project/issues/798/context/analysis.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/categories.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/context.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/decision-comment.md"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/design-findings-harness.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/design-findings-memory.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/design-findings-product-model.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/design-findings-slice-evals.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/layer1.txt"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/porcelain.txt"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/pr.diff"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/798/context/quality-findings.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+    blocking: false
 
 risks:
   sensitive_files:
     []
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "one issue (798) on branch plan/788/798-shape-eval, one concern (shape-slice fix); all 6 code files in one group, 13 run-state files excluded"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched; changed files are play prose and python scripts/tests"}
+  SE-1: {status: PASS, evidence: "one code concern grouped on a single-issue branch (plan/788/798-shape-eval); 3 code files in one group, 12 run-state files excluded as non-blocking"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
