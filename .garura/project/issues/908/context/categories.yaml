@@ -1,9 +1,12 @@
-# Work categories present in PR #911, round 2 (change #908, /shape-slice --edit). Derived from the diff content;
+# Work categories present in PR #911, round 3 (change #908, /shape-slice --edit). Derived from the diff content;
 # treatments taken from the short-term playbook copies in context/memory/knowledge/review/ (refreshed this round
-# through the memory tool from the phoenix tier, version 23387be24c0d; manifest: context/memory/manifest.json).
-# Round 1 had four categories. Round 2 adds decision-records (ADR 058 and the ADR index).
+# through the memory tool from the phoenix tier, version 23387be24c0d, fingerprints unchanged since round 2;
+# manifest: context/memory/manifest.json).
+# Round 3 changes no category: the new commits (12a7c709, 843c2de5) touch only files already in harness
+# (shape-slice SKILL.md, ice.md, author-slice SKILL.md), executable-code (edit_slice.py) and tests (test_edit_slice.py).
+# Same five categories as round 2.
 base: plan/788/798-shape-eval
-round: 2
+round: 3
 categories:
   - name: harness
     design_bearing: true
@@ -11,7 +14,7 @@ categories:
     evidence:
       - core/components/plays/shape-slice/SKILL.md            # compiled play: edit steps, amended reuse step, F7/F20 rows
       - core/components/plays/shape-slice/reference/ice.md    # the play's ICE source: C7, C20, F7, F20, REC7, REC20
-      - core/components/skills/author-slice/SKILL.md          # skill: edit mode; shape and reuse never change a slice in progress
+      - core/components/skills/author-slice/SKILL.md          # skill: edit mode; shape and reuse never change a slice in progress; round 3: refused-input report wording
       - core/components/agents/product-os-keeper.md           # agent: author-slice row now names edit mode and its inputs
     treatment:
       layers: [1, 2]
@@ -52,7 +55,7 @@ categories:
     design_bearing: false
     playbook: review/code
     evidence:
-      - core/components/plays/shape-slice/scripts/edit_slice.py        # new script
+      - core/components/plays/shape-slice/scripts/edit_slice.py        # new script; round 3: +23 lines
       - core/components/plays/shape-slice/scripts/record_questions.py  # refuses an edit brief of a slice in progress with no "In progress" section
       - core/components/plays/shape-slice/scripts/render_brief.py      # edit brief "In progress" section; epic under "Out of date"
       - core/components/plays/shape-slice/scripts/write_hidden_file.py # --redraft removed / changed
@@ -72,7 +75,7 @@ categories:
     design_bearing: false
     playbook: review/tests
     evidence:
-      - core/components/plays/shape-slice/scripts/test_edit_slice.py        # new
+      - core/components/plays/shape-slice/scripts/test_edit_slice.py        # new; round 3: +8 lines
       - core/components/plays/shape-slice/scripts/test_render_brief.py      # changed
       - core/components/plays/shape-slice/scripts/test_write_hidden_file.py # changed
     treatment:
@@ -121,7 +124,7 @@ categories:
       - .garura/project/issues/908/context/lint-components.json
       - .garura/project/issues/908/context/templates/
       - .garura/project/issues/908/context/memory/                       # short-term copies and manifests
-      - .garura/project/issues/908/review/                               # round records
+      - .garura/project/issues/908/review/                               # round records (round-1 and round-2 folders; the round-2 records are renames of the earlier review/ files)
       - .garura/project/issues/_adr/20261027T053132Z/                    # run folder of the ADR 058 record
     treatment:
       layers: [1]

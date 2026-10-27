@@ -51,6 +51,14 @@
     ".garura/project/issues/908/review/posted.json",
     ".garura/project/issues/908/review/quality-findings.yaml",
     ".garura/project/issues/908/review/recommended_verdict.yaml",
+    ".garura/project/issues/908/review/round-1/categories.yaml",
+    ".garura/project/issues/908/review/round-1/decision-comment.md",
+    ".garura/project/issues/908/review/round-1/decision.yaml",
+    ".garura/project/issues/908/review/round-1/design-findings-harness.yaml",
+    ".garura/project/issues/908/review/round-1/findings.yaml",
+    ".garura/project/issues/908/review/round-1/posted.json",
+    ".garura/project/issues/908/review/round-1/quality-findings.yaml",
+    ".garura/project/issues/908/review/round-1/recommended_verdict.yaml",
     ".garura/project/issues/_adr/20261027T053132Z/adr-check.json",
     ".garura/project/issues/_adr/20261027T053132Z/adr-context.yaml",
     ".garura/project/issues/_adr/20261027T053132Z/adr-draft.md",
@@ -80,7 +88,7 @@
     "docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md",
     "docs/adr/_index.md"
   ],
-  "changed_files_reported": 77,
+  "changed_files_reported": 85,
   "diff_source": "diff-pr",
   "standards_order": [
     "kb",
