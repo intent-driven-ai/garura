@@ -1,9 +1,19 @@
  M .garura/project/issues/798/context/context.yaml
  M .garura/project/issues/798/context/memory/grounding-product-model/manifest.json
  M .garura/project/issues/798/context/memory/grounding-slice-evals/manifest.json
- M .garura/project/issues/798/context/memory/manifest.json
  M .garura/project/issues/798/context/porcelain.txt
  M .garura/project/issues/798/context/pr.diff
-?? .garura/project/issues/798/review/decision-comment.md
-?? .garura/project/issues/798/specs/edit-908-design.md
-?? .garura/project/issues/798/specs/edit-design.md
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/reference/ice.md
+ M core/components/plays/shape-slice/scripts/persist_slice.py
+ M core/components/plays/shape-slice/scripts/render_brief.py
+ M core/components/plays/shape-slice/scripts/test_persist_slice.py
+ M core/components/plays/shape-slice/scripts/test_render_brief.py
+?? .garura/project/issues/798/context/categories.yaml
+?? .garura/project/issues/798/context/decision-comment.md
+?? .garura/project/issues/798/context/design-findings-harness.yaml
+?? .garura/project/issues/798/context/design-findings-memory.yaml
+?? .garura/project/issues/798/context/design-findings-product-model.yaml
+?? .garura/project/issues/798/context/design-findings-slice-evals.yaml
+?? .garura/project/issues/798/context/layer1.txt
+?? .garura/project/issues/798/context/quality-findings.yaml
