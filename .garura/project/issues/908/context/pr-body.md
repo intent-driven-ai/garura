@@ -59,7 +59,7 @@ The four severity-4 findings of round 2 are kept in the review record, not fixed
 
 # Self-Review — Issue #908 (/shape-slice gets an edit path) — round 5, after review rounds 1 and 2 of PR #911
 
-Rules source: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
+Rules source: `~/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
 
 Diff reviewed: `git diff plan/788/798-shape-eval...HEAD` (the pull request goes to `plan/788/798-shape-eval`, not main). Rounds 3 to 5 read the four new commits line by line: `ff03da45` (ADR 058 and its index line), `d5721659` (the fixes for the ten review defects) `ed9e2b97` (the check that finishes defect F-04) and `12a7c709` (the three severity-3 defects of review round 2, N-01 to N-03). I checked N-01 to N-03 in `.garura/project/issues/908/review/findings.yaml` against the code. The four P4 notes (N-04 to N-07) are kept in the review record and not fixed, as agreed. I checked each defect in `.garura/project/issues/908/review/findings.yaml` against the code, not against the commit message.
 

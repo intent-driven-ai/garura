@@ -438,7 +438,7 @@ categories:
     layers: []
     linters: []
     runnable_checks:
-    - 'no playbook treatment; suggested only: sample for secrets/personal data and Nagarro/personal references (the run-records are committed to a public-ish history)'
+    - 'no playbook treatment; suggested only: sample for secrets/personal data and company or personal references (the run-records are committed to a public-ish history)'
     note: 'treatment withheld: no playbook'
 notes:
 - Categories derived from diff content, not from a presumed list; every path is in exactly one category (221 total).

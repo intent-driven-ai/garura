@@ -291,7 +291,7 @@ index f4d50d3d..9a245621 100644
 -# Self-review: #879, round 2 (plan/788/879-epic-other-children)
 +# Self-review: #879, dry run of /shape-plan 788 (plan/788/879-shape-plan-rerun)
  
- Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
+ Rules: ~/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
 -Diff reviewed: `git diff plan/788/base...HEAD`. Design checked against: `.garura/project/issues/879/specs/design.md` (approved by the product owner). Round 1 (PR #894) was rejected because it let an epic hold other children.
 +Diff reviewed: `git diff plan/788/base...HEAD` (4 commits, 38 files, 1303 added lines, 54 removed).
 +Scope given by the product owner: "just land it.. dont touch the existing plans". This change carries only the records of a dry run of `/shape-plan 788`. The dry run wrote nothing to the tracker and nothing to the plan file.
@@ -375,7 +375,7 @@ index ca494fa1..8861feca 100644
 -# Self-review: #879, round 2 (plan/788/879-epic-other-children)
 +# Self-review: #879, dry run of /shape-plan 788 (plan/788/879-shape-plan-rerun)
  
- Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
+ Rules: ~/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
 -Diff reviewed: `git diff plan/788/base...HEAD`. Design checked against: `.garura/project/issues/879/specs/design.md` (approved by the product owner). Round 1 (PR #894) was rejected because it let an epic hold other children.
 +Diff reviewed: `git diff plan/788/base...HEAD` (4 commits, 38 files, 1303 added lines, 54 removed).
 +Scope given by the product owner: "just land it.. dont touch the existing plans". This change carries only the records of a dry run of `/shape-plan 788`. The dry run wrote nothing to the tracker and nothing to the plan file.
@@ -633,7 +633,7 @@ index 00000000..89660d29
 +            ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
 +            ".garura/product/product-os/software-delivery-planning/shape-slice/capability.md"
 +          ],
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/879/context/shape-plan/ice/fn-795.md"
++          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-795.md"
 +        },
 +        {
 +          "id": "fn-818",
@@ -646,7 +646,7 @@ index 00000000..89660d29
 +            ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
 +            ".garura/product/product-os/software-delivery-planning/cap-718/capability.md"
 +          ],
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/879/context/shape-plan/ice/fn-818.md"
++          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-818.md"
 +        },
 +        {
 +          "id": "fn-798",
@@ -659,7 +659,7 @@ index 00000000..89660d29
 +            ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
 +            ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md"
 +          ],
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/879/context/shape-plan/ice/fn-798.md"
++          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-798.md"
 +        }
 +      ]
 +    }
@@ -772,19 +772,19 @@ index 00000000..3113f751
 +          "id": "fn-795",
 +          "name": "/shape-slice writes the slice and its hidden file",
 +          "one_line": "From a business intent, /shape-slice writes one slice, its link to the intent and its hidden file, and no plan, epic, story or eval.",
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/879/context/shape-plan/ice/fn-795.md"
++          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-795.md"
 +        },
 +        {
 +          "id": "fn-818",
 +          "name": "/shape-plan writes the plan, the epic and the stories",
 +          "one_line": "From a shaped slice, /shape-plan writes the intent's one plan file, one epic for the slice and one story for each feature.",
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/879/context/shape-plan/ice/fn-818.md"
++          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-818.md"
 +        },
 +        {
 +          "id": "fn-798",
 +          "name": "/shape-eval writes the hidden eval",
 +          "one_line": "From the plan's epic and stories, /shape-eval writes the eval for the business intent in the plan's evals folder, where no builder reads.",
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/879/context/shape-plan/ice/fn-798.md"
++          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-798.md"
 +        }
 +      ]
 +    }

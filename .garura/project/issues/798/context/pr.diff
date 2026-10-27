@@ -2746,259 +2746,259 @@ diff --git a/.garura/project/issues/798/context/lint-components.json b/.garura/p
 +{
 +  "violations": [
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Input",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Process",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Output",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/find-matching-issues/SKILL.md",
++      "file": "core/components/skills/find-matching-issues/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/find-matching-issues/SKILL.md",
++      "file": "core/components/skills/find-matching-issues/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
++      "file": "core/components/skills/merge-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
++      "file": "core/components/skills/merge-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/open-pr/SKILL.md",
++      "file": "core/components/skills/open-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/open-pr/SKILL.md",
++      "file": "core/components/skills/open-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Input",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Process",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Output",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/list-focus-issues/SKILL.md",
++      "file": "core/components/plays/list-focus-issues/SKILL.md",
 +      "rule": "structural/spelling-inconsistency",
 +      "severity": "warning",
 +      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
@@ -9588,7 +9588,7 @@ diff --git a/.garura/project/issues/798/context/pr-body.md b/.garura/project/iss
 +# Self-review, round 7 — #798 (/shape-eval)
 +
 +Branch `plan/788/798-shape-eval` against `plan/788/base` (`git diff plan/788/base...HEAD`), for PR #900.
-+Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
 +This review is for information. It is not the approve or reject gate; `check-change` owns that.
 +
 +Blocking findings: none.
@@ -9799,8 +9799,8 @@ diff --git a/.garura/project/issues/798/context/resolved-rules.json b/.garura/pr
 @@ -0,0 +1,6 @@
 +{
 +  "resolved": true,
-+  "path": "/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md",
-+  "source": "/Users/kapilahuja/.phoenix/core/memory/standards/rules",
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
 +  "is_override": false
 +}
 diff --git a/.garura/project/issues/798/context/self-review.md b/.garura/project/issues/798/context/self-review.md
@@ -9810,7 +9810,7 @@ diff --git a/.garura/project/issues/798/context/self-review.md b/.garura/project
 +# Self-review, round 7 — #798 (/shape-eval)
 +
 +Branch `plan/788/798-shape-eval` against `plan/788/base` (`git diff plan/788/base...HEAD`), for PR #900.
-+Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
 +This review is for information. It is not the approve or reject gate; `check-change` owns that.
 +
 +Blocking findings: none.
@@ -9932,7 +9932,7 @@ diff --git a/.garura/project/issues/798/context/shape-eval/clear.json b/.garura/
 +{
 +  "ok": true,
 +  "removed": [
-+    "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-eval/drafts",
++    ".garura/project/issues/798/context/shape-eval/drafts",
 +    ".garura/project/issues/798/context/shape-eval/inputs/hidden-intent-to-design.md"
 +  ],
 +  "left": []
@@ -12465,7 +12465,7 @@ diff --git a/.garura/project/issues/798/context/shape-plan/gather.json b/.garura
 +            ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
 +            ".garura/product/product-os/software-delivery-planning/shape-slice/capability.md"
 +          ],
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-795.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-795.md"
 +        },
 +        {
 +          "id": "fn-818",
@@ -12478,7 +12478,7 @@ diff --git a/.garura/project/issues/798/context/shape-plan/gather.json b/.garura
 +            ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
 +            ".garura/product/product-os/software-delivery-planning/cap-718/capability.md"
 +          ],
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-818.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-818.md"
 +        },
 +        {
 +          "id": "fn-798",
@@ -12491,7 +12491,7 @@ diff --git a/.garura/project/issues/798/context/shape-plan/gather.json b/.garura
 +            ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
 +            ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md"
 +          ],
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-798.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-798.md"
 +        },
 +        {
 +          "id": "fn-898",
@@ -12504,7 +12504,7 @@ diff --git a/.garura/project/issues/798/context/shape-plan/gather.json b/.garura
 +            ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
 +            ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md"
 +          ],
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-898.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-898.md"
 +        }
 +      ]
 +    }
@@ -12691,25 +12691,25 @@ diff --git a/.garura/project/issues/798/context/shape-plan/skill-input.json b/.g
 +          "id": "fn-795",
 +          "name": "/shape-slice writes the slice and its hidden file",
 +          "one_line": "From a business intent, /shape-slice writes one slice, its link to the intent and its hidden file, and no plan, epic, story or eval.",
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-795.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-795.md"
 +        },
 +        {
 +          "id": "fn-818",
 +          "name": "/shape-plan writes the plan, the epic and the stories",
 +          "one_line": "From a shaped slice, /shape-plan writes the intent's one plan file, one epic for the slice and one story for each feature.",
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-818.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-818.md"
 +        },
 +        {
 +          "id": "fn-798",
 +          "name": "/shape-eval writes the hidden eval",
 +          "one_line": "From the plan's epic and stories, /shape-eval writes the eval for the business intent in the plan's evals folder, where no builder reads.",
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-798.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-798.md"
 +        },
 +        {
 +          "id": "fn-898",
 +          "name": "The build is given the business intent, never the eval",
 +          "one_line": "A build is given the business intent, never the eval, and a check flags each build session that read the plan's evals folder.",
-+          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-898.md"
++          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-898.md"
 +        }
 +      ]
 +    }
@@ -22693,12 +22693,12 @@ diff --git a/.garura/project/issues/798/context/templates/manifest-check-change.
 +  "task_id": "load-next-map",
 +  "status": "completed",
 +  "outputs": {
-+    "manifest": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/manifest-check-change.json"
++    "manifest": ".garura/project/issues/798/context/templates/manifest-check-change.json"
 +  },
 +  "templates": [
 +    {
 +      "name": "standards/rules/pipeline-next.md",
-+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
 +      "source": {
 +        "tier": "phoenix",
 +        "path": "standards/rules/pipeline-next.md",
@@ -22717,12 +22717,12 @@ diff --git a/.garura/project/issues/798/context/templates/manifest-close-start-c
 +{
 +  "status": "completed",
 +  "outputs": {
-+    "manifest": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/manifest-close-start-change.json"
++    "manifest": ".garura/project/issues/798/context/templates/manifest-close-start-change.json"
 +  },
 +  "templates": [
 +    {
 +      "name": "standards/templates/delivery-report.md",
-+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/798/context/templates/standards/templates/delivery-report.md",
 +      "source": {
 +        "tier": "garura",
 +        "path": "core/memory/standards/templates/delivery-report.md",
@@ -22732,7 +22732,7 @@ diff --git a/.garura/project/issues/798/context/templates/manifest-close-start-c
 +    },
 +    {
 +      "name": "standards/rules/pipeline-next.md",
-+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
 +      "source": {
 +        "tier": "phoenix",
 +        "path": "standards/rules/pipeline-next.md",
@@ -22754,12 +22754,12 @@ diff --git a/.garura/project/issues/798/context/templates/manifest-shape-plan.js
 +  "issue": 798,
 +  "status": "completed",
 +  "outputs": {
-+    "manifest": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/manifest-shape-plan.json"
++    "manifest": ".garura/project/issues/798/context/templates/manifest-shape-plan.json"
 +  },
 +  "templates": [
 +    {
 +      "name": "standards/templates/approval-prompt.md",
-+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/standards/templates/approval-prompt.md",
++      "copy": ".garura/project/issues/798/context/templates/standards/templates/approval-prompt.md",
 +      "source": {
 +        "tier": "short-term",
 +        "path": "798/context/templates/standards/templates/approval-prompt.md",
@@ -22769,7 +22769,7 @@ diff --git a/.garura/project/issues/798/context/templates/manifest-shape-plan.js
 +    },
 +    {
 +      "name": "standards/rules/pipeline-next.md",
-+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
 +      "source": {
 +        "tier": "short-term",
 +        "path": "798/context/templates/standards/rules/pipeline-next.md",
@@ -25311,7 +25311,7 @@ diff --git a/.garura/project/issues/798/review/round-1/final/categories.yaml b/.
 +    layers: []
 +    linters: []
 +    runnable_checks:
-+    - 'no playbook treatment; suggested only: sample for secrets/personal data and Nagarro/personal references (the run-records are committed to a public-ish history)'
++    - 'no playbook treatment; suggested only: sample for secrets/personal data and company or personal references (the run-records are committed to a public-ish history)'
 +    note: 'treatment withheld: no playbook'
 +notes:
 +- Categories derived from diff content, not from a presumed list; every path is in exactly one category (221 total).
@@ -33989,259 +33989,259 @@ diff --git a/.garura/project/issues/908/context/lint-components.json b/.garura/p
 +{
 +  "violations": [
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Input",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Process",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Output",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/find-matching-issues/SKILL.md",
++      "file": "core/components/skills/find-matching-issues/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/find-matching-issues/SKILL.md",
++      "file": "core/components/skills/find-matching-issues/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
++      "file": "core/components/skills/merge-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
++      "file": "core/components/skills/merge-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/open-pr/SKILL.md",
++      "file": "core/components/skills/open-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/open-pr/SKILL.md",
++      "file": "core/components/skills/open-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Input",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Process",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Output",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/list-focus-issues/SKILL.md",
++      "file": "core/components/plays/list-focus-issues/SKILL.md",
 +      "rule": "structural/spelling-inconsistency",
 +      "severity": "warning",
 +      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
@@ -36026,7 +36026,7 @@ diff --git a/.garura/project/issues/908/context/pr-body.md b/.garura/project/iss
 +
 +# Self-Review — Issue #908 (/shape-slice gets an edit path) — round 5, after review rounds 1 and 2 of PR #911
 +
-+Rules source: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
++Rules source: `~/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
 +
 +Diff reviewed: `git diff plan/788/798-shape-eval...HEAD` (the pull request goes to `plan/788/798-shape-eval`, not main). Rounds 3 to 5 read the four new commits line by line: `ff03da45` (ADR 058 and its index line), `d5721659` (the fixes for the ten review defects) `ed9e2b97` (the check that finishes defect F-04) and `12a7c709` (the three severity-3 defects of review round 2, N-01 to N-03). I checked N-01 to N-03 in `.garura/project/issues/908/review/findings.yaml` against the code. The four P4 notes (N-04 to N-07) are kept in the review record and not fixed, as agreed. I checked each defect in `.garura/project/issues/908/review/findings.yaml` against the code, not against the commit message.
 +
@@ -36139,8 +36139,8 @@ diff --git a/.garura/project/issues/908/context/resolved-rules.json b/.garura/pr
 @@ -0,0 +1,6 @@
 +{
 +  "resolved": true,
-+  "path": "/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md",
-+  "source": "/Users/kapilahuja/.phoenix/core/memory/standards/rules",
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
 +  "is_override": false
 +}
 diff --git a/.garura/project/issues/908/context/self-review.md b/.garura/project/issues/908/context/self-review.md
@@ -36149,7 +36149,7 @@ diff --git a/.garura/project/issues/908/context/self-review.md b/.garura/project
 @@ -0,0 +1,55 @@
 +# Self-Review — Issue #908 (/shape-slice gets an edit path) — round 5, after review rounds 1 and 2 of PR #911
 +
-+Rules source: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
++Rules source: `~/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
 +
 +Diff reviewed: `git diff plan/788/798-shape-eval...HEAD` (the pull request goes to `plan/788/798-shape-eval`, not main). Rounds 3 to 5 read the four new commits line by line: `ff03da45` (ADR 058 and its index line), `d5721659` (the fixes for the ten review defects) `ed9e2b97` (the check that finishes defect F-04) and `12a7c709` (the three severity-3 defects of review round 2, N-01 to N-03). I checked N-01 to N-03 in `.garura/project/issues/908/review/findings.yaml` against the code. The four P4 notes (N-04 to N-07) are kept in the review record and not fixed, as agreed. I checked each defect in `.garura/project/issues/908/review/findings.yaml` against the code, not against the commit message.
 +

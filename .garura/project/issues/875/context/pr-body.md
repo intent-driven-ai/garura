@@ -14,7 +14,7 @@ Part of #875 (plan #788). #875 closes after this lands and `/shape-plan 788` run
 
 # Self-review — #875 (branch plan/788/875-epic-issue-type, base plan/788/base)
 
-Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base rules, no project override).
+Rules: ~/.garura/core/memory/standards/rules/self-review.md (base rules, no project override).
 Diff reviewed: `git diff plan/788/base...HEAD` — 29 files, 7 commits.
 
 Verdict: READY to raise. Blockers: 0. Notes: 3 (informational).

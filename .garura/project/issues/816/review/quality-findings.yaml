@@ -1,6 +1,6 @@
 meta:
   generated_at: '2026-10-23T09:17:23Z'
-  diff_path: '/private/tmp/claude-503/-Users-kapilahuja-cto-builder-garura/67fc6f0b-62ce-4c47-a357-603b233b9c3e/scratchpad/filtered.diff'
+  diff_path: '<session scratchpad>/filtered.diff'
   taxonomy_path: 'core/components/memory/standards/rules/pr.md'
   changed_paths_count: 33
   scan_coverage: 1.0000

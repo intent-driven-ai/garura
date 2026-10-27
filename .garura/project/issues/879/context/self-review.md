@@ -1,6 +1,6 @@
 # Self-review: #879, dry run of /shape-plan 788 (plan/788/879-shape-plan-rerun)
 
-Rules: /Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
+Rules: ~/.garura/core/memory/standards/rules/self-review.md (base file, no project override).
 Diff reviewed: `git diff plan/788/base...HEAD` (4 commits, 38 files, 1303 added lines, 54 removed).
 Scope given by the product owner: "just land it.. dont touch the existing plans". This change carries only the records of a dry run of `/shape-plan 788`. The dry run wrote nothing to the tracker and nothing to the plan file.
 

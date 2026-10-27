@@ -1,7 +1,7 @@
 # Self-review, round 7 — #798 (/shape-eval)
 
 Branch `plan/788/798-shape-eval` against `plan/788/base` (`git diff plan/788/base...HEAD`), for PR #900.
-Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
+Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
 This review is for information. It is not the approve or reject gate; `check-change` owns that.
 
 Blocking findings: none.

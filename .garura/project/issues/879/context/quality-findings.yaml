@@ -42,8 +42,8 @@ findings:
     files:
       - {file: .garura/project/issues/879/context/pr-body.md, lines: [18, 38, 44]}
       - {file: .garura/project/issues/879/context/self-review.md, lines: [3, 23, 29]}
-    what: "The 'Rules:' line prints a full absolute path with the real machine user name (/Users/kapilahuja/.garura/...). The same text says at pr-body.md:38/44 that the user folder is not named and writes it as <machine user> in the notes. The two do not agree."
-    evidence: "pr-body.md:18 and self-review.md:3 hold '/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md'; pr-body.md:44 uses '/Users/<machine user>/...'."
+    what: "The 'Rules:' line prints a full absolute path with the real machine user name (~/.garura/...). The same text says at pr-body.md:38/44 that the user folder is not named and writes it as <machine user> in the notes. The two do not agree."
+    evidence: "pr-body.md:18 and self-review.md:3 hold '~/.garura/core/memory/standards/rules/self-review.md'; pr-body.md:44 uses '/Users/<machine user>/...'."
     fix: "Write the rules path as ~/.garura/core/memory/standards/rules/self-review.md."
   - id: Q3
     class: P4

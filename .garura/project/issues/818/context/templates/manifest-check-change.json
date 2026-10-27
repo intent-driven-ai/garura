@@ -5,7 +5,7 @@
       "path": "standards/rules/pipeline-next.md",
       "version": "3161dcdfe26f",
       "fingerprint": "sha256:3a4ec7b9feb9d0545f21da6d8f1be46c7731b018bffdd179329287dee5759412",
-      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/818/context/templates/standards/rules/pipeline-next.md"
+      "copy": ".garura/project/issues/818/context/templates/standards/rules/pipeline-next.md"
     }
   ]
 }

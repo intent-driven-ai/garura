@@ -21,7 +21,7 @@
             ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
             ".garura/product/product-os/software-delivery-planning/shape-slice/capability.md"
           ],
-          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-795.md"
+          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-795.md"
         },
         {
           "id": "fn-818",
@@ -34,7 +34,7 @@
             ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
             ".garura/product/product-os/software-delivery-planning/cap-718/capability.md"
           ],
-          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-818.md"
+          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-818.md"
         },
         {
           "id": "fn-798",
@@ -47,7 +47,7 @@
             ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
             ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md"
           ],
-          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-798.md"
+          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-798.md"
         },
         {
           "id": "fn-898",
@@ -60,7 +60,7 @@
             ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
             ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md"
           ],
-          "clean_ice": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/shape-plan/ice/fn-898.md"
+          "clean_ice": ".garura/project/issues/798/context/shape-plan/ice/fn-898.md"
         }
       ]
     }

@@ -3,12 +3,12 @@
   "issue": 798,
   "status": "completed",
   "outputs": {
-    "manifest": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/manifest-shape-plan.json"
+    "manifest": ".garura/project/issues/798/context/templates/manifest-shape-plan.json"
   },
   "templates": [
     {
       "name": "standards/templates/approval-prompt.md",
-      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/standards/templates/approval-prompt.md",
+      "copy": ".garura/project/issues/798/context/templates/standards/templates/approval-prompt.md",
       "source": {
         "tier": "short-term",
         "path": "798/context/templates/standards/templates/approval-prompt.md",
@@ -18,7 +18,7 @@
     },
     {
       "name": "standards/rules/pipeline-next.md",
-      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/798/context/templates/standards/rules/pipeline-next.md",
       "source": {
         "tier": "short-term",
         "path": "798/context/templates/standards/rules/pipeline-next.md",
