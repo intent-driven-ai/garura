@@ -2,7 +2,7 @@
 name: shape-slice
 position: both
 argument-hint: "<business intent issue number> [--edit: <what to change, in your own words>]"
-description: 'Shape the one slice that shows a business intent is served — the first play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-slice <intent-issue> (for example /shape-slice 788). It reads the intent from the product model (and writes the intent page from the issue when the model has none), reads the model and memory first, and talks to the person in one confirmation brief: the slice, what it fills, its hidden file, what is left out, each assumption and only the questions neither the model nor memory answers, within the configured question tier, every question and answer kept in the issue''s short-term memory. It asks first only for a gap that blocks the slice and that no one but the person can answer, never the surface. It picks the features from any capability in build order, the one surface and the person who tests it; reuses a slice that already serves the intent (pulling a feature in or pushing one out so it stays testable end to end), and never touches a slice in progress; adds or fills every domain, capability, feature or ICE the slice needs, each page in its folder, and proposes a thin ICE, with both thin marks, for a part that has none; writes the slice into the spine with its link to the intent and its record; and writes the slice''s hidden file of failure and recovery conditions in the home plan''s evals folder. A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown. The model checks must pass for the slice''s own pages (older problems elsewhere are warnings), and nothing is committed before the person types yes (stop undoes every write). With `--edit: <their own words>` it edits the slice that exists instead (/shape-slice #788 --edit: <words>): only the slice record''s name, outcome or tester''s action, named lines of the hidden file, or a part''s spine one-line, after the person sees each change old and new and types yes; a check refuses any other change, and a history line keeps who asked, when and their words. Writes no plan, epic, story or eval. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has a plan.'
+description: 'Shape the one slice that shows a business intent is served — the first play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-slice <intent-issue> (for example /shape-slice 788). It reads the intent from the product model (and writes the intent page from the issue when the model has none), reads the model and memory first, and talks to the person in one confirmation brief: the slice, what it fills, its hidden file, what is left out, each assumption and only the questions neither the model nor memory answers, within the configured question tier, every question and answer kept in the issue''s short-term memory. It asks first only for a gap that blocks the slice and that no one but the person can answer, never the surface. It picks the features from any capability in build order, the one surface and the person who tests it; reuses a slice that already serves the intent (pulling a feature in or pushing one out so it stays testable end to end), and never reshapes a slice in progress; adds or fills every domain, capability, feature or ICE the slice needs, each page in its folder, and proposes a thin ICE, with both thin marks, for a part that has none; writes the slice into the spine with its link to the intent and its record; and writes the slice''s hidden file of failure and recovery conditions in the home plan''s evals folder. A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown. The model checks must pass for the slice''s own pages (older problems elsewhere are warnings), and nothing is committed before the person types yes (stop undoes every write). With `--edit: <their own words>` it edits the slice that exists instead, also one in progress (the brief says so) (/shape-slice #788 --edit: <words>): only the slice record''s name, outcome or tester''s action, named lines of the hidden file, or a part''s spine one-line, after the person sees each change old and new and types yes; a check refuses any other change, and a history line keeps who asked, when and their words. Writes no plan, epic, story or eval. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has a plan.'
 user-invocable: true
 ---
 
@@ -79,7 +79,7 @@ or a question that breaks the rule for asking a person (C3); asking more than th
 beyond the blocking questions, or a gap left open with no written assumption (C4); a question
 or answer not recorded, or an answered question asked again (C5); a slice with no tester, no
 surface or more than one surface (C6); a new slice for an intent a slice already serves, a
-change to a slice in progress, or a reused slice that can no longer be tested end to end
+shaping run's change to a slice in progress, or a reused slice that can no longer be tested end to end
 (C7); skipping or leaving unfilled a part the slice needs, a page outside its folder, or a
 moved or used page left on an old rule (C8); writing a plan, an epic, a story, an eval or any
 file outside the allowed set, under `.garura/project/plans/` above all (C9); a proposed
@@ -782,10 +782,12 @@ ls "$(dirname <edit-before.json files.hidden>)" > <working>edit-evals.txt
 
 `snapshot` refuses (exit 2) when the spine links no slice, or more than one, to the intent:
 show its message and stop; nothing is written. The copies go to `<working>edit-before/`.
+An edit may change a slice in progress (C7, C20): `edit-before.json` reads `in_progress: true`
+and names each epic past ready, with its status, and the run goes on.
 
 **Step X2 — Turn the person's words into the list of changes** · Owner: `product-os-keeper`, then play (script) · Depends on: Step X1
 
-    { "task":    "call author-slice in edit mode with the person's words (request), the copies of the slice's records (before), the names of the files in the slice's evals folder (evals) and, on a re-run, the last refusal (refused); it writes edit-list.json: one change for each part the words name (file, part, the old text word for word, the new text, why), each record the edit makes out of date (named, not changed), and what the words name that an edit does not change (not_editable). Pass it on as it is. Gather and pass on only",
+    { "task":    "call author-slice in edit mode with the person's words (request), the copies of the slice's records (before), the names of the files in the slice's evals folder (evals) and, on a re-run, the last refusal (refused); it writes edit-list.json: one change for each part the words name (file, part, the old text word for word, the new text, why), each record the edit makes out of date (named, not changed; when edit-before.json reads in_progress, each epic it names), and what the words name that an edit does not change (not_editable). Pass it on as it is. Gather and pass on only",
       "inputs":  { "request": "<working>edit-request.md", "before": "<working>edit-before.json",
                    "evals": "<working>edit-evals.txt",
                    "refused": "<working>edit-list-check.json (on a re-run only)" },
@@ -806,16 +808,19 @@ two sentences, or one part changed twice: send `edit-list-check.json` back to th
 each `not_editable` line in plain words, write nothing, and close HALTED.
 **SE-26 (F20/C20):** `edit-list-check.json` reads `ok: true` for the list that was shown; each
 change names a file and a part of C20's set, and its old text is what the record said before
-the edit.
+the edit; when `edit-before.json` reads `in_progress: true`, `brief.md` has the In progress
+section with each epic it names, and `edit-list.json` `out_of_date` names each of them.
 
 **Step X3 — The edit brief and the checkpoint** · Owner: play (scripts) · Depends on: Step X2 · Checkpoint (class: standard, **pinned** — the person decides; never skipped by config)
 The script builds the whole brief from the run's records: what the person asked, each change
-old and new, each record made out of date (named, not changed), and what an edit does not
-change. `<slice name>` is the name in the slice record's copy.
+old and new, each record made out of date (named, not changed), what an edit does not
+change, and, for a slice in progress, an In progress section that says so and names its epic.
+`<slice name>` is the name in the slice record's copy.
 
 ```
 python3 scripts/render_brief.py --edit "<slice name>" --working <working> --out <working>brief.md
-python3 scripts/record_questions.py brief --brief <working>brief.md --edit
+python3 scripts/record_questions.py brief --brief <working>brief.md --edit \
+    --before <working>edit-before.json
 ```
 
 Exit 1 lists each problem: send it back to Step X2, then render again. The brief is never
@@ -1061,7 +1066,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F4 | more questions than the tier allows beyond the blocking ones, a gap open with no written assumption, or an assumption the person did not see | cut the questions to the budget, blocking first, and write an assumption for every gap not asked; show the assumptions in the brief | autonomous |
 | F5 | a question or answer is not in the record, or an answered question was asked again | record every question and answer, and take back any repeat question | autonomous |
 | F6 | a slice has no tester, no surface, or more than one surface | take the slice back; propose one surface and its tester from the model and memory, and show them in the one brief — never ask for them; when nothing names a surface a person can test end to end, write no slice, say why, and close | autonomous |
-| F7 | a new slice was made for an intent a slice not in progress already serves, a slice in progress was changed, or a reused slice can no longer be tested end to end | remove the new slice and add the intent to the slice that serves it; put back a slice in progress and shape a new slice; or put back the feature whose change broke the end-to-end test | autonomous |
+| F7 | a new slice was made for an intent a slice not in progress already serves, a shaping run changed a slice in progress, or a reused slice can no longer be tested end to end | remove the new slice and add the intent to the slice that serves it; put back a slice in progress and shape a new slice; or put back the feature whose change broke the end-to-end test | autonomous |
 | F8 | a part the slice needs was skipped or left unfilled, a page is outside its parent's folder, a moved or used page still breaks a current rule, or a fill changed a field of an existing part other than its intents, its missing parent, or the one-line the person's change asked for | add or fill the part at the depth known, at its folder, marked to be deepened, and bring each moved or used page up to the current rules; put back any other field a fill changed | autonomous |
 | F9 | the run wrote outside the allowed set (a plan, an epic, a story, an eval, a file under the plans folder other than the hidden file, or another file) | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`) | autonomous |
 | F10 | a proposed answer has no source the run can name, a trace names a source not read through the memory tool, or the count of questions with no proposed answer is missing or wrong | strip the proposed answer that has no source — never replace it with another — read the source through the memory tool before citing it, and report the count | autonomous |
@@ -1074,7 +1079,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F17 | the brief hid a result of the run (a reuse difference, a feature pulled in or pushed out, a field an upgrade set or dropped, a replaced spine one-line, a warning, an older problem, a thin ICE, an assumption) | show the hidden result in the brief, in plain words, and ask again | autonomous |
 | F18 | the run read the rule for asking a person from a place other than `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because it was missing, or went on without saying it was missing | drop the copy read from another place and read `_shared/asking-a-person.md`; when it is missing, say so in the brief, use the play's floor, and go on | autonomous |
 | F19 | an agent dispatch asked the agent to do work no named skill does (choose, draft, decide or write content, or reshape a skill's output), or a dispatch named no skills | take back what the agent made and send the work to the named skill that does it, through the agent; when no skill does it, close HALTED and name the missing skill — the agent never does it | autonomous |
-| F20 | an edit changed something that is not on the list the person saw, wrote before the person's yes, changed a part an edit may not change, or left no history line; or a kept entry of the hidden file changed with no edit the person approved | put back each change that is not on the approved list, or every write made before the yes (`edit_slice.py restore`), and add the missing history line; nothing of the edit is kept without the person's yes | autonomous |
+| F20 | an edit changed something that is not on the list the person saw, wrote before the person's yes, changed a part an edit may not change, or left no history line; an edit of a slice in progress whose brief did not say it is in progress; or a kept entry of the hidden file changed with no edit the person approved | put back each change that is not on the approved list, or every write made before the yes (`edit_slice.py restore`), and add the missing history line; when the slice is in progress and the brief did not say so, put back the edit, show it in the brief and ask again; nothing of the edit is kept without the person's yes | autonomous |
 
 ## Pause and Resume
 
@@ -1091,7 +1096,7 @@ check reads ok, so a resume after X4 can still put every record back.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:501dddae12370cd9d3e1b165e1c5a94a1427ca33fc5b2b2d971469060361dd9f (of `reference/ice.md`) |
+| fingerprint | sha256:3744213f036e0c0b6f557a15272b6be92f42f4ad5ab60cc828fd139127d2233c (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842, #908) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19); the edit path, which changes only what the person named, after their yes, with a history line (C20) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |

@@ -20,6 +20,7 @@ The file is Markdown with one fenced YAML block that holds `questions:`, one ent
     python3 record_questions.py answers   --reply <reply.md> --split <split.json> --out <answers.json>
     python3 record_questions.py answer    --record <md> --answers <answers.json> --at <ts> --run <run id>
     python3 record_questions.py brief     --brief <brief.md> --split <split.json> [--early]
+    python3 record_questions.py brief     --brief <brief.md> --edit [--before <edit-before.json>]
     python3 record_questions.py check     --record <md> --split <split.json>
     python3 record_questions.py edit      --record <md> --issue <n> --request <edit-request.md> --reply <reply.md> --decision <yes|change|stop> --at <ts> --run <run id>
 
@@ -566,6 +567,9 @@ def cmd_brief(args):
     except OSError as exc:
         raise Refused(f"cannot read the brief {args.brief}: {exc}")
     problems = brief_problems(text, asked, early=args.early, edit=args.edit)
+    if args.edit and args.before and load_json(args.before, "edit-before").get("in_progress") \
+            and not re.search(r"^## In progress\s*$", text, re.M):
+        problems.append("the slice is in progress, but the brief has no '## In progress' section")
     print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
     return 1 if problems else 0
 
@@ -631,6 +635,8 @@ def main(argv=None):
     b.add_argument("--edit", action="store_true",
                    help="the brief of an edit (C20): the opening, What you asked, Changes, "
                         "Out of date and Your reply")
+    b.add_argument("--before", help="with --edit: edit-before.json; a slice in progress needs the "
+                                    "'## In progress' section")
     d = sub.add_parser("edit")
     for flag in ("--record", "--issue", "--request", "--reply", "--at", "--run"):
         d.add_argument(flag, required=True)

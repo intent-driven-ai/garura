@@ -42,7 +42,8 @@ words changes only the parts they named, after they see each change and say yes.
   the reused slice no longer serves the intent as it is, the run changes it: it pulls a feature
   in, or pushes a feature out, and the slice stays testable end to end (one surface, one tester,
   one feature or more). A slice in progress (its epic is past ready: a story is started or done)
-  is never touched; the run shapes a new slice. The brief shows each change, and nothing is kept
+  is never touched by a shaping run; the run shapes a new slice. Only an edit the person
+  approves changes a slice in progress (C20). The brief shows each change, and nothing is kept
   before the person's yes.
 - C8 — The run reuses what exists, fills what exists in part, and adds what is missing. A fill
   of an existing domain, capability or feature adds the intent to its `intents`, sets its domain
@@ -145,6 +146,8 @@ words changes only the parts they named, after they see each change and say yes.
   check compares each record before and after and refuses any other change. The slice record
   keeps a history line with who asked, when and their words, and so does the hidden file when
   it changes. The model check, the write guard and the trace check run as in a shaping run.
+  An edit may change a slice in progress: the brief says that the slice is in progress, and
+  names its epic, with its status, as out of date (named, not changed).
 
 ### Failure conditions
 
@@ -160,7 +163,7 @@ words changes only the parts they named, after they see each change and say yes.
 - F5 — A question or answer was not recorded, or an answered question was asked again.
 - F6 — A slice was written with no tester, with no surface, or with more than one surface.
 - F7 — A new slice was made for an intent that an existing slice, not in progress, already
-  serves; a slice in progress was changed; or a reused slice was changed so that a person can no
+  serves; a shaping run changed a slice in progress; or a reused slice was changed so that a person can no
   longer test it end to end.
 - F8 — A part the slice needs was skipped; an existing part was left unfilled (no intent link,
   or no domain the run knows); a page is outside its parent's folder; a page the run moved or
@@ -193,8 +196,9 @@ words changes only the parts they named, after they see each change and say yes.
   decide or write content itself, or to reshape a skill's output; or a dispatch names no
   skills.
 - F20 — An edit changed something that is not on the list the person saw, wrote before the
-  person's yes, changed a part an edit may not change, or left no history line; or a kept entry
-  of the hidden file changed with no edit the person approved.
+  person's yes, changed a part an edit may not change, or left no history line; an edit of a
+  slice in progress whose brief did not say it is in progress; or a kept entry of the hidden
+  file changed with no edit the person approved.
 
 ## Context
 
@@ -345,5 +349,6 @@ words changes only the parts they named, after they see each change and say yes.
   it, through the agent; when no skill does it, close HALTED and name the missing skill. The
   agent never does it. Handoff: autonomous.
 - REC20 (F20) — put back each change that is not on the approved list, or every write made
-  before the yes, and add the missing history line; nothing of the edit is kept without the
-  person's yes. Handoff: autonomous.
+  before the yes, and add the missing history line; when the slice is in progress and the brief
+  did not say so, put back the edit, show it in the brief and ask again; nothing of the edit is
+  kept without the person's yes. Handoff: autonomous.

@@ -356,6 +356,12 @@ def render_edit(working, slice_name):
              "## What you asked", "", f"> {request}", "", "## Changes", ""]
     for i, c in enumerate(changes, 1):
         lines += [f"{i}. {part_words(c)}", f"   - was: {c.get('old')}", f"   - now: {c.get('new')}"]
+    before = load(working, "edit-before.json")
+    if before.get("in_progress"):
+        epics = ", ".join(f"{e.get('id')} ({e.get('status')})" for e in before.get("epics") or [])
+        lines += ["", "## In progress", "",
+                  f"This slice is in progress: its epic {epics} is past ready. The edit changes it only "
+                  "because you approve each change; the work started from it is named below as out of date."]
     lines += ["", "## Out of date (named, not changed)", ""]
     lines += [f"- {o.get('record')}: {o.get('why')}" for o in lst.get("out_of_date") or []] or ["Nothing."]
     if lst.get("not_editable"):

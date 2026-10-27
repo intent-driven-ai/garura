@@ -215,7 +215,7 @@ def main():
         code, out, _ = run("snapshot", "--root", root, "--spine", spine, "--intent", "bi-340",
                            "--plans-root", plans, "--working", work, "--out", by_intent)
         check("snapshot --intent: finds the one slice the spine links to the intent",
-              code == 0 and out["slice"] == "sl-self")
+              code == 0 and out["slice"] == "sl-self" and out["in_progress"] is False)
         code, _, err = run("snapshot", "--root", root, "--spine", spine, "--intent", "bi-999",
                            "--plans-root", plans, "--working", work, "--out", by_intent)
         check("snapshot --intent: refuses an intent with no slice (exit 2)", code == 2 and "0 slices" in err)
@@ -257,6 +257,31 @@ def main():
                            "--request", req, "--by", "p", "--at", "d", "--out", os.path.join(work, "x.json"))
         check("apply: a list that does not hold is refused and nothing is written (exit 2)",
               code == 2 and read(hidden) == HIDDEN)
+    with tempfile.TemporaryDirectory() as tmp:
+        root, plans, work, spine, hidden, req, before = setup(tmp)
+        write(spine, SPINE + "epics:\n- id: ep-self\n  slice_ref: sl-self\n  status: in_delivery\n")
+        code, out, _ = run("snapshot", "--root", root, "--spine", spine, "--slice-id", "sl-self",
+                           "--plans-root", plans, "--working", work, "--out", before)
+        check("snapshot: a slice whose epic is past ready is in progress, and an edit may still go on",
+              code == 0 and out["in_progress"] is True
+              and out["epics"] == [{"id": "ep-self", "status": "in_delivery"}])
+        lst(work, [{"file": "record", "part": "slice.name", "old": "Self booking", "new": "Book online",
+                    "why": "x"}])
+        bp = os.path.join(work, "brief.md")
+        subprocess.run([sys.executable, os.path.join(HERE, "render_brief.py"), "--edit", "Self booking",
+                        "--working", work, "--out", bp], capture_output=True, text=True)
+        brief = read(bp) if os.path.isfile(bp) else ""
+        check("render_brief --edit: the brief says the slice is in progress and names its epic",
+              "## In progress" in brief and "ep-self (in_delivery)" in brief)
+        r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "brief", "--brief", bp,
+                            "--edit", "--before", before], capture_output=True, text=True)
+        check("record_questions brief --edit: the brief of a slice in progress passes its check",
+              r.returncode == 0)
+        write(bp, brief.replace("## In progress", "## Note"))
+        r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "brief", "--brief", bp,
+                            "--edit", "--before", before], capture_output=True, text=True)
+        check("record_questions brief --edit --before: a brief that hides the slice is in progress fails",
+              r.returncode == 1 and "in progress" in r.stdout)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 

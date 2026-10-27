@@ -4,11 +4,12 @@ edit_slice.py — the edit path of /shape-slice (C20): change only the parts of 
 that the person named, and nothing else.
 
     python3 edit_slice.py snapshot --root <product-os dir> --spine <_spine.yaml> \\
-        --slice-id <id> --plans-root <plans dir> --working <working> --out <edit-before.json>
+        (--slice-id <id> | --intent <bi-n>) --plans-root <plans dir> --working <working> \\
+        --out <edit-before.json>
     python3 edit_slice.py check-list --before <edit-before.json> --list <edit-list.json> \\
         --out <edit-list-check.json>
     python3 edit_slice.py apply --before <edit-before.json> --list <edit-list.json> \\
-        --request <edit-request.md> --by "<git user>" --at <date> --out <edit-apply.json>
+        --request <edit-request.md> --by "<the person's role>" --at <date> --out <edit-apply.json>
     python3 edit_slice.py check --before <edit-before.json> --list <edit-list.json> \\
         --request <edit-request.md> --apply <edit-apply.json> --out <edit-check.json>
     python3 edit_slice.py restore --before <edit-before.json> --out <edit-restore.json>
@@ -24,7 +25,9 @@ edit-list.json (written by author-slice, edit mode):
      not_editable: [{what, why}]}
 
 snapshot finds the slice (--slice-id, or the one slice the spine links to --intent) and
-copies the three records into <working>edit-before/ and names them. check-list refuses
+copies the three records into <working>edit-before/ and names them. It also records whether
+the slice is in progress (`in_progress`, and each `epics` entry {id, status} past ready, the rule
+find_serving_slice.py holds): an edit may change a slice in progress, and the brief says so. check-list refuses
 (exit 1) a change to another file or part, an `old` that is not the part's text now, an empty
 `new`, a `new` equal to `old`, a who fixes that is neither answer, or two changes to one part.
 apply writes exactly the list through safe_write.atomic_write: the slice record keeps its layout
@@ -48,6 +51,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import spine_text  # noqa: E402
 from safe_write import atomic_write  # noqa: E402
+from find_serving_slice import IN_PROGRESS  # noqa: E402
 
 WHO = ("the builder can fix this alone", "a person must decide")
 RECORD_PARTS = {"slice.name": ("slice", "name"), "slice.outcome": ("slice", "outcome"),
@@ -106,7 +110,9 @@ def cmd_snapshot(args):
     files = {"record": record, "hidden": hidden, "spine": args.spine}
     copies = os.path.join(args.working, "edit-before")
     os.makedirs(copies, exist_ok=True)
-    out = {"slice": args.slice_id, "files": {}, "copies": {}}
+    busy = [{"id": e.get("id"), "status": e.get("status")} for e in spine.get("epics") or []
+            if isinstance(e, dict) and e.get("slice_ref") == args.slice_id and e.get("status") in IN_PROGRESS]
+    out = {"slice": args.slice_id, "in_progress": bool(busy), "epics": busy, "files": {}, "copies": {}}
     for name, path in files.items():
         if not os.path.isfile(path):
             raise Refused(f"the {name} file is not at {path}")

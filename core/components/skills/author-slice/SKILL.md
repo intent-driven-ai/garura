@@ -129,7 +129,9 @@ clear enough to name a part, name them in `not_editable` too; never guess a part
 
 Then name each record the edit makes out of date, without changing it: for example, an eval
 scenario that tests a "who fixes" line you changed, or a story whose title holds the old
-slice name. On a re-run with `refused`, fix only the changes it names.
+slice name. When `before` reads `in_progress: true`, an edit still goes on: name each epic it
+lists in `out_of_date`, with its status, because work already started from the slice. On a
+re-run with `refused`, fix only the changes it names.
 
 ## Output
 
@@ -183,7 +185,8 @@ Examples from different fields:
   needs is skipped, and every part has its folder.
 - A choice with no source in `gather` or `record` is not made up: when the model and memory
   do not name a surface a person can test end to end, write `no-slice.json`.
-- Never change a slice in progress; a reused slice stays testable end to end.
+- Never change a slice in progress in shape or reuse mode; only an edit the person approves
+  changes it. A reused slice stays testable end to end.
 - Never write the spine, a slice record, a model page or the hidden file. The play's scripts
   write them from this skill's files. In edit mode, a change the person's words did not name
   is never on the list.
