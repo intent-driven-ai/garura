@@ -1,0 +1,26 @@
+commits:
+  - sha: 33a84e05
+    message: "fix(check-change): read the compare diff when GitHub refuses a pull request's single diff (#889)"
+    files:
+      - core/components/plays/check-change/scripts/fetch_pr_context.py
+      - core/components/plays/check-change/scripts/platform_adapter.py
+      - core/components/plays/check-change/scripts/test_fetch_pr_context.py
+      - core/components/plays/create-play/references/fetch_pr_context.py
+      - core/components/plays/create-play/references/platform_adapter.py
+      - core/components/plays/create-play/references/test_platform_adapter.py
+      - core/components/plays/merge-change/scripts/platform_adapter.py
+      - core/components/plays/propose-change/scripts/platform_adapter.py
+      - core/components/plays/shape-eval/scripts/platform_adapter.py
+      - core/components/plays/shape-plan/scripts/platform_adapter.py
+      - core/components/plays/shape-slice/scripts/platform_adapter.py
+      - core/components/skills/platform-adapter/SKILL.md
+      - core/components/skills/platform-adapter/reference/github/verbs.md
+      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+    branch: feature/889-review-reads-full-diff
+excluded_files:
+  - path: ".garura/project/issues/889/context/porcelain.txt"
+    reason: "commit-change run record (scan output), not part of the change"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
