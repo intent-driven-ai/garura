@@ -1,61 +1,32 @@
 ---
-# assess-changes output (grouped from analyze_changeset.py scan, C8 fast path)
+# analyze_changeset.py output (C8 fast path), grouped by the assess-changes skill
 # issue: 908
 needs_judgment: false
 
 change_groups:
-  - id: shape-slice-edit-review-round-2-fixes
+  - id: author-slice-refused-problem-keys
     issue: 908
     commit_type: fix
-    scope: shape-slice
-    subject: "list the edit run's checks and files at close, send a failed check's own report to the skill, and refuse a real person's name in an edit"
+    scope: author-slice
+    subject: "name where each report keeps its problems in the refused input"
     files:
-      - core/components/plays/shape-slice/reference/ice.md
-      - core/components/plays/shape-slice/SKILL.md
-      - core/components/plays/shape-slice/scripts/edit_slice.py
-      - core/components/plays/shape-slice/scripts/test_edit_slice.py
       - core/components/skills/author-slice/SKILL.md
 
 exclusions:
-  # Run state: the review records of round 2 of PR #911. Left to the executor's run-state chore group.
-  - path: ".garura/project/issues/908/context/analysis.yaml"
-    reason: "run state (this analysis file), left to the run-state chore group"
-    blocking: false
-  - path: ".garura/project/issues/908/context/categories.yaml"
-    reason: "run state (review records of round 2), left to the run-state chore group"
-    blocking: false
-  - path: ".garura/project/issues/908/context/context.yaml"
-    reason: "run state (review records of round 2), left to the run-state chore group"
-    blocking: false
-  - path: ".garura/project/issues/908/context/decision-comment.md"
-    reason: "run state (review records of round 2), left to the run-state chore group"
-    blocking: false
-  - path: ".garura/project/issues/908/context/design-findings-harness.yaml"
-    reason: "run state (review records of round 2), left to the run-state chore group"
-    blocking: false
-  - path: ".garura/project/issues/908/context/layer1.txt"
-    reason: "run state (review records of round 2), left to the run-state chore group"
+  - path: ".garura/project/issues/908/context/self-review.md"
+    reason: "run state of the issue; left to the executor's run-state chore group"
     blocking: false
   - path: ".garura/project/issues/908/context/porcelain.txt"
-    reason: "run state (review records of round 2), left to the run-state chore group"
+    reason: "run state of the issue; left to the executor's run-state chore group"
     blocking: false
-  - path: ".garura/project/issues/908/context/pr.diff"
-    reason: "run state (the PR's own diff text), left to the run-state chore group"
-    blocking: false
-  - path: ".garura/project/issues/908/context/quality-findings.yaml"
-    reason: "run state (review records of round 2), left to the run-state chore group"
+  - path: ".garura/project/issues/908/context/analysis.yaml"
+    reason: "run state of the issue; left to the executor's run-state chore group"
     blocking: false
 
 risks:
-  sensitive_files: []
-  # Scan warning kept as a non-blocking note: it is the PR's own diff text quoting
-  # pattern carriers, not a secret (#438).
-  warnings:
-    - path: ".garura/project/issues/908/context/pr.diff"
-      match: 'password\s*='
-      reason: "PR diff text quotes pattern carriers; not a secret"
-      blocking: false
+  sensitive_files:
+    []
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "one code group for issue 908; every changed file is in the group or in exclusions"}
-  SE-5: {status: PASS, evidence: "content match in a prose artifact only (pr.diff) — non-blocking warning surfaced"}
+  SE-1: {status: PASS, evidence: "one code file in one group; the three run-state files are non-blocking exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
