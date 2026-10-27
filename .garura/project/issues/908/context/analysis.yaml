@@ -1,33 +1,35 @@
-# analyze_changeset.py output (C8 fast path), grouped by the assess-changes skill
+---
+# analyze_changeset.py scan, grouped by the assess-changes skill (round 2 of change #908)
 # issue: 908
 needs_judgment: false
 
 change_groups:
-  - id: remove-redraft-option
-    issue: 908
-    commit_type: fix
-    scope: shape-slice
-    subject: "remove the --redraft option from the hidden-file writer"
-    files:
-      - core/components/plays/shape-slice/scripts/write_hidden_file.py
-      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
-  - id: add-edit-path
+  - id: edit-slice-in-progress
     issue: 908
     commit_type: feat
     scope: shape-slice
-    subject: "add an edit path that changes an existing slice from the person's own words"
+    subject: "let an edit change a slice in progress and name its epic as out of date in the brief"
     files:
       - core/components/plays/shape-slice/reference/ice.md
       - core/components/plays/shape-slice/SKILL.md
       - core/components/plays/shape-slice/scripts/edit_slice.py
-      - core/components/plays/shape-slice/scripts/test_edit_slice.py
       - core/components/plays/shape-slice/scripts/render_brief.py
       - core/components/plays/shape-slice/scripts/record_questions.py
+      - core/components/plays/shape-slice/scripts/test_edit_slice.py
       - core/components/skills/author-slice/SKILL.md
 
 exclusions:
-  - path: ".garura/project/issues/908/context/commit-change/"
-    reason: "commit-change's own run records; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/908/context/analysis.yaml"
+    reason: "run state; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/908/context/porcelain.txt"
+    reason: "run state; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/908/context/self-review.md"
+    reason: "run state; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/908/context/resolved-rules.json"
+    reason: "run state; left to the executor's run-state chore group"
     blocking: false
 
 risks:
@@ -35,5 +37,5 @@ risks:
     []
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "10 changed paths: 9 in exactly one group, 1 run-state folder excluded"}
+  SE-1: {status: PASS, evidence: "one concern, one group; every source file lands in the group, run-state files are exclusions"}
   SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
