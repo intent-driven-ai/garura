@@ -1,21 +1,5 @@
  M .garura/project/issues/908/context/porcelain.txt
- M core/components/agents/product-os-keeper.md
+ M .garura/project/issues/908/context/self-review.md
  M core/components/plays/shape-slice/SKILL.md
- M core/components/plays/shape-slice/reference/ice.md
  M core/components/plays/shape-slice/scripts/edit_slice.py
- M core/components/plays/shape-slice/scripts/render_brief.py
  M core/components/plays/shape-slice/scripts/test_edit_slice.py
- M core/components/plays/shape-slice/scripts/test_render_brief.py
- M core/components/plays/shape-slice/scripts/test_write_hidden_file.py
- M core/components/plays/shape-slice/scripts/write_hidden_file.py
- M core/components/skills/author-slice/SKILL.md
-?? .garura/project/issues/908/context/categories.yaml
-?? .garura/project/issues/908/context/context.yaml
-?? .garura/project/issues/908/context/decision-comment.md
-?? .garura/project/issues/908/context/design-findings-harness.yaml
-?? .garura/project/issues/908/context/layer1.txt
-?? .garura/project/issues/908/context/lint-components.json
-?? .garura/project/issues/908/context/memory/
-?? .garura/project/issues/908/context/pr.diff
-?? .garura/project/issues/908/context/quality-findings.yaml
-?? .garura/project/issues/908/context/templates/
