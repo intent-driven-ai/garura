@@ -1,0 +1,162 @@
+# categories.yaml — /check-change Step 2 (Assess Categories), PR #916, issue 788
+# SCOPED landing review (Story #915). Only the five pieces in scope.json are assessed.
+# Every other path in the PR is carried forward from the 29 approved pull-request reviews.
+scope:
+  source: .garura/project/issues/788/review/scope.json
+  diff: .garura/project/issues/788/review/scoped.diff
+  pieces: [adr-049, adr-053, managing-work, gitignore, plan-788]
+  paths_assessed: 11
+
+already_run:
+  note: >
+    Tests and linters were already run on plan/788/base after main came in (commit e2871e44).
+    They are cited here and are NOT re-run by this review.
+  evidence: .garura/project/issues/788/context/landing-tests.md
+  result: >
+    67 test files pass, 0 fail. lint-components: 36 errors / 1 warning on the branch vs
+    273 errors / 2 warnings on main, 0 new. lint_play on 35 plays and loops: 27 pass, 8 fail with
+    exactly the gaps main already has, 0 new. Verdict: no regression.
+  no_runnable_check_applies_to_scope: >
+    None of the scoped paths is under core/components/ or is executable code, so no
+    lint-components, lint_play or test run is added for this scope.
+
+shelf:
+  review_shelf: .garura/project/issues/788/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/788/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/788/context/memory/manifest.json
+  read_through: memory tool (phoenix tier, version 23387be24c0d)
+
+categories:
+  - category: decision-records
+    evidence:
+      - path: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+        why: new file; Status / Context / Decision / Consequences shape; Status "Accepted"
+      - path: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+        why: new file; decision record
+      - path: docs/adr/017-folder-whitelist.md
+        why: forward pointer added to the Status line (amended in part by ADR 049)
+      - path: docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+        why: forward pointer on a prior ADR (superseded in part by ADR 049)
+      - path: docs/adr/028-agentic-lifecycle-five-loops.md
+        why: forward pointer for ADR 053
+      - path: docs/adr/033-approval-in-the-product-model.md
+        why: forward pointer for ADR 053
+    playbook: review/adrs
+    treatment:
+      reviewer: human, line by line (the product owner already accepted both ADRs through /record-decision)
+      layers: [layer-1]
+      design_grounding: false   # the decision is the design (playbook)
+      linters:
+        - name: ADR structural check
+          command: null
+          note: >
+            Gap in the playbook: no ADR linter exists in-repo. The structural check is a manual
+            checklist the tool surfaces for the human.
+      runnable_checks:
+        - kind: manual-checklist
+          checks:
+            - required sections present (Status, Context, Decision, Consequences) in ADR 049 and ADR 053
+            - Status is an allowed value
+            - ADR is numbered and linked from docs/adr/_index.md
+            - markdown is well-formed
+            - each forward pointer on ADR 017, 028, 033, 048 names an ADR that exists and links to it
+          note: the checklist reads shape only, never the merit of the decision
+
+  - category: documentation
+    evidence:
+      - path: .garura/user-provided/managing-work.md
+        why: >
+          human-facing convention prose (how Garura's own work is described, tracked and closed).
+          It is not a decision record, and it is not under core/components, so it is not harness or
+          memory. Content decides: it is prose read by people and loaded in sessions.
+    playbook: review/docs
+    treatment:
+      reviewer: the tool (the human opts out)
+      layers: [layer-1]
+      design_grounding: false
+      linters:
+        - name: prose checks
+          command: null
+          note: >
+            Gap in the playbook: no committed prose linter. The tool does the checks directly and
+            cites each as its basis.
+      runnable_checks:
+        - kind: by-hand
+          checks:
+            - spelling and grammar
+            - dead or broken links and referenced paths
+            - heading hierarchy
+            - leftover TODOs
+            - terminology consistency (Epic, Story, Feature, Slice, Plan used as the model defines them)
+            - completeness
+        - kind: by-hand
+          note: >
+            The piece note says this follows ADR 049. The reviewer also reads the page against
+            ADR 049 as a consistency check. This is an extra reading, not Layer 2 grounding, and
+            the playbook sets none for documentation.
+
+  - category: config-maps
+    evidence:
+      - path: .garura/.gitignore
+        why: >
+          two added lines: a comment and the pattern **/__pycache__/. A file whose job is to name
+          paths by pattern. Weak fit: it points at patterns, not at a target that must exist.
+    playbook: review/config-maps
+    treatment:
+      reviewer: human, by name
+      layers: [layer-1]
+      design_grounding: false
+      linters:
+        - name: path-existence check
+          command: null
+          note: >
+            Gap in the playbook: no config-map linter in-repo. The tool resolves each referenced
+            path and reports any that miss. Here there is no named target, so the check is vacuous.
+      runnable_checks:
+        - kind: by-hand
+          checks:
+            - the pattern is well-formed and matches only Python caches (**/__pycache__/)
+            - it does not hide any tracked file (git ls-files finds none under a __pycache__ folder)
+            - the comment cites #613 and matches the pattern
+
+  - category: plan-record
+    new_category: true
+    evidence:
+      - path: .garura/project/plans/788.yaml
+        why: >
+          the plan file for business intent 788: a tree of issue numbers, kinds, statuses, "represents"
+          slice and feature ids, and "needs" links, kept by hand. The diff changes the updated date
+          and turns issue 794 from a capability into an epic with its children removed.
+    playbook: null
+    playbook_missing: >
+      No playbook in knowledge/review/ covers a work-tracking plan record. Not force-fitted.
+      Nearest playbook is review/config-maps (it points at other things by id), but the risk
+      differs: the question is whether issue numbers, kinds, statuses and links are true against
+      the tracker, not whether a path resolves. A playbook is missing; a follow-up task to write
+      review/plan-records is owed (this agent has no task tool in this run, so the caller files it).
+    treatment:
+      reviewer: human, by name (the product owner owns the plan)
+      layers: [layer-1]
+      design_grounding: false
+      linters: []
+      runnable_checks:
+        - kind: by-hand
+          checks:
+            - the file parses as YAML
+            - status values are only done, now, next, blocked or later
+            - every "needs" id and every "represents" id exists in the tree or the product model
+            - kind values match the model after ontology v9 (the 794 change capability -> epic)
+        - kind: cited
+          note: >
+            The plan against GitHub was already checked at landing; its result is in
+            .garura/project/issues/788/context/landing-evidence.md and is cited, not re-run.
+
+design_grounding_categories: []
+# No scoped category carries Layer 2. The decision-records playbook says the decision is the
+# design. Docs, config maps and plan-record carry no Layer 2 treatment. The play therefore
+# dispatches no grounding fan-out for this scope.
+
+carried_forward:
+  note: >
+    All paths of PR #916 outside the five pieces were reviewed in 29 approved pull-request
+    reviews and are not assessed here (context/landing-evidence.md).

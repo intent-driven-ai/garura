@@ -1,0 +1,76 @@
+pr: 916
+issue: 788
+base: main
+scope: 'context: review/scope.json (Story #915 scoped landing review)'
+tests_and_linters: 'cited, not re-run: context/landing-tests.md (67 test files pass; 0 new linter findings)'
+diff_source: compare diff run by hand on the product owner's word (2026-10-27); the host lists at most 3000 files
+layer1_by_hand:
+- category: decision-records
+  checks: sections (Status, Context, Decision, Consequences) present in ADR 049 and ADR 053; Status 'Accepted';
+    both rows in docs/adr/_index.md; every relative link in both ADRs resolves; the forward pointers on ADR 017
+    and 048 (to 049) and 028 and 033 (to 053) name and link the new ADRs
+  result: pass, no finding
+  basis: review/adrs playbook checklist (categories.yaml)
+- category: plan-record
+  checks: parses as YAML; every status is done, now, next, blocked or later; every needs id is in the tree; every
+    represents id is in the product model spine; plan against GitHub cited from context/landing-evidence.md (60
+    items, 0 status mismatches)
+  result: pass with one P4 (PF-1)
+  basis: categories.yaml plan-record checks
+layer2: 'none: no scoped category is design-bearing (categories.yaml)'
+findings:
+- id: QF-1
+  category: documentation
+  file: .garura/user-provided/managing-work.md
+  line: 138
+  severity: P3
+  basis: 'by-hand check "completeness / consistency against ADR 049" (categories.yaml, documentation); ADR 049 section
+    4, docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md line 53; severity by taxonomy bucket P3
+    (wrong documentation)
+
+    '
+  defect: 'Line 138 (new section "How is a change checked?", item 2) says "The agents that build never read the
+    issue''s folder." The issue''s folder is .garura/project/issues/<issue>/. ADR 049 section 4 says the build play''s
+    context sub-agent collects the context into that same folder ("the issue''s short-term memory, .garura/project/issues/<issue>/")
+    and "the builder reads the story and that collected context". So as written the rule forbids what ADR 049 requires,
+    and it also bars the builder from the folder where its own context is put. A reader cannot tell which is meant,
+    and the isolation rule that matters (keep the acceptance check away from the builder) is stated too widely to
+    follow. Fix: narrow it to the check, for example "The agents that build never read the issue''s evidence/eval/
+    folder", matching the path named on line 134.
+
+    '
+  evidence: managing-work.md:138 "2. The agents that build never read the issue's folder."
+- id: QF-2
+  category: documentation
+  file: .garura/user-provided/managing-work.md
+  line: 12
+  severity: P3
+  basis: 'by-hand check "terminology consistency / completeness" (categories.yaml, documentation); severity by taxonomy
+    bucket P3 (wrong documentation)
+
+    '
+  defect: 'Line 12 says Garura''s work follows "the product model Garura offers (ontology v7". The ontology at HEAD
+    is version 12 (core/components/memory/standards/schemas/product-os/ontology.md, front matter "version: 12"),
+    and ADR 049 says the Slice, Plan and Epic wording this page now uses landed in v9 and v10. A reader following
+    the pointer to check a term finds a different version than the page names, and v7 predates the model the page
+    now describes. Fix: name the current version (v12), or drop the number and point at the file, so it stops going
+    stale.
+
+    '
+  evidence: 'managing-work.md:12 "(ontology v7,"; ontology.md line 3 "version: 12"'
+- id: PF-1
+  severity: P4
+  category: plan-record
+  title: The plan file uses two item kinds that no written rule defines
+  where: '.garura/project/plans/788.yaml: #792 ''kind: capability'' (line 21) and the parked list''s head ''kind:
+    group'' (line 231), which has no issue'
+  basis: 'categories.yaml plan-record check ''kind values match the model after ontology v9''; managing-work.md
+    names the tracker kinds (Epic, Story, Spike, Chore, Bug) but says nothing about a plan item''s kind or a node
+    with no issue. pr.md P4: a naming or consistency gap with no behaviour broken; #792 is closed and keeps its
+    old mark (managing-work.md)'
+  problem: 'A reader or a later play (update-plan, #730) cannot tell from any rule which kinds a plan item may have,
+    or that a node may stand for no issue.'
+  leads_to: Nothing breaks today; the plan is kept by hand. A play that reads the plan later could reject or mis-read
+    these two nodes.
+  fix: When update-plan (#730) is built, write the plan file's item kinds down (including a no-issue group node),
+    or drop 'group' and 'capability' then. No change needed for this landing.
