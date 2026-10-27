@@ -1,0 +1,580 @@
+domains:
+- id: dom-software-delivery-planning
+  slug: software-delivery-planning
+  intents:
+  - bi-717
+  - bi-788
+  status: proposed
+  detail: directional
+  one_line: 'Turn a business intent into work that agents can build and that an outside
+    check can prove: a slice to test, a plan of work items, and an eval kept from
+    the builder.'
+  doc: software-delivery-planning/domain.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+capabilities:
+- id: cap-723
+  slug: cap-723
+  domain: ''
+  intents:
+  - bi-722
+  status: proposed
+  detail: detailed
+  one_line: 'Link the product model: needs, identified by, and loose domains'
+  doc: capabilities/cap-723/capability.md
+  depends_on: []
+  identified_by: cap-718
+  issue: 723
+  nfr_needs:
+    reliability:
+      level: medium
+      target: 0 need or identified-by links that point at nothing or at work across
+        Garura's own model (plans 717, 722, 734); the same spine and intent pages
+        always give the same ready answer
+      gate: lint_grounding.py --spine on .garura/product/product-os exits 0 once the
+        link check (#725) lands; check_ice_workable.py fixture tests pass
+    maintainability:
+      level: medium
+      target: 0 new errors on any model page that passed before ontology v5 — a missing
+        domain, ICE or link is a warning, never an error; no capability or feature
+        value lost in the depends_on -> needs rename
+      gate: test_check_ice_workable.py and test_lint_grounding.py pass; a before/after
+        diff of Garura's spine shows every need kept
+  compliance_needs: []
+- id: cap-721
+  slug: cap-721
+  domain: ''
+  intents:
+  - bi-717
+  status: proposed
+  detail: directional
+  one_line: 'Start and land work against a plan: plan branches in start-change and
+    merge-change'
+  doc: capabilities/cap-721/capability.md
+  depends_on: []
+  identified_by: cap-720
+  issue: 721
+- id: cap-718
+  slug: cap-718
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-717
+  - bi-788
+  status: proposed
+  detail: directional
+  one_line: 'Build a plan from a business intent: a plan file, one epic per slice
+    and one story per feature'
+  doc: software-delivery-planning/cap-718/capability.md
+  depends_on: []
+  identified_by: ''
+  issue: 718
+  metadata:
+    thin: true
+- id: cap-719
+  slug: cap-719
+  domain: ''
+  intents:
+  - bi-717
+  status: proposed
+  detail: directional
+  one_line: 'View plans: see every plan, and any one plan as a tree'
+  doc: capabilities/cap-719/capability.md
+  depends_on: []
+  identified_by: ''
+  issue: 719
+- id: cap-720
+  slug: cap-720
+  domain: ''
+  intents:
+  - bi-717
+  status: proposed
+  detail: directional
+  one_line: 'Manage a plan: change the plan file and the tracker together'
+  doc: capabilities/cap-720/capability.md
+  depends_on: []
+  identified_by: ''
+  issue: 720
+- id: cap-735
+  slug: cap-735
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: The harness standard, written down
+  doc: capabilities/cap-735/capability.md
+  depends_on: []
+  identified_by: ''
+  issue: 735
+- id: cap-739
+  slug: cap-739
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: The naming checks, built before any rename
+  doc: capabilities/cap-739/capability.md
+  depends_on: []
+  identified_by: cap-735
+  issue: 739
+- id: cap-742
+  slug: cap-742
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: Every name moved to the standard, one family at a time
+  doc: capabilities/cap-742/capability.md
+  depends_on:
+  - cap-739
+  identified_by: ''
+  issue: 742
+- id: cap-747
+  slug: cap-747
+  domain: ''
+  intents:
+  - bi-734
+  status: proposed
+  detail: directional
+  one_line: Installs follow the renames
+  doc: capabilities/cap-747/capability.md
+  depends_on:
+  - cap-739
+  identified_by: ''
+  issue: 747
+- id: cap-shape-slice
+  slug: shape-slice
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-788
+  status: proposed
+  detail: directional
+  one_line: 'Shape the one slice that shows a business intent is served: the features
+    in build order, the one surface and the person who tests it.'
+  doc: software-delivery-planning/shape-slice/capability.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
+- id: cap-shape-eval
+  slug: shape-eval
+  domain: dom-software-delivery-planning
+  intents:
+  - bi-788
+  status: proposed
+  detail: directional
+  one_line: Write the eval that checks, from the outside, that a business intent is
+    met on its slice's surface. The build is given the intent, never the eval. A check
+    flags each build session that read the evals folder.
+  doc: software-delivery-planning/shape-eval/capability.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
+- id: cap-initialize
+  slug: initialize
+  domain: dom-software-delivery-planning
+  intents: []
+  status: proposed
+  detail: detailed
+  one_line: 'After the install, set a project up for Garura: its memory, its review
+    rules, and its tracker''s work-item types.'
+  doc: software-delivery-planning/initialize/capability.md
+  nfr_needs:
+    reliability:
+      level: medium
+      target: a second run with every answer unchanged and no Phoenix memory change
+        changes 0 files in the project's memory, its rule-group record and its tracker;
+        an install changes 0 files in any project's Garura memory
+      gate: run initialize twice on a test project with the same answers and diff
+        the memory folder, the rule-group record and the tracker's type list; install
+        Garura and Phoenix again and diff the project's memory folder
+    security:
+      level: medium
+      target: 0 writes to the tracker or the type mapping before the product owner's
+        typed yes; 0 writes to Phoenix memory or another project's memory from initialize;
+        every type made is named in the run's record
+      gate: run initialize on a test GitHub organization with a missing type, answer
+        no, and check the tracker's type list and the mapping are unchanged; answer
+        yes and check the record names each type made; initialize two test projects
+        and diff Phoenix memory and the other project's memory before and after
+    maintainability:
+      level: medium
+      target: a new tracker (Jira, Linear) is added by one entry in the adapter with
+        0 changes to any play; the plays read only the type mapping
+      gate: 'review of the change that adds the second tracker: its diff touches the
+        adapter and no play'
+  compliance_needs: []
+  decisions:
+  - dec-cap-initialize-security-none-medium
+features:
+- id: fn-724
+  slug: fn-724
+  capability: cap-723
+  intents:
+  - bi-722
+  status: proposed
+  one_line: A capability or feature is ready without a domain
+  doc: features/fn-724/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 724
+- id: fn-597
+  slug: fn-597
+  capability: cap-723
+  intents:
+  - bi-722
+  status: proposed
+  one_line: Rebuild the product model as an ontology
+  doc: features/fn-597/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 597
+- id: fn-725
+  slug: fn-725
+  capability: cap-723
+  intents:
+  - bi-722
+  status: proposed
+  one_line: '"Needs" and "identified by" link capabilities and features'
+  doc: features/fn-725/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 725
+- id: fn-726
+  slug: fn-726
+  capability: cap-723
+  intents:
+  - bi-722
+  status: proposed
+  one_line: Domains link to business intents and capabilities, outside the plan tree
+  doc: features/fn-726/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 726
+- id: fn-731
+  slug: fn-731
+  capability: cap-721
+  intents:
+  - bi-717
+  status: proposed
+  one_line: start-change cuts a plan's branch, and each issue's branch from it
+  doc: features/fn-731/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 731
+- id: fn-673
+  slug: fn-673
+  capability: cap-721
+  intents:
+  - bi-717
+  status: proposed
+  one_line: merge-change lands an issue on its plan branch, and a plan on main only
+    when it is done
+  doc: features/fn-673/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 673
+- id: fn-727
+  slug: fn-727
+  capability: cap-718
+  intents:
+  - bi-717
+  status: proposed
+  one_line: Build the plan tree from a business intent
+  doc: software-delivery-planning/cap-718/fn-727/feature.md
+  depends_on:
+  - fn-724
+  identified_by: ''
+  issue: 727
+- id: fn-728
+  slug: fn-728
+  capability: cap-718
+  intents:
+  - bi-717
+  status: proposed
+  one_line: Create or link the epic and the story issues of a plan
+  doc: software-delivery-planning/cap-718/fn-728/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 728
+- id: fn-729
+  slug: fn-729
+  capability: cap-719
+  intents:
+  - bi-717
+  status: proposed
+  one_line: List every plan, from the plan files alone
+  doc: features/fn-729/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 729
+- id: fn-628
+  slug: fn-628
+  capability: cap-719
+  intents:
+  - bi-717
+  status: proposed
+  one_line: 'Show the plan as a plain-words tree: goal, done, now, next, wait'
+  doc: features/fn-628/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 628
+- id: fn-730
+  slug: fn-730
+  capability: cap-720
+  intents:
+  - bi-717
+  status: proposed
+  one_line: Update, edit or delete a plan file, and connect it to its issues
+  doc: features/fn-730/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 730
+- id: fn-736
+  slug: fn-736
+  capability: cap-735
+  intents:
+  - bi-734
+  status: proposed
+  one_line: 'Naming rules: verbs, run- for loops, no tool built-ins, two-word plays'
+  doc: features/fn-736/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 736
+- id: fn-737
+  slug: fn-737
+  capability: cap-735
+  intents:
+  - bi-734
+  status: proposed
+  one_line: 'Harness principles and practices: why we build this way, and how'
+  doc: features/fn-737/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 737
+- id: fn-738
+  slug: fn-738
+  capability: cap-735
+  intents:
+  - bi-734
+  status: proposed
+  one_line: One ADR that replaces ADR 006 and ADR 018
+  doc: features/fn-738/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 738
+- id: fn-740
+  slug: fn-740
+  capability: cap-739
+  intents:
+  - bi-734
+  status: proposed
+  one_line: The component linter fails any name that breaks the standard
+  doc: features/fn-740/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 740
+- id: fn-741
+  slug: fn-741
+  capability: cap-739
+  intents:
+  - bi-734
+  status: proposed
+  one_line: A rename map, and a check that no old name is left
+  doc: features/fn-741/feature.md
+  depends_on: []
+  identified_by: ''
+  issue: 741
+- id: fn-743
+  slug: fn-743
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the harness plays and the loops
+  doc: features/fn-743/feature.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 743
+- id: fn-744
+  slug: fn-744
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the change, plan, knowledge and record plays
+  doc: features/fn-744/feature.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 744
+- id: fn-745
+  slug: fn-745
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the lifecycle and lens plays
+  doc: features/fn-745/feature.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 745
+- id: fn-746
+  slug: fn-746
+  capability: cap-742
+  intents:
+  - bi-734
+  status: proposed
+  one_line: Rename the skills
+  doc: features/fn-746/feature.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 746
+- id: fn-748
+  slug: fn-748
+  capability: cap-747
+  intents:
+  - bi-734
+  status: proposed
+  one_line: An install removes old names and lays the new ones
+  doc: features/fn-748/feature.md
+  depends_on:
+  - fn-741
+  identified_by: ''
+  issue: 748
+- id: fn-795
+  slug: fn-795
+  capability: cap-shape-slice
+  intents:
+  - bi-788
+  status: proposed
+  one_line: From a business intent, /shape-slice writes one slice, its link to the
+    intent and its hidden file, and no plan, epic, story or eval.
+  doc: software-delivery-planning/shape-slice/fn-795/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
+- id: fn-818
+  slug: fn-818
+  capability: cap-718
+  intents:
+  - bi-788
+  status: proposed
+  one_line: From a shaped slice, /shape-plan writes the intent's one plan file, one
+    epic for the slice and one story for each feature.
+  doc: software-delivery-planning/cap-718/fn-818/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
+- id: fn-798
+  slug: fn-798
+  capability: cap-shape-eval
+  intents:
+  - bi-788
+  status: proposed
+  one_line: From the plan's epic and stories, /shape-eval writes the eval of the business
+    intent in the plan's evals folder. The build is given the intent, never the eval.
+  doc: software-delivery-planning/shape-eval/fn-798/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
+- id: fn-setup-questions
+  slug: fn-setup-questions
+  capability: cap-initialize
+  intents: []
+  status: proposed
+  one_line: Ask the product owner the short set of setup questions built from Phoenix
+    memory, each with choices and a proposed answer that names its source, and keep
+    the confirmed answers for the other features.
+  doc: software-delivery-planning/initialize/fn-setup-questions/feature.md
+- id: fn-project-memory
+  slug: fn-project-memory
+  capability: cap-initialize
+  intents: []
+  status: proposed
+  one_line: Set up the project's Garura memory from only the memory blocks the answers
+    call for, and record the answers in the product profile.
+  doc: software-delivery-planning/initialize/fn-project-memory/feature.md
+- id: fn-review-rule-groups
+  slug: fn-review-rule-groups
+  capability: cap-initialize
+  intents: []
+  status: proposed
+  one_line: Record which review rule groups fit the project, so a review runs only
+    those and names the groups it skipped.
+  doc: software-delivery-planning/initialize/fn-review-rule-groups/feature.md
+- id: fn-881
+  slug: fn-881
+  capability: cap-initialize
+  intents: []
+  status: proposed
+  one_line: Find which of the issue types Garura files (Business Intent, Epic, Story,
+    Bug, Chore, Spike) the tracker has, make each missing one after a typed yes, and
+    record a stand-in, also after a typed yes, where one cannot be made.
+  doc: software-delivery-planning/initialize/fn-881/feature.md
+- id: fn-rerun-initialize
+  slug: fn-rerun-initialize
+  capability: cap-initialize
+  intents: []
+  status: proposed
+  one_line: Run initialize again when the project changes, with the earlier answers
+    proposed, so the memory, rule groups and tracker set-up follow it.
+  doc: software-delivery-planning/initialize/fn-rerun-initialize/feature.md
+- id: fn-883
+  slug: fn-883
+  capability: cap-initialize
+  intents: []
+  status: proposed
+  one_line: Give each project its own memory blocks from the one Phoenix memory on
+    the machine, and on each run compare them with Phoenix memory so the project learns
+    when a block changed.
+  doc: software-delivery-planning/initialize/fn-883/feature.md
+- id: fn-898
+  slug: fn-898
+  capability: cap-shape-eval
+  intents:
+  - bi-788
+  status: proposed
+  one_line: A build is given the business intent, never the eval, and a check flags
+    each build session that read the plan's evals folder.
+  doc: software-delivery-planning/shape-eval/fn-898/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
+profile:
+  state: set
+  nfr:
+    reliability:
+      level: medium
+      gate: lint_grounding.py --spine link check + check_ice_workable.py tests
+    maintainability:
+      level: medium
+      gate: ready-check and linter tests; spine before/after diff on the rename
+    security:
+      level: medium
+      gate: no tracker or mapping write before the typed yes, on a test GitHub organization;
+        no write to Phoenix memory or another project's memory
+  compliance: []
+slices:
+- id: sl-intent-to-design
+  slug: intent-to-design
+  feature_refs:
+  - fn-795
+  - fn-818
+  - fn-798
+  - fn-898
+  vertical: the Claude Code command line
+  intents:
+  - bi-788
+  record: slices/sl-intent-to-design.yaml

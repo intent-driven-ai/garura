@@ -1,4 +1,5 @@
 {
   "files": [],
-  "note": "No memory copy was needed for the product-model grounding. Every source was read from the base ref plan/788/base with git show: core/components/memory/standards/schemas/product-os/{ontology.md (v12),slice.yaml,grounding/feature.md}, docs/adr/{047,049,052}. The shared pr.md copy supplies the severity buckets."
+  "round": 2,
+  "note": "No memory copy was needed in round 2. Sources read from the base ref plan/788/base with git show: core/components/memory/standards/schemas/product-os/{ontology.md (v12), slice.yaml, grounding/feature.md, grounding/capability.md}. The Phoenix copy of grounding/feature.md was read through the memory tool (read, tier phoenix). The shared pr.md copy supplies the severity buckets."
 }

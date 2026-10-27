@@ -1,89 +1,70 @@
 {
-  "questions": [
-    {
-      "id": "Q-recovery-1",
-      "topic": "recovery",
-      "blocking": false,
-      "question": "Some features build the test files themselves. When one of them breaks, may the fix we give the builder name those test files?",
-      "why": "The hidden file lists, for every feature, the cases where it breaks, and the fix for each case. Some of those fixes go to the builder. The rule says a builder's fix never names the test files (the hidden file and the evals folder), so the builder never learns where the tests are. But two features in this slice build those very files: /shape-slice writes the hidden file, and fn-898 builds the check that catches a build reading the evals folder. Their fixes cannot be written without naming those files. If the answer is no, five fixes move from the builder to a person.",
-      "examples": [
-        "A bank: the feature builds the fraud check. Its fix may say \"make the fraud check stop a second charge\", but not which test found the fault.",
-        "A school: the feature writes the exam papers. Its fix may say \"add the missing question to the paper\", but not the markers' answer sheet.",
-        "A warehouse: the feature builds the stock count. Its fix may say \"count the returned boxes\", but not which test found the fault."
-      ],
-      "assume": "The fix may name the test file that the feature builds. It never says which test caught the problem.",
-      "settled": false,
-      "basis": {
-        "kind": "memory",
-        "ref": "phoenix standards/rules/expectation-generation.md:88-92"
-      },
-      "proposed_answer": "Yes. The fix may name the test file that the feature builds. It never says which test caught the problem."
-    }
-  ],
+  "questions": [],
   "settled": [
     {
       "id": "Q-redraft-1",
       "topic": "redraft",
       "blocking": false,
       "question": "Which entries of the slice's hidden list of failure lines must this run draft again?",
-      "why": "An entry that is not drafted again keeps a fix that breaks the rule, or misses a new failure line, and the eval then checks the wrong thing.",
+      "why": "An entry that is drafted again with no reason can lose a fix that a person already agreed to. An entry that is not drafted again keeps a fix that sends the wrong work to the builder.",
       "examples": [
-        "a shop: only the entry of the checkout step whose rule changed",
-        "a bank: every entry whose fix names the audit",
-        "a clinic: the entry of each step whose own rules got a new line"
+        "a shop: only the entries of the checkout step and the refund step, whose fixes changed",
+        "a bank: only the entry of the transfer step, and every other entry stays as it is",
+        "a clinic: every entry, because the rule for all fixes changed"
       ],
-      "assume": "fn-798's entry (its 'Fails if' line changes and F13 goes to a person), fn-818's entry (its ICE gains the line that a story never names the eval, the hidden file or the evals folder), and each other entry whose fix goes to the builder and names the evals folder, the eval, the hidden file or the check that found it (F3, F6, F12, F20, F21, F22, read by the answer to Q-recovery-1).",
+      "assume": "Only the entries of fn-818 and fn-898 are drafted again. Every other recovery keeps its meaning.",
       "settled": true,
       "basis": {
         "kind": "person",
-        "ref": "#798 run 2 change, item 6 (change.md lines 12-15) and item 2 (line 7); hidden file line 5: when an ICE changes, its entry is made again"
+        "ref": "#798 run 3 change, change.md line 5 (--redraft fn-818 --redraft fn-898; keep the meaning of every other recovery)"
       },
       "settled_basis": {
         "kind": "person",
-        "ref": "#798 run 2 change: item 2 (change.md line 8) and item 6 (change.md lines 12-15)"
+        "ref": "#798 run 3 change, change.md line 5"
       }
     },
     {
-      "id": "Q-scope-1",
-      "topic": "scope",
+      "id": "Q-wayback-1",
+      "topic": "wayback",
       "blocking": false,
-      "question": "Must fn-798's page also take the build-input part out of its acceptance criterion and its 'Checked by' line, and leave that part to fn-898 only?",
-      "why": "If the build-input part stays in fn-798's criterion and 'Checked by' line, two features own the same check, and the eval tests it twice under two stories.",
+      "question": "When the eval play reads a page it must not read, may the fix for fn-898 go to the builder?",
+      "why": "fn-898 builds the two checks that catch a build that reads the tests. It does not build the eval play. A fix that tells the builder of fn-898 to write the eval again tells it where the eval is, and lets it change its own exam.",
       "examples": [
-        "a shop: the payment step owns the card check, and the order step does not repeat it",
-        "a clinic: the booking step owns the double-booking check, and the reminder step does not repeat it",
-        "a bank: the transfer step owns the limit check, and the statement step does not repeat it"
+        "a school: the person who builds the exam-room camera is not told to rewrite the exam paper; the head teacher decides",
+        "a bank: the person who builds the audit log is not told to change the audit questions; the audit lead decides",
+        "a factory: the person who builds the scale is not told to change the quality test; the quality manager decides"
       ],
-      "assume": "Yes: fn-798's acceptance criterion 'Given the build plays, when a person reads their inputs, then none names the evals folder.' and the part '... and no build play's inputs name that folder' of its 'Checked by' line move out, as its 'Fails if' line does.",
+      "assume": "The fix for F25 goes to 'a person must decide', unless it can be said with no word about the eval and the hidden file.",
       "settled": true,
       "basis": {
-        "kind": "model",
-        "ref": "fn-798/feature.md line 32 (Out of scope: the checks that no build is given the evals folder are fn-898's), with the #798 run 2 change item 6 (change.md line 15: the build-input part is fn-898's only)"
+        "kind": "person",
+        "ref": "#798 run 3 change, change.md line 9 (F25's fix names neither the eval nor the hidden file, or it goes to a person) and line 11 (a fix given to the builder may name only what the feature itself builds)"
       },
       "settled_basis": {
-        "kind": "model",
-        "ref": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md:32, with the #798 run 2 change item 6 (change.md line 15)"
+        "kind": "person",
+        "ref": "#798 run 3 change, change.md line 9, with the naming rule at line 11"
       }
     },
     {
-      "id": "Q-proof-2",
-      "topic": "proof",
+      "id": "Q-naming-1",
+      "topic": "naming",
       "blocking": false,
-      "question": "Must the proof line of business intent 788 that says no builder can read the eval use the words the product owner accepted, 'No builder is given the eval, and a check flags each build session that read the evals folder.'?",
-      "why": "The intent page still says that no builder can read the eval, but the eval is plain text in the repo. If the words stay, the eval tests a promise the design no longer keeps, and the model and the intent disagree.",
+      "question": "May a fix that the builder gets name a thing that the feature itself builds?",
+      "why": "If the fix may not name what the feature builds, the builder cannot fix the feature that builds the checks alone. If the fix names too much, the builder learns which test found the fault, and builds to pass the test.",
       "examples": [
-        "a shop: 'no clerk sees the card number' becomes 'no clerk is given the card number, and each look is logged'",
-        "a school: 'no pupil can see the exam' becomes 'no pupil is given the exam, and each opening of the paper is recorded'"
+        "a bank: the feature builds the fraud check; its fix may say 'make the fraud check stop a second charge', but not which test found the fault",
+        "a school: the feature writes the exam papers; its fix may say 'add the missing question to the paper', but not the answer sheet",
+        "a warehouse: the feature builds the stock count; its fix may say 'count the returned boxes', but not which test found the fault"
       ],
-      "assume": "Yes: the product owner accepted the new words; the run that owns the intent page writes them.",
+      "assume": "Yes. A fix given to the builder may name what the feature itself builds. It never names the test that found the failure.",
       "settled": true,
       "basis": {
         "kind": "person",
-        "ref": "Q-proof-1 (#798), accepted as proposed on 2026-10-26"
+        "ref": "Q-recovery-1-4 (#798), as the run 3 change states it (change.md line 11)"
       },
       "settled_basis": {
         "kind": "person",
-        "ref": "Q-proof-1 (#798)"
+        "ref": "Q-recovery-1-4 (#798), as the run 3 change states it (change.md line 11)"
       }
     }
   ],

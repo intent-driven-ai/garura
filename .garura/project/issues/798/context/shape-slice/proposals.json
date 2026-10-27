@@ -1,18 +1,37 @@
-{"proposals": [
-  {"group": "Q-recovery-1", "closed_by": "proposal", "answer": "Yes. The fix may name the test file that the feature builds. It never says which test caught the problem.", "basis": {"kind": "memory", "ref": "phoenix standards/rules/expectation-generation.md:88-92"}, "context": "The rule says a fix the builder gets names what the builder sees and changes in the product (expectation-generation.md, lines 88-92). When a feature builds a test file, that file is part of what the builder changes. The fix still never says which test caught the problem, so the builder does not learn where its own tests are.", "why": ""},
-  {"group": "Q-redraft-1", "closed_by": "settled",
-   "answer": "fn-798's entry, fn-818's entry, and each other entry whose fix goes to the builder and names the evals folder, the eval, the hidden file or the check that found it (F3, F6, F12, F20, F21, F22, read by the answer to Q-recovery-1).",
-   "basis": {"kind": "person", "ref": "#798 run 2 change: item 2 (change.md line 8) and item 6 (change.md lines 12-15)"},
-   "context": "",
-   "why": "The product owner's change says fn-798's entry is drafted again and that no fix given to the builder names the evals folder, the eval, the hidden file or the check; fn-818's ICE gains a 'Fails if' line, and the rule gives one recovery for each 'Fails if' line. Which of F20, F21 and F22 still break the rule depends on the answer to Q-recovery-1."},
-  {"group": "Q-scope-1", "closed_by": "settled",
-   "answer": "Yes: fn-798's acceptance criterion 'Given the build plays, when a person reads their inputs, then none names the evals folder.' and the part '... and no build play's inputs name that folder' of its 'Checked by' line move out, as its 'Fails if' line does.",
-   "basis": {"kind": "model", "ref": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md:32, with the #798 run 2 change item 6 (change.md line 15)"},
-   "context": "",
-   "why": "fn-798's own page puts the check that no build is given the evals folder out of its scope and in fn-898's, and the product owner's change says the build-input part is fn-898's only."},
-  {"group": "Q-proof-2", "closed_by": "settled",
-   "answer": "Yes: the proof line uses the words the product owner accepted, 'No builder is given the eval, and a check flags each build session that read the evals folder.'; the run that owns the intent page writes them.",
-   "basis": {"kind": "person", "ref": "Q-proof-1 (#798)"},
-   "context": "",
-   "why": "The product owner accepted these exact words for this proof line on 2026-10-26 (Q-proof-1); the intent page at line 16 still has the old words."}
-]}
+{
+  "proposals": [
+    {
+      "group": "Q-redraft-1",
+      "closed_by": "settled",
+      "answer": "Only the entries of fn-818 and fn-898 are drafted again. Every other recovery keeps its meaning.",
+      "basis": {
+        "kind": "person",
+        "ref": "#798 run 3 change, change.md line 5"
+      },
+      "context": "",
+      "why": "The product owner's change for this run says: draft the entries of fn-818 and fn-898 again, and keep the meaning of every other recovery. The slice and every model page stay as run 2 left them."
+    },
+    {
+      "group": "Q-wayback-1",
+      "closed_by": "settled",
+      "answer": "The fix for F25 goes to 'a person must decide', unless it can be said with no word about the eval and the hidden file.",
+      "basis": {
+        "kind": "person",
+        "ref": "#798 run 3 change, change.md line 9, with the naming rule at line 11"
+      },
+      "context": "",
+      "why": "The product owner's change says fn-898's fix for F25 names neither the eval nor the hidden file, or it goes to a person, because fn-898 builds the two checks that catch a build reading the evals, not the eval. The naming rule says a fix given to the builder may name only what the feature itself builds."
+    },
+    {
+      "group": "Q-naming-1",
+      "closed_by": "settled",
+      "answer": "Yes. A fix given to the builder may name what the feature itself builds. It never names the test that found the failure.",
+      "basis": {
+        "kind": "person",
+        "ref": "Q-recovery-1-4 (#798), as the run 3 change states it (change.md line 11)"
+      },
+      "context": "",
+      "why": "The product owner answered Q-recovery-1-4 (record lines 192-221), and this run's change writes that answer down as the rule for naming things in a fix."
+    }
+  ]
+}

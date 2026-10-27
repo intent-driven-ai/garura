@@ -1,0 +1,23 @@
+slice:
+  id: sl-intent-to-design
+  slug: intent-to-design
+  name: Name a business intent, and three plays write its slice, plan and eval
+  outcome: The product owner runs three plays on a business intent and gets a slice
+    to test, a plan with one epic and one story for each feature, and an eval that
+    no build is given; a check flags each build session that read the evals folder,
+    and the flag is recorded in that build run's evidence.
+  feature_refs:
+  - fn-795
+  - fn-818
+  - fn-798
+  - fn-898
+  vertical: the Claude Code command line
+  intents:
+  - bi-788
+surface:
+  id: surf-claude-code-cli
+  name: the Claude Code command line
+  persona_ref: product-owner
+  user_action: runs /shape-slice, then /shape-plan, then /shape-eval on a business
+    intent, then runs the check that shows no build play's inputs name the evals folder,
+    and finds the flag of a build session that read it in that build run's evidence

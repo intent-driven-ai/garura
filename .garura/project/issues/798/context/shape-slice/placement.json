@@ -11,6 +11,6 @@
       }
     ],
     "confidence": "high",
-    "note": "This run keeps the slice sl-intent-to-design and changes only page words, ICE lines and hidden-file entries of its features (fn-795, fn-818, fn-798, fn-898); all of them do the same job in the same field, so they are unmatched on the shelves too. In the product model they sit under cap-shape-slice, cap-718 and cap-shape-eval of dom-software-delivery-planning."
+    "note": "This run keeps the slice sl-intent-to-design and changes only the 'who fixes' lines of hidden-file entries of fn-818 and fn-898; those features do the same job in the same field, so they are unmatched on the shelves too. In the product model they sit under cap-718 and cap-shape-eval of dom-software-delivery-planning."
   }
 }

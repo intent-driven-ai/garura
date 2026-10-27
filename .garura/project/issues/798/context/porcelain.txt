@@ -1,3 +1,79 @@
+ M .garura/project/issues/798/context/citations.jsonl
+ M .garura/project/issues/798/context/context.yaml
+ M .garura/project/issues/798/context/memory/grounding-harness/manifest.json
+ M .garura/project/issues/798/context/memory/grounding-product-model/manifest.json
+ M .garura/project/issues/798/context/memory/grounding-slice-evals/manifest.json
+ M .garura/project/issues/798/context/memory/manifest.json
  M .garura/project/issues/798/context/porcelain.txt
- M .garura/project/issues/798/context/self-review.md
- M core/components/plays/create-play/references/fetch_pr_context.py
+ M .garura/project/issues/798/context/pr.diff
+ M .garura/project/issues/798/context/shape-slice/citations.json
+ D .garura/project/issues/798/context/shape-slice/fills-undo.json
+ M .garura/project/issues/798/context/shape-slice/fills.json
+ M .garura/project/issues/798/context/shape-slice/gather.json
+ D .garura/project/issues/798/context/shape-slice/grounding-report.json
+ M .garura/project/issues/798/context/shape-slice/guard-report.json
+ D .garura/project/issues/798/context/shape-slice/guard-restore-2.json
+ D .garura/project/issues/798/context/shape-slice/guard-restore.json
+ M .garura/project/issues/798/context/shape-slice/hidden-file.json
+ M .garura/project/issues/798/context/shape-slice/hidden-write.json
+ D .garura/project/issues/798/context/shape-slice/manifests/enrich-grounding-update.json
+ M .garura/project/issues/798/context/shape-slice/opening.md
+ M .garura/project/issues/798/context/shape-slice/persist-fills.json
+ M .garura/project/issues/798/context/shape-slice/persist-slice.json
+ M .garura/project/issues/798/context/shape-slice/placement.json
+ M .garura/project/issues/798/context/shape-slice/proposals.json
+ M .garura/project/issues/798/context/shape-slice/questions-checked.json
+ M .garura/project/issues/798/context/shape-slice/questions-open-list.json
+ M .garura/project/issues/798/context/shape-slice/questions-open.json
+ M .garura/project/issues/798/context/shape-slice/questions.json
+ D .garura/project/issues/798/context/shape-slice/reply-q-recovery.md
+ M .garura/project/issues/798/context/shape-slice/reuse.json
+ M .garura/project/issues/798/context/templates/manifest-check-change.json
+ M .garura/project/issues/798/context/templates/manifest-shape-slice.json
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+ M core/components/plays/shape-slice/scripts/write_hidden_file.py
+?? .garura/project/issues/798/context/memory/product/
+?? .garura/project/issues/798/context/shape-slice/answers.json
+?? .garura/project/issues/798/context/shape-slice/approval.json
+?? .garura/project/issues/798/context/shape-slice/brief-split.json
+?? .garura/project/issues/798/context/shape-slice/brief.md
+?? .garura/project/issues/798/context/shape-slice/budget.json
+?? .garura/project/issues/798/context/shape-slice/change.md
+?? .garura/project/issues/798/context/shape-slice/citations-check.json
+?? .garura/project/issues/798/context/shape-slice/citations-live.json
+?? .garura/project/issues/798/context/shape-slice/run2/citations.json
+?? .garura/project/issues/798/context/shape-slice/run2/early-split.json
+?? .garura/project/issues/798/context/shape-slice/run2/fills-undo.json
+?? .garura/project/issues/798/context/shape-slice/run2/fills.json
+?? .garura/project/issues/798/context/shape-slice/run2/gather.json
+?? .garura/project/issues/798/context/shape-slice/run2/grounding-report.json
+?? .garura/project/issues/798/context/shape-slice/run2/guard-report.json
+?? .garura/project/issues/798/context/shape-slice/run2/guard-restore-2.json
+?? .garura/project/issues/798/context/shape-slice/run2/guard-restore.json
+?? .garura/project/issues/798/context/shape-slice/run2/hidden-file.json
+?? .garura/project/issues/798/context/shape-slice/run2/hidden-write.json
+?? .garura/project/issues/798/context/shape-slice/run2/intent-issue.json
+?? .garura/project/issues/798/context/shape-slice/run2/intent-page.json
+?? .garura/project/issues/798/context/shape-slice/run2/lint-before-run.json
+?? .garura/project/issues/798/context/shape-slice/run2/manifests/
+?? .garura/project/issues/798/context/shape-slice/run2/opening.md
+?? .garura/project/issues/798/context/shape-slice/run2/persist-fills.json
+?? .garura/project/issues/798/context/shape-slice/run2/persist-slice.json
+?? .garura/project/issues/798/context/shape-slice/run2/placement.json
+?? .garura/project/issues/798/context/shape-slice/run2/proposals.json
+?? .garura/project/issues/798/context/shape-slice/run2/questions-checked.json
+?? .garura/project/issues/798/context/shape-slice/run2/questions-open-list.json
+?? .garura/project/issues/798/context/shape-slice/run2/questions-open.json
+?? .garura/project/issues/798/context/shape-slice/run2/questions.json
+?? .garura/project/issues/798/context/shape-slice/run2/reply-q-recovery.md
+?? .garura/project/issues/798/context/shape-slice/run2/reply.md
+?? .garura/project/issues/798/context/shape-slice/run2/reuse.json
+?? .garura/project/issues/798/context/shape-slice/serving.json
+?? .garura/project/issues/798/context/shape-slice/slice-check.json
+?? .garura/project/issues/798/context/shape-slice/slice.json
+?? .garura/project/issues/798/context/shape-slice/split.json
+?? .garura/project/issues/798/context/shape-slice/start-sha.txt
+?? .garura/project/issues/798/context/shape-slice/trace-check.json
+?? .garura/project/issues/798/review/decision-comment.md
+?? .garura/project/issues/798/review/posted.json

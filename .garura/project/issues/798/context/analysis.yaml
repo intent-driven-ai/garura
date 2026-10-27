@@ -1,24 +1,109 @@
----
-# assess-changes output for issue 798 (branch plan/788/798-shape-eval)
+# assess-changes output for issue 798 (grouped by concern)
 needs_judgment: false
 
 change_groups:
-  - id: create-play-fetch-pr-context
+  - id: shape-slice-redraft
     issue: 798
-    commit_type: fix
-    scope: create-play
-    subject: "match the reference fetch_pr_context.py to the review play's copy, falling back to the pr-files verb past 300 files"
+    commit_type: feat
+    scope: shape-slice
+    subject: "let the hidden-file step draft named entries again when the person asks, keeping their line ids"
     files:
-      - core/components/plays/create-play/references/fetch_pr_context.py
-  - id: stm-798-context
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+      - core/components/plays/shape-slice/scripts/write_hidden_file.py
+  - id: stm-798-review-and-runs
     issue: 798
     commit_type: chore
     scope: stm
-    subject: "record the self-review, porcelain and analysis context artifacts"
+    subject: "record the round-2 review, move run 2 records to run2, and add slice run 3 records"
     files:
-      - .garura/project/issues/798/context/self-review.md
-      - .garura/project/issues/798/context/porcelain.txt
       - .garura/project/issues/798/context/analysis.yaml
+      - .garura/project/issues/798/context/citations.jsonl
+      - .garura/project/issues/798/context/context.yaml
+      - .garura/project/issues/798/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/798/context/memory/grounding-product-model/manifest.json
+      - .garura/project/issues/798/context/memory/grounding-slice-evals/manifest.json
+      - .garura/project/issues/798/context/memory/manifest.json
+      - .garura/project/issues/798/context/memory/product/product-os/_spine.yaml
+      - .garura/project/issues/798/context/memory/product/product-os/intents/bi-788.md
+      - .garura/project/issues/798/context/memory/product/product-os/slices/sl-intent-to-design.yaml
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/capability.md
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/domain.md
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/capability.md
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/capability.md
+      - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+      - .garura/project/issues/798/context/porcelain.txt
+      - .garura/project/issues/798/context/pr.diff
+      - .garura/project/issues/798/context/shape-slice/answers.json
+      - .garura/project/issues/798/context/shape-slice/approval.json
+      - .garura/project/issues/798/context/shape-slice/brief-split.json
+      - .garura/project/issues/798/context/shape-slice/brief.md
+      - .garura/project/issues/798/context/shape-slice/budget.json
+      - .garura/project/issues/798/context/shape-slice/change.md
+      - .garura/project/issues/798/context/shape-slice/citations-check.json
+      - .garura/project/issues/798/context/shape-slice/citations-live.json
+      - .garura/project/issues/798/context/shape-slice/citations.json
+      - .garura/project/issues/798/context/shape-slice/fills-undo.json
+      - .garura/project/issues/798/context/shape-slice/fills.json
+      - .garura/project/issues/798/context/shape-slice/gather.json
+      - .garura/project/issues/798/context/shape-slice/grounding-report.json
+      - .garura/project/issues/798/context/shape-slice/guard-report.json
+      - .garura/project/issues/798/context/shape-slice/guard-restore-2.json
+      - .garura/project/issues/798/context/shape-slice/guard-restore.json
+      - .garura/project/issues/798/context/shape-slice/hidden-file.json
+      - .garura/project/issues/798/context/shape-slice/hidden-write.json
+      - .garura/project/issues/798/context/shape-slice/manifests/enrich-grounding-update.json
+      - .garura/project/issues/798/context/shape-slice/opening.md
+      - .garura/project/issues/798/context/shape-slice/persist-fills.json
+      - .garura/project/issues/798/context/shape-slice/persist-slice.json
+      - .garura/project/issues/798/context/shape-slice/placement.json
+      - .garura/project/issues/798/context/shape-slice/proposals.json
+      - .garura/project/issues/798/context/shape-slice/questions-checked.json
+      - .garura/project/issues/798/context/shape-slice/questions-open-list.json
+      - .garura/project/issues/798/context/shape-slice/questions-open.json
+      - .garura/project/issues/798/context/shape-slice/questions.json
+      - .garura/project/issues/798/context/shape-slice/reply-q-recovery.md
+      - .garura/project/issues/798/context/shape-slice/reuse.json
+      - .garura/project/issues/798/context/shape-slice/run2/citations.json
+      - .garura/project/issues/798/context/shape-slice/run2/early-split.json
+      - .garura/project/issues/798/context/shape-slice/run2/fills-undo.json
+      - .garura/project/issues/798/context/shape-slice/run2/fills.json
+      - .garura/project/issues/798/context/shape-slice/run2/gather.json
+      - .garura/project/issues/798/context/shape-slice/run2/grounding-report.json
+      - .garura/project/issues/798/context/shape-slice/run2/guard-report.json
+      - .garura/project/issues/798/context/shape-slice/run2/guard-restore-2.json
+      - .garura/project/issues/798/context/shape-slice/run2/guard-restore.json
+      - .garura/project/issues/798/context/shape-slice/run2/hidden-file.json
+      - .garura/project/issues/798/context/shape-slice/run2/hidden-write.json
+      - .garura/project/issues/798/context/shape-slice/run2/intent-issue.json
+      - .garura/project/issues/798/context/shape-slice/run2/intent-page.json
+      - .garura/project/issues/798/context/shape-slice/run2/lint-before-run.json
+      - .garura/project/issues/798/context/shape-slice/run2/manifests/enrich-grounding-update.json
+      - .garura/project/issues/798/context/shape-slice/run2/opening.md
+      - .garura/project/issues/798/context/shape-slice/run2/persist-fills.json
+      - .garura/project/issues/798/context/shape-slice/run2/persist-slice.json
+      - .garura/project/issues/798/context/shape-slice/run2/placement.json
+      - .garura/project/issues/798/context/shape-slice/run2/proposals.json
+      - .garura/project/issues/798/context/shape-slice/run2/questions-checked.json
+      - .garura/project/issues/798/context/shape-slice/run2/questions-open-list.json
+      - .garura/project/issues/798/context/shape-slice/run2/questions-open.json
+      - .garura/project/issues/798/context/shape-slice/run2/questions.json
+      - .garura/project/issues/798/context/shape-slice/run2/reply-q-recovery.md
+      - .garura/project/issues/798/context/shape-slice/run2/reply.md
+      - .garura/project/issues/798/context/shape-slice/run2/reuse.json
+      - .garura/project/issues/798/context/shape-slice/serving.json
+      - .garura/project/issues/798/context/shape-slice/slice-check.json
+      - .garura/project/issues/798/context/shape-slice/slice.json
+      - .garura/project/issues/798/context/shape-slice/split.json
+      - .garura/project/issues/798/context/shape-slice/start-sha.txt
+      - .garura/project/issues/798/context/shape-slice/trace-check.json
+      - .garura/project/issues/798/context/templates/manifest-check-change.json
+      - .garura/project/issues/798/context/templates/manifest-shape-slice.json
+      - .garura/project/issues/798/review/decision-comment.md
+      - .garura/project/issues/798/review/posted.json
 
 exclusions: []
 
@@ -27,7 +112,5 @@ risks:
   breaking_changes: []
   ambiguous_types: []
   hotfix_branch: false
-
-eval_gates:
-  SE-1: {status: PASS, evidence: "4 changed files, each in exactly one of 2 groups"}
-  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in the diff"}
+  notes:
+    - "pr.md and pr.diff under the 798 STM mention token/api_key only as rule text (check BE-08), not as secrets"
