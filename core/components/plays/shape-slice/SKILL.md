@@ -99,7 +99,7 @@ no history line (C20).
 
 | Agent | Domain | Skills it uses | Phases |
 |-------|--------|----------------|--------|
-| `product-os-keeper` | Gather context and pass it on (on an edit: the person's words and the copies of the slice's records, to `author-slice` in edit mode; then the trace of each change): read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the domain shelves, the grounding templates, the recovery rule); pass on the shared rule for asking a person (`_shared/asking-a-person.md`, beside the installed skills, not memory) and say when it is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief |
+| `product-os-keeper` | Gather context and pass it on (on an edit: the person's words and the copies of the slice's records, to `author-slice` in edit mode; then the trace of each change): read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the domain shelves, the grounding templates, the recovery rule); pass on the shared rule for asking a person (`_shared/asking-a-person.md`, beside the installed skills, not memory) and say when it is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief, Edit |
 | `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
 
 `product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
@@ -542,6 +542,7 @@ python3 scripts/write_hidden_file.py write --lines <working>hidden-lines.json \
     --out <working>hidden-write.json
 python3 scripts/write_hidden_file.py check --root <model> --spine <model>/_spine.yaml \
     --slice-id <id> --plans-root <plans> --out <working>hidden-file.json \
+    --lines <working>hidden-lines.json \
     --clear-working <working>hidden-lines.json \
     --clear-working <working>hidden-recoveries.json
 ```
@@ -551,7 +552,9 @@ python3 scripts/write_hidden_file.py check --root <model> --spine <model>/_spine
 `shape-slice-hidden` contract, so `author-failure-recovery` drafts again (REC15). It keeps
 each kept entry byte for byte, adds the new ones, and puts the count of lines too vague to
 judge, by feature, in `hidden-write.json` for the brief. `check` exits 1 when a line or an
-entry is missing: fix it and run all three again. When `check` reads ok it deletes the two
+entry is missing, or when an entry `hidden-lines.json` marks kept is not as it was (`--lines`:
+a kept entry changes only through an edit the person approved, C15, F20): fix it, or put the
+kept entry back, and run all three again. When `check` reads ok it deletes the two
 working files it is given, so no copy of the "Fails if" lines or their ids stays outside the
 evals folder (C15); when it is not ok it keeps them; it refuses a path under the plans
 folder. The hidden file is
@@ -562,6 +565,9 @@ folder. The hidden file is
 feature; each line has exactly one recovery; its path is in the home plan's evals folder; and
 its `cleared` names `hidden-lines.json` and `hidden-recoveries.json`, which are no longer in
 `<working>`.
+**SE-28 (F20/C15):** `hidden-file.json` `kept_unchanged` names every entry `hidden-lines.json`
+marked kept, and its `problems` hold no "kept entry" line — a shaping run changed no kept
+entry of the hidden file.
 
 ### Phase: Check
 
@@ -675,7 +681,8 @@ python3 scripts/record_questions.py brief --brief <working>brief.md \
 The brief holds: what the person runs and who tests it; the features in build order under
 each capability, each capability linked to its domain and each part marked new, filled or
 reused; the hidden file (its place, its "Fails if" lines, how many the builder can fix alone
-and how many a person must decide, and the lines too vague to judge); what is left out; each assumption; the thin-ICE warning;
+and how many a person must decide, the lines too vague to judge, and the line that says a
+kept line changes only through `/shape-slice #<intent-issue> --edit: <words>`); what is left out; each assumption; the thin-ICE warning;
 for a reuse, each difference, each feature pulled in or pushed out, and each field a record
 upgrade set or dropped; each spine one-line a fill replaced, old and new; the model check's older problems and warnings; the count of questions
 with no proposed answer and each open question with its four parts; and, when the rule for
@@ -781,7 +788,8 @@ ls "$(dirname <edit-before.json files.hidden>)" > <working>edit-evals.txt
 ```
 
 `snapshot` refuses (exit 2) when the spine links no slice, or more than one, to the intent:
-show its message and stop; nothing is written. The copies go to `<working>edit-before/`.
+show its message and close HALTED; nothing is written and no copy is made (it checks every
+record is there before it copies one). The copies go to `<working>edit-before/`.
 An edit may change a slice in progress (C7, C20): `edit-before.json` reads `in_progress: true`
 and names each epic past ready, with its status, and the run goes on.
 
@@ -805,15 +813,19 @@ what the record says now, an empty or unchanged new text, a "who fixes" that is 
 two sentences, or one part changed twice: send `edit-list-check.json` back to the
 `shape-slice-edit` contract as `refused`, and check again. When the list names no change and
 `not_editable` is not empty, the words ask for nothing an edit may change: show the person
-each `not_editable` line in plain words, write nothing, and close HALTED.
+each `not_editable` line in plain words, write nothing, clear the copy of the hidden file
+(`write_hidden_file.py check --root <model> --spine <model>/_spine.yaml --slice-id <id> --plans-root <plans> --out <working>hidden-file.json --clear-working <working>edit-before/hidden.md`),
+and close HALTED.
 **SE-26 (F20/C20):** `edit-list-check.json` reads `ok: true` for the list that was shown; each
 change names a file and a part of C20's set, and its old text is what the record said before
 the edit; when `edit-before.json` reads `in_progress: true`, `brief.md` has the In progress
-section with each epic it names, and `edit-list.json` `out_of_date` names each of them.
+section with each epic it names, and its Out of date section names each of them (the script
+adds an epic the list leaves out); when the run closed HALTED here or at Step X1,
+`<working>edit-before/hidden.md` is not there.
 
 **Step X3 — The edit brief and the checkpoint** · Owner: play (scripts) · Depends on: Step X2 · Checkpoint (class: standard, **pinned** — the person decides; never skipped by config)
 The script builds the whole brief from the run's records: what the person asked, each change
-old and new, each record made out of date (named, not changed), what an edit does not
+in plain words (the feature's name and the failure line it is for, old and new, and why), each record made out of date (named, not changed), what an edit does not
 change, and, for a slice in progress, an In progress section that says so and names its epic.
 `<slice name>` is the name in the slice record's copy.
 
@@ -1096,7 +1108,7 @@ check reads ok, so a resume after X4 can still put every record back.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:3744213f036e0c0b6f557a15272b6be92f42f4ad5ab60cc828fd139127d2233c (of `reference/ice.md`) |
+| fingerprint | sha256:6947e417b338137ca4dd206fe5d26e60ebc9fba034216f28f473b812f13404ed (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842, #908) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19); the edit path, which changes only what the person named, after their yes, with a history line (C20) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |
@@ -1107,6 +1119,6 @@ check reads ok, so a resume after X4 can still put every record back.
 | skills_missing | none |
 | scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py, lint_grounding.py, model_names.py, intent_touches.py (copied unchanged from create-play references); grill_budget.py (#817); write_intent_page.py, record_questions.py, find_serving_slice.py, persist_fills.py, persist_slice.py, spine_text.py, write_hidden_file.py, slice_check.py, trace_check.py, render_brief.py, record_approval.py, edit_slice.py, safe_write.py (this play) |
 | tests | test_grill_budget.py, test_find_serving_slice.py, test_persist_slice.py, test_shape_slice_scripts.py, test_write_hidden_file.py, test_render_brief.py, test_trace_check.py, test_edit_slice.py |
-| step_evals | 27 (SE-1…SE-27) |
+| step_evals | 28 (SE-1…SE-28) |
 | scenario_evals | 11 (SCE-1…SCE-11) |
 | recovery_entries | 20 (one per failure condition; 18 autonomous / 2 human) |

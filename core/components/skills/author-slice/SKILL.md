@@ -1,6 +1,6 @@
 ---
 name: author-slice
-description: Choose the one slice that shows a business intent is served, for /shape-slice — the one surface and the persona who tests it there (the tester), the features from any capability in build order with why_this_order, what is left out, and the needs list of the model (fills.json — the new parts, the updates to parts that exist, the thin parts). Writes slice.json and fills.json, or no-slice.json with its reason when no surface can be tested end to end. Reuse mode writes reuse.json (pull_in, push_out, why) for a kept slice and keeps it testable end to end; it never changes a slice in progress. Fix mode fixes the problems the model check finds in slice.json or fills.json. Edit mode turns a person's own words into the exact list of changes to a slice that exists (edit-list.json, with each change's file, part, old text and new text, and the records the edit makes out of date); it never changes a file. Each choice names the lines it rests on, so its agent can record the trace. Reads only what its agent put in short-term memory; never writes the model, the spine or a page. Generative artifact production for /shape-slice (ontology v11). Use when /shape-slice needs the slice chosen, a kept slice compared, or a slice record fixed.
+description: Choose the one slice that shows a business intent is served, for /shape-slice — the one surface and the persona who tests it there (the tester), the features from any capability in build order with why_this_order, what is left out, and the needs list of the model (fills.json — the new parts, the updates to parts that exist, the thin parts). Writes slice.json and fills.json, or no-slice.json with its reason when no surface can be tested end to end. Reuse mode writes reuse.json (pull_in, push_out, why) for a kept slice and keeps it testable end to end; it never changes a slice in progress. Fix mode fixes the problems the model check finds in slice.json or fills.json. Edit mode turns a person's own words into the exact list of changes to a slice that exists (edit-list.json, with each change's file, part, old text and new text, and the records the edit makes out of date); it never changes a file. Each choice names the lines it rests on, so its agent can record the trace. Reads only what its agent put in short-term memory; never writes the model, the spine or a page. Generative artifact production for /shape-slice (ontology v11). Use when /shape-slice needs the slice chosen, a kept slice compared, a slice record fixed, or a person's edit of a slice turned into the list of changes.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write
@@ -19,12 +19,12 @@ on; the play's scripts write the spine, the slice record and the pages' marks.
 | Field | Required | Meaning |
 |-------|----------|---------|
 | `mode` | no | `shape` (the default), `reuse`, `fix` or `edit` |
-| `intent_page` | yes | The business intent's page in the model: title, outcome, why, asked by, proof it is met, must not |
-| `gather` | yes | `gather.json`: each model page and memory line the agent read (tier, path, lines, fingerprint), with the short-term copies |
+| `intent_page` | yes (not in edit) | The business intent's page in the model: title, outcome, why, asked by, proof it is met, must not |
+| `gather` | yes (not in edit) | `gather.json`: each model page and memory line the agent read (tier, path, lines, fingerprint), with the short-term copies |
 | `placement` | yes, to shape | The `find-work-placement` routing result: where each part of the intent's outcome sits (domain, capability, feature) |
-| `record` | yes | The question record (`grounding-questions.md`): the person's answers are facts |
+| `record` | yes (not in edit) | The question record (`grounding-questions.md`): the person's answers are facts |
 | `split` | yes, to shape | `split.json`: the questions asked and the assumptions (each gap not asked, with its `assume` text) |
-| `spine` | yes | The spine, read only: the domains, capabilities, features, ICE and slices that exist, with their folders |
+| `spine` | yes (not in edit) | The spine, read only: the domains, capabilities, features, ICE and slices that exist, with their folders |
 | `change` | no | The person's `change: <what>` at the checkpoint, on a re-run |
 | `serving` | for `reuse` | `serving.json` from `find_serving_slice.py`: the matched slice, its reason, and the slices in progress |
 | `slice` | for `reuse` and `fix` | The shaped `slice.json` |
@@ -128,8 +128,8 @@ for it: name it in `not_editable` with why, so the brief shows it. When the word
 clear enough to name a part, name them in `not_editable` too; never guess a part.
 
 Then name each record the edit makes out of date, without changing it: for example, an eval
-scenario that tests a "who fixes" line you changed, or a story whose title holds the old
-slice name. When `before` reads `in_progress: true`, an edit still goes on: name each epic it
+file of the slice (by its name in `evals`) that may test a "who fixes" line you changed, or a
+story whose title holds the old slice name. Never read an eval file: name it only. When `before` reads `in_progress: true`, an edit still goes on: name each epic it
 lists in `out_of_date`, with its status, because work already started from the slice. On a
 re-run with `refused`, fix only the changes it names.
 
@@ -165,7 +165,7 @@ shape `persist_fills.py` reads; each list may be empty.
               "old": "the builder can fix this alone", "new": "a person must decide",
               "why": "The person asked that two bookings of one slot go to a person."}],
  "out_of_date": [{"record": "evals/self-booking/eval.ft-pick.feature.md",
-                  "why": "Its scenario for F1 says the builder fixes it."}],
+                  "why": "An eval file of this slice may test who fixes F1."}],
  "not_editable": []}
 ```
 

@@ -184,8 +184,11 @@ def main():
         brief = read(bp) if os.path.isfile(bp) else ""
         check("render_brief --edit: the brief shows what was asked, each change old and new",
               r.returncode == 0 and "F1 and F3 should go to a person." in brief
-              and "hidden file, ft-pick, F1: who fixes" in brief and "was: the builder can fix this alone" in brief
-              and "now: a person must decide" in brief)
+              and "was: the builder can fix this alone" in brief and "now: a person must decide" in brief)
+        check("render_brief --edit: each change names its feature, its failure line and why, in words",
+              'feature "Pick a free slot" (ft-pick)' in brief
+              and 'the line "two patients get one slot." (F1): who fixes' in brief
+              and "why: the person asked" in brief)
         check("render_brief --edit: what the words named that an edit does not change is shown",
               "## Not changed by an edit" in brief and "take ft-remind out" in brief)
         r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "brief", "--brief", bp,
@@ -273,6 +276,8 @@ def main():
         brief = read(bp) if os.path.isfile(bp) else ""
         check("render_brief --edit: the brief says the slice is in progress and names its epic",
               "## In progress" in brief and "ep-self (in_delivery)" in brief)
+        check("render_brief --edit: the epic is named as out of date even when the list leaves it out",
+              "- epic ep-self (in_delivery): work has started" in brief.split("## Out of date")[1])
         r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "brief", "--brief", bp,
                             "--edit", "--before", before], capture_output=True, text=True)
         check("record_questions brief --edit: the brief of a slice in progress passes its check",

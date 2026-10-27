@@ -115,7 +115,8 @@ def cmd_snapshot(args):
     out = {"slice": args.slice_id, "in_progress": bool(busy), "epics": busy, "files": {}, "copies": {}}
     for name, path in files.items():
         if not os.path.isfile(path):
-            raise Refused(f"the {name} file is not at {path}")
+            raise Refused(f"the {name} file is not at {path}")  # before any copy, so none is left behind
+    for name, path in files.items():
         copy = os.path.join(copies, f"{name}{os.path.splitext(path)[1]}")
         atomic_write(copy, read(path))
         out["files"][name], out["copies"][name] = path, copy

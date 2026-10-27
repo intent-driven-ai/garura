@@ -136,18 +136,19 @@ words changes only the parts they named, after they see each change and say yes.
   another is a script's.
   Every agent dispatch names the skills it calls.
 - C20 — A person edits a slice that exists with `/shape-slice #<intent-issue> --edit: <their
-  words>`. The run takes the words as they are and does not shape the slice: `author-slice`
-  (edit mode) turns them into an exact list of changes, each with its file, its part, its old
-  text and its new text, and names each other record the edit makes out of date. The parts an
-  edit may change are the slice record's name, outcome and tester's action, the when, way back
-  or who fixes of a named line of the hidden file, and a part's spine one-line. The brief shows
-  each change, old and new, and each record made out of date (named, not changed); nothing is
-  written before the person's yes. The run then writes exactly the list and nothing else: a
-  check compares each record before and after and refuses any other change. The slice record
-  keeps a history line with who asked, when and their words, and so does the hidden file when
-  it changes. The model check, the write guard and the trace check run as in a shaping run.
-  An edit may change a slice in progress: the brief says that the slice is in progress, and
-  names its epic, with its status, as out of date (named, not changed).
+  words>`. The run takes the words as they are and does not shape the slice again. It turns them
+  into an exact list of changes, each with its record, its part, its old text and its new text,
+  and names each other record the edit makes out of date. An edit may change only the slice's
+  name, its outcome and the tester's action, the when, way back or who fixes of a named line of
+  the hidden file, and a part's spine one-line. The person sees each change in plain words (the
+  feature and the failure line it is for, old and new, and why) and each record made out of
+  date (named, not changed); nothing is written before their yes. The run writes exactly the
+  list and nothing else, and any other change is refused. The slice record keeps a history line
+  with who asked, when and their words, and so does the hidden file when it changes. The model,
+  the writes and the trace are checked as in a shaping run. An edit may change a slice in
+  progress: the person is told it is in progress, and its epic, with its status, is named as
+  out of date. A run that stops writes nothing and leaves no copy of the hidden file's lines
+  behind.
 
 ### Failure conditions
 

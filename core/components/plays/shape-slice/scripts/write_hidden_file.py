@@ -30,7 +30,8 @@ reads this file.
           hidden-lines.json:
               {slice, plan_id, path (relative to plans-root),
                entries: [{feature, name, capability, thin: ["feature"|"capability", ...],
-                          kept: bool, lines: [{id, from: "feature"|"capability", text}]}]}
+                          kept: bool, kept_hash (a kept entry only),
+                          lines: [{id, from: "feature"|"capability", text}]}]}
   write — takes the agent's hidden-recoveries.json
               {entries: [{feature, recoveries: [{line, when, way_back, who_fixes}]}]}
           and writes the file through safe_write.atomic_write. The recoveries' `vague` list
@@ -50,6 +51,10 @@ reads this file.
           if" lines or their ids stays outside the evals folder; when it is not ok, keep them.
           A path under plans-root is refused (exit 2, nothing deleted). `cleared` lists what
           was deleted.
+          --lines <hidden-lines.json>: each entry it marks kept must be byte for byte as it was
+          when `lines` ran (its `kept_hash`); a kept entry that changed is a problem, because it
+          changes only through an edit the person approved. `kept_unchanged` lists the kept
+          entries that read the same. It is read before --clear-working deletes the file.
 
 File shape: one `## <feature id>: <name>` heading for each feature, then the capability and
 the ICE it was written from (and which is thin), `### Failure conditions` with
@@ -60,6 +65,7 @@ Reads and writes files on disk only; no git, no network. Exit 2 on a refusal or 
 """
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -230,6 +236,11 @@ def parse(text):
     return "".join(preamble), blocks
 
 
+def text_hash(text):
+    """The fingerprint of a kept entry's text, so the check can show it is as it was, line for line."""
+    return "sha256:" + hashlib.sha256(text.rstrip("\n").encode("utf-8")).hexdigest()  # the blank lines between entries are not the entry
+
+
 def cmd_lines(args):
     spine = load_spine(args.spine)
     sl, plan_id, rel, want = wanted(args.root, spine, args.slice_id)
@@ -252,8 +263,11 @@ def cmd_lines(args):
                 nxt += 1
                 lid = f"F{nxt}"
             lines.append({"id": lid, "from": frm, "text": text})
-        entries.append({"feature": w["feature"], "name": w["name"], "capability": w["capability"],
-                        "thin": w["thin"], "kept": bool(same), "lines": lines})
+        entry = {"feature": w["feature"], "name": w["name"], "capability": w["capability"],
+                 "thin": w["thin"], "kept": bool(same), "lines": lines}
+        if same:
+            entry["kept_hash"] = text_hash(old["text"])
+        entries.append(entry)
     out = {"slice": sl["id"], "plan_id": plan_id, "path": rel, "entries": entries}
     atomic_write(args.out, json.dumps(out, indent=2))
     print(json.dumps({"path": rel, "entries": [{"feature": e["feature"], "kept": e["kept"],
@@ -428,6 +442,20 @@ def cmd_check(args):
     for f in by_feature:
         if f not in {w["feature"] for w in want}:
             problems.append(f"the file has an entry for '{f}', which is not a feature of the slice")
+    kept_unchanged = None
+    if args.lines:
+        with open(args.lines, encoding="utf-8") as fh:
+            listed = json.load(fh)
+        kept_unchanged = []
+        for e in listed.get("entries") or []:
+            if not e.get("kept"):
+                continue
+            b = by_feature.get(e["feature"])
+            if b is None or text_hash(b["text"]) != e.get("kept_hash"):
+                problems.append(f"the kept entry of '{e['feature']}' changed; a kept entry changes only "
+                                "through an edit the person approved (/shape-slice --edit)")
+            else:
+                kept_unchanged.append(e["feature"])
     cleared = []
     if not problems:
         for p in clear:
@@ -436,6 +464,8 @@ def cmd_check(args):
                 cleared.append(p)
     out = {"ok": not problems, "path": rel, "entries": entries, "counts": counts,
            "problems": problems, "cleared": cleared}
+    if kept_unchanged is not None:
+        out["kept_unchanged"] = kept_unchanged
     atomic_write(args.out, json.dumps(out, indent=2))
     print(json.dumps({"ok": out["ok"], "counts": counts, "problems": problems,
                       "cleared": cleared}, indent=2))
@@ -455,6 +485,8 @@ def main(argv=None):
         if name == "check":
             p.add_argument("--clear-working", action="append", default=[],
                            help="a working file to delete when the check reads ok; repeatable")
+            p.add_argument("--lines", help="hidden-lines.json: each kept entry must be byte for byte "
+                                           "as it was when the lines were listed")
     w = sub.add_parser("write")
     w.add_argument("--lines", required=True)
     w.add_argument("--recoveries", required=True)
