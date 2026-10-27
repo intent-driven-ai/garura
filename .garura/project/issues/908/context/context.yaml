@@ -1,0 +1,35 @@
+{
+  "pr_number": "911",
+  "base": "plan/788/798-shape-eval",
+  "changed_paths": [
+    ".garura/project/issues/908/context/analysis-round2.yaml",
+    ".garura/project/issues/908/context/analysis-round3.yaml",
+    ".garura/project/issues/908/context/analysis.yaml",
+    ".garura/project/issues/908/context/branch.json",
+    ".garura/project/issues/908/context/commits-round2.yaml",
+    ".garura/project/issues/908/context/commits.yaml",
+    ".garura/project/issues/908/context/issue.json",
+    ".garura/project/issues/908/context/porcelain.txt",
+    ".garura/project/issues/908/context/pr-body.md",
+    ".garura/project/issues/908/context/pr.json",
+    ".garura/project/issues/908/context/resolved-rules.json",
+    ".garura/project/issues/908/context/self-review.md",
+    ".garura/project/issues/908/context/work-description.txt",
+    "core/components/plays/shape-slice/SKILL.md",
+    "core/components/plays/shape-slice/reference/ice.md",
+    "core/components/plays/shape-slice/scripts/edit_slice.py",
+    "core/components/plays/shape-slice/scripts/record_questions.py",
+    "core/components/plays/shape-slice/scripts/render_brief.py",
+    "core/components/plays/shape-slice/scripts/test_edit_slice.py",
+    "core/components/plays/shape-slice/scripts/test_write_hidden_file.py",
+    "core/components/plays/shape-slice/scripts/write_hidden_file.py",
+    "core/components/skills/author-slice/SKILL.md"
+  ],
+  "changed_files_reported": 22,
+  "diff_source": "diff-pr",
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}

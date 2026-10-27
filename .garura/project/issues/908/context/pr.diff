@@ -1,0 +1,1860 @@
+diff --git a/.garura/project/issues/908/context/analysis-round2.yaml b/.garura/project/issues/908/context/analysis-round2.yaml
+new file mode 100644
+index 00000000..df374502
+--- /dev/null
++++ b/.garura/project/issues/908/context/analysis-round2.yaml
+@@ -0,0 +1,29 @@
++needs_judgment: false
++change_groups:
++- id: add-edit-path
++  issue: 908
++  commit_type: feat
++  scope: shape-slice
++  subject: add an edit path that changes an existing slice from the person's own words
++  files:
++  - core/components/plays/shape-slice/reference/ice.md
++  - core/components/plays/shape-slice/SKILL.md
++  - core/components/plays/shape-slice/scripts/edit_slice.py
++  - core/components/plays/shape-slice/scripts/test_edit_slice.py
++  - core/components/plays/shape-slice/scripts/render_brief.py
++  - core/components/plays/shape-slice/scripts/record_questions.py
++  - core/components/skills/author-slice/SKILL.md
++exclusions:
++- path: .garura/project/issues/908/context/commit-change/
++  reason: commit-change's own run records; left to the executor's run-state chore
++    group
++  blocking: false
++risks:
++  sensitive_files: []
++eval_gates:
++  SE-1:
++    status: PASS
++    evidence: '10 changed paths: 9 in exactly one group, 1 run-state folder excluded'
++  SE-5:
++    status: PASS
++    evidence: no sensitive patterns matched
+diff --git a/.garura/project/issues/908/context/analysis-round3.yaml b/.garura/project/issues/908/context/analysis-round3.yaml
+new file mode 100644
+index 00000000..3f4b0339
+--- /dev/null
++++ b/.garura/project/issues/908/context/analysis-round3.yaml
+@@ -0,0 +1,16 @@
++needs_judgment: false
++change_groups: []
++exclusions:
++- path: .garura/project/issues/908/context/commit-change/
++  reason: commit-change's own run records; left to the executor's run-state chore
++    group
++  blocking: false
++risks:
++  sensitive_files: []
++eval_gates:
++  SE-1:
++    status: PASS
++    evidence: '10 changed paths: 9 in exactly one group, 1 run-state folder excluded'
++  SE-5:
++    status: PASS
++    evidence: no sensitive patterns matched
+diff --git a/.garura/project/issues/908/context/analysis.yaml b/.garura/project/issues/908/context/analysis.yaml
+new file mode 100644
+index 00000000..7febe4a4
+--- /dev/null
++++ b/.garura/project/issues/908/context/analysis.yaml
+@@ -0,0 +1,41 @@
++---
++# analyze_changeset.py scan, grouped by the assess-changes skill (round 2 of change #908)
++# issue: 908
++needs_judgment: false
++
++change_groups:
++  - id: edit-slice-in-progress
++    issue: 908
++    commit_type: feat
++    scope: shape-slice
++    subject: "let an edit change a slice in progress and name its epic as out of date in the brief"
++    files:
++      - core/components/plays/shape-slice/reference/ice.md
++      - core/components/plays/shape-slice/SKILL.md
++      - core/components/plays/shape-slice/scripts/edit_slice.py
++      - core/components/plays/shape-slice/scripts/render_brief.py
++      - core/components/plays/shape-slice/scripts/record_questions.py
++      - core/components/plays/shape-slice/scripts/test_edit_slice.py
++      - core/components/skills/author-slice/SKILL.md
++
++exclusions:
++  - path: ".garura/project/issues/908/context/analysis.yaml"
++    reason: "run state; left to the executor's run-state chore group"
++    blocking: false
++  - path: ".garura/project/issues/908/context/porcelain.txt"
++    reason: "run state; left to the executor's run-state chore group"
++    blocking: false
++  - path: ".garura/project/issues/908/context/self-review.md"
++    reason: "run state; left to the executor's run-state chore group"
++    blocking: false
++  - path: ".garura/project/issues/908/context/resolved-rules.json"
++    reason: "run state; left to the executor's run-state chore group"
++    blocking: false
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "one concern, one group; every source file lands in the group, run-state files are exclusions"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/908/context/branch.json b/.garura/project/issues/908/context/branch.json
+new file mode 100644
+index 00000000..5949027e
+--- /dev/null
++++ b/.garura/project/issues/908/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "plan/788/908-shape-slice-edit",
++  "base_sha": "a7a136e5b0bc2be73ddc7d957892aef5fb8fd638",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/908/context/commits-round2.yaml b/.garura/project/issues/908/context/commits-round2.yaml
+new file mode 100644
+index 00000000..feb404cb
+--- /dev/null
++++ b/.garura/project/issues/908/context/commits-round2.yaml
+@@ -0,0 +1,19 @@
++commits:
++  - sha: a274c790
++    message: "feat(shape-slice): add an edit path that changes an existing slice from the person's own words (#908)"
++    files:
++      - core/components/plays/shape-slice/reference/ice.md
++      - core/components/plays/shape-slice/SKILL.md
++      - core/components/plays/shape-slice/scripts/edit_slice.py
++      - core/components/plays/shape-slice/scripts/test_edit_slice.py
++      - core/components/plays/shape-slice/scripts/render_brief.py
++      - core/components/plays/shape-slice/scripts/record_questions.py
++      - core/components/skills/author-slice/SKILL.md
++    branch: plan/788/908-shape-slice-edit
++excluded_files:
++  - path: ".garura/project/issues/908/context/commit-change/"
++    reason: "commit-change's own run records; left to the executor's run-state chore group"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/908/context/commits.yaml b/.garura/project/issues/908/context/commits.yaml
+new file mode 100644
+index 00000000..e6031bc3
+--- /dev/null
++++ b/.garura/project/issues/908/context/commits.yaml
+@@ -0,0 +1,25 @@
++commits:
++  - sha: 8677f5f9
++    message: "feat(shape-slice): let an edit change a slice in progress and name its epic as out of date in the brief (#908)"
++    files:
++      - core/components/plays/shape-slice/reference/ice.md
++      - core/components/plays/shape-slice/SKILL.md
++      - core/components/plays/shape-slice/scripts/edit_slice.py
++      - core/components/plays/shape-slice/scripts/render_brief.py
++      - core/components/plays/shape-slice/scripts/record_questions.py
++      - core/components/plays/shape-slice/scripts/test_edit_slice.py
++      - core/components/skills/author-slice/SKILL.md
++    branch: plan/788/908-shape-slice-edit
++excluded_files:
++  - path: ".garura/project/issues/908/context/analysis.yaml"
++    reason: "run state; left to the executor's run-state chore group"
++  - path: ".garura/project/issues/908/context/porcelain.txt"
++    reason: "run state; left to the executor's run-state chore group"
++  - path: ".garura/project/issues/908/context/self-review.md"
++    reason: "run state; left to the executor's run-state chore group"
++  - path: ".garura/project/issues/908/context/resolved-rules.json"
++    reason: "run state; left to the executor's run-state chore group"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/908/context/issue.json b/.garura/project/issues/908/context/issue.json
+new file mode 100644
+index 00000000..f319de24
+--- /dev/null
++++ b/.garura/project/issues/908/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 908,
++  "title": "/shape-slice --edit: a person changes the slice record or an entry of its hidden file",
++  "created": false
++}
+diff --git a/.garura/project/issues/908/context/porcelain.txt b/.garura/project/issues/908/context/porcelain.txt
+new file mode 100644
+index 00000000..1bd8b3f8
+--- /dev/null
++++ b/.garura/project/issues/908/context/porcelain.txt
+@@ -0,0 +1,10 @@
++ M .garura/project/issues/908/context/porcelain.txt
++ M core/components/plays/shape-slice/SKILL.md
++ M core/components/plays/shape-slice/reference/ice.md
++ M core/components/plays/shape-slice/scripts/edit_slice.py
++ M core/components/plays/shape-slice/scripts/record_questions.py
++ M core/components/plays/shape-slice/scripts/render_brief.py
++ M core/components/plays/shape-slice/scripts/test_edit_slice.py
++ M core/components/skills/author-slice/SKILL.md
++?? .garura/project/issues/908/context/resolved-rules.json
++?? .garura/project/issues/908/context/self-review.md
+diff --git a/.garura/project/issues/908/context/pr-body.md b/.garura/project/issues/908/context/pr-body.md
+new file mode 100644
+index 00000000..35b555ff
+--- /dev/null
++++ b/.garura/project/issues/908/context/pr-body.md
+@@ -0,0 +1,69 @@
++## Summary
++
++Closes #908 (part of business intent #904). A person can now change a slice that already exists by asking `/shape-slice` in their own words:
++
++    /shape-slice #788 --edit: <what to change>
++
++The run does not shape the slice again. It turns the words into an exact list of changes and shows each one as it was and as it will be. It also names any other record the edit makes out of date, without changing it. Nothing is written before the person types yes. Then the run writes exactly that list. A check compares each record before and after and refuses any other change. The slice record keeps a history line with who asked, when and their words, and so does the hidden file when it changes.
++
++An edit may change only the slice's name, its outcome, what the tester does, the "when", "way back" or "who fixes" of a named line in the hidden file, and a part's one-line in the spine. Anything else the words ask for is shown in the brief as something an edit does not change.
++
++An edit may also change a slice in progress (the product owner's decision in this change). The brief then says so, and names the slice's epic and its status as out of date. A shaping run still never reworks a slice in progress.
++
++This replaces the `--redraft` option that was added in #798 outside the play's intent. It is removed from the play, its script and its test.
++
++## What changed
++
++- The play's intent (`reference/ice.md`): new constraint C20, failure F20, scenario S11 and recovery REC20; C7, C15, C19, F7 and the intent paragraph amended. Recompiled with edit-play; new fingerprint.
++- The play (`SKILL.md`): its own edit path, Steps X1–X6, with its own task list; step evals SE-26 and SE-27, scenario eval SCE-11, the F20 recovery row.
++- New script `edit_slice.py` (snapshot, check-list, apply, check, restore) and its test (29 checks).
++- `render_brief.py --edit`: the edit brief. `record_questions.py edit`: records the edit's one question and the reply; `brief --edit --before`: checks the edit brief.
++- The `author-slice` skill: a new edit mode that writes the exact list from the person's words.
++- `write_hidden_file.py` and its test: back to how they were before `--redraft`.
++
++## Checks
++
++- All 8 test files of the play pass.
++- The play linter passes with no gaps.
++- The components linter shows 36 errors, the same as the base branch; none are in these files.
++- A trial edit on a copy of the real slice changed only the named lines.
++
++## Self-review
++
++# Self-Review — Issue #908 (/shape-slice gets an edit path) — round 2
++
++Rules source: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
++
++Diff reviewed: `git diff plan/788/798-shape-eval...HEAD` (the pull request goes to `plan/788/798-shape-eval`, not main). 7 commits now: 2 feature commits (`a274c790` the edit path, `8677f5f9` an edit may change a slice in progress), 1 fix (`ae92ece9`), 4 run-record commits (`chore(stm)`). This round re-reads the whole diff, with the new commit `8677f5f9` read line by line.
++
++In plain words: a person can run `/shape-slice #<intent> --edit: <their own words>`. The play turns the words into a list of exact changes, shows each one old and new, and writes only that list after the person types yes. New in this round: the product owner decided that an edit may change a slice whose work has started. The brief must then say so, in its own "In progress" section, and name the epic and its status as out of date. The older `--redraft` option is removed, because the edit path replaces it.
++
++## Scope checks
++
++| Check | Result | Note |
++|-------|--------|------|
++| Matches the issue | PASS | Every code file maps to the edit path. The ICE (`reference/ice.md`) has C20, F20, S11 and REC20, with C7, C15, C19, F7 amended to match. `SKILL.md` is recompiled and its fingerprint equals the real hash of `ice.md` (`3744213f...`, checked after the new commit). New: `edit_slice.py` and its test, `render_brief.py --edit`, `record_questions.py edit` and `brief --edit --before`, `author-slice` edit mode. |
++| No scope creep | PASS | The new commit touches 7 files, all in `plays/shape-slice/` and `skills/author-slice/`, all about the in-progress decision. The `--redraft` removal is the only edit outside the new path; it is deliberate and restores `write_hidden_file.py` and its test to their exact state before `d756e304` (checked, no difference). Nothing else outside the two folders changes, apart from run records under `.garura/project/issues/908/`. |
++| Reasonable size | PASS | 20 files, about 1230 lines added. About 12 are small run records. The rest is one play and one skill: a new script, its test, the recompiled steps and the ICE. The new commit adds only 79 lines and removes 23. It reads as one change. |
++| No stray artifacts | PASS | No debug prints, TODO or FIXME, or commented-out code in the new files. The earlier round's `self-review.md` and `resolved-rules.json` were committed by the run's record commit (`12841ddd`); they are this run's own records, not stray files. This round rewrites `self-review.md`. |
++
++## Quality checks
++
++| Check | Result | Note |
++|-------|--------|------|
++| Tests present | PASS | `test_edit_slice.py`: 29 of 29 pass (up from 25; the 4 new ones cover a slice in progress: the snapshot names the epic, the brief has the section, the brief check accepts it, and a brief that hides it is refused). All 8 test files of the play pass (24, 31, 127, 101, 21, 19, 5 and 29 checks). Last round I also ran the edit end to end on a copy of the real model; the new commit changes only the snapshot record, the brief and the brief check, which the new tests cover. |
++| Commits are clean | PASS | Conventional format, each references `(#908)`. The new feature commit has one concern. No Claude attribution line in any commit message (Rule 8). Small point: the fix commit `ae92ece9` has no body saying why `--redraft` goes; the reason is in the issue and the feature commit. |
++| No secrets | PASS | A search of the added lines for key, token, secret, password and private-key words found only the words of this review file itself. No credential. |
++| Docs in step | PASS | The new commit moves the docs with the code: `ice.md` (C7, C20, F7, F20, REC20), `SKILL.md` (frozen description, Step X1 to X3 text, evals SE-26, the F7 and F20 rows, the fingerprint), the `author-slice` skill (edit mode, the never-change rule scoped to shape and reuse mode), and the docstrings of `edit_slice.py` and `record_questions.py`. |
++| Nothing obviously broken | PASS | Play linter: PASS, 0 gaps. Components linter: 36 errors, the same count as the base; 0 lines name `shape-slice` or `author-slice`. `edit_slice.py` reads the in-progress statuses from `find_serving_slice.py` itself (`IN_PROGRESS`, matched on the epic's `slice_ref`), so a shaping run and an edit use one rule and cannot drift apart. |
++
++## Findings
++
++1. Settled: my round-1 REVIEW item (the edit path never checked whether a slice is in progress). The diff bears the product owner's decision out. C7 now says only an approved edit changes a slice in progress; F7 is narrowed to "a shaping run changed a slice in progress"; C20 and F20 require the brief to say the slice is in progress and name its epic; Step X1 records it, Step X3 renders and checks it. No conflict is left between C7, F7 and C20.
++2. Note (small, no action needed to raise): "each epic named in `out_of_date`" is held by the skill's instruction and by eval SE-26, not by a script. `check-list` does not compare the list's `out_of_date` with the snapshot's `epics`. The brief itself is guarded by script (`brief --edit --before` refuses a brief with no "## In progress" section), so the person always sees that the slice is in progress even if the skill forgets to name the epic in the list. Worth a follow-up check if it ever slips.
++3. Note (no action needed): `--redraft` was added by #798 (`d756e304`, already on the base branch) and is removed here on purpose. No mention is left in `core/`.
++4. Note (no action needed): the hidden file's "Edited on" line copies the person's words. A real name typed in those words would land in the hidden file, though the play keeps real names out of its own text (C14). The `--by` value is a role.
++
++## Overall verdict
++
++**PASS** — 9 of 9 checks pass. No blocking issue found, and nothing new is blocking from the latest commit. This is an informational self-review; `check-change` is the approve or reject gate.
+diff --git a/.garura/project/issues/908/context/pr.json b/.garura/project/issues/908/context/pr.json
+new file mode 100644
+index 00000000..bdd78c5e
+--- /dev/null
++++ b/.garura/project/issues/908/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 911,
++  "url": "https://github.com/intent-driven-ai/garura/pull/911",
++  "state": "OPEN",
++  "base": "plan/788/798-shape-eval"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/908/context/resolved-rules.json b/.garura/project/issues/908/context/resolved-rules.json
+new file mode 100644
+index 00000000..ad158175
+--- /dev/null
++++ b/.garura/project/issues/908/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "/Users/kapilahuja/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/908/context/self-review.md b/.garura/project/issues/908/context/self-review.md
+new file mode 100644
+index 00000000..91fd496f
+--- /dev/null
++++ b/.garura/project/issues/908/context/self-review.md
+@@ -0,0 +1,37 @@
++# Self-Review — Issue #908 (/shape-slice gets an edit path) — round 2
++
++Rules source: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (base, not a project override). Taken from `resolved-rules.json`; not resolved again.
++
++Diff reviewed: `git diff plan/788/798-shape-eval...HEAD` (the pull request goes to `plan/788/798-shape-eval`, not main). 7 commits now: 2 feature commits (`a274c790` the edit path, `8677f5f9` an edit may change a slice in progress), 1 fix (`ae92ece9`), 4 run-record commits (`chore(stm)`). This round re-reads the whole diff, with the new commit `8677f5f9` read line by line.
++
++In plain words: a person can run `/shape-slice #<intent> --edit: <their own words>`. The play turns the words into a list of exact changes, shows each one old and new, and writes only that list after the person types yes. New in this round: the product owner decided that an edit may change a slice whose work has started. The brief must then say so, in its own "In progress" section, and name the epic and its status as out of date. The older `--redraft` option is removed, because the edit path replaces it.
++
++## Scope checks
++
++| Check | Result | Note |
++|-------|--------|------|
++| Matches the issue | PASS | Every code file maps to the edit path. The ICE (`reference/ice.md`) has C20, F20, S11 and REC20, with C7, C15, C19, F7 amended to match. `SKILL.md` is recompiled and its fingerprint equals the real hash of `ice.md` (`3744213f...`, checked after the new commit). New: `edit_slice.py` and its test, `render_brief.py --edit`, `record_questions.py edit` and `brief --edit --before`, `author-slice` edit mode. |
++| No scope creep | PASS | The new commit touches 7 files, all in `plays/shape-slice/` and `skills/author-slice/`, all about the in-progress decision. The `--redraft` removal is the only edit outside the new path; it is deliberate and restores `write_hidden_file.py` and its test to their exact state before `d756e304` (checked, no difference). Nothing else outside the two folders changes, apart from run records under `.garura/project/issues/908/`. |
++| Reasonable size | PASS | 20 files, about 1230 lines added. About 12 are small run records. The rest is one play and one skill: a new script, its test, the recompiled steps and the ICE. The new commit adds only 79 lines and removes 23. It reads as one change. |
++| No stray artifacts | PASS | No debug prints, TODO or FIXME, or commented-out code in the new files. The earlier round's `self-review.md` and `resolved-rules.json` were committed by the run's record commit (`12841ddd`); they are this run's own records, not stray files. This round rewrites `self-review.md`. |
++
++## Quality checks
++
++| Check | Result | Note |
++|-------|--------|------|
++| Tests present | PASS | `test_edit_slice.py`: 29 of 29 pass (up from 25; the 4 new ones cover a slice in progress: the snapshot names the epic, the brief has the section, the brief check accepts it, and a brief that hides it is refused). All 8 test files of the play pass (24, 31, 127, 101, 21, 19, 5 and 29 checks). Last round I also ran the edit end to end on a copy of the real model; the new commit changes only the snapshot record, the brief and the brief check, which the new tests cover. |
++| Commits are clean | PASS | Conventional format, each references `(#908)`. The new feature commit has one concern. No Claude attribution line in any commit message (Rule 8). Small point: the fix commit `ae92ece9` has no body saying why `--redraft` goes; the reason is in the issue and the feature commit. |
++| No secrets | PASS | A search of the added lines for key, token, secret, password and private-key words found only the words of this review file itself. No credential. |
++| Docs in step | PASS | The new commit moves the docs with the code: `ice.md` (C7, C20, F7, F20, REC20), `SKILL.md` (frozen description, Step X1 to X3 text, evals SE-26, the F7 and F20 rows, the fingerprint), the `author-slice` skill (edit mode, the never-change rule scoped to shape and reuse mode), and the docstrings of `edit_slice.py` and `record_questions.py`. |
++| Nothing obviously broken | PASS | Play linter: PASS, 0 gaps. Components linter: 36 errors, the same count as the base; 0 lines name `shape-slice` or `author-slice`. `edit_slice.py` reads the in-progress statuses from `find_serving_slice.py` itself (`IN_PROGRESS`, matched on the epic's `slice_ref`), so a shaping run and an edit use one rule and cannot drift apart. |
++
++## Findings
++
++1. Settled: my round-1 REVIEW item (the edit path never checked whether a slice is in progress). The diff bears the product owner's decision out. C7 now says only an approved edit changes a slice in progress; F7 is narrowed to "a shaping run changed a slice in progress"; C20 and F20 require the brief to say the slice is in progress and name its epic; Step X1 records it, Step X3 renders and checks it. No conflict is left between C7, F7 and C20.
++2. Note (small, no action needed to raise): "each epic named in `out_of_date`" is held by the skill's instruction and by eval SE-26, not by a script. `check-list` does not compare the list's `out_of_date` with the snapshot's `epics`. The brief itself is guarded by script (`brief --edit --before` refuses a brief with no "## In progress" section), so the person always sees that the slice is in progress even if the skill forgets to name the epic in the list. Worth a follow-up check if it ever slips.
++3. Note (no action needed): `--redraft` was added by #798 (`d756e304`, already on the base branch) and is removed here on purpose. No mention is left in `core/`.
++4. Note (no action needed): the hidden file's "Edited on" line copies the person's words. A real name typed in those words would land in the hidden file, though the play keeps real names out of its own text (C14). The `--by` value is a role.
++
++## Overall verdict
++
++**PASS** — 9 of 9 checks pass. No blocking issue found, and nothing new is blocking from the latest commit. This is an informational self-review; `check-change` is the approve or reject gate.
+diff --git a/.garura/project/issues/908/context/work-description.txt b/.garura/project/issues/908/context/work-description.txt
+new file mode 100644
+index 00000000..a6d0c3a5
+--- /dev/null
++++ b/.garura/project/issues/908/context/work-description.txt
+@@ -0,0 +1,3 @@
++#908 — /shape-slice --edit: a person changes the slice record or an entry of its hidden file (business intent #904).
++Add an edit path to /shape-slice, through its ICE and /edit-play: `/shape-slice #<id> --edit: <edit instructions>`, in the person's own words. The slice skill writes the exact list of what changes (file, part, old text, new text); the brief shows each changed line old and new and names each record made out of date; nothing is written before the person's yes; a script applies only the list and a check refuses any other change; the record keeps a history line. The edit path skips the shaping steps. Remove the --redraft option (commit d756e304 of #798), which was built outside the play's ICE (PR #900 round 3, raised to P1).
++Built on its own branch cut from plan/788/798-shape-eval and merged back into it. The shared parts of #905 come later, on main.
+diff --git a/core/components/plays/shape-slice/SKILL.md b/core/components/plays/shape-slice/SKILL.md
+index 136687a1..5146b9fa 100644
+--- a/core/components/plays/shape-slice/SKILL.md
++++ b/core/components/plays/shape-slice/SKILL.md
+@@ -1,8 +1,8 @@
+ ---
+ name: shape-slice
+ position: both
+-argument-hint: "<business intent issue number>"
+-description: 'Shape the one slice that shows a business intent is served — the first play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-slice <intent-issue> (for example /shape-slice 788). It reads the intent from the product model (and writes the intent page from the issue when the model has none), reads the model and memory first, and talks to the person in one confirmation brief: the slice, what it fills, its hidden file, what is left out, each assumption and only the questions neither the model nor memory answers, within the configured question tier, every question and answer kept in the issue''s short-term memory. It asks first only for a gap that blocks the slice and that no one but the person can answer, never the surface. It picks the features from any capability in build order, the one surface and the person who tests it; reuses a slice that already serves the intent (pulling a feature in or pushing one out so it stays testable end to end), and never touches a slice in progress; adds or fills every domain, capability, feature or ICE the slice needs, each page in its folder, and proposes a thin ICE, with both thin marks, for a part that has none; writes the slice into the spine with its link to the intent and its record; and writes the slice''s hidden file of failure and recovery conditions in the home plan''s evals folder. A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown. The model checks must pass for the slice''s own pages (older problems elsewhere are warnings), and nothing is committed before the person types yes (stop undoes every write). Writes no plan, epic, story or eval. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has a plan.'
++argument-hint: "<business intent issue number> [--edit: <what to change, in your own words>]"
++description: 'Shape the one slice that shows a business intent is served — the first play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-slice <intent-issue> (for example /shape-slice 788). It reads the intent from the product model (and writes the intent page from the issue when the model has none), reads the model and memory first, and talks to the person in one confirmation brief: the slice, what it fills, its hidden file, what is left out, each assumption and only the questions neither the model nor memory answers, within the configured question tier, every question and answer kept in the issue''s short-term memory. It asks first only for a gap that blocks the slice and that no one but the person can answer, never the surface. It picks the features from any capability in build order, the one surface and the person who tests it; reuses a slice that already serves the intent (pulling a feature in or pushing one out so it stays testable end to end), and never reshapes a slice in progress; adds or fills every domain, capability, feature or ICE the slice needs, each page in its folder, and proposes a thin ICE, with both thin marks, for a part that has none; writes the slice into the spine with its link to the intent and its record; and writes the slice''s hidden file of failure and recovery conditions in the home plan''s evals folder. A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown. The model checks must pass for the slice''s own pages (older problems elsewhere are warnings), and nothing is committed before the person types yes (stop undoes every write). With `--edit: <their own words>` it edits the slice that exists instead, also one in progress (the brief says so) (/shape-slice #788 --edit: <words>): only the slice record''s name, outcome or tester''s action, named lines of the hidden file, or a part''s spine one-line, after the person sees each change old and new and types yes; a check refuses any other change, and a history line keeps who asked, when and their words. Writes no plan, epic, story or eval. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has a plan.'
+ user-invocable: true
+ ---
+ 
+@@ -24,6 +24,12 @@ and only the questions neither the model nor memory answers, inside the question
+ config. It asks before it shapes the slice only for a gap that blocks the slice and that no
+ one but the person can answer; the surface is never such a gap.
+ 
++A person can also **edit** a slice that exists: `/shape-slice #<intent-issue> --edit: <their
++own words>` (C20). The run does not shape the slice again. It turns the words into an exact
++list of changes, shows each change old and new, and after the person's yes writes only that
++list, with a history line of who asked, when and their words. The edit path is its own phase
++below.
++
+ **Pipeline position: both.** start-change opens the change at the head (on the plan's
+ sub-branch when the intent has a plan); the end sequence commit-change → propose-change →
+ check-change → merge-change lands it.
+@@ -31,8 +37,8 @@ check-change → merge-change lands it.
+ ## Compiled From
+ 
+ This play was compiled from the shape-slice ICE (`reference/ice.md`) by create-play (#795)
+-and changed by edit-play (#842). Intent defines constraints (C1–C19) and failure conditions
+-(F1–F19); the expectation defines success scenarios (S1–S10), a Done means (D1–D6, baked to
++and changed by edit-play (#842, #908). Intent defines constraints (C1–C20) and failure
++conditions (F1–F20); the expectation defines success scenarios (S1–S11), a Done means (D1–D6, baked to
+ `stop-condition.yaml`), and one recovery entry per failure condition. To modify this play,
+ update `reference/ice.md` and recompile with edit-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -50,12 +56,13 @@ outcome; `find-slice-gaps` writes the gaps as questions; `propose-answers` draft
+ proposed answers; `author-slice-brief` writes the openings of the early and the confirmation
+ brief; `author-slice` chooses the slice (its surface, its tester, its features in build
+ order, what is left out, what it needs from the model), decides what a reused slice pulls in
+-or pushes out, and fixes its own records; `author-domains`, `enrich-capability-ice` and
++or pushes out, fixes its own records, and turns an edit's words into the list of changes; `author-domains`, `enrich-capability-ice` and
+ `enrich-grounding` write the pages; `author-failure-recovery` drafts the hidden file's
+ recoveries. You run all mechanical work through bundled scripts: reading the issue (`platform_adapter.py`), the intent page
+ (`write_intent_page.py`), the question record (`record_questions.py`), the question tier
+ (`grill_budget.py`), the serving check (`find_serving_slice.py`), the writes
+-(`persist_fills.py`, `persist_slice.py`, `write_hidden_file.py`), the model checks
++(`persist_fills.py`, `persist_slice.py`, `write_hidden_file.py`), an edit's copies, writes and
++before-and-after check (`edit_slice.py`), the model checks
+ (`slice_check.py`, which runs `lint_grounding.py`), the write guard
+ (`scoped_write_guard.py`), the trace check (`trace_check.py`), the brief
+ (`render_brief.py`), the checkpoint record and the commit gate (`record_approval.py`) and the
+@@ -72,7 +79,7 @@ or a question that breaks the rule for asking a person (C3); asking more than th
+ beyond the blocking questions, or a gap left open with no written assumption (C4); a question
+ or answer not recorded, or an answered question asked again (C5); a slice with no tester, no
+ surface or more than one surface (C6); a new slice for an intent a slice already serves, a
+-change to a slice in progress, or a reused slice that can no longer be tested end to end
++shaping run's change to a slice in progress, or a reused slice that can no longer be tested end to end
+ (C7); skipping or leaving unfilled a part the slice needs, a page outside its folder, or a
+ moved or used page left on an old rule (C8); writing a plan, an epic, a story, an eval or any
+ file outside the allowed set, under `.garura/project/plans/` above all (C9); a proposed
+@@ -84,20 +91,22 @@ name, or text a person cannot follow (C14); a hidden file that is missing or lea
+ line or a recovery (C15); a part with no ICE, or a thin ICE with one mark only (C16); a brief
+ that hides a result of the run (C17); reading the rule for asking a person from a place other than `_shared/asking-a-person.md` (C18);
+ an agent that chooses, drafts, decides or writes content, or reshapes a skill's output, or a
+-dispatch that names no skills (C19).
++dispatch that names no skills (C19); on an edit, a change that is not on the list the person
++approved, a write before their yes, a change to a part an edit may not change, or an edit with
++no history line (C20).
+ 
+ **Agent boundaries:**
+ 
+ | Agent | Domain | Skills it uses | Phases |
+ |-------|--------|----------------|--------|
+-| `product-os-keeper` | Gather context and pass it on: read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the domain shelves, the grounding templates, the recovery rule); pass on the shared rule for asking a person (`_shared/asking-a-person.md`, beside the installed skills, not memory) and say when it is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief |
++| `product-os-keeper` | Gather context and pass it on (on an edit: the person's words and the copies of the slice's records, to `author-slice` in edit mode; then the trace of each change): read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the domain shelves, the grounding templates, the recovery rule); pass on the shared rule for asking a person (`_shared/asking-a-person.md`, beside the installed skills, not memory) and say when it is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief |
+ | `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
+ 
+ `product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
+ agent. Every skill the domain agent uses exists: `author-slice` (#838), `find-slice-gaps`,
+ `author-slice-brief`, `enrich-grounding` and `author-failure-recovery` were built for this
+ play (#842). Each JSON contract below names its skills in `"skills"`; only the live re-cite of
+-Step 10b names none, because it calls the memory tool only. A copy from one shape to another
++Step 10b and the edit's trace (Step X5) name none, because they call the memory tool only. A copy from one shape to another
+ (the proposals into the questions, the questions into the early brief) is a script's. The
+ start and end sequence are injected sub-plays; everything else is a script.
+ 
+@@ -108,6 +117,7 @@ start and end sequence are injected sub-plays; everything else is a script.
+ | Resolve config, `stm_base`, `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
+ | A business intent issue number was given (`/shape-slice <intent-issue>`, digits only) | C1 | Hard halt — ask for the intent's issue number |
+ | The product model's spine exists (`<product_base>product-os/_spine.yaml`) | C11 | Hard halt — run the model plays first |
++| On an edit (`--edit:` in the arguments): the words after `--edit:` are not empty | C20 | Hard halt — ask what to change, in their own words |
+ | **Clean model tree** — after Step 0: `git status --porcelain -- <product_base>product-os` is empty | C12 | Hard halt (REC12) |
+ | **Clean plans tree** — after Step 0: `git status --porcelain -- .garura/project/plans` is empty, so a restore never takes back a person's own plan edits | C9, C15 | Hard halt (REC12) |
+ 
+@@ -171,6 +181,27 @@ Mark each task in progress before its step and completed right after its eval pa
+ runtime reordering. A **change** at the checkpoint sends the run back to T6; T6–T11 run again
+ in order.
+ 
++**An edit run** (`--edit:` in the arguments, C20) has its own DAG. It does not shape the slice,
++so T1–T12 are not created:
++
++```
++[T0]   start-change (injected — start)                         blockedBy: []
++[X1]   Read the slice's records                                 blockedBy: [T0]
++[X2]   Turn the person's words into the list of changes         blockedBy: [X1]
++[X3]   The edit brief and the checkpoint (yes / change / stop)  blockedBy: [X2]
++[X4]   Apply the list; check before against after               blockedBy: [X3]
++[X5]   Trace each change to the person's words                  blockedBy: [X4]
++[X6]   Commit the edit                                          blockedBy: [X5]
++[E1]   commit-change (injected — end)                           blockedBy: [X6]
++[E2]   propose-change (injected — end)                          blockedBy: [E1]
++[E3]   check-change (injected — end)                            blockedBy: [E2]
++[E4]   merge-change (injected — end)                            blockedBy: [E3]
++[T13]  Scenario Validation                                      blockedBy: [E4]
++[T14]  Close                                                    blockedBy: [T13]
++```
++
++A **change** at the edit checkpoint sends the run back to X2; X2–X3 run again in order.
++
+ ## Workflow
+ 
+ ### Phase: Start (injected — D2 position: both, head)
+@@ -489,14 +520,11 @@ the person to a discovery play.
+ **Step 8b — Write the hidden file** · Owner: play (script), then `product-os-keeper`, then play (script) · Depends on: Step 8
+ The slice's hidden file goes in its home plan's evals folder, made also when no plan file
+ exists (C15). The script lists the "Fails if" lines of each feature's ICE and its
+-capability's ICE, and keeps the ids of the entries already in the file. An entry whose lines
+-did not change is kept as it is; when the person's change names a feature whose recoveries must
+-be drafted again, pass it as `--redraft <feature id>` (one for each):
++capability's ICE, and keeps the ids of the entries already in the file:
+ 
+ ```
+ python3 scripts/write_hidden_file.py lines --root <model> --spine <model>/_spine.yaml \
+-    --slice-id <id from persist-slice.json> --plans-root <plans> --out <working>hidden-lines.json \
+-    $(each feature the person's change names, as --redraft <feature id>)
++    --slice-id <id from persist-slice.json> --plans-root <plans> --out <working>hidden-lines.json
+ ```
+ 
+     { "task":    "copy standards/rules/expectation-generation.md into short-term memory through the memory tool (rule); gather the pages of the two ICE of each feature in hidden-lines.json that is not kept (ice_pages: each part's page with its ## Agent intent (ICE) section, or its ice.md, as the spine names them); call author-failure-recovery with lines, ice_pages and rule; it drafts one recovery per Fails if line — when, way_back, who_fixes exactly 'the builder can fix this alone' or 'a person must decide' — and lists vague lines. Pass its hidden-recoveries.json on as it is; never write the hidden file. Gather and pass on only",
+@@ -715,11 +743,11 @@ added use personas and plain words (ASD-STE100) and name no real person —
+ `grep -i "$(git config user.name)"` over them finds nothing.
+ **SE-25 (F19/C19):** every agent contract of this run has a `"skills"` list, and each name in
+ it is a sibling folder of the installed play, `../<name>/`, that holds a `SKILL.md` (only
+-`shape-slice-trace` has `"skills": []`);
++`shape-slice-trace` and `shape-slice-edit-trace` have `"skills": []`);
+ each file an agent passed on (`intent-draft.json`, `placement.json`, `questions.json`,
+ `proposals.json`, `early-opening.md`, `slice.json`, `fills.json`, `no-slice.json`,
+ `reuse.json`, the manifests, `grounding-report.json`, `hidden-recoveries.json`,
+-`opening.md`) is the output of a skill its contract names, with no change made by the agent;
++`opening.md`, `edit-list.json`) is the output of a skill its contract names, with no change made by the agent;
+ the proposals reached `questions.json` only through `merge-proposals`, and the early brief's
+ questions only through `render_brief.py --early`.
+ 
+@@ -735,12 +763,163 @@ git add -- <model> .garura/project/plans/<hidden-file.json path>
+ git commit -m "feat(model): shape slice <id> for business intent #<intent-issue> (#<issue>)"
+ ```
+ 
++### Phase: Edit (only with `--edit:`, C20)
++
++An edit run goes from Step 0 straight here, and from here to the end sequence. Steps 1–12 do
++not run. `<id>` is the slice the spine links to `<intent>`.
++
++**Step X1 — Read the slice's records** · Owner: play (scripts) · Depends on: Step 0
++Save the words after `--edit:` word for word to `<working>edit-request.md`. Take the model
++check, and copy the slice's three records (the slice record, the hidden file, the spine):
++
++```
++python3 scripts/slice_check.py baseline --root <model> --spine <model>/_spine.yaml \
++    --out <working>lint-before-run.json
++python3 scripts/edit_slice.py snapshot --root <model> --spine <model>/_spine.yaml \
++    --intent <intent> --plans-root <plans> --working <working> --out <working>edit-before.json
++ls "$(dirname <edit-before.json files.hidden>)" > <working>edit-evals.txt
++```
++
++`snapshot` refuses (exit 2) when the spine links no slice, or more than one, to the intent:
++show its message and stop; nothing is written. The copies go to `<working>edit-before/`.
++An edit may change a slice in progress (C7, C20): `edit-before.json` reads `in_progress: true`
++and names each epic past ready, with its status, and the run goes on.
++
++**Step X2 — Turn the person's words into the list of changes** · Owner: `product-os-keeper`, then play (script) · Depends on: Step X1
++
++    { "task":    "call author-slice in edit mode with the person's words (request), the copies of the slice's records (before), the names of the files in the slice's evals folder (evals) and, on a re-run, the last refusal (refused); it writes edit-list.json: one change for each part the words name (file, part, the old text word for word, the new text, why), each record the edit makes out of date (named, not changed; when edit-before.json reads in_progress, each epic it names), and what the words name that an edit does not change (not_editable). Pass it on as it is. Gather and pass on only",
++      "inputs":  { "request": "<working>edit-request.md", "before": "<working>edit-before.json",
++                   "evals": "<working>edit-evals.txt",
++                   "refused": "<working>edit-list-check.json (on a re-run only)" },
++      "outputs": { "list": "<working>edit-list.json" },
++      "skills":  ["author-slice"],
++      "task_id": "shape-slice-edit" }
++
++```
++python3 scripts/edit_slice.py check-list --before <working>edit-before.json \
++    --list <working>edit-list.json --out <working>edit-list-check.json
++```
++
++`check-list` exits 1 for a change to a part an edit may not change, an old text that is not
++what the record says now, an empty or unchanged new text, a "who fixes" that is neither of the
++two sentences, or one part changed twice: send `edit-list-check.json` back to the
++`shape-slice-edit` contract as `refused`, and check again. When the list names no change and
++`not_editable` is not empty, the words ask for nothing an edit may change: show the person
++each `not_editable` line in plain words, write nothing, and close HALTED.
++**SE-26 (F20/C20):** `edit-list-check.json` reads `ok: true` for the list that was shown; each
++change names a file and a part of C20's set, and its old text is what the record said before
++the edit; when `edit-before.json` reads `in_progress: true`, `brief.md` has the In progress
++section with each epic it names, and `edit-list.json` `out_of_date` names each of them.
++
++**Step X3 — The edit brief and the checkpoint** · Owner: play (scripts) · Depends on: Step X2 · Checkpoint (class: standard, **pinned** — the person decides; never skipped by config)
++The script builds the whole brief from the run's records: what the person asked, each change
++old and new, each record made out of date (named, not changed), what an edit does not
++change, and, for a slice in progress, an In progress section that says so and names its epic.
++`<slice name>` is the name in the slice record's copy.
++
++```
++python3 scripts/render_brief.py --edit "<slice name>" --working <working> --out <working>brief.md
++python3 scripts/record_questions.py brief --brief <working>brief.md --edit \
++    --before <working>edit-before.json
++```
++
++Exit 1 lists each problem: send it back to Step X2, then render again. The brief is never
++edited by hand. Frame it with the approval prompt from `template-manager`
++(`standards/templates/approval-prompt.md`) and show it. Ask the person to type **yes**,
++**change: <what>**, or **stop**. Nothing is written to the model or the plans folder before
++the yes. Save the reply word for word to `<working>reply.md`, then record it:
++
++```
++python3 scripts/record_questions.py edit --record <record> --issue <issue> \
++    --request <working>edit-request.md --reply <working>reply.md \
++    --decision <yes|change|stop> --at <now, UTC> --run <this run id>
++python3 scripts/record_approval.py --decision <yes|change|stop> --reply "<their exact words>" \
++    --at <now, UTC> --out <working>approval.json
++```
++
++- **yes** → Step X4.
++- **change** → add a line `Change: <their words>` to `<working>edit-request.md`, then run
++  Steps X2–X3 again; show the brief again.
++- **stop** → nothing was written. Clear the copy of the hidden file and close HALTED:
++  `write_hidden_file.py check --root <model> --spine <model>/_spine.yaml --slice-id <id> --plans-root <plans> --out <working>hidden-file.json --clear-working <working>edit-before/hidden.md`;
++  write `git status --porcelain -- <model> .garura/project/plans` to `<working>stop-check.txt`.
++
++**Step X4 — Apply the list; check before against after** · Owner: play (scripts) · Depends on: Step X3 (yes)
++The gate script runs first; any exit but 0 stops here and nothing is written. `--by` is the
++person's role (for example "the product owner"), never a real name (C14).
++
++```
++python3 scripts/record_approval.py verify --file <working>approval.json
++python3 scripts/edit_slice.py apply --before <working>edit-before.json \
++    --list <working>edit-list.json --request <working>edit-request.md \
++    --by "<the person's role>" --at <today, UTC> --out <working>edit-apply.json
++python3 scripts/edit_slice.py check --before <working>edit-before.json \
++    --list <working>edit-list.json --request <working>edit-request.md \
++    --apply <working>edit-apply.json --out <working>edit-check.json
++python3 scripts/slice_check.py --root <model> --spine <model>/_spine.yaml \
++    --slice-id <id> --intent <intent> --baseline <working>lint-before-run.json \
++    --out <working>slice-check.json
++python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
++    --also-tree .garura/project/plans \
++    --allow 'product-os/_spine.yaml' --allow 'product-os/slices/<id>.yaml' \
++    --allow '.garura/project/plans/<the hidden file, from edit-before.json>' \
++    --out <working>guard-report.json
++python3 scripts/write_hidden_file.py check --root <model> --spine <model>/_spine.yaml \
++    --slice-id <id> --plans-root <plans> --out <working>hidden-file.json \
++    --clear-working <working>edit-before/hidden.md
++```
++
++`apply` writes exactly the list and the history lines (who asked, when, their words): on the
++slice record always, and on the hidden file when it changes. When `edit-check.json`,
++`slice-check.json`, `guard-report.json` or `hidden-file.json` is not ok, put every record back
++(REC20, REC11, REC9, REC15):
++
++```
++python3 scripts/edit_slice.py restore --before <working>edit-before.json --out <working>edit-restore.json
++```
++
++then send the problems to Step X2 as `refused`, and run Steps X2–X4 again: the person sees the
++new list before it is written. The hidden-file check runs last, so the copy of the hidden file
++is cleared only when every check reads ok.
++**SE-27 (F20/C20):** `edit-check.json` reads `ok: true`, with `changes` equal to the count of
++changes in `edit-list.json`; `edit-apply.json` was written after `approval.json` read
++`decision: yes`; the slice record holds an `edits:` entry with the person's words, and the
++hidden file holds an "Edited on" line when the list changed it; `slice-check.json`,
++`guard-report.json` and `hidden-file.json` read ok; `<working>edit-before/hidden.md` is gone.
++
++**Step X5 — Trace each change to the person's words** · Owner: `product-os-keeper`, then play (script) · Depends on: Step X4
++
++    { "task":    "for each change in edit-list.json, read the edit's entry in the question record through the memory tool (memory.py read --issue <issue> --tier short-term --path <issue>/context/grounding-questions.md --start <n> --end <m>, the lines of that entry only) and record the change with memory.py cite: question '<file>, <part>: what does it say after the edit?', answer the new text, decided_by 'author-slice (edit mode, via product-os-keeper)', and a trace whose source is that read answer (tier, path, start, end, fingerprint). Write citations-live.json {live: [the citation ids]}. Memory tool only; no skill",
++      "inputs":  { "list": "<working>edit-list.json", "record": "<record>" },
++      "outputs": { "live": "<working>citations-live.json" },
++      "skills":  [],
++      "task_id": "shape-slice-edit-trace" }
++
++```
++python3 .garura/core/tools/memory/memory.py citations --issue <issue> --check \
++    > <working>citations-check.json
++python3 scripts/trace_check.py --issue <issue> --live <working>citations-live.json \
++    --check <working>citations-check.json --out <working>trace-check.json
++```
++
++Exit 1 lists a change whose trace is missing or changed: record it again and run both again.
++
++**Step X6 — Commit the edit** · Owner: play · Depends on: Step X5
++
++```
++python3 scripts/record_approval.py verify --file <working>approval.json
++git add -- <model> .garura/project/plans/<the hidden file, from edit-before.json>
++git commit -m "feat(model): edit slice <id> for business intent #<intent-issue> (#<issue>)"
++```
++
++Then the end sequence (E1–E4) runs as in a shaping run.
++
+ ### Phase: End sequence (injected — D2 position: both, tail)
+ 
+ Each member runs as a sub-play with `parent_run_id`; each resolves its own context from the
+ branch and config.
+ 
+-**Step E1 — commit-change** · blockedBy: Step 12 — commits the run records under `{stm_base}<issue>/`.
++**Step E1 — commit-change** · blockedBy: Step 12 (Step X6 on an edit) — commits the run records under `{stm_base}<issue>/`.
+ 
+     { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/commit-change.json" } }
+ 
+@@ -793,6 +972,13 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
+ - **SCE-10 (S10 — product owner, no plan file):** with no plan file and three features,
+   `hidden-file.json` reads `ok: true` with three entries, its path is
+   `<plan-id>/evals/<slug>/failure-and-recovery.md`, and every line has one recovery.
++- **SCE-11 (S11 — product owner, an edit):** after `--edit` asking for two "who fixes" lines
++  to go to a person and a yes, `edit-check.json` reads `ok: true` with `changes: 2`,
++  `hidden-file.json` reads `ok: true`, the hidden file holds two more "a person must decide"
++  lines and an "Edited on" line with the person's words, the slice record holds the `edits:`
++  entry, and `git diff <start-sha> -- <model> .garura/project/plans` shows no other line.
++
++On an edit run, only SCE-11 applies; the others are for a shaping run.
+ 
+ ### Phase: Evidence & Close
+ 
+@@ -868,6 +1054,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
+ | S8 — an older model | product owner | SCE-8 |
+ | S9 — an existing capability | product owner | SCE-9 |
+ | S10 — no plan file | product owner | SCE-10 |
++| S11 — an edit | product owner | SCE-11 |
+ 
+ ## Recovery
+ 
+@@ -879,7 +1066,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
+ | F4 | more questions than the tier allows beyond the blocking ones, a gap open with no written assumption, or an assumption the person did not see | cut the questions to the budget, blocking first, and write an assumption for every gap not asked; show the assumptions in the brief | autonomous |
+ | F5 | a question or answer is not in the record, or an answered question was asked again | record every question and answer, and take back any repeat question | autonomous |
+ | F6 | a slice has no tester, no surface, or more than one surface | take the slice back; propose one surface and its tester from the model and memory, and show them in the one brief — never ask for them; when nothing names a surface a person can test end to end, write no slice, say why, and close | autonomous |
+-| F7 | a new slice was made for an intent a slice not in progress already serves, a slice in progress was changed, or a reused slice can no longer be tested end to end | remove the new slice and add the intent to the slice that serves it; put back a slice in progress and shape a new slice; or put back the feature whose change broke the end-to-end test | autonomous |
++| F7 | a new slice was made for an intent a slice not in progress already serves, a shaping run changed a slice in progress, or a reused slice can no longer be tested end to end | remove the new slice and add the intent to the slice that serves it; put back a slice in progress and shape a new slice; or put back the feature whose change broke the end-to-end test | autonomous |
+ | F8 | a part the slice needs was skipped or left unfilled, a page is outside its parent's folder, a moved or used page still breaks a current rule, or a fill changed a field of an existing part other than its intents, its missing parent, or the one-line the person's change asked for | add or fill the part at the depth known, at its folder, marked to be deepened, and bring each moved or used page up to the current rules; put back any other field a fill changed | autonomous |
+ | F9 | the run wrote outside the allowed set (a plan, an epic, a story, an eval, a file under the plans folder other than the hidden file, or another file) | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`) | autonomous |
+ | F10 | a proposed answer has no source the run can name, a trace names a source not read through the memory tool, or the count of questions with no proposed answer is missing or wrong | strip the proposed answer that has no source — never replace it with another — read the source through the memory tool before citing it, and report the count | autonomous |
+@@ -892,6 +1079,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
+ | F17 | the brief hid a result of the run (a reuse difference, a feature pulled in or pushed out, a field an upgrade set or dropped, a replaced spine one-line, a warning, an older problem, a thin ICE, an assumption) | show the hidden result in the brief, in plain words, and ask again | autonomous |
+ | F18 | the run read the rule for asking a person from a place other than `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because it was missing, or went on without saying it was missing | drop the copy read from another place and read `_shared/asking-a-person.md`; when it is missing, say so in the brief, use the play's floor, and go on | autonomous |
+ | F19 | an agent dispatch asked the agent to do work no named skill does (choose, draft, decide or write content, or reshape a skill's output), or a dispatch named no skills | take back what the agent made and send the work to the named skill that does it, through the agent; when no skill does it, close HALTED and name the missing skill — the agent never does it | autonomous |
++| F20 | an edit changed something that is not on the list the person saw, wrote before the person's yes, changed a part an edit may not change, or left no history line; an edit of a slice in progress whose brief did not say it is in progress; or a kept entry of the hidden file changed with no edit the person approved | put back each change that is not on the approved list, or every write made before the yes (`edit_slice.py restore`), and add the missing history line; when the slice is in progress and the brief did not say so, put back the edit, show it in the brief and ask again; nothing of the edit is kept without the person's yes | autonomous |
+ 
+ ## Pause and Resume
+ 
+@@ -900,14 +1088,16 @@ check the status marker, skip completed steps, reset an in-progress step to pend
+ continue. The question record is never asked twice: a resume reads `<record>` and asks only
+ what is still open. A resume after the slice was written re-enters its own uncommitted
+ delta in the model tree and the plans tree (expected, not a dirty-tree halt). A run that
+-closed HALTED at a stop has nothing to resume: its writes were undone.
++closed HALTED at a stop has nothing to resume: its writes were undone. An edit run resumes on
++its own DAG (X1–X6): `<working>edit-before.json` and its copies are kept until the hidden-file
++check reads ok, so a resume after X4 can still put every record back.
+ 
+ ## Compilation Metadata
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:f1002e6869bc21e4f2f9667d7371fd5397d9d316fd712d0daf51f521d2084cd5 (of `reference/ice.md`) |
+-| compiled_by | create-play (#795); edit-play (#842) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19) |
++| fingerprint | sha256:3744213f036e0c0b6f557a15272b6be92f42f4ad5ab60cc828fd139127d2233c (of `reference/ice.md`) |
++| compiled_by | create-play (#795); edit-play (#842, #908) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19); the edit path, which changes only what the person named, after their yes, with a history line (C20) |
+ | pipeline_position | both (start-change head; commit → propose → review → merge close) |
+ | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |
+ | stop_condition | stop-condition.yaml (D1–D6), gate live at Step C0 |
+@@ -915,8 +1105,8 @@ closed HALTED at a stop has nothing to resume: its writes were undone.
+ | utility_agents | 1 (template-manager — serves the approval prompt and the close) |
+ | skills_used | author-business-intent (one-intent mode), find-work-placement, find-slice-gaps, propose-answers, author-slice-brief, author-slice (#838), author-domains (profile: false), enrich-capability-ice (depth: directional), enrich-grounding, author-failure-recovery (author-slice, find-slice-gaps, author-slice-brief, enrich-grounding and author-failure-recovery built for this play, #842) |
+ | skills_missing | none |
+-| scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py, lint_grounding.py, model_names.py, intent_touches.py (copied unchanged from create-play references); grill_budget.py (#817); write_intent_page.py, record_questions.py, find_serving_slice.py, persist_fills.py, persist_slice.py, spine_text.py, write_hidden_file.py, slice_check.py, trace_check.py, render_brief.py, record_approval.py, safe_write.py (this play) |
+-| tests | test_grill_budget.py, test_find_serving_slice.py, test_persist_slice.py, test_shape_slice_scripts.py, test_write_hidden_file.py, test_render_brief.py, test_trace_check.py |
+-| step_evals | 25 (SE-1…SE-25) |
+-| scenario_evals | 10 (SCE-1…SCE-10) |
+-| recovery_entries | 19 (one per failure condition; 17 autonomous / 2 human) |
++| scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py, lint_grounding.py, model_names.py, intent_touches.py (copied unchanged from create-play references); grill_budget.py (#817); write_intent_page.py, record_questions.py, find_serving_slice.py, persist_fills.py, persist_slice.py, spine_text.py, write_hidden_file.py, slice_check.py, trace_check.py, render_brief.py, record_approval.py, edit_slice.py, safe_write.py (this play) |
++| tests | test_grill_budget.py, test_find_serving_slice.py, test_persist_slice.py, test_shape_slice_scripts.py, test_write_hidden_file.py, test_render_brief.py, test_trace_check.py, test_edit_slice.py |
++| step_evals | 27 (SE-1…SE-27) |
++| scenario_evals | 11 (SCE-1…SCE-11) |
++| recovery_entries | 20 (one per failure condition; 18 autonomous / 2 human) |
+diff --git a/core/components/plays/shape-slice/reference/ice.md b/core/components/plays/shape-slice/reference/ice.md
+index 5bd79bc2..4615fa99 100644
+--- a/core/components/plays/shape-slice/reference/ice.md
++++ b/core/components/plays/shape-slice/reference/ice.md
+@@ -9,7 +9,8 @@ A person names a business intent. /shape-slice shapes the one slice that a perso
+ to end to show the intent is served. It fills the product model with what that slice needs,
+ proposes a thin ICE for each part that has none, writes the slice with its link to the intent,
+ and writes the slice's hidden file of failure and recovery conditions. It writes no plan, no
+-epic, no story and no eval.
++epic, no story and no eval. A person can also edit a slice that exists: `--edit` with their own
++words changes only the parts they named, after they see each change and say yes.
+ 
+ ### Constraints
+ 
+@@ -41,7 +42,8 @@ epic, no story and no eval.
+   the reused slice no longer serves the intent as it is, the run changes it: it pulls a feature
+   in, or pushes a feature out, and the slice stays testable end to end (one surface, one tester,
+   one feature or more). A slice in progress (its epic is past ready: a story is started or done)
+-  is never touched; the run shapes a new slice. The brief shows each change, and nothing is kept
++  is never touched by a shaping run; the run shapes a new slice. Only an edit the person
++  approves changes a slice in progress (C20). The brief shows each change, and nothing is kept
+   before the person's yes.
+ - C8 — The run reuses what exists, fills what exists in part, and adds what is missing. A fill
+   of an existing domain, capability or feature adds the intent to its `intents`, sets its domain
+@@ -92,7 +94,8 @@ epic, no story and no eval.
+   symptom the eval sees), way back (guidance, never code), who fixes ("the builder can fix this
+   alone" or "a person must decide"), by `standards/rules/expectation-generation.md`, "A
+   feature's recovery". When the slice gains a feature, the run adds that feature's entry and
+-  keeps every other entry as it is. When the file reads ok, no working copy of its "Fails if"
++  keeps every other entry as it is. A kept entry changes only through an edit the person
++  approved (C20). When the file reads ok, no working copy of its "Fails if"
+   lines or their ids stays outside the evals folder.
+ - C16 — When a part the slice needs has no ICE, the run proposes a thin ICE from the person's
+   answers: in Intent, at least a goal, a limit and one "Fails if" line; in Context, one line; in
+@@ -125,12 +128,26 @@ epic, no story and no eval.
+   skill: the intent page (`author-business-intent`, one-intent mode), the placement
+   (`find-work-placement`), the gaps written as questions (`find-slice-gaps`), the proposed
+   answers (`propose-answers`), the openings of the early and the confirmation brief
+-  (`author-slice-brief`), the slice and what it needs from the model (`author-slice`), the
++  (`author-slice-brief`), the slice and what it needs from the model, and the list of an
++  edit's changes (`author-slice`), the
+   pages (`author-domains`, `enrich-capability-ice`, `enrich-grounding`) and the hidden file's
+   recoveries (`author-failure-recovery`). Each skill a dispatch names is installed beside the
+   play: a sibling folder `../<name>/` that holds its `SKILL.md`. A copy from one shape to
+   another is a script's.
+   Every agent dispatch names the skills it calls.
++- C20 — A person edits a slice that exists with `/shape-slice #<intent-issue> --edit: <their
++  words>`. The run takes the words as they are and does not shape the slice: `author-slice`
++  (edit mode) turns them into an exact list of changes, each with its file, its part, its old
++  text and its new text, and names each other record the edit makes out of date. The parts an
++  edit may change are the slice record's name, outcome and tester's action, the when, way back
++  or who fixes of a named line of the hidden file, and a part's spine one-line. The brief shows
++  each change, old and new, and each record made out of date (named, not changed); nothing is
++  written before the person's yes. The run then writes exactly the list and nothing else: a
++  check compares each record before and after and refuses any other change. The slice record
++  keeps a history line with who asked, when and their words, and so does the hidden file when
++  it changes. The model check, the write guard and the trace check run as in a shaping run.
++  An edit may change a slice in progress: the brief says that the slice is in progress, and
++  names its epic, with its status, as out of date (named, not changed).
+ 
+ ### Failure conditions
+ 
+@@ -146,7 +163,7 @@ epic, no story and no eval.
+ - F5 — A question or answer was not recorded, or an answered question was asked again.
+ - F6 — A slice was written with no tester, with no surface, or with more than one surface.
+ - F7 — A new slice was made for an intent that an existing slice, not in progress, already
+-  serves; a slice in progress was changed; or a reused slice was changed so that a person can no
++  serves; a shaping run changed a slice in progress; or a reused slice was changed so that a person can no
+   longer test it end to end.
+ - F8 — A part the slice needs was skipped; an existing part was left unfilled (no intent link,
+   or no domain the run knows); a page is outside its parent's folder; a page the run moved or
+@@ -178,6 +195,10 @@ epic, no story and no eval.
+ - F19 — An agent dispatch asks the agent to do work no named skill does: to choose, draft,
+   decide or write content itself, or to reshape a skill's output; or a dispatch names no
+   skills.
++- F20 — An edit changed something that is not on the list the person saw, wrote before the
++  person's yes, changed a part an edit may not change, or left no history line; an edit of a
++  slice in progress whose brief did not say it is in progress; or a kept entry of the hidden
++  file changed with no edit the person approved.
+ 
+ ## Context
+ 
+@@ -257,6 +278,12 @@ epic, no story and no eval.
+   features, when the run ends, then the hidden file is in `plans/<id>/evals/<slug>/` with three
+   entries, and each "Fails if" line has one recovery. Measure: `hidden-file.json` reads
+   `ok: true` with three entries.
++- S11 — (product owner, an edit) Given a slice with a hidden file, when the person runs
++  `--edit` asking for two "who fixes" lines to go to a person and types yes, then those two
++  lines change, every other line of the hidden file and of the model stays as it was, and the
++  hidden file and the slice record each hold a history line with the person's words. Measure:
++  `edit-check.json` reads `ok: true` with exactly two changes, and `hidden-file.json` reads
++  `ok: true`.
+ 
+ ### Done means
+ 
+@@ -321,3 +348,7 @@ epic, no story and no eval.
+ - REC19 (F19) — take back what the agent made, and send the work to the named skill that does
+   it, through the agent; when no skill does it, close HALTED and name the missing skill. The
+   agent never does it. Handoff: autonomous.
++- REC20 (F20) — put back each change that is not on the approved list, or every write made
++  before the yes, and add the missing history line; when the slice is in progress and the brief
++  did not say so, put back the edit, show it in the brief and ask again; nothing of the edit is
++  kept without the person's yes. Handoff: autonomous.
+diff --git a/core/components/plays/shape-slice/scripts/edit_slice.py b/core/components/plays/shape-slice/scripts/edit_slice.py
+new file mode 100644
+index 00000000..426339dc
+--- /dev/null
++++ b/core/components/plays/shape-slice/scripts/edit_slice.py
+@@ -0,0 +1,335 @@
++#!/usr/bin/env python3
++"""
++edit_slice.py — the edit path of /shape-slice (C20): change only the parts of an existing slice
++that the person named, and nothing else.
++
++    python3 edit_slice.py snapshot --root <product-os dir> --spine <_spine.yaml> \\
++        (--slice-id <id> | --intent <bi-n>) --plans-root <plans dir> --working <working> \\
++        --out <edit-before.json>
++    python3 edit_slice.py check-list --before <edit-before.json> --list <edit-list.json> \\
++        --out <edit-list-check.json>
++    python3 edit_slice.py apply --before <edit-before.json> --list <edit-list.json> \\
++        --request <edit-request.md> --by "<the person's role>" --at <date> --out <edit-apply.json>
++    python3 edit_slice.py check --before <edit-before.json> --list <edit-list.json> \\
++        --request <edit-request.md> --apply <edit-apply.json> --out <edit-check.json>
++    python3 edit_slice.py restore --before <edit-before.json> --out <edit-restore.json>
++
++The three records an edit may change, and the parts of each (the list's `file` and `part`):
++  record  — the slice record: `slice.name`, `slice.outcome`, `surface.user_action`
++  hidden  — the hidden file: `<feature id>/<F id>/when`, `.../way_back`, `.../who_fixes`
++            (who fixes is exactly "the builder can fix this alone" or "a person must decide")
++  spine   — a part's spine one-line: `<part id>/one_line`
++
++edit-list.json (written by author-slice, edit mode):
++    {changes: [{file, part, old, new, why}], out_of_date: [{record, why}],
++     not_editable: [{what, why}]}
++
++snapshot finds the slice (--slice-id, or the one slice the spine links to --intent) and
++copies the three records into <working>edit-before/ and names them. It also records whether
++the slice is in progress (`in_progress`, and each `epics` entry {id, status} past ready, the rule
++find_serving_slice.py holds): an edit may change a slice in progress, and the brief says so. check-list refuses
++(exit 1) a change to another file or part, an `old` that is not the part's text now, an empty
++`new`, a `new` equal to `old`, a who fixes that is neither answer, or two changes to one part.
++apply writes exactly the list through safe_write.atomic_write: the slice record keeps its layout
++(spine_text), the hidden file changes only the named field lines, and the spine only the named
++one-lines; it adds a history line (who asked, when, their words) to the slice record (`edits:`)
++on every edit, and, when the hidden file changes, to the hidden file's opening lines. check builds, from the
++snapshot, what each record must read after the list and the history lines, and compares it with
++each record on disk: any other change is a problem (exit 1). restore writes the snapshot back.
++Exit 0 ok, 1 problems, 2 refused or usage error.
++"""
++
++import argparse
++import json
++import os
++import re
++import sys
++
++import yaml
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import spine_text  # noqa: E402
++from safe_write import atomic_write  # noqa: E402
++from find_serving_slice import IN_PROGRESS  # noqa: E402
++
++WHO = ("the builder can fix this alone", "a person must decide")
++RECORD_PARTS = {"slice.name": ("slice", "name"), "slice.outcome": ("slice", "outcome"),
++                "surface.user_action": ("surface", "user_action")}
++HIDDEN_KEYS = {"when": "When", "way_back": "Way back", "who_fixes": "Who fixes"}
++HEAD = re.compile(r"^## (?P<feature>[^:\s]+): ")
++FOR = re.compile(r"^- For (?P<id>F\d+)\s*$")
++FIELD = re.compile(r"^(?P<lead>\s+- (?P<key>When|Way back|Who fixes):\s*)(?P<text>.*?)\s*$")
++KINDS = ("domains", "capabilities", "features")
++
++
++class Refused(Exception):
++    pass
++
++
++def read(path):
++    with open(path, encoding="utf-8") as fh:
++        return fh.read()
++
++
++def norm(text):
++    return " ".join(str(text or "").split())
++
++
++def load_json(path, what):
++    try:
++        return json.loads(read(path))
++    except (OSError, ValueError) as exc:
++        raise Refused(f"cannot read {what} {path}: {exc}")
++
++
++def emit(out, data, code):
++    atomic_write(out, json.dumps(data, indent=2))
++    print(json.dumps(data, indent=2))
++    return code
++
++
++# -- the slice's records ----------------------------------------------------------------------
++def cmd_snapshot(args):
++    spine = yaml.safe_load(read(args.spine)) or {}
++    slices = [s for s in spine.get("slices") or [] if isinstance(s, dict)]
++    if args.slice_id:
++        found = [s for s in slices if s.get("id") == args.slice_id]
++        if not found:
++            raise Refused(f"the spine has no slice '{args.slice_id}'")
++    else:
++        found = [s for s in slices if args.intent in (s.get("intents") or [])]
++        if len(found) != 1:
++            raise Refused(f"the spine has {len(found)} slices for {args.intent}; an edit needs exactly one "
++                          "(give --slice-id)")
++    sl = found[0]
++    args.slice_id = sl["id"]
++    record = os.path.join(args.root, sl.get("record") or f"slices/{args.slice_id}.yaml")
++    plan_id = str((sl.get("intents") or [""])[0]).replace("bi-", "")
++    hidden = os.path.join(args.plans_root, plan_id, "evals", sl["slug"], "failure-and-recovery.md")
++    files = {"record": record, "hidden": hidden, "spine": args.spine}
++    copies = os.path.join(args.working, "edit-before")
++    os.makedirs(copies, exist_ok=True)
++    busy = [{"id": e.get("id"), "status": e.get("status")} for e in spine.get("epics") or []
++            if isinstance(e, dict) and e.get("slice_ref") == args.slice_id and e.get("status") in IN_PROGRESS]
++    out = {"slice": args.slice_id, "in_progress": bool(busy), "epics": busy, "files": {}, "copies": {}}
++    for name, path in files.items():
++        if not os.path.isfile(path):
++            raise Refused(f"the {name} file is not at {path}")
++        copy = os.path.join(copies, f"{name}{os.path.splitext(path)[1]}")
++        atomic_write(copy, read(path))
++        out["files"][name], out["copies"][name] = path, copy
++    return emit(args.out, dict(out, ok=True), 0)
++
++
++def record_value(data, part):
++    top, key = RECORD_PARTS[part]
++    return (data.get(top) or {}).get(key)
++
++
++def hidden_field(lines, feature, fid, key):
++    """The index and the text of the named field line of the hidden file, or (None, None)."""
++    in_block, in_rec = False, False
++    for i, ln in enumerate(lines):
++        h = HEAD.match(ln)
++        if h:
++            in_block, in_rec = h.group("feature") == feature, False
++            continue
++        if not in_block:
++            continue
++        f = FOR.match(ln)
++        if f:
++            in_rec = f.group("id") == fid
++            continue
++        m = FIELD.match(ln)
++        if in_rec and m and m.group("key") == HIDDEN_KEYS[key]:
++            return i, m.group("text")
++    return None, None
++
++
++def spine_part(data, pid):
++    for kind in KINDS:
++        for e in data.get(kind) or []:
++            if isinstance(e, dict) and e.get("id") == pid:
++                return e
++    return None
++
++
++def current(before, change):
++    """The part's text now, in the snapshot; raises Refused for a part an edit may not change."""
++    f, part = change.get("file"), str(change.get("part") or "")
++    text = read(before["copies"][f]) if f in before["copies"] else None
++    if f == "record":
++        if part not in RECORD_PARTS:
++            raise Refused(f"'{part}' is not a part an edit may change in the slice record")
++        return record_value(yaml.safe_load(text) or {}, part)
++    if f == "hidden":
++        bits = part.split("/")
++        if len(bits) != 3 or bits[2] not in HIDDEN_KEYS or not re.match(r"^F\d+$", bits[1]):
++            raise Refused(f"'{part}' is not '<feature>/<F id>/when|way_back|who_fixes'")
++        return hidden_field(text.splitlines(), *bits)[1]
++    if f == "spine":
++        bits = part.split("/")
++        if len(bits) != 2 or bits[1] != "one_line":
++            raise Refused(f"'{part}' is not '<part id>/one_line'")
++        e = spine_part(yaml.safe_load(text) or {}, bits[0])
++        return e.get("one_line") if e else None
++    raise Refused(f"'{f}' is not a file an edit may change (record, hidden or spine)")
++
++
++def list_problems(before, lst):
++    problems, seen = [], set()
++    changes = lst.get("changes") or []
++    if not changes:
++        problems.append("the list names no change")
++    for c in changes:
++        key = (c.get("file"), c.get("part"))
++        try:
++            now = current(before, c)
++        except Refused as exc:
++            problems.append(str(exc))
++            continue
++        if key in seen:
++            problems.append(f"{key[1]} is changed twice")
++        seen.add(key)
++        if now is None:
++            problems.append(f"{key[1]} is not in the {key[0]} file")
++        elif norm(now) != norm(c.get("old")):
++            problems.append(f"{key[1]}: the old text is not what the {key[0]} file says now")
++        if not norm(c.get("new")):
++            problems.append(f"{key[1]}: the new text is empty")
++        elif norm(c.get("new")) == norm(c.get("old")):
++            problems.append(f"{key[1]}: the new text is the old text")
++        if c.get("file") == "hidden" and str(c.get("part", "")).endswith("/who_fixes") \
++                and norm(c.get("new")) not in WHO:
++            problems.append(f"{key[1]}: who fixes must be '{WHO[0]}' or '{WHO[1]}'")
++    return problems
++
++
++def cmd_check_list(args):
++    before = load_json(args.before, "edit-before.json")
++    problems = list_problems(before, load_json(args.list, "edit-list.json"))
++    return emit(args.out, {"ok": not problems, "problems": problems}, 0 if not problems else 1)
++
++
++# -- what each record must read after the edit ------------------------------------------------
++def history_entry(request, by, at, parts):
++    return {"at": at, "by": by, "words": norm(request), "changed": parts}
++
++
++def expected(before, lst, request, by, at):
++    """{file: the text it must hold after the list and the history lines} for the files changed."""
++    changes = lst.get("changes") or []
++    out = {}
++    for f in ("record", "hidden", "spine"):
++        mine = [c for c in changes if c.get("file") == f]
++        if not mine and not (f == "record" and changes):  # every edit leaves its history line on the record
++            continue
++        text = read(before["copies"][f])
++        if f == "record":
++            old = yaml.safe_load(text) or {}
++            new = json.loads(json.dumps(old))
++            for c in mine:
++                top, key = RECORD_PARTS[c["part"]]
++                new[top][key] = norm(c["new"])
++            body = spine_text.dump(text, old, new)[0]
++            entry = history_entry(request, by, at, [c["part"] for c in changes])
++            if "edits" in old:
++                body = body.rstrip("\n") + "\n" + yaml.safe_dump([entry], sort_keys=False, allow_unicode=True)
++            else:
++                body = body.rstrip("\n") + "\n" + yaml.safe_dump({"edits": [entry]}, sort_keys=False,
++                                                                  allow_unicode=True)
++            out[f] = body
++        elif f == "hidden":
++            lines = text.splitlines(keepends=True)
++            plain = [ln.rstrip("\n") for ln in lines]
++            for c in mine:
++                feature, fid, key = c["part"].split("/")
++                i, _ = hidden_field(plain, feature, fid, key)
++                m = FIELD.match(plain[i])
++                end = "\n" if lines[i].endswith("\n") else ""
++                lines[i] = f"{m.group('lead')}{norm(c['new'])}{end}"
++            first = next(i for i, ln in enumerate(lines) if HEAD.match(ln))
++            note = (f"Edited on {at} by {by}, on the person's words: \"{norm(request)}\" "
++                    f"({', '.join(c['part'] for c in mine)}).\n\n")
++            out[f] = "".join(lines[:first]) + note + "".join(lines[first:])
++        else:
++            old = yaml.safe_load(text) or {}
++            new = json.loads(json.dumps(old))
++            for c in mine:
++                spine_part(new, c["part"].split("/")[0])["one_line"] = norm(c["new"])
++            out[f] = spine_text.dump(text, old, new)[0]
++    return out
++
++
++def cmd_apply(args):
++    before = load_json(args.before, "edit-before.json")
++    lst = load_json(args.list, "edit-list.json")
++    problems = list_problems(before, lst)
++    if problems:
++        raise Refused("the list does not hold: " + "; ".join(problems))
++    request = read(args.request)
++    want = expected(before, lst, request, args.by, args.at)
++    for f, text in want.items():
++        atomic_write(before["files"][f], text)
++    return emit(args.out, {"ok": True, "written": sorted(want), "by": args.by, "at": args.at,
++                           "changes": len(lst.get("changes") or [])}, 0)
++
++
++def cmd_check(args):
++    before = load_json(args.before, "edit-before.json")
++    lst = load_json(args.list, "edit-list.json")
++    applied = load_json(args.apply, "edit-apply.json")
++    want = expected(before, lst, read(args.request), applied["by"], applied["at"])
++    problems = []
++    for f, path in before["files"].items():
++        now = read(path)
++        if f in want:
++            if now != want[f]:
++                problems.append(f"the {f} file holds a change that is not on the list")
++        elif now != read(before["copies"][f]):
++            problems.append(f"the {f} file changed, but the list names no change to it")
++    return emit(args.out, {"ok": not problems, "problems": problems,
++                           "changes": len(lst.get("changes") or [])}, 0 if not problems else 1)
++
++
++def cmd_restore(args):
++    before = load_json(args.before, "edit-before.json")
++    for f, path in before["files"].items():
++        atomic_write(path, read(before["copies"][f]))
++    return emit(args.out, {"ok": True, "restored": sorted(before["files"])}, 0)
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="The edit path of /shape-slice.")
++    sub = ap.add_subparsers(dest="command", required=True)
++    s = sub.add_parser("snapshot")
++    for a in ("--root", "--spine", "--plans-root", "--working", "--out"):
++        s.add_argument(a, required=True)
++    which = s.add_mutually_exclusive_group(required=True)
++    which.add_argument("--slice-id")
++    which.add_argument("--intent", help="the business intent's id (bi-<n>): its one slice")
++    for name in ("check-list", "apply", "check", "restore"):
++        p = sub.add_parser(name)
++        p.add_argument("--before", required=True)
++        p.add_argument("--out", required=True)
++        if name != "restore":
++            p.add_argument("--list", required=True)
++        if name in ("apply", "check"):
++            p.add_argument("--request", required=True)
++        if name == "apply":
++            p.add_argument("--by", required=True)
++            p.add_argument("--at", required=True)
++        if name == "check":
++            p.add_argument("--apply", required=True)
++    args = ap.parse_args(argv)
++    try:
++        return {"snapshot": cmd_snapshot, "check-list": cmd_check_list, "apply": cmd_apply,
++                "check": cmd_check, "restore": cmd_restore}[args.command](args)
++    except Refused as exc:
++        sys.stderr.write(f"edit_slice.py: not done — {exc}\n")
++        return 2
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/shape-slice/scripts/record_questions.py b/core/components/plays/shape-slice/scripts/record_questions.py
+index 706b1acb..6ffa27fd 100644
+--- a/core/components/plays/shape-slice/scripts/record_questions.py
++++ b/core/components/plays/shape-slice/scripts/record_questions.py
+@@ -20,7 +20,9 @@
+     python3 record_questions.py answers   --reply <reply.md> --split <split.json> --out <answers.json>
+     python3 record_questions.py answer    --record <md> --answers <answers.json> --at <ts> --run <run id>
+     python3 record_questions.py brief     --brief <brief.md> --split <split.json> [--early]
++    python3 record_questions.py brief     --brief <brief.md> --edit [--before <edit-before.json>]
+     python3 record_questions.py check     --record <md> --split <split.json>
++    python3 record_questions.py edit      --record <md> --issue <n> --request <edit-request.md> --reply <reply.md> --decision <yes|change|stop> --at <ts> --run <run id>
+ 
+ A question (q.json is a JSON list, or the object `proposals` writes) has: id, blocking (true/false), question, and may have
+ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, assume.
+@@ -90,7 +92,9 @@
+               Questions; each asked question of the split sits under ## Questions as ### <id>,
+               with the parts **Question**, **Answer**, **Why it matters** and **Example**. With
+               --early (the questions asked before the slice is shaped) only the opening and
+-              ## Questions are needed. Prints {ok, problems}; each problem names the heading or
++              ## Questions are needed. With --edit (the brief of an edit, C20) the opening and the
++              headings What you asked, Changes, Out of date (named, not changed) and Your reply
++              are needed, and no --split. Prints {ok, problems}; each problem names the heading or
+               part that is missing. This is a floor a script can test; the person's read of the
+               brief is the full test. Exit 1 on problems.
+   check     — every asked and assumption id of the split is in the record, and every asked
+@@ -475,13 +479,36 @@ def cmd_answer(args):
+     return 0
+ 
+ 
++def cmd_edit(args):
++    """An edit run (C20) asks the person one thing: make the changes on the list. Its entry
++    holds their words after --edit: and their reply, so the record has every question of the run."""
++    with open(args.request, encoding="utf-8") as fh:
++        request = " ".join(fh.read().split())
++    with open(args.reply, encoding="utf-8") as fh:
++        reply = fh.read().strip()
++    if not request or not reply:
++        raise Refused("an edit entry needs the person's edit words and their reply")
++    text, entries = read_record(args.record)
++    n = 1 + sum(1 for e in entries if str(e.get("id", "")).startswith("Q-edit-"))
++    entries.append({"id": f"Q-edit-{n}", "kind": "asked", "blocking": True, "asked_at": args.at,
++                    "topic": "edit", "question": f"Make the changes the edit brief lists, from these words: {request}",
++                    "proposed_answer": None, "basis": None, "pipeline_source": f"/shape-slice {args.run}",
++                    "pipeline_guess": None, "impact_if_unknown": "Nothing is written before the person's yes.",
++                    "user_decision": args.decision, "user_answer": reply, "resolved_at": args.at,
++                    "resolved_by_run": args.run})
++    write_record(args.record, text, entries, args.issue)
++    print(json.dumps({"added": f"Q-edit-{n}", "decision": args.decision}, indent=2))
++    return 0
++
++
+ QUESTION_PARTS = ("Question", "Answer", "Why it matters", "Example")
+ BRIEF_HEADINGS = ("What you run", "Who tests it", "Features", "Hidden file", "Left out",
+                   "Assumptions", "Model check", "Questions")
++EDIT_HEADINGS = ("What you asked", "Changes", "Out of date (named, not changed)", "Your reply")
+ HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
+ 
+ 
+-def brief_problems(text, asked, early=False):
++def brief_problems(text, asked, early=False, edit=False):
+     """The brief the person reads, checked against the floor of the rule for asking a person."""
+     problems = []
+     lines = text.splitlines()
+@@ -499,9 +526,11 @@ def brief_problems(text, asked, early=False):
+         m = HEADING.match(ln)
+         if m and len(m.group(1)) == 2:
+             h2.setdefault(m.group(2), i)
+-    for name in (("Questions",) if early else BRIEF_HEADINGS):
++    for name in (("Questions",) if early else EDIT_HEADINGS if edit else BRIEF_HEADINGS):
+         if name not in h2:
+             problems.append(f"no '## {name}' heading")
++    if edit:
++        return problems
+     if "Questions" not in h2:
+         for q in asked:
+             problems.append(f"'{q}' is not under '## Questions'")
+@@ -529,14 +558,18 @@ def brief_problems(text, asked, early=False):
+ 
+ 
+ def cmd_brief(args):
+-    split = load_json(args.split, "split")
+-    asked = [q["id"] for q in split.get("asked") or []]
++    if not args.edit and not args.split:
++        raise Refused("give --split (or --edit)")
++    asked = [] if args.edit else [q["id"] for q in load_json(args.split, "split").get("asked") or []]
+     try:
+         with open(args.brief, encoding="utf-8") as fh:
+             text = fh.read()
+     except OSError as exc:
+         raise Refused(f"cannot read the brief {args.brief}: {exc}")
+-    problems = brief_problems(text, asked, early=args.early)
++    problems = brief_problems(text, asked, early=args.early, edit=args.edit)
++    if args.edit and args.before and load_json(args.before, "edit-before").get("in_progress") \
++            and not re.search(r"^## In progress\s*$", text, re.M):
++        problems.append("the slice is in progress, but the brief has no '## In progress' section")
+     print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
+     return 1 if problems else 0
+ 
+@@ -596,9 +629,18 @@ def main(argv=None):
+     c.add_argument("--split", required=True)
+     b = sub.add_parser("brief")
+     b.add_argument("--brief", required=True)
+-    b.add_argument("--split", required=True)
++    b.add_argument("--split")
+     b.add_argument("--early", action="store_true",
+                    help="the questions asked before the slice is shaped: opening and Questions only")
++    b.add_argument("--edit", action="store_true",
++                   help="the brief of an edit (C20): the opening, What you asked, Changes, "
++                        "Out of date and Your reply")
++    b.add_argument("--before", help="with --edit: edit-before.json; a slice in progress needs the "
++                                    "'## In progress' section")
++    d = sub.add_parser("edit")
++    for flag in ("--record", "--issue", "--request", "--reply", "--at", "--run"):
++        d.add_argument(flag, required=True)
++    d.add_argument("--decision", required=True, choices=("yes", "change", "stop"))
+     e = sub.add_parser("early")
+     e.add_argument("--split", required=True)
+     e.add_argument("--early-out", required=True)
+@@ -607,7 +649,7 @@ def main(argv=None):
+     try:
+         return {"merge-proposals": cmd_merge_proposals, "proposals": cmd_proposals, "filter": cmd_filter, "open-list": cmd_open_list,
+                 "answers": cmd_answers, "add": cmd_add, "answer": cmd_answer,
+-                "brief": cmd_brief, "early": cmd_early, "check": cmd_check}[args.command](args)
++                "brief": cmd_brief, "early": cmd_early, "check": cmd_check, "edit": cmd_edit}[args.command](args)
+     except Refused as exc:
+         sys.stderr.write(f"record_questions.py: {exc}\n")
+         return 2
+diff --git a/core/components/plays/shape-slice/scripts/render_brief.py b/core/components/plays/shape-slice/scripts/render_brief.py
+index 94aba370..df3237b3 100644
+--- a/core/components/plays/shape-slice/scripts/render_brief.py
++++ b/core/components/plays/shape-slice/scripts/render_brief.py
+@@ -325,17 +325,77 @@ def render(working, root, spine, opening, out_dir=None):
+     return "\n".join(lines).rstrip("\n") + "\n"
+ 
+ 
++PART_WORDS = {"slice.name": "the slice's name", "slice.outcome": "the slice's outcome",
++              "surface.user_action": "what the tester does", "when": "when it shows",
++              "way_back": "the way back", "who_fixes": "who fixes", "one_line": "the one-line"}
++
++
++def part_words(change):
++    """A change's part in plain words: 'hidden file, fn-818, F8: who fixes'."""
++    part, f = str(change.get("part") or ""), change.get("file")
++    bits = part.split("/")
++    if f == "record":
++        return f"slice record: {PART_WORDS.get(part, part)}"
++    if f == "hidden" and len(bits) == 3:
++        return f"hidden file, {bits[0]}, {bits[1]}: {PART_WORDS.get(bits[2], bits[2])}"
++    if f == "spine" and len(bits) == 2:
++        return f"model index, {bits[0]}: {PART_WORDS.get(bits[1], bits[1])}"
++    return f"{f}: {part}"
++
++
++def render_edit(working, slice_name):
++    """The brief of an edit (C20): what the person asked, each change old and new, and each
++    record the edit makes out of date (named, not changed). Built from the run's records."""
++    lst = load(working, "edit-list.json")
++    with open(os.path.join(working, "edit-request.md"), encoding="utf-8") as fh:
++        request = " ".join(fh.read().split())
++    changes = lst.get("changes") or []
++    lines = [f"You decide whether to make these {len(changes)} change(s) to the slice \"{slice_name}\". "
++             "Nothing else in the slice, its hidden file or the model changes. Type yes to make them, "
++             "change with what to change, or stop to make none.", "",
++             "## What you asked", "", f"> {request}", "", "## Changes", ""]
++    for i, c in enumerate(changes, 1):
++        lines += [f"{i}. {part_words(c)}", f"   - was: {c.get('old')}", f"   - now: {c.get('new')}"]
++    before = load(working, "edit-before.json")
++    if before.get("in_progress"):
++        epics = ", ".join(f"{e.get('id')} ({e.get('status')})" for e in before.get("epics") or [])
++        lines += ["", "## In progress", "",
++                  f"This slice is in progress: its epic {epics} is past ready. The edit changes it only "
++                  "because you approve each change; the work started from it is named below as out of date."]
++    lines += ["", "## Out of date (named, not changed)", ""]
++    lines += [f"- {o.get('record')}: {o.get('why')}" for o in lst.get("out_of_date") or []] or ["Nothing."]
++    if lst.get("not_editable"):
++        lines += ["", "## Not changed by an edit", ""]
++        lines += [f"- {n.get('what')}: {n.get('why')}" for n in lst["not_editable"]]
++    lines += ["", "## Your reply", "", "Type **yes**, **change: <what>**, or **stop**."]
++    return "\n".join(lines) + "\n"
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser(description="Render the one slice-confirmation brief.")
+     ap.add_argument("--early", action="store_true",
+                     help="the short brief of the questions asked before the slice is shaped")
++    ap.add_argument("--edit", help="the brief of an edit (C20): the slice's name; reads edit-list.json "
++                                   "and edit-request.md from --working")
+     ap.add_argument("--working", required=True)
+     ap.add_argument("--root", help="the model folder (not needed with --early)")
+     ap.add_argument("--spine", help="the spine (not needed with --early)")
+     ap.add_argument("--split", help="with --early: early-split.json")
+-    ap.add_argument("--opening", required=True)
++    ap.add_argument("--opening")
+     ap.add_argument("--out", required=True)
+     args = ap.parse_args(argv)
++    if args.edit:
++        try:
++            text = render_edit(args.working, args.edit)
++        except (Missing, OSError, json.JSONDecodeError) as exc:
++            sys.stderr.write(f"render_brief.py: not written — {exc}\n")
++            return 2
++        atomic_write(args.out, text)
++        print(json.dumps({"ok": True, "out": args.out}, indent=2))
++        return 0
++    if not args.opening:
++        sys.stderr.write("render_brief.py: give --opening (or --edit)\n")
++        return 2
+     if args.early and not args.split:
+         sys.stderr.write("render_brief.py: --early needs --split <early-split.json>\n")
+         return 2
+diff --git a/core/components/plays/shape-slice/scripts/test_edit_slice.py b/core/components/plays/shape-slice/scripts/test_edit_slice.py
+new file mode 100644
+index 00000000..e81b435f
+--- /dev/null
++++ b/core/components/plays/shape-slice/scripts/test_edit_slice.py
+@@ -0,0 +1,290 @@
++#!/usr/bin/env python3
++"""test_edit_slice.py — the edit path of /shape-slice (C20, F20, S11): only what the person
++named changes, with a history line, and any other change is caught.
++
++    python3 core/components/plays/shape-slice/scripts/test_edit_slice.py
++"""
++import json
++import os
++import subprocess
++import sys
++import tempfile
++
++import yaml
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++PASSED = 0
++FAILED = 0
++
++
++def check(name, cond):
++    global PASSED, FAILED
++    if cond:
++        PASSED += 1
++        print(f"  [PASS] {name}")
++    else:
++        FAILED += 1
++        print(f"  [FAIL] {name}")
++
++
++def run(*args):
++    p = subprocess.run([sys.executable, os.path.join(HERE, "edit_slice.py"), *args],
++                       capture_output=True, text=True)
++    try:
++        out = json.loads(p.stdout) if p.stdout.strip() else None
++    except json.JSONDecodeError:
++        out = None
++    return p.returncode, out, p.stderr
++
++
++def write(path, text):
++    os.makedirs(os.path.dirname(path), exist_ok=True)
++    with open(path, "w", encoding="utf-8") as fh:
++        fh.write(text)
++    return path
++
++
++def read(path):
++    with open(path, encoding="utf-8") as fh:
++        return fh.read()
++
++
++SPINE = """# the spine
++features:
++# the booking features
++- id: ft-pick
++  slug: pick
++  one_line: Pick a free slot.
++  doc: care/pick/feature.md
++- id: ft-remind
++  slug: remind
++  one_line: Send a reminder.
++  doc: care/remind/feature.md
++slices:
++- id: sl-self
++  slug: self
++  feature_refs: [ft-pick, ft-remind]
++  vertical: the booking screen
++  intents: [bi-340]
++  record: slices/sl-self.yaml
++"""
++
++RECORD = """slice:
++  id: sl-self
++  slug: self
++  name: Self booking
++  outcome: A patient books a visit.
++  feature_refs:
++  - ft-pick
++  - ft-remind
++surface:
++  id: sf-booking
++  name: the booking screen
++  persona_ref: patient
++  user_action: books a free slot
++"""
++
++HIDDEN = """# Failure and recovery: slice sl-self
++
++Slice: Self booking.
++
++## ft-pick: Pick a free slot
++
++### Failure conditions
++
++- F1 (from the feature ICE): two patients get one slot.
++- F2 (from the feature ICE): a slot in the past is shown.
++
++### Recovery
++
++- For F1
++  - When: two bookings hold one slot
++  - Way back: book each slot once
++  - Who fixes: the builder can fix this alone
++- For F2
++  - When: a past slot is shown
++  - Way back: show only slots to come
++  - Who fixes: the builder can fix this alone
++
++## ft-remind: Send a reminder
++
++### Failure conditions
++
++- F3 (from the feature ICE): no reminder is sent.
++
++### Recovery
++
++- For F3
++  - When: no reminder is sent a day before
++  - Way back: send each reminder a day before
++  - Who fixes: the builder can fix this alone
++"""
++
++
++def setup(tmp):
++    root, plans, work = (os.path.join(tmp, n) for n in ("po", "plans", "work"))
++    spine = write(os.path.join(root, "_spine.yaml"), SPINE)
++    write(os.path.join(root, "slices", "sl-self.yaml"), RECORD)
++    hidden = write(os.path.join(plans, "340", "evals", "self", "failure-and-recovery.md"), HIDDEN)
++    req = write(os.path.join(work, "edit-request.md"), "F1 and F3 should go to a person.\n")
++    before = os.path.join(work, "edit-before.json")
++    run("snapshot", "--root", root, "--spine", spine, "--slice-id", "sl-self", "--plans-root", plans,
++        "--working", work, "--out", before)
++    return root, plans, work, spine, hidden, req, before
++
++
++def lst(work, changes, name="edit-list.json"):
++    return write(os.path.join(work, name), json.dumps({"changes": changes, "out_of_date": []}))
++
++
++def main():
++    with tempfile.TemporaryDirectory() as tmp:
++        root, plans, work, spine, hidden, req, before = setup(tmp)
++        snap = json.loads(read(before))
++        check("snapshot: copies the slice record, the hidden file and the spine",
++              sorted(snap["files"]) == ["hidden", "record", "spine"]
++              and all(os.path.isfile(p) for p in snap["copies"].values()))
++        two = lst(work, [
++            {"file": "hidden", "part": "ft-pick/F1/who_fixes", "old": "the builder can fix this alone",
++             "new": "a person must decide", "why": "the person asked"},
++            {"file": "hidden", "part": "ft-remind/F3/who_fixes", "old": "the builder can fix this alone",
++             "new": "a person must decide", "why": "the person asked"}])
++        code, out, _ = run("check-list", "--before", before, "--list", two,
++                           "--out", os.path.join(work, "lc.json"))
++        check("check-list: a list of two who-fixes changes holds (exit 0)", code == 0 and out["ok"])
++        code, out, _ = run("apply", "--before", before, "--list", two, "--request", req,
++                           "--by", "the product owner", "--at", "2026-10-27",
++                           "--out", os.path.join(work, "apply.json"))
++        text = read(hidden)
++        check("apply: the two named lines change, F2 stays with the builder",
++              code == 0 and text.count("Who fixes: a person must decide") == 2
++              and text.count("Who fixes: the builder can fix this alone") == 1)
++        check("apply: the hidden file holds a history line with the person's words",
++              "Edited on 2026-10-27 by the product owner" in text and "F1 and F3 should go to a person." in text)
++        rec = yaml.safe_load(read(os.path.join(root, "slices", "sl-self.yaml")))
++        check("apply: the slice record holds a history entry, and nothing else of it changed",
++              rec["edits"][0]["by"] == "the product owner" and rec["slice"]["name"] == "Self booking"
++              and rec["surface"]["user_action"] == "books a free slot")
++        check("apply: the spine did not change", read(spine) == SPINE)
++        code, out, _ = run("check", "--before", before, "--list", two, "--request", req,
++                           "--apply", os.path.join(work, "apply.json"), "--out", os.path.join(work, "check.json"))
++        check("check: before and after differ only by the list and the history lines (exit 0)",
++              code == 0 and out["ok"] and out["changes"] == 2)
++        write(hidden, read(hidden).replace("show only slots to come", "show any slot"))
++        code, out, _ = run("check", "--before", before, "--list", two, "--request", req,
++                           "--apply", os.path.join(work, "apply.json"), "--out", os.path.join(work, "check.json"))
++        check("check: a change that is not on the list is caught (exit 1)",
++              code == 1 and "not on the list" in " ".join(out["problems"]))
++        lst_json = json.loads(read(two))
++        lst_json["not_editable"] = [{"what": "take ft-remind out", "why": "a feature in or out is a reshape"}]
++        write(two, json.dumps(lst_json))
++        bp = os.path.join(work, "brief.md")
++        r = subprocess.run([sys.executable, os.path.join(HERE, "render_brief.py"), "--edit", "Self booking",
++                            "--working", work, "--out", bp], capture_output=True, text=True)
++        brief = read(bp) if os.path.isfile(bp) else ""
++        check("render_brief --edit: the brief shows what was asked, each change old and new",
++              r.returncode == 0 and "F1 and F3 should go to a person." in brief
++              and "hidden file, ft-pick, F1: who fixes" in brief and "was: the builder can fix this alone" in brief
++              and "now: a person must decide" in brief)
++        check("render_brief --edit: what the words named that an edit does not change is shown",
++              "## Not changed by an edit" in brief and "take ft-remind out" in brief)
++        r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "brief", "--brief", bp,
++                            "--edit"], capture_output=True, text=True)
++        check("record_questions brief --edit: the edit brief passes its check",
++              r.returncode == 0 and json.loads(r.stdout)["ok"])
++        rec_md = os.path.join(work, "grounding-questions.md")
++        write(os.path.join(work, "reply.md"), "yes\n")
++        for _ in range(2):
++            r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "edit",
++                                "--record", rec_md, "--issue", "908", "--request", req,
++                                "--reply", os.path.join(work, "reply.md"), "--decision", "yes",
++                                "--at", "2026-10-27", "--run", "r1"], capture_output=True, text=True)
++        entries = yaml.safe_load(read(rec_md).split("```yaml\n")[1].split("```")[0])["questions"]
++        check("record_questions edit: the record holds the edit's question, the words and the reply",
++              r.returncode == 0 and [e["id"] for e in entries] == ["Q-edit-1", "Q-edit-2"]
++              and "F1 and F3 should go to a person." in entries[0]["question"]
++              and entries[0]["user_answer"] == "yes" and entries[0]["user_decision"] == "yes")
++        code, out, _ = run("restore", "--before", before, "--out", os.path.join(work, "restore.json"))
++        check("restore: every record is as it was before the edit",
++              code == 0 and read(hidden) == HIDDEN and read(spine) == SPINE
++              and read(os.path.join(root, "slices", "sl-self.yaml")) == RECORD)
++
++    with tempfile.TemporaryDirectory() as tmp:
++        root, plans, work, spine, hidden, req, before = setup(tmp)
++        by_intent = os.path.join(work, "by-intent.json")
++        code, out, _ = run("snapshot", "--root", root, "--spine", spine, "--intent", "bi-340",
++                           "--plans-root", plans, "--working", work, "--out", by_intent)
++        check("snapshot --intent: finds the one slice the spine links to the intent",
++              code == 0 and out["slice"] == "sl-self" and out["in_progress"] is False)
++        code, _, err = run("snapshot", "--root", root, "--spine", spine, "--intent", "bi-999",
++                           "--plans-root", plans, "--working", work, "--out", by_intent)
++        check("snapshot --intent: refuses an intent with no slice (exit 2)", code == 2 and "0 slices" in err)
++        rename = lst(work, [
++            {"file": "record", "part": "slice.name", "old": "Self booking", "new": "A patient books online",
++             "why": "x"},
++            {"file": "spine", "part": "ft-pick/one_line", "old": "Pick a free slot.",
++             "new": "A patient picks a free slot.", "why": "x"}])
++        code, _, _ = run("apply", "--before", before, "--list", rename, "--request", req,
++                         "--by", "the product owner", "--at", "2026-10-27", "--out", os.path.join(work, "a.json"))
++        sp = read(spine)
++        check("apply: a one-line and the slice name change; the spine keeps its comments",
++              code == 0 and "A patient picks a free slot." in sp and "# the booking features" in sp
++              and yaml.safe_load(read(os.path.join(root, "slices", "sl-self.yaml")))["slice"]["name"]
++              == "A patient books online")
++        check("apply: the hidden file is untouched when the list names no change to it",
++              read(hidden) == HIDDEN)
++        code, out, _ = run("check", "--before", before, "--list", rename, "--request", req,
++                           "--apply", os.path.join(work, "a.json"), "--out", os.path.join(work, "c.json"))
++        check("check: the rename and the one-line pass", code == 0 and out["ok"])
++
++    with tempfile.TemporaryDirectory() as tmp:
++        root, plans, work, spine, hidden, req, before = setup(tmp)
++        cases = [
++            ([{"file": "hidden", "part": "ft-pick/F1/who_fixes", "old": "a person must decide",
++               "new": "the builder can fix this alone"}], "old text"),
++            ([{"file": "hidden", "part": "ft-pick/F1/who_fixes", "old": "the builder can fix this alone",
++               "new": "the builder decides"}], "who fixes must be"),
++            ([{"file": "record", "part": "slice.feature_refs", "old": "x", "new": "y"}], "not a part"),
++            ([{"file": "eval", "part": "x", "old": "x", "new": "y"}], "not a file"),
++            ([{"file": "spine", "part": "ft-none/one_line", "old": "x", "new": "y"}], "not in the spine"),
++            ([], "names no change"),
++        ]
++        for i, (changes, want) in enumerate(cases):
++            code, out, _ = run("check-list", "--before", before, "--list", lst(work, changes, f"l{i}.json"),
++                               "--out", os.path.join(work, f"lc{i}.json"))
++            check(f"check-list refuses: {want}", code == 1 and want in " ".join(out["problems"]))
++        code, _, err = run("apply", "--before", before, "--list", os.path.join(work, "l0.json"),
++                           "--request", req, "--by", "p", "--at", "d", "--out", os.path.join(work, "x.json"))
++        check("apply: a list that does not hold is refused and nothing is written (exit 2)",
++              code == 2 and read(hidden) == HIDDEN)
++    with tempfile.TemporaryDirectory() as tmp:
++        root, plans, work, spine, hidden, req, before = setup(tmp)
++        write(spine, SPINE + "epics:\n- id: ep-self\n  slice_ref: sl-self\n  status: in_delivery\n")
++        code, out, _ = run("snapshot", "--root", root, "--spine", spine, "--slice-id", "sl-self",
++                           "--plans-root", plans, "--working", work, "--out", before)
++        check("snapshot: a slice whose epic is past ready is in progress, and an edit may still go on",
++              code == 0 and out["in_progress"] is True
++              and out["epics"] == [{"id": "ep-self", "status": "in_delivery"}])
++        lst(work, [{"file": "record", "part": "slice.name", "old": "Self booking", "new": "Book online",
++                    "why": "x"}])
++        bp = os.path.join(work, "brief.md")
++        subprocess.run([sys.executable, os.path.join(HERE, "render_brief.py"), "--edit", "Self booking",
++                        "--working", work, "--out", bp], capture_output=True, text=True)
++        brief = read(bp) if os.path.isfile(bp) else ""
++        check("render_brief --edit: the brief says the slice is in progress and names its epic",
++              "## In progress" in brief and "ep-self (in_delivery)" in brief)
++        r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "brief", "--brief", bp,
++                            "--edit", "--before", before], capture_output=True, text=True)
++        check("record_questions brief --edit: the brief of a slice in progress passes its check",
++              r.returncode == 0)
++        write(bp, brief.replace("## In progress", "## Note"))
++        r = subprocess.run([sys.executable, os.path.join(HERE, "record_questions.py"), "brief", "--brief", bp,
++                            "--edit", "--before", before], capture_output=True, text=True)
++        check("record_questions brief --edit --before: a brief that hides the slice is in progress fails",
++              r.returncode == 1 and "in progress" in r.stdout)
++    print(f"\n{PASSED} passed, {FAILED} failed")
++    sys.exit(1 if FAILED else 0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/shape-slice/scripts/test_write_hidden_file.py b/core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+index cee036c4..24f0ce1d 100644
+--- a/core/components/plays/shape-slice/scripts/test_write_hidden_file.py
++++ b/core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+@@ -187,18 +187,6 @@ def main():
+         code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+                       "--plans-root", plans, "--out", res_p)
+         check("check: ok after the new entry", code == 0)
+-        run("lines", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+-            "--plans-root", plans, "--out", lines_p, "--redraft", "ft-pick")
+-        lines = json.loads(read(lines_p))
+-        pick = lines["entries"][0]
+-        check("lines --redraft: the named entry is not kept, keeps its ids, and the others stay kept",
+-              pick["feature"] == "ft-pick" and not pick["kept"]
+-              and [ln["id"] for ln in pick["lines"]] == ["F1", "F2", "F3"]
+-              and [e["kept"] for e in lines["entries"][1:]] == [True, True])
+-        code, err = run("lines", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+-                        "--plans-root", plans, "--out", lines_p, "--redraft", "ft-none")
+-        check("lines --redraft: a feature not in the slice is refused (exit 2)",
+-              code == 2 and "not a feature of the slice" in err)
+         code, err = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+                         "--plans-root", plans, "--out", res_p, "--clear-working", lines_p,
+                         "--clear-working", hidden)
+diff --git a/core/components/plays/shape-slice/scripts/write_hidden_file.py b/core/components/plays/shape-slice/scripts/write_hidden_file.py
+index 92b8b15f..e1c46198 100644
+--- a/core/components/plays/shape-slice/scripts/write_hidden_file.py
++++ b/core/components/plays/shape-slice/scripts/write_hidden_file.py
+@@ -26,8 +26,7 @@
+           section of the part's ice.md. It says which of the two ICE is thin (`metadata.thin`
+           or the Thin line). An entry already in the file with the same lines and thin marks is
+           `kept: true` and keeps its ids; a changed entry keeps the ids of its lines that did
+-          not change. `--redraft <feature id>` (repeatable, from the person's change) marks that
+-          entry not kept, with its ids, so its recoveries are drafted again. Lines match with case, spacing and a closing full stop not counted. New lines take the next free id (F1, F2, ... unique in the whole file).
++          not change. Lines match with case, spacing and a closing full stop not counted. New lines take the next free id (F1, F2, ... unique in the whole file).
+           hidden-lines.json:
+               {slice, plan_id, path (relative to plans-root),
+                entries: [{feature, name, capability, thin: ["feature"|"capability", ...],
+@@ -239,18 +238,13 @@ def cmd_lines(args):
+     by_feature = {b["feature"]: b for b in blocks}
+     used = {int(f["id"][1:]) for b in blocks for f in b["failures"]}
+     nxt = max(used, default=0)
+-    redraft = set(getattr(args, "redraft", None) or [])
+-    unknown = redraft - {w["feature"] for w in want}
+-    if unknown:
+-        raise Refused(f"--redraft names {', '.join(sorted(unknown))}, which is not a feature of the slice")
+     entries = []
+     for w in want:
+         old = by_feature.get(w["feature"])
+         old_ids = {(f["from"], same_text(f["text"])): f["id"] for f in (old["failures"] if old else [])}
+         want_keys = [(frm, same_text(text)) for frm, text in w["lines"]]
+         same = old is not None and sorted(old_ids) == sorted(want_keys) \
+-            and len(old["failures"]) == len(w["lines"]) and sorted(old["thin"]) == sorted(w["thin"]) \
+-            and w["feature"] not in redraft
++            and len(old["failures"]) == len(w["lines"]) and sorted(old["thin"]) == sorted(w["thin"])
+         lines = []
+         for frm, text in w["lines"]:
+             lid = old_ids.get((frm, same_text(text)))
+@@ -458,9 +452,6 @@ def main(argv=None):
+         p.add_argument("--slice-id", required=True)
+         p.add_argument("--plans-root", required=True)
+         p.add_argument("--out", required=True)
+-        if name == "lines":
+-            p.add_argument("--redraft", action="append", default=[],
+-                           help="a feature whose entry is drafted again; repeatable")
+         if name == "check":
+             p.add_argument("--clear-working", action="append", default=[],
+                            help="a working file to delete when the check reads ok; repeatable")
+diff --git a/core/components/skills/author-slice/SKILL.md b/core/components/skills/author-slice/SKILL.md
+index cd1c6d8e..1ffe0489 100644
+--- a/core/components/skills/author-slice/SKILL.md
++++ b/core/components/skills/author-slice/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: author-slice
+-description: Choose the one slice that shows a business intent is served, for /shape-slice — the one surface and the persona who tests it there (the tester), the features from any capability in build order with why_this_order, what is left out, and the needs list of the model (fills.json — the new parts, the updates to parts that exist, the thin parts). Writes slice.json and fills.json, or no-slice.json with its reason when no surface can be tested end to end. Reuse mode writes reuse.json (pull_in, push_out, why) for a kept slice and keeps it testable end to end; it never changes a slice in progress. Fix mode fixes the problems the model check finds in slice.json or fills.json. Each choice names the lines it rests on, so its agent can record the trace. Reads only what its agent put in short-term memory; never writes the model, the spine or a page. Generative artifact production for /shape-slice (ontology v11). Use when /shape-slice needs the slice chosen, a kept slice compared, or a slice record fixed.
++description: Choose the one slice that shows a business intent is served, for /shape-slice — the one surface and the persona who tests it there (the tester), the features from any capability in build order with why_this_order, what is left out, and the needs list of the model (fills.json — the new parts, the updates to parts that exist, the thin parts). Writes slice.json and fills.json, or no-slice.json with its reason when no surface can be tested end to end. Reuse mode writes reuse.json (pull_in, push_out, why) for a kept slice and keeps it testable end to end; it never changes a slice in progress. Fix mode fixes the problems the model check finds in slice.json or fills.json. Edit mode turns a person's own words into the exact list of changes to a slice that exists (edit-list.json, with each change's file, part, old text and new text, and the records the edit makes out of date); it never changes a file. Each choice names the lines it rests on, so its agent can record the trace. Reads only what its agent put in short-term memory; never writes the model, the spine or a page. Generative artifact production for /shape-slice (ontology v11). Use when /shape-slice needs the slice chosen, a kept slice compared, or a slice record fixed.
+ user-invocable: false
+ model: opus
+ allowed-tools: Read, Write
+@@ -18,7 +18,7 @@ on; the play's scripts write the spine, the slice record and the pages' marks.
+ 
+ | Field | Required | Meaning |
+ |-------|----------|---------|
+-| `mode` | no | `shape` (the default), `reuse` or `fix` |
++| `mode` | no | `shape` (the default), `reuse`, `fix` or `edit` |
+ | `intent_page` | yes | The business intent's page in the model: title, outcome, why, asked by, proof it is met, must not |
+ | `gather` | yes | `gather.json`: each model page and memory line the agent read (tier, path, lines, fingerprint), with the short-term copies |
+ | `placement` | yes, to shape | The `find-work-placement` routing result: where each part of the intent's outcome sits (domain, capability, feature) |
+@@ -30,7 +30,11 @@ on; the play's scripts write the spine, the slice record and the pages' marks.
+ | `slice` | for `reuse` and `fix` | The shaped `slice.json` |
+ | `fills` | for `fix` | The `fills.json` to fix |
+ | `problems` | for `fix` | `slice-check.json` (or a script's refusal message): each problem with the page or field it names |
+-| `out` | yes | The folder to write to: `slice.json`, `fills.json` and `no-slice.json` (shape and fix), `reuse.json` (reuse) |
++| `request` | for `edit` | `edit-request.md`: the person's own words, as they typed them after `--edit:` |
++| `before` | for `edit` | `edit-before.json` from `edit_slice.py snapshot`: the copies of the slice record, the hidden file and the spine, as they are before the edit |
++| `evals` | for `edit` | `edit-evals.txt`: the names of the files in the slice's evals folder, to name a record the edit makes out of date (names only; never read them) |
++| `refused` | no, for `edit` | `edit-list-check.json` from `edit_slice.py check-list`, when the last list was refused: each problem |
++| `out` | yes | The folder to write to: `slice.json`, `fills.json` and `no-slice.json` (shape and fix), `reuse.json` (reuse), `edit-list.json` (edit) |
+ 
+ ## Process
+ 
+@@ -105,6 +109,30 @@ gets its update; a thin part that has no Thin mark is listed in `thin`; a slice
+ surfaces keeps one. A problem in a page's text is not this skill's: list it in `not_mine`,
+ so the agent sends it to `enrich-grounding`. Keep every other field as it is.
+ 
++### Edit mode
++
++Read the person's words in `request` and the copies in `before`. Write one change for each
++thing the words name, and nothing more. A change names its file and its part, and copies the
++old text word for word from the copy:
++
++| File | Part | What it is |
++|------|------|------------|
++| `record` | `slice.name`, `slice.outcome`, `surface.user_action` | The slice's name, its outcome, the tester's action |
++| `hidden` | `<feature id>/<F id>/when`, `.../way_back`, `.../who_fixes` | One line of a recovery in the hidden file |
++| `spine` | `<part id>/one_line` | A domain's, capability's or feature's one-line in the spine |
++
++The new text is the person's meaning in plain words. A "who fixes" line is one of the two
++sentences, "the builder can fix this alone" or "a person must decide". When the words name a
++part outside this table (a feature in or out, a failure line, an eval, code), make no change
++for it: name it in `not_editable` with why, so the brief shows it. When the words are not
++clear enough to name a part, name them in `not_editable` too; never guess a part.
++
++Then name each record the edit makes out of date, without changing it: for example, an eval
++scenario that tests a "who fixes" line you changed, or a story whose title holds the old
++slice name. When `before` reads `in_progress: true`, an edit still goes on: name each epic it
++lists in `out_of_date`, with its status, because work already started from the slice. On a
++re-run with `refused`, fix only the changes it names.
++
+ ## Output
+ 
+ `slice.json` (shape and fix):
+@@ -130,6 +158,17 @@ shape `persist_fills.py` reads; each list may be empty.
+ 
+ `reuse.json` (reuse): `{pull_in: [feature ids], push_out: [feature ids], why, decisions}`.
+ 
++`edit-list.json` (edit):
++
++```json
++{"changes": [{"file": "hidden", "part": "ft-pick/F1/who_fixes",
++              "old": "the builder can fix this alone", "new": "a person must decide",
++              "why": "The person asked that two bookings of one slot go to a person."}],
++ "out_of_date": [{"record": "evals/self-booking/eval.ft-pick.feature.md",
++                  "why": "Its scenario for F1 says the builder fixes it."}],
++ "not_editable": []}
++```
++
+ Examples from different fields:
+ - A clinic: the surface is the booking screen, the tester a patient; the features are pick a
+   free slot, then confirm the booking.
+@@ -146,7 +185,9 @@ Examples from different fields:
+   needs is skipped, and every part has its folder.
+ - A choice with no source in `gather` or `record` is not made up: when the model and memory
+   do not name a surface a person can test end to end, write `no-slice.json`.
+-- Never change a slice in progress; a reused slice stays testable end to end.
++- Never change a slice in progress in shape or reuse mode; only an edit the person approves
++  changes it. A reused slice stays testable end to end.
+ - Never write the spine, a slice record, a model page or the hidden file. The play's scripts
+-  write them from this skill's files.
++  write them from this skill's files. In edit mode, a change the person's words did not name
++  is never on the list.
+ - Plain words (ASD-STE100), personas only, no real names.

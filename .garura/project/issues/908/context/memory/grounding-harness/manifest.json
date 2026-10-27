@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:1d659ad60e8248fc6ed4a8d41ae6a445ebf49e08b2da8f79a7b0693e34a6b7f6",
+      "copy": ".garura/project/issues/908/context/memory/grounding-harness/standards/rules/gate-config.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
+      "copy": ".garura/project/issues/908/context/memory/grounding-harness/standards/rules/user-facing-voice.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:e8d36d7fa5e61e67a226b569cebb7043fe63ad02f57d40654173f2dcbd50c3f2",
+      "copy": ".garura/project/issues/908/context/memory/grounding-harness/standards/rules/expectation-generation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/908/context/memory/grounding-harness/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:1b30d6433cf9be8662a3339e6f5d5e5ca2e990cd4bc69ea29bbd6778c6c063e6",
+      "copy": ".garura/project/issues/908/context/memory/grounding-harness/standards/rules/direct-model-write.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/evidence-recording.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:bbe5dd4de226615571fa3f2a0a857a1768b12a17e13eef5a27b47b25a6ef93e1",
+      "copy": ".garura/project/issues/908/context/memory/grounding-harness/standards/rules/evidence-recording.md"
+    }
+  ]
+}
