@@ -1,13 +1,10 @@
-decision: reject
+decision: approve
 decided_by: human
-reply: "fix p3s"
-round: 2
-blocking:
-  - N-01 — the close step lists only the shaping run's checks
-  - N-02 — a failed check after the write sends the skill the wrong problems
-  - N-03 — the person's words are kept with no real-name check
+reply: "approve"
+round: 3
+blocking: []
 logged_not_fixed:
-  - N-04 — the intent's background section is out of date (P4), kept in this record, not filed
-  - N-05 — two ways to write the intent number (P4), kept in this record, not filed
-  - N-06 — the agent's page misses two parts of edit mode (P4), kept in this record, not filed
-  - N-07 — two raw ids in the edit brief (P4), kept in this record, not filed
+  - R3-01 — the close step under-counts an edit run's checks (P4), kept in this record
+  - R3-02 — the edit contract still names one file for the refusal (P4), kept in this record
+  - R3-03 — a name in the person's words has two routes (P4), kept in this record
+  - N-04 to N-07 from round 2 (P4), kept in review/round-2/

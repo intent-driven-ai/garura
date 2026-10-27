@@ -1,12 +1,16 @@
-# Layer 1 standards linter result for PR #911 (change #908), round 2.
+# Layer 1 standards linter result for PR #911 (change #908), round 3.
 # Categories: executable-code and tests. Produced by the check-pr-quality skill (scan_taxonomy.py)
 # against context/pr.diff and the short-term copy of the PR severity taxonomy
 # (context/memory/standards/rules/pr.md). Scan exit code 0; no taxonomy row failed to compile.
 # Each finding is written as: title, severity, where, problem, what it leads to, fix, basis.
 # This run found none.
+# Side checks (the python language linter is not committed in this repo, so the fallback ran):
+#   python3 -m py_compile on the four changed scripts and the three test files: clean.
+#   The three test files, run as scripts: test_edit_slice 35 passed 0 failed; test_render_brief 32 passed 0 failed;
+#   test_write_hidden_file 26 passed 0 failed.
 meta:
-  generated_at: '2026-10-27T06:10:36Z'
-  round: 2
+  generated_at: '2026-10-27T06:38:45Z'
+  round: 3
   diff_path: '.garura/project/issues/908/context/pr.diff'
   taxonomy_path: '.garura/project/issues/908/context/memory/standards/rules/pr.md'
   changed_paths_count: 7
@@ -29,31 +33,3 @@ counts:
   P2: 0
   P3: 0
   P4: 0
-summary: >
-  The standards linter ran clean on the four scripts and the three test files. No P1 to P4 finding
-  fired against the taxonomy.
-notes:
-  - title: The linter reads these seven files as Garura prose, so its text-matching rules do not apply to them
-    where: pr.md, section "Artifact-Type Scoping" (class garura-prose covers core/components/**)
-    detail: >
-      Every scanned path sits under core/components/, which the taxonomy classes as garura-prose.
-      Text-matching rules (security, error handling, logging, debt) are switched off for that class,
-      and the path-only rules for code files are switched off for it too. So an empty result here
-      means the rules had nothing they were allowed to look at, not that the code was proven clean.
-      Design, data safety and idempotency of edit_slice.py are for the later layers and the by-hand
-      checks in categories.yaml.
-  - title: Informational cross-check with the class guard ignored (not findings)
-    detail: >
-      Added lines of the four scripts and three tests were also matched by hand against the common
-      text rules (SEC-07, SEC-16, SEC-19, SEC-23, BE-12, CODE-21, CODE-23, CODE-24, OPS-09, DEBT-01,
-      ARCH-07). Only CODE-25 (P3, a handler exists) would have matched, on five lines:
-      edit_slice.py (3 lines), render_brief.py (1 line), test_edit_slice.py (1 line). Each catches a
-      named error type (OSError, ValueError, Refused, Missing, json.JSONDecodeError), none is empty,
-      so none is a finding. This cross-check does not enter the counts.
-  - title: Runnable checks of the categories playbook (result, not findings)
-    detail: >
-      Syntax check of all seven files: ok (no ruff or pyproject config is committed in this repo, so
-      no language linter ran). Test suites run, all green: test_edit_slice 33 passed, 0 failed;
-      test_write_hidden_file 26/0; test_render_brief 32/0; test_shape_slice_scripts 127/0;
-      test_persist_slice 101/0; test_find_serving_slice 21/0; test_grill_budget 19/0;
-      test_trace_check 5/0.
