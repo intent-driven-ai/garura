@@ -1,30 +1,48 @@
----
-# analyze_changeset.py output (C8 fast path)
-# issue: 788
 needs_judgment: false
 
+# Branch plan/788/base is a single-issue branch (#788), so the whole changeset is one group.
+# Every file is operational run evidence of /check-change for PR #916 (short-term memory copies
+# and the working-tree snapshot); none is feature work. Matches the repo's earlier
+# "chore(stm): record ... run artifacts" commits.
+
 change_groups:
-  - id: group-1
+  - id: check-change-run-context
     issue: 788
-    concern: "single-directory chore change"
+    concern: "Short-term memory copies the /check-change run for PR #916 read (review shelf, PR severity taxonomy, Next-line map, manifests) and the working-tree snapshot and plan of this commit run"
     commit_type: chore
     scope: stm
-    subject: "record the landing evidence for plan 788: tests and linters, commit reviews, plan against GitHub, and the self-review with the product owner's ruling"
-    subject_source: script-draft  # orchestrator may reword in place
+    subject: "record check-change run context copies"
     files:
-      - .garura/project/issues/788/context/landing-evidence.md
-      - .garura/project/issues/788/context/landing-tests.md
+      - .garura/project/issues/788/context/memory/manifest.json
+      - .garura/project/issues/788/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/788/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/788/context/memory/knowledge/review/code.md
+      - .garura/project/issues/788/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/788/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/788/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/788/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/788/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/788/context/memory/standards/rules/pr.md
+      - .garura/project/issues/788/context/templates/manifest-check-change.json
+      - .garura/project/issues/788/context/templates/standards/rules/pipeline-next.md
       - .garura/project/issues/788/context/porcelain.txt
-      - .garura/project/issues/788/context/resolved-rules.json
-      - .garura/project/issues/788/context/self-review.md
+      - .garura/project/issues/788/context/analysis.yaml
 
-exclusions:
-  []
+exclusions: []
 
 risks:
-  sensitive_files:
-    []
+  sensitive_files: []   # nothing blocks the run
+  warnings:
+    - path: ".garura/project/issues/788/context/memory/standards/rules/pr.md"
+      match: 'password\s*='
+      blocking: false
+      assessment: "False positive. The file is the PR severity taxonomy; the matches (lines 116, 122, 161, 341) are grep rule patterns written as text (SEC-13, SEC-19, BE-08, DATA-18). No credential or value is present."
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+  branch: plan/788/base
+  note_self_reference: "analysis.yaml is listed in the group because it is tracked and modified; it is committed as written here. If the executor rewrites it after committing, the tree will show it modified again."
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "one script-classified group, one directory, one concern"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+  SE-1: {status: PASS, evidence: "14 of 14 changed files assigned to exactly one group; 0 exclusions"}
+  SE-5: {status: PASS, evidence: "the one content match is a pattern carrier in a standards artifact, non-blocking"}

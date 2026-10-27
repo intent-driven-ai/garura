@@ -1,5 +1,13 @@
-?? .garura/project/issues/788/context/landing-evidence.md
-?? .garura/project/issues/788/context/landing-tests.md
-?? .garura/project/issues/788/context/porcelain.txt
-?? .garura/project/issues/788/context/resolved-rules.json
-?? .garura/project/issues/788/context/self-review.md
+ M .garura/project/issues/788/context/porcelain.txt
+?? .garura/project/issues/788/context/memory/knowledge/review/_index.md
+?? .garura/project/issues/788/context/memory/knowledge/review/adrs.md
+?? .garura/project/issues/788/context/memory/knowledge/review/code.md
+?? .garura/project/issues/788/context/memory/knowledge/review/config-maps.md
+?? .garura/project/issues/788/context/memory/knowledge/review/docs.md
+?? .garura/project/issues/788/context/memory/knowledge/review/harness.md
+?? .garura/project/issues/788/context/memory/knowledge/review/memory.md
+?? .garura/project/issues/788/context/memory/knowledge/review/tests.md
+?? .garura/project/issues/788/context/memory/manifest.json
+?? .garura/project/issues/788/context/memory/standards/rules/pr.md
+?? .garura/project/issues/788/context/templates/manifest-check-change.json
+?? .garura/project/issues/788/context/templates/standards/rules/pipeline-next.md
