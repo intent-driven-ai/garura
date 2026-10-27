@@ -20,6 +20,14 @@ Fetch PR unified diff:
 gh pr diff {pr_number}
 ```
 
+## pr-files
+
+List every changed file of a PR with its patch, one JSON object a line, page by page (the host lists up to 3000 files; `diff-pr` stops at 300):
+
+```bash
+gh api repos/{owner}/{repo}/pulls/{pr_number}/files --paginate --jq '.[] | @json'
+```
+
 ## comment-pr
 
 Post a comment on a PR:

@@ -24,6 +24,14 @@ Fetch MR unified diff:
 glab mr diff {pr_number}
 ```
 
+## pr-files
+
+List every changed file of an MR with its diff, page by page:
+
+```bash
+glab api projects/{project}/merge_requests/{pr_number}/diffs --paginate
+```
+
 ## comment-pr
 
 Post a comment (note) on an MR:
