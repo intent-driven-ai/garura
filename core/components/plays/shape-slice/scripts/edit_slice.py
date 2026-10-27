@@ -29,7 +29,8 @@ copies the three records into <working>edit-before/ and names them. It also reco
 the slice is in progress (`in_progress`, and each `epics` entry {id, status} past ready, the rule
 find_serving_slice.py holds): an edit may change a slice in progress, and the brief says so. check-list refuses
 (exit 1) a change to another file or part, an `old` that is not the part's text now, an empty
-`new`, a `new` equal to `old`, a who fixes that is neither answer, or two changes to one part.
+`new`, a `new` equal to `old`, a who fixes that is neither answer, or two changes to one part;
+with --evals, it also refuses an out-of-date eval file that is not one of the slice's eval files.
 apply writes exactly the list through safe_write.atomic_write: the slice record keeps its layout
 (spine_text), the hidden file changes only the named field lines, and the spine only the named
 one-lines; it adds a history line (who asked, when, their words) to the slice record (`edits:`)
@@ -207,9 +208,26 @@ def list_problems(before, lst):
     return problems
 
 
+def eval_problems(lst, evals_path):
+    """An out-of-date record that names an eval file must be one of the slice's eval files, by
+    name: the skill sees only their names, never their text."""
+    with open(evals_path, encoding="utf-8") as fh:
+        names = {ln.strip() for ln in fh if ln.strip()}
+    problems = []
+    for o in lst.get("out_of_date") or []:
+        rec = str(o.get("record") or "")
+        base = os.path.basename(rec)
+        if "eval" in base and base not in names:
+            problems.append(f"'{rec}' is named as out of date, but it is not one of the slice's eval files")
+    return problems
+
+
 def cmd_check_list(args):
     before = load_json(args.before, "edit-before.json")
-    problems = list_problems(before, load_json(args.list, "edit-list.json"))
+    lst = load_json(args.list, "edit-list.json")
+    problems = list_problems(before, lst)
+    if args.evals:
+        problems += eval_problems(lst, args.evals)
     return emit(args.out, {"ok": not problems, "problems": problems}, 0 if not problems else 1)
 
 
@@ -316,6 +334,8 @@ def main(argv=None):
         p.add_argument("--out", required=True)
         if name != "restore":
             p.add_argument("--list", required=True)
+        if name == "check-list":
+            p.add_argument("--evals", help="edit-evals.txt: the names of the slice's eval files")
         if name in ("apply", "check"):
             p.add_argument("--request", required=True)
         if name == "apply":

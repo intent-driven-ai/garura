@@ -805,12 +805,14 @@ and names each epic past ready, with its status, and the run goes on.
 
 ```
 python3 scripts/edit_slice.py check-list --before <working>edit-before.json \
-    --list <working>edit-list.json --out <working>edit-list-check.json
+    --list <working>edit-list.json --evals <working>edit-evals.txt \
+    --out <working>edit-list-check.json
 ```
 
 `check-list` exits 1 for a change to a part an edit may not change, an old text that is not
 what the record says now, an empty or unchanged new text, a "who fixes" that is neither of the
-two sentences, or one part changed twice: send `edit-list-check.json` back to the
+two sentences, one part changed twice, or an out-of-date eval file that is not one of the
+slice's eval files: send `edit-list-check.json` back to the
 `shape-slice-edit` contract as `refused`, and check again. When the list names no change and
 `not_editable` is not empty, the words ask for nothing an edit may change: show the person
 each `not_editable` line in plain words, write nothing, clear the copy of the hidden file

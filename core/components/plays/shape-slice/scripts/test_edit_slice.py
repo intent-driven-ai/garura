@@ -152,6 +152,19 @@ def main():
         code, out, _ = run("check-list", "--before", before, "--list", two,
                            "--out", os.path.join(work, "lc.json"))
         check("check-list: a list of two who-fixes changes holds (exit 0)", code == 0 and out["ok"])
+        evals = write(os.path.join(work, "edit-evals.txt"), "eval.ft-pick.feature.md\neval.sl-self.md\n")
+        named = json.loads(read(two))
+        named["out_of_date"] = [{"record": "eval.ft-pick.feature.md", "why": "may test F1"}]
+        ok_list = write(os.path.join(work, "named.json"), json.dumps(named))
+        code, out, _ = run("check-list", "--before", before, "--list", ok_list, "--evals", evals,
+                           "--out", os.path.join(work, "lc-e.json"))
+        check("check-list --evals: an eval file named by its name in the listing holds", code == 0)
+        named["out_of_date"] = [{"record": "eval.ft-none.feature.md", "why": "made up"}]
+        bad_list = write(os.path.join(work, "named-bad.json"), json.dumps(named))
+        code, out, _ = run("check-list", "--before", before, "--list", bad_list, "--evals", evals,
+                           "--out", os.path.join(work, "lc-e2.json"))
+        check("check-list --evals: an eval file that is not the slice's is refused (exit 1)",
+              code == 1 and "not one of the slice's eval files" in " ".join(out["problems"]))
         code, out, _ = run("apply", "--before", before, "--list", two, "--request", req,
                            "--by", "the product owner", "--at", "2026-10-27",
                            "--out", os.path.join(work, "apply.json"))
