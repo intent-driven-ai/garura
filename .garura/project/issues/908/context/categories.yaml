@@ -1,35 +1,61 @@
-# Work categories present in PR #911 (change #908, /shape-slice --edit). Derived from the diff content;
-# treatments taken from the short-term playbook copies in context/memory/knowledge/review/.
+# Work categories present in PR #911, round 2 (change #908, /shape-slice --edit). Derived from the diff content;
+# treatments taken from the short-term playbook copies in context/memory/knowledge/review/ (refreshed this round
+# through the memory tool from the phoenix tier, version 23387be24c0d; manifest: context/memory/manifest.json).
+# Round 1 had four categories. Round 2 adds decision-records (ADR 058 and the ADR index).
 base: plan/788/798-shape-eval
+round: 2
 categories:
   - name: harness
     design_bearing: true
     playbook: review/harness
     evidence:
-      - core/components/plays/shape-slice/SKILL.md            # compiled play: new edit steps X1-X3, evals SE-26, amended C7/F7, new C20/F20
-      - core/components/plays/shape-slice/reference/ice.md    # the play's ICE source: C20, F20, S11, REC20, amended C7, C15, C19, F7
-      - core/components/skills/author-slice/SKILL.md          # skill: new edit mode
+      - core/components/plays/shape-slice/SKILL.md            # compiled play: edit steps, amended reuse step, F7/F20 rows
+      - core/components/plays/shape-slice/reference/ice.md    # the play's ICE source: C7, C20, F7, F20, REC7, REC20
+      - core/components/skills/author-slice/SKILL.md          # skill: edit mode; shape and reuse never change a slice in progress
+      - core/components/agents/product-os-keeper.md           # agent: author-slice row now names edit mode and its inputs
     treatment:
       layers: [1, 2]
       reviewer: human (design) + tool (conformance)
       linters:
         - name: lint-components (source layout)
           command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
-          note: only violations in changed paths are findings; count the rest as "there before"
+          note: only a violation whose file is in the changed paths is a finding; count the rest as "there before". Run from the repo root.
         - name: lint-play (shape-slice)
           command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-slice/SKILL.md --next-map .garura/project/issues/908/context/templates/standards/rules/pipeline-next.md
+          note: "record \"not installed\" if absent, \"did not run: <first error line>\" if it crashes; neither is a pass"
       runnable_checks:
-        - 'ICE-source rule applies (repo holds the plays'' source): SKILL.md intent changes (C/F/S/evals/flow) must trace to reference/ice.md; check the SKILL.md intent fingerprint equals the real hash of ice.md'
-        - 'Layer 2 design-grounding from committed sources (docs/philosophy, docs/adr, standards/rules, glossary), never from this branch''s new prose'
-      rubric: play->agent->skill->script wiring intact; intent change traces to ICE source; standards held (user-facing voice, play-close, evidence-recording)
+        - "ICE-source rule applies (this repo holds the plays' source): every intent change in SKILL.md (C/F/S/evals/flow) must trace to reference/ice.md; check the SKILL.md intent fingerprint equals the real hash of ice.md"
+        - "Layer 2 design-grounding from committed sources on the base ref (docs/philosophy, docs/adr up to ADR 057, standards/rules through the memory tool, glossary), never from this branch's new prose. ADR 058 is added by this diff, so it is NOT a grounding source for the play changes it describes."
+        - "the agent file change (product-os-keeper.md) is checked against the same grounding: agent-first delegation, agent crafts context and the skill does the work, edit mode inputs hold no eval file (builder isolation)"
+      rubric: play->agent->skill->script wiring intact; intent change traces to the ICE source; standards held (user-facing voice, play-close, evidence-recording, builder isolation)
+  - name: decision-records
+    design_bearing: false
+    playbook: review/adrs
+    evidence:
+      - docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md  # new ADR, Status Accepted, 2026-10-27
+      - docs/adr/_index.md                                                          # row for ADR 058
+    treatment:
+      layers: [1]
+      reviewer: human, line by line (the human judges whether the decision is right)
+      linters:
+        - name: ADR structural check (gap in the playbook; no ADR linter exists in-repo)
+          command: none committed; the tool surfaces a manual checklist for the human and checks each item by reading
+          checklist:
+            - required sections present (Status, Context, Decision, Consequences; this repo's ADRs also carry Alternatives Considered and References)
+            - Status is one of the allowed values
+            - the ADR is numbered in sequence (058 follows 057) and its file name matches the index link
+            - the ADR is linked from docs/adr/_index.md with the same title, status and date
+            - markdown is well-formed and the paths it cites in Affects and References exist
+      runnable_checks:
+        - "by hand: no design-grounding (the playbook says the decision is the design); do not judge the merit, only the shape. Note for the human that the ADR records a change to one play's intent (C7, C20, F7, F20), and that the play's ICE source is reviewed under harness"
   - name: executable-code
     design_bearing: false
     playbook: review/code
     evidence:
-      - core/components/plays/shape-slice/scripts/edit_slice.py       # new script
-      - core/components/plays/shape-slice/scripts/record_questions.py
-      - core/components/plays/shape-slice/scripts/render_brief.py
-      - core/components/plays/shape-slice/scripts/write_hidden_file.py # --redraft removed
+      - core/components/plays/shape-slice/scripts/edit_slice.py        # new script
+      - core/components/plays/shape-slice/scripts/record_questions.py  # refuses an edit brief of a slice in progress with no "In progress" section
+      - core/components/plays/shape-slice/scripts/render_brief.py      # edit brief "In progress" section; epic under "Out of date"
+      - core/components/plays/shape-slice/scripts/write_hidden_file.py # --redraft removed / changed
     treatment:
       layers: [1]
       reviewer: the tool, against industry best practice
@@ -37,17 +63,18 @@ categories:
         - name: "check-pr-quality (pr.md taxonomy: SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*)"
           command: run the check-pr-quality skill on the diff with context/memory/standards/rules/pr.md
         - name: python language linter
-          command: none committed in this repo (no ruff/pyproject config found); record "not committed" and do a syntax check
+          command: none committed in this repo (no ruff/pyproject config); record "not committed" and do a syntax check
           fallback: python3 -m py_compile on the four changed scripts
       runnable_checks:
-        - 'review data-safety and idempotency paths hard: edit_slice.py writes the slice record and hidden file (apply only the named list, refuse any other change, history line)'
-        - 'rubric: error handling, function size, no stray debug output, no secrets, safe destructive operations, deterministic where claimed'
+        - "review data-safety and idempotency paths hard: edit_slice.py writes the slice record and hidden file (applies only the named list, refuses any other change, history line); edit-before.json now carries in_progress and epic status"
+        - "rubric: error handling, function size, no stray debug output, no secrets, safe destructive operations, deterministic where claimed"
   - name: tests
     design_bearing: false
     playbook: review/tests
     evidence:
       - core/components/plays/shape-slice/scripts/test_edit_slice.py        # new
-      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py # redraft tests removed
+      - core/components/plays/shape-slice/scripts/test_render_brief.py      # changed
+      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py # changed
     treatment:
       layers: [1]
       reviewer: the tool
@@ -55,7 +82,7 @@ categories:
         - name: check-pr-quality TEST-* rows
           command: run check-pr-quality on the diff with pr.md (TEST-* rows)
       runnable_checks:
-        - 'run the suite; a red suite is a blocker. Run the changed tests and the play''s other suites that cover the touched scripts:'
+        - "run the suite; a red suite is a blocker. Changed tests and the play's other suites that cover the touched scripts:"
         - python3 core/components/plays/shape-slice/scripts/test_edit_slice.py
         - python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py
         - python3 core/components/plays/shape-slice/scripts/test_render_brief.py
@@ -64,31 +91,46 @@ categories:
         - python3 core/components/plays/shape-slice/scripts/test_find_serving_slice.py
         - python3 core/components/plays/shape-slice/scripts/test_grill_budget.py
         - python3 core/components/plays/shape-slice/scripts/test_trace_check.py
-        - 'by hand: no skipped or disabled tests, no test that asserts nothing; removal of the --redraft tests matches the removal of the option (not a dropped check)'
+        - "by hand: no skipped or disabled tests, no test that asserts nothing; a removed test matches a removed option, not a dropped check"
   - name: run-records
     design_bearing: false
     playbook: null
-    playbook_note: "playbook missing: no review/ playbook covers a change's own short-term-memory run records (issue folder context: analysis*, commits*, branch.json, issue.json, porcelain.txt, pr-body.md, pr.json, resolved-rules.json, self-review.md, work-description.txt). A follow-up playbook is needed."
+    playbook_note: "playbook missing: no review/ playbook covers a change's own run records kept in the issue folder (short-term memory): analysis*, commits*, branch.json, issue.json, porcelain.txt, pr-body.md, pr.json, resolved-rules.json, self-review.md, work-description.txt, the review/ records of round 1, the ADR run folder under issues/_adr/, and the short-term copies of memory files (shelf, pr.md, grounding-harness) with their manifests. The copies are not the memory category: no file under core/components/memory/ changed. A follow-up playbook is needed."
     evidence:
+      - .garura/project/issues/908/context/analysis.yaml
       - .garura/project/issues/908/context/analysis-round2.yaml
       - .garura/project/issues/908/context/analysis-round3.yaml
-      - .garura/project/issues/908/context/analysis.yaml
-      - .garura/project/issues/908/context/branch.json
-      - .garura/project/issues/908/context/commits-round2.yaml
       - .garura/project/issues/908/context/commits.yaml
+      - .garura/project/issues/908/context/commits-round2.yaml
+      - .garura/project/issues/908/context/commits-round2b.yaml
+      - .garura/project/issues/908/context/branch.json
       - .garura/project/issues/908/context/issue.json
-      - .garura/project/issues/908/context/porcelain.txt
-      - .garura/project/issues/908/context/pr-body.md
       - .garura/project/issues/908/context/pr.json
-      - .garura/project/issues/908/context/resolved-rules.json
+      - .garura/project/issues/908/context/pr-body.md
       - .garura/project/issues/908/context/self-review.md
       - .garura/project/issues/908/context/work-description.txt
+      - .garura/project/issues/908/context/resolved-rules.json
+      - .garura/project/issues/908/context/porcelain.txt
+      - .garura/project/issues/908/context/context.yaml                    # review run records written by check-change itself
+      - .garura/project/issues/908/context/pr.diff
+      - .garura/project/issues/908/context/categories.yaml
+      - .garura/project/issues/908/context/design-findings-harness.yaml
+      - .garura/project/issues/908/context/quality-findings.yaml
+      - .garura/project/issues/908/context/decision-comment.md
+      - .garura/project/issues/908/context/layer1.txt
+      - .garura/project/issues/908/context/lint-components.json
+      - .garura/project/issues/908/context/templates/
+      - .garura/project/issues/908/context/memory/                       # short-term copies and manifests
+      - .garura/project/issues/908/review/                               # round records
+      - .garura/project/issues/_adr/20261027T053132Z/                    # run folder of the ADR 058 record
     treatment:
       layers: [1]
       reviewer: the tool (no playbook; treatment derived minimally, not from a playbook)
       linters: []
       runnable_checks:
-        - 'by hand: no secrets or personal data in the records; no Claude attribution line in pr-body.md (project Rule 8); records stay inside the issue''s own folder'
-        - 'not design-bearing: process records, they carry no design to conform to'
+        - "by hand: no secrets or personal data in the records; no Claude attribution line in pr-body.md (project Rule 8); records stay inside the issue's own folder (or the ADR run folder)"
+        - "not design-bearing: process records, they carry no design to conform to; the records of round 1 and of check-change itself are never a standard for this review"
 follow_ups:
   - "Missing playbook for category run-records; create a follow-up task."
+  - "Gap in review/adrs: no ADR linter in-repo; the structural check is a manual checklist."
+design_bearing_categories: [harness]

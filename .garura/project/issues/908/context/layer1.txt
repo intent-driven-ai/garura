@@ -1,11 +1,13 @@
 ## lint-components (installed, source layout)
 exit 1
-errors 36 in changed paths: 0 there before: 37
+in changed paths: 0 there before: 37
 ## lint-play
-  [PASS] stop condition (#464): Done means baked: manifest + checker present, clause types valid
-  [PASS] fingerprint: present
   [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next
 VERDICT: PASS (0 gap(s))
+## adr lint
+  "valid": true,
+  "problems": []
+}
 ## tests
 test_edit_slice.py exit 0
 test_find_serving_slice.py exit 0
