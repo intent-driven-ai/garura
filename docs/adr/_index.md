@@ -63,3 +63,4 @@ may have no Status line.
 | [055](055-installed-parts-read-only-installed-files.md) | Installed Parts Read Only Installed Files, Because Garura's Source Is Precompiled Code | Accepted | 2026-10-25 |
 | [056](056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md) | An Epic and a Story Are Marked by Their Issue Type, With No Label | Accepted | 2026-10-25 |
 | [057](057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md) | A Slice's Eval Is Plain-Text Gherkin, One File for Each Story and One for the Slice, That Runs With No Agent and Is Not Encrypted | Accepted | 2026-10-26 |
+| [058](058-an-edit-the-person-approves-may-change-a-slice-in-progress.md) | An Edit the Person Approves May Change a Slice in Progress, and Its Brief Names the Epic as Out of Date | Accepted | 2026-10-27 |
