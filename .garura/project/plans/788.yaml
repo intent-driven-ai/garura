@@ -267,6 +267,10 @@ tree:
     kind: bug
     title: "The GitLab instructions for the platform adapter's pr-files command use an undefined placeholder"
     status: later
+  - issue: 914
+    kind: bug
+    title: "Run records carry the person's home-folder paths, so every change publishes their user name and disk layout"
+    status: later
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
