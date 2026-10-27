@@ -1,0 +1,94 @@
+# Work categories present in PR #911 (change #908, /shape-slice --edit). Derived from the diff content;
+# treatments taken from the short-term playbook copies in context/memory/knowledge/review/.
+base: plan/788/798-shape-eval
+categories:
+  - name: harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/shape-slice/SKILL.md            # compiled play: new edit steps X1-X3, evals SE-26, amended C7/F7, new C20/F20
+      - core/components/plays/shape-slice/reference/ice.md    # the play's ICE source: C20, F20, S11, REC20, amended C7, C15, C19, F7
+      - core/components/skills/author-slice/SKILL.md          # skill: new edit mode
+    treatment:
+      layers: [1, 2]
+      reviewer: human (design) + tool (conformance)
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          note: only violations in changed paths are findings; count the rest as "there before"
+        - name: lint-play (shape-slice)
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-slice/SKILL.md --next-map .garura/project/issues/908/context/templates/standards/rules/pipeline-next.md
+      runnable_checks:
+        - 'ICE-source rule applies (repo holds the plays'' source): SKILL.md intent changes (C/F/S/evals/flow) must trace to reference/ice.md; check the SKILL.md intent fingerprint equals the real hash of ice.md'
+        - 'Layer 2 design-grounding from committed sources (docs/philosophy, docs/adr, standards/rules, glossary), never from this branch''s new prose'
+      rubric: play->agent->skill->script wiring intact; intent change traces to ICE source; standards held (user-facing voice, play-close, evidence-recording)
+  - name: executable-code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/plays/shape-slice/scripts/edit_slice.py       # new script
+      - core/components/plays/shape-slice/scripts/record_questions.py
+      - core/components/plays/shape-slice/scripts/render_brief.py
+      - core/components/plays/shape-slice/scripts/write_hidden_file.py # --redraft removed
+    treatment:
+      layers: [1]
+      reviewer: the tool, against industry best practice
+      linters:
+        - name: "check-pr-quality (pr.md taxonomy: SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*)"
+          command: run the check-pr-quality skill on the diff with context/memory/standards/rules/pr.md
+        - name: python language linter
+          command: none committed in this repo (no ruff/pyproject config found); record "not committed" and do a syntax check
+          fallback: python3 -m py_compile on the four changed scripts
+      runnable_checks:
+        - 'review data-safety and idempotency paths hard: edit_slice.py writes the slice record and hidden file (apply only the named list, refuse any other change, history line)'
+        - 'rubric: error handling, function size, no stray debug output, no secrets, safe destructive operations, deterministic where claimed'
+  - name: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/plays/shape-slice/scripts/test_edit_slice.py        # new
+      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py # redraft tests removed
+    treatment:
+      layers: [1]
+      reviewer: the tool
+      linters:
+        - name: check-pr-quality TEST-* rows
+          command: run check-pr-quality on the diff with pr.md (TEST-* rows)
+      runnable_checks:
+        - 'run the suite; a red suite is a blocker. Run the changed tests and the play''s other suites that cover the touched scripts:'
+        - python3 core/components/plays/shape-slice/scripts/test_edit_slice.py
+        - python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+        - python3 core/components/plays/shape-slice/scripts/test_render_brief.py
+        - python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+        - python3 core/components/plays/shape-slice/scripts/test_persist_slice.py
+        - python3 core/components/plays/shape-slice/scripts/test_find_serving_slice.py
+        - python3 core/components/plays/shape-slice/scripts/test_grill_budget.py
+        - python3 core/components/plays/shape-slice/scripts/test_trace_check.py
+        - 'by hand: no skipped or disabled tests, no test that asserts nothing; removal of the --redraft tests matches the removal of the option (not a dropped check)'
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    playbook_note: "playbook missing: no review/ playbook covers a change's own short-term-memory run records (issue folder context: analysis*, commits*, branch.json, issue.json, porcelain.txt, pr-body.md, pr.json, resolved-rules.json, self-review.md, work-description.txt). A follow-up playbook is needed."
+    evidence:
+      - .garura/project/issues/908/context/analysis-round2.yaml
+      - .garura/project/issues/908/context/analysis-round3.yaml
+      - .garura/project/issues/908/context/analysis.yaml
+      - .garura/project/issues/908/context/branch.json
+      - .garura/project/issues/908/context/commits-round2.yaml
+      - .garura/project/issues/908/context/commits.yaml
+      - .garura/project/issues/908/context/issue.json
+      - .garura/project/issues/908/context/porcelain.txt
+      - .garura/project/issues/908/context/pr-body.md
+      - .garura/project/issues/908/context/pr.json
+      - .garura/project/issues/908/context/resolved-rules.json
+      - .garura/project/issues/908/context/self-review.md
+      - .garura/project/issues/908/context/work-description.txt
+    treatment:
+      layers: [1]
+      reviewer: the tool (no playbook; treatment derived minimally, not from a playbook)
+      linters: []
+      runnable_checks:
+        - 'by hand: no secrets or personal data in the records; no Claude attribution line in pr-body.md (project Rule 8); records stay inside the issue''s own folder'
+        - 'not design-bearing: process records, they carry no design to conform to'
+follow_ups:
+  - "Missing playbook for category run-records; create a follow-up task."

@@ -1,7 +1,13 @@
 decision: reject
 decided_by: human
-reply: "fix all"
-round: 1
+reply: "fix p3s"
+round: 2
 blocking:
-  - F-01 to F-10 — the product owner asked for all ten defects to be fixed in this change
-logged_not_fixed: []
+  - N-01 — the close step lists only the shaping run's checks
+  - N-02 — a failed check after the write sends the skill the wrong problems
+  - N-03 — the person's words are kept with no real-name check
+logged_not_fixed:
+  - N-04 — the intent's background section is out of date (P4), kept in this record, not filed
+  - N-05 — two ways to write the intent number (P4), kept in this record, not filed
+  - N-06 — the agent's page misses two parts of edit mode (P4), kept in this record, not filed
+  - N-07 — two raw ids in the edit brief (P4), kept in this record, not filed
