@@ -1,11 +1,10 @@
 decision: reject
 decided_by: human
-reply: "fix 1, 2 and 3"
-round: 5
+reply: "fix 1 and 2"
+round: 6
 blocking:
-  - Q5-1 (P2) — the same run twice can overwrite a kept slice's text the first run kept
-  - Q5-2 (P3) — the history line's date is not checked
-  - Q5-3 (P3) — no test covers either case
+  - DF-H-15 (P3) — a resume can overwrite the start copy of the spine, which brings back the twice-run overwrite
+  - Q6-1 (P3) — a malformed start copy crashes the slice writer instead of refusing cleanly
 logged_not_fixed:
-  - DF-H-12, DF-H-13, DF-H-14 (P4, harness), Q5-4 (P4, code) — kept in this record, not fixed in this change
-  - the thirteen P4s carried from round 3 and round 4
+  - Q6-2, Q6-3, Q6-4, DF-H-16 (P4) — kept in this record, not fixed in this change
+  - the thirteen P4s carried from earlier rounds

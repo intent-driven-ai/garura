@@ -1,6 +1,13 @@
 # Layer 2 design-grounding: category product-model, change #798, PR #900, round 5 (carried forward from round 4, nothing re-grounded), base plan/788/base
 category: product-model
-round: 5
+round: 6
+status: carried
+carried_from_round: 5
+round_6_check: >
+  Round 6 carry-forward, nothing re-grounded and nothing new. Confirmed with git that the files of this category are unchanged since the round 5 head (ca37fdfe):
+  git diff --stat ca37fdfe HEAD over core/components/memory, .garura/product/product-os and .garura/project/plans/788/evals is empty (and git status over the same paths is clean).
+  The findings below are round 5's, carried as they were, at the severity round 5 gave them.
+new_findings_round_6: none
 playbook: null   # none covers the product model (follow-up: write review/product-model)
 severity_source: '.garura/project/issues/798/context/memory/standards/rules/pr.md (P1-P4 buckets, lines 8-11; no table row covers the model, so the bucket text decides - P3 = missing docs/naming, P4 = style-only nit)'
 

@@ -1,6 +1,13 @@
 # Layer-2 design findings - category: memory - PR #900 (change #798), round 5, base plan/788/base
 category: memory
-round: 5
+round: 6
+status: carried
+carried_from_round: 5
+round_6_check: >
+  Round 6 carry-forward, nothing re-grounded and nothing new. Confirmed with git that the files of this category are unchanged since the round 5 head (ca37fdfe):
+  git diff --stat ca37fdfe HEAD over core/components/memory, .garura/product/product-os and .garura/project/plans/788/evals is empty (and git status over the same paths is clean).
+  The findings below are round 5's, carried as they were, at the severity round 5 gave them.
+new_findings_round_6: none
 base: plan/788/base
 severity_source: standards/rules/pr.md (P1-P4 buckets; short-term copy at context/memory/standards/rules/pr.md)
 grounding_copies: context/memory/grounding-memory/  # unchanged from round 4; nothing re-copied this round

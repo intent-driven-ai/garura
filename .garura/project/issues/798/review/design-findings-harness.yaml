@@ -1,12 +1,12 @@
-# Layer 2 design-grounding, category harness, PR #900, round 5 (change #798).
+# Layer 2 design-grounding, category harness, PR #900, round 6 (change #798).
 # Grounded only in committed sources: plan/788/base docs/standards/harness-standard.md, CLAUDE.md,
-# plan/788/base shape-slice ICE, and the severity taxonomy (context/memory/standards/rules/pr.md).
-# Nothing new copied to memory this round (grounding-harness/manifest.json is unchanged from round 4).
-# Round 4 findings DF-H-4, 5, 6, 8 (harness P4) were kept as known and are not raised again.
-# Scope: only the commit ca37fdfe (the fix for DF-H-11).
+# plan/788/base shape-slice SKILL.md and ICE, and the severity taxonomy (context/memory/standards/rules/pr.md).
+# Nothing new copied to memory this round (grounding-harness/manifest.json is unchanged).
+# Known and not raised again: DF-H-12, DF-H-13, DF-H-14 (P4), the older carried P4s.
+# Scope: only the commit 32104cbe (the fix for Q5-1, Q5-2, Q5-3) to /shape-slice.
 pr: '900'
 issue: 798
-round: 5
+round: 6
 base: plan/788/base
 category: harness
 grounding:
@@ -14,54 +14,42 @@ grounding:
     source: "git show plan/788/base:docs/standards/harness-standard.md, principle 4; CLAUDE.md 'Play Pipeline Rules'"
   - principle: "Mechanical work is a script, judgment is a model; agents only gather context; skills do the work (harness-standard principles 2 and 3; CLAUDE.md 'Agents hold the role of Context Crafting')."
     source: "git show plan/788/base:docs/standards/harness-standard.md principles 2 and 3"
-  - principle: "Installed parts name only installed files, and carry no edit notes."
+  - principle: "Installed parts name only installed files and carry no edit notes."
     source: "git show plan/788/base:docs/standards/harness-standard.md principle 11; CLAUDE.md 'Source of Truth' and 'Play Pipeline Rules'"
-  - principle: "The base shape-slice ICE named only the intent added and features pulled in or pushed out as a reuse's changes (C7), and the base edit path wrote a history list `edits:` of {at, by, words, changed}."
-    source: "git show plan/788/base:core/components/plays/shape-slice/reference/ice.md C7; plan/788/base:core/components/plays/shape-slice/scripts/edit_slice.py history_entry"
-  - principle: "Severity buckets: P3 minor (missing docs, naming), P4 nit."
+  - principle: "A play that is run again after a stop resumes: completed steps are skipped and the in-progress step restarts. The base play already took start-sha.txt once, in pre-flight, and its stop and change checks read it as the state of the run's start."
+    source: "git show plan/788/base:core/components/plays/shape-slice/SKILL.md (Pre-flight block with start-sha.txt, 'Resume check', SE-15)"
+  - principle: "The ICE carries the guarantees as constraints (C), failure conditions (F) and scenarios (S); the compiled evals (SE, SCE) are written from them."
+    source: "git show plan/788/base:core/components/plays/shape-slice/reference/ice.md (F7, S12); harness-standard principle 4"
+  - principle: "Severity buckets: P2 major (error-handling violations), P3 minor (missing docs, naming), P4 nit."
     source: "context/memory/standards/rules/pr.md lines 8-11"
-df_h_11_status:
-  id: DF-H-11
-  status: fixed
-  evidence:
-    - "ICE: reference/ice.md C7 now says a re-run of the same surface and tester takes the new name, outcome and tester's action, the brief shows each old and new, the record keeps a history line, and the brief names the slice's epic as out of date. F7, REC7 and S12 match it. This is the decision round 4 asked for (option a)."
-    - "Compiled play: SKILL.md F7 summary, F7 recovery row, SE-29, SE-18 (now lists replaced and out_of_date), SCE-12, scenario row S12, the brief paragraph, the counts (SE-1..SE-29, SCE-1..SCE-12, S1..S12) and the 'Compiled From' and compiled_by lines all carry it."
-    - "Code: persist_slice.py takes the three texts only when no new intent came in and the surface and tester are the same; it then refuses without --at, writes one history entry at the end of the record, and returns replaced and out_of_date (the spine epics of that slice). render_brief.py shows both in the Kept slice section. I ran persist_slice.py on a scratch model: one run gave one history entry and the epic out of date; a second run added a second entry and kept the first; a run with no new text added none."
-    - "Tests: test_persist_slice.py 106 passed, test_render_brief.py 34 passed, test_edit_slice.py 35 passed, test_shape_slice_scripts.py 127 passed, test_find_serving_slice.py 21 passed; none failed."
-checks_of_the_commit:
-  fingerprint: "ok. shasum -a 256 core/components/plays/shape-slice/reference/ice.md = 8650a0e271b48ebb8c85180214a1ce455e5730d4ac82ad6a2c6b975361ebea79, the value in SKILL.md Compilation Metadata (line 1136)."
-  every_intent_change_traces_to_ice: "ok for the guarantee: each new SKILL.md rule (F7 text, SE-29, SCE-12, S12 row) has its source in C7, F7, REC7 or S12. The one gap is the Step 8 prose (DF-H-12)."
-  agent_gathers_skill_works_scripts_mechanical: "ok. No agent contract or skill changed. The history entry, the replaced list and the out-of-date list are computed by persist_slice.py; the wording of the brief by render_brief.py."
-  plain_words: "ok. The brief lines use 'takes the new name', 'history line', 'Out of date (named, not changed)', the same words as the edit brief. They name the epic by its id and status."
-  installed_paths_only: "ok. The new text names only scripts of the play."
-  no_edit_notes: "ok. The only history text is the compiled_by field and 'Compiled From' (#798), the same fields earlier changes (#842, #908) already used."
-  no_write_before_yes: "ok. The write happens in Step 8 as every shaping write does (write, then review); a change or a stop restores the slice record and spine with scoped_write_guard.py --restore, so the history line goes with them (Step 11)."
-  history_list_compatible_with_edit_path: "ok. Same file, same list name `edits:`, same four keys, same part names (slice.name, slice.outcome, surface.user_action). I called edit_slice.expected on a record holding two shaping-run entries: the edit path appended its own entry after them and kept both."
+verdict_on_commit:
+  harness_side: sound, with one gap (DF-H-15)
+  checks_of_the_commit:
+    fingerprint: "ok. shasum -a 256 core/components/plays/shape-slice/reference/ice.md = 108b2a8dc4375f71da791ce2a44d44f14813a4e7dff8b43ea66af93e57702059, the value in SKILL.md Compilation Metadata (line 1144)."
+    every_intent_change_traces_to_ice: "ok for the rule. The new text in SKILL.md (the Pre-flight paragraph, the SE-29 sentence, the Step 8 command) comes from the new C7 words 'already served when the run started (the same input gives the same result however often a step runs)' and 'a real date'. The ICE has no failure condition or scenario that tests these two new words (DF-H-16, P4)."
+    agent_gathers_skill_works_scripts_mechanical: "ok. No agent contract or skill changed. The copy of the spine is a plain cp by the play; the choice of what is new and the date check are in the scripts (persist_slice.py new_since_start and check_date, edit_slice.py check_date)."
+    plain_words: "ok. 'the spine as the run found it', 'a step run twice gives the same result', and the refusal message 'give it as YYYY-MM-DD' are plain."
+    installed_paths_only: "ok. The new text names only scripts of the play and files in the run's own working folder."
+    no_edit_notes: "ok. 'so a step run twice gives the same result (C7)' says why the file exists, not what changed. The only history text is compiled_by, which earlier changes already used."
+    no_write_before_yes: "ok. check_date runs before any file is read or written in edit_slice.py apply and in persist_slice.py main; a bad date writes nothing. spine-at-start.yaml is a copy in the run's working folder, not in the model or the plans."
+    spine_at_start_taken_before_any_write: "ok for a first run: the cp sits in Pre-flight after Step 0, before Step 1, and the clean-model-tree check makes the spine the one the run found."
+    spine_at_start_kept_on_resume: "NOT ok: the command is unguarded (DF-H-15)."
 findings:
-  - id: DF-H-12
+  - id: DF-H-15
+    severity: P3
+    category: harness
+    title: The copy of the starting spine is run again on every resume, so a resume can overwrite it and bring back the bug it was added to fix
+    where: core/components/plays/shape-slice/SKILL.md, Pre-flight, the command block line "cp <model>/_spine.yaml {stm_base}<issue>/context/shape-slice/spine-at-start.yaml" (line 141) and the sentence under it, "a resume keeps it as it is" (line 144)
+    basis: "Harness-standard principle 4 and the base play's own pattern: pre-flight runs before the Resume check, which says only that completed steps are skipped (base SKILL.md Pre-flight and 'Resume check'). A pre-flight command that is not guarded is run again on a resume. The sentence says the right thing but nothing in the steps makes it true. pr.md P3: the rule is stated but not made to hold in the steps (documentation/behaviour gap); the write stays behind the person's yes and is restored on a change or a stop, so not P2."
+    problem: "The cp has no guard. After a stop in or after Step 8 (for example at Step 9), a resume runs the Pre-flight block again, and the cp copies the spine as it is now, with the intent already on the kept slice, over spine-at-start.yaml. Step 8 then runs again, reads the intent as already served at the start, and takes the new name, outcome and tester's action over the text the first run kept. This is Q5-1 again, reached through a resume instead of a plain second run. The same unguarded pattern gives start-sha.txt the same fault (not new in this commit). Also, <model> is used in the block before the 'Names used below' line defines it."
+    leads_to: "A resumed run can rewrite a kept slice's words and add a second history line that the first run did not need, and the brief then shows a change that is not a change from the person's point of view. The person's yes still gates it, and a change or stop restores the record, so nothing is lost for good; the sameness-on-repeat that C7 now promises does not hold for a resumed run."
+    fix: "Make the copy conditional in the Pre-flight text: copy only when spine-at-start.yaml does not exist (for example `test -f ... || cp ...`), and say it in the step, not only in the sentence under it. Use `<product_base>product-os/_spine.yaml` in the command, or move the 'Names used below' line above the block. Do the same for start-sha.txt when this is edited. This is a non-intent edit of SKILL.md."
+  - id: DF-H-16
     severity: P4
     category: harness
-    title: The Step 8 text of /shape-slice does not say that a re-run now rewrites a kept slice's words and leaves a history line
-    where: core/components/plays/shape-slice/SKILL.md, Step 8 text after the command block (the sentence that starts "With --reuse it appends the intent", about lines 506-509)
-    basis: "H4 / harness-standard principle 4: the compiled play is built from the ICE, so what the ICE guarantees should be readable in the steps the run follows. The ICE (C7) now guarantees the rewrite, the history line and the out-of-date epic. pr.md P4 (style-only nit); the guarantee itself is present in the ICE, F7, SE-29 and the brief."
-    problem: "The commit added --at to the Step 8 command and wrote the rule in SE-29, but the sentence that tells the runner what persist_slice.py does on a reuse still lists only `differences`, `upgraded_to_v2` and `dropped_fields`. It does not say that the script takes the new name, outcome and tester's action, adds a history line, or returns `replaced` and `out_of_date`."
-    leads_to: "A runner who reads Step 8 only learns of the rewrite when it reaches the SE-29 check or the brief. Nothing breaks, because the script does the work, but the step and the intent do not read the same."
-    fix: "Add one sentence to that Step 8 paragraph: on a reuse with no new intent, the same surface and the same tester, the script takes the shaped name, outcome and tester's action, writes a history line, and returns `replaced` and `out_of_date` for the brief. This is a non-intent edit of SKILL.md (the rule is already in the ICE)."
-  - id: DF-H-13
-    severity: P4
-    category: harness
-    title: F7 and REC7 say the brief must name the slice's epic as out of date, but a slice shaped again before /shape-plan has no epic
-    where: core/components/plays/shape-slice/reference/ice.md C7, F7, REC7; the matching F7 text and F7 recovery row in SKILL.md
-    basis: "H4: a failure condition must be one the play can meet. In the pipeline /shape-slice comes before /shape-plan (ADR 049, in the base ICE position note), so a slice shaped again often has no epic yet. SE-29 already says 'each spine epic whose slice_ref is the slice', which is empty in that case. pr.md P4."
-    problem: "F7 reads 'without the brief naming the slice's epic as out of date'. Read as written it fails when the slice has no epic, because there is nothing to name. REC7 'name the slice's epic as out of date in the brief' cannot be done either."
-    leads_to: "A reader or a later check written from F7 could flag a correct run. The script is right (it returns an empty out_of_date list and the brief then names none)."
-    fix: "Say 'each epic of the slice, when it has any' in C7, F7 and REC7, and compile again with /edit-play."
-  - id: DF-H-14
-    severity: P4
-    category: harness
-    title: The history line a shaping run leaves names every intent the slice serves, not the intent of this run
-    where: core/components/plays/shape-slice/scripts/persist_slice.py, history() called with list(body.get("intents")) (history() at lines 273-278, called at line 382 with the record's whole intents list)
-    basis: "The base edit path writes in `words` what was asked in that run (edit_slice.py history_entry); C7 says the line records 'when, that a shaping run changed it, and which parts'. A history line is only useful if it says what happened. pr.md P4."
-    problem: "`body` is the kept slice's spine entry, so its intents are all of the slice's intents. For a slice that serves bi-10 and bi-788, a run for bi-788 writes 'shaped again by /shape-slice for bi-10, bi-788'."
-    leads_to: "A reader of the record cannot tell which intent's run made the change. The date, the actor and the parts changed are right, so nothing is lost beyond that detail."
-    fix: "Pass the intent of the run (the --slice file's intents) instead of the kept slice's list, or drop the 'for ...' part of the words."
+    title: The two guarantees C7 gained (a repeated step gives the same result; the history date is a real date) have no failure condition or scenario in the ICE
+    where: core/components/plays/shape-slice/reference/ice.md C7 (lines 46-52), F7 (lines 172-177), S12 (lines 296-301); SKILL.md SE-29
+    basis: "Harness-standard principle 4: the Expectation (failure conditions and scenarios) is what the evals are compiled from. The base ICE carried each C7 guarantee in F7 and S12. pr.md P4 (style-only nit); the guarantees are in C7 and the scripts refuse the bad cases, so the play is not unsafe."
+    problem: "F7 still lists only a new slice for a served intent, a slice in progress changed, a slice no longer testable, and a name/outcome/action changed without the brief, history line or out-of-date epic. It does not list 'a step run twice took text the first run kept' or 'a history line with a date that is not a date'. S12 covers one run only. SE-29 now checks both, but it has no F or S above it."
+    leads_to: "An eval check (SE-29) with no failure condition behind it can be dropped by a later rebuild of the play from the ICE without anyone seeing a guarantee go. Nothing breaks now."
+    fix: "Add the two cases to F7 (and to REC7 and a short S12 measure) in the ICE and compile again with /edit-play."

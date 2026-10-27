@@ -1,0 +1,11 @@
+decision: reject
+decided_by: human
+reply: "fix 1, 2 and 3"
+round: 5
+blocking:
+  - Q5-1 (P2) — the same run twice can overwrite a kept slice's text the first run kept
+  - Q5-2 (P3) — the history line's date is not checked
+  - Q5-3 (P3) — no test covers either case
+logged_not_fixed:
+  - DF-H-12, DF-H-13, DF-H-14 (P4, harness), Q5-4 (P4, code) — kept in this record, not fixed in this change
+  - the thirteen P4s carried from round 3 and round 4
