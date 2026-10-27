@@ -33,7 +33,7 @@ on; the play's scripts write the spine, the slice record and the pages' marks.
 | `request` | for `edit` | `edit-request.md`: the person's own words, as they typed them after `--edit:` |
 | `before` | for `edit` | `edit-before.json` from `edit_slice.py snapshot`: the copies of the slice record, the hidden file and the spine, as they are before the edit |
 | `evals` | for `edit` | `edit-evals.txt`: the names of the files in the slice's evals folder, to name a record the edit makes out of date (names only; never read them) |
-| `refused` | no, for `edit` | When the last list was refused: `edit-list-check.json` from `edit_slice.py check-list`, or, after a write was put back, the report that was not ok (`edit-check.json`, `slice-check.json`, `guard-report.json` or `hidden-file.json`): each problem |
+| `refused` | no, for `edit` | When the last list was refused: `edit-list-check.json` from `edit_slice.py check-list`, or, after a write was put back, the report that was not ok (`edit-check.json`, `slice-check.json`, `guard-report.json` or `hidden-file.json`): each problem (`problems`, or `violations` in `guard-report.json`) |
 | `out` | yes | The folder to write to: `slice.json`, `fills.json` and `no-slice.json` (shape and fix), `reuse.json` (reuse), `edit-list.json` (edit) |
 
 ## Process
