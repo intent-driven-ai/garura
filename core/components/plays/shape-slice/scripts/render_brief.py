@@ -325,17 +325,71 @@ def render(working, root, spine, opening, out_dir=None):
     return "\n".join(lines).rstrip("\n") + "\n"
 
 
+PART_WORDS = {"slice.name": "the slice's name", "slice.outcome": "the slice's outcome",
+              "surface.user_action": "what the tester does", "when": "when it shows",
+              "way_back": "the way back", "who_fixes": "who fixes", "one_line": "the one-line"}
+
+
+def part_words(change):
+    """A change's part in plain words: 'hidden file, fn-818, F8: who fixes'."""
+    part, f = str(change.get("part") or ""), change.get("file")
+    bits = part.split("/")
+    if f == "record":
+        return f"slice record: {PART_WORDS.get(part, part)}"
+    if f == "hidden" and len(bits) == 3:
+        return f"hidden file, {bits[0]}, {bits[1]}: {PART_WORDS.get(bits[2], bits[2])}"
+    if f == "spine" and len(bits) == 2:
+        return f"model index, {bits[0]}: {PART_WORDS.get(bits[1], bits[1])}"
+    return f"{f}: {part}"
+
+
+def render_edit(working, slice_name):
+    """The brief of an edit (C20): what the person asked, each change old and new, and each
+    record the edit makes out of date (named, not changed). Built from the run's records."""
+    lst = load(working, "edit-list.json")
+    with open(os.path.join(working, "edit-request.md"), encoding="utf-8") as fh:
+        request = " ".join(fh.read().split())
+    changes = lst.get("changes") or []
+    lines = [f"You decide whether to make these {len(changes)} change(s) to the slice \"{slice_name}\". "
+             "Nothing else in the slice, its hidden file or the model changes. Type yes to make them, "
+             "change with what to change, or stop to make none.", "",
+             "## What you asked", "", f"> {request}", "", "## Changes", ""]
+    for i, c in enumerate(changes, 1):
+        lines += [f"{i}. {part_words(c)}", f"   - was: {c.get('old')}", f"   - now: {c.get('new')}"]
+    lines += ["", "## Out of date (named, not changed)", ""]
+    lines += [f"- {o.get('record')}: {o.get('why')}" for o in lst.get("out_of_date") or []] or ["Nothing."]
+    if lst.get("not_editable"):
+        lines += ["", "## Not changed by an edit", ""]
+        lines += [f"- {n.get('what')}: {n.get('why')}" for n in lst["not_editable"]]
+    lines += ["", "## Your reply", "", "Type **yes**, **change: <what>**, or **stop**."]
+    return "\n".join(lines) + "\n"
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Render the one slice-confirmation brief.")
     ap.add_argument("--early", action="store_true",
                     help="the short brief of the questions asked before the slice is shaped")
+    ap.add_argument("--edit", help="the brief of an edit (C20): the slice's name; reads edit-list.json "
+                                   "and edit-request.md from --working")
     ap.add_argument("--working", required=True)
     ap.add_argument("--root", help="the model folder (not needed with --early)")
     ap.add_argument("--spine", help="the spine (not needed with --early)")
     ap.add_argument("--split", help="with --early: early-split.json")
-    ap.add_argument("--opening", required=True)
+    ap.add_argument("--opening")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
+    if args.edit:
+        try:
+            text = render_edit(args.working, args.edit)
+        except (Missing, OSError, json.JSONDecodeError) as exc:
+            sys.stderr.write(f"render_brief.py: not written — {exc}\n")
+            return 2
+        atomic_write(args.out, text)
+        print(json.dumps({"ok": True, "out": args.out}, indent=2))
+        return 0
+    if not args.opening:
+        sys.stderr.write("render_brief.py: give --opening (or --edit)\n")
+        return 2
     if args.early and not args.split:
         sys.stderr.write("render_brief.py: --early needs --split <early-split.json>\n")
         return 2

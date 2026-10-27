@@ -1,8 +1,8 @@
 ---
 name: shape-slice
 position: both
-argument-hint: "<business intent issue number>"
-description: 'Shape the one slice that shows a business intent is served — the first play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-slice <intent-issue> (for example /shape-slice 788). It reads the intent from the product model (and writes the intent page from the issue when the model has none), reads the model and memory first, and talks to the person in one confirmation brief: the slice, what it fills, its hidden file, what is left out, each assumption and only the questions neither the model nor memory answers, within the configured question tier, every question and answer kept in the issue''s short-term memory. It asks first only for a gap that blocks the slice and that no one but the person can answer, never the surface. It picks the features from any capability in build order, the one surface and the person who tests it; reuses a slice that already serves the intent (pulling a feature in or pushing one out so it stays testable end to end), and never touches a slice in progress; adds or fills every domain, capability, feature or ICE the slice needs, each page in its folder, and proposes a thin ICE, with both thin marks, for a part that has none; writes the slice into the spine with its link to the intent and its record; and writes the slice''s hidden file of failure and recovery conditions in the home plan''s evals folder. A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown. The model checks must pass for the slice''s own pages (older problems elsewhere are warnings), and nothing is committed before the person types yes (stop undoes every write). Writes no plan, epic, story or eval. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has a plan.'
+argument-hint: "<business intent issue number> [--edit: <what to change, in your own words>]"
+description: 'Shape the one slice that shows a business intent is served — the first play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-slice <intent-issue> (for example /shape-slice 788). It reads the intent from the product model (and writes the intent page from the issue when the model has none), reads the model and memory first, and talks to the person in one confirmation brief: the slice, what it fills, its hidden file, what is left out, each assumption and only the questions neither the model nor memory answers, within the configured question tier, every question and answer kept in the issue''s short-term memory. It asks first only for a gap that blocks the slice and that no one but the person can answer, never the surface. It picks the features from any capability in build order, the one surface and the person who tests it; reuses a slice that already serves the intent (pulling a feature in or pushing one out so it stays testable end to end), and never touches a slice in progress; adds or fills every domain, capability, feature or ICE the slice needs, each page in its folder, and proposes a thin ICE, with both thin marks, for a part that has none; writes the slice into the spine with its link to the intent and its record; and writes the slice''s hidden file of failure and recovery conditions in the home plan''s evals folder. A proposed answer always names its source; where none exists the question carries no proposed answer, and the count is shown. The model checks must pass for the slice''s own pages (older problems elsewhere are warnings), and nothing is committed before the person types yes (stop undoes every write). With `--edit: <their own words>` it edits the slice that exists instead (/shape-slice #788 --edit: <words>): only the slice record''s name, outcome or tester''s action, named lines of the hidden file, or a part''s spine one-line, after the person sees each change old and new and types yes; a check refuses any other change, and a history line keeps who asked, when and their words. Writes no plan, epic, story or eval. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has a plan.'
 user-invocable: true
 ---
 
@@ -24,6 +24,12 @@ and only the questions neither the model nor memory answers, inside the question
 config. It asks before it shapes the slice only for a gap that blocks the slice and that no
 one but the person can answer; the surface is never such a gap.
 
+A person can also **edit** a slice that exists: `/shape-slice #<intent-issue> --edit: <their
+own words>` (C20). The run does not shape the slice again. It turns the words into an exact
+list of changes, shows each change old and new, and after the person's yes writes only that
+list, with a history line of who asked, when and their words. The edit path is its own phase
+below.
+
 **Pipeline position: both.** start-change opens the change at the head (on the plan's
 sub-branch when the intent has a plan); the end sequence commit-change → propose-change →
 check-change → merge-change lands it.
@@ -31,8 +37,8 @@ check-change → merge-change lands it.
 ## Compiled From
 
 This play was compiled from the shape-slice ICE (`reference/ice.md`) by create-play (#795)
-and changed by edit-play (#842). Intent defines constraints (C1–C19) and failure conditions
-(F1–F19); the expectation defines success scenarios (S1–S10), a Done means (D1–D6, baked to
+and changed by edit-play (#842, #908). Intent defines constraints (C1–C20) and failure
+conditions (F1–F20); the expectation defines success scenarios (S1–S11), a Done means (D1–D6, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition. To modify this play,
 update `reference/ice.md` and recompile with edit-play.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -50,12 +56,13 @@ outcome; `find-slice-gaps` writes the gaps as questions; `propose-answers` draft
 proposed answers; `author-slice-brief` writes the openings of the early and the confirmation
 brief; `author-slice` chooses the slice (its surface, its tester, its features in build
 order, what is left out, what it needs from the model), decides what a reused slice pulls in
-or pushes out, and fixes its own records; `author-domains`, `enrich-capability-ice` and
+or pushes out, fixes its own records, and turns an edit's words into the list of changes; `author-domains`, `enrich-capability-ice` and
 `enrich-grounding` write the pages; `author-failure-recovery` drafts the hidden file's
 recoveries. You run all mechanical work through bundled scripts: reading the issue (`platform_adapter.py`), the intent page
 (`write_intent_page.py`), the question record (`record_questions.py`), the question tier
 (`grill_budget.py`), the serving check (`find_serving_slice.py`), the writes
-(`persist_fills.py`, `persist_slice.py`, `write_hidden_file.py`), the model checks
+(`persist_fills.py`, `persist_slice.py`, `write_hidden_file.py`), an edit's copies, writes and
+before-and-after check (`edit_slice.py`), the model checks
 (`slice_check.py`, which runs `lint_grounding.py`), the write guard
 (`scoped_write_guard.py`), the trace check (`trace_check.py`), the brief
 (`render_brief.py`), the checkpoint record and the commit gate (`record_approval.py`) and the
@@ -84,20 +91,22 @@ name, or text a person cannot follow (C14); a hidden file that is missing or lea
 line or a recovery (C15); a part with no ICE, or a thin ICE with one mark only (C16); a brief
 that hides a result of the run (C17); reading the rule for asking a person from a place other than `_shared/asking-a-person.md` (C18);
 an agent that chooses, drafts, decides or writes content, or reshapes a skill's output, or a
-dispatch that names no skills (C19).
+dispatch that names no skills (C19); on an edit, a change that is not on the list the person
+approved, a write before their yes, a change to a part an edit may not change, or an edit with
+no history line (C20).
 
 **Agent boundaries:**
 
 | Agent | Domain | Skills it uses | Phases |
 |-------|--------|----------------|--------|
-| `product-os-keeper` | Gather context and pass it on: read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the domain shelves, the grounding templates, the recovery rule); pass on the shared rule for asking a person (`_shared/asking-a-person.md`, beside the installed skills, not memory) and say when it is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief |
+| `product-os-keeper` | Gather context and pass it on (on an edit: the person's words and the copies of the slice's records, to `author-slice` in edit mode; then the trace of each change): read the intent page, the spine and the pages they reach; copy memory into short-term memory through the memory tool (the domain shelves, the grounding templates, the recovery rule); pass on the shared rule for asking a person (`_shared/asking-a-person.md`, beside the installed skills, not memory) and say when it is missing; call the skills each contract names and pass each output on as it is; read each source through the memory tool and record the trace of each decision (`memory.py cite`) | `author-business-intent`, `find-work-placement`, `find-slice-gaps`, `propose-answers`, `author-slice-brief`, `author-slice`, `author-domains`, `enrich-capability-ice`, `enrich-grounding`, `author-failure-recovery` | Intent, Gather, Ask first, Shape, Reuse, Hidden file, Check, Trace, Brief |
 | `template-manager` (utility) | Hand out the approval prompt and the close templates (evidence file, delivery report, Next-line map) into short-term memory | — | Checkpoint, Close |
 
 `product-os-keeper` is the single **domain agent**; `template-manager` is the one utility
 agent. Every skill the domain agent uses exists: `author-slice` (#838), `find-slice-gaps`,
 `author-slice-brief`, `enrich-grounding` and `author-failure-recovery` were built for this
 play (#842). Each JSON contract below names its skills in `"skills"`; only the live re-cite of
-Step 10b names none, because it calls the memory tool only. A copy from one shape to another
+Step 10b and the edit's trace (Step X5) name none, because they call the memory tool only. A copy from one shape to another
 (the proposals into the questions, the questions into the early brief) is a script's. The
 start and end sequence are injected sub-plays; everything else is a script.
 
@@ -108,6 +117,7 @@ start and end sequence are injected sub-plays; everything else is a script.
 | Resolve config, `stm_base`, `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | A business intent issue number was given (`/shape-slice <intent-issue>`, digits only) | C1 | Hard halt — ask for the intent's issue number |
 | The product model's spine exists (`<product_base>product-os/_spine.yaml`) | C11 | Hard halt — run the model plays first |
+| On an edit (`--edit:` in the arguments): the words after `--edit:` are not empty | C20 | Hard halt — ask what to change, in their own words |
 | **Clean model tree** — after Step 0: `git status --porcelain -- <product_base>product-os` is empty | C12 | Hard halt (REC12) |
 | **Clean plans tree** — after Step 0: `git status --porcelain -- .garura/project/plans` is empty, so a restore never takes back a person's own plan edits | C9, C15 | Hard halt (REC12) |
 
@@ -170,6 +180,27 @@ Create ALL tasks right after pre-flight, before any domain work. The play owns t
 Mark each task in progress before its step and completed right after its eval passes. No
 runtime reordering. A **change** at the checkpoint sends the run back to T6; T6–T11 run again
 in order.
+
+**An edit run** (`--edit:` in the arguments, C20) has its own DAG. It does not shape the slice,
+so T1–T12 are not created:
+
+```
+[T0]   start-change (injected — start)                         blockedBy: []
+[X1]   Read the slice's records                                 blockedBy: [T0]
+[X2]   Turn the person's words into the list of changes         blockedBy: [X1]
+[X3]   The edit brief and the checkpoint (yes / change / stop)  blockedBy: [X2]
+[X4]   Apply the list; check before against after               blockedBy: [X3]
+[X5]   Trace each change to the person's words                  blockedBy: [X4]
+[X6]   Commit the edit                                          blockedBy: [X5]
+[E1]   commit-change (injected — end)                           blockedBy: [X6]
+[E2]   propose-change (injected — end)                          blockedBy: [E1]
+[E3]   check-change (injected — end)                            blockedBy: [E2]
+[E4]   merge-change (injected — end)                            blockedBy: [E3]
+[T13]  Scenario Validation                                      blockedBy: [E4]
+[T14]  Close                                                    blockedBy: [T13]
+```
+
+A **change** at the edit checkpoint sends the run back to X2; X2–X3 run again in order.
 
 ## Workflow
 
@@ -489,14 +520,11 @@ the person to a discovery play.
 **Step 8b — Write the hidden file** · Owner: play (script), then `product-os-keeper`, then play (script) · Depends on: Step 8
 The slice's hidden file goes in its home plan's evals folder, made also when no plan file
 exists (C15). The script lists the "Fails if" lines of each feature's ICE and its
-capability's ICE, and keeps the ids of the entries already in the file. An entry whose lines
-did not change is kept as it is; when the person's change names a feature whose recoveries must
-be drafted again, pass it as `--redraft <feature id>` (one for each):
+capability's ICE, and keeps the ids of the entries already in the file:
 
 ```
 python3 scripts/write_hidden_file.py lines --root <model> --spine <model>/_spine.yaml \
-    --slice-id <id from persist-slice.json> --plans-root <plans> --out <working>hidden-lines.json \
-    $(each feature the person's change names, as --redraft <feature id>)
+    --slice-id <id from persist-slice.json> --plans-root <plans> --out <working>hidden-lines.json
 ```
 
     { "task":    "copy standards/rules/expectation-generation.md into short-term memory through the memory tool (rule); gather the pages of the two ICE of each feature in hidden-lines.json that is not kept (ice_pages: each part's page with its ## Agent intent (ICE) section, or its ice.md, as the spine names them); call author-failure-recovery with lines, ice_pages and rule; it drafts one recovery per Fails if line — when, way_back, who_fixes exactly 'the builder can fix this alone' or 'a person must decide' — and lists vague lines. Pass its hidden-recoveries.json on as it is; never write the hidden file. Gather and pass on only",
@@ -715,11 +743,11 @@ added use personas and plain words (ASD-STE100) and name no real person —
 `grep -i "$(git config user.name)"` over them finds nothing.
 **SE-25 (F19/C19):** every agent contract of this run has a `"skills"` list, and each name in
 it is a sibling folder of the installed play, `../<name>/`, that holds a `SKILL.md` (only
-`shape-slice-trace` has `"skills": []`);
+`shape-slice-trace` and `shape-slice-edit-trace` have `"skills": []`);
 each file an agent passed on (`intent-draft.json`, `placement.json`, `questions.json`,
 `proposals.json`, `early-opening.md`, `slice.json`, `fills.json`, `no-slice.json`,
 `reuse.json`, the manifests, `grounding-report.json`, `hidden-recoveries.json`,
-`opening.md`) is the output of a skill its contract names, with no change made by the agent;
+`opening.md`, `edit-list.json`) is the output of a skill its contract names, with no change made by the agent;
 the proposals reached `questions.json` only through `merge-proposals`, and the early brief's
 questions only through `render_brief.py --early`.
 
@@ -735,12 +763,158 @@ git add -- <model> .garura/project/plans/<hidden-file.json path>
 git commit -m "feat(model): shape slice <id> for business intent #<intent-issue> (#<issue>)"
 ```
 
+### Phase: Edit (only with `--edit:`, C20)
+
+An edit run goes from Step 0 straight here, and from here to the end sequence. Steps 1–12 do
+not run. `<id>` is the slice the spine links to `<intent>`.
+
+**Step X1 — Read the slice's records** · Owner: play (scripts) · Depends on: Step 0
+Save the words after `--edit:` word for word to `<working>edit-request.md`. Take the model
+check, and copy the slice's three records (the slice record, the hidden file, the spine):
+
+```
+python3 scripts/slice_check.py baseline --root <model> --spine <model>/_spine.yaml \
+    --out <working>lint-before-run.json
+python3 scripts/edit_slice.py snapshot --root <model> --spine <model>/_spine.yaml \
+    --intent <intent> --plans-root <plans> --working <working> --out <working>edit-before.json
+ls "$(dirname <edit-before.json files.hidden>)" > <working>edit-evals.txt
+```
+
+`snapshot` refuses (exit 2) when the spine links no slice, or more than one, to the intent:
+show its message and stop; nothing is written. The copies go to `<working>edit-before/`.
+
+**Step X2 — Turn the person's words into the list of changes** · Owner: `product-os-keeper`, then play (script) · Depends on: Step X1
+
+    { "task":    "call author-slice in edit mode with the person's words (request), the copies of the slice's records (before), the names of the files in the slice's evals folder (evals) and, on a re-run, the last refusal (refused); it writes edit-list.json: one change for each part the words name (file, part, the old text word for word, the new text, why), each record the edit makes out of date (named, not changed), and what the words name that an edit does not change (not_editable). Pass it on as it is. Gather and pass on only",
+      "inputs":  { "request": "<working>edit-request.md", "before": "<working>edit-before.json",
+                   "evals": "<working>edit-evals.txt",
+                   "refused": "<working>edit-list-check.json (on a re-run only)" },
+      "outputs": { "list": "<working>edit-list.json" },
+      "skills":  ["author-slice"],
+      "task_id": "shape-slice-edit" }
+
+```
+python3 scripts/edit_slice.py check-list --before <working>edit-before.json \
+    --list <working>edit-list.json --out <working>edit-list-check.json
+```
+
+`check-list` exits 1 for a change to a part an edit may not change, an old text that is not
+what the record says now, an empty or unchanged new text, a "who fixes" that is neither of the
+two sentences, or one part changed twice: send `edit-list-check.json` back to the
+`shape-slice-edit` contract as `refused`, and check again. When the list names no change and
+`not_editable` is not empty, the words ask for nothing an edit may change: show the person
+each `not_editable` line in plain words, write nothing, and close HALTED.
+**SE-26 (F20/C20):** `edit-list-check.json` reads `ok: true` for the list that was shown; each
+change names a file and a part of C20's set, and its old text is what the record said before
+the edit.
+
+**Step X3 — The edit brief and the checkpoint** · Owner: play (scripts) · Depends on: Step X2 · Checkpoint (class: standard, **pinned** — the person decides; never skipped by config)
+The script builds the whole brief from the run's records: what the person asked, each change
+old and new, each record made out of date (named, not changed), and what an edit does not
+change. `<slice name>` is the name in the slice record's copy.
+
+```
+python3 scripts/render_brief.py --edit "<slice name>" --working <working> --out <working>brief.md
+python3 scripts/record_questions.py brief --brief <working>brief.md --edit
+```
+
+Exit 1 lists each problem: send it back to Step X2, then render again. The brief is never
+edited by hand. Frame it with the approval prompt from `template-manager`
+(`standards/templates/approval-prompt.md`) and show it. Ask the person to type **yes**,
+**change: <what>**, or **stop**. Nothing is written to the model or the plans folder before
+the yes. Save the reply word for word to `<working>reply.md`, then record it:
+
+```
+python3 scripts/record_questions.py edit --record <record> --issue <issue> \
+    --request <working>edit-request.md --reply <working>reply.md \
+    --decision <yes|change|stop> --at <now, UTC> --run <this run id>
+python3 scripts/record_approval.py --decision <yes|change|stop> --reply "<their exact words>" \
+    --at <now, UTC> --out <working>approval.json
+```
+
+- **yes** → Step X4.
+- **change** → add a line `Change: <their words>` to `<working>edit-request.md`, then run
+  Steps X2–X3 again; show the brief again.
+- **stop** → nothing was written. Clear the copy of the hidden file and close HALTED:
+  `write_hidden_file.py check --root <model> --spine <model>/_spine.yaml --slice-id <id> --plans-root <plans> --out <working>hidden-file.json --clear-working <working>edit-before/hidden.md`;
+  write `git status --porcelain -- <model> .garura/project/plans` to `<working>stop-check.txt`.
+
+**Step X4 — Apply the list; check before against after** · Owner: play (scripts) · Depends on: Step X3 (yes)
+The gate script runs first; any exit but 0 stops here and nothing is written. `--by` is the
+person's role (for example "the product owner"), never a real name (C14).
+
+```
+python3 scripts/record_approval.py verify --file <working>approval.json
+python3 scripts/edit_slice.py apply --before <working>edit-before.json \
+    --list <working>edit-list.json --request <working>edit-request.md \
+    --by "<the person's role>" --at <today, UTC> --out <working>edit-apply.json
+python3 scripts/edit_slice.py check --before <working>edit-before.json \
+    --list <working>edit-list.json --request <working>edit-request.md \
+    --apply <working>edit-apply.json --out <working>edit-check.json
+python3 scripts/slice_check.py --root <model> --spine <model>/_spine.yaml \
+    --slice-id <id> --intent <intent> --baseline <working>lint-before-run.json \
+    --out <working>slice-check.json
+python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
+    --also-tree .garura/project/plans \
+    --allow 'product-os/_spine.yaml' --allow 'product-os/slices/<id>.yaml' \
+    --allow '.garura/project/plans/<the hidden file, from edit-before.json>' \
+    --out <working>guard-report.json
+python3 scripts/write_hidden_file.py check --root <model> --spine <model>/_spine.yaml \
+    --slice-id <id> --plans-root <plans> --out <working>hidden-file.json \
+    --clear-working <working>edit-before/hidden.md
+```
+
+`apply` writes exactly the list and the history lines (who asked, when, their words): on the
+slice record always, and on the hidden file when it changes. When `edit-check.json`,
+`slice-check.json`, `guard-report.json` or `hidden-file.json` is not ok, put every record back
+(REC20, REC11, REC9, REC15):
+
+```
+python3 scripts/edit_slice.py restore --before <working>edit-before.json --out <working>edit-restore.json
+```
+
+then send the problems to Step X2 as `refused`, and run Steps X2–X4 again: the person sees the
+new list before it is written. The hidden-file check runs last, so the copy of the hidden file
+is cleared only when every check reads ok.
+**SE-27 (F20/C20):** `edit-check.json` reads `ok: true`, with `changes` equal to the count of
+changes in `edit-list.json`; `edit-apply.json` was written after `approval.json` read
+`decision: yes`; the slice record holds an `edits:` entry with the person's words, and the
+hidden file holds an "Edited on" line when the list changed it; `slice-check.json`,
+`guard-report.json` and `hidden-file.json` read ok; `<working>edit-before/hidden.md` is gone.
+
+**Step X5 — Trace each change to the person's words** · Owner: `product-os-keeper`, then play (script) · Depends on: Step X4
+
+    { "task":    "for each change in edit-list.json, read the edit's entry in the question record through the memory tool (memory.py read --issue <issue> --tier short-term --path <issue>/context/grounding-questions.md --start <n> --end <m>, the lines of that entry only) and record the change with memory.py cite: question '<file>, <part>: what does it say after the edit?', answer the new text, decided_by 'author-slice (edit mode, via product-os-keeper)', and a trace whose source is that read answer (tier, path, start, end, fingerprint). Write citations-live.json {live: [the citation ids]}. Memory tool only; no skill",
+      "inputs":  { "list": "<working>edit-list.json", "record": "<record>" },
+      "outputs": { "live": "<working>citations-live.json" },
+      "skills":  [],
+      "task_id": "shape-slice-edit-trace" }
+
+```
+python3 .garura/core/tools/memory/memory.py citations --issue <issue> --check \
+    > <working>citations-check.json
+python3 scripts/trace_check.py --issue <issue> --live <working>citations-live.json \
+    --check <working>citations-check.json --out <working>trace-check.json
+```
+
+Exit 1 lists a change whose trace is missing or changed: record it again and run both again.
+
+**Step X6 — Commit the edit** · Owner: play · Depends on: Step X5
+
+```
+python3 scripts/record_approval.py verify --file <working>approval.json
+git add -- <model> .garura/project/plans/<the hidden file, from edit-before.json>
+git commit -m "feat(model): edit slice <id> for business intent #<intent-issue> (#<issue>)"
+```
+
+Then the end sequence (E1–E4) runs as in a shaping run.
+
 ### Phase: End sequence (injected — D2 position: both, tail)
 
 Each member runs as a sub-play with `parent_run_id`; each resolves its own context from the
 branch and config.
 
-**Step E1 — commit-change** · blockedBy: Step 12 — commits the run records under `{stm_base}<issue>/`.
+**Step E1 — commit-change** · blockedBy: Step 12 (Step X6 on an edit) — commits the run records under `{stm_base}<issue>/`.
 
     { "play": "commit-change", "parent_run_id": "<this run id>", "inputs": {}, "outputs": { "result": "<working>end/commit-change.json" } }
 
@@ -793,6 +967,13 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
 - **SCE-10 (S10 — product owner, no plan file):** with no plan file and three features,
   `hidden-file.json` reads `ok: true` with three entries, its path is
   `<plan-id>/evals/<slug>/failure-and-recovery.md`, and every line has one recovery.
+- **SCE-11 (S11 — product owner, an edit):** after `--edit` asking for two "who fixes" lines
+  to go to a person and a yes, `edit-check.json` reads `ok: true` with `changes: 2`,
+  `hidden-file.json` reads `ok: true`, the hidden file holds two more "a person must decide"
+  lines and an "Edited on" line with the person's words, the slice record holds the `edits:`
+  entry, and `git diff <start-sha> -- <model> .garura/project/plans` shows no other line.
+
+On an edit run, only SCE-11 applies; the others are for a shaping run.
 
 ### Phase: Evidence & Close
 
@@ -868,6 +1049,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | S8 — an older model | product owner | SCE-8 |
 | S9 — an existing capability | product owner | SCE-9 |
 | S10 — no plan file | product owner | SCE-10 |
+| S11 — an edit | product owner | SCE-11 |
 
 ## Recovery
 
@@ -892,6 +1074,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | F17 | the brief hid a result of the run (a reuse difference, a feature pulled in or pushed out, a field an upgrade set or dropped, a replaced spine one-line, a warning, an older problem, a thin ICE, an assumption) | show the hidden result in the brief, in plain words, and ask again | autonomous |
 | F18 | the run read the rule for asking a person from a place other than `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because it was missing, or went on without saying it was missing | drop the copy read from another place and read `_shared/asking-a-person.md`; when it is missing, say so in the brief, use the play's floor, and go on | autonomous |
 | F19 | an agent dispatch asked the agent to do work no named skill does (choose, draft, decide or write content, or reshape a skill's output), or a dispatch named no skills | take back what the agent made and send the work to the named skill that does it, through the agent; when no skill does it, close HALTED and name the missing skill — the agent never does it | autonomous |
+| F20 | an edit changed something that is not on the list the person saw, wrote before the person's yes, changed a part an edit may not change, or left no history line; or a kept entry of the hidden file changed with no edit the person approved | put back each change that is not on the approved list, or every write made before the yes (`edit_slice.py restore`), and add the missing history line; nothing of the edit is kept without the person's yes | autonomous |
 
 ## Pause and Resume
 
@@ -900,14 +1083,16 @@ check the status marker, skip completed steps, reset an in-progress step to pend
 continue. The question record is never asked twice: a resume reads `<record>` and asks only
 what is still open. A resume after the slice was written re-enters its own uncommitted
 delta in the model tree and the plans tree (expected, not a dirty-tree halt). A run that
-closed HALTED at a stop has nothing to resume: its writes were undone.
+closed HALTED at a stop has nothing to resume: its writes were undone. An edit run resumes on
+its own DAG (X1–X6): `<working>edit-before.json` and its copies are kept until the hidden-file
+check reads ok, so a resume after X4 can still put every record back.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:f1002e6869bc21e4f2f9667d7371fd5397d9d316fd712d0daf51f521d2084cd5 (of `reference/ice.md`) |
-| compiled_by | create-play (#795); edit-play (#842) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19) |
+| fingerprint | sha256:501dddae12370cd9d3e1b165e1c5a94a1427ca33fc5b2b2d971469060361dd9f (of `reference/ice.md`) |
+| compiled_by | create-play (#795); edit-play (#842, #908) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19); the edit path, which changes only what the person named, after their yes, with a history line (C20) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D6), gate live at Step C0 |
@@ -915,8 +1100,8 @@ closed HALTED at a stop has nothing to resume: its writes were undone.
 | utility_agents | 1 (template-manager — serves the approval prompt and the close) |
 | skills_used | author-business-intent (one-intent mode), find-work-placement, find-slice-gaps, propose-answers, author-slice-brief, author-slice (#838), author-domains (profile: false), enrich-capability-ice (depth: directional), enrich-grounding, author-failure-recovery (author-slice, find-slice-gaps, author-slice-brief, enrich-grounding and author-failure-recovery built for this play, #842) |
 | skills_missing | none |
-| scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py, lint_grounding.py, model_names.py, intent_touches.py (copied unchanged from create-play references); grill_budget.py (#817); write_intent_page.py, record_questions.py, find_serving_slice.py, persist_fills.py, persist_slice.py, spine_text.py, write_hidden_file.py, slice_check.py, trace_check.py, render_brief.py, record_approval.py, safe_write.py (this play) |
-| tests | test_grill_budget.py, test_find_serving_slice.py, test_persist_slice.py, test_shape_slice_scripts.py, test_write_hidden_file.py, test_render_brief.py, test_trace_check.py |
-| step_evals | 25 (SE-1…SE-25) |
-| scenario_evals | 10 (SCE-1…SCE-10) |
-| recovery_entries | 19 (one per failure condition; 17 autonomous / 2 human) |
+| scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, scoped_write_guard.py, lint_grounding.py, model_names.py, intent_touches.py (copied unchanged from create-play references); grill_budget.py (#817); write_intent_page.py, record_questions.py, find_serving_slice.py, persist_fills.py, persist_slice.py, spine_text.py, write_hidden_file.py, slice_check.py, trace_check.py, render_brief.py, record_approval.py, edit_slice.py, safe_write.py (this play) |
+| tests | test_grill_budget.py, test_find_serving_slice.py, test_persist_slice.py, test_shape_slice_scripts.py, test_write_hidden_file.py, test_render_brief.py, test_trace_check.py, test_edit_slice.py |
+| step_evals | 27 (SE-1…SE-27) |
+| scenario_evals | 11 (SCE-1…SCE-11) |
+| recovery_entries | 20 (one per failure condition; 18 autonomous / 2 human) |

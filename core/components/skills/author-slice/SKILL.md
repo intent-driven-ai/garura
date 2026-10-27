@@ -1,6 +1,6 @@
 ---
 name: author-slice
-description: Choose the one slice that shows a business intent is served, for /shape-slice — the one surface and the persona who tests it there (the tester), the features from any capability in build order with why_this_order, what is left out, and the needs list of the model (fills.json — the new parts, the updates to parts that exist, the thin parts). Writes slice.json and fills.json, or no-slice.json with its reason when no surface can be tested end to end. Reuse mode writes reuse.json (pull_in, push_out, why) for a kept slice and keeps it testable end to end; it never changes a slice in progress. Fix mode fixes the problems the model check finds in slice.json or fills.json. Each choice names the lines it rests on, so its agent can record the trace. Reads only what its agent put in short-term memory; never writes the model, the spine or a page. Generative artifact production for /shape-slice (ontology v11). Use when /shape-slice needs the slice chosen, a kept slice compared, or a slice record fixed.
+description: Choose the one slice that shows a business intent is served, for /shape-slice — the one surface and the persona who tests it there (the tester), the features from any capability in build order with why_this_order, what is left out, and the needs list of the model (fills.json — the new parts, the updates to parts that exist, the thin parts). Writes slice.json and fills.json, or no-slice.json with its reason when no surface can be tested end to end. Reuse mode writes reuse.json (pull_in, push_out, why) for a kept slice and keeps it testable end to end; it never changes a slice in progress. Fix mode fixes the problems the model check finds in slice.json or fills.json. Edit mode turns a person's own words into the exact list of changes to a slice that exists (edit-list.json, with each change's file, part, old text and new text, and the records the edit makes out of date); it never changes a file. Each choice names the lines it rests on, so its agent can record the trace. Reads only what its agent put in short-term memory; never writes the model, the spine or a page. Generative artifact production for /shape-slice (ontology v11). Use when /shape-slice needs the slice chosen, a kept slice compared, or a slice record fixed.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write
@@ -18,7 +18,7 @@ on; the play's scripts write the spine, the slice record and the pages' marks.
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `mode` | no | `shape` (the default), `reuse` or `fix` |
+| `mode` | no | `shape` (the default), `reuse`, `fix` or `edit` |
 | `intent_page` | yes | The business intent's page in the model: title, outcome, why, asked by, proof it is met, must not |
 | `gather` | yes | `gather.json`: each model page and memory line the agent read (tier, path, lines, fingerprint), with the short-term copies |
 | `placement` | yes, to shape | The `find-work-placement` routing result: where each part of the intent's outcome sits (domain, capability, feature) |
@@ -30,7 +30,11 @@ on; the play's scripts write the spine, the slice record and the pages' marks.
 | `slice` | for `reuse` and `fix` | The shaped `slice.json` |
 | `fills` | for `fix` | The `fills.json` to fix |
 | `problems` | for `fix` | `slice-check.json` (or a script's refusal message): each problem with the page or field it names |
-| `out` | yes | The folder to write to: `slice.json`, `fills.json` and `no-slice.json` (shape and fix), `reuse.json` (reuse) |
+| `request` | for `edit` | `edit-request.md`: the person's own words, as they typed them after `--edit:` |
+| `before` | for `edit` | `edit-before.json` from `edit_slice.py snapshot`: the copies of the slice record, the hidden file and the spine, as they are before the edit |
+| `evals` | for `edit` | `edit-evals.txt`: the names of the files in the slice's evals folder, to name a record the edit makes out of date (names only; never read them) |
+| `refused` | no, for `edit` | `edit-list-check.json` from `edit_slice.py check-list`, when the last list was refused: each problem |
+| `out` | yes | The folder to write to: `slice.json`, `fills.json` and `no-slice.json` (shape and fix), `reuse.json` (reuse), `edit-list.json` (edit) |
 
 ## Process
 
@@ -105,6 +109,28 @@ gets its update; a thin part that has no Thin mark is listed in `thin`; a slice 
 surfaces keeps one. A problem in a page's text is not this skill's: list it in `not_mine`,
 so the agent sends it to `enrich-grounding`. Keep every other field as it is.
 
+### Edit mode
+
+Read the person's words in `request` and the copies in `before`. Write one change for each
+thing the words name, and nothing more. A change names its file and its part, and copies the
+old text word for word from the copy:
+
+| File | Part | What it is |
+|------|------|------------|
+| `record` | `slice.name`, `slice.outcome`, `surface.user_action` | The slice's name, its outcome, the tester's action |
+| `hidden` | `<feature id>/<F id>/when`, `.../way_back`, `.../who_fixes` | One line of a recovery in the hidden file |
+| `spine` | `<part id>/one_line` | A domain's, capability's or feature's one-line in the spine |
+
+The new text is the person's meaning in plain words. A "who fixes" line is one of the two
+sentences, "the builder can fix this alone" or "a person must decide". When the words name a
+part outside this table (a feature in or out, a failure line, an eval, code), make no change
+for it: name it in `not_editable` with why, so the brief shows it. When the words are not
+clear enough to name a part, name them in `not_editable` too; never guess a part.
+
+Then name each record the edit makes out of date, without changing it: for example, an eval
+scenario that tests a "who fixes" line you changed, or a story whose title holds the old
+slice name. On a re-run with `refused`, fix only the changes it names.
+
 ## Output
 
 `slice.json` (shape and fix):
@@ -130,6 +156,17 @@ shape `persist_fills.py` reads; each list may be empty.
 
 `reuse.json` (reuse): `{pull_in: [feature ids], push_out: [feature ids], why, decisions}`.
 
+`edit-list.json` (edit):
+
+```json
+{"changes": [{"file": "hidden", "part": "ft-pick/F1/who_fixes",
+              "old": "the builder can fix this alone", "new": "a person must decide",
+              "why": "The person asked that two bookings of one slot go to a person."}],
+ "out_of_date": [{"record": "evals/self-booking/eval.ft-pick.feature.md",
+                  "why": "Its scenario for F1 says the builder fixes it."}],
+ "not_editable": []}
+```
+
 Examples from different fields:
 - A clinic: the surface is the booking screen, the tester a patient; the features are pick a
   free slot, then confirm the booking.
@@ -148,5 +185,6 @@ Examples from different fields:
   do not name a surface a person can test end to end, write `no-slice.json`.
 - Never change a slice in progress; a reused slice stays testable end to end.
 - Never write the spine, a slice record, a model page or the hidden file. The play's scripts
-  write them from this skill's files.
+  write them from this skill's files. In edit mode, a change the person's words did not name
+  is never on the list.
 - Plain words (ASD-STE100), personas only, no real names.

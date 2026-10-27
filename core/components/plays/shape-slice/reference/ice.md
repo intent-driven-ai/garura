@@ -9,7 +9,8 @@ A person names a business intent. /shape-slice shapes the one slice that a perso
 to end to show the intent is served. It fills the product model with what that slice needs,
 proposes a thin ICE for each part that has none, writes the slice with its link to the intent,
 and writes the slice's hidden file of failure and recovery conditions. It writes no plan, no
-epic, no story and no eval.
+epic, no story and no eval. A person can also edit a slice that exists: `--edit` with their own
+words changes only the parts they named, after they see each change and say yes.
 
 ### Constraints
 
@@ -92,7 +93,8 @@ epic, no story and no eval.
   symptom the eval sees), way back (guidance, never code), who fixes ("the builder can fix this
   alone" or "a person must decide"), by `standards/rules/expectation-generation.md`, "A
   feature's recovery". When the slice gains a feature, the run adds that feature's entry and
-  keeps every other entry as it is. When the file reads ok, no working copy of its "Fails if"
+  keeps every other entry as it is. A kept entry changes only through an edit the person
+  approved (C20). When the file reads ok, no working copy of its "Fails if"
   lines or their ids stays outside the evals folder.
 - C16 — When a part the slice needs has no ICE, the run proposes a thin ICE from the person's
   answers: in Intent, at least a goal, a limit and one "Fails if" line; in Context, one line; in
@@ -125,12 +127,24 @@ epic, no story and no eval.
   skill: the intent page (`author-business-intent`, one-intent mode), the placement
   (`find-work-placement`), the gaps written as questions (`find-slice-gaps`), the proposed
   answers (`propose-answers`), the openings of the early and the confirmation brief
-  (`author-slice-brief`), the slice and what it needs from the model (`author-slice`), the
+  (`author-slice-brief`), the slice and what it needs from the model, and the list of an
+  edit's changes (`author-slice`), the
   pages (`author-domains`, `enrich-capability-ice`, `enrich-grounding`) and the hidden file's
   recoveries (`author-failure-recovery`). Each skill a dispatch names is installed beside the
   play: a sibling folder `../<name>/` that holds its `SKILL.md`. A copy from one shape to
   another is a script's.
   Every agent dispatch names the skills it calls.
+- C20 — A person edits a slice that exists with `/shape-slice #<intent-issue> --edit: <their
+  words>`. The run takes the words as they are and does not shape the slice: `author-slice`
+  (edit mode) turns them into an exact list of changes, each with its file, its part, its old
+  text and its new text, and names each other record the edit makes out of date. The parts an
+  edit may change are the slice record's name, outcome and tester's action, the when, way back
+  or who fixes of a named line of the hidden file, and a part's spine one-line. The brief shows
+  each change, old and new, and each record made out of date (named, not changed); nothing is
+  written before the person's yes. The run then writes exactly the list and nothing else: a
+  check compares each record before and after and refuses any other change. The slice record
+  keeps a history line with who asked, when and their words, and so does the hidden file when
+  it changes. The model check, the write guard and the trace check run as in a shaping run.
 
 ### Failure conditions
 
@@ -178,6 +192,9 @@ epic, no story and no eval.
 - F19 — An agent dispatch asks the agent to do work no named skill does: to choose, draft,
   decide or write content itself, or to reshape a skill's output; or a dispatch names no
   skills.
+- F20 — An edit changed something that is not on the list the person saw, wrote before the
+  person's yes, changed a part an edit may not change, or left no history line; or a kept entry
+  of the hidden file changed with no edit the person approved.
 
 ## Context
 
@@ -257,6 +274,12 @@ epic, no story and no eval.
   features, when the run ends, then the hidden file is in `plans/<id>/evals/<slug>/` with three
   entries, and each "Fails if" line has one recovery. Measure: `hidden-file.json` reads
   `ok: true` with three entries.
+- S11 — (product owner, an edit) Given a slice with a hidden file, when the person runs
+  `--edit` asking for two "who fixes" lines to go to a person and types yes, then those two
+  lines change, every other line of the hidden file and of the model stays as it was, and the
+  hidden file and the slice record each hold a history line with the person's words. Measure:
+  `edit-check.json` reads `ok: true` with exactly two changes, and `hidden-file.json` reads
+  `ok: true`.
 
 ### Done means
 
@@ -321,3 +344,6 @@ epic, no story and no eval.
 - REC19 (F19) — take back what the agent made, and send the work to the named skill that does
   it, through the agent; when no skill does it, close HALTED and name the missing skill. The
   agent never does it. Handoff: autonomous.
+- REC20 (F20) — put back each change that is not on the approved list, or every write made
+  before the yes, and add the missing history line; nothing of the edit is kept without the
+  person's yes. Handoff: autonomous.
