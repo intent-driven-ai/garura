@@ -1,20 +1,16 @@
 category: slice-evals
-round: 2
+round: 3
 base: plan/788/base
 grounding_status: grounded
 grounding_note: >
-  Every principle comes from a source committed on the base ref plan/788/base (git show plan/788/base:<path>)
-  or from the memory tool (standards/rules/builder-isolation.md, short-term copy; byte-equal to the base file).
-  ADR 057, the eval format standard and its step library, the eval templates, the new story and ICE lines
-  (for example "A story never names the eval ...") are added by this branch and are NOT used as grounding.
-  Where only the new format decides, the finding says so. The base version of the hidden file
-  (git show plan/788/base:.garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md) is the
-  prior committed design of the recovery routing. No review playbook covers this category
-  (playbook_missing in categories.yaml). Nothing here is run: the eval runner is a later play (#819);
-  "not run" is not "passed".
-  One person's word is used as an instruction, not as grounding: a builder's fix may name the hidden file or
-  a check when that is the thing the feature builds, and never the test that found the failure
-  (Q-recovery-1-4, grounding-questions.md).
+  Every principle comes from a source committed on the base ref plan/788/base (git show plan/788/base:<path>),
+  from the memory tool (standards/rules/builder-isolation.md and the severity taxonomy standards/rules/pr.md, both
+  short-term copies; found with the memory tool, issue 798), or from the product owner's own answer
+  (Q-recovery-1-4, grounding-questions.md), which is used as an instruction and not as a branch design. ADR 057,
+  the eval format standard, the step library, the eval templates and the new story and ICE lines are added by this
+  branch and are NOT used as grounding. No review playbook covers this category (playbook_missing in
+  categories.yaml). Nothing here is run: the eval runner is a later play (#819); "not run" is not "passed".
+  Round 3 reads the same principles as round 2 (PR-1 to PR-7, below). No extra memory was copied.
 principles:
   - id: PR-1
     text: An eval tests from the outside, on the slice's surface, and reaches the built product only through the usage guide.
@@ -24,197 +20,80 @@ principles:
     source: "plan/788/base ontology.md (Slice: Eval row, Q29)"
   - id: PR-3
     text: The eval holds no recovery condition and no handoff plan. The running eval reads only the recovery parts of the hidden file and writes the handoff plan (the symptom and the way back, never the failure condition, its id or the check).
-    source: "plan/788/base ontology.md (Q29, Q35); docs/adr/049-*.md section 4 ('A failure gives a handoff plan')"
+    source: "plan/788/base ontology.md (Q29, Q35); docs/adr/049-*.md section 4"
   - id: PR-4
     text: The builder never receives failure conditions, recovery conditions or the evals; it receives the validator's handoff plan when a fix is routed back to it. The builder cannot teach to a test it cannot see.
-    source: "plan/788/base docs/philosophy/idd-principles.md (Routing Table, 'Builder: never receives failure conditions, recovery conditions, the evals'); core/components/memory/standards/rules/builder-isolation.md ('the builder cannot teach to a test it cannot see'); docs/adr/049-*.md section 4"
+    source: "plan/788/base docs/philosophy/idd-principles.md (Routing Table); core/components/memory/standards/rules/builder-isolation.md; docs/adr/049-*.md section 4"
   - id: PR-5
     text: The hidden file is written by /shape-slice, one entry per feature (feature, capability, the two ICE and which is thin, failure conditions with ids, exactly one recovery each with when / way back / who fixes); the story that delivers a feature never holds those lines.
     source: "plan/788/base docs/adr/052-*.md sections 1, 4, 7; ontology.md (Q33, Q34, Q36, Slice hidden-file row); standards/rules/expectation-generation.md 'A feature's recovery (product ICE)'"
   - id: PR-6
     text: The handoff rule. A recovery is 'the builder can fix this alone' only when the builder can fix it from information it already has, deterministically. It is 'a person must decide' when it needs judgment or authority the builder does not hold - mapping to an external entity (an issue), an approval, an outward-facing decision.
-    source: "plan/788/base core/components/memory/standards/rules/expectation-generation.md 'The handoff rule (autonomous vs human)' (worked example: a commit that references the wrong issue is human; a mapping committed without approval is human, 'approval is an authority the builder lacks')"
+    source: "plan/788/base core/components/memory/standards/rules/expectation-generation.md 'The handoff rule (autonomous vs human)', lines 47-70"
   - id: PR-7
-    text: The handoff plan that goes to the builder is made only from the recovery's when and way back. It says what the product does wrong and the way back, never the failure condition, its id or the check that found it. Per the product owner (Q-recovery-1-4) - it may name the hidden file or a check when that is the thing the feature builds.
-    source: "plan/788/base docs/adr/049-*.md section 4; ontology.md Q35; plus the product owner's answer to Q-recovery-1-4 in .garura/project/issues/798/context/grounding-questions.md (a person's instruction, not a branch design)"
-round_1_status:
-  - id: SE-1
-    status: fixed
-    evidence: "The copies of the eval drafts and of the whole hidden file are gone from the issue folder: .garura/project/issues/798/context/shape-eval/ now holds the epic and the four stories under inputs/, the run records and summary.md, which lists only counts and two Untestable notes. git show 36251ed6 deletes context/shape-eval/drafts/. No file under issues/798/context (outside review/ and pr.diff) holds a 'Way back:' / 'Who fixes' recovery text of the hidden file."
-  - id: SE-2
-    status: fixed
-    evidence: "F1 now also checks the tracker (issues, epics, stories 0 - eval.fn-795.feature.md lines 85-96); F3 checks the exactly-one-complete-recovery count (71-76); F4 has the two-surface and no-surface scenarios (45-58); F6 checks all three Fails if lines (111-117). The Untestable section says 'None' and every one of the 25 hidden-file ids has a tagged scenario or a noted part."
-  - id: SE-3
-    status: fixed
-    evidence: "eval.fn-798.feature.md lines 24-40: the tag check runs on the first and the second story file, with the expected line counts; F14 is tested, not only noted."
-  - id: SE-4
-    status: fixed
-    evidence: "eval.sl-intent-to-design.md lines 127-129: the ICE is 'as the product model gives it, without its Fails if lines', kept apart from the plan file; the check in eval.fn-818.feature.md lines 31-33 compares the plan file with the model, not with itself."
-  - id: SE-5
-    status: fixed
-    evidence: "F18 (eval.fn-798.feature.md 102-108) and F25 (eval.fn-898.feature.md 117-123) now check the paths .garura/product/product-os/, .garura/project/plans/788/guides/ and the code folder, not the substring 'feature.md'."
-  - id: SE-6
-    status: fixed
-    evidence: "eval.sl-intent-to-design.md lines 160-167: the Context is written for the running eval (what it reads: the eval files, the usage guide, the recovery parts of the hidden file); the stories' 'Never read' lines are no longer copied into it."
-  - id: SE-7
-    status: fixed
-    evidence: "F13 is gone; its trigger now sits in F19 (failure-and-recovery.md lines 130-133), routed 'a person must decide', with 'A person decides if the build must run again'. It agrees with F23 and F26."
-  - id: SE-8
-    status: closed_by_owner_answer_with_remainder
-    evidence: "The product owner answered Q-recovery-1-4: a builder's fix may name the hidden file or a check when that is the thing the feature builds. F3, F6, F20, F21, F22 (the features that build the hidden file and the checks) are inside that. The remainder is SE-17."
-  - id: SE-9
-    status: not_carried
-    evidence: "Dropping encryption is the product owner's recorded decision (story #898, ADR 057 in the decision-records category). No eval file breaks a base rule by itself; fn-898 now tests the lint check and the ledger flag that replace it. Left to the decision-records and documentation categories."
-  - id: SE-10
-    status: still_open
-    evidence: "Same as round 1, see SE-10 below."
-  - id: SE-11
-    status: still_open
-    evidence: "Same as round 1, see SE-11 below."
-  - id: SE-12
-    status: changed
-    evidence: "F15 is no longer declared untestable; it now has a scenario (eval.fn-798.feature.md 80-92). The scenario rests on a command that is the product's own work; see SE-18."
-  - id: SE-13
-    status: fixed
-    evidence: "The folder-count step counts the files in the folder, not in sub-folders (step library, added by this branch; read as the format, not as grounding). The counts 0/1/4 in the eval agree with it. The name behind them is loose; see SE-19."
-  - id: SE-14
-    status: still_open
-    evidence: "Same as round 1, see SE-14 below."
+    text: The handoff plan that goes to the builder is made only from the recovery's when and way back. It says what the product does wrong and the way back, never the failure condition, its id or the check that found it. Per the product owner (Q-recovery-1-4) a builder's fix may name the hidden file or a check when that is the thing the feature builds, and never the test that found the failure.
+    source: "plan/788/base docs/adr/049-*.md section 4; ontology.md Q35; the product owner's answer to Q-recovery-1-4 in .garura/project/issues/798/context/grounding-questions.md"
+fix_check:
+  commit: 8fceddab
+  file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  scope_result: >
+    git diff 36251ed6 (the state round 2 read) to HEAD on .garura/project/plans/788/ touches this one file only:
+    8 lines added, 8 removed. No other eval file, no other line of the hidden file, and no entry text outside the
+    six recoveries changed. The failure lists, the headers, the Context lines and the other 19 recoveries are
+    byte-identical to round 2.
+  lines:
+    - {id: F7,  line: 74,  change: "Who fixes: builder alone -> a person must decide", result: "as asked; way back unchanged; agrees with the base (F7 was a person's job) and with PR-6 (a story is a tracker issue, an outward write)"}
+    - {id: F8,  line: 78,  change: "Who fixes: builder alone -> a person must decide", result: "as asked; agrees with the base and with F26 (line 86); see SE-21 for the lost sentence"}
+    - {id: F10, line: 90,  change: "Who fixes: builder alone -> a person must decide", result: "as asked; the way back says 'after the product owner's yes', an approval the builder does not hold, so the route now agrees with its own text"}
+    - {id: F11, line: 94,  change: "Who fixes: builder alone -> a person must decide", result: "as asked; agrees with the base; see SE-21"}
+    - {id: F24, line: 177-180, change: "Way back reworded and Who fixes -> a person must decide", result: "as asked; now the same route and the same wording as F17 (line 134-137: 'A person decides if that ... goes, because a ... that is there does not change'); names no test that found the failure"}
+    - {id: F25, line: 181-184, change: "Way back reworded and Who fixes -> a person must decide", result: "as asked; the way back is the inverse of the failure; it says that fn-898 does not build the eval play, so it goes to a person, and it names no id, no check and no scenario"}
+  q_recovery_1_4_check: >
+    Builder-routed recoveries that name the evals folder, the eval, the hidden file or a check are F1, F3 and F6
+    (fn-795: /shape-slice builds the hidden file) and F20, F21 and F22 (fn-898: builds the lint check and the
+    ledger check). F18 (fn-798) names the files the /shape-eval limit names, which fn-798 builds. None of them
+    names a scenario, a tag, an F id or the eval's check that found a failure. F24 and F25, which named things
+    fn-898 does not build, no longer go to a builder.
+round_2_status:
+  - {id: SE-15, status: fixed, evidence: "F8 and F11 now read 'a person must decide' (lines 78 and 94), as on the base. The wording gap that remains is SE-21."}
+  - {id: SE-16, status: fixed, evidence: "F7 (line 74) and F10 (line 90) now read 'a person must decide'."}
+  - {id: SE-17, status: fixed, evidence: "F24 (lines 177-180) routes like F17 with the same wording; F25 (lines 181-184) goes to a person and no longer names the eval and the hidden file as what the builder writes from."}
+  - {id: SE-10, status: still_open, evidence: "The two layouts of the hidden file are unchanged (fn-795 header at lines 13-14, capitals in the failure lines; fn-818, fn-798, fn-898 headers at 54-57, 102-105, 146-148; F26, F27 and F19 still stand before F10, F14 and F17)."}
+  - {id: SE-11, status: still_open, evidence: "eval.fn-898.feature.md is unchanged; the lint check and the ledger flag still have no base source."}
+  - {id: SE-14, status: still_open, evidence: "eval.fn-818.feature.md lines 93-98 are unchanged: the F12 scenario does not check that the hidden file is the same."}
+  - {id: SE-18, status: still_open, evidence: "eval.fn-798.feature.md F15 scenario (lines 79-92) and the Context of eval.sl-intent-to-design.md are unchanged: nothing says the handoff-plan command has no work behind it until #819."}
+  - {id: SE-19, status: still_open, evidence: "eval.sl-intent-to-design.md line 69 still defines the slice's evals folder as two folders."}
+  - {id: SE-20, status: still_open, evidence: "eval.fn-898.feature.md goal 1 (line 9) is unchanged: skill, agent and sub-agent are covered only through what they read."}
 checked_ok:
-  - "Every one of the 25 failure ids of the hidden file has a tagged scenario in the matching eval file, and every goal and expectation of the four stories has a scenario (the eval summary counts 46 scenarios; Untestable is two notes, F17 of #798 and F24 of #898, each saying a person must read the steps). PR-2 holds."
-  - "The eval holds no recovery condition and no handoff plan. 'Way back:' and '### Recovery' appear in the eval only as text to look for in a story or the plan file (eval.fn-818.feature.md 52-62). PR-3 holds."
-  - "No builder-routed recovery line names a scenario, a tag, an F id or the eval's check that found a failure. The recoveries that name the evals folder, the eval, the hidden file or a check and go to the builder (F1, F3, F6 of fn-795; F20, F21, F22 of fn-898) are about files and checks the feature itself builds, which the product owner allowed (PR-7)."
-  - "The Context of the slice eval names what the running eval reads - the eval, the usage guide, the recovery parts of the hidden file - as Q29 says; and the eval reaches the product through names that the usage guide maps (PR-1)."
-  - "Hidden file: one entry per feature in spine order, with capability, thin marks, ids, exactly one recovery for each Fails if line (25 lines, 25 recoveries); written by /shape-slice (commits 74f10249, 78751e02), nothing in the evals folder written by the plan play (PR-5)."
+  - "Every one of the 25 failure ids of the hidden file still has exactly one recovery with a when, a way back and a who fixes (25 lines, 25 recoveries; the six edits touched no When and no id). PR-5 holds."
+  - "The 19 recoveries that were not edited are unchanged since round 2, so the round-2 checks on PR-1, PR-2, PR-3 and PR-4 still hold: the eval holds no recovery and no handoff plan; no builder-routed recovery names the test that found the failure."
+  - "F17 (fn-798) and F24 (fn-898), which are the same condition, now agree: both go to a person, with the same sentence."
+  - "The Who fixes values are not checked by any eval scenario (grep of the five eval files: 'Who fixes' appears only as text to look for in a story or the plan file), so the six edits need no change in the evals."
 findings:
-  - id: SE-15
-    severity: P3
-    file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-    line: 75
-    also_lines: [91]
-    principle: PR-6 / PR-4
-    source: "plan/788/base failure-and-recovery.md (fn-818 entry: F8 and F11 'Who fixes: a person must decide'; F8 way back 'The person decides if the eval must be made again, because a builder may have read the line'); plan/788/base docs/philosophy/idd-principles.md Routing Table (the builder never receives failure conditions); docs/adr/049-*.md section 4 (a story never holds a failure condition, and the builder reads the story)"
-    message: >
-      F8 (a story or the plan file holds a failure condition or a recovery condition) and F11 (a story holds a
-      failure condition) were 'a person must decide' on the base, because the builder reads the story, so it may
-      already have read the line and a person must say whether the build and the eval still stand. They are now
-      'the builder can fix this alone', and the sentence about the builder having read the line is gone. The
-      same entry keeps F26 (a story names the eval) as 'a person must decide' with 'A person decides if a build
-      that read the story must run again' (line 85), so the two agree for the eval and disagree for the failure
-      condition. Taking the line out of the story is mechanical; knowing what a build that read it may have
-      learned is not. Route both to a person, or add the sentence back to the way back.
-  - id: SE-16
-    severity: P3
-    file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-    line: 87
-    also_lines: [71]
-    principle: PR-6
-    source: "plan/788/base expectation-generation.md handoff rule (mapping to an external entity such as an issue, and an approval, are 'human'); plan/788/base .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md line 21 ('Nothing goes to the tracker before the product owner's yes'); plan/788/base failure-and-recovery.md (F7 and F10 were 'a person must decide')"
-    message: >
-      F10 (the epic or a story has no tracker issue) says the way back is to make one tracker issue 'after the
-      product owner's yes', and still says 'the builder can fix this alone'. A yes from the product owner is an
-      approval the builder does not hold, and a tracker issue is an outward write; both are what the handoff
-      rule sends to a person. F7 (a feature has no story, line 71) has the same cause: its way back writes a
-      story, which is a tracker issue, and the base also had it as a person's job. F9 in the same entry
-      (the tracker copies) is correctly 'a person must decide'. Route F7 and F10 to a person.
-  - id: SE-17
-    severity: P3
-    file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-    line: 177
-    also_lines: [181, 134, 138]
-    principle: PR-6 / PR-7
-    source: "plan/788/base expectation-generation.md handoff rule; ontology.md Q35; the product owner's answer to Q-recovery-1-4 (a fix to the builder may name the hidden file or a check only when the feature builds it); plan/788/base failure-and-recovery.md (F17 was 'a person must decide')"
-    message: >
-      Two things in the fn-898 entry. First, F24 (the eval holds a check that nothing asks for) is the same
-      condition as F17 of fn-798 (line 134), and F17 sends it to a person ('a person decides if that scenario
-      goes') while F24 sends it to the builder alone: one condition, two routes. Second, F24 and F25 go to the
-      builder and name things that fn-898 does not build: F24's 'when' names the eval and the hidden file as
-      what a check must come from, and F25's way back (line 183) tells the builder to 'write the eval again from
-      only the epic, its stories and the hidden file'. fn-898 builds the lint check and the ledger check. The
-      same condition in fn-798 (F18, lines 138-141) is worded without any of these names. Route F24 as F17 is
-      routed, and reword F25 like F18.
-  - id: SE-10
+  - id: SE-21
     severity: P4
     file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
-    line: 52
-    also_lines: [11, 100, 143, 64, 109, 130]
-    principle: PR-5
-    source: "plan/788/base ontology.md (Slice hidden-file row: the feature, its capability, the two ICE and which is thin, ids such as F1)"
+    line: 77
+    also_lines: [93]
+    principle: PR-6 / PR-5
+    source: "plan/788/base failure-and-recovery.md, F8 way back: 'The person decides if the eval must be made again, because a builder may have read the line'; plan/788/base expectation-generation.md 'A feature's recovery (product ICE)' (who fixes follows the handoff rule). Round 2 (SE-15) allowed either route: to a person, or the sentence added back."
     message: >
-      Still open from round 1. The fn-795 entry has the header '- Capability: ... (Shape a slice)' and
-      '- Thin: both ICE ...', and failure lines that start in capitals; the fn-818, fn-798 and fn-898 entries have
-      '- Written from' and two 'Thin ICE' lines, the capability name dropped, and lower-case failure lines. F26,
-      F27 and F19 stand before F10, F14 and F17 in the lists. All the parts the ontology asks for are there;
-      the file has two layouts. This matters a little more now because the eval checks the Fails if lines 'word
-      for word' (eval.fn-795.feature.md 111-117): a play that writes the first letter in capitals in one entry
-      and not in another cannot satisfy that check in both.
-  - id: SE-11
-    severity: P4
-    file: .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
-    line: 1
-    principle: PR-5
-    source: "grounding gap: feature fn-898, its ICE and its story are added by this branch (74f10249, 78751e02); no base page exists"
-    message: >
-      Still open from round 1. The fn-898 eval is checked only against the ICE and the story that this branch
-      adds. Only the builder-isolation core (ontology Q28, Q32; ADR 049 section 4; the Routing Table) is grounded
-      on the base. The lint check over build-play inputs and the ledger flag have no base source.
-  - id: SE-14
-    severity: P4
-    file: .garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md
-    line: 93
-    principle: PR-5
-    source: "plan/788/base docs/adr/052-*.md section 2 ('The plan play writes nothing in the evals folder'); hidden file F12"
-    message: >
-      Still open from round 1. The F12 scenario checks that the evals folder holds 1 file and that the slice file
-      is absent. A play that edits the hidden file in place still passes. Add a step that the hidden file is
-      the same as before, or say in Untestable that the format cannot show it.
-  - id: SE-18
-    severity: P4
-    file: .garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md
-    line: 80
-    principle: PR-3 / PR-2
-    source: "plan/788/base ontology.md Q35 (the running eval writes the handoff plan from the recovery condition) and Q29; the eval runner is a later play (#819), per categories.yaml"
-    message: >
-      F15 moved from 'untestable' to a scenario. The scenario runs 'the command that makes the handoff plan for a
-      failed check of the first failure condition' (eval.sl-intent-to-design.md line 58), which makes the eval
-      report a failed check and write the handoff plan. That is the work of the running eval and its runner, not
-      a small reader of files as the Names section describes a command (line 27). Until #819, nothing behind
-      the name exists, and neither the scenario nor the Context says so. Say it in the Context or in Untestable
-      so that a run that cannot start this command is read as 'not run', never as 'passed'.
-  - id: SE-19
-    severity: P4
-    file: .garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md
-    line: 69
-    principle: PR-1
-    source: "plan/788/base ontology.md Q31 (the usage guide is the eval's way into the product; names must map to one real thing); the folder-count step counts one folder's files (step library, format only)"
-    message: >
-      The name [the slice's evals folder] is defined as two folders: '.garura/project/plans/788/evals/ and the
-      slice's own folder in it'. The scenarios count its files ('holds 1 files', 'holds 4 files') and look for
-      'new files outside' it. Those only make sense for the slice's own folder; for the parent folder the
-      count is 0 files. Define the name as the slice's own folder.
-  - id: SE-20
-    severity: P4
-    file: .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
-    line: 9
-    also_files:
-      - .garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md
-    principle: PR-2
-    source: "plan/788/base ontology.md (Slice: Eval row, every goal and expectation is met; what the eval cannot test it says so); story #898 goal 1 (inputs/story-898.md; the story text is the thing the eval is built from)"
-    message: >
-      Goal 1 says no build play, build skill, build agent or context sub-agent is given the eval, the hidden
-      file or the evals folder. The 'given' part is tested by one lint check that reads the inputs of build
-      plays only (Names line 59). A skill, agent or sub-agent is covered only for what it reads (the ledger
-      scenarios, lines 30-55). The Untestable section says 'None' for #898 apart from F24. Say that 'given to a
-      skill, agent or sub-agent' is covered only through the read check, or add the case.
+      F8 (line 77) and F11 (line 93) now go to a person, which is right. Their way back, though, only tells the
+      person to keep the goals, the limits and the expectations in a story. It no longer says what the person has
+      to decide. The base F8 said it (a builder may have read the line, so a person says if the eval or the build
+      must be made again), and F26 in the same entry still says it (line 85: 'A person decides if a build that
+      read the story must run again'). A person who gets F8 or F11 with no question has the mechanical fix and
+      not the reason it is theirs. Add one sentence to each, as F26 has it. It does not block anything.
 summary:
   P1: 0
   P2: 0
-  P3: 3
-  P4: 6
-  total: 9
-round_1_summary:
-  fixed: 8
-  closed_by_owner_answer_with_remainder: 1
-  not_carried: 1
-  still_open: 3
-  changed: 1
+  P3: 0
+  P4: 7
+  total: 7
+  by_class:
+    fixed_from_round_2: 3
+    still_open_from_round_2: 6
+    new_in_round_3: 1
+round_2_summary:
+  fixed: 3
+  still_open: 6

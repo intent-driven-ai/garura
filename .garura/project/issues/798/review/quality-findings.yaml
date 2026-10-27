@@ -1,15 +1,15 @@
 meta:
-  generated_at: '2026-10-27T01:19:59Z'
+  generated_at: '2026-10-27T03:30:33Z'
   diff_path: '.garura/project/issues/798/context/pr.diff'
   taxonomy_path: '.garura/project/issues/798/context/memory/standards/rules/pr.md'
-  changed_paths_count: 45
+  changed_paths_count: 47
   categories_scanned: [executable-code, tests, documentation, decision-records]
   severity_taxonomy_path: '.garura/project/issues/798/context/memory/standards/rules/pr.md'
-  round: 2
+  round: 3
   scan_coverage: 1.0000
   standards_relevant: 0
   catchall:
-    CODE-20: 40
+    CODE-20: 42
 findings:
   []
 counts:
