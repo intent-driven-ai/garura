@@ -71,11 +71,11 @@ Rule: standards/rules/expectation-generation.md, "A feature's recovery (product 
 - For F7
   - When: After /shape-plan, a feature of the slice has no story in the epic.
   - Way back: Write one story for each feature of the slice, under the epic.
-  - Who fixes: the builder can fix this alone
+  - Who fixes: a person must decide
 - For F8
   - When: A story or the plan file has a line that says how the feature fails, or how to recover.
   - Way back: Keep only the goals, the limits, the expectations and the Context guidance in each story and in the plan file.
-  - Who fixes: the builder can fix this alone
+  - Who fixes: a person must decide
 - For F9
   - When: After a second run of /shape-plan, the tracker has two epics for the slice, or two stories for one feature.
   - Way back: Keep one epic for the slice and one story for each feature. A person closes each copy in the tracker.
@@ -87,11 +87,11 @@ Rule: standards/rules/expectation-generation.md, "A feature's recovery (product 
 - For F10
   - When: The epic or a story has no issue in the tracker, or /shape-plan stops because a domain or model page is missing.
   - Way back: Make one tracker issue for the epic and for each story, after the product owner's yes. When a page is missing, write a light page and go on.
-  - Who fixes: the builder can fix this alone
+  - Who fixes: a person must decide
 - For F11
   - When: A story has a line that says how the feature fails, or one business intent has two plan files.
   - Way back: Keep the goals, the limits, the expectations and the Context guidance in each story, and nothing more. Keep one plan file for each business intent.
-  - Who fixes: the builder can fix this alone
+  - Who fixes: a person must decide
 - For F12
   - When: /shape-plan writes a file other than the plan file, the epic and the stories.
   - Way back: Make /shape-plan write only the plan file, the epic and the stories. Take back each other file it wrote.
@@ -176,9 +176,9 @@ Rule: standards/rules/expectation-generation.md, "A feature's recovery (product 
   - Who fixes: a person must decide
 - For F24
   - When: the eval holds a check that no goal, expectation or failure condition of the business intent's stories and hidden file asks for
-  - Way back: remove that check, so each check of the eval comes from one goal, expectation or failure condition of the intent
-  - Who fixes: the builder can fix this alone
+  - Way back: each check of the eval comes from one goal, expectation or failure condition of the intent. A person decides if that check goes, because a check that is there does not change
+  - Who fixes: a person must decide
 - For F25
   - When: the eval play's run shows that it read an ICE page, the usage guide or the code
-  - Way back: write the eval again from only the epic, its stories and the hidden file
-  - Who fixes: the builder can fix this alone
+  - Way back: the play reads only the pages its limit names, and no ICE page, usage guide or code. This feature does not build that play, so a person decides who fixes it and if its work must be done again
+  - Who fixes: a person must decide
