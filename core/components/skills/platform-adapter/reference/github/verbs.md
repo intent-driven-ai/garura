@@ -28,6 +28,14 @@ List every changed file of a PR with its patch, one JSON object a line, page by 
 gh api repos/{owner}/{repo}/pulls/{pr_number}/files --paginate --jq '.[] | @json'
 ```
 
+## compare-diff
+
+The plain diff between two branches, three-dot (from where `head` left `base`), with no file limit. Use it for a PR whose file list `pr-files` cuts off at 3000 files:
+
+```bash
+gh api repos/{owner}/{repo}/compare/{base}...{head} -H "Accept: application/vnd.github.diff"
+```
+
 ## comment-pr
 
 Post a comment on a PR:

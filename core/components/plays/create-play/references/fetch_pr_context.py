@@ -12,11 +12,14 @@ review playbooks (knowledge/review/*.md) through the memory tool.
         [--pr-number N] --out-context <context.yaml> --out-diff <pr.diff>
 
 When the host refuses the one diff because the PR changes more than 300 files, the diff is
-built from the host's list of the PR's files (`pr-files`), each with its patch; a file the
-host gives no patch for keeps its header and a note.
+read as the compare diff of the PR's base and head branches (`compare-diff`), which has no
+file limit; a diff that large can drop the connection, so the call gets three tries. When
+all three fail, the diff is built from the host's list of the PR's files
+(`pr-files`, at most 3000), each with its patch; a file the host gives no patch for keeps
+its header and a note.
 
 context.yaml records: standards_order, changed_paths,
-changed_files_reported, base, diff_source (diff-pr or pr-files). changed_paths comes from the diff text: one path
+changed_files_reported, base, diff_source (diff-pr, compare-diff or pr-files). changed_paths comes from the diff text: one path
 for each `diff --git` header, so a PR of any size gives every path.
 changed_files_reported is the count the host gives (null when it gives none).
 Exit 0 on success, 1 on a fetch failure, 3 when the host's count and the count
@@ -91,6 +94,7 @@ def paths_from_diff(diff_text):
 
 
 TOO_MANY_FILES = ("exceeded the maximum number of files", "too_large")
+COMPARE_TRIES = 3
 
 
 def _side(prefix, path):
@@ -153,17 +157,29 @@ def main(argv=None):
         sys.exit(1)
     data = json.loads(meta["stdout"])
     base = data.get("baseRefName", "main")
+    head = data.get("headRefName")
     changed_files_reported = reported_count(data)
 
     diff = pa.dispatch("diff-pr", {"pr_number": pr}, config_path=ns.config)
     source = "diff-pr"
     if diff["exit_code"] != 0 and any(s in diff["stderr"] for s in TOO_MANY_FILES):
-        # the host gives one diff for at most 300 files; list the files with their patches
-        files = pa.dispatch("pr-files", {"pr_number": pr}, config_path=ns.config)
-        if files["exit_code"] != 0:
-            sys.stderr.write(f"fetch_pr_context.py: pr-files failed: {files['stderr']}\n")
-            sys.exit(1)
-        diff, source = {"exit_code": 0, "stdout": diff_from_files(files["stdout"])}, "pr-files"
+        # the host gives one diff for at most 300 files; the compare diff of the two
+        # branches has no file limit, and the file list (at most 3000) is the second try
+        # a diff this large can drop the connection part way, so the call gets three tries
+        compared = {"exit_code": 1}
+        for _ in range(COMPARE_TRIES if head else 0):
+            compared = pa.dispatch("compare-diff", {"base": base, "head": head},
+                                   config_path=ns.config)
+            if compared["exit_code"] == 0:
+                break
+        if compared["exit_code"] == 0:
+            diff, source = compared, "compare-diff"
+        else:
+            files = pa.dispatch("pr-files", {"pr_number": pr}, config_path=ns.config)
+            if files["exit_code"] != 0:
+                sys.stderr.write(f"fetch_pr_context.py: pr-files failed: {files['stderr']}\n")
+                sys.exit(1)
+            diff, source = {"exit_code": 0, "stdout": diff_from_files(files["stdout"])}, "pr-files"
     if diff["exit_code"] != 0:
         sys.stderr.write(f"fetch_pr_context.py: diff-pr failed: {diff['stderr']}\n")
         sys.exit(1)

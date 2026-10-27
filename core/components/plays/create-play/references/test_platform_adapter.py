@@ -81,6 +81,10 @@ def test_github_argv():
     check("pr-files lists every file of the PR through the api, page by page",
           pa._gh("pr-files", {"pr_number": 900}, repo)
           == [["gh", "api", "repos/o/n/pulls/900/files", "--paginate", "--jq", ".[] | @json"]])
+    check("compare-diff asks the compare api for the plain diff of the two branches",
+          pa._gh("compare-diff", {"base": "main", "head": "plan/788/base"}, repo)
+          == [["gh", "api", "repos/o/n/compare/main...plan/788/base",
+               "-H", "Accept: application/vnd.github.diff"]])
     check("update-comment uses repo api path",
           pa._gh("update-comment", {"comment_id": 9, "body": "x"}, repo)[0][2]
           == "repos/o/n/issues/comments/9")
@@ -161,7 +165,7 @@ def test_unknown_verb():
         check("unknown verb raises", False)
     except KeyError:
         check("unknown verb raises", True)
-    check("VERBS has exactly 22", len(pa.VERBS) == 22)
+    check("VERBS has exactly 23", len(pa.VERBS) == 23)
 
 
 def _fake(replies):
@@ -221,6 +225,10 @@ def test_github_only_verbs():
             res = pa.dispatch(verb, {}, platform="gitlab")
             check(f"gitlab: {verb} stops with a plain message and runs nothing",
                   res["exit_code"] == 2 and calls == [] and "GitHub only" in res["stderr"])
+        calls, pa._run = _fake([])
+        res = pa.dispatch("compare-diff", {"base": "main", "head": "x"}, platform="gitlab")
+        check("gitlab: compare-diff stops with a plain message and runs nothing",
+              res["exit_code"] == 2 and calls == [] and "GitHub only" in res["stderr"])
     finally:
         pa._run, pa.resolve_repo = real_run, real_repo
 

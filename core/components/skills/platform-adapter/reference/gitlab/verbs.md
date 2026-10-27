@@ -32,6 +32,10 @@ List every changed file of an MR with its diff, page by page:
 glab api projects/{project}/merge_requests/{pr_number}/diffs --paginate
 ```
 
+## compare-diff
+
+Not on GitLab: its compare call gives the diffs as JSON, not one plain diff. The adapter stops with exit code 2 and runs nothing; a caller falls back to `pr-files`.
+
 ## comment-pr
 
 Post a comment (note) on an MR:
