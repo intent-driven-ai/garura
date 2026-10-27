@@ -271,6 +271,18 @@ tree:
     kind: bug
     title: "Run records carry the person's home-folder paths, so every change publishes their user name and disk layout"
     status: later
+  - issue: 888
+    kind: bug
+    title: 'The change plays push with no scan for client, company or personal references'
+    status: later
+  - issue: 889
+    kind: bug
+    title: '/check-change halts on a PR with more than 300 files'
+    status: later
+  - issue: 890
+    kind: bug
+    title: "The review's path table treats scripts in plays and skills as prose, so code rules never check them"
+    status: later
 - issue: 833
   kind: chore
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
