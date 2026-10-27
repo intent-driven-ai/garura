@@ -193,6 +193,26 @@ def test_rerun_same_result():
               names == [(0, "Old", []), (0, "Old", [])])
         check("re-run: neither run writes a history line",
               "edits" not in load(os.path.join(root, "slices", "sl-old.yaml")))
+        before = snapshot(root)
+        bad_copies = {"a list": "- one\n- two\n", "a word": "spine\n", "a number": "5\n",
+                      "slices not a list": "slices: 5\n",
+                      "intents not a list": "slices:\n- id: sl-old\n  intents: 5\n"}
+        for label, text in bad_copies.items():
+            bad = os.path.join(tmp, "bad-start.yaml")
+            with open(bad, "w", encoding="utf-8") as fh:
+                fh.write(text)
+            code, out, err = run(root, sp, shaped, "--reuse", "sl-old", "--spine-at-start", bad,
+                                 "--at", "2026-10-27")
+            check(f"start copy that is {label}: refused cleanly (exit 2, a reason), nothing written",
+                  code == 2 and out.get("ok") is False and "not a spine" in out.get("refused", "")
+                  and "Traceback" not in err and snapshot(root) == before)
+        bad = os.path.join(tmp, "bad-start.yaml")
+        with open(bad, "wb") as fh:
+            fh.write(b"slices: [\xff\xfe]\n")
+        code, out, err = run(root, sp, shaped, "--reuse", "sl-old", "--spine-at-start", bad,
+                             "--at", "2026-10-27")
+        check("start copy that is not text: refused cleanly (exit 2, a reason), nothing written",
+              code == 2 and out.get("ok") is False and "Traceback" not in err and snapshot(root) == before)
 
 
 def test_atomic():

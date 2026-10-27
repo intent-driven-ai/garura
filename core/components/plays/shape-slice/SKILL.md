@@ -137,13 +137,15 @@ change issue are two issues. After Step 0, with `<issue>` = the change issue:
 python3 scripts/session_stamp.py --phase start \
     --marker "{stm_base}<issue>/status/session-stamp-shape-slice.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
-git rev-parse HEAD > {stm_base}<issue>/context/shape-slice/start-sha.txt
-cp <model>/_spine.yaml {stm_base}<issue>/context/shape-slice/spine-at-start.yaml
+W={stm_base}<issue>/context/shape-slice
+test -f $W/start-sha.txt || git rev-parse HEAD > $W/start-sha.txt
+test -f $W/spine-at-start.yaml || cp <product_base>product-os/_spine.yaml $W/spine-at-start.yaml
 ```
 
-`spine-at-start.yaml` is the spine as the run found it; a resume keeps it as it is. Step 8 reads
-from it whether the intent is new to a kept slice, so a step run twice gives the same result
-(C7).
+`start-sha.txt` and `spine-at-start.yaml` are written once, by the run's first pre-flight: a
+resume finds them and keeps them as they are, because pre-flight runs again on a resume.
+`spine-at-start.yaml` is the spine as the run found it; Step 8 reads from it whether the intent
+is new to a kept slice, so a step run twice, or after a resume, gives the same result (C7).
 
 Names used below: `<intent>` = `bi-<intent-issue>` (the business intent's id),
 `<model>` = `<product_base>product-os`, `<plans>` = `.garura/project/plans`,

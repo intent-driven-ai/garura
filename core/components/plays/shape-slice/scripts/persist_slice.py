@@ -287,6 +287,17 @@ def new_since_start(start_spine, sid, intents):
     return list(dict.fromkeys(intents))
 
 
+def check_start_copy(start, path):
+    """The start copy is a spine: a mapping whose `slices` is a list of mappings, each with a list
+    of `intents` when it has any. Anything else is refused, not read."""
+    slices = start.get("slices") if isinstance(start, dict) else None
+    if not isinstance(start, dict) or not isinstance(slices if slices is not None else [], list) \
+            or any(not isinstance(x, dict) or not isinstance(x.get("intents") or [], list)
+                   for x in slices or []):
+        raise Refused(f"--spine-at-start {path} is not a spine (a mapping whose slices are a list, "
+                      "each slice's intents a list): copy the spine again at the run's start")
+
+
 def check_date(at):
     """--at is a real calendar date, YYYY-MM-DD."""
     try:
@@ -529,12 +540,13 @@ def main(argv=None):
         if args.spine_at_start:
             with open(args.spine_at_start, encoding="utf-8") as fh:
                 start_spine = yaml.safe_load(fh) or {}
+            check_start_copy(start_spine, args.spine_at_start)
         p = plan(spine, sl, surface, args.root, args.reuse, args.pull_in, args.push_out, args.at,
                  start_spine)
     except Refused as exc:
         sys.stderr.write(f"persist_slice.py: not written — {exc}\n")
         return finish({"ok": False, "refused": str(exc)}, 2)
-    except (OSError, yaml.YAMLError, json.JSONDecodeError) as exc:
+    except (OSError, UnicodeDecodeError, yaml.YAMLError, json.JSONDecodeError) as exc:
         sys.stderr.write(f"persist_slice.py: cannot read an input: {exc}\n")
         return finish({"ok": False, "refused": f"cannot read an input: {exc}"}, 2)
 
