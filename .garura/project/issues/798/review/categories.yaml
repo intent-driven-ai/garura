@@ -1,15 +1,15 @@
 pr: '900'
 change: '798'
-round: 6
+round: 7
 base: plan/788/base
-changed_files: 554
+changed_files: 565
 diff_source: pr-files
-compared_with: .garura/project/issues/798/review/round-5/categories.yaml
-note: 'Round 6. Every path re-assigned from this diff (554 paths; each in exactly one category). Same ten categories as round 5, no category added or dropped. The review shelf (7 playbooks plus _index)
+compared_with: .garura/project/issues/798/review/round-6/categories.yaml
+note: 'Round 7. Every path re-assigned from this diff (565 paths; each in exactly one category). Same ten categories as round 6, no category added or dropped. The review shelf (7 playbooks plus _index)
   and the PR severity taxonomy were re-read from the phoenix tier (v23387be24c0d) through the memory tool and copied to short-term memory (manifest .garura/project/issues/798/context/memory/manifest.json);
-  the version is the same as round 5, so each treatment is unchanged. Since round 5 the only authored change is one commit (32104cbe) to the /shape-slice play: harness (SKILL.md, reference/ice.md), executable-code
-  (persist_slice.py, edit_slice.py) and tests (test_persist_slice.py, test_edit_slice.py) have new content; every other authored category has the same content as round 5 (git diff ca37fdfe..HEAD is empty
-  outside these six files and run records). New paths in the diff (11) are all round-4 run records.'
+  the version and every fingerprint are the same as round 6, so each treatment is unchanged. Since round 6 the only authored change is one commit (66ad0156) to the /shape-slice play: harness (SKILL.md only;
+  reference/ice.md is unchanged), executable-code (persist_slice.py) and tests (test_persist_slice.py) have new content; git diff 32104cbe..HEAD is empty for core/ and docs/ outside these three files. The
+  11 new paths in the diff are the round-5 review records (review/round-5/*), all run records.'
 playbook_source:
   tier: phoenix
   version: 23387be24c0d
@@ -28,7 +28,7 @@ design_bearing_categories:
 - memory
 - product-model
 - slice-evals
-categories_changed_since_round_5:
+categories_changed_since_round_6:
 - harness
 - executable-code
 - tests
@@ -57,8 +57,8 @@ categories:
     - 'by hand: 057 and 058 are in docs/adr/_index.md; 049 Status line links to 057 and 057 Amends names the same places; the required sections are present in 057 and 058; 058 Affects names files that exist
       on the branch (edit_slice.py, render_brief.py, record_questions.py, author-slice) and says what it does not supersede'
     design_grounding: no - the human owns whether the decision is right
-  new_paths_since_round_5: []
-  content_changed_since_round_5: []
+  new_paths_since_round_6: []
+  content_changed_since_round_6: []
 - id: documentation
   playbook: review/docs
   design_bearing: false
@@ -85,8 +85,8 @@ categories:
     design_grounding: 'no'
     note: docs/philosophy/idd-principles.md is a philosophy source the harness review grounds from; this branch edits it, so its new lines are not grounding for the harness category (use git show of the
       base version).
-  new_paths_since_round_5: []
-  content_changed_since_round_5: []
+  new_paths_since_round_6: []
+  content_changed_since_round_6: []
 - id: harness
   playbook: review/harness
   design_bearing: true
@@ -113,7 +113,8 @@ categories:
     kept slice''s text shows old and new, keeps a history line and names the epic as out of date; new S12/SCE-12 and step eval SE-29. Round 6 (commit 32104cbe, the only authored change since round 5): shape-slice/SKILL.md
     gains the pre-flight copy of the spine (spine-at-start.yaml), the --spine-at-start argument on the Step 8 persist command, the YYYY-MM-DD form for --at (persist and edit commands), the Step 8 expectation
     that ''replaced'' names a part only when the slice already listed the run''s intent in spine-at-start.yaml, and a new ice.md fingerprint; reference/ice.md C7 is reworded (an intent the slice ''already
-    served when the run started'', ''a real date'').'
+    served when the run started'', ''a real date''). Round 7 (commit 66ad0156, the only authored change since round 6): shape-slice/SKILL.md pre-flight now writes start-sha.txt and spine-at-start.yaml only
+    when absent (test -f ... ||), reads the spine from <product_base>product-os/_spine.yaml, and says a resume keeps both copies as they are; reference/ice.md is unchanged this round.'
   treatment:
     reviewer: human (design) + tool (conformance)
     layers:
@@ -165,14 +166,16 @@ categories:
       pre-flight, --spine-at-start, YYYY-MM-DD) and that the recorded ice.md fingerprint in SKILL.md matches the file (sha256:108b2a8d...)'
     - lint_play is also run for plays whose only change is scripts (check-change, create-play, discover-domains, discover-intent, install-garura, merge-change, propose-change, shape-plan) for completeness;
       their SKILL.md did not change
+    - 'round 7: shape-slice/SKILL.md changed with reference/ice.md untouched - judge from the base-ref ICE and the play''s ICE-source rule whether the pre-flight change (write-once start copies on a resume)
+      is a non-intent edit or an intent change to C7 (a step run twice, or after a resume, gives the same result); if it carries the C7 guarantee it must trace to ice.md, not to a hand edit. Confirm the
+      recorded ice.md fingerprint in SKILL.md still matches the unchanged file.'
     design_grounding: 'yes - reconstruct from base-ref committed sources only: docs/philosophy/** (idd-principles.md is edited here: read the base version with git show plan/788/base:...), docs/adr/** on
       the base ref (047, 048, 049, 052, 054 - NOT 057 or 058, which this branch adds), standards/rules/** through the memory tool, the glossary. Never ground from shape-eval/reference/ice.md, shape-slice/reference/ice.md
       as rewritten, ADR 057, ADR 058 or the edit-design notes.'
     grounding_gap: 'ADR 057, ADR 058 and the idd-principles.md edits are in the diff: they cannot ground the harness check'
-  new_paths_since_round_5: []
-  content_changed_since_round_5:
+  new_paths_since_round_6: []
+  content_changed_since_round_6:
   - core/components/plays/shape-slice/SKILL.md
-  - core/components/plays/shape-slice/reference/ice.md
 - id: memory
   playbook: review/memory
   design_bearing: true
@@ -209,8 +212,8 @@ categories:
     design_grounding: yes - from base-ref knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read through the memory tool; never from the new template text or
       ADR 057
     grounding_gap: 'the eval templates, schema and eval-format rule are new in this branch: only the base-ref index/design conventions can ground them'
-  new_paths_since_round_5: []
-  content_changed_since_round_5: []
+  new_paths_since_round_6: []
+  content_changed_since_round_6: []
 - id: executable-code
   playbook: review/code
   design_bearing: false
@@ -252,7 +255,9 @@ categories:
     write_hidden_file and, new since round 3, edit_slice.py), fetch_pr_context.py and platform_adapter.py copies across plays, install.py, and the stamped intent_touches.py copies. Round 5: persist_slice.py
     (new --at argument, ''replaced'' and ''out_of_date'' output; history line in the slice record''s edits) and render_brief.py changed. Round 6 (commit 32104cbe): persist_slice.py gains --spine-at-start
     (reads whether the intent is new from the spine as the run found it), check_date (--at must be a real YYYY-MM-DD date), and refuses a run that would take new text without a start copy; edit_slice.py
-    gains check_date on apply. Both write to the product-model slice record, so the data-safety review applies.'
+    gains check_date on apply. Both write to the product-model slice record, so the data-safety review applies. Round 7 (commit 66ad0156): persist_slice.py gains check_start_copy (a start copy that is not
+    a spine - not a mapping, slices not a list, an intents entry not a list - is refused with a reason, not read) and catches UnicodeDecodeError as a cannot-read-an-input refusal. Still writes the product-model
+    slice record, so the data-safety review applies.'
   treatment:
     reviewer: the tool, against industry best practice
     layers:
@@ -286,11 +291,12 @@ categories:
       python3 core/components/plays/create-play/references/test_fetch_pr_context.py (unchanged, covers the fetch_pr_context.py copy); python3 core/components/plays/install-garura/scripts/test_install.py
       (unchanged, covers install.py)'
     - the intent_touches.py and platform_adapter.py copies are covered by the create-play reference tests (they check the copies are identical)
+    - 'round 7: persist_slice.py check_start_copy and the UnicodeDecodeError catch - check that a start copy that is not a spine (a list, a word, a number, slices not a list, intents not a list) or not
+      text is refused with exit 2, a reason and nothing written; that the refusal comes before any write; and that a valid start copy behaves as round 6 decided'
     design_grounding: 'no'
-  new_paths_since_round_5: []
-  content_changed_since_round_5:
+  new_paths_since_round_6: []
+  content_changed_since_round_6:
   - core/components/plays/shape-slice/scripts/persist_slice.py
-  - core/components/plays/shape-slice/scripts/edit_slice.py
 - id: tests
   playbook: review/tests
   design_bearing: false
@@ -306,7 +312,8 @@ categories:
   - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
   evidence: '9 python test files: shape-eval test_shape_eval_scripts.py (new), check-change test_fetch_pr_context.py (new), shape-slice test_persist_slice.py, test_render_brief.py, test_shape_slice_scripts.py,
     test_write_hidden_file.py and, new since round 3, test_edit_slice.py, and create-play/references test_intent_touches.py and test_platform_adapter.py (changed). Round 5: test_persist_slice.py and test_render_brief.py
-    gained cases for the replaced / out_of_date output. Round 6: test_persist_slice.py gains cases for --spine-at-start and the date check; test_edit_slice.py gains a case for the date check.'
+    gained cases for the replaced / out_of_date output. Round 6: test_persist_slice.py gains cases for --spine-at-start and the date check; test_edit_slice.py gains a case for the date check. Round 7: test_persist_slice.py
+    gains cases for five malformed start copies (a list, a word, a number, slices not a list, intents not a list) and one that is not text; each must exit 2 with a reason, no traceback and nothing written.'
   treatment:
     reviewer: the tool
     layers:
@@ -333,10 +340,9 @@ categories:
     - python3 core/components/plays/create-play/references/test_fetch_pr_context.py  (unchanged; covers the changed fetch_pr_context.py copy)
     - python3 core/components/plays/install-garura/scripts/test_install.py  (unchanged; covers the changed install.py)
     run_policy: run each; a red suite is a blocker. Check for skipped or disabled tests and tests that assert nothing. Slice-evals have no suite yet.
-  new_paths_since_round_5: []
-  content_changed_since_round_5:
+  new_paths_since_round_6: []
+  content_changed_since_round_6:
   - core/components/plays/shape-slice/scripts/test_persist_slice.py
-  - core/components/plays/shape-slice/scripts/test_edit_slice.py
 - id: product-model
   playbook: null
   design_bearing: true
@@ -363,8 +369,8 @@ categories:
     note: 'treatment withheld: no playbook'
   playbook_missing: 'No playbook in knowledge/review/ covers the product model (.garura/product/product-os: spine, slice, intent, capability, feature, domain pages). Not forced onto docs or memory. Follow-up:
     write a review/product-model playbook.'
-  new_paths_since_round_5: []
-  content_changed_since_round_5: []
+  new_paths_since_round_6: []
+  content_changed_since_round_6: []
 - id: slice-evals
   playbook: null
   design_bearing: true
@@ -386,8 +392,8 @@ categories:
     note: 'treatment withheld: no playbook'
   playbook_missing: 'No playbook covers a slice eval (plain-text Gherkin yardsticks under .garura/project/plans/<id>/evals/). Closest is review/tests but these are not run by a suite yet: the eval runner
     is a later play (#819). Follow-up: write a review/slice-evals playbook.'
-  new_paths_since_round_5: []
-  content_changed_since_round_5: []
+  new_paths_since_round_6: []
+  content_changed_since_round_6: []
 - id: work-plan-record
   playbook: null
   design_bearing: false
@@ -402,8 +408,8 @@ categories:
     - 'no playbook treatment; suggested: the YAML parses and every issue in the tree is on the product model (fn-898 -> issue 898)'
     note: 'treatment withheld: no playbook'
   playbook_missing: 'No playbook covers the plan file (.garura/project/plans/788.yaml): a work-tracking record. Follow-up: cover it in a work-records playbook.'
-  new_paths_since_round_5: []
-  content_changed_since_round_5: []
+  new_paths_since_round_6: []
+  content_changed_since_round_6: []
 - id: run-records
   playbook: null
   design_bearing: false
@@ -775,6 +781,17 @@ categories:
   - .garura/project/issues/798/review/round-4/posted.json
   - .garura/project/issues/798/review/round-4/quality-findings.yaml
   - .garura/project/issues/798/review/round-4/recommended_verdict.yaml
+  - .garura/project/issues/798/review/round-5/categories.yaml
+  - .garura/project/issues/798/review/round-5/decision-comment.md
+  - .garura/project/issues/798/review/round-5/decision.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-harness.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-memory.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-product-model.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-slice-evals.yaml
+  - .garura/project/issues/798/review/round-5/findings.yaml
+  - .garura/project/issues/798/review/round-5/posted.json
+  - .garura/project/issues/798/review/round-5/quality-findings.yaml
+  - .garura/project/issues/798/review/round-5/recommended_verdict.yaml
   - .garura/project/issues/908/context/analysis-round2.yaml
   - .garura/project/issues/908/context/analysis-round3.yaml
   - .garura/project/issues/908/context/analysis.yaml
@@ -869,10 +886,10 @@ categories:
   - .garura/project/issues/_adr/20261027T053132Z/porcelain-after.txt
   - .garura/project/issues/_adr/20261027T053132Z/porcelain-before.txt
   - .garura/project/issues/_adr/20261027T053132Z/run.json
-  evidence: '461 paths under .garura/: run and review records of the shape-slice, shape-plan, shape-eval, record-decision, check-change, commit-change and propose-change runs for #798 and #908 (the edit
-    option, merged in as PR #911), the short-term memory copies (context/memory/**), this review''s pr.diff and context.yaml and the previous rounds'' records (issues/798/review/round-1..5, mirrored in
-    context/), the ADR run folders, and .garura/install-manifest.json. All are produced by plays; none is authored design. Round 6 adds the 11 round-4 review records (review/round-4/*) as new paths and
-    changes the content of the run records of the round-5 check/commit/propose runs; no authored design.'
+  evidence: '472 paths under .garura/: run and review records of the shape-slice, shape-plan, shape-eval, record-decision, check-change, commit-change and propose-change runs for #798 and #908, the short-term
+    memory copies (context/memory/**), this review''s pr.diff and context.yaml and the previous rounds'' records (issues/798/review/round-1..5, mirrored in context/), the ADR run folders, and .garura/install-manifest.json.
+    All are produced by plays; none is authored design. Round 7 adds the 11 round-5 review records (review/round-5/*) as new paths and changes the content of the run records of the round-6 check/commit/propose
+    runs; no authored design. Round 6''s own records sit in review/round-6/ locally and are not yet in the PR file list.'
   treatment:
     reviewer: unspecified by a playbook
     layers: []
@@ -883,23 +900,18 @@ categories:
   playbook_missing: 'No playbook covers play run artifacts, review records and install records (STM files of the shape-slice, shape-plan, shape-eval, record-decision and check-change runs for #798, short-term
     memory copies, the pr.diff and context.yaml of this very review, the round-1 review records, and .garura/install-manifest.json). Generated evidence, not authored design. Follow-up: add a review/run-records
     playbook (what to scan: secrets, personal data, stale paths).'
-  new_paths_since_round_5:
-  - .garura/project/issues/798/review/round-4/categories.yaml
-  - .garura/project/issues/798/review/round-4/decision-comment.md
-  - .garura/project/issues/798/review/round-4/decision.yaml
-  - .garura/project/issues/798/review/round-4/design-findings-harness.yaml
-  - .garura/project/issues/798/review/round-4/design-findings-memory.yaml
-  - .garura/project/issues/798/review/round-4/design-findings-product-model.yaml
-  - .garura/project/issues/798/review/round-4/design-findings-slice-evals.yaml
-  - .garura/project/issues/798/review/round-4/findings.yaml
-  - .garura/project/issues/798/review/round-4/posted.json
-  - .garura/project/issues/798/review/round-4/quality-findings.yaml
-  - .garura/project/issues/798/review/round-4/recommended_verdict.yaml
-  content_changed_since_round_5:
-  - run records under .garura/project/issues/798/ (context/*, review/*, status and run folders) re-written by the round-5 and round-6 runs; .garura/project/issues/798/context/memory/** refreshed by this
+  new_paths_since_round_6:
+  - .garura/project/issues/798/review/round-5/categories.yaml
+  - .garura/project/issues/798/review/round-5/decision-comment.md
+  - .garura/project/issues/798/review/round-5/decision.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-harness.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-memory.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-product-model.yaml
+  - .garura/project/issues/798/review/round-5/design-findings-slice-evals.yaml
+  - .garura/project/issues/798/review/round-5/findings.yaml
+  - .garura/project/issues/798/review/round-5/posted.json
+  - .garura/project/issues/798/review/round-5/quality-findings.yaml
+  - .garura/project/issues/798/review/round-5/recommended_verdict.yaml
+  content_changed_since_round_6:
+  - run records under .garura/project/issues/798/ (context/*, review/*, status and run folders) re-written by the round-6 and round-7 runs; .garura/project/issues/798/context/memory/** refreshed by this
     assessment
-playbooks_missing:
-- product-model
-- slice-evals
-- work-plan-record
-- run-records

@@ -1,10 +1,9 @@
-decision: reject
+decision: approve
 decided_by: human
-reply: "fix 1 and 2"
-round: 6
-blocking:
-  - DF-H-15 (P3) — a resume can overwrite the start copy of the spine, which brings back the twice-run overwrite
-  - Q6-1 (P3) — a malformed start copy crashes the slice writer instead of refusing cleanly
+reply: "approve"
+round: 7
+blocking: []
 logged_not_fixed:
-  - Q6-2, Q6-3, Q6-4, DF-H-16 (P4) — kept in this record, not fixed in this change
-  - the thirteen P4s carried from earlier rounds
+  - DF-H-17 (P3) — a fresh run after a stop on the same change issue reuses the old start copies; an empty start-sha.txt left by a failed command is also kept. Kept in this record, to fix on main.
+  - R7-1 (P4) — an empty, zero or false start copy is accepted instead of refused (safe outcome). Kept in this record.
+  - the P4s carried from earlier rounds

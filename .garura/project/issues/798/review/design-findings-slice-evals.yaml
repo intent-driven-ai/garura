@@ -1,7 +1,12 @@
 category: slice-evals
-round: 6
+round: 7
 status: carried
-carried_from_round: 5
+carried_from_round: 6
+round_7_check: >
+  Round 7 carry-forward, nothing re-grounded and nothing new. Confirmed with git that the files of this category are unchanged since the round 6 head (32104cbe):
+  git diff --stat 32104cbe HEAD over core/components/memory, .garura/product/product-os and .garura/project/plans/788/evals is empty.
+  The findings below are round 6's, carried as they were (round 5's before that), at the severity they already had.
+new_findings_round_7: none
 round_6_check: >
   Round 6 carry-forward, nothing re-grounded and nothing new. Confirmed with git that the files of this category are unchanged since the round 5 head (ca37fdfe):
   git diff --stat ca37fdfe HEAD over core/components/memory, .garura/product/product-os and .garura/project/plans/788/evals is empty (and git status over the same paths is clean).

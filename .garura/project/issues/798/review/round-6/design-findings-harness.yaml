@@ -1,0 +1,55 @@
+# Layer 2 design-grounding, category harness, PR #900, round 6 (change #798).
+# Grounded only in committed sources: plan/788/base docs/standards/harness-standard.md, CLAUDE.md,
+# plan/788/base shape-slice SKILL.md and ICE, and the severity taxonomy (context/memory/standards/rules/pr.md).
+# Nothing new copied to memory this round (grounding-harness/manifest.json is unchanged).
+# Known and not raised again: DF-H-12, DF-H-13, DF-H-14 (P4), the older carried P4s.
+# Scope: only the commit 32104cbe (the fix for Q5-1, Q5-2, Q5-3) to /shape-slice.
+pr: '900'
+issue: 798
+round: 6
+base: plan/788/base
+category: harness
+grounding:
+  - principle: "A change to what a play guarantees is made in its ICE and the play is compiled again; the compiled play records the fingerprint of its ICE (harness-standard principle 4)."
+    source: "git show plan/788/base:docs/standards/harness-standard.md, principle 4; CLAUDE.md 'Play Pipeline Rules'"
+  - principle: "Mechanical work is a script, judgment is a model; agents only gather context; skills do the work (harness-standard principles 2 and 3; CLAUDE.md 'Agents hold the role of Context Crafting')."
+    source: "git show plan/788/base:docs/standards/harness-standard.md principles 2 and 3"
+  - principle: "Installed parts name only installed files and carry no edit notes."
+    source: "git show plan/788/base:docs/standards/harness-standard.md principle 11; CLAUDE.md 'Source of Truth' and 'Play Pipeline Rules'"
+  - principle: "A play that is run again after a stop resumes: completed steps are skipped and the in-progress step restarts. The base play already took start-sha.txt once, in pre-flight, and its stop and change checks read it as the state of the run's start."
+    source: "git show plan/788/base:core/components/plays/shape-slice/SKILL.md (Pre-flight block with start-sha.txt, 'Resume check', SE-15)"
+  - principle: "The ICE carries the guarantees as constraints (C), failure conditions (F) and scenarios (S); the compiled evals (SE, SCE) are written from them."
+    source: "git show plan/788/base:core/components/plays/shape-slice/reference/ice.md (F7, S12); harness-standard principle 4"
+  - principle: "Severity buckets: P2 major (error-handling violations), P3 minor (missing docs, naming), P4 nit."
+    source: "context/memory/standards/rules/pr.md lines 8-11"
+verdict_on_commit:
+  harness_side: sound, with one gap (DF-H-15)
+  checks_of_the_commit:
+    fingerprint: "ok. shasum -a 256 core/components/plays/shape-slice/reference/ice.md = 108b2a8dc4375f71da791ce2a44d44f14813a4e7dff8b43ea66af93e57702059, the value in SKILL.md Compilation Metadata (line 1144)."
+    every_intent_change_traces_to_ice: "ok for the rule. The new text in SKILL.md (the Pre-flight paragraph, the SE-29 sentence, the Step 8 command) comes from the new C7 words 'already served when the run started (the same input gives the same result however often a step runs)' and 'a real date'. The ICE has no failure condition or scenario that tests these two new words (DF-H-16, P4)."
+    agent_gathers_skill_works_scripts_mechanical: "ok. No agent contract or skill changed. The copy of the spine is a plain cp by the play; the choice of what is new and the date check are in the scripts (persist_slice.py new_since_start and check_date, edit_slice.py check_date)."
+    plain_words: "ok. 'the spine as the run found it', 'a step run twice gives the same result', and the refusal message 'give it as YYYY-MM-DD' are plain."
+    installed_paths_only: "ok. The new text names only scripts of the play and files in the run's own working folder."
+    no_edit_notes: "ok. 'so a step run twice gives the same result (C7)' says why the file exists, not what changed. The only history text is compiled_by, which earlier changes already used."
+    no_write_before_yes: "ok. check_date runs before any file is read or written in edit_slice.py apply and in persist_slice.py main; a bad date writes nothing. spine-at-start.yaml is a copy in the run's working folder, not in the model or the plans."
+    spine_at_start_taken_before_any_write: "ok for a first run: the cp sits in Pre-flight after Step 0, before Step 1, and the clean-model-tree check makes the spine the one the run found."
+    spine_at_start_kept_on_resume: "NOT ok: the command is unguarded (DF-H-15)."
+findings:
+  - id: DF-H-15
+    severity: P3
+    category: harness
+    title: The copy of the starting spine is run again on every resume, so a resume can overwrite it and bring back the bug it was added to fix
+    where: core/components/plays/shape-slice/SKILL.md, Pre-flight, the command block line "cp <model>/_spine.yaml {stm_base}<issue>/context/shape-slice/spine-at-start.yaml" (line 141) and the sentence under it, "a resume keeps it as it is" (line 144)
+    basis: "Harness-standard principle 4 and the base play's own pattern: pre-flight runs before the Resume check, which says only that completed steps are skipped (base SKILL.md Pre-flight and 'Resume check'). A pre-flight command that is not guarded is run again on a resume. The sentence says the right thing but nothing in the steps makes it true. pr.md P3: the rule is stated but not made to hold in the steps (documentation/behaviour gap); the write stays behind the person's yes and is restored on a change or a stop, so not P2."
+    problem: "The cp has no guard. After a stop in or after Step 8 (for example at Step 9), a resume runs the Pre-flight block again, and the cp copies the spine as it is now, with the intent already on the kept slice, over spine-at-start.yaml. Step 8 then runs again, reads the intent as already served at the start, and takes the new name, outcome and tester's action over the text the first run kept. This is Q5-1 again, reached through a resume instead of a plain second run. The same unguarded pattern gives start-sha.txt the same fault (not new in this commit). Also, <model> is used in the block before the 'Names used below' line defines it."
+    leads_to: "A resumed run can rewrite a kept slice's words and add a second history line that the first run did not need, and the brief then shows a change that is not a change from the person's point of view. The person's yes still gates it, and a change or stop restores the record, so nothing is lost for good; the sameness-on-repeat that C7 now promises does not hold for a resumed run."
+    fix: "Make the copy conditional in the Pre-flight text: copy only when spine-at-start.yaml does not exist (for example `test -f ... || cp ...`), and say it in the step, not only in the sentence under it. Use `<product_base>product-os/_spine.yaml` in the command, or move the 'Names used below' line above the block. Do the same for start-sha.txt when this is edited. This is a non-intent edit of SKILL.md."
+  - id: DF-H-16
+    severity: P4
+    category: harness
+    title: The two guarantees C7 gained (a repeated step gives the same result; the history date is a real date) have no failure condition or scenario in the ICE
+    where: core/components/plays/shape-slice/reference/ice.md C7 (lines 46-52), F7 (lines 172-177), S12 (lines 296-301); SKILL.md SE-29
+    basis: "Harness-standard principle 4: the Expectation (failure conditions and scenarios) is what the evals are compiled from. The base ICE carried each C7 guarantee in F7 and S12. pr.md P4 (style-only nit); the guarantees are in C7 and the scripts refuse the bad cases, so the play is not unsafe."
+    problem: "F7 still lists only a new slice for a served intent, a slice in progress changed, a slice no longer testable, and a name/outcome/action changed without the brief, history line or out-of-date epic. It does not list 'a step run twice took text the first run kept' or 'a history line with a date that is not a date'. S12 covers one run only. SE-29 now checks both, but it has no F or S above it."
+    leads_to: "An eval check (SE-29) with no failure condition behind it can be dropped by a later rebuild of the play from the ICE without anyone seeing a guarantee go. Nothing breaks now."
+    fix: "Add the two cases to F7 (and to REC7 and a short S12 measure) in the ICE and compile again with /edit-play."

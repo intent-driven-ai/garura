@@ -1,54 +1,41 @@
 pr: 900
 issue: 798
 base: plan/788/base
-round: 6
+round: 7
 layer1: context/layer1.txt
-round_5: Q5-1, Q5-2, Q5-3 fixed in the code (32104cbe)
+round_6: DF-H-15 and Q6-1 fixed in the code (66ad0156)
 findings:
-- id: DF-H-15
+- id: DF-H-17
   severity: P3
   category: harness
-  title: The copy of the starting spine is run again on every resume, so a resume can overwrite it and bring back
-    the bug it was added to fix
-  where: core/components/plays/shape-slice/SKILL.md, Pre-flight, the command block line "cp <model>/_spine.yaml
-    {stm_base}<issue>/context/shape-slice/spine-at-start.yaml" (line 141) and the sentence under it, "a resume keeps
-    it as it is" (line 144)
-  basis: 'Harness-standard principle 4 and the base play''s own pattern: pre-flight runs before the Resume check,
-    which says only that completed steps are skipped (base SKILL.md Pre-flight and ''Resume check''). A pre-flight
-    command that is not guarded is run again on a resume. The sentence says the right thing but nothing in the steps
-    makes it true. pr.md P3: the rule is stated but not made to hold in the steps (documentation/behaviour gap);
-    the write stays behind the person''s yes and is restored on a change or a stop, so not P2.'
-  problem: The cp has no guard. After a stop in or after Step 8 (for example at Step 9), a resume runs the Pre-flight
-    block again, and the cp copies the spine as it is now, with the intent already on the kept slice, over spine-at-start.yaml.
-    Step 8 then runs again, reads the intent as already served at the start, and takes the new name, outcome and
-    tester's action over the text the first run kept. This is Q5-1 again, reached through a resume instead of a
-    plain second run. The same unguarded pattern gives start-sha.txt the same fault (not new in this commit). Also,
-    <model> is used in the block before the 'Names used below' line defines it.
-  leads_to: A resumed run can rewrite a kept slice's words and add a second history line that the first run did
-    not need, and the brief then shows a change that is not a change from the person's point of view. The person's
-    yes still gates it, and a change or stop restores the record, so nothing is lost for good; the sameness-on-repeat
-    that C7 now promises does not hold for a resumed run.
-  fix: 'Make the copy conditional in the Pre-flight text: copy only when spine-at-start.yaml does not exist (for
-    example `test -f ... || cp ...`), and say it in the step, not only in the sentence under it. Use `<product_base>product-os/_spine.yaml`
-    in the command, or move the ''Names used below'' line above the block. Do the same for start-sha.txt when this
-    is edited. This is a non-intent edit of SKILL.md.'
-- id: DF-H-16
-  severity: P4
-  category: harness
-  title: The two guarantees C7 gained (a repeated step gives the same result; the history date is a real date) have
-    no failure condition or scenario in the ICE
-  where: core/components/plays/shape-slice/reference/ice.md C7 (lines 46-52), F7 (lines 172-177), S12 (lines 296-301);
-    SKILL.md SE-29
-  basis: 'Harness-standard principle 4: the Expectation (failure conditions and scenarios) is what the evals are
-    compiled from. The base ICE carried each C7 guarantee in F7 and S12. pr.md P4 (style-only nit); the guarantees
-    are in C7 and the scripts refuse the bad cases, so the play is not unsafe.'
-  problem: F7 still lists only a new slice for a served intent, a slice in progress changed, a slice no longer testable,
-    and a name/outcome/action changed without the brief, history line or out-of-date epic. It does not list 'a step
-    run twice took text the first run kept' or 'a history line with a date that is not a date'. S12 covers one run
-    only. SE-29 now checks both, but it has no F or S above it.
-  leads_to: An eval check (SE-29) with no failure condition behind it can be dropped by a later rebuild of the play
-    from the ICE without anyone seeing a guarantee go. Nothing breaks now.
-  fix: Add the two cases to F7 (and to REC7 and a short S12 measure) in the ICE and compile again with /edit-play.
+  title: The start copies are now kept for good, so a new run on the same change issue after a stop can start from
+    an old copy
+  where: core/components/plays/shape-slice/SKILL.md, Pre-flight command block, lines 141-142 (test -f ... || git
+    rev-parse HEAD ...; test -f ... || cp ...) and the sentence at lines 145-146 ("written once, by the run's first
+    pre-flight")
+  basis: 'The base play took start-sha.txt on every run (git show plan/788/base:.../SKILL.md, Pre-flight), so a
+    new run always started from its own HEAD; its stop check reads ''HEAD equals start-sha.txt'' (SE-15, SCE-6)
+    and the edit checks use ''git diff <start-sha>''. The play''s own text says a run that closed HALTED at a stop
+    ''has nothing to resume'' (Pause and Resume) and the stop paths (Step 11 stop, Step X3 stop) clear only the
+    hidden-file copy, not these two files. pr.md P3: a rule is stated (''written once, by the run''s first pre-flight'')
+    but the step cannot tell a first pre-flight from a later fresh run; not P2 because the stop check would fail
+    on the wrong HEAD instead of silently passing, and nothing is lost for good.'
+  problem: test -f only asks 'is the file there', not 'is this a resume'. If a person stops a run (it closes HALTED,
+    writes undone) and later runs /shape-slice again and start-change finds the same change issue, the new run is
+    a fresh run, but pre-flight finds the old start-sha.txt and spine-at-start.yaml and keeps them. The old HEAD
+    then is the base of the stop check (HEAD equals start-sha.txt), of 'no commit after start-sha.txt', and of 'git
+    diff <start-sha>'. The old spine copy then tells Step 8 which intents the slice served at an earlier time, not
+    at this run's start. Whether start-change reuses the same change issue after a stop is not shown in the files
+    read here (start-change's Resume check says it reuses a known issue or branch); the play does not say either
+    way.
+  leads_to: A fresh run after a stop can fail its own stop check on a HEAD it never started from, or treat an intent
+    as already served (or not) from an old copy, so the brief can show a change that is not a change, or miss one.
+    The yes still gates every write, and a change or stop restores the record, so the harm is a wrong brief or a
+    failed check, not lost work.
+  fix: 'Keep the guard but make it say ''resume'', which the play already knows: write each copy when it is not
+    there, or when the status marker {stm_base}<issue>/status/shape-slice.json does not exist (a fresh run; the
+    marker is the play''s own Resume check). Say the same in the sentence under the block. Alternatively, have the
+    stop and close paths remove both files. This is a non-intent edit of SKILL.md.'
 - id: MEM-5
   severity: P4
   category: memory
@@ -165,75 +152,26 @@ findings:
   leads_to: The page does not say what holds now; a reader may think a list of plays still exists.
   fix: 'Say it as a rule: every play, skill and agent that builds the software is covered, so a play not on any
     list is still checked.'
-- id: Q6-1
-  title: A wrongly shaped start copy of the spine stops persist_slice.py with a Python crash instead of a plain
-    refusal
-  severity: P3
-  basis: 'pr.md severity buckets: P2/P3 cover error-handling gaps that do not lose data; rated P3 because nothing
-    is written when it happens. The script''s own header promises "Exit 0 written, 2 refused or usage error" and
-    the play reads the result JSON; main() already turns a spine that is not a mapping into a plain refusal (line
-    515), so the new input is held to a lower standard than the old one.'
-  where: 'core/components/plays/shape-slice/scripts/persist_slice.py lines 279-288 (new_since_start: start_spine.get,
-    list(s.get("intents"))), 528-533 (the load), 537 (the except list: OSError, YAMLError, JSONDecodeError only)'
-  artifact_type: runtime-code
-  problem: 'The start copy is loaded with yaml.safe_load and used as if it were a mapping with a list of slices.
-    Reproduced on the scratch model, each with --reuse, a valid --at and a text change: a file holding a list, a
-    plain word or a number -> AttributeError (line 283); "slices: 5" -> TypeError (283); a slice with "intents:
-    5" -> TypeError (285); a file that is not UTF-8 text -> UnicodeDecodeError (not an OSError, so line 537 misses
-    it). Each ends in a traceback, exit code 1, no JSON on stdout, and no --out file written. A start copy that
-    is an empty file, or has "slices" as a word or a map, passes without complaint (see Q6-2).'
-  leads_to: The play (Step 8) gets exit 1 and no result file where it expects exit 0 or 2 and a result it can read,
-    so a damaged or truncated start copy shows up as a raw crash the person cannot act on. No data is lost (all
-    of these stop before the first write).
-  fix: 'Check the start copy the way the spine is checked: after loading, refuse with a plain message if it is not
-    a mapping or if "slices" is not a list of mappings whose "intents" are lists; and add UnicodeDecodeError (or
-    ValueError) to the except list on line 537.'
-  category: code
-- id: Q6-2
-  title: A start copy that does not list the slice is accepted, and the run then keeps the old text without saying
-    why
+- id: R7-1
+  title: A start copy holding an empty list, a zero, a false, or an empty string for "intents" slips past the new
+    shape check
   severity: P4
-  basis: 'pr.md severity buckets: P4 Nit; defensive handling at an input that decides whether text is replaced.
-    Rated P4 because the wrong outcome is the safe one (text kept, not overwritten).'
-  where: core/components/plays/shape-slice/scripts/persist_slice.py lines 283-288 (a start copy without the slice
-    returns every intent as new)
+  basis: 'pr.md severity buckets: P4 Nit (defensive handling, no data effect). Rated P4 because nothing crashes
+    and nothing is lost: the odd value reads as "no intents" or "empty spine", which is the same safe outcome as
+    Q6-2 (text kept, not overwritten). The helper''s own docstring says "Anything else is refused, not read", so
+    the code does less than it says.'
+  where: 'core/components/plays/shape-slice/scripts/persist_slice.py line 542 (yaml.safe_load(fh) or {}) and lines
+    290-298 (check_start_copy: x.get("intents") or [])'
   artifact_type: runtime-code
-  problem: 'Reproduced: an empty start file, or one with no entry for the slice, makes every intent of the shaped
-    slice count as new, so "own" is false, the kept slice keeps its text, and the run exits 0 with action "unchanged"
-    and replaced []. For a reuse the slice always exists in the spine at the start, so a start copy without it is
-    a wrong file (for example the copy of another model), not a normal case.'
-  leads_to: A person who asked for the reshape sees no new text and no reason; the play has no sign that the start
-    copy was the wrong file.
-  fix: 'In a reuse run, refuse a start copy that does not hold the reused slice ("the start copy has no slice <id>:
-    it is not the spine this run started from").'
-  category: code
-- id: Q6-3
-  title: Tests do not cover an unreadable or wrongly shaped start copy
-  severity: P4
-  basis: 'pr.md severity buckets: P3/P4 test-coverage gaps; TEST-01 expects tests beside new logic. Rated P4 because
-    the new logic has tests for the main path and the missing-start and bad-date refusals (113 cases pass).'
-  where: core/components/plays/shape-slice/scripts/test_persist_slice.py lines 165-196 (test_rerun_same_result)
-    and 298-352 (the reshape cases)
-  artifact_type: tests
-  problem: The suite covers a run twice with the start copy, a run without one, and bad --at values. No case gives
-    --spine-at-start a path that does not exist, a file with the wrong shape, or a file that is not text, which
-    is where Q6-1 sits.
-  leads_to: Q6-1 passes the suite unseen, and a later change to the start-copy read can break the refusals unnoticed.
-  fix: 'Add refusal cases (exit 2, nothing written) for a missing path, a list file, and a "slices: 5" file once
-    Q6-1 is fixed.'
-  category: code
-- id: Q6-4
-  title: The same date check is written twice
-  severity: P4
-  basis: 'pr.md severity buckets: P4 Nit (style / duplication). Rated P4 because the two copies are identical today
-    (same regex, same message) and both are tested.'
-  where: core/components/plays/shape-slice/scripts/persist_slice.py lines 290-297 and core/components/plays/shape-slice/scripts/edit_slice.py
-    lines 303-310
-  artifact_type: runtime-code
-  problem: 'check_date appears in both files with the same body and message. Both are covered by tests (persist:
-    banana, a space, 2026-13-01, 27-10-2026; edit: banana, 2026-02-30).'
-  leads_to: A later change to the date form (for example to allow a time) can reach one script and not the other,
-    and the two would then disagree on what the history line may hold.
-  fix: Put it in one shared script of the play (the play already shares model_names.py and spine_text.py) and import
-    it from both.
+  problem: Reproduced on the scratch model in all three runs. The "or {}" turns a file holding [] , 0 or false (and
+    an empty file or null) into an empty mapping before the check sees it, so these are accepted with exit 0 instead
+    of being refused as "not a spine". Likewise "x.get(\"intents\") or []" lets a slice whose intents is 0 or an
+    empty string through, while 5, a word and a map are refused. The condition that does the check is also a single
+    three-way expression with a double "is not None" test, which is hard to read and is how the falsy gap went unseen.
+  leads_to: A damaged start copy that happens to hold one of these values is read as "the slice was not listed when
+    the run started", so the run keeps the old text without telling the person why. No crash and no write that the
+    person did not ask for.
+  fix: 'Load the file first, then test it: refuse when the loaded value is not None and not a dict, and when "slices"
+    or a slice''''s "intents" is present and not a list (use "is None" tests, not "or"). Split the condition into
+    three short checks with one message each. Add test cases for [] , 0 and "intents: 0".'
   category: code
