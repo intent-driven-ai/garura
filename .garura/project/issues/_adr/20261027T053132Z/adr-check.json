@@ -1,0 +1,15 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261027T053132Z/adr-draft.md",
+  "number": "058",
+  "lint": {"command": "adr.py lint --adr <draft>", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --adr <draft> --intents-dir .garura/product/product-os/intents", "exit": 0,
+            "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes",
+            "agrees_with_declared": true},
+  "real_names_in_draft": 0,
+  "retries": 0,
+  "notes": [
+    "No older ADR is superseded or amended: the rule 'a slice in progress is never touched' lived only in the /shape-slice play's intent (C7, F7) and the author-slice skill, never in an ADR or the ontology.",
+    "Memory gap: the Phoenix-tier ontology the memory tool returned is version 4 and has no Slice kind; the source ontology is v12. The ICE impact was read from the play's own ICE source."
+  ]
+}

@@ -29,7 +29,8 @@ brief.md is the opening, then these H2 sections:
                    each part's id and its old and new spine one-line
   Hidden file    — Place, Fails if lines, The builder can fix alone, A person must decide;
                    and, from hidden-write.json when it is there, each feature with lines too
-                   vague to judge
+                   vague to judge; then the line that says how to change a kept line
+                   (/shape-slice #<intent> --edit: <your words>)
   Left out       — each slice.json left_out[].what (with its why), or "Nothing is left out."
   Assumptions    — each split.json assumptions[].assume
   Thin ICE       — only when a part is thin: each thin part's id, and /discover-capabilities
@@ -287,6 +288,9 @@ def render(working, root, spine, opening, out_dir=None):
     for v in (load(working, "hidden-write.json", optional=True) or {}).get("vague") or []:
         lines.append(f"- Too vague to judge, so a person must decide: {v.get('count')} line(s) of "
                      f"{v.get('feature')}. A clearer \"Fails if\" line gives a clearer recovery.")
+    intent = (sl.get("intents") or ["bi-<n>"])[0].replace("bi-", "")
+    lines.append(f"- A line the file already kept stays as it is. To change one, run "
+                 f"`/shape-slice #{intent} --edit: <what to change, in your own words>`.")
     lines.append("")
     left = sl.get("left_out") or []
     lines += ["## Left out", ""]
@@ -325,17 +329,103 @@ def render(working, root, spine, opening, out_dir=None):
     return "\n".join(lines).rstrip("\n") + "\n"
 
 
+PART_WORDS = {"slice.name": "the slice's name", "slice.outcome": "the slice's outcome",
+              "surface.user_action": "what the tester does", "when": "when it shows",
+              "way_back": "the way back", "who_fixes": "who fixes", "one_line": "the one-line"}
+
+
+def hidden_names(before):
+    """{feature id: (feature name, {F id: failure text})} from the copy of the hidden file."""
+    from write_hidden_file import parse
+    path = ((before or {}).get("copies") or {}).get("hidden")
+    if not path or not os.path.isfile(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        blocks = parse(fh.read())[1]
+    return {b["feature"]: (b["name"], {f["id"]: f["text"] for f in b["failures"]}) for b in blocks}
+
+
+def part_words(change, names=None):
+    """A change's part in plain words, with the feature's name and the failure line it is for:
+    'the hidden file, feature "Pick a free slot" (ft-pick), the line "two patients get one slot"
+    (F1): who fixes'."""
+    part, f = str(change.get("part") or ""), change.get("file")
+    bits = part.split("/")
+    hidden = (names or {}).get("hidden") or {}
+    if f == "record":
+        return f"the slice record: {PART_WORDS.get(part, part)}"
+    if f == "hidden" and len(bits) == 3:
+        name, fails = hidden.get(bits[0], (None, {}))
+        feature = f"feature \"{name}\" ({bits[0]})" if name else f"feature {bits[0]}"
+        line = f"the line \"{fails[bits[1]]}\" ({bits[1]})" if bits[1] in fails else f"line {bits[1]}"
+        return f"the hidden file, {feature}, {line}: {PART_WORDS.get(bits[2], bits[2])}"
+    if f == "spine" and len(bits) == 2:
+        return f"the model index, {bits[0]}: {PART_WORDS.get(bits[1], bits[1])}"
+    return f"{f}: {part}"
+
+
+def render_edit(working, slice_name):
+    """The brief of an edit (C20): what the person asked, each change old and new, and each
+    record the edit makes out of date (named, not changed). Built from the run's records."""
+    lst = load(working, "edit-list.json")
+    before = load(working, "edit-before.json")
+    names = {"hidden": hidden_names(before)}
+    with open(os.path.join(working, "edit-request.md"), encoding="utf-8") as fh:
+        request = " ".join(fh.read().split())
+    changes = lst.get("changes") or []
+    what = "this change" if len(changes) == 1 else f"these {len(changes)} changes"
+    lines = [f"You decide whether to make {what} to the slice \"{slice_name}\". "
+             "Nothing else in the slice, its hidden file or the model changes. Type yes to make "
+             f"{'it' if len(changes) == 1 else 'them'}, change with what to change, or stop to make none.", "",
+             "## What you asked", "", f"> {request}", "", "## Changes", ""]
+    for i, c in enumerate(changes, 1):
+        lines += [f"{i}. {part_words(c, names)}", f"   - was: {c.get('old')}", f"   - now: {c.get('new')}"]
+        if c.get("why"):
+            lines.append(f"   - why: {c['why']}")
+    epics = before.get("epics") or [] if before.get("in_progress") else []
+    if epics:
+        named = ", ".join(f"{e.get('id')} ({e.get('status')})" for e in epics)
+        lines += ["", "## In progress", "",
+                  f"This slice is in progress: its epic {named} is past ready. The edit changes it only "
+                  "because you approve each change; the work started from it is named below as out of date."]
+    lines += ["", "## Out of date (named, not changed)", ""]
+    stale = [f"- {o.get('record')}: {o.get('why')}" for o in lst.get("out_of_date") or []]
+    listed = " ".join(str(o.get("record")) for o in lst.get("out_of_date") or [])
+    stale += [f"- epic {e.get('id')} ({e.get('status')}): work has started from this slice, so what was built "
+              "from the old text may need a look." for e in epics if str(e.get("id")) not in listed]
+    lines += stale or ["Nothing."]
+    if lst.get("not_editable"):
+        lines += ["", "## Not changed by an edit", ""]
+        lines += [f"- {n.get('what')}: {n.get('why')}" for n in lst["not_editable"]]
+    lines += ["", "## Your reply", "", "Type **yes**, **change: <what>**, or **stop**."]
+    return "\n".join(lines) + "\n"
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Render the one slice-confirmation brief.")
     ap.add_argument("--early", action="store_true",
                     help="the short brief of the questions asked before the slice is shaped")
+    ap.add_argument("--edit", help="the brief of an edit (C20): the slice's name; reads edit-list.json "
+                                   "and edit-request.md from --working")
     ap.add_argument("--working", required=True)
     ap.add_argument("--root", help="the model folder (not needed with --early)")
     ap.add_argument("--spine", help="the spine (not needed with --early)")
     ap.add_argument("--split", help="with --early: early-split.json")
-    ap.add_argument("--opening", required=True)
+    ap.add_argument("--opening")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
+    if args.edit:
+        try:
+            text = render_edit(args.working, args.edit)
+        except (Missing, OSError, json.JSONDecodeError) as exc:
+            sys.stderr.write(f"render_brief.py: not written — {exc}\n")
+            return 2
+        atomic_write(args.out, text)
+        print(json.dumps({"ok": True, "out": args.out}, indent=2))
+        return 0
+    if not args.opening:
+        sys.stderr.write("render_brief.py: give --opening (or --edit)\n")
+        return 2
     if args.early and not args.split:
         sys.stderr.write("render_brief.py: --early needs --split <early-split.json>\n")
         return 2

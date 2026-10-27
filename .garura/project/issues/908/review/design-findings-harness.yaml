@@ -1,0 +1,70 @@
+# Layer 2 design-grounding, category harness, PR #911, round 3 (change #908, /shape-slice --edit).
+# Grounded only in committed sources on the base ref plan/788/798-shape-eval, CLAUDE.md, and standards/rules through the
+# memory tool (copies already in context/memory/grounding-harness/, manifest.json there; nothing new copied this round).
+# ADR 058 is added by this diff and is not used as grounding.
+pr: 911
+issue: 908
+base: plan/788/798-shape-eval
+round: 3
+scope: commits 12a7c709 and 843c2de5 (SKILL.md of shape-slice, reference/ice.md, edit_slice.py, test_edit_slice.py, author-slice SKILL.md)
+grounding:
+  - principle: "Intent is the source; the compiled play carries the fingerprint of its ICE (harness-standard principle 4)"
+    source: "git show plan/788/798-shape-eval:docs/standards/harness-standard.md, principle 4 (line 50)"
+  - principle: "Plays orchestrate, agents gather, skills do the work (principle 2); mechanical work is a script (principle 3)"
+    source: "harness-standard.md principles 2 and 3 (lines 33, 42), CLAUDE.md 'Agents hold the role of Context Crafting'"
+  - principle: "A page a person reads names no real person (C14/F14); SE-16 holds it with a grep of the git user name"
+    source: "git show plan/788/798-shape-eval:core/components/plays/shape-slice/reference/ice.md line 83 (C14); base SKILL.md line 713 (SE-16)"
+  - principle: "Installed parts name only installed files; no edit notes in skill files; user-facing voice"
+    source: "CLAUDE.md (Source of Truth; Play Pipeline Rules); memory standards/rules/user-facing-voice.md"
+  - principle: "Evidence is the play's: the full artifact set, the checkpoint decisions and the eval results of the run"
+    source: "memory standards/rules/evidence-recording.md lines 25-31"
+  - principle: "Severity buckets"
+    source: "context/memory/standards/rules/pr.md lines 8-11 (P3 minor: missing docs, naming; P4 nit: style only)"
+round_2_status:
+  N-01:
+    status: fixed
+    evidence: "SKILL.md Step C1 now says SE-1...SE-28 / SCE-1...SCE-11 and lists the edit run's files (edit-request.md, edit-before.json, edit-list.json, edit-list-check.json, edit-apply.json, edit-check.json, hidden-file.json, slice-check.json, guard-report.json, trace-check.json, brief.md, approval.json). A small wording slip in the new parenthetical is raised as R3-01."
+  N-02:
+    status: fixed
+    evidence: "SKILL.md Step X4 now names the four reports (edit-check.json, slice-check.json, guard-report.json, hidden-file.json) as what goes to Step X2 as `refused`, and adds that the person may type stop; author-slice SKILL.md `refused` row takes them and names the key that holds the problems (`problems`, or `violations` in guard-report.json). Checked against the scripts: edit_slice.py and write_hidden_file.py and slice_check.py write `problems`; scoped_write_guard.py writes `violations`. The X2 contract row still names only edit-list-check.json: raised as R3-02."
+  N-03:
+    status: fixed
+    evidence: "edit_slice.py check-list takes --request and --forbid-name (name_problems); SKILL.md X2 passes --forbid-name \"$(git config user.name)\"; SE-27 asks for the same grep SE-16 uses; ice.md C20 gains the C14 sentence; test_edit_slice.py covers a name refused and a clean request (35 of 35 pass when run). Same strength as base SE-16 (the git user's name), which is the committed way C14 is held."
+  kept_not_raised_again: [N-04, N-05, N-06, N-07]
+checks_asked:
+  fingerprint_equals_ice: "held. shasum -a 256 reference/ice.md = ef0098bb7b64d25652e723324bcd886c8d619483dda1d6c2f6465c405e58e7a3 = the fingerprint in SKILL.md Compilation Metadata (line 1123)."
+  intent_change_traces_to_ice: "held. The one intent change (refuse a real person's name in an edit) is the new sentence in ice.md C20. The close-step list, the X4 re-run wording and the author-slice table row are surface text, not intent."
+  agent_gathers_skill_works_scripts_mechanical: "held. The name check is a script option (edit_slice.py check-list); the play only passes the git user name; the skill still writes the list."
+  plain_words_and_personas: "held in the new text, apart from R3-03."
+  installed_paths_only: "held. Only scripts/edit_slice.py and files in the working folder are named."
+  no_edit_notes: "held. No change log or origin note was added to SKILL.md or author-slice SKILL.md."
+  no_write_before_yes: "held. check-list runs before the brief and writes only a working file (edit-list-check.json); the reworded request goes to edit-request.md in the working folder, not to a record."
+findings:
+  - id: R3-01
+    severity: P4
+    category: harness
+    title: The close step says an edit run reports only three checks, but its start and end steps carry checks too
+    where: "core/components/plays/shape-slice/SKILL.md line 1048 (Step C1: 'an edit run reports SE-26, SE-27 and SCE-11, a shaping run the others'); compare SE-17 at line 958 and SE-15 at line 744"
+    basis: "memory standards/rules/evidence-recording.md lines 25-31 (the play records the full artifact set and the eval results of the run); harness-standard principle 4 (the compiled text and its intent agree). SKILL.md lines 775 and 942 say an edit run goes from Step 0 into the edit steps and still runs the end sequence E1-E4, and SE-17 checks those (F13/C13)."
+    problem: "The new words tell the run to report SE-26, SE-27 and SCE-11 for an edit and 'the others' for a shaping run. An edit run also runs Step 0, the checkpoint commit (SE-15 covers 'no commit unless yes') and the end sequence, so SE-17 is its check too. The sentence reads as if the other evals do not apply."
+    leads_to: "A model that follows the sentence strictly leaves SE-17 (and SE-15 for the edit's commit) out of an edit run's evidence file. Small: the evidence is still written."
+    fix: "Say 'an edit run reports SE-17, SE-26, SE-27 and SCE-11 (and SE-15 for its commit); a shaping run reports the rest', or drop the parenthetical and keep only the two ranges. Surface text: a direct edit of the compiled file is allowed (CLAUDE.md, Play Pipeline Rules, non-intent change)."
+  - id: R3-02
+    severity: P4
+    category: harness
+    title: The edit contract in Step X2 still names only edit-list-check.json as the refused file, though X4 now sends it four other reports
+    where: "core/components/plays/shape-slice/SKILL.md line 801 ('refused': '<working>edit-list-check.json (on a re-run only)') against line 899 (X4: send the report that is not ok to Step X2 as `refused`)"
+    basis: "harness-standard principle 2 (git show plan/788/798-shape-eval:docs/standards/harness-standard.md line 33): the agent learns what to pass each skill from the contract the play names. author-slice SKILL.md line 36 already accepts the four reports."
+    problem: "The contract the agent reads says one path; X4 says another file goes in that slot. The text outside the contract carries the instruction, the contract itself does not."
+    leads_to: "An agent that copies the contract literally passes edit-list-check.json (which reads ok after the list passed) and the skill is asked again with nothing wrong shown; this is the N-02 loop again, in a narrower case."
+    fix: "Write the row as '<working>edit-list-check.json, or, after a write was put back, the report that was not ok (on a re-run only)'."
+  - id: R3-03
+    severity: P4
+    category: harness
+    title: When the person's words name a real person, the play says to send the problem to the skill and also to ask the person, and the ask has no steps
+    where: "core/components/plays/shape-slice/SKILL.md lines 815-820 (Step X2, after check-list)"
+    basis: "git show plan/788/798-shape-eval:core/components/plays/shape-slice/reference/ice.md lines 116-120 (C18: a question to a person follows the rule in _shared/asking-a-person.md) and its failure condition F5 (a question or answer not recorded); harness-standard principle 2 (the skill does the work)."
+    problem: "check-list writes one file (edit-list-check.json, exit 1) for two different problems: a name in a new text (the skill can fix it) and a name in the person's words (only the person can). The text first says to send edit-list-check.json to the skill as `refused`, then says to ask the person when the words name someone. It does not say which problem goes where, so a name in the words can be sent to the skill, which cannot change the person's words. The ask itself has no form (one thing, an example, a way to stop), and the reply is not recorded as a question and answer."
+    leads_to: "A run can loop on the same words, or ask in its own style. No wrong record is written, because nothing is written before the yes."
+    fix: "Split the sentence: a problem that starts 'the person's words name' goes to the person (asked as C18 says, the reply saved to edit-request.md and recorded); a problem that starts '<part>: the new text names' goes to the skill as `refused`."
+counts: {P1: 0, P2: 0, P3: 0, P4: 3}

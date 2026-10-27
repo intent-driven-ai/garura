@@ -1,0 +1,17 @@
+commits:
+  - sha: 843c2de5
+    message: "fix(author-slice): name where each report keeps its problems in the refused input (#908)"
+    files:
+      - core/components/skills/author-slice/SKILL.md
+    branch: plan/788/908-shape-slice-edit
+excluded_files:
+  - path: ".garura/project/issues/908/context/self-review.md"
+    reason: "run state of the issue; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/908/context/porcelain.txt"
+    reason: "run state of the issue; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/908/context/analysis.yaml"
+    reason: "run state of the issue; left to the executor's run-state chore group"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

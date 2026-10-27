@@ -1,0 +1,148 @@
+pr: 911
+issue: 908
+base: plan/788/798-shape-eval
+round: 2
+layer1: context/layer1.txt
+layer1_summary:
+  lint-components: 37 problems, all there before; 0 in changed paths
+  lint-play: PASS, 0 gaps
+  adr-lint: ADR 058 valid
+  tests: 8 of 8 files pass
+  py_compile: ok
+round_1: all ten defects fixed in the code (design-findings-harness.yaml)
+findings:
+- id: N-01
+  severity: P3
+  category: harness
+  title: The close step still records only the shaping run's evals and files, so an edit run's evidence leaves out
+    its own checks
+  where: 'core/components/plays/shape-slice/SKILL.md lines 1029-1043 (Step C1: ''step and scenario eval results
+    SE-1...SE-25 / SCE-1...SCE-10'', and the list of artifacts produced); compare lines 1124-1125 (28 step evals,
+    11 scenario evals) of the Compilation Metadata'
+  basis: 'memory standards/rules/evidence-recording.md lines 27-29 (G10): the play records the full artifact set,
+    the checkpoint decisions and the eval results of the run. Principle G1 (harness-standard.md principle 4, lines
+    50-58): the compiled play and its intent must agree.'
+  problem: The Compilation Metadata, which the compiler rewrote, says the play has 28 step evals and 11 scenario
+    evals. The close step's text, which the compiler did not touch, still tells the run to record SE-1 to SE-25
+    and SCE-1 to SCE-10, and lists only the files of a shaping run (slice.json, fills.json, persist-slice.json and
+    so on). SE-26, SE-27, SE-28 and SCE-11, and the edit run's own files (edit-list.json, edit-check.json, edit-apply.json,
+    the history lines), are in no list.
+  leads_to: The evidence file of an edit run has no result for the checks that guard the edit, and it names files
+    that the run never made. A later reader cannot tell from the evidence whether the edit was checked against the
+    approved list.
+  fix: Change the range in Step C1 to SE-1...SE-28 and SCE-1...SCE-11, and add the edit run's files to the artifacts
+    list (edit-list.json, edit-check.json, edit-apply.json, edit-list-check.json). Do it through the ICE and a recompile
+    only if the wording comes from the ICE; it is surface text in the close step, so a direct edit of the compiled
+    file is allowed here (CLAUDE.md, Play Pipeline Rules, non-intent change).
+- id: N-02
+  severity: P3
+  category: harness
+  title: When a check after the write fails, the play says to send the problems back to the skill as 'refused',
+    but names no file that holds them
+  where: 'core/components/plays/shape-slice/SKILL.md lines 891-896 (Step X4, ''send the problems to Step X2 as `refused`'')
+    and line 798 (the shape-slice-edit contract: refused = edit-list-check.json); core/components/skills/author-slice/SKILL.md
+    line 36 (refused = edit-list-check.json from check-list)'
+  basis: 'Principle G2 (harness-standard.md lines 33-40): the contract between play, agent and skill is the file
+    paths it names. The skill''s own input table says `refused` is the output of `edit_slice.py check-list`.'
+  problem: 'The problems that X4 finds are in four other files: edit-check.json, slice-check.json, guard-report.json
+    and hidden-file.json. The contract''s `refused` path is edit-list-check.json, which at that point reads ok with
+    no problems (the list passed check-list). The play does not say to write the X4 problems into a file, and the
+    skill''s input table does not accept them.'
+  leads_to: After a failed check at X4 the records are put back and the skill is asked again with a `refused` file
+    that says nothing is wrong. It can write the same list, and the person is shown the same brief again, with no
+    stop in the text to end the loop.
+  fix: 'Say in X4 which file the problems go to (for example write them with a short script into edit-list-check.json
+    in the same shape: {ok: false, problems: [...]}), and let the skill''s `refused` row say it also takes problems
+    from the checks after the write.'
+- id: N-03
+  severity: P3
+  category: harness
+  title: The person's own words are copied word for word into the slice record and the hidden file, and no step
+    checks that they name no real person
+  where: core/components/plays/shape-slice/SKILL.md line 779 (words saved word for word) and Step X4 (history lines);
+    core/components/plays/shape-slice/scripts/edit_slice.py lines 235-236 and 272-273 (the `edits:` entry and the
+    'Edited on ... on the person's words' line); core/components/plays/shape-slice/reference/ice.md C20 (history
+    line with 'their words')
+  basis: 'Pre-existing ICE C14 and F14 (base reference/ice.md lines 83-84 and 165): a page a person reads names
+    no real person. Base SE-16 (SKILL.md, grep of the git user name over the brief, the hidden file and the pages)
+    is the check that holds C14 on a shaping run. G12.'
+  problem: C20 requires the person's words in a history line, as typed. A person who writes 'Priya says a person
+    must decide' puts a real name into two files that people read (the slice record and the hidden file), and into
+    the brief. SE-16 belongs to the shaping run's checkpoint step; the edit run's evals (SE-26, SE-27, SCE-11) do
+    not look for a real name, and the edit run does not run Step 11.
+  leads_to: A real person's name can reach the model and the plans folder through an edit, which C14 says must not
+    happen, and no eval would show it.
+  fix: Add the SE-16 grep (or the same real-name check the model uses for the spine) over edit-request.md and over
+    the history lines to X4 and to SE-27, and say in X3 that the person's words are kept as typed and should use
+    roles, not names. Because it touches a guarantee, make the change in ice.md (C20 or F20) and recompile.
+- id: N-04
+  severity: P4
+  category: harness
+  title: The Context part of the ICE still describes the play without the edit path and does not point to the decision
+    record
+  where: 'core/components/plays/shape-slice/reference/ice.md lines 218-226 (Context: ''author-slice (#838; shape,
+    reuse and fix modes)''; the scripts list names no edit_slice.py; ADR 049 and ADR 052 are the only decisions
+    named, lines 209-211)'
+  basis: 'memory standards/rules/builder-isolation.md lines 14-17 (G9): skill and script names belong in Context,
+    not in a constraint. The round-1 fix for the C20 wording moved the skill name out of C20, but the Context part
+    that should now hold it was not updated. Round 1 (F-10) also asked that the ICE cite the decision that lets
+    an edit change a slice in progress; ADR 058 exists, and nothing in the ICE names it.'
+  problem: Context says author-slice has three modes and lists the mechanical scripts without the edit script. It
+    does not name ADR 058, the only record of why an edit may touch a slice in progress.
+  leads_to: A reader of the ICE sees a play that does an edit with no named skill mode, no named script and no recorded
+    reason. The reversal of the old 'a slice in progress is never touched' rule is easy to lose again.
+  fix: In Context, say 'shape, reuse, fix and edit modes', add edit_slice.py to the scripts list, and name ADR 058
+    beside ADR 049 and ADR 052. This changes the ICE text, so recompile with the new fingerprint.
+- id: N-05
+  severity: P4
+  category: harness
+  title: 'Two forms of the intent number are used: ''digits only'' in the pre-flight, ''#788'' in the edit text'
+  where: 'core/components/plays/shape-slice/SKILL.md line 118 (Pre-flight: ''/shape-slice <intent-issue>, digits
+    only'') against line 5 (description: ''/shape-slice #788 --edit: <words>''), line 28 (Role: ''/shape-slice #<intent-issue>
+    --edit:''); core/components/plays/shape-slice/reference/ice.md C20; core/components/plays/shape-slice/scripts/render_brief.py
+    (the line added to the shaping brief)'
+  basis: 'Base SKILL.md pre-flight row (git show plan/788/798-shape-eval:core/components/plays/shape-slice/SKILL.md
+    line 109): the number is digits only; the base description runs it as ''/shape-slice 788''. Principle 10 of
+    harness-standard.md (one name, one meaning).'
+  problem: The command a person is told to type in the brief and the ICE has a '#' that the pre-flight row calls
+    invalid.
+  leads_to: A run started exactly as the brief says can hard-halt at the first check, or a model drops the '#' by
+    guess. Either way the same command has two readings.
+  fix: 'Pick one form. Either let the pre-flight accept an optional leading ''#'' and strip it, or write ''/shape-slice
+    788 --edit: ...'' in C20, the description, the Role paragraph and the brief line.'
+- id: N-06
+  severity: P4
+  category: harness
+  title: The agent's description of edit mode leaves out the re-run input and one of the three outputs
+  where: 'core/components/agents/product-os-keeper.md line 72 (author-slice row: edit mode writes edit-list.json
+    ''each change''s record, part, old and new text, and the records made out of date'') and line 129 (''in edit
+    mode, only the person''s words, the copies ... and the names of the slice''s eval files'')'
+  basis: 'Principle G2 (harness-standard.md lines 33-40): the agent reads its own file to learn what to hand each
+    skill. The shape-slice-edit contract (SKILL.md line 798) and author-slice''s input table (lines 33-36) also
+    pass `refused` on a re-run and the skill writes `not_editable`.'
+  problem: The word 'only' on line 129 reads as a closed list, yet the contract passes a fourth input (`refused`)
+    on a re-run. Line 72 omits `not_editable`, the list of what the words named that an edit does not change, which
+    the brief shows to the person.
+  leads_to: A small mismatch between the agent file and the contract; an agent that follows its own file strictly
+    may not pass the refusal on, or may drop `not_editable` when it passes the output on.
+  fix: Add 'and, on a re-run, the last refusal' to line 129 and 'and what the words name that an edit does not change'
+    to line 72.
+- id: N-07
+  severity: P4
+  category: harness
+  title: The edit brief still shows an epic and a spine part by their identifiers, and the epic's status as a raw
+    code
+  where: 'core/components/plays/shape-slice/scripts/render_brief.py lines 363 (spine change: ''the model index,
+    <part id>: the one-line''), 388-390 (In progress: ''its epic <id> (in_delivery) is past ready'') and 394 (''epic
+    <id> (fix_required)'')'
+  basis: 'memory standards/rules/user-facing-voice.md lines 25-28 and 37-44 (G8): component names and identifiers
+    belong in an appendix; a checkpoint asks the person to approve a decision they can follow. Spine epics carry
+    a slug (core/components/memory/standards/schemas/product-os/spine.yaml, epics: id, slug, status).'
+  problem: 'The round-1 fix put the feature''s name and the failure line in plain words for the hidden-file changes.
+    The other two places in the same brief did not get the same treatment: a spine one-line change names only the
+    part''s id, and the epic is named by its id and a status written as a code (in_delivery, validated, fix_required,
+    delivered).'
+  leads_to: The person has to translate an identifier and a code in the very section that tells them work has already
+    started. The old and new one-line text beside the id helps, so this is a nit, not a risk of a wrong yes.
+  fix: Show the epic by its slug with the status in words ('being built', 'being checked', 'needs a fix', 'delivered')
+    and the part by its name, keeping the ids after the plain text.

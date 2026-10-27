@@ -190,6 +190,9 @@ def main():
         code, text, _ = render(root, work, spine_p, opening)
         check("render: a line too vague to judge is shown in the Hidden file section",
               code == 0 and "Too vague to judge, so a person must decide: 2 line(s) of ft-send" in text)
+        hid = text.split("## Hidden file")[1].split("## Left out")[0]
+        check("render: the Hidden file section says how to change a kept line (--edit)",
+              "/shape-slice #" in hid and "--edit:" in hid)
         pf = json.loads(read(os.path.join(work, "persist-fills.json")))
         pf["one_lines"] = [{"id": "cap-booking", "kind": "capability", "was": "Book a visit.",
                             "now": "A patient books a visit online."}]
