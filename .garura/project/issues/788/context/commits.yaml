@@ -1,12 +1,21 @@
 commits:
-  - sha: 4b599928
-    message: "chore(stm): record the landing evidence for plan 788: tests and linters, commit reviews, plan against GitHub, and the self-review with the product owner's ruling (#788)"
+  - sha: b1f39aea
+    message: "chore(stm): record check-change run context copies (#788)"
     files:
-      - .garura/project/issues/788/context/landing-evidence.md
-      - .garura/project/issues/788/context/landing-tests.md
+      - .garura/project/issues/788/context/memory/manifest.json
+      - .garura/project/issues/788/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/788/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/788/context/memory/knowledge/review/code.md
+      - .garura/project/issues/788/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/788/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/788/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/788/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/788/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/788/context/memory/standards/rules/pr.md
+      - .garura/project/issues/788/context/templates/manifest-check-change.json
+      - .garura/project/issues/788/context/templates/standards/rules/pipeline-next.md
       - .garura/project/issues/788/context/porcelain.txt
-      - .garura/project/issues/788/context/resolved-rules.json
-      - .garura/project/issues/788/context/self-review.md
+      - .garura/project/issues/788/context/analysis.yaml
     branch: plan/788/base
 excluded_files:
   []
