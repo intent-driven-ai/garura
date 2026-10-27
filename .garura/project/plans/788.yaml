@@ -15,7 +15,7 @@ branch: plan/788/base
 identified_by:
 - 756
 returns_to: 756
-updated: '2026-10-26'
+updated: '2026-10-27'
 tree:
 - issue: 792
   kind: capability
@@ -67,9 +67,24 @@ tree:
     kind: feature
     represents: fn-798
     title: "The eval play (/shape-eval) writes the slice's eval: is the business intent met, tested on the slice's surface"
-    status: next
+    status: done
     needs:
     - 818
+    children:
+    # #908 is a story of business intent #904, built inside this change (PR #911 merged into the #798 branch).
+    - issue: 908
+      kind: feature
+      title: '/shape-slice --edit: a person changes the slice record or an entry of its hidden file'
+      status: done
+      children:
+      - issue: 913
+        kind: chore
+        title: The findings left by the PR #911 review (the slice play's edit option)
+        status: later
+    - issue: 912
+      kind: chore
+      title: The findings left by the PR #900 review (the eval play and the slice play)
+      status: later
   - issue: 818
     kind: feature
     represents: fn-818
@@ -243,6 +258,14 @@ tree:
   - issue: 874
     kind: chore
     title: 'The findings left by the PR #873 review (the plan play)'
+    status: later
+  - issue: 902
+    kind: bug
+    title: '/check-change reports findings in a form a person cannot act on; add a generic defect template'
+    status: later
+  - issue: 903
+    kind: bug
+    title: "The GitLab instructions for the platform adapter's pr-files command use an undefined placeholder"
     status: later
 - issue: 833
   kind: chore
