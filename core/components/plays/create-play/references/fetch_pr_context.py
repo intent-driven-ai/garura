@@ -11,8 +11,12 @@ review playbooks (knowledge/review/*.md) through the memory tool.
     python3 fetch_pr_context.py --config .garura/core/config.yaml \
         [--pr-number N] --out-context <context.yaml> --out-diff <pr.diff>
 
+When the host refuses the one diff because the PR changes more than 300 files, the diff is
+built from the host's list of the PR's files (`pr-files`), each with its patch; a file the
+host gives no patch for keeps its header and a note.
+
 context.yaml records: standards_order, changed_paths,
-changed_files_reported, base. changed_paths comes from the diff text: one path
+changed_files_reported, base, diff_source (diff-pr or pr-files). changed_paths comes from the diff text: one path
 for each `diff --git` header, so a PR of any size gives every path.
 changed_files_reported is the count the host gives (null when it gives none).
 Exit 0 on success, 1 on a fetch failure, 3 when the host's count and the count
@@ -86,6 +90,34 @@ def paths_from_diff(diff_text):
     return out
 
 
+TOO_MANY_FILES = ("exceeded the maximum number of files", "too_large")
+
+
+def _side(prefix, path):
+    """One side of a diff header, quoted the way git quotes a path with a space."""
+    return f'"{prefix}{path}"' if " " in path else f"{prefix}{path}"
+
+
+def diff_from_files(lines):
+    """A unified diff built from the host's file list (one JSON object a line), for a PR
+    whose single diff the host refuses: each file's header and its patch, or a note when
+    the host gives no patch for it (a very large or binary file)."""
+    out = []
+    for line in lines.splitlines():
+        if not line.strip():
+            continue
+        f = json.loads(line)
+        new = f["filename"]
+        old = f.get("previous_filename") or new
+        out.append(f"diff --git {_side('a/', old)} {_side('b/', new)}")
+        out.append("--- /dev/null" if f.get("status") == "added" else f"--- {_side('a/', old)}")
+        out.append("+++ /dev/null" if f.get("status") == "removed" else f"+++ {_side('b/', new)}")
+        patch = f.get("patch")
+        out.append(patch if patch else "# changes not shown: the host gives no patch for this file "
+                   "(it is very large or binary)")
+    return "\n".join(out) + "\n"
+
+
 def reported_count(data):
     """The host's count of changed files, or None when it gives none."""
     value = data.get("changedFiles")
@@ -124,6 +156,14 @@ def main(argv=None):
     changed_files_reported = reported_count(data)
 
     diff = pa.dispatch("diff-pr", {"pr_number": pr}, config_path=ns.config)
+    source = "diff-pr"
+    if diff["exit_code"] != 0 and any(s in diff["stderr"] for s in TOO_MANY_FILES):
+        # the host gives one diff for at most 300 files; list the files with their patches
+        files = pa.dispatch("pr-files", {"pr_number": pr}, config_path=ns.config)
+        if files["exit_code"] != 0:
+            sys.stderr.write(f"fetch_pr_context.py: pr-files failed: {files['stderr']}\n")
+            sys.exit(1)
+        diff, source = {"exit_code": 0, "stdout": diff_from_files(files["stdout"])}, "pr-files"
     if diff["exit_code"] != 0:
         sys.stderr.write(f"fetch_pr_context.py: diff-pr failed: {diff['stderr']}\n")
         sys.exit(1)
@@ -144,7 +184,7 @@ def main(argv=None):
 
     context = {"pr_number": pr, "base": base, "changed_paths": changed_paths,
                "changed_files_reported": changed_files_reported,
-               "standards_order": standards_order}
+               "diff_source": source, "standards_order": standards_order}
     with open(ns.out_context, "w", encoding="utf-8") as fh:
         json.dump(context, fh, indent=2)
     print(json.dumps(context, indent=2))
