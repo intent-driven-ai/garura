@@ -1,0 +1,49 @@
+pr: 886
+issue: 882
+round: 3
+findings:
+- id: NP-5
+  severity: P4
+  category: product-model
+  file: .garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md lines 23 and 63; .garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md
+    lines 11 and 75
+  basis: G7 -- a Sources line names a place a cold reader can follow, with its words in quotes as they are written; and a
+    rule in the model stands on committed records (G1), not on a pointer to the review of the page's own pull request.
+  sources:
+  - 'origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md (''Sources'': ''the place
+    and its words''); _content-standard.md bar 5 (the stranger test); the same ground as round-2 NP-2, which the product owner
+    asked to be fixed in fn-881'
+  finding: 'The fix for NP-1 puts the product owner''s rule on two pages with a pointer to the review of this pull request.
+    The Rules line says ''This is the product owner''s rule (review of PR #886, round 2), beside ADR 039 Decision 4'' (fn-project-memory
+    line 23; fn-883 line 11). The Sources line says: ''The product owner, review of PR #886, round 2: "i agree never take
+    the whole file. read it, and build project''s memory."'' (fn-project-memory line 63; fn-883 line 75). Two faults. First,
+    a review of a pull request is not part of the model; in three months a reader who follows ''round 2'' of ''PR #886'' finds
+    a closed review, which is the pattern NP-2 raised for fn-881 and the owner had fixed there. Second, the quote is not the
+    words as written: the reply is ''i agree never take the whoel file. read it, and build project''s memory so reject: never
+    whole''; the page corrects the spelling inside the quotation marks and drops the tail with no ellipsis. The rule itself
+    needs no such pointer: the glossary row for Garura memory already says ''never a copy of a Phoenix file'' and ADR 039
+    Decision 4 already says ''It should not copy the file'', and both are quoted on the same Sources line.'
+  fix: 'Drop ''review of PR #886, round 2'' from the Rules lines and rest the rule on ADR 039 Decision 4 and the glossary
+    row (already quoted). If the product owner wants the ''even when every section speaks to the answer'' wording kept as
+    their own rule, quote their reply as written, with an ellipsis for what is left out, and say it is the product owner''s
+    reply, with no pull request number; or record the rule in ADR 039 and the glossary at the next amendment (the same planned
+    amendment as PM-9).'
+round2_fixed: NP-1, NP-2, NP-4
+known_open:
+- NP-3
+- PM-3
+- PM-4
+- PM-8
+- PM-9
+- RR-1
+layer1:
+  quality: 'check-pr-quality: 0 findings (the two .py files class as garura-prose, #890)'
+  ruff: 2 files, all checks passed
+  lint_components:
+    in_changed_paths: 0
+    there_before: 37
+  lint_play: 'not run: no play SKILL.md changed'
+runnable_checks:
+- command: python3 core/components/plays/discover-capabilities/scripts/test_persist_understand.py
+  result: 98 passed, 0 failed
+context_note: context bound from GitHub's paged file list (#889)

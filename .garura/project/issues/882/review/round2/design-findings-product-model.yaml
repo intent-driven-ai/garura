@@ -1,0 +1,151 @@
+# check-change Step 3, Layer 2 -- design-grounding of the 'product-model' category, PR #886 (issue 882), review round 2
+# Base ref: plan/788/base. Every source is committed on the base ref, is a tracker record the product owner
+# wrote (issues #862, #881, #883), or is the product owner's memory rule (given in the dispatch). Nothing is
+# grounded in the pages the branch adds. Round-1 principles are reused only where their source is on the base ref.
+category: product-model
+round: 2
+base: plan/788/base
+severity_source: .garura/project/issues/882/context/memory/standards/rules/pr.md
+head_read: "working tree = branch head 1762dc5b; the product pages were last changed in 7fa3bd78"
+
+grounded_principles:
+  - id: G1
+    principle: "Garura memory is built from only the part of Phoenix memory a project needs, by initialize -- never a copy of a Phoenix file. The memory tool reads Phoenix memory and does not copy a file from it."
+    sources:
+      - "origin/plan/788/base:core/grounding/glossary.md line 37 (Garura memory row: 'never a copy of a Phoenix file'; 'NOT: a copy of Phoenix memory -- checkout, not all of commerce')"
+      - "origin/plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md lines 46-50 (Decision 4, with the product owner's words)"
+  - id: G3
+    principle: "Memory reaches a project in three steps: the Phoenix install once per machine; the Garura install lays only the pieces and no memory; initialize asks the questions, sets up the project's memory, and can run again. An unreachable tier (tier_missing) is said, never read as 'nothing found'."
+    sources:
+      - "GitHub #883 (steps 1-3, Done when)"
+      - "GitHub #862 (Rules 1-3, Done when)"
+      - "the product owner's memory rule (dispatch)"
+      - ".claude/rules/garura-memory.md (tier_missing)"
+  - id: G4
+    principle: "A capability spine entry carries id, slug (right after the id), domain, intents, status, detail, one_line, doc, nfr_needs, compliance_needs, decisions."
+    sources:
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/spine.yaml lines 58-96"
+  - id: G5
+    principle: "A decision record carries metadata.accepted_by (the person who accepted it), metadata.decided_in, consequences, ice_impact and business_intent_check; accepted only on a person's word; a box move is a product-level decision accepted by a human."
+    sources:
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/decision.yaml lines 11-43 and fill_rules lines 44-55"
+  - id: G6
+    principle: "Two layers. The product layer is the model; only the Business Intent is a product-layer tracker issue, labelled product. The work layer is tracker issues labelled work-item: Epic, Story, Spike, Chore and Bug."
+    sources:
+      - "origin/plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md lines 21-23 (Decision 1)"
+  - id: G7
+    principle: "Grounding pages follow the contract and the content bar: required headings in order, each item self-explaining and discrete, links resolve, a page names the neighbour that owns what it leaves out."
+    sources:
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/{capability,feature,_content-standard}.md (read as the short-term copies the assessment made)"
+
+# ------------------------------------------------------------------------------------------------
+# 1. Round-1 findings the product owner asked to be fixed
+# ------------------------------------------------------------------------------------------------
+round1_fixes:
+  - id: PM-1
+    round1_severity: P2
+    owner_severity: P1
+    verdict: fixed
+    one_residual: "NP-1 (below) -- a hole in the new definition of a 'part', not a return of the file copy"
+    evidence:
+      - "capability.md line 15 now defines a block as 'the relevant part of Phoenix memory that one setup answer selects, down to the part of a file: for example only the checkout part of the commerce knowledge ...' and Garura memory as 'built from only the part of Phoenix memory the project needs and is never a copy of a Phoenix file'."
+      - "capability.md line 31 (Guiding rule): 'The project's memory is built, never copied ... writes into the project only the part each answer selects, down to the part of a file, and never a whole Phoenix file ... When Phoenix memory changes, a re-run rebuilds the relevant part from it; it does not copy the new file.'"
+      - "fn-project-memory line 23: 'Initialize never copies a Phoenix file.' Line 40 (acceptance): 'a checkout answer and a commerce knowledge file ... that also holds catalog, cart and orders ... then the project's Garura memory holds the checkout part and none of the rest of that file.' Line 41: 'no file in the project's Garura memory is a copy of a whole Phoenix file.' Line 70 (Fails if): 'holds a whole Phoenix file, or a part of Phoenix memory the answers did not select.'"
+      - "fn-883 line 31: 'A yes to a changed part rebuilds what the project's Garura memory holds for that part from what Phoenix memory holds now ... it never copies the changed Phoenix file.' Acceptance line 52-53 and ICE line 83 say the same. The old 'overwrites the project's copy' and 'copies it into' rules are gone."
+      - "The claim that the sources are silent on what a block holds is gone: fn-project-memory line 25 and fn-883 line 10 now say 'The sources say what a block holds: only the part the project needs, never the whole file (ADR 039 Decision 4)' and leave only how the part is cut as 'our default'. That is accurate against ADR 039 lines 46-50."
+      - "The ADR 039 quote, the product owner's words and the glossary quote on the Sources lines match the base-ref text word for word."
+    basis: G1
+  - id: PM-2
+    round1_severity: P3
+    verdict: fixed
+    evidence:
+      - "_spine.yaml cap-initialize now reads 'id: cap-initialize' then 'slug: initialize' on the next line, then domain, intents, status, detail, one_line, doc, nfr_needs, compliance_needs, decisions. The slug sits right after the id, as G4 asks, and matches the folder the doc path uses (initialize/)."
+    basis: G4
+  - id: PM-5
+    round1_severity: P3
+    verdict: fixed
+    evidence:
+      - "dec-cap-initialize-security-none-medium.yaml now has ice_impact ('none -- no ICE text changes ...'), business_intent_check: none, consequences (positive and negative lists), and metadata accepted_by: 'the product owner' (a role, no name), decided_in: 882, date '2026-10-25', version 1. Every field G5 names is present, and the spine decisions link names this record."
+    basis: G5
+    note: "one stale line is raised as NP-4 (P4)"
+  - id: PM-6
+    round1_severity: P3
+    verdict: fixed
+    evidence:
+      - "fn-881 Out of scope (line 56) now says the change to the filing plays 'to read the mapping before they write, and to stop with a plain message that points to initialize when a type they need is missing and not mapped: a later story of this business intent owns it, not filed yet, outside this feature, because it changes those plays and not initialize. This feature only writes the mapping and the record they read.' The same wording stands in capability.md line 23 and line 67 and in fn-881 line 34 and line 77."
+      - "The acceptance criterion that made initialize answer for how the plays behave is gone. Line 49 now reads 'Given a type that is missing and not mapped after the run, when the mapping and the record are read, then the mapping holds nothing for that type and the record names it as still missing, which is all a filing play needs to stop and point to initialize.' The ICE 'Fails if' (line 76) now tests the mapping and the record, not the plays."
+      - "It matches the sibling page: fn-review-rule-groups line 38 handles the review change the same way."
+    basis: G7
+    note: "no feature or issue owns that later story yet; raised as NP-3 (P4)"
+  - id: PM-7
+    round1_severity: P4
+    verdict: fixed
+    evidence:
+      - "capability.md line 5: 'the tracker holds every issue type Garura files (Business Intent, Epic, Story, Bug, Chore, Spike). Business Intent is the one product-layer type among them: it holds a need the product meets, while the other five are work items.' fn-881 line 5 says the same. This agrees with ADR 048 lines 21-23 (Business Intent in the product layer; Epic, Story, Spike, Chore, Bug in the work layer)."
+      - "The spine fn-881 one_line now reads 'Find which of the issue types Garura files (Business Intent, Epic, Story, Bug, Chore, Spike) ...' and the other pages say 'the issue types Garura files'."
+      - "Where 'work-item types' still stands it is the kept fn-881 title (not flagged, as directed), the quoted #881 title and Done-when text, and the capability's one_line, which the Sources line quotes as the product owner's seed answer."
+    basis: G6
+
+# ------------------------------------------------------------------------------------------------
+# 2. New problems (the fixes brought them in)
+# ------------------------------------------------------------------------------------------------
+findings:
+  - id: NP-1
+    severity: P2
+    file: ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md line 7 (also fn-883/feature.md line 8; line 24 of fn-project-memory for a standards folder as a selection)"
+    principle: "G1 -- Garura memory is never a copy of a Phoenix file."
+    source: "origin/plan/788/base:core/grounding/glossary.md line 37; origin/plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md lines 46-50"
+    what: "The fix to PM-1 defines a part as 'one section of the file, or all of its sections when every one speaks to the answer; either way the project's memory is built from it, never a copy of the file'. A part that holds all of a file's sections is the file. The same page then says a project's memory must hold 'no file ... a copy of a whole Phoenix file' (acceptance, line 41) and fails if it 'holds a whole Phoenix file' (ICE, line 70). Its Java criterion (line 37) asks for 'the Java standards, built from what the memory tool lists for them', and a standards file whose every section is about Java is exactly that case. So the page allows a whole-file copy in one line and forbids it in two others, and a builder cannot satisfy both. The committed rule is categorical (never a copy of a Phoenix file); whether a file that is wholly relevant may be taken whole is not stated in ADR 039 or the glossary."
+    fix: "Needs the product owner's answer, because the committed sources do not give one: either a whole file is never taken (drop 'or all of its sections' and say how a wholly relevant file is cut), or it may be taken when every section is relevant (then the product owner amends ADR 039 Decision 4 and the glossary row first, and the 'no whole file' criterion and Fails-if lines change). Until then the two lines cannot both stand."
+  - id: NP-2
+    severity: P4
+    file: ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md line 66 (Sources)"
+    principle: "G7 -- a Sources line cites a committed source and quotes it as written."
+    source: "origin/plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md lines 21-23; _content-standard.md bar 5 (the stranger test: a cold reader can follow the source)"
+    what: "The line cites ADR 048 'as the review of PR #886 states its rule' and puts in quotes 'Business Intent is a product-layer tracker issue labelled product, not a work item'. That sentence is the review's wording. ADR 048 says 'Only the Business Intent is a product-layer tracker issue, labelled `product`.' A page that points a reader to a review of its own pull request cites a record that will not be in the model, and the quote is not the ADR's text."
+    fix: "Quote ADR 048 Decision 1 as it is written and drop the mention of the review."
+  - id: NP-3
+    severity: P4
+    file: ".garura/product/product-os/_spine.yaml (cap-initialize and its six features); capability.md line 23; fn-881 line 56; fn-review-rule-groups line 38"
+    principle: "Every part of a business intent's Done-when has an owner in the model or the tracker."
+    source: "GitHub #881 Done-when, last line ('A play that writes to the tracker stops with a plain message when a type it needs is missing, and points to initialize'); GitHub #862 Done-when ('the review record names the groups it skipped')"
+    what: "Moving the 'stop and point to initialize' behaviour out of fn-881 (the PM-6 fix) is right, but two later stories now exist only as the words 'a later story of this business intent, not filed yet': the change to the filing plays, and the change to the review. No spine feature and no issue is named for either, so the last Done-when line of #881 and the last-but-one of #862 have no owner when those stories close. The pages say so openly, so this is a visible gap, not a hidden one."
+    fix: "Record the two later stories on the plan when the work is next shaped, so each Done-when line has an owner."
+  - id: NP-4
+    severity: P4
+    file: ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml (affects line 1; consequences.negative last line)"
+    principle: "G5 -- the consequences and affects of an accepted decision describe the accepted state."
+    source: "origin/plan/788/base:core/components/memory/standards/schemas/product-os/decision.yaml lines 34-36 and the immutability line 43"
+    what: "The record is now accepted (accepted_by: the product owner), yet two lines still read as if it were not: the affects line says the save script wrote the profile level 'pending this decision', and the last negative consequence says 'if the product owner rejects it, the profile's security line must be taken back out'. Both describe the time before the yes. An accepted record is not edited later, so these lines will stay."
+    fix: "Reword the two lines to the accepted state before the record is merged."
+
+# ------------------------------------------------------------------------------------------------
+# 3. Known open (left open on purpose; not raised again)
+# ------------------------------------------------------------------------------------------------
+known_open:
+  - id: PM-3
+    state: "still open: cap-initialize and all six features keep 'intents: []'; no intent page for #862 yet (written later by /shape-slice 862)"
+  - id: PM-4
+    state: "still open: 'product profile', the rule-group record, the tracker mapping, the change record and the block list still have no committed home or schema. The PM-1 fix leans on it a little more, because fn-883 now keeps a block list (selection, parts, fingerprints, Phoenix memory version) in the project's Garura memory; it is the same gap, so it stays under PM-4"
+  - id: PM-8
+    state: "still open: the cap-718 one_line is still re-wrapped over two lines in _spine.yaml (formatting only)"
+  - id: PM-9
+    state: "still open: the pages follow the Phoenix install / Garura install / initialize rule; the amendment to ADR 038 and the glossary rows 38 and 163 are planned separately"
+  - id: RR-1
+    state: "not a model finding: the six old run-1 gate records (round-1 repository review); left to that review"
+
+checks_passed:
+  - "Shape: the spine lint reports nothing for cap-initialize or the six feature pages."
+  - "Boundary agrees with G3 and the product owner's rule: the Phoenix install is Out and owns Phoenix memory; the Garura install is Out and lays no memory; initialize reads Phoenix memory only through the memory tool, never writes Phoenix or another project's memory; it stops and says so when the tier cannot be reached."
+  - "Spine: the capability's nfr_needs (reliability, security, maintainability) are each at or below the profile (all medium), and the profile security move none to medium matches the decision and its gate text."
+  - "No real person name and no company or client name appears in the pages, the spine entries or the decision."
+  - "The fn-881 page title is kept as the product owner chose; not flagged."
+
+counts:
+  P1: 0
+  P2: 1
+  P3: 0
+  P4: 3
+  total: 4
+round1_fix_status: {PM-1: fixed, PM-2: fixed, PM-5: fixed, PM-6: fixed, PM-7: fixed}
+summary: "All five round-1 fixes hold. The pages now build a project's memory from the relevant part of Phoenix memory and never copy a file. One hole remains in the new wording: a 'part' may be all of a file's sections, which the same page forbids elsewhere. Three small P4 notes."

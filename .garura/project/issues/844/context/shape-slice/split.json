@@ -1,0 +1,119 @@
+{
+  "asked": [
+    {
+      "id": "Q-intent-1",
+      "topic": "intent",
+      "blocking": true,
+      "question": "Is the drafted page for business intent bi-788 confirmed as the product owner's own intent?",
+      "why": "The page is at stage proposed, and the ready rule says a node that serves only a proposed intent is not ready; the intent itself says no ICE that is not ready is shaped, so every part this slice adds stays blocked until a person confirms the page.",
+      "examples": [
+        "An online shop: 'customers return an item without calling support' is confirmed before the returns slice is shaped.",
+        "A clinic: 'patients book their own follow-up visit' is confirmed before the booking slice is shaped.",
+        "A payroll team: 'staff see each payslip the day it is paid' is confirmed before its slice is shaped."
+      ],
+      "assume": "The slice is shaped from the page as drafted; the page stays proposed, and the checkpoint says its new parts are not ready until the product owner confirms it.",
+      "proposed_answer": null,
+      "basis": null,
+      "no_basis_why": "Only the product owner can confirm the page; the page itself says 'A person confirms it' (line 20) and no record holds an earlier answer."
+    },
+    {
+      "id": "Q-surface-1",
+      "topic": "surface",
+      "blocking": true,
+      "question": "Which one command starts the shaping loop when the product owner tests it end to end?",
+      "why": "A slice has exactly one surface; the model and memory name no command that starts the three plays in a row, so a wrong choice either leaves out a feature (a new loop command) or tests the loop from the wrong entry.",
+      "examples": [
+        "A shop: the one surface is the Checkout page.",
+        "A bank: the one surface is the POST /transfers endpoint.",
+        "A data team: the one surface is the 'report run' command."
+      ],
+      "assume": "The surface is '/shape-slice <intent issue>' run in Claude Code: it runs the plan play and the eval play after it and stops once, at the one approval; no new loop command is in the slice.",
+      "proposed_answer": null,
+      "basis": null,
+      "no_basis_why": "The model and memory name no command that starts the three plays in a row; only issue #788 and ADR 049 speak of the loop, and neither is a basis."
+    },
+    {
+      "id": "Q-capability-1",
+      "topic": "capability",
+      "blocking": false,
+      "question": "Should the four shaping plays sit under one new capability for the shaping loop?",
+      "why": "No capability in the model serves bi-788, so the run must add one; splitting the plays across several capabilities changes which ICE each story is planned from.",
+      "examples": [
+        "A shop: 'Returns' holds start a return, print a label, track the refund.",
+        "A clinic: 'Booking' holds find a slot, book it, move it."
+      ],
+      "assume": "One new capability, 'The shaping loop turns a business intent into a testable slice, its plan and its eval' (#794), holds /shape-slice (#795), the plan play (#818), the eval play (#798) and the one approval step (#796).",
+      "proposed_answer": null,
+      "basis": null,
+      "no_basis_why": "No capability in the model serves bi-788; the capability (#794) and its parts are named only in tracker issues, which are not a basis."
+    },
+    {
+      "id": "Q-order-1",
+      "topic": "order",
+      "blocking": false,
+      "question": "Should the one approval step be built last, after the eval play?",
+      "why": "The approval shows the slice, the plan and the eval together, so building it before the plays it shows means it is tested against parts that do not exist yet.",
+      "examples": [
+        "A shop: the order summary page is built after the cart and the payment step it sums up.",
+        "A tax app: the final review screen is built after the forms it shows."
+      ],
+      "assume": "Build order: /shape-slice (#795, already built), then the plan play (#818), then the eval play (#798), then the one approval step (#796).",
+      "proposed_answer": "Yes. Build the one approval step last, after /shape-slice, the plan play and the eval play: the approval comes at the end and approves the slice, the plan and the eval, so the plays that make them come first.",
+      "basis": {
+        "kind": "model",
+        "ref": ".garura/product/product-os/intents/bi-788.md lines 9-16 (line 14: 'The product owner gives one approval, at the end.')"
+      }
+    },
+    {
+      "id": "Q-scope-1",
+      "topic": "scope",
+      "blocking": false,
+      "question": "Does the slice need eval encryption (#828) to meet the proof that no builder can read the eval?",
+      "why": "Today only a read rule keeps builders out of a plan's evals folder (ADR 049); adding encryption adds a feature and moves the build order, while leaving it out means the proof rests on a rule nothing on disk enforces.",
+      "examples": [
+        "An exam board: sealed exam papers, or a rule that staff do not open the cupboard.",
+        "A hospital: an encrypted patient file, or a rule that only the doctor opens it."
+      ],
+      "assume": "The read rule meets the proof for this slice; encryption (#828) stays outside it.",
+      "proposed_answer": null,
+      "basis": null,
+      "no_basis_why": "The intent page asks that no builder can read the eval (line 16) but says nothing on whether a read rule is enough; only ADR 049 and issue #828 speak to it, and neither is a basis."
+    },
+    {
+      "id": "Q-scope-2",
+      "topic": "scope",
+      "blocking": false,
+      "question": "Does the slice need the author-slice skill (#838) for the step that picks the features?",
+      "why": "The proof says a play runs each step; today the agent picks the slice's features, surface and tester itself inside /shape-slice, so adding the skill adds a feature, and leaving it out keeps that choice in the agent.",
+      "examples": [
+        "A bakery: the head baker picks the daily menu, or a written recipe card picks it.",
+        "A support desk: the lead sorts each ticket, or a set routing rule sorts it."
+      ],
+      "assume": "The skill (#838) stays outside the slice; the agent picks the features and documents each choice, which still counts as a play step.",
+      "proposed_answer": "No. The author-slice skill (#838) stays outside the slice: the agent picks the features, surface and tester inside /shape-slice, which is a play, so the step is run by a play and not by hand.",
+      "basis": {
+        "kind": "model",
+        "ref": ".garura/product/product-os/intents/bi-788.md line 15 ('A play runs each step. No step is done by hand.')"
+      }
+    },
+    {
+      "id": "Q-test-1",
+      "topic": "test",
+      "blocking": false,
+      "question": "On which project does the product owner run the shaping loop to test the slice?",
+      "why": "The intent is about Garura's own work, but the eval play (#798) names Griffin as the test project for a play; testing on the wrong project checks the loop against the wrong product model.",
+      "examples": [
+        "A mobile app: tested on the staging build, not on the live store.",
+        "A bank: a new transfer flow tested in the sandbox, not with real accounts."
+      ],
+      "assume": "The product owner runs it on Garura's own repository, on a real business intent issue.",
+      "proposed_answer": "On Garura's own repository, on a real business intent issue: the intent exists because no play designs the work for Garura's own work.",
+      "basis": {
+        "kind": "model",
+        "ref": ".garura/product/product-os/intents/bi-788.md line 5 ('No play designs the work for Garura's own work')"
+      }
+    }
+  ],
+  "assumptions": [],
+  "over_budget": false
+}

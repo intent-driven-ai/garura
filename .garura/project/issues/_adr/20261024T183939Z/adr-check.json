@@ -1,0 +1,24 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261024T183939Z/adr-draft.md",
+  "lint": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261024T183939Z/adr-draft.md",
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261024T183939Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes",
+    "declared_matches_context": true
+  },
+  "old_name_check": {
+    "tool": "core/tools/naming/check_old_names.py",
+    "run_on": "the draft as docs/adr/054 in a scratch root",
+    "hits": 0
+  },
+  "retries": 0
+}

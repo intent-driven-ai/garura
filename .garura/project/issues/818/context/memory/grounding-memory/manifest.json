@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/_index.md",
+      "version": null,
+      "fingerprint": "sha256:9b72f3577a77c8478539a43f31051cb1e30c5af2a14a080354bc91923a3be147",
+      "copy": ".garura/project/issues/818/context/memory/grounding-memory/standards/rules/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/no-unbacked-recommendation.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:d1dc18abe70981cf7691e57ee7ae29ede9c647eb4481dcc17b7fd55b98e08dd5",
+      "copy": ".garura/project/issues/818/context/memory/grounding-memory/standards/rules/no-unbacked-recommendation.md"
+    }
+  ]
+}

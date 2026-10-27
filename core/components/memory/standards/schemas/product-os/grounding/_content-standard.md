@@ -26,15 +26,15 @@ Two guards enforce it, and they are different jobs:
 
 2. **Discrete, not narrative.** We do not write flowing story-prose. Each point is a
    complete, standalone thought — typically one to four sentences. Agile forms:
-   acceptance criteria as Given / When / Then; a functionality describes the
+   acceptance criteria as Given / When / Then; a feature describes the
    function's behavior, not an "as a user I want" story.
 
 3. **Depth increases with tree depth.** A theme is broad; a capability is more
-   specific; a functionality is the most concrete and detailed level — never leaner
-   than its parent. If a functionality reads thinner than its capability, it fails.
+   specific; a feature is the most concrete and detailed level — never leaner
+   than its parent. If a feature reads thinner than its capability, it fails.
 
-4. **Links are real.** Every cross-reference (an epic's delivered functionalities, a
-   capability's functionality list) names a node that exists in the spine. A dangling
+4. **Links are real.** Every cross-reference (an epic's delivered features, a
+   capability's feature list) names a node that exists in the spine. A dangling
    link fails.
 
 5. **The stranger test (the overall gate).** Someone joining in three months reads
@@ -46,9 +46,13 @@ Two guards enforce it, and they are different jobs:
 - **Completeness** — every required section is substantive, not placeholder.
 - **Self-explanation** — each item carries the *why* / implication, not just the *what*.
 - **Discreteness & form** — discrete points; Agile forms where required; no story-prose.
-- **Depth gradient** — detail increases theme → capability → functionality.
+- **Depth gradient** — detail increases theme → capability → feature.
 - **Link integrity** — every reference resolves to a real spine node.
 - **Stranger test** — a cold reader can explain the node's what, why, and edges.
 
 A doc that clears shape (linter) but fails any rubric line is rejected by the eval —
 the play does not proceed until it is rewritten to the bar.
+
+A fix round (the doc is judged again after a rewrite) follows the settling rule in
+`standards/rules/grounding-eval.md`: a new point on text that did not change is a note,
+shown to the person at the checkpoint, not a reject.

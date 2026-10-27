@@ -1,0 +1,116 @@
+# Layer 2 design-grounding: category product-model, change #798, PR #900, round 3, base plan/788/base
+category: product-model
+round: 3
+playbook: null   # none covers the product model (follow-up: write review/product-model)
+severity_source: .garura/project/issues/798/context/memory/standards/rules/pr.md (P1-P4 buckets; no table row covers the model, so the bucket text decides)
+
+principles:
+  - id: PM-1
+    text: "A slice is one vertical outcome a person can test end to end, on one surface. Its record holds name and outcome, and the outcome is 'one line: the usable thing this slice delivers'."
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md (v12), kind Slice; plan/788/base:.../product-os/slice.yaml (slice.outcome comment)"
+  - id: PM-2
+    text: "A feature page's Sources section says where the part is seen, one source per line, in words a later reader can open."
+    source: "plan/788/base:.../product-os/grounding/feature.md ('## Sources')"
+  - id: PM-3
+    text: "A thin ICE carries the mark in two agreeing places: the Thin line on its page and thin: true in its spine entry."
+    source: "plan/788/base:ontology.md, kind ICE (Rules); plan/788/base:docs/adr/052 section 5"
+  - id: PM-4
+    text: "Only a person confirms or drops a business intent. A confirmed intent records who confirmed it and when; the Must-not list holds the limits the person stated."
+    source: "plan/788/base:ontology.md, kind Business Intent (Properties 'Must not', 'Confirmed by and when'; Rules 'Only a person confirms or drops it')"
+  - id: PM-5
+    text: "The builder reads the story and the context its context sub-agent collected from the story's Context guidance; never an ICE page, the eval, the hidden file or a plan's evals folder."
+    source: "plan/788/base:ontology.md, kind Story (Rules) and kind Slice (Rules)"
+  - id: PM-6
+    text: "Each line of an ICE has one reader. The 'Fails if' lines go to the slice's hidden file, one entry per feature, in /shape-slice's words."
+    source: "plan/788/base:ontology.md, kind ICE (Rules) and kind Slice (Hidden file)"
+  - id: PM-7
+    text: "A person and an agent reading the model use the same words for the same things: the spine one-line and the page say the same."
+    source: "plan/788/base:ontology.md, opening paragraph; Capability property 'Name and one line'"
+  - id: PM-8
+    text: "A directional capability page names the capability and gives it direction only; it does not detail it and never touches features. Its features are in the spine."
+    source: "plan/788/base:.../product-os/grounding/capability.md (header, 'directional' stage, and 'Heading contract - DIRECTIONAL')"
+
+round_2_status:
+  - {id: PM-F2, state: open, check: "slices/sl-intent-to-design.yaml:5-8 outcome is unchanged: still a long sentence with three parts and a trailing clause."}
+  - {id: PM-F6, state: open, check: "fn-898/feature.md lines 16, 20, 39 still cite Q-builders-1 and Q-flag-1; line 41 still cites 'lines 34-38'; the same ADR 057 sentence is still in six pages (domain.md:18, capability.md:16, fn-795:41, fn-798:35, fn-818:43, fn-898:38)."}
+  - {id: PM-F7, state: open, check: "intents/bi-788.md:18 still says 'Do not let a builder read the eval'; line 20 footer unchanged."}
+  - {id: PM-F9, state: open, check: "shape-eval/capability.md:6 still has the 'Features:' paragraph."}
+  - {id: PM-F10, state: open, check: "Hidden file header line 3 of plans/788/evals/intent-to-design/failure-and-recovery.md still reads 'Slice: From a named piece of work to its design'. Run 3 (commit 8fceddab) changed only 'Who fixes' lines, not the header."}
+  - {id: PM-F11, state: open, check: "fn-898/feature.md:16 still carries the sentence 'When the list named only some plays, ...' (the story of an earlier draft)."}
+
+changed_since_round_2: "None. git diff f83d6ffd..HEAD over .garura/product shows no change; run 3 (commit 8fceddab) changed only the hidden file failure-and-recovery.md (six 'Who fixes' lines, F7, F8, F10, F11, F24, F25, now 'a person must decide'). Those edits are the slice-evals category, not the model; they do not touch the header, so PM-F10 stays."
+
+conformance_passes:
+  - "Nothing in the model changed since round 2, so every round 2 pass still holds: slice six fields and feature_refs order (PM-1); the fn-898 spine entry and its thin mark in two places (PM-3); spine one-line and page agree (PM-7); feature page headings (PM-2); the fn-818 Story rule is stricter than, and does not clash with, the base Story rule (PM-5); the 'Fails if' lines of fn-818, fn-798, the capability and fn-898 are in the hidden file with ids (PM-6); bi-788 Touches, Stage and 'confirmed by' lines untouched by this round (PM-4)."
+  - "The base ontology (v12), slice.yaml and grounding/feature.md and capability.md are unchanged on the branch (git diff plan/788/base..HEAD over the schemas folder is empty), so the principles still stand."
+
+findings:
+  - id: PM-F2
+    severity: P4
+    file: .garura/product/product-os/slices/sl-intent-to-design.yaml
+    line: 5
+    also: [".garura/product/product-os/slices/sl-intent-to-design.yaml:21"]
+    principle: PM-1
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/slice.yaml, slice.outcome ('one line: the usable thing this slice delivers'); ontology.md, kind Slice"
+    finding: "Carried from round 2, unchanged. The slice outcome (lines 5-8) is a long sentence with three parts and a trailing clause about the flag being recorded in a build run's evidence. The slice record asks for one line. A reader and the play that reads the spine line get a paragraph where the model promises one line. The product owner already kept fn-898 in the slice and approved the name, so only the length is left."
+    fix: "Shorten the outcome to one sentence, for example the three written parts and 'an eval no build is given', and leave the flag to fn-898."
+
+  - id: PM-F6
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+    line: 39
+    also:
+      - ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md:41"
+      - ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md:16"
+      - ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md:20"
+    principle: PM-2
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md ('## Sources': where it is seen, one source per line, in words a later reader can open)"
+    finding: "Carried from round 2, unchanged. Sources point to 'Q-builders-1' and 'Q-flag-1', which are question ids in one issue's working file, and to 'evidence-file.md, lines 34-38', a line range that moves. The rules (lines 16 and 20) also say 'the product owner's answer to Q-builders-1 / Q-flag-1', so a later reader of the page cannot open the answer. The same ADR 057 sentence is pasted into six pages (domain.md:18, capability.md:16, fn-795:41, fn-798:35, fn-818:43, fn-898:38), so six places must be kept in step."
+    fix: "Replace the question ids with the words of the answer, or with #898 (where they are recorded); drop the line range; cite ADR 057 once in each page in the page's own words."
+
+  - id: PM-F7
+    severity: P4
+    file: .garura/product/product-os/intents/bi-788.md
+    line: 18
+    also: [".garura/product/product-os/intents/bi-788.md:16", ".garura/product/product-os/intents/bi-788.md:20"]
+    principle: PM-4
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md, kind Business Intent (Properties 'Must not' and 'Confirmed by and when'; Rules 'Only a person confirms or drops it')"
+    finding: "Carried from round 2, unchanged. Two small points on the hand-edited intent, both for the product owner and neither a fault of the edit. (a) The Must-not list still says 'Do not let a builder read the eval', while the new proof line (line 16) and every model page say the build is given the intent and a read is only flagged, never blocked. The owner approved the proof line, not this line, so the page states two different limits. (b) The confirmation footer (line 20, 'confirmed it on 2026-10-24 (#844)') still reads as covering the old proof line; the page does not show that the line changed later on the owner's word. The reason sits in commit 96567014 and #901, not on the page."
+    fix: "Ask the product owner whether the Must-not line stays as written. Leave the footer note to #901, which is to record who asked, when and the words; do not edit the intent page again by hand."
+
+  - id: PM-F9
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+    line: 6
+    also: [".garura/product/product-os/software-delivery-planning/shape-eval/capability.md:4"]
+    principle: PM-8
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/grounding/capability.md (directional stage: 'never touches features'); ontology.md, kind Capability"
+    finding: "Carried from round 2, unchanged. cap-shape-eval is a directional capability (spine detail: directional), and its page has a 'Features:' paragraph (line 6) that lists fn-798 and fn-898 with a summary of each. The directional stage keeps features out of the page; the spine already holds them, so the paragraph can drift from the spine. The earlier question also stays: fn-898 holds two checks about the build, not about writing the eval, under a capability named 'Write the hidden eval'. The product owner kept the feature in the slice but did not say which capability owns it."
+    fix: "Delete the 'Features:' paragraph. Product owner to say whether cap-shape-eval is the right parent for fn-898."
+
+  - id: PM-F10
+    severity: P4
+    file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+    line: 3
+    principle: PM-7
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md, kind Slice (Id and name; hidden file 'the slice' entry) and the opening paragraph (same words for the same things)"
+    finding: "Carried from round 2, unchanged by run 3. The slice was renamed to 'Name a business intent, and three plays write its slice, plan and eval', but the hidden file's header (line 3) still says 'Slice: From a named piece of work to its design'. It is the only place the old name is left, so a person searching the eval by the slice name finds two names for one slice. (This file is outside the product-model paths; it is found while checking the rename.)"
+    fix: "Make the hidden file again from the renamed slice record (the play writes it), so the header carries the new name."
+
+  - id: PM-F11
+    severity: P4
+    file: .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+    line: 16
+    principle: PM-2
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md ('Rules & behavior': the logic, states and edge cases; each line explains itself)"
+    finding: "Carried from round 2, unchanged. A rule says 'When the list named only some plays, a play that builds code and is not on the list could be given the eval'. It tells the story of an earlier draft that a later reader has never seen, so it does not say what holds now."
+    fix: "Say it as a rule: every play, skill and agent that builds the software is covered, so a play not on any list is still checked."
+
+grounding_unavailable: []
+notes:
+  - "ADR 057 and the docs edits in the diff were used only to check that a citation exists, never to ground a finding."
+  - "ADR 057 (a branch file, owned by the human) says on its 'Business intent check' line that no intent page is edited; the branch then edited bi-788.md on the owner's word. Not a model finding, and not grounded in a base source; for the decision-records reviewer to read."
+  - "No P1, P2 or P3 finding. The mechanical shape conforms: the slice's six fields, the spine entries, the thin mark, the feature headings, the hidden-file entries."
+  - "Grounding was read from plan/788/base with git show (ontology v12, slice.yaml, grounding/feature.md, grounding/capability.md). No extra memory was copied for round 3; the shared pr.md copy supplies the severity buckets."
+counts: {P1: 0, P2: 0, P3: 0, P4: 6}
+round_2_summary: {fixed: 0, still_open_carried: 6, new: 0}

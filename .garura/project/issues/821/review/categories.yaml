@@ -1,0 +1,43 @@
+# check-change round 2 -- categories present in PR #832 (issues 821, 825, 829)
+categories:
+  - name: harness
+    description: Play and skill wiring (edit-ontology ICE and SKILL, create-play grounding-linter instruction, author-product-ontology input, fix-bug/refactor-code checkpoint wording), the asking-a-person and shared-scripts lint rules with tests, and one main copy plus 12 identical copies of lint_grounding.py.
+    evidence_paths:
+      - core/components/plays/edit-ontology/reference/ice.md
+      - core/components/plays/edit-ontology/SKILL.md
+      - core/components/plays/create-play/SKILL.md
+      - core/components/plays/create-play/references/lint_grounding.py
+      - core/components/plays/*/scripts/lint_grounding.py
+      - core/components/skills/author-product-ontology/SKILL.md
+      - core/tools/lint-components/lib/rules/asking-a-person.js
+      - core/tools/lint-components/lib/rules/shared-scripts.js
+      - core/tools/lint-components/test/*.test.js
+    playbook: review/harness
+    design_bearing: true
+    runnable_check: lint-components, linter tests, spine linter tests
+  - name: memory
+    description: Checkpoint and evidence templates, rules, schemas, agents and the glossary moved to plain yes/change/stop and CHANGE_REQUESTED; spine schema gains slice intents.
+    evidence_paths:
+      - core/components/memory/standards/templates/*.md
+      - core/components/memory/standards/rules/product.md
+      - core/components/memory/standards/schemas/intent-epic.yaml
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+      - core/grounding/glossary.md
+      - core/components/agents/epic-expectation-crafter.md
+      - core/components/agents/product-keeper.md
+    playbook: review/memory
+    design_bearing: true
+    runnable_check: path / cross-reference / structure integrity check
+  - name: docs
+    description: Philosophy, framework, design and usage pages updated for the renamed checkpoint replies and states (AGENTS.md too), plus issue 821 run records and hidden-eval evidence.
+    evidence_paths:
+      - docs/philosophy/*.md
+      - docs/framework/*.md
+      - docs/design/*.md
+      - docs/components/plays.md
+      - docs/usage/plays/create-pr.md
+      - AGENTS.md
+      - .garura/project/issues/821/context/**
+    playbook: review/docs
+    design_bearing: false
+    runnable_check: null

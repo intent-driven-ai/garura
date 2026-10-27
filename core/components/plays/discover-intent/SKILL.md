@@ -1,7 +1,7 @@
 ---
 name: discover-intent
 position: both
-description: 'Turn whatever a person shares to explain what they want — a prototype (a file, a project folder or a deployed site), a document, or a plain statement — into the person''s Business Intents: each need the product meets for its user, at the level of the product and in its users'' words, with why the business needs it, who asks for it as a persona, and a measurable proof — the play drafts these with their basis — each confirmed or dropped by them. Writes business intents only (ADR 043): no ICE, no capability, no domain — /discover-domains writes domains and /discover-capabilities writes capabilities and functionalities with their ICE; the links are made later. Keeps what they shared as Sources, exactly as they were when read, and links intents and Sources both ways. The product model is the hand-off to later plays. A play of the Discovery loop, and the hand-in from a person to the product model. Run by hand it opens and lands its own change; handed a loop''s JSON contract it opens nothing of its own.'
+description: 'Turn whatever a person shares to explain what they want — a prototype (a file, a project folder or a deployed site), a document, or a plain statement — into the person''s Business Intents: each need the product meets for its user, at the level of the product and in its users'' words, with why the business needs it, who asks for it as a persona, and a measurable proof — the play drafts these with their basis — each confirmed or dropped by them. Writes business intents only (ADR 043): no ICE, no capability, no domain — /discover-domains writes domains and /discover-capabilities writes capabilities and features with their ICE; the links are made later. Keeps what they shared as Sources, exactly as they were when read, and links intents and Sources both ways. The product model is the hand-off to later plays. A play of the Discovery loop, and the hand-in from a person to the product model. Run by hand it opens and lands its own change; handed a loop''s JSON contract it opens nothing of its own.'
 user-invocable: true
 ---
 
@@ -19,7 +19,7 @@ as its **Source**:
 
 This play writes business intents only (ADR 043). It writes no ICE, no capability and no
 domain: `/discover-domains` writes the domains, and `/discover-capabilities` writes the capabilities and
-functionalities with their ICE. Each kind is written on its own and linked later — by the play
+features with their ICE. Each kind is written on its own and linked later — by the play
 that links a part to an intent, or, inside a loop, by the loop's gap skills. Run on its own,
 this play leaves the rest of the model to those plays.
 
@@ -334,7 +334,7 @@ every business intent a need the product meets for its user, at the product's le
 users' words, with asked by a persona and a measurable proof.
 **SE-12 (F12/C12):** it reports a coverage map with every part mapped to an existing business
 intent and every intent the source shows mapped from a part, every Source summarised, and no
-`ice`, `domains`, `capabilities` or `functionalities` in the draft; the agent's contract reads
+`ice`, `domains`, `capabilities` or `features` in the draft; the agent's contract reads
 `completed` (its judgment found no unmapped page, tab or section, no two needs merged into one
 intent, and no intent that restates the source).
 **SE-13 (F13/C13):** it reports every question carrying 1–3 example answers, and — run with
@@ -488,7 +488,8 @@ end member ran, and the branch the commit landed on equals the contract's branch
   `intent-manifest.json` `updated` names the intents it filled, and every filled property's
   provenance is `source`, `journey`, `memory`, `model`, `person` or `proposed`.
 - **SCE-11 (S11 — product owner, a prototype rebuilt from its intents):** run on the saved model
-  (`core/tools/rebuild-eval`, stages `prepare,inventory,check,review`), the static check reads
+  (the installed `.garura/core/tools/rebuild-eval/run_eval.py`, stages
+  `prepare,inventory,check,review`), the static check reads
   no `intent-field` or `intent-proof-open` finding, and the review reads every intent test
   passed (`need_the_product_offers`, `outcome`, `asked_by_persona`, `why_business`,
   `proof_measurable`, `product_words`).
@@ -549,11 +550,11 @@ the session identity stamp fields from $session_stamp (#463): session_id, ledger
 ledger_start_offset, ledger_end_offset (null when unresolved — never blocks the close); and
 stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## intent Delivered — <n> business intents`, the Run Summary table, the
 Pipeline Steps table from the task DAG, the Artifacts Produced table (the intent pages and the
 Sources), Next Steps (run `/discover-domains` for the domains and `/discover-capabilities` for the capabilities and
-functionalities, or the Discovery loop for all of it — the links are made there), and a pointer to
+features, or the Discovery loop for all of it — the links are made there), and a pointer to
 `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -611,7 +612,7 @@ Inside a loop, a resume keeps `in_loop` from `run.json`.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:a2a9f28381688bc67acee18430e9ec2e417037784bde19d8ae7b7d94ae577197 (of `reference/ice.md`) |
+| fingerprint | sha256:0cf2249a72b85d11987b20b4542e0dbaafe8f51392d9926c58e772bb2df6e49a (of `reference/ice.md`) |
 | compiled_by | edit-play (#689 ADR 043: business intents only — no ICE, capability or domain); edit-play (#689 the product at the product's level: C17); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#637 one product model with /discover-domains); create-play (#612) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a loop) |
 | position_exception | model-writing both play — writes the intent on its started branch (or the loop's) and commits its own model delta (Step 7) BEFORE the injected end sequence lands it |

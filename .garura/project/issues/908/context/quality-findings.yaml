@@ -1,0 +1,35 @@
+# Layer 1 standards linter result for PR #911 (change #908), round 3.
+# Categories: executable-code and tests. Produced by the check-pr-quality skill (scan_taxonomy.py)
+# against context/pr.diff and the short-term copy of the PR severity taxonomy
+# (context/memory/standards/rules/pr.md). Scan exit code 0; no taxonomy row failed to compile.
+# Each finding is written as: title, severity, where, problem, what it leads to, fix, basis.
+# This run found none.
+# Side checks (the python language linter is not committed in this repo, so the fallback ran):
+#   python3 -m py_compile on the four changed scripts and the three test files: clean.
+#   The three test files, run as scripts: test_edit_slice 35 passed 0 failed; test_render_brief 32 passed 0 failed;
+#   test_write_hidden_file 26 passed 0 failed.
+meta:
+  generated_at: '2026-10-27T06:38:45Z'
+  round: 3
+  diff_path: '.garura/project/issues/908/context/pr.diff'
+  taxonomy_path: '.garura/project/issues/908/context/memory/standards/rules/pr.md'
+  changed_paths_count: 7
+  scan_coverage: 1.0000
+  standards_relevant: 0
+  errors: 0
+  scanned_paths:
+    - core/components/plays/shape-slice/scripts/edit_slice.py
+    - core/components/plays/shape-slice/scripts/record_questions.py
+    - core/components/plays/shape-slice/scripts/render_brief.py
+    - core/components/plays/shape-slice/scripts/write_hidden_file.py
+    - core/components/plays/shape-slice/scripts/test_edit_slice.py
+    - core/components/plays/shape-slice/scripts/test_render_brief.py
+    - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+  catchall:
+    CODE-20: 7   # the catch-all row covered all seven files; it is a count, never per-file findings
+findings: []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0

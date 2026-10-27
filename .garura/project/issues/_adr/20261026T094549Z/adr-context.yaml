@@ -1,0 +1,157 @@
+# Context gathered by adr-keeper for /record-decision (task draft-adr), 2026-10-26.
+shape: markdown
+number: "057"            # adr.py number --dir docs/adr -> {"next": "057", "taken": 56}
+file_name: 057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md
+level: framework
+node_ref: null
+status: proposed
+date: 2026-10-26
+decided_by: ""           # left empty; filled when a person accepts
+decided_by_in_brief: the product owner, 2026-10-26, in the design of #798
+decided_in: "#798 (the eval play, /shape-eval), in the shaping loop of business intent #788 (slice sl-intent-to-design)"
+
+overlaps:
+  ran: adr.py overlaps --adr <brief> --dir docs/adr
+  candidates_found: ["049", "052", "028"]
+  also_read: ["048", "047", "054", "017", "013"]   # read by hand: they touch the eval or encryption
+  judged:
+    - adr: "049"
+      verdict: amended
+      parts:
+        - "§4 'How the ICE reaches the eval and the builder', last paragraph: the sentence 'Encrypting the evals is #828.' The eval is not encrypted; the read rule in the same paragraph is now the whole guard, not a stop-gap."
+        - "Consequences, Negative / Risks: 'Until #828, only a read rule keeps the eval from the builder. A play that breaks the rule is not stopped by anything on disk.' The words 'Until #828' go: the read rule is the guard for good; the risk that nothing on disk stops a play that breaks it stays."
+        - "Work This Creates: '#828 — encrypt the evals.' Dropped; #828 is closed as not planned (closed 2026-10-26)."
+      note: >-
+        The brief names §4's line and the Work line. The keeper adds the Negative / Risks line: it
+        says the read rule is temporary 'until #828', which is no longer true. Everything else in
+        ADR 049 stands: §3 (the eval and the hidden file in plans/<plan-id>/evals/<slug>/; "the
+        eval" is now a set of files: one story file per story and one slice file, all in that
+        folder), the two read times in §4 (the eval play reads the epic, its stories and the
+        hidden file; the running eval reads the eval, the usage guide, the Context guidance in
+        the eval and only the recovery parts of the hidden file), and the handoff plan.
+    - adr: "052"
+      verdict: not affected
+      why: >-
+        The hidden file keyed by feature (§1), the plan play writing nothing in the evals folder
+        (§2) and the epic's feature-to-story map that the eval play uses for the join (§3) are
+        what this decision builds on: a story file is named by its feature id
+        (eval.<feature-id>.feature.md) and covers that feature's failure conditions from the
+        hidden file. Its "What this does not change" line on the read rules still holds.
+    - adr: "048"
+      verdict: not affected
+      why: "Its Context says the chain builds a 'hidden eval suite'. The eval stays hidden from the builder (never given to it); only the lock (encryption) is not built. §1-§5 are not about the eval's form."
+    - adr: "047"
+      verdict: not affected
+      why: "The ICE keeps its three parts; 'the Expectation has scenarios, so evals can be built from it' still holds. The eval reads no ICE (it reads the stories and the hidden file)."
+    - adr: "054"
+      verdict: not affected
+      why: "It marked author-encrypted-evals stale until its callers are rebuilt (#855). This decision does not delete or change that skill; it says the slice eval is not encrypted. Related only."
+    - adr: "017"
+      verdict: not affected
+      why: "As amended by ADR 049, plans/<id>/evals/<slug>/ holds the slice's eval and its hidden file; the new eval files go in that folder."
+    - adr: "028"
+      verdict: not affected
+      why: "Shares only the path docs/philosophy/idd-principles.md, for Principle 1 (intents declare outcomes). Not about evals."
+    - adr: "013"
+      verdict: not affected
+      why: "Its 'scenarios as holdout set' is about a play's own scenario evals, not a slice's eval."
+supersedes: []
+amends:
+  - adr: "049"
+    file: 049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    part: >-
+      §4, the sentence "Encrypting the evals is #828"; Negative / Risks, the words "Until #828"
+      in "Until #828, only a read rule keeps the eval from the builder"; and Work This Creates,
+      "#828 — encrypt the evals"
+
+affects:                 # every path exists on disk (checked 2026-10-26); the new ones are uncommitted on plan/788/798-shape-eval
+  - path: docs/philosophy/idd-principles.md
+    what: >-
+      its lines that say the evals are encrypted (Principle 4: line 110 "Those evals are then
+      encrypted", line 120 "stay hidden and encrypted", line 124 "then encrypted", the routing
+      table row "Encrypted evals ... ✓ (decrypts)" at line 134, line 141 "evals are encrypted").
+      Not yet edited on the branch. Who receives what in the routing table does not change; only
+      the lock does.
+  - path: core/components/plays/shape-eval/
+    what: new play, compiled from core/components/plays/shape-eval/reference/ice.md
+  - path: core/components/skills/author-slice-eval/
+    what: new skill that writes the story files and the slice file
+  - path: core/components/agents/evals-engineer.md
+    what: one job now (gather the copies and call author-slice-eval for /shape-eval); its steelman mode for /build-epic and its encrypted flow (author-encrypted-evals) are removed, and its stale mark is gone
+  - path: core/components/memory/standards/templates/eval-story.feature.md
+    what: new template, one story file
+  - path: core/components/memory/standards/templates/eval-slice.md
+    what: new template, the slice file
+  - path: core/components/memory/standards/schemas/eval/steps-command-line.yaml
+    what: new, the first step library (command line)
+  - path: core/components/memory/standards/templates/_index.md
+    what: lists the two new templates
+  - path: core/components/memory/standards/schemas/_index.md
+    what: lists the step libraries (eval/steps-<kind>.yaml)
+
+ice_impact: >-
+  The product ICE does not change: each capability and feature keeps one ICE in three parts (ADR
+  047), and the eval still reads no ICE page. /shape-eval gets its ICE now
+  (core/components/plays/shape-eval/reference/ice.md): Gherkin story files and one slice file
+  (C2, C3), a scenario or an Untestable line for every goal, expectation and failure condition
+  (C5), a fixed yardstick that only adds scenarios (C7), a summary at the checkpoint and never
+  the eval (C9), steps only from the step library of the surface kind, with no agent (C12),
+  names in square brackets for what the build makes (C13), and a time limit per scenario (C14).
+  evals-engineer changes in intent: it only checks the copies and calls author-slice-eval. The
+  eval runner (a later play, #819) gets its ICE when it is built: it runs the steps exactly, with
+  no agent, and passes only when every scenario passes. The routing of Principle 4 holds: the
+  builder never receives the eval; the validator is now a runner that reads the eval as plain
+  text (no decrypt).
+ice_sources_read:
+  - core/components/plays/shape-eval/reference/ice.md (Intent, Constraints C1-C14, Failure conditions F1-F14, Context)
+  - core/components/agents/evals-engineer.md (new text and its diff)
+  - core/components/memory/standards/schemas/product-os/ontology.md (repo source, v12: Slice's Eval row, Q28, Q29, Q35; read with grep as a file the decision may affect)
+
+business_intent_check: none
+business_intent_check_why: >-
+  No person's business intent changes, and the Business Intent kind does not change. Business
+  intent #788's page (.garura/product/product-os/intents/bi-788.md) has the proof line "The eval
+  is kept in a place where no builder can read it" and the must-not "Do not let a builder read
+  the eval". Neither names encryption. The product owner confirmed #788 on 2026-10-24, when ADR
+  049 (accepted 2026-10-23) already said the eval is kept from the builder "by a read rule only"
+  and encryption was only planned (#828). This decision keeps that place (the evals folder of
+  the home plan) and that rule (no builder, no skill that builds the software and no context
+  sub-agent reads a plan's evals folder; the build is given the stories, never the eval). It
+  drops a lock that was planned, not one the intent asked for, and the person who owns #788 made
+  the decision. The ADR does not edit the intent page and its Affects names no intent page. Note
+  for the person: with no lock, "no builder can read it" is met by the read rule, not by
+  anything on disk; if the product owner wants the proof line to say "is never given to a
+  builder", that is the person's own edit to the intent, not this ADR's.
+
+related:
+  - "ADR 047, ADR 048, ADR 049, ADR 052, ADR 054"
+  - "#788 (business intent), #798 (this change), #828 (encrypt the evals, closed as not planned 2026-10-26), #819 (the build stage, where the eval runs), #855 (the rebuild of the stale /build-epic)"
+
+keeper_notes_for_the_draft:
+  - >-
+    The stale /build-epic (core/components/plays/build-epic/SKILL.md, Step 6 at line 342) still
+    dispatches evals-engineer for steelman evals through author-steelman-evals. evals-engineer
+    no longer has that job. /build-epic is stale and is not installed; it is rebuilt with the
+    execute loop (#855, #819). This is a fact on disk for Negative / Risks, not new work the brief adds.
+  - >-
+    docs/philosophy/idd-principles.md is named in Affects but is not edited on the branch yet:
+    its five lines still say the evals are encrypted. That edit is the work this ADR creates.
+  - >-
+    core/components/memory/standards/rules/resolution.md (Context Isolation Exemptions) still
+    says the old judge "receives only encrypted evals"; that is the old /build-epic chain, which
+    is stale. Not in Affects; not changed by this decision.
+  - "docs/philosophy/garura-reference-implementation.md (line 372) already says the /build-epic evals are not encrypted; no change."
+
+memory:
+  ontology_for_ice_impact: .garura/project/issues/798/context/memory/standards/schemas/product-os/ontology.md
+  gap: >-
+    The memory tool answers the ontology from short-term memory (issue 798's copy) and from
+    Phoenix memory (version 44e1c4c4799a). Both hold ontology version 4 (2026-10-18), which has
+    no Slice, Eval or hidden file. No tier holds v12. The ICE impact is therefore read from the
+    plays' ICE sources and the repo's ontology source, not from memory. The /shape-eval ICE says
+    it reads ontology v12 through the memory tool: today that read would get v4.
+  writes: none   # the contract allows only the three output files; no new memory copy was made
+
+brief_complete: true     # decision, why now, five options with why each lost, decided by, decided in
+template_path: .garura/project/issues/_adr/20261026T094549Z/context/templates/standards/templates/adr.md
+draft_path: .garura/project/issues/_adr/20261026T094549Z/adr-draft.md

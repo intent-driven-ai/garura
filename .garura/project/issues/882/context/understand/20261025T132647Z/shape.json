@@ -1,0 +1,13 @@
+{
+  "play": "discover-capabilities",
+  "shape_key": "discover-capabilities:decisions_added+nodes_added+prose_edits+sections_rewritten",
+  "axes": {
+    "nodes_added": 7,
+    "nodes_removed": 0,
+    "status_changes": 0,
+    "profile_bars_changed": 0,
+    "decisions_added": 1,
+    "sections_rewritten": 48,
+    "prose_edits": 516
+  }
+}

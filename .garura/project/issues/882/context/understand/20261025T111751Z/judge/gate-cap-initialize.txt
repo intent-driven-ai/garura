@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/capability.md
+  discreteness_form = fail
+    evidence: 'We will know it is true when: one play (`initialize`) asks the questions, each with choices and a proposed answer that names its source; the answers set up the project's Garura memory ...; two projects on one machine with different answers hold different blocks; a review in the project runs only the rule groups that fit and its record names the groups it skipped; the tracker has each needed type or a named stand-in; and the product owner can run `initialize` again when the project or Phoenix memory changes.'
+    fix:      Split the proof bullet in Benefit hypothesis into one sub-bullet per check under 'We will know it is true when:' (questions carry choices and a sourced proposal; project memory holds only the selected blocks and the profile records the answers; two projects with different answers hold different blocks; a review runs only fitting rule groups and names the skipped ones; the tracker has each type or a named stand-in; initialize can run again). Six checks packed into one semicolon run-on reads as a paragraph, not discrete points.
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+  "failures": [
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "'We will know it is true when: one play (`initialize`) asks the questions, each with choices and a proposed answer that names its source; the answers set up the project's Garura memory ...; two projects on one machine with different answers hold different blocks; a review in the project runs only the rule groups that fit and its record names the groups it skipped; the tracker has each needed type or a named stand-in; and the product owner can run `initialize` again when the project or Phoenix memory changes.'",
+      "fix": "Split the proof bullet in Benefit hypothesis into one sub-bullet per check under 'We will know it is true when:' (questions carry choices and a sourced proposal; project memory holds only the selected blocks and the profile records the answers; two projects with different answers hold different blocks; a review runs only fitting rule groups and names the skipped ones; the tracker has each type or a named stand-in; initialize can run again). Six checks packed into one semicolon run-on reads as a paragraph, not discrete points."
+    }
+  ],
+  "missing": []
+}

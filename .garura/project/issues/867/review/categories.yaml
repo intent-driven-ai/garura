@@ -1,0 +1,77 @@
+# Work categories present in PR #871 (issue 867, base plan/788/base). Derived from the diff content.
+# Treatments come from the playbook copies in .garura/project/issues/867/context/memory/knowledge/review/.
+pr: 871
+base: plan/788/base
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/agents/_shared/memory-reading.md   # the agents' shared memory guide (agent wiring prose)
+      - core/components/agents/_shared/copy_memory.py      # the shared script every agent runs to copy memory
+    treatment:
+      layers: [1, 2]
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          note: only a violation in a changed path is a finding; count the rest as "there before". No play changed, so lint_play.py does not run.
+      runnable_checks:
+        - "Layer 2: dispatch change-reviewer once for this category (design-findings-harness.yaml); ground in docs/philosophy/**, docs/adr/**, glossary, standards rules (e.g. play-close, evidence-recording), via the memory tool, never in the branch's new prose."
+        - "Rubric: play->agent->skill->script wiring intact (script does the mechanical copy); the change holds the standards it is subject to. The ICE-source rule does not apply (no play SKILL.md changed)."
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/components/agents/_shared/copy_memory.py      # python script the runtime executes; it writes files and a manifest
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (PR severity taxonomy, SEC/CODE/ARCH/BE/PERF/DATA rows)
+          command: "dispatch quality-auditor -> check-pr-quality against the diff with the severity_taxonomy copy (context/memory/standards/rules/pr.md); output quality-findings.yaml"
+        - name: language linter
+          command: "not committed: the repo holds no Python linter config (no pyproject.toml, ruff.toml, setup.cfg, tox.ini); record 'not installed'"
+      runnable_checks:
+        - "Review data-safety paths hard: the script writes a copy and a manifest (atomic write, nothing written on refusal, Phoenix answers with no version still refused)."
+        - "Rubric: error handling, function size, no stray debug output, no secrets, deterministic."
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/components/agents/_shared/test_copy_memory.py # 5 new tests of the copy script
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (TEST-* rows)
+          command: "dispatch quality-auditor -> check-pr-quality against the diff (same run as executable-code)"
+      runnable_checks:
+        - name: "run the suite (a red suite is a blocker)"
+          command: python3 -m unittest discover -s core/components/agents/_shared -p "test_copy_memory.py"
+          expected: "16 tests OK (checked at assessment: Ran 16 tests, OK)"
+        - "By hand: clear assertions, no skipped or disabled tests, no test that asserts nothing."
+  - name: run-records
+    playbook: null
+    playbook_missing: >-
+      No review playbook covers the machine-written run records of a change (analysis, branch, commits,
+      issue, plan, porcelain, pr-body, pr, resolved-rules, self-review, target). They are not prose for a
+      person (docs), not a decision record, not harness, not memory. A playbook is missing; add one.
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/867/context/analysis.yaml
+      - .garura/project/issues/867/context/branch.json
+      - .garura/project/issues/867/context/commits.yaml
+      - .garura/project/issues/867/context/issue.json
+      - .garura/project/issues/867/context/plan.json
+      - .garura/project/issues/867/context/porcelain.txt
+      - .garura/project/issues/867/context/pr-body.md
+      - .garura/project/issues/867/context/pr.json
+      - .garura/project/issues/867/context/resolved-rules.json
+      - .garura/project/issues/867/context/self-review.md
+      - .garura/project/issues/867/context/target.json
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (artifact type STM evidence)
+          command: "dispatch quality-auditor -> check-pr-quality against the diff (same run as executable-code); grep-style rules do not fire on this artifact type"
+      runnable_checks:
+        - "By hand: files are well-formed (JSON/YAML parse), hold no secrets, and match the PR (branch, base, issue 867, PR 871). No design-grounding, because the records are evidence, not design."
+design_bearing_categories: [harness]

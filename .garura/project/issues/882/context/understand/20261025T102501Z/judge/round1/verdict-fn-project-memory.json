@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every guided section is substantive: What it does (\"Runs after the product owner confirms the setup answers...\"), Inputs / Outputs (two In, three Out lines), Rules & behavior (five rules including the select-nothing and rerun branches), Acceptance criteria (four Given/When/Then), Out of scope (four exclusions with owners), plus Sources and Agent intent (ICE) with Goal, Limit, Fails if, Context and Checked by.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"Every read goes through the memory tool. No part of initialize reads a memory file by its path.\" and \"The profile records the answers as the person gave them. Initialize never adds an answer the person did not give.\" state the what with no why; most other lines do carry it (e.g. \"so the project's memory holds what fits and nothing else\", \"so every later play reads the same facts about the project without asking again\").",
+      "fix": "Add the reason to each of the two rules. For example: \"Every read goes through the memory tool, because every part of Garura reads memory that way and the tool is what records where each file came from; no part of initialize reads a memory file by its path.\" and \"The profile records the answers as the person gave them, because later plays treat the profile as the product owner's own word; a proposed answer the person did not accept is never written.\""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "All sections are discrete bullets; acceptance is Given/When/Then (\"Given answers that say the project has no database, when the memory is built, then the project's Garura memory holds no database standard.\"); the feature states the function's behavior, with no \"as a user I want\" story form.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "The parent gives one line: \"Build the project's memory (fn-project-memory): sets up the project's Garura memory from only the part of Phoenix memory the answers call for, and records the answers in the profile.\" The feature adds the input list (\"domains, kinds of features, technology standards, tools and frameworks, surfaces...\"), named outputs (provenance per file, answers with their question, a record of files taken and left out), the select-nothing and rerun branches, and four testable acceptance criteria.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "What: \"sets up the project's Garura memory from only the part of Phoenix memory those answers call for\". Why: \"so a project with no database, no front end or no permissions gets none of those standards\" and \"so every later play reads the same facts about the project without asking again\". Edges: \"Asking the questions and recording the person's reply (fn-setup-questions owns it)\", \"Recording the review rule groups (fn-review-rule-groups owns it)\". A cold reader can explain what, why and edges from this doc alone.",
+      "fix": ""
+    }
+  ]
+}

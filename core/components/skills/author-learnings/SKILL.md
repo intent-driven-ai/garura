@@ -1,10 +1,12 @@
 ---
 name: author-learnings
-description: 'Read a delivered unit''s real outcomes — the measure lens (baseline/target/realized), the validate verdicts and fix reports, the run lens (production actuals), and the delivered epic/slice status — against the current product model, and author the MEANING updates the delivery taught — a refined capability/functionality one_line, a raised nfr_needs level (monotonic-up), an earned status promotion, the grounding-doc sections the learning changed, and a new append-only decision per material learning. Each proposed change carries the outcome that justifies it and a confidence tier. Writes the rewritten grounding docs STRAIGHT to the live model (per-node docs only) and emits the spine meaning-field deltas and the decision records as structured data in an STM learn-manifest.yaml — never the shared model files (_spine.yaml, profile, decisions), never the tree skeleton, never a slice/epic entry. Generative artifact production for the /learn-outcomes play.'
+description: 'Read a delivered unit''s real outcomes — the measure lens (baseline/target/realized), the validate verdicts and fix reports, the run lens (production actuals), and the delivered epic/slice status — against the current product model, and author the MEANING updates the delivery taught — a refined capability/feature one_line, a raised nfr_needs level (monotonic-up), an earned status promotion, the grounding-doc sections the learning changed, and a new append-only decision per material learning. Each proposed change carries the outcome that justifies it and a confidence tier. Writes the rewritten grounding docs STRAIGHT to the live model (per-node docs only) and emits the spine meaning-field deltas and the decision records as structured data in an STM learn-manifest.yaml — never the shared model files (_spine.yaml, profile, decisions), never the tree skeleton, never a slice/epic entry. Generative artifact production for the /learn-outcomes play.'
 version: 0.2.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /learn-outcomes (#855)'
 ---
 
 # author-learnings
@@ -19,7 +21,7 @@ skeleton, never a slice or epic entry. It is the close of the loop the old enric
 
 ## Write discipline (ADR 026, direct-model-write)
 
-This skill writes ONLY the per-node grounding docs (`capability.md`, `functionality.md`, and the
+This skill writes ONLY the per-node grounding docs (`capability.md`, `feature.md`, and the
 slice `lens/{measure|run|quality}.md`) — each its own file — **straight to the live model** under
 `<product_base>/product-os/…`. It NEVER writes any shared model file: not `_spine.yaml`, not the
 `profile` block, not a `decisions/` record. Every shared-file mutation is emitted as **structured
@@ -39,7 +41,7 @@ contract `validate_learn.py` (pre-checkpoint) and `persist_learn.py` (the keyed 
 change carries an outcome, every nfr move is monotonic-up, every status promotion is earned, every
 decision is a new accepted record carrying all its own fields.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -50,7 +52,7 @@ decision is a new accepted record carrying all its own fields.
 | `product_base` | yes | Product model root — to READ the affected nodes' grounding docs and resolve a prior decision a learning may supersede, and to WRITE the rewritten per-node grounding docs in place under `product-os/…`. |
 | `manifest_path` | yes | Output path under STM for the `learn-manifest.yaml` (the proposed-change contract — spine deltas + decision records as structured data). |
 
-## Procedure
+## Process
 
 Reasoning (what the outcome actually taught, and which claim it confirms or refutes) is yours.
 Outcome-grounding, the allowlist, and template/eval conformance are non-negotiable.
@@ -60,17 +62,17 @@ Outcome-grounding, the allowlist, and template/eval conformance are non-negotiab
    fix report (which gates cleared; read a `fix_required` as the model being wrong about a boundary or
    rule), and the delivered epic/slice status. Note, per signal, what it teaches.
 2. **Read the claims.** Load the spine and the affected nodes' grounding docs — `capability.md`
-   (benefit hypothesis, boundaries), `functionality.md` (acceptance, rules), and the slice's lens docs
+   (benefit hypothesis, boundaries), `feature.md` (acceptance, rules), and the slice's lens docs
    — to see what the model claimed before delivery.
 3. **Diff reality against the claim.** For each gap the evidence proves, decide the smallest honest
    update on the **allowed** surface only:
-   - spine `one_line` — a capability/functionality descriptor delivery showed too thin or wrong;
+   - spine `one_line` — a capability/feature descriptor delivery showed too thin or wrong;
    - spine `nfr_needs` level — raise (monotonic-up only) when production proved a higher level needed;
      a raised *profile* nfr is a box-move and MUST carry a decision;
    - spine `status` — an EARNED promotion only (proposed → active when proven; to validated/delivered
      where the outcome earns it). NEVER advance a `fix_required` — that becomes a grounding refinement;
    - grounding sections — refresh only what the learning changed: a capability's **benefit hypothesis**
-     (confirmed/refuted) and **boundaries**, a functionality's **acceptance** and **rules &
+     (confirmed/refuted) and **boundaries**, a feature's **acceptance** and **rules &
      behavior**, and the **measure / run / quality** lens docs with the real results;
    - a decision — every material learning becomes a NEW append-only decision record.
 4. **Ground every change.** Each proposed change, doc rewrite, and decision carries a non-empty
@@ -93,7 +95,7 @@ The rewritten grounding docs, at their live paths:
 
 ```
 <product_base>/product-os/{domain}/…
-  capability.md | functionality.md                  # a rewritten grounding doc (only changed ones)
+  capability.md | feature.md                  # a rewritten grounding doc (only changed ones)
   slices/{slice}/lens/{measure|run|quality}.md       # a rewritten lens doc (only changed ones)
 ```
 
@@ -104,7 +106,7 @@ and the STM manifest at `manifest_path`:
 ```yaml
 changes:                                              # spine meaning-field changes
   - node_ref: cap-source-coverage                     # the spine node id
-    node_kind: capability                             # capability | functionality | profile
+    node_kind: capability                             # capability | feature | profile
     field: nfr_needs                                  # one_line | nfr_needs | status
     dimension: performance                            # required when field == nfr_needs
     from: medium                                      # current value (level for nfr_needs; state for status)
@@ -140,7 +142,7 @@ inline content.
   that traces to a real signal (measure / validate / run / delivered status). No outcome → drop it.
 - **Meaning only, never the skeleton.** Propose changes ONLY to `one_line`, `nfr_needs` level,
   earned `status`, the listed grounding sections, and new decisions. NEVER rename or re-parent a
-  domain/capability/functionality, NEVER rewrite a slice or epic entry, NEVER edit an accepted
+  domain/capability/feature, NEVER rewrite a slice or epic entry, NEVER edit an accepted
   decision in place — those are rejected by `validate_learn.py` / the keyed persist.
 - **Monotonic-up.** An `nfr_needs` level may only rise; a raised profile nfr (a box-move) carries a
   decision.

@@ -1,0 +1,927 @@
+{
+ "issue": 798,
+ "play": "shape-slice",
+ "task_id": "shape-slice-propose",
+ "citations": [
+  {
+   "question_id": "Q-recovery-1",
+   "closed_by": "proposal",
+   "basis": {
+    "kind": "memory",
+    "ref": "phoenix standards/rules/expectation-generation.md:88-92"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-038",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "what a fix given to the builder may name",
+     "found": "a builder-routed when and way back name what the builder sees and changes in the product, never the evals folder, the eval, the hidden file or the check that found it",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "start": 88,
+      "end": 92,
+      "fingerprint": "sha256:c8023d21c90daf69bda21d067f5842be7eba2079b39b675a66e0d4e7d867d9f3"
+     }
+    }
+   ]
+  },
+  {
+   "question_id": "Q-redraft-1",
+   "closed_by": "settled",
+   "basis": {
+    "kind": "person",
+    "ref": "#798 run 2 change: item 2 (change.md line 8) and item 6 (change.md lines 12-15)"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-039",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "which hidden-file entries the person's change says to draft again",
+     "found": "fn-798's entry is drafted again; no recovery routed to the builder names the evals folder, the eval, the hidden file or the check",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 12,
+      "end": 15,
+      "fingerprint": "sha256:1b6074060b681e485a0260bd98d772991dc6eff19d909997d8ce41de401007cc"
+     }
+    },
+    {
+     "asked": "does fn-818's ICE change",
+     "found": "fn-818's ICE gains the rule that a story never names the eval, the hidden file or the evals folder, as a goal or limit and a 'Fails if' line",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 8,
+      "end": 8,
+      "fingerprint": "sha256:920df2f78b32ca7f7ed9cfa984659e9090d75c19a255f0f9a3124596e927e6c2"
+     }
+    },
+    {
+     "asked": "how many recoveries a feature's entry holds",
+     "found": "exactly one recovery for each 'Fails if' line of the feature's two ICE",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "start": 72,
+      "end": 73,
+      "fingerprint": "sha256:325d41a48b9cee6e8ff7fa3ba1bcd67d0187bc8344fce0ad0fa0ed3dbf236be3"
+     }
+    }
+   ]
+  },
+  {
+   "question_id": "Q-scope-1",
+   "closed_by": "settled",
+   "basis": {
+    "kind": "model",
+    "ref": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md:32, with the #798 run 2 change item 6 (change.md line 15)"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-040",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "which feature owns the check that no build is given the evals folder",
+     "found": "fn-798's Out of scope gives that check to fn-898",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "start": 32,
+      "end": 32,
+      "fingerprint": "sha256:53075d128b8d452d7fcb62603c41632eef8da868ff189438cd39c2ebb5e1b759"
+     }
+    },
+    {
+     "asked": "what the person's change says of the build-input part",
+     "found": "reword fn-798's line so the build-input part is fn-898's only",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 12,
+      "end": 15,
+      "fingerprint": "sha256:1b6074060b681e485a0260bd98d772991dc6eff19d909997d8ce41de401007cc"
+     }
+    }
+   ]
+  },
+  {
+   "question_id": "Q-proof-2",
+   "closed_by": "settled",
+   "basis": {
+    "kind": "person",
+    "ref": "Q-proof-1 (#798)"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-041",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the product owner's earlier answer on the proof line",
+     "found": "Q-proof-1 accepted as proposed: 'No builder is given the eval, and a check flags each build session that read the evals folder.'",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 54,
+      "end": 78,
+      "fingerprint": "sha256:e24c7e711e34ff64daaf79bfd1408f6d6e259cdadf6a1856f9279f0fadf72e70"
+     }
+    },
+    {
+     "asked": "what the intent page says now",
+     "found": "the proof line still says the eval is kept where no builder can read it",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 16,
+      "end": 16,
+      "fingerprint": "sha256:020446553c0733997dd6f6cc8035f143879e6017bccb859b9167f247b3f6452f"
+     }
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-042",
+   "group": "slice-features",
+   "question": "Which features does the slice hold?",
+   "from_record": [
+    "Q-flag-1",
+    "Q-builders-1"
+   ],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-042",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "which features the kept slice holds and whether the person's change keeps them",
+     "found": "feature_refs: - fn-795 - fn-818 - fn-798 - fn-898",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 9,
+      "end": 13,
+      "fingerprint": "sha256:baa3134ed19071bdbd96a14099dbb20338d9b101c65fcc62c1cc017f1212563f"
+     }
+    },
+    {
+     "asked": "which features the kept slice holds and whether the person's change keeps them",
+     "found": "slices: - id: sl-intent-to-design slug: intent-to-design feature_refs: - fn-795 - fn-818 - fn-798 - fn-898 vertical: the Claude Code command line intents: - bi-788 record: slices/sl-intent-to-design.yaml",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 568,
+      "end": 579,
+      "fingerprint": "sha256:97765b4a26876d4e2c8f3e3b4dc602a04c51ac39fc89ef8db77bf3b49e8b4cb9"
+     }
+    },
+    {
+     "asked": "which features the kept slice holds and whether the person's change keeps them",
+     "found": "The source: the review of PR #900, round 1 (`.garura/project/issues/798/review/findings.yaml`). The product owner's words, 2026-10-26: \"fix p2 and p3s\", and \"yes\" to the fix plan (Q1: fn-898 stays in the slice; Q3: drop fn-898's ontology and managing-work criterion; Q4: keep ADR 057; Q5: a later /sh",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 3,
+      "end": 5,
+      "fingerprint": "sha256:c9ae47db4c515be62f8947b60c3f0a25f6d6ebcd60deac1c6903f67febd1cff6"
+     }
+    },
+    {
+     "asked": "which features the kept slice holds and whether the person's change keeps them",
+     "found": "- id: Q-builders-1 kind: asked blocking: false asked_at: '2026-10-26T06:32:34Z' topic: builders question: Which plays must the new check treat as build plays, whose inputs may never name the evals folder? proposed_answer: Every play, skill and agent that builds the software, and every context sub-ag",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 7,
+      "end": 33,
+      "fingerprint": "sha256:32c724a66849e3d597cea9aa03e63e5711cc10fe5bd72f11b272667815083977"
+     }
+    },
+    {
+     "asked": "which features the kept slice holds and whether the person's change keeps them",
+     "found": "- id: Q-flag-1 kind: asked blocking: false asked_at: '2026-10-26T06:32:34Z' topic: flag question: Where must the product owner see the flag when a build session read the evals folder? proposed_answer: null basis: null pipeline_source: /shape-slice shape-slice-798-898 pipeline_guess: null impact_if_u",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 34,
+      "end": 53,
+      "fingerprint": "sha256:232f514d96b600531f279de41c3c0e82728df0f70adf2165ba966a9ede8bf149"
+     }
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-043",
+   "group": "slice-order",
+   "question": "In which order are the features built?",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-043",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the build order the kept slice has and why each feature comes after the one it needs",
+     "found": "feature_refs: - fn-795 - fn-818 - fn-798 - fn-898",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 9,
+      "end": 13,
+      "fingerprint": "sha256:baa3134ed19071bdbd96a14099dbb20338d9b101c65fcc62c1cc017f1212563f"
+     }
+    },
+    {
+     "asked": "the build order the kept slice has and why each feature comes after the one it needs",
+     "found": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "start": 4,
+      "end": 4,
+      "fingerprint": "sha256:994885950cc86d2453e28af308067e90cd83ed82d1ef9626e2a157812c7b8819"
+     }
+    },
+    {
+     "asked": "the build order the kept slice has and why each feature comes after the one it needs",
+     "found": "/shape-eval <intent> runs after /shape-plan, on its own. It reads the epic, its stories and the slice's hidden file, and writes the eval for the business intent in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). No build is given that folder: the build is given the business ",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "start": 4,
+      "end": 4,
+      "fingerprint": "sha256:040588fb1725bd4ef117100580e5eac7418407a4c3f641d07e9f729fa24aa5ac"
+     }
+    },
+    {
+     "asked": "the build order the kept slice has and why each feature comes after the one it needs",
+     "found": "The slice sl-intent-to-design is kept as it is: the same features in the same order, the same surface and tester (Q1). What this run changes:",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:9e4dfb3ca724afb7bef9399b2f6f98b210aa3b5679fed94f7e03cd03e4c8266e"
+     }
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-044",
+   "group": "slice-surface",
+   "question": "Which surface does the tester use?",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-044",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the one surface where the tester runs the slice",
+     "found": "surface: id: surf-claude-code-cli name: the Claude Code command line persona_ref: product-owner user_action: runs /shape-slice, then /shape-plan, then /shape-eval on a business intent, then runs the check that shows no build play's inputs name the evals folder, and finds the flag of a build session ",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 17,
+      "end": 23,
+      "fingerprint": "sha256:0ac9f5432bc2b7c499c1777012907ff20b9fb3628d52dabc75108a1c90d2289e"
+     }
+    },
+    {
+     "asked": "the one surface where the tester runs the slice",
+     "found": "**Outcome:** The product owner names a piece of work. Agents shape it into a slice that one person can test, make its plan and write its eval. The product owner confirms each part as it is made.",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 3,
+      "end": 3,
+      "fingerprint": "sha256:2b57e7172fd80751ff52a570a3403dd241d0428ad66919276ada03cc1b2819ab"
+     }
+    },
+    {
+     "asked": "the one surface where the tester runs the slice",
+     "found": "The slice sl-intent-to-design is kept as it is: the same features in the same order, the same surface and tester (Q1). What this run changes:",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:9e4dfb3ca724afb7bef9399b2f6f98b210aa3b5679fed94f7e03cd03e4c8266e"
+     }
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-045",
+   "group": "slice-tester",
+   "question": "Who tests the slice?",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-045",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the persona who tests the slice on its surface",
+     "found": "**Asked by:** the product owner",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 7,
+      "end": 7,
+      "fingerprint": "sha256:de0d088eb3f5a54585f8dad0c95013110386f9f7a1d62b20f80df4d6a142a20b"
+     }
+    },
+    {
+     "asked": "the persona who tests the slice on its surface",
+     "found": "persona_ref: product-owner",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 20,
+      "end": 20,
+      "fingerprint": "sha256:3d969030c31daee3dcfff40b9e7df245f6f7fbbfa1285f1acf0886cf77238ddf"
+     }
+    },
+    {
+     "asked": "the persona who tests the slice on its surface",
+     "found": "The slice sl-intent-to-design is kept as it is: the same features in the same order, the same surface and tester (Q1). What this run changes:",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:9e4dfb3ca724afb7bef9399b2f6f98b210aa3b5679fed94f7e03cd03e4c8266e"
+     }
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-046",
+   "group": "slice-reuse",
+   "question": "Which slice serves this business intent, and does it change?",
+   "answer": "The kept slice sl-intent-to-design serves bi-788 and does not change: pull in none, push out none (reuse.json), because its features fn-795, fn-818, fn-798 and fn-898 are the shaped slice's features and each serves bi-788; it keeps its one surface, its tester and four features.",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-046",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "which slice already serves business intent bi-788, by the rule of find_serving_slice",
+     "found": "slice 'sl-intent-to-design' already lists business intent 'bi-788'; no slice is in progress",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/serving.json",
+      "start": 2,
+      "end": 3,
+      "fingerprint": "sha256:800e4495dcc64c6accb19ab682d6ef8f14aa8ce92ab8138651f606b2a024444a"
+     }
+    },
+    {
+     "asked": "the kept slice's features, surface and intents in the spine",
+     "found": "sl-intent-to-design: feature_refs fn-795, fn-818, fn-798, fn-898; vertical the Claude Code command line; intents bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 569,
+      "end": 579,
+      "fingerprint": "sha256:af180d57e5f35a4f06095e68f002ef5bec89e2cbf5819cc450e9dd1b4bef6808"
+     }
+    },
+    {
+     "asked": "does fn-795 still serve an intent of the slice",
+     "found": "fn-795 intents: bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 451,
+      "end": 455,
+      "fingerprint": "sha256:792230356c117a8bf5b9905dde822d81c0b841342d022c04e0aec6a182ec0933"
+     }
+    },
+    {
+     "asked": "does fn-818 still serve an intent of the slice",
+     "found": "fn-818 intents: bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 464,
+      "end": 468,
+      "fingerprint": "sha256:68143928ae9a889ca6788aabf83c18ed22ecab904af47d16036b80ec834aedd2"
+     }
+    },
+    {
+     "asked": "does fn-798 still serve an intent of the slice",
+     "found": "fn-798 intents: bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 477,
+      "end": 481,
+      "fingerprint": "sha256:ef5dcce9289e1b7a1ac5cfa3209f5155717e41c4c63c7ff7898c19ece3fc56db"
+     }
+    },
+    {
+     "asked": "does fn-898 still serve an intent of the slice",
+     "found": "fn-898 intents: bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 541,
+      "end": 545,
+      "fingerprint": "sha256:a5dca1bee2838c19ead85a956d0d02f751d238439eb6821ea7d2eeb0dc644b3c"
+     }
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-057",
+   "group": "Q-recovery-1",
+   "question": "The hidden file (failure-and-recovery.md) lists how each feature can fail and how to fix it. Some features build the hidden file, the plan's evals folder, or a check. When one of these features fails, may the fix that the builder gets name the thing that the feature builds?",
+   "answer": "Yes. When a feature builds the hidden file, the plan's evals folder or a check, the fix that the builder gets may name that thing. It is part of the product that the builder sees and changes. For example, fn-795 writes the hidden file, and fn-898 builds the lint check and the ledger check. The fix never names the eval, or the check that found the failure. Every other fix that the builder gets names none of them. A fix that cannot be said without them goes to 'a person must decide'.",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-057",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "whether a fix for the builder may name the hidden file, the plan's evals folder or a check when the feature builds that thing",
+     "found": "a fix for the builder names what the builder sees and changes in the product, never the evals folder, the eval, the hidden file or the check that found it",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "start": 88,
+      "end": 92,
+      "fingerprint": "sha256:c8023d21c90daf69bda21d067f5842be7eba2079b39b675a66e0d4e7d867d9f3"
+     }
+    }
+   ]
+  },
+  {
+   "task_id": "shape-slice-shape",
+   "decision": "Which features does the slice hold?",
+   "answer": "fn-795, fn-818, fn-798 and fn-898, kept as they are in the slice: the product owner said fn-898 stays in the slice and the slice keeps the same features (Q1 of the #798 run 2 change). fn-898 serves the answers to Q-flag-1 and Q-builders-1.",
+   "from_record": [
+    "Q-flag-1",
+    "Q-builders-1"
+   ],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-058",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the features the kept slice holds, in order",
+     "found": "fn-795, fn-818, fn-798, fn-898, in that order",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 9,
+      "end": 13,
+      "fingerprint": "sha256:baa3134ed19071bdbd96a14099dbb20338d9b101c65fcc62c1cc017f1212563f"
+     }
+    },
+    {
+     "asked": "the slice's entry in the spine",
+     "found": "sl-intent-to-design holds fn-795, fn-818, fn-798 and fn-898 and serves bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 568,
+      "end": 579,
+      "fingerprint": "sha256:97765b4a26876d4e2c8f3e3b4dc602a04c51ac39fc89ef8db77bf3b49e8b4cb9"
+     }
+    },
+    {
+     "asked": "what the person's change keeps of the slice",
+     "found": "Q1: fn-898 stays in the slice; the slice keeps the same features in the same order, surface and tester",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 3,
+      "end": 5,
+      "fingerprint": "sha256:c9ae47db4c515be62f8947b60c3f0a25f6d6ebcd60deac1c6903f67febd1cff6"
+     }
+    },
+    {
+     "asked": "which plays the check treats as build plays (record entry Q-builders-1)",
+     "found": "Q-builders-1, accepted as proposed: every play, skill and agent that builds the software, and every context sub-agent it starts",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 7,
+      "end": 33,
+      "fingerprint": "sha256:32c724a66849e3d597cea9aa03e63e5711cc10fe5bd72f11b272667815083977"
+     }
+    },
+    {
+     "asked": "where the flag of a build session that read the evals folder goes (record entry Q-flag-1)",
+     "found": "Q-flag-1: the flag is recorded in the build run's evidence for now",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 34,
+      "end": 53,
+      "fingerprint": "sha256:232f514d96b600531f279de41c3c0e82728df0f70adf2165ba966a9ede8bf149"
+     }
+    }
+   ]
+  },
+  {
+   "task_id": "shape-slice-shape",
+   "decision": "In which order are the features built?",
+   "answer": "fn-795, then fn-818, then fn-798, then fn-898, the order the slice already has (Q1 of the #798 run 2 change).",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-059",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the features the kept slice holds, in order",
+     "found": "fn-795, fn-818, fn-798, fn-898, in that order",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 9,
+      "end": 13,
+      "fingerprint": "sha256:baa3134ed19071bdbd96a14099dbb20338d9b101c65fcc62c1cc017f1212563f"
+     }
+    },
+    {
+     "asked": "what fn-818 needs before it runs",
+     "found": "/shape-plan runs after /shape-slice and reads the slice that serves the intent",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "start": 4,
+      "end": 4,
+      "fingerprint": "sha256:994885950cc86d2453e28af308067e90cd83ed82d1ef9626e2a157812c7b8819"
+     }
+    },
+    {
+     "asked": "what fn-798 needs before it runs",
+     "found": "/shape-eval runs after /shape-plan and reads the epic, its stories and the hidden file",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "start": 4,
+      "end": 4,
+      "fingerprint": "sha256:040588fb1725bd4ef117100580e5eac7418407a4c3f641d07e9f729fa24aa5ac"
+     }
+    },
+    {
+     "asked": "what the person's change keeps of the slice",
+     "found": "the same features in the same order, the same surface and tester (Q1)",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:9e4dfb3ca724afb7bef9399b2f6f98b210aa3b5679fed94f7e03cd03e4c8266e"
+     }
+    }
+   ]
+  },
+  {
+   "task_id": "shape-slice-shape",
+   "decision": "Which surface does the tester use?",
+   "answer": "the Claude Code command line",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-060",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the surface of the kept slice",
+     "found": "surf-claude-code-cli, the Claude Code command line, tested by the product-owner persona",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 17,
+      "end": 23,
+      "fingerprint": "sha256:0ac9f5432bc2b7c499c1777012907ff20b9fb3628d52dabc75108a1c90d2289e"
+     }
+    },
+    {
+     "asked": "where the intent's outcome happens",
+     "found": "the product owner names a piece of work and agents shape, plan and write its eval, which are plays run in Claude Code",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 3,
+      "end": 3,
+      "fingerprint": "sha256:2b57e7172fd80751ff52a570a3403dd241d0428ad66919276ada03cc1b2819ab"
+     }
+    },
+    {
+     "asked": "what the person's change keeps of the slice",
+     "found": "the same features in the same order, the same surface and tester (Q1)",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:9e4dfb3ca724afb7bef9399b2f6f98b210aa3b5679fed94f7e03cd03e4c8266e"
+     }
+    }
+   ]
+  },
+  {
+   "task_id": "shape-slice-shape",
+   "decision": "Who tests the slice?",
+   "answer": "the product owner (persona product-owner)",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-061",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "who asked for the intent",
+     "found": "Asked by: the product owner",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 7,
+      "end": 7,
+      "fingerprint": "sha256:de0d088eb3f5a54585f8dad0c95013110386f9f7a1d62b20f80df4d6a142a20b"
+     }
+    },
+    {
+     "asked": "the tester of the kept slice",
+     "found": "persona_ref: product-owner",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 20,
+      "end": 20,
+      "fingerprint": "sha256:3d969030c31daee3dcfff40b9e7df245f6f7fbbfa1285f1acf0886cf77238ddf"
+     }
+    },
+    {
+     "asked": "what the person's change keeps of the slice",
+     "found": "the same features in the same order, the same surface and tester (Q1)",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:9e4dfb3ca724afb7bef9399b2f6f98b210aa3b5679fed94f7e03cd03e4c8266e"
+     }
+    }
+   ]
+  },
+  {
+   "task_id": "shape-slice-shape",
+   "decision": "What is the slice's name?",
+   "answer": "Name a business intent, and three plays write its slice, plan and eval. The id sl-intent-to-design and the slug intent-to-design stay, because the slug is the name of the evals folder.",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-062",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "what the person asks of the slice's name",
+     "found": "a name in plain words that says what a person sees: a person names a business intent, and three plays write its slice, plan and eval; the id and the slug stay",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change-round2.md",
+      "start": 9,
+      "end": 9,
+      "fingerprint": "sha256:0a48d41f6c7fd39098dc3e8e5a1a2aa487164e3a6a0ff6691365d9d79cb5440e"
+     }
+    }
+   ]
+  },
+  {
+   "task_id": "shape-slice-reuse",
+   "decision": "Which slice serves this business intent, and does it change?",
+   "answer": "The kept slice sl-intent-to-design serves bi-788. Its features do not change: pull in none, push out none, because its features are the shaped slice's features and each serves bi-788. Only its name changes, by the product owner's change.",
+   "from_record": [],
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-063",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "which kept slice serves bi-788 (the rule in serving.json: a slice that already lists the business intent serves it)",
+     "found": "slice sl-intent-to-design lists business intent bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 577,
+      "end": 578,
+      "fingerprint": "sha256:ded8e679b38b5506d8fb1d8d7440887a076e16254dfda773787e59ea261e6130"
+     }
+    },
+    {
+     "asked": "the kept slice's features and surface",
+     "found": "sl-intent-to-design holds fn-795, fn-818, fn-798 and fn-898 on the Claude Code command line, the same features in the same order as the shaped slice",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 569,
+      "end": 579,
+      "fingerprint": "sha256:af180d57e5f35a4f06095e68f002ef5bec89e2cbf5819cc450e9dd1b4bef6808"
+     }
+    },
+    {
+     "asked": "does fn-795 still serve the intent",
+     "found": "fn-795 lists bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 454,
+      "end": 455,
+      "fingerprint": "sha256:ded8e679b38b5506d8fb1d8d7440887a076e16254dfda773787e59ea261e6130"
+     }
+    },
+    {
+     "asked": "does fn-818 still serve the intent",
+     "found": "fn-818 lists bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 467,
+      "end": 468,
+      "fingerprint": "sha256:ded8e679b38b5506d8fb1d8d7440887a076e16254dfda773787e59ea261e6130"
+     }
+    },
+    {
+     "asked": "does fn-798 still serve the intent",
+     "found": "fn-798 lists bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 480,
+      "end": 481,
+      "fingerprint": "sha256:ded8e679b38b5506d8fb1d8d7440887a076e16254dfda773787e59ea261e6130"
+     }
+    },
+    {
+     "asked": "does fn-898 still serve the intent",
+     "found": "fn-898 lists bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 544,
+      "end": 545,
+      "fingerprint": "sha256:ded8e679b38b5506d8fb1d8d7440887a076e16254dfda773787e59ea261e6130"
+     }
+    },
+    {
+     "asked": "what the person changed in the slice",
+     "found": "only the slice's name changes; the id, the slug and every other field stay",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change-round2.md",
+      "start": 9,
+      "end": 9,
+      "fingerprint": "sha256:0a48d41f6c7fd39098dc3e8e5a1a2aa487164e3a6a0ff6691365d9d79cb5440e"
+     }
+    }
+   ]
+  },
+  {
+   "task_id": "shape-slice-rewrite",
+   "question_id": "Q-recovery-1",
+   "closed_by": "proposal",
+   "basis": {
+    "kind": "memory",
+    "ref": "phoenix standards/rules/expectation-generation.md:88-92"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261026-075",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "what a fix given to the builder may name, when the feature itself builds a test file",
+     "found": "a fix that goes to the builder names what the builder sees and changes in the product, never the evals folder, the eval, the hidden file or the check that found it; a test file the feature builds is something the builder changes, and the fix still never names the check that found the problem",
+     "source": {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "start": 88,
+      "end": 92,
+      "fingerprint": "sha256:c8023d21c90daf69bda21d067f5842be7eba2079b39b675a66e0d4e7d867d9f3"
+     }
+    }
+   ]
+  }
+ ],
+ "shape_task_id": "shape-slice-shape"
+}

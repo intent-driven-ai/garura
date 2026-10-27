@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md
+  stranger_test = fail
+    evidence: "An install never changes a project's own Garura memory. ... When an install changes a file a project took a block from, the install's record names the change in plain words, so the product owner knows to run `initialize` again." The doc never says how a machine-wide install learns which projects exist or which blocks they took, while it also says the install never touches project memory; and it never says where the install record is kept, though `initialize` must read it ("a file that the install record lists is not in Phoenix memory"). No acceptance criterion checks either the changed-block notice or "An install never changes a project's own Garura memory", though the second is an ICE Limit.
+    fix:      In Rules & behavior, say how the install knows a project took a block from a changed file (for example: `initialize` adds the project and the Phoenix paths of its blocks to a machine-wide list beside Phoenix memory, and the install reads that list; or drop the install-side notice and have the project compare its blocks' fingerprints with Phoenix memory on its next `initialize` or play run). In Inputs / Outputs, name where the install record is written on the machine so `initialize` can find it. Add two acceptance criteria: "Given a project that took the database block, when an install changes a file in that block, then the project's Garura memory does not change and the install record names the project and the changed file", and "Given an initialized project, when Garura is installed again, then no file in that project's Garura memory changes."
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "failures": [
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"An install never changes a project's own Garura memory. ... When an install changes a file a project took a block from, the install's record names the change in plain words, so the product owner knows to run `initialize` again.\" The doc never says how a machine-wide install learns which projects exist or which blocks they took, while it also says the install never touches project memory; and it never says where the install record is kept, though `initialize` must read it (\"a file that the install record lists is not in Phoenix memory\"). No acceptance criterion checks either the changed-block notice or \"An install never changes a project's own Garura memory\", though the second is an ICE Limit.",
+      "fix": "In Rules & behavior, say how the install knows a project took a block from a changed file (for example: `initialize` adds the project and the Phoenix paths of its blocks to a machine-wide list beside Phoenix memory, and the install reads that list; or drop the install-side notice and have the project compare its blocks' fingerprints with Phoenix memory on its next `initialize` or play run). In Inputs / Outputs, name where the install record is written on the machine so `initialize` can find it. Add two acceptance criteria: \"Given a project that took the database block, when an install changes a file in that block, then the project's Garura memory does not change and the install record names the project and the changed file\", and \"Given an initialized project, when Garura is installed again, then no file in that project's Garura memory changes.\""
+    }
+  ],
+  "missing": []
+}

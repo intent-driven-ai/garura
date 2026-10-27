@@ -121,7 +121,7 @@ expectation. The model cannot compute a hash in its head, so always run the comm
 Let the script count, not the model: run `scripts/lint_play.py` on the recompiled play:
 
 ```
-python3 scripts/lint_play.py <path-to-the-play>
+python3 scripts/lint_play.py <path-to-the-play> --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 It does both halves mechanically: full coverage (every constraint/failure/scenario

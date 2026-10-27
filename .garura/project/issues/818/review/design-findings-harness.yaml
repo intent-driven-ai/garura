@@ -1,0 +1,203 @@
+category: harness
+round: 2
+base: origin/plan/788/base
+pr: 873
+issue: 818
+grounding_sources_used:
+- id: G1
+  principle: The plan finds the work items that exist before it creates new ones; a second run makes no
+    copies.
+  source: plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md (Plan rules; Epic
+    rules; Story rules)
+- id: G2
+  principle: No failure or recovery condition reaches the story, the epic or the builder; each ICE line
+    has one reader.
+  source: plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md (Decision 4);
+    plan/788/base:docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md (ICE impact)
+- id: G4
+  principle: Plays orchestrate, agents gather context, skills write content, mechanical work is a script.
+  source: plan/788/base:docs/standards/harness-standard.md principles 2 and 3
+- id: G6
+  principle: A pinned one-way-door checkpoint always fires; no config value turns it off.
+  source: 'memory: standards/rules/gate-config.md (Phoenix 3161dcdfe26f); copy .garura/project/issues/818/context/memory/grounding-harness/standards/rules/gate-config.md'
+- id: G7
+  principle: The code-host adapter is the one fixed-command-per-verb, config-switchable library; its skill
+    page is the stated verb interface.
+  source: plan/788/base:core/components/plays/create-play/references/platform_adapter.py (docstring);
+    plan/788/base:core/components/skills/platform-adapter/SKILL.md (Verb Interface, Step 2, Constraints)
+- id: G8
+  principle: A change to what a play guarantees (constraints, failures, scenarios, flow, evals) is made
+    in its ICE and recompiled; never a hand edit of the compiled SKILL.md.
+  source: plan/788/base:docs/standards/harness-standard.md principle 4; plan/788/base:CLAUDE.md Play Pipeline
+    Rules
+- id: G9
+  principle: A run that fails part way must leave a record the next run can act on; plays halt when preconditions
+    (clean plans tree) fail.
+  source: the play's own Pre-flight is NOT used as grounding; principle is G1 (no copies on a second run)
+    read with the base ontology Plan rules
+old_findings_status:
+- id: DF-1
+  was: P2
+  status: partly fixed, residual re-rated P3 (see NF-2, NF-3)
+  note: 'Fixed: create-issue-typed makes title, body, type and parent in one GraphQL call (no orphan between
+    create and set_type); tracker-record.json is saved after every write; write_plan_file now takes an
+    ok:false record and marks the issues it lists (test passes). Not fixed: the marks are written but
+    not committed on a failed run, and the next run''s clean-plans-tree pre-flight halts on them; and
+    an uncaught error leaves ok:true.'
+- id: DF-2
+  was: P3
+  status: fixed (P4 note remains)
+  note: 'Tested: nested ''- Fails if:'' children are removed and returned to the backstop; wrapped text
+    and heading forms too. Bold label with bullets and no blank line ends only at a blank line or a new
+    label, so it can still absorb a following sibling bullet (fails closed, loses story text).'
+- id: DF-3
+  was: P3
+  status: fixed
+  note: gather_plan.py writes skill-input.json with no ICE page path; author-work-items and product-os-keeper
+    read only it and the clean copies; written_from is added by write_work_items.py from gather.json.
+    Only the read rule (ADR 049 style) keeps the skill off gather.json in the same folder.
+- id: DF-4
+  was: P3
+  status: fixed in the play; skill page not updated (see NF-1)
+  note: No raw gh in shape-plan scripts (grep). Five verbs added; six adapter copies byte-identical (cmp);
+    create-play test 50/50; the 16 old verbs unchanged in the diff; GitLab stops with exit 2 and runs
+    nothing.
+- id: DF-5
+  was: P3
+  status: fixed
+  note: record_approval stores sha256 of brief, work-items.json, drafts.json; write_work_items refuses
+    on any mismatch (approval_matches). Tracker drift between Step 2 and Step 6 is still only checked
+    for existence (was part of DF-5; accepted, P4).
+- id: DF-6
+  was: P3
+  status: open, unchanged
+  note: Ontology on base still says 'issue labelled work-item'; declared gap.
+- id: DF-7
+  was: P4
+  status: open, unchanged
+  note: REC5 still says undo each tracker write; no script; Step 6 now says show the record and close
+    HALTED.
+- id: DF-8
+  was: P4
+  status: open, unchanged
+  note: gate-config pinned list does not name shape-plan.
+- id: DF-9
+  was: P4
+  status: open, unchanged
+  note: '''nothing to the tracker before the yes'' vs start-change''s own issue.'
+- id: DF-10
+  was: P4
+  status: open, unchanged
+  note: plan tree has no Slice level; separate checkpoint.
+- id: DF-11
+  was: P4
+  status: open, unchanged
+  note: ADR and issue numbers in the description.
+- id: DF-12
+  was: P4
+  status: open, unchanged
+  note: C5 wording 'the play never reads' vs scripts that do.
+findings:
+- id: NF-1
+  severity: P3
+  file:
+  - core/components/skills/platform-adapter/SKILL.md (Input table, Step 2 'Unknown verb' text, Constraints)
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+  principle: G7 - the adapter skill page is the stated verb interface and says 'NEVER add verbs beyond
+    the 16 defined above without a schema change'; its own steps look a verb up in reference/{platform}/verbs.md.
+  principle_source: plan/788/base:core/components/skills/platform-adapter/SKILL.md (Constraints, Step
+    2, Step 3)
+  finding: 'Round 2 changed the description and the verb table to 21 verbs but left four statements that
+    say 16: the Input row (''One of the 16 supported verbs''), the Step 2 ''Unknown verb'' list (16 names),
+    and the Constraint ''NEVER add verbs beyond the 16 defined above''. It also added no section for the
+    five verbs to reference/github/verbs.md or reference/gitlab/verbs.md, so an agent that follows the
+    skill (Step 2) halts with ''Unknown verb'' for create-issue-typed, set-issue-type, edit-issue-body,
+    remove-label and remove-sub-issue. The script and the page now disagree. The edit reaches every play
+    that holds an adapter copy (check-change, merge-change, propose-change, shape-slice, shape-plan, create-play
+    reference); the 16 old verbs are unchanged there, so those plays are not broken.'
+  suggested_fix: 'Change the three ''16'' statements to 21 (or drop the number), add the five names to
+    the Step 2 list, add one section per verb to both verbs.md files (GitLab: the stop message), and say
+    in the Constraint that these five were added with the #818 change.'
+- id: NF-2
+  severity: P3
+  file:
+  - core/components/plays/shape-plan/SKILL.md (Step 6, Pre-flight 'Clean plans tree', Step 9)
+  - core/components/plays/shape-plan/scripts/write_work_items.py (main, write_slice)
+  principle: G1 - a second run makes no copies; the marks that make that true must be where the next run
+    reads them.
+  principle_source: 'plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md (Plan
+    rules: finds the work items that exist before it creates new ones)'
+  finding: 'Two gaps in the part-way recovery that round 2 added. (a) After exit 1 the play runs Step
+    7 (plan file marks the created issues) and closes HALTED; Step 9 (the commit) runs only on a completed
+    path. The marked plan file is left uncommitted, and the next /shape-plan run halts at the ''Clean
+    plans tree'' pre-flight (REC7). The text gives the person no instruction to commit or keep it; if
+    they discard it to get past the halt, the next run makes copies. (b) write_work_items.py starts the
+    record with ok:true and sets ok:false only for a TrackerError. I ran it with a tracker whose read
+    fails after the epic is made (HostTracker.get returns None on any adapter error): TypeError, exit
+    1 from Python, and the record on disk reads ok:true, failed:null with the epic in created. Step 6
+    says exit 1 means ok:false, so the two disagree.'
+  suggested_fix: (a) Say in Step 6 what the person does with the marked plan file (commit it on the change
+    branch, then run again), or let Step 9 commit it when the record lists issues. (b) Start the record
+    ok:false and set ok:true at the end, or catch every exception in main and write ok:false with the
+    step; make HostTracker.get raise instead of returning None on an adapter error other than 'not found';
+    add a test.
+- id: NF-3
+  severity: P3
+  file:
+  - core/components/plays/shape-plan/SKILL.md (SE-3, SE-8, SE-12, Step 1, Step 3, Step 6, Pause and Resume)
+  - core/components/plays/shape-plan/reference/ice.md (unchanged since 524c674d)
+  principle: G8 - a change to the flow or the evals of a play is made in its ICE and recompiled; the compiled
+    SKILL.md is not hand-edited for it.
+  principle_source: plan/788/base:CLAUDE.md Play Pipeline Rules ('Intent change ... agent/skill flow,
+    or evals ... MUST go through the play's ICE source'); plan/788/base:docs/standards/harness-standard.md
+    principle 4
+  finding: 'Commit 5be53dbb changed the compiled SKILL.md only. It adds evals and flow the ICE does not
+    hold: SE-8 and SE-12 now require the sha256 of brief, work-items.json and drafts.json; SE-3 now covers
+    nested Fails-if blocks and ICE page names in skill-input.json; the skill reads skill-input.json instead
+    of gather.json; Step 6 and Pause and Resume require a record after every write. ice.md has none of
+    these words (grep: no sha256, skill-input, or per-write record) and its hash still equals the fingerprint
+    in SKILL.md, so the fingerprint says ''no drift'' while the evals have drifted. The next /edit-play
+    rebuild from ice.md drops them. This is the pattern the rule and the fingerprint exist to stop; the
+    play is new in this PR, so it is not yet in use.'
+  suggested_fix: Put the five guarantees into reference/ice.md (C8 and C5 text, a scenario or done-means
+    line for the hash tie and for the record after every write), rebuild with /edit-play, and take the
+    hand edits as the check.
+- id: NF-4
+  severity: P4
+  file:
+  - core/components/plays/shape-plan/scripts/plan_common.py (HostTracker.get)
+  principle: G7 - the adapter's GitHub-only verbs stop plainly on GitLab.
+  principle_source: plan/788/base:core/components/plays/create-play/references/platform_adapter.py (docstring)
+  finding: On GitLab, view-issue reports tree_available false and HostTracker.get refuses with 'gh 2.94.0
+    or later is needed'. No write is made (refusal comes at Step 2, before the yes), but the message names
+    the wrong cause; the adapter's own 'works on GitHub only' message is never reached.
+  suggested_fix: Say 'this play works on GitHub only' when the platform is not GitHub.
+- id: NF-5
+  severity: P4
+  file:
+  - core/components/plays/shape-plan/scripts/plan_common.py (_split, bold-label branch)
+  principle: G2 - a 'Fails if' block is removed whole and nothing else is.
+  principle_source: plan/788/base:docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+    (ICE impact)
+  finding: For '**Fails if:**' followed by bullets with no blank line, the sibling bullet that follows
+    (for example a Limit) is taken as part of the block and lost from the clean copy. Tested. It fails
+    closed (story text lost, never leaked).
+  suggested_fix: Accept; or state in the feature template that a bold label needs a blank line after its
+    bullets.
+held:
+- 'Platform adapter change touches five other plays: six copies byte-identical (cmp), the 16 old verbs
+  not changed in the diff, create-play test_platform_adapter 50/50, shape-plan tests all pass, no raw
+  gh in shape-plan scripts.'
+- 'Agent only gathers: product-os-keeper hands over skill-input.json and clean copies and passes drafts.json
+  on; the skill writes the words.'
+- 'Nothing to the tracker before the yes: approval_is_yes and approval_matches both gate write_work_items;
+  the yes is tied to the sha256 of the three files.'
+counts:
+  P1: 0
+  P2: 0
+  P3: 3
+  P4: 2
+counts_with_open_old:
+  P3_old_open: 1
+  P4_old_open: 6

@@ -1,0 +1,10 @@
+# check-change round 2, Layer 2 -- category: memory -- PR #832
+# Grounded only in plan/788/base committed sources.
+category: memory
+base: plan/788/base
+findings:
+  - {category: memory, id: MC1, severity: P2, path: "core/**, docs/** (not docs/adr)", basis: "plan/788/base core/grounding/glossary.md lines 94-95 and docs/philosophy/architecture.md ~485 (shared checkpoint vocabulary must carry its readers)", message: "YES. No Tether/Orbit/Vanish, ORBIT_FEEDBACK or user_vanish (incl. plurals) left in core, docs (outside docs/adr), AGENTS.md or .claude/rules. Glossary lines 94-95 and architecture.md:486 now read CHANGE_REQUESTED / yes / change / stop. Only hits are the ordinary word 'vanished' in 4 code comments (unrelated). Checkpoint template, approval-prompt, evidence-file and docs agree: CHANGE_REQUESTED, user_stop; no script uses the old names.", status: closed}
+  - {category: memory, id: MC2, severity: P3, path: core/components/memory/standards/templates/evidence-file.md, basis: "same", message: "user_vanish to user_stop: no reader in code. Clean.", status: closed}
+  - {category: memory, id: MA1, severity: P4, path: core/components/memory/standards/templates/approval-prompt.md, basis: "plan/788/base rules/asking-a-person.md", message: "Template follows the rule. Conforms.", status: closed}
+  - {category: memory, id: MS1, severity: P3, path: core/components/memory/standards/schemas/product-os/spine.yaml, basis: "ADR 031/047 Affects (spine change ships with every linter copy)", message: "Slice intents present in main copy and all 12 copies, with test. Confirm base ontology v10 says a slice serves one or more intents (unchanged from round 1).", status: open}
+  - {category: memory, id: MN1, severity: P4, path: core/grounding/glossary.md, basis: "plan/788/base glossary (one definition per concept)", message: "NEW check. The 'Tether / Orbit / Vanish' glossary row was replaced by 'Checkpoint reply'; nothing else in core/docs links to the old row. Clean.", status: closed}

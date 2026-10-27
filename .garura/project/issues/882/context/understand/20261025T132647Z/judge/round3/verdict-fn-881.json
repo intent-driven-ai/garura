@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"It lists each needed type with its one-line meaning and says which are there, which are missing and which the tracker cannot make.\" \"Out: the mapping: each needed type and the tracker type it is filed as, its own or a stand-in the product owner said yes to.\" \"Given a GitHub project whose organization has no Epic type, when initialize runs, then the brief lists the six types with their meanings and marks Epic as missing.\" \"Asking the other setup questions (Ask the setup questions, fn-setup-questions, owns them).\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"When every needed type is already there, initialize says so and makes nothing, because a second copy of a type would split the team's work items between two types.\" \"that type gets no stand-in and stays unmapped, because a person with the right can still make the real type.\" \"It goes on with the other approved types, because one failure says nothing about them.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a tracker whose adapter entry says it cannot make the Spike type, when initialize runs, then the brief says so in plain words and proposes a stand-in for Spike with why it is the closest.\" \"Given Epic and Spike are missing, when the product owner types yes for Epic only, then only Epic is made, and the brief and the record name Spike as still missing.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"A tracker cannot make a type when the adapter says the tracker has no way to add a type of its own, for example a tracker with a fixed list of types; that type gets a proposed stand-in.\" \"Out: a record of what was made and what was mapped, kept beside the mapping in the project's settings, so a later run and a person both find it where the plays read the mapping: each type, made / already there / stand-in / failed / still missing, the date, and for a failure what failed.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Words this page uses. The tracker is the system where the project's team keeps its work items (GitHub, Jira, Linear or another).\" \"It exists because a tracker does not always have these types: on 2026-10-25 Garura's own GitHub organization had no Epic type, so /shape-plan could not file an Epic as an Epic (#875).\" \"Filing epics, stories and other work items (/shape-plan and the other filing plays own them).\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}

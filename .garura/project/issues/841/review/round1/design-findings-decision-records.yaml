@@ -1,0 +1,64 @@
+category: decision-records
+grounding:
+  - principle: An accepted ADR is never edited; only its forward pointer is written
+    source: plan/788/base:core/components/memory/standards/templates/adr.md (line 46); record-decision/reference/ice.md C7, F7; record-decision/SKILL.md; author-decision/SKILL.md ("Old ADRs are never edited")
+  - principle: Past records keep their old words and are exempt from the old-name check, through a list in the checker
+    source: plan/788/base:core/tools/naming/check_old_names.py (is_past_record, RENAME_ADRS={46,48}); ADR 046 section 6 ("outside past records")
+  - principle: ADR 053 Decision 1-2 (delete the two plays and two skills, remove every reference)
+    source: plan/788/base:docs/adr/053-*.md
+findings:
+  - id: DR-1
+    severity: P2
+    file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+    where: "section 5, ADR 033 bullet (one line)"
+    finding: >
+      ADR 053 is already Accepted on the base branch, and this PR rewrites a line in it so the
+      old-name check passes. The rules say an accepted ADR is never edited, except for a forward
+      pointer. This edit is not a pointer.
+    principle: Accepted ADRs are not edited; a new ADR amends them.
+    basis: standards/templates/adr.md line 46; record-decision ICE C7 and F7 (on plan/788/base)
+    fix: >
+      Revert the line. Make the check pass the way ADR 046 intends: ADR 053 names old names on
+      purpose (it quotes ADR 033's own words), so add 053 to the checker's past-record list
+      (RENAME_ADRS in check_old_names.py). Or, if the edit stays, record it as a deliberate
+      exception in the PR and ask the product owner to confirm.
+  - id: DR-2
+    severity: P4
+    file: docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+    where: "section 5, ADR 033 bullet"
+    finding: >
+      Meaning is unchanged in substance: `/intent` and `/adr` are the old names of `/discover-intent`
+      and `/record-decision`, so the two "other places" are the same two plays. But the edit adds
+      the words "by their current names" and no longer quotes ADR 033 as ADR 033 wrote it,
+      so the sentence now reads as a restatement, not a quote.
+    principle: A past record shows what was decided in the words of its time.
+    basis: check_old_names.py header ("Past records keep their old words"); ADR 046 section 6
+    fix: Covered by the DR-1 fix; the original wording is correct as history.
+  - id: DR-3
+    severity: P3
+    file: docs/adr/028-*.md, docs/adr/033-*.md
+    where: "Status line"
+    finding: >
+      ADR 053 section 5 and "Work This Creates" say ADR 028 and ADR 033 get forward pointers after
+      acceptance. This PR changes neither file, so the pointers are not written yet. Not a fault of
+      this PR if a later step writes them, but the record-decision rule says pointers follow acceptance.
+    principle: Every older ADR an accepted ADR amends points forward to it.
+    basis: record-decision ICE C3, S1; ADR 053 "Work This Creates" last item
+    fix: Write the two pointers with the record-decision play (apply_adr.py pointer), by hand edits are not allowed.
+  - id: DR-4
+    severity: none
+    file: docs/adr/053-*.md (conformance of the PR to Decision 1-2)
+    finding: >
+      Confirmed. The shape-scope and shape-roadmap play folders and the author-scope and
+      author-roadmap skill folders are all deleted (30 files deleted, none left). A search of the
+      tree outside ADRs and .garura/project finds no remaining mention of any of the four names.
+      Older ADRs 028 and 033 were not edited, as Decision 2 says. check_old_names reports 0 hits.
+    principle: ADR 053 Decision 1-2
+    basis: plan/788/base:docs/adr/053-*.md
+    fix: none
+counts:
+  P1: 0
+  P2: 1
+  P3: 1
+  P4: 1
+  conformant_checks: 1

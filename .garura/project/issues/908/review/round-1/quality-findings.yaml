@@ -1,0 +1,33 @@
+# Layer 1 standards linter result for PR #911 (change #908), categories: code and tests.
+# Produced by the check-pr-quality skill (scan_taxonomy.py) against context/pr.diff and the
+# short-term copy of the PR severity taxonomy (context/memory/standards/rules/pr.md).
+# Scope: only the six files below. Each finding is written as: title, severity, where, problem,
+# what it leads to, fix, basis. This run found none.
+meta:
+  generated_at: '2026-10-27T05:04:48Z'
+  diff_path: '.garura/project/issues/908/context/pr.diff'
+  taxonomy_path: '.garura/project/issues/908/context/memory/standards/rules/pr.md'
+  changed_paths_count: 6
+  scan_coverage: 1.0000
+  standards_relevant: 0
+  errors: 0
+  scanned_paths:
+    - core/components/plays/shape-slice/scripts/edit_slice.py
+    - core/components/plays/shape-slice/scripts/record_questions.py
+    - core/components/plays/shape-slice/scripts/render_brief.py
+    - core/components/plays/shape-slice/scripts/write_hidden_file.py
+    - core/components/plays/shape-slice/scripts/test_edit_slice.py
+    - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+  catchall:
+    CODE-20: 6   # the catch-all row covered all six files; it is a count, never per-file findings
+findings: []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0
+summary: >
+  The standards linter ran clean on the four code scripts and the two test files. No P1 to P4
+  finding fired against the taxonomy. The scan is rule-by-rule matching on the diff; it does not
+  judge design, data safety or whether the tests are strong. Those are for the later layers and
+  the by-hand checks in categories.yaml.

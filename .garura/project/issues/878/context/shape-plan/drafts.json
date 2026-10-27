@@ -1,0 +1,98 @@
+{
+  "slices": [
+    {
+      "slice": "sl-intent-to-design",
+      "epic": {
+        "title": "The product owner names a piece of work and gets its slice, its plan and its hidden eval",
+        "delivers": "The product owner runs three plays on one business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read."
+      },
+      "stories": [
+        {
+          "feature": "fn-795",
+          "title": "The product owner gets one slice to test for a business intent, with its hidden file",
+          "scope_of_work": {
+            "goals": [
+              "When the product owner runs /shape-slice on a business intent, the spine gets one slice that serves that intent, with its features in build order, its one surface and the persona who tests it.",
+              "One person can test the slice end to end on that one surface.",
+              "The same run puts the slice's hidden file in the plan's evals folder, with one entry for each feature of the slice and each entry closed by exactly one way back. This part is not built yet; decision 6 adds it."
+            ],
+            "limits": [
+              "Write only the slice, its link to the business intent it serves, its record, the model parts the slice lacks (each marked to be deepened) and the hidden file.",
+              "Write no plan, epic, story or eval.",
+              "Put the hidden file only in .garura/project/plans/<plan-id>/evals/<slug>/.",
+              "The confirmation the product owner sees shows the slice only.",
+              "Ask the product owner only what the product model and memory do not answer, and stay inside the question tier."
+            ],
+            "expectations": [
+              "The product owner runs /shape-slice 788 in Claude Code and finds one slice in the spine and the hidden file in plans/788/evals/<slug>/.",
+              "No other new file appears outside the product model.",
+              "Run on a real business intent, the play writes one slice and its hidden file, and no plan, epic, story or eval."
+            ]
+          },
+          "context_guidance": {
+            "read": "the business intent's page, the spine, the Slice kind in the ontology, memory, and the play's own folder in core/components/plays/shape-slice/ (built in #795)",
+            "never_read": "the plan, its epics and stories, and the eval: they come after this play",
+            "persona": "the product owner, who names the intent, answers the questions and approves in Claude Code; /shape-plan and /shape-eval read the slice after",
+            "in_out": "in: the intent page when the model has none, the questions, reuse of a slice that already serves, the missing model parts, the slice, its record and its hidden file, and the stop at a typed yes, change or stop; out: the plan, the epic, the stories and the eval"
+          }
+        },
+        {
+          "feature": "fn-818",
+          "title": "The product owner gets the plan of a business intent, with one epic for the slice and one story for each feature",
+          "scope_of_work": {
+            "goals": [
+              "When the product owner runs /shape-plan on a business intent, the intent's one plan file (.garura/project/plans/<intent>.yaml) exists, with one epic for each slice that serves the intent and one story for each feature of that slice.",
+              "The plan names every capability and feature it holds, each with its ICE.",
+              "A second run finds the plan, the epics and the stories that exist, and makes no copies of them."
+            ],
+            "limits": [
+              "Write only the plan file, the epics and the stories.",
+              "Each story holds the goals, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE, and nothing from the hidden file.",
+              "The hidden file and all that it holds belong to /shape-slice (decision 6); the eval belongs to /shape-eval.",
+              "Nothing goes to the tracker before the product owner types yes.",
+              "Do not pick, rank or test slices; the product owner chose the slice at /shape-slice.",
+              "Do not wait for a full product model; write a missing model page as a light page during the run."
+            ],
+            "expectations": [
+              "The product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic, and one story for each feature of the slice.",
+              "No story holds any line from the hidden file.",
+              "Building the plans for #717 and its partner gives the same trees that were filed by hand on 2026-10-21."
+            ]
+          },
+          "context_guidance": {
+            "read": "the slice in the spine, and the ICE of each feature and of its capability, once for each story",
+            "never_read": "the slice's hidden file and the evals folder",
+            "persona": "the product owner, who runs and tracks the plan; the build play reads the stories after",
+            "in_out": "in: the plan file in .garura/project/plans/ and the tracker's epics and stories; out: picking the slice, the hidden file, the eval and the build (not built yet, #818)"
+          }
+        },
+        {
+          "feature": "fn-798",
+          "title": "The product owner gets an eval that shows from the outside if the business intent is met",
+          "scope_of_work": {
+            "goals": [
+              "When the product owner runs /shape-eval on a business intent, the slice's evals folder holds one eval for that slice.",
+              "The eval checks from the outside, on the slice's surface, each goal and expectation of the stories, and checks that nothing the hidden file warns about happens.",
+              "The eval says if the business intent is met on the slice's surface."
+            ],
+            "limits": [
+              "Read only the epic, its stories and the slice's hidden file.",
+              "Never read an ICE page, the usage guide or the code.",
+              "Write the eval only in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/), and nowhere else."
+            ],
+            "expectations": [
+              "The product owner runs /shape-eval 788 in Claude Code after /shape-plan and finds the eval in plans/788/evals/<slug>/.",
+              "No build play's inputs name the evals folder."
+            ]
+          },
+          "context_guidance": {
+            "read": "the epic and the stories that /shape-plan wrote, and the hidden file that /shape-slice wrote",
+            "never_read": "any ICE page, the usage guide (guides/<slug>.md) and the code",
+            "persona": "the product owner, who wants proof that the intent is met; the running eval after the build uses what this play writes",
+            "in_out": "in: writing the eval, which for Garura often runs a play on a test project and reaches the slice only through its usage guide; out: running the eval and encrypting it (until #828 only a read rule keeps builders away from the folder; not built yet, #798)"
+          }
+        }
+      ]
+    }
+  ]
+}

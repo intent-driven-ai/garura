@@ -4,7 +4,7 @@
 > It states the bar the slice's intent must pass: the gates, drawn from the product
 > profile's NFR gates that apply plus the slice's ICE constraints/failures made
 > checkable. How to test, coverage, and environments are NOT here (that is the build's
-> job; /validate-feature checks these gates independently). The linter enforces the heading set;
+> job; /validate-epic checks these gates independently). The linter enforces the heading set;
 > the content-quality eval scores it against `_content-standard.md`. Written by `/shape-quality-lens`.
 
 ## One lens, two artifacts (#462)

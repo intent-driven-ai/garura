@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "written": {
+    "domains": [],
+    "capabilities": [],
+    "features": [],
+    "ices": []
+  },
+  "updated": [],
+  "one_lines": [],
+  "moved": [],
+  "thin": [],
+  "relinked": [],
+  "allow": [],
+  "modify_only": [],
+  "remove_only": [],
+  "touches_added": [],
+  "touches_relinked": [],
+  "intent_page_before": null,
+  "intent_page_after": null
+}

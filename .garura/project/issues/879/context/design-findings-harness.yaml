@@ -1,0 +1,161 @@
+# design-findings-harness.yaml - check-change Step 3, Layer 2 (design-grounding), category: harness
+# PR #894, issue 879, ROUND 2. Base ref: plan/788/base.
+# Changed artifacts in scope: core/components/plays/shape-plan/SKILL.md and reference/ice.md
+# (stop-condition.yaml is not in the diff; D1-D5 unchanged). The scripts and the work guide are
+# read only to see what the harness text promises; their own review is in other categories.
+# Every principle below is from a source committed on plan/788/base, from the tracker (read only),
+# or from Phoenix memory read through the memory tool. None is from prose this branch adds: the new
+# C13 text, F12/REC12/S8, specs/design.md, the new managing-work.md rule and the round-1 STM records
+# are NOT used as grounding.
+# Severity: taxonomy copy .garura/project/issues/879/context/memory/standards/rules/pr.md
+# (P1-P4 bucket definitions). The table has no Standard ID row for a design finding, so each
+# finding names the bucket definition as its basis.
+pr: 894
+issue: 879
+round: 2
+category: harness
+base: plan/788/base
+grounding_status: available
+memory_dir: .garura/project/issues/879/context/memory/grounding-harness/   # user-facing-voice copy + manifest.json (overwritten for round 2)
+
+principles:
+  - id: PR-1
+    principle: "An Epic stands for one slice and holds its Stories (one per feature of the slice); a Spike, Chore or Bug is a child of one Story and so sits in that Story's Epic. A Chore or Bug has its Story as a required parent."
+    sources:
+      - "plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md, Decision section 3 (Accepted): 'An Epic represents one slice. It holds stories ... A Spike, Chore or Bug is a child of one story'"
+      - "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md, Epic (Relationships: Epic -> Story; Rules: 'Its stories are one for each feature of its slice'), Chore and Bug (Parent: its one story, required)"
+      - "plan/788/base:docs/standards/harness-standard.md, principle 7 ('Bugs always sit under a feature')"
+      - "plan/788/base:.garura/user-provided/managing-work.md, 'Where does it hang?' ('every Bug, Spike and Chore under a Story')"
+  - id: PR-2
+    principle: "A slice is a group of features that gives a vertical a person can test end to end; the plan play makes one Epic for each slice a plan holds, plus one Story for each feature. A thing with no screen or surface a person can test is not a slice. No committed play places a Bug or a Chore."
+    sources:
+      - "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decision list item 1 ('A thing with no screen or surface that a person can test end to end is not a slice, and /shape-slice does not shape it') and item 2 (the plan play makes the plan, the epic for the slice, one story for each feature of the slice, and the hidden file)"
+      - "plan/788/base:core/grounding/glossary.md, rows 'Slice' and 'Epic (ProductOS)'"
+      - "plan/788/base:core/components/plays/shape-plan/reference/ice.md and SKILL.md: no step makes, finds or places a Bug or Chore (grep finds none)"
+  - id: PR-3
+    principle: "A change to what a part guarantees is made in its ICE and the part is compiled again; the compiled part carries the fingerprint of its ICE."
+    sources:
+      - "plan/788/base:docs/standards/harness-standard.md, principle 4 (ADR 027)"
+      - "plan/788/base:CLAUDE.md, Play Pipeline Rules (an intent change goes through reference/ice.md)"
+  - id: PR-4
+    principle: "Build the eval first: every guarantee has a check that can fail on it. A routing line sends each failure to its recovery."
+    sources:
+      - "plan/788/base:docs/standards/harness-standard.md, principle 5"
+      - "plan/788/base:core/components/plays/shape-plan/SKILL.md Step 8 (base wording: each exit-1 cause of check_tracker.py names its recovery)"
+  - id: PR-5
+    principle: "A person sees, in plain words, what each item is before the one typed yes; a human-facing message leads with the product's words and names an item with its title, not a bare identifier."
+    sources:
+      - "plan/788/base:core/components/plays/shape-plan/reference/ice.md, C11 and C8"
+      - "Phoenix memory (memory tool, --tier phoenix): standards/rules/user-facing-voice.md, fingerprint sha256:8ead1cfefb30b7efa09d46f72574bded3f9e511029dfdf8ad6480db0faca8443 (copy in memory_dir)"
+  - id: PR-6
+    principle: "Branches follow the plan: each issue is cut as a sub-branch of plan/<id>/base and lands back on it. A plan holds one epic for each slice that serves its business intent."
+    sources:
+      - "plan/788/base:docs/standards/harness-standard.md, principle 8"
+      - "plan/788/base:CLAUDE.md, Work Tracking"
+      - "plan/788/base:docs/adr/049-...md ('A business intent has one plan ... holds every slice that serves its intent')"
+  - id: REQ-1
+    principle: "What the product owner asked for in #879 (read only, from the tracker): an epic stands for one slice; /shape-plan names any work under an epic that is not its slice's, with its title, and stops before any tracker write; the tracker check names it the same way."
+    sources:
+      - "GitHub issue #879 body, section 'Decided on 2026-10-26' and 'Done when' (gh issue view 879, read only)"
+    note: "A requirement, not a model principle. Used only to test that the play does what was asked, never to say the model allows it."
+
+round_1_resolution:
+  - id: H-1
+    status: resolved
+    how: "Round 1 flagged C13/S3 letting an epic hold other children, against PR-1. Round 2 removes that: C13 now says an epic's sub-issues are the stories of its slice and the work under a story hangs from that story; anything else is misplaced work and the play stops. That agrees with ADR 048 Decision 3 and the ontology Epic rules (PR-1). S3 is back to base wording. The shape the model calls drift is no longer accepted as correct. Nothing in ADR 048, the ontology or the glossary needs to change for the epic rule itself. A residual gap about where misplaced work goes is raised as H-5 (P3), a much smaller question than H-1."
+  - id: H-2
+    status: resolved
+    how: "Round 1: Step 8 did not route the new F11/REC11 causes. Round 2 drops those causes (F11/REC11 are unchanged from base; SKILL.md Step 8 line is unchanged). Round 2 adds one new check_tracker.py exit-1 cause, misplaced work, that Step 8 does not route either; raised as H-7 (P4)."
+  - id: H-3
+    status: resolved
+    how: "Round 1: C13/F11 promised 'never adds, removes or changes the other children' with a check that proved only removal. Round 2 removes that promise. The new promise is 'writes nothing until a person files it'; SE-19 and SCE-8 can fail on it (misplaced non-empty with ok true, a tracker-record.json present, or the plan file's shasum differing from plan-before.txt)."
+  - id: H-4
+    status: resolved
+    how: "Round 1: the brief listed other children as bare numbers. Round 2 drops the brief line (render_brief.py is not in the diff). The stop happens at Step 2, before any brief; SKILL.md says each misplaced item is shown with its title, and the script message carries it ('#n \"title\"'). PR-5 holds."
+
+hand_checks:
+  - check: "ICE-source rule: each intent change in SKILL.md (C13 wording, F12 row, SE-19, SCE-8, S8 row, REC12) traces to the same change in reference/ice.md"
+    result: pass
+    evidence: "ice.md C13 -> SKILL.md Constraint-list line and Step 2 text; ice.md F12 -> SKILL.md F12 row and failure list; ice.md S8 -> SCE-8 and the S8 table row; ice.md REC12 -> F12 row's recovery and handoff (human). SE-19 (F12/C13) is the step eval for F12/C13. No SKILL.md intent change lacks an ice.md source."
+  - check: "Fingerprint: SKILL.md fingerprint row equals sha256 of the changed reference/ice.md"
+    result: pass
+    evidence: "sha256sum core/components/plays/shape-plan/reference/ice.md = 06f818c93e6a994dff829caf4e8345fae903eecca6f491d569c400a252e780de = the SKILL.md row. The base ice.md hashes to 84f437cd... (the old row), so the stamp moved with the file."
+  - check: "Counts agree"
+    result: pass
+    evidence: "ice.md holds C1-C13, F1-F12, S1-S8, D1-D5, REC1-REC12. SKILL.md: 19 bold SE items (SE-1..SE-19), 8 SCE items, 12 recovery rows of which 5 human and 7 autonomous; the Compiled-From text and the metadata rows say F1-F12, S1-S8, 19, 8, 12 (7 autonomous / 5 human)."
+  - check: "stop-condition.yaml unchanged and D1-D5 still hold with the new stop"
+    result: pass
+    evidence: "git diff plan/788/base HEAD on stop-condition.yaml is empty; ice.md Done means (D1-D5) is not in the diff. D4 still reads the tracker check ok, which now also fails on misplaced work; that only makes D4 stricter. A stop at Step 2 closes HALTED, as REC2 already does, with nothing to resume (SKILL.md 'Pause and Resume')."
+  - check: "Wiring: play orchestrates, scripts do the mechanical work (harness-standard p2 and p3)"
+    result: pass
+    evidence: "find_work_items.py finds and lists misplaced items; check_tracker.py reads back; the play only shows and stops. No judgment moved into a script or mechanical work into prose. The new text also reuses the REC2 stop pattern."
+
+findings:
+  - id: H-5
+    severity: P3
+    file: core/components/plays/shape-plan/reference/ice.md
+    lines_hint: "C13 ('its own story, bug or chore, which /shape-slice and /shape-plan place when they run'), REC12; same words in SKILL.md Step 2 and the F12 row"
+    principle_violated: [PR-1, PR-2]
+    committed_source: "plan/788/base:ontology.md Chore and Bug (Parent: its one story, required); docs/standards/harness-standard.md p7; docs/adr/049-...md Decision items 1-2; base shape-plan and shape-slice ICE/SKILL.md (no step places a Bug or Chore)"
+    severity_basis: "pr.md bucket P3 (minor: a promise the other plays and the model do not back, no behaviour break; the play itself only stops and names)"
+    finding: >-
+      The recovery tells the person to file a misplaced item 'in its own place (its own story, bug or chore)'
+      and says /shape-slice and /shape-plan 'place' it when they run. The accepted model has no
+      parentless Bug or Chore: both need a Story as their parent (PR-1). And no committed play
+      places one: /shape-slice shapes a slice of features and the plan play makes an epic and one
+      story per feature (PR-2). So for a Bug or Chore the recovery points to a place the model does
+      not hold and to a placement no play does. The part that is right: the play stops, names each
+      item with its title, and writes nothing, which is what #879 asks (REQ-1), and a misplaced
+      Story is placed by the plan play when its slice gains the feature. The product owner's
+      wider rule (file it on its own, record it later) is in the tracker issue only; no ADR,
+      ontology line or glossary row records it, so a reader of the model cannot find where a
+      parentless Bug or Chore lives in between.
+    suggested_fix: >-
+      Either narrow the recovery to what the play and the model can back (file it under the Story it
+      serves, or as a Story that /shape-slice then places), or have the product owner record the
+      interim place of a Bug or Chore in an ADR and the ontology (via /edit-ontology), and name
+      which play places it. The owner decides; the reviewer shows the gap.
+
+  - id: H-6
+    severity: P3
+    file: .garura/user-provided/managing-work.md
+    lines_hint: "the added bullet 'An Epic stands for one slice ...': 'Work that blocks the plan gets its own Epic (its own slice), is delivered there, and merges back into the plan branch it spawned from'"
+    category_note: "documentation category owns the file; raised here because categories.yaml says to raise a divergence from ADR 049 under harness. The play files (SKILL.md, ice.md) do not carry the blocker rule."
+    principle_violated: [PR-2, PR-6]
+    committed_source: "plan/788/base:docs/adr/049-...md Decision item 1; glossary row 'Slice'; docs/standards/harness-standard.md p8"
+    severity_basis: "pr.md bucket P3 (minor: a rule in a guide agents read that does not fit the accepted definition of a slice, no behaviour break)"
+    finding: >-
+      The guide says blocker work gets its own Epic 'as its own slice'. ADR 049 says a thing with no
+      screen or surface a person can test end to end is not a slice, and /shape-slice does not shape it;
+      the plan play makes an epic only for a slice. Most blocker work (a chore, a bug fix, a tooling
+      change) has no such vertical, so it cannot have an epic by this route. 'Merges back into the
+      plan branch it spawned from' also does not match principle 8, where each issue (not an epic)
+      is cut from plan/<id>/base and lands back on it. The guide is read by agents as a rule, so
+      the mismatch will reach them.
+    suggested_fix: >-
+      Say what a blocker is in the model's words: a Story in an existing epic when it delivers a
+      feature, a Chore or Bug under the Story it serves, or an epic only when it is a real slice.
+      If the owner wants blockers to have their own epic whatever they are, record that as a change
+      to ADR 049's slice definition.
+
+  - id: H-7
+    severity: P4
+    file: core/components/plays/shape-plan/SKILL.md
+    lines_hint: "Step 8, line 363: 'check_tracker.py exit 1: a label or a wrong type is REC11, a deleted or closed moved-out story is REC6'"
+    principle_violated: PR-4
+    committed_source: "plan/788/base:docs/standards/harness-standard.md principle 5; base SKILL.md Step 8 (each exit-1 cause names its recovery)"
+    severity_basis: "pr.md bucket P4 (nit: the case is nearly unreachable, because Step 2 already stops on misplaced work)"
+    finding: >-
+      check_tracker.py now also exits 1 for misplaced work ('epic #n holds #m "title", which is not a story of
+      its slice') and for a story that is not a sub-issue of its epic. Step 8's routing line names
+      neither, so a run that meets one after the writes has no line telling it which recovery
+      applies. REC12 says 'stop before any tracker write', which no longer fits a hit after the writes.
+      (The sub-issue mismatch was unrouted at base too.)
+    suggested_fix: "Add one clause to the Step 8 routing line: misplaced work found at this step is shown to the person as at Step 2 (REC12), and the run closes HALTED."
+
+checked_and_no_finding:
+  - "Harness principle 6 (nothing is blocked): the new stop could look like a block. Principle 6 is about gaps in the product model; the play already stops on a duplicate or a missing marked issue (REC2 at base), and #879 (REQ-1) asks for this stop. Noted, not raised."
+  - "C13 now carries two guarantees (marked by type; an epic stands for its slice) with F11 and F12 each mapped to it. Traceability still works (lint-play clean per layer1-findings.yaml); not raised."
+  - "Issue references such as '#879' in ice.md: base-ref files carry the same kind of reference (ice.md '#875', '#796'). harness-standard p11 deletes notes of origin that point to source paths, not issue numbers."
+  - "Misplaced work is computed from the epic's direct sub-issues only (find_work_items.py); the children of its stories are not walked. This matches PR-1 (the work under a story hangs from that story)."
+  - "Layer 1 linters (lint-components, lint-play) and the data-safety review of the scripts are run by the play and the executable-code category, not here."

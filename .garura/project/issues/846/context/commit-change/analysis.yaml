@@ -1,0 +1,41 @@
+needs_judgment: false
+
+change_groups:
+  - id: ready-check-true-only
+    issue: 846
+    commit_type: fix
+    scope: ready-check
+    subject: "only the value true is the thin mark"
+    files:
+      - core/components/plays/create-play/references/test_check_ice_workable.py
+      - core/components/plays/create-play/references/check_ice_workable.py
+      - core/components/plays/discover-intent/scripts/check_ice_workable.py
+  - id: adr-amend-pointers
+    issue: 846
+    commit_type: docs
+    scope: adr
+    subject: "ADR 047 and 049 pointers name every part ADR 052 amends; drop a stale line in ADR 052"
+    files:
+      - docs/adr/047-the-ice-is-its-own-node.md
+      - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+      - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  - id: ontology-built-checks
+    issue: 846
+    commit_type: fix
+    scope: ontology
+    subject: "the ready check and the ICE linter are built (#759, #760)"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+  - id: stm-evidence
+    issue: 846
+    commit_type: chore
+    scope: stm
+    subject: "record commit-change run artifacts"
+    files:
+      - .garura/project/issues/846/context/commit-change/analysis.yaml
+      - .garura/project/issues/846/context/commit-change/porcelain.txt
+
+exclusions: []
+
+risks:
+  sensitive_files: []

@@ -1,0 +1,15 @@
+{
+  "routing_result": {
+    "work": "After the install, set a project up for Garura: ask the setup questions, set up the project's Garura memory from Phoenix memory, record its review rule groups, set up its tracker's work-item types, and run again when the project changes (cap-initialize)",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "Software delivery planning",
+        "why": "The work serves the field of building software: it sets up a development project's standards memory, its code-review rule groups and its issue tracker's work-item types. None of the ten shelves (analytics, collaboration, content-management, ecommerce, experience, marketing, notifications, payments, personalization, user-management) has a trigger for setting up a software project or its tracker; user-management's access control and collaboration's sharing are features many products share, not the field this work sits in. The model already holds the domain page dom-software-delivery-planning with its own outside sources, so no new domain is proposed; the capability is grounded in that domain page and the product owner's sources (#862, #881, #883)."
+      }
+    ],
+    "shelves_read": "the ten domain shelves copied at Phoenix 44e1c4c into .garura/project/issues/882/context/memory/knowledge/domains/ (re-copied through the memory tool in run 3; fingerprints unchanged)"
+  }
+}

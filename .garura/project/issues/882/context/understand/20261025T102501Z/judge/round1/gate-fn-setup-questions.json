@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md
+  completeness = fail
+    evidence: "Each question shows its choices and a proposed answer that names its source, and the product owner confirms or corrects each one." / Rules & behavior covers unconfirmed proposals, no-source proposals and an unreachable memory tier, but never says what happens on a correction or on a reply that skips questions.
+    fix:      Add two Rules & behavior lines (and a matching Given/When/Then for each): (1) what happens when the product owner's correction names something that is not among the choices (for example a domain Phoenix memory holds no shelf for) - whether initialize refuses it with a plain message and asks again, or records it with a note that no memory can be set up for it; (2) what happens when the reply leaves some questions unanswered - whether initialize asks again only for those, or stops, and that no unanswered question is recorded as an answer.
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+  "failures": [
+    {
+      "id": "completeness",
+      "verdict": "fail",
+      "evidence": "\"Each question shows its choices and a proposed answer that names its source, and the product owner confirms or corrects each one.\" / Rules & behavior covers unconfirmed proposals, no-source proposals and an unreachable memory tier, but never says what happens on a correction or on a reply that skips questions.",
+      "fix": "Add two Rules & behavior lines (and a matching Given/When/Then for each): (1) what happens when the product owner's correction names something that is not among the choices (for example a domain Phoenix memory holds no shelf for) - whether initialize refuses it with a plain message and asks again, or records it with a note that no memory can be set up for it; (2) what happens when the reply leaves some questions unanswered - whether initialize asks again only for those, or stops, and that no unanswered question is recorded as an answer."
+    }
+  ],
+  "missing": []
+}

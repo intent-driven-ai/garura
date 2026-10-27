@@ -1,0 +1,15 @@
+{
+  "routing_result": {
+    "work": "Three features of bi-788, run one after the other on a Garura business intent from the Claude Code command line: /shape-slice writes the slice only; /shape-plan writes the plan file, the epic and one story per feature; /shape-eval writes the hidden eval for the business intent in the plan's evals folder.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "Software delivery planning",
+        "why": "The field is building software with AI agents; the job is to turn a business intent into work that can be built and checked: a slice to test, a plan of work items, and an acceptance check kept apart from the builder. None of the ten shelves (analytics, collaboration, content management, ecommerce, experience, marketing, notifications, payments, personalization, user management) has a trigger for this work; their triggers are about what an end product offers its own users. Experience is about guiding end users of a product, not about delivering software, so the work is not folded in."
+      }
+    ],
+    "why": "No domain shelf in any tier holds software delivery work (find over **/knowledge/domains/*.md in every tier gives only the ten shelves), so all three features go to the nothing-fits path as one new domain."
+  }
+}

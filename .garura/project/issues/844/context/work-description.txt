@@ -1,0 +1,9 @@
+[TASK] shape-slice: shape the slice for business intent #788
+
+Run /shape-slice on business intent #788 ("When a work is identified, agents should be able to design it and then run the implementation via plays and loop"). The play reads the intent from Garura's own product model (it writes the intent page from the issue when the model has none), reads the model and memory, asks the product owner only what neither answers, and writes the one slice that a person can test end to end to show the intent is served, with every part the slice needs and the model lacks (marked to be deepened later).
+
+This is also the first real test of the new /shape-slice (PR #840). It is installed in this repo for this run only (#843).
+
+Writes: the product model only (the spine's slice entry, the slice record, the intent page, and any filled parts). No plan, epic, story or eval: those are the plan play (#818) and the eval play (#798).
+
+Lands in plan 788 (plan/788/base) through the change plays.

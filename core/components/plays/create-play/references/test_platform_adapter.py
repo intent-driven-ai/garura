@@ -78,6 +78,9 @@ def test_github_argv():
           "--draft" in full and "L" in full and "@me" in full)
     check("close-issue default reason completed",
           "completed" in pa._gh("close-issue", {"issue_number": 5}, repo)[0])
+    check("pr-files lists every file of the PR through the api, page by page",
+          pa._gh("pr-files", {"pr_number": 900}, repo)
+          == [["gh", "api", "repos/o/n/pulls/900/files", "--paginate", "--jq", ".[] | @json"]])
     check("update-comment uses repo api path",
           pa._gh("update-comment", {"comment_id": 9, "body": "x"}, repo)[0][2]
           == "repos/o/n/issues/comments/9")
@@ -158,7 +161,68 @@ def test_unknown_verb():
         check("unknown verb raises", False)
     except KeyError:
         check("unknown verb raises", True)
-    check("VERBS has exactly 16", len(pa.VERBS) == 16)
+    check("VERBS has exactly 22", len(pa.VERBS) == 22)
+
+
+def _fake(replies):
+    """A runner that records each argv and answers from `replies` (a list of (rc, out))."""
+    calls = []
+
+    def run(argv):
+        calls.append(argv)
+        rc, out = replies.pop(0) if replies else (0, "")
+        return rc, out, "" if rc == 0 else "it broke"
+    return calls, run
+
+
+def test_github_only_verbs():
+    print("test_github_only_verbs")
+    real_run, real_repo = pa._run, pa.resolve_repo
+    pa.resolve_repo = lambda _cfg: ("o", "r")
+    try:
+        types = ('{"data":{"repository":{"id":"R1","issueTypes":{"nodes":'
+                 '[{"id":"T-story","name":"Story"},{"id":"T-feat","name":"Feature"}]}}}}')
+        calls, pa._run = _fake([(0, types), (0, "N-10\n"), (0, "41\n")])
+        res = pa.dispatch("create-issue-typed", {"title": "A patient picks a slot", "body": "b $(x)",
+                                                 "issue_type": "Story", "parent_number": "10"},
+                          platform="github")
+        make = calls[-1]
+        check("create-issue-typed: one createIssue call with the type and the parent",
+              res["exit_code"] == 0 and res["stdout"].strip() == "41" and len(calls) == 3
+              and "type=T-story" in make and "parent=N-10" in make and "repo=R1" in make
+              and any("createIssue" in a and "issueTypeId" in a and "parentIssueId" in a for a in make))
+        check("create-issue-typed: the body is one argv element, as written", "body=b $(x)" in make)
+        calls, pa._run = _fake([(0, types), (0, "7\n")])
+        res = pa.dispatch("create-issue-typed", {"title": "t", "body": "b", "issue_type": "Feature"},
+                          platform="github")
+        check("create-issue-typed with no parent: no parent look-up, no parent field",
+              res["exit_code"] == 0 and len(calls) == 2 and not any(a.startswith("parent=") for a in calls[-1]))
+        calls, pa._run = _fake([(0, types)])
+        res = pa.dispatch("create-issue-typed", {"title": "t", "body": "b", "issue_type": "Epic"},
+                          platform="github")
+        check("create-issue-typed with an unknown type: exit 1, nothing made",
+              res["exit_code"] == 1 and len(calls) == 1 and "no issue type 'Epic'" in res["stderr"])
+        calls, pa._run = _fake([(0, "")])
+        res = pa.dispatch("set-issue-type", {"issue_number": 5, "issue_type": "Feature"}, platform="github")
+        check("set-issue-type argv", calls == [["gh", "api", "-X", "PATCH", "repos/o/r/issues/5", "-f", "type=Feature"]])
+        calls, pa._run = _fake([(0, "")])
+        pa.dispatch("edit-issue-body", {"issue_number": 5, "body": "new `text`"}, platform="github")
+        check("edit-issue-body argv", calls == [["gh", "api", "-X", "PATCH", "repos/o/r/issues/5", "-f", "body=new `text`"]])
+        calls, pa._run = _fake([(0, "")])
+        pa.dispatch("remove-label", {"issue_number": 5, "label": "work item"}, platform="github")
+        check("remove-label argv", calls == [["gh", "issue", "edit", "5", "--remove-label", "work item"]])
+        calls, pa._run = _fake([(0, "999\n"), (0, "")])
+        res = pa.dispatch("remove-sub-issue", {"parent_number": 10, "child_number": 12}, platform="github")
+        check("remove-sub-issue reads the child's id, then takes it off",
+              res["exit_code"] == 0 and calls[0][-2:] == ["--jq", ".id"]
+              and calls[1] == ["gh", "api", "/repos/o/r/issues/10/sub_issue", "-X", "DELETE", "-F", "sub_issue_id=999"])
+        for verb in sorted(pa.GITHUB_ONLY_VERBS):
+            calls, pa._run = _fake([])
+            res = pa.dispatch(verb, {}, platform="gitlab")
+            check(f"gitlab: {verb} stops with a plain message and runs nothing",
+                  res["exit_code"] == 2 and calls == [] and "GitHub only" in res["stderr"])
+    finally:
+        pa._run, pa.resolve_repo = real_run, real_repo
 
 
 def main():
@@ -168,6 +232,7 @@ def main():
     test_view_issue_version_probe()
     test_gitlab_argv()
     test_unknown_verb()
+    test_github_only_verbs()
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 

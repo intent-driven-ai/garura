@@ -20,7 +20,7 @@ class LintLoop(unittest.TestCase):
         comp = os.path.join(self.root, "components")
         for play, text in (("discover-intent", "runs check_loop_contract.py first; reads the statement\n"),
                            ("discover-domains", "runs check_loop_contract.py first; reads the goal\n"),
-                           ("shape-scope", "no contract here\n")):
+                           ("shape-thing", "no contract here\n")):
             os.makedirs(os.path.join(comp, "plays", play))
             with open(os.path.join(comp, "plays", play, "SKILL.md"), "w") as fh:
                 fh.write(text)
@@ -29,6 +29,9 @@ class LintLoop(unittest.TestCase):
         self.loop = os.path.join(comp, "loops", "sample-loop")
         shutil.copytree(EXAMPLE, self.loop)
         self.skill = os.path.join(self.loop, "SKILL.md")
+        self.next_map = os.path.join(self.root, "pipeline-next.md")
+        with open(self.next_map, "w") as fh:
+            fh.write("```yaml\nnext:\n  sample-loop: { command: null, why: \"the test loop\" }\n```\n")
 
     def edit(self, old, new):
         with open(self.skill) as fh:
@@ -38,7 +41,8 @@ class LintLoop(unittest.TestCase):
             fh.write(text.replace(old, new))
 
     def lint(self):
-        run = subprocess.run([sys.executable, LINT, self.skill], capture_output=True, text=True)
+        run = subprocess.run([sys.executable, LINT, self.skill, "--next-map", self.next_map],
+                             capture_output=True, text=True)
         return run.returncode, run.stdout
 
     def gaps(self):
@@ -53,8 +57,8 @@ class LintLoop(unittest.TestCase):
         self.assertTrue(any("ghost: no such play" in g for g in self.gaps()))
 
     def test_a_play_that_cannot_run_in_a_loop_fails(self):
-        self.edit("plays=discover-intent,discover-domains", "plays=discover-intent,shape-scope")
-        self.assertTrue(any("shape-scope: cannot run inside a loop" in g for g in self.gaps()))
+        self.edit("plays=discover-intent,discover-domains", "plays=discover-intent,shape-thing")
+        self.assertTrue(any("shape-thing: cannot run inside a loop" in g for g in self.gaps()))
 
     def test_a_missing_anchor_fails(self):
         self.edit("# --- end Shared Loop Run ---\n", "")
@@ -131,12 +135,12 @@ class LintLoopHalfDone(LintLoop):
     """The /edit-loop trial's findings: a half-done edit and an input no play reads fail."""
 
     def test_a_play_added_to_plays_alone_fails(self):
-        with open(os.path.join(self.root, "components", "plays", "shape-scope", "SKILL.md"), "w") as fh:
+        with open(os.path.join(self.root, "components", "plays", "shape-thing", "SKILL.md"), "w") as fh:
             fh.write("runs check_loop_contract.py first\n")
-        self.edit("plays=discover-intent,discover-domains", "plays=discover-intent,discover-domains,shape-scope")
+        self.edit("plays=discover-intent,discover-domains", "plays=discover-intent,discover-domains,shape-thing")
         gaps = self.gaps()
-        self.assertTrue(any("no step owned by: shape-scope" in g for g in gaps), gaps)
-        self.assertTrue(any("shape-scope-done.json" in g for g in gaps), gaps)
+        self.assertTrue(any("no step owned by: shape-thing" in g for g in gaps), gaps)
+        self.assertTrue(any("shape-thing-done.json" in g for g in gaps), gaps)
 
     def test_an_argument_is_handed_on_the_command_line_not_read_from_the_contract(self):
         self.edit("Run R4 with the statement as `inputs.discover-intent.statement`.",

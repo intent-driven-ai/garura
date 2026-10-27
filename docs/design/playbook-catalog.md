@@ -59,7 +59,7 @@ Summary of every play under `core/components/plays/` as of this audit. Scope sta
 | `check-drift` | Implementation drift against locked specs. Produces drift report, ADR drafts, debt catalog, memory items. | Quality gate |
 | `review-pr` | Diff-scoped PR review with deterministic P1/P2/P3 severity taxonomy. Confidence formula routes decision (PASS / BLOCK / ESCALATE). Gates `ship` unless `review-pr.bypass=false`. | Quality gate |
 | `start-feature` | Issue resolution + branch creation + STM init. Three input patterns converge on the same flow. No planning artifacts. | Work setup |
-| `start-feature-planning` | Lightweight planning alternative to the full specify → design → arch → prepare pipeline. Uses built-in Plan sub-agent. Produces spec.md, verify.md, tasks.md. One Tether/Vanish gate. | Work setup |
+| `start-feature-planning` | Lightweight planning alternative to the full specify → design → arch → prepare pipeline. Uses built-in Plan sub-agent. Produces spec.md, verify.md, tasks.md. One approval gate (yes / stop). | Work setup |
 | `capture` | Async GitHub issue filing with type inference. Fire-and-forget; non-blocking. | Utility |
 | `report-issue` | **Deprecated alias for `capture`.** Will be removed next major release. | Utility |
 | `commit-code` | Concern-grouped conventional commits with issue references. Optional checkpoint when confidence low. | Delivery |
@@ -76,7 +76,7 @@ Summary of every play under `core/components/plays/` as of this audit. Scope sta
 - `start-feature` vs. `start-feature-planning` are not overlapping: the first is setup-only, the second is setup + IDD planning via the Plan sub-agent.
 - `codify` and `decode` pair: `codify` captures shape (LTM tree), `decode` captures logic (per-feature behavior, test-verified). Both SKILL.md files state **`/enrich is the sole promotion gate to product LTM`** — see §5 Tier 1.
 - Decision-surfacing discipline (tier-batched HIGH/MID/LOW) appears in `specify`, `design`, `arch` — three different implementations of the same pattern.
-- Context-isolation invariants are strictest in `validate`: evals-engineer, judge, test-engineer, and feature-steward each receive a tightly scoped input and never see each other's prompts or outputs.
+- Context-isolation invariants are strictest in `validate`: evals-engineer, judge and test-engineer each receive a tightly scoped input and never see each other's prompts or outputs.
 - Most plays bound retry loops (max 2–3 iterations) with defined escalation paths. No infinite loops exist in the framework.
 
 ---

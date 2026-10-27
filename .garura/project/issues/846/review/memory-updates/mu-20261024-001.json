@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261024-001",
+    "status": "waiting",
+    "issue": 846,
+    "missing": "The shared rule for asking a person (standards/rules/asking-a-person.md), needed by /edit-ontology to show each question in a draft",
+    "target_tier": "short-term",
+    "target_path": "846/context/edit-ontology/asking-a-person.md",
+    "draft": "No memory tier (short-term, Garura, Phoenix) holds standards/rules/asking-a-person.md. The rule exists in Garura source at core/components/memory/standards/rules/asking-a-person.md but has not reached Phoenix memory. A person should promote or install it; until then the scope draft uses the shape the play asked for: Question, Answer (proposed), Why it matters, Example.",
+    "draft_source": "memory",
+    "sources": [],
+    "requested_by": "product-os-keeper (edit-ontology)",
+    "requested_at": "2026-10-24T10:17:08Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

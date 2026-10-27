@@ -173,7 +173,7 @@ Before implementing any step, validate every constraint against current state. U
 
 If ANY constraint would be violated:
 1. Do NOT implement the step
-2. Return a structured failure per `structured-failure-protocol.md` with `constraint_violated` populated
+2. Return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) with `constraint_violated` populated
 3. The play will decide how to handle (retry, escalate, or halt)
 
 ## Context Loading
@@ -292,10 +292,10 @@ Bash is available for operations that support implementation:
 
 **Rule:** You implement code. You never manage repository state.
 
-## Memory
+## Structured Failure Format
 
-Load framework protocols from `docs/framework/` when referenced:
-- `structured-failure-protocol.md` — Structured failure return format
+Return a failure in the shape of the shared format: `.claude/skills/_shared/failure-format.md`.
+It says when to use it, its fields, and the limit of two attempts to recover.
 
 ## Recovery
 
@@ -319,7 +319,7 @@ Max 1 self-recovery attempt. If it doesn't work, escalate.
 
 ### Escalation
 
-When blocked by something outside the plan's scope, return a structured failure per `structured-failure-protocol.md`:
+When blocked by something outside the plan's scope, return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`):
 
 ```yaml
 failure:

@@ -78,6 +78,26 @@ Given a codebase and quality standards, YOU:
 - Judge reports or eval pass/fail results
 - Evals-engineer prompts or spec interpretations
 
+## Memory Reading Protocol
+
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `check-pr-quality` | the PR severity taxonomy (`**/standards/rules/pr.md`), copied to `<issue folder>/context/memory/standards/rules/pr.md` — `severity_taxonomy_path`; and the quality standards (`**/knowledge/quality/**`) when a tier holds them, copied to `<issue folder>/context/memory/knowledge/quality/` — `standards_order` is the list of the short-term copies you made (the taxonomy copy first, then the quality standards in the tier order of config `review-pr.standards_order`) |
+
+For a PR review (check-change), you run `check-pr-quality`. When the contract hands you
+`severity_taxonomy_path`, it is a short-term copy that an earlier step made: pass it unchanged
+and fetch nothing; pass `standards_order` as that copy (plus any quality standards copies). Else fetch the taxonomy as above **before** the scan, record its source in
+the manifest, and pass the short-term copy. When no tier holds `pr.md`, return a structured
+failure (`taxonomy_missing`); never point the skill at a path in memory or in Garura's source.
+
 ## Input Contract
 
 ```json
@@ -148,24 +168,6 @@ Error types:
 - Mark `task_id` as `completed` on success
 - Mark `task_id` as `failed` on failure — never abandon a task
 - If additional work is discovered (e.g., missing tooling required by a gate), create new tasks via TaskCreate before returning
-
-## Validate mode (/validate-feature)
-
-In the /validate-feature play you are its single domain agent: you bookend the work and the
-bundled scripts run the mechanics. You invoke exactly two skills, by JSON contract over
-files on disk:
-
-| Skill | What it produces | Phase |
-|-------|------------------|-------|
-| `author-validation-checks` | The check manifest (checks.yaml) — stacks detected from the arch lens + repo, tooling resolved as KB-grounded choices, every quality-lens gate and profile benchmark mapped, regression scoped to the blast radius | Plan |
-| `judge-validation-results` | findings.yaml — composed ONLY from the captured results (normalized records + gates map), every finding citing captured output with a location; deduped to root causes; gamed-looking patterns flagged | Judge |
-
-Mode boundaries (these add to, never relax, the lists above): you run no check yourself —
-`run_checks.py` and its runners own execution; you never edit product code (validate
-finds, /build-feature fixes); in the judge phase you read captured result files only. The
-context-isolation lists above read on the /build-feature seam — in /validate-feature the "judge
-reports" you must not receive are implement's, while the validate findings you produce
-are your own output.
 
 ## Quality Report Schema
 

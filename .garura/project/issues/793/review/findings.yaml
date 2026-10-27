@@ -1,0 +1,141 @@
+findings:
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'need.md ''Checkpoint 1 agreed'' (open point 3 decided as option 2: one story
+    per feature in each epic) versus draft-questions.md (sha 8e8c1c..., the approved
+    draft) open point 3 and Q19'
+  message: 'draft-questions.md open point 3 says a shared feature has ONE Story, in
+    the first slice''s Epic, with later work as a Chore under it, and Q19 answers
+    ''the one Story that delivers it''. The owner''s checkpoint reply (need.md) chose
+    the opposite: one Story per feature in each epic. The ontology follows the decision
+    (Q19 ''one Story in each Epic''; Story rule ''one story per feature in each epic'';
+    Feature ''one story in each epic that delivers it''). The ontology is right by
+    the owner''s decision, but the approved draft file on disk still says the other
+    thing, so a reader checking ontology against draft-questions.md sees a conflict.'
+  status: null
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'plan/788/base:core/components/memory/standards/templates/product-ontology.md
+    (kind block: What it is, Who reads it, Lives at, Properties, Relationships, Rules,
+    States, Example)'
+  message: 'Every kind except Source now carries two lines the template does not define:
+    ''**Layer:**'' and ''**In the tracker as:**''. They were asked for by the owner
+    (draft-kinds.md, the new ''In the tracker as'' column) so the content is agreed,
+    but the template (and the author-product-ontology skill that builds from it) was
+    not updated in this change.'
+  status: null
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'draft-kinds.md table: Source is ''product layer, in the tracker as none,
+    model only''; template product-ontology.md (same block for every kind)'
+  message: The Source block (about line 230 of the new file) has no Layer line and
+    no In the tracker as line, while all other twelve kinds have both. The agreed
+    kinds draft lists Source as product layer, none in the tracker.
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: plan/788/base:core/components/memory/standards/templates/product-ontology.md
+    ('Two or three plain sentences')
+  message: The opening runs to a long list paragraph, a long 'How it flows' paragraph,
+    a five-line link list, a tracker paragraph, 'Nothing is blocked' and 'Who writes'
+    before the first heading. v6 already had four of these; v7 adds the five-line
+    list and the tracker paragraph. Not agreed-draft drift (the five lines come from
+    the drafts), only template drift.
+  status: null
+- category: memory
+  severity: P2
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'plan/788/base:docs/adr/019-epic-persistence-keep-delivered.md (decision
+    1 and 2: persistence permanent, file stays at {domain}/slices/{slice-id}/epics/{epic-id}.yaml);
+    plan/788/base:docs/adr/024-amendment-record.md (''a slice''s current truth = its
+    epics + their amendments'')'
+  message: 'v7 Epic: ''not in the product model: the spine epics list and the epic.md
+    pages leave the model''; an Epic is a tracker issue represented in the plan file,
+    never stamped delivered (''it stays open''). That reverses ADR 019 and removes
+    the epic record ADR 024 builds on.'
+  status: null
+- category: memory
+  severity: P2
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'plan/788/base:docs/adr/031-business-intent-and-ice.md section 1; v6 ontology
+    (plan/788/base, Work: ''Work carries ICE'', Q1 ''Answered by'')'
+  message: 'v7: ''No work item carries it. Only a Story reads it ... and writes its
+    own scope of work. Epic, Spike, Chore and Bug read no ICE.'' ADR 031 section 1
+    is only partly amended by ADR 047 (its ICE parts); this part, that work takes
+    ICE form, is still in force on the base and is now contradicted.'
+  status: null
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: plan/788/base:docs/adr/047-the-ice-is-its-own-node.md (title, sections 1,
+    3, 5, 6); plan/788/base:docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md
+    (holding folder functionalities/<id>/, 'functionality -> capability -> domain')
+  message: 'The substance of ADR 047 is NOT contradicted: v7 keeps exactly one ICE
+    for each capability and each feature, three parts, no business-intent link, three-answer
+    ready check, no ''needs'' on a feature. What changes is the name (Functionality
+    renamed Feature) and one new derived rule: a capability is done when every feature
+    has a closed Story (047 section 6 says only ''a capability it needs is done'').
+    Names in 047 and 043 (and 033 section 4, 045) now disagree with the ontology and
+    with the spine until the rename story lands.'
+  status: null
+- category: memory
+  severity: P2
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: plan/788/base:docs/adr/028-agentic-lifecycle-five-loops.md ('/measure stamps
+    the slice realized'; '/grill cuts it'); plan/788/base:docs/adr/019-epic-persistence-keep-delivered.md
+    ('/grill cuts a permanent slice into one or more epics')
+  message: 'v7 Slice: spine fields domain_ref, status, order, effort and depends_on
+    go; ''whether it is picked is shown by its Epic, not by a status on the slice'';
+    the Plan picks the slice and creates the epic. That drops the realized stamp ADR
+    028 relies on and moves epic creation from /grill to the Plan. Loop names in ADR
+    045 (Slice loop, plays) are also affected.'
+  status: null
+- category: memory
+  severity: P2
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'plan/788/base:docs/adr/_index.md and 47 ADRs: none records a product-layer
+    / work-layer split, Feature as a product kind, or the Plan picking a slice. The
+    base ADRs 031 and 043 hold no ''Feature and Story work types'' text at all; that
+    vocabulary exists only in the v6 ontology (base) itself.'
+  message: The task note expected ADR 031/043 text on Feature/Story work types. On
+    the base ref there is none (grep for Story, Spike, work type finds only unrelated
+    lines in ADR 029 and 037). So the v6 work-type model was never an ADR decision,
+    and v7 reverses it without one. The reasoning exists only in need.md and decisions.json
+    (short-term issue files).
+  status: null
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: 'plan/788/base:core/grounding/glossary.md lines 63, 69, 71 (Functionality:
+    leaf node with its ICE; Slice: bundle of functionalities within one domain, realized
+    lens by lens; Epic (ProductOS): one functionality sliced end-to-end, kept and
+    stamped delivered, ADR 019)'
+  message: v7 defines Feature, a Slice that groups features across any capabilities,
+    and an Epic that is a tracker work item representing a slice. All three glossary
+    entries now disagree (Slice 'one domain'; Epic 'one functionality'; Functionality
+    not renamed). CLAUDE.md names the glossary canonical.
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: need.md 'Checkpoint 2 agreed' ('No, do it now ... There is no later')
+  message: The ontology states Feature everywhere but keeps functionalities / functionality.md
+    / functionality_refs as live names 'until the rename story lands' (Feature Lives
+    at, Slice Lives at, ICE Lives at). This matches the owner's order (next story)
+    and is not a violation; noted so the next story is not lost. The spine, ice.md
+    paths and lint scripts stay out of step with the ontology until then.
+  status: null
+- category: run-records
+  severity: P4
+  path: .garura/project/issues/793/
+  basis: 'categories.yaml: playbook missing'
+  message: No review playbook for STM run records.
+  status: null
+runnable_checks: "check_ontology:\n valid True problems []\nchange check:\n scope\
+  \ True version True 6 -> 7 names True\ncheckpoints:\n  {'questions': True, 'kinds':\
+  \ True, 'links': True} all_agreed True entries 13\nedit-ontology tests:\n11 passed,\
+  \ 0 failed\n"

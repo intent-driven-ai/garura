@@ -13,9 +13,6 @@ coding agent — can be pointed at the folder and nothing else:
   traces.json            the memory tool's `citations --issue <n> --check` answer
   done/                  each play's <play>-done.json
 
-Canonical copy lives at create-loop/references/prepare_check.py and is stamped into each
-loop's scripts/.
-
     python3 prepare_check.py --ice <loop>/reference/ice.md --issue <n> \
         --issue-dir <stm_base><n>/ --working <working> --base <sha> \
         [--memory-tool .garura/core/tools/memory/memory.py] --out-dir <working>/check/

@@ -1,6 +1,6 @@
 ---
 name: find-work-placement
-description: Search the product knowledge base for where a piece of work belongs — its domain, capability, and functionality — by reasoning over the domain shelves its agent puts in short-term memory. Runs the inference sandwich (list the domains, reason to the domain, read that shelf, reason to the capability/functionality) and emits a lightweight routing-result with the decision and why. Placement only — it does not evaluate product-profile conditions (that is selection, /shape-scope's job). Use whenever a play or agent needs to know which part of the product model a request maps to.
+description: Search the product knowledge base for where a piece of work belongs — its domain, capability, and feature — by reasoning over the domain shelves its agent puts in short-term memory. Runs the inference sandwich (list the domains, reason to the domain, read that shelf, reason to the capability/feature) and emits a lightweight routing-result with the decision and why. Placement only — it does not evaluate product-profile conditions (that is selection, not placement). Use whenever a play or agent needs to know which part of the product model a request maps to.
 version: 0.2.0
 user-invocable: false
 model: sonnet
@@ -10,7 +10,7 @@ allowed-tools: Bash, Read
 # find-work-placement
 
 Routes a **piece of work** to its place in the KB tree: **domain → capability →
-functionality**, with the decision and the reasoning recorded. This is C2 (#434).
+feature**, with the decision and the reasoning recorded. This is C2 (#434).
 
 ## Input
 
@@ -23,7 +23,9 @@ functionality**, with the decision and the reasoning recorded. This is C2 (#434)
 Each shelf opens with front matter: `id`, `title`, and `conditions.trigger` (when the domain
 applies). That is the routing entry.
 
-## Procedure — the inference sandwich
+## Process
+
+The inference sandwich.
 
 Reasoning is yours (the skill); the agent only retrieves.
 
@@ -43,19 +45,21 @@ Reasoning is yours (the skill); the agent only retrieves.
    not list its work. A field named after one feature many products share (comments,
    notifications, search, sign-in) is not a domain the product sits in, and no domain is named
    that holds none of the main areas.
-2. **Read the shelf + reason to capability/functionality.** Read the chosen shelf in
+2. **Read the shelf + reason to capability/feature.** Read the chosen shelf in
    `domains_dir`. Reason over its `## Capabilities` to pick the
-   capability and the functionality(ies) the work maps to. Note their profile
+   capability and the feature(ies) the work maps to. Note their profile
    conditions as metadata — do not evaluate them (that is selection, not placement).
    Placement records where the work fits on the shelf; it writes nothing. A caller that
-   writes domains only (/discover-domains, ADR 043) uses the capability and functionality placements
+   writes domains only (/discover-domains, ADR 043) uses the capability and feature placements
    as research notes for the domain page, never as capability entries.
 3. **Emit the routing result** (schema below) with `why` for each placement.
 
 If step 1 finds no domain that fits, set `unmatched: true` and stop — the
 nothing-fits path (the `/route` caller) handles drafting a new node for review.
 
-## Output — routing_result (lightweight; NOT an ADR)
+## Output
+
+The `routing_result` (lightweight; NOT an ADR).
 
 ```yaml
 routing_result:
@@ -63,7 +67,7 @@ routing_result:
   placements:
     - domain: user-management
       capability: Account Recovery
-      functionality: [Password reset, Multi-channel support]
+      feature: [Password reset, Multi-channel support]
       confidence: high            # high | medium | low
       why: "credential recovery delivered over a non-default channel (SMS)"
       conditions:                 # metadata, copied — NOT evaluated here

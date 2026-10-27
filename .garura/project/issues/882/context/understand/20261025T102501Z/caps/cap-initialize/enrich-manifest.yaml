@@ -1,0 +1,101 @@
+enrich:
+  capability_ref: cap-initialize
+  grounded_in: "no domain shelf (routing.yaml: unmatched); domain page software-delivery-planning/domain.md and its sources; the product owner's sources GitHub #862 (business intent) and #881 (story)"
+  capability:
+    id: cap-initialize
+    slug: initialize
+    domain: dom-software-delivery-planning
+    status: proposed
+    detail: detailed
+    one_line: "After the install, set a project up for Garura: its memory, its review rules, and its tracker's work-item types."
+    doc: software-delivery-planning/initialize/capability.md
+    intents: []
+    nfr_needs:
+      reliability:
+        level: medium
+        target: "a second run with every answer unchanged changes 0 files in the project's memory, its rule-group record and its tracker"
+        gate: "run initialize twice on a test project with the same answers and diff the memory folder, the rule-group record and the tracker's type list"
+      security:
+        level: medium
+        target: "0 writes to the tracker before the product owner's typed yes; every type made is named in the run's record"
+        gate: "run initialize on a test GitHub organization with a missing type, answer no, and check the tracker's type list is unchanged; answer yes and check the record names each type made"
+      maintainability:
+        level: medium
+        target: "a new tracker (Jira, Linear) is added by one adapter entry with 0 changes to any play; the plays read only the type mapping"
+        gate: "review of the change that adds the second tracker: its diff touches the adapter and no play"
+    compliance_needs: []
+    metadata:
+      created_by: /discover-capabilities
+  features:
+    - id: fn-setup-questions
+      slug: fn-setup-questions
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Ask the product owner the short set of setup questions built from Phoenix memory, each with choices and a proposed answer that names its source."
+      doc: software-delivery-planning/initialize/fn-setup-questions/feature.md
+    - id: fn-project-memory
+      slug: fn-project-memory
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Set up the project's Garura memory from only the part of Phoenix memory the answers call for, and record the answers in the profile."
+      doc: software-delivery-planning/initialize/fn-project-memory/feature.md
+    - id: fn-review-rule-groups
+      slug: fn-review-rule-groups
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Record which review rule groups fit the project, so a review runs only those and names the groups it skipped."
+      doc: software-delivery-planning/initialize/fn-review-rule-groups/feature.md
+    - id: fn-881
+      slug: fn-881
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Find the tracker's work-item types, make each missing one (Business Intent, Epic, Story, Bug, Chore, Spike) after a typed yes, and record a stand-in where one cannot be made."
+      doc: software-delivery-planning/initialize/fn-881/feature.md
+    - id: fn-rerun-initialize
+      slug: fn-rerun-initialize
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Run initialize again when the project changes, with the earlier answers proposed, so the memory, rule groups and tracker set-up follow it."
+      doc: software-delivery-planning/initialize/fn-rerun-initialize/feature.md
+    - id: fn-883
+      slug: fn-883
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Treat every memory file in Garura's source as Phoenix memory: one install lays it on the machine, a second install brings it up to date, and initialize gives each project only the blocks its answers call for."
+      doc: software-delivery-planning/initialize/fn-883/feature.md
+  implied_levels:
+    reliability: { level: medium, gate: "run initialize twice on a test project with the same answers and diff the results" }
+    security: { level: medium, gate: "no tracker write before the typed yes, on a test GitHub organization" }
+    maintainability: { level: medium, gate: "the change that adds the second tracker touches the adapter and no play" }
+  compliance: []
+  gaps:
+    - about: cap-initialize
+      missing: "the business intent id of #862 in the model"
+      why: "#862 is the business intent this capability serves, but the model has no intent page for it (intents/ holds bi-717, bi-722, bi-734, bi-756, bi-788), so the capability's and features' intents lists are left empty and their ICE is not workable until it is linked"
+    - about: fn-881
+      missing: "where the tracker type mapping is kept for the plays to read"
+      why: "#881 says the plays read the mapping but not where it lives; the page writes our default (with the project's settings the plays already read)"
+    - about: fn-review-rule-groups
+      missing: "the list of the review's rule groups and which setup answer decides each"
+      why: "#862 names front end, back-end service, database and running service for Garura; the full list of groups is not in the sources and no memory shelf holds it"
+    - about: fn-review-rule-groups
+      missing: "Garura's own answer to the permissions question"
+      why: "#862 lists front end, back-end service, database and running service as the groups that do not fit Garura, but #860 also names permission rules run on Garura's tool files; the page keeps the permission group for Garura until that answer says no (our default)"
+    - about: fn-881
+      missing: "the one-line meaning of each work-item type (Business Intent, Epic, Story, Bug, Chore, Spike) as the brief shows it"
+      why: "#881 asks for each type with its one-line meaning but gives none; the page writes our default meanings, marked as ours, for the product owner to confirm"
+    - about: fn-883
+      missing: "whether the install is still out of this capability now that it lays Phoenix memory"
+      why: "the capability's boundary puts the install itself out (the install play owns it), but #883 makes the install lay the whole Phoenix memory and bring it up to date; the page keeps the copy of plays and tools out and states what the install must lay, and the capability page was not changed beyond its feature list"
+    - about: fn-883
+      missing: "which part lays Phoenix memory on a machine: the install (#883) or the memory tool when a command first needs it"
+      why: "#883 says one install lays the whole Phoenix memory; the installed memory rule (.claude/rules/garura-memory.md) says the tool downloads Phoenix memory the first time a command needs it; the page follows #883"
+    - about: fn-883
+      missing: "what one memory block holds"
+      why: "#883 says each project gets its own memory blocks but does not say what a block is; the page writes our default (one folder of Phoenix memory that one answer selects: a domain shelf, a group of standards, or one tool's standards), which fn-project-memory, written in files, should then follow"

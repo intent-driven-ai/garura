@@ -1,0 +1,62 @@
+# design-findings-memory.yaml -- PR #858, anchor #841, category: memory
+# Grounded only on plan/788/base: ADR 035, 039, 046, 053 (all present on base), pr.md at base, garura-memory rules.
+category: memory
+grounding:
+  - {principle: "Memory is read only through the memory tool; a block shared by plays lives in one common file beside the installed parts", source: "plan/788/base:docs/adr/035-agents-work-only-from-memory.md; docs/adr/039-...md section 9"}
+  - {principle: "Taxonomy is mechanical: every finding ties to a row; no judgment", source: "plan/788/base:core/components/memory/standards/rules/pr.md (head)"}
+  - {principle: "Old-name list is used by install-garura and the old-name check; an entry matters only while its new name exists", source: "plan/788/base:core/components/plays/install-garura/scripts/install.py retire_renamed; core/tools/naming/check_old_names.py"}
+  - {principle: "ADR 053 lists the schema edits, rename-map edits, and says older chain stays described until rebuild (#855)", source: "plan/788/base:docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md"}
+findings:
+  - id: M1
+    severity: P3
+    file: core/components/memory/standards/rules/pr.md
+    where: "docs-targeting glob paragraph, new 'Two kinds of path get no finding (#851)' bullet"
+    finding: "The scan now skips every file under docs/adr/ and every stm-evidence path, yet the rows that name docs/adr/** (ARCH-23, DOC-04, DOC-05) are kept 'for the review layers'. The table says a rule applies; the scan says it does not. The earlier line in the same section ('path: rules that review documentation still fire') now has an exception only a later bullet reveals. The skip rests on issue #851; no decision record on the base ref covers it."
+    principle: "The taxonomy is mechanical: a row either fires on a matching path or it is removed; exemptions should be stated where the row is, and a change to a standard should rest on a decision record."
+    basis: "pr.md on base ('Mechanical rule ... No LLM judgment ... If no Match Rule fires ... no finding'); ADR 035/039 pattern of decisions recorded in docs/adr"
+    fix: "Either remove or mark ARCH-23/DOC-04/DOC-05 as 'not scanned' in their rows, or record the skip in a short ADR (or amend an existing one). Keep the stm-evidence skip, it matches the base classification table."
+  - id: M2
+    severity: P3
+    file: core/components/memory/standards/templates/approval-prompt.md
+    where: "removed lines 'The rule for how to ask is rules/asking-a-person.md ... When the two do not agree, the rule is correct' and the Related pointer"
+    finding: "The template now repeats the question format (opening, four parts, plain English) with no link to the rule that moved to skills/_shared/asking-a-person.md and no statement of which wins. Two copies of one format can drift with no tiebreak. templates/_index.md and user-questions.md also lost their pointer to the rule."
+    principle: "One place decides; a copy names its source so the copy cannot silently win."
+    basis: "plan/788/base approval-prompt.md line 7 (the tiebreak existed); ADR 039 section 9 (shared block lives once, parts point to it)"
+    fix: "Keep a one-line pointer to _shared/asking-a-person.md in the template (a pointer to an installed file is not memory) and keep the tiebreak sentence."
+  - id: M3
+    severity: P3
+    file: core/components/skills/_shared/asking-a-person.md
+    where: "whole file (moved from memory/standards/rules/)"
+    finding: "The asking rule leaves memory and is read directly by two plays, three skills and an agent. ADR 039 section 9 only covers a block 'every play shares' in a common file; it names no skills/_shared folder and no sharing by skills and agents. Base has only loops/_shared. The new folder, and the agent reading a non-memory file, have no decision record on the base ref."
+    principle: "Agents decide from memory read through the tool; anything else needs a recorded decision. A shared-file folder for non-play parts is a new design point."
+    basis: "ADR 035 (agents work only from memory); ADR 039 section 9; garura-memory.md rule 'working files your own play hands you are not a memory lookup'"
+    fix: "Add a short ADR line (or amend ADR 039 section 9) naming skills/_shared and who may read from it."
+  - id: M4
+    severity: P4
+    file: core/components/memory/standards/rules/rename-map.yaml
+    where: "removed entries (shape, roadmap, aggregate-codify-proposals, build-dependency-graph, draft-*, infer-*-from-code, lint-components, validate-*, write-evidence)"
+    finding: "Checked each removed entry: its new name no longer exists on the branch (skills deleted), so retire_renamed cannot use it, and 'lint-components' now names a live tool the old-name check would wrongly flag. Removal is sound. Side effect: a project installed before the manifest existed that still holds an old folder (for example 'shape') is no longer retired by the rename map. ADR 053 says 'a reinstall removes both plays', which holds only for manifest-tracked installs."
+    principle: "A rename entry exists to retire old installed copies; naming.md says the map lists every name changed on adopting the standard."
+    basis: "plan/788/base install.py retire_renamed docstring; ADR 053 section 2; ADR 046"
+    fix: "None required. Optionally state in ADR 053 that pre-manifest installs keep the old folders."
+  - id: M5
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/lens/_index.md
+    where: "'A slice (from the older chain)' and 'the slice record of the older chain'"
+    finding: "The text now says 'the older chain' without naming it. A reader cannot tell which plays that is. Other schema edits in the same PR (spine.yaml, slice.yaml) name ADR 053 / #855; this file does not."
+    principle: "Names should be clear; ADR 053 says the older chain stays described until rebuilt (#855)."
+    basis: "ADR 053 section 4 (plan/788/base); naming clarity"
+    fix: "Add '(ADR 053, rebuilt under #855)' to both phrases."
+  - id: M6
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/product-os.yaml
+    where: "persona/journey comments ('No play enforces this now (ADR 053)')"
+    finding: "Matches ADR 053 section 2 (persona and journey parts stay; lens plays read them). Conforms. One gap: the comment says the validator was dropped, but the schema still shows persona fields as required-looking; no check reads them. Already stated honestly in the comment."
+    principle: "Schemas claim only what is checked."
+    basis: "ADR 053 section 2; base product-os.yaml 'Validation truth -- claim nothing more'"
+    fix: "None."
+conforming:
+  - "check-components text changed to core/tools/lint-components in rules/_index.md, expectation.yaml, review/harness.md, review/memory.md: matches ADR 046 and the tool's real path (the skill check-components is gone)."
+  - "Schema edits removing /shape-scope and /shape-roadmap match the Affects list of ADR 053."
+  - "The memory-tool rule is not broken: no changed file reads the moved rule through the memory tool; all readers use _shared/asking-a-person.md."
+counts: {P1: 0, P2: 0, P3: 3, P4: 3, total: 6}

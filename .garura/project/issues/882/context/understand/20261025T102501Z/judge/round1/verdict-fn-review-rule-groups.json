@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every section holds real content: What it does (3 points), Inputs / Outputs (2 in, 2 out), Rules & behavior (4 rules), Acceptance criteria (3 Given/When/Then), Out of scope (3 items, each naming its owner), Sources, and an ICE with Goal, Limit, Fails if, Context and Checked by.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "\"In: the confirmed answers from fn-setup-questions, in particular the surfaces and whether there is a database, personal data, permissions or a running service.\" / \"Out: the project's rule-group record: each group, whether it fits, and the answer that decided it.\"",
+      "fix": "Say what each named answer decides: add one line per answer that names the rule group it keeps or skips (for example: no front end -> front-end group skipped; no database -> database group skipped; no permissions -> permission group skipped or kept, and why; personal data -> which group). Personal data and permissions are listed as inputs but their effect on any group is never stated. Also say where the rule-group record is written and in what shape (file or profile field, one entry per group with fits yes/no and the deciding answer), so the review knows where to read it."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given answers that say there is no front end, no back-end service, no database and no running service, when the rule groups are chosen, then the record marks those four groups as skipped, each with the answer that decided it.\" Points are discrete bullets; the feature states the function's behavior, not a user story.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent capability gives one line: \"records which rule groups of the review fit the project, so a review runs only those and names the groups it skipped.\" The feature adds the deciding answers, the keep-on-silence default, the per-group reason, the rerun path and three testable acceptance criteria.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "Rules: \"A group is kept only when an answer says the project has what the group checks.\" vs \"A group no answer speaks to is kept, so a rule is never skipped by silence.\" Also: \"For Garura itself the answers rule out front end, back-end service, database and running service.\" vs Sources \"#860 (the review of PR #858 ran database, permission and front-end rules on Garura's own tool files)\" and Checked by \"check that no database, permission or front-end finding appears\".",
+      "fix": "Remove the contradiction in Rules & behavior: rewrite the first rule as \"A group is skipped only when an answer says the project lacks what the group checks; otherwise it is kept\", which agrees with the keep-on-silence rule and the Limit. Then settle the permission group: either add permissions to Garura's skip list (in What it does, the first acceptance criterion and the ICE Context) with the answer that rules it out, or drop \"permission\" from the Checked by line and explain why #860's permission findings stop without that group being skipped. A cold reader cannot tell today whether Garura skips the permission rules."
+    }
+  ]
+}

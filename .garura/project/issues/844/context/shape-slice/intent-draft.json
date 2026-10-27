@@ -1,0 +1,18 @@
+{
+  "id": "bi-788",
+  "issue": 788,
+  "title": "Agents design a named piece of work, and plays then run its build",
+  "outcome": "The product owner names a piece of work. Agents shape it into a slice that one person can test, make its plan and write its eval. The product owner approves that design one time, and the plays then run the work.",
+  "why": "Today the product owner must guide each step of the design by hand. No play designs the work for Garura's own work: the product owner found this while #760 started. When agents do the design, the work is faster and it stays inside its design.",
+  "asked_by": "the product owner",
+  "proof": [
+    "A business intent goes from its issue to an approved design.",
+    "The design has a slice that one person can test end to end on one surface, with the features it needs in build order.",
+    "The design has a plan that a person can run and track: the plan file, one epic for the slice, and one story for each feature.",
+    "The design has an eval that tests, from the outside, if the business intent is met.",
+    "The product owner gives one approval, at the end.",
+    "A play runs each step. No step is done by hand.",
+    "The eval is kept in a place where no builder can read it."
+  ],
+  "must_not": "Do not send the slice, the plan or the eval to the tracker before the one approval, and do not start a build before it. Do not let a builder read the eval. Do not shape an ICE that is not ready. Do not ask the person a question that the model or memory answers. Do not include the design, build, test or validation of an epic (#819), the release plays or /learn-outcomes, or the upgrade of an older product model (#835)."
+}

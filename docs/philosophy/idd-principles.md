@@ -107,7 +107,7 @@ The fix is an **information barrier**: the builder and validator operate with de
 
 The barrier is **applied proportionally, not always** — it earns its keep on judgment-heavy work (the heavy lifting of coding, where many valid outputs exist) and is skipped for mechanical, single-output tasks, which just run the validator as a plain regression check (see "When Compartmented Evaluation Applies" under Principle 4). When it is on:
 
-Evals are the verification instrument, built by a **separate agent** that reads all of ICE and compiles them from **failure conditions + success scenarios**. Those evals are then **encrypted** — locked away from the builder, so it cannot optimize to the test.
+Evals are the verification instrument, built by a **separate agent** that reads all of ICE and compiles them from **failure conditions + success scenarios**. Those evals are then **kept from the builder** — plain text in the slice's evals folder, but never given to the build, so it cannot optimize to the test (ADR 057).
 
 | Who | Receives | Never receives |
 |-----|----------|----------------|
@@ -117,11 +117,11 @@ Evals are the verification instrument, built by a **separate agent** that reads 
 
 The builder marches toward the goal, follows the constraints it knows, uses all the context it was handed, invents no context of its own, and keeps working until it has succeeded. The validator sees the implementation and validates it against the evals — evals written so that every success scenario is met and no failure condition occurs. Everything that must be tested has to live within the validator's context.
 
-The success scenarios are the part of the spec the builder *does* see — it needs the target to know when to stop. When the barrier is on, it holds anyway, because the evals themselves and the failure conditions stay hidden and encrypted. The builder knows where the finish line is; it does not get to see the judges' scorecards.
+The success scenarios are the part of the spec the builder *does* see — it needs the target to know when to stop. When the barrier is on, it holds anyway, because the evals themselves and the failure conditions stay hidden: the build is never given them. The builder knows where the finish line is; it does not get to see the judges' scorecards.
 
 ### The Routing Table
 
-Evals are compiled by a separate agent from failure conditions + scenarios + success, then encrypted. The builder never sees them.
+Evals are compiled by a separate agent from failure conditions + scenarios + success, and kept in plain text in the slice's evals folder. The builder is never given them.
 
 | ICE element | Builder | Eval author | Validator |
 |-------------|---------|-------------|-----------|
@@ -131,14 +131,14 @@ Evals are compiled by a separate agent from failure conditions + scenarios + suc
 | **Context** | ✓ (all) | ✓ | ✓ |
 | **Success scenarios** (Expectation) | ✓ | ✓ | via evals |
 | **Recovery** (Expectation) | only the resulting handoff plan | — | ✓ (builds the recovery handoff plan) |
-| **Encrypted evals** | ✗ never | produces | ✓ (decrypts) |
+| **Evals** | ✗ never | produces | ✓ (reads) |
 | **Implementation** | produces | ✗ | ✓ |
 
 The builder works from **goal + constraints + all of Context + success scenarios** — it knows what to achieve, the boundaries, the surround, and the finish line, but not the evals or the failure conditions.
 
 The validator works from **the implementation + the decrypted evals + Context + the recovery conditions** — the evals encode every scenario, success, and failure condition, so it checks against them without needing the raw Intent, and the recovery conditions let it turn failures into a directional recovery handoff plan that either loops back to the builder for an autonomous fix or escalates to a human. Everything that must be tested has to live within the validator's context.
 
-When the barrier is on, it holds because the **evals are encrypted and the failure conditions stay hidden from the builder** — the builder cannot teach to a test it cannot see, even though it knows the success target it is aiming at.
+When the barrier is on, it holds because the **evals and the failure conditions are never given to the builder** — the builder cannot teach to a test it cannot see, even though it knows the success target it is aiming at.
 
 ### The Constraint-Failure Classification Rule
 

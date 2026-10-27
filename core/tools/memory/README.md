@@ -10,7 +10,7 @@ updates and `citations.py` for decision records). It answers every command in th
 `health`, `find`, `search`, `read`, `propose`, `updates`, `decide`, `apply`, `cite` and
 `citations`.
 
-An install puts the tool in the project's Garura folder, at `core/tools/memory/`, with its
+An install puts the tool in the project's Garura folder, in its tools folder, with its
 settings beside it. Agents run it from the project's root folder.
 
 `GUIDE.md` is the short memory guide every agent reads: the three tiers, how to find memory,

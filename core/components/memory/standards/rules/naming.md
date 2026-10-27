@@ -18,8 +18,8 @@ can take for their own harness.
    words (`arch`, `env`, `impl`). Only the fixed industry terms in `naming.yaml` may stay short:
    `pr`, `mvp`, `nfr`, `rca`, `lld`, `kb`, `ice`, `ux`, `tech`, `ci`, `yaml`, `adr`.
 2. **The verb comes first, then the object.** The verb says what the part does; the object is the
-   thing it works on, in the product model's words (feature, capability, plan — never a word the
-   model dropped, such as epic or slice).
+   thing it works on, in the product model's words (feature, capability, slice, epic, plan — never
+   a word the model dropped). Epic and slice are model words.
 3. **One verb, one meaning.** Every verb is listed in `naming.yaml` with its one meaning. A new
    verb is added there first, with its meaning, or it cannot be used.
 4. **Never a tool's own command.** No name is, or starts with, a built-in command of Claude Code or
@@ -39,21 +39,21 @@ a product moves through:
 | Phase | Verb | Example |
 |-------|------|---------|
 | Product → Intent | `discover` | `discover-domains` |
-| Intent → Design | `shape` | `shape-features` |
-| Design → Code | `build` | `build-feature` |
-| Code → Validation | `validate` | `validate-feature` |
+| Intent → Design | `shape` | `shape-slice` |
+| Design → Code | `build` | `build-epic` |
+| Code → Validation | `validate` | `validate-epic` |
 | Validation → Run | `release` | `release-increment` |
 | Run → Product | `learn` | `learn-outcomes` |
 
 Change plays use `start`, `commit`, `propose`, `check`, `merge`, `fix`, `refactor`; plan plays
 `draft`, `show`, `update`, `list`; knowledge plays `search`, `research`, `check`; `record` writes a
-decision; harness plays `create`, `edit`, `install`, `uninstall`. One play keeps one word: `next`.
+decision; harness plays `create`, `edit`, `install`, `uninstall`.
 
 **Skills** — `<verb>-<object>`, the verb from the skill verbs (`author`, `infer`, `derive`, `scan`,
 `check`, `judge`, `assess`, `find`, `link`, `enrich`, `propose`, `research`, `rank`, `recommend`,
 `collect`, `walk`, `deploy`, `track`, and the git verbs `commit`, `open`, `merge`, `cut`). A verb
-that already says where its input comes from is not repeated: `infer-scope`, not
-`infer-scope-from-code`. One named exception: `platform-adapter`, the tool every script calls.
+that already says where its input comes from is not repeated: `scan-test-surface`, not
+`scan-test-surface-from-code`. One named exception: `platform-adapter`, the tool every script calls.
 
 **Agents** — `<domain>-<role>`, ending in a role noun (`adr-keeper`, `quality-auditor`; ADR 004).
 

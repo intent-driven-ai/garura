@@ -1,0 +1,44 @@
+commits:
+  - sha: e069a118
+    message: "fix(naming): restore ADR 053 text and skip it in the old-name check (#837)"
+    files:
+      - docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+      - core/tools/naming/check_old_names.py
+      - core/tools/naming/test_naming_tools.py
+    branch: plan/788/841-chores-batch
+  - sha: 17497965
+    message: "docs(adr): record ADR 054 with forward pointers on ADRs 035, 039 and 050 (#833)"
+    files:
+      - docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md
+      - docs/adr/_index.md
+      - docs/adr/035-agents-work-only-from-memory.md
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+      - docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+      - .garura/project/issues/_adr/20261024T183939Z/
+    branch: plan/788/841-chores-batch
+  - sha: 45e719b2
+    message: "fix(pr-quality): stop flagging docs/adr and narrow BE-19 and SEC-18 (#851)"
+    files:
+      - core/components/memory/standards/rules/pr.md
+      - core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
+    branch: plan/788/841-chores-batch
+  - sha: 46a1b914
+    message: "fix(lint-components): fix flag name, temp folders and constant name in asking-a-person lint (#854)"
+    files:
+      - core/tools/lint-components/lib/rules/asking-a-person.js
+      - core/tools/lint-components/test/asking-a-person.test.js
+      - core/tools/lint-components/test/naming.test.js
+    branch: plan/788/841-chores-batch
+  - sha: 5d7573e2
+    message: "chore(stm): record review round-1 evidence and commit-change artifacts (#841)"
+    files:
+      - .garura/project/issues/841/review/q1-evidence.md
+      - .garura/project/issues/841/context/commit-change/analysis.yaml
+      - .garura/project/issues/841/context/commit-change/porcelain.txt
+    branch: plan/788/841-chores-batch
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

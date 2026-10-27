@@ -1,0 +1,131 @@
+{
+  "id": "sl-intent-to-design",
+  "slug": "intent-to-design",
+  "name": "From a named piece of work to its design",
+  "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no build is given; a check flags each build session that read the evals folder.",
+  "feature_refs": [
+    "fn-795",
+    "fn-818",
+    "fn-798",
+    "fn-898"
+  ],
+  "vertical": "the Claude Code command line",
+  "intents": [
+    "bi-788"
+  ],
+  "surface": {
+    "id": "surf-claude-code-cli",
+    "name": "the Claude Code command line",
+    "persona_ref": "product-owner",
+    "user_action": "runs /shape-slice, then /shape-plan, then /shape-eval on a business intent, then runs the check that shows no build play's inputs name the evals folder and that flags a build session that read it"
+  },
+  "why_this_order": "The slice must exist before its plan, and the plan's epic and stories before the eval that reads them. The check of fn-898 comes last, because it can only be tested when the evals folder holds an eval that a build must not be given.",
+  "left_out": [
+    {
+      "what": "Running the eval after the build (also on Griffin)",
+      "why": "The approved design puts it out of scope (798/specs/design.md line 31), and fn-798 lists it as out of scope (fn-798/feature.md line 29)."
+    },
+    {
+      "what": "Blocking a read of the evals folder by a hook (#893)",
+      "why": "Story #898 only flags the read and does not block it; blocking is the guardrails work (#893), out of scope in the design (line 31-32)."
+    },
+    {
+      "what": "Encrypting the eval (#828)",
+      "why": "The product owner dropped encryption and #828 on 2026-10-26 (798/specs/design.md lines 7-10): everything stays in plain text."
+    },
+    {
+      "what": "Changing the proof line of business intent 788 that says no builder can read the eval",
+      "why": "Question Q-proof-1 is not answered yet; its assumption leaves the intent page as it is in this run and names the gap in the brief."
+    },
+    {
+      "what": "The design, build, test or validation of an epic (#819)",
+      "why": "The intent's Must not excludes it (bi-788.md line 18); so the slice has no build play of its own, and the check of fn-898 treats every play except /shape-slice, /shape-eval and the eval as a build play (assumption of Q-builders-1)."
+    }
+  ],
+  "decisions": [
+    {
+      "question": "Which features does the slice hold?",
+      "answer": "fn-795, fn-818 and fn-798, kept as they are, and the new feature fn-898 (the build is given the business intent, never the eval; a check flags each build session that read the evals folder) under cap-shape-eval.",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/_spine.yaml",
+          "start": 556,
+          "end": 565
+        },
+        {
+          "tier": "short-term",
+          "path": "798/specs/design.md",
+          "start": 16,
+          "end": 18
+        },
+        {
+          "tier": "short-term",
+          "path": "798/context/shape-slice/feature-issue-898.json",
+          "start": 1,
+          "end": 18
+        }
+      ]
+    },
+    {
+      "question": "In which order are the features built?",
+      "answer": "fn-795, then fn-818, then fn-798, then fn-898.",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+          "start": 4,
+          "end": 4
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+          "start": 4,
+          "end": 4
+        },
+        {
+          "tier": "short-term",
+          "path": "798/specs/design.md",
+          "start": 22,
+          "end": 23
+        }
+      ]
+    },
+    {
+      "question": "Which surface does the tester use?",
+      "answer": "the Claude Code command line",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/slices/sl-intent-to-design.yaml",
+          "start": 15,
+          "end": 20
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/intents/bi-788.md",
+          "start": 3,
+          "end": 3
+        }
+      ]
+    },
+    {
+      "question": "Who tests the slice?",
+      "answer": "the product owner (persona product-owner)",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/intents/bi-788.md",
+          "start": 7,
+          "end": 7
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/slices/sl-intent-to-design.yaml",
+          "start": 18,
+          "end": 18
+        }
+      ]
+    }
+  ]
+}

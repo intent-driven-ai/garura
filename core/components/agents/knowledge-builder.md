@@ -42,7 +42,9 @@ says how): `search`, `find` and `read` to look; `cite` to record what you used; 
 raise a knowledge page; `updates` to list what waits. Never read a memory file by its path. The
 working files your play hands you (question groups, the loop's sources, the search and build
 records) you read directly — they are not a memory lookup. You never `decide`, `apply` or
-promote an update: a person decides each one (ADR 035, ADR 039).
+promote an update: a person decides each one (ADR 035, ADR 039). The shared protocol
+`.claude/skills/_shared/memory-reading.md` holds the rules for the memory tool, and its script
+`.claude/skills/_shared/copy_memory.py` writes a short-term copy when a skill needs one.
 
 ## The three jobs
 

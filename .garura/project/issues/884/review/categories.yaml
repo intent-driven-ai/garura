@@ -1,0 +1,128 @@
+# categories.yaml - check-change Step 2 (assessment), PR #885, issue 884, base plan/788/base
+# Treatments are taken from the short-term playbook copies in
+# .garura/project/issues/884/context/memory/knowledge/review/ (Phoenix memory, version 44e1c4c4799a).
+# Severity taxonomy copy: .garura/project/issues/884/context/memory/standards/rules/pr.md (Garura memory tier, version null).
+# Manifest: .garura/project/issues/884/context/memory/manifest.json
+next_map: .garura/project/issues/884/context/templates/standards/rules/pipeline-next.md
+changed_plays: [discover-capabilities, discover-domains]   # SKILL.md + ICE source both changed, so lint_play runs on each
+categories:
+  - name: harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/discover-capabilities/SKILL.md          # compiled play: now calls the settled content gate and shows its notes at the checkpoint
+      - core/components/plays/discover-capabilities/reference/ice.md  # ICE source of that play (intent change)
+      - core/components/plays/discover-domains/SKILL.md               # compiled play, same change
+      - core/components/plays/discover-domains/reference/ice.md       # ICE source of that play (intent change)
+      - core/components/skills/judge-grounding/SKILL.md               # skill: the judge's rubric, prompt and verdict shape; gains the fix-round input
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - id: lint-components
+          command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+          note: "Source layout, because the PR changes core/components/. Only a violation whose file is in the changed paths is a finding; count the rest as 'there before'. Not installed -> record 'not installed'; crash -> 'did not run: <first error line>'."
+        - id: lint-play-discover-capabilities
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/discover-capabilities/SKILL.md --next-map .garura/project/issues/884/context/templates/standards/rules/pipeline-next.md"
+        - id: lint-play-discover-domains
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/discover-domains/SKILL.md --next-map .garura/project/issues/884/context/templates/standards/rules/pipeline-next.md"
+        - id: check-pr-quality
+          command: "run by the play / quality-auditor against the PR diff with the pr.md severity taxonomy copy"
+      runnable_checks:
+        - "ICE-source rule (the repository holds the plays' source): for each of the two plays, the intent change in SKILL.md must trace to the change in reference/ice.md (same diff, intent fingerprint real). A SKILL.md change with no ICE change behind it is a finding. judge-grounding is a skill, not a play: a direct edit is allowed, but it must not carry edit notes or change logs."
+        - "By hand, cite: the play still dispatches the isolated judge sub-agent (play -> agent -> skill -> script wiring intact) and calls grounding_gate.py rather than deciding pass/fail itself; the judge skill still only scores and the deterministic gate decides pass or fail; the judge is still never handed the brief or the gold example; the SKILL.md plays carry the Standard Play Close anchor pair (lint_play covers it)."
+        - "By hand, cite: the skill and the two plays state the same gate command lines, verdict fields and the three settled rules (a kept pass while page, parent and guidance are unchanged; a fix round checks the given fixes and judges new points only on changed lines; a new point on unchanged text is a note shown at the checkpoint, not a stop) as the build contract and grounding-eval.md; flag any drift between the three."
+      design_grounding: true
+      grounding_note: "Ground from committed sources only: base-ref copies (git show plan/788/base:<path>) of the same play, ICE and skill files, docs/philosophy/**, docs/adr/** (ADR 039 section 7 judge/gate split; ADR 045; ADR 046), the glossary, and, through the memory tool only, standards/rules (user-facing-voice, play-close, grounding-eval as it stood on the base). Never ground from the branch's own new prose or from the build contract in the run records."
+  - name: memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/rules/grounding-eval.md   # standards rule for the grounding content eval; 30 lines changed (the settled judge)
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - id: memory-integrity
+          command: "none installed (known gap in review/memory): the reviewer does the checks by reading the changed file and cites each one"
+        - id: check-pr-quality
+          command: "run by the play / quality-auditor against the PR diff with the pr.md severity taxonomy copy"
+      runnable_checks:
+        - "By hand, cite: frontmatter (if any) is valid and its id matches the path; every cross-reference in the file ([[...]], paths to schemas, scripts and other rules) resolves to a real file on the branch; the rule is reachable from its index (standards/rules index) where one lists it."
+        - "By hand, cite: the rule does not contradict or duplicate another standards rule (check grounding-eval.md against the content standard it points to, standards/schemas/product-os/grounding/_content-standard.md, found through the memory tool); the severity/verdict wording stays mechanical (all-pass decides) and matches the gate script's behaviour."
+      design_grounding: true
+      grounding_note: "Ground from committed sources only: the base-ref version of grounding-eval.md (git show plan/788/base:core/components/memory/standards/rules/grounding-eval.md), knowledge/_DESIGN.md, _index.md and _TEMPLATE.md and the neighbouring standards, read through the memory tool; never from the branch's new rule text."
+  - name: executable-code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/plays/discover-capabilities/scripts/grounding_gate.py   # canonical copy; +327 lines: the gate gains a kept pass, fix round and notes
+      - core/components/plays/discover-domains/scripts/grounding_gate.py        # identical copy (same md5 as the canonical)
+      - core/components/plays/learn-outcomes/scripts/grounding_gate.py          # identical copy
+      - core/components/plays/shape-agentic-lens/scripts/grounding_gate.py      # identical copy
+      - core/components/plays/shape-architecture-lens/scripts/grounding_gate.py # identical copy
+      - core/components/plays/shape-marketing-lens/scripts/grounding_gate.py    # identical copy
+      - core/components/plays/shape-measure-lens/scripts/grounding_gate.py      # identical copy
+      - core/components/plays/shape-quality-lens/scripts/grounding_gate.py      # identical copy
+      - core/components/plays/shape-run-lens/scripts/grounding_gate.py          # identical copy
+      - core/components/plays/shape-ux-lens/scripts/grounding_gate.py           # identical copy
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool, against industry best practice
+      linters:
+        - id: ruff
+          command: "ruff check core/components/plays/discover-capabilities/scripts/grounding_gate.py"
+          note: "Run on the canonical copy; the other nine are byte-identical (see the md5 check), so one run covers all ten. Not installed -> record 'not installed'."
+        - id: check-pr-quality
+          command: "run by the play / quality-auditor against the PR diff with the pr.md severity taxonomy copy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)"
+      runnable_checks:
+        - "Confirm the ten copies are identical: cd core/components/plays && md5 */scripts/grounding_gate.py (ten lines, one hash; any other hash is a finding)."
+        - "The gate reads and writes state files (the kept pass) and a verdict file: read the changed lines hard for data safety. Check the state is written atomically or safely, a missing, corrupt or stale state file fails closed (re-judge, never a silent pass), paths come from arguments and cannot escape the issue folder, no stray debug output, no secrets, deterministic where it claims to be."
+        - "By hand, cite: the exit codes and the all-pass rule are unchanged for the old command line (--verdict V with no state), so the other nine plays that carry the copy keep their behaviour."
+      design_grounding: false
+      note: "The script sits inside plays, but the standard for the code is industry best practice, so Layer 2 does not apply. Its wiring into the plays is judged under the harness category."
+  - name: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/plays/discover-capabilities/scripts/test_grounding_gate.py   # new, 266 lines: fixture tests for grounding_gate.py (unittest)
+    treatment:
+      layers: [layer-1-linters, run-the-suite]
+      reviewer: tool
+      linters:
+        - id: ruff-tests
+          command: "ruff check core/components/plays/discover-capabilities/scripts/test_grounding_gate.py --select F,E9"
+          note: "Best-practice lint on the test code; also look for skipped/disabled tests and tests that assert nothing. Plus the pr.md TEST-* rows via check-pr-quality (run by the play)."
+      runnable_checks:
+        - "Run the suite (a red suite is a blocker; a test that did not run is 'not run', never 'passed'): cd core/components/plays/discover-capabilities/scripts && python3 -m unittest test_grounding_gate"
+        - "By hand, cite: the tests cover the three settled rules (kept pass, fix round, note on unchanged text) and the fail-closed paths (missing or corrupt state), and they run against the canonical copy that the other nine copy; the suite lives beside the canonical copy only."
+      design_grounding: false
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    playbook_missing: true
+    note: "A kind of work no playbook covers: machine-written records of the play runs that built this change (issue 884 short-term memory: analysis, branch, commits, issue, plan, porcelain, PR body and number, resolved rules, self-review, work description) plus the build contract (context/build/contract.md, the design the product owner approved, written for the builder). Not code, docs, harness or memory. A playbook is missing; follow-up recommended (no task tool was available to this agent to create one)."
+    evidence:
+      - .garura/project/issues/884/context/analysis.yaml
+      - .garura/project/issues/884/context/branch.json
+      - .garura/project/issues/884/context/build/contract.md
+      - .garura/project/issues/884/context/commits.yaml
+      - .garura/project/issues/884/context/issue.json
+      - .garura/project/issues/884/context/plan.json
+      - .garura/project/issues/884/context/porcelain.txt
+      - .garura/project/issues/884/context/pr-body.md
+      - .garura/project/issues/884/context/pr.json
+      - .garura/project/issues/884/context/resolved-rules.json
+      - .garura/project/issues/884/context/self-review.md
+      - .garura/project/issues/884/context/work-description.txt
+      - .garura/project/issues/884/review/*  # this review's own working files (context, diff, categories, findings): the review's output, never grounding
+      - .garura/project/issues/884/context/memory/**  # short-term copies of shelf and severity taxonomy (with manifest): copies of memory, not changes to it
+      - .garura/project/issues/884/context/templates/**  # template-manager copies (Next-line map, manifest)
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool
+      linters: []
+      runnable_checks:
+        - "No playbook, so no prescribed treatment. Minimal objective checks by hand, cited: .json files parse as JSON, .yaml files parse as YAML; no secrets or personal data in the records; the record is not used as grounding for any design finding (a run record, including the build contract, is the branch's own content)."
+        - "Note for the reviewer: resolved-rules.json and self-review.md may carry the tilde path ~/.garura/... (a home-relative pointer, not an absolute /Users path); flag any absolute home path."
+      design_grounding: false

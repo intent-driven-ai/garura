@@ -1,0 +1,26 @@
+{
+  "changed_kinds": [
+    "Epic",
+    "ICE",
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "allowed_kinds": [
+    "Epic",
+    "ICE",
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "10",
+  "version_after": "11",
+  "updated": "2026-10-24",
+  "date": "2026-10-24",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}

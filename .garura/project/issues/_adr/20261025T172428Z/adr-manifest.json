@@ -1,0 +1,28 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261025T172428Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "048",
+      "file": "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+      "kind": "amended",
+      "part": "Decision \u00a71, the second bullet (\"The work layer is tracker issues labelled `work-item`: Epic, Story, Spike, Chore and Bug\") \u2014 an Epic is now an issue of type Epic and a Story an issue of type Story, each with no label; only a Spike, a Chore or a Bug keeps `work-item`. And Consequences, Positive, the fourth bullet (\"`work-item` for everything that is worked\") \u2014 `work-item` now marks only a Spike, a Chore or a Bug."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "048-the-product-model-and-the-work-are-two-layers.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

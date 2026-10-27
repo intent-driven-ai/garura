@@ -1,0 +1,129 @@
+# check-change Step 3, Layer 2 -- design-grounding of the 'product-model' category, PR #886 (issue 882)
+# Base ref: plan/788/base. Every source is committed on the base ref or is a tracker record the
+# product owner wrote (issues #862, #881, #883) or the product owner's memory rule (quoted in the
+# dispatch). Nothing is grounded in the pages the branch adds.
+category: product-model
+base: plan/788/base
+severity_source: .garura/project/issues/882/context/memory/standards/rules/pr.md
+grounded_principles:
+  - id: G1
+    principle: "Garura memory is built from only the part of Phoenix memory a project needs, by initialize -- never a copy of a Phoenix file. The tool does not copy a Phoenix file; a project's memory takes only the relevant context (for example only the checkout part of a commerce file)."
+    sources:
+      - "origin/plan/788/base:core/grounding/glossary.md line 37 (Garura memory row)"
+      - "origin/plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md lines 66-72 (Decision 4)"
+  - id: G2
+    principle: "Every memory write lands in the issue's short-term memory first; a question and the person's answer are kept there; moving up is a promotion a person makes on purpose; writing the product model is the work of a play built for it."
+    sources:
+      - "origin/plan/788/base:docs/adr/039-... lines 35-46 (Decision 1)"
+      - "origin/plan/788/base:core/grounding/glossary.md lines 36, 41"
+  - id: G3
+    principle: "Memory reaches a project in three steps: the Phoenix install once per machine from the phoenix-memory repo; the Garura install lays only the pieces and no memory; initialize asks the questions, sets up the project's memory, and can run again. The tool reads Phoenix memory only through its interface; an unreachable tier (tier_missing) is said, never read as 'nothing found'."
+    sources:
+      - "GitHub #883 (product owner, 2026-10-25), steps 1-3 and Done-when"
+      - "GitHub #862 Rules 1-3 and Done-when"
+      - "the product owner's memory rule (dispatch): 'Garura cannot install its memory ...'"
+      - ".claude/rules/garura-memory.md (the tier_missing rule)"
+      - "origin/plan/788/base:docs/adr/038-install-brings-no-memory.md lines 24-28, 39-43"
+  - id: G4
+    principle: "The spine entry follows the committed spine schema: a capability entry carries id, slug, domain, intents, status, detail, one_line, doc, nfr_needs, compliance_needs. A capability serves a confirmed business intent through `intents`; with none, its ICE is kept but no play works on it."
+    sources:
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/spine.yaml lines 63-101, 148-152"
+  - id: G5
+    principle: "A box move is recorded as a product-level decision, written by the play's keyed script, accepted by a human; the decision record follows decision.yaml (accepted only on a person's word; accepted_by, decided_in, consequences are the fields the lint requires when /record-decision writes or accepts)."
+    sources:
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/decision.yaml lines 13-44, 51-59, 65-71"
+      - "origin/plan/788/base:core/components/plays/discover-capabilities/SKILL.md lines 462-530 (box-move decision), line 545 (decisions path)"
+      - "origin/plan/788/base:docs/adr/026-direct-to-model-writes.md lines 66-103 (direct write, keyed script writes shared files)"
+  - id: G6
+    principle: "The product model has a profile that is THE BOX (stage, users, surfaces, nfr, compliance, quality_vision). Two layers: the product layer (model) and the work layer (tracker issues: Epic, Story, Spike, Chore, Bug); Business Intent is a product-layer tracker issue labelled product, not a work item."
+    sources:
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/spine.yaml lines 159-187"
+      - "origin/plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md lines 30-36"
+  - id: G7
+    principle: "Grounding pages follow the committed contract and content bar: capability = Benefit hypothesis, Boundary (In/Out/Never), Guiding rules, Features, Sources, ICE; feature = What it does, Inputs/Outputs, Rules, Acceptance (Given/When/Then), Out of scope, Sources, ICE; self-explaining, discrete, depth increases down the tree, links resolve."
+    sources:
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/capability.md lines 33-66"
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md lines 10-57"
+      - "origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/_content-standard.md lines 18-42"
+
+conformant:
+  - "Boundary (in/out/never) agrees with G3 and the product owner's memory rule: the Phoenix install lays Phoenix memory once per machine (Out); the Garura install lays only the pieces and no memory (Out); initialize reads Phoenix memory only through the memory tool, never writes Phoenix or another project's memory, and runs again to take in changes (capability.md Boundary and fn-883 Rules)."
+  - "Unreachable Phoenix memory: all pages stop, build nothing and say the Phoenix install must run, instead of treating an empty answer as 'nothing fits' (G3, garura-memory.md tier_missing rule)."
+  - "Setup answers and questions are kept in short-term memory for the run (fn-setup-questions Out), as G2 requires."
+  - "Tracker writes need a typed yes (consistent with the owner's outbound-write rule and #881)."
+  - "Shape: capability and six feature pages have every required heading in order; lint_grounding.py on the spine and the new pages reports no error or warning for them (the 70 errors it reports are on other, older files). No real person name appears in any new page or the decision (grep for the owner and company names: none). Words are plain; the special terms (block, fingerprint, adapter, brief, stand-in, rule group, product profile) are each defined on the page."
+  - "ADR 026: model written directly by the play's keyed script; the decision sits in product-os/decisions/, the path discover-capabilities allows (SKILL.md line 545); the profile security move none -> medium matches the decision."
+  - "Features 881 and 883 and the capability quote #862/#881/#883 accurately (checked against the issue text)."
+
+findings:
+  - id: PM-1
+    severity: P2
+    file: ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md (lines 19, 28); also fn-883/feature.md (line 24, the 'overwrites the project's copy' and 'copies it into' rules) and the capability's wording 'memory blocks' as 'the set of Phoenix memory files'"
+    principle: "G1 -- Garura memory is built from only the part of Phoenix memory the project needs, never a copy of a Phoenix file."
+    source: "origin/plan/788/base:core/grounding/glossary.md line 37; origin/plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md lines 66-72 (the product owner: 'You don't need to copy the entire file. You only need to bring in the context which is relevant to the checkout part of the commerce ... It should not copy the file.')"
+    what: "The pages define a memory block as 'every file the memory tool finds in a place' and have initialize place those files in the project's Garura memory, overwrite the project's copy of a changed file, and copy an added file. That is a file copy of Phoenix memory into Garura memory. The pages also say the sources 'do not say what a block holds' (fn-project-memory line 19, fn-883 line 4), but ADR 039 Decision 4 and the glossary do say it: part of a file, not the file."
+    fix: "Re-state a block as the relevant part of Phoenix memory (down to the part of a file a project needs), or take the decision to the product owner and record an amendment to ADR 039 Decision 4 first. Remove the claim that the sources are silent on this."
+  - id: PM-2
+    severity: P3
+    file: ".garura/product/product-os/_spine.yaml (the cap-initialize entry, lines 176-210)"
+    principle: "G4 -- a capability entry carries `slug` (and every neighbouring capability entry does)."
+    source: "origin/plan/788/base:core/components/memory/standards/schemas/product-os/spine.yaml line 65; neighbours cap-shape-slice and cap-shape-eval on the base spine carry `slug`"
+    what: "cap-initialize has no `slug`. The six feature entries do. The grounding linter does not check it, so lint_grounding.py passes. Tools that build paths from the slug (the schema says 'the path is derived from slugs') get nothing for this capability."
+    fix: "Add `slug: initialize` (the folder name the doc already uses)."
+  - id: PM-3
+    severity: P3
+    file: ".garura/product/product-os/_spine.yaml (cap-initialize and its six features: `intents: []`); no bi-862 page under product-os/intents/"
+    principle: "G4 -- a capability is ready only when it serves a confirmed business intent; with none, its ICE is kept but no play works on it."
+    source: "origin/plan/788/base:core/components/memory/standards/schemas/product-os/spine.yaml lines 70-73 and 148-152; GitHub #862 is the named business intent"
+    what: "The capability and all six features link to no intent, so the ready check answers 'not ready' for every one and no play can work on them. The PR body discloses this ('#862 has no intent page in the model yet'), so it is a known open item, not a hidden one."
+    fix: "Write the #862 intent page (with the product owner's confirmation) and fill `intents` on the capability and features; or record it as the next step on the plan."
+  - id: PM-4
+    severity: P3
+    file: "capability.md line 16 and the six feature pages (every use of 'product profile', 'the rule-group record kept in the product profile', 'the change record ... beside the mapping', 'the mapping ... in the project's settings')"
+    principle: "G6 / G2 -- the committed `profile` is the box (stage, users, surfaces, nfr, compliance, quality_vision); a person's answers are kept in short-term memory and move up only by a promotion; no committed schema holds a record of setup answers, a rule-group record, a tracker mapping or a block list."
+    source: "origin/plan/788/base:core/components/memory/standards/schemas/product-os/spine.yaml lines 159-187; origin/plan/788/base:docs/adr/039-... lines 35-46; GitHub #862 Done-when ('the profile records them')"
+    what: "The pages use 'product profile' for a new lasting record of setup answers, which the committed term does not mean, and place four new records (answers, rule-group record, mapping, block list) in places no committed schema or ADR defines. The pages mark most of these 'our default; the sources do not say', and the product owner's own #862 says 'the profile records them', so this is a grounding gap, not a contradiction. It also overlaps the box's `surfaces` field."
+    fix: "Before build, agree the home and shape of these records (a schema addition or an ADR), and pick a name that is not 'profile' or define the term in the glossary."
+  - id: PM-5
+    severity: P3
+    file: ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml"
+    principle: "G5 -- a decision is `accepted` only on a person's word; the schema holds that person in `metadata.accepted_by`, and the issue or run in `decided_in`, and `consequences`."
+    source: "origin/plan/788/base:core/components/memory/standards/schemas/product-os/decision.yaml lines 22, 40-43, 51, 58-59, 65-71"
+    what: "The record says `status: accepted` but has no `accepted_by`, `decided_in`, `consequences`, `ice_impact` or `business_intent_check`; its only person link is `decided_by: /discover-capabilities` (the play). The PR body says the product owner approved at the checkpoint ('yes', 2026-10-25), so the acceptance happened; the record does not show it. The schema allows a play-written record to carry fewer fields until /record-decision accepts it."
+    fix: "Add `accepted_by` (the role, not a name), `decided_in: 882`, and consequences, or leave the status `proposed` until /record-decision accepts it."
+  - id: PM-6
+    severity: P3
+    file: ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md (line 49, acceptance; ICE 'Fails if' last line) and capability.md line 62"
+    principle: "G7 -- a page names the neighbour that owns each thing it leaves out; and consistency with the sibling page that does the same job."
+    source: "origin/plan/788/base:core/components/memory/standards/schemas/product-os/grounding/feature.md lines 31-32; the sibling page fn-review-rule-groups/feature.md Out of scope (the change to the review is 'a later story ... outside this feature')"
+    what: "An acceptance criterion and a 'Fails if' make initialize responsible for how other plays (/shape-plan and the filing plays) behave when a type is missing and not mapped. That is a change to those plays, and the page's Out of scope only says that filing is theirs. fn-review-rule-groups handles the same situation correctly by naming the later story that owns the review change. Without this, nothing owns the plays' 'stop and point to initialize' behaviour that #881 asks for."
+    fix: "State in fn-881's Out of scope which later story changes the filing plays to read the mapping and stop with the message, and move that criterion to it (or mark it as checked only once that story lands)."
+  - id: PM-7
+    severity: P4
+    file: "capability.md lines 5, 47 and fn-881/feature.md lines 5, 62, 68 (Business Intent listed as a 'work-item type')"
+    principle: "G6 -- Business Intent is a product-layer issue labelled `product`; the work layer is Epic, Story, Spike, Chore and Bug."
+    source: "origin/plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md lines 30-36"
+    what: "The pages call all six types 'work-item types'. The wording comes from the issue title of #881, so it follows the product owner, but it blurs the two layers ADR 048 separates. The six types are still the right ones to check for."
+    fix: "Say 'the issue types Garura files' (or note that Business Intent is the one product-layer type among them)."
+  - id: PM-8
+    severity: P4
+    file: ".garura/product/product-os/_spine.yaml (the cap-718 entry, `one_line` re-wrapped over two lines)"
+    principle: "ADR 026 containment -- the play writes its own lane; shared-file edits outside it are out of scope."
+    source: "origin/plan/788/base:docs/adr/026-direct-to-model-writes.md lines 66-72, 87-94"
+    what: "The same sentence, only re-wrapped by the YAML writer. No meaning changes. It is noise in the diff of another capability."
+    fix: "None needed; restore the line if it is easy."
+  - id: PM-9
+    severity: P4
+    file: "capability.md Boundary 'Out' bullets, fn-setup-questions/feature.md, fn-project-memory/feature.md, fn-883/feature.md (every 'the Phoenix install must run on this machine' message and 'the Phoenix install laid')"
+    principle: "G3 -- the product owner's three-step memory rule (Phoenix install once per machine, then Garura install, then initialize)."
+    source: "GitHub #883 (steps 1-3; 'Not planned yet'; 'this story replaces [ADR 038's download on first use] with the Phoenix install'); origin/plan/788/base:docs/adr/038-install-brings-no-memory.md lines 30-37; origin/plan/788/base:core/grounding/glossary.md lines 38, 163"
+    what: "KNOWN, NOT A NEW DEFECT. ADR 038 Decision 2 (and glossary rows 38 and 163) say the memory tool downloads Phoenix memory the first time it needs it. The pages follow the product owner's newer rule: a separate Phoenix install, once per machine, and initialize stops with a message when Phoenix memory is not there. An amendment to ADR 038 is owed and is planned as separate work. Also, the Phoenix install is not built or modelled yet (#883 is 'not planned yet'), so the message points at a step that does not exist today."
+    fix: "Land the planned ADR 038 amendment (and the glossary rows) before initialize is built. No change to these pages."
+
+counts:
+  P1: 0
+  P2: 1
+  P3: 5
+  P4: 3
+  total: 9
+summary: "The boundary and the six features follow the product owner's three-step memory rule and the stop-when-unreachable rule. One real design conflict (PM-1): the pages copy Phoenix files into project memory, which ADR 039 and the glossary rule out. Five P3 gaps in the spine entry, the intent link, the 'product profile' records, the decision record and the ownership of the 'stop and point to initialize' behaviour. Three P4 notes, one of which is the known ADR 038 mismatch."

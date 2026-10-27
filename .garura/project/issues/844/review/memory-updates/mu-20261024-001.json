@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261024-001",
+    "status": "waiting",
+    "issue": 844,
+    "missing": "The shared rule for how a play asks a person a question (standards/rules/asking-a-person.md), which /shape-slice Step 5 needs to shape its questions and its message",
+    "target_tier": "short-term",
+    "target_path": "844/context/shape-slice/asking-a-person.md",
+    "draft": "No memory tier holds standards/rules/asking-a-person.md: a find for **/asking-a-person.md looked in short-term, Garura and Phoenix memory and matched nothing. The rule is in the Garura source (core/components/memory/standards/rules/asking-a-person.md, built in #820) but it is not yet in the installed Garura memory (.garura/core/memory) or in Phoenix memory. A person should approve a copy of the source rule into this issue short-term memory, or reinstall Garura memory so the tool finds it.",
+    "draft_source": "model",
+    "sources": [],
+    "requested_by": "product-os-keeper (shape-slice)",
+    "requested_at": "2026-10-24T03:55:28Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

@@ -42,7 +42,7 @@
   4. **A low-fidelity layout in prose** — the regions of the screen and what each region holds.
      Regions and content, never pixels, never colors, never component libraries.
 
-  Every functionality the slice bundles must be visible on at least one screen, and every screen
+  Every feature the slice bundles must be visible on at least one screen, and every screen
   must be reached by at least one flow step below.
 
 - **Flows** — one block per persona **and** goal. A persona chasing two different goals gets two

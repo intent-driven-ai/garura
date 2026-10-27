@@ -1,40 +1,42 @@
 ---
 name: author-build-plan
-description: Draft /build-feature's build plan for ONE epic — the working spine of the build. Reads the epic's box (the epic record, its functionalities' ICE, the slice's six lenses, the captured repo context + test harness) and breaks the epic into PIECES — stories, tasks, tests, docs — with explicit dependency edges forming a DAG, test-first (every epic acceptance criterion covered by a test piece authored from the spec, never from the implementation). Every piece carries a grounding citation into the box (epic | ice | lens | repo) — an ungroundable piece becomes an open_question, never invented work. Writes the plan draft to STM only, never the product model. Also applies revision directives (re-plan after retry exhaustion, steelman refutations as new pieces) to an existing draft. The generative planning work for the /build-feature play.
+description: Draft /build-epic's build plan for ONE epic — the working spine of the build. Reads the epic's box (the epic record, its features' ICE, the slice's six lenses, the captured repo context + test harness) and breaks the epic into PIECES — stories, tasks, tests, docs — with explicit dependency edges forming a DAG, test-first (every epic acceptance criterion covered by a test piece authored from the spec, never from the implementation). Every piece carries a grounding citation into the box (epic | ice | lens | repo) — an ungroundable piece becomes an open_question, never invented work. Writes the plan draft to STM only, never the product model. Also applies revision directives (re-plan after retry exhaustion, steelman refutations as new pieces) to an existing draft. The generative planning work for the /build-epic play.
 version: 0.1.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob, Grep
+stale: true
+stale_note: 'waits for the rebuild of /build-epic (#855)'
 ---
 
 # author-build-plan
 
-Turns one **ready epic** into its **build plan** — the ordered set of pieces /build-feature
+Turns one **ready epic** into its **build plan** — the ordered set of pieces /build-epic
 executes. The epic is the tightest box: everything this plan may contain is what the epic
-carries or references (outcome, user_check, functionality refs → ICE, acceptance, context)
+carries or references (outcome, user_check, feature refs → ICE, acceptance, context)
 plus the slice's six lenses and the repository as it actually exists. The plan never
 crosses those walls; where the box has no wall, the skill records an open question — only
 the human draws a new wall.
 
-This skill drafts; it never persists to the model and never publishes. /build-feature
+This skill drafts; it never persists to the model and never publishes. /build-epic
 validates the draft mechanically (`validate_plan.py`), publishes it to the epic's issue
 (project-orchestrator), and anchors the build to it.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `epic_file` | yes | The epic record (read-only) — the box: outcome, user_check, functionality_refs, context, acceptance. |
-| `functionality_ices` | yes | Resolved ICE paths for the epic's functionality_refs (from the readiness gate). Referenced, never copied. |
+| `epic_file` | yes | The epic record (read-only) — the box: outcome, user_check, feature_refs, context, acceptance. |
+| `feature_ices` | yes | Resolved ICE paths for the epic's feature_refs (from the readiness gate). Referenced, never copied. |
 | `lens_dir` | yes | The slice's lens folder (read-only) — quality (gates the build must end passing), architecture (components the work threads), ux, agentic, run. |
 | `box_context` | yes | The captured repo context from the play's context step — affected areas, conventions, existing surfaces. |
 | `harness` | yes | harness.yaml — the project's detected test/lint/build commands; names the test framework test pieces use. |
 | `plan_path` | yes | Output path under STM for `plan.yaml`. |
 | `directives` | no | Path to a revision-directives file (re-plan after retry exhaustion, or steelman refutations to absorb as pieces). When present, revise the existing plan at `plan_path` per the directives instead of cutting fresh — never silently rewrite unrelated pieces, and never delete a `done` piece. |
 
-## Procedure
+## Process
 
-1. **Read the box.** The epic record, every functionality ICE, the six lenses, the
+1. **Read the box.** The epic record, every feature ICE, the six lenses, the
    captured repo context, the harness. The plan derives from these and ONLY these.
 
 2. **Cut test-first.** For every epic acceptance criterion, author a `test` piece first —
@@ -81,7 +83,9 @@ validates the draft mechanically (`validate_plan.py`), publishes it to the epic'
    exhaustion — bump `plan.version`, keep `done` pieces intact, and leave a
    `revision_note` per changed piece naming its directive.
 
-## Output contract
+## Output
+
+The output contract.
 
 Return JSON only: `{"plan": "<plan_path>", "pieces": <n>, "open_questions": <n>}`.
 The artifact lives on disk; the contract carries paths, never content.

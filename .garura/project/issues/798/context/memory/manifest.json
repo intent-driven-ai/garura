@@ -1,0 +1,305 @@
+{
+  "files": [
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/builder-isolation.md",
+      "version": null,
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/798/context/memory/core/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/expectation-generation.md",
+      "version": null,
+      "fingerprint": "sha256:90e109ef67c23d146f9ad7835cd336ca816d8001f7a43816aa8343c57985d3a4",
+      "copy": ".garura/project/issues/798/context/memory/core/memory/standards/rules/expectation-generation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/evidence-file.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:9d2ec2ea00cd54c2aa2149a395b08537bd37fa0c5924cb3aa72ef1b6db56699b",
+      "copy": ".garura/project/issues/798/context/memory/standards/templates/evidence-file.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:c07cbc674d46f6748637293ad96c5ad6b7841e98b02caa95464ce74639523f3c",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/_content-standard.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:a87ad8b9c992bb6524ea5f995693615241d5368b49df75eb0c9851b924b4025d",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/_content-standard.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/capability.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:57bcd198b8344c9cba9e84739714f44d6c85eac5dcde9e67d88629c698a3609f",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/capability.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/domain.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:238390b7006ae83ecfaf2ecae89bd519309a876e5a84262eec2e44676ba76a21",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/domain.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/epic.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:565cc2f69b835916efc24c61b356819fc68cf04a76ec7803faf51b681e62b6bd",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/epic.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/feature.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:8056d0c66a9ef96f306504087fa19aafaa16989e160c424cc497b2b073d3cd20",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/functionality.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:eaad8d12941243997c629f1fe5b9b65939f6c8d459d8ace7d13f329fc4630c4f",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/functionality.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/spine.yaml",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:79e2822a72995ffb3cc3b6f034cdbe385032793936f95310a3b1640e15aa0255",
+      "copy": ".garura/project/issues/798/context/memory/standards/schemas/product-os/spine.yaml"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "version": null,
+      "fingerprint": "sha256:8786086d315e737552739f9bc28666cb2d8eaab24538ad60c819b4fcc949b73d",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/intents/bi-788.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "version": null,
+      "fingerprint": "sha256:8d978e943ad6ee6005a47af10e2560a8ae391add351a7a9a0dd9b1e0eb26e8eb",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/_spine.yaml"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "version": null,
+      "fingerprint": "sha256:16cf4ce2fd616f8fa87b60edba26bfb838aed9907fd81df92c0bc891ba2c7da1",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/slices/sl-intent-to-design.yaml"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/domain.md",
+      "version": null,
+      "fingerprint": "sha256:f633f415d35bd40fa758e8d7f332dfa2e10055ca794e34c1ba31ebe2c70b9457",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/domain.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-slice/capability.md",
+      "version": null,
+      "fingerprint": "sha256:abb2900e4a33208345d5306c383c055677e83daebced77ad048c03ef5499c994",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/capability.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "version": null,
+      "fingerprint": "sha256:2a74586e068a75c463b282dba913d7b7473daa4311344d1ee6c94ae7a0d2d895",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/capability.md",
+      "version": null,
+      "fingerprint": "sha256:815b481244b0418c7d7ffb56a00fee23088f32930aa6df43771f5119e39d4aaf",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/capability.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "version": null,
+      "fingerprint": "sha256:eb2c6fa93ae1b1b80861187abbb4f856c0fe9e40c952f70b04b516dd0aa1e1e2",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "version": null,
+      "fingerprint": "sha256:cd068b7c338dfcb214eb8152a4433341d22b3b53c5f1d6a90f7d08a5d50045ab",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/capability.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "version": null,
+      "fingerprint": "sha256:5223b9ec9f6b6a9ba0689ee9c4d1356700d9f7b8520e39ec87efd6b04c6d4658",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
+      "version": null,
+      "fingerprint": "sha256:aa8e1e4f674855347fe32a0285ba466b6a30b9bdb3d66e727eec9351ddf3c60c",
+      "copy": ".garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/expectation-generation.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:e8d36d7fa5e61e67a226b569cebb7043fe63ad02f57d40654173f2dcbd50c3f2",
+      "copy": ".garura/project/issues/798/context/memory/standards/rules/expectation-generation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/builder-isolation.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:ed2e720d13b8e8bd60424d95316aaa8e50d435fe2d0f65d6aa415a3e375eddee",
+      "copy": ".garura/project/issues/798/context/memory/standards/rules/builder-isolation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/analytics.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/analytics.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/collaboration.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/collaboration.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/content-management.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/content-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/ecommerce.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/experience.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/marketing.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/marketing.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/notifications.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/payments.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/personalization.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/personalization.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/domains/user-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/_index.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:e00495d6715687627f4799d9d5ebf966432301d5c2ff914ef4cb8833861996f5",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/adrs.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:374f00d044b749d5f72b5440942d1eb0e290fd925be239f9084c7f6225a5177e",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/adrs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/code.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:1ccf4b6516600b0ebcaf9ab9eeaa995eb158e8d20b03e577ea0300d7f0425645",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/code.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/config-maps.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:95e283ea6c36541dd63428c57edaa95fca913e4814ceb5bb6453cca60d009d40",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/config-maps.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/docs.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:673a338c1dd38889aad23a36f7c0acd9e059989877451e4a3682b9e283e888f7",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/docs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/harness.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:9f09bac58b9f46d900c54296fad0dd9fbfa23d9b42c72eebb036440e47f49ccd",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/harness.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/memory.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:a95936b01e9b3042d7643cff2f35ba061b25b766155eac80ff701867ead4a7a2",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/memory.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/tests.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:b5a2d6929776efe3d0a81018309869110edefcc4687d6db70cb8ea85cdfd06eb",
+      "copy": ".garura/project/issues/798/context/memory/knowledge/review/tests.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pr.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:e3065a238b5c5019907b729200bb2752298d8389f8ef9982ac3d27e8fa7a0392",
+      "copy": ".garura/project/issues/798/context/memory/standards/rules/pr.md"
+    }
+  ]
+}

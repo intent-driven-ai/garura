@@ -13,11 +13,11 @@ verdicts and fix reports** (which gates the work truly cleared; a `fix_required`
 signal the model was wrong, not a defect to bury), the **run lens** (what production actually
 needed versus what was planned), and the **delivered epic and slice status** (what shipped and
 held). From those outcomes it proposes precise updates to the model — and only the model's
-**meaning**: it refines a capability's or functionality's `one_line` where delivery revealed
+**meaning**: it refines a capability's or feature's `one_line` where delivery revealed
 hidden complexity, raises a capability's `nfr_needs` level where production proved the level
 too low, promotes a `status` that proved out, refreshes the grounding-doc sections the learning
 changed (a capability's benefit hypothesis confirmed or refuted and its boundaries, a
-functionality's acceptance and rules, the measure / run / quality lens docs with the real
+feature's acceptance and rules, the measure / run / quality lens docs with the real
 results), and records every material learning as an append-only **decision** (title, reason,
 the alternative it rejected and why, status). It REPLACES the old five-play learning loop
 (capture / codify / distill / enrich / reap), which staged proposals into a separate knowledge
@@ -25,7 +25,7 @@ base and wrote a retired YAML shape; /learn-outcomes writes the new spine + grou
 One delivered unit per run; one human checkpoint approves every proposed update — high-
 confidence batched, low-confidence surfaced one by one — before anything is COMMITTED. /learn-outcomes
 writes ONLY meaning and never the skeleton: it never renames or re-parents a domain, capability,
-or functionality, never rewrites a slice or epic entry, and never edits an accepted decision in
+or feature, never rewrites a slice or epic entry, and never edits an accepted decision in
 place.
 
 Pipeline position: **both**. The product model is the source of truth on main, so a model update
@@ -35,7 +35,7 @@ verified, appends the close sequence `commit-change → propose-change → check
 merge-change`, merging the refreshed model to main. (#434 ProductOS command model)
 
 Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM authoring skill
-(author-learnings) writes ONLY the per-node grounding docs (`capability.md`, `functionality.md`,
+(author-learnings) writes ONLY the per-node grounding docs (`capability.md`, `feature.md`,
 and the slice `lens/measure|run|quality.md`) straight to the live model; every shared-file
 mutation (the spine `_spine.yaml` meaning fields, the `profile` nfr levels inside it, and the
 new decision records under `decisions/`) is done by the deterministic keyed persist script
@@ -53,10 +53,10 @@ this run's delta. Review is the branch git diff and the pipeline's end PR.
   resolves from the spine, and its outcome evidence exists — at least one of the measure lens,
   a validate verdict, the run lens, or a delivered epic/slice status. If the unit is absent or
   nothing has delivered yet, halt — /learn-outcomes learns from what shipped; it never invents an outcome.
-- C2 — Writes only the model's MEANING: capability/functionality `one_line`, a capability's
+- C2 — Writes only the model's MEANING: capability/feature `one_line`, a capability's
   `nfr_needs` level, a `status` promotion, appended decision refs, refreshed grounding-doc
   sections, and new decision records. It never changes the tree skeleton (any domain, capability,
-  or functionality id, slug, or parent), never rewrites a slice or epic entry, and never edits an
+  or feature id, slug, or parent), never rewrites a slice or epic entry, and never edits an
   accepted decision in place.
 - C3 — Every grounding doc it rewrites still conforms to its template — no missing, extra, or
   empty section. The shape linter passes.
@@ -69,7 +69,7 @@ this run's delta. Review is the branch git diff and the pipeline's end PR.
 - C7 — Decisions are append-only and immutable: each material learning is a NEW decision record
   (status accepted); a learning that overturns a prior decision writes a new record naming what
   it supersedes — it never edits the old one.
-- C8 — Status changes are earned: a functionality or epic `status` advances only on evidence it
+- C8 — Status changes are earned: a feature or epic `status` advances only on evidence it
   proved out (validated / delivered); a `fix_required` is read as a model-gap signal and refines
   the grounding, never silently advanced.
 - C9 — The shared-file write is surgical, enforced by the keyed persist script BY CONSTRUCTION:
@@ -148,8 +148,8 @@ this run's delta. Review is the branch git diff and the pipeline's end PR.
   the profile box-move is recorded as a decision, and that is the only structural change.
   Measure: the level only rose, and a decision names the dimension and from→to.
 - S3 — (reviewer, a fix-required signal) Given a validate `fix_required` round, when /learn-outcomes runs,
-  then it reads the gap and proposes the boundary or rule refinement to the functionality
-  grounding — not a silent status advance — and records the decision. Measure: the functionality
+  then it reads the gap and proposes the boundary or rule refinement to the feature
+  grounding — not a silent status advance — and records the decision. Measure: the feature
   status is unchanged and the refinement cites the fix report.
 - S4 — (architect, outcome-grounded) Given the updates are authored, when inspected, then every
   proposed change cites the outcome that justified it and none stands without evidence. Measure:
@@ -184,7 +184,7 @@ write scope (the allowlist held).
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: the unit is absent or nothing has delivered. direction: halt and route to
-  the delivery plays (/build-feature → /validate-feature → /shape-measure-lens) before /learn-outcomes runs. handoff: human.
+  the delivery plays (/build-epic → /validate-epic → /shape-measure-lens) before /learn-outcomes runs. handoff: human.
 - REC2 (F2) — trigger: a write touched the skeleton, a slice/epic entry, or an accepted decision.
   direction: revert it; /learn-outcomes writes only meaning fields, grounding sections, and new decisions.
   handoff: human.

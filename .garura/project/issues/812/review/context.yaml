@@ -1,0 +1,26 @@
+{
+  "pr_number": "814",
+  "base": "plan/788/base",
+  "changed_paths": [
+    ".garura/project/issues/812/context/analysis.yaml",
+    ".garura/project/issues/812/context/branch.json",
+    ".garura/project/issues/812/context/commits.yaml",
+    ".garura/project/issues/812/context/issue.json",
+    ".garura/project/issues/812/context/plan.json",
+    ".garura/project/issues/812/context/porcelain.txt",
+    ".garura/project/issues/812/context/pr-body.md",
+    ".garura/project/issues/812/context/pr.json",
+    ".garura/project/issues/812/context/resolved-rules.json",
+    ".garura/project/issues/812/context/self-review.md",
+    ".garura/project/issues/812/context/target.json",
+    ".garura/project/issues/812/context/work-description.txt",
+    "core/tools/naming/check_old_names.py",
+    "core/tools/naming/test_naming_tools.py"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

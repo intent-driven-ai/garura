@@ -64,48 +64,17 @@ Garura avoids both extremes:
 | `change-reviewer` | review | reviewer | sonnet | Categorizes a PR diff agentically and design-grounds the design-bearing categories against committed/external sources — the branch under review is never its own standard |
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
 | `result-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
-| `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-feature`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
-| `epic-expectation-crafter` | expectation | epic-crafter | opus | Generates the Expectations block (success_scenario + recovery) for product-layer intent epics via `draft-epic-expectation` |
-| `evals-engineer` | evaluation | engineer | sonnet | Engineers verification evals from specifications, compartmentalized from the implementer — steelman refutation evals for `/build-feature`, legacy encrypted flows via `author-encrypted-evals` |
-| `feature-steward` | feature-spec | steward | opus | Autonomous owner of feature specification (features.yaml), implementation-design cross-validation, and manual test scenario generation |
+| `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-epic`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
+| `evals-engineer` | evaluation | engineer | sonnet | Gathers the context a slice's eval needs for `/shape-eval` — checks that the copies of the epic, its stories and the hidden file are complete, calls `author-slice-eval`, and passes its drafts on as they are (#798, ADR 057) |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
-| `market-analyst` | market-research | analyst | sonnet | Market intelligence — produces a quantified market brief with TAM/SAM/SOM, competitive landscape, and market gaps |
 | `knowledge-builder` | knowledge | builder | sonnet | Builds the knowledge a loop round found missing, for its three knowledge plays: answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`; never decides or promotes an update — used by `/search-knowledge`, `/research-knowledge`, `/check-knowledge` |
-| `product-keeper` | product-capability | keeper | opus | KB-driven capability configuration, intent epic generation, and aggregated quality profile derivation |
-| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Functionality, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-features` |
+| `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Feature, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-slice` |
 | `project-orchestrator` | project | orchestrator | sonnet | Autonomous decision-maker for project management operations (issues, tracking, planning) |
 | `prototype-reader` | prototype | walker | sonnet | Walks a prototype the way the people it serves would, in journeys (who, what they set out to do, each step and what it showed), through one kept-open browser per journey, via `walk-prototype`; medium effort — used by `/discover-intent` |
 | `quality-auditor` | quality | auditor | sonnet | Independently verifies code quality standards (linting, unit tests, type checking, build, quality gates) — context-isolated from evals and builder output |
 | `repo-orchestrator` | repo | orchestrator | sonnet | Autonomous decision-maker for repository operations (commits, branches, PRs, git state) |
-| `scriber` | infra | evidence-writer | haiku | DEPRECATED (#434) — evidence/checkpoint/status writer, superseded by the command model; retained for reference, not installed |
-| `tech-architect` | architecture | architect | opus | Deep codebase architecture analysis, pattern recognition, LLD production, dependency graphs, and implementation planning |
 | `tech-designer` | design | designer | sonnet | Technical analysis, RCA, and solution design for features and bugs |
-| `test-engineer` | testing | engineer | opus | Authors `/build-feature`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
-| `test-runner` | test-execution | runner | opus | Context-isolated test executor — runs tests and reports pass/fail with stderr capture; never interprets failures |
-
-### Scriber dispatch pattern (Utility agent, 214.1)
-
-**Status (#434):** `scriber` is deprecated — superseded by the ProductOS command model. Its definition is retained for reference (marked `deprecated: true`) and is not installed. The pattern below describes how it worked.
-
-`scriber` is a utility agent — it performs no domain reasoning and owns no decisions about content. Plays dispatch it via the Agent tool with `run_in_background: true` for every write that lands in the `.garura/` folder whitelist (evidence, checkpoint, status artifacts). The scriber invokes the `author-evidence` skill, which is the single chokepoint that validates paths against the 9 whitelist patterns before calling `Write`.
-
-**When to dispatch scriber instead of writing inline:**
-
-| Artifact | Writer | Rationale |
-|----------|--------|-----------|
-| Plan output (spec.md, verify.md, tasks.md) | Play (inline) | User reads immediately — synchronous |
-| Final report presented at play end | Play (inline) | User is waiting — synchronous |
-| Checkpoint file at approval gate | `scriber` | Written before the gate; gate itself is user-blocked, so background write is fine |
-| Checkpoint status updates after gate | `scriber` | Non-blocking status updates as the play progresses |
-| Evidence files (step evals, scenario evals, traces) | `scriber` | Accumulated during play run; not user-facing until review |
-| Status / resume-state files | `scriber` | Written continuously during play execution |
-| Self-commit prep (files to stage) | Play (inline) | Orchestrator needs the paths in the same step |
-
-**Rule of thumb:** if the orchestrator reads the file back in the same step, it writes inline. If the file is for later consumption (user review, resume, audit), it goes through scriber.
-
-**Non-blocking guarantees:** scriber runs with `run_in_background: true`. Plays do NOT wait for scriber to finish before continuing. At play shutdown, the orchestrator briefly waits for any outstanding scriber tasks to complete (bounded wait) and then stages the scriber-written files for the self-commit step.
-
-**Failure semantics:** scriber failure never halts a play. Evidence writes are non-critical by definition. On failure, the orchestrator logs a warning and continues. Exception: if a specific evidence write is required for a downstream step (e.g., self-commit), that specific write is blocking and scriber is awaited synchronously for that call.
+| `test-engineer` | testing | engineer | opus | Authors `/build-epic`'s test pieces spec-separated; test surface analysis, blast radius computation, verification scenario authoring |
 
 ## Agent Behavior
 
@@ -174,14 +143,6 @@ Each agent defines skill-specific return formats in its Output Contracts section
 
 Each agent owns a set of skills. Agents invoke skills via the **Skill tool** provided by Claude Code. Agents are the only callers of those skills within their domain. The agent's skill pool table documents which skills it owns and when to use each.
 
-### feature-steward Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `author-product-spec` | Create `features.yaml` defining product behaviors, invariants, scope boundaries, and acceptance criteria (implementation-agnostic) |
-| `author-verification-scenarios` | Create verification scenarios with pass/fail criteria and automation classification |
-| `check-implementation-design` | Cross-validate design artifacts for coverage, compartmentalization, audience separation |
-
 ### tech-designer Skill Pool
 
 | Skill | Purpose |
@@ -226,49 +187,28 @@ code-builder has no skills — it implements code directly using its tools (Bash
 
 | Skill | Purpose |
 |-------|---------|
-| `author-steelman-evals` | implement — author steelman refutation evals from spec-side inputs; no encryption, isolation by sub-agent |
-| `author-encrypted-evals` | Legacy flow — generate YAML evals from configured spec sources, encrypt with AES-256-CBC+PBKDF2, delete plaintext, write manifest.json |
+| `author-slice-eval` | `/shape-eval` — write a slice's eval: one Gherkin story file for each story and one slice file, every step from the surface kind's step library (ADR 057) |
+
+The two eval skills of the old `/build-epic` (`author-steelman-evals`, `author-encrypted-evals`) are stale: no agent dispatches them now. The rebuild of the build stage (#855, #819) gives them a new owner or retires them.
 
 ### intent-resolver Skill Pool
 
 intent-resolver has no skill pool — it reads the play's intent (clean triple), Expectation artifact, workflow template, and available agents, and returns a JSON task DAG directly (tools: Read, Write).
 
-### market-analyst Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `research-market-opportunity` | Parse a product idea, query web + LTM, structure findings into a market brief with TAM/SAM/SOM, competitors, gaps, risks |
-| `research-domain-context` | Deep-dive on vertical domain knowledge when LTM is insufficient |
-
-### product-keeper Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `derive-capability-selection` | Load the capability catalog, walk cross-tree constraints, produce scope.yaml with selected/rejected capabilities and constraint trace |
-| `enrich-capabilities` | Merge profile-specific overrides onto KB values per selected capability; produce enriched-capabilities.yaml |
-| `author-feature-catalog` | Author features.yaml (3-tier domain → capability → feature with 5-point status vocabulary) |
-| `generate-intent-epics` | Instantiate the intent-epic template per enriched capability; one epic file per capability |
-| `validate-intent-epics` | Blocking validator against the intent-epic schema (four-section ICE shape) |
-| `derive-quality-profile-from-epics` | Aggregate epic constraints into ISO 25010 buckets; produce quality-profile.yaml |
-| `research-domain-context` | Web research grounding pack when LTM coverage is thin |
-| `infer-*-from-code` family | Brownfield inference — propose project profile, domain selection, market brief, MVP recommendation, scope, enriched capabilities, features, epics, and research from a codebase scan |
-
 ### product-os-keeper Skill Pool
 
 | Skill | Purpose |
 |-------|---------|
-| `find-work-placement` | Route a piece of work to its place in the KB tree (domain → capability → functionality) |
+| `find-work-placement` | Route a piece of work to its place in the KB tree (domain → capability → feature) |
 | `propose-kb-node` | The nothing-fits path — research the gap and draft a new KB node as a proposal for human review |
 | `find-architecture-learnings` | Search the empirical KB shelves for condition-matched learnings — the grounding engine for KB-grounded lenses |
 | `author-domains` | Draft the `/discover-domains` seed — domain node, candidate capabilities, goals-only ICE, directional profile |
 | `enrich-capability-ice` | `/discover-capabilities` — deepen one capability's seed ICE into a rich ICE grounded in its KB shelf |
-| `author-scope` | `/shape-scope` — draft one domain's selection bundle (capabilities, functionalities, ICE, personas, decisions) |
-| `author-roadmap` | `/shape-roadmap` — draft the slice plan (effort, dependencies, value order) |
+| `author-business-intent` | `/shape-slice` — draft the intent page from the issue when the model has none |
+| `find-model-gaps` | the loops and `/shape-slice` — list what the model lacks |
+| `propose-answers` | `/shape-slice` — draft a proposed answer, with its basis, for each question only the person can confirm |
 | `author-quality-lens` / `author-ux-lens` / `author-agentic-lens` / `author-architecture-lens` / `author-run-lens` / `author-measure-lens` / `author-marketing-lens` | Draft the per-slice lens grounding docs for the lens plays |
-| `author-features` | `/shape-features` — draft the epic cut for one realized slice |
-| `check-cut-tensions` | `/shape-features` — per-round tension check of the drafted cut against everything the slice declared |
-| `author-acceptance-scenarios` | `/release-feature` — build HITL testing scenarios for one validated epic |
-| `rank-actions` | `/next` — rank the candidate set into one next-best-action plus a ranked list |
+| `author-acceptance-scenarios` | `/release-epic` — build HITL testing scenarios for one validated epic |
 
 ### adr-keeper Skill Pool
 
@@ -297,39 +237,8 @@ change-reviewer has no skill pool — it categorizes the diff and design-grounds
 
 | Skill | Purpose |
 |-------|---------|
-| `deploy-local-environment` | Bring up the live LOCAL environment for `/release-feature` with its deploy record; teardown after sign-off or abort |
+| `deploy-local-environment` | Bring up the live LOCAL environment for `/release-epic` with its deploy record; teardown after sign-off or abort |
 | `deploy-cloud-environment` | Deploy the increment to a CLOUD environment for `/release-increment` with deploy record and health proof |
-
-### epic-expectation-crafter Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `draft-epic-expectation` | Populate `expectations.success_scenario[]` and `expectations.recovery[]` per epic file; write the decision manifest |
-
-### test-runner Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `check-generated-tests` | Run the given test files against the codebase in isolation; write test-run-report.yaml with per-test pass/fail and stderr |
-
-### tech-architect Skill Pool
-
-| Skill | Purpose |
-|-------|---------|
-| `research-domain-context` | Research domain knowledge via web when LTM is insufficient |
-| `derive-systems-inventory` | arch Stage 1 — one inventory file per system from selected capabilities, supporting sub_systems nesting |
-| `derive-logical-architecture` | arch Stage 3 — layered tech-agnostic structure with cycle detection and capability traceability |
-| `derive-physical-architecture` | arch Stage 4 — runtime shape with deployment targets, comms, and per-QP-characteristic `nfr_delivery[]` |
-| `derive-tech-stack` | arch Stage 5 — per-box picks of languages/runtimes/frameworks/libraries/tools/patterns |
-| `check-architecture-spec` | arch post-generation — single 22-check pass across all arch artifacts and decision manifests |
-| `infer-architecture` | brownfield — scan codebase, produce architecture-inference.yaml |
-| `scan-dependencies` | any stage — enumerate import/call edges, detect cycles and hubs; writes dependency-graph.yaml + .md |
-| `author-tech-spec` | Author tech.yaml with concrete library picks, build tooling, test frameworks |
-| `author-implementation-plan` | Author plan.yaml (execution order, scope items, exit gates) |
-| `author-reference-algorithms` | Language-agnostic pseudocode for qualifying internal interfaces from tech.yaml |
-| `infer-*-from-code` family | Brownfield inference — propose logical/physical architecture, NFR spec, and quality vision from a codebase scan |
-
-If no matching skill exists for an artifact the agent is asked to produce, it returns a structured failure requesting skill creation — it never authors artifacts inline.
 
 ### test-engineer Skill Pool
 

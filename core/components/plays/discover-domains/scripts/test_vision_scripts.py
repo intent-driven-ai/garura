@@ -113,7 +113,7 @@ def model_after_intent(tmp):
                           "intents": ["grow-online-sales"], "status": "proposed", "detail": "directional",
                           "one_line": "Lets a shopper buy without an account.",
                           "doc": "capabilities/guest-checkout/capability.md"}],
-        "functionalities": []}, sort_keys=False))
+        "features": []}, sort_keys=False))
     sh(tmp, "git", "add", "-A")
     sh(tmp, "git", "commit", "-q", "-m", "after /discover-intent")
     return base, m
@@ -248,7 +248,7 @@ def test_named_updates_only():
 
 def test_bad_inputs():
     for key, entry in (("capabilities", {"id": "x", "slug": "x", "one_line": "a b c", "doc": "shop/x/capability.md"}),
-                       ("functionalities", {"id": "y", "slug": "y", "one_line": "a b c", "doc": "f/y/functionality.md"})):
+                       ("features", {"id": "y", "slug": "y", "one_line": "a b c", "doc": "f/y/feature.md"})):
         with tempfile.TemporaryDirectory() as tmp:
             base, m = model_after_intent(tmp)
             work = os.path.join(tmp, "work")

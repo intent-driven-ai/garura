@@ -1,0 +1,37 @@
+commits:
+  - sha: 66ad0156
+    message: "fix(shape-slice): keep the start copies on a resume and refuse a malformed start copy cleanly (#798)"
+    files:
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/scripts/persist_slice.py
+      - core/components/plays/shape-slice/scripts/test_persist_slice.py
+    branch: plan/788/798-shape-eval
+excluded_files:
+  - path: ".garura/project/issues/798/context/analysis.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/categories.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/context.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/decision-comment.md"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/design-findings-harness.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/design-findings-memory.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/design-findings-product-model.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/design-findings-slice-evals.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/layer1.txt"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/porcelain.txt"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/pr.diff"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+  - path: ".garura/project/issues/798/context/quality-findings.yaml"
+    reason: "run state (STM) for issue 798; left to the executor's run-state chore group"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

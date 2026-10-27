@@ -1,0 +1,45 @@
+# check-change Step 3, Layer 2 -- design grounding, category: harness, PR #823 (issue 816)
+# Grounded only in committed sources on plan/788/base. The new rule file asking-a-person.md is
+# added by this branch, so it is NOT used as grounding.
+grounding:
+  - principle: "A play is a pure workflow and reads no memory; its sub-agents read memory through the tool and build the context. A skill reads only what its agent puts in short-term memory."
+    source: "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 2 (plan/788/base)"
+  - principle: "Skills find organisational standards through the memory tool via their agent, never by a path."
+    source: "docs/adr/009-skill-ltm-organizational-knowledge.md Rule 3, as amended by ADR 035 and ADR 039 (plan/788/base)"
+  - principle: "An intent change (a guarantee, constraint, flow or eval) goes through the play's ICE source and /edit-play; a non-intent change (surface prose, format wiring) is a direct edit. Shared scaffolding is one common file the plays point to."
+    source: "CLAUDE.md Play Pipeline Rules (plan/788/base)"
+  - principle: "ICE C4 on base: every page a person reads is plain English (ASD-STE100), uses personas, no real names. The ICE has no constraint about the question format."
+    source: "core/components/plays/edit-ontology/reference/ice.md line 20 (plan/788/base)"
+  - principle: "Plays orchestrate, scripts do mechanical work, and a script in a play folder is called from the play's flow."
+    source: "review/harness playbook; core/components/plays/shape-slice/SKILL.md on plan/788/base (no mention of grill_budget)"
+findings:
+- category: harness
+  severity: P2
+  path: core/components/skills/author-product-ontology/SKILL.md
+  basis: "ADR 009 Rule 3 (as amended by ADR 039 section 2): a skill reads only what its agent puts in short-term memory. The skill's input table on base (ontology_path, template_path, draft, ...) has no input that carries the rule, and this diff adds none."
+  message: "The skill now says every draft follows standards/rules/asking-a-person.md, but nothing hands that rule to the skill. The play contract (Step 1/3/5) and the skill's input table are unchanged, so the product-os-keeper is never told to fetch the rule through the memory tool and put it in short-term memory. A skill that cannot reach the rule cannot follow it; the line is a pointer to a path the skill must not read by path. Add the rule to the contract (for example a rules input the agent fills from memory) or the instruction does nothing."
+  status: null
+- category: harness
+  severity: P3
+  path: core/components/plays/edit-ontology/SKILL.md
+  basis: "CLAUDE.md Play Pipeline Rules: pointing to a shared rule is a non-intent direct edit only if it changes no guarantee. The rule adds an opening, a Question/Answer/Why/Example shape, and a read-back test, and says a draft that does not follow it 'is not ready to show'. ICE C4 on base asks only for plain English and personas."
+  message: "Treated as a non-intent edit, as the brief directs. But the pointed-to rule makes the checkpoint draft format a requirement the base ICE and its evals do not state or test. If the format is meant to be a guarantee, the ICE source (reference/ice.md, not touched here) needs a constraint and an eval via /edit-play; if it is guidance only, say so. Confirm which; no change needed if guidance."
+  status: null
+- category: harness
+  severity: P3
+  path: core/components/plays/edit-ontology/SKILL.md
+  basis: "ADR 039 section 2: a play reads no memory; its agents do. The play now names a memory path (standards/rules/asking-a-person.md) in steps 1, 2, 4 and 6 but does not say who loads it."
+  message: "Same gap as the skill finding, seen from the play: the play does not hand the rule to product-os-keeper in the Step 1/3/5 contracts, so the 'drafts follow' lines are not wired to any agent action. The play also shows the draft itself in Step 2, so the play side needs the agent to build the draft to the rule."
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/edit-ontology/SKILL.md
+  basis: "ADR 009 Rule 5 (no duplication); Steps 4 and 6 are written 'As Step 2' on base."
+  message: "The pointer is stated four times (Step 1, 2, 4, 6). Steps 4 and 6 inherit Step 2, so one statement in Step 1 or Step 2 is enough. The Step 2 line also now runs past the file's wrap width."
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/shape-slice/scripts/grill_budget.py
+  basis: "Playbook review/harness: play orchestrates, scripts do mechanical work, no orphan references. On plan/788/base, shape-slice/SKILL.md and reference/ice.md never mention grill_budget or shape-slice.grill-tier."
+  message: "The new script and the config key are not called from shape-slice/SKILL.md or its ICE in this PR, so the play does not use them yet. Fine if the wiring lands in the follow-on issue (#817, named in the test header); state that in the PR so the script is not read as dead code."
+  status: null

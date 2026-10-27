@@ -1,0 +1,38 @@
+---
+needs_judgment: false
+change_groups:
+  - id: ready-check-reads-ice
+    issue: 760
+    commit_type: feat
+    scope: create-play
+    subject: "The ready check reads each ICE node and answers ready, partly ready or not ready"
+    files:
+      - core/components/plays/create-play/references/check_ice_workable.py
+      - core/components/plays/discover-intent/scripts/check_ice_workable.py
+      - core/components/plays/create-play/references/test_check_ice_workable.py
+  - id: ready-rule-docs
+    issue: 760
+    commit_type: docs
+    scope: create-play
+    subject: "Describe the work-only-on-a-ready-ICE rule and where the ready rule lives"
+    files:
+      - core/components/plays/create-play/SKILL.md
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+  - id: stm-records
+    issue: 760
+    commit_type: chore
+    scope: stm
+    subject: "Record the approved design and the change analysis for the ready check"
+    files:
+      - .garura/project/issues/760/specs/design.md
+      - .garura/project/issues/760/context/analysis.yaml
+      - .garura/project/issues/760/context/porcelain.txt
+exclusions: []
+risks:
+  sensitive_files: []
+eval_gates:
+  SE-1: {status: PASS, evidence: "8 changed files, each in exactly one group"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+notes:
+  - "The two check_ice_workable.py copies are identical by design; they must stay in step."
+  - "Risk (not sensitive): spine.yaml is a shared schema file; the edit is a 3-line comment, reviewed as docs."

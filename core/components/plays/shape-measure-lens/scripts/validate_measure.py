@@ -9,11 +9,11 @@ scope) is checked by `lint_grounding.py` over the live doc and its UNDERSTANDABI
 content eval — both run by the play's validate step. THIS script checks what the manifest
 carries, which the prose can't enforce:
 
-  - grounded: every grounding entry names a real source from the slice's HUB (a functionality
+  - grounded: every grounding entry names a real source from the slice's HUB (a feature
     or a profile outcome) — every metric ties to something the slice delivers.
   - decisions: a grounding flagged `material: true` names a `decision` that resolves — the
     decision id must appear in the manifest's `decisions:` list.
-  - coverage: every functionality of the slice is considered by the measure assessment.
+  - coverage: every feature of the slice is considered by the measure assessment.
 
 Manifest shape (authored by `author-measure-lens`):
   measure:   { slice_ref, grounds: [...], choices: [...] }
@@ -41,10 +41,13 @@ except ImportError:
 
 OTHER_LENSES = ("quality", "agentic", "ux", "architecture", "run", "marketing", "lens")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
+
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def _blank(v):
@@ -77,16 +80,16 @@ def check_grounding(man, decision_ids, errors):
         return grounded
     for e in entries:
         st = (e.get("source_type") or "").strip().lower()
-        if _blank(e.get("source")) and _blank(e.get("functionality_ref")):
+        if _blank(e.get("source")) and _blank(e.get("feature_ref")):
             errors.append("a grounding entry has no source")
             continue
         if st in OTHER_LENSES:
             errors.append(f"grounds on another lens '{st}' — measure metrics tie to the hub "
-                          f"(functionality / profile), not a lens")
-        elif st not in ("profile", "functionality"):
-            errors.append(f"source_type '{st}' is not profile/functionality")
-        if st == "functionality":
-            fr = e.get("functionality_ref")
+                          f"(feature / profile), not a lens")
+        elif st not in ("profile", "feature"):
+            errors.append(f"source_type '{st}' is not profile/feature")
+        if st == "feature":
+            fr = e.get("feature_ref")
             if not _blank(fr):
                 grounded.add(fr)
         if e.get("material") is True:
@@ -98,13 +101,13 @@ def check_grounding(man, decision_ids, errors):
     return grounded
 
 
-def slice_functionalities(slice_file, errors):
+def slice_features(slice_file, errors):
     if not slice_file or not os.path.isfile(slice_file):
         errors.append(f"slice record not found at {slice_file} — cannot verify coverage")
         return set()
     sl = (load(slice_file).get("slice") or {})
-    return {(f or {}).get("functionality_ref") for f in (sl.get("functionalities") or [])
-            if (f or {}).get("functionality_ref")}
+    return {(f or {}).get("feature_ref") for f in (sl.get("features") or [])
+            if (f or {}).get("feature_ref")}
 
 
 def main(argv=None):
@@ -123,10 +126,10 @@ def main(argv=None):
     man = (manifest.get("measure") or {})
 
     grounded = check_grounding(man, decision_ids, errors)
-    to_cover = slice_functionalities(args.slice_file, errors)
+    to_cover = slice_features(args.slice_file, errors)
     for fid in sorted(f for f in to_cover if f):
         if fid not in grounded:
-            warnings.append(f"slice functionality {fid!r} is not tied to a metric (acceptable if "
+            warnings.append(f"slice feature {fid!r} is not tied to a metric (acceptable if "
                             f"out-of-scope is stated, but check)")
 
     counts = {"grounds": len(man.get("grounds") or []), "decisions": len(decision_ids),

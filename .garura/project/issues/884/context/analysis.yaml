@@ -1,0 +1,69 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by assess-changes (round 3 of PR #885)
+# issue: 884
+needs_judgment: false
+
+change_groups:
+  - id: grounding-gate-repeat-failure
+    issue: 884
+    commit_type: fix
+    scope: grounding
+    subject: "count a point that failed or was missing last round and fails again as a failure, record missing points and do not treat a heading quote as content"
+    files:
+      - core/components/plays/discover-capabilities/scripts/grounding_gate.py
+      - core/components/plays/discover-capabilities/scripts/test_grounding_gate.py
+      - core/components/plays/discover-domains/scripts/grounding_gate.py
+      - core/components/plays/learn-outcomes/scripts/grounding_gate.py
+      - core/components/plays/shape-agentic-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-architecture-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-marketing-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-measure-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-quality-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-run-lens/scripts/grounding_gate.py
+      - core/components/plays/shape-ux-lens/scripts/grounding_gate.py
+  - id: grounding-eval-rule-text
+    issue: 884
+    commit_type: docs
+    scope: memory
+    subject: "state the repeat-failure, missing-point and heading-quote rules in the grounding eval rule"
+    files:
+      - core/components/memory/standards/rules/grounding-eval.md
+  - id: discover-ice-judge-kept-pass
+    issue: 884
+    commit_type: fix
+    scope: discover
+    subject: "name the judge in the kept-pass list of the content rule and update the SKILL.md fingerprints"
+    files:
+      - core/components/plays/discover-capabilities/SKILL.md
+      - core/components/plays/discover-capabilities/reference/ice.md
+      - core/components/plays/discover-domains/SKILL.md
+      - core/components/plays/discover-domains/reference/ice.md
+  - id: round-2-review-records
+    issue: 884
+    commit_type: chore
+    scope: stm
+    subject: "record the round-2 review of the pull request"
+    files:
+      - .garura/project/issues/884/review/context.yaml
+      - .garura/project/issues/884/review/pr.diff
+      - .garura/project/issues/884/review/design-findings-harness.yaml
+      - .garura/project/issues/884/review/design-findings-memory.yaml
+      - .garura/project/issues/884/review/quality-findings.yaml
+
+exclusions:
+  - path: ".garura/project/issues/884/context/porcelain.txt"
+    reason: "run scratch record of the scan, left out of every group by instruction"
+    blocking: false
+  - path: ".garura/project/issues/884/context/analysis.yaml"
+    reason: "this analysis file itself, left out of every group by instruction"
+    blocking: false
+
+risks:
+  sensitive_files:
+    - path: ".garura/project/issues/884/review/pr.diff"
+      match: 'password\s*=' # content in prose/standards artifact — warning, not a block (#438)
+      blocking: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "23 porcelain paths: 21 in 4 groups (11 + 1 + 4 + 5) and 2 in exclusions; each path appears exactly once"}
+  SE-5: {status: PASS, evidence: "content matches in prose artifacts only — non-blocking warnings surfaced"}

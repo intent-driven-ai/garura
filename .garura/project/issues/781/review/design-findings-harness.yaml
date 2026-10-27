@@ -1,0 +1,27 @@
+category: harness
+base: plan/756/base
+grounding:
+  - id: G1
+    principle: "A play renders a Next line at close unless it is meta_exempt; a meta_exempt play has no entry in the Next-line map"
+    source: "plan/756/base:core/components/plays/_shared/play-close.md (Next bullet, 'always, unless the play is meta_exempt'); plan/756/base:core/components/memory/standards/rules/pipeline-next.md (meta_exempt list includes edit-ontology)"
+  - id: G2
+    principle: "A non-intent change (close/report scaffolding) is a direct edit to the compiled SKILL.md; no edit notes or change logs go in the file"
+    source: "plan/756/base:CLAUDE.md, Play Pipeline Rules"
+  - id: G3
+    principle: "Agent routes and skill contracts must match what the calling play already sends (JSON contract flows play -> agent -> skill)"
+    source: "plan/756/base:core/components/plays/edit-ontology/SKILL.md Steps 1,3,5,7 (inputs need/questions/kinds/links/stage, outputs draft; <working> = {stm_base}<issue>/context/edit-ontology/); plan/756/base:core/components/agents/product-os-keeper.md line 80 (skill already registered for /edit-ontology)"
+findings: []
+conformance_checked:
+  - file: core/components/plays/edit-ontology/SKILL.md
+    result: conforms
+    basis: "G1, G2. Step C2 now omits the Next line, which matches the base: edit-ontology is already in meta_exempt, so the old instruction to resolve it in the map contradicted the map. This is close scaffolding (non-intent), so a direct edit is right. No history note was added to the skill file."
+  - file: core/components/skills/author-product-ontology/SKILL.md
+    result: conforms
+    basis: "G3. The new inputs (draft, questions, kinds, links) and the stage-dependent outputs are exactly what the base play already passes at each stage. The skill contract now catches up with the caller; <working> matches the play's definition."
+  - file: core/components/agents/product-os-keeper.md
+    result: conforms
+    basis: "G3. The added routing row points to a skill the base agent already lists (skills table, line 80) for /edit-ontology; no new capability is claimed."
+notes:
+  - severity: P4
+    file: core/components/memory/standards/rules/pipeline-position.md
+    note: "Outside the harness category (memory), for the memory dispatch to judge. The rewrite drops the closed 'the one meta play' wording for 'a meta play that opens and lands its own change'. Base lint rules (create-play SKILL.md, lint_play.py position checks) cannot test that open condition, and several non-meta plays also open and land their own change. Source: plan/756/base pipeline-position.md lines 12 and 96 (the closed exception). Flagged only so it is not lost."

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """
-adapters/codex.py — the OpenAI Codex CLI adapter.
+adapters/codex.py — the OpenAI Codex CLI adapter. DEPRECATED (#863).
+
+The Codex installer is deprecated: it is to be redesigned completely (#863). install.py stops
+`--tool codex` before this adapter runs, so nothing here is used by an install. The code stays
+until the redesign replaces it.
 
 Codex differs from Claude Code in four load-bearing ways (verified against
 developers.openai.com/codex, 2026), and this adapter absorbs all four:
@@ -21,8 +25,8 @@ developers.openai.com/codex, 2026), and this adapter absorbs all four:
      user's view: the folder sits in .agents/skills but the skill never appears.
      Claude Code has no such cap, so garura source descriptions may exceed it;
      this adapter truncates at a word boundary on emit (_cap_description).
-     Found the hard way on token-burn-dash (#434): /shape-run-lens and /shape-features — the two
-     longest descriptions — were the only skills Codex would not load.
+     Found the hard way on token-burn-dash (#434): the two plays with the longest
+     descriptions were the only skills Codex would not load.
 
 The instruction surface is `AGENTS.md` at the target root (Codex's equivalent of
 CLAUDE.md). Shared memory and garura's own `.garura/` tooling config are written
@@ -132,7 +136,7 @@ def lay_components(components, target, info, allow=None):
 
     paths = []
     counts = {"agents": 0, "skills": 0, "plays": 0, "loops": 0}
-    deprecated = 0
+    skipped = 0
 
     # skills, plays and loops — folders with a SKILL.md
     for kind in common.SKILL_KINDS:
@@ -149,14 +153,14 @@ def lay_components(components, target, info, allow=None):
             md = os.path.join(sp, "SKILL.md")
             if not os.path.isdir(sp) or not os.path.isfile(md):
                 continue
-            if common.file_is_deprecated(md):
-                deprecated += 1
+            if common.file_is_skipped(md):
+                skipped += 1
                 continue
             _emit_skill(md, name, sp, skills_root, paths)
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
     common.lay_skills_gitignore(skills_root, os.path.join(".agents", "skills"), paths)
-    if counts["plays"] or counts["loops"]:
+    if counts["plays"] or counts["loops"] or counts["skills"]:
         common.lay_shared(components, skills_root, os.path.join(".agents", "skills"), paths, info)
 
     # agents — single .md files, each emitted as a Codex skill (no agent type)
@@ -168,15 +172,15 @@ def lay_components(components, target, info, allow=None):
             if allow is not None and allow["agents"] is not None \
                     and name[:-3] not in allow["agents"]:
                 continue
-            if common.file_is_deprecated(os.path.join(src, name)):
-                deprecated += 1
+            if common.file_is_skipped(os.path.join(src, name)):
+                skipped += 1
                 continue
             _emit_skill(os.path.join(src, name), name[:-3], None, skills_root, paths)
             counts["agents"] += 1
         info(f"  agents: {counts['agents']}")
 
-    if deprecated:
-        info(f"  (skipped {deprecated} deprecated component(s))")
+    if skipped:
+        info(f"  (skipped {skipped} deprecated or stale component(s))")
     return paths, counts, []
 
 

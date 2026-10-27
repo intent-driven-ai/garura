@@ -1,0 +1,25 @@
+# shape-slice stop condition — baked from reference/ice.md "### Done means" (D1–D6, #795, #842).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
+# Paths are relative to the run's issue folder ({stm_base}<issue>/).
+# D4's artifact_exists check names its file with `path`, the key the checker reads.
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the slice check report exists and reads valid"
+      check: { type: field_equals, file: "context/shape-slice/slice-check.json", field: "valid", equals: true }
+    - id: D2
+      says: "the person's approval is recorded as yes"
+      check: { type: field_equals, file: "context/shape-slice/approval.json", field: "decision", equals: "yes" }
+    - id: D3
+      says: "the write report shows only allowed paths were written"
+      check: { type: field_equals, file: "context/shape-slice/guard-report.json", field: "ok", equals: true }
+    - id: D4
+      says: "the question record exists, with every question and answer of the run"
+      check: { type: artifact_exists, path: "context/grounding-questions.md" }
+    - id: D5
+      says: "the trace check of the decisions the slice rests on, recorded after the run's last write, names no source that is gone or changed"
+      check: { type: field_equals, file: "context/shape-slice/trace-check.json", field: "problems", equals: [] }
+    - id: D6
+      says: "the hidden-file check reads ok"
+      check: { type: field_equals, file: "context/shape-slice/hidden-file.json", field: "ok", equals: true }

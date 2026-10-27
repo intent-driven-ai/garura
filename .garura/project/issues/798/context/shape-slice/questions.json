@@ -1,0 +1,68 @@
+[
+  {
+    "id": "Q-redraft-1",
+    "topic": "redraft",
+    "blocking": false,
+    "question": "Which entries of the slice's hidden list of failure lines must this run draft again?",
+    "why": "An entry that is drafted again with no reason can lose a fix that a person already agreed to. An entry that is not drafted again keeps a fix that sends the wrong work to the builder.",
+    "examples": [
+      "a shop: only the entries of the checkout step and the refund step, whose fixes changed",
+      "a bank: only the entry of the transfer step, and every other entry stays as it is",
+      "a clinic: every entry, because the rule for all fixes changed"
+    ],
+    "assume": "Only the entries of fn-818 and fn-898 are drafted again. Every other recovery keeps its meaning.",
+    "settled": true,
+    "basis": {
+      "kind": "person",
+      "ref": "#798 run 3 change, change.md line 5 (--redraft fn-818 --redraft fn-898; keep the meaning of every other recovery)"
+    },
+    "settled_basis": {
+      "kind": "person",
+      "ref": "#798 run 3 change, change.md line 5"
+    }
+  },
+  {
+    "id": "Q-wayback-1",
+    "topic": "wayback",
+    "blocking": false,
+    "question": "When the eval play reads a page it must not read, may the fix for fn-898 go to the builder?",
+    "why": "fn-898 builds the two checks that catch a build that reads the tests. It does not build the eval play. A fix that tells the builder of fn-898 to write the eval again tells it where the eval is, and lets it change its own exam.",
+    "examples": [
+      "a school: the person who builds the exam-room camera is not told to rewrite the exam paper; the head teacher decides",
+      "a bank: the person who builds the audit log is not told to change the audit questions; the audit lead decides",
+      "a factory: the person who builds the scale is not told to change the quality test; the quality manager decides"
+    ],
+    "assume": "The fix for F25 goes to 'a person must decide', unless it can be said with no word about the eval and the hidden file.",
+    "settled": true,
+    "basis": {
+      "kind": "person",
+      "ref": "#798 run 3 change, change.md line 9 (F25's fix names neither the eval nor the hidden file, or it goes to a person) and line 11 (a fix given to the builder may name only what the feature itself builds)"
+    },
+    "settled_basis": {
+      "kind": "person",
+      "ref": "#798 run 3 change, change.md line 9, with the naming rule at line 11"
+    }
+  },
+  {
+    "id": "Q-naming-1",
+    "topic": "naming",
+    "blocking": false,
+    "question": "May a fix that the builder gets name a thing that the feature itself builds?",
+    "why": "If the fix may not name what the feature builds, the builder cannot fix the feature that builds the checks alone. If the fix names too much, the builder learns which test found the fault, and builds to pass the test.",
+    "examples": [
+      "a bank: the feature builds the fraud check; its fix may say 'make the fraud check stop a second charge', but not which test found the fault",
+      "a school: the feature writes the exam papers; its fix may say 'add the missing question to the paper', but not the answer sheet",
+      "a warehouse: the feature builds the stock count; its fix may say 'count the returned boxes', but not which test found the fault"
+    ],
+    "assume": "Yes. A fix given to the builder may name what the feature itself builds. It never names the test that found the failure.",
+    "settled": true,
+    "basis": {
+      "kind": "person",
+      "ref": "Q-recovery-1-4 (#798), as the run 3 change states it (change.md line 11)"
+    },
+    "settled_basis": {
+      "kind": "person",
+      "ref": "Q-recovery-1-4 (#798), as the run 3 change states it (change.md line 11)"
+    }
+  }
+]

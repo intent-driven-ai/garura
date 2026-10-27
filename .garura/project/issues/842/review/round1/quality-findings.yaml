@@ -1,0 +1,28 @@
+# Layer 1 quality findings, PR #853, issue 842
+categories: [executable-code, tests, harness-prose]
+runnable_checks: .garura/project/issues/842/review/runnable-checks.txt
+summary: {P1: 0, P2: 0, P3: 1, P4: 1}
+findings:
+  - id: Q-1
+    severity: P3
+    rule: error-handling (atomic-write consistency)
+    file: core/components/plays/shape-slice/scripts/render_brief.py
+    lines: "278-279"
+    note: >
+      The brief is written with a plain open(..., "w"), while persist_fills.py and
+      write_hidden_file.py write through a temp file and os.replace. A crash mid-write leaves a
+      half-written brief. Low risk: the brief is re-rendered on every run.
+  - id: Q-2
+    severity: P4
+    rule: code-standards (duplication)
+    file: core/components/plays/shape-slice/scripts/write_hidden_file.py
+    lines: "331-345"
+    note: >
+      The temp-file + os.replace block is a copy of atomic_write() in persist_fills.py. Three
+      similar blocks are acceptable by the repo's own rule against early abstraction; note only.
+verified_clean:
+  - all 8 test_*.py in shape-slice/scripts pass (21, 19, 97, 18, 109, 5, 20 and persist/trace counts shown in the checks file); 0 failed
+  - scoped_write_guard test passes 15/15, including all 14 play copies identical to the canonical file
+  - lint_play on shape-slice/SKILL.md: PASS, 0 gaps
+  - lint-components: 124 errors / 1 warning on both base and head, no new error
+  - scoped_write_guard.py --also-tree: rejects absolute and ".." paths, restore prunes only empty folders under the tree

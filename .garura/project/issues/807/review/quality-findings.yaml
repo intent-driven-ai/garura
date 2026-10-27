@@ -1,0 +1,45 @@
+# check-change Step 3 Layer 1 -- standards linter, categories code, tests, config-maps, docs (PR #810, issue 807)
+# Checked: the Python scripts changed by the rename (spine keys features/feature_refs, doc paths feature.md),
+# install.py retire_renamed and its test, check_old_names.py cut-off. Ran: test_install.py (45 ok),
+# discover-domains/capabilities/intent script tests (all pass). No old-name leftovers in core scripts.
+findings:
+  - class: P3
+    rule: "code: a cut-off wider than its reason hides unrelated drift"
+    path: core/tools/naming/check_old_names.py
+    line: 44
+    message: "FIRST_NEW_ADR moved from 47 to 49, so ADR 047 is now also skipped, though the comment says only ADRs 046 and 048 record renames. ADR 047 is not a rename record. Skip 046 and 048 by number instead of a range, or state why 047 is exempt."
+  - class: P3
+    rule: "code: output or schema key renamed without a way for existing data to follow"
+    path: core/components/plays/build-epic/scripts/check_ready_epic.py
+    line: 140
+    message: "The scripts now read spine key 'features' and epic key 'feature_refs' only. A product model written before this PR (key 'functionalities' / 'functionality_refs') is read as empty, with no error for the spine lists (the .get(...) or [] fallback). Only this repo's own model was migrated in the PR. Same pattern in lint_grounding.py, persist_understand.py, check_intent.py, persist_intent.py. Confirm that other installed projects are migrated, or add a loud check for the old key."
+  - class: P4
+    rule: "code: dead or confusing naming after rename"
+    path: core/components/plays/build-epic/scripts/check_ready_epic.py
+    line: 140
+    message: "Local variable spine_funcs (and live_funcs in persist_understand.py line 234) keeps the old 'functionality' meaning after the key became 'features'. Rename to spine_features and live_features."
+  - class: P4
+    rule: "code: changed output key may break a consumer"
+    path: core/components/plays/discover-capabilities/scripts/persist_understand.py
+    line: 239
+    message: "The report key 'functionalities_added' became 'features_added'. No other reader of the old key exists in core/ (grep clean), so no break found. Noted because it changes script output."
+  - class: P4
+    rule: "tests: the new test covers two old names for one new name only"
+    path: core/components/plays/install-garura/scripts/test_install.py
+    line: 357
+    message: "test_every_old_name_of_one_new_name_goes covers grill and shape-features leading to shape-slice, and it passes. It does not cover the case where only one old folder exists, or an old folder whose name line does not match (must be kept). Existing tests cover those for a single old name, so this is a small gap."
+  - class: P4
+    rule: "code: install.py retire loop is correct but nested one level deeper"
+    path: core/components/plays/install-garura/scripts/install.py
+    line: 389
+    message: "The change from a single old name to a list is right: setdefault().append, then a loop with continue per old name, so a missing first old folder no longer stops the second. No defect. Note: if two renames chain (A to B, B to C), stem B would now also retire a folder named A when B is the new path. Safe because removal still needs the name line to match the old name."
+  - class: P4
+    rule: "docs: comment column left misaligned by the replacement"
+    path: core/components/plays/learn-outcomes/SKILL.md
+    line: 280
+    message: "After functionality.md became feature.md, the trailing comment in the --allow block no longer lines up with the rows above and below it. Cosmetic."
+  - class: P4
+    rule: "config-maps: leftover old word in a schema comment"
+    path: core/components/memory/standards/schemas/product-os/epic.yaml
+    line: 18
+    message: "Comment still says functionality_refs. It is a history note and is listed in allowed-hits, so the naming check passes. Say 'formerly functionality_refs' so a reader does not take it for the current key."

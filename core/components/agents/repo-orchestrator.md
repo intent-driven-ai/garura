@@ -92,7 +92,7 @@ The agent returns ONLY the enriched JSON contract. All detailed artifacts, analy
 | `status` | `"completed"`, `"failed"`, or `"blocked"` |
 | `stm` | Updated STM paths — input echoed, output paths populated with written artifacts |
 | `task_id` | Echoed from input for traceability |
-| `error` | `null` on success. On failure: structured failure object per `structured-failure-protocol.md` |
+| `error` | `null` on success. On failure: structured failure object per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) |
 | `resolution_trace_path` | (optional) Path to `resolution-trace.yaml` written during Project Convention Check. Present only when `ltm_context` was provided in the input contract. |
 
 ### Contract Processing Flow
@@ -200,11 +200,11 @@ Before invoking skills, load and inject configuration context.
 
 ### Project Convention Check (when ltm_context present)
 
-If `ltm_context` is present, check `ltm_context.project_base` for project-specific branching and commit conventions (R2) before falling back to `ltm_context.core_base` standards/git/branching.md (R3).
+If `ltm_context` is present, check `ltm_context.project_base` for project-specific branching and commit conventions (R2) before falling back to the memory rule `standards/git/branching.md`, read through the memory tool (R3, see Memory Reading Protocol).
 
 Record convention decisions in resolution trace.
 
-If `ltm_context` is NOT present, use existing behavior (load standards/git/branching.md from core directly).
+If `ltm_context` is NOT present, read `standards/git/branching.md` through the memory tool.
 
 ### Load Config
 
@@ -404,14 +404,45 @@ Bash is available for operations **not covered by skills**:
 
 **All code-host operations must route through the `platform-adapter` skill.** Pass `verb` + `args` to the skill; never invoke `gh` or `glab` directly for PR or issue operations.
 
-## Memory
+## Memory Reading Protocol
 
-Load from LTM (`~/.garura/core/memory/`) as needed:
-- `standards/git/branching.md` — Branch naming conventions
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
 
-Load framework protocols from `docs/framework/` as needed:
-- `intent-driven-recovery.md` — Recovery reasoning loop
-- `structured-failure-protocol.md` — Structured failure return format
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `assess-changes` | the commit rules (`**/standards/rules/commits.md`) — `commits_rules_path` |
+| `assess-pr` | the commit rules (`**/standards/rules/commits.md`) — `commits_rules_path` |
+| `open-pr` | nothing from memory. The PR body template (`standards/templates/pr-body.md`) comes from `template-manager` — `pr_body_template_path` |
+| `cut-branch, commit-files` | the branch rules (`**/standards/git/branching.md`), when the branch name needs them |
+
+### Templates come from template-manager
+
+Get every template (`standards/templates/*`) from the `template-manager` agent, never through
+the memory tool. Dispatch it with the Task tool, before the skill that needs the template:
+
+```json
+{ "task": "load these templates into the issue's short-term memory",
+  "inputs": { "issue": <issue>, "templates": ["standards/templates/pr-body.md"] },
+  "outputs": { "out_dir": "<issue folder>/context/templates/",
+               "manifest": "<issue folder>/context/templates/manifest-repo-orchestrator.json" },
+  "task_id": "load-templates" }
+```
+
+Ask only for the templates this task needs. Hand each skill the copy at `<out_dir><name>` (for
+example `<issue folder>/context/templates/standards/templates/pr-body.md` for `open-pr`). When
+`template-manager` returns `template_missing`, do not write the output off the template: return
+a structured failure that names the missing template.
+
+## Structured Failure Format
+
+Return a failure in the shape of the shared format: `.claude/skills/_shared/failure-format.md`.
+It says when to use it, its fields, and the limit of two attempts to recover.
 
 ## Recovery
 
@@ -440,7 +471,7 @@ When a skill invocation fails and the obstacle is within your domain:
 
 ### Escalation (Outside Domain)
 
-When the obstacle is outside your domain, write a structured failure to `stm.output` per `structured-failure-protocol.md` and return the contract with `status: "failed"`:
+When the obstacle is outside your domain, write a structured failure to `stm.output` per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) and return the contract with `status: "failed"`:
 
 ```yaml
 failure:

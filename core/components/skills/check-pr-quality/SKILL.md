@@ -2,6 +2,8 @@
 name: check-pr-quality
 description: Diff-bounded single-pass quality evaluation for PR review. Classifies every changed path by ARTIFACT TYPE first (runtime code / deployable config / tests / docs-planning / garura prose / ProductOS model / STM evidence / wireframes — pure globs, first match wins), then evaluates standard-ID checks against the diff using mechanical match rules from the PR severity taxonomy — grep-based rules fire only on runtime-code/deployable-config/tests (a keyword in prose is not a security defect, #438); pure path rules respect the same prose guard on prose artifacts unless the matched glob is docs-targeting (#454). Matching runs in a bundled deterministic script (scan_taxonomy.py) — real glob/regex, no inference. Every finding carries artifact_type. Emits findings.yaml. Reuses /check-quality KB data — NOT its 11-subagent execution model. Use only from check-change play; never invoke standalone for full-repo audits.
 user-invocable: false
+model: sonnet
+allowed-tools: Read, Write, Bash, Glob, Grep
 ---
 
 # Quality Check (Scoped)
@@ -18,7 +20,7 @@ Single-pass diff-bounded evaluation. Reuses the KB used by `/check-quality` but 
 | Invocable | User | Play only (review-pr) |
 | KB usage | All standards in all domains | Only standards whose taxonomy match rule fires on the diff |
 
-## Input Contract
+## Input
 
 The skill is invoked with a JSON payload from `quality-auditor`:
 
@@ -27,11 +29,9 @@ diff_path: "{stm_base}/{issue}/evidence/review-pr/diff.patch"   # unified diff
 changed_paths:                                                    # array; absolute repo-relative paths
   - src/api/users.ts
   - src/db/migrations/0042_add_email.sql
-standards_set:                                                    # resolved from config standards_order
-  kb: ~/.garura/core/memory/knowledge/quality/
-  ltm: ./.garura/core/memory/knowledge/quality/
-  stm: .garura/project/issues/{issue}/specs/quality/
-severity_taxonomy_path: ./core/components/memory/standards/rules/pr.md
+standards_order:                                                  # short-term copies: the taxonomy copy first, then any quality standards, in the tier order of config review-pr.standards_order
+  - "{stm_base}/{issue}/context/memory/knowledge/quality/"
+severity_taxonomy_path: "{stm_base}/{issue}/context/memory/standards/rules/pr.md"  # the short-term copy quality-auditor fetched
 intent_summary: "Add email verification flow"                     # 1–3 sentences from spec/intent.yaml or PR body
 output_path: "{stm_base}/{issue}/evidence/review-pr/findings.yaml"
 ```
@@ -40,12 +40,12 @@ output_path: "{stm_base}/{issue}/evidence/review-pr/findings.yaml"
 
 | Check | Action on Failure |
 |---|---|
-| `severity_taxonomy_path` exists | HALT — "PR severity taxonomy missing at {path}" |
+| `severity_taxonomy_path` exists (the short-term copy of `standards/rules/pr.md`) | HALT — "PR severity taxonomy missing at {path}" |
 | `diff_path` exists and non-empty | HALT — "Empty or missing diff" |
 | `changed_paths` non-empty | HALT — "No changed paths supplied" |
-| At least one of `standards_set.{kb,ltm,stm}` resolves | HALT — "No standards source resolvable" |
+| At least one entry of `standards_order` resolves to a short-term copy (the path exists in the issue's short-term memory) | HALT — "No standards source resolvable" |
 
-## Execution
+## Process
 
 The whole mechanical scan is one deterministic script — `scripts/scan_taxonomy.py` (#454).
 It is a real glob/regex engine, **not inference**: the agent runs it and returns its output,
@@ -80,6 +80,10 @@ back to deriving `changed_paths` from the diff's own file headers. The added lin
      matched glob is docs-targeting; otherwise the match is dropped (#454 prose guard).
    - `CODE-20` `**/*` catch-all — rolled into `meta.catchall.CODE-20` as a single count,
      never per-file findings (#454).
+   - A path under `docs/adr/`, or of artifact type `stm-evidence`, gets no finding (#851;
+     the reason is in the taxonomy's Artifact-Type Scoping section).
+   - A `--paths` entry that does not look like a path (it starts with `+`, `-` or a space,
+     or holds `": `) is dropped and listed in `meta.rejected_paths`.
 3. **Emits** `findings.yaml` (schema below), stable-sorted, byte-identical across runs.
 
 ### Step 2 — Verify and return
@@ -121,7 +125,9 @@ counts:
   P4: {n}
 ```
 
-## Output Schema (`findings.yaml`)
+## Output
+
+The schema of `findings.yaml`:
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
@@ -159,7 +165,7 @@ Two back-to-back invocations on the same `(diff_path, changed_paths, taxonomy_pa
 | FS-1 | Taxonomy missing | HALT + structured failure |
 | FS-2 | Diff empty/missing | HALT |
 | FS-3 | A finding lacks `standard_id` | DROP finding + log error to evidence |
-| FS-4 | Standards source unresolvable | HALT |
+| FS-4 | No entry of `standards_order` resolves to a short-term copy | HALT |
 | FS-5 | Match rule regex invalid | HALT — taxonomy is malformed |
 
 ## Reference
@@ -167,4 +173,4 @@ Two back-to-back invocations on the same `(diff_path, changed_paths, taxonomy_pa
 - Scanner: `scripts/scan_taxonomy.py` (the deterministic match engine — #454)
 - Input contract: `reference/input-contract.md`
 - Output schema: `reference/finding-schema.md`
-- Taxonomy: `core/components/memory/standards/rules/pr.md`
+- Taxonomy: the memory rule `standards/rules/pr.md`, read only through the short-term copy at `severity_taxonomy_path`

@@ -1,6 +1,6 @@
 # ADR 019 — Epics Are Kept When Delivered, Not Deleted
 
-**Status:** Accepted
+**Status:** Accepted — superseded by [ADR 048](048-the-product-model-and-the-work-are-two-layers.md): in part — Decision §1 (the epic is a permanent record in the product model, at {domain}/slices/{slice-id}/epics/{epic-id}.yaml, with `delivered` as its terminal state) and §2 (/launch stamps the epic `delivered` in place); also its Context's premise that a slice is cut into one or more epics
 **Date:** 2026-06-23
 **Supersedes:** the implicit `persistence: temporary` rule locked under #434 (never given an ADR)
 **Related:** ADR 008 (issue-centric STM), ADR 010 (STM archival), ADR 017 (folder whitelist)

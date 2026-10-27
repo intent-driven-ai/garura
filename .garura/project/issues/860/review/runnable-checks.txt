@@ -1,0 +1,98 @@
+# Layer 1 — installed tools on the changed parts where they sit (source layout: the PR changes core/components)
+# Next-line map: template-manager copy .garura/project/issues/860/context/templates/standards/rules/pipeline-next.md
+lint-components --layout source --target core/components: exit 1; errors 36; in changed paths 29; there before 7
+  FINDING structural/missing-frontmatter-field core/components/skills/check-quality/SKILL.md 1 Missing required frontmatter field: model
+  FINDING structural/missing-frontmatter-field core/components/skills/check-quality/SKILL.md 1 Missing required frontmatter field: allowed-tools
+  FINDING structural/missing-section core/components/skills/check-quality/SKILL.md 1 Missing required section: ## Input
+  FINDING structural/missing-section core/components/skills/check-quality/SKILL.md 1 Missing required section: ## Process
+  FINDING structural/missing-section core/components/skills/check-quality/SKILL.md 1 Missing required section: ## Output
+  FINDING structural/missing-frontmatter-field core/components/skills/open-pr/SKILL.md 1 Missing required frontmatter field: model
+  FINDING structural/missing-frontmatter-field core/components/skills/open-pr/SKILL.md 1 Missing required frontmatter field: allowed-tools
+  FINDING structural/missing-section core/components/plays/create-loop/SKILL.md 1 Missing required section: ## Compiled From
+  FINDING structural/missing-section core/components/plays/create-loop/SKILL.md 1 Missing required section: ## Role
+  FINDING structural/missing-section core/components/plays/create-loop/SKILL.md 1 Missing required section: ## Pre-flight
+  FINDING structural/missing-standard-play-close core/components/plays/create-loop/SKILL.md 1 Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.
+  FINDING structural/missing-section core/components/plays/create-play/SKILL.md 1 Missing required section: ## Compiled From
+  FINDING structural/missing-section core/components/plays/create-play/SKILL.md 1 Missing required section: ## Role
+  FINDING structural/missing-section core/components/plays/create-play/SKILL.md 1 Missing required section: ## Pre-flight
+  FINDING structural/missing-standard-play-close core/components/plays/create-play/SKILL.md 1 Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.
+  FINDING structural/missing-section core/components/plays/edit-loop/SKILL.md 1 Missing required section: ## Compiled From
+  FINDING structural/missing-section core/components/plays/edit-loop/SKILL.md 1 Missing required section: ## Role
+  FINDING structural/missing-section core/components/plays/edit-loop/SKILL.md 1 Missing required section: ## Pre-flight
+  FINDING structural/missing-standard-play-close core/components/plays/edit-loop/SKILL.md 1 Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.
+  FINDING structural/missing-section core/components/plays/edit-play/SKILL.md 1 Missing required section: ## Compiled From
+  FINDING structural/missing-section core/components/plays/edit-play/SKILL.md 1 Missing required section: ## Role
+  FINDING structural/missing-section core/components/plays/edit-play/SKILL.md 1 Missing required section: ## Pre-flight
+  FINDING structural/missing-standard-play-close core/components/plays/edit-play/SKILL.md 1 Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.
+  FINDING structural/missing-section core/components/plays/install-garura/SKILL.md 1 Missing required section: ## Compiled From
+  FINDING structural/missing-section core/components/plays/install-garura/SKILL.md 1 Missing required section: ## Role
+  FINDING structural/missing-standard-play-close core/components/plays/install-garura/SKILL.md 1 Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.
+  FINDING structural/missing-section core/components/plays/uninstall-garura/SKILL.md 1 Missing required section: ## Compiled From
+  FINDING structural/missing-section core/components/plays/uninstall-garura/SKILL.md 1 Missing required section: ## Role
+  FINDING structural/missing-standard-play-close core/components/plays/uninstall-garura/SKILL.md 1 Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.
+lint_play build-epic: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play check-change: exit 1 VERDICT: FAIL (1 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+     [GAP ] no-unbacked-recommendation: this play's description says it recommends — it must cite standards/rules/no-unbacked-recommendation.md and wire the rule (constraint +
+lint_play create-loop: exit 1 VERDICT: FAIL (5 gap(s)) | no next-command line
+     [GAP ] required sections: missing: Compiled From, Role, Pre-flight, Task DAG, Workflow, Scenario Validation, Recovery, Pause and Resume, Compilation Metadata
+     [GAP ] declared set: could not read C/F/S ranges from 'Compiled From' — coverage and orphan checks below are unreliable
+     [GAP ] pipeline position (D2): frontmatter missing or has no 'position' field (D2)
+     [GAP ] standard play close (D1): missing or misordered Standard Play Close anchors
+     [GAP ] fingerprint: missing or placeholder — compute a real one with shasum -a 256
+lint_play create-play: exit 1 VERDICT: FAIL (6 gap(s)) | no next-command line
+     [GAP ] required sections: missing: Compiled From, Pre-flight, Task DAG, Scenario Validation, Recovery, Pause and Resume, Compilation Metadata
+     [GAP ] declared set: could not read C/F/S ranges from 'Compiled From' — coverage and orphan checks below are unreliable
+     [GAP ] pipeline position (D2): frontmatter missing or has no 'position' field (D2)
+     [GAP ] standard play close (D1): missing or misordered Standard Play Close anchors
+     [GAP ] pre-flight resolver: Pre-flight references scripts/preflight.py but the file is missing — stamp it from references/preflight.py
+     [GAP ] fingerprint: missing or placeholder — compute a real one with shasum -a 256
+lint_play discover-capabilities: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play discover-intent: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play edit-loop: exit 1 VERDICT: FAIL (5 gap(s)) | no next-command line
+     [GAP ] required sections: missing: Compiled From, Role, Pre-flight, Task DAG, Workflow, Scenario Validation, Recovery, Pause and Resume, Compilation Metadata
+     [GAP ] declared set: could not read C/F/S ranges from 'Compiled From' — coverage and orphan checks below are unreliable
+     [GAP ] pipeline position (D2): frontmatter missing or has no 'position' field (D2)
+     [GAP ] standard play close (D1): missing or misordered Standard Play Close anchors
+     [GAP ] fingerprint: missing or placeholder — compute a real one with shasum -a 256
+lint_play edit-play: exit 1 VERDICT: FAIL (5 gap(s)) | no next-command line
+     [GAP ] required sections: missing: Compiled From, Role, Pre-flight, Task DAG, Workflow, Scenario Validation, Recovery, Pause and Resume, Compilation Metadata
+     [GAP ] declared set: could not read C/F/S ranges from 'Compiled From' — coverage and orphan checks below are unreliable
+     [GAP ] pipeline position (D2): frontmatter missing or has no 'position' field (D2)
+     [GAP ] standard play close (D1): missing or misordered Standard Play Close anchors
+     [GAP ] fingerprint: missing or placeholder — compute a real one with shasum -a 256
+lint_play fix-bug: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play install-garura: exit 1 VERDICT: FAIL (5 gap(s)) | no next-command line
+     [GAP ] required sections: missing: Compiled From, Role, Task DAG, Workflow, Scenario Validation, Recovery, Pause and Resume, Compilation Metadata
+     [GAP ] declared set: could not read C/F/S ranges from 'Compiled From' — coverage and orphan checks below are unreliable
+     [GAP ] pipeline position (D2): frontmatter missing or has no 'position' field (D2)
+     [GAP ] standard play close (D1): missing or misordered Standard Play Close anchors
+     [GAP ] fingerprint: missing or placeholder — compute a real one with shasum -a 256
+lint_play list-focus-issues: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play merge-change: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play propose-change: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play record-decision: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play refactor-code: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play shape-agentic-lens: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play shape-quality-lens: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play shape-run-lens: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play shape-slice: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play shape-ux-lens: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play start-change: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+lint_play uninstall-garura: exit 1 VERDICT: FAIL (5 gap(s)) | no next-command line
+     [GAP ] required sections: missing: Compiled From, Role, Task DAG, Workflow, Scenario Validation, Recovery, Pause and Resume, Compilation Metadata
+     [GAP ] declared set: could not read C/F/S ranges from 'Compiled From' — coverage and orphan checks below are unreliable
+     [GAP ] pipeline position (D2): frontmatter missing or has no 'position' field (D2)
+     [GAP ] standard play close (D1): missing or misordered Standard Play Close anchors
+     [GAP ] fingerprint: missing or placeholder — compute a real one with shasum -a 256
+lint_play validate-epic: exit 0 VERDICT: PASS (0 gap(s)) | [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Ne
+
+# Base comparison (lint-components, source layout, the installed tool on origin/plan/788/base and on HEAD)
+#   error kinds on base: 98; on HEAD: 36; new on HEAD: 0
+#   So the 29 "in changed paths" errors above are all there before on the base: none is from this PR.
+#   Finding R4-L1 (P3, against decision 19): "in changed_paths" is not "caused by the PR". A file the PR
+#   touches brings its old errors in as findings. The test must be "not on the base".
+# Runnable suites (run after the round-4 build, before the push)
+#   install-garura test_install: 74 OK | lint-components node --test: 6 files pass
+#   check-pr-quality test_scan_taxonomy: 27 passed | create-loop test_lint_loop: 39 OK
+#   agents/_shared test_copy_memory: 11 OK | create-play test_fetch_pr_context: 13 passed
+#   old-name check: 0 hits | hidden acceptance checks: 35 / 35

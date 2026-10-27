@@ -1,0 +1,113 @@
+{
+  "questions": [
+    {
+      "id": "Q-change-1",
+      "topic": "change",
+      "blocking": false,
+      "question": "When a feature is added to a slice or taken out of it after its plan exists, what must the plan play do with the stories of that slice?",
+      "why": "If the plan play makes new stories, or deletes old ones, without a rule, the plan and the tracker stop agreeing, or the work already done on a story is lost.",
+      "examples": [
+        "a shop: an order changes after packing, so the new item goes in the same parcel and the removed item goes back to the shelf, with a note on the order",
+        "a clinic: a treatment plan drops one visit, so that visit is cancelled but kept in the record, and a new visit is booked",
+        "a building project: one room is added to the plan, so a new task is added under the same project, and no task is deleted"
+      ],
+      "assume": "The plan play adds one story for each feature that comes in, closes the story of each feature that goes out with a note, deletes nothing, and changes nothing in the tracker before the product owner's yes.",
+      "settled": false,
+      "basis": {
+        "kind": "model",
+        "ref": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md:20-22 (a second run makes no copies; nothing goes to the tracker before the yes; what the play does when the slice changes is not set yet) and :44-46 (fails if a feature of the slice has no story, or a second story is made for one feature)"
+      },
+      "proposed_answer": "When a feature comes into the slice, the plan play adds one story for it, so that each feature of the slice has a story; it makes no second story for a feature that has one; and nothing goes to the tracker before the product owner's yes. What it does with the story of a feature that goes out is not set by the model: the product owner says."
+    },
+    {
+      "id": "Q-evalformat-1",
+      "topic": "eval",
+      "blocking": false,
+      "question": "In what form must the eval play write the eval of a slice, so that a person can run it from the outside?",
+      "why": "If the form is not set, each eval is written in a different way, a person cannot run it the same way twice, and the eval play cannot be checked.",
+      "examples": [
+        "a bank: a list of steps a tester follows at the counter, each with the result to expect",
+        "a shop: a script that places a test order on the web site and checks the receipt",
+        "a school: an exam paper with a marking guide kept apart from the students"
+      ],
+      "assume": "The eval is one plain-words file in the plan's evals folder: for each goal, expectation and failure condition, one check (a step to run on the slice's surface and the result to expect), or a note that it cannot be tested yet.",
+      "settled": false,
+      "basis": {
+        "kind": "model",
+        "ref": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md:11-13 (one eval in the plan's evals folder; the format is not set yet), :18-20 (checks from the outside on the slice's surface, often a play on a test project; says when it cannot test a line yet) and :25 (each goal, expectation and failure condition has a check or a note)"
+      },
+      "proposed_answer": "The eval is written in the plan's evals folder (.garura/project/plans/<plan-id>/evals/<slug>/). For each goal and expectation of the stories, and each failure condition of the slice's hidden file, it holds one check run from the outside on the slice's surface (for Garura often a run of the play on a test project), or a note that it cannot be tested yet. The layout of the file itself is not set by the model: the product owner says."
+    }
+  ],
+  "settled": [
+    {
+      "id": "Q-ready-1",
+      "topic": "ready",
+      "blocking": false,
+      "question": "May the slice be shaped when the ICE of its features is still thin?",
+      "why": "If a thin ICE stops the shaping, no new slice can start until every part is deepened; if it never stops anything, a part with no real goal gets built.",
+      "examples": [
+        "a clinic: a first visit is booked with a short note, and the full history is taken later",
+        "a shop: a new product is listed with a short text, and the full text comes before the sale",
+        "a city office: a permit request is accepted with the main form, and the missing papers are listed to send later"
+      ],
+      "assume": "Yes: a thin ICE is proposed, marked thin and shown to the person, and the shaping goes on.",
+      "settled": true,
+      "basis": {
+        "kind": "model",
+        "ref": "software-delivery-planning/shape-slice/fn-795/feature.md line 22 (a part with no ICE gets a thin ICE, marked thin, and the person is never sent back); capabilities/cap-723/capability.md line 11 (partly ready: the ICE goes forward and work starts)"
+      },
+      "settled_basis": {
+        "kind": "model",
+        "ref": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md:22 (a part with no ICE gets a thin ICE, marked thin, and the person is never sent back); product/product-os/capabilities/cap-723/capability.md:11 (partly ready: the ICE goes forward and work starts)"
+      }
+    },
+    {
+      "id": "Q-approval-1",
+      "topic": "approval",
+      "blocking": false,
+      "question": "Does each of the three shaping plays end at its own confirmation by the product owner?",
+      "why": "If the slice play waits for one approval of the slice, the plan and the eval together, it cannot finish on its own, and its output cannot be the input of the plan play.",
+      "examples": [
+        "a bank: each step of a loan (the offer, the contract, the payout) is signed on its own",
+        "a building project: the drawing, the budget and the schedule are each approved when ready",
+        "a newspaper: the editor approves each page, then the whole issue goes to print"
+      ],
+      "assume": "Yes: each play ends at one confirmation by the product owner; the one approval of the whole loop (#796) is out of scope of this slice.",
+      "settled": true,
+      "basis": {
+        "kind": "model",
+        "ref": "intents/bi-788.md line 14 (each of the three plays ends at one confirmation by the product owner); software-delivery-planning/shape-slice/fn-795/feature.md line 34 (the loop and its one approval, #796, are out of scope)"
+      },
+      "settled_basis": {
+        "kind": "model",
+        "ref": "product/product-os/intents/bi-788.md:14 (each of the three plays ends at one confirmation by the product owner); product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md:34 (the loop and its one approval, #796, are out of scope)"
+      }
+    },
+    {
+      "id": "Q-hidden-1",
+      "topic": "eval",
+      "blocking": false,
+      "question": "Where must the eval of a slice be kept so that no builder can read it?",
+      "why": "If a builder can read the eval, it builds to the test, and a pass proves nothing.",
+      "examples": [
+        "a school: the exam paper is locked in the office until the exam",
+        "a bank: the audit checklist stays with the auditors, not the branch",
+        "a restaurant: the inspector's checklist is not given to the kitchen"
+      ],
+      "assume": "In the plan's evals folder, which no build play, skill or context sub-agent reads; until eval encryption (#828) only a read rule keeps builders out.",
+      "settled": true,
+      "basis": {
+        "kind": "model",
+        "ref": "software-delivery-planning/shape-eval/capability.md lines 19-23 (write only in the plan's evals folder; until #828 only a read rule keeps the folder from builders)"
+      },
+      "settled_basis": {
+        "kind": "model",
+        "ref": "product/product-os/software-delivery-planning/shape-eval/capability.md:19-23 (write only in the plan's evals folder; fails if a builder can read the eval; until #828 only a read rule keeps the folder from builders); product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md:21 (until eval encryption, only a read rule keeps builders out)"
+      }
+    }
+  ],
+  "no_proposed_answer": 0,
+  "stripped": [],
+  "shape_problems": {}
+}

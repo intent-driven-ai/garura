@@ -16,7 +16,7 @@ shared as the **Source**, exactly as it was when read:
 
 This play writes business intents only (ADR 043). It writes no ICE, no capability and no
 domain: `/discover-domains` writes the domains, and `/discover-capabilities` writes the capabilities and
-functionalities with their ICE. Each kind is written on its own and linked later — by the
+features with their ICE. Each kind is written on its own and linked later — by the
 play that links a part to an intent, or, inside a loop, by the loop's gap skills. Run on its
 own, this play leaves the rest of the model to those plays, and the person runs them when they
 want it.
@@ -149,7 +149,7 @@ play pulls out what the person wants; it never copies how the source does it.
   asked by a persona, why the business reason, proof a measurable result. They are never left
   open and never asked. The test of the result is whether another builder, given only the
   intents and the model, rebuilds what the prototype does (the rebuild eval,
-  `core/tools/rebuild-eval`).
+  the installed `.garura/core/tools/rebuild-eval/run_eval.py`).
 
 ### Failure conditions
 
@@ -202,7 +202,7 @@ play pulls out what the person wants; it never copies how the source does it.
 ## Context
 
 The Business Intent is the person's interface to the product; the product model and the ICE
-built for its parts are the agents' interface (`docs/philosophy/idsd.md`, two interfaces). This
+built for its parts are the agents' interface (the two interfaces). This
 play writes the person's side only. ADR 043 (21 October, after Kickoff run 7) made each Discovery
 play write one kind: when `/discover-intent` also drafted the ICE and capabilities, its reading of the
 screens flowed into every play after it, and one wrong intent spread to the whole model. Now

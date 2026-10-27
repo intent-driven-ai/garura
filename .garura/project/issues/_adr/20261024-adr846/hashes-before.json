@@ -1,0 +1,10 @@
+{
+  ".garura/project/issues/846/context/pr-body.md": "bc52f2ce4120bf449389db1c048f0345cce164b6576ca298dcb15bea201fac4b",
+  ".garura/project/issues/_adr/20261024-adr846/porcelain-before.txt": "82cab69553175d28efd51bfd0cecddcfa9b718b80b1d15805e22fda924664081",
+  "core/components/memory/standards/schemas/product-os/ontology.md": "ce12f5254283f8acc0b925b68587fb7651024be7c3651d5338834656eb36c18f",
+  "core/components/memory/standards/schemas/product-os/slice.yaml": "aeea698390ab287494ca3ea41cbc44cdd41720f2f159926f259b6ca8bdcd7729",
+  "core/components/memory/standards/schemas/product-os/spine.yaml": "5e32b5793eb3390532c0d3965577d13709a56e0f08a6c59e11d0939ddbd46807",
+  "core/components/plays/create-play/references/check_ice_workable.py": "12a3fc34c55f1a995237c57e5b226ef1f506ad8d6680437a8db45037783475ab",
+  "core/components/plays/create-play/references/test_check_ice_workable.py": "fa568a660cb52c18235b739720a75377b85d545c0bbe0f70f4cf6ccaa4e0684a",
+  "core/components/plays/discover-intent/scripts/check_ice_workable.py": "12a3fc34c55f1a995237c57e5b226ef1f506ad8d6680437a8db45037783475ab"
+}

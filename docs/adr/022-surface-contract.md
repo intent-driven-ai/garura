@@ -1,6 +1,6 @@
 # ADR 022 — Surface Contract: Declared at Cut, Enforced Downstream
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 048](048-the-product-model-and-the-work-are-two-layers.md): §1 'The surface lives on the epic, as structure' (the `surface` block in epic.yaml) and §2 'Declared at cut' (/grill declares it when it cuts the epic); and amended in part by [ADR 051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md): §4 "The gates", the /next surface-debt gate: no play enforces it now; the repair goes ahead in the plan
 **Date:** 2026-06-24
 **Related:** ADR 019 (epics kept as as-delivered record), #434 (ProductOS command
 model), `schemas/product-os/epic.yaml`, the execute pipeline

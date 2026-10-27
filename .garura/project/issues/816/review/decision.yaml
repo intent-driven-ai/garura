@@ -1,0 +1,8 @@
+decision: approve
+decided_by: human
+reply: "1. record an issue to ensure we do not forget the ADR 2. idd principles need to hold true. what changes does it bring and what it breaks. we cant break the principle 3. ok 4. ok 5. yes do  approve"
+recommended: approve
+blocking: []
+follow_ups: ["#824 ADR for ontology v9", "#826 IDD routing table break (failure conditions on the Story)", "#821 wire the asking-a-person rule to the agent", "#825 one checkpoint format"]
+issues_closed_by_merge: ["#815", "#820"]
+issues_left_open: ["#816 (ADR #824)", "#817 (play wiring with #795)"]

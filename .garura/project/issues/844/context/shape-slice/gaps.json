@@ -1,0 +1,332 @@
+{
+  "focus_intent": "bi-788",
+  "links_to_make": [
+    {
+      "kind": "capability",
+      "id": "cap-718",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The capability names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-719",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The capability names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-720",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The capability names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-721",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The capability names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-723",
+      "field": "intents",
+      "value": [
+        "bi-722"
+      ],
+      "why": "The capability names bi-722 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-735",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The capability names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-739",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The capability names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-742",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The capability names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "capability",
+      "id": "cap-747",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The capability names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-597",
+      "field": "intents",
+      "value": [
+        "bi-722"
+      ],
+      "why": "The feature names bi-722 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-628",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The feature names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-673",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The feature names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-724",
+      "field": "intents",
+      "value": [
+        "bi-722"
+      ],
+      "why": "The feature names bi-722 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-725",
+      "field": "intents",
+      "value": [
+        "bi-722"
+      ],
+      "why": "The feature names bi-722 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-726",
+      "field": "intents",
+      "value": [
+        "bi-722"
+      ],
+      "why": "The feature names bi-722 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-727",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The feature names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-728",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The feature names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-729",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The feature names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-730",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The feature names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-731",
+      "field": "intents",
+      "value": [
+        "bi-717"
+      ],
+      "why": "The feature names bi-717 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-736",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-737",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-738",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-740",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-741",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-743",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-744",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-745",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-746",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    },
+    {
+      "kind": "feature",
+      "id": "fn-748",
+      "field": "intents",
+      "value": [
+        "bi-734"
+      ],
+      "why": "The feature names bi-734 as an intent it serves, but the intent page's Touches list does not name it yet."
+    }
+  ],
+  "duplicates": [],
+  "work": [
+    {
+      "play": "/shape-slice (fill, via enrich-capability-ice)",
+      "target": "bi-788",
+      "why": "No capability or feature in the model serves bi-788: the shaping loop capability (#794) and its features \u2014 /shape-slice (#795), the plan play (#818), the eval play (#798) and the one approval step (#796) \u2014 are not in the model."
+    },
+    {
+      "play": "/shape-slice (fill)",
+      "target": "persona: the product owner",
+      "why": "The model holds no persona or journey records; the slice's tester (the product owner, the intent's asker) needs a persona record and a journey on the slice's surface."
+    },
+    {
+      "play": "/discover-capabilities",
+      "target": "bi-756",
+      "why": "No capability serves bi-756 either; it is outside this slice."
+    }
+  ],
+  "uncovered": [],
+  "cleared": [
+    {
+      "candidate": "unattributed cap-723",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-721",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-718",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-719",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-720",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-735",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-739",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-742",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    },
+    {
+      "candidate": "unattributed cap-747",
+      "why": "No domain shelf fits Garura's field, and a capability is ready without a domain (fn-724), so a missing domain is a warning, not a gap this slice must close."
+    }
+  ]
+}

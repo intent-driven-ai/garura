@@ -22,10 +22,10 @@ SPINE = {
         {"id": "loose-cap", "domain": "", "intents": [], "doc": "capabilities/loose-cap/capability.md"},
         {"id": "the-board", "domain": "nowhere", "intents": ["plan-the-week"],
          "doc": "capabilities/the-board/capability.md"}],
-    "functionalities": [
+    "features": [
         {"id": "move-card", "capability": "board", "intents": ["plan-the-week"],
-         "doc": "work/board/move-card/functionality.md"},
-        {"id": "loose-fn", "capability": "", "intents": [], "doc": "functionalities/loose-fn/functionality.md"}],
+         "doc": "work/board/move-card/feature.md"},
+        {"id": "loose-fn", "capability": "", "intents": [], "doc": "features/loose-fn/feature.md"}],
 }
 PAGES = {
     "work/domain.md": "# Theme: Work tracking\n\n## Intent\nTrack work.\n\n## Sources\n- https://example.org/work\n",
@@ -33,8 +33,8 @@ PAGES = {
     "work/board/capability.md": "# Capability: The Board\n\n## Sources\n- Board screen: \"In review\"\n",
     "capabilities/loose-cap/capability.md": "# Capability: Reports\n\n## Sources\n- Reports tab: \"Weekly report\"\n",
     "capabilities/the-board/capability.md": "# Capability: Board, the\n\n## Directional intent\nBoard.\n",
-    "work/board/move-card/functionality.md": "# Functionality: Move a card\n\n## Sources\n- Board: \"Move to Done\"\n",
-    "functionalities/loose-fn/functionality.md": "# Functionality: Export\n\n## What it does\nExports.\n",
+    "work/board/move-card/feature.md": "# Feature: Move a card\n\n## Sources\n- Board: \"Move to Done\"\n",
+    "features/loose-fn/feature.md": "# Feature: Export\n\n## What it does\nExports.\n",
     "intents/plan-the-week.md": ("# Able to plan the week\n\n**Touches:**\n"
                                  "- [The Board](../work/board/capability.md) (capability) — adds\n"
                                  "- [Reports](../capabilities/loose-cap/capability.md) (capability) — adds\n"),
@@ -81,7 +81,7 @@ class FindGaps(unittest.TestCase):
 
     def test_missing_work_is_listed(self):
         g = self.run_find()
-        self.assertEqual(self.ids(g["no_functionalities"]), ["loose-cap", "the-board"])
+        self.assertEqual(self.ids(g["no_features"]), ["loose-cap", "the-board"])
         self.assertEqual(self.ids(g["intents_unserved"]), ["share-reports"])
         self.assertEqual(self.ids(g["serves_no_intent"]), ["loose-cap", "loose-fn"])
         self.assertEqual(self.ids(g["domains_empty"]), ["empty"])
@@ -90,7 +90,7 @@ class FindGaps(unittest.TestCase):
         g = self.run_find()
         self.assertEqual(g["one_way"], [
             {"kind": "capability", "id": "the-board", "intent": "plan-the-week", "missing": "touches"},
-            {"kind": "functionality", "id": "move-card", "intent": "plan-the-week", "missing": "touches"},
+            {"kind": "feature", "id": "move-card", "intent": "plan-the-week", "missing": "touches"},
             {"kind": "capability", "id": "loose-cap", "intent": "plan-the-week", "missing": "intents"}])
 
     def test_the_same_thing_named_twice_is_a_likely_duplicate(self):

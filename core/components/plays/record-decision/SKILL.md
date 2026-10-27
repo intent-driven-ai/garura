@@ -70,7 +70,7 @@ Everything else is a script.
 | Resolve config + `stm_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | A decision brief was given: what is decided, why now, the options, who decides, where (or, for `accept`, a proposed ADR file) | C1 | Ask for what is missing (gather, not a halt) |
 | Loop contract: when `--contract <file>` is passed, it is valid JSON naming `loop_run_id` and `branch`, and the current branch equals that branch | C10 | Hard halt (REC10) |
-| The ADR template exists (`standards/templates/adr.md`) | C2 | Hard halt |
+| `template-manager` loads the ADR template (`standards/templates/adr.md`) into `<working>/context/templates/` | C2 | Hard halt on `template_missing` |
 | **Clean record tree** — run by hand, checked at the end of Step 0 (the branch must exist first): `git status --porcelain -- docs/adr <product_base>product-os` is empty | C9 | Hard halt (REC9) |
 
 Resolve the facts with the bundled resolver — not by inference:
@@ -97,6 +97,17 @@ some), so a second change to one of them is caught:
 python3 scripts/check_adr_scope.py --snapshot --before <working>/porcelain-before.txt \
     --out <working>/hashes-before.json
 ```
+
+Then ask `template-manager` for the ADR template. The play hands its copy to `adr-keeper` in
+the Step 2 contract (C2); `adr-keeper` does not fetch the template itself:
+
+    { "task":    "load these templates into the run's short-term memory",
+      "inputs":  { "issue": null, "templates": ["standards/templates/adr.md"] },
+      "outputs": { "out_dir": "<working>/context/templates/",
+                   "manifest": "<working>/context/templates/manifest-record-decision.json" },
+      "task_id": "load-adr-template" }
+
+`template_missing` is a hard halt: no record is written off the template.
 
 ## Task DAG
 
@@ -160,7 +171,7 @@ agent's contract (Step 2) does not read `failed` with `brief_incomplete`.
       "inputs":  { "brief": "<working>/brief.md", "shape": "markdown | yaml",
                    "adr_dir": "docs/adr (markdown) | <the node's decisions folder> (yaml)",
                    "intents_dir": "<product_base>product-os/intents | null",
-                   "template_path": "<memory>/standards/templates/adr.md",
+                   "template": "<working>/context/templates/standards/templates/adr.md",
                    "script": "<skill-dir>/scripts/adr.py" },
       "outputs": { "context": "<working>/adr-context.yaml",
                    "draft": "<working>/adr-draft.md | <working>/adr-draft.yaml",
@@ -175,7 +186,8 @@ contract. `blocked` with `needs_person` means the decision would change a person
 intent, or the brief is incomplete — go to the person. **This stop applies in both modes:** run
 by hand, Step 3 shows the person; inside a loop, it is a new question, and a new question
 stops the loop (ADR 029 §2) — the ADR is never applied to the intent either way.
-**SE-2 (F2/C2):** `adr-check.json` reports the lint clean for the draft.
+**SE-2 (F2/C2):** `adr-check.json` reports the lint clean for the draft, and the contract's
+`template` is the copy `template-manager` wrote (its manifest names the source).
 **SE-3 (F3/C3):** `adr-context.yaml` lists every older ADR it supersedes or amends, each with a
 part; every ADR named in the draft's Supersedes/Amends is in that list and vice versa.
 **SE-4 (F4/C4):** the draft's Affects and ICE impact are non-empty, and every path in Affects
@@ -350,8 +362,7 @@ ledger_start_offset, ledger_end_offset (null when unresolved — never blocks th
 stop_condition per C0) and write to `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in
-the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see
-all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per
+the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per
 `play-close.md`. Fill the `delivery-report.md` slots and output the report:
 `## adr Delivered — ADR <NNN or id>`, the Run Summary table, the Pipeline Steps table from the
 task DAG, the Artifacts Produced table (the record, the pointers, the index), Next Steps (for a
@@ -378,7 +389,7 @@ to `$evidence_dest`. Always emitted; never gated.
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | no brief, or it lacks the decision, the reason or the options | ask the person (or the calling play) for what is missing; never fill it in | human |
-| F2 | the record fails the template's structural check | re-draft against the template with the check's report | autonomous |
+| F2 | the record fails the template's structural check, or the template did not come through the play's contract | load the template through `template-manager`, hand its copy to `adr-keeper`, and re-draft against it with the check's report | autonomous |
 | F3 | an overridden ADR is unnamed or has no part | re-read the overlap candidates, name each with the part, re-draft | autonomous |
 | F4 | affects or ICE impact missing or naming things that do not exist | search the repository for the real names and re-draft | autonomous |
 | F5 | the decision would change a person's business intent | stop before writing; show the person which intent and why; the person changes the brief or ends the run | human |
@@ -400,14 +411,14 @@ after Step 2 reuses the draft and its context; a resume never re-asks the person
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:d6aa9cefbcc34941600bed207b13930ab5f1bb116a5f395ce61d203231c085c7 (of `reference/ice.md`) |
+| fingerprint | sha256:cd7ff7c1e9e7c56d850fc7d371d339c1a67fbfb72d75a8218fdba2239ec7f5e3 (of `reference/ice.md`) |
 | compiled_by | create-play (#632) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close; both skipped inside a loop) |
 | position_exception | record-writing both play — writes the ADR on its started branch (or the loop's) and commits it (Step 6) BEFORE the injected end sequence lands it |
 | workflow_structure | B with one human checkpoint — pinned when run by hand (the person accepts or rejects), none inside a loop (saved proposed for the loop's final review); stop-condition gated close |
 | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
 | domain_agents | 1 (adr-keeper) |
-| utility_agents | 0 |
+| utility_agents | 1 (template-manager — the ADR template at pre-flight, and the close's templates) |
 | skills_used | author-decision |
 | scripts | 6 (preflight.py, session_stamp.py, check_stop_condition.py, adr.py — copied from the author-decision skill, apply_adr.py, check_adr_scope.py) + test_apply_adr.py |
 | step_evals | 11 (SE-1…SE-11) |

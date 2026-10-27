@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "written": {
+    "domains": [],
+    "capabilities": [],
+    "features": [],
+    "ices": []
+  },
+  "updated": [],
+  "moved": [],
+  "thin": [
+    "fn-795",
+    "cap-shape-slice",
+    "fn-818",
+    "cap-718",
+    "fn-798",
+    "cap-shape-eval"
+  ],
+  "relinked": [],
+  "allow": [
+    "product-os/intents/bi-788.md"
+  ],
+  "modify_only": [
+    "product-os/software-delivery-planning/cap-718/capability.md",
+    "product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+    "product-os/software-delivery-planning/shape-eval/capability.md",
+    "product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+    "product-os/software-delivery-planning/shape-slice/capability.md",
+    "product-os/software-delivery-planning/shape-slice/fn-795/feature.md"
+  ],
+  "remove_only": [],
+  "touches_added": [],
+  "touches_relinked": [],
+  "intent_page_before": "# Agents design a named piece of work\n\n**Outcome:** The product owner names a piece of work. Agents shape it into a slice that one person can test, make its plan and write its eval. The product owner confirms each part as it is made.\n\n**Why:** Today the product owner must guide each step of the design by hand. No play designs the work for Garura's own work: the product owner found this while #760 started. When agents do the design, the work is faster and it stays inside its design.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- A business intent goes from its issue to an approved design.\n- The design has a slice that one person can test end to end on one surface, with the features it needs in build order.\n- The design has a plan that a person can run and track: the plan file, one epic for the slice, and one story for each feature.\n- The design has an eval that tests, from the outside, if the business intent is met.\n- Each of the three plays ends at one confirmation by the product owner.\n- A play runs each step. No step is done by hand.\n- The eval is kept in a place where no builder can read it.\n\n**Must not:** Do not send the slice, the plan or the eval to the tracker before the product owner confirms it, and do not start a build before that. Do not let a builder read the eval. Do not shape an ICE that is not ready. Do not ask the person a question that the model or memory answers. Do not include the design, build, test or validation of an epic (#819), the release plays or /learn-outcomes, or the upgrade of an older product model (#835).\n\nWritten by /shape-slice from issue #788 on 2026-10-24, because the product model had no page for it. The product owner confirmed it on 2026-10-24 (#844).\n\n**Stage:** confirmed \u2014 by the product owner, 2026-10-24\n**Tracker:** #788\n\n**Touches:**\n- [software-delivery-planning](../software-delivery-planning/domain.md) (domain) \u2014 adds\n- [shape-slice](../software-delivery-planning/shape-slice/capability.md) (capability) \u2014 adds\n- [shape-eval](../software-delivery-planning/shape-eval/capability.md) (capability) \u2014 adds\n- [cap-718](../software-delivery-planning/cap-718/capability.md) (capability) \u2014 changes\n- fn-727 and fn-728 (features of cap-718, from bi-717) \u2014 moved under cap-718's folder; fn-727's text unchanged\n- [fn-728](../software-delivery-planning/cap-718/fn-728/feature.md) (feature) \u2014 changes: the epic and the stories get tracker issues, not every node\n\n**What was done:** (nothing yet)\n",
+  "intent_page_after": "# Agents design a named piece of work\n\n**Outcome:** The product owner names a piece of work. Agents shape it into a slice that one person can test, make its plan and write its eval. The product owner confirms each part as it is made.\n\n**Why:** Today the product owner must guide each step of the design by hand. No play designs the work for Garura's own work: the product owner found this while #760 started. When agents do the design, the work is faster and it stays inside its design.\n\n**Asked by:** the product owner\n\n**Proof it is met:**\n- A business intent goes from its issue to an approved design.\n- The design has a slice that one person can test end to end on one surface, with the features it needs in build order.\n- The design has a plan that a person can run and track: the plan file, one epic for the slice, and one story for each feature.\n- The design has an eval that tests, from the outside, if the business intent is met.\n- Each of the three plays ends at one confirmation by the product owner.\n- A play runs each step. No step is done by hand.\n- The eval is kept in a place where no builder can read it.\n\n**Must not:** Do not send the slice, the plan or the eval to the tracker before the product owner confirms it, and do not start a build before that. Do not let a builder read the eval. Do not shape an ICE that is not ready. Do not ask the person a question that the model or memory answers. Do not include the design, build, test or validation of an epic (#819), the release plays or /learn-outcomes, or the upgrade of an older product model (#835).\n\nWritten by /shape-slice from issue #788 on 2026-10-24, because the product model had no page for it. The product owner confirmed it on 2026-10-24 (#844).\n\n**Stage:** confirmed \u2014 by the product owner, 2026-10-24\n**Tracker:** #788\n\n**Touches:**\n- [software-delivery-planning](../software-delivery-planning/domain.md) (domain) \u2014 adds\n- [shape-slice](../software-delivery-planning/shape-slice/capability.md) (capability) \u2014 adds\n- [shape-eval](../software-delivery-planning/shape-eval/capability.md) (capability) \u2014 adds\n- [cap-718](../software-delivery-planning/cap-718/capability.md) (capability) \u2014 changes\n- fn-727 and fn-728 (features of cap-718, from bi-717) \u2014 moved under cap-718's folder; fn-727's text unchanged\n- [fn-728](../software-delivery-planning/cap-718/fn-728/feature.md) (feature) \u2014 changes: the epic and the stories get tracker issues, not every node\n\n**What was done:** (nothing yet)\n"
+}

@@ -1,0 +1,32 @@
+# design-ground: memory category, round 2. Grounded on base plan/788/base only.
+category: memory
+base: plan/788/base
+files_checked:
+  - core/components/memory/standards/rules/naming.md
+principles:
+  - id: PR1
+    text: "Epic and Slice are kinds in the product model again (ontology v11: Slice in the product layer, Epic in the work layer)."
+    source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md (version 11, intro and flow)"
+  - id: PR2
+    text: "ADR 046 section 4 ('never a word the model dropped (epic, slice)') no longer holds; the verb-first rule and the rest of section 4 stand."
+    source: "plan/788/base:docs/adr/048-the-product-model-and-the-work-are-two-layers.md (Amends line; 'ADR 046 section 4' bullet)"
+  - id: PR3
+    text: "The delivery plays take the epic and slice names: shape-slice, build-epic, validate-epic, release-epic."
+    source: "plan/788/base:core/components/memory/standards/rules/rename-map.yaml (lines 33-37) and naming.md pipeline table (lines 42-44)"
+  - id: PR4
+    text: "naming.yaml holds no epic/slice entry, so the rule text is the only place the old claim lived."
+    source: "plan/788/base:core/components/memory/standards/rules/naming.yaml (searched, no match)"
+conformance:
+  - file: core/components/memory/standards/rules/naming.md
+    result: conforms
+    note: "Rule 2 now lists slice and epic as model words. That matches ontology v11 (PR1), the ADR 048 correction of ADR 046 (PR2), and the plan names already in this rule's own table (PR3). No other line in naming.md or naming.yaml still says epic or slice is dropped."
+findings:
+  - id: M-1
+    severity: P4
+    file: core/components/memory/standards/rules/naming.md
+    where: "rule 2, lines 20-22 (the new text)"
+    finding: "The rule now says 'never a word the model dropped' and then adds 'Epic and slice are model words.' The closing sentence repeats what the list in the brackets already shows. The rule also no longer gives any example of a dropped word, so a reader cannot tell what 'dropped' means today."
+    principle: "A standard states each rule once, in plain words, with an example a reader can act on (naming clarity)."
+    basis: "PR2: ADR 048 retired the only example of a dropped word (epic, slice); the rule still points at 'dropped' words with none named. Not a conformance break; wording only."
+    fix: "Drop the sentence 'Epic and slice are model words.' and, if a dropped word still exists in v11, name it as the example. Otherwise reword to 'in the product model's words (feature, capability, slice, epic, plan)'."
+counts: {P1: 0, P2: 0, P3: 0, P4: 1}

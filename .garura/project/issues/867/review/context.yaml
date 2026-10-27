@@ -1,0 +1,26 @@
+{
+  "pr_number": "871",
+  "base": "plan/788/base",
+  "changed_paths": [
+    ".garura/project/issues/867/context/analysis.yaml",
+    ".garura/project/issues/867/context/branch.json",
+    ".garura/project/issues/867/context/commits.yaml",
+    ".garura/project/issues/867/context/issue.json",
+    ".garura/project/issues/867/context/plan.json",
+    ".garura/project/issues/867/context/porcelain.txt",
+    ".garura/project/issues/867/context/pr-body.md",
+    ".garura/project/issues/867/context/pr.json",
+    ".garura/project/issues/867/context/resolved-rules.json",
+    ".garura/project/issues/867/context/self-review.md",
+    ".garura/project/issues/867/context/target.json",
+    "core/components/agents/_shared/copy_memory.py",
+    "core/components/agents/_shared/memory-reading.md",
+    "core/components/agents/_shared/test_copy_memory.py"
+  ],
+  "changed_files_reported": 14,
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}

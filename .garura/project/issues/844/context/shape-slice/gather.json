@@ -1,0 +1,285 @@
+{
+  "issue": 844,
+  "intent": "bi-788",
+  "task_id": "shape-slice-gather",
+  "model_pages_read": [
+    {
+      "path": ".garura/product/product-os/intents/bi-788.md",
+      "lines": "1-25",
+      "what": "the intent page (stage proposed; asked by the product owner)"
+    },
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "lines": "1-378",
+      "what": "the spine: 0 domains, 9 capabilities and 21 features, none serving bi-788; no slices, personas or journeys"
+    },
+    {
+      "path": ".garura/product/product-os/features/fn-724/feature.md",
+      "lines": "1-63",
+      "what": "the ready rule: ready without a domain; a node with only proposed intents is not ready"
+    }
+  ],
+  "memory_lines_read": [
+    {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 3,
+      "end": 3,
+      "fingerprint": "sha256:82103c40f42af907d38611c693434cdee050a9382f0838c04a1b3c5de8e05c48",
+      "used_for": "the intent's outcome"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:e0bf1251695c0b7555e39998ea1dbf69ba8cb009be2693cdf0c77cbf4d575d3f",
+      "used_for": "the intent's why (Garura's own work)"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 7,
+      "end": 7,
+      "fingerprint": "sha256:de0d088eb3f5a54585f8dad0c95013110386f9f7a1d62b20f80df4d6a142a20b",
+      "used_for": "the asker: the product owner"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 9,
+      "end": 18,
+      "fingerprint": "sha256:2b9f97571902bac5358babd626cc4070c458feb4109f58f3444c46c4529622e5",
+      "used_for": "proof it is met and must not"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 20,
+      "end": 22,
+      "fingerprint": "sha256:8a53f38ce15a6ec7e59d818e549c7948eacaacf5b1e88294a12ea858ec496701",
+      "used_for": "the page is proposed; a person confirms it"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/features/fn-724/feature.md",
+      "start": 20,
+      "end": 21,
+      "fingerprint": "sha256:4fdd6fefe124ba86804cbd9be67ca4e768810f68637e97e1eaaf9739fcd0fdb0",
+      "used_for": "the ready rule (domain warning; proposed intent not ready)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/slice.yaml",
+      "start": 33,
+      "end": 43,
+      "fingerprint": "sha256:2ea9fd66c67e00a53b696137f64ddc1f639f529930c108b5e7639a3893d51dff",
+      "used_for": "what a slice surface holds (id, name, persona_ref, user_action)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "start": 29,
+      "end": 37,
+      "fingerprint": "sha256:44ca11bcdb00bb2a5f1059d2831e3ebbe265ecb01ec7c791ffff3b61bc44c721",
+      "used_for": "surface types: cli is a command a human runs"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-os.yaml",
+      "start": 100,
+      "end": 110,
+      "fingerprint": "sha256:db7d5ad6f3ccc9aaf443367227fd606522b2c2e79da67ede09175b3673e367dd",
+      "used_for": "a journey is a persona's ordered steps on a surface"
+    }
+  ],
+  "memory_files_copied": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:c07cbc674d46f6748637293ad96c5ad6b7841e98b02caa95464ce74639523f3c",
+      "copied_to": ".garura/project/issues/844/context/memory/standards/schemas/product-os/ontology.md",
+      "for": "author-business-intent (shape-slice-intent)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/analytics.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/analytics.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/collaboration.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/collaboration.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/content-management.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/content-management.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/ecommerce.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/experience.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/marketing.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/marketing.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/notifications.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/payments.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/personalization.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/personalization.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+      "copied_to": ".garura/project/issues/844/context/memory/knowledge/domains/user-management.md",
+      "for": "find-work-placement (shape-slice-gather)"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/slice.yaml",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:78ad9fe6245dd44be81b9e9df4da2ebe5496b3cd1066a6a7661484211d41662e",
+      "copied_to": ".garura/project/issues/844/context/memory/standards/schemas/product-os/slice.yaml",
+      "for": "shape-slice-gather: what a slice surface holds"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:d61bef3f9368ca98675f960019b64b1e5ed526d55fc57b0d367674f441d4b2e4",
+      "copied_to": ".garura/project/issues/844/context/memory/standards/rules/surface-contract.md",
+      "for": "shape-slice-gather: surface types"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/product-os.yaml",
+      "version": "1d3efd00e1e1",
+      "fingerprint": "sha256:49c05c5f9bdc2a69637f8a46050471394c6e4e1ca313500f38f2976b01b35099",
+      "copied_to": ".garura/project/issues/844/context/memory/standards/schemas/product-os/product-os.yaml",
+      "for": "shape-slice-gather: persona and journey records"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "version": null,
+      "fingerprint": "sha256:ecb0e5aa8ca6f25d264747904f1d009ace46fdb5a04b063b9cb63eb7ce0dfbc0",
+      "copied_to": ".garura/project/issues/844/context/memory/product/product-os/intents/bi-788.md",
+      "for": "shape-slice-gather: the intent page"
+    },
+    {
+      "tier": "garura",
+      "path": "product/product-os/features/fn-724/feature.md",
+      "version": null,
+      "fingerprint": "sha256:58103f97d0c0e4b0e3e0d1d696461c7aea56b5dedcecc8635f1eadebd6418ac4",
+      "copied_to": ".garura/project/issues/844/context/memory/product/product-os/features/fn-724/feature.md",
+      "for": "shape-slice-gather: the ready rule"
+    }
+  ],
+  "memory_lookups": [
+    {
+      "asked": "find **/asking-a-person.md",
+      "looked_in": [
+        "short-term",
+        "garura",
+        "phoenix"
+      ],
+      "found": "nothing in any tier (not tier_missing)",
+      "action": "memory update mu-20261024-001 raised (waiting, not blocking)"
+    },
+    {
+      "asked": "search 'shaping loop' in garura and phoenix",
+      "found": "no hits; only this issue's short-term copy of the #788 issue"
+    },
+    {
+      "asked": "search 'product owner', 'surface', 'slice', 'persona' in garura and phoenix",
+      "found": "no persona record, no slice or journey for Garura; Phoenix holds the generic slice, surface and journey schemas (older ontology v4)"
+    }
+  ],
+  "other_sources_read": [
+    {
+      "source": "tracker",
+      "ref": "#788, #794 and their sub-issues (#795 closed, #796, #798, #818, #828, #838 open)",
+      "note": "not memory; used only to name the gaps and the assumptions, never as a settled basis"
+    },
+    {
+      "source": "repo",
+      "ref": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+      "lines": "28-34, 59",
+      "note": "three plays in a row with no stop; eval kept from builders by a read rule until #828"
+    }
+  ],
+  "skills_run": [
+    {
+      "skill": "find-work-placement",
+      "out": ".garura/project/issues/844/context/shape-slice/routing-result.json",
+      "result": "unmatched: no domain shelf holds AI-assisted software delivery; no domain needed (fn-724)"
+    },
+    {
+      "skill": "find-model-gaps",
+      "out": ".garura/project/issues/844/context/shape-slice/gaps.json",
+      "result": "bi-788 is served by no capability or feature; no persona or journey exists; 30 one-way intent links elsewhere in the model, outside this slice"
+    }
+  ],
+  "what_the_model_gives": {
+    "tester": "the product owner (bi-788 lines 7, 14)",
+    "surface": "none named; ADR 049 runs three plays in a row",
+    "features": "none in the model for bi-788; the tracker names /shape-slice (#795), the plan play (#818), the eval play (#798) and the one approval step (#796)",
+    "domain": "none needed (fn-724 line 20)",
+    "serving_slice": "none: the spine has no slices"
+  },
+  "what_the_slice_lacks": [
+    "a capability for the shaping loop (#794)",
+    "four features with their ICE",
+    "a persona record for the product owner",
+    "a journey on the surface",
+    "a confirmed intent page (ready gate)"
+  ]
+}

@@ -4,7 +4,7 @@ check_behavior_preserved.py — assert behavior was proven preserved and no test
 (C2 / C3 / F2 / F3).
 
 Mechanical assertion over test artifacts already captured to disk — it does NOT run tests
-(that is the quality-auditor / test-runner layer); it only reads the verdicts and manifests
+(that is the quality-auditor layer); it only reads the verdicts and manifests
 they wrote:
 
   --baseline    baseline test verdict YAML captured BEFORE the refactor (the target's tests,

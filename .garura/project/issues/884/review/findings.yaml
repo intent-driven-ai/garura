@@ -1,0 +1,12 @@
+pr: 885
+issue: 884
+round: 3
+findings:
+- {id: N4, severity: P4, sources: [memory round 3], basis: "grounding-eval.md (base): any fail rejects the doc", finding: "A failing point whose quotes are a short changed quote (under three words) plus an unchanged content quote is a note; the rule says a quote not in the snapshot makes it a failure.", fix: "Any quote not in the snapshot makes the point a failure, whatever its length; parked in chore #874."}
+round2_fixed: "harness 3 of 3; memory 3 of 3"
+layer1:
+  quality: {ran: check-pr-quality, findings: 0}
+  lint_play: {discover-capabilities: "PASS (0 gaps)", discover-domains: "PASS (0 gaps)"}
+  lint_components: {in_changed_paths: 0, there_before: 36}
+runnable_checks:
+  - {command: "python3 -m unittest test_grounding_gate", result: "31 tests OK"}

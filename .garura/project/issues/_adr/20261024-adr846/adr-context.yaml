@@ -1,0 +1,121 @@
+# Context for the ADR draft — gathered by adr-keeper for /record-decision (#846, plan 788)
+task_id: draft-adr
+shape: markdown
+brief: .garura/project/issues/_adr/20261024-adr846/brief.md
+template: phoenix tier, standards/templates/adr.md (memory tool read, fingerprint sha256:8be7c19d17256c663a6e1648a7ecc81cf5e096ef428f31a86cdf69343262d64b)
+number: "052"        # adr.py number --dir docs/adr -> next 052, 51 taken
+file: docs/adr/052-shape-slice-writes-the-hidden-file-and-a-thin-ice-is-partly-ready.md
+title_hint: "/shape-slice Writes the Slice's Hidden File and Proposes a Thin ICE; the Plan Play Only Plans; a Thin ICE Is Partly Ready"
+status: proposed
+date: 2026-10-24
+level: framework
+decided_by: the product owner          # personas only, no real names
+decided_in: "#844 (decisions 6 and 7, the first real /shape-slice run, PR #845) and #846 (product ontology v11, the three /edit-ontology checkpoints: questions, kinds, links and rules, all agreed 2026-10-24; PR #849, whose review found DF-1 and DF-2), plan #788"
+
+overlaps:   # adr.py overlaps -> 049 (13.15), 047 (8.6), 048 (5.9); each read in full
+  - adr: "049"
+    file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    verdict: amended in part
+    parts:
+      - "§1.1 — '/shape-slice … writes nothing else: no plan, no epic, no story, no eval': /shape-slice now also writes a thin ICE for each part the slice needs that has no ICE, and the slice's hidden file. It still writes no plan, epic, story or eval. (Keeper finding: the brief and the caller name 1.2, 4 and 5; 1.1 also says the old thing, see ontology v11 Slice rules and slice.yaml fill_rules.)"
+      - "§1.2 — the plan play makes 'the slice's hidden file': it no longer does; it writes only the plan file, the epic (with its feature-to-story map) and the stories, and nothing in the evals folder"
+      - "§4 — 'The plan play reads all of each ICE, once' and 'The hidden file, written by the plan play … for each story': each ICE line has one reader — /shape-slice reads the 'Fails if' lines and writes the hidden file, one entry for each feature; the plan play reads every other line and writes the story. The eval play joins each entry to its story through the epic's feature-to-story map"
+      - "§4, last bullet — 'the story and its hidden-file entry … are made again together': in the same Alignment round, the plan play remakes the story and /shape-slice remakes the entry, from the same two ICE"
+      - "§5 — 'expectation-generation.md now gives a story its recovery': the section is renamed 'A feature's recovery (product ICE)' and says /shape-slice writes it, one entry for each feature. ADR 049's Affects and References name the old section 'A story's recovery (product ICE)'"
+      - "Consequences 'Each ICE is interpreted once, by the plan play' now reads: each line of an ICE is interpreted once, by its one reader"
+    stands: "§2 (one plan for each business intent), §3 (where the eval, hidden file and guide live — same folder, /shape-slice now makes it), the read rules for the builder and the running eval, the handoff plan, the ADR 048 and ADR 017 changes"
+  - adr: "047"
+    file: docs/adr/047-the-ice-is-its-own-node.md
+    verdict: amended in part
+    parts:
+      - "§6 'Partly ready: … gaps outside the ICE's parts … for example no domain or no identified by': partly ready also covers the thin mark (gap 'thin ICE'), which is a mark on the ICE itself"
+      - "§7 'A present part is enough to start': stands in meaning; the check now also does not count lines, and reads only the thin mark"
+      - "§8 'The richness of an ICE is assessed and reported': the ready check no longer assesses or reports richness (the light/full report is removed from check_ice_workable.py); depth is the product owner's judgment, and the only depth signal the check reads is the thin mark"
+    stands: "§1–§5 (ICE as its own node, three parts, link through its part, business intent holds no ICE, links), the not-ready rule, the business intent as the gate, no separate ICE approval"
+  - adr: "048"
+    file: docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+    verdict: not affected
+    why: "§3 'a story writes its scope of work from its feature's ICE and its capability's ICE' still holds; v11 says every line except 'Fails if', which ADR 049 already took out of the story. §2's surviving slice definition, §1, §4, §5 unchanged"
+  - adr: "017"
+    verdict: not affected
+    why: "the plans/<id>/evals/<slug>/ folder ADR 049 added to the whitelist is the same folder; only its writer changes"
+
+affects:   # real paths, checked on disk
+  landed_in_846:
+    - core/components/memory/standards/schemas/product-os/ontology.md   # v11 (commit 87d8cc37, plus one uncommitted flow-line edit)
+    - core/components/memory/standards/rules/expectation-generation.md  # section "A story's recovery (product ICE)" renamed "A feature's recovery (product ICE)" (commit 165c6d4f)
+  in_846_working_tree:
+    - core/components/memory/standards/schemas/product-os/spine.yaml    # ices metadata.thin, the thin-mark note, /shape-slice fill rule
+    - core/components/memory/standards/schemas/product-os/slice.yaml    # header and fill_rules: /shape-slice writes a thin ICE and the hidden file
+    - core/components/plays/create-play/references/check_ice_workable.py  # reads the thin mark, gap "thin ICE", no richness report
+    - core/components/plays/create-play/references/test_check_ice_workable.py
+    - core/components/plays/discover-intent/scripts/check_ice_workable.py # the copy
+  follows:
+    - core/components/plays/shape-slice/   # its /edit-play change: ICE source reference/ice.md, SKILL.md and scripts; today its description still says it writes no eval-side file and adds missing ICE "marked to be deepened later" without the v11 thin mark
+    - the plan play and the eval play       # not built yet; they get their ICE when built
+  not_affected:
+    - docs/philosophy/idd-principles.md     # routing table unchanged; this keeps it holding
+    - .garura/product/product-os/intents/   # no #846 commit touches it (git log 1a117afb^..HEAD -- intents: empty)
+
+ice_impact: >
+  The product ICE keeps its three parts (ADR 047). It gains one optional mark: thin (the Thin line on
+  its page and metadata.thin: true in its spine entry), set by /shape-slice and removed by the play
+  that deepens it. Each line of an ICE has one reader: /shape-slice reads the "Fails if" lines and
+  writes the hidden file; the plan play reads every other line and writes the story. The ready
+  check's answer changes: the thin mark gives "partly ready" with the gap "thin ICE"; one mark
+  without the other is a drift gap; the light/full richness report is gone. The ICE of /shape-slice
+  changes in meaning when it is rebuilt with /edit-play; the plan play and the eval play get theirs
+  when built. No play's ICE source changes with this ADR.
+
+business_intent_check: none
+business_intent_basis: >
+  The Business Intent kind is not changed by v11 (the v11 diff touches the Slice, ICE, Plan, Epic and
+  Story kinds and their questions; the Business Intent section is unchanged). No page in
+  .garura/product/product-os/intents/ changes on #846.
+
+consequences_from_brief_and_sources:
+  positive:
+    - "/shape-slice does not stall: the hidden file is keyed by feature, and the features exist when the slice is shaped (the #844 run showed the stories do not)"
+    - "The plan play only plans and writes no failure condition, as the product owner said"
+    - "Each ICE line has one interpretation, so the hidden file and the story cannot read the same line two ways"
+    - "A person is never sent back for a missing ICE; the slice is shaped, with a warning, and the gap is listed"
+    - "The ready check stays mechanical: one mark, no line counts, no judgment"
+  negative:
+    - "Work can start on a thin ICE; a poor outcome from it is on the person who wrote it (ADR 047 §8 stands)"
+    - "The thin mark is in two places; when only one is there it is drift, and the check reports it"
+    - "The join from hidden-file entry to story depends on the epic's feature-to-story map; a missing map line breaks the join for the eval play"
+    - "Until /shape-slice is rebuilt with /edit-play and the plan and eval plays are built, the plays and the ontology say different things"
+    - "Two plays act in one Alignment round when an ICE changes"
+
+alternatives: # from the brief only
+  - "Keep the plan play as the writer of the hidden file (ADR 049 as it is) — the plan play would write failure conditions, which the product owner said it must not; the shaping splits across two plays"
+  - "Key the hidden file by story and have /shape-slice wait for the stories — the stories come after /shape-slice; it would stall"
+  - "A thin ICE with Intent only, as a new reason for partly ready (decision 7 as first worded) — with no Context and no Expectation the story has nothing to write from; the product owner chose one line in each part (checkpoint 1, C1; checkpoint 3, L1)"
+  - "Force the person back to /discover-capabilities for a part with no ICE — the product owner said never force; warn instead (decision 7)"
+
+work_this_creates:
+  - "/edit-play on /shape-slice: write the hidden file and propose a thin ICE with its mark and warning"
+  - "Build the plan play (plan file, epic with feature-to-story map, stories; nothing in evals/) and the eval play (joins entries to stories through the map)"
+  - "After acceptance: the forward pointers on ADR 049 and ADR 047"
+
+related: [ADR 047, ADR 048, ADR 049, "#788", "#844", "PR #845", "#846", "PR #849"]
+references:
+  - .garura/project/issues/_adr/20261024-adr846/brief.md
+  - .garura/project/issues/846/context/edit-ontology/decisions.json   # three checkpoints agreed
+  - .garura/project/issues/846/context/edit-ontology/draft-questions.md, draft-kinds.md, draft-links.md
+  - core/components/memory/standards/schemas/product-os/ontology.md   # v11: Slice, ICE, Plan, Epic, Story; Q33, Q34, Q36–Q40
+  - core/components/memory/standards/rules/expectation-generation.md  # "A feature's recovery (product ICE)"
+
+style: plain ASD-STE100 English; personas only ("the product owner"), no real names
+keeper_findings:
+  - "ADR 049 §1.1 also needs amending (not named in the brief): it says /shape-slice writes nothing but the link"
+  - "ADR 047 §8's 'richness is assessed and reported' is changed too: the check drops the richness report"
+
+# Added by the play after apply: apply_adr.py reads `amends`, not `overlaps` (the keeper wrote only `overlaps`).
+amends:
+  - adr: "049"
+    file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+    part: "§1.1, §1.2, §4, §5 and the Consequence 'each ICE is interpreted once, by the plan play' — /shape-slice writes the hidden file (one entry per feature) and a thin ICE; the plan play only plans"
+  - adr: "047"
+    file: docs/adr/047-the-ice-is-its-own-node.md
+    part: "§6–§8 — the thin mark makes an ICE partly ready (gap 'thin ICE'); the ready check counts no lines and reports no richness"

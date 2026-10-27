@@ -1,0 +1,1 @@
+You decide if the slice "Name a business intent, and three plays write its slice, plan and eval" shows that agents design a named piece of work. Type yes to keep it, change with what to change, or stop to undo every write. One question is still open, and it has a proposed answer for you to confirm or correct.

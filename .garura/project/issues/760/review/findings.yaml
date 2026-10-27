@@ -1,0 +1,126 @@
+findings:
+- category: code
+  severity: P3
+  path: core/components/plays/create-play/references/check_ice_workable.py
+  basis: review/code - function size
+  message: 'assess_ice runs about 55 lines and mixes four jobs: reading the ICE parts,
+    finding the capability, checking intents and needs, and building the answer. Split
+    it so each stop rule can be tested alone.'
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/create-play/references/check_ice_workable.py
+  basis: review/code - style, line length
+  message: Docstring line is 122 characters, past the file's usual width. Lines 119,
+    221 and 246 are also over 110. Wrap them. The same applies to the identical copy
+    under discover-intent/scripts.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/create-play/references/check_ice_workable.py
+  basis: review/code - input handling
+  message: The ICE page path from the spine is joined to the spine folder without
+    a check that it stays inside that folder, so a doc value such as ../../x is read.
+    Low risk because the spine is a trusted local file; keep it in mind if the spine
+    can come from elsewhere.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/create-play/references/check_ice_workable.py
+  basis: review/code - ambiguous lookup
+  message: --node matches either the ICE id or the part id and takes the first hit.
+    If an ICE id ever equals a part id, the wrong node can be returned silently. Prefer
+    an exact match on one key first.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/create-play/references/test_check_ice_workable.py
+  basis: review/tests - import placement
+  message: import json sits inside v6_tests (and again at line 249). Move it to the
+    top of the file with the other imports.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/create-play/references/test_check_ice_workable.py
+  basis: review/tests - coverage gap
+  message: No test covers an ICE whose page file cannot be read (the "cannot be read"
+    stop), a part whose ICE page has text but no labelled lines, or the v5 fallback
+    now returned through v5_answer with the new answer field. These paths are changed
+    or new in this diff.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/create-play/references/test_check_ice_workable.py
+  basis: review/tests - brittle assertion
+  message: The full-report test pins counts to 4/2/6, which breaks whenever a fixture
+    node is added. Acceptable here, but a comment naming which nodes fall in each
+    answer would make the number easier to keep right.
+  status: null
+- category: harness
+  severity: P3
+  path: core/components/plays/create-play/SKILL.md
+  basis: 'ADR 047 section 6; issue #760 Done when (needs read between capabilities)'
+  message: The rewritten paragraph tells plays to copy the script and call it on the
+    ICE, but never mentions passing --done. In the script, when --done is absent open_needs
+    returns still_open=None, no stop is raised, and a capability with open needs is
+    answered ready. A play following the paragraph literally starts work on an ICE
+    whose needs may be open. (Behaviour is inherited from v5, but ADR 047 makes it
+    a named not-ready stop.)
+  status: null
+- category: harness
+  severity: P3
+  path: core/components/plays/create-play/references/check_ice_workable.py
+  basis: ADR 047 section 6; ontology.md ICE ready check
+  message: With no --done list, needs_open is null and the answer can be "ready" with
+    an empty gaps list. Nothing in stops or gaps says that needs were not checked,
+    so the caller cannot tell "needs all done" from "needs not examined".
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/create-play/references/check_ice_workable.py
+  basis: ADR 047 section 7; design.md change 1 (parts)
+  message: read_parts treats any non-blank line under a heading as content, so a section
+    holding only an HTML comment or template placeholder passes as present. Consistent
+    with section 7 (never judge), but worth recording as accepted behaviour; the richness
+    report (all lines missing -> light) is the only signal.
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/create-play/references/check_ice_workable.py
+  basis: 'plan/756/base spine.yaml comment above ices; issue #760 Done when last bullet'
+  message: 'The switch is `spine.get("ices") is not None`, so an explicit empty `ices:
+    []` selects the v6 path and answers every capability and functionality "not ready:
+    has no ICE". This matches the letter of "has an ices list" but a model that writes
+    an empty list while mid-migration would stop all work. Acceptable under ADR 047
+    (a part with no ICE is not ready); confirm intended.'
+  status: null
+- category: harness
+  severity: P4
+  path: core/components/plays/create-play/SKILL.md
+  basis: 'base SKILL.md paragraph (unchanged intent); issue #760 Done when (exit 2
+    = unknown node or unreadable input)'
+  message: The paragraph says "a non-zero exit skips that node". Exit 2 (unreadable
+    spine, unknown node) is an input fault, not a not-ready answer, yet it is treated
+    the same as exit 1. Carried over from the base wording; not introduced by this
+    change.
+  status: null
+- category: memory
+  severity: P4
+  path: null
+  basis: 'plan/756/base:spine.yaml tree-rules block, whose header still reads ''ready
+    rule changed by ontology v5 / #724'' and whose body states only the v5 rule'
+  message: The new v6 comment is appended after the v5 rule; the block header still
+    names only v5. It reads correctly, but a reader of the header alone may miss v6.
+    Optional wording tidy, not a conformance break.
+  status: null
+- category: run-records
+  severity: P4
+  path: .garura/project/issues/760/
+  basis: 'categories.yaml: playbook missing'
+  message: No review playbook for STM run records.
+  status: null
+runnable_checks: "test_check_ice_workable:\n41 passed, 0 failed\ndiscover-intent test_intent_scripts:\n\
+  116 passed, 0 failed, 0 skipped\ncopies identical:\n yes\nlint-components:\n  {'errors':\
+  \ 121, 'warnings': 2, 'infos': 0}\ngarura model before -> after:\n  before workable\
+  \ 30 not 0\n  after workable 30 not 0 {'ready': 0, 'partly_ready': 30, 'not_ready':\
+  \ 0}\n"

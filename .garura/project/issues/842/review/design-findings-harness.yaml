@@ -1,0 +1,46 @@
+category: harness
+round: 2
+grounding_base: plan/788/base
+principles:
+  - id: G1
+    text: "An agent only gathers context and checks; a skill does the work (agent = context, skill = artifact production)"
+    source: "CLAUDE.md Behavioral Rule 4; plan/788/base:core/components/plays/edit-play/references/agent-audit.md P7 (and the P1-P11 set)"
+    result: "held - all 11 agent contracts in shape-slice/SKILL.md say 'Gather and pass on only' and name a skill in 'skills'; the one with no skill (Step 10b, record the live decisions) is memory-tool cites only, with the question and answer the skill wrote left unchanged. product-os-keeper.md now says every choice, draft and decision is made by a named skill and that a missing skill returns step_failure; it never says the agent reshapes output."
+  - id: G2
+    text: "Each skill that does the work is named, exists, and does only its part; a skill reads only what its agent put in short-term memory"
+    source: "CLAUDE.md Rule 4 and Data Flow; .claude/rules/garura-memory.md; agent-audit.md P7"
+    result: "held - the five new skills (author-slice, find-slice-gaps, enrich-grounding, author-slice-brief, author-failure-recovery) each have name, description, user-invocable false, model, allowed-tools Read/Write, and Input / Process / Output / Rules; none searches memory or the web; the old skills' changes are additive modes (one-intent, profile false, depth directional)"
+  - id: G3
+    text: "Agent audit P1-P11 for product-os-keeper on the changed dispatches"
+    source: "plan/788/base:core/components/plays/edit-play/references/agent-audit.md"
+    result: "held for P1 (every dispatch is now a JSON contract, including the early brief), P2, P4 (step_failure), P5, P6, P7, P9. Not re-judged: P8, P10, P11, which this change did not touch."
+  - id: G4
+    text: "An intent change goes through reference/ice.md and a recompile"
+    source: "CLAUDE.md Play Pipeline Rules"
+    result: "held - SKILL.md fingerprint sha256:26376011...aaca4 is the one the play declares for reference/ice.md; the agent-only-gathers rule is carried as C19/F19/S and SE-25"
+  - id: G5
+    text: "A builder, a building skill and the build context sub-agent never read a plan's evals folder; the ids never leave the eval folder"
+    source: "docs/adr/049 section 4; ontology.md v11 Hidden file row"
+    result: "held - the working copies are now cleared after check passes (write_hidden_file.py --clear-working, Step 8b)"
+round1_status:
+  - id: DF-1
+    status: fixed
+    note: "The early-brief eval is now SE-24 and the final-brief eval is SE-6; ids SE-1..SE-25 each appear once, and the metadata says 25 step evals."
+  - id: DF-2
+    status: fixed
+    note: "Step 8b writes hidden-lines.json and hidden-recoveries.json only to be checked, then write_hidden_file.py write clears both (--clear-working); SKILL.md says the result's 'cleared' names them."
+  - id: DF-3
+    status: fixed
+    note: "The early brief opening is now written by the new skill author-slice-brief (Step 5 contract, skills list), no agent-written prose; skills_missing reads 'none'."
+counts: {P1: 0, P2: 0, P3: 0, P4: 1, total: 1}
+findings:
+  - id: DF-4
+    severity: P4
+    file: core/components/plays/shape-slice/SKILL.md
+    where: "Compilation Metadata, skills_used row"
+    finding: "The row ends with 'author-failure-recovery (author-slice, find-slice-gaps, author-slice-brief, enrich-grounding and author-failure-recovery built for this play, #842)'. The bracket lists the five new skills but hangs on the last skill's name, so it reads as if those were what author-failure-recovery uses. Also, the tests row lists 7 test files while the work holds 6 under shape-slice/scripts plus the create-play one; the counts do not obviously agree."
+    principle: "Naming clarity: a record says what it means (a metadata row a reader or a later rebuild relies on)"
+    basis: "CLAUDE.md, Challenge principle 5 (naming clarity); CLAUDE.md Play Pipeline Rules (the compiled file is read whole on every run)"
+    fix: "Direct edit to SKILL.md metadata (non-intent): move the bracket to its own words, 'new for this play: ...', and make the tests row match the files. Record in the commit, not in the file."
+no_findings_note: "The key principle held: no dispatch asks the agent to choose, draft or decide. Every contract names the skill that does the work, tells the agent to pass the skill's file on as it is, and splits the mechanical work (writing files, the spine, the hidden file, the brief layout) to play scripts. A missing skill is a step_failure, not agent work."
+playbook_gaps: "none for harness"

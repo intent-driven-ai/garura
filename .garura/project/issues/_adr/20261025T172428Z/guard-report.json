@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261025T172428Z/adr-check.json",
+    ".garura/project/issues/_adr/20261025T172428Z/adr-context.yaml",
+    ".garura/project/issues/_adr/20261025T172428Z/adr-draft.md",
+    ".garura/project/issues/_adr/20261025T172428Z/adr-manifest.json",
+    ".garura/project/issues/_adr/20261025T172428Z/brief.md",
+    ".garura/project/issues/_adr/20261025T172428Z/context/templates/manifest-record-decision.json",
+    ".garura/project/issues/_adr/20261025T172428Z/context/templates/standards/templates/adr.md",
+    ".garura/project/issues/_adr/20261025T172428Z/decision.yaml",
+    ".garura/project/issues/_adr/20261025T172428Z/hashes-before.json",
+    ".garura/project/issues/_adr/20261025T172428Z/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261025T172428Z/run.json",
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md",
+    "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

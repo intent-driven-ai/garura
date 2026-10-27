@@ -1,6 +1,6 @@
 # RCA Approved Issue-Comment Template
 
-Canonical format for the GitHub issue comment posted when a user approves (Tethers) an RCA + fix plan at the fix-it approval checkpoint (or any play that produces an RCA and wants to mirror the approval decision back to the originating issue).
+Canonical format for the GitHub issue comment posted when a user approves an RCA + fix plan at the fix-it approval checkpoint (or any play that produces an RCA and wants to mirror the approval decision back to the originating issue).
 
 Consumers: `fix-it` (primary), any future play that produces `rca.yaml` + `design.yaml` and gates on user approval.
 
@@ -84,5 +84,5 @@ Invoke the `platform-adapter` skill with `verb: comment-issue` and `args: {issue
 ## Related Templates
 
 - `github-issue.md` — initial issue creation (not comment)
-- `approval-prompt.md` — the Tether/Orbit/Vanish surface that triggers this comment
-- `checkpoint.md` — the parallel STM checkpoint artifact scriber writes on the same Tether event
+- `approval-prompt.md` — the checkpoint prompt; a `yes` reply to it triggers this comment
+- `checkpoint.md` — the parallel STM checkpoint artifact the play writes on the same approval

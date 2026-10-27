@@ -55,7 +55,7 @@ def write(path, text):
 
 SPINE = """domains: []
 capabilities: []
-functionalities: []
+features: []
 slices:
   - id: slice-checkout
     slug: checkout
@@ -135,7 +135,7 @@ def test_domain_stages():
         write(os.path.join(root, "commerce", "domain.md"), LIGHT_DOMAIN)
         entry = ("domains:\n  - id: dom-commerce\n    slug: commerce\n    status: proposed\n"
                  "    detail: {}\n    one_line: Selling to shoppers\n    doc: commerce/domain.md\n"
-                 "capabilities: []\nfunctionalities: []\n")
+                 "capabilities: []\nfeatures: []\n")
         check("the spine's `detail: directional` on a domain is honoured",
               spine_errors(root, entry.format("directional")) == [])
         check("the spine's `detail: detailed` on a light domain page is an error",
@@ -169,7 +169,7 @@ def lint_warnings(text, **kw):
 
 
 def test_agent_intent_section():
-    for kind in ("capability", "functionality"):
+    for kind in ("capability", "feature"):
         with open(os.path.join(LENS_TEMPLATES, "..", f"{kind}.md"), encoding="utf-8") as fh:
             golds = re.findall(r"```markdown\n(.*?)\n```", fh.read(), re.DOTALL)
         errors = []
@@ -201,7 +201,7 @@ def test_agent_intent_section():
         spine = ("domains:\n  - {id: dom-commerce, slug: commerce, detail: directional, one_line: Selling, "
                  "doc: commerce/domain.md}\ncapabilities:\n  - {id: cap-checkout, slug: checkout, domain: "
                  "dom-commerce, detail: directional, one_line: Paying, doc: commerce/checkout/capability.md%s}\n"
-                 "functionalities: []\n")
+                 "features: []\n")
         write(os.path.join(root, "_spine.yaml"), spine % ", intents: [guest-checkout]")
         errors, warnings = [], []
         lg.check_spine(root, os.path.join(root, "_spine.yaml"), errors, warnings, {})

@@ -1,0 +1,33 @@
+round: 3
+findings:
+- category: product-model
+  severity: P3
+  id: M1
+  kind: known-decision
+  status: open -- closes when the ontology and ADR change lands
+  path: .garura/product/product-os/software-delivery-planning/{cap-718,shape-slice}/capability.md;
+    software-delivery-planning/{cap-718/fn-818,shape-slice/fn-795}/feature.md; .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  basis: PM1 + PM2
+  message: Unchanged and open by design. The hidden file is written by /shape-slice
+    (decision 6) and holds one entry per feature (decision 7), against ontology v10
+    and ADR 049 on base (the plan play writes it; one entry per story). Re-check once
+    the ontology change is merged.
+- category: product-model
+  severity: P3
+  id: N3
+  path: .garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md;
+    .garura/product/product-os/_spine.yaml (fn-728 one_line)
+  basis: PM4 (a capability and a feature have no tracker issue; only the epic and
+    the stories do), same reason as M6
+  message: 'KNOWN, left open by the team. fn-728 (a bi-717 feature) says ''a tracker
+    issue for every node'' in its title and spine line. Its body is worse than the
+    title: ''every business intent, capability, feature, spike, chore and bug ...
+    gets an issue'', and its ICE says ''a node has no issue'' is a failure. This now
+    sits in the same folder as cap-718, whose first Goal and Fails-if were changed
+    to the opposite rule. A reader of cap-718 gets two rules. The page is moved with
+    its text unchanged, so this PR did not make it wrong, and the product owner''s
+    yes covered only cap-718''s two lines; so P3, not P2. Fix: a later change to fn-728
+    (title, body, ICE, spine line), or a plain note on fn-728 that the old words are
+    out of date, as cap-718 has. Do not fix by hand in this PR without the product
+    owner''s yes.'
+  status: open

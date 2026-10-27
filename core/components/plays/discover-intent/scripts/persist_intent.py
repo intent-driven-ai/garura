@@ -25,7 +25,7 @@ the wrong shape; both or neither of --confirmation and --proposed are given; (by
 decisions are not the person's own typed replies, any drafted intent has no decision, or none
 is confirmed; a saved intent misses a required property; an id is badly shaped (ids become
 file names, so only lower-case letters, digits and dashes) or repeated; the draft carries ICE,
-domains, capabilities or functionalities (another play writes those kinds); a Source has no
+domains, capabilities or features (another play writes those kinds); a Source has no
 snapshot or no "what it shows"; or an intent page already exists. Only a person confirms (C4) —
 by hand here, or at a loop's final review. No git, no network, no LLM.
 
@@ -58,6 +58,7 @@ import sys
 import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
 import intent_touches as touches  # noqa: E402
 
 REQUIRED = ("title", "outcome", "why", "asked_by", "proof")
@@ -73,6 +74,7 @@ def load_mapping(path, what):
     try:
         with open(path, encoding="utf-8") as fh:
             data = yaml.safe_load(fh) if not path.endswith(".json") else json.load(fh)
+        model_names.check_model(data, path)
     except (OSError, ValueError, yaml.YAMLError) as exc:
         raise Refused(f"cannot read the {what} ({path}): {exc.__class__.__name__}") from exc
     if not isinstance(data, dict):
@@ -163,7 +165,7 @@ def plan(args):
             raise Refused(f"the Source at {s['snapshot_dir']} has no 'what it shows' — re-draft "
                           f"before saving")
 
-    for key in ("ice", "domains", "capabilities", "functionalities"):
+    for key in ("ice", "domains", "capabilities", "features"):
         if draft.get(key):
             raise Refused(f"the draft carries `{key}` — /discover-intent writes business intents only "
                           f"(ADR 043); another play writes that kind")

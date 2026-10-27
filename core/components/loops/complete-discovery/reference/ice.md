@@ -7,7 +7,7 @@ criteria and the runner design (`.garura/project/issues/613/specs/runner-design.
 ## Intent
 
 **Goal:** from a working prototype and the person's short write-up, end with business intents
-the person has decided, the domains the product sits in, its capabilities and functionalities
+the person has decided, the domains the product sits in, its capabilities and features
 — each read from the screens on its own and all of them linked — on one issue and one branch,
 asking the person only what none of its plays, memory or approved research answers, and
 checked by a checker the config picks (ADR 043).
@@ -29,13 +29,13 @@ checked by a checker the config picks (ADR 043).
   `prototype-reader` agent, and hands that one capture and the write-up to every play. The
   loop reads no memory itself (ADR 039); its plays' agents do.
 - C4 — The plays read the prototype independently and each writes one kind (ADR 043):
-  `/discover-intent` business intents, `/discover-domains` domains, `/discover-capabilities` capabilities and functionalities
+  `/discover-intent` business intents, `/discover-domains` domains, `/discover-capabilities` capabilities and features
   with their ICE. No play takes another play's output as its input, so their readings are
   independent and their agreement is the check. They run **in rounds, until the loop's job is
   done** (Kapil, 2026-10-20: "the idea of a drive is to have it loop between those three things
   until the job is getting done"): after each round the loop has the model's gaps found and
   closed (`find-model-gaps`, `link-model-gaps`, through `product-os-keeper`) — every
-  functionality linked to its capability, every capability to its domain, each node to the
+  feature linked to its capability, every capability to its domain, each node to the
   intents it serves, duplicates merged — and gives the work still missing to the play that does
   it; the next round runs only those plays, on exactly that work (Kapil, 2026-10-21: "The whole
   point of a drive is that these loops are closed … connecting the three meaningfully so that
@@ -106,7 +106,7 @@ in turn.
 |------|--------|--------------------------|----------------------------|
 | intent | business intents | `argument` — the prototype; `capture`; `write_up`; on a later round `targets` | `may_change_data` (a link) |
 | vision | domains | `capture`; `write_up`; on a later round `targets` | — |
-| understand | capabilities and functionalities, with their ICE | `capture`; `write_up`; on a later round `targets` | — |
+| understand | capabilities and features, with their ICE | `capture`; `write_up`; on a later round `targets` | — |
 
 ## Questions first
 

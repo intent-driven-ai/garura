@@ -8,14 +8,14 @@ new content:
    other's `intents` onto it, point its children at it, remove its spine entry and its page,
    and point every intent page's link to its page at the kept page.
 2. **Attribute** (`links_to_make[]` with `field: domain | capability`): set a capability's
-   `domain` or a functionality's `capability`. A node whose page is in a holding folder
-   (`capabilities/<id>/`, `functionalities/<id>/`) moves — its whole folder, byte for byte —
+   `domain` or a feature's `capability`. A node whose page is in a holding folder
+   (`capabilities/<id>/`, `features/<id>/`) moves — its whole folder, byte for byte —
    under its parent's folder; the spine `doc` of it and of everything inside follows, and the
    links to it on intent pages follow.
 3. **Link to intents** (`links_to_make[]` with `field: intents`): add the intent ids to the
    node's spine `intents`, and the node to each intent page's Touches list (both sides).
 
-It never writes an intent's content, never writes a new capability or functionality page,
+It never writes an intent's content, never writes a new capability or feature page,
 and deletes nothing but a merged duplicate. It writes only inside `<product_base>product-os/`:
 every path is checked before it is written, moved or removed, and a link that would reach
 outside is skipped, not applied. The report lists every file it changed (`changed`). What needs a play — the `work[]` list — is copied
@@ -38,8 +38,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import intent_touches as it  # noqa: E402
 
-SECTIONS = {"domain": "domains", "capability": "capabilities", "functionality": "functionalities"}
-HOLDING = {"capability": "capabilities", "functionality": "functionalities"}
+SECTIONS = {"domain": "domains", "capability": "capabilities", "feature": "features"}
+HOLDING = {"capability": "capabilities", "feature": "features"}
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
 
 
 class OutOfScope(ValueError):
@@ -53,6 +56,7 @@ class Model:
         self.spine_path = os.path.join(self.root, "_spine.yaml")
         with open(self.spine_path, encoding="utf-8") as fh:
             self.spine = yaml.safe_load(fh) or {}
+        model_names.check_spine(self.spine, self.spine_path)
         self.intents_dir = os.path.join(self.root, "intents")
 
     def guard(self, path):
@@ -122,7 +126,7 @@ def move_under(m, kind, entry, parent_doc, report):
         return
     os.makedirs(os.path.dirname(os.path.join(m.root, new_dir)), exist_ok=True)
     shutil.move(os.path.join(m.root, old_dir), os.path.join(m.root, new_dir))
-    for k in ("capability", "functionality"):
+    for k in ("capability", "feature"):
         for e in m.entries(k):
             doc = str(e.get("doc") or "")
             if doc == old_dir or doc.startswith(old_dir + "/"):
@@ -142,7 +146,7 @@ def merge(m, d, report):
         if doc:
             m.guard(os.path.join(m.root, doc))
     keep["intents"] = sorted(set(keep.get("intents") or []) | set(drop.get("intents") or []))
-    child = {"domain": ("capability", "domain"), "capability": ("functionality", "capability")}.get(kind)
+    child = {"domain": ("capability", "domain"), "capability": ("feature", "capability")}.get(kind)
     if child:
         for e in m.entries(child[0]):
             if e.get(child[1]) == drop_id:
@@ -161,7 +165,7 @@ def merge(m, d, report):
 
 def attribute(m, link, report):
     kind, nid, field, value = link.get("kind"), link.get("id"), link.get("field"), link.get("value")
-    parent_kind = {"capability": "domain", "functionality": "capability"}.get(kind)
+    parent_kind = {"capability": "domain", "feature": "capability"}.get(kind)
     entry = m.get(kind, nid) if kind in SECTIONS else None
     if not entry or field != parent_kind:
         report["skipped"].append({"id": nid, "why": f"cannot set `{field}` on a {kind or 'unknown node'}"})

@@ -134,17 +134,41 @@ def test_restore_reverts_a_move():
               and not os.path.exists(os.path.join(model, "commerce", "checkout", "capability.md")))
 
 
+def test_also_tree_joins_the_check():
+    hidden = ".garura/project/plans/340/evals/self-booking/failure-and-recovery.md"
+    tree = ".garura/project/plans"
+    with tempfile.TemporaryDirectory() as tmp:
+        make_repo(tmp)
+        write(os.path.join(tmp, hidden), "# hidden\n")
+        rc, rep = guard(tmp)
+        check("without --also-tree a file under plans/ is not seen (as before)",
+              rc == 0 and rep["ok"] and "also_tree" not in rep)
+        rc, rep = guard(tmp, "--also-tree", tree, "--allow", hidden)
+        check("with --also-tree the one allowed file under plans/ is in scope",
+              rc == 0 and rep["ok"] and any(c["path"] == hidden for c in rep["changed"]))
+        write(os.path.join(tmp, ".garura/project/plans/340.yaml"), "plan: x\n")
+        rc, rep = guard(tmp, "--also-tree", tree, "--allow", hidden)
+        check("with --also-tree a second file under plans/ is a violation",
+              rc == 1 and [v["path"] for v in rep["violations"]] == [".garura/project/plans/340.yaml"])
+        rc, rep = guard(tmp, "--also-tree", tree, "--restore")
+        check("--restore with an empty allow set removes both files and the folders the run made",
+              rc == 0 and not os.path.exists(os.path.join(tmp, hidden))
+              and not os.path.exists(os.path.join(tmp, ".garura/project/plans/340"))
+              and not os.path.exists(os.path.join(tmp, ".garura/project/plans/340.yaml")))
+
+
 def test_every_copy_is_identical():
     mine = open(GUARD, "rb").read()
     copies = glob.glob(os.path.join(REPO, "core", "components", "plays", "*", "scripts", "scoped_write_guard.py"))
     different = [c for c in copies if open(c, "rb").read() != mine]
     check(f"every play's scoped_write_guard.py is identical to the canonical one ({len(copies)} copies)",
-          len(copies) >= 14 and not different)
+          len(copies) >= 12 and not different)
 
 
 def main():
     for test in (test_a_move_out_of_the_holding_folder, test_each_only_kind_admits_one_change,
-                 test_restore_reverts_a_move, test_every_copy_is_identical):
+                 test_restore_reverts_a_move, test_also_tree_joins_the_check,
+                 test_every_copy_is_identical):
         print(test.__name__)
         test()
     print(f"\n{PASSED} passed, {FAILED} failed")

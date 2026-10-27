@@ -4,8 +4,8 @@ description: Generate testable verification evaluations from spec inputs (produc
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Bash
-deprecated: true
-deprecated_note: '#434 ProductOS realignment — superseded by the command model; retained for Phase E reference, not installed'
+stale: true
+stale_note: 'waits for the rebuild of the eval skills of /build-epic (#855); evals-engineer no longer dispatches it, and the evals are not encrypted (#828 dropped, ADR 057)'
 ---
 
 # author-encrypted-evals

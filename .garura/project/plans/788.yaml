@@ -15,7 +15,7 @@ branch: plan/788/base
 identified_by:
 - 756
 returns_to: 756
-updated: '2026-10-25'
+updated: '2026-10-27'
 tree:
 - issue: 792
   kind: capability
@@ -49,72 +49,11 @@ tree:
     title: Archive or remove the retired intent-epic pipeline and its feature-catalog names
     status: done
 - issue: 794
-  kind: capability
+  kind: epic
   represents: sl-intent-to-design
   title: The shaping loop turns a business intent into a testable slice, its plan and its eval
   status: now
   children:
-  - issue: 816
-    kind: feature
-    title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
-    status: done
-    needs:
-    - 807
-  - issue: 817
-    kind: feature
-    title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
-    status: done
-  - issue: 820
-    kind: feature
-    title: One shared rule for how a play asks a person a question
-    status: done
-  - issue: 826
-    kind: bug
-    title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
-    status: done
-    needs:
-    - 816
-  - issue: 828
-    kind: feature
-    title: Encrypt each slice's eval and hidden file so a builder cannot read them
-    status: next
-    needs:
-    - 798
-    - 842
-  - issue: 824
-    kind: chore
-    title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
-    status: done
-    needs:
-    - 826
-  - issue: 829
-    kind: chore
-    title: The spine's slice entry names the business intents the slice serves
-    status: done
-    needs:
-    - 824
-  - issue: 830
-    kind: chore
-    title: 'managing-work.md follows ADR 049: one plan per intent, no slice picking'
-    status: done
-    needs:
-    - 824
-  - issue: 821
-    kind: feature
-    title: 'Lint: a play that asks a person must point to the asking-a-person rule'
-    status: done
-    needs:
-    - 820
-  - issue: 825
-    kind: chore
-    title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
-    status: done
-    needs:
-    - 820
-  - issue: 854
-    kind: chore
-    title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
-    status: done
   - issue: 795
     kind: feature
     represents: fn-795
@@ -124,35 +63,28 @@ tree:
     - 816
     - 817
     - 826
-  - issue: 836
-    kind: chore
-    title: 'Drop /next: the plan is the work list (ADR 051)'
-    status: done
-  - issue: 842
-    kind: bug
-    title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
-    status: done
-    needs:
-    - 795
-  - issue: 837
-    kind: chore
-    title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
-    status: done
-    needs:
-    - 795
-  - issue: 838
-    kind: feature
-    title: An author-slice skill picks the slice's features, surface and tester
-    status: done
-    needs:
-    - 795
   - issue: 798
     kind: feature
     represents: fn-798
     title: "The eval play (/shape-eval) writes the slice's eval: is the business intent met, tested on the slice's surface"
-    status: next
+    status: done
     needs:
     - 818
+    children:
+    # #908 is a story of business intent #904, built inside this change (PR #911 merged into the #798 branch).
+    - issue: 908
+      kind: feature
+      title: '/shape-slice --edit: a person changes the slice record or an entry of its hidden file'
+      status: done
+      children:
+      - issue: 913
+        kind: chore
+        title: The findings left by the PR #911 review (the slice play's edit option)
+        status: later
+    - issue: 912
+      kind: chore
+      title: The findings left by the PR #900 review (the eval play and the slice play)
+      status: later
   - issue: 818
     kind: feature
     represents: fn-818
@@ -168,20 +100,113 @@ tree:
     - issue: 875
       kind: bug
       title: '/shape-plan files the Epic with issue type Feature; a slice''s Epic must be type Epic (P1)'
-      status: next
+      status: done
+      children:
+      - issue: 892
+        kind: chore
+        title: 'The two medium findings left by the PR #891 review: amend ADR 048, and separate kind from finding in Q20'
+        status: done
       needs:
       - 876
     - issue: 879
       kind: bug
-      title: '/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice''s stories'
-      status: next
-  - issue: 796
+      title: '/shape-plan stops when an epic holds work that is not its slice''s: an epic stands for one slice'
+      status: done
+  - issue: 898
     kind: feature
-    title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
+    represents: fn-898
+    title: 'Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval'
     status: next
-    needs:
-    - 798
-    - 818
+- issue: 895
+  kind: chore
+  title: 'The open points left by the PR #894 review: where misplaced work sits until a play places it, and blocker work as its own slice'
+  status: next
+# Moved out from under epic #794 on 2026-10-26 (#879): not stories of its slice. Each is filed as its own
+# story, bug or chore; /shape-slice and /shape-plan place them when they run.
+- issue: 816
+  kind: feature
+  title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
+  status: done
+  needs:
+  - 807
+- issue: 817
+  kind: feature
+  title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
+  status: done
+- issue: 820
+  kind: feature
+  title: One shared rule for how a play asks a person a question
+  status: done
+- issue: 826
+  kind: bug
+  title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
+  status: done
+  needs:
+  - 816
+- issue: 824
+  kind: chore
+  title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
+  status: done
+  needs:
+  - 826
+- issue: 829
+  kind: chore
+  title: The spine's slice entry names the business intents the slice serves
+  status: done
+  needs:
+  - 824
+- issue: 830
+  kind: chore
+  title: 'managing-work.md follows ADR 049: one plan per intent, no slice picking'
+  status: done
+  needs:
+  - 824
+- issue: 821
+  kind: feature
+  title: 'Lint: a play that asks a person must point to the asking-a-person rule'
+  status: done
+  needs:
+  - 820
+- issue: 825
+  kind: chore
+  title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
+  status: done
+  needs:
+  - 820
+- issue: 854
+  kind: chore
+  title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
+  status: done
+- issue: 836
+  kind: chore
+  title: 'Drop /next: the plan is the work list (ADR 051)'
+  status: done
+- issue: 842
+  kind: bug
+  title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
+  status: done
+  needs:
+  - 795
+- issue: 837
+  kind: chore
+  title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
+  status: done
+  needs:
+  - 795
+- issue: 838
+  kind: feature
+  title: An author-slice skill picks the slice's features, surface and tester
+  status: done
+  needs:
+  - 795
+- issue: 796
+  kind: feature
+  title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
+  status: next
+  needs:
+  - 798
+  - 818
+# Dropped on 2026-10-26: #828 (encrypt the evals; not planned — the ICE and the model are plain text anyway, so the build is given the intent, never the eval; replaced by #898).
 # Dropped on 2026-10-24: #831 (not planned; replaced by #854).
 # Not in this plan (standalone): #839 (review the agent's memory), #843 (a sandbox install scope), #847 (check-change's
 # review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan
@@ -234,6 +259,18 @@ tree:
     kind: chore
     title: 'The findings left by the PR #873 review (the plan play)'
     status: later
+  - issue: 902
+    kind: bug
+    title: '/check-change reports findings in a form a person cannot act on; add a generic defect template'
+    status: later
+  - issue: 903
+    kind: bug
+    title: "The GitLab instructions for the platform adapter's pr-files command use an undefined placeholder"
+    status: later
+  - issue: 914
+    kind: bug
+    title: "Run records carry the person's home-folder paths, so every change publishes their user name and disk layout"
+    status: later
   - issue: 888
     kind: bug
     title: 'The change plays push with no scan for client, company or personal references'
@@ -267,11 +304,6 @@ tree:
   kind: chore
   title: 'Record cap-initialize in the product model with /discover-capabilities (#862, #881)'
   status: done
-  children:
-  - issue: 887
-    kind: bug
-    title: "/discover-capabilities drops the capability's slug when it writes the spine"
-    status: done
 - issue: 884
   kind: bug
   title: 'The content judge passes a page and then fails the same page unchanged, so a model run cannot finish'

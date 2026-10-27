@@ -24,8 +24,8 @@ Receive from the agent:
 | `context_path` | `create`, `update` | the plan context file the agent wrote (see below) |
 | `change` | `update` | what happened, in plain words — e.g. "item 2 is finished", "Kapil moved #619 to the front", "item 4 is dropped: covered by #612" |
 | `report_path` | yes | where to write the check report (e.g. `{stm_base}{issue}/context/plan-check.json`) |
-| `template_path` | no | the work-plan format; default `~/.garura/core/memory/standards/templates/work-plan.md` |
-| `rules_path` | no | the work-plan rules; default `~/.garura/core/memory/standards/rules/work-plan.md` |
+| `template_path` | yes | the work-plan format: the short-term copy of `standards/templates/work-plan.md` that the agent got from template-manager |
+| `rules_path` | yes | the work-plan rules: the short-term copy of `standards/rules/work-plan.md` that the agent fetched through the memory tool |
 
 The **plan context file** (written by the agent, YAML or JSON) holds:
 
@@ -41,7 +41,7 @@ The **plan context file** (written by the agent, YAML or JSON) holds:
 
 ## Process
 
-Read both files first, every time: the format at `template_path` and the rules at `rules_path` (defaults in Input). They are the single source; this skill applies them and never restates them. A work plan is not `/build-feature`'s build plan.
+Read both files first, every time: the format at `template_path` and the rules at `rules_path` (defaults in Input). They are the single source; this skill applies them and never restates them. A work plan is not the build plan of an epic.
 
 ### Action: `create`
 

@@ -1,0 +1,56 @@
+---
+# find-matching-issues output (read-only on GitHub; issue 879 read via track-issue -> platform-adapter view-issue)
+branch: plan/788/879-shape-plan-rerun
+branch_signal:
+  issue_reference: 879
+  also_in_branch: 788   # the plan id (the business intent's issue), not the work item
+  note: "plan/<plan-id>/<issue>-<slug>: 788 is the plan, 879 is the issue the branch works. The play's resolver read 788; the work item is 879."
+
+resolved_issue:
+  number: 879
+  title: "/shape-plan stops when an epic holds work that is not its slice's: an epic stands for one slice"
+  type: Bug
+  state: open
+  parent: {number: 818, state: closed}
+  url: https://github.com/intent-driven-ai/garura/issues/879
+  tree_available: true
+
+mappings:
+  - group: shape-plan-run-records
+    commit_type: chore
+    scope: stm
+    mapped_issue: 879
+    confidence: high
+    signals:
+      branch: match
+      semantic: "Records of the /shape-plan 788 re-run (approval, brief, drafts, gather, work-items), kept in issues/879/context/. The issue's last 'Done when' item is '/shape-plan 788 runs again and closes COMPLETED'; the branch slug is 'shape-plan-rerun'."
+      proximity: "Same issue as the dry-run group; both are run records of that one re-run."
+    reasoning: "Branch names 879, the files sit in #879's own short-term memory folder, and they are the run record of the re-run #879 asks for."
+
+  - group: shape-plan-dry-run-simulation
+    commit_type: chore
+    scope: stm
+    mapped_issue: 879
+    confidence: high
+    signals:
+      branch: match
+      semantic: "Dry-run simulation of /shape-plan 788 under issues/879/simulation/; it rehearses the re-run named in #879's 'Done when' (plan check, tracker check, guard report)."
+      proximity: "Same issue as the run-records group."
+    reasoning: "Branch names 879, the files sit under #879's folder, and the simulation is the rehearsal of the same re-run."
+
+unmapped_groups: []
+conflicts: []
+excluded_not_mapped:
+  - path: .garura/project/issues/879/context/analysis.yaml
+    reason: "the analysis excluded it: run state, committed by the final run-state chore(stm) commit; not a group"
+  - path: .garura/project/issues/879/context/porcelain.txt
+    reason: "same as above"
+
+summary:
+  total_groups: 2
+  high: 2
+  medium: 0
+  low: 0
+  unmapped: 0
+  approval_recommended: false
+  commit_issue: 879

@@ -1,0 +1,9 @@
+lint_play edit-ontology:
+VERDICT: PASS (0 gap(s))
+lint-components: before {'errors': 121, 'warnings': 2, 'infos': 0} after:
+  {'errors': 121, 'warnings': 2, 'infos': 0}
+linter tests:
+ pass naming.test.js
+ pass skill-invocable.test.js
+edit-ontology script tests:
+11 passed, 0 failed

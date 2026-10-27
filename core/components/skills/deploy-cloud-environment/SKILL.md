@@ -5,6 +5,8 @@ version: 0.1.0
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Bash, Grep, Glob
+stale: true
+stale_note: 'waits for the rebuild of /release-increment (#855)'
 ---
 
 # deploy-cloud-environment
@@ -20,7 +22,7 @@ A **deploy record** (`deploy.json`) capturing the run: the target environment, i
 result, and the secrets-manager binding used (never the secret values). On a failed deploy the record
 also carries `prior_state_left: true` — the environment was left as it was, not half-deployed.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -30,7 +32,7 @@ also carries `prior_state_left: true` — the environment was left as it was, no
 | `record_out` | yes | Path to write the deploy record (`deploy.json`). |
 | `mode` | no | `up` (default — deploy) or `down` (tear down a prior deploy of this env). |
 
-## Procedure
+## Process
 
 1. **Read the target environment.** Load the named `environment` from `run.yaml`. Take its `cloud`
    block: provider, region, `compute` (per-component service + deploy kind), `services`, `networking`
@@ -55,7 +57,9 @@ On any failure during 3–4, stop, leave the environment in its prior state (tea
 so nothing is half-deployed), set `status: failed` and `prior_state_left: true`, and record what went
 wrong. Never attempt an automatic rollback-and-redeploy — a human decides the next move.
 
-## Output — the deploy record
+## Output
+
+The deploy record.
 
 ```json
 {

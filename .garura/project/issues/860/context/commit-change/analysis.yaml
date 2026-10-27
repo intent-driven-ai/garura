@@ -1,0 +1,331 @@
+needs_judgment: false
+branch: plan/788/860-installed-parts-read-installed-copy
+issue: 860
+
+change_groups:
+  - id: feat-install-tools-system
+    issue: 860
+    commit_type: feat
+    scope: install-garura
+    subject: "install the other tools into the installed tools folder, and remove them on uninstall"
+    confidence: high
+    files:
+      - core/components/plays/install-garura/SKILL.md
+      - core/components/plays/install-garura/scripts/adapters/codex.py
+      - core/components/plays/install-garura/scripts/install.py
+      - core/components/plays/install-garura/scripts/test_install.py
+      - core/components/plays/install-garura/scripts/tools_system.py
+      - core/components/plays/uninstall-garura/scripts/uninstall.py
+      - installer/install.sh
+  - id: feat-lint-play-tool
+    issue: 860
+    commit_type: feat
+    scope: tools
+    subject: "add the installed lint-play tool and an installed layout with an installed-paths rule to lint-components"
+    confidence: high
+    files:
+      - core/components/plays/create-play/scripts/lint_play.py
+      - core/components/plays/edit-play/scripts/lint_play.py
+      - core/tools/lint-components/index.js
+      - core/tools/lint-components/lib/discover.js
+      - core/tools/lint-components/lib/reporter.js
+      - core/tools/lint-components/lib/rules/installed-paths.js
+      - core/tools/lint-components/lib/rules/naming.js
+      - core/tools/lint-components/lib/rules/semantic.js
+      - core/tools/lint-components/lib/rules/shared-scripts.js
+      - core/tools/lint-components/lib/rules/structural.js
+      - core/tools/lint-components/test/installed-paths.test.js
+      - core/tools/lint-components/test/shared-scripts.test.js
+      - core/tools/lint-play/lint_play.py
+  - id: refactor-memory-via-tool
+    issue: 860
+    commit_type: refactor
+    scope: memory
+    subject: "read memory through the memory tool in agents and skills, not by path"
+    confidence: high
+    files:
+      - core/components/agents/adr-keeper.md
+      - core/components/agents/change-reviewer.md
+      - core/components/agents/code-builder.md
+      - core/components/agents/intent-resolver.md
+      - core/components/agents/project-orchestrator.md
+      - core/components/agents/quality-auditor.md
+      - core/components/agents/repo-orchestrator.md
+      - core/components/agents/tech-designer.md
+      - core/components/agents/test-engineer.md
+      - core/components/memory/knowledge/review/harness.md
+      - core/components/memory/knowledge/review/memory.md
+      - core/components/plays/check-change/scripts/fetch_pr_context.py
+      - core/components/plays/create-play/references/fetch_pr_context.py
+      - core/components/plays/create-play/references/test_fetch_pr_context.py
+      - core/components/skills/assess-changes/SKILL.md
+      - core/components/skills/assess-pr/SKILL.md
+      - core/components/skills/author-decision/SKILL.md
+      - core/components/skills/author-plan-file/SKILL.md
+      - core/components/skills/author-technical-approach/SKILL.md
+      - core/components/skills/check-pr-quality/SKILL.md
+      - core/components/skills/check-pr-quality/reference/finding-schema.md
+      - core/components/skills/check-pr-quality/reference/input-contract.md
+      - core/components/skills/check-quality/SKILL.md
+      - core/components/skills/check-quality/reference/subagent-prompts.md
+      - core/components/skills/enrich-quality-profile/SKILL.md
+      - core/components/skills/find-architecture-learnings/scripts/kb_search.py
+      - core/components/skills/open-pr/SKILL.md
+      - core/components/skills/track-issue/SKILL.md
+      - core/components/skills/track-issue/reference/github-issue.md
+      - core/config.yaml
+      - core/tools/memory/README.md
+  - id: refactor-plays-installed-copy
+    issue: 860
+    commit_type: refactor
+    scope: plays
+    subject: "recompile and edit plays to read the installed copy and drop source-path notes"
+    confidence: high
+    files:
+      - core/components/loops/_shared/loop-run.md
+      - core/components/plays/_shared/play-close.md
+      - core/components/plays/build-epic/SKILL.md
+      - core/components/plays/check-change/SKILL.md
+      - core/components/plays/check-change/reference/ice.md
+      - core/components/plays/discover-capabilities/SKILL.md
+      - core/components/plays/discover-intent/SKILL.md
+      - core/components/plays/discover-intent/reference/ice.md
+      - core/components/plays/fix-bug/SKILL.md
+      - core/components/plays/list-focus-issues/SKILL.md
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/propose-change/SKILL.md
+      - core/components/plays/record-decision/SKILL.md
+      - core/components/plays/refactor-code/SKILL.md
+      - core/components/plays/shape-agentic-lens/SKILL.md
+      - core/components/plays/shape-quality-lens/SKILL.md
+      - core/components/plays/shape-run-lens/SKILL.md
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/reference/ice.md
+      - core/components/plays/shape-ux-lens/SKILL.md
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/validate-epic/SKILL.md
+  - id: chore-stamped-script-notes
+    issue: 860
+    commit_type: chore
+    scope: scripts
+    subject: "remove the canonical-copy notes from stamped scripts"
+    confidence: high
+    files:
+      - core/components/loops/complete-discovery/scripts/check_loop_contract.py
+      - core/components/loops/complete-discovery/scripts/check_play_done.py
+      - core/components/loops/complete-discovery/scripts/commit_run_files.py
+      - core/components/loops/complete-discovery/scripts/loop_preflight.py
+      - core/components/loops/complete-discovery/scripts/loop_status.py
+      - core/components/loops/complete-discovery/scripts/prepare_check.py
+      - core/components/loops/complete-discovery/scripts/record_check.py
+      - core/components/loops/complete-discovery/scripts/run_checker_codex.py
+      - core/components/loops/complete-discovery/scripts/run_play_headless.py
+      - core/components/loops/complete-discovery/scripts/session_stamp.py
+      - core/components/loops/complete-discovery/scripts/write_loop_contract.py
+      - core/components/plays/build-epic/scripts/check_box.py
+      - core/components/plays/build-epic/scripts/check_ready_epic.py
+      - core/components/plays/build-epic/scripts/check_spec.py
+      - core/components/plays/build-epic/scripts/model_names.py
+      - core/components/plays/build-epic/scripts/session_stamp.py
+      - core/components/plays/build-epic/scripts/update_epic_status.py
+      - core/components/plays/build-epic/scripts/validate_plan.py
+      - core/components/plays/check-change/scripts/session_stamp.py
+      - core/components/plays/check-knowledge/scripts/check_loop_contract.py
+      - core/components/plays/check-knowledge/scripts/session_stamp.py
+      - core/components/plays/commit-change/scripts/session_stamp.py
+      - core/components/plays/create-loop/references/check_play_done.py
+      - core/components/plays/create-loop/references/commit_run_files.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/check_loop_contract.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/check_play_done.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/commit_run_files.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/loop_preflight.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/loop_status.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/prepare_check.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/record_check.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/run_checker_codex.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/run_play_headless.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/session_stamp.py
+      - core/components/plays/create-loop/references/compiled-loop-example/scripts/write_loop_contract.py
+      - core/components/plays/create-loop/references/loop_preflight.py
+      - core/components/plays/create-loop/references/loop_status.py
+      - core/components/plays/create-loop/references/prepare_check.py
+      - core/components/plays/create-loop/references/record_check.py
+      - core/components/plays/create-loop/references/run_checker_codex.py
+      - core/components/plays/create-loop/references/run_play_headless.py
+      - core/components/plays/create-loop/references/write_loop_contract.py
+      - core/components/plays/create-play/references/check_ice_workable.py
+      - core/components/plays/create-play/references/check_loop_contract.py
+      - core/components/plays/create-play/references/intent_touches.py
+      - core/components/plays/create-play/references/lint_grounding.py
+      - core/components/plays/create-play/references/model_names.py
+      - core/components/plays/create-play/references/scoped_write_guard.py
+      - core/components/plays/create-play/references/session_stamp.py
+      - core/components/plays/create-play/references/write_loop_review.py
+      - core/components/plays/discover-capabilities/scripts/check_loop_contract.py
+      - core/components/plays/discover-capabilities/scripts/check_sources.py
+      - core/components/plays/discover-capabilities/scripts/lint_grounding.py
+      - core/components/plays/discover-capabilities/scripts/model_names.py
+      - core/components/plays/discover-capabilities/scripts/persist_understand.py
+      - core/components/plays/discover-capabilities/scripts/pick_targets.py
+      - core/components/plays/discover-capabilities/scripts/rollup_box.py
+      - core/components/plays/discover-capabilities/scripts/scoped_write_guard.py
+      - core/components/plays/discover-capabilities/scripts/session_stamp.py
+      - core/components/plays/discover-capabilities/scripts/write_loop_review.py
+      - core/components/plays/discover-domains/scripts/check_kept.py
+      - core/components/plays/discover-domains/scripts/check_loop_contract.py
+      - core/components/plays/discover-domains/scripts/grounding_check.py
+      - core/components/plays/discover-domains/scripts/intent_touches.py
+      - core/components/plays/discover-domains/scripts/lint_grounding.py
+      - core/components/plays/discover-domains/scripts/model_names.py
+      - core/components/plays/discover-domains/scripts/persist_seed.py
+      - core/components/plays/discover-domains/scripts/read_intents.py
+      - core/components/plays/discover-domains/scripts/scoped_write_guard.py
+      - core/components/plays/discover-domains/scripts/session_stamp.py
+      - core/components/plays/discover-domains/scripts/write_loop_review.py
+      - core/components/plays/discover-intent/scripts/check_ice_workable.py
+      - core/components/plays/discover-intent/scripts/check_intent.py
+      - core/components/plays/discover-intent/scripts/check_loop_contract.py
+      - core/components/plays/discover-intent/scripts/intent_touches.py
+      - core/components/plays/discover-intent/scripts/lint_grounding.py
+      - core/components/plays/discover-intent/scripts/model_names.py
+      - core/components/plays/discover-intent/scripts/persist_intent.py
+      - core/components/plays/discover-intent/scripts/scoped_write_guard.py
+      - core/components/plays/discover-intent/scripts/session_stamp.py
+      - core/components/plays/edit-ontology/scripts/session_stamp.py
+      - core/components/plays/fix-bug/scripts/session_stamp.py
+      - core/components/plays/learn-outcomes/scripts/check_ready_unit.py
+      - core/components/plays/learn-outcomes/scripts/lint_grounding.py
+      - core/components/plays/learn-outcomes/scripts/model_names.py
+      - core/components/plays/learn-outcomes/scripts/persist_learn.py
+      - core/components/plays/learn-outcomes/scripts/scoped_write_guard.py
+      - core/components/plays/learn-outcomes/scripts/session_stamp.py
+      - core/components/plays/learn-outcomes/scripts/validate_learn.py
+      - core/components/plays/list-focus-issues/scripts/session_stamp.py
+      - core/components/plays/merge-change/scripts/session_stamp.py
+      - core/components/plays/propose-change/scripts/session_stamp.py
+      - core/components/plays/record-decision/scripts/session_stamp.py
+      - core/components/plays/refactor-code/scripts/session_stamp.py
+      - core/components/plays/release-epic/scripts/check_launch.py
+      - core/components/plays/release-epic/scripts/check_ready_launch.py
+      - core/components/plays/release-epic/scripts/check_scenario_coverage.py
+      - core/components/plays/release-epic/scripts/check_surface_contract.py
+      - core/components/plays/release-epic/scripts/deliver_epic.py
+      - core/components/plays/release-epic/scripts/model_names.py
+      - core/components/plays/release-epic/scripts/session_stamp.py
+      - core/components/plays/release-epic/scripts/stamp_fix_required.py
+      - core/components/plays/release-increment/scripts/session_stamp.py
+      - core/components/plays/research-knowledge/scripts/check_loop_contract.py
+      - core/components/plays/research-knowledge/scripts/session_stamp.py
+      - core/components/plays/search-knowledge/scripts/check_loop_contract.py
+      - core/components/plays/search-knowledge/scripts/session_stamp.py
+      - core/components/plays/shape-agentic-lens/scripts/check_ready_slice.py
+      - core/components/plays/shape-agentic-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-agentic-lens/scripts/model_names.py
+      - core/components/plays/shape-agentic-lens/scripts/persist_agentic.py
+      - core/components/plays/shape-agentic-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-agentic-lens/scripts/session_stamp.py
+      - core/components/plays/shape-agentic-lens/scripts/validate_agentic.py
+      - core/components/plays/shape-architecture-lens/scripts/check_ready_slice.py
+      - core/components/plays/shape-architecture-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-architecture-lens/scripts/model_names.py
+      - core/components/plays/shape-architecture-lens/scripts/persist_arch.py
+      - core/components/plays/shape-architecture-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-architecture-lens/scripts/session_stamp.py
+      - core/components/plays/shape-architecture-lens/scripts/validate_arch.py
+      - core/components/plays/shape-marketing-lens/scripts/check_ready_slice.py
+      - core/components/plays/shape-marketing-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-marketing-lens/scripts/model_names.py
+      - core/components/plays/shape-marketing-lens/scripts/persist_marketing.py
+      - core/components/plays/shape-marketing-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-marketing-lens/scripts/session_stamp.py
+      - core/components/plays/shape-marketing-lens/scripts/validate_marketing.py
+      - core/components/plays/shape-measure-lens/scripts/check_ready_slice.py
+      - core/components/plays/shape-measure-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-measure-lens/scripts/model_names.py
+      - core/components/plays/shape-measure-lens/scripts/persist_measure.py
+      - core/components/plays/shape-measure-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-measure-lens/scripts/session_stamp.py
+      - core/components/plays/shape-measure-lens/scripts/validate_measure.py
+      - core/components/plays/shape-quality-lens/scripts/check_ready_slice.py
+      - core/components/plays/shape-quality-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-quality-lens/scripts/model_names.py
+      - core/components/plays/shape-quality-lens/scripts/persist_quality.py
+      - core/components/plays/shape-quality-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-quality-lens/scripts/session_stamp.py
+      - core/components/plays/shape-quality-lens/scripts/validate_quality.py
+      - core/components/plays/shape-run-lens/scripts/check_ready_slice.py
+      - core/components/plays/shape-run-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-run-lens/scripts/model_names.py
+      - core/components/plays/shape-run-lens/scripts/persist_run.py
+      - core/components/plays/shape-run-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-run-lens/scripts/session_stamp.py
+      - core/components/plays/shape-run-lens/scripts/validate_run.py
+      - core/components/plays/shape-slice/scripts/find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/intent_touches.py
+      - core/components/plays/shape-slice/scripts/lint_grounding.py
+      - core/components/plays/shape-slice/scripts/model_names.py
+      - core/components/plays/shape-slice/scripts/persist_fills.py
+      - core/components/plays/shape-slice/scripts/persist_slice.py
+      - core/components/plays/shape-slice/scripts/scoped_write_guard.py
+      - core/components/plays/shape-slice/scripts/session_stamp.py
+      - core/components/plays/shape-ux-lens/scripts/check_ready_slice.py
+      - core/components/plays/shape-ux-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-ux-lens/scripts/model_names.py
+      - core/components/plays/shape-ux-lens/scripts/persist_ux.py
+      - core/components/plays/shape-ux-lens/scripts/scoped_write_guard.py
+      - core/components/plays/shape-ux-lens/scripts/session_stamp.py
+      - core/components/plays/shape-ux-lens/scripts/validate_ux.py
+      - core/components/plays/start-change/scripts/session_stamp.py
+      - core/components/plays/validate-epic/scripts/check_gates.py
+      - core/components/plays/validate-epic/scripts/check_ready_validate.py
+      - core/components/plays/validate-epic/scripts/check_validate.py
+      - core/components/plays/validate-epic/scripts/model_names.py
+      - core/components/plays/validate-epic/scripts/session_stamp.py
+      - core/components/plays/validate-epic/scripts/stamp_epic.py
+      - core/components/skills/find-model-gaps/scripts/find_gaps.py
+      - core/components/skills/find-model-gaps/scripts/intent_touches.py
+      - core/components/skills/find-model-gaps/scripts/model_names.py
+      - core/components/skills/link-model-gaps/scripts/apply_links.py
+      - core/components/skills/link-model-gaps/scripts/intent_touches.py
+      - core/components/skills/link-model-gaps/scripts/model_names.py
+  - id: docs-installed-copy-adr
+    issue: 860
+    commit_type: docs
+    scope: adr
+    subject: "add ADR 055 and document that installed parts read only installed files"
+    confidence: high
+    files:
+      - .garura/project/issues/_adr/20261024T211640Z/adr-check.json
+      - .garura/project/issues/_adr/20261024T211640Z/adr-context.yaml
+      - .garura/project/issues/_adr/20261024T211640Z/adr-draft.md
+      - .garura/project/issues/_adr/20261024T211640Z/adr-manifest.json
+      - .garura/project/issues/_adr/20261024T211640Z/brief.md
+      - .garura/project/issues/_adr/20261024T211640Z/decision.yaml
+      - .garura/project/issues/_adr/20261024T211640Z/guard-report.json
+      - .garura/project/issues/_adr/20261024T211640Z/hashes-before.json
+      - .garura/project/issues/_adr/20261024T211640Z/porcelain-after.txt
+      - .garura/project/issues/_adr/20261024T211640Z/porcelain-before.txt
+      - CLAUDE.md
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+      - docs/adr/055-installed-parts-read-only-installed-files.md
+      - docs/adr/_index.md
+      - docs/standards/harness-standard.md
+  - id: chore-stm-860
+    issue: 860
+    commit_type: chore
+    scope: stm
+    subject: "record the run files for the installed-parts change"
+    confidence: high
+    files:
+      - .garura/project/issues/860/context/commit-change/analysis.yaml
+      - .garura/project/issues/860/context/commit-change/porcelain.txt
+      - .garura/project/issues/860/context/decisions.md
+
+exclusions: []
+
+risks:
+  sensitive_files: []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every changed path is in exactly one group; counts checked by script"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

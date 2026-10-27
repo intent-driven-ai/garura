@@ -1,0 +1,30 @@
+{
+  "pr_number": "789",
+  "base": "plan/756/base",
+  "changed_paths": [
+    ".garura/project/issues/760/context/analysis.yaml",
+    ".garura/project/issues/760/context/branch.json",
+    ".garura/project/issues/760/context/commits.yaml",
+    ".garura/project/issues/760/context/issue.json",
+    ".garura/project/issues/760/context/plan.json",
+    ".garura/project/issues/760/context/porcelain.txt",
+    ".garura/project/issues/760/context/pr-body.md",
+    ".garura/project/issues/760/context/pr.json",
+    ".garura/project/issues/760/context/resolved-rules.json",
+    ".garura/project/issues/760/context/self-review.md",
+    ".garura/project/issues/760/context/target.json",
+    ".garura/project/issues/760/context/work-description.txt",
+    ".garura/project/issues/760/specs/design.md",
+    "core/components/memory/standards/schemas/product-os/spine.yaml",
+    "core/components/plays/create-play/SKILL.md",
+    "core/components/plays/create-play/references/check_ice_workable.py",
+    "core/components/plays/create-play/references/test_check_ice_workable.py",
+    "core/components/plays/discover-intent/scripts/check_ice_workable.py"
+  ],
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ],
+  "review_shelf": "./.garura/core/memory/knowledge/review/"
+}

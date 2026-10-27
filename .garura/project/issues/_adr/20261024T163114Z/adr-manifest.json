@@ -1,0 +1,35 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261024T163114Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "028",
+      "file": "docs/adr/028-agentic-lifecycle-five-loops.md",
+      "kind": "amended",
+      "part": "'Loops run the plays', the sentence '/roadmap belongs to the Shape loop: ordering the slices is part of slicing', and Open question 2 \u2014 /roadmap (now /shape-roadmap) is dropped and no play orders the slices"
+    },
+    {
+      "adr": "033",
+      "file": "docs/adr/033-approval-in-the-product-model.md",
+      "kind": "amended",
+      "part": "Negative / Risks 'Three places approve outside the review step' and Work This Creates item 6 \u2014 the '/shape sets capabilities active' place goes with /shape-scope"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "the product owner",
+  "pointers_written": [
+    "028-agentic-lifecycle-five-loops.md",
+    "033-approval-in-the-product-model.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

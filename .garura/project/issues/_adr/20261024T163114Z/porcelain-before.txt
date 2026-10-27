@@ -1,0 +1,1 @@
+?? .garura/project/issues/_adr/20261024T163114Z/porcelain-before.txt

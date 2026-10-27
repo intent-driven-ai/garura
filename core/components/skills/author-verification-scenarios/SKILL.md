@@ -4,8 +4,8 @@ description: Create a scenarios.yaml artifact with grouped scenarios, feature ba
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write
-deprecated: true
-deprecated_note: '#434 ProductOS realignment — superseded by the command model; retained for Phase E reference, not installed'
+stale: true
+stale_note: 'waits for the rebuild of the test skills of /build-epic (#855)'
 ---
 
 # author-verification-scenarios

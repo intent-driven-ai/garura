@@ -1,0 +1,7 @@
+{
+  "in_loop": false,
+  "play": "discover-capabilities",
+  "branch": "plan/788/882-record-cap-initialize",
+  "round": "review round 2 of PR #886: the product owner rejected round 1 (PM-1 raised to P1; fix PM-2, PM-5, PM-6, PM-7)",
+  "decision_status": "proposed (PM-5: /record-decision accept completes it)"
+}

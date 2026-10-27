@@ -1,0 +1,24 @@
+{
+  "changed_kinds": [
+    "Feature",
+    "ICE",
+    "Slice",
+    "Source"
+  ],
+  "allowed_kinds": [
+    "Feature",
+    "ICE",
+    "Slice",
+    "Source"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "7",
+  "version_after": "8",
+  "updated": "2026-10-23",
+  "date": "2026-10-23",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}

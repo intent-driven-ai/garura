@@ -1,0 +1,30 @@
+commits:
+  - sha: 1c7be08a
+    message: "feat(lint-grounding): Check ICE nodes in the grounding linter and keep all twelve play copies identical (#759)"
+    files:
+      - core/components/plays/discover-capabilities/scripts/lint_grounding.py
+      - core/components/plays/discover-domains/scripts/lint_grounding.py
+      - core/components/plays/discover-intent/scripts/lint_grounding.py
+      - core/components/plays/learn-outcomes/scripts/lint_grounding.py
+      - core/components/plays/shape-agentic-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-architecture-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-features/scripts/lint_grounding.py
+      - core/components/plays/shape-marketing-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-measure-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-quality-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-run-lens/scripts/lint_grounding.py
+      - core/components/plays/shape-ux-lens/scripts/lint_grounding.py
+      - core/components/plays/discover-domains/scripts/test_lint_ice.py
+    branch: plan/756/759-linter-checks-ice
+  - sha: 20ee2454
+    message: "chore(stm): Record the change workspace context for this issue (#759)"
+    files:
+      - .garura/project/issues/759/context/analysis.yaml
+      - .garura/project/issues/759/context/porcelain.txt
+    branch: plan/756/759-linter-checks-ice
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

@@ -1,0 +1,16 @@
+# check-change Layer 2 -- category: memory -- PR #834 (issue 813). Grounded on plan/788/base only.
+category: memory
+base: plan/788/base
+principles:
+  - {id: G1, source: "plan/788/base:core/components/memory/standards/rules/product.md Rule 12", principle: "Questions a play asks go to the issue's short-term memory (grounding-questions.md) with ID, answer slot, grows only, answers are facts, open ones return."}
+  - {id: G2, source: "plan/788/base:docs/adr/048 line 110", principle: "A clean-up of the retired intent-epic files was asked for."}
+  - {id: G3, source: "plan/788/base:rules/naming.md + rename-map.yaml", principle: "The rename map lets the old-name check and the install recognise old names."}
+verified_ok:
+  - "Rule 12 meaning kept in rules/user-questions.md against base product.md (compared section by section)."
+  - "play-orchestration.md moved byte-for-byte (R100); play-patterns.md moved (R084); both listed in rules/_index.md."
+  - "rules/_index.md and schemas/_index.md no longer list a deleted file; no live part references a deleted rule, schema or template."
+  - "approval-prompt.md example now points at the product-os spine, not the deleted specification/ folder."
+findings:
+  - {category: memory, severity: P4, path: core/components/memory/standards/rules/rename-map.yaml, basis: "G3", message: "Six old-name entries for the deleted skills removed, so the old-name check no longer knows those names. ADR 050 lists this under Risks; accepted.", status: accepted}
+  - {category: memory, severity: P4, path: core/components/skills/check-abstraction-layer/SKILL.md, basis: "ADR 050 Negative/Risks", message: "Deprecated skills (check-abstraction-layer, check-kb-extension, infer-research and others) still link to deleted rules (product.md Rule 14, kb-extension.md). Dead links in deprecated files only; their own issue per decision Q2.", status: "deferred: own issue"}
+  - {category: memory, severity: P4, path: core/components/memory/standards/rules/user-questions.md, basis: "G1", message: "Drops base Rule 12's pointer to validate-intent-epics and to Rule 11; the replacement ('a check ... reports uncaptured_inference', inference defined inline) keeps the meaning. No action.", status: ok}

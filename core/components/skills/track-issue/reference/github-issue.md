@@ -1,1 +1,1 @@
-> **Delegation:** All `track-issue` issue operations now route through the `platform-adapter` skill. Executable GitHub command translations live in `core/components/skills/platform-adapter/reference/github/verbs.md`.
+> **Delegation:** All `track-issue` issue operations now route through the `platform-adapter` skill. Executable GitHub command translations live in `../../platform-adapter/reference/github/verbs.md` (beside this skill's folder).

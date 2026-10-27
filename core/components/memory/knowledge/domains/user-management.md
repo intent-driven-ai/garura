@@ -11,7 +11,7 @@ provenance: seeded
 
 ## Topic
 The user-management domain — identity, access, and account lifecycle. WHICH
-capabilities and functionalities to include is decided by the product profile
+capabilities and features to include is decided by the product profile
 (see the product-profile schema), not by default.
 
 ## Conditions

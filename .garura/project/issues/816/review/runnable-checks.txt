@@ -1,0 +1,8 @@
+core/components/plays/shape-slice/scripts/test_grill_budget.py exit=0
+core/tools/naming/test_naming_tools.py exit=0
+core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py exit=0
+check_old_names exit=0
+check_ontology exit=0
+
+lint-components     "errors": 121, (121 on base, unchanged)
+ruff check on check_old_names.py, test_naming_tools.py, grill_budget.py, test_grill_budget.py: All checks passed (answers CODE-03 lint; py_compile ok on all four)

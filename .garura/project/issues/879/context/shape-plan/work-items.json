@@ -1,0 +1,64 @@
+{
+  "ok": true,
+  "plan_file_exists": true,
+  "problems": [],
+  "duplicates": [],
+  "misplaced": [],
+  "slices": [
+    {
+      "slice": "sl-intent-to-design",
+      "epic": {
+        "action": "use",
+        "issue": 794,
+        "title": "The shaping loop turns a business intent into a testable slice, its plan and its eval",
+        "type": "Epic",
+        "labels": [],
+        "represents_line": true,
+        "map": {
+          "fn-795": 795,
+          "fn-818": 818,
+          "fn-798": 798
+        }
+      },
+      "stories": [
+        {
+          "feature": "fn-795",
+          "action": "use",
+          "issue": 795,
+          "missing": [],
+          "reason": "",
+          "title": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
+          "type": "Story",
+          "labels": [],
+          "represents_line": true,
+          "attached": true
+        },
+        {
+          "feature": "fn-818",
+          "action": "use",
+          "issue": 818,
+          "missing": [],
+          "reason": "",
+          "title": "The plan play makes the plan file, the epic and one story per feature",
+          "type": "Story",
+          "labels": [],
+          "represents_line": true,
+          "attached": true
+        },
+        {
+          "feature": "fn-798",
+          "action": "use",
+          "issue": 798,
+          "missing": [],
+          "reason": "",
+          "title": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface",
+          "type": "Story",
+          "labels": [],
+          "represents_line": true,
+          "attached": true
+        }
+      ],
+      "move_out": []
+    }
+  ]
+}

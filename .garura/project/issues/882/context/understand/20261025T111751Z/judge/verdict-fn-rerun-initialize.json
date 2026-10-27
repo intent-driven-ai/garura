@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every guided section is substantive: What it does (4 concrete points, e.g. \"A second run reads the earlier answers and proposes each one again with the earlier answer as its source\"), Inputs / Outputs (3 ins, 3 outs incl. \"a record of what changed since the last run: answers changed, memory files added or taken out, rule groups now kept or skipped, tracker types made or mapped\"), Rules & behavior (8 branches), Acceptance criteria (8 Given/When/Then), Out of scope (4 items each naming its owner), Sources, and Agent intent (ICE) with Goal, Limit, Fails if, Context, Checked by.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "Rules carry their reason: \"An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed.\"; \"The re-run leaves the old tracker as it is ... because the old tracker may still hold the team's work items.\"; \"A run never removes a work-item type from the tracker. A type may hold work items the team still uses.\"; \"A run with every answer unchanged and no change in Phoenix memory changes nothing. ... it keeps a repeat run safe.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "All sections are discrete bullets; the feature states behavior (\"Lets the product owner run `initialize` again at any time, when the project changes\"), never a user story; acceptance is Given/When/Then throughout, e.g. \"Given the database answer changes from yes to no, when the run ends, then the database standard is no longer in the project's memory and the database rule group is recorded as skipped.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent capability gives one line: \"Run initialize again (fn-rerun-initialize): lets the product owner run initialize again when the project changes, with the earlier answers proposed, so the set-up follows the project.\" The feature adds the branches the parent does not hold: project evidence overriding an old answer, an unchanged run changing nothing, an answer going yes to no removing the standard and skipping the rule group, a tracker switch GitHub to Jira leaving the old tracker untouched, a profile with no earlier answers, and never removing a type.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "The what, why and edges are clear, but several terms the rules and acceptance criteria depend on are used and never explained in this doc: \"nothing is made in the tracker and no stand-in is mapped before a typed yes\"; \"After that yes the mapping points to the new tracker, and the change record keeps the old mapping\"; \"In: the earlier answers, as the profile records them.\"; \"each run compares the project's memory blocks with Phoenix memory\". A cold reader cannot say what a stand-in is, what the mapping maps (from what to what), what the profile is, or what a memory block is, so the tracker-switch acceptance criterion (\"the mapping points to Jira\") cannot be checked from this page alone.",
+      "fix": "Add one plain-words definition line at the top of What it does (the way the rule group is already defined): \"The profile is the project's record of the setup answers. A memory block is the set of Phoenix memory files that one answer selects (for example the database standards for a database answer). The mapping is the record that tells the plays which of the tracker's own types to use for each type they file (Business Intent, Epic, Story, Bug, Chore, Spike); a stand-in is an existing tracker type mapped in place of one that cannot be made.\""
+    }
+  ]
+}

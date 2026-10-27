@@ -1,0 +1,2 @@
+docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md | §1.1, §1.2, §4, §5 and the Consequence 'each ICE is interpreted once, by the plan play' — /shape-slice writes the hidden file (one entry per feature) and a thin ICE; the plan play only plans
+docs/adr/047-the-ice-is-its-own-node.md | §6–§8 — the thin mark makes an ICE partly ready (gap 'thin ICE'); the ready check counts no lines and reports no richness

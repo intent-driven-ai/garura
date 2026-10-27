@@ -1,0 +1,10 @@
+decision: approve
+decided_by: human
+reply: "land / approve and merge"
+round: 3
+citing: []
+recommended: approve (no P1, no P2, no P3; one P4)
+fixed_from_round_2: [NP-1, NP-2, NP-4]
+not_fixed_by_decision:
+  - NP-5 (P4) — two pages cite the round-2 review for the whole-file rule; goes into the planned ADR 038/039 amendment, then the pages cite the ADR
+  - NP-3, PM-3, PM-4, PM-8, PM-9, RR-1 — left open, as named on the pages

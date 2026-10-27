@@ -1,6 +1,6 @@
 # ADR 020 — Advisory, Position-None Plays Self-Clean Their Working Files
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md): Decision "Scoped to /next in this ADR": the play is deleted; the self-clean rule stands
 **Date:** 2026-06-23
 **Related:** ADR 017 (folder whitelist), #434 (project-side `status/` declared machine-local and gitignored)
 

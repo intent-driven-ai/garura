@@ -1,0 +1,31 @@
+{
+  "intent": "bi-788",
+  "intent_title": "Agents design a named piece of work",
+  "slices": [
+    {
+      "id": "sl-intent-to-design",
+      "name": "From a named piece of work to its design",
+      "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.",
+      "features": [
+        {
+          "id": "fn-795",
+          "name": "/shape-slice writes the slice and its hidden file",
+          "one_line": "From a business intent, /shape-slice writes one slice, its link to the intent and its hidden file, and no plan, epic, story or eval.",
+          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-795.md"
+        },
+        {
+          "id": "fn-818",
+          "name": "/shape-plan writes the plan, the epic and the stories",
+          "one_line": "From a shaped slice, /shape-plan writes the intent's one plan file, one epic for the slice and one story for each feature.",
+          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-818.md"
+        },
+        {
+          "id": "fn-798",
+          "name": "/shape-eval writes the hidden eval",
+          "one_line": "From the plan's epic and stories, /shape-eval writes the eval for the business intent in the plan's evals folder, where no builder reads.",
+          "clean_ice": ".garura/project/issues/879/context/shape-plan/ice/fn-798.md"
+        }
+      ]
+    }
+  ]
+}

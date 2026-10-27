@@ -1,0 +1,83 @@
+# quality-findings.yaml - check-change Step 3, Layer 1 (standards-driven), PR #897, issue 879
+# Category: documentation (4 files). Bounded to the PR diff (plan/788/base...HEAD, 42 changed paths).
+# Overwrites the round-1 / PR #894 file.
+# Taxonomy: context/memory/standards/rules/pr.md (short-term copy). No quality-standards copy exists in
+# any memory tier (memory find "**/knowledge/quality/**", every tier: no match), so no rule meaning beyond
+# the taxonomy rows is available; none is assumed.
+meta:
+  pr: 897
+  issue: 879
+  categories: [documentation]
+  taxonomy_path: .garura/project/issues/879/context/memory/standards/rules/pr.md
+  scan:
+    tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+    changed_paths_count: 42
+    result: "P1=0 P2=0 P3=0 P4=0, CODE-20 catch-all=0, errors=0, scan_coverage 1.0"
+    note: >-
+      All 42 paths are under .garura/project/issues/879/, so the taxonomy classes every one as
+      stm-evidence and gives no finding by rule (pr.md, Artifact-Type Scoping, #851). The four prose files
+      therefore get no taxonomy finding. The findings below come from the hand checks of the review/docs
+      playbook (spelling, grammar, heading hierarchy, TODOs, paths, claims vs records, voice); each cites
+      that playbook check as its basis. No taxonomy standard id applies, so none is invented.
+  playbook: review/docs
+  files_checked:
+    - .garura/project/issues/879/context/pr-body.md
+    - .garura/project/issues/879/context/self-review.md
+    - .garura/project/issues/879/context/shape-plan/brief.md
+    - .garura/project/issues/879/simulation/shape-plan/dry-run.md
+findings:
+  - id: Q1
+    class: P3
+    rule: "review/docs: claims agree with the records (completeness/consistency); no taxonomy row"
+    files:
+      - {file: .garura/project/issues/879/context/pr-body.md, lines: [19, 30]}
+      - {file: .garura/project/issues/879/context/self-review.md, lines: [4, 15]}
+    what: "The size figures are stale. The text says '4 commits, 38 files, 1303 added lines, 54 removed' and '38 files, all run records'. The PR diff now has 6 commits, 42 files, 1353 added, 114 removed."
+    evidence: "git diff --shortstat plan/788/base...14e8d6cb = 38 files, 1303 ins, 54 del (the figures in the text, true at the fourth commit); git diff --shortstat plan/788/base...HEAD = 42 files, 1353 ins, 114 del; git log plan/788/base..HEAD = 6 commits (the two later commits are the propose-change records 3f7c09a4 and 3e56cdbe)."
+    note: "Every other claim checked agrees with the records: 0 created / 0 updated / 0 moved out (tracker-record.json), tracker copy unchanged, plan-file hash equal (sha256 45b293e6... for plans/788.yaml and plan-before.txt), D1-D5 held (stop-condition-shape-plan.yaml), 'nothing outside .garura/project/issues/879/' (0 paths outside), 'no plan file touched' (0 paths under plans/)."
+    fix: "Update the figures to 6 commits, 42 files, 1353 added, 114 removed, or drop the counts."
+  - id: Q2
+    class: P4
+    rule: "review/docs: voice, no real person's name (per user-facing-voice); terminology consistency"
+    files:
+      - {file: .garura/project/issues/879/context/pr-body.md, lines: [18, 38, 44]}
+      - {file: .garura/project/issues/879/context/self-review.md, lines: [3, 23, 29]}
+    what: "The 'Rules:' line prints a full absolute path with the real machine user name (~/.garura/...). The same text says at pr-body.md:38/44 that the user folder is not named and writes it as <machine user> in the notes. The two do not agree."
+    evidence: "pr-body.md:18 and self-review.md:3 hold '~/.garura/core/memory/standards/rules/self-review.md'; pr-body.md:44 uses '/Users/<machine user>/...'."
+    fix: "Write the rules path as ~/.garura/core/memory/standards/rules/self-review.md."
+  - id: Q3
+    class: P4
+    rule: "review/docs: spelling"
+    files:
+      - {file: .garura/project/issues/879/simulation/shape-plan/dry-run.md, lines: [3]}
+    what: "Spelling 'befor' (should read 'before')."
+    evidence: 'dry-run.md:3: ... "yes run it as a dry run to test the play befor we land this work".'
+    note: "It sits inside the product owner's verbatim quote. A reviewer may leave it as typed; there is no spelling fault anywhere else in the four files."
+  - id: Q4
+    class: P4
+    rule: "review/docs: terminology consistency"
+    files:
+      - {file: .garura/project/issues/879/context/pr-body.md, lines: [12]}
+    what: "#896 is called 'the enhancement'. In the tracker it is a Story with no label; the product model's words for a tracker item are Story / Epic / Bug."
+    evidence: "gh issue view 896: issueType Story, labels []; pr-body.md:12 'Recorded alongside: #896, the enhancement ...'."
+    fix: "Say 'the story #896' (or 'the new story')."
+  - id: Q5
+    class: P4
+    rule: "review/docs: grammar / completeness (generated wording)"
+    files:
+      - {file: .garura/project/issues/879/context/shape-plan/brief.md, lines: [16, 17]}
+    what: "The brief says 'Update .garura/project/plans/788.yaml' and then 'No node changes. The file stays as it is.' The heading verb promises a change that the next line denies."
+    evidence: "brief.md:16-17. The brief is the play's approval-prompt output, so the wording comes from the template, not from the author."
+    note: "Not a defect in this PR to fix by hand; recorded for the template owner."
+checked_clean:
+  - "Spelling and grammar: no other fault in the four files."
+  - "Heading hierarchy: pr-body.md embeds the self-review (its own '# Self-review' H1 at line 16 sits under the '## Self-review' H2 at line 14, so the H1 is nested under an H2; harmless, only a quirk of embedding). brief.md and dry-run.md go H1, H2 (brief also H3) with no skipped level. self-review.md H1, H2."
+  - "Leftover TODO / FIXME / TBD / XXX: none. The only hits are the words 'TODO or FIXME' in the self-review's own check line (pr-body.md:40, self-review.md:25)."
+  - "Dead paths: every path named resolves. simulation/shape-plan/dry-run.md, plans/788.yaml, simulation/shape-plan/{tracker-copy.json,plan-check.json,tracker-check.json,guard-report.json,stop-condition-shape-plan.yaml}, context/shape-plan/plan-before.txt, ~/.garura/core/memory/standards/rules/self-review.md all exist. No specs/ path is named."
+  - "Issue and PR references: #717 (Business Intent), #794 (type Epic), #795/#818/#798 (Story), #879 (Bug), #894 (merged PR), #896 (Story) all exist and match the text."
+  - "Voice: pr-body.md and brief.md lead in product terms and name no person; only the personas 'the product owner' and later plays appear."
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 4

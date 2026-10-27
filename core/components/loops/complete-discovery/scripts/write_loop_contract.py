@@ -4,8 +4,7 @@
 A loop hands the same contract to every play it runs (`standards/rules/loop-contract.md`).
 This script builds it from the loop's facts, the plays' inputs and the answers gathered
 first, then checks it with the shared checker's rules, so a play never gets a contract it
-would reject. Canonical copy lives at create-loop/references/write_loop_contract.py and is
-stamped into each loop's scripts/ beside check_loop_contract.py.
+would reject. It runs beside check_loop_contract.py.
 
     python3 write_loop_contract.py --loop discovery --loop-run-id discovery-<ts> \
         --branch <branch> --issue <n> --review-dir <dir> --plays intent,vision,understand \
@@ -22,7 +21,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)  # a loop's scripts/ holds the stamped checker beside this script
-sys.path.append(os.path.join(HERE, "..", "..", "create-play", "references"))  # canonical home
+sys.path.append(os.path.join(HERE, "..", "..", "create-play", "references"))  # create-loop's own copy
 from check_loop_contract import Invalid, check  # noqa: E402
 
 

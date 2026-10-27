@@ -1,0 +1,652 @@
+meta:
+  generated_at: '2026-10-24T18:23:25Z'
+  diff_path: '.garura/project/issues/841/review/pr.diff'
+  taxonomy_path: 'core/components/memory/standards/rules/pr.md'
+  changed_paths_count: 233
+  scan_coverage: 1.0000
+  standards_relevant: 26
+  catchall:
+    CODE-20: 220
+findings:
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'SEC-18'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 10
+    evidence: 'Role'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'SEC-18'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 20
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 22
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 23
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 69
+    evidence: 'join'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-19'
+    severity: P2
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 93
+    evidence: 'join'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-19'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 21
+    evidence: 'const PARTS ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/asking-a-person.js'
+    line: 85
+    evidence: 'const all ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/asking-a-person.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 15
+    evidence: 'const POINTER ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 20
+    evidence: 'const dir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 21
+    evidence: 'const folder ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 23
+    evidence: 'const file ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 31
+    evidence: 'const kind ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 32
+    evidence: 'const name ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/asking-a-person.test.js'
+    line: 69
+    evidence: 'const dir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/naming.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/naming.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/naming/test_naming_tools.py'
+    line: 1
+    evidence: 'core/tools/naming/test_naming_tools.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+counts:
+  P1: 0
+  P2: 22
+  P3: 44
+  P4: 25

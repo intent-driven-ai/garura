@@ -1,0 +1,4 @@
+{
+  "files": [],
+  "note": "Nothing was copied for the harness grounding. Every principle was read from the base ref (git show plan/788/base:<path>) or from the tracker (read-only gh api call), none from the memory tiers, so there is nothing to put in short-term memory."
+}

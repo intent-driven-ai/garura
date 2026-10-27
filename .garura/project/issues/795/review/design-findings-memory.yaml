@@ -1,0 +1,21 @@
+# check-change round 3 -- category: memory -- PR #840 (issue 795). Grounded on plan/788/base only.
+category: memory
+base: plan/788/base
+round: 3
+principles:
+  - {id: M1, source: "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md v10, Slice", principle: "Spine slice entry keeps id, slug, feature_refs, record, vertical, intents; the removed fields go."}
+  - {id: M2, source: "plan/788/base:docs/adr/049 + 048", principle: "Shaping writes the slice only; a slice has no domain home; the older chain is rebuilt later."}
+  - {id: M3, source: "plan/788/base:core/components/memory/standards/rules/pipeline-position.md, pipeline-next.md; docs/adr/051", principle: "One successor map; every user-invocable play listed or meta_exempt; a play with no single successor has command null."}
+  - {id: M4, source: "plan/788/base:core/components/memory/standards/rules/user-questions.md, no-unbacked-recommendation.md", principle: "A rule file lists the fields and the plays wired to it."}
+  - {id: M5, source: "plan/788/base:core/components/memory/standards/schemas/product-os/slice.yaml (prior v1 contract) + ADR 049", principle: "A schema must describe what its writer can reach, including records already on disk."}
+round2_status:
+  - {round2: "N1 slice.yaml had no note for records written before v2", status: "yes, fixed", line: "slice.yaml lines 29-35: the note says a pre-v2 record (no name or outcome, surface kept under `slice`) is brought to v2 by persist_slice.py the next time /shape-slice reuses that slice; facts from the spine entry, name/outcome from the shaped slice, the surface moved to the top level, a missing surface part taken from the shaped slice's surface only if it is the slice's own; if a part is still missing the run stops, names it, the person fills the record and runs again; no install step migrates."}
+  - {round2: "match of the new note to persist_slice.py to_v2 (lines 294-340)", status: "matches", line: "to_v2 sets id, slug, name (from sl), outcome (from sl), feature_refs, vertical, intents only when empty, with facts taken from the spine entry (existing) and name/outcome from the shaped slice; moves slice.surface to top-level `surface`; fills surface parts from `surface` only when surface.name == existing.vertical (the 'slice's own' test); raises Refused naming the missing surface parts and the record path (`Fill those parts in <record>, then run again`). Module docstring (lines 36-43) says the same. Reached only on reuse of a record that exists; a missing record is written fresh (separate branch), which the schema does not need to mention."}
+findings: []
+verified_ok:
+  - "Spine slice entry (six fields) matches ontology v10 and the persist_slice writer; the older-chain (#837) labels in spine.yaml, slice.yaml, pipeline-next.md and pipeline-position.md agree with ADR 048/049."
+  - "pipeline-next.md: shape-slice, shape-roadmap, lens plays, release-increment, fix-bug, refactor-code, learn-outcomes, merge-change now use command null per ADR 051; `next` row removed with the play; both Discovery rows route to /shape-slice <intent>."
+  - "Deleted work-intelligence shelf (work-map.yaml, operator-fit.md) and its _index.md entry: ADR 051 names the shelf and says it has no reader; git grep finds no remaining reference in core, docs/components, docs/philosophy or grounding."
+  - "naming.yaml one_word [] and naming.md match the dropped /next (ADR 051 Affects list). rename-map.yaml dropped author-features and rank-recommendations: their targets (author-epics, rank-actions) no longer exist as skills, so the entries point nowhere. Not named in ADR 051's Affects line; low concern."
+  - "surface-contract.md, epic.yaml surface_verified comment, no-unbacked-recommendation.md (next row replaced by shape-slice wired row), user-questions.md (four optional fields, match-by-text) are consistent with ADR 051 and 049."
+counts: {P0: 0, P1: 0, P2: 0, P3: 0}

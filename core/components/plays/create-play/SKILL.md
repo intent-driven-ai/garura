@@ -260,6 +260,12 @@ checking a design.
 Because create-play writes these scripts into the play, a rebuild brings them back. The
 play does not slip back to the slow agent way. (#484)
 
+**Grounding linter.** A play that writes product-model grounding docs (a domain, capability,
+functionality or slice doc) checks their shape with the shared grounding linter. Copy
+[`references/lint_grounding.py`](references/lint_grounding.py) unchanged to
+`scripts/lint_grounding.py`. Every copy must match this one byte for byte; the component
+linter fails a copy that differs.
+
 ### 4b — Pipeline position (D2)
 Read the play's declared `position` (frontmatter: `start | end | both | none`, default
 `none`) and fold in the standard delivery machinery per
@@ -326,12 +332,12 @@ Write the play. If it has mechanical steps, write a **folder** — `<play-name>/
 `<play-name>/scripts/` for the scripts those steps call (and `references/` for anything it
 reads); a pure-judgment play can be a single `SKILL.md`.
 
-**Work only on workable ICE (ontology v3, #612).** When the play plans, breaks down or
+**Work only on a ready ICE (ontology v6, ADR 047, #760).** When the play plans, breaks down or
 builds from an ICE, copy [`references/check_ice_workable.py`](references/check_ice_workable.py)
-unchanged to `scripts/` and call it on the node before that work. An ICE is workable only when
-its node's spine `intents` names a confirmed business intent; a non-zero exit skips that node
-(recorded in the run, never a halt) — the ICE stays as written. Writing an ICE is never gated
-by this check.
+unchanged to `scripts/` and call it on the ICE (or its part) before that work. It answers ready,
+partly ready or not ready: exit 0 (ready or partly ready) means work may start, and a partly
+ready answer's gaps go into the run; a non-zero exit skips that node (recorded in the run,
+never a halt) — the ICE stays as written. Writing an ICE is never gated by this check.
 
 **Add the stop condition (#464).** When the ICE has a "### Done means" section, write
 `<play-name>/stop-condition.yaml` (schema `{name: stop-condition}`, `content.done` =
@@ -349,7 +355,7 @@ session-stamp marker, its stop-condition manifest, base and out) and close lines
 the play's C0/C1/C2 specifics (its artifact list, its report title, its Next Steps), and the
 closer anchor. Never copy the shared steps into the play, and never
 have the play read a template from memory: the close gets its templates from
-`template-manager`. `check-components` checks both anchors. Write each mechanical step's
+`template-manager`. `core/tools/lint-components` checks both anchors. Write each mechanical step's
 script into `scripts/` and have that step run it by relative path; keep the script's logic
 out of the step's prose. Copy the pre-flight script as step 4 says. Wire every step that dispatches to a subagent or skill as a
 **JSON contract**: it names the input file paths and the output file path, the piece writes
@@ -376,7 +382,7 @@ Let the script count, not the model: hand-counting burns tokens and miscounts. R
 `scripts/lint_play.py` on the play you just wrote:
 
 ```
-python3 scripts/lint_play.py <path-to-the-compiled-play>
+python3 scripts/lint_play.py <path-to-the-compiled-play> --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 It mechanically checks the wiring: every constraint/failure/scenario is covered by its
@@ -399,7 +405,7 @@ When asked to review an existing play, report gaps — **change nothing**.
 Start with the linter; it does the mechanical half for free:
 
 ```
-python3 scripts/lint_play.py <path-to-the-play>
+python3 scripts/lint_play.py <path-to-the-play> --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 That covers coverage, one-recovery-per-failure, orphan references, required sections, and
@@ -448,6 +454,7 @@ the user wants the gaps fixed, they correct the intent and re-run the skill (or 
 - Wire the **Next** command. Every user-invocable compiled play needs an entry in
   `standards/rules/pipeline-next.md` (the successor map) — add one if the play is new —
   or a listing there under `meta_exempt`. The Standard Play Close (step C2) renders the
-  play's Next line from that map (`**Next:** /<command> — <why>. Or run /next…`); the
+  play's Next line from that map (`**Next:** /<command> — <why>.`, omitted when the map names no
+  successor); the
   linter's `next-command (pipeline-next)` check fails a positioned play that is in
   neither the map nor the exempt list.

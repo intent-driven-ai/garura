@@ -1,0 +1,11 @@
+{
+  "branch_name": "plan/756/758-ice-kind",
+  "base_sha": "36f70c3b9c98cbc07bffff51b08e397af191fba7",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/756/base",
+  "plan_branch_created": true,
+  "needs_plans_merged": [
+    "plan/722/base"
+  ]
+}

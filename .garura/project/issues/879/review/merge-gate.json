@@ -1,0 +1,13 @@
+{
+  "approved": true,
+  "mergeable": true,
+  "already_merged": false,
+  "checks_pass": true,
+  "pr_number": "897",
+  "pr_merged": true,
+  "branch_deleted": true,
+  "status": "merged",
+  "on_base": false,
+  "merge_sha": null,
+  "recovery": "merge_pr.py could not switch to plan/788/base (two untracked record files clashed with the PR #894 records on the base); REC2/REC3: switched to the base, fast-forwarded the records commit, deleted the local branch (the remote was already gone), and rewrote this record"
+}

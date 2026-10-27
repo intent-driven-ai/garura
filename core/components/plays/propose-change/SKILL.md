@@ -253,7 +253,7 @@ $session_stamp (#463): session_id, ledger_file, ledger_start_offset, ledger_end_
 (null when unresolved — never blocks the close); and stop_condition per C0 with the
 Stop Condition section filled) and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## propose-change Delivered — #${issue}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (incl. the PR URL), Next Steps
 (run check-change on the PR), and a pointer to `$evidence_dest`. Always emitted; never
@@ -310,47 +310,3 @@ it rather than opening a new one (C5, F5).
 | step_evals | 9 (SE-1…SE-9) |
 | scenario_evals | 4 (SCE-1…SCE-4) |
 | recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
-
-## Recompile note (#484, scripted chain)
-
-Intent change via `reference/ice.md` → recompile. Added C9 (mechanical push + PR-open runs
-in the bundled `submit_pr.py`, never agent dispatch), F9, REC9, SE-9. Step 3 no longer
-dispatches `repo-orchestrator` → `open-pr`; it runs `submit_pr.py` via `platform_adapter.py`
-(canonical copies in `create-play/references/`, stamped here). The self-review (Step 1)
-keeps `repo-orchestrator` → `assess-pr` — it is genuine judgment, not mechanical. Scripts
-5 → 7; skills_reused drops `open-pr`. Guarantees (self-review attached, tree clean before
-push, issue referenced, no duplicate PR, blocker check) unchanged. Fingerprint recomputed
-over the edited ICE.
-
-## Direct-edit deviation note (#434, harness-led sweep)
-
-Non-intent edit: the C6 self-review file resolution was moved from prose into a called
-script (`scripts/resolve_standard.py`, pure filesystem precedence — no git/gh). No
-constraint/failure/scenario/eval text changed; `reference/ice.md` and the fingerprint are
-unchanged. create-play step 3 is taught the same discipline so a rebuild reproduces it.
-
-## Direct-edit deviation note (#434, pre-flight resolver)
-
-Also non-intent: pre-flight resolution moved from orchestrator inference to the bundled
-`scripts/preflight.py` (config/branch/issue/changeset facts as JSON; the play keeps the halt
-policy). It does NOT resolve the self-review standards file (that stays with
-`resolve_standard.py`) nor the clean-tree/open-PR checks (live git/gh). The script is the
-canonical resolver stamped from `create-play/references/preflight.py`; a rebuild reproduces
-it (create-play step 4). `reference/ice.md` and the fingerprint are unchanged. Direct edit —
-recompiling would clobber this play's hand-added scripts, so the wiring is hand-added here.
-
-## Recompile note (#467 Batch C, chain gates off)
-
-Intent change via `reference/ice.md` → edit-play: the Confirm Raise checkpoint gained
-C8/F8 — the gate resolves per gate-config (per-play `gates.plays.propose-change` now off;
-skips recorded), and gate on or off the play runs the bundled
-`scripts/check_self_review.py` on `self-review.md` BEFORE any push or PR-open, halting to
-a human on any blocking finding (non-zero exit). Tree-clean (C3) and the issue reference
-(C4) are named as the other two legs of the raise precondition. Checkpoint machinery is
-kept, not removed: flipping the config back to `on` restores the human wait unchanged.
-`check_self_review.py` is stamped from the canonical
-`create-play/references/check_self_review.py`. The fingerprint reflects the updated ICE.
-
-## Direct-edit deviation note (#463, session identity stamp)
-
-Non-intent change: the Standard Play Close gained the session identity stamp — `scripts/session_stamp.py` (canonical copy: `create-play/references/session_stamp.py`) runs `--phase start` at pre-flight and `--phase close` in the close block; the evidence frontmatter carries session_id / ledger_file / ledger_start_offset / ledger_end_offset. Source of truth: `core/components/plays/_shared/play-close.md`; create-play emits the same lines so a rebuild converges. No constraint, failure, scenario, or eval changed; the fingerprint stands.

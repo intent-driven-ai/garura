@@ -8,7 +8,7 @@ meta:
   diff_path: ".garura/project/issues/208/evidence/review-pr/diff.patch"
   changed_paths_count: 12
   scan_coverage: 0.83
-  taxonomy_path: "./core/components/memory/standards/rules/pr.md"
+  taxonomy_path: ".garura/project/issues/208/context/memory/standards/rules/pr.md"
   standards_relevant: 7
   catchall:            # catch-all rules rolled into a count, not per-file findings (#454)
     CODE-20: 12

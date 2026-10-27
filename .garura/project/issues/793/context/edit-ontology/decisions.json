@@ -1,0 +1,114 @@
+{
+  "history": [
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "No, then the shape has to change. What you told me is that we have capability, feature stories, spike, chore, or bug. These are the five types. Feature stories, spike, chore, or bug are the ones that we are building, but if SLI is converted into epics, which are verticals, then we have an issue: that can't be an epic. We can't introduce a new method. I think the slice, which is needed to convert it into verticals, should not create an epic. It should create a story, and that is the story that sits under the feature. The questions are not making much sense to me. I don't know what you are trying to ask. For example, you're saying, \"Given a piece of work, how would it be built?\" Those are the plays, right? The whole thing about building the ETL suite from the design, then building the work (the implementation): those are the plays. Why is that even a question that you're asking me? Then you are asking the question: \"What can a person open and try to see that it works?\" You are saying, \"Open the shop with no account, put a book in the cart, and pay.\" I don't know what the question is about, and then you're giving an example of a shop, which is not answering the question. What are the expectations of the question?",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.md",
+      "draft_sha256": "03e4f224acb9dc2ae330d6f206ac9790b91ab20cddb4c5f003e0e0ffcc3cb994",
+      "at": "2026-10-22T16:15:38+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "\"A feature carries its capability size\" is not true. A feature actually has its own size. It can refer to capability size as well, but a feature has a size. One capability can have many features. One feature will be mapped to only one capability. A story builds a part of the functionality, and functionality can have more than one story. Correct. Spikes, chores, and bugs sit under a functionality right next to the stories. A functionality can have more than one story, more than one spike, more than one chore, and more than one bug. You know what? I think a vertical cut has to be an epic. An epic is what we are building. Stories inside are a reflection of what the epics are. Our working unit will be epics. [pasted:] Start change can happen on a spike, a chore, a bug, an epic, or a story. Features, epics, and stories are the layer. We can pick up any of those pieces. Ideally, when we are doing it on a spike, chore, or a bug, we may want to cover more of it because the effort and the token cost of running the entire ship chain on just one single bug are going to be too heavy. For an epic, yes. For a spike or a story, that even may be high, so we may want to do multiple stories together under a single start change. Yes, that's the design. When we run a start change on an epic, everything gets built: all the stories, spikes, chores, everything into it, and that is the most efficient and fastest method. When we do stories and spikes, we want to do multiples. Spike stories and bugs also in multiples. Doing it on a single one is just going to be too heavy for us to do. Analyze what all this will change. Ideally, it should not, because we've been building this piece out up until this point. If we are running the intent, the vision, the understand chain, and building a plan, all we are building is up until features, I believe. We're not building stories at this point in time. The next step in the phase would be to get to display that we are building, which then splices and creates epics, and then the stories can come.",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.md",
+      "draft_sha256": "e50698531187e432f324f98f566a47a9e50600d88d1f5aed87834eaee634a01b",
+      "at": "2026-10-22T16:25:54+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "17. It takes the features just enough to allow us to create a vertical slice of functionality that is fully testable by a human. 18. Given a feature, we'll run the command that's going to build a slice. The slice is going to have multiple features. It is the slice which will have a corresponding work item called an epic. That epic is going to build the features as a part of the slice itself. 19. The answer is said to be 70. Given a slice, features have to be small enough that it is testable by a human. It can run for multiple hours, but the final outcome has to be built fully enough that a human can test it. The order can be decided by the agent, but it should be built within the slice as horizontal layers, starting from the database to the services and whatnot. 20. ok 21. A spike Should be on one feature, ideally, and that will be defined by the one who creates this one. for 1 and 2. Just like slides are an organization product type or an item under product model that organizes a certain set of features that can be delivered together vertically and are fully human-tested. In the exact same way, Epic is just a work item type that brings multiple feature stories, bugs, chores, or whatnot together that can be delivered together. 5. No, this is not right. You have to draw a product model and a work item side by side as a graph, hierarchy, and everything, so that I can see how you are thinking. I have a feeling you are possibly sitting on the wrong page. Epic's crossing capabilities is a matter. Epic doesn't even know the capabilities. It is basically bringing in certain features and whatnot together. Epic is not aware of a product model piece. Apic is delivering a set of features out there. It does not have its own ice. Delivering a set of features which have pay rises",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.v3.md",
+      "draft_sha256": "6cd4a2e2169b83cc76381a56e54ac0853519e52c0e08d3d4f868b24f73cab15e",
+      "at": "2026-10-22T17:03:47+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "One important thing: a plan is what ties the product to the work item. When a plan gets created, it is given a business intent, and the plan is then responsible for identifying existing work items (if they exist) or creating new ones or whatnot. That is the tie thread between the two. 4. I think all we need is just business intents, and from the product layer only, the business intents should be created as proper issues. Epics are basically the work items. Everything else is the work item type. Why do we need business intent? Because every work item is triggering some part of the business intent, so that relationship is important. The plan would need that relationship somewhere to connect the two together. Capabilities: no longer a work item. It doesn't need to be a work item. I don't think we need capability in the product item either. Those are just product visibility at a conceptual level.",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.v4.md",
+      "draft_sha256": "a929698768900ea38ca800c15eb022f927fd80999be8b215e00effe5b7d61460",
+      "at": "2026-10-22T17:12:27+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "But every work item links to the business intent. Every work item sits inside an epic. The epic is what is bringing everything together, and the business and the epics are linked to the business intent. Even when we find a defect, we have to find which epic introduced the defect, and then the defect has to be linked to it. Epics are basically these orchestrating groups, not something that gets done and gets closed.",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.v5.md",
+      "draft_sha256": "f4b761bdfb786136b69d26033156dbb381e4094f09d51d26e0beed3a0fc0a0af",
+      "at": "2026-10-22T17:14:02+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "So the product layer, work layer, and plan as the thread connecting the two is fine. Now let me explain the other pieces to it. Business intent is an issue as a product. Plan is given one business intent. It finds a slice within the product model that is the best to serve delivery of the business intent, and then it creates the epic. [pasted:] Epics then hold each work item, which could be a story, spike, chore, or a bug, and these work items can sit only under one epic. A bug sits in the epic that introduces it because bugs can be reported later. Stories represent features, which means once the plan identifies which slices have to be picked, it fundamentally knows which features are there, and hence stories are automatically identified. Capabilities and domains sit only in the product model with no reference to work items. Stories, when getting created, need to read the ICE of the feature and the ICE of the capability to create its own scope of work that is needed.",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.v6.md",
+      "draft_sha256": "07b958af8432bf032b4fb0eab14aec53ec57b8cbabaa588476821644e7725208",
+      "at": "2026-10-22T17:20:19+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "[pasted:] Peer questions: Which epic does it create? It's simple: it finds a slice, and one epic is equivalent to representing one slice. Which epic does it create? Very simply, whichever slice it picks. Now the question is: which slices does it pick? That's an interesting thing that you have to derive. When we want to do a business intent, you will have to understand what all capabilities it has, what all the different features are, and what the density is. It has to find the slice that has two capabilities: 1. It can deliver a vertical outcome, which means a screen or a surface can be built, and it is fully testable end-to-end by a user. 2. It has the most density of features and capabilities that would serve the business intent. [typed:] Story scope of work is the feature that it is mapped to because a story represents one feature, and it fundamentally delivers features ICE. Because features are sitting under capabilities and capabilities also have ICE, when creating a story, it has to read both of the ICES and create the story scope. Your answers were sort of okay. I've given you a bit more specifics about your answers. The picture that you are building is not very clear. Can you come up with a slightly better picture? This is one of the most important pieces. It is actually worthwhile to add this into the artifact that we are creating. We created one artifact already. Just add this to the same artifact that explains this part of the entire Phoenix setup.",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.v7.md",
+      "draft_sha256": "6739b8bf5d71cb48b0bf1b8c9b70975b13f8a35489a33e9abdafc1ce1aa6e772",
+      "at": "2026-10-22T17:23:52+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "We have to clarify this. Epic, holding story, spike, chore, and bug are fine, but one story represents one feature. That's basically what we are building, right? The story is the one that carries or is responsible for delivering features and also capabilities that represent the feature. Spike, chore, and a bug are connected to the feature but held inside an epic. Rest, I think everything else is fine.",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.v8.md",
+      "draft_sha256": "299e10727a698f7013447ec74745f970314e69df1cc4e5349aaaf9bbfac1921e",
+      "at": "2026-10-22T17:30:21+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "change",
+      "reply": "I think I want to simplify it further. I just want to say: Epic holds multiple stories, and it delivers the feature along with its capabilities. Guys, spikes, chores, and bugs can then be put on top of a story, and we can then say they are reported for a story and connected to a story. They don't need to connect to a feature spike. Whereas a story is representing a feature, spikes and bugs are basically going to be children of the story itself, correct?",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.v9.md",
+      "draft_sha256": "dc9e3e49d2acb09562efb66c24f570cc19db26114c9da263822d7049a61884c9",
+      "at": "2026-10-22T17:32:10+00:00"
+    },
+    {
+      "point": "questions",
+      "verdict": "yes",
+      "reply": "2",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-questions.md",
+      "draft_sha256": "8e8c1cac5a519a0ebdc302d6993f59e7c8fa944cbe1e27cf95fd002741de8b3d",
+      "at": "2026-10-22T17:36:57+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "change",
+      "reply": "[pasted:] Feature will have a tracker issue, right? That tracker issue is called story. Slice also has a tracker issue, and that tracker issue is called epic. Or at least, that's how they are represented. They are not called features and slices, but that's the representation. I don't know if you mean that as a tracker issue or something else. If you mean feature as a type in a tracker issue, then I agree. The answer is no. You know what? I think what you need to add is another column: which one of these is represented in the tracker as an issue and by who? For example, you have said business intent, yes, and then product. I'm presuming the business intent will get a tracker issue, and that issue is going to be called product. With that logic, feature will also get a tracker issue, and it is called story. Slice will get a tracker issue, and it is called epic. Plan is just a file, absolutely, yes. Kind, work, work item: work isn't a kind, it is a layer, though. Instead of work, you should display epic, stories, spike, chore, or a bug.",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-kinds.v1.md",
+      "draft_sha256": "bf8707ef573d355a05585e2b6eddc5043cecf7162ba87a98bb2359c0bbe55bd4",
+      "at": "2026-10-22T17:41:48+00:00"
+    },
+    {
+      "point": "kinds",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-kinds.md",
+      "draft_sha256": "e8220dd15cce3340f30ef1d75f61e290a2dbe68499187979123e23f333999457",
+      "at": "2026-10-22T17:45:28+00:00"
+    },
+    {
+      "point": "links",
+      "verdict": "yes",
+      "reply": "yes",
+      "draft": ".garura/project/issues/793/context/edit-ontology/draft-links.md",
+      "draft_sha256": "f4ff9b9ad2ad63f67995652749c9ef902755df13512ffeb5488eef475ea3ec6b",
+      "at": "2026-10-22T17:50:40+00:00"
+    }
+  ],
+  "agreed": {
+    "questions": true,
+    "kinds": true,
+    "links": true
+  },
+  "all_agreed": true
+}

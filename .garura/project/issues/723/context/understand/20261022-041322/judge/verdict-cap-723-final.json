@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/capabilities/cap-723/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "All required detailed-stage headings are present in order (Benefit hypothesis, Boundary (In / Out / Never), Guiding rules, Functionalities) plus Agent intent (ICE) last. Each is substantive, e.g. Benefit hypothesis names who it serves (\"the plan owner, who plans work toward a business intent\"), what we believe, and how we will know (\"a ready check gives one answer for each capability and functionality\"), with the three answers defined. The one open item is flagged honestly: \"(Our proposal: what counts as a gap is not yet agreed.)\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "Most lines carry their reason (e.g. \"In: the link rules above, written once in the ontology. Every play reads them from there, so all plays agree.\"; \"Old pages still pass ... A new rule must not break an old model.\"). But two Never lines, which the guidance says must explain why the edge is there, give an authority or a restatement instead of a reason: \"Never: change how model pages are saved. Business intent #722 forbids it.\" and \"Never: stop a write. A rule can stop work, but the page is always kept.\"",
+      "fix": "Rewrite the two Never lines to state the reason. For example: \"Never: change how model pages are saved, because every discovery play already writes pages that way and a change would break them; business intent #722 rules it out for that reason.\" and \"Never: stop a write, because a page blocked from saving loses the person's work; the ready check stops work from starting, but the page is always kept so the gap can be fixed later.\" Optionally add to the open-gap note why it is left open (what decision it waits on)."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Every section is discrete bullets, with sub-bullets for the link rules and the three ready answers; no flowing story prose. Functionalities state behavior, not user stories: \"Ready without a domain (fn-724): the ready check gives its answer without the domain.\" ICE lines each start with one of the six labels.",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "na",
+      "evidence": "No parent doc was supplied (parent doc: none).",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "A cold reader can explain the what (\"work can start before the model is complete, if the model links its parts by these rules\"), the why (plan owners can plan toward a business intent without a full model), and the edges (\"Out: making, showing or changing a plan. The plan capabilities own this (Build a plan, View plans, Manage a plan).\"; \"Out: writing domain pages and capability pages. The discovery plays do this\"). Key terms are glossed in place: business intent (\"a goal a person sets for the product\"), \"Needs\" (\"the other one must be done first\"), ICE (\"The agent intent (ICE)\"). Minor residual jargon (\"confirmed\" business intent, \"spine\" in the ICE section) does not stop understanding.",
+      "fix": ""
+    }
+  ]
+}

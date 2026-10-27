@@ -1,0 +1,7 @@
+decision: reject
+decided_by: human
+reply: "fix all"
+round: 1
+blocking:
+  - F-01 to F-10 — the product owner asked for all ten defects to be fixed in this change
+logged_not_fixed: []

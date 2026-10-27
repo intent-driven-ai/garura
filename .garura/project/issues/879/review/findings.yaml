@@ -1,0 +1,36 @@
+pr: 897
+issue: 879
+round: 1
+findings:
+- id: D-1
+  severity: P3
+  category: documentation
+  file: .garura/project/issues/879/context/pr-body.md (lines 19, 30); self-review.md (lines 4, 15)
+  basis: "review/docs playbook: counts match the records"
+  finding: "The PR body and self-review say 4 commits, 38 files; the diff is now 6 commits, 42 files (two propose-change record commits came after)."
+  fix: "Update or drop the figures."
+- id: D-2
+  severity: P4
+  category: documentation
+  file: pr-body.md:18; self-review.md:3
+  basis: "review/docs playbook: no real person's name"
+  finding: "A rules-file path prints the local user folder."
+  fix: "Write ~/.garura/... instead."
+- id: R-1
+  severity: P4
+  category: run-records
+  file: 8 added lines under .garura/project/issues/879/ (clean_ice paths and others)
+  basis: "hand check: machine-user paths (the base branch's issue records carry the same kind of path)"
+  finding: "Run records hold absolute local paths."
+  fix: "None needed here; the record scripts write them."
+- id: D-3
+  severity: P4
+  category: documentation
+  file: pr-body.md:12
+  basis: "review/docs playbook: terms match the tracker"
+  finding: "#896 is called an enhancement; in the tracker it is a Story."
+  fix: "Say story."
+layer1:
+  quality: "check-pr-quality: 0 (all paths are stm-evidence)"
+  run_records: "all hand checks pass (layer1-findings.json): parse ok, scope ok, no secrets, approval hashes match, plan file and tracker copy unchanged, dry-run checks ok, template fingerprint matches"
+  design_grounding: "not applicable: no design-bearing category"

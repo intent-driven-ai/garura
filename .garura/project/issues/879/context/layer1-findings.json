@@ -1,0 +1,15 @@
+{
+  "parse_errors": [],
+  "scope_outside_issue": [],
+  "secret_hits": [],
+  "machine_user_path_lines": 8,
+  "approval_hashes_match": true,
+  "plan_copy_matches_before": true,
+  "plan_file_matches_before": true,
+  "tracker_copy_unchanged": true,
+  "dry_run_stop_condition": "held",
+  "plan-check_ok": true,
+  "tracker-check_ok": true,
+  "guard-report_ok": true,
+  "template_fingerprint_matches": true
+}

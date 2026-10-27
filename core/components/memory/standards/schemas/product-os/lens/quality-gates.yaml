@@ -79,4 +79,4 @@ content:
 #       dimension: Visual design
 #       bar: Layout matches the UX lens's approved direction
 #       owner: human
-#       review: "HITL walk at /release-feature; fresh-context reviewer on the PR"
+#       review: "HITL walk at /release-epic; fresh-context reviewer on the PR"

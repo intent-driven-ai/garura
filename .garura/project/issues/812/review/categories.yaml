@@ -1,0 +1,24 @@
+# check-change Step 2 -- categories present in PR #814 (issue 812, old-name check skips ADRs by number)
+# Derived from changed_paths and diff content; playbooks from ~/.garura/core/memory/knowledge/review/
+categories:
+  - name: code
+    description: The old-name check script now skips ADRs 046 and 048 by number and searches ADR 047.
+    evidence_paths:
+      - "core/tools/naming/check_old_names.py"
+    playbook: review/code
+    design_bearing: false
+    runnable_check: "python3 core/tools/naming/test_naming_tools.py (and the language linter for the script)"
+  - name: tests
+    description: Test cases added to the naming tools test file for the new skip and search behaviour.
+    evidence_paths:
+      - "core/tools/naming/test_naming_tools.py"
+    playbook: review/tests
+    design_bearing: false
+    runnable_check: "python3 core/tools/naming/test_naming_tools.py"
+  - name: docs
+    description: Issue working notes and run records for issue 812 (analysis, plan, PR body, self-review, work description, commits); no product documentation changed.
+    evidence_paths:
+      - ".garura/project/issues/812/context/** (12 files)"
+    playbook: review/docs
+    design_bearing: false
+    runnable_check: null

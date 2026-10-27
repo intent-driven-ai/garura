@@ -1,0 +1,22 @@
+{"proposals": [
+  {"group": "Q-builders-1", "closed_by": "proposal",
+   "answer": "Every play, skill and agent that builds the software, and every context sub-agent it starts, is a build play for the check. Only /shape-slice (which writes the hidden file into the evals folder), /shape-eval and the eval itself may name the evals folder.",
+   "basis": {"kind": "model", "ref": "product/product-os/software-delivery-planning/shape-eval/capability.md:4"},
+   "context": "The eval capability's page says no builder, no skill that builds the software and no context sub-agent reads the plan's evals folder. The /shape-slice feature page (fn-795, line 4) says /shape-slice writes the slice's hidden file into that folder, so it is one of the plays that may name it.",
+   "why": ""},
+  {"group": "Q-flag-1", "closed_by": "proposal",
+   "answer": "",
+   "basis": null,
+   "context": "The evidence-file template (core/memory/standards/templates/evidence-file.md, lines 35-38) records each run's session and its ledger in the run's evidence file, but no model page, memory line or earlier answer names where the product owner must see the flag.",
+   "why": "No source names the place, so the product owner sets it; the question keeps its assumption."},
+  {"group": "Q-proof-1", "closed_by": "proposal",
+   "answer": "Yes. Change the proof line 'The eval is kept in a place where no builder can read it.' to 'No builder is given the eval, and a check flags each build session that read the evals folder.'",
+   "basis": {"kind": "person", "ref": "798/specs/design.md:7-10"},
+   "context": "On 2026-10-26 the product owner dropped encryption and said everything is plain text and the goal is not to hide the eval, so 'no builder can read it' is a promise the design no longer keeps. The intent page's Must not line (bi-788.md line 18, 'Do not let a builder read the eval') says the same old promise; the intent page changes only with the product owner's yes.",
+   "why": ""},
+  {"group": "Q-encrypt-1", "closed_by": "settled",
+   "answer": "",
+   "basis": {"kind": "person", "ref": "798/specs/design.md:7-11"},
+   "context": "",
+   "why": "The product owner dropped encryption and #828 on 2026-10-26: everything is plain text, and the evals stay in the repo."}
+]}

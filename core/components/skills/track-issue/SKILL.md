@@ -24,6 +24,8 @@ Receive from agent:
 - `body` — (required for `comment`) The comment body to post to the issue
 - `description` — (required for `create`, optional for `resolve_or_create`)
 - `parent_issue_number` — (optional) If provided, attach created/resolved issue as sub-issue
+- `issue_template_path` — (required for `create`) the short-term copy of the memory template
+  `standards/templates/github-issue.md` that the agent got from template-manager
 - `platform` — `github` (from config)
 - `labels` — (optional) Comma-separated labels to apply on create
 - `reason` — (optional, `close` only) Close reason: `completed` (default) or `not_planned`
@@ -51,7 +53,7 @@ Parse and return structured output. Map the adapter's fields into the output tem
 
 ### Action: `create`
 
-1. Load template from: `~/.garura/core/memory/standards/templates/github-issue.md`
+1. Load the template at `issue_template_path`
 2. Construct issue body from description using template format
 3. Invoke the `platform-adapter` skill with `verb: create-issue` and `args: {title: {title}, body: {body}, labels: {labels}, assignee: "@me"}`.
 4. If `parent_issue_number` is provided, attach as sub-issue (see Sub-Issue Attachment below)
@@ -144,7 +146,7 @@ Produce output using template: `templates/issue-output.md`
 
 ## Reference
 
-Platform-specific CLI and API reference: `reference/github-issue.md` (GitHub). This file is retained as a delegation pointer — the executable command translations now live in `core/components/skills/platform-adapter/reference/{platform}/verbs.md`. Do NOT add a `gitlab-issue.md` sibling here; GitLab translations are in the adapter's reference layer.
+Platform-specific CLI and API reference: `reference/github-issue.md` (GitHub). The executable command translations live in `../platform-adapter/reference/<platform>/verbs.md`. Do NOT add a `gitlab-issue.md` sibling here; GitLab translations are in the adapter's reference layer.
 
 ## Constraints
 

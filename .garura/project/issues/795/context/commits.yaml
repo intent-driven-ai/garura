@@ -1,0 +1,26 @@
+commits:
+  - sha: 7b3c7078
+    message: "fix(model): the slice record and spine agree; the older chain is labelled (#795)"
+    files:
+      - core/components/memory/standards/schemas/product-os/slice.yaml
+      - core/components/memory/standards/schemas/product-os/spine.yaml
+    branch: plan/788/795-shape-slice-grills-and-assembles
+  - sha: be239fc4
+    message: "docs(rules): align pipeline-next, no-unbacked-recommendation and user-questions rules (#795)"
+    files:
+      - core/components/memory/standards/rules/pipeline-next.md
+      - core/components/memory/standards/rules/no-unbacked-recommendation.md
+      - core/components/memory/standards/rules/user-questions.md
+    branch: plan/788/795-shape-slice-grills-and-assembles
+  - sha: b0e03e7c
+    message: "chore(stm): record review round 1 run artifacts (#795)"
+    files:
+      - .garura/project/issues/795/context/analysis.yaml
+      - .garura/project/issues/795/context/porcelain.txt
+    branch: plan/788/795-shape-slice-grills-and-assembles
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

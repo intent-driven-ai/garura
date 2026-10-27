@@ -74,7 +74,8 @@ Recompute the fingerprint with `shasum -a 256 reference/ice.md`.
 From the repository root:
 
 ```
-python3 core/components/plays/edit-loop/scripts/lint_loop.py core/components/loops/<loop>/SKILL.md
+python3 core/components/plays/edit-loop/scripts/lint_loop.py core/components/loops/<loop>/SKILL.md \
+    --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 Fix every GAP and run it again until it passes; then run

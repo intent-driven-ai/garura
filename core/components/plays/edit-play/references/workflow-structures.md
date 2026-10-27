@@ -58,7 +58,7 @@ sibling's output. Two shapes:
 - **Sub-agent-dispatch** — the step dispatches N isolated sub-agents in one concurrent
   batch, joins, then proceeds (e.g. one content-quality judge per grounding doc).
 - **Script-internal** — one orchestrating script runs its independent subprocesses in a
-  bounded worker pool, collecting results in input order (e.g. `/validate-feature`'s check runners).
+  bounded worker pool, collecting results in input order (e.g. a play's check runners).
 
 However you word the step, it must state that it fans out AND name the join barrier and the
 read-only condition — `lint_play.py`'s `check_fanout_declaration` fails a play that cites

@@ -1,0 +1,99 @@
+category: harness
+round: 2
+base: plan/788/base
+pr: 885
+issue: 884
+grounding_sources_used:
+- id: G1
+  principle: Mechanical work is a script; a model is used only where judgment is needed.
+  source: plan/788/base:docs/standards/harness-standard.md principle 3
+- id: G2
+  principle: A change to what a part guarantees is made in its ICE and the part is compiled again; the compiled part records a fingerprint of its ICE; the Expectation holds the scenarios that prove the guarantee.
+  source: plan/788/base:docs/standards/harness-standard.md principles 4 and 5; plan/788/base:CLAUDE.md Play Pipeline Rules
+- id: G3
+  principle: The judge prompt, rubric and verdict shape live in one place, the judge-grounding skill; the judge only scores and evidences, the deterministic gate decides.
+  source: plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 7; plan/788/base:core/components/plays/discover-capabilities/scripts/grounding_gate.py (docstring)
+- id: G4
+  principle: A verdict missing any of the five criteria fails closed (a judge that drops a criterion is not trusted).
+  source: 'memory: standards/rules/grounding-eval.md (Phoenix 44e1c4c4799a, "The gate rule"); copy .garura/project/issues/884/context/memory/grounding-harness/standards/rules/grounding-eval.md line 25; plan/788/base:core/components/plays/discover-capabilities/scripts/grounding_gate.py docstring line 8'
+- id: G5
+  principle: The judge runs as a clean-context sub-agent; the play dispatches it, a script gates it; a play reads no memory and writes only to the issue's short-term memory.
+  source: 'memory: standards/rules/grounding-eval.md "How the judge runs"; plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md sections 1 and 2; plan/788/base:docs/standards/harness-standard.md principle 11'
+- id: G6
+  principle: The judge fan-out is concurrent and read-only; each judge writes only its own verdict; the gate runs after the join.
+  source: 'memory: standards/rules/concurrent-fanout.md (Phoenix 44e1c4c4799a); copy .garura/project/issues/884/context/memory/grounding-harness/standards/rules/concurrent-fanout.md'
+round1_status:
+  # A-G are .garura/project/issues/884/review/round1/findings.yaml; DF-1..DF-6 are round1/design-findings-harness.yaml
+  A:
+    status: fixed
+    quote: 'gate: "if entry.get(\"fixed\") is not True: return \"\"; if collapse(snapshot) == collapse(now): return \"marked fixed, but the doc did not change since the verdict that failed\"; if not quotes_found(entry.get(\"evidence\"), now): ..."'
+    checked: 'ran it on a scratch folder: unchanged doc + fixed:true -> FAIL "marked fixed, but the doc did not change"; changed doc + fixed:true + quote on page -> PASS; 22 tests OK'
+  B:
+    status: fixed
+    quote: 'grounding-eval.md "How the judge runs": "In a fix round the judge also gets its own earlier failures for that doc (`prior_failures`), and only those. It still gets no brief, no author reasoning and no gold example."'
+  C:
+    status: fixed
+    quote: '_content-standard.md: "A fix round ... follows the settling rule in `standards/rules/grounding-eval.md`: a new point on text that did not change is a note ... not a reject."'
+  D:
+    status: fixed
+    quote: 'gate fingerprint(doc, guidance, parent, judge) hashes four length-prefixed parts; plays pass --judge <judge>; rule: "A calibration run uses no judge state: every doc is judged fresh, in a first round, with all-pass."'
+    checked: 'ran it: after the judge file changed, `kept` no longer says kept'
+  E:
+    status: fixed
+    quote: 'both plays: "Its contract adds `"prior_failures": "<working>/judge/prior-<doc id>.json"` only when that file reads `round: fix`"; skill: "When `round` is `first`, the play hands no `prior_failures`" and shows the file shape'
+  F:
+    status: fixed
+    quote: 'gate sub-command `notes --state DIR --out FILE` ("every note held in the state''s records, passed and kept docs included"); `kept` returns the stored notes; Step 2 runs it and SE-4 / SE-2 say "`<working>/judge/notes.json` was written by `grounding_gate.py notes`"'
+  G:
+    status: fixed
+    quote: 'rule title "Grounding Content-Quality Eval — v2"; compiled_by in both plays now starts "edit-play (#884 the content eval settles: kept pass, fix round, notes; ...)"; ICE scenarios S10 (discover-capabilities) and S9 (discover-domains) added, fingerprints equal the ICE sha256'
+  DF-1: {status: fixed, quote: 'same as B'}
+  DF-2: {status: fixed, quote: 'same as E'}
+  DF-3: {status: fixed, quote: 'same as F'}
+  DF-4: {status: fixed, quote: 'same as A'}
+  DF-5: {status: fixed, quote: 'same as G (compiled_by entry in both plays)'}
+  DF-6: {status: fixed, quote: 'same as G (S10 / S9: "no judge is dispatched for that doc and its pass stands; and in a fix round, a new point ... on text that did not change is a note that does not stop the run")'}
+  fixed_count: 13 of 13 (A-G = 7 of 7; DF-1..DF-6 = 6 of 6; they overlap)
+checked_clean:
+- 'ICE and compiled play agree on the fingerprint: sha256 of each reference/ice.md equals the fingerprint in its SKILL.md (discover-capabilities 8554c3ca..., discover-domains 648e0695...). lint_play on both: PASS, 0 gaps. lint-components: 0 violations in the changed paths.'
+- 'No edit note or change log added to either SKILL.md or to judge-grounding (compiled_by is the sanctioned record).'
+- 'Wiring intact: play -> isolated judge sub-agent -> judge-grounding skill -> scripts/grounding_gate.py; the gate decides; the judge is handed no brief and no gold example; the ten grounding_gate.py copies are byte-identical (one md5) and the old --verdict-only command still gives the old all-pass result.'
+- 'Fan-out safety holds: kept and prior run before the batch; the per-doc record is written in the serial gate loop after the join; notes runs after all gates. State lives in the issue short-term memory (ADR 039 sections 1 and 2); the play passes the installed judge skill path to the script and reads no memory.'
+- 'Skill, both plays, ICE scenarios and the rule state the same command lines and the three settled rules.'
+findings:
+- id: N1
+  severity: P2
+  class: P2
+  file:
+  - core/components/plays/discover-capabilities/scripts/grounding_gate.py (gate_with_state, fix round; and its identical copies)
+  - 'core/components/memory/standards/rules/grounding-eval.md (How the gate settles, "A missing criterion still fails closed in every round")'
+  principle: G4 and G3 - a verdict that misses a criterion fails closed, and the gate (not the judge) decides; a criterion that was never judged must not pass as a mere note.
+  principle_source: 'memory: standards/rules/grounding-eval.md line 25 (copy in grounding-harness); plan/788/base:core/components/plays/discover-capabilities/scripts/grounding_gate.py docstring line 8; plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 7'
+  finding: 'The record keeps only the failures (a missing criterion is not stored as one). I ran it on a scratch folder: round 1, the judge drops stranger_test -> exit 1, "missing criterion: stranger_test", round first. Round 2, the same unchanged doc, the judge returns all five and fails completeness on a quote of the unchanged text -> "PASS - doc.md cleared all five criteria", "note (text did not change, does not block): completeness", ok: true, round fix. So a doc that was never fully judged, and was rejected for that, passes on its next round with a fail on a criterion the first round never scored. The same holds for the "first round failed and nothing was recorded" case in general: a fix round with an empty list of last failures treats every fail on unchanged text as a note.'
+  suggested_fix: 'When a verdict fails with missing criteria (or any non-pass the record does not hold), keep the doc''s next round a first round (no record, or record the missing ids and treat a fail on one of them as a failure, not a note). Add a test: missing in round 1, fail on unchanged text in round 2 -> exit 1. Say it in the rule.'
+- id: N2
+  severity: P4
+  class: P4
+  file:
+  - core/components/plays/discover-capabilities/reference/ice.md (C4)
+  - core/components/plays/discover-domains/reference/ice.md (C2)
+  principle: G2 - a guarantee is held in the ICE; the compiled play and the scenarios must not carry a guarantee the constraint does not.
+  principle_source: plan/788/base:docs/standards/harness-standard.md principles 4 and 5; plan/788/base:CLAUDE.md Play Pipeline Rules
+  finding: 'The constraint says a pass is kept "while the doc, its parent doc and the guidance are unchanged" (domains: "the doc and the guidance"). The scenarios (S10 / S9), the compiled SKILL.md, the rule and the gate all add a fourth input, the judge ("the doc, its parent, the guidance and the judge are unchanged"). The ICE constraint and its own scenario now state two different conditions.'
+  suggested_fix: 'Add "and the judge" to C4 and C2 and recompile with /edit-play.'
+- id: N3
+  severity: P4
+  class: P4
+  file:
+  - core/components/memory/standards/rules/grounding-eval.md (How the gate settles, the kept pass)
+  principle: G3 - the rule describes what the gate does, no more.
+  principle_source: 'plan/788/base:core/components/plays/discover-capabilities/scripts/grounding_gate.py docstring (the gate decides); memory: standards/rules/grounding-eval.md (the gate rule)'
+  finding: 'The rule says "a stricter judge ends the old passes: a pass given by a looser judge is not kept". True for `kept`, but the re-judge cannot reject: I ran a passed doc, changed the judge file, and the stricter verdict failed stranger_test on unchanged text -> "PASS ... note (text did not change, does not block)". A stricter judge only adds notes to an unchanged doc; it rejects only changed text.'
+  suggested_fix: 'Add one sentence: a stricter judge re-judges an unchanged doc, but its new points on unchanged text are notes.'
+held:
+- 'judge-grounding is a skill, a direct edit is allowed; no edit note; rubric, prompt and verdict shape stay in the one skill (ADR 039 section 7); the "prior" field is optional, so old verdicts still gate.'
+counts:
+  P1: 0
+  P2: 1
+  P3: 0
+  P4: 2

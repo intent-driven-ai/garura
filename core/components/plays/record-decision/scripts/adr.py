@@ -27,7 +27,7 @@ import sys
 import yaml
 
 STATUSES = {"proposed", "accepted", "superseded", "rejected"}
-LEVELS = {"framework", "product", "capability", "functionality"}
+LEVELS = {"framework", "product", "capability", "feature"}
 BI_CHECKS = {"none", "kind", "instance"}
 MD_HEADERS = ["Status", "Date", "Level", "Decided in", "Affects", "ICE impact", "Business intent check"]
 MD_SECTIONS = ["Context", "Decision", "Consequences", "Alternatives Considered"]
@@ -183,8 +183,8 @@ def lint_yaml(d):
         problems.append(f"`status` must be one of {sorted(STATUSES)}")
     if d.get("level") and d["level"] not in LEVELS:
         problems.append(f"`level` must be one of {sorted(LEVELS)}")
-    if d.get("level") in ("capability", "functionality") and not d.get("node_ref"):
-        problems.append("a capability or functionality decision names its `node_ref`")
+    if d.get("level") in ("capability", "feature") and not d.get("node_ref"):
+        problems.append("a capability or feature decision names its `node_ref`")
     if d.get("business_intent_check") and d["business_intent_check"] not in BI_CHECKS:
         problems.append(f"`business_intent_check` must be one of {sorted(BI_CHECKS)}")
     if d.get("status") == "accepted" and not meta.get("accepted_by"):

@@ -1,0 +1,62 @@
+# check-change Step 4 -- consolidated findings, PR #827 round 2.
+# Runnable checks: runnable-checks.txt (all exit 0; linter 121, same as base).
+findings:
+- category: memory
+  id: M1
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G5; ADR 048
+  message: Hidden file and Context guidance have no decision record.
+  status: 'deferred: #824'
+- category: memory
+  id: M2
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G3
+  message: ICE kind now names the plan play as reader (:473).
+  status: fixed
+- category: memory
+  id: M3
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G1
+  message: Hidden file barrier is by rule, not encryption.
+  status: 'deferred: #828'
+- category: memory
+  id: M4
+  severity: P3
+  path: core/components/memory/standards/rules/expectation-generation.md
+  basis: G4
+  message: Rule now covers a story's recovery (:67-84).
+  status: fixed
+- category: memory
+  id: M5
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G1
+  message: Running eval reads only the recovery parts (:114, :427).
+  status: fixed
+- category: memory
+  id: M6
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G4
+  message: Story says 'limits' (:636).
+  status: fixed
+- category: memory
+  id: M7
+  severity: P4
+  path: core/components/memory/standards/rules/expectation-generation.md
+  basis: G4; the file's own base scope note (lines 1-12) says it covers the play case only and names the feature
+    case as a separate generator
+  message: New story section sits in a file whose title, opening line and scope note still say plays only; the note
+    now contradicts the section. Widen the scope note (a direct edit).
+  status: fixed after round 2 review (commit f5762b1a)
+- category: memory
+  id: M8
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/ontology.md
+  basis: G4 (Goal, Limit, Fails if); the same file uses 'limits' elsewhere after the M6 fix
+  message: v10 changelog line (:810) still says 'the goal, the constraints' and ':636' reads 'the limits it must
+    stay inside (the limits)', which repeats itself. Say 'limits' once.
+  status: fixed after round 2 review (commit f5762b1a)

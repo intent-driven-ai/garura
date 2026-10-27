@@ -4,8 +4,8 @@ description: Enumerate every test file in a codebase, extract test subjects and 
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Grep, Glob, Bash
-deprecated: true
-deprecated_note: '#434 ProductOS realignment — superseded by the command model; retained for Phase E reference, not installed'
+stale: true
+stale_note: 'waits for the rebuild of /refactor-code (#855)'
 ---
 
 # scan-test-surface

@@ -1,0 +1,4 @@
+ M core/components/agents/_shared/copy_memory.py
+ M core/components/agents/_shared/memory-reading.md
+ M core/components/agents/_shared/test_copy_memory.py
+?? .garura/project/issues/867/context/porcelain.txt

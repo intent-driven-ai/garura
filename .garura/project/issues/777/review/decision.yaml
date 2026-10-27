@@ -1,0 +1,7 @@
+decision: approve
+decided_by: human
+reviewer: the product owner
+recommended: approve
+citing_findings: []
+follow_up: items DG-2, N1, N2, N3 filed as one chore under #777
+gate: on (gates.plays.check-change is absent from the installed config, bug #772)

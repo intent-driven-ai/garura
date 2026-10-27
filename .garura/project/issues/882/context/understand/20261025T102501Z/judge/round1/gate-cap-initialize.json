@@ -1,0 +1,8 @@
+PASS — .garura/product/product-os/software-delivery-planning/initialize/capability.md cleared all five criteria.
+{
+  "ok": true,
+  "overall": "pass",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+  "failures": [],
+  "missing": []
+}

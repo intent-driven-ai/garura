@@ -3,7 +3,7 @@ id: review/tests
 title: "Reviewing tests"
 conditions:
   recognises: "the PR changes automated tests"
-  signals: ["**/{test,tests,__tests__,spec,e2e,integration,cypress,playwright}/**", "**/*.{test,spec}.*", "core/components/plays/validate-feature/scripts/runners/**"]
+  signals: ["**/{test,tests,__tests__,spec,e2e,integration,cypress,playwright}/**", "**/*.{test,spec}.*", "core/components/plays/validate-epic/scripts/runners/**"]
 provenance: "seeded:#443"
 ---
 

@@ -1,20 +1,22 @@
 ---
 name: shape-ux-lens
 position: start
-description: 'Write a SLICE''s UX lens as a grounding doc (ux.md) — the screens (each naming the object the user works with there, with a low-fidelity layout) that make the slice''s functionalities visible, the flows (per persona and goal: entry, ordered steps naming screens, forks, failure path, exit), the states each screen holds (each with its trigger), and the product''s visual core (the semantic state vocabulary, its tone map, and the design-system reference the look comes from — never a palette or type scale this play picks) — directly in place on the live model. It also DRAWS the slice: a machine-readable wireframe record (lens/screens.yaml) the play authors and a wireframes.html a bundled script renders from it, ordered by journey step, so a product owner can look at the design rather than read a description of it. The START of the FUNCTIONAL realize pipe (ux → agentic → marketing), run on a shaped slice. Accessibility is not here (it lives in the marketing lens); the wider cross-product journey is not here either (that is /story''s). Reads the hub from the spine (functionality grounding + profile + the slice''s persona and journey records — each flow EXPANDS a journey, never invents one), never another lens. Writes only the slice''s ux lens, its wireframe artifacts, and its decisions — the visual core plus any design directive the design settled for /shape-architecture-lens and /build-feature to inherit.'
+description: 'Write a SLICE''s UX lens as a grounding doc (ux.md) — the screens (each naming the object the user works with there, with a low-fidelity layout) that make the slice''s features visible, the flows (per persona and goal: entry, ordered steps naming screens, forks, failure path, exit), the states each screen holds (each with its trigger), and the product''s visual core (the semantic state vocabulary, its tone map, and the design-system reference the look comes from — never a palette or type scale this play picks) — directly in place on the live model. It also DRAWS the slice: a machine-readable wireframe record (lens/screens.yaml) the play authors and a wireframes.html a bundled script renders from it, ordered by journey step, so a product owner can look at the design rather than read a description of it. The START of the FUNCTIONAL realize pipe (ux → agentic → marketing), run on a shaped slice. Accessibility is not here (it lives in the marketing lens); the wider cross-product journey is not here either (that is /story''s). Reads the hub from the spine (feature grounding + profile + the slice''s persona and journey records — each flow EXPANDS a journey, never invents one), never another lens. Writes only the slice''s ux lens, its wireframe artifacts, and its decisions — the visual core plus any design directive the design settled for /shape-architecture-lens and /build-epic to inherit.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # ux
 
 Write a shaped slice's **UX lens** as the grounding doc `ux.md`: the screens that make every
-functionality visible (each naming the one object the user works with there), the flows a person
+feature visible (each naming the one object the user works with there), the flows a person
 takes through those screens, the states each screen holds, and the product's visual core. It also DRAWS
 the slice as wireframes — a record the play authors and a page a script renders from it, ordered by
 journey step — because a prose layout is not something a product owner can look at and approve, and
 that approval is the whole point of the checkpoint. Just enough to
 anchor the intended experience and let the build figure the rest. /shape-ux-lens reads the slice's **hub**
-— its functionalities' grounding docs plus the profile (both from the spine) — and never another
+— its features' grounding docs plus the profile (both from the spine) — and never another
 realize lens.
 
 **Pipeline position: start.** /shape-ux-lens OPENS the functional realize pipe (ux → agentic → marketing):
@@ -90,7 +92,7 @@ a domain agent. The content-quality judge always runs as an isolated, clean-cont
 |-------|-----------|-------------------|
 | Resolve config + `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | Resolve `grounding-eval.judge` (optional model override) | C4 | Default: sub-agent on the session model |
-| Slice ready + hub resolves — functionalities, profile, AND the slice's personas + journeys (`check_ready_slice.py`) | C1 | Hard halt (REC1) |
+| Slice ready + hub resolves — features, profile, AND the slice's personas + journeys (`check_ready_slice.py`) | C1 | Hard halt (REC1) |
 | **Clean model tree** — after start-change (Step 0), `git status --porcelain -- <product_base>product-os` is empty | C13/F14 | Hard halt (REC14) |
 
 Resolve the pre-flight facts mechanically with the bundled resolver:
@@ -107,7 +109,7 @@ python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slic
     > <working>/readiness.json
 ```
 
-Keep `readiness.json` on disk — the widened hub (#550) lives in it. Besides the functionality
+Keep `readiness.json` on disk — the widened hub (#550) lives in it. Besides the feature
 groundings it carries `personas[]` (`{id, path, name}` for every persona the slice's surfaces and
 journeys name) and `journeys[]` (`{id, path, persona_ref, surface_refs, step_count}` for every
 journey whose `surface_refs` touch a slice surface). Step 1 reads the records from those paths and
@@ -116,8 +118,8 @@ against. An unresolvable persona or a surface reached by no journey is a BROKEN 
 exits 1 and the run hard-halts (REC1); it is never treated as an empty hub.
 
 It asserts the profile is `set` (from the spine), resolves the slice record, and resolves every
-`functionality_ref` through the spine to its `functionality.md` grounding doc — the hub. If the
-slice is absent, a functionality does not resolve, or the profile is not firmed, hard halt
+`feature_ref` through the spine to its `feature.md` grounding doc — the hub. If the
+slice is absent, a feature does not resolve, or the profile is not firmed, hard halt
 (C1/REC1).
 
 The run's working root (`<working>` below) is `{stm_base}_realize/ux/<slice>/` — the routing, the
@@ -206,7 +208,7 @@ this run's delta.
 
 **Step 1 — Author the lens (ux.md to live)** · Owner: `product-os-keeper` · Depends on: Step 0
 The agent invokes `author-ux-lens` to write the slice's `ux.md` (screens + flows + states +
-visual core, per the UX lens template) from the hub (the functionality grounding docs, the profile,
+visual core, per the UX lens template) from the hub (the feature grounding docs, the profile,
 and the slice's persona + journey records — each flow EXPANDS one journey) and KB
 pattern grounding. Per ADR 026 the skill writes the per-node doc **straight to the live model** in
 place, and emits the visual-core decision (with the grounding map) as structured data in
@@ -214,10 +216,10 @@ place, and emits the visual-core decision (with the grounding map) as structured
 `decisions/*.yaml`):
 
     {
-      "task":    "author the slice's UX lens (screens/flows/states/visual core) AND its wireframe record from its hub; write ux.md and lens/screens.yaml in place on the live model — never wireframes.html, which a script renders from your record; ground screens to functionalities and EXPAND each of the slice's journey records into one flow — the journey supplies the persona and the ordered steps, you add the screen each step happens on plus the forks, failure path and exit; never invent a flow; name each flow's journey_ref and persona_ref in the manifest so both resolve against readiness.json; in screens.yaml tie every frame to its journey step through journeys[].steps[].covered_by (never a field on the screen), give every moment a literal frame body, and give any journey step no moment covers a named gap rather than dropping it; fix the visual core as MEANING — the semantic vocabulary, its tone map, the word-alongside-colour rule, and the design-system reference (or an explicit none-yet) — never a palette or a type scale; every flow step names a real screen and every screen is reached by a flow; emit the visual-core decision delta AND a design-directive decision for each non-visual thing the design settled that /shape-architecture-lens or /build-feature must inherit, into the manifest",
+      "task":    "author the slice's UX lens (screens/flows/states/visual core) AND its wireframe record from its hub; write ux.md and lens/screens.yaml in place on the live model — never wireframes.html, which a script renders from your record; ground screens to features and EXPAND each of the slice's journey records into one flow — the journey supplies the persona and the ordered steps, you add the screen each step happens on plus the forks, failure path and exit; never invent a flow; name each flow's journey_ref and persona_ref in the manifest so both resolve against readiness.json; in screens.yaml tie every frame to its journey step through journeys[].steps[].covered_by (never a field on the screen), give every moment a literal frame body, and give any journey step no moment covers a named gap rather than dropping it; fix the visual core as MEANING — the semantic vocabulary, its tone map, the word-alongside-colour rule, and the design-system reference (or an explicit none-yet) — never a palette or a type scale; every flow step names a real screen and every screen is reached by a flow; emit the visual-core decision delta AND a design-directive decision for each non-visual thing the design settled that /shape-architecture-lens or /build-epic must inherit, into the manifest",
       "inputs":  { "slice_ref": "<domain>/<slice>",
                    "slice_file": "<slice record>",
-                   "functionality_groundings": "<from check_ready_slice>",
+                   "feature_groundings": "<from check_ready_slice>",
                    "readiness": "<working>/readiness.json",
                    "personas": "<readiness.personas[] — the slice's persona records>",
                    "journeys": "<readiness.journeys[] — the slice's journey records>",
@@ -300,9 +302,9 @@ persona record the readiness check handed over (an invented role such as "a gene
 "the actor" is a hard fail, not a wording caveat), and every screen it declares is named by at
 least one journey step in `screens.yaml`, with the lens and the record describing the same slice.
 A well-formed doc describing people or screens the model does not have FAILS this eval. REC4.
-**SE-4 (F5/C5):** `validate_ux.py` — every screen in the manifest grounds to a functionality or a
+**SE-4 (F5/C5):** `validate_ux.py` — every screen in the manifest grounds to a feature or a
 persona/journey; the visual core grounds to the KB or a decision.
-**SE-5 (F6/C6):** `validate_ux.py` — every functionality the slice bundles is visualized by at
+**SE-5 (F6/C6):** `validate_ux.py` — every feature the slice bundles is visualized by at
 least one screen (coverage), and every screen is reached by at least one flow step (no
 unreachable screen).
 **SE-6 (F7/C7):** `validate_ux.py` — no screen grounds on another realize lens.
@@ -501,9 +503,9 @@ land closes HALTED, never COMPLETED (REC12).
 - **SCE-1 (S1 — product designer):** `ux.md` is a valid UX Lens doc clearing the linter + the
   content eval, written in place on the live model, and the spine/slice/profile/other lenses are
   byte-identical (the scoped-guard report reads `ok`); the stop-condition verdict reads held.
-- **SCE-2 (S2 — product owner):** every functionality the slice bundles maps to ≥1 screen, and
+- **SCE-2 (S2 — product owner):** every feature the slice bundles maps to ≥1 screen, and
   every screen is reached by ≥1 flow step.
-- **SCE-3 (S3 — ux researcher):** every screen traces to a functionality or persona/journey; every
+- **SCE-3 (S3 — ux researcher):** every screen traces to a feature or persona/journey; every
   flow's `journey_ref` and `persona_ref` resolve against `readiness.json`; every role the doc names
   resolves to a persona record and every screen it declares is named by a journey step; the visual
   core to a decision that resolves, and it names a design-system reference or records that none
@@ -587,8 +589,7 @@ unresolved — never blocks the close); and stop_condition per C0 with the Stop 
 filled) and write to `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in
-the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all
-recommended actions.` (only /next pointer, or omit, when the mapped command is null), per
+the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per
 `play-close.md`. Fill the `delivery-report.md` slots: `## ux Delivered — ${slug}`, the Run Summary
 table (incl. the stop-condition verdict), the Pipeline Steps table, the Artifacts Produced table
 (the ux lens + the visual-core decision + the model-delta commit sha), Next Steps (run /shape-agentic-lens on
@@ -615,12 +616,12 @@ this slice), and a pointer to `$evidence_dest`. Always emitted.
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a functionality does not resolve, the profile is not firmed, a surface's persona does not resolve, or a surface is reached by no journey | halt and route to /shape-scope (it owns the persona and journey records and already guarantees a journey per surface) or /discover-capabilities before /shape-ux-lens runs; never invent the missing persona or journey | human |
+| F1 | the slice is absent, a feature does not resolve, the profile is not firmed, a surface's persona does not resolve, or a surface is reached by no journey | halt and route to /discover-capabilities before /shape-ux-lens runs; never invent the missing persona or journey | human |
 | F2 | a write touched something beyond this slice's ux.md or its visual-core decision | the guard's `--restore` already reverted the out-of-scope write; re-run writing only the slice's ux.md and its decision | autonomous |
 | F3 | ux.md fails the template/shape or carries out-of-scope content | re-emit to the UX lens template (Intent/Screens/Flows/States/Visual core only; accessibility belongs to marketing, the wider cross-product journey to /story) | autonomous |
-| F4 | ux.md fails the content-quality eval — not self-explaining, or naming a role that resolves to no persona record, or declaring a screen no journey step names | rewrite the failing section to the judge's cited fixes; replace an unresolvable role with the persona record it stood in for (never add the persona — /shape-scope owns those); tie an uncovered screen to the step it serves or drop it; re-judge and re-run the grounding cross-check until both pass | autonomous |
-| F5 | an invented/ungrounded element | drop it, or re-tie the screen to a functionality or persona/journey, and the visual core to a decision | autonomous |
-| F6 | a functionality is covered by no screen | add the screen(s) that visualize the missing functionality | autonomous |
+| F4 | ux.md fails the content-quality eval — not self-explaining, or naming a role that resolves to no persona record, or declaring a screen no journey step names | rewrite the failing section to the judge's cited fixes; replace an unresolvable role with the persona record it stood in for (never add the persona); tie an uncovered screen to the step it serves or drop it; re-judge and re-run the grounding cross-check until both pass | autonomous |
+| F5 | an invented/ungrounded element | drop it, or re-tie the screen to a feature or persona/journey, and the visual core to a decision | autonomous |
+| F6 | a feature is covered by no screen | add the screen(s) that visualize the missing feature | autonomous |
 | F7 | /shape-ux-lens read or depended on another lens | remove the dependency; /shape-ux-lens derives only from the slice's hub | autonomous |
 | F8 | the visual core was set with no decision, or a thing the design settled for the technical build sits in prose with no decision | record the slice-level visual-core decision in the manifest (reuse the product one if it exists), and lift each settled thing out of the prose into its own design-directive decision naming what it binds downstream — recording only what the design actually settled — before the keyed persist | autonomous |
 | F9 | the scoped-write guard report is not ok — a non-lens/non-decision path changed, or an accepted decision was edited in place | the guard's `--restore` already reverted the offending paths; re-run writing only the slice's ux.md and its visual-core decision, after a human confirms the restore | human |
@@ -644,7 +645,7 @@ start — a resume continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:480f814291de59edc0aadb3f718e27d16b069c24a4d627ae347a0e4d4d3c4af7 (of `reference/ice.md`) |
+| fingerprint | sha256:40a72faf013c93e3ee8993e46f4d4d03eec8b154556d0a1f24cc535e31d6f269 (of `reference/ice.md`) |
 | compiled_by | edit-play (#552 wireframes drawn, visual core narrowed, design directives, artifact-handover checkpoint, truth-checking content eval); prior: edit-play (#550 persona + journey grounding), edit-play (#548 flows + object-per-screen), edit-play (#500 direct-model-write, ADR 026), edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | start (functional pipe head; the functional pipe closes at /shape-marketing-lens) |
 | workflow_structure | A (single checkpoint — class: standard, conditional learned gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
@@ -689,8 +690,7 @@ first draft on every criterion.
 
 Outside the play: `author-ux-lens` authors `screens.yaml` and the widened decision set, and the UX
 lens template's Visual core guidance and gold example were rewritten to match. The lens heading
-list is unchanged, so the ten duplicated `lint_grounding.py` copies need no sync. The slice-outcome
-trace belongs to /shape-scope (#561) and is deliberately not built here.
+list is unchanged, so the ten duplicated `lint_grounding.py` copies need no sync. The slice-outcome trace is deliberately not built here (#561).
 
 **Recompiled note (#500, direct-model-write / ADR 026):** migrated from draft-then-apply to
 direct-model-write. The old draft model tree and the `apply_ux.py`/`check_ux.py` promotion+verify
@@ -720,10 +720,10 @@ the compiled output was produced by hand to match what edit-play would emit from
 intent, but no edit-play run actually occurred and convergence is UNVERIFIED.** An interactive
 `/edit-play` convergence run against `reference/ice.md` is **REQUIRED** — confirming the emitted
 SKILL matches this hand-compiled body and refreshing the fingerprint. This migration mirrors the
-merged /discover-capabilities reference implementation (#498) and the just-migrated /discover-domains, /shape-features, /learn-outcomes
+merged /discover-capabilities reference implementation (#498) and the just-migrated /discover-domains, /shape-slice, /learn-outcomes
 on this branch. Note also: `reference/ice.md` C13 distinguishes the model-delta commit from the
 Standard Play Close (evidence + delivery report) that /shape-ux-lens still runs; the close anchor block is
-retained (required by `check-components` structural.js and the create-play G12 emit on every play),
+retained (required by the component linter structural.js and the create-play G12 emit on every play),
 and the `feat(model)` commit is the separate lightweight persist step, so both coexist as C13
 describes.
 
@@ -756,12 +756,12 @@ ICE.
 ## Recompile note (#550, persona + journey grounding)
 
 Intent change via `reference/ice.md` → recompile. #548 gave the lens a Flows section and then could
-not ground it: the hub was functionality docs + the profile only, the author contract passed no
+not ground it: the hub was feature docs + the profile only, the author contract passed no
 persona path, the shared readiness gate resolved neither personas nor journeys, and the flow check
 accepted a persona name without opening the record. So /shape-ux-lens invented flows that already existed in
 the model.
 
-The fix reads what /shape-scope already wrote. A journey record is `persona_ref + surface_refs + steps` —
+The fix reads the journey and persona records already in the model. A journey record is `persona_ref + surface_refs + steps` —
 a persona, the surface it runs on, and the ordered steps in the user's own words. That IS a flow.
 The hub now includes the slice's persona and journey records; `check_ready_slice.py` resolves them
 and LOUD-FAILS on a dangling `persona_ref` or a surface no journey reaches (C1/F1); each flow
@@ -775,5 +775,5 @@ the Step 1 contract. Added: nothing — every existing element gained a clause, 
 14, failures 15, scenarios 7, recovery 15, step evals 14, scenario evals 7. `readiness.json` is now
 kept on disk at pre-flight and handed to the validate step. The UX lens template, the structural
 linter and the Flows field set are UNTOUCHED: the journey id lives in the manifest, not the doc.
-Companion change on /shape-scope (#550 scope B) enriches the persona record itself. Fingerprint
+A companion change (#550 scope B) enriches the persona record itself. Fingerprint
 recomputed over the edited ICE.

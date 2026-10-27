@@ -1,0 +1,24 @@
+{
+  "commits": [
+    {
+      "sha": "1dc0b567",
+      "message": "docs(schema): note how slice records written before v2 are read (#795)"
+    },
+    {
+      "sha": "3f6c32ac",
+      "message": "test(eval): add round-2 acceptance checks (#795)"
+    },
+    {
+      "sha": "1684d7ef",
+      "message": "chore(stm): record round-2 review and commit-change run artifacts (#795)"
+    }
+  ],
+  "groups_skipped_clean": [],
+  "run_state_commit": "9967272c",
+  "branch": "plan/788/795-shape-slice-grills-and-assembles",
+  "leftover_uncovered": [],
+  "leftover_count": 0,
+  "tree_clean": true,
+  "out": ".garura/project/issues/795/context/commit-change/commits.yaml",
+  "pushed": false
+}

@@ -1,0 +1,48 @@
+Feature: `/shape-slice` gets a business intent, grills the person within the grilling tier, and puts together the slice that delivers the intent. It writes the slice into the product model with its link to the intent.
+
+## Done when
+- It takes a business intent issue number as its entry point, finds that intent in the product model, and works from the model. If the model has no page for it, it writes the page from the issue. It does not need a slice that the seven lenses stamped "realized".
+- It reads the product model and memory first, and asks only about the gaps — all at once, each question standing alone — within the tier's budget (#817). It records the answers in short-term memory.
+- It picks the features that serve the intent, from any capability, and names the person who tests the slice and the one surface they test it on. A slice with no such surface is not written.
+- It finds a slice that already serves the intent before it makes a new one.
+- It fills the model as it goes: a domain, capability, feature or ICE the slice needs and the model lacks is added at the depth it knows, never skipped.
+- It writes the slice (`features` in build order, `vertical`, `intents`) into the spine's `slices` list, with its record at `product-os/slices/<id>.yaml` (a slice links to capabilities, and through them to its domains; it has no domain home), and the grounding linter passes.
+- Until #796, it shows the slice at a typed checkpoint (yes / change / stop) and commits only after yes.
+- Built fresh with `/create-play` (the old play's job, cutting epics, is gone; decisions: `.garura/project/issues/795/context/decisions.md`).
+
+## Not in this issue
+- The eval (#798), the plan (#818), the pinned checkpoint (#796), the tier setting (#817).
+- The design, build and test of the epic (the build-stage business intent).
+
+## Links
+- Serves: #788
+- Part of: #794
+- Needs: #816
+
+## Scope of work
+
+Goals:
+- When the product owner runs /shape-slice on a business intent, the spine gets one slice that serves that intent, with its features in build order, its one surface and the persona who tests it.
+- One person can test the slice end to end on that one surface.
+- The same run puts the slice's hidden file in the plan's evals folder, with one entry for each feature of the slice and each entry closed by exactly one way back. This part is not built yet; decision 6 adds it.
+
+Limits:
+- Write only the slice, its link to the business intent it serves, its record, the model parts the slice lacks (each marked to be deepened) and the hidden file.
+- Write no plan, epic, story or eval.
+- Put the hidden file only in .garura/project/plans/<plan-id>/evals/<slug>/.
+- The confirmation the product owner sees shows the slice only.
+- Ask the product owner only what the product model and memory do not answer, and stay inside the question tier.
+
+Expectations:
+- The product owner runs /shape-slice 788 in Claude Code and finds one slice in the spine and the hidden file in plans/788/evals/<slug>/.
+- No other new file appears outside the product model.
+- Run on a real business intent, the play writes one slice and its hidden file, and no plan, epic, story or eval.
+
+## Context guidance
+
+- Read: the business intent's page, the spine, the Slice kind in the ontology, memory, and the play's own folder in core/components/plays/shape-slice/ (built in #795)
+- Never read: the plan, its epics and stories, and the eval: they come after this play
+- Persona: the product owner, who names the intent, answers the questions and approves in Claude Code; /shape-plan and /shape-eval read the slice after
+- In and out: in: the intent page when the model has none, the questions, reuse of a slice that already serves, the missing model parts, the slice, its record and its hidden file, and the stop at a typed yes, change or stop; out: the plan, the epic, the stories and the eval
+
+Represents: fn-795

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "Q-change-1",
+    "answer": "No duplicate stories for a feature. If a feature goes out of the slice, its story moves out of the plan; the plan play does not delete it. The story can stay in the tracker because it was already made."
+  },
+  {
+    "id": "Q-evalformat-1",
+    "answer": "yes, as proposed."
+  }
+]

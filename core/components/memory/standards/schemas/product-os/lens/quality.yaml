@@ -3,7 +3,7 @@
 # Gates only — the list of gates this capability's ICE must pass. Drawn from the
 # box's NFR gates that apply + the ICE's constraints/failures made checkable.
 # How to test, coverage, environments are NOT here — that's the builder's job
-# off the ICE. /validate-feature checks these gates independently.
+# off the ICE. /validate-epic checks these gates independently.
 
 schema:
   name: lens

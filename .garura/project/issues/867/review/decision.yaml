@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "approve and merge"
+round: 1
+citing: []
+recommended: approve (no P1; one P3, one P4)
+not_fixed_by_decision:
+  - F1 (P3), F2 (P4) — chore #872
+  - the review agent ran the branch's source copy_memory.py once, because the installed copy has the bug this PR fixes

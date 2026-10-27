@@ -1,14 +1,11 @@
 # Shared Loop Run
 
-What a loop is, the five loops and how to build one: `docs/components/loops.md`.
-
 The steps every loop runs, in order. A loop is a higher-order play: it runs other plays
 until its intent is met or it fails, and carries no product rules of its own (ADR 029). It owns
 only the run steps every loop takes between its plays — the write-up (R3), reading the source
 once (R4b) and closing the model's gaps after each round (R5 step 7) — and those live here
-(ADR 044). So the run is the same for every loop and lives once, here (`core/components/loops/_shared/loop-run.md`;
-the install lays it in the installed `_shared/` folder beside the plays' shared close). A
-compiled loop holds only the two anchor lines, its own values — its plays in order, its
+(ADR 044). So the run is the same for every loop and lives once, here, in the `_shared/` folder beside
+the plays' shared close. A compiled loop holds only the two anchor lines, its own values — its plays in order, its
 questions, its config keys, its end — and points here. `/create-loop` emits exactly that, so
 a direct edit and a rebuild converge.
 
@@ -156,7 +153,7 @@ A loop runs its plays "repeatedly, until its intent is met" (glossary, Loop; ADR
 ADR 043). A **round** runs every play in `plays` — round 1 all of them, a later round only the
 plays the gap skills gave work to. No play takes another play's output as its input: each reads
 the capture and the write-up, writes its own kind (for Discovery: `/discover-intent` business intents,
-`/discover-domains` domains, `/discover-capabilities` capabilities and functionalities), and the loop connects them
+`/discover-domains` domains, `/discover-capabilities` capabilities and features), and the loop connects them
 after the round. The first build runs the plays one after another, in turn; side by side comes
 once the scoped-write guard can tell two plays' writes apart. A question one play cannot answer
 is the **loop's** question, not a stop: the play records it, does all the work it does not
@@ -360,8 +357,7 @@ section says.
 
 ### Step R8 — Close
 
-Run the Standard Play Close (`../_shared/play-close.md` once installed; in the source it lives
-with the plays, `core/components/plays/_shared/play-close.md`) with the loop's values. The
+Run the Standard Play Close (`../_shared/play-close.md`) with the loop's values. The
 evidence names every play's compact result (status, done check, commit), the contract, the
 answers and the checker's verdict. The loop writes the one delivery report for the run.
 
@@ -381,7 +377,7 @@ resumes from the first play not done.
 
 ## Enforced
 
-`check-components` and `lint_loop.py` check every loop's SKILL.md for the two anchor lines,
+The component linter (`.garura/core/tools/lint-components`) and `lint_loop.py` check every loop's SKILL.md for the two anchor lines,
 each exactly once, opener before closer, and that this file exists:
 
 - opener: `# --- Shared Loop Run (shared; see ../_shared/loop-run.md) ---`

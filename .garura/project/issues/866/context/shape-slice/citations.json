@@ -1,0 +1,513 @@
+{
+  "issue": 866,
+  "play": "shape-slice",
+  "task_id": "shape-slice-propose",
+  "citations": [
+    {
+      "group": "Q-change-1",
+      "closed_by": "proposal",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "what the plan play does when the slice changes after a plan exists",
+          "found": "a second run makes no copies, nothing goes to the tracker before the yes, and the changed-slice rule is not set yet",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+            "start": 20,
+            "end": 22,
+            "fingerprint": "sha256:324b2a6a4915a79c736df1bfad097680a096e52cb98e85b744965c7c5466b724"
+          }
+        },
+        {
+          "asked": "whether each feature of the slice must have one story",
+          "found": "fails if a feature has no story or a second story is made for one feature",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+            "start": 44,
+            "end": 46,
+            "fingerprint": "sha256:6d32cce6e8cb5a000490f23ce2b15407e86f9a5be47349137afb58551a0b0fb0"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-001",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "Q-evalformat-1",
+      "closed_by": "proposal",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "where the eval goes and whether its format is set",
+          "found": "one eval in the plan's evals folder; the format is not set yet",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            "start": 11,
+            "end": 13,
+            "fingerprint": "sha256:b93cde941566d22f8052938724f9ccd125579b6b69cb933287c3d514fd7bf65d"
+          }
+        },
+        {
+          "asked": "how the eval checks",
+          "found": "from the outside on the slice's surface, often a play on a test project; says when it cannot test a line yet",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            "start": 18,
+            "end": 20,
+            "fingerprint": "sha256:a328b9382c241adfa7d50c22485235986fdbe38e98a1f8562ebeb8df3e7b2c5c"
+          }
+        },
+        {
+          "asked": "what each check must cover",
+          "found": "each goal, expectation and failure condition has a check or a note that it cannot be tested yet",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            "start": 25,
+            "end": 25,
+            "fingerprint": "sha256:704c849e5b5d54f153dd6bb385408aa60295d4490f8bf82def0ee24f2b87850e"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-002",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "Q-ready-1",
+      "closed_by": "settled",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "what the play does for a part with no ICE",
+          "found": "it proposes a thin ICE, marks it thin, warns the person and never sends them back",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+            "start": 22,
+            "end": 22,
+            "fingerprint": "sha256:3c22d8fd01578e664b4efcc26a9eeb6b062b0819060b93c9cb1ce3b028206988"
+          }
+        },
+        {
+          "asked": "whether a part with gaps may go forward",
+          "found": "partly ready: the ICE goes forward and work starts",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/capabilities/cap-723/capability.md",
+            "start": 11,
+            "end": 11,
+            "fingerprint": "sha256:be09240c068fb61293ab0aa37ad8033b7a3129d168c683aba96556017726f7e6"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-003",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "Q-approval-1",
+      "closed_by": "settled",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "how each shaping play ends",
+          "found": "each of the three plays ends at one confirmation by the product owner",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 14,
+            "end": 14,
+            "fingerprint": "sha256:63c741c28021d439129517392964958d69cd212e07c8f86aca5377888f87c90e"
+          }
+        },
+        {
+          "asked": "whether the loop's one approval is in scope",
+          "found": "the loop and its one approval (#796) are out of scope",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+            "start": 34,
+            "end": 34,
+            "fingerprint": "sha256:2d2e9f1dc7a309dcb61db8e63fbff6d5ea46930b2afd39d9fe7ee8b7d7e57679"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-004",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "Q-hidden-1",
+      "closed_by": "settled",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "where the eval is kept and who may read it",
+          "found": "only in the plan's evals folder; fails if a builder can read it; until #828 only a read rule keeps builders out",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/capability.md",
+            "start": 19,
+            "end": 23,
+            "fingerprint": "sha256:eebe1671a093838fbde714fd9c228c7f6872471e8b74a03ba3279d81ac812b36"
+          }
+        },
+        {
+          "asked": "what keeps builders out until encryption",
+          "found": "only a read rule, until eval encryption (#828)",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            "start": 21,
+            "end": 21,
+            "fingerprint": "sha256:27a7e14191e2f408c7e860900377e12b7515cfc8d553f086f94c224e0d9e04f9"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-005",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "slice: Which surface does the tester use?",
+      "closed_by": "author-slice",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "the surface of the kept slice",
+          "found": "the slice record names the Claude Code command line, where the product owner runs the three plays",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/slices/sl-intent-to-design.yaml",
+            "start": 15,
+            "end": 20,
+            "fingerprint": "sha256:4a2bf683f15724c3a5fd145970358fdd638197e1df4e8c2c04441040277a4130"
+          }
+        },
+        {
+          "asked": "where /shape-slice is run",
+          "found": "the product owner runs /shape-slice 788 in Claude Code",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+            "start": 46,
+            "end": 47,
+            "fingerprint": "sha256:4f934f7801765d5474d9c5f302c623ba154044728c6724ff60ba8a7e12e38b9d"
+          }
+        },
+        {
+          "asked": "where /shape-plan is run",
+          "found": "the product owner runs /shape-plan 788 in Claude Code",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+            "start": 48,
+            "end": 48,
+            "fingerprint": "sha256:2e7f16d37787301d207efb8b857691df53d45a1dcfe971b4c89b56e372fb2473"
+          }
+        },
+        {
+          "asked": "where /shape-eval is run",
+          "found": "the product owner runs /shape-eval 788 in Claude Code",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            "start": 43,
+            "end": 43,
+            "fingerprint": "sha256:599dc67c40815b9c5b09669ff0bf77a77bb80008d40011814d83473a68116505"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-006",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "slice: Who tests the slice there?",
+      "closed_by": "author-slice",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "who asks for the intent and confirms each part",
+          "found": "the product owner names the work and confirms each part; asked by the product owner",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 3,
+            "end": 7,
+            "fingerprint": "sha256:0755579b4d038a46af0e134c15ce2d131aa6f3c9cd3a21d090b2732e1c0d7d3d"
+          }
+        },
+        {
+          "asked": "whom the domain serves",
+          "found": "the product owner, who names the work and approves its design",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/domain.md",
+            "start": 4,
+            "end": 4,
+            "fingerprint": "sha256:60fa1114342177f7ae0d127a29930b41b3f1d37de6b40b025f628714c9d9a876"
+          }
+        },
+        {
+          "asked": "the tester of the kept slice",
+          "found": "persona_ref product-owner",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/slices/sl-intent-to-design.yaml",
+            "start": 18,
+            "end": 18,
+            "fingerprint": "sha256:3d969030c31daee3dcfff40b9e7df245f6f7fbbfa1285f1acf0886cf77238ddf"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-007",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "slice: Which features does the slice need?",
+      "closed_by": "author-slice",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "what the proof asks the design to have",
+          "found": "a slice, a plan with one epic and one story per feature, and an eval from the outside",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 9,
+            "end": 16,
+            "fingerprint": "sha256:56d22d892ded828350453c4c92205dc8717a4e6f4c18201dbaa21c45186a05e4"
+          }
+        },
+        {
+          "asked": "which feature writes the slice",
+          "found": "fn-795: /shape-slice writes the slice and its hidden file",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+            "start": 4,
+            "end": 4,
+            "fingerprint": "sha256:e2ee291f90ccf3c89354da90015cf1f7868c5b1391201868ed80a3eac9446eb7"
+          }
+        },
+        {
+          "asked": "which feature writes the plan",
+          "found": "fn-818: /shape-plan writes the plan file, one epic and one story per feature",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+            "start": 4,
+            "end": 4,
+            "fingerprint": "sha256:994885950cc86d2453e28af308067e90cd83ed82d1ef9626e2a157812c7b8819"
+          }
+        },
+        {
+          "asked": "which feature writes the eval",
+          "found": "fn-798: /shape-eval writes the eval in the plan's evals folder",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            "start": 4,
+            "end": 4,
+            "fingerprint": "sha256:ae8291267fc5bc60fcf93f3c53ca8d86fc4b4def2337ec155e3bc7eccf5bee90"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-008",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "slice: In what order are the features built?",
+      "closed_by": "author-slice",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "the order of the shaping plays",
+          "found": "three plays in a row: shape the slice, build the plan, build the eval (ADR 049)",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/domain.md",
+            "start": 13,
+            "end": 13,
+            "fingerprint": "sha256:5daa5ffd2e245c855bab56e3b601e8f2b76fceaee1054e40ea35ec34e2643eb3"
+          }
+        },
+        {
+          "asked": "what /shape-plan needs first",
+          "found": "it runs after /shape-slice and needs the slice to exist",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+            "start": 17,
+            "end": 17,
+            "fingerprint": "sha256:cd1a3ef4d2fcab7ab93c47753768264fb32361bdd96127b65219ca5e239e4a7e"
+          }
+        },
+        {
+          "asked": "what /shape-eval needs first",
+          "found": "it runs after /shape-plan and reads only the epic, its stories and the hidden file",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            "start": 16,
+            "end": 17,
+            "fingerprint": "sha256:57ee99456b2b4c248d109266b094a8b27bb9a99b5b76b16a9dc2bd75b362d9ae"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-009",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    },
+    {
+      "group": "reuse",
+      "closed_by": "author-slice",
+      "basis_kind": "model",
+      "trace": [
+        {
+          "asked": "the rule that matched a kept slice to the intent",
+          "found": "slice sl-intent-to-design already lists business intent bi-788",
+          "source": {
+            "tier": "short-term",
+            "path": "866/context/shape-slice/serving.json",
+            "start": 3,
+            "end": 3,
+            "fingerprint": "sha256:b09c15604a608807eda5bac746b47ed1020d856921e45c8b36daed6d365ab6e5"
+          }
+        },
+        {
+          "asked": "the kept slice's features and intents in the spine",
+          "found": "sl-intent-to-design holds fn-795, fn-818, fn-798 and serves bi-788",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/_spine.yaml",
+            "start": 464,
+            "end": 473,
+            "fingerprint": "sha256:0ea3c68ccb38675e601173f5a27bf2f81f11ad39bf2d12122448c9d9d119e308"
+          }
+        },
+        {
+          "asked": "whether fn-795 still serves the intent",
+          "found": "fn-795 serves bi-788",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/_spine.yaml",
+            "start": 414,
+            "end": 418,
+            "fingerprint": "sha256:792230356c117a8bf5b9905dde822d81c0b841342d022c04e0aec6a182ec0933"
+          }
+        },
+        {
+          "asked": "whether fn-818 still serves the intent",
+          "found": "fn-818 serves bi-788",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/_spine.yaml",
+            "start": 427,
+            "end": 431,
+            "fingerprint": "sha256:68143928ae9a889ca6788aabf83c18ed22ecab904af47d16036b80ec834aedd2"
+          }
+        },
+        {
+          "asked": "whether fn-798 still serves the intent",
+          "found": "fn-798 serves bi-788",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/_spine.yaml",
+            "start": 440,
+            "end": 444,
+            "fingerprint": "sha256:ef5dcce9289e1b7a1ac5cfa3209f5155717e41c4c63c7ff7898c19ece3fc56db"
+          }
+        }
+      ],
+      "cite_answer": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261025-010",
+        "stored": {
+          "tier": "short-term",
+          "path": "866/context/citations.jsonl"
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "task_ids": [
+    "shape-slice-propose",
+    "shape-slice-shape",
+    "shape-slice-reuse"
+  ]
+}

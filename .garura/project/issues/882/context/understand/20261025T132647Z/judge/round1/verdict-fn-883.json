@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"It records, in the project, which blocks the project holds and which parts of Phoenix memory each was built from, as they were then, so the project can learn later that Phoenix memory changed.\" \"Given a machine where the memory tool cannot reach Phoenix memory, when `initialize` runs, then it builds no memory and says that the Phoenix install must run on this machine.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"It never writes Phoenix memory and never writes another project's memory, because Phoenix memory is shared by every project on the machine and a write there from one project would change what the others draw from.\" \"The selection is kept so that a later run can find a part Phoenix memory has added to the block; the fingerprints are kept so that it can find a part that changed.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "\"Words this page uses. Phoenix memory is the one shared memory on a machine (the domain shelves, the standards, the templates) that every project on that machine draws from.\" \"What a yes is given to and what it does. The brief lists each changed, added or taken-out part under its block and asks for a yes or no to each part;\"",
+      "fix": "Two bullets each pack many separate points into one long paragraph. Split the 'Words this page uses.' bullet in What it does into one bullet per term (Phoenix memory, Garura memory, memory block, selection, part, brief), keeping the closing source note as its own bullet. Split the 'What a yes is given to and what it does.' bullet in Rules & behavior into one bullet per case: the per-part reply (and a reply to a whole block), a yes to a changed part, a yes to an added part, a yes to a taken-out part, and a no to any part. The Given/When/Then acceptance criteria already have the right form and need no change."
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"A part the list holds whose fingerprint differs is changed. A part the selection now finds that the list does not hold is added. A part the list holds that the selection no longer finds is taken out.\" \"For each block it holds the answer that selected it, the block's selection, for each part the block was built from its place in Phoenix memory (the file and the part of it) and its fingerprint (a short code that changes when that part's content changes), and the version of Phoenix memory the block was built from.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Memory reaches a project in three steps, and this feature is the third.\" \"It keeps each project's blocks its own.\" \"Adding or taking out a whole block when an answer changes: Run initialize again (fn-rerun-initialize) owns it.\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}

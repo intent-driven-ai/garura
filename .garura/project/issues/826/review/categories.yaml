@@ -1,0 +1,19 @@
+# check-change round 2 -- categories present in PR #827 (issue 826)
+categories:
+  - name: memory
+    description: Product-os ontology schema at v10 (Story scope of work and Context guidance, slice hidden file, Q26/Q29 changed, Q32-Q35 added), plus the recovery-generation standard now covering a story's recovery.
+    evidence_paths:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/rules/expectation-generation.md
+    playbook: review/memory
+    design_bearing: true
+    runnable_check: path / cross-reference / structure integrity check
+  - name: docs
+    description: Issue 826 working notes, drafts, run records, self-review and round-1 review records; the 816 ontology-before snapshot with the real name replaced. No product documentation changed.
+    evidence_paths:
+      - .garura/project/issues/826/context/**
+      - .garura/project/issues/826/review/**
+      - .garura/project/issues/816/context/edit-ontology/ontology-before.md
+    playbook: review/docs
+    design_bearing: false
+    runnable_check: null

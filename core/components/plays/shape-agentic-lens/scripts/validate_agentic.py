@@ -9,12 +9,12 @@ sections, each substantive) is checked by `lint_grounding.py`, and its UNDERSTAN
 the content eval — both run by the play's validate step over the LIVE doc. THIS script checks
 what the manifest carries, which the prose can't enforce:
 
-  - grounded: every grounding entry names a real source from the slice's HUB (a functionality,
+  - grounded: every grounding entry names a real source from the slice's HUB (a feature,
     persona, or journey) — never another lens (the agentic read is hub-only).
   - decisions: a grounding flagged `material: true` names a `decision` that resolves — the
     decision record must be carried in the manifest's `decisions` block (the keyed persist
     writes it in place; the LLM never writes a decision file itself).
-  - coverage: every functionality of the slice is considered by the agentic assessment (each
+  - coverage: every feature of the slice is considered by the agentic assessment (each
     appears in the manifest grounds) — the agent gate can't ignore part of the slice.
 
 Layer rule: reads files on disk only; no git/gh/network.
@@ -38,10 +38,13 @@ except ImportError:
 
 OTHER_LENSES = ("quality", "ux", "architecture", "run", "measure", "marketing", "lens")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
+
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def _blank(v):
@@ -70,7 +73,7 @@ def collect_decisions(man, errors):
 
 
 def check_grounding(man, decision_ids, errors):
-    """Grounds are hub-only; material → decision. Returns grounded functionality refs."""
+    """Grounds are hub-only; material → decision. Returns grounded feature refs."""
     grounded = set()
     entries = man.get("grounds")
     if _blank(entries):
@@ -78,16 +81,16 @@ def check_grounding(man, decision_ids, errors):
         return grounded
     for e in entries:
         st = (e.get("source_type") or "").strip().lower()
-        if _blank(e.get("source")) and _blank(e.get("functionality_ref")):
+        if _blank(e.get("source")) and _blank(e.get("feature_ref")):
             errors.append("a grounding entry has no source")
             continue
         if st in OTHER_LENSES:
             errors.append(f"grounds on another lens '{st}' — /shape-agentic-lens reads the slice's hub, "
                           f"never a lens")
-        elif st not in ("ice", "functionality", "persona", "journey"):
-            errors.append(f"source_type '{st}' is not functionality/persona/journey")
-        if st in ("ice", "functionality"):
-            fr = e.get("functionality_ref")
+        elif st not in ("ice", "feature", "persona", "journey"):
+            errors.append(f"source_type '{st}' is not feature/persona/journey")
+        if st in ("ice", "feature"):
+            fr = e.get("feature_ref")
             if not _blank(fr):
                 grounded.add(fr)
         if e.get("material") is True:
@@ -99,13 +102,13 @@ def check_grounding(man, decision_ids, errors):
     return grounded
 
 
-def slice_functionalities(slice_file, errors):
+def slice_features(slice_file, errors):
     if not slice_file or not os.path.isfile(slice_file):
         errors.append(f"slice record not found at {slice_file} — cannot verify coverage")
         return set()
     sl = (load(slice_file).get("slice") or {})
-    return {(f or {}).get("functionality_ref") for f in (sl.get("functionalities") or [])
-            if (f or {}).get("functionality_ref")}
+    return {(f or {}).get("feature_ref") for f in (sl.get("features") or [])
+            if (f or {}).get("feature_ref")}
 
 
 def main(argv=None):
@@ -127,10 +130,10 @@ def main(argv=None):
 
     decision_ids = collect_decisions(man, errors)
     grounded = check_grounding(man, decision_ids, errors)
-    to_cover = slice_functionalities(args.slice_file, errors)
+    to_cover = slice_features(args.slice_file, errors)
     for fid in sorted(f for f in to_cover if f):
         if fid not in grounded:
-            errors.append(f"slice functionality {fid!r} is not considered by the agentic assessment")
+            errors.append(f"slice feature {fid!r} is not considered by the agentic assessment")
 
     counts = {"grounds": len(man.get("grounds") or []), "decisions": len(decision_ids),
               "to_cover": len(to_cover), "grounded": len(grounded)}

@@ -1,0 +1,48 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261022-185338/adr-draft.md",
+  "number": "048",
+  "lint": {
+    "exit": 0,
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "exit": 0,
+    "declared": "kind",
+    "touches_an_intent": [],
+    "agrees_with_declared": true,
+    "verdict": "no person's business intent changes"
+  },
+  "overlaps": {
+    "named_and_judged": {
+      "019": "superseded in part (Decision 1 and 2)",
+      "022": "amended (1 and 2)",
+      "024": "amended (1, 2, 6 and its premise)",
+      "028": "amended (3 and '/grill needs only a slice'; realized stamp)",
+      "031": "amended (1, one sentence)",
+      "043": "amended (word only)",
+      "046": "amended (4, one sentence) - keeper's finding, not in the caller's list",
+      "047": "amended (word only)",
+      "045": "not affected (related)",
+      "033": "not affected (word in passing; related)"
+    },
+    "unnamed_candidates_checked": {
+      "029": "not affected - no epic, slice or functionality rule",
+      "035": "not affected - same",
+      "039": "not affected - same"
+    }
+  },
+  "findings_for_the_person": [
+    "Business intent check is kind: the Business Intent kind gains the `product` label, an Epic serves it, and a work item reaches it through its Epic. The wording change on bi-717, bi-722 and bi-756 is the product owner's own choice; the pages are named in the check's text, not in Affects.",
+    "ADR 046 section 4 ('never a word the model dropped (epic, slice)') is contradicted by v7 and is amended.",
+    "Two points left open on purpose: where ADR 022's surface contract lives once the epic record leaves, and whether ADR 024's amendment record is still needed."
+  ],
+  "retries": 0,
+  "round": 2,
+  "round1_guard": {
+    "exit": 4,
+    "declared": "instance",
+    "resolved_by": "the product owner kept the new wording on bi-717, bi-722 and bi-756 (2026-10-23, brief section \"The business intents' words\")"
+  }
+}

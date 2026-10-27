@@ -62,8 +62,8 @@ the nudge adapts to it.
 - **Tailor by player type** — "make it land for who they are" → gamified tailoring.
 
 ## Capabilities
-The capabilities this shelf implies, each with functionalities at baseline depth.
-Read each functionality line as "include when {profile condition}". Start at the
+The capabilities this shelf implies, each with features at baseline depth.
+Read each feature line as "include when {profile condition}". Start at the
 floor; add only when a profile dimension calls for it. These serve the POV above —
 they do not replace it.
 

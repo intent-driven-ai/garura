@@ -7,7 +7,7 @@ Normative reference for the `platform-adapter` skill when `platform=github`. One
 Fetch PR metadata (JSON):
 
 ```bash
-gh pr view {pr_number} --json number,title,body,state,author,headRefName,baseRefName,files,commits,mergeable,url
+gh pr view {pr_number} --json number,title,body,state,author,headRefName,baseRefName,files,changedFiles,commits,mergeable,url
 ```
 
 Note: field `baseRefName` contains the target branch name.
@@ -18,6 +18,14 @@ Fetch PR unified diff:
 
 ```bash
 gh pr diff {pr_number}
+```
+
+## pr-files
+
+List every changed file of a PR with its patch, one JSON object a line, page by page (the host lists up to 3000 files; `diff-pr` stops at 300):
+
+```bash
+gh api repos/{owner}/{repo}/pulls/{pr_number}/files --paginate --jq '.[] | @json'
 ```
 
 ## comment-pr

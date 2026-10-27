@@ -1,0 +1,16 @@
+ M .garura/project/issues/795/context/porcelain.txt
+ M core/components/memory/standards/rules/no-unbacked-recommendation.md
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/memory/standards/rules/user-questions.md
+ M core/components/memory/standards/schemas/product-os/slice.yaml
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/scripts/find_serving_slice.py
+ M core/components/plays/shape-slice/scripts/persist_fills.py
+ M core/components/plays/shape-slice/scripts/persist_slice.py
+ M core/components/plays/shape-slice/scripts/record_approval.py
+ M core/components/plays/shape-slice/scripts/record_questions.py
+ M core/components/plays/shape-slice/scripts/slice_check.py
+ M core/components/plays/shape-slice/scripts/test_find_serving_slice.py
+ M core/components/plays/shape-slice/scripts/test_persist_slice.py
+ M core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py

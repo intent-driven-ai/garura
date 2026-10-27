@@ -1,0 +1,61 @@
+---
+# assess-changes output
+# issue: 781
+needs_judgment: false
+
+change_groups:
+  - id: 1
+    commit_type: docs
+    scope: edit-ontology
+    issue: 781
+    subject: "Leave the Next line out of the edit-ontology close because the play is meta exempt"
+    files:
+      - core/components/plays/edit-ontology/SKILL.md
+  - id: 2
+    commit_type: docs
+    scope: author-product-ontology
+    issue: 781
+    subject: "Name the draft input and output of each stage in the ontology authoring skill"
+    files:
+      - core/components/skills/author-product-ontology/SKILL.md
+  - id: 3
+    commit_type: docs
+    scope: product-os-keeper
+    issue: 781
+    subject: "Add a mapping row for changing the product ontology to the keeper agent"
+    files:
+      - core/components/agents/product-os-keeper.md
+  - id: 4
+    commit_type: docs
+    scope: pipeline-position
+    issue: 781
+    subject: "State the condition for a meta play that opens and lands its own change instead of naming edit-ontology"
+    files:
+      - core/components/memory/standards/rules/pipeline-position.md
+  - id: 5
+    commit_type: chore
+    scope: stm
+    issue: 781
+    subject: "Record the commit-change workspace context for the review notes"
+    files:
+      - .garura/project/issues/781/context/analysis.yaml
+      - .garura/project/issues/781/context/porcelain.txt
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes:
+    []
+  ambiguous_types:
+    []
+  hotfix_branch: false
+  notes:
+    - "Group 4 edits a shared standards rule; wording-only, no behaviour change."
+    - "Groups 1 and 2 touch play and skill prose; the play change is output scaffolding, a direct edit per the pipeline rules."
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "5 groups, each file in exactly one group, one concern per group"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

@@ -1,10 +1,12 @@
 ---
 name: author-acceptance-scenarios
-description: Build /release-feature's HITL testing scenarios for one EPIC — the manual walk the human runs on the deployed dev/QA environment before anything lands. Reads the epic record (user_check + acceptance criteria + context) and the deploy record (where the increment is reachable), and writes scenarios.yaml — one scenario per testable claim, each telling the human WHAT TO RUN (concrete numbered steps on the deployed environment, starting from its real address) and WHAT TO TEST (what they should see if it works), with a `covers` list tracing every scenario to an acceptance index or the user_check. Both directions must close: every acceptance criterion gets a scenario, every scenario traces to the box — nothing invented, nothing untested. Draft only — the play presents the scenarios one at a time and records the human's typed answers; this skill never presents, never answers, never signs. The scenario-authoring work for the /release-feature play.
+description: 'Build /release-epic''s HITL testing scenarios for one EPIC — the manual walk the human runs on the deployed dev/QA environment before anything lands. Reads the epic record (user_check + acceptance criteria + context) and the deploy record (where the increment is reachable), and writes scenarios.yaml — one scenario per testable claim, each telling the human WHAT TO RUN (concrete numbered steps on the deployed environment, starting from its real address) and WHAT TO TEST (what they should see if it works), with a `covers` list tracing every scenario to an acceptance index or the user_check. Both directions must close: every acceptance criterion gets a scenario, every scenario traces to the box — nothing invented, nothing untested. Draft only — the play presents the scenarios one at a time and records the human''s typed answers; this skill never presents, never answers, never signs. The scenario-authoring work for the /release-epic play.'
 version: 0.1.0
 user-invocable: false
 model: best
 allowed-tools: Read, Write, Glob
+stale: true
+stale_note: 'waits for the rebuild of /release-epic (#855)'
 ---
 
 # author-acceptance-scenarios
@@ -15,7 +17,7 @@ human to ACCEPT it. The scenarios must be runnable by a person who did not build
 thing: concrete steps from the deployed environment's front door, and an observable
 check per scenario.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -23,9 +25,9 @@ check per scenario.
 | `deploy_record` | yes | deploy-local-environment's record — the reachable address, tier, any test credentials. |
 | `out_scenarios` | yes | Where to write `scenarios.yaml`. |
 
-## Procedure
+## Process
 
-1. **Read the box.** The epic's `user_check` (the open/do/verify line /shape-features cut the
+1. **Read the box.** The epic's `user_check` (the open/do/verify line /shape-slice cut the
    epic at), every `acceptance` criterion, and `context` (personas, systems, scope).
    Read the deploy record for the real address the steps start from.
 
@@ -48,6 +50,11 @@ check per scenario.
    test data (from the epic's context or the deploy record's seeded credentials),
    observable outcomes — never "verify the API returns 200" when the human is on a
    screen; say what the screen shows.
+
+## Output
+
+The `scenarios` list of step 2: one scenario for each testable claim, each with its `id`,
+`title`, `covers`, `run` steps and `check`.
 
 ## Boundaries
 
