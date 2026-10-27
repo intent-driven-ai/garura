@@ -138,7 +138,12 @@ python3 scripts/session_stamp.py --phase start \
     --marker "{stm_base}<issue>/status/session-stamp-shape-slice.json" \
     --cwd "$(pwd)" --branch "$(git branch --show-current)"
 git rev-parse HEAD > {stm_base}<issue>/context/shape-slice/start-sha.txt
+cp <model>/_spine.yaml {stm_base}<issue>/context/shape-slice/spine-at-start.yaml
 ```
+
+`spine-at-start.yaml` is the spine as the run found it; a resume keeps it as it is. Step 8 reads
+from it whether the intent is new to a kept slice, so a step run twice gives the same result
+(C7).
 
 Names used below: `<intent>` = `bi-<intent-issue>` (the business intent's id),
 `<model>` = `<product_base>product-os`, `<plans>` = `.garura/project/plans`,
@@ -476,7 +481,9 @@ after Step 8 the spine has the same number of slices as before the run; no id in
 new name, outcome or tester's action), its `differences` show each one old and new, the slice
 record's last `edits` entry reads `by: a shaping run` with those parts in `changed`, and
 `out_of_date` names each spine epic whose `slice_ref` is the slice; `brief.md`'s Kept slice
-section has the history line and an "Out of date" line for each of those epics.
+section has the history line and an "Out of date" line for each of those epics. Step 8 ran with
+`--spine-at-start`, and `replaced` names a part only when the slice already listed the run's
+intent in `spine-at-start.yaml`; the history line's `at` is a YYYY-MM-DD date.
 
 ### Phase: Persist
 
@@ -488,7 +495,8 @@ python3 scripts/persist_fills.py --root <model> --spine <model>/_spine.yaml \
 python3 scripts/persist_slice.py --root <model> --spine <model>/_spine.yaml \
     --slice <working>slice.json $(on a match, serving.json reuse_args: --reuse <id>) \
     $(each reuse.json pull_in as --pull-in <id>, each push_out as --push-out <id>) \
-    --at <today, UTC> --out <working>persist-slice.json
+    --spine-at-start <working>spine-at-start.yaml --at <today, UTC, YYYY-MM-DD> \
+    --out <working>persist-slice.json
 ```
 
 `persist_fills.py` adds a spine entry for each new part, marked to be deepened (status
@@ -875,7 +883,7 @@ person's role (for example "the product owner"), never a real name (C14).
 python3 scripts/record_approval.py verify --file <working>approval.json
 python3 scripts/edit_slice.py apply --before <working>edit-before.json \
     --list <working>edit-list.json --request <working>edit-request.md \
-    --by "<the person's role>" --at <today, UTC> --out <working>edit-apply.json
+    --by "<the person's role>" --at <today, UTC, YYYY-MM-DD> --out <working>edit-apply.json
 python3 scripts/edit_slice.py check --before <working>edit-before.json \
     --list <working>edit-list.json --request <working>edit-request.md \
     --apply <working>edit-apply.json --out <working>edit-check.json
@@ -1133,7 +1141,7 @@ check reads ok, so a resume after X4 can still put every record back.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:8650a0e271b48ebb8c85180214a1ce455e5730d4ac82ad6a2c6b975361ebea79 (of `reference/ice.md`) |
+| fingerprint | sha256:108b2a8dc4375f71da791ce2a44d44f14813a4e7dff8b43ea66af93e57702059 (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842, #908, #798) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19); the edit path, which changes only what the person named, after their yes, with a history line (C20); a re-run's change to a kept slice's text, with a history line and its epic named as out of date (C7) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |

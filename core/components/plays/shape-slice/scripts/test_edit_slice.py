@@ -278,9 +278,14 @@ def main():
                                "--out", os.path.join(work, f"lc{i}.json"))
             check(f"check-list refuses: {want}", code == 1 and want in " ".join(out["problems"]))
         code, _, err = run("apply", "--before", before, "--list", os.path.join(work, "l0.json"),
-                           "--request", req, "--by", "p", "--at", "d", "--out", os.path.join(work, "x.json"))
+                           "--request", req, "--by", "p", "--at", "2026-10-27", "--out", os.path.join(work, "x.json"))
         check("apply: a list that does not hold is refused and nothing is written (exit 2)",
               code == 2 and read(hidden) == HIDDEN)
+        for bad in ("banana", "2026-02-30"):
+            code, _, err = run("apply", "--before", before, "--list", os.path.join(work, "l0.json"),
+                               "--request", req, "--by", "p", "--at", bad, "--out", os.path.join(work, "x.json"))
+            check(f"apply: --at {bad!r} is not a date, refused and nothing written (exit 2)",
+                  code == 2 and "not a date" in err and read(hidden) == HIDDEN)
     with tempfile.TemporaryDirectory() as tmp:
         root, plans, work, spine, hidden, req, before = setup(tmp)
         write(spine, SPINE + "epics:\n- id: ep-self\n  slice_ref: sl-self\n  status: in_delivery\n")

@@ -44,9 +44,10 @@ words changes only the parts they named, after they see each change and say yes.
   one feature or more). A slice in progress (its epic is past ready: a story is started or done)
   is never touched by a shaping run; the run shapes a new slice. Only an edit the person
   approves changes a slice in progress (C20). When the run shapes a kept slice again for an
-  intent it already serves, with the same surface and the same tester, the slice takes the new
+  intent it already served when the run started (the same input gives the same result however
+  often a step runs), with the same surface and the same tester, the slice takes the new
   name, outcome and tester's action: the brief shows each one old and new, the slice record
-  keeps a history line (when, that a shaping run changed it, and which parts), and the brief
+  keeps a history line (a real date, that a shaping run changed it, and which parts), and the brief
   names the slice's epic as out of date (its stories were written from the old text). The brief
   shows each change, and nothing is kept before the person's yes.
 - C8 — The run reuses what exists, fills what exists in part, and adds what is missing. A fill

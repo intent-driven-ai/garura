@@ -9,7 +9,7 @@ that the person named, and nothing else.
     python3 edit_slice.py check-list --before <edit-before.json> --list <edit-list.json> \\
         --out <edit-list-check.json>
     python3 edit_slice.py apply --before <edit-before.json> --list <edit-list.json> \\
-        --request <edit-request.md> --by "<the person's role>" --at <date> --out <edit-apply.json>
+        --request <edit-request.md> --by "<the person's role>" --at <YYYY-MM-DD> --out <edit-apply.json>
     python3 edit_slice.py check --before <edit-before.json> --list <edit-list.json> \\
         --request <edit-request.md> --apply <edit-apply.json> --out <edit-check.json>
     python3 edit_slice.py restore --before <edit-before.json> --out <edit-restore.json>
@@ -42,6 +42,7 @@ Exit 0 ok, 1 problems, 2 refused or usage error.
 """
 
 import argparse
+import datetime
 import json
 import os
 import re
@@ -299,7 +300,18 @@ def expected(before, lst, request, by, at):
     return out
 
 
+def check_date(at):
+    """--at is a real calendar date, YYYY-MM-DD: it goes into the history lines."""
+    try:
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", at or ""):
+            raise ValueError
+        datetime.date.fromisoformat(at)
+    except ValueError:
+        raise Refused(f"--at '{at}' is not a date; give it as YYYY-MM-DD")
+
+
 def cmd_apply(args):
+    check_date(args.at)
     before = load_json(args.before, "edit-before.json")
     lst = load_json(args.list, "edit-list.json")
     problems = list_problems(before, lst)
