@@ -1,76 +1,67 @@
-# Self-review, round 3 — #798 (/shape-eval)
+# Self-review, round 4 — #798 (/shape-eval)
 
 Branch `plan/788/798-shape-eval` against `plan/788/base` (`git diff plan/788/base...HEAD`), for PR #900.
-Rules: `/Users/kapilahuja/.garura/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
+Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; see `resolved-rules.json`).
 This review is for information. It is not the approve or reject gate; `check-change` owns that.
 
 Blocking findings: none.
 
-This file covers the whole diff, up to commit 9971a538. It keeps what still held from round 2 and adds the three things done since: the six hidden-file lines (8fceddab), the slice play's `--redraft` option (d756e304), and the create-play copy of the fetch script (ba0224df). The rest are run records.
+This file covers the whole diff, up to commit 6486b158 (the merge of PR #911 and the run records after it). It replaces the round 3 file. What still held from round 3 is kept short; what changed since is first.
 
-## Why there is a round 3
+## Why there is a round 4
 
-Round 2 of the review was a human reject. The product owner asked for defects 2, 3 and 4 to be fixed before the merge. Defect 1 was filed as its own issue (#903) and is not part of this round. Round 1 asked for every P2 and P3 finding to be fixed; that answer stands (see "Round 1 findings, still answered").
+Round 3 of the review was a human reject. The product owner said the `--redraft` option was added to /shape-slice without a design he saw and outside the play's intent. He asked for the fix to be designed with him first, put in the play's intent, and built with `/edit-play`. The decision record is `.garura/project/issues/798/review/decision.yaml` (round 3).
 
-## Which round 2 defects this round answers
+## Is the round 3 reject reason answered? Yes, with one limit
 
-Checked against the file as it is now (`.garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md`):
+Checked against the files as they are now:
 
-- Defect 2 (SE-15, a story that leaks a failure condition sent the builder to edit its own stories): F8 and F11 now say "a person must decide", as they did on the base. Answered.
-- Defect 3 (SE-16, fixes that need the product owner's yes were marked builder-alone): F7 and F10 now say "a person must decide". Answered.
-- Defect 4 (SE-17, fn-898's fixes let the builder change the eval or learn of it): F24 now says "a person must decide", as F17 does, and its way back no longer says to remove the check. F25 now names neither the eval nor the hidden file as something the builder writes; it says the play reads only the pages its limit names, that this feature does not build that play, and that a person decides who fixes it. Answered. (F25's way back still names "ICE page, usage guide or code", which is what the failure condition itself is about; it does not name the eval or the hidden file.)
-- Defect 1 (DF-H-7, the GitLab `{project}` placeholder in the `pr-files` instructions): not in this round; filed as #903. It is still true in `core/components/skills/platform-adapter/reference/gitlab/verbs.md`.
-
-The file now holds 14 "a person must decide" lines and 11 "the builder can fix this alone" lines. Six lines moved from the second group to the first, so before this round it was 8 and 17. The six edits (plus the reworded way back of F24 and F25) are the only changes to this file in the round: 8 lines in, 8 lines out.
+- The option is gone. `redraft` appears nowhere in `core/components/plays/shape-slice/` or in `docs/`. The net diff of `write_hidden_file.py` against the base holds no such option (commit ae92ece9 took it out). The only matches left in `core/` are the ordinary word in /discover-intent, which this change does not touch.
+- A designed replacement exists: `/shape-slice #<intent> --edit: <their own words>`, built in change #908 and merged here as PR #911. The person's words become an exact list of changes; the brief shows each change, old and new; nothing is written before the typed yes; a history line records who asked and when. #908 was approved by the product owner (`.garura/project/issues/908/review/decision.yaml`, round 3, "approve").
+- It went through the intent first. `core/components/plays/shape-slice/reference/ice.md` now holds the edit rule (C20), its failure condition (F20), its way back (REC20) and a scenario (S11). Commits a274c790 and 8677f5f9 change the intent file and the compiled `SKILL.md` together, and `SKILL.md` says it is compiled by edit-play (#842, #908) and counts C1 to C20. The play linter passes on it (below).
+- The one rule that the edit clashed with, "a slice in progress is never touched", is settled in ADR 058 (accepted, indexed). A shaping run still never touches such a slice; only an approved edit may, and its brief must say the slice is in progress and name its epic as out of date.
+- The limit: the reject reply also asked for "one standard way for plays to edit a record", in each play's intent. #908 does this for /shape-slice only. The other plays are in business intent #904, which is still open (checked on GitHub). That matches how #908 was scoped and approved, so it is not a defect of this PR, but the PR description should say it.
+- What I could not check from files: that the product owner saw the design before #908 was built. `.garura/project/issues/908/specs/` is empty. ADR 058 quotes his words ("yes we need to allow slice to be updated even when in progress"), and he approved the PR, which is the evidence available.
 
 ## What the change holds
 
-56 commits, 425 files, +57,961 / -298 lines. 339 of the files (about 52,000 added lines) are run records kept in `.garura/project/issues/`. The other 86 files (+5,885 / -298) are the real change:
+86 commits. 524 files, +86,434 / -348 lines in all. 441 of the files are run records and plan files under `.garura/project/` (this includes the 908 records), and 10 are model and install records under `.garura/`. The real change is 73 files under `core/` and `docs/`, +6,229 / -273 lines:
 
-- the new /shape-eval play with its scripts, its ICE and its stop condition
+- the new /shape-eval play with its scripts, its intent and its stop condition
 - the author-slice-eval skill, and the evals-engineer agent cut to one job
-- the eval format standard (story and slice templates, the command-line step library, and a rules page)
-- ADR 057, which amends ADR 049
-- four /shape-slice script fixes (story #795), one more in round 2, and the new `--redraft` option (this round)
-- the shared Touches module fix in its copies
+- the eval format standard (story and slice templates, the command-line step library, a rules page)
+- ADR 057 (amends ADR 049) and ADR 058
+- /shape-slice: four script fixes (story #795), one more in round 2, and the new `--edit` path (change #908) with the `edit_slice.py` script and its tests
+- the shared Touches module fix in its six copies
 - the model repair for business intent #788, its slice and the feature fn-898, and the first eval of plan 788
-- the hand-off from /shape-plan to /shape-eval and the install list
+- the hand-off from /shape-plan to /shape-eval, and the install list
 - the `pr-files` verb of the code-host adapter, and the review's fall-back to it for a PR over 300 files (both copies of the fetch script)
 
-## What the new commits do
-
-- 8fceddab (fix, model): six "Who fixes" lines in the hidden file move to "a person must decide" (F7, F8, F10, F11, F24, F25), with the way back of F24 and F25 reworded. Same file only. The commit message names the defects. Run records of shape-slice run 2 were moved into a `run2` folder in the same commit (pure renames, no content change); that is housekeeping and does not change the fix.
-- d756e304 (feat, shape-slice): `write_hidden_file.py lines` takes `--redraft <feature id>` (repeatable). The named entry is marked not kept, so its recoveries are drafted again, and it keeps its line ids. A feature that is not in the slice is refused with exit code 2. The play's step 8b text says when to pass it. This is how the six lines above could be drafted again through the play and not by hand. Two checks were added to `test_write_hidden_file.py` (the named entry is not kept and keeps ids F1 to F3 while the others stay kept; an unknown feature is refused).
-- ba0224df (fix, create-play): the reference copy of `fetch_pr_context.py` now matches the check-change copy (checked: byte-identical), so the 300-file fall-back is in both. This closes the first new finding of my round 2 review.
-
-## Round 1 findings, still answered
-
-Unchanged from the round 2 write, and still true when checked: CODE-03, SE-1, DF-H-1 to DF-H-3, MEM-1 to MEM-3, PM-F1 to PM-F7, SE-2 to SE-9 as listed, and the smaller P4 items MEM-4, PM-F8 and DF-H-4 (part a) were fixed. SE-9, DF-H-5 and PM-F9 were left on purpose (an ADR 057 decision and design judgement calls).
-
-SE-8 (recoveries sent to the builder that name the eval): the round 2 defects 2 to 4 took out F7, F8, F10, F11, F24 and F25. What is left as builder-alone and names the eval, the hidden file, the evals folder or a lint or ledger check: F20, F21 and F22 (fn-898 builds those checks, and the owner's answer Q-recovery-1-4 allows naming them in its own entry), and F1, F3, F6, F18 and F27 (the /shape-slice and /shape-eval entries, where the builder fixes the play's own writing or reading). The round 2 review itself named F18 as the right wording. They were not asked about in round 2, so they are unchanged.
+The `--redraft` option and the six hidden-file edits of round 3 stay as they were decided: the six lines still read "a person must decide" (14 such lines and 11 "the builder can fix this alone" in the file).
 
 ## Open findings
 
 None blocks the PR.
 
-1. P3 (new this round), the `--redraft` option is a change to what the play does, but its ICE was not touched. `core/components/plays/shape-slice/reference/ice.md` has no word on drafting an entry again at the person's request; the option lives only in the compiled `SKILL.md` and the script. The repo rule says a change to the agent or skill flow goes through the ICE and `/edit-play`, and a direct edit of the compiled file is for non-intent changes. Reading the option as a new way to run a step that was already in the flow, a direct edit can be defended, but the commit message says nothing about it. Suggest one line in the PR saying which reading was used, or an ICE line with a rebuild.
-2. P3 (carried), the pr-files fall-back works for GitHub only. In `fetch_pr_context.py` the reader uses the GitHub names (`filename`, `patch`, `previous_filename`, `status`) and the GitHub "too many files" wording. GitLab gives pages of lists with other names. Nothing breaks on this repo's host, which is GitHub. A line in `reference/gitlab/verbs.md` and the script's docstring saying "GitHub only for now" would close it. Part of this is the same text as defect 1 (#903), so it can go in that issue.
-3. P4 (carried), the create-play reference folder now has the 300-file fall-back in the script, but its test file (`test_fetch_pr_context.py`, 13 checks) still tests only the old behaviour (no mention of `pr-files`, `diff_source` or the fall-back). The check-change copy has the 8 checks for it. Copy those checks over to keep the two folders in step.
-4. P4 (carried), the hidden file's header still says "Slice: From a named piece of work to its design" (line 3), the old slice name (PM-F10 of the round 2 review). It is the only place left. It sits in the file this round edited, so it could be fixed in the same pass.
-5. P4 (carried), `memory/tools/github/adapter.md` and `memory/tools/gitlab/adapter.md` list 16 verbs and miss `pr-files`. They were behind before this change.
-6. The other P4 findings from the round 2 review (DF-H-4, DF-H-5, DF-H-6, DF-H-8, MEM-5 to MEM-7, PM-F2, PM-F6, PM-F7 and the rest) are unchanged by this round and are in `.garura/project/issues/798/review/findings.yaml`.
+1. P3 (new), the description of PR #900 is out of date. Its "Round 3" section still says the slice play "can draft a named hidden-file entry again (`--redraft`)", and it embeds the round 3 self-review, which names `--redraft` too. That option no longer exists. A reader of the PR would think it is in the change. The description should say instead that the option was removed, that `--edit` came in through #908 and PR #911 (intent first, ADR 058), and that the other plays are left to #904. It is rebuilt from `pr-body.md`; the rebuild should use this file.
+2. P3 (carried), the pr-files fall-back works for GitHub only. In `fetch_pr_context.py` the reader uses the GitHub names (`filename`, `patch`, `previous_filename`, `status`) and the GitHub "too many files" wording. GitLab gives other names and pages. Nothing breaks on this repo's host. A line in `reference/gitlab/verbs.md` and in the script's docstring saying "GitHub only for now" would close it. Part of this is defect 1 of round 2, filed as #903.
+3. P4 (carried), the create-play reference copy of `fetch_pr_context.py` is byte for byte the check-change copy, but its test file (`create-play/references/test_fetch_pr_context.py`, 13 checks) has no check for `pr-files` or `diff_source`. The check-change test file has the checks (8 in all, 7 lines name them). Copy them over.
+4. P4 (carried), the hidden file's header (line 3 of `.garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md`) still names the slice "From a named piece of work to its design". The slice record says "Name a business intent, and three plays write its slice, plan and eval". It is the old name, in the only place left.
+5. P4 (carried), `core/components/memory/tools/github/adapter.md` and `gitlab/adapter.md` do not list `pr-files`. They were behind before this change. This change does not touch them.
+6. P4 (new), the #908 review left three small findings on purpose (R3-01 to R3-03: the close step under-counts an edit run's checks, the edit contract names one file for a refusal, a name in the person's words has two routes). They are in `.garura/project/issues/908/review/`. They ride along in this PR as they were left in #908.
+7. The other P4 findings from the round 1 and round 2 reviews are unchanged and are in `.garura/project/issues/798/review/findings.yaml`.
 
 ## Scope checks
 
-- Matches the issue: PASS. Every real file maps to #798, to its folded-in stories (#795, #898), to a round 1 or round 2 finding, or to the adapter work that lets the review read this PR at all. Two items are not tied to a finding and were named in round 2 and still stand: the install list also gains `discover-intent`, `walk-prototype`, `business-intent-keeper` and `prototype-reader` (commit 8cbf8f0f), and the shape-slice script change that lets a fill replace a part's one-line and a kept slice take a new name (c4c3c3d6, no body in its message).
-- No scope creep: PASS with the items above named. This round's three code and model commits each map to a round 2 defect or a round 2 review note; none rides along.
-- Reasonable size: REVIEW. Large in raw lines, but 339 of 425 files and about 90% of the added lines are run records. The real change is 86 files (+5,885 / -298). Suggest the PR description says so.
-- No stray artifacts: PASS. The working tree was clean before this file was written. No debug prints in the changed code. The new `--redraft` code carries no commented-out blocks.
+- Matches the issue: PASS. Every real file maps to #798, to its folded-in stories (#795, #898), to a review finding, to the adapter work that lets the review read this PR at all, or to #908, which the round 3 reject asked for and which the product owner approved. Two items named in earlier rounds still stand: the install list also gains `discover-intent`, `walk-prototype`, `business-intent-keeper` and `prototype-reader` (8cbf8f0f), and the /shape-slice change that lets a fill replace a part's one-line (c4c3c3d6). The latter is now written into the intent too (C8, F8, F17), which closes the gap between play and intent for it.
+- No scope creep: PASS with the items above named.
+- Reasonable size: REVIEW. Large in raw lines, but about 84% of the files and almost all the added lines are run records. The real change is 73 files, +6,229 / -273. The PR description should say so.
+- No stray artifacts: PASS. No `.pyc`, `.DS_Store`, backup or scratch file is in the diff (`__pycache__` is git-ignored). No debug prints and no commented-out code found in the added lines. The working tree holds one edit, to `.garura/project/issues/798/context/resolved-rules.json`; it is a run record, not part of this review's reading.
 
 ## Quality checks
 
-- Tests present: PASS. Run now on this commit, all passed: `test_write_hidden_file.py` 26 (includes the 2 new checks), `test_persist_slice.py` 101, `test_render_brief.py` 31, `test_shape_slice_scripts.py` 127, shape-eval scripts 41, check-change `test_fetch_pr_context.py` 8, create-play `test_fetch_pr_context.py` 13, adapter reference test 51 and `test_intent_touches.py` 21. The install test (75 checks, about 2.5 minutes) was not run again this round; it passed on the round 2 write, and this round changes one play text, three scripts and one data file. The six hidden-file edits are covered by no test; the play's own `write_hidden_file.py check` is the mechanical guard for that file, and this review did not run it.
-- Commits are clean: PASS. All 56 subjects are conventional (the one revert has git's own subject) and each cites an issue. This round's three code and model commits are each one concern. No commit message or tracked file carries a Claude attribution line (scan of all commit messages found none).
-- No secrets: PASS. A scan of the non-record diff found no keys, tokens, private-key headers or password assignments.
-- Docs in step: PASS with the findings above. The step 8b text of the play now describes `--redraft`; the script's docstring and option help describe it. ADR 057, the index, the philosophy and component docs and the platform-adapter pages are as in round 2.
-- Nothing obviously broken: PASS. The component linter, run from the repo root, reports 36 errors and 1 warning in 12 files; none of the 12 is a file this branch changes (same count as round 1 and round 2). `ruff` on every Python file this branch changes: all checks passed. A trial merge with the base (`git merge-tree`) wrote a tree, so there is no conflict.
+- Tests present: PASS. Run now on this commit, all passed. /shape-slice: edit 35, find_serving_slice 21, grill_budget 19, persist_slice 101, render_brief 32, shape_slice_scripts 127, trace_check 5, write_hidden_file 26. /shape-eval scripts 41. /shape-plan: check_drafts 17, check_plan 7, check_tracker 11, find_work_items 12, gather_plan 22, record_approval 9, render_brief 11, support 18, write_plan_file 9, write_work_items 21. check-change `test_fetch_pr_context.py` 8. The create-play reference tests all passed too (fetch_pr_context 13, intent_touches 21, platform_adapter 51, and the others in the folder). The install test (about 2.5 minutes) was not run again this round.
+- Commits are clean: PASS. All 86 commit subjects are conventional (the one revert and the one merge carry git's own subject) and each cites an issue (#798, #795, #898 or #908). A scan of every commit message since the base found no "Co-Authored-By" line, no "Generated with" line and no mention of Claude. A scan of the added lines under `core/` and `docs/` found none either.
+- No secrets: PASS. A scan of the added lines under `core/` and `docs/` found no private-key headers, key or password assignments, or token patterns.
+- Docs in step: PASS with the findings above. ADR 057 and ADR 058 are in the ADR index. The play's `SKILL.md` has the `--edit` argument hint and phase, and the intent holds C20, F20, REC20 and S11. The PR description is the one place behind (finding 1).
+- Nothing obviously broken: PASS. The play linter gives "VERDICT: PASS (0 gap(s))" for shape-slice, shape-eval and shape-plan (run with the pipeline-next map). The component linter, run from the repo root, reports 36 errors and 1 warning, the same count as the base; none of the 37 is in a file this change touches (checked by matching every finding's file against the diff). `ruff check` on every Python file the change touches: all checks passed. A trial merge with the base (`git merge-tree --write-tree`) wrote a tree, so there is no conflict.
