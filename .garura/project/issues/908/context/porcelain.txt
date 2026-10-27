@@ -1,0 +1,3 @@
+ M .garura/project/issues/908/context/porcelain.txt
+ M .garura/project/issues/908/context/self-review.md
+ M core/components/skills/author-slice/SKILL.md

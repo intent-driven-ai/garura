@@ -1,0 +1,37 @@
+# Layer 1 of /check-change for PR #900, round 3 — the installed tools, run from the project root on the source layout
+diff_source: pr-files (the host refuses one diff over 300 files; 425 files, all bound)
+lint_components:
+  command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+  summary: { errors: 36, warnings: 1 }
+  in_changed_paths: 0
+  there_before: 37
+lint_play:
+  next_map: ".garura/project/issues/798/context/templates/standards/rules/pipeline-next.md (phoenix 23387be24c0d)"
+  runs:
+    - { play: build-epic, verdict: PASS, next_command_check: PASS }
+    - { play: discover-domains, verdict: PASS, next_command_check: PASS }
+    - { play: discover-intent, verdict: PASS, next_command_check: PASS }
+    - { play: merge-change, verdict: PASS, next_command_check: PASS }
+    - { play: propose-change, verdict: PASS, next_command_check: PASS }
+    - { play: shape-eval, verdict: PASS, next_command_check: PASS }
+    - { play: shape-plan, verdict: PASS, next_command_check: PASS }
+    - { play: shape-slice, verdict: PASS, next_command_check: PASS }
+    - { play: check-change, changed: scripts only (SKILL.md unchanged), verdict: "FAIL (1 gap, there before: the same on plan/788/base)" }
+    - { play: create-play, changed: references only (SKILL.md unchanged), verdict: "FAIL (6 gaps, there before: the same on plan/788/base)" }
+    - { play: install-garura, changed: scripts only (SKILL.md unchanged), verdict: "FAIL (5 gaps, there before: the same on plan/788/base)" }
+runnable_checks:
+  - { suite: shape-eval/scripts/test_shape_eval_scripts.py, result: "41 passed, 0 failed" }
+  - { suite: shape-slice/scripts/test_find_serving_slice.py, result: "21 passed, 0 failed" }
+  - { suite: shape-slice/scripts/test_grill_budget.py, result: "19 passed, 0 failed" }
+  - { suite: shape-slice/scripts/test_persist_slice.py, result: "101 passed, 0 failed" }
+  - { suite: shape-slice/scripts/test_render_brief.py, result: "31 passed, 0 failed" }
+  - { suite: shape-slice/scripts/test_shape_slice_scripts.py, result: "127 passed, 0 failed" }
+  - { suite: shape-slice/scripts/test_trace_check.py, result: "5 passed, 0 failed" }
+  - { suite: shape-slice/scripts/test_write_hidden_file.py, result: "26 passed, 0 failed" }
+  - { suite: check-change/scripts/test_fetch_pr_context.py, result: "8 passed, 0 failed" }
+  - { suite: create-play/references/test_platform_adapter.py, result: "51 passed, 0 failed" }
+  - { suite: create-play/references/test_fetch_pr_context.py, result: "13 passed, 0 failed" }
+  - { suite: create-play/references/test_intent_touches.py, result: "21 passed, 0 failed" }
+  - { suite: install-garura/scripts/test_install.py, result: "75 tests OK" }
+  - { check: "ruff on the changed Python files", result: "All checks passed" }
+  - { check: "slice-evals: no runnable suite (the eval runner is #819); not run, not passed" }

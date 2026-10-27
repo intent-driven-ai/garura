@@ -1,0 +1,62 @@
+# find-matching-issues output for commit-change, Step 2 (read-only on GitHub)
+branch:
+  name: plan/788/798-shape-eval
+  issue_reference: 798        # the resolver would read 788 (the plan) from "plan/788/..."; the issue segment is 798
+  note: "788 is the business intent / plan id, not the work issue. The work issue is 798; #898 runs in the same change (design.md)."
+
+issues_read:
+  - number: 798
+    state: open
+    type: Story
+    parent: 794
+    title: "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface"
+  - number: 898
+    state: open
+    type: Story
+    parent: 794
+    title: "Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval"
+
+mappings:
+  - group: g1
+    commit: "chore(plan)"
+    issue: 898
+    issue_title: "Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval"
+    confidence: medium
+    signals:
+      branch: "no match (branch names 798, not 898)"
+      semantic: "the plan-file change adds #898 under #794 and drops #828, the replaced feature that #898 supersedes; design.md step 1 names it"
+      proximity: "g2 design.md covers #798 and #898 together as one change"
+    reasoning: "The change records #898 in the plan and drops #828 for it, so it traces to #898. The branch signal points to #798, which keeps this at medium and not high. #798 is a plausible alternative since the same pipeline run carries both."
+  - group: g2
+    commit: "chore(stm)"
+    issue: 798
+    issue_title: "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface"
+    confidence: high
+    signals:
+      branch: "match (798)"
+      semantic: "design.md sits in issues/798/specs/ and is headed '#798 + #898'; #798 is the main subject"
+      proximity: "g3 is in the same issue folder"
+    reasoning: "Branch issue segment, STM folder and the design's lead subject all say #798."
+  - group: g3
+    commit: "chore(stm)"
+    issue: 798
+    issue_title: "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface"
+    confidence: high
+    signals:
+      branch: "match (798)"
+      semantic: "files are under issues/798/context/templates/ (start-change close copies for this workspace)"
+      proximity: "same issue folder as g2"
+    reasoning: "Run records of the #798 workspace opened by start-change."
+
+unmapped_groups: []
+
+conflicts:
+  - "g1: branch signal (798) differs from the semantic signal (898). Not a type conflict. The work in g1 is #898's plan entry, which the design runs in the same change as #798."
+
+summary:
+  total_groups: 3
+  high: 2
+  medium: 1
+  low: 0
+  unmapped: 0
+  approval_recommended: false   # no low confidence; the one medium has a clear semantic basis

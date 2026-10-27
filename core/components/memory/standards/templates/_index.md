@@ -23,6 +23,8 @@ Agents and skills query this category when they need to know: **"What does the o
 | `pr-body.md` | Canonical PR body shape — Summary, Quality Checklist (Required/Optional), Verification Evidence table, Eval Results (conditional), generated-by footer. Includes Eval Results instantiation rules. | `open-pr`, `assess-pr` |
 | `pr-review-comment.md` | Canonical PR review comment shape — `<!-- review-pr:marker -->` sentinel (required), Confidence line, P1–P4 sections with counts, Reviewers section. Supports in-place update detection via marker. | `review-pr` |
 | `delivery-report.md` | Canonical human-readable delivery report — Run Summary (play, issue, status, timestamps), Pipeline Steps table, Artifacts Produced table, Next Steps (optional). Per-play field notes for ship, fix-it, implement. | `ship`, `fix-it`, `implement`, every play that closes with a delivery step |
+| `eval-story.feature.md` | The shape of one story file of a slice's eval (`eval.<feature-id>.feature.md`): Markdown with Gherkin, its `Feature:` is the story, one tag line per scenario naming what it covers (`@goal-<n>`, `@expectation-<n>`, `@F<n>`), steps from the surface kind's step library, exact Then results, an Untestable list and a Lines covered list; the rules are in `rules/eval-format.md` (#798, ADR 057). | `/shape-eval`, `author-slice-eval` |
+| `eval-slice.md` | The shape of a slice's eval file (`eval.<slice-id>.md`): the stories in build order, the surface kind, the time limit for each scenario, the pass rule (every scenario passes, no score), the names the usage guide maps, the Context guidance; the rules are in `rules/eval-format.md` (#798, ADR 057). | `/shape-eval`, `author-slice-eval` |
 
 ## Scope Notes
 

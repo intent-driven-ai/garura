@@ -19,7 +19,7 @@ business intent, with done / now / next) or from `/list-focus-issues` (ADR 051).
 The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
 
 - **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/research-knowledge`, `/check-knowledge`) run only inside it.
-- **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then `/shape-plan <intent>`, then the eval play (#798). `/shape-slice` hands to `/shape-plan`, which makes the intent's one plan: the plan file, one epic for each slice and one story for each feature. The eval play is not built yet, so `/shape-plan` has no Next line. The Discovery plays hand to the loop (`/shape-slice <intent>`, the business intent's issue number).
+- **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then `/shape-plan <intent>`, then `/shape-eval <intent>`. `/shape-slice` hands to `/shape-plan`, which makes the intent's one plan: the plan file, one epic for each slice and one story for each feature; `/shape-plan` hands to `/shape-eval`, which writes each slice's eval. The build stage (#819) is not built yet, so `/shape-eval` has no Next line. The Discovery plays hand to the loop (`/shape-slice <intent>`, the business intent's issue number).
 - **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
   - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
   - Non-functional: `/shape-architecture-lens → /shape-quality-lens → /shape-run-lens`
@@ -54,9 +54,10 @@ next:
   # Older chain — measure runs last; /shape-slice no longer needs its realized mark (ADR 049); stale until its rebuild (#855)
   shape-measure-lens:        { command: null,          why: "the measures are set; the slice is shaped from its business intent with /shape-slice, not from this mark" }
 
-  # Shaping loop (ADR 049) — the live shape loop; the eval play (#798) is not built yet
+  # Shaping loop (ADR 049) — the live shape loop: /shape-slice, then /shape-plan, then /shape-eval
   shape-slice:          { command: shape-plan,     why: "the slice is shaped; make its plan, epic and stories (/shape-plan <intent>)" }
-  shape-plan:           { command: null,           why: "the plan, its epics and its stories are made; the shaping loop's next play, the eval play (#798), is not built yet" }
+  shape-plan:           { command: shape-eval,     why: "the plan, its epics and its stories are made; write each slice's eval (/shape-eval <intent>)" }
+  shape-eval:           { command: null,           why: "each slice's eval is written; the build stage (#819) is not built yet" }
 
   # Execute loop (per epic); /release-increment belongs to the future deployment-and-run loop
   build-epic:      { command: validate-epic,       why: "independently verify the built epic" }

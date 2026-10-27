@@ -1,0 +1,18 @@
+{
+  "verb": "view-issue",
+  "platform": "github",
+  "commands": [
+    [
+      "gh",
+      "issue",
+      "view",
+      "898",
+      "--json",
+      "number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary"
+    ]
+  ],
+  "stdout": "{\"body\":\"Feature: when agents build, they build for the business intent, not only to pass the eval.\\n\\nThe product owner, 2026-10-26, in the design of #798: \\\"all of these things, constraints, the setting in the product model, all in plain text. If an agent really wants to go back and read it, it can go back and read everything. The point we're trying to make is that once the slice happens, we need an eval, and that eval is what we need to pass. I just want to make sure that when the agents are building, they don't only think through the evals, but they look at the intent and build for that.\\\" It replaces #828 (encryption, dropped with reason).\\n\\n## What it does\\n\\n- **The build is given the intent, never the eval.** A build's inputs are the slice's stories, each with its scope of work written from the ICE (goals, limits, expectations) and its Context guidance. No build play, build skill or build helper is handed the eval or the hidden file, or their folder. Nothing is hidden: the eval is simply not part of the brief.\\n- **A check flags any build that read the evals folder.** Each play run already records its session (the session stamp and its ledger). After a build, a check reads that session's ledger and flags any read of `plans/<plan>/evals/`. It does not block; it makes the shortcut visible.\\n- **The eval measures the intent.** The eval play (#798) writes checks that test, from the outside through the usage guide, what the business intent promises, so passing the eval and meeting the intent are the same thing.\\n\\n## Done when\\n\\n- No build play's inputs (contracts, context files) name the evals folder, the eval or the hidden file; a lint check fails one that does.\\n- A check over a build session's ledger flags a read of the evals folder, with a test that shows it flags one and passes a clean session.\\n- The ontology and `managing-work.md` say the build is given the intent, never the eval (not \\\"the eval is encrypted\\\").\\n\\n## Where it sits\\n\\n- Under epic #794, the epic of slice `sl-intent-to-design`. `/shape-slice` adds its feature to the slice, with its ICE, in the change for #798.\\n\\n## Not in this story\\n\\n- Blocking reads by hook (#893, the guardrails).\\n- Encryption (#828, dropped).\",\"closedAt\":null,\"issueType\":{\"id\":\"IT_kwDOFDfBgM41Yree\",\"name\":\"Story\",\"description\":\"A shippable slice of a Feature: one branch, one PR\",\"color\":\"YELLOW\"},\"labels\":[],\"number\":898,\"parent\":{\"id\":\"I_kwDORA56Ic8AAAABZJxCqw\",\"number\":794,\"state\":\"OPEN\",\"title\":\"The shaping loop turns a business intent into a testable slice, its plan and its eval\",\"url\":\"https://github.com/intent-driven-ai/garura/issues/794\"},\"state\":\"OPEN\",\"subIssues\":{\"nodes\":[],\"totalCount\":0},\"subIssuesSummary\":{\"completed\":0,\"percentCompleted\":0,\"total\":0},\"title\":\"Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval\",\"url\":\"https://github.com/intent-driven-ai/garura/issues/898\"}\n",
+  "stderr": "",
+  "exit_code": 0,
+  "tree_available": true
+}

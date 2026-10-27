@@ -1,0 +1,9 @@
+Build the eval play, /shape-eval (#798), and encrypt the slice's eval and hidden file (#828), in one change.
+
+The product owner (2026-10-26): "put 828 in this only.. as its encryption so might as well do those together".
+
+#798: the third play of the shaping loop (ADR 049). It reads the slice's epic, its stories and the slice's hidden failure-and-recovery file (never an ICE page, the usage guide or the code), and writes the slice's eval into .garura/project/plans/<plan-id>/evals/<slug>/, where no builder reads. Each check is black-box: when the eval runs after the build, it reaches the slice only through its usage guide, checks each goal and expectation, checks that no failure condition happens, and says what it cannot test yet. On a failed check it writes a handoff that names the symptom, never the failure condition or the check. Built with /create-play.
+
+#828: /shape-slice writes the hidden file encrypted, and the eval play writes the eval encrypted; only the two writers, the running eval and a person can decrypt them; the key is not in the repo or anywhere a builder reads; a test shows a failure condition's plain text is not on disk and the running eval still reads it; the ontology and CLAUDE.md say the evals are encrypted.
+
+Design first: the design goes to the product owner before anything is built. It runs in plan 788 and lands into plan/788/base.

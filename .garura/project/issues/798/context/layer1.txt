@@ -1,0 +1,15 @@
+## round 7 layer 1
+lint-components: in changed paths: 0 there before: 37
+lint-play build-epic: VERDICT: PASS (0 gap(s))
+lint-play check-change: VERDICT: FAIL (1 gap(s))
+lint-play create-play: VERDICT: FAIL (6 gap(s))
+lint-play discover-domains: VERDICT: PASS (0 gap(s))
+lint-play discover-intent: VERDICT: PASS (0 gap(s))
+lint-play install-garura: VERDICT: FAIL (5 gap(s))
+lint-play merge-change: VERDICT: PASS (0 gap(s))
+lint-play propose-change: VERDICT: PASS (0 gap(s))
+lint-play shape-eval: VERDICT: PASS (0 gap(s))
+lint-play shape-plan: VERDICT: PASS (0 gap(s))
+lint-play shape-slice: VERDICT: PASS (0 gap(s))
+(check-change, create-play, install-garura fail identically on the base: there before)
+tests done

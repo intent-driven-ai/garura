@@ -1,0 +1,14 @@
+ M .garura/project/issues/798/context/categories.yaml
+ M .garura/project/issues/798/context/context.yaml
+ M .garura/project/issues/798/context/decision-comment.md
+ M .garura/project/issues/798/context/design-findings-harness.yaml
+ M .garura/project/issues/798/context/design-findings-memory.yaml
+ M .garura/project/issues/798/context/design-findings-product-model.yaml
+ M .garura/project/issues/798/context/design-findings-slice-evals.yaml
+ M .garura/project/issues/798/context/layer1.txt
+ M .garura/project/issues/798/context/porcelain.txt
+ M .garura/project/issues/798/context/pr.diff
+ M .garura/project/issues/798/context/quality-findings.yaml
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/scripts/persist_slice.py
+ M core/components/plays/shape-slice/scripts/test_persist_slice.py

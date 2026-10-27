@@ -5,7 +5,7 @@ user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Bash
 stale: true
-stale_note: 'waits for the rebuild of the eval skills of /build-epic (#855)'
+stale_note: 'waits for the rebuild of the eval skills of /build-epic (#855); evals-engineer no longer dispatches it, and the evals are not encrypted (#828 dropped, ADR 057)'
 ---
 
 # author-encrypted-evals

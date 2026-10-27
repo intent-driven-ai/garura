@@ -1,0 +1,9 @@
+{
+  "match": "sl-intent-to-design",
+  "reason": "slice 'sl-intent-to-design' already lists business intent 'bi-788'",
+  "reuse_args": [
+    "--reuse",
+    "sl-intent-to-design"
+  ],
+  "in_progress": []
+}

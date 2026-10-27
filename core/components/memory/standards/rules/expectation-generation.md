@@ -87,6 +87,12 @@ way back: refund the second charge; who fixes: a person must decide (money goes 
 The story that delivers the feature never holds these lines. The running eval reads only the recovery
 parts of the hidden file, and the builder gets only the handoff plan made from them.
 
+When the recovery says "the builder can fix this alone", its **when** and **way back** go to the builder in the
+handoff plan, so they name what the builder sees and changes in the product, never the evals folder, the eval, the
+hidden file or the check that found it. Example (a clinic): "Fails if: a build was given the eval" → when: the
+build's inputs name a file it must not be given; way back: take that file out of the build's inputs; never "take
+the evals folder out of the contract".
+
 ## Provenance
 
 Every generated expectation carries:

@@ -97,6 +97,11 @@ tree:
       kind: bug
       title: '/shape-plan stops when an epic holds work that is not its slice''s: an epic stands for one slice'
       status: done
+  - issue: 898
+    kind: feature
+    represents: fn-898
+    title: 'Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval'
+    status: next
 - issue: 895
   kind: chore
   title: 'The open points left by the PR #894 review: where misplaced work sits until a play places it, and blocker work as its own slice'
@@ -123,13 +128,6 @@ tree:
   status: done
   needs:
   - 816
-- issue: 828
-  kind: feature
-  title: Encrypt each slice's eval and hidden file so a builder cannot read them
-  status: next
-  needs:
-  - 798
-  - 842
 - issue: 824
   kind: chore
   title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
@@ -193,6 +191,7 @@ tree:
   needs:
   - 798
   - 818
+# Dropped on 2026-10-26: #828 (encrypt the evals; not planned — the ICE and the model are plain text anyway, so the build is given the intent, never the eval; replaced by #898).
 # Dropped on 2026-10-24: #831 (not planned; replaced by #854).
 # Not in this plan (standalone): #839 (review the agent's memory), #843 (a sandbox install scope), #847 (check-change's
 # review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan

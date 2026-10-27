@@ -1,0 +1,37 @@
+{
+  "proposals": [
+    {
+      "group": "Q-redraft-1",
+      "closed_by": "settled",
+      "answer": "Only the entries of fn-818 and fn-898 are drafted again. Every other recovery keeps its meaning.",
+      "basis": {
+        "kind": "person",
+        "ref": "#798 run 3 change, change.md line 5"
+      },
+      "context": "",
+      "why": "The product owner's change for this run says: draft the entries of fn-818 and fn-898 again, and keep the meaning of every other recovery. The slice and every model page stay as run 2 left them."
+    },
+    {
+      "group": "Q-wayback-1",
+      "closed_by": "settled",
+      "answer": "The fix for F25 goes to 'a person must decide', unless it can be said with no word about the eval and the hidden file.",
+      "basis": {
+        "kind": "person",
+        "ref": "#798 run 3 change, change.md line 9, with the naming rule at line 11"
+      },
+      "context": "",
+      "why": "The product owner's change says fn-898's fix for F25 names neither the eval nor the hidden file, or it goes to a person, because fn-898 builds the two checks that catch a build reading the evals, not the eval. The naming rule says a fix given to the builder may name only what the feature itself builds."
+    },
+    {
+      "group": "Q-naming-1",
+      "closed_by": "settled",
+      "answer": "Yes. A fix given to the builder may name what the feature itself builds. It never names the test that found the failure.",
+      "basis": {
+        "kind": "person",
+        "ref": "Q-recovery-1-4 (#798), as the run 3 change states it (change.md line 11)"
+      },
+      "context": "",
+      "why": "The product owner answered Q-recovery-1-4 (record lines 192-221), and this run's change writes that answer down as the rule for naming things in a fix."
+    }
+  ]
+}

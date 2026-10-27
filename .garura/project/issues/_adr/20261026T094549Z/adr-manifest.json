@@ -1,0 +1,28 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261026T094549Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "049",
+      "file": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+      "kind": "amended",
+      "part": "\u00a74, the sentence \"Encrypting the evals is #828\"; Negative / Risks, the words \"Until #828\" in \"Until #828, only a read rule keeps the eval from the builder\"; and Work This Creates, \"#828 \u2014 encrypt the evals\""
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "049-a-slice-is-shaped-then-planned-then-given-its-eval.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

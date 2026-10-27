@@ -20,7 +20,9 @@ The file is Markdown with one fenced YAML block that holds `questions:`, one ent
     python3 record_questions.py answers   --reply <reply.md> --split <split.json> --out <answers.json>
     python3 record_questions.py answer    --record <md> --answers <answers.json> --at <ts> --run <run id>
     python3 record_questions.py brief     --brief <brief.md> --split <split.json> [--early]
+    python3 record_questions.py brief     --brief <brief.md> --edit [--before <edit-before.json>]
     python3 record_questions.py check     --record <md> --split <split.json>
+    python3 record_questions.py edit      --record <md> --issue <n> --request <edit-request.md> --reply <reply.md> --decision <yes|change|stop> --at <ts> --run <run id>
 
 A question (q.json is a JSON list, or the object `proposals` writes) has: id, blocking (true/false), question, and may have
 topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, assume.
@@ -63,8 +65,10 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               "skip" or "defer" and says more ("Skip the dashboard, use the CLI") is not
               guessed: it is listed in `unclear`, gets no answer, and is asked again. When the
               first line of the reply that is not empty is a bare "yes", each asked question the
-              reply does not answer by its id is recorded as {"id", "answer": "yes — accepted as
-              proposed", "decision": "accepted"}. Prints {answers, unanswered, unclear, unknown}.
+              reply does not answer by its id and that has a proposed answer is recorded as
+              {"id", "answer": "yes — accepted as proposed", "decision": "accepted"}. A question
+              with no proposed answer is not accepted by a yes: it stays in `unanswered`, and
+              is asked again (C5). Prints {answers, unanswered, unclear, unknown}.
   early     — splits the asked questions of grill_budget.py's split in two. A question is
               asked before the slice is shaped (`early-split.json`) only when it blocks the
               slice, has no proposed answer, and is not about the surface or the tester (topic
@@ -78,7 +82,9 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
   answer    — writes the person's answers ([{id, decision, answer}]) onto asked entries. An
               answer with no text is refused (exit 2, nothing written): an empty answer is not
               an answer. An answer with no decision is deferred when its text is a bare
-              "skip" or "defer", else in scope.
+              "skip" or "defer", else in scope. A plain-yes acceptance never writes over an
+              answer the person already typed in their own words: that entry is kept as it
+              is and named in `kept`.
   brief     — checks the brief shown to the person before it is sent. The opening is the text
               before the first Markdown heading: two or three sentences that say what the person
               decides (it may name a question id). The brief has the H2 headings What you run,
@@ -86,7 +92,9 @@ topic, why, examples, proposed_answer, basis {kind: model|memory|person, ref}, a
               Questions; each asked question of the split sits under ## Questions as ### <id>,
               with the parts **Question**, **Answer**, **Why it matters** and **Example**. With
               --early (the questions asked before the slice is shaped) only the opening and
-              ## Questions are needed. Prints {ok, problems}; each problem names the heading or
+              ## Questions are needed. With --edit (the brief of an edit, C20) the opening and the
+              headings What you asked, Changes, Out of date (named, not changed) and Your reply
+              are needed, and no --split. Prints {ok, problems}; each problem names the heading or
               part that is missing. This is a floor a script can test; the person's read of the
               brief is the full test. Exit 1 on problems.
   check     — every asked and assumption id of the split is in the record, and every asked
@@ -358,6 +366,8 @@ ANSWER_START = re.compile(r"^\s*(?:[-*]\s*)?(?:\*\*)?(?P<key>Q-[\w-]*\w|\d+)(?:\
 def cmd_answers(args):
     split = load_json(args.split, "split")
     asked = [q["id"] for q in split.get("asked") or []]
+    proposed = {q["id"] for q in split.get("asked") or []
+                if str(q.get("proposed_answer") or "").strip()}
     try:
         with open(args.reply, encoding="utf-8") as fh:
             reply = fh.read()
@@ -390,7 +400,7 @@ def cmd_answers(args):
     for qid in asked:
         text = "\n".join(found.get(qid, [])).strip()
         if not text:
-            if yes:
+            if yes and qid in proposed:  # a yes accepts a proposal; with none, there is nothing to accept
                 answers.append({"id": qid, "answer": ACCEPTED, "decision": "accepted"})
             continue
         if DEFER_START.match(text) and not is_deferral(text):
@@ -452,25 +462,53 @@ def cmd_answer(args):
         if not isinstance(a.get("answer"), str) or not a["answer"].strip():
             raise Refused(f"the answer to '{a.get('id')}' has no text; an empty answer is not "
                           "an answer — ask the question again")
+    done, kept = [], []
     for a in answers:
         e = by_id[a["id"]]
+        if a.get("answer") == ACCEPTED and has_answer(e) and e["user_answer"] != ACCEPTED:
+            kept.append(a["id"])  # a later plain yes never writes over the person's own words
+            continue
         e["user_decision"] = a.get("decision") or (
             "deferred" if is_deferral(a.get("answer")) else "in_scope")
         e["user_answer"] = a.get("answer")
         e["resolved_at"] = args.at
         e["resolved_by_run"] = args.run
+        done.append(a["id"])
     write_record(args.record, text, entries)
-    print(json.dumps({"answered": [a["id"] for a in answers]}, indent=2))
+    print(json.dumps({"answered": done, "kept": kept}, indent=2))
+    return 0
+
+
+def cmd_edit(args):
+    """An edit run (C20) asks the person one thing: make the changes on the list. Its entry
+    holds their words after --edit: and their reply, so the record has every question of the run."""
+    with open(args.request, encoding="utf-8") as fh:
+        request = " ".join(fh.read().split())
+    with open(args.reply, encoding="utf-8") as fh:
+        reply = fh.read().strip()
+    if not request or not reply:
+        raise Refused("an edit entry needs the person's edit words and their reply")
+    text, entries = read_record(args.record)
+    n = 1 + sum(1 for e in entries if str(e.get("id", "")).startswith("Q-edit-"))
+    entries.append({"id": f"Q-edit-{n}", "kind": "asked", "blocking": True, "asked_at": args.at,
+                    "topic": "edit", "question": f"Make the changes the edit brief lists, from these words: {request}",
+                    "proposed_answer": None, "basis": None, "pipeline_source": f"/shape-slice {args.run}",
+                    "pipeline_guess": None, "impact_if_unknown": "Nothing is written before the person's yes.",
+                    "user_decision": args.decision, "user_answer": reply, "resolved_at": args.at,
+                    "resolved_by_run": args.run})
+    write_record(args.record, text, entries, args.issue)
+    print(json.dumps({"added": f"Q-edit-{n}", "decision": args.decision}, indent=2))
     return 0
 
 
 QUESTION_PARTS = ("Question", "Answer", "Why it matters", "Example")
 BRIEF_HEADINGS = ("What you run", "Who tests it", "Features", "Hidden file", "Left out",
                   "Assumptions", "Model check", "Questions")
+EDIT_HEADINGS = ("What you asked", "Changes", "Out of date (named, not changed)", "Your reply")
 HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
 
 
-def brief_problems(text, asked, early=False):
+def brief_problems(text, asked, early=False, edit=False):
     """The brief the person reads, checked against the floor of the rule for asking a person."""
     problems = []
     lines = text.splitlines()
@@ -488,9 +526,11 @@ def brief_problems(text, asked, early=False):
         m = HEADING.match(ln)
         if m and len(m.group(1)) == 2:
             h2.setdefault(m.group(2), i)
-    for name in (("Questions",) if early else BRIEF_HEADINGS):
+    for name in (("Questions",) if early else EDIT_HEADINGS if edit else BRIEF_HEADINGS):
         if name not in h2:
             problems.append(f"no '## {name}' heading")
+    if edit:
+        return problems
     if "Questions" not in h2:
         for q in asked:
             problems.append(f"'{q}' is not under '## Questions'")
@@ -518,14 +558,18 @@ def brief_problems(text, asked, early=False):
 
 
 def cmd_brief(args):
-    split = load_json(args.split, "split")
-    asked = [q["id"] for q in split.get("asked") or []]
+    if not args.edit and not args.split:
+        raise Refused("give --split (or --edit)")
+    asked = [] if args.edit else [q["id"] for q in load_json(args.split, "split").get("asked") or []]
     try:
         with open(args.brief, encoding="utf-8") as fh:
             text = fh.read()
     except OSError as exc:
         raise Refused(f"cannot read the brief {args.brief}: {exc}")
-    problems = brief_problems(text, asked, early=args.early)
+    problems = brief_problems(text, asked, early=args.early, edit=args.edit)
+    if args.edit and args.before and load_json(args.before, "edit-before").get("in_progress") \
+            and not re.search(r"^## In progress\s*$", text, re.M):
+        problems.append("the slice is in progress, but the brief has no '## In progress' section")
     print(json.dumps({"ok": not problems, "problems": problems}, indent=2))
     return 1 if problems else 0
 
@@ -585,9 +629,18 @@ def main(argv=None):
     c.add_argument("--split", required=True)
     b = sub.add_parser("brief")
     b.add_argument("--brief", required=True)
-    b.add_argument("--split", required=True)
+    b.add_argument("--split")
     b.add_argument("--early", action="store_true",
                    help="the questions asked before the slice is shaped: opening and Questions only")
+    b.add_argument("--edit", action="store_true",
+                   help="the brief of an edit (C20): the opening, What you asked, Changes, "
+                        "Out of date and Your reply")
+    b.add_argument("--before", help="with --edit: edit-before.json; a slice in progress needs the "
+                                    "'## In progress' section")
+    d = sub.add_parser("edit")
+    for flag in ("--record", "--issue", "--request", "--reply", "--at", "--run"):
+        d.add_argument(flag, required=True)
+    d.add_argument("--decision", required=True, choices=("yes", "change", "stop"))
     e = sub.add_parser("early")
     e.add_argument("--split", required=True)
     e.add_argument("--early-out", required=True)
@@ -596,7 +649,7 @@ def main(argv=None):
     try:
         return {"merge-proposals": cmd_merge_proposals, "proposals": cmd_proposals, "filter": cmd_filter, "open-list": cmd_open_list,
                 "answers": cmd_answers, "add": cmd_add, "answer": cmd_answer,
-                "brief": cmd_brief, "early": cmd_early, "check": cmd_check}[args.command](args)
+                "brief": cmd_brief, "early": cmd_early, "check": cmd_check, "edit": cmd_edit}[args.command](args)
     except Refused as exc:
         sys.stderr.write(f"record_questions.py: {exc}\n")
         return 2

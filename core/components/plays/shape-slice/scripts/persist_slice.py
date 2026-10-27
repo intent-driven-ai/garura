@@ -4,7 +4,7 @@ persist_slice.py — write the slice /shape-slice shaped into the live product m
 
     python3 persist_slice.py --root <product-os dir> --spine <_spine.yaml> --slice <slice.json> \
         [--reuse <slice-id> [--pull-in <feature id>]... [--push-out <feature id>]...] \
-        [--out <persist-slice.json>]
+        [--at <YYYY-MM-DD>] [--spine-at-start <spine copy>] [--out <persist-slice.json>]
 
 slice.json:
     {"id": "...", "slug": "...", "name": "...", "outcome": "...",
@@ -31,7 +31,18 @@ REUSE (--reuse <slice-id>, C7): the slice <slice-id> already serves the intent
 spine entry and to its record (appended, no duplicates). It keeps that slice's feature_refs,
 vertical and surface as they are, and makes no second slice. The result's `differences`
 lists, in plain words, how the new shape differs from the slice it reuses, so the person
-sees it at the checkpoint. An older entry with fields ontology v10 removed (status, order,
+sees it at the checkpoint: its features, its surface, its tester, its outcome and the
+tester's action. When the shaped slice is the kept slice reshaped for an intent it already
+serves (no new intent, the same surface and the same tester), the record takes the shaped
+name, outcome and tester's action; else it keeps its own, and the difference says so. When it
+takes a text, the record gains a history entry at the end of its `edits:` list (the same list
+an edit writes: {at, by: "a shaping run", words, changed}; --at, a YYYY-MM-DD date, is then
+required), the result's
+`replaced` names each part it took, and `out_of_date` names each epic of the slice in the spine
+(its id and status), because the epic's stories were written from the old text. Whether the
+intent is new is read from --spine-at-start, the spine as it was when the run started (the play
+copies it at pre-flight), so a step run twice gives the same result: a second run never takes
+text the first run kept. Without it, a run that would take new text is refused. An older entry with fields ontology v10 removed (status, order,
 effort, depends_on, domain_ref) is written back with the six fields only; the result names
 the fields it dropped.
 
@@ -73,8 +84,10 @@ Exit 0 written (or nothing new to write), 2 refused or usage error.
 
 import argparse
 import copy
+import datetime
 import json
 import os
+import re
 import sys
 
 try:
@@ -234,6 +247,74 @@ def differences(existing, rec, sl, surface):
     return out
 
 
+RESHAPE_PARTS = {"name": "slice.name", "outcome": "slice.outcome",
+                 "tester's action": "surface.user_action"}
+
+
+def reshape_text(rec, existing, sl, surface, own, replaced=None):
+    """The name, the outcome and the tester's action of a reused record, against the shaped slice.
+
+    Each one that differs is listed. When the shaped slice is the kept slice reshaped for an
+    intent it already serves (`own`: no new intent, and the same surface and tester), the
+    record takes the shaped text, which the person sees in the brief before their yes (C7);
+    else the record keeps its text. Changes `rec` in place; returns the difference lines."""
+    out = []
+    body, have_s = rec["slice"], rec.get("surface") or {}
+    own = own and surface.get("name") == existing.get("vertical") \
+        and surface.get("persona_ref") == have_s.get("persona_ref")
+    how = "the record takes the new text" if own else "the record keeps its text"
+    for label, part, key, new in (("name", body, "name", sl.get("name")),
+                                  ("outcome", body, "outcome", sl.get("outcome")),
+                                  ("tester's action", have_s, "user_action", surface.get("user_action"))):
+        if _text(new) and part.get(key) != new:
+            out.append(f"{label} differs: the slice keeps '{part.get(key)}'; the new shape says "
+                       f"'{new}' — {how}")
+            if own:
+                part[key] = new
+                if replaced is not None:
+                    replaced.append(RESHAPE_PARTS[label])
+    return out
+
+
+def new_since_start(start_spine, sid, intents):
+    """The run's intents the slice did not list when the run started; None with no start copy."""
+    if start_spine is None:
+        return None
+    for s in start_spine.get("slices") or []:
+        if isinstance(s, dict) and s.get("id") == sid:
+            have = list(s.get("intents") or [])
+            return [i for i in dict.fromkeys(intents) if i not in have]
+    return list(dict.fromkeys(intents))
+
+
+def check_start_copy(start, path):
+    """The start copy is a spine: a mapping whose `slices` is a list of mappings, each with a list
+    of `intents` when it has any. Anything else is refused, not read."""
+    slices = start.get("slices") if isinstance(start, dict) else None
+    if not isinstance(start, dict) or not isinstance(slices if slices is not None else [], list) \
+            or any(not isinstance(x, dict) or not isinstance(x.get("intents") or [], list)
+                   for x in slices or []):
+        raise Refused(f"--spine-at-start {path} is not a spine (a mapping whose slices are a list, "
+                      "each slice's intents a list): copy the spine again at the run's start")
+
+
+def check_date(at):
+    """--at is a real calendar date, YYYY-MM-DD."""
+    try:
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", at or ""):
+            raise ValueError
+        datetime.date.fromisoformat(at)
+    except ValueError:
+        raise Refused(f"--at '{at}' is not a date; give it as YYYY-MM-DD")
+
+
+def history(rec, at, replaced, intents):
+    """The history entry a shaping run leaves when it takes a kept slice's new text (C7)."""
+    words = "shaped again by /shape-slice" + (f" for {', '.join(intents)}" if intents else "")
+    rec.setdefault("edits", []).append({"at": at, "by": "a shaping run", "words": words,
+                                        "changed": list(replaced)})
+
+
 def in_progress(spine, sid):
     return any(isinstance(e, dict) and e.get("slice_ref") == sid and e.get("status") in IN_PROGRESS
                for e in (spine.get("epics") or []))
@@ -265,7 +346,7 @@ def changed_features(have, shaped, pull_in, push_out, known):
     return out
 
 
-def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
+def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=(), at=None, start_spine=None):
     """Work out every write before the first one. Returns a dict that `write` applies."""
     slices = spine.get("slices") or []
     if not isinstance(slices, list):
@@ -311,6 +392,7 @@ def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
     dropped = [k for k in existing if k not in SPINE_FIELDS]
     rec = load_record(rec_path)
     diffs = differences(kept_view, rec, sl, surface) if reuse else []
+    replaced = []
     if rec is None:
         rec_surface = surface if surface.get("name") == existing.get("vertical") else None
         if rec_surface is None:
@@ -329,6 +411,21 @@ def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
         body["intents"] = rec_intents + [i for i in intents if i not in rec_intents]
         if features != old_features:
             body["feature_refs"] = list(features)
+        if reuse:
+            if start_spine is None and not added:
+                would = []
+                reshape_text(copy.deepcopy(rec_new), existing, sl, surface, own=True, replaced=would)
+                if would:
+                    raise Refused(f"the run would take the kept slice's new {', '.join(would)}; give "
+                                  "--spine-at-start, the spine as it was when the run started, so a "
+                                  "step run twice gives the same result")
+            own = start_spine is not None and new_since_start(start_spine, sid, sl["intents"]) == []
+            diffs += reshape_text(rec_new, existing, sl, surface, own=own, replaced=replaced)
+            if replaced:
+                if not at:
+                    raise Refused(f"the run takes the kept slice's new {', '.join(replaced)}, so it "
+                                  "writes a history line: give --at <YYYY-MM-DD>")
+                history(rec_new, at, replaced, list(body.get("intents") or []))
         rec_changed = rec_new != rec
     if rec is None:
         upgraded = []
@@ -339,7 +436,10 @@ def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
             "added": added, "record": rec_new if rec_changed else None, "rec_path": rec_path,
             "differences": diffs, "dropped": dropped, "spine_changed": spine_changed,
             "upgraded": upgraded, "pulled_in": [f for f in features if f not in old_features],
-            "pushed_out": [f for f in old_features if f not in features]}
+            "pushed_out": [f for f in old_features if f not in features], "replaced": replaced,
+            "out_of_date": [{"id": e.get("id"), "status": e.get("status")}
+                            for e in (spine.get("epics") or [])
+                            if isinstance(e, dict) and e.get("slice_ref") == sid] if replaced else []}
 
 
 def to_v2(rec, sid, existing, sl, surface):
@@ -409,6 +509,10 @@ def main(argv=None):
                     help="with --reuse: a feature the kept slice takes in; repeatable")
     ap.add_argument("--push-out", action="append", default=[],
                     help="with --reuse: a feature the kept slice gives up; repeatable")
+    ap.add_argument("--at", help="the date, UTC, as YYYY-MM-DD: needed when a reuse takes a kept "
+                                 "slice's new text (its history line)")
+    ap.add_argument("--spine-at-start", help="the spine as it was when the run started: whether the "
+                                             "intent is new is read from it")
     ap.add_argument("--out", help="also write the result JSON here")
     args = ap.parse_args(argv)
 
@@ -430,11 +534,19 @@ def main(argv=None):
         with open(args.slice, encoding="utf-8") as fh:
             sl = json.load(fh)
         surface = check_slice(sl, spine, args.root)
-        p = plan(spine, sl, surface, args.root, args.reuse, args.pull_in, args.push_out)
+        if args.at is not None:
+            check_date(args.at)
+        start_spine = None
+        if args.spine_at_start:
+            with open(args.spine_at_start, encoding="utf-8") as fh:
+                start_spine = yaml.safe_load(fh) or {}
+            check_start_copy(start_spine, args.spine_at_start)
+        p = plan(spine, sl, surface, args.root, args.reuse, args.pull_in, args.push_out, args.at,
+                 start_spine)
     except Refused as exc:
         sys.stderr.write(f"persist_slice.py: not written — {exc}\n")
         return finish({"ok": False, "refused": str(exc)}, 2)
-    except (OSError, yaml.YAMLError, json.JSONDecodeError) as exc:
+    except (OSError, UnicodeDecodeError, yaml.YAMLError, json.JSONDecodeError) as exc:
         sys.stderr.write(f"persist_slice.py: cannot read an input: {exc}\n")
         return finish({"ok": False, "refused": f"cannot read an input: {exc}"}, 2)
 
@@ -443,7 +555,8 @@ def main(argv=None):
               "added_intents": p["added"], "record": record_rel(p["id"]),
               "record_written": p["record"] is not None, "differences": p["differences"],
               "dropped_fields": p["dropped"], "upgraded_to_v2": p["upgraded"],
-              "pulled_in": p["pulled_in"], "pushed_out": p["pushed_out"]}
+              "pulled_in": p["pulled_in"], "pushed_out": p["pushed_out"],
+              "replaced": p.get("replaced", []), "out_of_date": p.get("out_of_date", [])}
     return finish(result, 0)
 
 

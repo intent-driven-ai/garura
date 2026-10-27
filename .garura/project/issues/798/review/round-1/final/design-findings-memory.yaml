@@ -1,0 +1,96 @@
+# Layer-2 design findings - category: memory - PR #900 (change #798), base plan/788/base
+category: memory
+base: plan/788/base
+severity_source: standards/rules/pr.md (P1-P4 buckets; short-term copy at context/memory/standards/rules/pr.md)
+grounding_copies: context/memory/grounding-memory/  # via the memory tool; manifest.json beside it
+
+grounding:
+  note: >
+    Every principle below comes from a file on the base ref (git show plan/788/base:<path>) or
+    from the memory tool. Nothing is grounded in ADR 057, the new templates, the new step
+    library, the new ICE of shape-eval or the edited lines of idd-principles.md.
+  principles:
+    - id: M1
+      principle: "templates/ hold the shape of an output; rules about artifact content belong in rules/. 'A file does NOT belong here if ... it defines rules for artifact content (that's rules/).' The work-plan template says 'This file holds the shape only' and sends its rules to rules/work-plan.md."
+      sources:
+        - "plan/788/base:core/components/memory/standards/templates/_index.md (section 'When to Add Here')"
+        - "memory tool, phoenix: standards/templates/work-plan.md line 7 (copy: context/memory/grounding-memory/standards/templates/work-plan.md)"
+        - "memory tool, garura: core/memory/standards/_index.md 'Layout principle' (copy: context/memory/grounding-memory/standards/_index.md)"
+    - id: M2
+      principle: "Schema discipline: every schema is authoritative, skills never invent fields it lacks, and 'Schemas carry their own validation-rules comment block at the end, documenting what validators must enforce.'"
+      sources:
+        - "plan/788/base:core/components/memory/standards/schemas/_index.md (section 'Schema discipline')"
+    - id: M3
+      principle: "A schemas/ subfolder carries its own _index.md that lists its files (schemas/_index.md points to product-os/_index.md; product-os/lens/ has _index.md)."
+      sources:
+        - "plan/788/base:core/components/memory/standards/schemas/_index.md ('See product-os/_index.md')"
+        - "plan/788/base:core/components/memory/standards/schemas/product-os/_index.md and product-os/lens/_index.md (both exist on base)"
+    - id: M4
+      principle: "The eval is kept from the builder; the running eval reads the eval, the usage guide, the Context guidance in the eval and only the recovery parts of the hidden file; failure-condition ids never leave the eval folder; recovery stays in the hidden file."
+      sources:
+        - "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md (Decision 4)"
+        - "plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md (Slice: Eval, Hidden file, Rules)"
+        - "plan/788/base:docs/philosophy/idd-principles.md (Routing Table; evals encode every scenario, success and failure condition)"
+        - "memory tool, garura: core/memory/standards/rules/builder-isolation.md (copy: context/memory/grounding-memory/standards/rules/builder-isolation.md)"
+    - id: M5
+      principle: "A story's scope of work holds 'Goals:', 'Limits:' and 'Expectations:' lists and a 'Context guidance' section, written by the plan play."
+      sources:
+        - "plan/788/base:core/components/plays/shape-plan/reference/ice.md (C5, C12)"
+        - "plan/788/base:core/components/plays/shape-plan/scripts/write_work_items.py line 66"
+    - id: M6
+      principle: "The Next-line map is the one place a play's successor lives; a play listed there with command null prints no Next line; the prose flow and the yaml map must agree."
+      sources:
+        - "plan/788/base:core/components/memory/standards/rules/pipeline-next.md (header and 'The flow')"
+        - "plan/788/base:docs/adr/049-... Decision 1 (shape-slice, then plan, then eval)"
+
+findings:
+  - id: MEM-1
+    severity: P3
+    file: core/components/memory/standards/templates/eval-story.feature.md
+    line: 42
+    also: [core/components/memory/standards/templates/eval-slice.md:45]
+    principle: M1
+    basis: "Both new templates end in a '## Rules' section of artifact-content rules (what a tag means, 'each Then is an exact result', 'a failure-condition scenario shows ...', build order, 'every name a story file uses is listed under Names', the time limit is a whole number). templates/_index.md says a template does not hold rules for artifact content (that is rules/), and the base work-plan template keeps the shape only and puts its rules in rules/work-plan.md. These rules have no home in rules/, so the second reader of the format (check_eval.py, the author skill, a person) has the rules only inside the shape file. adr.md is a base template that does carry rules, so the precedent is mixed - hence P3, not higher."
+    suggestion: "Move the '## Rules' content to a rules file (for example standards/rules/eval-format.md, listed in rules/_index.md) and leave the templates as shape only; or record in templates/_index.md that these two templates carry their rules (as adr.md does)."
+    committed_source: "plan/788/base:core/components/memory/standards/templates/_index.md ('A file does NOT belong here if'); memory tool: standards/templates/work-plan.md line 7"
+  - id: MEM-2
+    severity: P3
+    file: core/components/memory/standards/templates/eval-story.feature.md
+    line: 56
+    also: [core/components/memory/standards/templates/eval-story.feature.md:44]
+    principle: "grounding unavailable"
+    basis: "Two design rules are written here that no base-ref source gives. (a) 'No scenario of a story file is ever changed or deleted by a later run: a later run only adds scenarios and untestable lines' (also the template description in templates/_index.md line 27). Base ADR 049 says that when an ICE changes after its story is made, the story and its hidden-file entry are 'made again together' - the base has no rule that an eval file is append-only. The only source of this rule is the branch's own new content (ADR 057 / shape-eval ICE), which cannot ground it. (b) Scenario tags '@goal-<n>' and '@expectation-<n>' point at the n-th line of the story's lists. The base gives failure conditions stable ids (F1, in the hidden file) but gives goal and expectation lines none; a position is not stable when a story's list is edited or reordered. Together with (a) a wrongly pointing tag could never be corrected. M5 grounds the lists themselves, not the numbering."
+    suggestion: "Cite a base-ref decision for the append-only rule or leave it to the ADR that decides it (and check ADR 057 is Accepted before merge); say what happens to a tag when its list line moves or is removed."
+    committed_source: "plan/788/base:docs/adr/049-... Decision 4 last bullet ('made again together'); plan/788/base:core/components/memory/standards/schemas/product-os/ontology.md Hidden file (ids such as F1 exist only on failure conditions)"
+  - id: MEM-3
+    severity: P3
+    file: core/components/memory/standards/schemas/eval/steps-command-line.yaml
+    line: 74
+    principle: M2
+    basis: "The schema discipline on base says each schema carries a validation-rules comment block at the end. This file has its sentence rules in a header (lines 1-14) and none at the end: it does not say what check_eval.py must enforce (every step is exactly one library sentence, And/But take the previous keyword, a name in square brackets must be listed under 'Names' in the slice file, the first step is not And/But). The header also leaves the keys 'matches' (line 17) and 'does' undocumented, though load_library reads 'matches' to pick a library for a surface. Other base schemas (pr-findings.yaml, slice.yaml) document every key."
+    suggestion: "Add a trailing validation-rules block and document 'schema', 'kind', 'matches', 'steps[].id/keyword/text/does'."
+    committed_source: "plan/788/base:core/components/memory/standards/schemas/_index.md ('Schema discipline')"
+  - id: MEM-4
+    severity: P4
+    file: core/components/memory/standards/schemas/eval/steps-command-line.yaml
+    line: 1
+    principle: M3
+    basis: "The new folder schemas/eval/ has no _index.md. On base the two sub-folders of schemas/ (product-os/, product-os/lens/) each have one, and schemas/_index.md points to them. schemas/_index.md now lists the eval folder through one pattern row (eval/steps-<kind>.yaml, line 13), which is enough to find the first file but gives later libraries (browser, mobile, endpoint) no index of their own."
+    suggestion: "Add schemas/eval/_index.md when the second library lands, or now."
+    committed_source: "plan/788/base:core/components/memory/standards/schemas/_index.md ('See product-os/_index.md'); product-os/_index.md; product-os/lens/_index.md"
+
+conformance_passed:
+  - "templates/_index.md and schemas/_index.md list every new file (eval-story.feature.md, eval-slice.md, eval/steps-<kind>.yaml) with description and consumers; the template rows follow the file-description-consumers shape of the base rows. (M1 'When to Add Here': both templates are instantiated by /shape-eval and author-slice-eval, which are in this change.)"
+  - "Nothing duplicates an existing template or schema: base has no eval-file template, no Gherkin template and no step vocabulary (git grep on plan/788/base for Gherkin and '.feature' finds none in core/components, docs or core/grounding)."
+  - "The templates agree with the step library: the example steps (Given [name] is set up; When I run \"<command>\"; Then the exit code is 0; And the file \"<path>\" exists) are sentences of steps-command-line.yaml; the value/name rules in the template match the library header and VALUE/NAME in eval_common.py; the template's Feature/Background/Scenario headings and tag lines match parse_story_file; the slice template headings (Stories, in build order / Out of the slice / Names / Pass rule) match parse_slice_file."
+  - "M4: the eval templates keep the failure-condition ids and scenarios inside the eval folder, keep recovery and handoff text out of the story file ('the story file holds no recovery and no handoff text'), carry a 'Context' section for the Context guidance the running eval reads, and make the usage guide the eval's way in (names mapped by guides/<slug>.md). This agrees with ADR 049 Decision 4, ontology Slice rules and the routing table on base."
+  - "M5: '@goal-<n>'/'@expectation-<n>' refer to the 'Goals:'/'Expectations:' lists of the 'Scope of work' that /shape-plan writes on base."
+  - "M6: pipeline-next.md - prose flow ('/shape-plan hands to /shape-eval ... /shape-eval has no Next line') and yaml map (shape-plan: shape-eval; shape-eval: null) agree; the successor of shape-plan follows ADR 049 Decision 1; '#819 (the build stage)' exists on base (plans/788.yaml line 202); the stale comment 'the eval play (#798) is not built yet' is replaced in all three places inside the file."
+  - "Frontmatter / ids: the base templates and schemas carry no frontmatter and no knowledge-shelf fields, so knowledge/_TEMPLATE.md fields (Topic, Conditions, Evolve when) do not apply to these standards files; knowledge/_DESIGN.md governs knowledge/ only and is not touched by this diff."
+
+notes_not_findings:
+  - "core/components/plays/shape-plan/SKILL.md lines 17 and 496 still say 'The eval play (#798) comes next, once it is built.' It is not in changed_paths, so no finding (diff scope); it now disagrees with pipeline-next.md (shape-plan -> shape-eval). The harness reviewer may want to raise it."
+  - "core/components/memory/standards/_index.md (not changed) still says schemas 'Currently: intent, pr-findings, and the product model'; stale before this change, not in scope."
+  - "Two surface vocabularies exist on base: surface-contract.md (cli, web_dashboard, ...) and the ontology/ADR 049 wording (browser page, mobile app, command line command, backend endpoint). The library's kind 'command-line' with matches including 'cli' bridges them; no finding."
+  - "Layer 1 memory-integrity checks were done by hand (no installed tool); see conformance_passed. The play linter next-map check is the play's job."
+  - "Standards read through the memory tool: builder-isolation.md, standards/_index.md, templates/work-plan.md (copies in context/memory/grounding-memory/). surface-contract.md was not found in Garura memory by the tool (not_found) so it is read from the base ref only and is not relied on for any finding."

@@ -24,19 +24,27 @@ brief.md is the opening, then these H2 sections:
                        Domain: [<domain name>](<link to the domain's page>)
                        <n>. <feature name> (<feature id>) — <new|filled|reused>
                    (n is the place in build order; a part is new when persist-fills.json
-                   `written` names it, filled when `updated` names it, else reused)
+                   `written` names it, filled when `updated` names it, else reused); then,
+                   when persist-fills.json `one_lines` names any, ### One-lines replaced with
+                   each part's id and its old and new spine one-line
   Hidden file    — Place, Fails if lines, The builder can fix alone, A person must decide;
                    and, from hidden-write.json when it is there, each feature with lines too
-                   vague to judge
+                   vague to judge; then the line that says how to change a kept line
+                   (/shape-slice #<intent> --edit: <your words>)
   Left out       — each slice.json left_out[].what (with its why), or "Nothing is left out."
   Assumptions    — each split.json assumptions[].assume
   Thin ICE       — only when a part is thin: each thin part's id, and /discover-capabilities
   Kept slice     — only when persist-slice.json reads reused: true: each difference word for
                    word; each pulled-in or pushed-out feature; each field a record upgrade set
-                   or dropped, in plain words with the field's own word
+                   or dropped, in plain words with the field's own word; when the kept slice
+                   takes new text (persist-slice.json `replaced`), that its record keeps a
+                   history line, and each epic in `out_of_date`, named as out of date
   Model check    — Older problems: <n>, then each older problem and warning, word for word
   Questions      — Questions with no proposed answer: <n>, then each asked question as
                    ### <id> with **Question**, **Answer**, **Why it matters**, **Example**;
+                   a question the person already answered (the question record beside <dir>,
+                   ../grounding-questions.md) shows their answer as "yours: ..." and is not
+                   counted as having no proposed answer;
                    when gather.json has rule_missing, a line that says the rule for asking a
                    person is missing from its shared place and that an install lays it
   Your reply     — yes, change: <what>, or stop; answer a question by its id
@@ -67,6 +75,7 @@ except ImportError:
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from safe_write import atomic_write  # noqa: E402
+from record_questions import ACCEPTED, Refused as BadRecord, has_answer, read_record  # noqa: E402
 
 RECORDS = ("slice.json", "fills.json", "persist-fills.json", "persist-slice.json",
            "slice-check.json", "hidden-file.json", "split.json", "questions-checked.json",
@@ -193,20 +202,44 @@ def kept_section(root, ps):
         value = (rec.get(part) or {}).get(word) if isinstance(rec.get(part), dict) else None
         shown = f" '{value}'" if isinstance(value, str) else (f" {value}" if value else "")
         out.append(f"- The kept slice's record had no {word}; it now has the {word}{shown}.")
+    if ps.get("replaced"):
+        words = {"slice.name": "name", "slice.outcome": "outcome", "surface.user_action": "tester's action"}
+        parts = ", ".join(words.get(r, r) for r in ps["replaced"])
+        out.append(f"- The kept slice takes the new {parts}; its record keeps a history line for it.")
+        for e in ps.get("out_of_date") or []:
+            out.append(f"- Out of date (named, not changed): epic {e.get('id')} ({e.get('status')}); "
+                       "its stories were written from the old text.")
     for field in ps.get("dropped_fields") or []:
         out.append(f"- The kept slice's spine entry had the old field {field}; this run removed it, "
                    "because a slice entry has six fields only.")
     return out or ["- The kept slice is as it was; this run only adds the intent to it."]
 
 
-def question_block(q):
+def question_block(q, entry=None):
     ans = q.get("proposed_answer")
     examples = [str(e) for e in q.get("examples") or [] if str(e).strip()]
+    if entry is not None and has_answer(entry) and entry["user_answer"] != ACCEPTED:
+        answer = "yours: " + " ".join(str(entry["user_answer"]).split())
+    elif entry is not None and has_answer(entry):
+        answer = f"proposed: {ans} (you accepted it)"
+    else:
+        answer = 'proposed: ' + str(ans) if ans not in (None, '') else 'no proposed answer yet'
     return [f"### {q['id']}", "",
             f"**Question** {q.get('question') or ''}", "",
-            f"**Answer** {'proposed: ' + str(ans) if ans not in (None, '') else 'no proposed answer yet'}",
+            f"**Answer** {answer}",
             "", f"**Why it matters** {q.get('why') or ''}", "",
             "**Example** " + " ".join(f"({chr(97 + i)}) {e}" for i, e in enumerate(examples)), ""]
+
+
+def recorded(working):
+    """The question record beside the working folder ({issue}/context/grounding-questions.md),
+    by id: a brief shown again after a change shows each answer the person already gave."""
+    path = os.path.join(os.path.dirname(os.path.normpath(working)), "grounding-questions.md")
+    try:
+        _text, entries = read_record(path)
+    except (BadRecord, OSError, ValueError):  # unreadable: show the questions as the split has them
+        return {}
+    return {e.get("id"): e for e in entries if isinstance(e, dict)}
 
 
 def rule_missing_lines(gather):
@@ -251,6 +284,10 @@ def render(working, root, spine, opening, out_dir=None):
               f"- What the tester does there: {surface.get('user_action') or 'not given'}", ""]
     lines += ["## Who tests it", "", f"- {surface.get('persona_ref') or 'not given'}", ""]
     lines += ["## Features", ""] + features_section(root, spine, sl, pf, out_dir)
+    if pf.get("one_lines"):
+        lines += ["### One-lines replaced", ""]
+        lines += [f"- {o['id']} ({o['kind']}): was \"{o.get('was') or ''}\"; now \"{o['now']}\""
+                  for o in pf["one_lines"]] + [""]
     counts = hidden.get("counts") or {}
     lines += ["## Hidden file", "",
               f"- Place: {hidden.get('path')}",
@@ -260,6 +297,9 @@ def render(working, root, spine, opening, out_dir=None):
     for v in (load(working, "hidden-write.json", optional=True) or {}).get("vague") or []:
         lines.append(f"- Too vague to judge, so a person must decide: {v.get('count')} line(s) of "
                      f"{v.get('feature')}. A clearer \"Fails if\" line gives a clearer recovery.")
+    intent = (sl.get("intents") or ["bi-<n>"])[0].replace("bi-", "")
+    lines.append(f"- A line the file already kept stays as it is. To change one, run "
+                 f"`/shape-slice #{intent} --edit: <what to change, in your own words>`.")
     lines.append("")
     left = sl.get("left_out") or []
     lines += ["## Left out", ""]
@@ -281,13 +321,16 @@ def render(working, root, spine, opening, out_dir=None):
     lines.append("")
     skip = {q.get("id") for q in early.get("asked") or []}
     asked = [q for q in split.get("asked") or [] if q.get("id") not in skip]
+    record = recorded(working)
+    yours = [q for q in asked if q.get("proposed_answer") in (None, "")
+             and has_answer(record.get(q.get("id")) or {})]
     lines += ["## Questions", "",
-              f"Questions with no proposed answer: {qc.get('no_proposed_answer', 0)}", ""]
+              f"Questions with no proposed answer: {max(0, qc.get('no_proposed_answer', 0) - len(yours))}", ""]
     lines += rule_missing_lines(gather)
     if not asked:
         lines += ["No question is open.", ""]
     for q in asked:
-        lines += question_block(q)
+        lines += question_block(q, record.get(q.get("id")))
     lines += ["## Your reply", "",
               "Type **yes**, **change: <what>**, or **stop**. Answer any question by its id in the "
               "same reply (for example `Q-scope-1: ...`). A plain yes accepts each proposed answer.",
@@ -295,17 +338,103 @@ def render(working, root, spine, opening, out_dir=None):
     return "\n".join(lines).rstrip("\n") + "\n"
 
 
+PART_WORDS = {"slice.name": "the slice's name", "slice.outcome": "the slice's outcome",
+              "surface.user_action": "what the tester does", "when": "when it shows",
+              "way_back": "the way back", "who_fixes": "who fixes", "one_line": "the one-line"}
+
+
+def hidden_names(before):
+    """{feature id: (feature name, {F id: failure text})} from the copy of the hidden file."""
+    from write_hidden_file import parse
+    path = ((before or {}).get("copies") or {}).get("hidden")
+    if not path or not os.path.isfile(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        blocks = parse(fh.read())[1]
+    return {b["feature"]: (b["name"], {f["id"]: f["text"] for f in b["failures"]}) for b in blocks}
+
+
+def part_words(change, names=None):
+    """A change's part in plain words, with the feature's name and the failure line it is for:
+    'the hidden file, feature "Pick a free slot" (ft-pick), the line "two patients get one slot"
+    (F1): who fixes'."""
+    part, f = str(change.get("part") or ""), change.get("file")
+    bits = part.split("/")
+    hidden = (names or {}).get("hidden") or {}
+    if f == "record":
+        return f"the slice record: {PART_WORDS.get(part, part)}"
+    if f == "hidden" and len(bits) == 3:
+        name, fails = hidden.get(bits[0], (None, {}))
+        feature = f"feature \"{name}\" ({bits[0]})" if name else f"feature {bits[0]}"
+        line = f"the line \"{fails[bits[1]]}\" ({bits[1]})" if bits[1] in fails else f"line {bits[1]}"
+        return f"the hidden file, {feature}, {line}: {PART_WORDS.get(bits[2], bits[2])}"
+    if f == "spine" and len(bits) == 2:
+        return f"the model index, {bits[0]}: {PART_WORDS.get(bits[1], bits[1])}"
+    return f"{f}: {part}"
+
+
+def render_edit(working, slice_name):
+    """The brief of an edit (C20): what the person asked, each change old and new, and each
+    record the edit makes out of date (named, not changed). Built from the run's records."""
+    lst = load(working, "edit-list.json")
+    before = load(working, "edit-before.json")
+    names = {"hidden": hidden_names(before)}
+    with open(os.path.join(working, "edit-request.md"), encoding="utf-8") as fh:
+        request = " ".join(fh.read().split())
+    changes = lst.get("changes") or []
+    what = "this change" if len(changes) == 1 else f"these {len(changes)} changes"
+    lines = [f"You decide whether to make {what} to the slice \"{slice_name}\". "
+             "Nothing else in the slice, its hidden file or the model changes. Type yes to make "
+             f"{'it' if len(changes) == 1 else 'them'}, change with what to change, or stop to make none.", "",
+             "## What you asked", "", f"> {request}", "", "## Changes", ""]
+    for i, c in enumerate(changes, 1):
+        lines += [f"{i}. {part_words(c, names)}", f"   - was: {c.get('old')}", f"   - now: {c.get('new')}"]
+        if c.get("why"):
+            lines.append(f"   - why: {c['why']}")
+    epics = before.get("epics") or [] if before.get("in_progress") else []
+    if epics:
+        named = ", ".join(f"{e.get('id')} ({e.get('status')})" for e in epics)
+        lines += ["", "## In progress", "",
+                  f"This slice is in progress: its epic {named} is past ready. The edit changes it only "
+                  "because you approve each change; the work started from it is named below as out of date."]
+    lines += ["", "## Out of date (named, not changed)", ""]
+    stale = [f"- {o.get('record')}: {o.get('why')}" for o in lst.get("out_of_date") or []]
+    listed = " ".join(str(o.get("record")) for o in lst.get("out_of_date") or [])
+    stale += [f"- epic {e.get('id')} ({e.get('status')}): work has started from this slice, so what was built "
+              "from the old text may need a look." for e in epics if str(e.get("id")) not in listed]
+    lines += stale or ["Nothing."]
+    if lst.get("not_editable"):
+        lines += ["", "## Not changed by an edit", ""]
+        lines += [f"- {n.get('what')}: {n.get('why')}" for n in lst["not_editable"]]
+    lines += ["", "## Your reply", "", "Type **yes**, **change: <what>**, or **stop**."]
+    return "\n".join(lines) + "\n"
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Render the one slice-confirmation brief.")
     ap.add_argument("--early", action="store_true",
                     help="the short brief of the questions asked before the slice is shaped")
+    ap.add_argument("--edit", help="the brief of an edit (C20): the slice's name; reads edit-list.json "
+                                   "and edit-request.md from --working")
     ap.add_argument("--working", required=True)
     ap.add_argument("--root", help="the model folder (not needed with --early)")
     ap.add_argument("--spine", help="the spine (not needed with --early)")
     ap.add_argument("--split", help="with --early: early-split.json")
-    ap.add_argument("--opening", required=True)
+    ap.add_argument("--opening")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
+    if args.edit:
+        try:
+            text = render_edit(args.working, args.edit)
+        except (Missing, OSError, json.JSONDecodeError) as exc:
+            sys.stderr.write(f"render_brief.py: not written — {exc}\n")
+            return 2
+        atomic_write(args.out, text)
+        print(json.dumps({"ok": True, "out": args.out}, indent=2))
+        return 0
+    if not args.opening:
+        sys.stderr.write("render_brief.py: give --opening (or --edit)\n")
+        return 2
     if args.early and not args.split:
         sys.stderr.write("render_brief.py: --early needs --split <early-split.json>\n")
         return 2

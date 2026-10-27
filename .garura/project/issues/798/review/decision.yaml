@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "approve"
+round: 7
+blocking: []
+logged_not_fixed:
+  - DF-H-17 (P3) — a fresh run after a stop on the same change issue reuses the old start copies; an empty start-sha.txt left by a failed command is also kept. Kept in this record, to fix on main.
+  - R7-1 (P4) — an empty, zero or false start copy is accepted instead of refused (safe outcome). Kept in this record.
+  - the P4s carried from earlier rounds

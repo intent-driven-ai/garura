@@ -1,0 +1,1 @@
+Do rewrite all of this crap out. Half of your questions are not understandable. Look at how you have named the slice itself. Seriously, your writing skills are so bad.

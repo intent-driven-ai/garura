@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/908/review/product-review.json",
+    ".garura/project/issues/_adr/20261027T053132Z/adr-check.json",
+    ".garura/project/issues/_adr/20261027T053132Z/adr-context.yaml",
+    ".garura/project/issues/_adr/20261027T053132Z/adr-draft.md",
+    ".garura/project/issues/_adr/20261027T053132Z/adr-manifest.json",
+    ".garura/project/issues/_adr/20261027T053132Z/brief.md",
+    ".garura/project/issues/_adr/20261027T053132Z/context/memory/manifest.json",
+    ".garura/project/issues/_adr/20261027T053132Z/context/memory/standards/schemas/product-os/ontology.md",
+    ".garura/project/issues/_adr/20261027T053132Z/context/templates/manifest-record-decision.json",
+    ".garura/project/issues/_adr/20261027T053132Z/context/templates/standards/templates/adr.md",
+    ".garura/project/issues/_adr/20261027T053132Z/decision.yaml",
+    ".garura/project/issues/_adr/20261027T053132Z/hashes-before.json",
+    ".garura/project/issues/_adr/20261027T053132Z/porcelain-after.txt",
+    "docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

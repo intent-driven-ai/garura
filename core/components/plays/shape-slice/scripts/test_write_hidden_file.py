@@ -187,6 +187,18 @@ def main():
         code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
                       "--plans-root", plans, "--out", res_p)
         check("check: ok after the new entry", code == 0)
+        code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+                      "--plans-root", plans, "--out", res_p, "--lines", lines_p)
+        res = json.loads(read(res_p))
+        check("check --lines: each kept entry reads byte for byte as it was",
+              code == 0 and res["kept_unchanged"] == ["ft-pick", "ft-remind"])
+        write(hidden, after.replace("the builder can fix this alone", "a person must decide", 1))
+        code, _ = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
+                      "--plans-root", plans, "--out", res_p, "--lines", lines_p)
+        res = json.loads(read(res_p))
+        check("check --lines: a kept entry that changed without an approved edit is a problem (exit 1)",
+              code == 1 and any("kept entry" in p for p in res["problems"]))
+        write(hidden, after)
         code, err = run("check", "--root", root, "--spine", spine, "--slice-id", "sl-self-booking",
                         "--plans-root", plans, "--out", res_p, "--clear-working", lines_p,
                         "--clear-working", hidden)

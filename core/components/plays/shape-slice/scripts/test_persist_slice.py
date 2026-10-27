@@ -131,6 +131,9 @@ def test_reuse():
         check("reuse: the result lists how the new shape differs",
               "differ" in diffs and "ft-3" in diffs and "the mobile app" in diffs
               and "nurse" in diffs)
+        check("reuse: a shape for another intent leaves the record's tester action as it was, and says so",
+              rec["surface"]["user_action"] == "books a free slot"
+              and "tester's action differs" in diffs and "the record keeps its text" in diffs)
         check("reuse: the result says it reused", out["reused"] is True and out["id"] == "sl-self-booking")
         code, out, _ = run(root, sp, shaped, "--reuse", "sl-self-booking")
         check("reuse: a second run adds no duplicate intent",
@@ -157,6 +160,59 @@ def test_reuse():
         check("reuse: a missing record is written from the existing slice (same surface)",
               rec["slice"]["feature_refs"] == ["ft-1"] and rec["slice"]["intents"] == ["bi-1", "bi-2"]
               and rec["surface"]["persona_ref"] == "patient")
+
+
+def test_rerun_same_result():
+    """A step run twice with the same input gives the same result: a second run never takes text
+    the first run kept, because the new intent is read from the spine at the run's start (C7)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        root = os.path.join(tmp, "product-os")
+        kept = {"id": "sl-old", "slug": "old", "feature_refs": ["ft-1", "ft-3"],
+                "vertical": "the booking screen", "intents": ["bi-10"], "record": "slices/sl-old.yaml"}
+        sp = model(root, {"features": [{"id": "ft-1"}, {"id": "ft-3"}], "slices": [kept]})
+        os.makedirs(os.path.join(root, "slices"))
+        with open(os.path.join(root, "slices", "sl-old.yaml"), "w", encoding="utf-8") as fh:
+            yaml.safe_dump({"slice": {"id": "sl-old", "slug": "old", "name": "Old", "outcome": "x",
+                                      "feature_refs": ["ft-1", "ft-3"], "vertical": "the booking screen",
+                                      "intents": ["bi-10"]},
+                            "surface": {"id": "sf-booking", "name": "the booking screen",
+                                        "persona_ref": "patient", "user_action": "books"}}, fh)
+        start = os.path.join(tmp, "spine-at-start.yaml")
+        with open(sp, encoding="utf-8") as fh, open(start, "w", encoding="utf-8") as out_fh:
+            out_fh.write(fh.read())
+        shaped = slice_file(tmp, feature_refs=["ft-1", "ft-3"], intents=["bi-20"], name="New name",
+                            surface={"id": "sf-booking", "name": "the booking screen",
+                                     "persona_ref": "patient", "user_action": "books"})
+        names = []
+        for _ in range(2):
+            code, out, _ = run(root, sp, shaped, "--reuse", "sl-old", "--spine-at-start", start,
+                               "--at", "2026-10-27")
+            names.append((code, load(os.path.join(root, "slices", "sl-old.yaml"))["slice"]["name"],
+                          out["replaced"]))
+        check("re-run: a run that adds an intent keeps the kept slice's name, the first time and the second",
+              names == [(0, "Old", []), (0, "Old", [])])
+        check("re-run: neither run writes a history line",
+              "edits" not in load(os.path.join(root, "slices", "sl-old.yaml")))
+        before = snapshot(root)
+        bad_copies = {"a list": "- one\n- two\n", "a word": "spine\n", "a number": "5\n",
+                      "slices not a list": "slices: 5\n",
+                      "intents not a list": "slices:\n- id: sl-old\n  intents: 5\n"}
+        for label, text in bad_copies.items():
+            bad = os.path.join(tmp, "bad-start.yaml")
+            with open(bad, "w", encoding="utf-8") as fh:
+                fh.write(text)
+            code, out, err = run(root, sp, shaped, "--reuse", "sl-old", "--spine-at-start", bad,
+                                 "--at", "2026-10-27")
+            check(f"start copy that is {label}: refused cleanly (exit 2, a reason), nothing written",
+                  code == 2 and out.get("ok") is False and "not a spine" in out.get("refused", "")
+                  and "Traceback" not in err and snapshot(root) == before)
+        bad = os.path.join(tmp, "bad-start.yaml")
+        with open(bad, "wb") as fh:
+            fh.write(b"slices: [\xff\xfe]\n")
+        code, out, err = run(root, sp, shaped, "--reuse", "sl-old", "--spine-at-start", bad,
+                             "--at", "2026-10-27")
+        check("start copy that is not text: refused cleanly (exit 2, a reason), nothing written",
+              code == 2 and out.get("ok") is False and "Traceback" not in err and snapshot(root) == before)
 
 
 def test_atomic():
@@ -239,7 +295,8 @@ def test_change_reused():
         kept = {"id": "sl-old", "slug": "old", "feature_refs": ["ft-1", "ft-3"],
                 "vertical": "the booking screen", "intents": ["bi-10"], "record": "slices/sl-old.yaml"}
         sp = model(root, {"features": [{"id": "ft-1"}, {"id": "ft-2"}, {"id": "ft-3"}, {"id": "ft-4"}],
-                          "slices": [kept]})
+                          "slices": [kept],
+                          "epics": [{"id": "ep-old", "slice_ref": "sl-old", "status": "ready"}]})
         os.makedirs(os.path.join(root, "slices"))
         with open(os.path.join(root, "slices", "sl-old.yaml"), "w", encoding="utf-8") as fh:
             yaml.safe_dump({"slice": {"id": "sl-old", "slug": "old", "name": "Old", "outcome": "x",
@@ -257,6 +314,62 @@ def test_change_reused():
         check("pull-in: the result names it, and the slice keeps its surface and tester",
               out["pulled_in"] == ["ft-2"] and out["pushed_out"] == []
               and entry["vertical"] == "the booking screen" and rec["surface"]["persona_ref"] == "patient")
+        reshaped = slice_file(tmp, feature_refs=["ft-1", "ft-2", "ft-3"], intents=["bi-10"],
+                              outcome="A patient books a visit and gets a reminder.",
+                              surface={"id": "sf-booking", "name": "the booking screen",
+                                       "persona_ref": "patient", "user_action": "books, then reads the reminder"})
+        start = os.path.join(tmp, "spine-at-start.yaml")
+        with open(sp, encoding="utf-8") as fh, open(start, "w", encoding="utf-8") as out_fh:
+            out_fh.write(fh.read())
+        before = snapshot(root)
+        code, _, err = run(root, sp, reshaped, "--reuse", "sl-old", "--at", "2026-10-27")
+        check("reshape: a run that would take new text with no start copy is refused, nothing written",
+              code == 2 and "--spine-at-start" in err and snapshot(root) == before)
+        code, _, err = run(root, sp, reshaped, "--reuse", "sl-old", "--spine-at-start", start)
+        check("reshape: taking a kept slice's new text without --at is refused, nothing written (C7)",
+              code == 2 and "--at" in err and snapshot(root) == before)
+        for bad in ("banana", " ", "2026-13-01", "27-10-2026"):
+            code, _, err = run(root, sp, reshaped, "--reuse", "sl-old", "--spine-at-start", start,
+                               "--at", bad)
+            check(f"reshape: --at {bad!r} is not a date, refused, nothing written",
+                  code == 2 and "not a date" in err and snapshot(root) == before)
+        code, out, _ = run(root, sp, reshaped, "--reuse", "sl-old", "--spine-at-start", start,
+                           "--at", "2026-10-27")
+        rec = load(os.path.join(root, "slices", "sl-old.yaml"))
+        diffs = " ".join(out.get("differences") or [])
+        check("reshape: the record keeps a history line naming what a shaping run took (C7)",
+              rec["edits"][-1]["by"] == "a shaping run" and rec["edits"][-1]["at"] == "2026-10-27"
+              and rec["edits"][-1]["changed"] == ["slice.name", "slice.outcome", "surface.user_action"]
+              and list(rec)[-1] == "edits")
+        check("reshape: the result names the parts taken and the slice's epic as out of date",
+              out["replaced"] == ["slice.name", "slice.outcome", "surface.user_action"]
+              and out["out_of_date"] == [{"id": "ep-old", "status": "ready"}])
+        check("reshape for an intent it serves: the record takes the new outcome and tester action",
+              code == 0 and rec["slice"]["outcome"] == "A patient books a visit and gets a reminder."
+              and rec["surface"]["user_action"] == "books, then reads the reminder"
+              and out["action"] == "updated")
+        check("reshape: the result lists both differences for the brief",
+              "outcome differs" in diffs and "tester's action differs" in diffs
+              and "the record takes the new text" in diffs)
+        renamed = slice_file(tmp, feature_refs=["ft-1", "ft-2", "ft-3"], intents=["bi-10"],
+                             name="A patient books a visit online",
+                             outcome="A patient books a visit and gets a reminder.",
+                             surface={"id": "sf-booking", "name": "the booking screen",
+                                      "persona_ref": "patient", "user_action": "books, then reads the reminder"})
+        code, out, _ = run(root, sp, renamed, "--reuse", "sl-old", "--spine-at-start", start,
+                           "--at", "2026-10-28")
+        rec = load(os.path.join(root, "slices", "sl-old.yaml"))
+        diffs = " ".join(out.get("differences") or [])
+        check("reshape: the record takes the new name, and the result lists it for the brief",
+              code == 0 and rec["slice"]["name"] == "A patient books a visit online"
+              and "name differs" in diffs and "outcome differs" not in diffs)
+        check("reshape: a second run adds a second history line and keeps the first",
+              [e["changed"] for e in rec["edits"]] == [["slice.name", "slice.outcome", "surface.user_action"],
+                                                        ["slice.name"]])
+        code, out, _ = run(root, sp, renamed, "--reuse", "sl-old", "--spine-at-start", start)
+        check("reshape: a run that takes no new text needs no --at and adds no history line",
+              code == 0 and out["replaced"] == [] and out["out_of_date"] == []
+              and len(load(os.path.join(root, "slices", "sl-old.yaml"))["edits"]) == 2)
         code, out, _ = run(root, sp, shaped, "--reuse", "sl-old", "--push-out", "ft-3")
         check("push-out: the feature leaves the slice",
               code == 0 and load(sp)["slices"][0]["feature_refs"] == ["ft-1", "ft-2"]
@@ -286,6 +399,7 @@ def test_change_reused():
 
 def main():
     test_change_reused()
+    test_rerun_same_result()
     with tempfile.TemporaryDirectory() as tmp:
         root = os.path.join(tmp, "product-os")
         sp = model(root)

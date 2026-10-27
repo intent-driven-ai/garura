@@ -1,0 +1,16 @@
+{
+  "routing_result": {
+    "work": "The product owner names a piece of work. Agents shape it into a slice that one person can test, make its plan and write its eval. The product owner confirms each part as it is made.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "software delivery planning",
+        "why": "The field the work serves is software delivery: the product owner works on business intents, slices, plans, work items and evals before a build. None of the ten shelves (analytics, collaboration, content-management, ecommerce, experience, marketing, notifications, payments, personalization, user-management) has a trigger for that field; collaboration's trigger is several people co-editing one object, which is not the job here (one product owner confirms what agents shape). The product model already holds this field as dom-software-delivery-planning, written when an earlier placement was also unmatched."
+      }
+    ],
+    "confidence": "high",
+    "note": "The feature this run takes in (story #898: the build is given the business intent, never the eval) does the same job in the same field, so it is unmatched on the shelves too; in the product model it sits under cap-shape-eval of dom-software-delivery-planning."
+  }
+}

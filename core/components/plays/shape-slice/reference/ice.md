@@ -9,7 +9,8 @@ A person names a business intent. /shape-slice shapes the one slice that a perso
 to end to show the intent is served. It fills the product model with what that slice needs,
 proposes a thin ICE for each part that has none, writes the slice with its link to the intent,
 and writes the slice's hidden file of failure and recovery conditions. It writes no plan, no
-epic, no story and no eval.
+epic, no story and no eval. A person can also edit a slice that exists: `--edit` with their own
+words changes only the parts they named, after they see each change and say yes.
 
 ### Constraints
 
@@ -41,11 +42,19 @@ epic, no story and no eval.
   the reused slice no longer serves the intent as it is, the run changes it: it pulls a feature
   in, or pushes a feature out, and the slice stays testable end to end (one surface, one tester,
   one feature or more). A slice in progress (its epic is past ready: a story is started or done)
-  is never touched; the run shapes a new slice. The brief shows each change, and nothing is kept
-  before the person's yes.
+  is never touched by a shaping run; the run shapes a new slice. Only an edit the person
+  approves changes a slice in progress (C20). When the run shapes a kept slice again for an
+  intent it already served when the run started (the same input gives the same result however
+  often a step runs), with the same surface and the same tester, the slice takes the new
+  name, outcome and tester's action: the brief shows each one old and new, the slice record
+  keeps a history line (a real date, that a shaping run changed it, and which parts), and the brief
+  names the slice's epic as out of date (its stories were written from the old text). The brief
+  shows each change, and nothing is kept before the person's yes.
 - C8 — The run reuses what exists, fills what exists in part, and adds what is missing. A fill
   of an existing domain, capability or feature adds the intent to its `intents`, sets its domain
-  or capability when it has none, and adds to its page and ICE; it keeps what is there. Each new
+  or capability when it has none, and adds to its page and ICE; it keeps what is there. When the
+  person's change asks for it, a fill also replaces the part's spine one-line, so that it says what
+  the part's page now says; no other field it has is changed. Each new
   page goes under its parent's folder: a domain at `<domain>/domain.md`, a capability at
   `<domain folder>/<capability>/capability.md`, a feature at
   `<capability folder>/<feature>/feature.md`; a part with no parent goes in its holding folder.
@@ -90,7 +99,8 @@ epic, no story and no eval.
   symptom the eval sees), way back (guidance, never code), who fixes ("the builder can fix this
   alone" or "a person must decide"), by `standards/rules/expectation-generation.md`, "A
   feature's recovery". When the slice gains a feature, the run adds that feature's entry and
-  keeps every other entry as it is. When the file reads ok, no working copy of its "Fails if"
+  keeps every other entry as it is. A kept entry changes only through an edit the person
+  approved (C20). When the file reads ok, no working copy of its "Fails if"
   lines or their ids stays outside the evals folder.
 - C16 — When a part the slice needs has no ICE, the run proposes a thin ICE from the person's
   answers: in Intent, at least a goal, a limit and one "Fails if" line; in Context, one line; in
@@ -108,7 +118,7 @@ epic, no story and no eval.
   file (its place, the count of "Fails if" lines, how many the builder can fix alone and how many
   a person must decide); what is left out; each assumption; the thin-ICE warning; for a reuse,
   each difference, each feature pulled in or pushed out, and each field a record upgrade set or
-  dropped; the slice check's warnings and the count of older model problems; and the count of
+  dropped; each spine one-line a fill replaced, old and new; the slice check's warnings and the count of older model problems; and the count of
   questions with no proposed answer. The person replies yes, change: <what>, or stop, and answers
   any question by its id in the same reply; a plain yes accepts each proposed answer.
 - C18 — The run reads the rule for asking a person only from the shared file the install lays
@@ -123,12 +133,28 @@ epic, no story and no eval.
   skill: the intent page (`author-business-intent`, one-intent mode), the placement
   (`find-work-placement`), the gaps written as questions (`find-slice-gaps`), the proposed
   answers (`propose-answers`), the openings of the early and the confirmation brief
-  (`author-slice-brief`), the slice and what it needs from the model (`author-slice`), the
+  (`author-slice-brief`), the slice and what it needs from the model, and the list of an
+  edit's changes (`author-slice`), the
   pages (`author-domains`, `enrich-capability-ice`, `enrich-grounding`) and the hidden file's
   recoveries (`author-failure-recovery`). Each skill a dispatch names is installed beside the
   play: a sibling folder `../<name>/` that holds its `SKILL.md`. A copy from one shape to
   another is a script's.
   Every agent dispatch names the skills it calls.
+- C20 — A person edits a slice that exists with `/shape-slice #<intent-issue> --edit: <their
+  words>`. The run takes the words as they are and does not shape the slice again. It turns them
+  into an exact list of changes, each with its record, its part, its old text and its new text,
+  and names each other record the edit makes out of date. An edit may change only the slice's
+  name, its outcome and the tester's action, the when, way back or who fixes of a named line of
+  the hidden file, and a part's spine one-line. The person sees each change in plain words (the
+  feature and the failure line it is for, old and new, and why) and each record made out of
+  date (named, not changed); nothing is written before their yes. The run writes exactly the
+  list and nothing else, and any other change is refused. The slice record keeps a history line
+  with who asked, when and their words, and so does the hidden file when it changes. The model,
+  the writes and the trace are checked as in a shaping run. An edit may change a slice in
+  progress: the person is told it is in progress, and its epic, with its status, is named as
+  out of date. A run that stops writes nothing and leaves no copy of the hidden file's lines
+  behind. The person's words are kept in the history lines, so they name no real person (C14):
+  words that name one are refused before the brief, and the person says it as a role.
 
 ### Failure conditions
 
@@ -144,11 +170,14 @@ epic, no story and no eval.
 - F5 — A question or answer was not recorded, or an answered question was asked again.
 - F6 — A slice was written with no tester, with no surface, or with more than one surface.
 - F7 — A new slice was made for an intent that an existing slice, not in progress, already
-  serves; a slice in progress was changed; or a reused slice was changed so that a person can no
-  longer test it end to end.
+  serves; a shaping run changed a slice in progress; a reused slice was changed so that a person can no
+  longer test it end to end; or a kept slice's name, outcome or tester's action changed without
+  the brief showing it old and new, without a history line on the slice record, or without the
+  brief naming the slice's epic as out of date.
 - F8 — A part the slice needs was skipped; an existing part was left unfilled (no intent link,
-  or no domain the run knows); a page is outside its parent's folder; or a page the run moved or
-  used still breaks a current rule.
+  or no domain the run knows); a page is outside its parent's folder; a page the run moved or
+  used still breaks a current rule; or a fill changed a field of an existing part other than its
+  intents, its missing parent, or the one-line the person's change asked for.
 - F9 — The run wrote something outside C9: a plan, an epic, a story, an eval, or any file under
   `.garura/project/plans/` other than the slice's hidden file, or another file.
 - F10 — A proposed answer has no source the run can name, a trace names a source that was not
@@ -167,14 +196,18 @@ epic, no story and no eval.
   only one of the two thin marks is set; the brief has no thin-ICE warning; or the run stopped or
   sent the person to a discovery play.
 - F17 — The brief hid a result of the run: a reuse difference, a feature pulled in or pushed
-  out, a field a record upgrade set or dropped, a slice-check warning, an older model problem, a
-  thin ICE, or an assumption.
+  out, a field a record upgrade set or dropped, a spine one-line a fill replaced, a slice-check
+  warning, an older model problem, a thin ICE, or an assumption.
 - F18 — The run read the rule for asking a person from a place other than
   `_shared/asking-a-person.md` (through the memory tool, or from another path), stopped because
   the rule was missing, or went on without saying it was missing.
 - F19 — An agent dispatch asks the agent to do work no named skill does: to choose, draft,
   decide or write content itself, or to reshape a skill's output; or a dispatch names no
   skills.
+- F20 — An edit changed something that is not on the list the person saw, wrote before the
+  person's yes, changed a part an edit may not change, or left no history line; an edit of a
+  slice in progress whose brief did not say it is in progress; or a kept entry of the hidden
+  file changed with no edit the person approved.
 
 ## Context
 
@@ -254,6 +287,18 @@ epic, no story and no eval.
   features, when the run ends, then the hidden file is in `plans/<id>/evals/<slug>/` with three
   entries, and each "Fails if" line has one recovery. Measure: `hidden-file.json` reads
   `ok: true` with three entries.
+- S11 — (product owner, an edit) Given a slice with a hidden file, when the person runs
+  `--edit` asking for two "who fixes" lines to go to a person and types yes, then those two
+  lines change, every other line of the hidden file and of the model stays as it was, and the
+  hidden file and the slice record each hold a history line with the person's words. Measure:
+  `edit-check.json` reads `ok: true` with exactly two changes, and `hidden-file.json` reads
+  `ok: true`.
+- S12 — (product owner, a kept slice shaped again) Given a slice that already serves the intent
+  and has an epic, when the run shapes it again with a new name and the same surface and tester,
+  then the slice record takes the new name and keeps a history line, and the brief shows the
+  name old and new and names the slice's epic as out of date. Measure: `persist-slice.json`
+  `replaced` names `slice.name`, its `out_of_date` names the epic, the slice record's last
+  `edits` entry names `slice.name`, and `brief.md` shows both lines.
 
 ### Done means
 
@@ -288,10 +333,13 @@ epic, no story and no eval.
   When nothing in the model or memory names a surface a person can test end to end, write no
   slice, say why, and close. Handoff: autonomous.
 - REC7 (F7) — remove the new slice and add the intent to the slice that already serves it; put
-  back a slice in progress as it was and shape a new slice; or put back the feature whose change
-  broke the end-to-end test. Handoff: autonomous.
+  back a slice in progress as it was and shape a new slice; put back the feature whose change
+  broke the end-to-end test; or, for a kept slice's text, add the missing history line, show
+  each change old and new, and name the slice's epic as out of date in the brief, then ask
+  again. Handoff: autonomous.
 - REC8 (F8) — add or fill the part at the depth known, at its folder, marked to be deepened, and
-  bring each page the run moved or used up to the current rules. Handoff: autonomous.
+  bring each page the run moved or used up to the current rules; put back any other field a fill
+  changed. Handoff: autonomous.
 - REC9 (F9) — undo the write outside the allowed set. Handoff: autonomous.
 - REC10 (F10) — strip the proposed answer that has no source (never replace it with another),
   read the source through the memory tool before citing it, and report the count. Handoff:
@@ -317,3 +365,7 @@ epic, no story and no eval.
 - REC19 (F19) — take back what the agent made, and send the work to the named skill that does
   it, through the agent; when no skill does it, close HALTED and name the missing skill. The
   agent never does it. Handoff: autonomous.
+- REC20 (F20) — put back each change that is not on the approved list, or every write made
+  before the yes, and add the missing history line; when the slice is in progress and the brief
+  did not say so, put back the edit, show it in the brief and ask again; nothing of the edit is
+  kept without the person's yes. Handoff: autonomous.

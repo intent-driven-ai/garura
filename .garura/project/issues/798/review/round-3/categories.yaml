@@ -1,0 +1,742 @@
+pr: '900'
+change: '798'
+round: 3
+base: plan/788/base
+changed_files: 425
+diff_source: pr-files
+note: 'Round 3. Every path re-assigned from this diff (425 paths; each in exactly one category). Round 2 guided only the treatments, which were re-read from the playbook copies in the short-term review shelf (phoenix v23387be24c0d, fingerprints identical to round 2). New since round 2: 86 paths (see new_since_round_2 per category).'
+categories:
+- id: decision-records
+  playbook: review/adrs
+  design_bearing: false
+  paths:
+  - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  - docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md
+  - docs/adr/_index.md
+  new_since_round_2: []
+  evidence: docs/adr/057 is a new decision record (Status, Date, Decided by, Amends, Affects, Related); docs/adr/049 changes its Status line to record the amendment by 057; docs/adr/_index.md lists 057.
+  treatment:
+    reviewer: human, line by line
+    layers:
+    - 1
+    linters:
+    - name: ADR structural checklist
+      command: 'none installed (playbook gap): the tool surfaces a manual checklist - required sections present, Status one of the allowed values, ADR numbered and linked from docs/adr/_index.md, markdown well-formed'
+      kind: manual-checklist
+    runnable_checks:
+    - 'by hand: 057 is in docs/adr/_index.md; 049 Status line links to 057 and 057 Amends names the same places; the sections are present'
+    design_grounding: no - the human owns whether the decision is right
+- id: documentation
+  playbook: review/docs
+  design_bearing: false
+  paths:
+  - .garura/project/issues/798/specs/design.md
+  - .garura/project/issues/798/specs/shape-eval-intent.md
+  - docs/components/agents.md
+  - docs/philosophy/idd-principles.md
+  new_since_round_2: []
+  evidence: docs/philosophy/idd-principles.md and docs/components/agents.md are human-facing prose (encrypted evals reworded; evals-engineer description); specs/design.md and specs/shape-eval-intent.md are prose design notes for the issue, not decision records, harness or memory files.
+  treatment:
+    reviewer: the tool (the human may opt out)
+    layers:
+    - 1
+    linters:
+    - name: prose checks
+      command: 'none committed (playbook gap): the tool performs spelling, grammar, dead-link, heading, leftover-TODO and terminology checks directly and cites each'
+      kind: by-hand
+    runnable_checks:
+    - 'by hand: links in the four files resolve (idd-principles.md to ADR 057); no leftover encrypt wording in touched lines that contradicts ADR 057'
+    design_grounding: 'no'
+    note: docs/philosophy/idd-principles.md is a philosophy source the harness review grounds from; this branch edits it, so its new lines are not grounding for the harness category (use git show of the base version).
+- id: harness
+  playbook: review/harness
+  design_bearing: true
+  paths:
+  - core/components/agents/evals-engineer.md
+  - core/components/plays/build-epic/SKILL.md
+  - core/components/plays/shape-eval/SKILL.md
+  - core/components/plays/shape-eval/reference/ice.md
+  - core/components/plays/shape-eval/stop-condition.yaml
+  - core/components/plays/shape-slice/SKILL.md
+  - core/components/plays/shape-slice/reference/ice.md
+  - core/components/skills/author-encrypted-evals/SKILL.md
+  - core/components/skills/author-slice-eval/SKILL.md
+  - core/components/skills/author-slice/SKILL.md
+  - core/components/skills/author-steelman-evals/SKILL.md
+  - core/components/skills/platform-adapter/SKILL.md
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+  new_since_round_2: []
+  evidence: core/components/plays/shape-eval/SKILL.md + reference/ice.md + stop-condition.yaml are a new play and its ICE source; shape-slice/SKILL.md + reference/ice.md and build-epic/SKILL.md are changed plays; agents/evals-engineer.md is an agent definition (rewritten to one job); skills author-slice-eval (new), author-slice, author-encrypted-evals, author-steelman-evals and platform-adapter (+ its github/gitlab verbs.md) are skills. The python under plays/skills is counted as executable-code and tests; lint_play also runs for each play whose only change is scripts.
+  treatment:
+    reviewer: human (design) + tool (conformance)
+    layers:
+    - 1
+    - 2
+    linters:
+    - name: lint-components (source layout)
+      command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+      kind: tool
+    - name: lint_play build-epic
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/build-epic/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play check-change
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/check-change/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play create-play
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/create-play/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play discover-domains
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/discover-domains/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play discover-intent
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/discover-intent/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play install-garura
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/install-garura/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play merge-change
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/merge-change/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play propose-change
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/propose-change/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play shape-eval
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-eval/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play shape-plan
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-plan/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    - name: lint_play shape-slice
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-slice/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    runnable_checks:
+    - only a violation whose file is in changed_paths is a finding; count the other violations and record the count as "there before"
+    - 'record "not installed" or "did not run: <first error line>" if a tool is missing or crashes; neither is a pass'
+    - 'ICE-source rule applies (the repository holds the plays source): the intent in shape-eval/SKILL.md and shape-slice/SKILL.md (round 3 changed shape-slice/SKILL.md again, commit d756e304: the hidden-file step may draft named entries on request, keeping line ids) must trace to the play ICE source (reference/ice.md) and stop-condition.yaml, not a hand edit of the compiled file; build-epic/SKILL.md likewise'
+    - lint_play is also run for plays whose only change is scripts (check-change, create-play, discover-domains, discover-intent, install-garura, merge-change, propose-change, shape-plan) for completeness; their SKILL.md did not change
+    design_grounding: 'yes - reconstruct from base-ref committed sources only: docs/philosophy/** (idd-principles.md is edited here: read the base version with git show plan/788/base:...), docs/adr/** on the base ref (047, 048, 049, 052, 054 - NOT 057, which this branch adds), standards/rules/** through the memory tool, the glossary. Never ground from shape-eval/reference/ice.md or ADR 057.'
+    grounding_gap: 'ADR 057 and the idd-principles.md edits are in the diff: they cannot ground the harness check'
+- id: memory
+  playbook: review/memory
+  design_bearing: true
+  paths:
+  - core/components/memory/standards/rules/_index.md
+  - core/components/memory/standards/rules/eval-format.md
+  - core/components/memory/standards/rules/expectation-generation.md
+  - core/components/memory/standards/rules/pipeline-next.md
+  - core/components/memory/standards/schemas/_index.md
+  - core/components/memory/standards/schemas/eval/_index.md
+  - core/components/memory/standards/schemas/eval/steps-command-line.yaml
+  - core/components/memory/standards/templates/_index.md
+  - core/components/memory/standards/templates/eval-slice.md
+  - core/components/memory/standards/templates/eval-story.feature.md
+  new_since_round_2: []
+  evidence: 'core/components/memory/standards/** is the long-term knowledge agents read: rules/eval-format.md (new), rules/expectation-generation.md, rules/pipeline-next.md (Next-line map gains shape-eval), rules/_index.md, new templates (eval-slice.md, eval-story.feature.md), new schema (eval/steps-command-line.yaml, eval/_index.md) and the _index.md files that list them.'
+  treatment:
+    reviewer: human (design) + tool (conformance)
+    layers:
+    - 1
+    - 2
+    linters:
+    - name: memory integrity
+      command: 'none installed (playbook gap): the reviewer checks by reading the changed files and cites each check'
+      kind: by-hand
+    - name: play linter next-map check
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-eval/SKILL.md --next-map .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+      kind: tool
+    runnable_checks:
+    - 'by hand: rules/_index.md, schemas/_index.md, schemas/eval/_index.md and templates/_index.md list each new file; frontmatter id matches the path; evolve_when and [[...]] cross-references resolve; each file follows _TEMPLATE.md'
+    - 'by hand: pipeline-next.md - shape-plan -> shape-eval -> null matches the prose line'
+    - 'by hand: nothing duplicates an existing template or schema; eval templates agree with the step library schema and with rules/eval-format.md'
+    design_grounding: yes - from base-ref knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read through the memory tool; never from the new template text or ADR 057
+    grounding_gap: 'the eval templates, schema and eval-format rule are new in this branch: only the base-ref index/design conventions can ground them'
+- id: executable-code
+  playbook: review/code
+  design_bearing: false
+  paths:
+  - core/components/plays/check-change/scripts/fetch_pr_context.py
+  - core/components/plays/check-change/scripts/platform_adapter.py
+  - core/components/plays/create-play/references/fetch_pr_context.py
+  - core/components/plays/create-play/references/intent_touches.py
+  - core/components/plays/create-play/references/platform_adapter.py
+  - core/components/plays/discover-domains/scripts/intent_touches.py
+  - core/components/plays/discover-intent/scripts/intent_touches.py
+  - core/components/plays/install-garura/scripts/install.py
+  - core/components/plays/merge-change/scripts/platform_adapter.py
+  - core/components/plays/propose-change/scripts/platform_adapter.py
+  - core/components/plays/shape-eval/scripts/check_eval.py
+  - core/components/plays/shape-eval/scripts/check_inputs.py
+  - core/components/plays/shape-eval/scripts/check_stop_condition.py
+  - core/components/plays/shape-eval/scripts/eval_common.py
+  - core/components/plays/shape-eval/scripts/gather_eval.py
+  - core/components/plays/shape-eval/scripts/place_eval.py
+  - core/components/plays/shape-eval/scripts/platform_adapter.py
+  - core/components/plays/shape-eval/scripts/preflight.py
+  - core/components/plays/shape-eval/scripts/record_approval.py
+  - core/components/plays/shape-eval/scripts/render_summary.py
+  - core/components/plays/shape-eval/scripts/scoped_write_guard.py
+  - core/components/plays/shape-eval/scripts/session_stamp.py
+  - core/components/plays/shape-plan/scripts/platform_adapter.py
+  - core/components/plays/shape-slice/scripts/intent_touches.py
+  - core/components/plays/shape-slice/scripts/persist_fills.py
+  - core/components/plays/shape-slice/scripts/persist_slice.py
+  - core/components/plays/shape-slice/scripts/platform_adapter.py
+  - core/components/plays/shape-slice/scripts/record_questions.py
+  - core/components/plays/shape-slice/scripts/render_brief.py
+  - core/components/plays/shape-slice/scripts/write_hidden_file.py
+  - core/components/skills/find-model-gaps/scripts/intent_touches.py
+  - core/components/skills/link-model-gaps/scripts/intent_touches.py
+  new_since_round_2:
+  - core/components/plays/shape-slice/scripts/write_hidden_file.py
+  evidence: 'python the runtime runs: shape-eval scripts (gather, check, place, preflight, guard, adapter, session stamp...), shape-slice scripts (persist_fills, persist_slice, record_questions, render_brief and, new since round 2, write_hidden_file.py), fetch_pr_context.py and platform_adapter.py copies across plays, install.py, and the stamped intent_touches.py copies.'
+  treatment:
+    reviewer: the tool, against industry best practice
+    layers:
+    - 1
+    linters:
+    - name: ruff
+      command: ruff check core/components/plays/check-change/scripts/fetch_pr_context.py core/components/plays/check-change/scripts/platform_adapter.py core/components/plays/create-play/references/fetch_pr_context.py core/components/plays/create-play/references/intent_touches.py core/components/plays/create-play/references/platform_adapter.py core/components/plays/discover-domains/scripts/intent_touches.py core/components/plays/discover-intent/scripts/intent_touches.py core/components/plays/install-garura/scripts/install.py core/components/plays/merge-change/scripts/platform_adapter.py core/components/plays/propose-change/scripts/platform_adapter.py core/components/plays/shape-eval/scripts/check_eval.py core/components/plays/shape-eval/scripts/check_inputs.py core/components/plays/shape-eval/scripts/check_stop_condition.py core/components/plays/shape-eval/scripts/eval_common.py core/components/plays/shape-eval/scripts/gather_eval.py core/components/plays/shape-eval/scripts/place_eval.py core/components/plays/shape-eval/scripts/platform_adapter.py core/components/plays/shape-eval/scripts/preflight.py core/components/plays/shape-eval/scripts/record_approval.py core/components/plays/shape-eval/scripts/render_summary.py core/components/plays/shape-eval/scripts/scoped_write_guard.py core/components/plays/shape-eval/scripts/session_stamp.py core/components/plays/shape-plan/scripts/platform_adapter.py core/components/plays/shape-slice/scripts/intent_touches.py core/components/plays/shape-slice/scripts/persist_fills.py core/components/plays/shape-slice/scripts/persist_slice.py core/components/plays/shape-slice/scripts/platform_adapter.py core/components/plays/shape-slice/scripts/record_questions.py core/components/plays/shape-slice/scripts/render_brief.py core/components/plays/shape-slice/scripts/write_hidden_file.py core/components/skills/find-model-gaps/scripts/intent_touches.py core/components/skills/link-model-gaps/scripts/intent_touches.py
+      kind: tool
+    - name: check-pr-quality
+      command: 'check-pr-quality against the diff with the pr.md taxonomy (copy: .garura/project/issues/798/context/memory/standards/rules/pr.md); SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows'
+      kind: skill
+    runnable_checks:
+    - 'review the data-safety and idempotency paths hard: shape-eval/scripts/scoped_write_guard.py, place_eval.py, platform_adapter.py (all copies), session_stamp.py, install.py, fetch_pr_context.py, and shape-slice/scripts/write_hidden_file.py (new since round 2: it writes the hidden model file and keeps line ids; check it cannot lose or renumber lines silently) (they touch git, the filesystem or external services)'
+    - 'tests that cover this code: python3 core/components/plays/check-change/scripts/test_fetch_pr_context.py; python3 core/components/plays/create-play/references/test_intent_touches.py; python3 core/components/plays/create-play/references/test_platform_adapter.py; python3 core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py; python3 core/components/plays/shape-slice/scripts/test_persist_slice.py; python3 core/components/plays/shape-slice/scripts/test_render_brief.py; python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py; python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py; python3 core/components/plays/create-play/references/test_fetch_pr_context.py (unchanged, covers the fetch_pr_context.py copy); python3 core/components/plays/install-garura/scripts/test_install.py (unchanged, covers install.py)'
+    - the intent_touches.py and platform_adapter.py copies are covered by the create-play reference tests (they check the copies are identical)
+    design_grounding: 'no'
+- id: tests
+  playbook: review/tests
+  design_bearing: false
+  paths:
+  - core/components/plays/check-change/scripts/test_fetch_pr_context.py
+  - core/components/plays/create-play/references/test_intent_touches.py
+  - core/components/plays/create-play/references/test_platform_adapter.py
+  - core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
+  - core/components/plays/shape-slice/scripts/test_persist_slice.py
+  - core/components/plays/shape-slice/scripts/test_render_brief.py
+  - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+  - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+  new_since_round_2:
+  - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+  evidence: 'eight python test files: shape-eval test_shape_eval_scripts.py (new), check-change test_fetch_pr_context.py (new), shape-slice test_persist_slice.py, test_render_brief.py, test_shape_slice_scripts.py and (new since round 2) test_write_hidden_file.py, and create-play/references test_intent_touches.py and test_platform_adapter.py (changed).'
+  treatment:
+    reviewer: the tool
+    layers:
+    - 1
+    linters:
+    - name: ruff on the test files
+      command: ruff check core/components/plays/check-change/scripts/test_fetch_pr_context.py core/components/plays/create-play/references/test_intent_touches.py core/components/plays/create-play/references/test_platform_adapter.py core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py core/components/plays/shape-slice/scripts/test_persist_slice.py core/components/plays/shape-slice/scripts/test_render_brief.py core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+      kind: tool
+    - name: check-pr-quality TEST-* rows
+      command: 'check-pr-quality against the diff with the pr.md taxonomy (copy: .garura/project/issues/798/context/memory/standards/rules/pr.md)'
+      kind: skill
+    runnable_checks:
+    - python3 core/components/plays/check-change/scripts/test_fetch_pr_context.py
+    - python3 core/components/plays/create-play/references/test_intent_touches.py
+    - python3 core/components/plays/create-play/references/test_platform_adapter.py
+    - python3 core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
+    - python3 core/components/plays/shape-slice/scripts/test_persist_slice.py
+    - python3 core/components/plays/shape-slice/scripts/test_render_brief.py
+    - python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+    - python3 core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+    - python3 core/components/plays/create-play/references/test_fetch_pr_context.py  (unchanged; covers the changed fetch_pr_context.py copy)
+    - python3 core/components/plays/install-garura/scripts/test_install.py  (unchanged; covers the changed install.py)
+    run_policy: run each; a red suite is a blocker. Check for skipped or disabled tests and tests that assert nothing. Slice-evals have no suite yet.
+- id: product-model
+  playbook: null
+  design_bearing: true
+  paths:
+  - .garura/product/product-os/_spine.yaml
+  - .garura/product/product-os/intents/bi-788.md
+  - .garura/product/product-os/slices/sl-intent-to-design.yaml
+  - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  - .garura/product/product-os/software-delivery-planning/domain.md
+  - .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+  - .garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+  - .garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+  - .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+  new_since_round_2: []
+  evidence: _spine.yaml (feature/slice entries), slices/sl-intent-to-design.yaml, intents/bi-788.md and the domain, capability and feature pages (fn-795, fn-798, fn-818, new fn-898) of the product model, the agents interface to what the product is.
+  treatment:
+    reviewer: unspecified by a playbook (human + tool suggested)
+    layers: []
+    linters: []
+    runnable_checks:
+    - 'no playbook treatment exists; suggested, not mandated: ground the pages against the base-ref ontology and spine standard (standards/schemas/product-os/ontology.md, spine.yaml, grounding/*.md read through the memory tool) and check the spine links each feature to its slice and capability'
+    design_grounding: needed (the model is design-bearing); ground from base-ref ontology/standards, never from the new page text
+    note: 'treatment withheld: no playbook'
+  playbook_missing: 'No playbook in knowledge/review/ covers the product model (.garura/product/product-os: spine, slice, intent, capability, feature, domain pages). Not forced onto docs or memory. Follow-up: write a review/product-model playbook.'
+- id: slice-evals
+  playbook: null
+  design_bearing: true
+  paths:
+  - .garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md
+  - .garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md
+  - .garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md
+  - .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
+  - .garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md
+  - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  new_since_round_2: []
+  evidence: eval.fn-795/798/818/898.feature.md, eval.sl-intent-to-design.md Gherkin files for slice sl-intent-to-design and failure-and-recovery.md, written by /shape-eval.
+  treatment:
+    reviewer: unspecified by a playbook
+    layers: []
+    linters: []
+    runnable_checks:
+    - 'no runnable suite exists for these (runner is #819): state this explicitly; never treat "not run" as "passed"'
+    design_grounding: 'needed: each eval must test what the business intent promises; ground in base-ref ADR 049 and the stories ICE/intent, NOT in ADR 057 or the eval templates, which this branch adds'
+    note: 'treatment withheld: no playbook'
+  playbook_missing: 'No playbook covers a slice eval (plain-text Gherkin yardsticks under .garura/project/plans/<id>/evals/). Closest is review/tests but these are not run by a suite yet: the eval runner is a later play (#819). Follow-up: write a review/slice-evals playbook.'
+- id: work-plan-record
+  playbook: null
+  design_bearing: false
+  paths:
+  - .garura/project/plans/788.yaml
+  new_since_round_2: []
+  evidence: '788.yaml adds issue 898 as a feature story and drops #828 with a dated comment.'
+  treatment:
+    reviewer: unspecified by a playbook
+    layers: []
+    linters: []
+    runnable_checks:
+    - 'no playbook treatment; suggested: the YAML parses and every issue in the tree is on the product model (fn-898 -> issue 898)'
+    note: 'treatment withheld: no playbook'
+  playbook_missing: 'No playbook covers the plan file (.garura/project/plans/788.yaml): a work-tracking record. Follow-up: cover it in a work-records playbook.'
+- id: run-records
+  playbook: null
+  design_bearing: false
+  paths:
+  - .garura/install-manifest.json
+  - .garura/project/issues/798/context/analysis-round2-scan.yaml
+  - .garura/project/issues/798/context/analysis.yaml
+  - .garura/project/issues/798/context/branch.json
+  - .garura/project/issues/798/context/citations.jsonl
+  - .garura/project/issues/798/context/commits.yaml
+  - .garura/project/issues/798/context/context.yaml
+  - .garura/project/issues/798/context/grounding-questions.md
+  - .garura/project/issues/798/context/issue-mappings.yaml
+  - .garura/project/issues/798/context/issue.json
+  - .garura/project/issues/798/context/lint-components.json
+  - .garura/project/issues/798/context/memory/core/memory/standards/rules/builder-isolation.md
+  - .garura/project/issues/798/context/memory/grounding-harness/core/memory/standards/rules/builder-isolation.md
+  - .garura/project/issues/798/context/memory/grounding-harness/core/memory/standards/rules/commits.md
+  - .garura/project/issues/798/context/memory/grounding-harness/core/memory/standards/rules/user-facing-voice.md
+  - .garura/project/issues/798/context/memory/grounding-harness/manifest.json
+  - .garura/project/issues/798/context/memory/grounding-harness/standards/rules/evidence-recording.md
+  - .garura/project/issues/798/context/memory/grounding-harness/standards/rules/gate-config.md
+  - .garura/project/issues/798/context/memory/grounding-harness/standards/rules/pipeline-position.md
+  - .garura/project/issues/798/context/memory/grounding-harness/standards/rules/scenarios.md
+  - .garura/project/issues/798/context/memory/grounding-harness/standards/rules/surface-contract.md
+  - .garura/project/issues/798/context/memory/grounding-memory/manifest.json
+  - .garura/project/issues/798/context/memory/grounding-memory/standards/_index.md
+  - .garura/project/issues/798/context/memory/grounding-memory/standards/rules/builder-isolation.md
+  - .garura/project/issues/798/context/memory/grounding-memory/standards/templates/work-plan.md
+  - .garura/project/issues/798/context/memory/grounding-product-model/manifest.json
+  - .garura/project/issues/798/context/memory/grounding-slice-evals/manifest.json
+  - .garura/project/issues/798/context/memory/knowledge/domains/analytics.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/collaboration.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/content-management.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/ecommerce.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/experience.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/marketing.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/notifications.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/payments.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/personalization.md
+  - .garura/project/issues/798/context/memory/knowledge/domains/user-management.md
+  - .garura/project/issues/798/context/memory/knowledge/review/_index.md
+  - .garura/project/issues/798/context/memory/knowledge/review/adrs.md
+  - .garura/project/issues/798/context/memory/knowledge/review/code.md
+  - .garura/project/issues/798/context/memory/knowledge/review/config-maps.md
+  - .garura/project/issues/798/context/memory/knowledge/review/docs.md
+  - .garura/project/issues/798/context/memory/knowledge/review/harness.md
+  - .garura/project/issues/798/context/memory/knowledge/review/memory.md
+  - .garura/project/issues/798/context/memory/knowledge/review/tests.md
+  - .garura/project/issues/798/context/memory/manifest.json
+  - .garura/project/issues/798/context/memory/product/product-os/_spine.yaml
+  - .garura/project/issues/798/context/memory/product/product-os/intents/bi-788.md
+  - .garura/project/issues/798/context/memory/product/product-os/slices/sl-intent-to-design.yaml
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/capability.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/domain.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/capability.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/capability.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+  - .garura/project/issues/798/context/memory/standards/rules/builder-isolation.md
+  - .garura/project/issues/798/context/memory/standards/rules/expectation-generation.md
+  - .garura/project/issues/798/context/memory/standards/rules/pr.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/_content-standard.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/capability.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/domain.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/epic.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/feature.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/grounding/functionality.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/ontology.md
+  - .garura/project/issues/798/context/memory/standards/schemas/product-os/spine.yaml
+  - .garura/project/issues/798/context/memory/standards/templates/evidence-file.md
+  - .garura/project/issues/798/context/porcelain.txt
+  - .garura/project/issues/798/context/pr-body.md
+  - .garura/project/issues/798/context/pr.diff
+  - .garura/project/issues/798/context/pr.json
+  - .garura/project/issues/798/context/resolved-rules.json
+  - .garura/project/issues/798/context/self-review.md
+  - .garura/project/issues/798/context/shape-eval/approval.json
+  - .garura/project/issues/798/context/shape-eval/change.md
+  - .garura/project/issues/798/context/shape-eval/clear.json
+  - .garura/project/issues/798/context/shape-eval/contract.json
+  - .garura/project/issues/798/context/shape-eval/eval-check.json
+  - .garura/project/issues/798/context/shape-eval/guard-report.json
+  - .garura/project/issues/798/context/shape-eval/inputs-check.json
+  - .garura/project/issues/798/context/shape-eval/inputs.json
+  - .garura/project/issues/798/context/shape-eval/inputs/epic-794.md
+  - .garura/project/issues/798/context/shape-eval/inputs/story-795.md
+  - .garura/project/issues/798/context/shape-eval/inputs/story-798.md
+  - .garura/project/issues/798/context/shape-eval/inputs/story-818.md
+  - .garura/project/issues/798/context/shape-eval/inputs/story-898.md
+  - .garura/project/issues/798/context/shape-eval/place.json
+  - .garura/project/issues/798/context/shape-eval/reply.md
+  - .garura/project/issues/798/context/shape-eval/round1/eval-check.json
+  - .garura/project/issues/798/context/shape-eval/round1/guard-report.json
+  - .garura/project/issues/798/context/shape-eval/round1/place.json
+  - .garura/project/issues/798/context/shape-eval/round1/summary.md
+  - .garura/project/issues/798/context/shape-eval/round1/yardstick-check.json
+  - .garura/project/issues/798/context/shape-eval/run1/approval.json
+  - .garura/project/issues/798/context/shape-eval/run1/contract.json
+  - .garura/project/issues/798/context/shape-eval/run1/eval-check.json
+  - .garura/project/issues/798/context/shape-eval/run1/guard-report.json
+  - .garura/project/issues/798/context/shape-eval/run1/inputs-check.json
+  - .garura/project/issues/798/context/shape-eval/run1/inputs.json
+  - .garura/project/issues/798/context/shape-eval/run1/place.json
+  - .garura/project/issues/798/context/shape-eval/run1/reply.md
+  - .garura/project/issues/798/context/shape-eval/run1/start-change.json
+  - .garura/project/issues/798/context/shape-eval/run1/start-sha.txt
+  - .garura/project/issues/798/context/shape-eval/run1/summary.md
+  - .garura/project/issues/798/context/shape-eval/run1/yardstick-check.json
+  - .garura/project/issues/798/context/shape-eval/start-sha.txt
+  - .garura/project/issues/798/context/shape-eval/summary.md
+  - .garura/project/issues/798/context/shape-eval/templates/manifest-shape-eval.json
+  - .garura/project/issues/798/context/shape-eval/templates/standards/rules/eval-format.md
+  - .garura/project/issues/798/context/shape-eval/templates/standards/schemas/eval/steps-command-line.yaml
+  - .garura/project/issues/798/context/shape-eval/templates/standards/templates/approval-prompt.md
+  - .garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-slice.md
+  - .garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-story.feature.md
+  - .garura/project/issues/798/context/shape-eval/yardstick-check.json
+  - .garura/project/issues/798/context/shape-plan/approval.json
+  - .garura/project/issues/798/context/shape-plan/brief.md
+  - .garura/project/issues/798/context/shape-plan/drafts-check.json
+  - .garura/project/issues/798/context/shape-plan/drafts.json
+  - .garura/project/issues/798/context/shape-plan/gather.json
+  - .garura/project/issues/798/context/shape-plan/guard-report.json
+  - .garura/project/issues/798/context/shape-plan/ice/fn-795.md
+  - .garura/project/issues/798/context/shape-plan/ice/fn-798.md
+  - .garura/project/issues/798/context/shape-plan/ice/fn-818.md
+  - .garura/project/issues/798/context/shape-plan/ice/fn-898.md
+  - .garura/project/issues/798/context/shape-plan/plan-before.txt
+  - .garura/project/issues/798/context/shape-plan/plan-check.json
+  - .garura/project/issues/798/context/shape-plan/plan-write.json
+  - .garura/project/issues/798/context/shape-plan/reply.md
+  - .garura/project/issues/798/context/shape-plan/skill-input.json
+  - .garura/project/issues/798/context/shape-plan/start-change.json
+  - .garura/project/issues/798/context/shape-plan/start-sha.txt
+  - .garura/project/issues/798/context/shape-plan/tracker-check.json
+  - .garura/project/issues/798/context/shape-plan/tracker-record.json
+  - .garura/project/issues/798/context/shape-plan/work-items.json
+  - .garura/project/issues/798/context/shape-slice/answers.json
+  - .garura/project/issues/798/context/shape-slice/approval.json
+  - .garura/project/issues/798/context/shape-slice/brief-split.json
+  - .garura/project/issues/798/context/shape-slice/brief.md
+  - .garura/project/issues/798/context/shape-slice/budget.json
+  - .garura/project/issues/798/context/shape-slice/change.md
+  - .garura/project/issues/798/context/shape-slice/citations-check.json
+  - .garura/project/issues/798/context/shape-slice/citations-live.json
+  - .garura/project/issues/798/context/shape-slice/citations.json
+  - .garura/project/issues/798/context/shape-slice/early-split.json
+  - .garura/project/issues/798/context/shape-slice/fills.json
+  - .garura/project/issues/798/context/shape-slice/gather.json
+  - .garura/project/issues/798/context/shape-slice/guard-report.json
+  - .garura/project/issues/798/context/shape-slice/hidden-file.json
+  - .garura/project/issues/798/context/shape-slice/hidden-write.json
+  - .garura/project/issues/798/context/shape-slice/intent-issue.json
+  - .garura/project/issues/798/context/shape-slice/intent-page.json
+  - .garura/project/issues/798/context/shape-slice/lint-before-run.json
+  - .garura/project/issues/798/context/shape-slice/opening.md
+  - .garura/project/issues/798/context/shape-slice/persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/placement.json
+  - .garura/project/issues/798/context/shape-slice/proposals.json
+  - .garura/project/issues/798/context/shape-slice/questions-checked.json
+  - .garura/project/issues/798/context/shape-slice/questions-open-list.json
+  - .garura/project/issues/798/context/shape-slice/questions-open.json
+  - .garura/project/issues/798/context/shape-slice/questions.json
+  - .garura/project/issues/798/context/shape-slice/reply.md
+  - .garura/project/issues/798/context/shape-slice/reuse.json
+  - .garura/project/issues/798/context/shape-slice/run1/answers-q-flag-1.json
+  - .garura/project/issues/798/context/shape-slice/run1/answers-round2-not-applied.json
+  - .garura/project/issues/798/context/shape-slice/run1/answers-round2-note.txt
+  - .garura/project/issues/798/context/shape-slice/run1/approval.json
+  - .garura/project/issues/798/context/shape-slice/run1/brief-split.json
+  - .garura/project/issues/798/context/shape-slice/run1/brief.md
+  - .garura/project/issues/798/context/shape-slice/run1/budget.json
+  - .garura/project/issues/798/context/shape-slice/run1/change.md
+  - .garura/project/issues/798/context/shape-slice/run1/citations-check.json
+  - .garura/project/issues/798/context/shape-slice/run1/citations-live.json
+  - .garura/project/issues/798/context/shape-slice/run1/citations.json
+  - .garura/project/issues/798/context/shape-slice/run1/early-split.json
+  - .garura/project/issues/798/context/shape-slice/run1/feature-issue-898.json
+  - .garura/project/issues/798/context/shape-slice/run1/fills-undo-note.txt
+  - .garura/project/issues/798/context/shape-slice/run1/fills-undo.json
+  - .garura/project/issues/798/context/shape-slice/run1/fills.json
+  - .garura/project/issues/798/context/shape-slice/run1/gather.json
+  - .garura/project/issues/798/context/shape-slice/run1/grounding-report.json
+  - .garura/project/issues/798/context/shape-slice/run1/guard-report.json
+  - .garura/project/issues/798/context/shape-slice/run1/guard-restore.json
+  - .garura/project/issues/798/context/shape-slice/run1/hidden-file.json
+  - .garura/project/issues/798/context/shape-slice/run1/hidden-write.json
+  - .garura/project/issues/798/context/shape-slice/run1/intent-issue.json
+  - .garura/project/issues/798/context/shape-slice/run1/intent-page.json
+  - .garura/project/issues/798/context/shape-slice/run1/lint-before-run.json
+  - .garura/project/issues/798/context/shape-slice/run1/opening.md
+  - .garura/project/issues/798/context/shape-slice/run1/persist-fills-repair-refused.json
+  - .garura/project/issues/798/context/shape-slice/run1/persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/run1/persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/run1/placement.json
+  - .garura/project/issues/798/context/shape-slice/run1/proposals.json
+  - .garura/project/issues/798/context/shape-slice/run1/questions-checked.json
+  - .garura/project/issues/798/context/shape-slice/run1/questions-open-list.json
+  - .garura/project/issues/798/context/shape-slice/run1/questions-open.json
+  - .garura/project/issues/798/context/shape-slice/run1/questions.json
+  - .garura/project/issues/798/context/shape-slice/run1/reply-change.md
+  - .garura/project/issues/798/context/shape-slice/run1/reply-q-flag-1.md
+  - .garura/project/issues/798/context/shape-slice/run1/reply.md
+  - .garura/project/issues/798/context/shape-slice/run1/reuse.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/approval.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/brief.md
+  - .garura/project/issues/798/context/shape-slice/run1/round1/citations.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/fills.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/grounding-report.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/reply.md
+  - .garura/project/issues/798/context/shape-slice/run1/round1/reuse.json
+  - .garura/project/issues/798/context/shape-slice/run1/round1/slice.json
+  - .garura/project/issues/798/context/shape-slice/run1/round2-persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/run1/round2-persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/run1/serving.json
+  - .garura/project/issues/798/context/shape-slice/run1/slice-check.json
+  - .garura/project/issues/798/context/shape-slice/run1/slice.json
+  - .garura/project/issues/798/context/shape-slice/run1/split-q-flag-1.json
+  - .garura/project/issues/798/context/shape-slice/run1/split.json
+  - .garura/project/issues/798/context/shape-slice/run1/start-change.json
+  - .garura/project/issues/798/context/shape-slice/run1/start-sha.txt
+  - .garura/project/issues/798/context/shape-slice/run1/trace-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/answers-not-applied.json
+  - .garura/project/issues/798/context/shape-slice/run2/answers-q-recovery.json
+  - .garura/project/issues/798/context/shape-slice/run2/answers.json
+  - .garura/project/issues/798/context/shape-slice/run2/approval.json
+  - .garura/project/issues/798/context/shape-slice/run2/brief-split.json
+  - .garura/project/issues/798/context/shape-slice/run2/brief.md
+  - .garura/project/issues/798/context/shape-slice/run2/budget.json
+  - .garura/project/issues/798/context/shape-slice/run2/change-round2.md
+  - .garura/project/issues/798/context/shape-slice/run2/change.md
+  - .garura/project/issues/798/context/shape-slice/run2/citations-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/citations-live.json
+  - .garura/project/issues/798/context/shape-slice/run2/citations.json
+  - .garura/project/issues/798/context/shape-slice/run2/early-split.json
+  - .garura/project/issues/798/context/shape-slice/run2/fills-undo.json
+  - .garura/project/issues/798/context/shape-slice/run2/fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/gather.json
+  - .garura/project/issues/798/context/shape-slice/run2/grounding-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/guard-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/guard-restore-2.json
+  - .garura/project/issues/798/context/shape-slice/run2/guard-restore.json
+  - .garura/project/issues/798/context/shape-slice/run2/hidden-file.json
+  - .garura/project/issues/798/context/shape-slice/run2/hidden-write.json
+  - .garura/project/issues/798/context/shape-slice/run2/intent-issue.json
+  - .garura/project/issues/798/context/shape-slice/run2/intent-page.json
+  - .garura/project/issues/798/context/shape-slice/run2/lint-before-run.json
+  - .garura/project/issues/798/context/shape-slice/run2/manifests/enrich-grounding-update.json
+  - .garura/project/issues/798/context/shape-slice/run2/opening.md
+  - .garura/project/issues/798/context/shape-slice/run2/persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/placement.json
+  - .garura/project/issues/798/context/shape-slice/run2/proposals.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions-checked.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions-open-list.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions-open.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions.json
+  - .garura/project/issues/798/context/shape-slice/run2/reply-q-recovery.md
+  - .garura/project/issues/798/context/shape-slice/run2/reply.md
+  - .garura/project/issues/798/context/shape-slice/run2/reuse.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/brief.md
+  - .garura/project/issues/798/context/shape-slice/run2/round1/citations-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/citations-live.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/grounding-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/guard-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/hidden-file.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/hidden-write.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/opening.md
+  - .garura/project/issues/798/context/shape-slice/run2/round1/persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/reply.md
+  - .garura/project/issues/798/context/shape-slice/run2/round1/reuse.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/serving.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/slice-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/trace-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/serving.json
+  - .garura/project/issues/798/context/shape-slice/run2/slice-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/split.json
+  - .garura/project/issues/798/context/shape-slice/run2/start-sha.txt
+  - .garura/project/issues/798/context/shape-slice/run2/trace-check.json
+  - .garura/project/issues/798/context/shape-slice/serving.json
+  - .garura/project/issues/798/context/shape-slice/slice-check.json
+  - .garura/project/issues/798/context/shape-slice/slice.json
+  - .garura/project/issues/798/context/shape-slice/split.json
+  - .garura/project/issues/798/context/shape-slice/start-sha.txt
+  - .garura/project/issues/798/context/shape-slice/trace-check.json
+  - .garura/project/issues/798/context/templates/manifest-check-change.json
+  - .garura/project/issues/798/context/templates/manifest-close-start-change.json
+  - .garura/project/issues/798/context/templates/manifest-shape-plan.json
+  - .garura/project/issues/798/context/templates/manifest-shape-slice.json
+  - .garura/project/issues/798/context/templates/standards/rules/pipeline-next.md
+  - .garura/project/issues/798/context/templates/standards/templates/approval-prompt.md
+  - .garura/project/issues/798/context/templates/standards/templates/delivery-report.md
+  - .garura/project/issues/798/context/work-description.txt
+  - .garura/project/issues/798/review/categories.yaml
+  - .garura/project/issues/798/review/decision-comment.md
+  - .garura/project/issues/798/review/decision.yaml
+  - .garura/project/issues/798/review/design-findings-harness.yaml
+  - .garura/project/issues/798/review/design-findings-memory.yaml
+  - .garura/project/issues/798/review/design-findings-product-model.yaml
+  - .garura/project/issues/798/review/design-findings-slice-evals.yaml
+  - .garura/project/issues/798/review/findings.yaml
+  - .garura/project/issues/798/review/layer1-results.yaml
+  - .garura/project/issues/798/review/posted.json
+  - .garura/project/issues/798/review/quality-findings.yaml
+  - .garura/project/issues/798/review/recommended_verdict.yaml
+  - .garura/project/issues/798/review/round-1/final/categories.yaml
+  - .garura/project/issues/798/review/round-1/final/decision-comment.md
+  - .garura/project/issues/798/review/round-1/final/decision.yaml
+  - .garura/project/issues/798/review/round-1/final/design-findings-harness.yaml
+  - .garura/project/issues/798/review/round-1/final/design-findings-memory.yaml
+  - .garura/project/issues/798/review/round-1/final/design-findings-product-model.yaml
+  - .garura/project/issues/798/review/round-1/final/design-findings-slice-evals.yaml
+  - .garura/project/issues/798/review/round-1/final/findings.yaml
+  - .garura/project/issues/798/review/round-1/final/layer1-results.yaml
+  - .garura/project/issues/798/review/round-1/final/posted.json
+  - .garura/project/issues/798/review/round-1/final/quality-findings.yaml
+  - .garura/project/issues/798/review/round-1/final/recommended_verdict.yaml
+  - .garura/project/issues/798/review/round-1/findings.yaml
+  - .garura/project/issues/798/review/round-1/recommended_verdict.yaml
+  - .garura/project/issues/_adr/20261026T094549Z/adr-check.json
+  - .garura/project/issues/_adr/20261026T094549Z/adr-context.yaml
+  - .garura/project/issues/_adr/20261026T094549Z/adr-draft.md
+  - .garura/project/issues/_adr/20261026T094549Z/adr-manifest.json
+  - .garura/project/issues/_adr/20261026T094549Z/brief.md
+  - .garura/project/issues/_adr/20261026T094549Z/context/templates/manifest-record-decision.json
+  - .garura/project/issues/_adr/20261026T094549Z/context/templates/standards/templates/adr.md
+  - .garura/project/issues/_adr/20261026T094549Z/decision.yaml
+  - .garura/project/issues/_adr/20261026T094549Z/guard-report.json
+  - .garura/project/issues/_adr/20261026T094549Z/hashes-before.json
+  - .garura/project/issues/_adr/20261026T094549Z/porcelain-after.txt
+  - .garura/project/issues/_adr/20261026T094549Z/porcelain-before.txt
+  - .garura/project/issues/_adr/20261026T094549Z/start-change.json
+  new_since_round_2:
+  - .garura/project/issues/798/context/memory/product/product-os/_spine.yaml
+  - .garura/project/issues/798/context/memory/product/product-os/intents/bi-788.md
+  - .garura/project/issues/798/context/memory/product/product-os/slices/sl-intent-to-design.yaml
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/capability.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/domain.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/capability.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/capability.md
+  - .garura/project/issues/798/context/memory/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+  - .garura/project/issues/798/context/shape-slice/run2/answers-not-applied.json
+  - .garura/project/issues/798/context/shape-slice/run2/answers-q-recovery.json
+  - .garura/project/issues/798/context/shape-slice/run2/answers.json
+  - .garura/project/issues/798/context/shape-slice/run2/approval.json
+  - .garura/project/issues/798/context/shape-slice/run2/brief-split.json
+  - .garura/project/issues/798/context/shape-slice/run2/brief.md
+  - .garura/project/issues/798/context/shape-slice/run2/budget.json
+  - .garura/project/issues/798/context/shape-slice/run2/change-round2.md
+  - .garura/project/issues/798/context/shape-slice/run2/change.md
+  - .garura/project/issues/798/context/shape-slice/run2/citations-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/citations-live.json
+  - .garura/project/issues/798/context/shape-slice/run2/citations.json
+  - .garura/project/issues/798/context/shape-slice/run2/early-split.json
+  - .garura/project/issues/798/context/shape-slice/run2/fills-undo.json
+  - .garura/project/issues/798/context/shape-slice/run2/fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/gather.json
+  - .garura/project/issues/798/context/shape-slice/run2/grounding-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/guard-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/guard-restore-2.json
+  - .garura/project/issues/798/context/shape-slice/run2/guard-restore.json
+  - .garura/project/issues/798/context/shape-slice/run2/hidden-file.json
+  - .garura/project/issues/798/context/shape-slice/run2/hidden-write.json
+  - .garura/project/issues/798/context/shape-slice/run2/intent-issue.json
+  - .garura/project/issues/798/context/shape-slice/run2/intent-page.json
+  - .garura/project/issues/798/context/shape-slice/run2/lint-before-run.json
+  - .garura/project/issues/798/context/shape-slice/run2/manifests/enrich-grounding-update.json
+  - .garura/project/issues/798/context/shape-slice/run2/opening.md
+  - .garura/project/issues/798/context/shape-slice/run2/persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/placement.json
+  - .garura/project/issues/798/context/shape-slice/run2/proposals.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions-checked.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions-open-list.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions-open.json
+  - .garura/project/issues/798/context/shape-slice/run2/questions.json
+  - .garura/project/issues/798/context/shape-slice/run2/reply-q-recovery.md
+  - .garura/project/issues/798/context/shape-slice/run2/reply.md
+  - .garura/project/issues/798/context/shape-slice/run2/reuse.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/brief.md
+  - .garura/project/issues/798/context/shape-slice/run2/round1/citations-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/citations-live.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/grounding-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/guard-report.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/hidden-file.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/hidden-write.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/opening.md
+  - .garura/project/issues/798/context/shape-slice/run2/round1/persist-fills.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/persist-slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/reply.md
+  - .garura/project/issues/798/context/shape-slice/run2/round1/reuse.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/serving.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/slice-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/round1/trace-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/serving.json
+  - .garura/project/issues/798/context/shape-slice/run2/slice-check.json
+  - .garura/project/issues/798/context/shape-slice/run2/slice.json
+  - .garura/project/issues/798/context/shape-slice/run2/split.json
+  - .garura/project/issues/798/context/shape-slice/run2/start-sha.txt
+  - .garura/project/issues/798/context/shape-slice/run2/trace-check.json
+  - .garura/project/issues/798/review/categories.yaml
+  - .garura/project/issues/798/review/decision-comment.md
+  - .garura/project/issues/798/review/decision.yaml
+  - .garura/project/issues/798/review/design-findings-harness.yaml
+  - .garura/project/issues/798/review/design-findings-memory.yaml
+  - .garura/project/issues/798/review/design-findings-product-model.yaml
+  - .garura/project/issues/798/review/design-findings-slice-evals.yaml
+  - .garura/project/issues/798/review/findings.yaml
+  - .garura/project/issues/798/review/layer1-results.yaml
+  - .garura/project/issues/798/review/posted.json
+  - .garura/project/issues/798/review/quality-findings.yaml
+  - .garura/project/issues/798/review/recommended_verdict.yaml
+  evidence: '338 paths under .garura/ : run and review records of the shape-slice, shape-plan, shape-eval, record-decision and check-change runs for #798 (including the shape-slice run2 records moved in this round and the round-1/round-2 review records), the short-term memory copies (context/memory/**, including the product-model copies), this review''s pr.diff and context.yaml, the ADR run folder _adr/20261026T094549Z, and .garura/install-manifest.json. All are produced by plays; none is authored design.'
+  treatment:
+    reviewer: unspecified by a playbook
+    layers: []
+    linters: []
+    runnable_checks:
+    - 'no playbook treatment; suggested: scan the changed run records for secrets, personal data and stale absolute paths; confirm install-manifest.json components match core/components'
+    note: 'treatment withheld: no playbook'
+  playbook_missing: 'No playbook covers play run artifacts, review records and install records (STM files of the shape-slice, shape-plan, shape-eval, record-decision and check-change runs for #798, short-term memory copies, the pr.diff and context.yaml of this very review, the round-1 review records, and .garura/install-manifest.json). Generated evidence, not authored design. Follow-up: add a review/run-records playbook (what to scan: secrets, personal data, stale paths).'

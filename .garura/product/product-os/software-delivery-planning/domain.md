@@ -1,7 +1,7 @@
 # Theme: Software delivery planning
 
 ## Intent
-This domain turns a business intent into work that agents can build and that a check from the outside can prove. It serves the product owner, who names the work and approves its design, and the plays that build from that design. Its job comes before the build: it shapes one slice that a person can test end to end, it plans that slice as work items in the tracker, and it writes the eval that says if the intent is met. It does not build, check or release the work, and it never lets a builder read the eval.
+This domain turns a business intent into work that agents can build and that a check from the outside can prove. It serves the product owner, who names the work and approves its design, and the plays that build from that design. Its job comes before the build: it shapes one slice that a person can test end to end, it plans that slice as work items in the tracker, and it writes the eval that says if the intent is met. It does not build, check or release the work, and it never gives a builder the eval: the build is given the intent, and a check flags each build session that read the evals folder and records the flag in that build run's evidence.
 
 > To be deepened later: written by /shape-slice for bi-788 at the directional depth. /discover-domains or /discover-capabilities raises it to the detailed depth.
 
@@ -14,4 +14,6 @@ This domain turns a business intent into work that agents can build and that a c
 - docs/philosophy/idsd.md, IDSD in One Page: the Shape loop, 'the product is ready to build in slices'; and 'The Plan Is the Human's Interface'.
 - docs/philosophy/garura-reference-implementation.md, The Builder/Validator Barrier: the evals are kept away from the builders.
 - Memory (phoenix) knowledge/domains/*.md, the ten shelves: no shelf has a trigger for software delivery work (placement-routing.json, unmatched).
+- GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 - Note: the four outside sources were checked on the web on 2026-10-24.

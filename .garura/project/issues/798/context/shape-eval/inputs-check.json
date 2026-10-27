@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "problems": [],
+  "inputs": [
+    ".garura/project/issues/798/context/shape-eval/inputs.json",
+    ".garura/project/issues/798/context/shape-eval/inputs/",
+    ".garura/project/issues/798/context/shape-eval/templates/standards/schemas/eval/steps-command-line.yaml",
+    ".garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-story.feature.md",
+    ".garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-slice.md",
+    ".garura/project/issues/798/context/shape-eval/templates/standards/rules/eval-format.md",
+    ".garura/project/issues/798/context/shape-eval/change.md"
+  ],
+  "outputs": [
+    ".garura/project/issues/798/context/shape-eval/drafts/"
+  ]
+}

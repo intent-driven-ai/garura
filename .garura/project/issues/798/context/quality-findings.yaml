@@ -1,0 +1,56 @@
+pr: '900'
+change: '798'
+round: 7
+categories:
+- executable-code
+- tests
+- documentation
+scope:
+  paths_scanned: 48
+  breakdown: 33 executable-code + 9 tests + 6 documentation, from categories.yaml round 7
+  taxonomy: .garura/project/issues/798/context/memory/standards/rules/pr.md
+  scan: 'check-pr-quality (scan_taxonomy.py) on pr.diff bounded to the 48 paths: P1=0 P2=0 P3=0 P4=0, no rule errors, scan_coverage 1.0, CODE-20 catch-all covered 44 files (a count, not findings).
+    The scan is mechanical; the finding below comes from the by-hand read of the round-7 change and is classed against the severity buckets at the top of pr.md, with a cited basis.'
+  ruff: 'ruff 0.15.20 check on the 42 .py paths (33 executable-code + 9 tests): All checks passed (no ruff config in the repo, so ruff defaults)'
+  working_tree: core/ is identical to HEAD (git diff --quiet HEAD -- core, and git status --short core is empty, before and after the runs), so the files read and run are the files in the PR
+  changed_since_round_6: persist_slice.py and test_persist_slice.py (commit 66ad0156; git diff 32104cbe..HEAD for core/ and docs/ shows only these two files and the shape-slice SKILL.md). The six documentation files and the specs notes have no diff since round 6.
+  tests_run:
+  - file: core/components/plays/shape-slice/scripts/test_persist_slice.py
+    result: 119 passed, 0 failed (113 in round 6; the 6 new cases are the five malformed start copies and the non-text one)
+  - file: core/components/plays/shape-slice/scripts/test_edit_slice.py
+    result: 37 passed, 0 failed
+  - file: core/components/plays/shape-slice/scripts/test_render_brief.py
+    result: 34 passed, 0 failed
+  - file: core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+    result: 127 passed, 0 failed
+  - file: core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+    result: 26 passed, 0 failed
+  - note: The other test suites (check-change, create-play, shape-eval, install) are on files unchanged since round 6; not re-run.
+  scratch_model: 'Every by-hand run below used a scratch product model built in the session scratchpad with the test file''s own model() and slice_file() helpers (script: /private/tmp/claude-503/-Users-kapilahuja-cto-builder-garura/91571897-b5b5-42f5-b9b5-5e442c91f10d/scratchpad/hand.py), never the repo''s model. Each refusal was checked by comparing every file of the scratch model before and after the run, and by looking for a Traceback on stderr.'
+by_hand_checks:
+  round_7_runnable_check:
+  - 'Each malformed or non-text start copy exits 2 with a reason and nothing written: HOLDS. Tried 29 start copies in three runs (a reuse that changes text, a reuse that changes none, and a new slice with --reuse left off). Refused with exit 2, a plain reason ("... is not a spine ..."), no Traceback and every scratch file unchanged: a list, a word, a number, a decimal, a true, "slices" as a number / a word / a map / an empty string / zero / false, a slice entry that is a number / null / a list, "intents" as a number / a word / a map, a bad "intents" on another slice than the reused one. Refused with exit 2 and "cannot read an input": a file that is not UTF-8 (0xff bytes), a UTF-16 file, a file with a NUL byte, a YAML tag that builds objects (!!python/object), YAML that does not parse, a tab-led line. This closes round 6 finding Q6-1 (a crash, exit 1) for every one of these.'
+  - 'The refusal comes before any write: HOLDS. check_start_copy runs at line 543 inside the try that only reads (lines 526-548); write() is called after that block (line 551), and plan() is pure. In the scratch runs the spine, the slice record and the hidden files were byte-identical after every refusal; only the --out file was written, and it holds the refusal JSON (ok false, refused ...), which is the documented use of --out.'
+  - 'A valid start copy behaves as round 6 decided: HOLDS. A copy that lists the slice, with a text change that adds an intent, gives exit 0 and keeps the kept text; a copy with the same intent gives exit 0 and changes the record (the reshape). The 113 round-6 cases still pass inside the 119.'
+  - 'Falsy values that are not a spine are not refused: see R7-1 (reproduced).'
+  documentation:
+  - 'No leftover TODO, FIXME or XXX in the six touched documentation files (counted per file: 0 each); no diff in them since round 6, so the round 6 read stands.'
+findings:
+- id: R7-1
+  title: >-
+    A start copy holding an empty list, a zero, a false, or an empty string for "intents" slips past the new shape check
+  severity: P4
+  basis: 'pr.md severity buckets: P4 Nit (defensive handling, no data effect). Rated P4 because nothing crashes and nothing is lost: the odd value reads as "no intents" or "empty spine", which is the same safe outcome as Q6-2 (text kept, not overwritten). The helper''s own docstring says "Anything else is refused, not read", so the code does less than it says.'
+  where: >-
+    core/components/plays/shape-slice/scripts/persist_slice.py line 542 (yaml.safe_load(fh) or {}) and lines 290-298 (check_start_copy: x.get("intents") or [])
+  artifact_type: runtime-code
+  problem: 'Reproduced on the scratch model in all three runs. The "or {}" turns a file holding [] , 0 or false (and an empty file or null) into an empty mapping before the check sees it, so these are accepted with exit 0 instead of being refused as "not a spine". Likewise "x.get(\"intents\") or []" lets a slice whose intents is 0 or an empty string through, while 5, a word and a map are refused. The condition that does the check is also a single three-way expression with a double "is not None" test, which is hard to read and is how the falsy gap went unseen.'
+  leads_to: >-
+    A damaged start copy that happens to hold one of these values is read as "the slice was not listed when the run started", so the run keeps the old text without telling the person why. No crash and no write that the person did not ask for.
+  fix: >-
+    Load the file first, then test it: refuse when the loaded value is not None and not a dict, and when "slices" or a slice''s "intents" is present and not a list (use "is None" tests, not "or"). Split the condition into three short checks with one message each. Add test cases for [] , 0 and "intents: 0".
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1

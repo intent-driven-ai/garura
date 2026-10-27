@@ -1,0 +1,20 @@
+{
+  "decision": "yes",
+  "reply": "yes",
+  "at": "2026-10-26T11:36:21Z",
+  "files": {
+    "brief": {
+      "path": ".garura/project/issues/798/context/shape-plan/brief.md",
+      "sha256": "736ebbfd299fc56018f5be9bdfcced0a14deb78f1680da32df2cb468e6088a51"
+    },
+    "work_items": {
+      "path": ".garura/project/issues/798/context/shape-plan/work-items.json",
+      "sha256": "5c6613660590c4706a75b9151736e7f45431932b14c8e9d945f93276eee1e8a2"
+    },
+    "drafts": {
+      "path": ".garura/project/issues/798/context/shape-plan/drafts.json",
+      "sha256": "4ce0ec80e858f01425a73cdd1c2d7f4a6a3d6059b32ded19474b4bece9cd09ec"
+    }
+  },
+  "history": []
+}

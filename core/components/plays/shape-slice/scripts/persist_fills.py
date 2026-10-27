@@ -9,8 +9,9 @@ page, in the live model. This script writes the shared file and does the mechani
     later (status proposed, detail directional where the kind has a detail field,
     metadata.deepen true);
   - an EXISTING part is filled (`updates`): the intent is added to its `intents`, its domain
-    (a capability) or its capability (a feature) is set when it has none, and its page may
-    hold the agent's edits (`page: true`); what is there is kept;
+    (a capability) or its capability (a feature) is set when it has none, its spine one-line
+    is replaced when the update gives one (`one_line`, from the person's change), and its page
+    may hold the agent's edits (`page: true`); every other field is kept;
   - a part marked thin (`thin`) gets `metadata.thin: true` on its spine entry (the `ices`
     entry when the spine has an `ices` list, else the part's own entry), and its page holds
     exactly the one Thin line just before its ICE section;
@@ -31,7 +32,8 @@ fills.json:
      "ices":         [{"id", "for", "for_kind", "doc"}],
      "thin":         ["<part id or ice id>", ...],
      "updates":      [{"id", "kind": "domain|capability|feature", "add_intents": [...],
-                       "domain" | "capability": "<id>", "page": true}]}
+                       "domain" | "capability": "<id>", "one_line": "<new text>",
+                       "page": true}]}
 Every list may be empty or missing. A capability's `domain` and a feature's `capability`
 may be left out: the part then waits in its holding folder.
 
@@ -58,7 +60,8 @@ The result names what the scoped write guard needs: `allow` (the new paths: new 
 places pages moved to), `modify_only` (existing pages this run changed in place), and
 `remove_only` (the places pages moved from), each as `product-os/<path>`; plus `written`,
 `updated`, `moved` [{id, from, to}] (every part whose page moved, a feature that moved with
-its capability's folder included; its page path before and after), `thin`, `relinked`, `touches_added`, `touches_relinked`
+its capability's folder included; its page path before and after), `one_lines` [{id, kind,
+was, now}] (each spine one-line an update replaced), `thin`, `relinked`, `touches_added`, `touches_relinked`
 and the intent page's text before and after, so a change at the checkpoint can take the
 intent page back:
 
@@ -162,6 +165,7 @@ class Plan:
         self.new = {"domains": [], "capabilities": [], "features": [], "ices": []}
         self.changed = {}        # (spine key, id) -> the entry as it will be
         self.updated = []        # ids filled by `updates`
+        self.one_lines = []      # {id, kind, was, now}: each one-line an update replaced
         self.folder_moves = []   # (id, kind, old folder, new folder)
         self.moved_parts = []    # {id, from, to}: every part whose page moved (its doc)
         self.file_moves = {}     # old file -> new file, relative to the model
@@ -224,6 +228,14 @@ def plan_updates(p, seen_new):
                     raise Refused(f"update '{eid}' names {field} '{given}', which is in neither the "
                                   "model nor this fill")
                 e[field] = given
+        if "one_line" in u:
+            line = u["one_line"]
+            if not isinstance(line, str) or not line.strip():
+                raise Refused(f"update '{eid}' has a one_line that is empty or not text")
+            line = " ".join(line.split())
+            if line != e.get("one_line"):
+                p.one_lines.append({"id": eid, "kind": kind, "was": e.get("one_line"), "now": line})
+                e["one_line"] = line
         if u.get("page") is True:
             doc = e.get("doc")
             if not doc or not os.path.isfile(inside(p.root, doc, f"the page for '{eid}'")):
@@ -546,7 +558,8 @@ def undo(root, intent, result_path):
 def apply(args, spine, old_text, old_spine, p, page):
     root = args.root
     result = {"ok": True, "written": {k: [e["id"] for e in v] for k, v in p.new.items()},
-              "updated": list(p.updated), "moved": [], "thin": list(p.thin), "relinked": [],
+              "updated": list(p.updated), "one_lines": list(p.one_lines), "moved": [],
+              "thin": list(p.thin), "relinked": [],
               "allow": [], "modify_only": [], "remove_only": [], "touches_added": [],
               "touches_relinked": [], "intent_page_before": None, "intent_page_after": None}
     if not any(p.new.values()) and not p.changed:

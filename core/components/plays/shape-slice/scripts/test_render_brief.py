@@ -161,6 +161,7 @@ def main():
         check("render: a question asked before the slice was shaped is not asked again",
               "### Q-pay-1" not in text)
         check("render: no Kept slice section for a new slice", "## Kept slice" not in text)
+        check("render: no One-lines block when no one-line was replaced", "One-lines replaced" not in text)
         code, out, _ = run("record_questions.py", "brief", "--brief", os.path.join(work, "brief.md"),
                            "--split", os.path.join(work, "brief-split.json"))
         check("brief check: the rendered brief passes, and its opening may name a question id",
@@ -171,6 +172,17 @@ def main():
         code, text, _ = render(root, work, spine_p, opening)
         check("render: a reuse shows each difference word for word",
               "## Kept slice" in text and "tester differs: the slice keeps 'clerk'" in text)
+        ps_path = os.path.join(work, "persist-slice.json")
+        ps = json.loads(read(ps_path))
+        ps["replaced"] = ["slice.name"]
+        ps["out_of_date"] = [{"id": "ep-self", "status": "ready"}]
+        write(ps_path, ps)
+        code, text2, _ = render(root, work, spine_p, opening)
+        kept = text2.split("## Kept slice")[1].split("\n## ")[0]
+        check("render: a kept slice that takes new text says its record keeps a history line (C7)",
+              "takes the new name; its record keeps a history line" in kept)
+        check("render: the kept slice's epic is named as out of date (C7)",
+              "Out of date (named, not changed): epic ep-self (ready)" in kept)
         check("render: each field a record upgrade set or dropped is in plain words with its own word",
               "had no name; it now has the name 'Self booking'" in text and "surface" in text
               and "old field status" in text)
@@ -189,6 +201,40 @@ def main():
         code, text, _ = render(root, work, spine_p, opening)
         check("render: a line too vague to judge is shown in the Hidden file section",
               code == 0 and "Too vague to judge, so a person must decide: 2 line(s) of ft-send" in text)
+        hid = text.split("## Hidden file")[1].split("## Left out")[0]
+        check("render: the Hidden file section says how to change a kept line (--edit)",
+              "/shape-slice #" in hid and "--edit:" in hid)
+        pf = json.loads(read(os.path.join(work, "persist-fills.json")))
+        pf["one_lines"] = [{"id": "cap-booking", "kind": "capability", "was": "Book a visit.",
+                            "now": "A patient books a visit online."}]
+        write(os.path.join(work, "persist-fills.json"), pf)
+        code, text, _ = render(root, work, spine_p, opening)
+        check("render: each replaced one-line is shown under Features, old and new",
+              code == 0 and "### One-lines replaced" in text
+              and '- cap-booking (capability): was "Book a visit."; now "A patient books a visit online."' in text
+              and text.index("### One-lines replaced") < text.index("## Hidden file"))
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root, work, spine_p, opening = setup(tmp)
+        flag = {"id": "Q-flag-1", "blocking": False, "question": "Where does the flag show?",
+                "why": "x", "examples": ["a shop: a", "a bank: b"], "proposed_answer": None}
+        split = json.loads(read(os.path.join(work, "split.json")))
+        split["asked"].append(flag)
+        write(os.path.join(work, "split.json"), split)
+        write(os.path.join(work, "questions-checked.json"), {"no_proposed_answer": 2})
+        rec = os.path.join(tmp, "grounding-questions.md")
+        one = write(os.path.join(tmp, "flag-split.json"), {"asked": [flag], "assumptions": []})
+        run("record_questions.py", "add", "--record", rec, "--issue", "1", "--split", one,
+            "--at", "t", "--run", "r")
+        run("record_questions.py", "answer", "--record", rec, "--answers",
+            write(os.path.join(tmp, "flag-ans.json"), [{"id": "Q-flag-1", "answer": "in the run's evidence"}]),
+            "--at", "t", "--run", "r")
+        code, text, _ = render(root, work, spine_p, opening)
+        check("render again: a question the person answered shows their answer, not 'no proposed answer yet'",
+              code == 0 and "**Answer** yours: in the run's evidence" in text
+              and text.count("no proposed answer yet") == 0)
+        check("render again: an answered question is not counted as having no proposed answer",
+              "Questions with no proposed answer: 1" in text)
 
     with tempfile.TemporaryDirectory() as tmp:
         work = os.path.join(tmp, "work")

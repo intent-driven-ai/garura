@@ -1,0 +1,67 @@
+{
+  "domains": [],
+  "capabilities": [],
+  "features": [],
+  "ices": [],
+  "updates": [
+    {
+      "id": "dom-software-delivery-planning",
+      "kind": "domain",
+      "add_intents": [],
+      "page": true,
+      "change": "Sources: cite ADR 057 (section 7 and its Context) for the design in place of 798/specs/design.md lines 7-10 (change item 4, PM-F6). Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    },
+    {
+      "id": "cap-shape-slice",
+      "kind": "capability",
+      "add_intents": [],
+      "page": true,
+      "change": "Used by the slice; bring up to the current rules only, no change asked. Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    },
+    {
+      "id": "cap-718",
+      "kind": "capability",
+      "add_intents": [],
+      "page": true,
+      "change": "Used by the slice; bring up to the current rules only, no change asked. Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    },
+    {
+      "id": "cap-shape-eval",
+      "kind": "capability",
+      "add_intents": [],
+      "page": true,
+      "one_line": "Write the eval that checks, from the outside, that a business intent is met on its slice's surface. The build is given the intent, never the eval. A check flags each build session that read the evals folder.",
+      "change": "Spine one-line (change item 1, PM-F1) — a spine field, for the play's persist script. Page Sources: cite ADR 057 for the design in place of 798/specs/design.md lines 7-10 (change item 4, PM-F6). Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    },
+    {
+      "id": "fn-795",
+      "kind": "feature",
+      "add_intents": [],
+      "page": true,
+      "change": "Sources: cite ADR 057 for the design in place of 798/specs/design.md lines 7-10, and a person's answer by its question id (change item 4, PM-F6). Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    },
+    {
+      "id": "fn-818",
+      "kind": "feature",
+      "add_intents": [],
+      "page": true,
+      "change": "Rules: the stories are not the build's whole brief; the builder reads the story and the context its context sub-agent collected from the story's Context guidance (PM-F3). Keep the rule that a story never names the eval, the hidden file or the plan's evals folder, and put it in the ICE as a Goal or Limit and a 'Fails if' line (change item 2, PM-F4). Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    },
+    {
+      "id": "fn-798",
+      "kind": "feature",
+      "add_intents": [],
+      "page": true,
+      "one_line": "From the plan's epic and stories, /shape-eval writes the eval of the business intent in the plan's evals folder. The build is given the intent, never the eval.",
+      "change": "Spine one-line (change item 1, PM-F1) — a spine field, for the play's persist script. Page: reword the 'Fails if' line so it keeps only the eval's own place, and the build-input part is fn-898's only (change item 6); take the build-input part out of the acceptance criterion 'Given the build plays, when a person reads their inputs, then none names the evals folder.' and out of the 'Checked by' line (Q-scope-1, settled). Sources: cite ADR 057 and a person's answer by its question id (change item 4, PM-F6). Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    },
+    {
+      "id": "fn-898",
+      "kind": "feature",
+      "add_intents": [],
+      "page": true,
+      "change": "Inputs line: name the context the context sub-agent collected from the story's Context guidance, beside the stories (change item 2, PM-F3). Drop the acceptance criterion 'Given the ontology and managing-work.md, ...' (change item 3, PM-F5, Q3). Add the '> To be deepened later: written by /shape-slice ...' line under What it does, as fn-795, fn-798 and fn-818 have (change item 5, PM-F8). Sources: cite ADR 057 in place of 798/specs/design.md lines 7-10 and 22-23, and the person's answers by question id (Q-flag-1, Q-builders-1, #798) in place of grounding-questions.md (change item 4, PM-F6). Write each line short and plain, one idea in each, with its reason and its source, and use the real names of things (change-round2.md item 3)."
+    }
+  ],
+  "thin": []
+}

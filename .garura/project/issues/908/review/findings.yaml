@@ -1,0 +1,67 @@
+pr: 911
+issue: 908
+base: plan/788/798-shape-eval
+round: 3
+layer1: context/layer1.txt
+layer1_summary:
+  lint-components: 0 in changed paths; 37 there before
+  lint-play: PASS, 0 gaps
+  adr-lint: valid
+  tests: 8 of 8 files pass
+  py_compile: ok
+round_2: N-01, N-02, N-03 fixed in the code; N-04 to N-07 kept as known, not raised
+findings:
+- id: R3-01
+  severity: P4
+  category: harness
+  title: The close step says an edit run reports only three checks, but its start and end steps carry checks too
+  where: 'core/components/plays/shape-slice/SKILL.md line 1048 (Step C1: ''an edit run reports SE-26, SE-27 and
+    SCE-11, a shaping run the others''); compare SE-17 at line 958 and SE-15 at line 744'
+  basis: memory standards/rules/evidence-recording.md lines 25-31 (the play records the full artifact set and the
+    eval results of the run); harness-standard principle 4 (the compiled text and its intent agree). SKILL.md lines
+    775 and 942 say an edit run goes from Step 0 into the edit steps and still runs the end sequence E1-E4, and
+    SE-17 checks those (F13/C13).
+  problem: The new words tell the run to report SE-26, SE-27 and SCE-11 for an edit and 'the others' for a shaping
+    run. An edit run also runs Step 0, the checkpoint commit (SE-15 covers 'no commit unless yes') and the end sequence,
+    so SE-17 is its check too. The sentence reads as if the other evals do not apply.
+  leads_to: 'A model that follows the sentence strictly leaves SE-17 (and SE-15 for the edit''s commit) out of an
+    edit run''s evidence file. Small: the evidence is still written.'
+  fix: 'Say ''an edit run reports SE-17, SE-26, SE-27 and SCE-11 (and SE-15 for its commit); a shaping run reports
+    the rest'', or drop the parenthetical and keep only the two ranges. Surface text: a direct edit of the compiled
+    file is allowed (CLAUDE.md, Play Pipeline Rules, non-intent change).'
+- id: R3-02
+  severity: P4
+  category: harness
+  title: The edit contract in Step X2 still names only edit-list-check.json as the refused file, though X4 now sends
+    it four other reports
+  where: 'core/components/plays/shape-slice/SKILL.md line 801 (''refused'': ''<working>edit-list-check.json (on
+    a re-run only)'') against line 899 (X4: send the report that is not ok to Step X2 as `refused`)'
+  basis: 'harness-standard principle 2 (git show plan/788/798-shape-eval:docs/standards/harness-standard.md line
+    33): the agent learns what to pass each skill from the contract the play names. author-slice SKILL.md line 36
+    already accepts the four reports.'
+  problem: The contract the agent reads says one path; X4 says another file goes in that slot. The text outside
+    the contract carries the instruction, the contract itself does not.
+  leads_to: An agent that copies the contract literally passes edit-list-check.json (which reads ok after the list
+    passed) and the skill is asked again with nothing wrong shown; this is the N-02 loop again, in a narrower case.
+  fix: Write the row as '<working>edit-list-check.json, or, after a write was put back, the report that was not
+    ok (on a re-run only)'.
+- id: R3-03
+  severity: P4
+  category: harness
+  title: When the person's words name a real person, the play says to send the problem to the skill and also to
+    ask the person, and the ask has no steps
+  where: core/components/plays/shape-slice/SKILL.md lines 815-820 (Step X2, after check-list)
+  basis: 'git show plan/788/798-shape-eval:core/components/plays/shape-slice/reference/ice.md lines 116-120 (C18:
+    a question to a person follows the rule in _shared/asking-a-person.md) and its failure condition F5 (a question
+    or answer not recorded); harness-standard principle 2 (the skill does the work).'
+  problem: 'check-list writes one file (edit-list-check.json, exit 1) for two different problems: a name in a new
+    text (the skill can fix it) and a name in the person''s words (only the person can). The text first says to
+    send edit-list-check.json to the skill as `refused`, then says to ask the person when the words name someone.
+    It does not say which problem goes where, so a name in the words can be sent to the skill, which cannot change
+    the person''s words. The ask itself has no form (one thing, an example, a way to stop), and the reply is not
+    recorded as a question and answer.'
+  leads_to: A run can loop on the same words, or ask in its own style. No wrong record is written, because nothing
+    is written before the yes.
+  fix: 'Split the sentence: a problem that starts ''the person''s words name'' goes to the person (asked as C18
+    says, the reply saved to edit-request.md and recorded); a problem that starts ''<part>: the new text names''
+    goes to the skill as `refused`.'

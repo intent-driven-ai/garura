@@ -167,7 +167,8 @@ capabilities:
   status: proposed
   detail: directional
   one_line: Write the eval that checks, from the outside, that a business intent is
-    met on its slice's surface, and keep it where no builder can read it.
+    met on its slice's surface. The build is given the intent, never the eval. A check
+    flags each build session that read the evals folder.
   doc: software-delivery-planning/shape-eval/capability.md
   metadata:
     created_by: /shape-slice
@@ -480,8 +481,8 @@ features:
   intents:
   - bi-788
   status: proposed
-  one_line: From the plan's epic and stories, /shape-eval writes the eval for the
-    business intent in the plan's evals folder, where no builder reads.
+  one_line: From the plan's epic and stories, /shape-eval writes the eval of the business
+    intent in the plan's evals folder. The build is given the intent, never the eval.
   doc: software-delivery-planning/shape-eval/fn-798/feature.md
   metadata:
     created_by: /shape-slice
@@ -538,6 +539,19 @@ features:
     the machine, and on each run compare them with Phoenix memory so the project learns
     when a block changed.
   doc: software-delivery-planning/initialize/fn-883/feature.md
+- id: fn-898
+  slug: fn-898
+  capability: cap-shape-eval
+  intents:
+  - bi-788
+  status: proposed
+  one_line: A build is given the business intent, never the eval, and a check flags
+    each build session that read the plan's evals folder.
+  doc: software-delivery-planning/shape-eval/fn-898/feature.md
+  metadata:
+    created_by: /shape-slice
+    deepen: true
+    thin: true
 profile:
   state: set
   nfr:
@@ -559,6 +573,7 @@ slices:
   - fn-795
   - fn-818
   - fn-798
+  - fn-898
   vertical: the Claude Code command line
   intents:
   - bi-788

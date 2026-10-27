@@ -1,6 +1,6 @@
 ---
 name: platform-adapter
-description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 21 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
+description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 22 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
 user-invocable: false
 model: haiku
 allowed-tools: Bash, Read
@@ -27,12 +27,13 @@ Receive from caller (agent):
 
 ## Verb Interface
 
-The adapter exposes exactly 21 verbs:
+The adapter exposes exactly 22 verbs:
 
 | Verb | Purpose |
 |------|---------|
 | `view-pr` | Fetch PR/MR metadata (JSON) |
 | `diff-pr` | Fetch PR/MR unified diff |
+| `pr-files` | List every changed file of a PR/MR with its patch, page by page (for a PR over the 300-file diff limit) |
 | `comment-pr` | Post a comment on a PR/MR |
 | `request-changes` | Request changes on a PR/MR, blocking merge |
 | `add-reviewer` | Add a reviewer to a PR/MR |
@@ -106,7 +107,7 @@ Apply the platform resolution steps above. Halt on pre-flight failure before exe
 
 ### Step 2: Look Up Verb
 
-Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment."`
+Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment."`
 
 ### Step 3: Substitute Arguments
 

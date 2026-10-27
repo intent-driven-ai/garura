@@ -1,0 +1,135 @@
+# Context gathered by adr-keeper for the decision in brief.md (record-decision, task draft-adr)
+shape: markdown
+number: "058"
+slug: an-edit-the-person-approves-may-change-a-slice-in-progress
+draft_path: .garura/project/issues/_adr/20261027T053132Z/adr-draft.md
+level: framework
+node_ref: ""
+status: proposed
+decided_in: "Change #908 (business intent #904), the review of PR #911 into plan/788/798-shape-eval; plan #788"
+decided_by_note: "The product owner, 2026-10-27 (from the brief). Leave the Decided by line for acceptance; name the product owner as a role, never a real name."
+
+supersedes: []
+amends: []
+overlap_judgment:
+  # adr.py overlaps listed seven candidates; each was read.
+  - adr: "049"
+    verdict: not affected
+    why: >-
+      It sets up the three shaping plays and says /shape-slice shapes one slice and writes only the
+      link to the intent (§1.1, later amended by ADR 052). It says nothing about a slice in progress
+      or about a person's edit. §4's "when an ICE changes after its story is made, the story and its
+      hidden-file entry are drift" stays true: an edit names the epic as out of date, it does not
+      remake it.
+  - adr: "052"
+    verdict: not affected
+    why: >-
+      It gives /shape-slice the hidden file and the thin ICE. §1 ("when the slice gains a feature,
+      /shape-slice adds that feature's entry") and §7 (drift fixed in one Alignment round) do not
+      speak of a slice in progress or of an edit. An edit may change the when, way back or who
+      fixes of a named hidden-file line; ADR 052 does not forbid that, and the line keeps its one
+      reader (/shape-slice wrote it, a person approved the change).
+  - adr: "057"
+    verdict: not affected
+    why: >-
+      It makes the eval plain-text Gherkin and says a later /shape-eval run only adds scenarios.
+      This decision does not touch the eval: an edit never opens an eval file (the edit reads only
+      the eval file names), and the epic is named, not changed.
+  - adr: "048"
+    verdict: not affected
+    why: >-
+      §2 defines the Slice and says an Epic is long-lived and stories can join it; §1 and §3 the two
+      layers. Whether work has started is shown by the epic (also in ontology v12, Slice rules).
+      This decision reads that signal; it does not change it.
+  - adr: "053"
+    verdict: not affected
+    why: "It drops /shape-scope and /shape-roadmap; it names /shape-slice only as the play that picks features."
+  - adr: "054"
+    verdict: not affected
+    why: "It moves the rule for asking a person into a shared skill file; /shape-slice only reads it."
+  - adr: "055"
+    verdict: not affected
+    why: "It says installed parts read only installed files; it names the shape-slice ICE path only as an example."
+where_the_old_rule_lived: >-
+  No ADR states "a slice in progress is never touched". Searches of docs/adr/, the ontology
+  (core/components/memory/standards/schemas/product-os/ontology.md, v12, the Slice kind) and
+  .garura/user-provided/managing-work.md found it nowhere. It lived only in the /shape-slice
+  play's own intent: core/components/plays/shape-slice/reference/ice.md C7 and F7, and in
+  author-slice's rule "Never change a slice in progress". So this ADR supersedes and amends no
+  older ADR; it records a change to a play's intent.
+
+affects:
+  - path: core/components/plays/shape-slice/reference/ice.md
+    part: >-
+      C7 (a shaping run never touches a slice in progress; only an edit the person approves changes
+      it, C20), C20 (an edit may change a slice in progress; the person is told, and its epic, with
+      its status, is named as out of date), F7 (now "a shaping run changed a slice in progress"),
+      F20 (an edit of a slice in progress whose brief did not say so), REC7 and REC20
+  - path: core/components/plays/shape-slice/SKILL.md
+    part: "the reuse step (a slice in progress is never a match), the edit steps (edit-before.json in_progress, the In progress section of the brief), and the F7 and F20 rows of the failure table"
+  - path: core/components/plays/shape-slice/scripts/edit_slice.py
+    part: "writes in_progress and the epics past ready, with their status, into edit-before.json; uses the IN_PROGRESS statuses of find_serving_slice.py"
+  - path: core/components/plays/shape-slice/scripts/render_brief.py
+    part: "the edit brief gains an 'In progress' section and names each epic past ready under 'Out of date (named, not changed)'"
+  - path: core/components/plays/shape-slice/scripts/record_questions.py
+    part: "brief --edit --before refuses an edit brief of a slice in progress that has no 'In progress' section"
+  - path: core/components/plays/shape-slice/scripts/test_edit_slice.py
+    part: "tests for an edit of a slice in progress"
+  - path: core/components/plays/shape-slice/scripts/test_render_brief.py
+    part: "test for the In progress section"
+  - path: core/components/plays/shape-slice/scripts/find_serving_slice.py
+    part: "read, not changed: IN_PROGRESS (in_delivery, validated, fix_required, delivered) is the one rule for 'past ready'"
+  - path: core/components/skills/author-slice/SKILL.md
+    part: "shape and reuse modes never change a slice in progress; edit mode goes on and names each epic it lists as out of date, with its status"
+not_affected:
+  - "the ontology (Slice and Epic kinds): no kind, link or rule changes"
+  - "the eval files and /shape-eval: an edit never opens an eval"
+  - "/shape-plan and the epic itself: the epic is named, never changed, by /shape-slice"
+
+ice_impact: >-
+  /shape-slice's own ICE changes: C7, C20, F7 and F20 (with REC7 and REC20) in
+  core/components/plays/shape-slice/reference/ice.md. A shaping run (shape or reuse) still never
+  touches a slice in progress. An edit the person sees and approves may change it, and the edit
+  brief must say the slice is in progress and name its epic, with its status, as out of date
+  (named, not changed). F7 now fails only a shaping run that changed a slice in progress; F20 also
+  fails an edit of a slice in progress whose brief did not say so. The author-slice skill's rule
+  follows. No product ICE (capability or feature) changes, and no other play's ICE changes. The
+  ontology's ICE kind does not change.
+ice_impact_source_note: >-
+  The memory tool's ontology copy (Phoenix tier, version 4, copied to
+  context/memory/standards/schemas/product-os/ontology.md) predates the Slice kind, so it could not
+  answer the ICE impact. The impact is read from the play's own ICE source, the file the decision
+  names. Gap: Phoenix memory's ontology is behind the source (v12).
+
+business_intent_check: none
+business_intent_check_why: >-
+  The decision changes how /shape-slice treats a slice in progress. It does not change the Business
+  Intent kind, and no page in .garura/product/product-os/intents/ changes in change #908 (its
+  commits touch no intent page). An edit may change a slice's name, outcome and tester's action,
+  which are on the slice record, not on a business intent.
+
+related: [ADR 048, ADR 049, ADR 052, ADR 057, "#788", "#904", "#908", "PR #911"]
+
+reasons_and_alternatives: "all from brief.md: three options (refuse the edit; allow with no warning; allow, say so and name the epic, chosen)"
+
+consequences_hints:
+  # Grounded in the brief and the files above; the skill writes them in plain words.
+  positive:
+    - "A person can fix a wrong 'who fixes' line or a wrong name while the slice is being built, when the mistake matters most (brief)."
+    - "No silent change to work in flight: each change is shown and needs the person's yes; the brief says the slice is in progress (brief, C20)."
+    - "A shaping run still never touches a slice in progress, so the old protection holds for runs nobody reviews line by line (C7, F7)."
+  negative:
+    - "Work already started from the old text (the epic and its stories) may now disagree with the slice. The edit names the epic as out of date but does not fix it; someone must check it (brief: 'named, not changed')."
+
+work_this_creates:
+  - "After acceptance: no forward pointer is needed (no ADR is superseded or amended)."
+
+references:
+  - .garura/project/issues/_adr/20261027T053132Z/brief.md
+  - core/components/plays/shape-slice/reference/ice.md
+  - core/components/memory/standards/schemas/product-os/ontology.md (v12, the Slice kind)
+  - commit 8677f5f9 (#908)
+
+writing_rules:
+  - "Plain words, personas only (the product owner, the person, the builder). No real names."
+  - "Status Proposed. Leave Decided by for the person who accepts."

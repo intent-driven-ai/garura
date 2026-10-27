@@ -32,7 +32,13 @@
 - The plan file, the epic and the stories. /shape-plan writes them (fn-818).
 - The eval. /shape-eval writes it (fn-798).
 - The loop that runs the three plays and its one approval (#796, decision 1).
-- Eval encryption (#828) and the author-slice skill (#838), decision 3.
+- Eval encryption (#828, dropped by the product owner on 2026-10-26) and the author-slice skill (#838), decision 3.
+- The checks that no build is given the evals folder and that flag a build session that read it (fn-898).
+
+## Sources
+- GitHub #795 (closed): the /shape-slice play.
+- docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md, Decisions 1 and 5.
+- ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 
 Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 

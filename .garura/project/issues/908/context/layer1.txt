@@ -1,0 +1,17 @@
+## lint-components (installed, source layout)
+in changed paths: 0 there before: 37
+## lint-play
+VERDICT: PASS (0 gap(s))
+## adr lint
+  "valid": true,
+## tests
+test_edit_slice.py exit 0
+test_find_serving_slice.py exit 0
+test_grill_budget.py exit 0
+test_persist_slice.py exit 0
+test_render_brief.py exit 0
+test_shape_slice_scripts.py exit 0
+test_trace_check.py exit 0
+test_write_hidden_file.py exit 0
+## py_compile
+ok

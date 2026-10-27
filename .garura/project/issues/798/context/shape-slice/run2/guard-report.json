@@ -1,0 +1,69 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml",
+    "product-os/slices/sl-intent-to-design.yaml",
+    "product-os/intents/bi-788.md",
+    ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md"
+  ],
+  "add_only": [
+    "product-os/intents/bi-788.md"
+  ],
+  "modify_only": [
+    "product-os/software-delivery-planning/cap-718/capability.md",
+    "product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+    "product-os/software-delivery-planning/domain.md",
+    "product-os/software-delivery-planning/shape-eval/capability.md",
+    "product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+    "product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
+    "product-os/software-delivery-planning/shape-slice/capability.md",
+    "product-os/software-delivery-planning/shape-slice/fn-795/feature.md"
+  ],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/slices/sl-intent-to-design.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/domain.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md",
+      "status": "M"
+    }
+  ],
+  "violations": [],
+  "restored": [],
+  "also_tree": [
+    ".garura/project/plans"
+  ]
+}

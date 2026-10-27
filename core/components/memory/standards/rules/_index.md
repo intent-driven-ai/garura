@@ -20,6 +20,12 @@ Agents and skills query this category when they need to know: **"What rules must
 |------|-------------|-----------|
 | `resolution.md` | R1-R4 LTM resolution protocol — LTM hierarchy enforcement, authority semantics (LOCKED / DRAFT), resolution trace schema, context isolation exemptions; the decision trace every agent keeps (ADR 035 §6, ADR 037) | `tech-designer`, `repo-orchestrator`, every agent that reads LTM |
 
+### Eval rules
+
+| Path | Description | Consumers |
+|------|-------------|-----------|
+| `eval-format.md` | The rules of a slice's eval (ADR 057): its Gherkin story files and slice file, the tags and the Lines covered list, the fixed yardstick (a later run only adds; a moved story line is named for a person, never rewritten), and what an eval never holds | `/shape-eval`, `author-slice-eval`, the eval runner (later) |
+
 ### Operational rules (git and commits)
 
 | Path | Description | Consumers |

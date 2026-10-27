@@ -1,0 +1,142 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/intents/bi-788.md"
+  ],
+  "add_only": [],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": true,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/intents/bi-788.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/slices/sl-intent-to-design.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/domain.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md",
+      "status": "M"
+    }
+  ],
+  "violations": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/slices/sl-intent-to-design.yaml",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/domain.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
+      "status": "A",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    }
+  ],
+  "restored": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "action": "restored"
+    },
+    {
+      "path": ".garura/product/product-os/slices/sl-intent-to-design.yaml",
+      "action": "restored"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "action": "restored"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/domain.md",
+      "action": "restored"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "action": "restored"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "action": "restored"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
+      "action": "removed"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "action": "restored"
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md",
+      "action": "restored"
+    }
+  ],
+  "also_tree": [
+    ".garura/project/plans"
+  ]
+}

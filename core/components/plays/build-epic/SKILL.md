@@ -4,7 +4,7 @@ position: start
 description: 'Build one ready epic to done — every spec passing — strictly inside the epic''s box. Breaks the epic into a test-first plan (stories, tasks, tests, docs as a DAG), publishes that plan to the epic''s tracked issue and keeps it current as the working spine, builds with spec separation (the implementer never sees tests or evals), and accepts done only from adversarial steelman verification. Opens the work; never closes it — the close belongs after /validate-epic. Also the FIX ROUND: when /validate-epic stamps an epic fix_required, implement re-enters lightweight — the fix report is the exact work list, revision pieces on the existing plan, no fresh breakdown — and the epic flips back to in_delivery. The /build-epic command in the ProductOS command model. Use when a grilled epic is ready to build, or a validated-rejected epic needs its fix.'
 user-invocable: true
 stale: true
-stale_note: 'waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)'
+stale_note: 'waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049); its Step 6 names evals-engineer for steelman evals, a job that agent no longer has (#798, ADR 057) — the rebuild picks a new owner'
 ---
 
 # implement

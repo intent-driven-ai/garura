@@ -1,0 +1,49 @@
+{
+  "pull_in": [],
+  "push_out": [],
+  "why": "The kept slice sl-intent-to-design holds the same four features as the shaped slice, in the same order: fn-795, fn-818, fn-798 and fn-898. Each of them serves business intent bi-788. So no feature is pulled in and no feature is pushed out. The shaped slice is the kept slice with no change: the product owner's run 3 change keeps the slice and every model page as run 2 left them, and changes only the hidden file (change.md line 5). The slice keeps its one surface (the Claude Code command line), its tester (the product owner) and its four features, so it stays testable end to end. No slice is in progress, so the kept slice may be used.",
+  "decisions": [
+    {
+      "question": "Which slice serves this business intent, and does it change?",
+      "answer": "The kept slice sl-intent-to-design serves bi-788, and it does not change: pull in none, push out none, because its features are the shaped slice's features and each serves bi-788.",
+      "sources": [
+        {
+          "tier": "garura",
+          "path": "product/product-os/_spine.yaml",
+          "start": 570,
+          "end": 579
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/_spine.yaml",
+          "start": 452,
+          "end": 456
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/_spine.yaml",
+          "start": 465,
+          "end": 469
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/_spine.yaml",
+          "start": 478,
+          "end": 482
+        },
+        {
+          "tier": "garura",
+          "path": "product/product-os/_spine.yaml",
+          "start": 542,
+          "end": 546
+        },
+        {
+          "tier": "short-term",
+          "path": "798/context/shape-slice/change.md",
+          "start": 5,
+          "end": 5
+        }
+      ]
+    }
+  ]
+}

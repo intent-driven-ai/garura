@@ -65,7 +65,7 @@ Garura avoids both extremes:
 | `code-builder` | implementation | builder | sonnet | Executes structured execution plans for software implementation — requires a formal plan as input. ONLY for source code files. |
 | `result-checker` | loop-check | checker | sonnet | Checks a finished loop's result from outside it: reads only the bundle the loop built, never its reasoning, and gives a pass or reject verdict with evidence for every criterion via `judge-loop-result`; the loop dispatches it on a model that is not the session's — used by the Shared Loop Run's checker step |
 | `environment-operator` | environments | operator | sonnet | Owns live environments for the delivery pipeline — local for `/release-epic`, cloud for `/release-increment` — proves reachability, captures deploy records, tears down on request |
-| `evals-engineer` | evaluation | engineer | sonnet | Engineers verification evals from specifications, compartmentalized from the implementer — steelman refutation evals for `/build-epic`, legacy encrypted flows via `author-encrypted-evals` |
+| `evals-engineer` | evaluation | engineer | sonnet | Gathers the context a slice's eval needs for `/shape-eval` — checks that the copies of the epic, its stories and the hidden file are complete, calls `author-slice-eval`, and passes its drafts on as they are (#798, ADR 057) |
 | `intent-resolver` | intent | resolver | sonnet | Reads a play's intent, Expectation artifact, workflow template, and available agents to produce a JSON task DAG for play execution |
 | `knowledge-builder` | knowledge | builder | sonnet | Builds the knowledge a loop round found missing, for its three knowledge plays: answers open questions from the loop's sources (quoted) and memory through the memory tool (traced); closes the rest as a knowledge page raised through the memory tool, our proposed answer with its basis and context, a prototype note, or settled; writes the brief the person reads — through `find-answers-in-sources`, `author-knowledge-page`, `propose-answers`, `author-knowledge-brief`; never decides or promotes an update — used by `/search-knowledge`, `/research-knowledge`, `/check-knowledge` |
 | `product-os-keeper` | product-os | keeper | opus | Autonomous owner of the ProductOS model (Domain → Capability → Feature, ICE, profile, decisions) — used by the strategic plays, the lens plays, and `/shape-slice` |
@@ -187,8 +187,9 @@ code-builder has no skills — it implements code directly using its tools (Bash
 
 | Skill | Purpose |
 |-------|---------|
-| `author-steelman-evals` | implement — author steelman refutation evals from spec-side inputs; no encryption, isolation by sub-agent |
-| `author-encrypted-evals` | Legacy flow — generate YAML evals from configured spec sources, encrypt with AES-256-CBC+PBKDF2, delete plaintext, write manifest.json |
+| `author-slice-eval` | `/shape-eval` — write a slice's eval: one Gherkin story file for each story and one slice file, every step from the surface kind's step library (ADR 057) |
+
+The two eval skills of the old `/build-epic` (`author-steelman-evals`, `author-encrypted-evals`) are stale: no agent dispatches them now. The rebuild of the build stage (#855, #819) gives them a new owner or retires them.
 
 ### intent-resolver Skill Pool
 
