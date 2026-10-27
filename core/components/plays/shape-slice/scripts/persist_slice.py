@@ -4,7 +4,7 @@ persist_slice.py — write the slice /shape-slice shaped into the live product m
 
     python3 persist_slice.py --root <product-os dir> --spine <_spine.yaml> --slice <slice.json> \
         [--reuse <slice-id> [--pull-in <feature id>]... [--push-out <feature id>]...] \
-        [--out <persist-slice.json>]
+        [--at <date, UTC>] [--out <persist-slice.json>]
 
 slice.json:
     {"id": "...", "slug": "...", "name": "...", "outcome": "...",
@@ -34,7 +34,11 @@ lists, in plain words, how the new shape differs from the slice it reuses, so th
 sees it at the checkpoint: its features, its surface, its tester, its outcome and the
 tester's action. When the shaped slice is the kept slice reshaped for an intent it already
 serves (no new intent, the same surface and the same tester), the record takes the shaped
-outcome and tester's action; else it keeps its own, and the difference says so. An older entry with fields ontology v10 removed (status, order,
+name, outcome and tester's action; else it keeps its own, and the difference says so. When it
+takes a text, the record gains a history entry at the end of its `edits:` list (the same list
+an edit writes: {at, by: "a shaping run", words, changed}; --at is then required), the result's
+`replaced` names each part it took, and `out_of_date` names each epic of the slice in the spine
+(its id and status), because the epic's stories were written from the old text. An older entry with fields ontology v10 removed (status, order,
 effort, depends_on, domain_ref) is written back with the six fields only; the result names
 the fields it dropped.
 
@@ -237,7 +241,11 @@ def differences(existing, rec, sl, surface):
     return out
 
 
-def reshape_text(rec, existing, sl, surface, own):
+RESHAPE_PARTS = {"name": "slice.name", "outcome": "slice.outcome",
+                 "tester's action": "surface.user_action"}
+
+
+def reshape_text(rec, existing, sl, surface, own, replaced=None):
     """The name, the outcome and the tester's action of a reused record, against the shaped slice.
 
     Each one that differs is listed. When the shaped slice is the kept slice reshaped for an
@@ -257,7 +265,16 @@ def reshape_text(rec, existing, sl, surface, own):
                        f"'{new}' — {how}")
             if own:
                 part[key] = new
+                if replaced is not None:
+                    replaced.append(RESHAPE_PARTS[label])
     return out
+
+
+def history(rec, at, replaced, intents):
+    """The history entry a shaping run leaves when it takes a kept slice's new text (C7)."""
+    words = "shaped again by /shape-slice" + (f" for {', '.join(intents)}" if intents else "")
+    rec.setdefault("edits", []).append({"at": at, "by": "a shaping run", "words": words,
+                                        "changed": list(replaced)})
 
 
 def in_progress(spine, sid):
@@ -291,7 +308,7 @@ def changed_features(have, shaped, pull_in, push_out, known):
     return out
 
 
-def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
+def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=(), at=None):
     """Work out every write before the first one. Returns a dict that `write` applies."""
     slices = spine.get("slices") or []
     if not isinstance(slices, list):
@@ -337,6 +354,7 @@ def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
     dropped = [k for k in existing if k not in SPINE_FIELDS]
     rec = load_record(rec_path)
     diffs = differences(kept_view, rec, sl, surface) if reuse else []
+    replaced = []
     if rec is None:
         rec_surface = surface if surface.get("name") == existing.get("vertical") else None
         if rec_surface is None:
@@ -356,7 +374,12 @@ def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
         if features != old_features:
             body["feature_refs"] = list(features)
         if reuse:
-            diffs += reshape_text(rec_new, existing, sl, surface, own=not added)
+            diffs += reshape_text(rec_new, existing, sl, surface, own=not added, replaced=replaced)
+            if replaced:
+                if not at:
+                    raise Refused(f"the run takes the kept slice's new {', '.join(replaced)}, so it "
+                                  "writes a history line: give --at <date, UTC>")
+                history(rec_new, at, replaced, list(body.get("intents") or []))
         rec_changed = rec_new != rec
     if rec is None:
         upgraded = []
@@ -367,7 +390,10 @@ def plan(spine, sl, surface, root, reuse, pull_in=(), push_out=()):
             "added": added, "record": rec_new if rec_changed else None, "rec_path": rec_path,
             "differences": diffs, "dropped": dropped, "spine_changed": spine_changed,
             "upgraded": upgraded, "pulled_in": [f for f in features if f not in old_features],
-            "pushed_out": [f for f in old_features if f not in features]}
+            "pushed_out": [f for f in old_features if f not in features], "replaced": replaced,
+            "out_of_date": [{"id": e.get("id"), "status": e.get("status")}
+                            for e in (spine.get("epics") or [])
+                            if isinstance(e, dict) and e.get("slice_ref") == sid] if replaced else []}
 
 
 def to_v2(rec, sid, existing, sl, surface):
@@ -437,6 +463,8 @@ def main(argv=None):
                     help="with --reuse: a feature the kept slice takes in; repeatable")
     ap.add_argument("--push-out", action="append", default=[],
                     help="with --reuse: a feature the kept slice gives up; repeatable")
+    ap.add_argument("--at", help="the date, UTC: needed when a reuse takes a kept slice's new text "
+                                 "(its history line)")
     ap.add_argument("--out", help="also write the result JSON here")
     args = ap.parse_args(argv)
 
@@ -458,7 +486,7 @@ def main(argv=None):
         with open(args.slice, encoding="utf-8") as fh:
             sl = json.load(fh)
         surface = check_slice(sl, spine, args.root)
-        p = plan(spine, sl, surface, args.root, args.reuse, args.pull_in, args.push_out)
+        p = plan(spine, sl, surface, args.root, args.reuse, args.pull_in, args.push_out, args.at)
     except Refused as exc:
         sys.stderr.write(f"persist_slice.py: not written — {exc}\n")
         return finish({"ok": False, "refused": str(exc)}, 2)
@@ -471,7 +499,8 @@ def main(argv=None):
               "added_intents": p["added"], "record": record_rel(p["id"]),
               "record_written": p["record"] is not None, "differences": p["differences"],
               "dropped_fields": p["dropped"], "upgraded_to_v2": p["upgraded"],
-              "pulled_in": p["pulled_in"], "pushed_out": p["pushed_out"]}
+              "pulled_in": p["pulled_in"], "pushed_out": p["pushed_out"],
+              "replaced": p.get("replaced", []), "out_of_date": p.get("out_of_date", [])}
     return finish(result, 0)
 
 

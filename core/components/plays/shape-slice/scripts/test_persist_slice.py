@@ -242,7 +242,8 @@ def test_change_reused():
         kept = {"id": "sl-old", "slug": "old", "feature_refs": ["ft-1", "ft-3"],
                 "vertical": "the booking screen", "intents": ["bi-10"], "record": "slices/sl-old.yaml"}
         sp = model(root, {"features": [{"id": "ft-1"}, {"id": "ft-2"}, {"id": "ft-3"}, {"id": "ft-4"}],
-                          "slices": [kept]})
+                          "slices": [kept],
+                          "epics": [{"id": "ep-old", "slice_ref": "sl-old", "status": "ready"}]})
         os.makedirs(os.path.join(root, "slices"))
         with open(os.path.join(root, "slices", "sl-old.yaml"), "w", encoding="utf-8") as fh:
             yaml.safe_dump({"slice": {"id": "sl-old", "slug": "old", "name": "Old", "outcome": "x",
@@ -264,9 +265,20 @@ def test_change_reused():
                               outcome="A patient books a visit and gets a reminder.",
                               surface={"id": "sf-booking", "name": "the booking screen",
                                        "persona_ref": "patient", "user_action": "books, then reads the reminder"})
-        code, out, _ = run(root, sp, reshaped, "--reuse", "sl-old")
+        before = snapshot(root)
+        code, _, err = run(root, sp, reshaped, "--reuse", "sl-old")
+        check("reshape: taking a kept slice's new text without --at is refused, nothing written (C7)",
+              code == 2 and "--at" in err and snapshot(root) == before)
+        code, out, _ = run(root, sp, reshaped, "--reuse", "sl-old", "--at", "2026-10-27")
         rec = load(os.path.join(root, "slices", "sl-old.yaml"))
         diffs = " ".join(out.get("differences") or [])
+        check("reshape: the record keeps a history line naming what a shaping run took (C7)",
+              rec["edits"][-1]["by"] == "a shaping run" and rec["edits"][-1]["at"] == "2026-10-27"
+              and rec["edits"][-1]["changed"] == ["slice.name", "slice.outcome", "surface.user_action"]
+              and list(rec)[-1] == "edits")
+        check("reshape: the result names the parts taken and the slice's epic as out of date",
+              out["replaced"] == ["slice.name", "slice.outcome", "surface.user_action"]
+              and out["out_of_date"] == [{"id": "ep-old", "status": "ready"}])
         check("reshape for an intent it serves: the record takes the new outcome and tester action",
               code == 0 and rec["slice"]["outcome"] == "A patient books a visit and gets a reminder."
               and rec["surface"]["user_action"] == "books, then reads the reminder"
@@ -279,12 +291,19 @@ def test_change_reused():
                              outcome="A patient books a visit and gets a reminder.",
                              surface={"id": "sf-booking", "name": "the booking screen",
                                       "persona_ref": "patient", "user_action": "books, then reads the reminder"})
-        code, out, _ = run(root, sp, renamed, "--reuse", "sl-old")
+        code, out, _ = run(root, sp, renamed, "--reuse", "sl-old", "--at", "2026-10-28")
         rec = load(os.path.join(root, "slices", "sl-old.yaml"))
         diffs = " ".join(out.get("differences") or [])
         check("reshape: the record takes the new name, and the result lists it for the brief",
               code == 0 and rec["slice"]["name"] == "A patient books a visit online"
               and "name differs" in diffs and "outcome differs" not in diffs)
+        check("reshape: a second run adds a second history line and keeps the first",
+              [e["changed"] for e in rec["edits"]] == [["slice.name", "slice.outcome", "surface.user_action"],
+                                                        ["slice.name"]])
+        code, out, _ = run(root, sp, renamed, "--reuse", "sl-old")
+        check("reshape: a run that takes no new text needs no --at and adds no history line",
+              code == 0 and out["replaced"] == [] and out["out_of_date"] == []
+              and len(load(os.path.join(root, "slices", "sl-old.yaml"))["edits"]) == 2)
         code, out, _ = run(root, sp, shaped, "--reuse", "sl-old", "--push-out", "ft-3")
         check("push-out: the feature leaves the slice",
               code == 0 and load(sp)["slices"][0]["feature_refs"] == ["ft-1", "ft-2"]

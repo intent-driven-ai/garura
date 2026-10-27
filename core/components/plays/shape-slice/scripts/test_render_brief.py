@@ -172,6 +172,17 @@ def main():
         code, text, _ = render(root, work, spine_p, opening)
         check("render: a reuse shows each difference word for word",
               "## Kept slice" in text and "tester differs: the slice keeps 'clerk'" in text)
+        ps_path = os.path.join(work, "persist-slice.json")
+        ps = json.loads(read(ps_path))
+        ps["replaced"] = ["slice.name"]
+        ps["out_of_date"] = [{"id": "ep-self", "status": "ready"}]
+        write(ps_path, ps)
+        code, text2, _ = render(root, work, spine_p, opening)
+        kept = text2.split("## Kept slice")[1].split("\n## ")[0]
+        check("render: a kept slice that takes new text says its record keeps a history line (C7)",
+              "takes the new name; its record keeps a history line" in kept)
+        check("render: the kept slice's epic is named as out of date (C7)",
+              "Out of date (named, not changed): epic ep-self (ready)" in kept)
         check("render: each field a record upgrade set or dropped is in plain words with its own word",
               "had no name; it now has the name 'Self booking'" in text and "surface" in text
               and "old field status" in text)

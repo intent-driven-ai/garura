@@ -43,8 +43,12 @@ words changes only the parts they named, after they see each change and say yes.
   in, or pushes a feature out, and the slice stays testable end to end (one surface, one tester,
   one feature or more). A slice in progress (its epic is past ready: a story is started or done)
   is never touched by a shaping run; the run shapes a new slice. Only an edit the person
-  approves changes a slice in progress (C20). The brief shows each change, and nothing is kept
-  before the person's yes.
+  approves changes a slice in progress (C20). When the run shapes a kept slice again for an
+  intent it already serves, with the same surface and the same tester, the slice takes the new
+  name, outcome and tester's action: the brief shows each one old and new, the slice record
+  keeps a history line (when, that a shaping run changed it, and which parts), and the brief
+  names the slice's epic as out of date (its stories were written from the old text). The brief
+  shows each change, and nothing is kept before the person's yes.
 - C8 — The run reuses what exists, fills what exists in part, and adds what is missing. A fill
   of an existing domain, capability or feature adds the intent to its `intents`, sets its domain
   or capability when it has none, and adds to its page and ICE; it keeps what is there. When the
@@ -165,8 +169,10 @@ words changes only the parts they named, after they see each change and say yes.
 - F5 — A question or answer was not recorded, or an answered question was asked again.
 - F6 — A slice was written with no tester, with no surface, or with more than one surface.
 - F7 — A new slice was made for an intent that an existing slice, not in progress, already
-  serves; a shaping run changed a slice in progress; or a reused slice was changed so that a person can no
-  longer test it end to end.
+  serves; a shaping run changed a slice in progress; a reused slice was changed so that a person can no
+  longer test it end to end; or a kept slice's name, outcome or tester's action changed without
+  the brief showing it old and new, without a history line on the slice record, or without the
+  brief naming the slice's epic as out of date.
 - F8 — A part the slice needs was skipped; an existing part was left unfilled (no intent link,
   or no domain the run knows); a page is outside its parent's folder; a page the run moved or
   used still breaks a current rule; or a fill changed a field of an existing part other than its
@@ -286,6 +292,12 @@ words changes only the parts they named, after they see each change and say yes.
   hidden file and the slice record each hold a history line with the person's words. Measure:
   `edit-check.json` reads `ok: true` with exactly two changes, and `hidden-file.json` reads
   `ok: true`.
+- S12 — (product owner, a kept slice shaped again) Given a slice that already serves the intent
+  and has an epic, when the run shapes it again with a new name and the same surface and tester,
+  then the slice record takes the new name and keeps a history line, and the brief shows the
+  name old and new and names the slice's epic as out of date. Measure: `persist-slice.json`
+  `replaced` names `slice.name`, its `out_of_date` names the epic, the slice record's last
+  `edits` entry names `slice.name`, and `brief.md` shows both lines.
 
 ### Done means
 
@@ -320,8 +332,10 @@ words changes only the parts they named, after they see each change and say yes.
   When nothing in the model or memory names a surface a person can test end to end, write no
   slice, say why, and close. Handoff: autonomous.
 - REC7 (F7) — remove the new slice and add the intent to the slice that already serves it; put
-  back a slice in progress as it was and shape a new slice; or put back the feature whose change
-  broke the end-to-end test. Handoff: autonomous.
+  back a slice in progress as it was and shape a new slice; put back the feature whose change
+  broke the end-to-end test; or, for a kept slice's text, add the missing history line, show
+  each change old and new, and name the slice's epic as out of date in the brief, then ask
+  again. Handoff: autonomous.
 - REC8 (F8) — add or fill the part at the depth known, at its folder, marked to be deepened, and
   bring each page the run moved or used up to the current rules; put back any other field a fill
   changed. Handoff: autonomous.

@@ -36,7 +36,9 @@ brief.md is the opening, then these H2 sections:
   Thin ICE       — only when a part is thin: each thin part's id, and /discover-capabilities
   Kept slice     — only when persist-slice.json reads reused: true: each difference word for
                    word; each pulled-in or pushed-out feature; each field a record upgrade set
-                   or dropped, in plain words with the field's own word
+                   or dropped, in plain words with the field's own word; when the kept slice
+                   takes new text (persist-slice.json `replaced`), that its record keeps a
+                   history line, and each epic in `out_of_date`, named as out of date
   Model check    — Older problems: <n>, then each older problem and warning, word for word
   Questions      — Questions with no proposed answer: <n>, then each asked question as
                    ### <id> with **Question**, **Answer**, **Why it matters**, **Example**;
@@ -200,6 +202,13 @@ def kept_section(root, ps):
         value = (rec.get(part) or {}).get(word) if isinstance(rec.get(part), dict) else None
         shown = f" '{value}'" if isinstance(value, str) else (f" {value}" if value else "")
         out.append(f"- The kept slice's record had no {word}; it now has the {word}{shown}.")
+    if ps.get("replaced"):
+        words = {"slice.name": "name", "slice.outcome": "outcome", "surface.user_action": "tester's action"}
+        parts = ", ".join(words.get(r, r) for r in ps["replaced"])
+        out.append(f"- The kept slice takes the new {parts}; its record keeps a history line for it.")
+        for e in ps.get("out_of_date") or []:
+            out.append(f"- Out of date (named, not changed): epic {e.get('id')} ({e.get('status')}); "
+                       "its stories were written from the old text.")
     for field in ps.get("dropped_fields") or []:
         out.append(f"- The kept slice's spine entry had the old field {field}; this run removed it, "
                    "because a slice entry has six fields only.")
