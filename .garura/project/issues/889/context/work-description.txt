@@ -1,0 +1,7 @@
+Issue #889: /check-change halts on a pull request with too many files.
+
+The review play reads a pull request's changed files from the code host. GitHub gives one diff for at most 300 files; the earlier fix on this line falls back to the paged file list, which GitHub stops at 3,000 files. A pull request with more files (the plan 788 landing, PR #916, had 3,192) still stops the review at its first step.
+
+The work: when the host's file list is cut off, the review reads the pull request's full diff through GitHub's compare call (diff form, base...head), which returns every file. The paged file list stays as a second try. The count check stays: when the diff's file count does not match the host's count, the review still stops.
+
+Done when: a pull request over 3,000 files gets a full context record through the compare diff, a failed compare call falls back to the paged list, a count mismatch still stops the review, and the tests show all three.
