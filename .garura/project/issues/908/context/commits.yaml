@@ -1,0 +1,8 @@
+commits:
+excluded_files:
+  - path: ".garura/project/issues/908/context/commit-change/"
+    reason: "commit-change's own run records; left to the executor's run-state chore group"
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
