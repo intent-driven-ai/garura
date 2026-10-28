@@ -3,9 +3,9 @@
   "reason": "no P1 findings; confidence acceptable",
   "blocking": [],
   "counts": {
-    "P4": 11,
-    "P3": 18,
-    "P2": 8
+    "P4": 5,
+    "P2": 8,
+    "P3": 16
   },
   "confidence": null,
   "threshold": 0.5

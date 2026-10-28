@@ -1,12 +1,11 @@
-# design-findings-memory.yaml - Layer 2 design-grounding, category "memory", PR #932 (issue 920), ROUND 2.
-# Read-only. Grounded in the base ref (main), the memory tool (standards/rules/pr.md, gate-config.md, knowledge/_DESIGN.md)
-# and the product owner's round-1 calls. Not grounded in ADR 059, severity.md or specs/redesign.md (new on this branch).
-# severity.md is not in any memory tier yet (memory tool find --issue 920: matches []), so it is checked as the file under
-# review, never used as a source. Severity follows the PR taxonomy's buckets and the owner's round-1 calls
-# (round-1/decision.yaml: H-2 P1, H-1 P2, F1 P3, F2 change).
+# design-findings-memory.yaml - Layer 2 design-grounding, category "memory", PR #932 (issue 920), ROUND 3.
+# Read-only. Grounded in the base ref (main), the memory tool (standards/rules/pr.md, gate-config.md,
+# knowledge/_DESIGN.md; copies already in context/memory/ and context/memory/grounding-memory/, no new copy needed)
+# and the product owner's round-1 calls (round-1/decision.yaml: H-2 P1, H-1 P2, F1 P3, F2 change).
+# Not grounded in ADR 059 or the round-1/round-2 review records (on this branch).
 pr: 932
 category: memory
-round: 2
+round: 3
 base: main
 changed_files_checked:
   - core/components/memory/standards/rules/_index.md
@@ -15,140 +14,66 @@ changed_files_checked:
   - core/components/memory/standards/rules/naming.yaml
   - core/components/memory/standards/rules/pipeline-next.md
   - core/components/memory/standards/rules/pipeline-position.md
-  - core/components/memory/standards/rules/pr.md
   - core/components/memory/standards/rules/rename-map.yaml
-  - core/components/memory/standards/rules/severity.md
   - core/components/memory/standards/schemas/product-os/decision.yaml
   - core/components/memory/standards/templates/adr.md
-  - core/tools/naming/apply_renames.py, core/tools/naming/check_old_names.py (memory rule's readers)
-  - core/components/skills/author-decision/scripts/adr.py and its test (same file as plays/record-decision/scripts/adr.py)
+  - core/tools/naming/apply_renames.py, core/tools/naming/check_old_names.py (readers of the rename map)
+  - core/components/skills/author-decision/scripts/adr.py (+ test) and plays/record-decision/scripts/adr.py
+  - "also read, outside the category: .garura/user-provided/managing-work.md (the work rules' severity line)"
 grounding:
   principles:
-    - id: G1
-      principle: "naming.yaml is the one list of verbs; a verb no part uses should not stay listed."
-      source: "main:core/components/memory/standards/rules/naming.md (rule 3)"
-    - id: G2
-      principle: "rename-map.yaml lists every name changed when the naming standard was adopted; check_old_names.py reads it to find a stale old name anywhere in the repo."
-      source: "main:core/components/memory/standards/rules/naming.md (intro); main:core/tools/naming/check_old_names.py"
-    - id: G3
-      principle: "The ADR template's core fields mirror schemas/product-os/decision.yaml, and adr.py lint checks a record against the template."
-      source: "main:core/components/memory/standards/schemas/product-os/decision.yaml (#632 block); main:core/components/memory/standards/templates/adr.md (intro)"
-    - id: G4
-      principle: "The standards index lists every file the branch changes; a cross-reference names something that exists."
-      source: "knowledge/review/memory.md playbook copy (.garura/project/issues/920/context/memory/knowledge/review/memory.md)"
-    - id: G5
-      principle: "A 'member' play is one of start-change / commit-change / propose-change / check-change / merge-change."
-      source: "main:core/components/memory/standards/rules/pipeline-position.md (table 'The two sequences')"
-    - id: G6
-      principle: "The PR severity taxonomy is mechanical (no judgment) and its four buckets mean: P1 blocker (security, secrets, injection, auth, data-loss, breaking API contract, migration safety); P2 major, highlights without blocking; P3 minor; P4 nit, suppressed by default. A page that adds judgment rules must agree with these buckets."
-      source: "standards/rules/pr.md via the memory tool (copy .garura/project/issues/920/context/memory/standards/rules/pr.md, 'Severity buckets'); knowledge/review/memory.md playbook copy ('pr.md and severity.md must agree')"
-    - id: G7
-      principle: "Parts of a harness: an agent gathers context and writes it to files; a skill does the work; a script is the mechanical part with no judgment. Memory is never read by a path: an agent fetches it through the memory tool into short-term memory, and the skill reads that copy. A play's own step-to-step files are read directly. Only agents call the tool; plays read no memory."
-      source: "main:docs/standards/harness-standard.md (the parts table; principles 2, 3, 9, 11); main:docs/adr/039 (section 1 'breaks the guardrail', section 2, section 11)"
-    - id: G8
-      principle: "Only a person confirms a business intent and only a person accepts a decision record."
-      source: "standards/rules/gate-config.md via the memory tool (copy .garura/project/issues/920/context/memory/grounding-memory/standards/rules/gate-config.md, lines 105-107); main:docs/adr/031, main:docs/adr/036"
-    - id: G9
-      principle: "A severity of a Bug lives in the text, not a label ('No labels, for now ... severity')."
-      source: "main:.garura/user-provided/managing-work.md (Tracker rules, 'No labels, for now')"
+    - {id: G1, principle: "naming.yaml is the one list of verbs; a verb no part uses should not stay listed.", source: "main:core/components/memory/standards/rules/naming.md (rule 3)"}
+    - {id: G2, principle: "rename-map.yaml lists every name changed by the naming standard; check_old_names.py reads it to find a stale old name.", source: "main:core/components/memory/standards/rules/naming.md (intro); main:core/tools/naming/check_old_names.py"}
+    - {id: G3, principle: "The ADR template's core fields mirror schemas/product-os/decision.yaml; adr.py lint checks a record against the template.", source: "main:core/components/memory/standards/schemas/product-os/decision.yaml (#632 block); main:core/components/memory/standards/templates/adr.md (intro)"}
+    - {id: G4, principle: "The standards index lists every file the branch changes; a cross-reference names something that exists.", source: "knowledge/review/memory.md playbook copy (context/memory/knowledge/review/memory.md)"}
+    - {id: G5, principle: "A member play is one of start-change / commit-change / propose-change / check-change / merge-change.", source: "main:core/components/memory/standards/rules/pipeline-position.md (table 'The two sequences')"}
+    - {id: G6, principle: "The PR severity taxonomy (pr.md) is mechanical, with four buckets P1-P4; an edit to pr.md must keep it so. A change that does not touch pr.md leaves it as main has it.", source: "standards/rules/pr.md via the memory tool (copy context/memory/standards/rules/pr.md); knowledge/review/memory.md playbook copy"}
+    - {id: G9, principle: "Garura's tracker rule: no labels, a Bug's severity lives in the text.", source: "main:.garura/user-provided/managing-work.md (Tracker rules, 'No labels, for now')"}
   not_applicable:
     - "knowledge/_DESIGN.md governs knowledge shelf files; the branch changes no file under memory/knowledge/."
-  memory_copies: ".garura/project/issues/920/context/memory/grounding-memory/manifest.json (knowledge/_DESIGN.md and standards/rules/gate-config.md, phoenix tier, copied through the memory tool)"
+
+round_3_scope_check:
+  - check: "The severity page is gone"
+    result: "pass. core/components/memory/standards/rules/severity.md is not in HEAD (git ls-tree: no path with 'severity' other than pr.md's neighbours; none named severity). Deleted by 865faa23."
+  - check: "pr.md matches main"
+    result: "pass. git diff main HEAD on core/components/memory/standards/rules/pr.md: empty. The 'Findings this table cannot match' line is gone with the page. G6: the taxonomy stays mechanical."
+  - check: "The change-reviewer agent matches main"
+    result: "pass. git diff main HEAD on core/components/agents/change-reviewer.md: empty. Its Job 2 again says 'a severity drawn from the PR severity taxonomy', and its Grounding row no longer asks the tool for severity.md."
+  - check: "rules/_index.md matches main for the severity rows"
+    result: "pass. The diff of _index.md against main is two rows only: the new pipeline-next.md row and the loop-contract.md row (knowledge plays -> ADR 059). grep -i severity in _index.md finds only the pr.md row, as on main. No pointer to severity.md remains."
+  - check: "No dangling pointer to severity.md or 'the severity rules' outside the review records"
+    result: "pass. grep over the repo (excluding .git and .garura/project/) finds none in core/, docs/, .claude/, .garura/user-provided/."
+  - check: "The work rules' severity line points to nothing missing"
+    result: "pass. managing-work.md, 'A Bug carries its severity in its text': 'Until the severity rules exist (#934), the product owner sets it.' It points to issue #934, not to a file, and says who sets the severity meanwhile. It keeps the main rule that severity is text, not a label (G9). Wording of that file belongs to the documentation category."
 
 round_1_check:
-  note: "Round-1 memory findings are F1-F5 (design-findings-memory.yaml, round-1). H-1..H-4 belong to the harness category and are not judged here."
+  note: "Round-1 memory findings F1-F5 (H-1..H-4 are the harness category's). Round-2 findings S1-S5 were all about severity.md, and C1 (changes owed) was about severity.md too."
   results:
-    - id: F1
-      round_1_severity: "P3 (owner confirmed)"
-      status: fixed
-      evidence: "rename-map.yaml now maps build-knowledge and review-knowledge to null with a header comment. check_old_names.py and apply_renames.py handle it: run on a scratch tree holding both names, the old-name check reports 3 hits for build-knowledge and review-knowledge (exit 1); apply_renames --dry-run moves nothing and does not crash; install.py retire_renamed builds new_to_old with a None key that never matches a real stem, so it does not crash. ADR 059 is skipped by the check through QUOTING_ADRS (precedent: ADR 053); ADR 059 is Accepted, so the skip matches the check's own reason. Repo run: 0 hits."
-    - id: F2
-      round_1_severity: "change (owner call)"
-      status: fixed
-      evidence: "decision.yaml now lists for_the_accepter (optional, six keys) with a migration note; adr.py lints both shapes (lint_accepter_md, lint_yaml) and both copies of adr.py are byte-identical; test_adr.py: 47 passed, 0 failed, with four new cases."
-    - id: F3
-      round_1_severity: P4
-      status: fixed
-      evidence: "pipeline-position.md now says 'These five plays are the members'; no other 'six' remains in the file; the table lists five."
-    - id: F4
-      round_1_severity: P4
-      status: fixed
-      evidence: "naming.md and loop-contract.md paragraphs re-wrapped to the file's width; no new line over 100 columns in either edit."
-    - id: F5
-      round_1_severity: P4
-      status: fixed
-      evidence: "_index.md now has a pipeline-next.md row (play lifecycle table) and the severity.md row; pipeline-next.md every row names an existing play or loop (28 rows, 0 missing)."
+    - {id: F1, round_1_severity: "P3 (owner confirmed)", status: fixed, evidence: "rename-map.yaml still maps build-knowledge and review-knowledge to null with its header comment; apply_renames.py filters null (no move, no crash); check_old_names.py repo run: 0 hits, QUOTING_ADRS = {53, 59} (ADR 059 quotes the old names as the defect it records, same reason as ADR 053). test_naming_tools.py: 23 passed, 0 failed."}
+    - {id: F2, round_1_severity: "change (owner call)", status: fixed, evidence: "decision.yaml lists for_the_accepter (optional) with a migration note; the adr.md template has the field row, the shape-1 heading and the shape-2 YAML; both adr.py copies are byte-identical (cmp); test_adr.py: 47 passed, 0 failed."}
+    - {id: F3, round_1_severity: P4, status: fixed, evidence: "pipeline-position.md: 'These five plays are the members' (line 51); the table lists five."}
+    - {id: F4, round_1_severity: P4, status: fixed, evidence: "naming.md and loop-contract.md edited paragraphs are wrapped to the file's width; no new over-wide line."}
+    - {id: F5, round_1_severity: P4, status: fixed, evidence: "_index.md lists pipeline-next.md; pipeline-next.md has 28 keys under 'next:', each with a play or loop folder (0 missing); no search/research/check-knowledge text under core/components/memory."}
+  round_2_findings:
+    - {id: S1, status: gone_with_the_page, note: "was about severity.md vs pr.md buckets; severity.md is out, pr.md equals main"}
+    - {id: S2, status: gone_with_the_page, note: "overlap of two bullets inside severity.md"}
+    - {id: S3, status: gone_with_the_page, note: "wording of the parts table in severity.md"}
+    - {id: S4, status: gone_with_the_page, note: "P3/P4 rule names in severity.md"}
+    - {id: S5, status: gone_with_the_page, note: "guardrail sources and Garura-specific wording in severity.md"}
+    - {id: C1, status: gone_with_the_page, note: "changes owed around severity.md (no memory tier holds it, check-change SE-6, the memory playbook, 'Every old name' row). The two items not about severity.md stay as C2 below."}
 
 checks_done_by_hand:
-  - check: "Renamed/removed names match files that exist"
-    result: "pass. pipeline-next.md 28 rows, each has a play or loop folder; the three knowledge rows and the search/research verbs are gone together; no search-knowledge / research-knowledge / check-knowledge text remains under core/components/memory."
-  - check: "Cross-references and index"
-    result: "pass. severity.md and pipeline-next.md are listed in rules/_index.md; severity.md names standards/rules/pr.md (exists); pr.md names standards/rules/severity.md (exists in the repo, not yet in any memory tier - see change C1); ADR 059 is linked from docs/adr/_index.md; ADR 046 Status line carries the forward pointer."
-  - check: "severity.md is written for any team on the Phoenix architecture"
-    result: "pass with two nits (S5). No Garura issue number, ADR number, play, loop or agent name is in the body (grep for garura, ADR, check-change, change-reviewer, #<n>: empty). The examples span payments, imports and runbooks as well as harness work. The _index row names change-reviewer and /check-change as consumers, which is where consumers belong."
-  - check: "Severity taxonomy stays mechanical (pr.md)"
-    result: "pass. pr.md keeps its table and its 'No LLM judgment' rule; the one added line sends findings the table cannot match to severity.md. The judgment rules live only in severity.md."
-  - check: "Owner's round-1 calls are reproduced by the new page's examples"
-    result: "pass. H-2 P1 (guardrail 2), H-1 P2 (loophole), F1 P3, F3 P4, F2 change are all listed with the same severity."
-  - check: "Guardrails 1-6 each trace to a committed source"
-    result: "1 harness-standard principle 11; 2 and 3 ADR 039 sections 2 and 10 (as amended on main); 4 harness-standard principle 11; 5 ADR 039 section 1; 6 gate-config.md lines 105-107 plus ADR 031/036. All six trace; the list as 'six guardrails' appears nowhere on main (see S5)."
-  - check: "lint-components on core/components"
-    result: "no violation in any core/components/memory file (36 errors elsewhere; the round-2 lint-components.json has none under memory)."
+  - {check: "Renamed/removed names match files that exist", result: "pass (pipeline-next.md 28 rows, 0 missing; naming.yaml drops search and research and narrows check to 'Change'; no play folder starts with search- or research-)."}
+  - {check: "Cross-references and index", result: "pass (pipeline-next.md and the changed loop-contract.md row are in rules/_index.md; lint_loop.py --next-map and lint_play.py --next-map exist as the pipeline-next row says; play-close.md exists beside the plays)."}
+  - {check: "Memory files edited in round 3", result: "none beyond removals. Since 3cb858c1 the memory category lost severity.md, the pr.md line and the _index.md row, and gained nothing. Nothing new to judge."}
 
-findings:
-  - id: S1
-    severity: P3
-    severity_rule: "a check silently covers less (PR taxonomy P3, owner's F1 precedent)"
-    file: core/components/memory/standards/rules/severity.md
-    lines: "'Then: ask in this order' - P1, P2 and P4 bullets; compare standards/rules/pr.md 'Severity buckets'"
-    principle: G6
-    basis_source: "pr.md via the memory tool (copy .garura/project/issues/920/context/memory/standards/rules/pr.md, 'Severity buckets'); knowledge/review/memory.md playbook copy: 'pr.md and severity.md must agree'"
-    finding: "The two pages give the same four labels different meanings and do not say which wins. (a) pr.md P1 covers 'breaking API contract, migration safety'; the new page's P1 covers a broken guardrail, a run that cannot reach done, data lost / secret / security hole. A Bug that breaks an API contract or a migration has no P1 route in the new page, so by 'first that fits' it falls to P2 or lower. (b) pr.md P2 is 'Highlights without blocking'; the new page's P2 is 'Fixed in this change unless the person says otherwise'. (c) pr.md P4 is 'Suppressed by default; surfaced only in evidence'; the new page's P4 is 'Nit' with no suppression. The one line pr.md adds ('get their severity from severity.md') sends non-table findings to the new page, so a reader of both cannot tell whether a P2 blocks."
-    suggestion: "Either add 'a breaking API contract or an unsafe migration' to the new P1 list and say a P2 is fixed in this change where pr.md's P2 only highlights, or add a sentence to severity.md saying which meaning governs for findings the table cannot match."
-  - id: S2
-    severity: P3
-    severity_rule: "a check silently covers less - here the rule itself: two bullets overlap (owner's F1 = P3 vs the page's own ordering)"
-    file: core/components/memory/standards/rules/severity.md
-    lines: "'P2 ... A guarantee is weakened: a part still works, but on less than its rule promises' and 'P3 ... A check, a guard or a link silently covers less than before'"
-    principle: "The owner's round-1 call: F1 (the old-name check no longer catches two names) is P3 (round-1/decision.yaml, reclassified_by_person.F1)"
-    basis_source: ".garura/project/issues/920/review/round-1/decision.yaml (the owner's call, committed in the round-1 record); the page's own rule 'ask in this order; the first that fits is the severity'"
-    finding: "The old-name check is a part that still works but on less than its rule promises ('lists every name changed'). That fits the P2 bullet, and P2 is asked before P3, so by the page's own order its own P3 example (two retired names dropped from a rename map) rates P2. The P3 bullet is only reached when the reader decides a check is not a 'guarantee'. Two readers can rate the same finding P2 and P3."
-    suggestion: "Say in the P2 bullet that a check or guard that covers less is P3 (not P2), or move the check wording above the guarantee wording; keep the owner's F1 = P3 as the worked case."
-  - id: S3
-    severity: P4
-    severity_rule: "wording"
-    file: core/components/memory/standards/rules/severity.md
-    lines: "'The parts' - Agent: 'the only part that reads memory'; guardrail 1: 'Nothing reads, lists or compares a memory file by its path'"
-    principle: G7
-    basis_source: "main:docs/standards/harness-standard.md principle 11 ('an agent fetches it through the memory tool into the issue's short-term memory, and the skill reads that copy'); main:docs/adr/039 section 11 (a play's own step-to-step files are read directly)"
-    finding: "Read literally, the line makes every skill that reads its agent's short-term copy, and every play that reads its own working file, a P1 (guardrail 1). The committed rule is narrower: memory is never fetched by a path except through the tool; the short-term copy and the play's own files are read directly. The agent is the only part that fetches memory, not the only part that reads it."
-    suggestion: "Write 'fetches memory (through the tool)' and 'nothing fetches, lists or compares memory by its path; a skill reads the copy its agent put in short-term memory'."
-  - id: S4
-    severity: P4
-    severity_rule: "wording"
-    file: core/components/memory/standards/rules/severity.md
-    lines: "'A severity always names its rule' and the Examples table, Rule column '—' on the P3 and P4 rows"
-    principle: "The page's own rule: a finding whose rule cannot be named is not finished."
-    basis_source: "the page itself (internal consistency only; the committed basis is the owner's brief that every finding names its rule)"
-    finding: "The rule says every severity names its rule, but only P1 and P2 have a name form (guardrail n, loophole, weakened guarantee). The P3 and P4 examples carry '—' as their rule, and the page gives no name for P3 or P4 (such as 'silent cover' or 'wording')."
-    suggestion: "Name the P3 and P4 rules in the page (for example P3 'silent cover', P4 'wording') and put them in the Rule column."
-  - id: S5
-    severity: P4
-    severity_rule: "wording"
-    file: core/components/memory/standards/rules/severity.md
-    lines: "'The guardrails of the architecture' (the heading and the count 'six'); '- Then: ... file it as a Story'; 'Where the severity is written' - 'Not a label'"
-    principle: "G7 and G9; the page is written for any team on the Phoenix architecture (the owner's round-2 brief)"
-    basis_source: "main:docs/standards/harness-standard.md (lists parts and principles, no 'six guardrails'; every principle names its ADR); main:.garura/user-provided/managing-work.md ('No labels, for now', Garura's own tracker policy)"
-    finding: "Three small gaps against 'for any team': (a) the 'six guardrails' appear as a list nowhere on main; the page cites none of the decisions behind them (harness-standard principles 9 and 11, ADR 039, gate-config.md), so a reader cannot trace them. (b) 'file it as a Story' is Garura's tracker type. (c) 'Not a label' states Garura's own no-labels policy as if it were part of the architecture."
-    suggestion: "Add a line saying where each guardrail comes from; write 'a work item' for 'a Story'; drop 'Not a label' or mark it as Garura's choice."
+findings: []
 
 changes_owed:
-  - id: C1
-    note: "Not defects: new things neighbouring parts do not know yet (the owner's round-1 F2 precedent)."
+  - id: C2
+    note: "Not defects: new things neighbouring parts do not know yet (the owner's round-1 F2 precedent). Carried from round 2's C1, the two items that do not depend on severity.md."
     items:
-      - "severity.md is in no memory tier yet. change-reviewer's Job 2 (changed in this PR) copies it with the memory tool; until it is promoted or installed the tool finds nothing (find --issue 920 returns matches: [])."
-      - "check-change (main) says every finding carries a P1-P4 class and a cited basis (SE-6); the new page says a change gets no severity. The play and its findings record have no place for a 'change' finding yet."
-      - "The review playbook knowledge/review/memory.md (Phoenix memory) says 'does the severity taxonomy stay mechanical' and has no word of severity.md."
-      - "test_naming_tools.py has no case for a name mapped to null (the behaviour F1 relies on); the rename-map row in rules/_index.md still says 'Every old name and its new name'; schemas/product-os/_index.md's decision.yaml row does not list for_the_accepter."
+      - "test_naming_tools.py has no case for a name mapped to null (the behaviour F1 relies on). F1 itself was checked by hand and by a repo run."
+      - "The rename-map row in rules/_index.md still says 'Every old name and its new name', and schemas/product-os/_index.md's decision.yaml row does not list for_the_accepter."
 
-counts: { P1: 0, P2: 0, P3: 2, P4: 3, change: 1, total_defects: 5 }
+counts: { P1: 0, P2: 0, P3: 0, P4: 0, change: 0, total_defects: 0, changes_owed: 1 }

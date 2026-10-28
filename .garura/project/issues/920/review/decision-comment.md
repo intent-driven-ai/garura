@@ -1,12 +1,13 @@
-**Reviewer verdict (human, gate on): reject**
+**Reviewer verdict (human, gate on): approve**
 
-The product owner accepted the round-1 fixes and rejected the severity page: "the fix for round 2 is fine, but the page is what my problem is."
+The product owner approved round 3 for merge. No finding blocks.
 
-What happens:
+Recorded as follow-ups, none blocking:
 
-- The severity page (`standards/rules/severity.md`) and its four pointers leave this change. The work moves to **#934**: one severity, P1 to P4, in three layers — an industry base (Mozilla's S1–S4 scale), the surfaces, and the architecture — kept as one value in one place. Round 2's findings on the page (S1–S5) go with it.
-- **#933** records the memory that layer needs: how a harness on the Phoenix architecture is built, under `standards/architecture/phoenix/`.
-- Fixed this round as well: H-5 (four over-long lines) and H-6 (the agent tells the research skill where to write its draft).
-- The Bugs of epic #922 keep the severity the product owner set.
+1. `/record-decision` does not yet check the points for the person who accepts a decision — a change to the play (Story).
+2. The naming tools' tests have no case for a name removed with no successor — P3 (Chore, later).
+3. Two index rows describe the rename map and the decision record as they were before this change — the product owner rates wrong memory P2 (Story).
+4. A project installed before the install record existed keeps the three removed plays — a change to the installer (Story).
+5. Self-review and the PR review should leave out the work products under `.garura/` for every project — a change (Story).
 
-The 28 standards-linter findings on `core/tools/naming/*.py` are path-only matches (no line, no defect); nothing to fix.
+One over-long line in `core/components/plays/create-loop/SKILL.md` stays (P4).
