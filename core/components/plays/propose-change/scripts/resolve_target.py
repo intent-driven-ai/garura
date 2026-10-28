@@ -1,35 +1,25 @@
 #!/usr/bin/env python3
 """
-resolve_target.py — where does this branch land, and may it land yet? (#673)
+resolve_target.py — where does this branch land? (#673)
 
 The branch name says what the change is (start-change, #731):
 
   plan/<P>/<issue>-<slug>   an issue in plan P   → lands on plan/<P>/base
-  plan/<P>/base             plan P itself        → lands on main, only when P is done
+  plan/<P>/base             plan P itself        → lands on main, while the plan is still in
+                                                   progress (a plan merges when it pauses)
   anything else             a one-off change     → lands on main
 
-    python3 resolve_target.py --branch <branch> [--plans-dir .garura/project/plans/] \
-        [--check-done] [--config .garura/core/config.yaml] [--states <states.json>] \
-        [--out <target.json>]
+    python3 resolve_target.py --branch <branch> [--out <target.json>]
 
-Prints { branch, kind, plan_id, issue, base }. With --check-done, for kind "plan", it
-also reads the plan file and the tracker and adds { plan_done, open_issues, needs_unmet }:
-
-- every issue in the plan that is not a capability is closed (an issue in a plan is
-  closed when it lands on its plan branch — merge-change does that, because the code
-  host closes issues only on main);
-- every plan this one needs (`needs_plans`) is done the same way, and its branch has
-  landed on main or been merged into this plan's branch.
-
-Issue states come from the tracker through platform_adapter.py, or from --states (a
-JSON map of issue number to OPEN/CLOSED, for tests). Exit 0 always on a read; 2 when a
-plan file is missing or cannot be read. The play applies the halt policy.
+Prints { branch, kind, plan_id, issue, base }. Open work in a plan never holds its branch
+off main: only the merge preconditions (approved, mergeable, required checks) guard main.
+load_plan, work_issues and tracker_state are also used by merge_pr.py to close a
+capability once every issue under it is closed. Exit 0. Read only: no git, no network.
 """
 import argparse
 import json
 import os
 import re
-import subprocess
 import sys
 
 import yaml
@@ -88,51 +78,12 @@ def tracker_state(issue, config, states):
         return "UNKNOWN"
 
 
-def is_ancestor(a, b):
-    return subprocess.run(["git", "merge-base", "--is-ancestor", a, b],
-                          capture_output=True).returncode == 0
-
-
-def plan_open_issues(plans_dir, pid, config, states):
-    plan = load_plan(plans_dir, pid)
-    return plan, [i for i in work_issues(plan.get("tree"))
-                  if tracker_state(i, config, states) != "CLOSED"]
-
-
-def check_done(plans_dir, pid, config, states):
-    plan, open_issues = plan_open_issues(plans_dir, pid, config, states)
-    needs_unmet = []
-    for q in plan.get("needs_plans") or []:
-        q = str(q)
-        _, q_open = plan_open_issues(plans_dir, q, config, states)
-        landed = (is_ancestor(f"origin/plan/{q}/base", "origin/main") or
-                  is_ancestor(f"origin/plan/{q}/base", f"origin/plan/{pid}/base"))
-        if q_open:
-            needs_unmet.append(f"plan {q} is not done (open: {', '.join('#' + i for i in q_open)})")
-        elif not landed:
-            needs_unmet.append(f"plan {q} has not landed on main or been merged into plan/{pid}/base")
-    return {"plan_done": not open_issues and not needs_unmet,
-            "open_issues": open_issues, "needs_unmet": needs_unmet}
-
-
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--branch", required=True)
-    ap.add_argument("--plans-dir", default=".garura/project/plans/")
-    ap.add_argument("--check-done", action="store_true")
-    ap.add_argument("--config", default=".garura/core/config.yaml")
-    ap.add_argument("--states")
     ap.add_argument("--out")
     ns = ap.parse_args(argv)
     record = classify(ns.branch)
-    if ns.check_done and record["kind"] == "plan":
-        try:
-            states = json.load(open(ns.states)) if ns.states else None
-            record.update(check_done(ns.plans_dir, record["plan_id"], ns.config, states))
-        except (OSError, ValueError, yaml.YAMLError) as exc:
-            record["error"] = str(exc)
-            print(json.dumps(record, indent=2))
-            return 2
     out = json.dumps(record, indent=2)
     print(out)
     if ns.out:

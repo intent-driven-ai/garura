@@ -8,7 +8,8 @@ create-play; never hand-edit the compiled SKILL.md.
 Merge an approved change into where its branch lands — its plan's branch for an issue in a
 plan, main otherwise: merge the PR, switch to that branch and pull the latest, and delete
 the change's branch (local and remote). An issue that lands on its plan's branch is closed
-there; a plan lands on main only when it is done.
+there; a plan's branch lands on main whenever its review approves it, while the plan is
+still in progress — a plan is merged when it pauses, not kept off main until it is done.
 
 Pipeline position: **end** (fourth step of the end sequence: commit-change →
 propose-change → check-change → merge-change). Independent, invokable play; ordering is
@@ -58,10 +59,10 @@ play.
   own base must equal that target (`on_target`), or nothing is merged. An issue that lands
   on its plan's branch is closed by the merge script, because the code host closes issues
   only on main; its capability is closed once every issue under it is closed. A plan's
-  branch lands on main only when `resolve_target.py --check-done` reads `plan_done: true` —
-  every issue in the plan that is not a capability is closed, and every plan it needs is
-  done and has landed on main or been merged into this plan's branch. `plan_done` joins
-  the machine wall (C7), verified before the human is asked.
+  branch lands on main like any approved change, with issues of the plan still open: open
+  work is no reason to hold it off main. The only reason to hold it back is that it would
+  break main, and the machine wall (C7) — approved by the review, mergeable, no failing
+  required checks — is what guards that. Its open issues stay open and in the plan.
 
 ### Failure conditions
 
@@ -78,8 +79,8 @@ play.
 - F8 — A mechanical git/gh operation (reading merge state, or the merge + sync + cleanup)
   was run through an agent dispatch instead of its bundled script.
 - F9 — A change lands in the wrong place — an issue in a plan on main, or a PR whose base is
-  not its target — or a plan lands on main while it is not done, or an issue that landed
-  on its plan's branch is left open.
+  not its target — or an approved plan's branch is held off main because the plan still
+  has open issues, or an issue that landed on its plan's branch is left open.
 
 ## Expectation
 
@@ -104,14 +105,12 @@ play.
   updated `plan/P/base`, the issue's branch is deleted, and the issue is closed. Measure:
   merge-gate.json reads `on_target: true` and lists the issue in `issues_closed`; the
   current branch is `plan/P/base`.
-- S6 — (developer, plan not done) Given a PR from `plan/P/base` into main while an issue in
-  P is open, or a plan P needs is not done, when it runs, then it halts before asking the
-  human and nothing is merged. Measure: target.json reads `plan_done: false` and names the
-  open issues or unmet needs; the PR is not merged.
-- S7 — (developer, plan done) Given a PR from `plan/P/base` into main with every issue in P
-  closed and every plan it needs landed, when it runs and the human approves, then the
-  plan lands on main. Measure: target.json reads `plan_done: true`; the PR is merged; the
-  checkout is on updated main.
+- S6 — (developer, plan paused in progress) Given an approved, mergeable PR from
+  `plan/P/base` into main while issues in P are still open, when it runs and the human
+  approves, then the plan's work lands on main, its branch is deleted, and its open issues
+  stay open. Measure: target.json reads `kind: plan` and `base: main`; merge-gate.json reads
+  `on_target: true`, `pr_merged: true` and `branch_deleted: true`; the checkout is on
+  updated main; the plan's open issues are still open.
 
 ### Done means
 
@@ -150,7 +149,8 @@ play.
   its bundled script. direction: route it through the script (`read_merge_state.py` /
   `merge_pr.py`, via `platform_adapter.py`) and remove the agent dispatch. handoff:
   autonomous.
-- REC9 (F9) — trigger: the PR's base is not its target, a plan is not done, or a landed
-  issue is still open. direction: on a wrong base, stop and retarget the PR (propose-change);
-  on a plan not done, stop before the human and name the open issues and unmet needs; on a
-  landed issue left open, close it. handoff: human.
+- REC9 (F9) — trigger: the PR's base is not its target, an approved plan's branch was held
+  off main for its open issues, or a landed issue is still open. direction: on a wrong
+  base, stop and retarget the PR (propose-change); on a plan held back for open work, drop
+  the hold and land it when the machine wall holds; on a landed issue left open, close it.
+  handoff: human.
