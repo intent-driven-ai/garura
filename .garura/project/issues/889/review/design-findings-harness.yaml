@@ -1,0 +1,72 @@
+# design-findings-harness.yaml - /check-change Step 3, Layer 2 (harness), PR #918, issue 889, review round 2
+# Base ref: main. Severity from the pr.md taxonomy copy (.garura/project/issues/889/context/memory/standards/rules/pr.md):
+# P3 Minor "missing docs, naming"; P4 Nit "style-only". No finding is P1 or P2.
+# Grounding reused from round 1 (memory_dir .garura/project/issues/889/context/memory/grounding-harness/, manifest beside it); nothing new copied.
+category: harness
+round: 2
+changed_artifacts:
+  - core/components/skills/platform-adapter/SKILL.md
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+principles:
+  - id: PR-1
+    text: "Mechanical work is a script, judgment is a model."
+    source: "docs/standards/harness-standard.md:42-48 (main), which cites ADR 025 and #484"
+  - id: PR-2
+    text: "The skill states its interface once: 'exactly N verbs', one table row per verb, and each platform page carries 'one section per verb', with the exact CLI command the adapter runs."
+    source: "core/components/skills/platform-adapter/SKILL.md:3,30,31-56 (main) and reference/github/verbs.md:3 (main): 'Normative reference ... One section per verb - each section contains the exact gh command'"
+  - id: PR-3
+    text: "A GitHub-only verb is marked in the SKILL.md table as 'GitHub only; GitLab stops with a plain message'."
+    source: "core/components/skills/platform-adapter/SKILL.md:51-55 (main); core/components/plays/create-play/references/platform_adapter.py:24-29,247,335-338 (main)"
+  - id: PR-4
+    text: "The skill's own constraints bind it: the Unknown-verb halt names the supported verbs and 'NEVER add verbs beyond the N defined above'."
+    source: "core/components/skills/platform-adapter/SKILL.md:25,110,138 (main)"
+  - id: PR-5
+    text: "Each verb's entry says when a caller uses it, and a caller's real use agrees."
+    source: "core/components/skills/platform-adapter/SKILL.md:36 and reference/github/verbs.md:23-28 (main)"
+round_1_confirmation:
+  H-1:
+    result: confirmed fixed
+    evidence: "SKILL.md:25 'One of the 23 supported verbs'; :30 'exactly 23 verbs'; :3 'exactly 23 verbs'; :139 'NEVER add verbs beyond the 23 defined above'. grep for 16, 17, 18, 22 in SKILL.md and both verbs.md pages finds none. The table has 23 verb rows (counted from the file). The adapter docstring, argparse text and len(VERBS) say 23 (18 plain + 5 in GITHUB_ONLY_VERBS). The 7 adapter copies are byte-identical (cmp)."
+  H-2:
+    result: confirmed fixed
+    evidence: "The Unknown-verb message (SKILL.md:111) now lists 23 verbs, the same 23 as the table. Each of github/verbs.md and gitlab/verbs.md has 23 '## ' sections, the same 23 names in the same order as the table. The five GitHub-only verbs and compare-diff each have an entry on both pages (GitHub: command; GitLab: 'Not on GitLab ... exit code 2 and runs nothing'). Step 2 (find the section whose heading matches) now finds all 23, and 'One section per verb' (github:3, gitlab:3) holds."
+  H-3:
+    result: confirmed fixed
+    evidence: "SKILL.md:37 says compare-diff is 'the first try for a PR whose one diff is refused (over 300 files), before pr-files'; github/verbs.md compare-diff section says first try over 300 files and pr-files (at most 3000) the second; gitlab page says a caller falls back to pr-files. This agrees with fetch_pr_context.py (docstring lines 14-19; compare first for a PR over 300 files, pr-files when compare fails or the head is unknown)."
+  H-4:
+    result: not re-raised
+    note: "Filed as #919. Round 2 did not make it worse: compare-diff still has its own second 'if' in dispatch (platform_adapter.py:347) and the docstring still counts it apart (lines 25-31). Its SKILL.md row now carries 'GitLab stops with a plain message', so the table half of H-4 is closed; the code half is #919."
+adapter_code_check:
+  - "compare-diff (github/verbs.md): gh api repos/{owner}/{repo}/compare/{base}...{head} -H 'Accept: application/vnd.github.diff' = _gh argv (platform_adapter.py:121-125). Fork head as {owner}:{branch} = compare_head() in fetch_pr_context.py:106-112. GitLab exit 2, nothing run = dispatch lines 347-350. Match."
+  - "set-issue-type, edit-issue-body, remove-label: page commands equal the _gh argv (lines 182-191). Match."
+  - "remove-sub-issue: child id look-up on /repos/{owner}/{repo}/issues/{child}, then DELETE /repos/.../issues/{parent}/sub_issue with sub_issue_id, equals dispatch lines 354-361. Match."
+  - "create-issue-typed: the two GraphQL calls match the query and mutation constants; two gaps, see N-2."
+  - "GitLab stop entries: exit code 2, nothing run = dispatch lines 343-350. Match (the code message says 'no issue types or sub-issues' for all five; the pages give a per-verb reason; harmless)."
+  - "view-pr: the adapter now asks for two more fields; the page does not. See N-1."
+findings:
+  - id: N-1
+    severity: P3
+    principle: PR-2
+    source: "reference/github/verbs.md:3 (main): the page is the 'normative reference' and each section holds 'the exact gh command' the adapter runs."
+    file: core/components/skills/platform-adapter/reference/github/verbs.md
+    lines: [10]
+    defect: "Round 2 (Q-003) changed the adapter's view-pr to ask for two more fields, isCrossRepository and headRepositoryOwner (platform_adapter.py:108-112, all 7 copies), so the fetcher can name a fork's head as owner:branch. The GitHub page's view-pr section still shows the old field list (number ... mergeable,url). The page the adapter is said to mirror no longer shows what the adapter runs, and a reader who relies on the page does not learn that view-pr gives the fork facts that compare-diff's {owner}:{branch} head depends on."
+    fix: "In github/verbs.md line 10 add ',isCrossRepository,headRepositoryOwner' to the --json list, and add a note under it: 'isCrossRepository and headRepositoryOwner say whether the PR comes from a fork and whose; compare-diff needs them to name the head.' GitLab needs no change (its MR has no fork fields in the fetcher's use; the fetcher reads them with .get)."
+  - id: N-2
+    severity: P4
+    principle: PR-2
+    source: "reference/github/verbs.md:3 (main): each section holds the exact command the adapter runs."
+    file: core/components/skills/platform-adapter/reference/github/verbs.md
+    lines: [208, 215, 217]
+    defect: "The new create-issue-typed section says 'Stdout is the new issue's number', but the second command it shows has no '--jq .data.createIssue.issue.number' (the adapter adds it, platform_adapter.py:326), so run as written it prints JSON, not the number. The section also tells the reader to pass 'the parent's node id' but not how to get it; the adapter reads it with 'gh api repos/{owner}/{repo}/issues/{parent_number} --jq .node_id' before the second call. A person or model following the page, not the script, gets a different output and has to guess the parent step."
+    fix: "Add the parent look-up line to the code block (gh api repos/{owner}/{repo}/issues/{parent_number} --jq .node_id) and end the second command with --jq .data.createIssue.issue.number."
+checks_passed:
+  - "No leftover 16, 17, 18 or 22 verb count in core/components or docs/components/docs/standards/docs/philosophy."
+  - "The 7 adapter copies are byte-identical to create-play/references/platform_adapter.py; the 2 fetch_pr_context.py copies are byte-identical."
+  - "PR-1 holds: compare, tries, pause and fall back are in fetch_pr_context.py (a script); the adapter runs a fixed argv per verb; no model step was added."
+  - "No compiled play SKILL.md changed, so no intent change needs an ICE source; the platform-adapter skill has no ICE source."
+notes:
+  - "Memory gap, outside this PR (unchanged from round 1): Phoenix memory tools/github/adapter.md and tools/gitlab/adapter.md list 16 verbs and none of pr-files, the 5 GitHub-only verbs or compare-diff. Not a finding on the diff; needs a memory update by a person."
+  - "Not graded: that GitHub's compare endpoint with the diff media type has no file limit and no size cap (external claim in SKILL.md:37 and github/verbs.md)."
+  - "Layer 1 results are not part of this file; the play runs lint-components and lint-play."

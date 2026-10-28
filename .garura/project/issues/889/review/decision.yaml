@@ -1,0 +1,12 @@
+decision: approve
+decided_by: human
+reply: "approve"
+round: 2
+blocking: []
+logged_not_fixed:
+  - Q-009 (P3) a fork with no owner named still gets the plain branch name in the compare call
+  - Q-008 (P3) the play builder's test copy has no fork, exit 2, no-head or count-mismatch case
+  - N-1 (P3) the GitHub page's view-pr command does not list isCrossRepository and headRepositoryOwner
+  - N-2 (P4) the create-issue-typed entry leaves out the parent look-up and the number-only output
+  - Q-010 (P4) two docstring lines of fetch_pr_context.py are too long
+  - R-1 (P4) the saved commit plan describes only the last commit round
