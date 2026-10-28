@@ -1,0 +1,55 @@
+# assess-changes output for the commit-change plan (issue 920, round 1)
+needs_judgment: false
+
+change_groups:
+  - id: adr-acceptor-points
+    issue: 920
+    concern: >-
+      The ADR template gains the section "For the Person Who Accepts This"
+      (each point: what and where, what is wrong, why it matters, what this
+      decision does, what you decide) with its rule; the author-decision skill
+      is told to write it; the adr-keeper agent gathers those points and
+      reaches memory only through the memory tool (find/read with --tier or
+      --every-tier), never by a path. ADR 059 part 7.
+    commit_type: feat
+    scope: adr
+    subject: "add the acceptor points section to the ADR template and have adr-keeper gather them through the memory tool"
+    files:
+      - core/components/memory/standards/templates/adr.md
+      - core/components/skills/author-decision/SKILL.md
+      - core/components/agents/adr-keeper.md
+
+  - id: issue-920-run-records
+    issue: 920
+    concern: >-
+      Run records of issue 920: the start-change workspace context, the memory
+      copies fetched for the run, and the redesign spec. Operational evidence,
+      not part of the feature itself.
+    commit_type: chore
+    scope: stm
+    subject: "record run artifacts"
+    files:
+      - .garura/project/issues/920/context/analysis.yaml
+      - .garura/project/issues/920/context/porcelain.txt
+      - .garura/project/issues/920/context/memory/manifest.json
+      - .garura/project/issues/920/context/memory/standards/schemas/product-os/ontology.md
+      - .garura/project/issues/920/specs/redesign.md
+
+exclusions:
+  - path: ".garura/project/issues/_adr/20261028T034030Z/"
+    reason: "Working folder of the /record-decision run; that play's own Step 6 commits it, so this change must not take it (adr-check.json, adr-context.yaml, adr-draft.md, brief.md, context/templates/**, decision.yaml, hashes-before.json, porcelain-before.txt, run.json)."
+    blocking: false
+  - path: "CLAUDE.md.new"
+    reason: "Written by the install beside the real CLAUDE.md; never committed."
+    blocking: false
+
+risks:
+  sensitive_files: []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+  notes:
+    - "Content scan of the three tracked diffs found no secret patterns; no sensitive filename patterns among the files."
+    - "Branch feature/920-... is not a hotfix branch."
+    - "context/analysis.yaml and context/porcelain.txt are in the run-records group because they are untracked run files; analysis.yaml is rewritten by this step, so it must be committed after this write."
+    - "Source group is typed feat (new section and new agent behaviour); the records group is a separate chore(stm) because it is operational evidence."
