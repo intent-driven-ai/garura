@@ -278,7 +278,7 @@ tree:
   - issue: 889
     kind: bug
     title: '/check-change halts on a PR with more than 300 files'
-    status: later
+    status: done
   - issue: 890
     kind: bug
     title: "The review's path table treats scripts in plays and skills as prose, so code rules never check them"
