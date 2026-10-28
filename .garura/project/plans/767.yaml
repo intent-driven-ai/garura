@@ -23,7 +23,7 @@ tree:
     - issue: 770
       kind: chore
       title: Merge the installer's memory rule into CLAUDE.md and drop the voice rule
-      status: done
+      status: next
     - issue: 774
       kind: bug
       title: The long user-facing voice rule file is still in memory after CLAUDE.md dropped the rule
