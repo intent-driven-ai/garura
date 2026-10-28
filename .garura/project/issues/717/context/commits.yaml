@@ -9,7 +9,7 @@ excluded_files:
     reason: "play run-state directory — mutated by the running play itself; committed later by an stm chore commit, never by its own run"
   - path: ".garura/project/issues/717/status/stop-condition-commit-change.yaml"
     reason: "play run-state directory — mutated by the running play itself; committed later by an stm chore commit, never by its own run"
-leftover_count: 1
-tree_clean: false
+leftover_count: 0
+tree_clean: true
 pushed: false
 run_state_committed: true
