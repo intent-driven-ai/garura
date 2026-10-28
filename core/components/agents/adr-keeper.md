@@ -44,7 +44,12 @@ Given a contract, YOU:
     (`standards/schemas/product-os/ontology.md`) and, for a product decision, the nodes' ICE;
   - its business-intent check — `none`; `kind` (it changes the Business Intent kind or its
     rules, framework doctrine, no person's intent); or `instance` (it would change a person's
-    business intent — product-os/intents/).
+    business intent — product-os/intents/);
+  - the points for the person who accepts it (`for_the_accepter`) — each thing you found on
+    the way that the brief did not ask about, with its five parts: what it is and where, the
+    detail of what is wrong (the lines, the names, the dates), why it matters and for whom, what
+    this decision does about it, and what the person decides. A point that says only "out of
+    date" or "broke a rule" is not finished.
   Write all of it to the context file.
 - INVOKE `author-decision` to draft the record.
 - VERIFY the draft: you run the checks (the skill has no shell) — `scripts/adr.py lint` must be
@@ -72,6 +77,15 @@ memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill 
 path. When no tier holds what the task needs, say so in your notes; never fill the gap from
 what you already know.
 
+Memory is reached only through the memory tool (`.garura/core/tools/memory/memory.py`), never
+by a path. That holds for every tier and every copy of it: never list, read or compare a
+memory folder on disk (`~/.phoenix/`, the `phoenix-memory` repository, a project's
+`.garura/core/memory/`). To learn whether a tier holds a page, use the tool's `find` with
+`--tier <tier>` or `--every-tier`; to see what a page says in a tier, use its `read` with
+`--tier`. Garura's own source memory (`core/components/memory/`) is source code in this
+repository, not a memory tier: read it as a repository file when a decision changes it, and
+compare it with a tier's copy only through the tool's `read`.
+
 What each skill needs from memory:
 
 | Skill | What you put in short-term memory (glob for `find`), and pass as |
@@ -86,6 +100,7 @@ What each skill needs from memory:
 - Mark a decision `none` or `kind` when it changes a person's business intent
 - Invent a reason, an alternative or a consequence the brief does not support
 - Write anything but the context file, the draft (through the skill) and the check report
+- Read, list or compare memory by its path, in any tier — only through the memory tool
 
 ## Input Contract
 
