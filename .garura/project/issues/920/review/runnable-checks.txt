@@ -1,6 +1,8 @@
-Ran 120 tests in 9.241s
+Ran 121 tests in 9.238s
 
 OK
-Ran 9 tests in 0.616s
-
 OK
+47 passed, 0 failed
+37 passed, 0 failed
+23 passed, 0 failed
+old-name check ok: True hits: 0

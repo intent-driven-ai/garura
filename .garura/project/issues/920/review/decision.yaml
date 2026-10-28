@@ -1,17 +1,12 @@
 decision: reject
 decided_by: human
-reply: "1 is p1 / 2 is p2 / 3 ok and its p3 / 4 yes - its a change and not a defect / reject / you are categorising some defect wrong. start building a memory that documents these fules and reviews and defect identification should mark the severity"
-round: 1
-reclassified_by_person:
-  H-2: P1   # the grouping script calls the memory tool, against the rule this change enforces
-  H-1: P2   # the ADR keeper's memory paragraph invites a read by path
-  F1: P3    # the old-name check no longer catches the removed play names
-  F2: change  # the template's new field missing from the schema and the linter: a change, not a defect
+reply: "And this is not approved yet. You have to redesign that page and tell me what it is. I think the fix for round 2 is fine, but the page is what my problem is. If it is confusing the two, you can create a new feature request for working with Phoenix Harness and creating its own memory. Of course, the scale part of it is a different feature, and we can move it out and handle it there. Make sure all of this is recorded, and we can finish the current piece of work."
+round: 2
+round_1_fixes: accepted ("the fix for round 2 is fine")
 blocking:
-  - H-2 (P1) group_questions.py asks the memory tool's updates; ADR 059 allows only check_knowledge.py and round_state.py
-to_fix_this_round: [H-2, H-1, F1, F2, H-3, H-4, F3, F4, F5]
-out_of_scope:
-  - L-1, L-2 (P4) create-loop is hand-written; the same lint errors are on main
-  - the config's gate key still says review-change, so check-change has no setting of its own
-asked_for:
-  - a written rule, in memory, for how a review and a defect get their severity
+  - the severity page (standards/rules/severity.md) is not approved; it moves out of this change to #934
+moved_out:
+  - "#934 — findings and defects get one severity, P1 to P4, in three layers (industry: Mozilla S1-S4; surface; architecture); round 2's findings S1-S5 on the page go with it"
+  - "#933 — the Phoenix architecture memory under standards/architecture/phoenix/, which #934's third layer tests against"
+to_fix_this_round: [remove the severity page and its four pointers, H-5 (over-long lines), H-6 (the agent names the draft's place)]
+kept: the Severity line at the top of each Bug of epic #922 (the product owner's calls)

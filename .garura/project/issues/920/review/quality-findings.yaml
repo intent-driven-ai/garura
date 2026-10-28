@@ -1,18 +1,211 @@
-# check-pr-quality scan of PR #932 (issue 920). Scan covered all 109 changed paths; categories in scope: executable-code, tests, documentation, decision-records, work-records.
-# Result: no taxonomy row matched. 73 files fell to the CODE-20 catch-all (a count, not findings).
 meta:
-  generated_at: '2026-10-28T06:19:35Z'
+  generated_at: '2026-10-28T07:13:38Z'
   diff_path: '.garura/project/issues/920/review/pr.diff'
   taxonomy_path: '.garura/project/issues/920/context/memory/standards/rules/pr.md'
-  changed_paths_count: 109
+  changed_paths_count: 153
   scan_coverage: 1.0000
-  standards_relevant: 0
+  standards_relevant: 14
   catchall:
-    CODE-20: 73
+    CODE-20: 82
 findings:
-  []
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/naming/apply_renames.py'
+    line: 1
+    evidence: 'core/tools/naming/apply_renames.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/naming/check_old_names.py'
+    line: 1
+    evidence: 'core/tools/naming/check_old_names.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
 counts:
   P1: 0
-  P2: 0
-  P3: 0
-  P4: 0
+  P2: 8
+  P3: 16
+  P4: 4

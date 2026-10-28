@@ -1,7 +1,11 @@
-# categories.yaml - work categories present in PR #932 (issue 920). Derived from the diff, not from a fixed list.
+# categories.yaml - work categories present in PR #932 (issue 920), round 2.
+# Derived from the diff and changed_paths, not from a fixed list. Round 2 adds: the change-reviewer
+# agent, the new severity rule (memory) and the pr.md/decision schema edits, the adr.py script
+# change (two copies) and its test, the naming-tool edits, and the round-1 review records.
 # Treatments are taken from the playbook copies in short-term memory
 # (.garura/project/issues/920/context/memory/knowledge/review/), nothing else.
 pr: 932
+round: 2
 base: main
 shelf: .garura/project/issues/920/context/memory/knowledge/review/
 severity_taxonomy: .garura/project/issues/920/context/memory/standards/rules/pr.md
@@ -13,6 +17,7 @@ categories:
   design_bearing: true
   evidence:
     - core/components/agents/adr-keeper.md
+    - core/components/agents/change-reviewer.md
     - core/components/agents/knowledge-builder.md
     - core/components/loops/_shared/loop-run.md
     - core/components/loops/complete-discovery/SKILL.md
@@ -38,11 +43,11 @@ categories:
     runnable_checks:
       - Only a violation whose file is in changed_paths is a finding; count the rest as "there before".
       - A tool that is not installed is recorded "not installed"; a tool that crashes is recorded "did not run - first error line". Neither is a pass.
-      - ICE-source rule applies (the repo holds the plays' source): an intent change in a compiled SKILL.md must trace to its reference/ice.md. Here the loop SKILL.md files and ice.md files both change; check they agree. The three deleted plays leave no ICE source to trace.
+      - "ICE-source rule applies (the repo holds the plays' source): an intent change in a compiled SKILL.md must trace to its reference/ice.md. Here the loop SKILL.md files and ice.md files both change; check they agree. The three deleted plays leave no ICE source to trace."
+      - "Round 2: check the fixes for the round-1 harness findings (H-1 adr-keeper memory paragraph, H-2 group_questions.py and the memory tool, H-3, H-4) against the committed rule that memory is read only through the memory tool."
     design_grounding:
       required: true
-      grounded_from: docs/philosophy/**, docs/adr/** (on the base ref), standards under memory/standards/rules/** (user-facing-voice, play-close, evidence-recording, loop-contract, naming), the glossary - never from the branch's new prose (ADR 059 is new on this branch and is NOT a grounding source).
-      rubric: play->agent->skill->script wiring intact; intent change traces to ICE source; change holds the standards it is subject to.
+      grounded_from: docs/philosophy/**, docs/adr/** (on the base ref), standards under memory/standards/rules/** (user-facing-voice, play-close, evidence-recording, loop-contract, naming, concurrent-fanout, drive-contract), the glossary - never from the branch's new prose (ADR 059 and severity.md are new on this branch and are NOT grounding sources).
 
 - id: memory
   playbook: review/memory
@@ -54,19 +59,23 @@ categories:
     - core/components/memory/standards/rules/naming.yaml
     - core/components/memory/standards/rules/pipeline-next.md
     - core/components/memory/standards/rules/pipeline-position.md
+    - core/components/memory/standards/rules/pr.md
     - core/components/memory/standards/rules/rename-map.yaml
+    - core/components/memory/standards/rules/severity.md
+    - core/components/memory/standards/schemas/product-os/decision.yaml
     - core/components/memory/standards/templates/adr.md
   treatment:
     layers: [layer-1-linters, layer-2-design-grounding]
     reviewer: human (the design) + tool (conformance)
     linters: []   # known gap - no installed tool checks memory integrity
     runnable_checks:
-      - "Done by hand, each check cited (known gap): file follows its template; frontmatter id matches path; evolve_when and [[...]] cross-references resolve to real files; file is listed in its shelf _index."
+      - "Done by hand, each check cited (known gap): file follows its template; frontmatter id matches path; evolve_when and [[...]] cross-references resolve to real files; file is listed in its shelf _index (severity.md must be listed in rules/_index.md)."
       - "Done by hand: renamed/removed names in naming.yaml, rename-map.yaml and pipeline-next.md still match the files that exist (check-knowledge, research-knowledge, search-knowledge are deleted)."
-      - "Done by hand: the severity taxonomy stays mechanical."
+      - "Done by hand: the severity taxonomy stays mechanical (pr.md and the new severity.md must agree, and severity.md must not hold a rule that needs judgement to apply)."
+      - "Done by hand: the adr.md template's new field is in the decision.yaml schema (the round-1 change F2)."
     design_grounding:
       required: true
-      grounded_from: knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read through the memory tool - never from the branch's new text.
+      grounded_from: knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read through the memory tool - never from the branch's new text (severity.md is new on this branch and is not a source).
 
 - id: decision-records
   playbook: review/adrs
@@ -101,7 +110,11 @@ categories:
     - core/components/plays/create-loop/references/*.py and references/compiled-loop-example/scripts/*.py (copies of the loop scripts)
     - core/components/plays/create-loop/scripts/lint_loop.py
     - core/components/plays/edit-loop/scripts/lint_loop.py
+    - core/components/plays/record-decision/scripts/adr.py
+    - core/components/skills/author-decision/scripts/adr.py
     - core/components/skills/author-knowledge-brief/scripts/render_brief.py
+    - core/tools/naming/apply_renames.py
+    - core/tools/naming/check_old_names.py
     - "deleted: core/components/plays/{check-knowledge,research-knowledge,search-knowledge}/scripts/*.py (non-test)"
   treatment:
     layers: [layer-1-linters]
@@ -113,8 +126,8 @@ categories:
         command: "none committed in this repo (no ruff.toml, .ruff.toml or pyproject.toml); record 'no linter committed'. Syntax check by hand: python3 -m py_compile on each changed .py"
     runnable_checks:
       - "Rubric by hand: error handling, function size, no stray debug output, no secrets, safe handling of destructive operations, deterministic where it claims to be."
-      - "Weigh hard the data-safety paths: record_review.py, round_state.py, loop_preflight.py, check_knowledge.py (touch git, the filesystem, memory updates)."
-      - "Duplicated scripts (complete-discovery/scripts vs create-loop/references vs compiled-loop-example) must stay identical; check the copies agree."
+      - "Weigh hard the data-safety paths: record_review.py, round_state.py, loop_preflight.py, check_knowledge.py (touch git, the filesystem, memory updates); group_questions.py must no longer call the memory tool (round-1 H-2); apply_renames.py rewrites files in place."
+      - "Duplicated scripts must stay identical: complete-discovery/scripts vs create-loop/references vs compiled-loop-example; and record-decision/scripts/adr.py vs author-decision/scripts/adr.py (identical at the time of this assessment: cmp reports same). Check the copies agree."
     design_grounding:
       required: false
       note: the standard is industry best practice plus the pr.md taxonomy.
@@ -124,6 +137,8 @@ categories:
   design_bearing: false
   evidence:
     - core/components/plays/create-loop/references/test_loop_scripts.py
+    - core/components/skills/author-decision/scripts/test_adr.py
+    - "core/tools/naming/test_naming_tools.py (not changed, but covers the changed naming tools; run it)"
     - "deleted: core/components/plays/check-knowledge/scripts/test_review_knowledge_scripts.py"
     - "deleted: core/components/plays/research-knowledge/scripts/test_build_knowledge_scripts.py"
     - "deleted: core/components/plays/search-knowledge/scripts/test_search_knowledge_scripts.py"
@@ -134,8 +149,12 @@ categories:
       - name: check-pr-quality TEST-* rows (pr.md) on the test code - clear assertions, no skipped or disabled tests, no test that asserts nothing
         command: "run the check-pr-quality skill (/check-quality) against pr.diff; deterministic scan helper: python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py"
     runnable_checks:
-      - name: run the changed suite (a red suite is a blocker; never treat "not run" as "passed")
+      - name: run the loop suite (a red suite is a blocker; never treat "not run" as "passed")
         command: python3 -m unittest discover -s core/components/plays/create-loop/references -p "test_loop_scripts.py"
+      - name: run the ADR script suite
+        command: python3 -m unittest discover -s core/components/skills/author-decision/scripts -p "test_adr.py"
+      - name: run the naming tools suite (the naming tools changed)
+        command: python3 -m unittest discover -s core/tools/naming -p "test_naming_tools.py"
       - "The three deleted test files go with their deleted plays; confirm no remaining play still imports or calls them. If a deleted test covered behaviour that moved to the loop, say whether test_loop_scripts.py covers it."
     design_grounding:
       required: false
@@ -162,12 +181,15 @@ categories:
   design_bearing: false
   playbook_missing: true
   note: >
-    NEW category - no playbook covers it. These are machine-written records of play runs and
-    the by-hand plan record, not prose, code, decisions or memory. Treat as Layer 1 only
-    (nothing is graded against a design), with the hand checks below, until a playbook is written.
+    NEW category - no playbook covers it (a follow-up to write review/work-records is owed; no task
+    tool was reachable from this agent, so the caller should raise it). These are machine-written
+    records of play runs, the round-1 review records, and the by-hand plan record: not prose, code,
+    decisions or memory. Treat as Layer 1 only (nothing is graded against a design), with the hand
+    checks below, until a playbook is written.
   evidence:
-    - .garura/project/issues/920/context/**   # analysis, branch, commits, issue, pr, porcelain, pr-body, self-review, resolved-rules, work-description, commit-change/**
-    - .garura/project/issues/920/context/memory/manifest.json and context/memory/standards/schemas/product-os/ontology.md   # short-term memory copy, not an edit to memory
+    - .garura/project/issues/920/context/**   # analysis, branch, commits, issue, pr, porcelain, pr-body, self-review, resolved-rules, work-description, commit-change/**, templates/**
+    - .garura/project/issues/920/context/memory/**   # short-term memory copies and manifests (review shelf, pr.md, grounding-harness, grounding-memory, ontology); copies, not edits to memory
+    - .garura/project/issues/920/review/**   # round-1 review records (categories, findings, decision, lint outputs, pr.diff, posted.json) and this round's records
     - .garura/project/issues/920/specs/redesign.md
     - .garura/project/issues/_adr/20261028T034030Z/**   # record-decision run artifacts
     - .garura/project/plans/606.yaml   # unplanned plan record, kept by hand until update-plan exists
@@ -179,4 +201,5 @@ categories:
       - "By hand: each .json and .yaml file parses (python3 -c 'import json,sys;json.load(open(sys.argv[1]))' and a yaml load)."
       - "By hand: plans/606.yaml names issue numbers and branch that match context/issue.json and context/branch.json."
       - "By hand: no secrets, tokens, absolute home paths or client data in the run records (SEC rows of pr.md)."
-      - "Note: the records are not graded for design. specs/redesign.md is the issue's own spec, written on this branch; if a harness or memory finding wants it as grounding, flag the gap instead (circular)."
+      - "By hand: the copies under context/memory/ match the fingerprints in their manifest.json."
+      - "Note: the records are not graded for design. specs/redesign.md is the issue's own spec, written on this branch; the grounding-harness and grounding-memory copies are read-only grounding and are not findings; if a harness or memory finding wants specs/redesign.md as grounding, flag the gap instead (circular)."
