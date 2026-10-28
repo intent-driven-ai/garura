@@ -1,0 +1,5 @@
+ M .garura/project/plans/606.yaml
+ M core/components/memory/standards/rules/_index.md
+ M core/components/memory/standards/schemas/product-os/_index.md
+?? .garura/project/issues/937/context/commit-change/
+?? CLAUDE.md.new
