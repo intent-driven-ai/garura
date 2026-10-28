@@ -1,29 +1,7 @@
  M .garura/project/issues/920/context/commit-change/porcelain.txt
- M .garura/project/issues/920/context/memory/manifest.json
- M .garura/user-provided/managing-work.md
- M core/components/agents/adr-keeper.md
- M core/components/agents/change-reviewer.md
- M core/components/agents/knowledge-builder.md
- M core/components/loops/_shared/loop-run.md
- M core/components/loops/complete-discovery/scripts/group_questions.py
+ M .garura/project/issues/920/context/self-review.md
  M core/components/memory/standards/rules/_index.md
- M core/components/memory/standards/rules/loop-contract.md
- M core/components/memory/standards/rules/naming.md
- M core/components/memory/standards/rules/pipeline-position.md
- M core/components/memory/standards/rules/pr.md
- M core/components/memory/standards/rules/rename-map.yaml
- M core/components/memory/standards/schemas/product-os/decision.yaml
- M core/components/plays/create-loop/references/compiled-loop-example/scripts/group_questions.py
- M core/components/plays/create-loop/references/group_questions.py
- M core/components/plays/create-loop/references/test_loop_scripts.py
- M core/components/plays/record-decision/scripts/adr.py
- M core/components/skills/author-decision/scripts/adr.py
- M core/components/skills/author-decision/scripts/test_adr.py
- M core/grounding/glossary.md
-?? .garura/project/issues/920/context/memory/grounding-harness/
-?? .garura/project/issues/920/context/memory/grounding-memory/
-?? .garura/project/issues/920/context/memory/knowledge/
-?? .garura/project/issues/920/context/memory/standards/rules/
-?? .garura/project/issues/920/context/templates/
+ M core/components/memory/standards/rules/severity.md
+ M core/tools/naming/apply_renames.py
+ M core/tools/naming/check_old_names.py
 ?? CLAUDE.md.new
-?? core/components/memory/standards/rules/severity.md

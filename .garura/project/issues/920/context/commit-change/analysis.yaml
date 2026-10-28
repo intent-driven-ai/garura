@@ -1,108 +1,51 @@
 ---
-# assess-changes output (judgment done)
+# assess-changes output (grouped by concern)
+# issue: 920
 needs_judgment: false
 
 change_groups:
-  - id: fix-grouping-script-memory-tool
-    issue: 920
-    commit_type: fix
-    scope: loop
-    subject: "The grouping script no longer calls the memory tool; it reads the round record"
-    files:
-      - "core/components/plays/create-loop/references/group_questions.py"
-      - "core/components/loops/complete-discovery/scripts/group_questions.py"
-      - "core/components/plays/create-loop/references/compiled-loop-example/scripts/group_questions.py"
-      - "core/components/plays/create-loop/references/test_loop_scripts.py"
-      - "core/components/loops/_shared/loop-run.md"
-  - id: fix-agents-adr-keeper-knowledge-builder
-    issue: 920
-    commit_type: fix
-    scope: agents
-    subject: "Remove the loophole sentence from adr-keeper and carry for_project_memory in knowledge-builder"
-    files:
-      - "core/components/agents/adr-keeper.md"
-      - "core/components/agents/knowledge-builder.md"
-  - id: docs-severity-rules
+  - id: severity-rules-any-harness
     issue: 920
     commit_type: docs
     scope: memory-rules
-    subject: "Add severity rules for findings and defects"
+    subject: "Write the severity rules for any harness built on the Phoenix architecture"
     files:
-      - "core/components/memory/standards/rules/severity.md"
-      - "core/components/memory/standards/rules/pr.md"
-      - "core/components/memory/standards/rules/_index.md"
-      - "core/components/agents/change-reviewer.md"
-      - ".garura/user-provided/managing-work.md"
-  - id: fix-naming-rename-map
+      - core/components/memory/standards/rules/severity.md
+      - core/components/memory/standards/rules/_index.md
+  - id: naming-checks-skip-quoted-and-removed
     issue: 920
     commit_type: fix
     scope: naming
-    subject: "Keep build-knowledge and review-knowledge as null in the rename map"
+    subject: "Skip ADR 059 in the old-name check and skip names removed with no successor in the rename"
     files:
-      - "core/components/memory/standards/rules/rename-map.yaml"
-  - id: feat-adr-for-the-accepter
-    issue: 920
-    commit_type: feat
-    scope: adr
-    subject: "Add for_the_accepter to the decision schema and the ADR linter"
-    files:
-      - "core/components/memory/standards/schemas/product-os/decision.yaml"
-      - "core/components/skills/author-decision/scripts/adr.py"
-      - "core/components/plays/record-decision/scripts/adr.py"
-      - "core/components/skills/author-decision/scripts/test_adr.py"
-  - id: docs-wording
-    issue: 920
-    commit_type: docs
-    scope: docs
-    subject: "Align glossary and rule wording with pipeline position, naming and loop contract"
-    files:
-      - "core/grounding/glossary.md"
-      - "core/components/memory/standards/rules/pipeline-position.md"
-      - "core/components/memory/standards/rules/naming.md"
-      - "core/components/memory/standards/rules/loop-contract.md"
-  - id: chore-stm-920-run-records
+      - core/tools/naming/check_old_names.py
+      - core/tools/naming/apply_renames.py
+  - id: stm-run-records
     issue: 920
     commit_type: chore
     scope: stm
-    subject: "Record the run artifacts"
+    subject: "Record the self-review and commit-change run artifacts"
     files:
-      - ".garura/project/issues/920/context/commit-change/analysis.yaml"
-      - ".garura/project/issues/920/context/commit-change/porcelain.txt"
-      - ".garura/project/issues/920/context/memory/manifest.json"
-      - ".garura/project/issues/920/context/memory/grounding-harness/manifest.json"
-      - ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/concurrent-fanout.md"
-      - ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/drive-contract.md"
-      - ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/evidence-recording.md"
-      - ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/user-facing-voice.md"
-      - ".garura/project/issues/920/context/memory/grounding-memory/knowledge/_DESIGN.md"
-      - ".garura/project/issues/920/context/memory/grounding-memory/manifest.json"
-      - ".garura/project/issues/920/context/memory/knowledge/review/_index.md"
-      - ".garura/project/issues/920/context/memory/knowledge/review/adrs.md"
-      - ".garura/project/issues/920/context/memory/knowledge/review/code.md"
-      - ".garura/project/issues/920/context/memory/knowledge/review/config-maps.md"
-      - ".garura/project/issues/920/context/memory/knowledge/review/docs.md"
-      - ".garura/project/issues/920/context/memory/knowledge/review/harness.md"
-      - ".garura/project/issues/920/context/memory/knowledge/review/memory.md"
-      - ".garura/project/issues/920/context/memory/knowledge/review/tests.md"
-      - ".garura/project/issues/920/context/memory/standards/rules/pr.md"
-      - ".garura/project/issues/920/context/templates/manifest-check-change.json"
-      - ".garura/project/issues/920/context/templates/standards/rules/pipeline-next.md"
+      - .garura/project/issues/920/context/self-review.md
+      - .garura/project/issues/920/context/commit-change/porcelain.txt
+      - .garura/project/issues/920/context/commit-change/analysis.yaml
 
 exclusions:
   - path: "CLAUDE.md.new"
-    reason: "Untracked scratch draft of a CLAUDE.md, not part of issue 920; left out of every commit"
+    reason: "Untracked scratch draft of a project CLAUDE.md, not part of issue 920's change; left out of every commit"
     blocking: false
 
 risks:
-  sensitive_files:
-    # Non-blocking content warnings: both are pattern carriers (a severity table), not credentials (#438)
-    - path: "core/components/memory/standards/rules/pr.md"
-      match: 'password\s*='
-      blocking: false
-    - path: ".garura/project/issues/920/context/memory/standards/rules/pr.md"
-      match: 'password\s*='
-      blocking: false
+  sensitive_files: []
+
+notes:
+  branch: feature/920-knowledge-steps-become-skills
+  branch_class: feature
+  hotfix_branch: false
+  breaking_changes: []
+  ambiguous_types: []
+  sensitive_scan: "no secrets, keys, credentials or env files in the changed files; CLAUDE.md.new has no secret patterns and is excluded as not part of the change"
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "every changed file is in exactly one group or in exclusions (43 files: 42 grouped, 1 excluded)"}
-  SE-5: {status: PASS, evidence: "pr.md content matches are pattern carriers in a severity table; non-blocking"}
+  SE-1: {status: PASS, evidence: "7 changed files in 3 groups plus 1 exclusion; every file placed exactly once"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
