@@ -42,22 +42,31 @@ The product owner rejected round 1 and set the severities. All fixed:
 
 Also in round 2:
 
-- **Severity rules** (`standards/rules/severity.md`), written for any harness built on the Phoenix architecture: its parts, its six guardrails, whether a finding is a defect or a change, P1 to P4 with named rules and examples from several kinds of work. The reviewer agent and the work rules point to it. Each Bug of epic #922 now opens with its severity.
+- ~~Severity rules page~~ — moved out of this change to **#934** (one severity, P1 to P4, in three layers on an industry base), with **#933** (the Phoenix architecture memory it tests against).
 - The old-name check skips ADR 059, which quotes the old names on purpose, and the rename tool skips names removed with no successor.
 - The branch history was rewritten so no commit holds a home-folder path.
 
-Still waiting, outside this change: sending the corrected memory pages and the new severity page to Phoenix memory (#929).
+Still waiting, outside this change: sending the corrected memory pages to Phoenix memory (#929).
 
-## Self-review (round 2)
+## Round 3 (after the product owner's second reject)
 
-# Self-review: issue 920 (branch feature/920-knowledge-steps-become-skills, against main), round 2
+The product owner accepted the round-1 fixes and rejected round 2 for the severity page only.
+
+- The severity page and its four pointers are out of this change; `standards/rules/pr.md` and the reviewer agent are back to what main has. The work is #934, with #933.
+- The work rules keep one severity value on each Bug's first line (`Severity: P<n> — why`), set by the product owner until #934 lands; the Bugs of epic #922 carry it.
+- Four over-long lines re-wrapped (the shared loop run, the Discovery loop's ICE — fingerprint refreshed — and create-loop); the knowledge agent now hands the research skill the place to write its draft.
+- Checks: the loop tests (121 + 9), the ADR tests (47), the naming tests (23), the installer tests and the loop linter pass; the old-name check finds nothing; the component linter shows the same 36 errors as main.
+
+## Self-review (round 3)
+
+# Self-review: issue 920 (branch feature/920-knowledge-steps-become-skills, against main), round 3
 
 Rules used: the base self-review rules, read through the memory tool (phoenix tier,
 standards/rules/self-review.md, fingerprint sha256:d630c3f6...). Those rules say this review is
 informational and does not stop the raise on its own. They name no item that stops it.
 
-Findings that stop the raise: 0. No finding below is serious enough to hold the change back.
-There are 5 smaller items to look at, listed at the end.
+Findings that stop the raise: 0. Nothing below holds the change back. There are 3 small items to
+look at, listed at the end.
 
 ## What the change does
 
@@ -65,108 +74,84 @@ The Discovery loop used to close its missing knowledge with three separate plays
 ever runs. Now it is one step, run by the knowledge-builder agent (ADR 059, which retires ADR
 042). The three plays are removed. Only agents (and the two named check scripts) call the memory
 tool. The memory rule pages, glossary and component docs are corrected. Plan 606 and a
-work-tracking rule for epic 922 are added. Round 2 answers the nine findings the person raised on
-the first review (H-2, H-1, F1, F2, H-3, H-4, F3, F4, F5) and adds a written rule for how a
-finding gets its severity.
+work-tracking rule for epic 922 are added. Round 2 answered the nine findings the person raised
+on the first review. Round 3 takes the new severity page out of this change (it moves to #934),
+re-wraps the loop files, and tells the research skill where to write its draft.
 
-Size: 24 commits, 151 files. 51 of those files are the issue's own record folder. Outside it,
-100 files: about 3,970 lines added and 3,590 removed, mostly the three deleted plays plus ADR 059.
+Size: 34 commits, 167 files. 81 of those files are the issue's own record folder. Outside it, 86
+files: about 2,770 lines added and 3,590 removed, mostly the three deleted plays plus ADR 059.
 
-## Did round 2 fix what was asked
+## The three round 3 commits
 
-All nine are fixed. I checked each against the code, not the commit message.
-
-- H-2, the grouping script asked the memory tool. Fixed. The script now reads the waiting
-  updates from the round record that round_state.py already wrote, and has no tool call or
-  subprocess left. Its three copies (the loop, the create-loop reference, the compiled example)
-  are byte-for-byte the same. The names it reads ("open" list, "from", "ask") match what
-  round_state.py writes. The loop run text and the script's own header say the same. The
-  exception in ADR 059 (check_knowledge.py and round_state.py only) now matches the code.
-- H-1, adr-keeper could read memory by path. Fixed: the carve-out sentence is gone, and the
-  paragraph now says only "through the tool".
-- F1, the old-name check lost two names. Fixed: both are kept in the rename map as "removed,
-  no successor" (null). I confirmed the old-name check still catches them. But see item 2
-  below: one other tool trips over the null.
-- F2, the ADR template field had no schema or linter. Fixed: the schema lists
-  for_the_accepter, and both copies of adr.py lint it (the two copies are identical). ADR 059
-  lints valid. The adr.py tests pass: 47 passed, 0 failed.
-- H-3, the run-step lists were stale. Fixed in the opening of loop-run.md and in the glossary
-  Loop entry.
-- H-4, for_project_memory could be lost. Fixed: knowledge-builder now says to carry the
-  draft's for_project_memory into the build group.
-- F3, "six" change plays. Fixed to "five", and the new sentence no longer repeats a count.
-- F4, two paragraphs not re-wrapped. Fixed in naming.md and loop-contract.md.
-- F5, pipeline-next.md missing from the rules index. Fixed: it has a row now, and so does the
-  new severity.md.
+- Severity rules taken out (865faa23). Done cleanly. The severity page is deleted, and its row in
+  the rules index and its pointer in the PR rules page are gone. change-reviewer no longer tells
+  the agent to read it: it goes back to "a severity drawn from the PR severity taxonomy", and the
+  grounding row no longer lists it. The work-tracking rule for a Bug says the product owner sets
+  the severity until #934 gives the rules. I searched the whole repo for any other mention of the
+  page: none is left outside the issue's own record folder, where old review records still name
+  it as history. This also closes the old worry that the page was not in any memory tier: it no
+  longer exists to be missing.
+- Loop files re-wrapped and the fingerprint refreshed (ad3c3c0a). The Discovery loop's stored
+  fingerprint is sha256:2ed346c2..., and a fresh hash of reference/ice.md gives the same value,
+  so it is in step with the file it describes. Only line breaks and one sentence moved in
+  loop-run.md, ice.md and create-loop; no meaning changed.
+- knowledge-builder names the draft path (ad3c3c0a). It now hands the research skill the topic,
+  the context and the draft path (pages/<topic-slug>.json under the knowledge folder), and says
+  the skill writes the draft there. This matches the next step, where the agent raises that draft.
 
 ## Scope checks
 
-- Matches the issue: PASS. Every area touched is named in ADR 059's "Affects" list, in the
-  scope given for epic 922, or is a round 2 fix to a finding the person raised. The new
-  severity rules page was asked for by the person in the round 1 reply.
-- No scope creep: PASS. One thing to know: 13 run-record files from the record-decision run sit
-  under .garura/project/issues/_adr/ (outside issue 920's own folder). They are the evidence of
-  the run that wrote ADR 059, so they belong, but a reviewer will see them.
+- Matches the issue: PASS. Round 3 only removes the severity work (moved to #934), re-wraps, and
+  names a path. Nothing new rides along.
+- No scope creep: PASS. Round 3 reduces scope. As before, 13 run-record files from the
+  record-decision run sit under .garura/project/issues/_adr/. They are the evidence of the run
+  that wrote ADR 059, so they belong, but a reviewer will see them.
 - Reasonable size: REVIEW. Large, but it is one decision, and ADR 059 explains it in one place.
-  Round 2 itself is small: 20 source files, 267 lines added and 95 removed.
-- No stray artifacts: PASS for the diff. No debug prints, TODOs or compiled caches were added.
-  One file outside the diff: CLAUDE.md.new is untracked. Keep it out of the commit unless you
-  meant it.
+  Round 3 itself is 5 source files with about 14 lines added and 10 removed, plus the severity
+  removal.
+- No stray artifacts: PASS for the diff. No debug prints, TODOs or caches were added. One file
+  outside the diff: CLAUDE.md.new is untracked. Keep it out of the commit unless you meant it.
 
 ## Quality checks
 
-- Tests present: PASS. Loop scripts: 82 tests pass in test_loop_scripts.py and 9 in
-  test_discovery_scripts.py. The ADR script: 47 pass. The naming tools: 23 pass. The group
-  questions tests were changed to match the new input.
-- Commits are clean: PASS. All 24 commits use the conventional format and end with (#920). None
-  carries a Claude attribution line.
-- No secrets: PASS. A scan of the added lines for keys, tokens, passwords and private-key
-  headers found nothing.
-- Docs in step: PASS, with notes. The glossary, loop run text, agents, memory rule pages and the
-  ADR index are updated. Two carry-overs from round 1 still stand: ADR 059 lists
-  docs/components/skills.md, install.py and the product page fn-744 as affected, but none of the
-  three changed in this diff. I looked at them before and found no stale reference in skills.md
-  or install.py. The fn-744 line that maps review-knowledge to check-knowledge reads as rename
-  history and may be fine.
-- Nothing obviously broken: PASS. The component checker reports 36 errors; main reports the
-  same 36 (4 are in create-loop's SKILL.md, hand-written, same on main). No merge conflicts with
-  main (merge-tree is clean). The edit-loop checker passes the Discovery loop with 0 gaps.
+- Tests present: PASS. The loop scripts tests, the Discovery loop tests and the naming tools
+  tests (23 pass) all pass when run now. Round 3 changed no script.
+- Commits are clean: PASS. Every commit uses the conventional format and ends with (#920). None
+  carries a Claude attribution line (checked in all 34 commit messages).
+- No secrets: PASS. A scan of the added lines in the source, docs and rules for keys, tokens,
+  passwords and private-key headers found nothing.
+- Docs in step: PASS. The glossary, loop run text, agents, rules index and ADR index agree with
+  each other, and the severity pointers are gone from all of them.
+- Nothing obviously broken: PASS. The component checker reports 36 errors, the same count as on
+  main. The old-name check now reports 0 hits (it reported 28 in round 2, all in ADR 059; ADR 59
+  is now in its set of ADRs that quote old names on purpose). The rename tool skips a name mapped
+  to null. All changed yaml files parse. No merge conflicts with main (merge-tree is clean).
 
 ## Other checks (assess-pr's own rules for this kind of project)
 
 - No merge conflicts: PASS.
 - ADRs: ADR 059 is Accepted and lints valid; ADR 042 is Superseded. PASS.
-- Agent and skill files changed: structure not changed by this diff; no new checker error.
+- Agent and skill files changed: structure not changed by round 3; no new checker error.
 - Configuration (yaml): every changed yaml file parses. PASS.
 - Components deploy (core/components changed): REVIEW. After the merge, install into a project's
   .claude/ with install-garura; this review did not do it.
 
 ## Items to look at (none stops the raise)
 
-1. The old-name check now fails on this branch, and it was clean on main. It reports 28 hits,
-   all in the new ADR 059, which quotes the old play names on purpose while describing the old
-   Phoenix memory pages (lines 69, 70, 85, 109). Older ADRs that quote old names are skipped by
-   the check (ADR 53, and the ones before 46). ADR 059 is not, yet. The harness standard names
-   this check as one to run, but no run gate calls it. Smallest fix: add 59 to the quoting-ADR
-   set in core/tools/naming/check_old_names.py, as ADR 53 was. Minor.
-2. The rename tool apply_renames.py crashes if it meets a name mapped to null. I tried it on a
-   scratch folder with one stale use of build-knowledge: it stopped with a TypeError. Today it
-   does not trigger, because no stale use is left in the repo, so a dry run passes. The old-name
-   check handles null fine. Smallest fix: skip a null in apply_renames.py's rewrite and move.
-   Minor.
-3. The new severity.md page is not in any memory tier yet. The memory tool finds nothing for it
-   in short-term, Garura or Phoenix memory. change-reviewer now tells the agent to read it, so
-   until the page is promoted to Phoenix memory (a person's step, like the other rule pages),
-   the agent finds nothing. ADR 059 does not list it in "Affects" either. Minor.
-4. Not caused by this change, and left alone: the loop script prepare_check.py also calls the
-   memory tool (citations --check). That call is read-only and was there before, but it is not
-   in ADR 059's list of allowed scripts. The same class of thing as the round 1 H-2, so worth a
-   later look. Nit.
-5. Carry-overs and notes: the untracked CLAUDE.md.new, the fn-744 line, the large size, and the
-   install step after merge (all above).
+1. The re-wrap in create-loop/SKILL.md is partial. Two paragraphs near the edited lines still run
+   past 120 characters (the lines starting "A loop loops over its plays" and "Add only what the
+   End section names", and the next one). The edited lines are fine; these were not touched.
+   Nit.
+2. The loop script prepare_check.py also calls the memory tool (citations --check). That call is
+   read-only and was there before this change, but it is not in ADR 059's list of allowed
+   scripts. Not caused by this change; worth a later look. Nit.
+3. Carry-overs: the untracked CLAUDE.md.new, the large size, and ADR 059 listing
+   docs/components/skills.md, install.py and the product page fn-744 as affected while none of
+   the three changed (I found no stale reference in them before). Also the install step after
+   merge.
 
 ## Result
 
-Ready: yes. Findings that stop the raise: 0. Round 2's nine fixes hold up against the code. Five
-smaller items are listed above; items 1 to 3 are cheap to fix in this change if you want them
-closed before review.
+Ready: yes. Findings that stop the raise: 0. The severity removal is complete with no dangling
+pointer, the Discovery loop's fingerprint matches its file, and the research draft path is
+named.
