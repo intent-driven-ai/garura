@@ -1,0 +1,3 @@
+?? .garura/project/issues/920/specs/redesign.md
+?? .garura/project/issues/_adr/20261028T034030Z/porcelain-before.txt
+?? CLAUDE.md.new

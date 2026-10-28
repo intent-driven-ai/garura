@@ -1,0 +1,100 @@
+{
+  "task_id": "draft-adr",
+  "round": 2,
+  "draft": ".garura/project/issues/_adr/20261028T034030Z/adr-draft.md",
+  "number": "059",
+  "lint": {
+    "command": "adr.py lint --adr <draft>",
+    "exit": 0,
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "command": "adr.py guard --adr <draft> --intents-dir .garura/product/product-os/intents",
+    "exit": 0,
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes",
+    "agrees_with_context": true
+  },
+  "skill_retries": 0,
+  "supersedes": [
+    {
+      "id": "042",
+      "part": "full"
+    }
+  ],
+  "amends": [
+    {
+      "id": "041",
+      "part": "\u00a73, \u00a74, \u00a75 (each as amended by ADR 042)"
+    },
+    {
+      "id": "039",
+      "part": "\u00a72 and \u00a710's line on ADR 035 \u00a74 \u2014 the read-only updates exception"
+    },
+    {
+      "id": "044",
+      "part": "\u00a71 \u2014 the run steps the Shared Loop Run owns"
+    },
+    {
+      "id": "046",
+      "part": "\u00a74 \u2014 the clause 'knowledge plays search, research, check'"
+    }
+  ],
+  "not_affected": [
+    "043",
+    "045",
+    "035",
+    "048",
+    "053",
+    "051",
+    "030"
+  ],
+  "for_the_accepter_points": 7,
+  "memory_reads_through_tool": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pipeline-position.md",
+      "fingerprint": "sha256:8d332a3c4b3cfb707a6316ac444bd906025f5835557d428f20ee3b0a0196bfba",
+      "version": "23387be24c0d"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/drive-contract.md",
+      "fingerprint": "sha256:32588ee0ef3778c6e5cc508711fe96f6f7cb2b570efa65c1fd975614cc7843fa",
+      "version": "23387be24c0d"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/adr.md",
+      "fingerprint": "sha256:8be7c19d17256c663a6e1648a7ecc81cf5e096ef428f31a86cdf69343262d64b",
+      "version": "23387be24c0d"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pipeline-next.md",
+      "version": "23387be24c0d"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/_index.md",
+      "version": "23387be24c0d"
+    },
+    {
+      "find": "--every-tier",
+      "globs": [
+        "**/loop-contract.md",
+        "**/naming.md",
+        "**/naming.yaml",
+        "**/rename-map.yaml"
+      ],
+      "answered_by": null
+    }
+  ],
+  "not_confirmed_through_tool": [
+    "the per-page date 2026-10-20 (the tool reports only the tier version)",
+    "the counts 49 / 7 / 16 in point 4 (from the earlier path comparison; the draft says so)"
+  ],
+  "note": "The installed author-decision skill (.claude/skills/) is the pre-change version without the accepter step; the section was written from the source template as the contract asked."
+}

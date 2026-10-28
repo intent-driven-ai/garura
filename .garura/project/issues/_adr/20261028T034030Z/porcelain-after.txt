@@ -1,0 +1,20 @@
+ M docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+ M docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+ M docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+ M docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+ M docs/adr/046-one-naming-standard-for-every-harness-part.md
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261028T034030Z/adr-check.json
+?? .garura/project/issues/_adr/20261028T034030Z/adr-context.yaml
+?? .garura/project/issues/_adr/20261028T034030Z/adr-draft.md
+?? .garura/project/issues/_adr/20261028T034030Z/adr-manifest.json
+?? .garura/project/issues/_adr/20261028T034030Z/brief.md
+?? .garura/project/issues/_adr/20261028T034030Z/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261028T034030Z/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261028T034030Z/decision.yaml
+?? .garura/project/issues/_adr/20261028T034030Z/hashes-before.json
+?? .garura/project/issues/_adr/20261028T034030Z/porcelain-after.txt
+?? .garura/project/issues/_adr/20261028T034030Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261028T034030Z/run.json
+?? CLAUDE.md.new
+?? docs/adr/059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md

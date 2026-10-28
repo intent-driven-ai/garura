@@ -1,6 +1,6 @@
 # ADR 042 — A Drive Finds, Builds and Reviews the Knowledge It Lacks, and Briefs the Person Instead of Asking
 
-**Status:** Accepted
+**Status:** Superseded by [ADR 059](059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md)
 **Date:** 2026-10-20
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja 
