@@ -1,0 +1,174 @@
+---
+needs_judgment: false
+branch: feature/920-knowledge-steps-become-skills
+issue: 920
+change_groups:
+- id: refactor-discovery-knowledge-step
+  issue: 920
+  commit_type: refactor
+  scope: discovery-loop
+  subject: Make the Discovery loop's knowledge step one step run by one agent
+  confidence: high
+  files:
+  - core/components/loops/_shared/loop-run.md
+  - core/components/loops/complete-discovery/SKILL.md
+  - core/components/loops/complete-discovery/reference/ice.md
+  - core/components/loops/complete-discovery/scripts/check_knowledge.py
+  - core/components/loops/complete-discovery/scripts/group_questions.py
+  - core/components/loops/complete-discovery/scripts/loop_preflight.py
+  - core/components/loops/complete-discovery/scripts/record_review.py
+  - core/components/loops/complete-discovery/scripts/round_state.py
+  - core/components/plays/check-knowledge/scripts/record_review.py
+  - core/components/plays/create-loop/SKILL.md
+  - core/components/plays/create-loop/references/check_knowledge.py
+  - core/components/plays/create-loop/references/compiled-loop-example/SKILL.md
+  - core/components/plays/create-loop/references/compiled-loop-example/reference/ice.md
+  - core/components/plays/create-loop/references/compiled-loop-example/scripts/check_knowledge.py
+  - core/components/plays/create-loop/references/compiled-loop-example/scripts/group_questions.py
+  - core/components/plays/create-loop/references/compiled-loop-example/scripts/loop_preflight.py
+  - core/components/plays/create-loop/references/compiled-loop-example/scripts/record_review.py
+  - core/components/plays/create-loop/references/compiled-loop-example/scripts/round_state.py
+  - core/components/plays/create-loop/references/group_questions.py
+  - core/components/plays/create-loop/references/loop_preflight.py
+  - core/components/plays/create-loop/references/record_review.py
+  - core/components/plays/create-loop/references/round_state.py
+  - core/components/plays/create-loop/references/test_loop_scripts.py
+  - core/components/plays/create-loop/scripts/lint_loop.py
+  - core/components/plays/edit-loop/scripts/lint_loop.py
+  - core/components/plays/search-knowledge/scripts/group_questions.py
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: 'ADR 059: the loop''s knowledge step moves into the loop itself (its own checker, question grouper and review recorder); the loop contract, create-loop and edit-loop lint follow. Includes the two
+    renames, both sides listed.'
+- id: knowledge-builder-owns-memory-reads
+  issue: 920
+  commit_type: refactor
+  scope: knowledge-builder
+  subject: Let only the agent call the memory tool in the knowledge skills
+  confidence: high
+  files:
+  - core/components/agents/adr-keeper.md
+  - core/components/agents/knowledge-builder.md
+  - core/components/skills/author-knowledge-brief/SKILL.md
+  - core/components/skills/author-knowledge-brief/scripts/render_brief.py
+  - core/components/skills/author-knowledge-page/SKILL.md
+  - core/components/skills/find-answers-in-sources/SKILL.md
+  - core/components/skills/propose-answers/SKILL.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: knowledge-builder and adr-keeper agents plus the four knowledge skills; skills read only what the agent puts in short-term memory.
+- id: remove-knowledge-plays
+  issue: 920
+  commit_type: refactor
+  scope: knowledge-plays
+  subject: Remove the search, research and check knowledge plays
+  confidence: high
+  files:
+  - core/components/plays/check-knowledge/SKILL.md
+  - core/components/plays/check-knowledge/reference/ice.md
+  - core/components/plays/check-knowledge/scripts/check_brief.py
+  - core/components/plays/check-knowledge/scripts/check_loop_contract.py
+  - core/components/plays/check-knowledge/scripts/check_stop_condition.py
+  - core/components/plays/check-knowledge/scripts/preflight.py
+  - core/components/plays/check-knowledge/scripts/session_stamp.py
+  - core/components/plays/check-knowledge/scripts/test_review_knowledge_scripts.py
+  - core/components/plays/check-knowledge/stop-condition.yaml
+  - core/components/plays/research-knowledge/SKILL.md
+  - core/components/plays/research-knowledge/reference/ice.md
+  - core/components/plays/research-knowledge/scripts/check_knowledge_build.py
+  - core/components/plays/research-knowledge/scripts/check_loop_contract.py
+  - core/components/plays/research-knowledge/scripts/check_stop_condition.py
+  - core/components/plays/research-knowledge/scripts/preflight.py
+  - core/components/plays/research-knowledge/scripts/session_stamp.py
+  - core/components/plays/research-knowledge/scripts/test_build_knowledge_scripts.py
+  - core/components/plays/research-knowledge/stop-condition.yaml
+  - core/components/plays/search-knowledge/SKILL.md
+  - core/components/plays/search-knowledge/reference/ice.md
+  - core/components/plays/search-knowledge/scripts/check_loop_contract.py
+  - core/components/plays/search-knowledge/scripts/check_search.py
+  - core/components/plays/search-knowledge/scripts/check_stop_condition.py
+  - core/components/plays/search-knowledge/scripts/preflight.py
+  - core/components/plays/search-knowledge/scripts/session_stamp.py
+  - core/components/plays/search-knowledge/scripts/test_search_knowledge_scripts.py
+  - core/components/plays/search-knowledge/stop-condition.yaml
+  risks:
+    sensitive_files: []
+    breaking_changes:
+    - Removes the /search-knowledge, /research-knowledge and /check-knowledge plays (public commands)
+  notes: Deletion of the three member plays; their record_review.py and group_questions.py live on as moved files in the loop group.
+- id: correct-memory-rules
+  issue: 920
+  commit_type: docs
+  scope: memory-rules
+  subject: Correct the memory rules so they no longer teach member plays
+  confidence: high
+  files:
+  - core/components/memory/standards/rules/_index.md
+  - core/components/memory/standards/rules/loop-contract.md
+  - core/components/memory/standards/rules/naming.md
+  - core/components/memory/standards/rules/naming.yaml
+  - core/components/memory/standards/rules/pipeline-next.md
+  - core/components/memory/standards/rules/pipeline-position.md
+  - core/components/memory/standards/rules/rename-map.yaml
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: standards/rules naming, loop-contract, pipeline-next, pipeline-position, rename-map and index.
+- id: update-component-docs
+  issue: 920
+  commit_type: docs
+  scope: docs
+  subject: Update the glossary and component docs for the one-step knowledge loop
+  confidence: high
+  files:
+  - core/grounding/glossary.md
+  - docs/components/agents.md
+  - docs/components/loops.md
+  - docs/components/plays.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+- id: track-unplanned-epic-922
+  issue: 920
+  commit_type: chore
+  scope: work-tracking
+  subject: Record the unplanned epic 922 and its rule in the work tracking files
+  confidence: high
+  files:
+  - .garura/project/plans/606.yaml
+  - .garura/user-provided/managing-work.md
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: plans/606.yaml and managing-work.md.
+- id: record-run-artifacts
+  issue: 920
+  commit_type: chore
+  scope: stm
+  subject: Record the commit-change run artifacts
+  confidence: high
+  files:
+  - .garura/project/issues/920/context/commit-change/analysis.yaml
+  - .garura/project/issues/920/context/commit-change/porcelain.txt
+  risks:
+    sensitive_files: []
+    breaking_changes: []
+  notes: Operational STM records, not part of the feature itself.
+exclusions:
+- path: ..json
+  reason: stray lint-output dump at repo root (violations list for check-quality), not part of issue 920; left uncommitted for the owner to delete or keep
+  blocking: false
+- path: CLAUDE.md.new
+  reason: install artifact (written by install-garura), never committed
+  blocking: false
+risks:
+  sensitive_files: []
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: '77 files: 75 grouped, 2 excluded; each in exactly one place'
+  SE-5:
+    status: PASS
+    evidence: no sensitive filename or content pattern matched in the diff or new files
