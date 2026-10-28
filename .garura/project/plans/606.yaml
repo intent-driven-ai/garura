@@ -9,9 +9,9 @@ title: Garura's agentic lifecycle runs as five loops, starting from a working pr
 status: active
 planned: false
 started: '2026-10-28'
-branch: feature/920-knowledge-steps-become-skills
+branch: null  # #920 landed on main through PR #932, 2026-10-28
 identified_by: []
-updated: '2026-10-28'
+updated: '2026-10-28'  # #920 and its bugs done; #929 waits for the Phoenix memory promotion
 tree:
 - issue: 922
   kind: epic
@@ -23,37 +23,37 @@ tree:
     kind: bug
     under: 686
     title: The knowledge steps were built as three plays no one runs
-    status: now
+    status: done
   - issue: 923
     kind: bug
     under: 744
     title: Two knowledge plays write their done records under their old names
-    status: now
+    status: done
   - issue: 924
     kind: bug
     under: 745
     title: The Discovery loop's pre-flight uses the plays' and the loop's old names
-    status: now
+    status: done
   - issue: 925
     kind: bug
     under: 613
     title: The round script reads waiting memory updates from their files
-    status: now
+    status: done
   - issue: 926
     kind: bug
     under: 686
     title: The research skill calls the memory tool itself
-    status: now
+    status: done
   - issue: 927
     kind: bug
     under: 686
     title: The proposed-answers skill is handed no memory in the loop
-    status: now
+    status: done
   - issue: 928
     kind: bug
     under: 632
     title: The ADR keeper agent read Phoenix memory by its file paths
-    status: now
+    status: done
   - issue: 929
     kind: chore
     under: 921
@@ -64,4 +64,4 @@ tree:
     kind: story
     under: 922
     title: A decision record tells the person accepting it what was found on the way
-    status: now
+    status: done

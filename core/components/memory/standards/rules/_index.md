@@ -12,7 +12,7 @@ Agents and skills query this category when they need to know: **"What rules must
 |------|-------------|-----------|
 | `naming.md` | How plays, loops, skills and agents are named — verb first, one meaning per verb, no tool built-ins, loops `complete-<phase>` (ADR 046) | every builder of a harness part, `create-play`, `create-loop` |
 | `naming.yaml` | The machine half: the verb lists, industry terms, reserved built-in commands | `core/tools/lint-components` |
-| `rename-map.yaml` | Every old name and its new name, from adopting the standard | the old-name check, `install-garura` |
+| `rename-map.yaml` | Every old name and its new name, from adopting the standard. A name mapped to `null` was removed with no successor (ADR 059): the old-name check still reports it, and the install has nothing to lay for it | the old-name check, `install-garura` |
 
 ### Knowledge rules
 

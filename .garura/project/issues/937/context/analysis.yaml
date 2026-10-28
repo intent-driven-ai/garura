@@ -1,0 +1,59 @@
+---
+# assess-changes output (judgment done) — issue 937
+needs_judgment: false
+branch: feature/937-memory-index-rows
+issue: 937
+
+change_groups:
+  - id: docs-memory-rules-index-rows
+    issue: 937
+    commit_type: docs
+    scope: memory-rules
+    subject: "describe the rename map and the decision record as they are now in the two memory index rows"
+    confidence: high
+    files:
+      - core/components/memory/standards/rules/_index.md
+      - core/components/memory/standards/schemas/product-os/_index.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "rules/_index.md: the rename-map row now says a name mapped to null was removed with no successor (ADR 059). schemas/product-os/_index.md: the decision.yaml row now names for_the_accepter (#930). Row text only."
+
+  - id: chore-plan-606
+    issue: 937
+    commit_type: chore
+    scope: plan
+    subject: "bring plan 606 up to date after the knowledge-steps change landed"
+    confidence: high
+    files:
+      - .garura/project/plans/606.yaml
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Plan file only: branch cleared (#920 landed on main through PR #932), #920 and its bugs marked done, #929 waits for the Phoenix memory promotion."
+
+  - id: chore-stm-937-run-records
+    issue: 937
+    commit_type: chore
+    scope: stm
+    subject: "record the commit-change run records"
+    confidence: high
+    files:
+      - .garura/project/issues/937/context/commit-change/analysis.yaml
+      - .garura/project/issues/937/context/commit-change/porcelain.txt
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational run records for this issue, kept apart from the feature work. status/ files under the issue are git-ignored (.garura/.gitignore) and not included."
+
+exclusions:
+  - path: "CLAUDE.md.new"
+    reason: "Untracked scratch copy of a CLAUDE.md draft, not part of issue 937 and not named by the grouping; left on disk for its owner, not committed."
+    blocking: false
+
+risks:
+  sensitive_files: []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "5 changed paths in the scan plus the 2 run-record files inside the untracked commit-change folder; each lands in exactly one group or in exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched; no env, key, credential or secret files in the changeset"}

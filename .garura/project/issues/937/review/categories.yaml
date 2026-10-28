@@ -1,0 +1,53 @@
+# Work categories present in PR #940 (issue #937). Derived from the diff content; treatments taken from the playbook copies in short-term memory.
+categories:
+  - id: memory
+    name: Memory / knowledge base
+    evidence:
+      - core/components/memory/standards/rules/_index.md   # one index row reworded (rename-map.yaml row, ADR 059 null note)
+      - core/components/memory/standards/schemas/product-os/_index.md   # one index row extended (decision.yaml, for_the_accepter since #930)
+    playbook: review/memory
+    playbook_copy: .garura/project/issues/937/context/memory/knowledge/review/memory.md
+    design_bearing: true
+    treatment:
+      reviewer: human (design) + tool (conformance)
+      layers: [1, 2]
+      linters: []   # playbook names a gap: no installed tool checks memory integrity
+      runnable_checks:
+        - "By hand (cite each): changed rows keep the shelf _index table shape; every file named in a changed row exists on disk (naming.md, naming.yaml, rename-map.yaml, ontology.md, decision.yaml)"
+        - "By hand: cross-references resolve (ADR 059, ADR 046, #930, #632 are real, committed records)"
+        - "By hand: frontmatter id matches path; each changed file is listed in its shelf _index"
+        - "Layer 2: ground what an index row is for from committed sources (base-ref _index files, knowledge/_DESIGN.md, _TEMPLATE.md, standards, ADR 059) and check the new row text against them, never against the branch's own prose"
+  - id: plan-records
+    name: Plan record (work-tracking state)
+    evidence:
+      - .garura/project/plans/606.yaml   # status now->done for issues 922-928, 930; branch set to null; updated note
+    playbook: null
+    playbook_missing: true
+    note: "No playbook covers a plan record (project work-tracking YAML). Not a config map (it records status, it does not wire paths) and not memory. A playbook is missing; follow-up to create it."
+    design_bearing: false
+    treatment:
+      layers: []   # no playbook to take a treatment from
+      linters: []
+      runnable_checks: []
+  - id: run-records
+    name: Run records (short-term memory of play runs)
+    evidence:
+      - .garura/project/issues/937/context/analysis.yaml
+      - .garura/project/issues/937/context/branch.json
+      - .garura/project/issues/937/context/commits.yaml
+      - .garura/project/issues/937/context/issue.json
+      - .garura/project/issues/937/context/porcelain.txt
+      - .garura/project/issues/937/context/pr-body.md
+      - .garura/project/issues/937/context/pr.json
+      - .garura/project/issues/937/context/resolved-rules.json
+      - .garura/project/issues/937/context/self-review.md
+      - .garura/project/issues/937/context/work-description.txt
+    playbook: null
+    playbook_missing: true
+    note: "Machine-written records the change plays leave in the issue's short-term memory. No playbook covers them; they are evidence of the run, not a design. A playbook is missing; follow-up to create it."
+    design_bearing: false
+    treatment:
+      layers: []
+      linters: []
+      runnable_checks: []
+design_bearing_categories: [memory]

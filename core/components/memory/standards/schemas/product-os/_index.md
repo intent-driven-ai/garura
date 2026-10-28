@@ -9,7 +9,7 @@ the two delivery artifacts that ride on top.
 | `ontology.md` | the product ontology — the agreed, human-readable map of the kinds of things a product is made of (v4: Business Intent, Source, ICE — the ICE in its named page section, intents linked both ways), how they connect and their rules; built with `author-product-ontology` | permanent |
 | `product-os.yaml` | the Domain → Capability → Feature tree, personas, journeys | permanent |
 | `ice.yaml` | Intent / Context / Expectations on a node (the build unit at feature level) | permanent |
-| `decision.yaml` | decision records (ADRs) at any level — with the core fields of `templates/adr.md` added in #632 (supersedes, amends, affects, ICE impact, business-intent check) | permanent |
+| `decision.yaml` | decision records (ADRs) at any level — with the core fields of `templates/adr.md` added in #632 (supersedes, amends, affects, ICE impact, business-intent check) and, since #930, `for_the_accepter`: the points for the person who accepts the record, each with its six parts | permanent |
 | `lens/` (one file per type) | the 5 realize lenses (ux, architecture, run, quality, agentic) | permanent |
 | `slice.yaml` | a vertical product increment — features, taken from any capabilities, bundled into an increment a person can test end to end; written by /shape-slice | permanent |
 | `epic.yaml` | a vertical slice of a feature — the delivery/issue grain | permanent (stamped `delivered` on merge, kept) |

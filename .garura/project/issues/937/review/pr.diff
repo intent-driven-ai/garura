@@ -1,0 +1,331 @@
+diff --git a/.garura/project/issues/937/context/analysis.yaml b/.garura/project/issues/937/context/analysis.yaml
+new file mode 100644
+index 00000000..43254f8b
+--- /dev/null
++++ b/.garura/project/issues/937/context/analysis.yaml
+@@ -0,0 +1,59 @@
++---
++# assess-changes output (judgment done) — issue 937
++needs_judgment: false
++branch: feature/937-memory-index-rows
++issue: 937
++
++change_groups:
++  - id: docs-memory-rules-index-rows
++    issue: 937
++    commit_type: docs
++    scope: memory-rules
++    subject: "describe the rename map and the decision record as they are now in the two memory index rows"
++    confidence: high
++    files:
++      - core/components/memory/standards/rules/_index.md
++      - core/components/memory/standards/schemas/product-os/_index.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "rules/_index.md: the rename-map row now says a name mapped to null was removed with no successor (ADR 059). schemas/product-os/_index.md: the decision.yaml row now names for_the_accepter (#930). Row text only."
++
++  - id: chore-plan-606
++    issue: 937
++    commit_type: chore
++    scope: plan
++    subject: "bring plan 606 up to date after the knowledge-steps change landed"
++    confidence: high
++    files:
++      - .garura/project/plans/606.yaml
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Plan file only: branch cleared (#920 landed on main through PR #932), #920 and its bugs marked done, #929 waits for the Phoenix memory promotion."
++
++  - id: chore-stm-937-run-records
++    issue: 937
++    commit_type: chore
++    scope: stm
++    subject: "record the commit-change run records"
++    confidence: high
++    files:
++      - .garura/project/issues/937/context/commit-change/analysis.yaml
++      - .garura/project/issues/937/context/commit-change/porcelain.txt
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Operational run records for this issue, kept apart from the feature work. status/ files under the issue are git-ignored (.garura/.gitignore) and not included."
++
++exclusions:
++  - path: "CLAUDE.md.new"
++    reason: "Untracked scratch copy of a CLAUDE.md draft, not part of issue 937 and not named by the grouping; left on disk for its owner, not committed."
++    blocking: false
++
++risks:
++  sensitive_files: []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "5 changed paths in the scan plus the 2 run-record files inside the untracked commit-change folder; each lands in exactly one group or in exclusions"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched; no env, key, credential or secret files in the changeset"}
+diff --git a/.garura/project/issues/937/context/branch.json b/.garura/project/issues/937/context/branch.json
+new file mode 100644
+index 00000000..80115263
+--- /dev/null
++++ b/.garura/project/issues/937/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/937-memory-index-rows",
++  "base_sha": "fc118629de68f08f9c977d7a6b63ee5451a9497b",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/937/context/commits.yaml b/.garura/project/issues/937/context/commits.yaml
+new file mode 100644
+index 00000000..fc680402
+--- /dev/null
++++ b/.garura/project/issues/937/context/commits.yaml
+@@ -0,0 +1,19 @@
++commits:
++  - sha: 09b491d4
++    message: "chore(plan): bring plan 606 up to date after the knowledge-steps change landed (#937)"
++    files:
++      - .garura/project/plans/606.yaml
++    branch: feature/937-memory-index-rows
++  - sha: ff8a3694
++    message: "chore(stm): record the commit-change run records (#937)"
++    files:
++      - .garura/project/issues/937/context/commit-change/analysis.yaml
++      - .garura/project/issues/937/context/commit-change/porcelain.txt
++    branch: feature/937-memory-index-rows
++excluded_files:
++  - path: "CLAUDE.md.new"
++    reason: "Untracked scratch copy of a CLAUDE.md draft, not part of issue 937 and not named by the grouping; left on disk for its owner, not committed."
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/937/context/issue.json b/.garura/project/issues/937/context/issue.json
+new file mode 100644
+index 00000000..bba7b69e
+--- /dev/null
++++ b/.garura/project/issues/937/context/issue.json
+@@ -0,0 +1 @@
++{"resolved": true, "issue_number": 937, "title": "The memory indexes describe the rename map and the decision record as they are now", "created": false}
+diff --git a/.garura/project/issues/937/context/porcelain.txt b/.garura/project/issues/937/context/porcelain.txt
+new file mode 100644
+index 00000000..f5afc09c
+--- /dev/null
++++ b/.garura/project/issues/937/context/porcelain.txt
+@@ -0,0 +1,5 @@
++ M .garura/project/plans/606.yaml
++ M core/components/memory/standards/rules/_index.md
++ M core/components/memory/standards/schemas/product-os/_index.md
++?? .garura/project/issues/937/context/commit-change/
++?? CLAUDE.md.new
+diff --git a/.garura/project/issues/937/context/pr-body.md b/.garura/project/issues/937/context/pr-body.md
+new file mode 100644
+index 00000000..583328b9
+--- /dev/null
++++ b/.garura/project/issues/937/context/pr-body.md
+@@ -0,0 +1,15 @@
++## What this changes
++
++Two rows in Garura's memory indexes described their files as they were before #920. Agents find memory pages by reading these indexes, so an agent working from the index alone missed two facts:
++
++- **The rename map** (`core/components/memory/standards/rules/_index.md`): a name can now map to `null` — removed, with no successor (ADR 059). The old-name check still reports such a name, and the install has nothing to lay for it.
++- **The decision record** (`core/components/memory/standards/schemas/product-os/_index.md`): since #930 it has `for_the_accepter`, the points for the person who accepts it.
++
++Also: plan 606 brought up to date after #920 landed (PR #932) — the epic's Bugs and Story done, Chore #929 blocked on the Phoenix memory promotion.
++
++The product owner rated wrong memory P2. Sending these pages to Phoenix memory is Chore #929.
++
++Closes #937
++
++## Self-review
++
+diff --git a/.garura/project/issues/937/context/pr.json b/.garura/project/issues/937/context/pr.json
+new file mode 100644
+index 00000000..8e94b064
+--- /dev/null
++++ b/.garura/project/issues/937/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 940,
++  "url": "https://github.com/intent-driven-ai/garura/pull/940",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/937/context/resolved-rules.json b/.garura/project/issues/937/context/resolved-rules.json
+new file mode 100644
+index 00000000..7e1dab07
+--- /dev/null
++++ b/.garura/project/issues/937/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/937/context/self-review.md b/.garura/project/issues/937/context/self-review.md
+new file mode 100644
+index 00000000..0ef82688
+--- /dev/null
++++ b/.garura/project/issues/937/context/self-review.md
+@@ -0,0 +1,58 @@
++# Self-review for issue 937
++
++Branch: feature/937-memory-index-rows, against main. Rules: standards/rules/self-review.md (Phoenix memory, read through the memory tool, no project override).
++
++Result: nothing blocks the raise. Two small notes are below for the person reviewing.
++
++## What the change does
++
++Two lines in two memory index pages now say what is true today. One says a name mapped to "null" in the rename map was removed with no successor (ADR 059). The other says the decision record carries the points for the person who accepts it (issue 930). Plan 606 is also brought up to date after the knowledge-steps change landed: issues 922 to 928 and the story under 922 are marked done, and the plan's branch is cleared.
++
++Size: 9 files, 103 lines added, 12 removed. 6 of the 9 files are run records for this issue. The real change is 2 index lines plus the plan update.
++
++## Scope checks
++
++- Matches the issue: pass. The issue title is "The memory indexes describe the rename map and the decision record as they are now". Both index lines do exactly that. I checked the claims: ADR 059 exists, the decision schema has the accepter field, and the rename map has two entries mapped to null.
++- No scope creep: pass. The plan 606 edit is bookkeeping that follows the landed change, and it has its own commit.
++- Reasonable size: pass. Small enough to read in one sitting.
++- No stray artifacts: pass for the diff. One file sits outside it: CLAUDE.md.new in the project root is untracked and is not part of any commit. It should stay out of this change (delete it or leave it uncommitted).
++
++## Quality checks
++
++- Tests present: not needed. Only documentation lines and a plan file changed, no behavior. The plan file still reads as valid YAML.
++- Commits are clean: pass. 6 commits, all in conventional format and all naming issue 937. One docs commit, five chore commits (start-change record, plan update, three run-record commits). The three run-record commits could have been one, but each is its own small step and that is not a defect.
++- No secrets: pass. A scan of the diff for keys, tokens and passwords found nothing.
++- Docs in step: pass. The change is the docs update.
++- Nothing obviously broken: pass. No merge conflicts against main (merge check came back clean). No leftover TODOs.
++
++## Notes for the reviewer
++
++- The rule "components deployed from core/components" applies because the memory index pages live there. The installed copies are not refreshed in this change, on purpose: the installed copy is only changed when an install is asked for. This is for the reviewer to confirm, not a fault.
++- Commit-type rules looked at: docs-only does not hold for the whole branch, since the plan file and run records are chore. That is fine for a docs and bookkeeping change.
++
++## Machine-readable summary
++
++```yaml
++analysis:
++  branch: feature/937-memory-index-rows
++  base: main
++  branch_pattern: feature
++  commits: 6
++  changes: {files: 9, additions: 103, deletions: 12}
++  suggested_title: "docs(memory-rules): describe the rename map and the decision record as they are now in the two memory index rows (#937)"
++  context:
++    commit_types: [{type: docs, count: 1}, {type: chore, count: 5}]
++    rules_source: standards/rules/self-review.md (phoenix, base, no override)
++  checklist:
++    must_have:
++      - {id: no-conflicts, status: PASS, evidence: "git merge-tree against main returned a clean tree"}
++      - {id: no-secrets, status: PASS, evidence: "pattern scan of the diff found nothing"}
++      - {id: config-valid, status: PASS, evidence: ".garura/project/plans/606.yaml parses as YAML"}
++      - {id: deploy-components, status: REVIEW, evidence: "installed copies not refreshed on purpose; install only when asked"}
++    nice_to_have:
++      - {id: docs-only, status: REVIEW, evidence: "docs commit plus chore bookkeeping; no code"}
++  blocking_issues: []
++  blocking_count: 0
++  ready: true
++  recommendation: "Create PR"
++```
+diff --git a/.garura/project/issues/937/context/work-description.txt b/.garura/project/issues/937/context/work-description.txt
+new file mode 100644
+index 00000000..f85dc6c1
+--- /dev/null
++++ b/.garura/project/issues/937/context/work-description.txt
+@@ -0,0 +1 @@
++Story #937: the memory indexes describe the rename map and the decision record as they are now. Correct two index rows in Garura's source memory: core/components/memory/standards/rules/_index.md (the rename-map.yaml row: a name can map to null, removed with no successor) and core/components/memory/standards/schemas/product-os/_index.md (the decision.yaml row: list for_the_accepter). Also in this change: plan 606's statuses brought up to date after #920 landed (PR #932).
+diff --git a/.garura/project/plans/606.yaml b/.garura/project/plans/606.yaml
+index 4132de5b..c747710b 100644
+--- a/.garura/project/plans/606.yaml
++++ b/.garura/project/plans/606.yaml
+@@ -9,9 +9,9 @@ title: Garura's agentic lifecycle runs as five loops, starting from a working pr
+ status: active
+ planned: false
+ started: '2026-10-28'
+-branch: feature/920-knowledge-steps-become-skills
++branch: null  # #920 landed on main through PR #932, 2026-10-28
+ identified_by: []
+-updated: '2026-10-28'
++updated: '2026-10-28'  # #920 and its bugs done; #929 waits for the Phoenix memory promotion
+ tree:
+ - issue: 922
+   kind: epic
+@@ -23,37 +23,37 @@ tree:
+     kind: bug
+     under: 686
+     title: The knowledge steps were built as three plays no one runs
+-    status: now
++    status: done
+   - issue: 923
+     kind: bug
+     under: 744
+     title: Two knowledge plays write their done records under their old names
+-    status: now
++    status: done
+   - issue: 924
+     kind: bug
+     under: 745
+     title: The Discovery loop's pre-flight uses the plays' and the loop's old names
+-    status: now
++    status: done
+   - issue: 925
+     kind: bug
+     under: 613
+     title: The round script reads waiting memory updates from their files
+-    status: now
++    status: done
+   - issue: 926
+     kind: bug
+     under: 686
+     title: The research skill calls the memory tool itself
+-    status: now
++    status: done
+   - issue: 927
+     kind: bug
+     under: 686
+     title: The proposed-answers skill is handed no memory in the loop
+-    status: now
++    status: done
+   - issue: 928
+     kind: bug
+     under: 632
+     title: The ADR keeper agent read Phoenix memory by its file paths
+-    status: now
++    status: done
+   - issue: 929
+     kind: chore
+     under: 921
+@@ -64,4 +64,4 @@ tree:
+     kind: story
+     under: 922
+     title: A decision record tells the person accepting it what was found on the way
+-    status: now
++    status: done
+diff --git a/core/components/memory/standards/rules/_index.md b/core/components/memory/standards/rules/_index.md
+index 5ca31ea5..4e7c5770 100644
+--- a/core/components/memory/standards/rules/_index.md
++++ b/core/components/memory/standards/rules/_index.md
+@@ -12,7 +12,7 @@ Agents and skills query this category when they need to know: **"What rules must
+ |------|-------------|-----------|
+ | `naming.md` | How plays, loops, skills and agents are named — verb first, one meaning per verb, no tool built-ins, loops `complete-<phase>` (ADR 046) | every builder of a harness part, `create-play`, `create-loop` |
+ | `naming.yaml` | The machine half: the verb lists, industry terms, reserved built-in commands | `core/tools/lint-components` |
+-| `rename-map.yaml` | Every old name and its new name, from adopting the standard | the old-name check, `install-garura` |
++| `rename-map.yaml` | Every old name and its new name, from adopting the standard. A name mapped to `null` was removed with no successor (ADR 059): the old-name check still reports it, and the install has nothing to lay for it | the old-name check, `install-garura` |
+ 
+ ### Knowledge rules
+ 
+diff --git a/core/components/memory/standards/schemas/product-os/_index.md b/core/components/memory/standards/schemas/product-os/_index.md
+index 66e76481..4d08feba 100644
+--- a/core/components/memory/standards/schemas/product-os/_index.md
++++ b/core/components/memory/standards/schemas/product-os/_index.md
+@@ -9,7 +9,7 @@ the two delivery artifacts that ride on top.
+ | `ontology.md` | the product ontology — the agreed, human-readable map of the kinds of things a product is made of (v4: Business Intent, Source, ICE — the ICE in its named page section, intents linked both ways), how they connect and their rules; built with `author-product-ontology` | permanent |
+ | `product-os.yaml` | the Domain → Capability → Feature tree, personas, journeys | permanent |
+ | `ice.yaml` | Intent / Context / Expectations on a node (the build unit at feature level) | permanent |
+-| `decision.yaml` | decision records (ADRs) at any level — with the core fields of `templates/adr.md` added in #632 (supersedes, amends, affects, ICE impact, business-intent check) | permanent |
++| `decision.yaml` | decision records (ADRs) at any level — with the core fields of `templates/adr.md` added in #632 (supersedes, amends, affects, ICE impact, business-intent check) and, since #930, `for_the_accepter`: the points for the person who accepts the record, each with its six parts | permanent |
+ | `lens/` (one file per type) | the 5 realize lenses (ux, architecture, run, quality, agentic) | permanent |
+ | `slice.yaml` | a vertical product increment — features, taken from any capabilities, bundled into an increment a person can test end to end; written by /shape-slice | permanent |
+ | `epic.yaml` | a vertical slice of a feature — the delivery/issue grain | permanent (stamped `delivered` on merge, kept) |
