@@ -70,9 +70,12 @@ standard (`docs/standards/harness-standard.md`).
   `/shape-slice` and `/shape-plan` place it when they run. Work that blocks the plan
   gets its own Epic (its own slice), is delivered there, and merges back into the
   plan branch it spawned from. (The product owner, 2026-10-26, #879.)
-- **No labels, for now.** Not for type, status, area, or severity. A severity
-  and priority taxonomy will be designed later; until then, open issues carry
-  none. Closed issues keep their old labels as history.
+- **No labels, for now.** Not for type, status, area, or severity. Closed issues
+  keep their old labels as history.
+- **A Bug carries its severity in its text.** Its first line is
+  `Severity: P<n> (<rule>) — <why, in one line>`, set by the severity rules
+  (`standards/rules/severity.md`, the product owner, 2026-10-28). The same rules
+  say when a finding is a change, not a defect: then it is a Story, with no severity.
 - **Title states the outcome**, in the language a reader operates in — what
   changes and for whom — not the files being touched.
 
