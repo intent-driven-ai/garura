@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261024T163114Z/adr-check.json",
+    ".garura/project/issues/_adr/20261024T163114Z/adr-context.yaml",
+    ".garura/project/issues/_adr/20261024T163114Z/adr-draft.md",
+    ".garura/project/issues/_adr/20261024T163114Z/adr-manifest.json",
+    ".garura/project/issues/_adr/20261024T163114Z/brief.md",
+    ".garura/project/issues/_adr/20261024T163114Z/decision.yaml",
+    ".garura/project/issues/_adr/20261024T163114Z/hashes-before.json",
+    ".garura/project/issues/_adr/20261024T163114Z/porcelain-after.txt",
+    "docs/adr/028-agentic-lifecycle-five-loops.md",
+    "docs/adr/033-approval-in-the-product-model.md",
+    "docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md",
+    "docs/adr/028-agentic-lifecycle-five-loops.md",
+    "docs/adr/033-approval-in-the-product-model.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

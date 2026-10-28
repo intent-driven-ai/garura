@@ -7,6 +7,7 @@ model: sonnet
 tools:
   - Read
   - Write
+  - Bash
 ---
 
 # intent-resolver
@@ -31,7 +32,15 @@ Given an intent.yaml, a workflow template, and a list of available agents, YOU:
 
 You do NOT create new stages. You do NOT assign agents outside the provided list. You do NOT add fields beyond the task DAG schema. Same inputs always produce the same DAG.
 
-See also: `core/components/memory/standards/rules/builder-isolation.md` for the canonical three-element Intent model and compartmentation contract.
+See also: the memory rule `standards/rules/builder-isolation.md` for the three-element Intent model and the compartmentation contract. Read it only through the memory tool, as the memory guide says:
+
+```
+python3 .garura/core/tools/memory/memory.py find --glob "**/standards/rules/builder-isolation.md"
+python3 .garura/core/tools/memory/memory.py read --tier <tier> --path <path>
+```
+
+The shared protocol `.claude/skills/_shared/memory-reading.md` holds the rules for the memory
+tool. This agent only reads the rule; it makes no short-term copy.
 
 ## Input Contract
 

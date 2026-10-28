@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml",
+    "product-os/slices/sl-intent-to-design.yaml",
+    "product-os/intents/bi-788.md",
+    ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md"
+  ],
+  "add_only": [],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md",
+      "status": "M"
+    }
+  ],
+  "violations": [],
+  "restored": [],
+  "also_tree": [
+    ".garura/project/plans"
+  ]
+}

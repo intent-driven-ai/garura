@@ -1,0 +1,12 @@
+ M .garura/project/issues/889/context/porcelain.txt
+D  .garura/project/issues/889/review/categories.yaml
+D  .garura/project/issues/889/review/context.yaml
+D  .garura/project/issues/889/review/decision-comment.md
+D  .garura/project/issues/889/review/decision.yaml
+D  .garura/project/issues/889/review/design-findings-harness.yaml
+D  .garura/project/issues/889/review/findings.yaml
+D  .garura/project/issues/889/review/layer1.txt
+D  .garura/project/issues/889/review/posted.json
+D  .garura/project/issues/889/review/pr.diff
+D  .garura/project/issues/889/review/quality-findings.yaml
+D  .garura/project/issues/889/review/recommended_verdict.yaml

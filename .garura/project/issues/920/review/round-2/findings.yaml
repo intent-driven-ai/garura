@@ -1,0 +1,438 @@
+pr: 932
+issue: 920
+base: main
+round: 2
+findings:
+- id: H-5
+  severity: P4
+  rule: wording (hard-wrap)
+  standard_id: null
+  file: core/components/loops/_shared/loop-run.md
+  lines: line 7 (the opening paragraph, 166 columns, rewritten for H-3); also core/components/loops/complete-discovery/reference/ice.md
+    C5 paragraph ('context and our proposed answer, never a questionnaire (Kapil, 2026-10-20). The answers are kept
+    ...', 132 columns) and core/components/plays/create-loop/SKILL.md section 3 ('"brief the person on what the
+    loop could not answer" (loop, R5b) -> the checker ...', 129 columns) and step 3 of the folder list ('`record_check.py`,
+    `group_questions.py`, ...', 146 columns)
+  principle: G6
+  committed_source: the unchanged lines around each edit in the same files at main wrap at about 100 columns (git
+    show main:<file>)
+  basis: 'Rule: wording. Four edited paragraphs were joined onto one over-long line instead of re-wrapped. The same
+    kind of slip was F4 in round 1, which the product owner called P4. No guarantee or check depends on it.
+
+    '
+  suggestion: Re-wrap the four paragraphs at about 100 columns.
+  category: harness
+- id: H-6
+  severity: P4
+  rule: wording (an instruction that leaves an input out)
+  standard_id: null
+  file: core/components/agents/knowledge-builder.md
+  lines: '''The knowledge step'', part 2 Build: ''INVOKE `author-knowledge-page` (one page per topic; it writes
+    a draft), then raise the draft yourself'''
+  principle: G1
+  committed_source: 'docs/standards/harness-standard.md principle 2 at main: an agent hands each skill a contract
+    of file paths'
+  basis: 'Rule: wording. The reworked skill author-knowledge-page lists `draft_path` as a required input (the page''s
+    place under <working>/knowledge-round-<n>/pages/), but the agent''s Build part does not tell the agent to hand
+    it. The agent can still choose a path and read the draft back, and no check reads the pages folder, so nothing
+    breaks; the contract between the two is only incomplete.
+
+    '
+  suggestion: 'Say in the Build part: hand the skill the topic, the context and `draft_path` (<working>/knowledge-round-<n>/pages/<topic-slug>.json).'
+  category: harness
+- id: S1
+  severity: P3
+  severity_rule: a check silently covers less (PR taxonomy P3, owner's F1 precedent)
+  file: core/components/memory/standards/rules/severity.md
+  lines: '''Then: ask in this order'' - P1, P2 and P4 bullets; compare standards/rules/pr.md ''Severity buckets'''
+  principle: G6
+  basis_source: 'pr.md via the memory tool (copy .garura/project/issues/920/context/memory/standards/rules/pr.md,
+    ''Severity buckets''); knowledge/review/memory.md playbook copy: ''pr.md and severity.md must agree'''
+  finding: The two pages give the same four labels different meanings and do not say which wins. (a) pr.md P1 covers
+    'breaking API contract, migration safety'; the new page's P1 covers a broken guardrail, a run that cannot reach
+    done, data lost / secret / security hole. A Bug that breaks an API contract or a migration has no P1 route in
+    the new page, so by 'first that fits' it falls to P2 or lower. (b) pr.md P2 is 'Highlights without blocking';
+    the new page's P2 is 'Fixed in this change unless the person says otherwise'. (c) pr.md P4 is 'Suppressed by
+    default; surfaced only in evidence'; the new page's P4 is 'Nit' with no suppression. The one line pr.md adds
+    ('get their severity from severity.md') sends non-table findings to the new page, so a reader of both cannot
+    tell whether a P2 blocks.
+  suggestion: Either add 'a breaking API contract or an unsafe migration' to the new P1 list and say a P2 is fixed
+    in this change where pr.md's P2 only highlights, or add a sentence to severity.md saying which meaning governs
+    for findings the table cannot match.
+  category: memory
+- id: S2
+  severity: P3
+  severity_rule: 'a check silently covers less - here the rule itself: two bullets overlap (owner''s F1 = P3 vs
+    the page''s own ordering)'
+  file: core/components/memory/standards/rules/severity.md
+  lines: '''P2 ... A guarantee is weakened: a part still works, but on less than its rule promises'' and ''P3 ...
+    A check, a guard or a link silently covers less than before'''
+  principle: 'The owner''s round-1 call: F1 (the old-name check no longer catches two names) is P3 (round-1/decision.yaml,
+    reclassified_by_person.F1)'
+  basis_source: .garura/project/issues/920/review/round-1/decision.yaml (the owner's call, committed in the round-1
+    record); the page's own rule 'ask in this order; the first that fits is the severity'
+  finding: The old-name check is a part that still works but on less than its rule promises ('lists every name changed').
+    That fits the P2 bullet, and P2 is asked before P3, so by the page's own order its own P3 example (two retired
+    names dropped from a rename map) rates P2. The P3 bullet is only reached when the reader decides a check is
+    not a 'guarantee'. Two readers can rate the same finding P2 and P3.
+  suggestion: Say in the P2 bullet that a check or guard that covers less is P3 (not P2), or move the check wording
+    above the guarantee wording; keep the owner's F1 = P3 as the worked case.
+  category: memory
+- id: S3
+  severity: P4
+  severity_rule: wording
+  file: core/components/memory/standards/rules/severity.md
+  lines: '''The parts'' - Agent: ''the only part that reads memory''; guardrail 1: ''Nothing reads, lists or compares
+    a memory file by its path'''
+  principle: G7
+  basis_source: main:docs/standards/harness-standard.md principle 11 ('an agent fetches it through the memory tool
+    into the issue's short-term memory, and the skill reads that copy'); main:docs/adr/039 section 11 (a play's
+    own step-to-step files are read directly)
+  finding: 'Read literally, the line makes every skill that reads its agent''s short-term copy, and every play that
+    reads its own working file, a P1 (guardrail 1). The committed rule is narrower: memory is never fetched by a
+    path except through the tool; the short-term copy and the play''s own files are read directly. The agent is
+    the only part that fetches memory, not the only part that reads it.'
+  suggestion: Write 'fetches memory (through the tool)' and 'nothing fetches, lists or compares memory by its path;
+    a skill reads the copy its agent put in short-term memory'.
+  category: memory
+- id: S4
+  severity: P4
+  severity_rule: wording
+  file: core/components/memory/standards/rules/severity.md
+  lines: '''A severity always names its rule'' and the Examples table, Rule column ''—'' on the P3 and P4 rows'
+  principle: 'The page''s own rule: a finding whose rule cannot be named is not finished.'
+  basis_source: the page itself (internal consistency only; the committed basis is the owner's brief that every
+    finding names its rule)
+  finding: The rule says every severity names its rule, but only P1 and P2 have a name form (guardrail n, loophole,
+    weakened guarantee). The P3 and P4 examples carry '—' as their rule, and the page gives no name for P3 or P4
+    (such as 'silent cover' or 'wording').
+  suggestion: Name the P3 and P4 rules in the page (for example P3 'silent cover', P4 'wording') and put them in
+    the Rule column.
+  category: memory
+- id: S5
+  severity: P4
+  severity_rule: wording
+  file: core/components/memory/standards/rules/severity.md
+  lines: '''The guardrails of the architecture'' (the heading and the count ''six''); ''- Then: ... file it as a
+    Story''; ''Where the severity is written'' - ''Not a label'''
+  principle: G7 and G9; the page is written for any team on the Phoenix architecture (the owner's round-2 brief)
+  basis_source: main:docs/standards/harness-standard.md (lists parts and principles, no 'six guardrails'; every
+    principle names its ADR); main:.garura/user-provided/managing-work.md ('No labels, for now', Garura's own tracker
+    policy)
+  finding: 'Three small gaps against ''for any team'': (a) the ''six guardrails'' appear as a list nowhere on main;
+    the page cites none of the decisions behind them (harness-standard principles 9 and 11, ADR 039, gate-config.md),
+    so a reader cannot trace them. (b) ''file it as a Story'' is Garura''s tracker type. (c) ''Not a label'' states
+    Garura''s own no-labels policy as if it were part of the architecture.'
+  suggestion: Add a line saying where each guardrail comes from; write 'a work item' for 'a Story'; drop 'Not a
+    label' or mark it as Garura's choice.
+  category: memory
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  note: 'path-only match: the rule fires because a code file changed; no line or defect named'
+- id: L-1
+  severity: P4
+  category: harness
+  file: core/components/plays/create-loop/SKILL.md
+  basis: lint-components (installed, source layout)
+  defect: same violation on main; create-loop is hand-written
+  fix: none in this change
+- id: L-2
+  severity: P4
+  category: harness
+  file: core/components/plays/create-loop/SKILL.md
+  basis: lint-components (installed, source layout)
+  defect: same violation on main; create-loop is hand-written
+  fix: none in this change
+changes_owed:
+- id: CH-1
+  file: core/components/agents/change-reviewer.md (new severity wording) against core/components/plays/check-change/SKILL.md
+    and scripts/compute_verdict.py
+  note: 'The agent now says a "change" finding gets no severity. compute_verdict.py documents every finding as carrying
+    `severity` P1..P4, and check-change''s Step 2 copies only pr.md as the severity source. The play and its verdict
+    script do not know the new kind of finding, nor that the agent now wants severity.md copied into its grounding
+    folder (the page is in no memory tier yet). Work the change owes: teach check-change, or file a Story.
+
+    '
+- id: CH-2
+  file: core/components/plays/record-decision/SKILL.md and reference/ice.md (unchanged)
+  note: 'adr-keeper''s context file gains `for_the_accepter`; the play''s adr-context.yaml checks (SE-3) and its
+    ICE do not list the field. adr.py lint covers the record itself, so nothing slips through. Same kind as round-1
+    F2.
+
+    '
+- id: CH-3
+  file: core/components/loops/complete-discovery/scripts/round_state.py and check_knowledge.py
+  note: 'Both ask the memory tool''s read-only `updates`. The committed rule on main (ADR 039 section 10 as amended
+    by ADR 042 section 4) gives that only to a knowledge play''s check script; the widening to these two loop scripts
+    is ADR 059''s, which is new on this branch. The product owner accepted exactly these two in round 1, so it is
+    recorded here, not raised.
+
+    '
+- id: CH-4
+  file: core/components/plays/install-garura/scripts/install.py (retire_renamed, unchanged)
+  note: 'With build-knowledge and review-knowledge now mapped to null there is no new name to lay, so a project
+    installed before the install manifest existed keeps its old copies of those two plays; only retire_stale (manifest)
+    removes the three deleted plays. No project is known to be in that state.
+
+    '
+- id: C1
+  note: 'Not defects: new things neighbouring parts do not know yet (the owner''s round-1 F2 precedent).'
+  items:
+  - 'severity.md is in no memory tier yet. change-reviewer''s Job 2 (changed in this PR) copies it with the memory
+    tool; until it is promoted or installed the tool finds nothing (find --issue 920 returns matches: []).'
+  - check-change (main) says every finding carries a P1-P4 class and a cited basis (SE-6); the new page says a change
+    gets no severity. The play and its findings record have no place for a 'change' finding yet.
+  - The review playbook knowledge/review/memory.md (Phoenix memory) says 'does the severity taxonomy stay mechanical'
+    and has no word of severity.md.
+  - test_naming_tools.py has no case for a name mapped to null (the behaviour F1 relies on); the rename-map row
+    in rules/_index.md still says 'Every old name and its new name'; schemas/product-os/_index.md's decision.yaml
+    row does not list for_the_accepter.

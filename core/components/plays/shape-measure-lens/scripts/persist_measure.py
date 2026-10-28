@@ -49,12 +49,15 @@ except ImportError:
 
 REALIZED = "realized"
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
+
 
 def load(path):
     if not os.path.isfile(path):
         return {}
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def write_record(path, record):

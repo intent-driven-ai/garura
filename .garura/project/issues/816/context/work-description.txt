@@ -1,0 +1,4 @@
+Issue #816 (plan 788, under #794), grouped in one change with #817 and #815 (decided by the product owner on 2026-10-23: group work to cut the change-pipeline overhead).
+#816: through /edit-ontology, a Slice serves a business intent; /shape-slice makes the plan from the slice it shaped; the plan's "two tests" go; the testable-surface rule is a Slice rule; the ontology names where the slice's eval lives.
+#817: the grilling tier setting (shape-slice.grill-tier: xs 5, s 12, m 25, l 45, xl 70; default m), with a test.
+#815: name the old-name check's ADR cut-off for its use; test ADR 049 and SUPERSEDED- files.

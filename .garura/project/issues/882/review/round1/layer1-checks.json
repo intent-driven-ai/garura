@@ -1,0 +1,47 @@
+{
+ "checks": [
+  {
+   "category": "run-records+tool-state",
+   "check": "every JSON, JSONL and YAML file parses",
+   "ok": false,
+   "detail": "6 run-1 gate records (understand/20261025T102501Z/judge/round1/gate-*.json) hold the gate's text line, then its JSON; all other records parse"
+  },
+  {
+   "category": "all",
+   "check": "no home path, real name or client reference in any changed file",
+   "ok": true,
+   "detail": "only hits: self-review.md names the scan patterns in its own PASS lines (no path, no name)"
+  },
+  {
+   "category": "tool-state-records",
+   "check": "the two tool-state diffs are one version line and one ledger line",
+   "ok": true,
+   "detail": "+2 -1: the Phoenix version line (3161dcdfe26f to 44e1c4c4799a) and one gate-ledger line for #882"
+  },
+  {
+   "category": "product-model",
+   "check": "the decision record names cap-initialize and security none to medium",
+   "ok": true,
+   "detail": "decision.id dec-cap-initialize-security-none-medium, node_ref cap-initialize, level product, status accepted"
+  },
+  {
+   "category": "product-model",
+   "check": "the spine holds cap-initialize",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "category": "product-model",
+   "check": "the spine holds six features under cap-initialize",
+   "ok": true,
+   "detail": "fn-setup-questions,fn-project-memory,fn-review-rule-groups,fn-881,fn-rerun-initialize,fn-883"
+  },
+  {
+   "category": "product-model",
+   "check": "seven pages on disk (capability + six features)",
+   "ok": true,
+   "detail": "7"
+  }
+ ],
+ "command": "python3 by-hand checks (check-change Layer 1, no installed linter covers these categories)"
+}

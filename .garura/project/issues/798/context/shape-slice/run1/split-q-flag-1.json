@@ -1,0 +1,21 @@
+{
+  "asked": [
+    {
+      "id": "Q-flag-1",
+      "topic": "flag",
+      "blocking": false,
+      "question": "Where must the product owner see the flag when a build session read the evals folder?",
+      "why": "The check does not block a build; it only makes the read visible. If the flag sits where no person looks, the shortcut stays hidden in practice, and the product owner trusts an eval pass that the builder could aim at.",
+      "examples": [
+        "a shop: the alert shows on the store manager's daily report",
+        "a hospital: the note is added to the patient record the doctor opens next",
+        "a bank: the warning goes on the review form the approver signs"
+      ],
+      "assume": "The flag is written in the build run's evidence file and named in that run's close report, so the product owner sees it when the run ends.",
+      "settled": false,
+      "basis": null,
+      "proposed_answer": null
+    }
+  ],
+  "assumptions": []
+}

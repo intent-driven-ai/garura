@@ -184,7 +184,7 @@ function check(components) {
           file: play.file,
           rule: 'semantic/skill-not-found',
           severity: 'error',
-          message: `Skill reference '${ref.name}' not found in core/components/skills/`,
+          message: `Skill reference '${ref.name}' not found among the skills`,
           line: ref.line,
         });
       }
@@ -198,7 +198,7 @@ function check(components) {
           file: play.file,
           rule: 'semantic/agent-not-found',
           severity: 'error',
-          message: `Agent reference '${ref.name}' not found in core/components/agents/`,
+          message: `Agent reference '${ref.name}' not found among the agents`,
           line: ref.line,
         });
       }

@@ -1,0 +1,16 @@
+category: product-model
+grounding_base: origin/plan/788/base
+playbook: null   # playbook missing; follow-up: write knowledge/review/product-model.md
+principles:
+  - id: M1
+    text: "The epic keeps the map from each feature to its story, and the plan play writes it; the plan file and the epic agree"
+    source: "ontology.md v11 (Epic, Plan rows and rules); docs/adr/052 section 3"
+  - id: M2
+    text: "The slice's hidden file belongs to /shape-slice, not the plan play"
+    source: "docs/adr/052 sections 1-2"
+checks:
+  - "fn-818 gains one acceptance line: a slice with three features, run and yes, then the epic holds one map line per feature with its story. It states M1 and sits beside the page's existing Out line 'feature-to-story map' and Out of scope."
+  - "The line is in Given/when/then form like its neighbours; plain words; no real name."
+counts: {P1: 0, P2: 0, P3: 0, P4: 0, total: 0}
+findings: []
+note: "The page still carries its Thin mark; unchanged and correct. The map also appears in the page's Inputs/Outputs, so the new line adds a testable check, not new scope."

@@ -1,6 +1,6 @@
 ---
 name: platform-adapter
-description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 16 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
+description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 23 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
 user-invocable: false
 model: haiku
 allowed-tools: Bash, Read
@@ -22,17 +22,19 @@ Receive from caller (agent):
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `verb` | Yes | One of the 16 supported verbs (see Verb Interface below) |
+| `verb` | Yes | One of the 23 supported verbs (see Verb Interface below) |
 | `args` | Yes | Map of named arguments for the verb (see per-verb reference) |
 
 ## Verb Interface
 
-The adapter exposes exactly 16 verbs:
+The adapter exposes exactly 23 verbs:
 
 | Verb | Purpose |
 |------|---------|
 | `view-pr` | Fetch PR/MR metadata (JSON) |
 | `diff-pr` | Fetch PR/MR unified diff |
+| `pr-files` | List every changed file of a PR/MR with its patch, page by page (for a PR over the 300-file diff limit) |
+| `compare-diff` | The plain diff between two branches, with no file limit: the first try for a PR whose one diff is refused (over 300 files), before `pr-files` (GitHub only; GitLab stops with a plain message) |
 | `comment-pr` | Post a comment on a PR/MR |
 | `request-changes` | Request changes on a PR/MR, blocking merge |
 | `add-reviewer` | Add a reviewer to a PR/MR |
@@ -47,6 +49,11 @@ The adapter exposes exactly 16 verbs:
 | `attach-sub-issue` | Attach a child issue to a parent (GitHub only; GitLab falls back to related-link) |
 | `view-user` | Get the current authenticated user's login |
 | `update-comment` | Update an existing comment in place |
+| `create-issue-typed` | Create an issue with its type and its parent in one call (GitHub only; GitLab stops with a plain message) |
+| `set-issue-type` | Set an issue's type (GitHub only; GitLab stops with a plain message) |
+| `edit-issue-body` | Replace an issue's body (GitHub only; GitLab stops with a plain message) |
+| `remove-label` | Take a label off an issue (GitHub only; GitLab stops with a plain message) |
+| `remove-sub-issue` | Take a child issue off its parent (GitHub only; GitLab stops with a plain message) |
 
 ## Platform Resolution
 
@@ -101,7 +108,7 @@ Apply the platform resolution steps above. Halt on pre-flight failure before exe
 
 ### Step 2: Look Up Verb
 
-Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment."`
+Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment, create-issue-typed, set-issue-type, edit-issue-body, remove-label, remove-sub-issue."`
 
 ### Step 3: Substitute Arguments
 
@@ -129,7 +136,7 @@ Return to caller:
 - NEVER fall back silently when a platform reference file is missing — halt with structured failure
 - ALWAYS perform the `which glab` pre-flight check before any operation when platform=gitlab
 - ALWAYS halt with the prescribed install hint text when `glab` is missing: `"glab CLI not found. Install via: brew install glab or https://gitlab.com/gitlab-org/cli"`
-- NEVER add verbs beyond the 16 defined above without a schema change
+- NEVER add verbs beyond the 23 defined above without a schema change
 
 ## Version
 

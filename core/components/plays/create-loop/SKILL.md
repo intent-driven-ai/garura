@@ -108,10 +108,10 @@ approve or revise.
 ### 3 — Steps and evals
 A loop's steps are fixed: open (`start-change`) → questions first (loop) → write the contract
 (loop, script) → **in rounds**: one step per play (owned by that play), then "after the round:
-done, again or ask" (loop, script — `round_state.py`) and "ask the person what the loop could
-not answer" (loop, only on ask — after the knowledge member plays `search-knowledge`, `research-knowledge` and `check-knowledge` find, build and brief the missing
-knowledge, R5c and R5b) → the checker → the end sequence → scenario validation →
-close. A loop loops over its plays until its job is done; a play's open question is the
+done, again or ask" (loop, script — `round_state.py`) and, only on ask, "the knowledge step"
+(loop — the `knowledge-builder` agent finds, builds and briefs the missing knowledge, R5c) and
+"brief the person on what the loop could not answer" (loop, R5b) → the checker → the end
+sequence → scenario validation → close. A loop loops over its plays until its job is done; a play's open question is the
 loop's, asked only when no play answers it (Shared Loop Run, R5 and R5b). Add only what the End section names. Then generate the evals as
 `/create-play` step 5 says: a step eval (SE-n) per failure condition and per
 artifact-verifiable constraint, placed after the step it checks; a scenario eval (SCE-n) per
@@ -142,8 +142,9 @@ Write the folder:
 3. `scripts/`: copy unchanged — from `references/`: `loop_preflight.py`,
    `write_loop_contract.py`, `check_play_done.py`, `commit_run_files.py`,
    `run_play_headless.py`, `round_state.py`, `loop_status.py`, `prepare_check.py`, `run_checker_codex.py`,
-   `record_check.py`; from `../create-play/references/`: `check_loop_contract.py`,
-   `session_stamp.py`, `check_stop_condition.py`. A rebuild copies them again, so a loop never
+   `record_check.py`, `group_questions.py`, `check_knowledge.py`, `record_review.py`; from
+   `../create-play/references/`: `check_loop_contract.py`, `session_stamp.py`,
+   `check_stop_condition.py`. A rebuild copies them again, so a loop never
    drifts from the shared run.
 4. The fingerprint: run `shasum -a 256 reference/ice.md` and paste the digest. Never invent one.
 5. The Next line: add the loop to `standards/rules/pipeline-next.md`.
@@ -167,7 +168,8 @@ Write the folder:
 From the repository root:
 
 ```
-python3 core/components/plays/create-loop/scripts/lint_loop.py core/components/loops/<loop>/SKILL.md
+python3 core/components/plays/create-loop/scripts/lint_loop.py core/components/loops/<loop>/SKILL.md \
+    --next-map core/components/memory/standards/rules/pipeline-next.md
 ```
 
 It runs every play check (coverage, one recovery per failure, no orphans, required sections,

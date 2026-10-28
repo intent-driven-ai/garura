@@ -1,0 +1,42 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261024T183939Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "050",
+      "file": "docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md",
+      "kind": "amended",
+      "part": "\u00a73, the line 'The other three (scriber, tech-architect, test-runner) are left as they are': the three agents are deleted"
+    },
+    {
+      "adr": "035",
+      "file": "docs/adr/035-agents-work-only-from-memory.md",
+      "kind": "amended",
+      "part": "\u00a710, the line 'The seven retired agents are left as they are' (as amended by ADR 050): the last three, scriber, tech-architect and test-runner, are deleted too"
+    },
+    {
+      "adr": "039",
+      "file": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "kind": "amended",
+      "part": "\u00a79 'A block every play shares lives in one common file': a block a few skills share also lives in one common file, under skills/_shared/, laid in the same _shared folder as the play and loop blocks"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "the product owner",
+  "pointers_written": [
+    "050-the-retired-intent-epic-pipeline-is-deleted.md",
+    "035-agents-work-only-from-memory.md",
+    "039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

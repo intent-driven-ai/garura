@@ -3,6 +3,8 @@ name: release-increment
 position: none
 description: 'Deploy a delivered increment (a validated, merged epic) to a named CLOUD environment the run lens already defined — defaulting to the lowest cloud tier (dev), running exactly what that environment''s run.yaml declares, then proving it came up healthy with an independent reachability check and recording the deploy as evidence. Lightweight and on-demand: changes nothing in the product model and stops below production (prod stays with CD from main). The /release-increment command in the ProductOS command model. Use when a delivered increment needs to run on a cloud environment /shape-run-lens already defined.'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the execute loop on the plan and eval plays (#855, ADR 049)'
 ---
 
 # deploy
@@ -255,7 +257,7 @@ unresolved — never blocks the close); and stop_condition per C0 with the Stop 
 filled) and write to `$evidence_dest`. Do NOT hand-author the body. This persists the deploy evidence
 record (C7, verified by SE-9) to the evidence file, or explicitly skips on `record=false`.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## deploy Delivered —
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## deploy Delivered —
 ${slug}`, the Run Summary table (target env, address, health), the Pipeline Steps table, the Artifacts
 Produced table (the deploy record + logs), Next Steps (promote to a higher cloud tier by re-running
 `/release-increment --env <tier>`; production follows from main via CD), and a pointer to `$evidence_dest`. Always
@@ -284,7 +286,7 @@ emitted.
 |-----|---------|-----------|---------|
 | F1 | /release-increment deployed to, or ran, something the run lens does not declare | stop and undo the out-of-scope action; deploy only what the target env's run.yaml declares | autonomous |
 | F2 | production or an out-of-scope tier was targeted | halt; production rollout is out of scope — it stays with CD from main | human |
-| F3 | the increment is not delivered, merged, or validated | halt; /release-increment deploys only a validated, merged increment — route to /validate-feature or /release-feature first | human |
+| F3 | the increment is not delivered, merged, or validated | halt; /release-increment deploys only a validated, merged increment — route to /validate-epic or /release-epic first | human |
 | F4 | a product-model file changed | revert the write; /release-increment executes only and never writes the model | autonomous |
 | F5 | success was reported but the increment is not healthy | mark the deploy failed; "done" requires the independent health check to pass | autonomous |
 | F6 | a secret value appeared in the logs, the record, or the repo | strip it, read secrets only from the declared secrets-manager binding, and re-verify none remain | autonomous |
@@ -302,7 +304,7 @@ status marker, skip completed steps, reset any in-progress step to pending, and 
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:12576190269a219ba91dd375a7e03d1029bfa22f9d1ebb390ba895105765b898 (of `reference/ice.md`) |
+| fingerprint | sha256:65717fcd9c8b7bc329ea6c9938fa4d45ed10584825a886fc8ef783a1ca16234c (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch B; #467 deploy pinned) |
 | pipeline_position | none (standalone; acts on a delivered increment on main; no start/end injection) |
 | model_writes | no (execution only — never writes the product model) |

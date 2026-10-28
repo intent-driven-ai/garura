@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every section the guidance asks for is filled with real content: What it does (3 points), Inputs / Outputs (3 in, 3 out), Rules & behavior (7 branches, e.g. \"When the profile holds no earlier answers (the first run never finished), the run asks the questions as a first run does\"), Acceptance criteria (6 Given/When/Then), Out of scope (2, each naming its owner), Sources, and an ICE section with Goal, Limit, Fails if, Context and Checked by lines.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "Rules carry their reason: \"An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed.\"; \"the tracker is an outside system the whole team sees, and a re-run is as able to make a wrong type as a first run\"; \"A run never removes a work-item type from the tracker. A type may hold work items the team still uses.\"; \"because a standard or a rule group the project no longer needs gives only noise.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Every section is discrete bullets; the feature states the function's behavior (\"Lets the product owner run `initialize` again at any time, when the project changes\"), never a user story; acceptance is Given/When/Then throughout, e.g. \"Given the database answer changes from yes to no, when the run ends, then the database standard is no longer in the project's memory and the database rule group is recorded as skipped.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "The parent gives one line: \"Run initialize again (fn-rerun-initialize): lets the product owner run initialize again when the project changes, with the earlier answers proposed\" and the rule \"A run can be repeated at any time.\" The feature adds detail the parent lacks: the project-shown answer beats the earlier one and is shown beside it, a run with every answer unchanged changes nothing, the no-earlier-answers branch, the yes-to-no removal of the database standard and rule group, the never-remove-a-type rule, and a change record of what changed since the last run.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "What it does names \"a new tracker\" as a reason to run again (\"it gains a database, a web surface, personal data or a new tracker\"), but no rule or acceptance criterion says what a re-run does when the tracker itself changes; and the outputs lean on a bare id: \"through fn-project-memory, fn-review-rule-groups and fn-881.\"",
+      "fix": "Add a rule to Rules & behavior for a changed tracker answer, for example: \"When the tracker answer changes (for example from GitHub to Jira), the re-run sets up the work-item types in the new tracker as a first run does, after a typed yes, and leaves the old tracker as it is, because the old tracker may still hold the team's work items\", and a matching Given/When/Then. In Inputs / Outputs and Out of scope, name each feature by its title beside its id, e.g. \"Set up the tracker's work-item types (fn-881)\", so a cold reader knows what fn-881 does."
+    }
+  ]
+}

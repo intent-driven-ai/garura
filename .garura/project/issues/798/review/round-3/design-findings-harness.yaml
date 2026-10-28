@@ -1,0 +1,163 @@
+# design findings - category: harness (change #798, PR #900, round 3, base plan/788/base)
+# Grounded only in committed sources: git show plan/788/base:<path> and the memory tool.
+# Not used as grounding (added or rewritten by this diff): ADR 057, idd-principles.md edits,
+# plays/shape-eval/reference/ice.md, standards/rules/eval-format.md, the eval templates and step library.
+category: harness
+pr: '900'
+change: '798'
+round: 3
+base: plan/788/base
+severity_note: >
+  pr.md has no design-conformance rows (its rows are runtime/security/doc patterns), so each
+  finding takes its bucket from the P1-P4 definitions in pr.md (P3 = minor: missing docs, naming,
+  borderline; P4 = nit).
+counts: {P1: 0, P2: 0, P3: 2, P4: 5}
+since_round_2: >
+  Only one harness change since round 2: commit d756e304 (shape-slice SKILL.md Step 8b,
+  scripts/write_hidden_file.py --redraft, and a test). Nothing under shape-eval, platform-adapter,
+  evals-engineer or the other skills changed (git log on those paths ends at commits already seen in
+  round 2). shape-slice reference/ice.md was not touched by d756e304, so its fingerprint
+  (f1002e68...) still matches the compiled play; the hash check cannot see this change.
+round2_status:
+  DF-H-4: {status: open, note: "unchanged; ice.md C1/F1 and SKILL.md 184, 189-191 are as in round 2."}
+  DF-H-5: {status: open, note: "unchanged (optional); gather_eval.py line 95 still copies the whole hidden file."}
+  DF-H-6: {status: open, note: "unchanged; SE-6 (SKILL.md 243-244) still says <plans>/<id>/evals/."}
+  DF-H-7: {status: open, note: "unchanged; gitlab/verbs.md 32 still uses {project}. The round-2 decision logged it as not fixed and filed as its own issue."}
+  DF-H-8: {status: open, note: "unchanged (optional); the two docs are not touched by the diff."}
+principles:
+  - id: H3
+    text: "Mechanical work is a script, judgment is a model (principle 3)"
+    source: "git show plan/788/base:docs/standards/harness-standard.md - principle 3"
+  - id: H4
+    text: "A change to what a part guarantees is made in the ICE and the part is compiled again; the compiled part records a fingerprint of its ICE so the two never drift apart unseen"
+    source: "plan/788/base:docs/standards/harness-standard.md - principle 4 and its Why ('A part edited away from its intent stops doing what was agreed, and nobody can see that it changed'); ADR 027; CLAUDE.md 'Play Pipeline Rules' (intent change vs non-intent change)"
+  - id: ICE-C15
+    text: "The hidden file keeps every entry as it is when the slice gains a feature; only the new feature's entry is added"
+    source: "plan/788/base:core/components/plays/shape-slice/reference/ice.md C15 (line 95: 'keeps every other entry as it is'); plan/788/base:docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md"
+  - id: H11
+    text: "Installed parts name only installed files; no pointer into core/ or docs/"
+    source: "plan/788/base:docs/standards/harness-standard.md - principle 11; ADR 055"
+  - id: A49-2-3
+    text: "A slice's eval, hidden file and guide live once, in its home plan's folder; another plan points to them and never copies"
+    source: "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md - Decision 2, 3"
+  - id: A49-4
+    text: "The eval play reads the epic, its stories and the hidden file, never the guide or the code"
+    source: "plan/788/base:docs/adr/049-...md Decision 4; plan/788/base:docs/adr/052-...md"
+  - id: P4-ROUTE
+    text: "Routing table: Recovery (Expectation) goes to the builder only as a handoff plan and to the validator; the eval-author column is '-'"
+    source: "plan/788/base:docs/philosophy/idd-principles.md - The Routing Table (base version)"
+  - id: STALE
+    text: "When a shared agent is rewritten, the documents that name its old job are kept in step or marked old"
+    source: "plan/788/base:docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md; plan/788/base:core/components/agents/evals-engineer.md stale_note"
+  - id: ADAPTER
+    text: "platform-adapter verbs.md is the normative reference: one section per verb, the exact CLI command with its defined substitution tokens"
+    source: "plan/788/base:core/components/skills/platform-adapter/reference/gitlab/verbs.md (header; 'Note on project encoding' uses {encoded_owner%2Fname}); plan/788/base:core/components/skills/platform-adapter/SKILL.md Step 3"
+conformant:
+  - "H4 (shape-eval): sha256 of shape-eval/reference/ice.md (ae979989...) equals the fingerprint in SKILL.md Compilation Metadata; no change since round 2."
+  - "H4 (shape-slice, fingerprint only): sha256 of shape-slice/reference/ice.md (f1002e68...) equals the SKILL.md fingerprint. This holds because d756e304 did not touch the ICE; see DF-H-9 for why that is not enough."
+  - "H4 (shape-slice, fill one-line): the round-2 'replace a part's one-line' rule is in ICE C8, C17, F8, F17, REC8 and in the compiled play."
+  - "H3 (write_hidden_file.py --redraft): the mechanics are a script, not model work: it marks the named entry not kept, keeps its line ids, and refuses an unknown feature with exit 2 (a test covers both)."
+  - "H2/H11: no core/components, core/tools or docs/ pointer in the new Step 8b text or in write_hidden_file.py (grep)."
+  - "Other round-2 conformant points (play -> agent -> skill -> script wiring in shape-eval, one pinned checkpoint, STALE notes on the three stale callers, platform-adapter 22 verbs) are unchanged."
+findings:
+  - id: DF-H-9
+    severity: P3
+    file: core/components/plays/shape-slice/SKILL.md
+    line: "489-499"
+    also:
+      - {file: core/components/plays/shape-slice/scripts/write_hidden_file.py, line: "29-30, 242-253, 462-463"}
+      - {file: core/components/plays/shape-slice/reference/ice.md, line: "85-96, 166-168, 311-312"}
+      - {file: core/components/plays/shape-slice/SKILL.md, line: 910}
+    principle: "H4 and ICE-C15: a change to what the play guarantees is made in the ICE and the play is compiled again. The ICE guarantees that the hidden file keeps every entry as it is, except that a new feature's entry is added."
+    source: "plan/788/base:docs/standards/harness-standard.md principle 4; plan/788/base:core/components/plays/shape-slice/reference/ice.md C15 line 95 ('keeps every other entry as it is'); CLAUDE.md 'Play Pipeline Rules' (a change to a guarantee, decision or flow is an intent change and goes ICE -> /edit-play, never a hand edit of SKILL.md)."
+    detail: >
+      Commit d756e304 gives Step 8b a new path: when the person's change names a feature, pass
+      --redraft <feature id>, and that entry is drafted again by author-failure-recovery even when
+      its Fails if lines did not change. The commit edited only SKILL.md and the script and test;
+      reference/ice.md was not touched. The ICE still says (C15) that the run keeps every other
+      entry as it is, and has no constraint, failure condition, recovery or scenario for the person
+      asking for a redraft. Step 8b's own next paragraph still says the script 'keeps each kept
+      entry byte for byte'. The play now does something its ICE does not say, so the play and its
+      ICE disagree, and the fingerprint check cannot show it because the ICE hash did not change.
+      This is the drift principle 4 exists to prevent. What it leads to: a person-requested redraft
+      replaces recoveries and 'who fixes' answers that may have been set by a person earlier in this
+      same change (commit 8fceddab routed six entries to 'a person must decide'), and no failure
+      condition would catch a redraft that overwrites them. A later rebuild of the play from its ICE
+      will also remove the --redraft step without any warning. The Compilation Metadata
+      compiled_by line (910) was not updated for the #798 edits to shape-slice either (it still reads
+      as the base version).
+    suggested_fix: >
+      Decide whether the person may ask for a redraft. If yes, put it in the ICE (a C15 sentence:
+      'when the person's change names a feature, that feature's entry is drafted again and keeps its
+      line ids'; a matching F15 clause, a REC and a scenario), run /edit-play, and update
+      compiled_by. If no, remove --redraft from the SKILL.md and script.
+  - id: DF-H-10
+    severity: P4
+    file: core/components/plays/shape-slice/SKILL.md
+    line: "493-499, 532-536"
+    also:
+      - {file: core/components/plays/shape-slice/scripts/test_write_hidden_file.py, line: "190-201"}
+    principle: "H3: a judgment is made by a model and a fixed sequence by a script; a step check proves each guarantee (the SE checks)."
+    source: "plan/788/base:docs/standards/harness-standard.md principle 3 (script vs model) and principle 4 (the ICE carries Expectation: scenarios, recovery, what done means)"
+    detail: >
+      Two small gaps in the new step. (a) Which feature 'the person's change names' is decided by
+      the orchestrating play in free text and written as $(each feature ..., as --redraft <id>) in a
+      command block; no skill picks the features and nothing records the choice, so the brief and
+      the record cannot show what was redrafted (the base brief lists hidden-file counts only). (b)
+      SE-19 checks only that the file reads ok and every line has one recovery, so it cannot tell a
+      redraft that was asked for from one that was not; the script test covers the 'lines' command
+      with --redraft and the unknown-feature refusal but not 'write' after a redraft. A redraft that
+      goes wrong would pass every check.
+    suggested_fix: "When DF-H-9 is settled in the ICE, add the matching SE check and a test for write after --redraft; show the redrafted features in the brief."
+  - id: DF-H-4
+    severity: P4
+    file: core/components/plays/shape-eval/reference/ice.md
+    line: "16-17, 65-66"
+    also:
+      - {file: core/components/plays/shape-eval/SKILL.md, line: "184, 189-191"}
+    principle: "H4: the ICE is the one place the play's wording is decided, and the compiled play traces to it. ADR 049 Decision 4 names three files for the eval play to read."
+    source: "plan/788/base:docs/standards/harness-standard.md principle 4; plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md Decision 4. (Carried from round 1 and 2, unchanged.)"
+    detail: "ICE C1 and F1 still say the run reads only the epic, its stories and the hidden file, and that reading any other file is a failure. The play also reads the plan file and the tracker (to find the epics), the slice's existing eval files (copied to inputs/existing/ so a later run can keep every scenario), and the templates and step library. F1 read literally is false on every second run. Nothing is harmed."
+    suggested_fix: "Edit C1 and F1 in reference/ice.md to say what the run does: the plan file, the epic, its stories, the hidden file and the slice's own existing eval files; then recompile with /edit-play."
+  - id: DF-H-5
+    severity: P4
+    file: core/components/plays/shape-eval/scripts/gather_eval.py
+    line: 95
+    also:
+      - {file: core/components/skills/author-slice-eval/SKILL.md, line: 67}
+    principle: "P4-ROUTE: the eval author's column for Recovery in the routing table is empty. Mechanical guards beat a prompt rule (harness principle 3)."
+    source: "plan/788/base:docs/philosophy/idd-principles.md - The Routing Table; plan/788/base:docs/standards/harness-standard.md principle 3. Counter-weight: ADR 049 Decision 4 lets the eval play read the hidden file, so this is a tension, not a violation. (Carried, unchanged.)"
+    detail: "The whole hidden file, recovery lines included, is copied to the skill, which is told in prose never to write recovery text; check_eval.py then greps for the exact lines. A cleaner design gives the skill only the failure lines (inputs.json already holds them in 'failures')."
+    suggested_fix: "Optional: write a failure-only copy of the hidden file for the skill. It needs an ICE change (C1) and a reading of ADR 049, so only if the product owner wants it."
+  - id: DF-H-6
+    severity: P4
+    file: core/components/plays/shape-eval/SKILL.md
+    line: "243-244"
+    also:
+      - {file: core/components/plays/shape-eval/SKILL.md, line: "232-236, 293-296"}
+      - {file: core/components/plays/shape-eval/reference/ice.md, line: 18-20}
+    principle: "A49-2-3 and H4: an eval of a slice shared by two plans is written once, in the home plan's folder; the step checks of the compiled play must say what the scripts do."
+    source: "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md Decision 3; plan/788/base:docs/standards/harness-standard.md principle 4. (Carried, unchanged.)"
+    detail: "The scripts write under the slice's home plan, but step check SE-6 still says every placed path is '<plans>/<id>/evals/<slug>/...' where <id> is the plan being run. For a slice whose home plan is another intent, SE-6 read as written fails although the scripts are right."
+    suggested_fix: "Say 'the slice's evals folder (its home plan's <plans>/<home>/evals/<slug>/)' in SE-6 (a wording edit of the compiled step check; recompile if C2 is changed too)."
+  - id: DF-H-7
+    severity: P3
+    file: core/components/skills/platform-adapter/reference/gitlab/verbs.md
+    line: 27-33
+    also:
+      - {file: core/components/skills/platform-adapter/reference/github/verbs.md, line: 23-30}
+    principle: "ADAPTER: verbs.md is the normative reference with the exact command and defined substitution tokens; the python adapter and the skill must give the same result on both platforms."
+    source: "plan/788/base:core/components/skills/platform-adapter/reference/gitlab/verbs.md header and 'Note on project encoding'; plan/788/base:core/components/skills/platform-adapter/SKILL.md Step 3 ('Missing required argument')"
+    detail: "The new GitLab pr-files section is `glab api projects/{project}/merge_requests/{pr_number}/diffs --paginate`. {project} is not a token the file or the skill defines (the other sections use {encoded_owner%2Fname}), so the verb halts with a missing-argument error when run from the skill. The GitHub section gives one JSON object a line and the GitLab section gives raw pages. The python adapter builds the right command, so only the skill route is broken, and GitLab is not the platform in use here. Round 2 recorded this as not fixed and filed as its own issue."
+    suggested_fix: "Use {encoded_owner%2Fname} in the GitLab section and state the output shape (jq -c '.[]' or 'a list of pages')."
+  - id: DF-H-8
+    severity: P4
+    file: core/components/agents/evals-engineer.md
+    line: 1-7
+    also:
+      - {file: docs/philosophy/garura-reference-implementation.md, line: "225, 296, 319, 372, 399"}
+      - {file: docs/components/plays.md, line: 298}
+    principle: "STALE: when a shared agent is rewritten, the documents that name its old job are kept in step or marked old."
+    source: "plan/788/base:docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md; plan/788/base:core/components/agents/evals-engineer.md stale_note"
+    detail: "The agent now has one job (draft the eval for /shape-eval). docs/components/agents.md and the stale notes are in step. The reference implementation still lists evals-engineer as the steelman author of /build-epic and plays.md line 298 still gives it 'draft verification scenarios'. Both describe the old /implement pipeline, so this is old text, not a wrong rule, and neither file is touched by the diff."
+    suggested_fix: "Optional, in this change or the rebuild of the build stage (#855): add a line to those two places that the agent now writes the slice eval for /shape-eval and the steelman path is stale."

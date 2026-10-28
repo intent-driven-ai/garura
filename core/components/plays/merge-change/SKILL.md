@@ -260,7 +260,7 @@ from $session_stamp (#463): session_id, ledger_file, ledger_start_offset, ledger
 (null when unresolved — never blocks the close)) and write to `$evidence_dest`. Do
 NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## merge-change Delivered — #${issue}`, the Run Summary table, the Pipeline Steps
 table from the task DAG, the Artifacts Produced table (incl. the merge commit), Next Steps
 (the change has landed on main), and a pointer to `$evidence_dest`. Always emitted; never
@@ -317,68 +317,3 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
 | step_evals | 9 (SE-1…SE-9) |
 | scenario_evals | 7 (SCE-1…SCE-7) |
 | recovery_entries | 9 (one per failure condition; 6 autonomous / 3 human) |
-
-## Recompile note (#493, records auto-push)
-
-Intent change via `reference/ice.md` → recompile. C6 rewritten: the play now PUSHES its
-records commit itself after the pinned Confirm Merge approval — the human authorized the
-outward irreversible act at the merge gate (C7, still pinned, untouched), and the records
-commit is bookkeeping about that approved merge, so no second human step is asked (ruled by
-Kapil 2026-07-05 on #493). `merge_pr.py` pushes after a successful records self-commit and
-reports `records_pushed`; a failed push (offline, host guard) is a visible soft-fail with
-the push left owed, never silent. Fingerprint recomputed over the edited ICE.
-
-## Direct-edit deviation note (#491, records self-commit)
-
-Non-intent executor move: C6 always required the run-records commit on main at close, but
-that duty lived in Step 3 PROSE and got skipped, leaving `merge-gate.json` uncommitted
-after runs (the observed leftover). `merge_pr.py` now performs the commit itself as its
-final act on both paths (fresh merge + already-merged no-op), staging the gate file + the
-review dir, standard message, never pushing; it reports `records_committed` so a leftover
-is a visible failure. No constraint, failure, scenario, or eval changed — the executor
-moved from prose to the script that is already standing on main at that moment.
-`reference/ice.md` and the fingerprint stand. Canonical copy:
-`create-play/references/merge_pr.py`; a rebuild reproduces it.
-
-## Recompile note (#484, scripted chain)
-
-Intent change via `reference/ice.md` → recompile. Added C8 (mechanical git/gh runs in
-bundled scripts, never agent dispatch), F8, REC8, and SE-8. Steps 1 and 3 no longer
-dispatch `repo-orchestrator` → `merge-pr`/`platform-adapter`; they run the bundled
-`read_merge_state.py` (state read) and `merge_pr.py` (merge + sync + cleanup), both reaching
-the host through `platform_adapter.py` (canonical copies in `create-play/references/`,
-stamped here). Utility agents dropped 1 → 0; scripts 3 → 6. The guarantees (approval-gated,
-mergeable-gated, branch deleted, pinned human land, Done-means proven) are unchanged — only
-the executor moved from an agent to a script. Fingerprint recomputed over the edited ICE.
-
-## Recompile note (#467 Batch C → re-pin correction)
-
-Intent change via `reference/ice.md` → edit-play, in two moves. **Batch C** first turned
-the Confirm Merge gate off per config (`gates.plays.merge-change: off`), merging on the
-three machine preconditions alone. **The re-pin correction** (this recompile) then made
-C7 **pinned**: the land on `main` is irreversible, so it always keeps its human beat — no
-config value turns it off. The three preconditions (approved, mergeable, no failing
-required checks) stay, now as a machine wall verified BEFORE the human is presented (a
-failed precondition halts without asking; only all-true reaches the human). Field evidence
-drove the correction: the environment held the automatic land on main for a human beat on
-both #483 and #485, correctly — merge-to-main belongs with the pinned gates. The rest of
-merge-change (Step 1 verification, Step 3 execution) stays automatic. `gates.plays.merge-change`
-in config is now moot for this checkpoint (pinned overrides it) and is dropped from the
-off-list to avoid implying a reversible switch. No new scripts. The fingerprint reflects
-the updated ICE.
-
-## Direct-edit deviation note (#434, pre-flight resolver)
-
-Pre-flight resolution moved from orchestrator inference to the bundled `scripts/preflight.py`
-(harness-led: config/branch/issue/changeset resolution is a script returning JSON facts; the
-play keeps only the halt policy; the live open-PR/`gh` checks are in the table, and the
-approval/mergeability/already-merged reads now run in `read_merge_state.py` (#484, was
-repo-orchestrator). The script is the canonical
-resolver stamped from `create-play/references/preflight.py`; a rebuild reproduces it
-(create-play step 4). Non-intent change — no constraint, failure, scenario, eval, or
-`reference/ice.md` touched, so the fingerprint stands and no recompile is required. Direct
-edit; no recompile needed.
-
-## Direct-edit deviation note (#463, session identity stamp)
-
-Non-intent change: the Standard Play Close gained the session identity stamp — `scripts/session_stamp.py` (canonical copy: `create-play/references/session_stamp.py`) runs `--phase start` at pre-flight and `--phase close` in the close block; the evidence frontmatter carries session_id / ledger_file / ledger_start_offset / ledger_end_offset. Source of truth: `core/components/plays/_shared/play-close.md`; create-play emits the same lines so a rebuild converges. No constraint, failure, scenario, or eval changed; the fingerprint stands.

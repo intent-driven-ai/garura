@@ -1,0 +1,101 @@
+round: 3
+findings:
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/047-the-ice-is-its-own-node.md
+  line: 1
+  evidence: docs/adr/047-the-ice-is-its-own-node.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  line: 1
+  evidence: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  line: 1
+  evidence: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: DOC-04
+  severity: P3
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-04
+- standard_id: FE-16
+  severity: P4
+  file: '+++    "draft": "No memory tier (short-term, Garura, Phoenix) holds standards/rules/asking-a-person.md.
+    The rule exists in Garura source at core/components/memory/standards/rules/asking-a-person.md
+    but has not reached Phoenix memory. A person should promote or install it; until
+    then the scope draft uses the shape the play asked for: Question, Answer (proposed),
+    Why it matters, Example.",'
+  line: 1
+  evidence: '+++    "draft": "No memory tier (short-term, Garura, Phoenix) holds standards/rules/asking-a-person.md.
+    The rule exists in Garura source at core/components/memory/standards/rules/asking-a-person.md
+    but has not reached Phoenix memory. A person should promote or install it; until
+    then the scope draft uses the shape the play asked for: Question, Answer (proposed),
+    Why it matters, Example.",'
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-16
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/047-the-ice-is-its-own-node.md
+  line: 1
+  evidence: docs/adr/047-the-ice-is-its-own-node.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/047-the-ice-is-its-own-node.md
+  line: 1
+  evidence: docs/adr/047-the-ice-is-its-own-node.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  line: 1
+  evidence: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  line: 1
+  evidence: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  line: 1
+  evidence: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  line: 1
+  evidence: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05
+- standard_id: ARCH-23
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: ARCH-23
+- standard_id: DOC-05
+  severity: P4
+  file: docs/adr/_index.md
+  line: 1
+  evidence: docs/adr/_index.md
+  artifact_type: docs-planning
+  taxonomy_rule_id: DOC-05

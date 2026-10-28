@@ -1,0 +1,260 @@
+{
+  "unattributed": [
+    {
+      "kind": "capability",
+      "id": "cap-723",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-721",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-718",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-719",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-720",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-735",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-739",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-742",
+      "missing": "domain"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-747",
+      "missing": "domain"
+    }
+  ],
+  "dangling": [],
+  "no_features": [],
+  "intents_unserved": [
+    {
+      "id": "bi-756"
+    },
+    {
+      "id": "bi-788"
+    }
+  ],
+  "serves_no_intent": [],
+  "one_way": [
+    {
+      "kind": "capability",
+      "id": "cap-718",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-719",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-720",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-721",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-723",
+      "intent": "bi-722",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-735",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-739",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-742",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "capability",
+      "id": "cap-747",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-597",
+      "intent": "bi-722",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-628",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-673",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-724",
+      "intent": "bi-722",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-725",
+      "intent": "bi-722",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-726",
+      "intent": "bi-722",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-727",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-728",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-729",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-730",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-731",
+      "intent": "bi-717",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-736",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-737",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-738",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-740",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-741",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-743",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-744",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-745",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-746",
+      "intent": "bi-734",
+      "missing": "touches"
+    },
+    {
+      "kind": "feature",
+      "id": "fn-748",
+      "intent": "bi-734",
+      "missing": "touches"
+    }
+  ],
+  "domains_empty": [],
+  "duplicates": [],
+  "uncovered": [],
+  "counts": {
+    "unattributed": 9,
+    "dangling": 0,
+    "no_features": 0,
+    "intents_unserved": 2,
+    "serves_no_intent": 0,
+    "one_way": 30,
+    "domains_empty": 0,
+    "duplicates": 0,
+    "uncovered": 0,
+    "domains": 0,
+    "capabilities": 9,
+    "features": 21,
+    "intents": 5
+  }
+}

@@ -70,7 +70,7 @@ def lay_components(components, target, info, allow=None):
 
     paths = []
     counts = {"agents": 0, "skills": 0, "plays": 0, "loops": 0}
-    deprecated = 0
+    skipped = 0
 
     # agents — single .md files; resolve + keep model
     src = os.path.join(components, "agents")
@@ -81,8 +81,8 @@ def lay_components(components, target, info, allow=None):
             if allow is not None and allow["agents"] is not None \
                     and name[:-3] not in allow["agents"]:
                 continue
-            if common.file_is_deprecated(os.path.join(src, name)):
-                deprecated += 1
+            if common.file_is_skipped(os.path.join(src, name)):
+                skipped += 1
                 continue
             dest = os.path.join(agents_dest, name)
             shutil.copy2(os.path.join(src, name), dest)
@@ -107,8 +107,8 @@ def lay_components(components, target, info, allow=None):
             # (dev/iteration leftovers); skip it rather than deploy a broken one
             if not os.path.isdir(sp) or not os.path.isfile(os.path.join(sp, "SKILL.md")):
                 continue
-            if common.file_is_deprecated(os.path.join(sp, "SKILL.md")):
-                deprecated += 1
+            if common.file_is_skipped(os.path.join(sp, "SKILL.md")):
+                skipped += 1
                 continue
             dest = os.path.join(skills_dest, name)
             common.copy_tree_fresh(sp, dest)
@@ -117,11 +117,11 @@ def lay_components(components, target, info, allow=None):
             counts[kind] += 1
         info(f"  {kind}: {counts[kind]}")
     common.lay_skills_gitignore(skills_dest, os.path.join(".claude", "skills"), paths)
-    if counts["plays"] or counts["loops"]:
+    if counts["plays"] or counts["loops"] or counts["skills"]:
         common.lay_shared(components, skills_dest, os.path.join(".claude", "skills"), paths, info)
 
-    if deprecated:
-        info(f"  (skipped {deprecated} deprecated component(s))")
+    if skipped:
+        info(f"  (skipped {skipped} deprecated or stale component(s))")
     return paths, counts, []
 
 

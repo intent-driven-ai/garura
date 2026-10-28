@@ -14,7 +14,7 @@ every old name where it can only mean the component:
 
 A one-word old name (vision, run, quality) is an everyday word, so plain prose is not
 searched for it. Past records keep their old words and are not searched: .garura/,
-CHANGELOG.md, the ADRs up to and including ADR 046 (which records this rename).
+CHANGELOG.md, the ADRs before ADR 046, and ADR 046 and ADR 048 (they record the renames).
 
     python3 core/tools/naming/check_old_names.py [--root .] [--kind plays|skills|loops|agents] \
         [--out report.json]
@@ -41,7 +41,13 @@ SKIP_FILES = {MAP, "core/components/memory/standards/rules/naming.yaml",
               "docs/adr/_index.md", "docs/agentic-methodology/tools/lint-components.md",
               "core/components/plays/install-garura/scripts/test_install.py"}  # sets up old-name folders on purpose
 TEXT = (".md", ".py", ".js", ".yaml", ".yml", ".json", ".sh", ".txt", ".toml")
-FIRST_NEW_ADR = 47  # ADR 046 records this rename, so it names the old names on purpose
+FIRST_RENAME_ADR = 46
+RENAME_ADRS = {46, 48}  # they record the renames, so they name the old names on purpose
+# ADRs that quote an older ADR word for word, old names included. ADR 053 quotes ADR 033's
+# "`/intent` and `/adr` run by hand". ADR 059 quotes the old names of the plays and the loop it
+# found left behind, as the defect it records. An accepted ADR is not edited (only a forward
+# pointer may be added), so the check does not search these.
+QUOTING_ADRS = {53, 59}
 # Files whose keys are play or loop names (the next-step map, the config).
 KEYED_FILES = {"core/components/memory/standards/rules/pipeline-next.md", "core/config.yaml"}
 
@@ -54,7 +60,10 @@ def load_map(root):
 
 def is_past_record(rel):
     m = re.match(r"docs/adr/(?:SUPERSEDED-)?(\d{3})-", rel)
-    return bool(m) and int(m.group(1)) < FIRST_NEW_ADR
+    if not m:
+        return False
+    number = int(m.group(1))
+    return number < FIRST_RENAME_ADR or number in RENAME_ADRS or number in QUOTING_ADRS
 
 
 def patterns(old, kind):

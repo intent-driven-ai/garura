@@ -14,17 +14,19 @@ each round, mechanically:
   round. With `--close-report`, the record names the plays the next round runs and the work
   each gets (`next`: `{"/discover-capabilities": ["<target>", …]}`) — only those plays run (ADR 043).
 - **ask** — nothing moved (same model, same open questions, same gaps), or the round limit is
-  reached: the open questions and the gaps left are the loop's — the knowledge plays run and
-  the loop briefs the person (ADR 042), then another round.
+  reached: the open questions and the gaps left are the loop's — the loop's knowledge step
+  closes what it can and the loop briefs the person (ADR 059), then another round.
 
-Open questions are read from two places in the issue's short-term memory:
+Open questions are read from two places:
 - `<review_dir>/open-<play>.json` — what a play could not answer
   (`{"play", "round", "questions": [{"id", "ask", "blocks", "for_person", "examples"}]}`);
-- `<issue_dir>/review/memory-updates/*.json` still `waiting` — answers memory lacked, drafted
-  for a person to approve (ADR 035 §5); they wait for that approval, never used before it.
+- the issue's memory updates still `waiting` — answers memory lacked, drafted for a person to
+  approve (ADR 035 §5); they wait for that approval, never used before it. They are asked of
+  the memory tool (`updates`), never read from their files (ADR 059).
 
     python3 round_state.py --round <n> --max-rounds <m> --working <working> \
-        --review-dir <review_dir> --issue-dir <stm_base><issue>/ --model-path <product_base> \
+        --review-dir <review_dir> --issue <issue> \
+        --memory-tool .garura/core/tools/memory/memory.py --model-path <product_base> \
         [--gaps <working>/gaps.json --close-report <working>/close-report.json] \
         --out <working>/round-<n>.json
 
@@ -33,7 +35,8 @@ work each play still has (`work_for_plays`) and the screens no node covers (`unc
 
 Writes `round-<n>.json` (`{round, decision, open, model, moved, why}`) and `rounds.json` (the
 latest, with `open_left`). Exit 0 always when it could decide; 2 when an input cannot be read.
-Reads files and one `git rev-parse`; writes only its two records. Standard library only.
+Reads files, asks the memory tool once (read-only) and runs one `git rev-parse`; writes only
+its two records. Standard library only.
 """
 import argparse
 import glob
@@ -46,7 +49,17 @@ import sys
 WAITING = ("waiting", "pending")  # a memory update not yet approved or rejected
 
 
-def open_questions(review_dir, issue_dir):
+def waiting_updates(tool, issue):
+    """The issue's memory updates still waiting, from the memory tool (`updates`)."""
+    out = subprocess.run([sys.executable, tool, "updates", "--status", "waiting"],
+                         capture_output=True, text=True, check=False)
+    answer = json.loads(out.stdout.strip().splitlines()[-1]) if out.stdout.strip() else {}
+    if not answer.get("ok"):
+        raise ValueError(f"memory tool: {answer.get('message') or out.stderr.strip() or 'no answer'}")
+    return [u for u in answer.get("updates") or [] if str(u.get("issue")) == str(issue)]
+
+
+def open_questions(review_dir, updates):
     found = []
     for path in sorted(glob.glob(os.path.join(review_dir, "open-*.json"))):
         with open(path, encoding="utf-8") as fh:
@@ -55,12 +68,9 @@ def open_questions(review_dir, issue_dir):
             found.append({"from": doc.get("play") or os.path.basename(path)[5:-5],
                           "id": str(q.get("id")), "ask": str(q.get("ask", "")),
                           "for_person": bool(q.get("for_person", True))})
-    for path in sorted(glob.glob(os.path.join(issue_dir, "review", "memory-updates", "*.json"))):
-        with open(path, encoding="utf-8") as fh:
-            mu = json.load(fh)
-        mu = mu.get("update", mu) if isinstance(mu, dict) else {}  # the memory tool nests it
+    for mu in updates:
         if str(mu.get("status", "waiting")).lower() in WAITING:
-            found.append({"from": "memory-update", "id": str(mu.get("id") or os.path.basename(path)[:-5]),
+            found.append({"from": "memory-update", "id": str(mu.get("id")),
                           "ask": str(mu.get("missing") or mu.get("question") or mu.get("title") or ""),
                           "for_person": True})
     return found
@@ -108,14 +118,15 @@ def main(argv=None):
     ap.add_argument("--max-rounds", type=int, default=3)
     ap.add_argument("--working", required=True)
     ap.add_argument("--review-dir", required=True)
-    ap.add_argument("--issue-dir", required=True)
+    ap.add_argument("--issue", required=True)
+    ap.add_argument("--memory-tool", default=".garura/core/tools/memory/memory.py")
     ap.add_argument("--model-path", required=True)
     ap.add_argument("--gaps", help="find-model-gaps' gaps.json (ADR 043)")
     ap.add_argument("--close-report", help="link-model-gaps' close-report.json (ADR 043)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     try:
-        open_now = open_questions(args.review_dir, args.issue_dir)
+        open_now = open_questions(args.review_dir, waiting_updates(args.memory_tool, args.issue))
         last_path = os.path.join(args.working, f"round-{args.round - 1}.json")
         last = None
         if args.round > 1 and os.path.isfile(last_path):

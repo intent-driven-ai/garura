@@ -1,0 +1,35 @@
+needs_judgment: false
+change_groups:
+  - id: review-round2-wording-and-scope-note
+    issue: 826
+    commit_type: docs
+    scope: standards
+    subject: "fix review round 2 wording in the ontology and widen the expectation-generation scope note"
+    files:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+      - core/components/memory/standards/rules/expectation-generation.md
+  - id: stm-review-round1-records
+    issue: 826
+    commit_type: chore
+    scope: stm
+    subject: "record review round 1 artifacts and refresh the change analysis"
+    files:
+      - .garura/project/issues/826/context/analysis.yaml
+      - .garura/project/issues/826/context/porcelain.txt
+      - .garura/project/issues/826/review/categories.yaml
+      - .garura/project/issues/826/review/context.yaml
+      - .garura/project/issues/826/review/design-findings-memory.yaml
+      - .garura/project/issues/826/review/pr.diff
+      - .garura/project/issues/826/review/round1/categories.yaml
+      - .garura/project/issues/826/review/round1/context.yaml
+      - .garura/project/issues/826/review/round1/decision-comment.md
+      - .garura/project/issues/826/review/round1/decision.yaml
+      - .garura/project/issues/826/review/round1/design-findings-memory.yaml
+      - .garura/project/issues/826/review/round1/findings.yaml
+      - .garura/project/issues/826/review/round1/posted.json
+      - .garura/project/issues/826/review/round1/quality-findings.yaml
+      - .garura/project/issues/826/review/round1/recommended_verdict.yaml
+      - .garura/project/issues/826/review/round1/runnable-checks.txt
+exclusions: []
+risks:
+  sensitive_files: []

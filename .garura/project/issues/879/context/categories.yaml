@@ -1,0 +1,96 @@
+# categories.yaml - check-change Step 2 (Assess Categories), PR #897, issue 879
+# Derived from the diff content (42 changed paths, all under .garura/project/issues/879/).
+# Nothing in the diff is play source, script, test, ADR, memory shelf, standards rule or config map:
+# no file under core/, .claude/, docs/ or .garura/core/ changed. Content was read, not just paths.
+# Treatments are taken from the short-term copies in context/memory/knowledge/review/.
+pr: 897
+issue: 879
+base: plan/788/base
+review_shelf: .garura/project/issues/879/context/memory/knowledge/review/
+severity_taxonomy: .garura/project/issues/879/context/memory/standards/rules/pr.md
+next_map_copy: .garura/project/issues/879/context/templates/standards/rules/pipeline-next.md
+shelf_reuse: "review shelf (8 playbooks) and pr.md reused from the earlier review's copies; none missing, nothing re-copied (manifest.json lists all nine)."
+categories:
+  - name: run-records
+    what: "Records one /shape-plan 788 dry run left in the issue's own folder: start-change and commit/propose-change state, the gather/find/draft/approval/write-check files, the tracker and plan-file copies the dry run wrote against, the guard/plan/tracker check results, the stop-condition result, copies of the ICE pages and of one memory template (approval-prompt.md) with its manifest, and a copy of plan 788. They are machine-written run state (JSON, YAML, text), not authored design. No plan file, source file, product-model file or memory source changed; the dry run wrote nothing to the tracker."
+    evidence:
+      - .garura/project/issues/879/context/analysis.yaml
+      - .garura/project/issues/879/context/branch.json
+      - .garura/project/issues/879/context/commits.yaml
+      - .garura/project/issues/879/context/issue-mappings.yaml
+      - .garura/project/issues/879/context/issue.json
+      - .garura/project/issues/879/context/porcelain.txt
+      - .garura/project/issues/879/context/pr.json
+      - .garura/project/issues/879/context/propose-change-checkpoint.yaml
+      - .garura/project/issues/879/context/shape-plan/approval.json
+      - .garura/project/issues/879/context/shape-plan/drafts-check.json
+      - .garura/project/issues/879/context/shape-plan/drafts.json
+      - .garura/project/issues/879/context/shape-plan/gather.json
+      - .garura/project/issues/879/context/shape-plan/ice/fn-795.md
+      - .garura/project/issues/879/context/shape-plan/ice/fn-798.md
+      - .garura/project/issues/879/context/shape-plan/ice/fn-818.md
+      - .garura/project/issues/879/context/shape-plan/plan-before.txt
+      - .garura/project/issues/879/context/shape-plan/skill-input.json
+      - .garura/project/issues/879/context/shape-plan/start-change.json
+      - .garura/project/issues/879/context/shape-plan/start-sha.txt
+      - .garura/project/issues/879/context/shape-plan/work-items.json
+      - .garura/project/issues/879/context/templates/manifest-shape-plan.json
+      - .garura/project/issues/879/context/templates/standards/templates/approval-prompt.md
+      - .garura/project/issues/879/simulation/shape-plan/788.yaml
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/approval.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/drafts-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/guard-report.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/plan-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/plan-write.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/tracker-check.json
+      - .garura/project/issues/879/simulation/shape-plan/base/context/shape-plan/tracker-record.json
+      - .garura/project/issues/879/simulation/shape-plan/guard-report.json
+      - .garura/project/issues/879/simulation/shape-plan/plan-check.json
+      - .garura/project/issues/879/simulation/shape-plan/plan-write.json
+      - .garura/project/issues/879/simulation/shape-plan/stop-condition-shape-plan.yaml
+      - .garura/project/issues/879/simulation/shape-plan/tracker-before.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-check.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-copy.json
+      - .garura/project/issues/879/simulation/shape-plan/tracker-record.json
+    playbook: null
+    playbook_note: "PLAYBOOK MISSING. No playbook in the review shelf covers a play run's own state records (issue-folder / short-term-memory run artifacts). The seeded playbooks (adrs, docs, harness, memory, code, config-maps, tests) were not force-fitted: these are not play/skill source (harness), not a knowledge shelf or standards rule (memory: the approval-prompt.md here is a copy, its source core/memory/... is not in the diff), not executable code, tests or a config map. A follow-up to write review/run-records is needed (could not be created from this agent: no task tool in this run; the play should raise it)."
+    design_bearing: false
+    design_bearing_note: "No committed design or playbook names a design to conform to for run records, so Layer 2 does not run (Layer 2 on this category would have to ground from the branch's own prose, which is circular). Whether the dry run behaved as the shape-plan play's intent says is a harness question about a play that is NOT in this diff; the play source is unchanged here."
+    treatment:
+      layers: [layer-1]
+      linters: []
+      linters_note: "None. No linter and no playbook exist for this category (explicit gap). Do not report 'not installed': there is nothing to install."
+      runnable_checks:
+        - "Parse every JSON and YAML file in the category (python3 -c json.load / yaml.safe_load). A file that does not parse is a finding. By hand."
+        - "Secrets and exposure scan of added lines (pr.md SEC-* rows via check-pr-quality, or grep): tokens, keys, private-key headers, bearer strings, email addresses. Absolute machine-user paths (/Users/...) in clean_ice fields are a known note, same kind as earlier issue records; record, do not block."
+        - "Scope: every changed path is under .garura/project/issues/879/ (true for all 42); nothing under .garura/project/plans/, core/, .garura/product/, .claude/ or .garura/core/. By hand (git diff --name-only against the base)."
+        - "Hash consistency, by hand: approval.json sha256 for brief.md, work-items.json and drafts.json equals sha256sum of those files in the PR head; plan-before.txt equals sha256 of simulation/shape-plan/788.yaml and of .garura/project/plans/788.yaml; templates/manifest-shape-plan.json fingerprint sha256:75da06f2... equals the source template's; start-sha.txt names a commit on the branch."
+        - "Dry-run claims hold, by hand: tracker-copy.json equals tracker-before.json (0 created, 0 updated, 0 moved out); stop-condition-shape-plan.yaml reads held with D1-D5 held; plan-check, tracker-check and guard-report read ok; plan-write.json says changed false."
+        - "Stray artifacts: no cache, compiled, binary or editor files among the 42 paths. Note the working tree shows a deleted review/ folder and an untracked pr-894-round-2/ folder; they are outside this diff."
+      design_grounding:
+        required: false
+
+  - name: documentation
+    what: "Human-facing prose in the issue folder: the PR body and self-review the change-raising play wrote, the dry-run summary, and the checkpoint brief shown to the product owner. Judged by content: they explain the run to a person; they are not a decision record, play/skill/agent source or a memory file."
+    evidence:
+      - .garura/project/issues/879/context/pr-body.md
+      - .garura/project/issues/879/context/self-review.md
+      - .garura/project/issues/879/context/shape-plan/brief.md
+      - .garura/project/issues/879/simulation/shape-plan/dry-run.md
+    playbook: review/docs
+    design_bearing: false
+    treatment:
+      layers: [layer-1]
+      linters: []
+      linters_note: "Playbook names a gap: no committed prose linter in-repo yet. The tool performs the prose checks directly and cites each as the basis."
+      runnable_checks:
+        - "Prose checks, by hand: spelling, grammar, heading hierarchy, leftover TODO/FIXME, terminology consistency, completeness. Cite each."
+        - "Dead links and paths: every file path named in pr-body.md, self-review.md and dry-run.md resolves (for example .garura/project/issues/879/simulation/shape-plan/dry-run.md, the specs/ and plan paths named). A path that misses is a finding."
+        - "Claims agree with the records: the counts and statements in pr-body.md and self-review.md (38 files in the self-review text versus the 42 changed paths in this diff; 0 created / 0 updated / 0 moved out; D1-D5 held) match the run-records category. A mismatch is a finding."
+        - "Voice: pr-body.md and brief.md lead in product terms with no real person's name (personas only), per the user-facing-voice rule the harness grounding already holds."
+      design_grounding:
+        required: false
+design_bearing_categories: []
+notes:
+  - "No category in this PR is design-bearing, so no Layer-2 grounding dispatch is needed."
+  - "Missing playbook: run-records (see its playbook_note)."

@@ -1,0 +1,1 @@
+discover-capabilities: detail cap-723 (#723, plan #722) — write the full ICE for the capability and its functionalities.

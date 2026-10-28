@@ -5,15 +5,15 @@ persist_learn.py — /learn-outcomes's deterministic keyed persist, in place on 
 Direct-model-write remnant of the old apply_learn.py (ADR 026,
 standards/rules/direct-model-write.md). There is NO draft tree and NO doc copy: the LLM
 authoring skill (author-learnings) already wrote the per-node grounding docs — capability.md,
-functionality.md, and the slice lens/{measure|run|quality}.md — straight to the live model.
+feature.md, and the slice lens/{measure|run|quality}.md — straight to the live model.
 This script owns every SHARED file and applies the approved manifest's structured deltas to the
 live model IN PLACE, keyed to the manifest-named nodes and the meaning-field whitelist. Run only
 AFTER the checkpoint gate resolves. It writes exactly, and nothing else:
 
   1. spine meaning fields on the nodes the manifest names:
-       - capability/functionality `one_line`  (refined descriptor)
+       - capability/feature `one_line`  (refined descriptor)
        - capability `nfr_needs[<dim>].level`  (monotonic-up) OR profile `nfr[<dim>].level`
-       - capability/functionality `status`    (earned promotion)
+       - capability/feature `status`    (earned promotion)
        - the node's `decisions` list           (append new ids; never remove/reorder)
   2. new decision records (`decisions/<id>.yaml`, skip-if-exists — an accepted decision is never
      edited in place), each linked onto its node.
@@ -46,6 +46,9 @@ except ImportError:
 SCALE = ["none", "low", "medium", "high", "xhigh"]
 MEANING_FIELDS = {"one_line", "nfr_needs", "status"}
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
+
 
 def rank(level):
     try:
@@ -56,7 +59,7 @@ def rank(level):
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def find(entries, eid):
@@ -85,7 +88,7 @@ def main(argv=None):
     live = load(spine_path)
     manifest = load(args.manifest)
     caps = live.setdefault("capabilities", [])
-    funcs = live.setdefault("functionalities", [])
+    funcs = live.setdefault("features", [])
     profile = live.setdefault("profile", {})
 
     written, changed = [], {"nodes": [], "decisions": [], "docs": []}
@@ -98,7 +101,7 @@ def main(argv=None):
             return 2
         if kind == "capability":
             node = find(caps, ref)
-        elif kind == "functionality":
+        elif kind == "feature":
             node = find(funcs, ref)
         elif kind == "profile":
             node = profile

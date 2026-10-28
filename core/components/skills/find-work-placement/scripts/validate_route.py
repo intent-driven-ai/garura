@@ -42,8 +42,8 @@ def errors(obj):
             errs.append(f"{tag}.domain: missing/empty")
         if not isinstance(p.get("capability"), str) or not p.get("capability"):
             errs.append(f"{tag}.capability: missing/empty")
-        if not isinstance(p.get("functionality"), list):
-            errs.append(f"{tag}.functionality: not a list")
+        if not isinstance(p.get("feature"), list):
+            errs.append(f"{tag}.feature: not a list")
         if p.get("confidence") not in CONF:
             errs.append(f"{tag}.confidence: not one of {sorted(CONF)}")
         if not isinstance(p.get("why"), str) or not p.get("why"):

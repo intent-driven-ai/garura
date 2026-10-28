@@ -1,0 +1,14 @@
+# Round 6, product-model grounding (change-reviewer report, written to disk by the play). Basis: origin/plan/788/base (ontology v11, ADR 052, expectation-generation.md).
+round: 6
+findings: []
+verified_ok:
+  - "R1 fixed: no Story placeholders in the hidden file; the reader line names the epic's feature-to-story map; F12's way back gives /shape-plan no write."
+  - "R2 fixed: fn-795 title, hidden-file heading and spine one_line say the slice and its hidden file."
+  - "R3 fixed: the two 'not set yet' lines point to ontology v11 and ADR 052 §5."
+  - "R4 fixed: rule section 'A feature's recovery (product ICE)'; each entry says both ICE are thin."
+  - "R5 fixed: shape-eval says each ICE line has one reader."
+  - "R6 fixed: fn-818 Out and fn-798 In name the feature-to-story map. Below P4, not counted: fn-818's acceptance criteria do not name the map."
+  - "R7 fixed: cap-718 and shape-slice cite ADR 052."
+  - "R8 fixed: thin: true under metadata on six spine entries, as the base spine schema allows."
+  - "Round-6 delta: run records only; no model page or plan file changed."
+counts: {P1: 0, P2: 0, P3: 0, P4: 0}

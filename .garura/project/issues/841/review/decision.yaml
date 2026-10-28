@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "i will fix p1 seprately as a new beanch. this can be a bif last radius. so without that accept. put p3s into a single chore"
+round: 2
+citing: []
+not_fixed_by_decision:
+  - Q2-1 (P1) DATA-18/DATA-17 on a dummy test e-mail — fixed by the product owner on its own branch, with #860
+  - Q2-2, Q2-3, Q2-5 (P3) — chore #861
+  - Q2-4, M7, M8, DR2-1, DR2-2, DR2-3 (P4) — chore #859

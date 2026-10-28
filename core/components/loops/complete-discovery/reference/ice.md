@@ -7,7 +7,7 @@ criteria and the runner design (`.garura/project/issues/613/specs/runner-design.
 ## Intent
 
 **Goal:** from a working prototype and the person's short write-up, end with business intents
-the person has decided, the domains the product sits in, its capabilities and functionalities
+the person has decided, the domains the product sits in, its capabilities and features
 — each read from the screens on its own and all of them linked — on one issue and one branch,
 asking the person only what none of its plays, memory or approved research answers, and
 checked by a checker the config picks (ADR 043).
@@ -29,13 +29,13 @@ checked by a checker the config picks (ADR 043).
   `prototype-reader` agent, and hands that one capture and the write-up to every play. The
   loop reads no memory itself (ADR 039); its plays' agents do.
 - C4 — The plays read the prototype independently and each writes one kind (ADR 043):
-  `/discover-intent` business intents, `/discover-domains` domains, `/discover-capabilities` capabilities and functionalities
+  `/discover-intent` business intents, `/discover-domains` domains, `/discover-capabilities` capabilities and features
   with their ICE. No play takes another play's output as its input, so their readings are
   independent and their agreement is the check. They run **in rounds, until the loop's job is
   done** (Kapil, 2026-10-20: "the idea of a drive is to have it loop between those three things
   until the job is getting done"): after each round the loop has the model's gaps found and
   closed (`find-model-gaps`, `link-model-gaps`, through `product-os-keeper`) — every
-  functionality linked to its capability, every capability to its domain, each node to the
+  feature linked to its capability, every capability to its domain, each node to the
   intents it serves, duplicates merged — and gives the work still missing to the play that does
   it; the next round runs only those plays, on exactly that work (Kapil, 2026-10-21: "The whole
   point of a drive is that these loops are closed … connecting the three meaningfully so that
@@ -45,13 +45,14 @@ checked by a checker the config picks (ADR 043).
   not a stop: the play records it and finishes what it can, and the other plays — and the next
   round — may answer it. The loop stops and asks the person only what no play of the loop,
   no memory and no approved research can answer: after a round that answered nothing new, or at
-  the round limit. **First it finds and builds the missing knowledge** (`/search-knowledge`,
-  `/research-knowledge`, ADR 042): what the prototype shows is answered from it, what memory holds
-  from memory (through the memory tool), what research can answer is drafted as knowledge pages
-  for the person to approve, and for what only the person can confirm we draft our own answer.
-  Only then does it reach the person — with a brief (`/check-knowledge`): what we understood,
-  what we built, and a few gaps each with its context and our proposed answer, never a
-  questionnaire (Kapil, 2026-10-20). The answers are kept in the issue's short-term memory.
+  the round limit. **First it finds and builds the missing knowledge** in one step of the loop,
+  run by the `knowledge-builder` agent (Shared Loop Run R5c, ADR 059): what the prototype shows
+  is answered from it, what memory holds from memory (through the memory tool), what research
+  can answer is drafted as knowledge pages for the person to approve, and for what only the
+  person can confirm we draft our own answer. Only then does it reach the person — with the
+  brief that step writes (R5b): what we understood, what we built, and a few gaps each with its
+  context and our proposed answer, never a questionnaire (Kapil, 2026-10-20). The answers are
+  kept in the issue's short-term memory.
 - C6 — A checker the config picks, which is not the loop's own model, judges the result against
   this intent from the loop's outputs only. A reject halts the loop.
 - C7 — The loop never confirms or drops an intent, and never changes an intent's state in the
@@ -90,8 +91,8 @@ memory alone under one contract.
 
 The plays' own content questions depend on what the prototype shows, so the loop cannot ask
 them before the plays read it. A play that cannot answer one makes it the loop's question (C5); the
-other plays, the next round and the knowledge plays may answer it, and the person is briefed only
-on what none of them can (ADR 041, ADR 042). The loop asks first only what it can know up front.
+other plays, the next round and the knowledge step may answer it, and the person is briefed only
+on what none of them can (ADR 041, ADR 059). The loop asks first only what it can know up front.
 
 Not built yet: ADR 029 §6 gives Discovery a second output, a plan and its issues for the person,
 with `approve-change` in its done check. This loop makes only the product model; the plan and
@@ -104,9 +105,9 @@ in turn.
 
 | Play | Writes | Inputs from the contract | Answers from the questions |
 |------|--------|--------------------------|----------------------------|
-| intent | business intents | `argument` — the prototype; `capture`; `write_up`; on a later round `targets` | `may_change_data` (a link) |
-| vision | domains | `capture`; `write_up`; on a later round `targets` | — |
-| understand | capabilities and functionalities, with their ICE | `capture`; `write_up`; on a later round `targets` | — |
+| discover-intent | business intents | `argument` — the prototype; `capture`; `write_up`; on a later round `targets` | `may_change_data` (a link) |
+| discover-domains | domains | `capture`; `write_up`; on a later round `targets` | — |
+| discover-capabilities | capabilities and features, with their ICE | `capture`; `write_up`; on a later round `targets` | — |
 
 ## Questions first
 
@@ -159,7 +160,7 @@ review tool's review step replaces the typed step and writes the approval into t
   the plays given work, and the owner is briefed only on what is still open — our proposed
   answers with their context; measure: `round-1.json` reads `again` with `next` naming plays
   and their targets, the last `round-<n>.json` reads `gaps_left: 0`, any brief comes after a
-  `round-<n>.json` that reads `ask` with its `brief-check.json` reading `ok: true`, and each
+  `round-<n>.json` that reads `ask` with its `knowledge-check.json` reading `ok: true`, and each
   answer is in the issue's short-term memory with `from: person`.
 - S4 — business owner. Given a run the checker rejects; then the loop halts with the
   checker's reasons and opens no pull request; measure: `check.yaml` reads `verdict: reject`
@@ -173,7 +174,7 @@ review tool's review step replaces the typed step and writes the approval into t
 | F2 | no prototype, or one that does not run | halt before opening; ask the person for a working prototype | human |
 | F3 | a play ran before the questions or the write-up, an answer or the write-up has no source, or a play walked the prototype again | stop; get the write-up and ask the questions, record each source, read the prototype once, re-run the play on the capture | autonomous |
 | F4 | a play took another's output or wrote another's kind, an unclean tree, or done with gaps left | halt; re-run the play on the capture alone, writing only its kind; commit the round; run the gap skills and the plays they give work to | autonomous |
-| F5 | an answer from the model alone, a stop for a question the loop could still answer, or a bare question put to the person | strip the answer, or go on round the loop; brief the person only on what no play answers (`/check-knowledge`: our proposed answer with its context); re-run the play | human |
+| F5 | an answer from the model alone, a stop for a question the loop could still answer, or a bare question put to the person | strip the answer, or go on round the loop; brief the person only on what no play answers (the knowledge step's brief: our proposed answer with its context); re-run the play | human |
 | F6 | done without the checker's pass | run the checker; a reject halts the loop | autonomous |
 | F7 | the loop changed an intent's state, or recorded a decision without the person's word | undo the change to the intent page; ask the person and record their own words | human |
 | F8 | no evidence record | write the evidence before closing; the close stays HALTED until it exists | autonomous |

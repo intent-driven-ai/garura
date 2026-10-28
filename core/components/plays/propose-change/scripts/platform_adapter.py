@@ -4,7 +4,7 @@ platform_adapter.py — the code-host adapter as a SCRIPT LIBRARY (#484).
 
 The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
 execute; that boot + context re-read is the chain-time cost #484 removes. This module
-is the same 16-verb interface as a bundled script: it resolves the active platform from
+is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
 `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
 returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
 a script, per the tool-first rule and ADR 025.
@@ -21,6 +21,14 @@ the last command's (multi-step verbs run in sequence and stop on the first failu
 Commands are built as ARGV LISTS, never shell strings — so a body/title carrying quotes,
 backticks, or `$(...)` is passed literally, not interpreted. This is stricter than the
 prose it replaces.
+
+Five verbs work on GitHub only, because they set or read what GitLab does not have here
+(issue types and sub-issues): create-issue-typed (title, body, issue type and parent in one
+GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+nothing.
+compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
+GitLab's compare gives no plain diff, so on GitLab it stops the same way.
 
 GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
 `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
@@ -100,9 +108,21 @@ def _gh(verb, args, repo):
     if verb == "view-pr":
         return [["gh", "pr", "view", str(a["pr_number"]), "--json",
                  "number,title,body,state,author,headRefName,baseRefName,"
-                 "files,commits,mergeable,url"]]
+                 "files,changedFiles,commits,mergeable,url,isCrossRepository,"
+                 "headRepositoryOwner"]]
     if verb == "diff-pr":
         return [["gh", "pr", "diff", str(a["pr_number"])]]
+    if verb == "pr-files":
+        # every changed file with its patch, one JSON object a line; pages past the
+        # 300-file limit of diff-pr (the host lists up to 3000 files)
+        owner, name = repo
+        return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                 "--paginate", "--jq", ".[] | @json"]]
+    if verb == "compare-diff":
+        # the whole diff between two branches as plain text, with no file limit
+        owner, name = repo
+        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
+                 "-H", "Accept: application/vnd.github.diff"]]
     if verb == "comment-pr":
         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
     if verb == "request-changes":
@@ -159,6 +179,16 @@ def _gh(verb, args, repo):
         return [["gh", "api",
                  f"repos/{owner}/{name}/issues/comments/{a['comment_id']}",
                  "-X", "PATCH", "-f", f"body={a['body']}"]]
+    if verb == "set-issue-type":
+        owner, name = repo
+        return [["gh", "api", "-X", "PATCH", f"repos/{owner}/{name}/issues/{a['issue_number']}",
+                 "-f", f"type={a['issue_type']}"]]
+    if verb == "edit-issue-body":
+        owner, name = repo
+        return [["gh", "api", "-X", "PATCH", f"repos/{owner}/{name}/issues/{a['issue_number']}",
+                 "-f", f"body={a['body']}"]]
+    if verb == "remove-label":
+        return [["gh", "issue", "edit", str(a["issue_number"]), "--remove-label", a["label"]]]
     raise KeyError(verb)
 
 
@@ -171,6 +201,9 @@ def _glab(verb, args, repo):
         return [["glab", "mr", "view", str(a["pr_number"]), "--output", "json"]]
     if verb == "diff-pr":
         return [["glab", "mr", "diff", str(a["pr_number"])]]
+    if verb == "pr-files":
+        return [["glab", "api", f"projects/{proj}/merge_requests/{a['pr_number']}/diffs",
+                 "--paginate"]]
     if verb == "comment-pr":
         return [["glab", "mr", "note", str(a["pr_number"]), "--message", a["body"]]]
     if verb == "request-changes":
@@ -219,10 +252,22 @@ def _glab(verb, args, repo):
     raise KeyError(verb)
 
 
-VERBS = {"view-pr", "diff-pr", "comment-pr", "request-changes", "add-reviewer",
-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                     "remove-label", "remove-sub-issue"}
+
+VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
-         "view-user", "update-comment"}
+         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+
+# create-issue-typed: the repository's id and issue types, then one createIssue call that
+# sets the title, body, issue type and parent together.
+GRAPHQL_FEATURES = "GraphQL-Features: issue_types,sub_issues"
+REPO_TYPES_QUERY = ("query($owner:String!,$name:String!){repository(owner:$owner,name:$name)"
+                    "{id issueTypes(first:50){nodes{id name}}}}")
+CREATE_ISSUE_MUTATION = ("mutation($repo:ID!,$title:String!,$body:String,$type:ID,$parent:ID)"
+                         "{createIssue(input:{repositoryId:$repo,title:$title,body:$body,"
+                         "issueTypeId:$type,parentIssueId:$parent}){issue{number url}}}")
 
 
 def parse_gh_version(text):
@@ -240,6 +285,50 @@ def _run(argv):
     return proc.returncode, proc.stdout, proc.stderr
 
 
+def _result(verb, platform, ran, rc, out, err):
+    return {"verb": verb, "platform": platform, "commands": ran,
+            "stdout": out, "stderr": err, "exit_code": rc}
+
+
+def _create_issue_typed(args, repo):
+    """One issue made with its type and its parent in one call; stdout is its number."""
+    verb, owner, name, ran = "create-issue-typed", repo[0], repo[1], []
+    query = ["gh", "api", "graphql", "-H", GRAPHQL_FEATURES, "-f", "query=" + REPO_TYPES_QUERY,
+             "-f", f"owner={owner}", "-f", f"name={name}"]
+    ran.append(query)
+    rc, out, err = _run(query)
+    if rc != 0:
+        return _result(verb, GITHUB, ran, rc, out, err)
+    try:
+        node = json.loads(out)["data"]["repository"]
+        types = {t["name"]: t["id"] for t in node["issueTypes"]["nodes"]}
+        repo_id = node["id"]
+    except (ValueError, KeyError, TypeError):
+        return _result(verb, GITHUB, ran, 1, out, "the repository's issue types could not be read")
+    type_id = types.get(args["issue_type"])
+    if type_id is None:
+        return _result(verb, GITHUB, ran, 1, "",
+                       f"the repository has no issue type '{args['issue_type']}' "
+                       f"(it has: {', '.join(sorted(types)) or 'none'}); nothing was made")
+    parent_id = None
+    if args.get("parent_number"):
+        look = ["gh", "api", f"repos/{owner}/{name}/issues/{args['parent_number']}", "--jq", ".node_id"]
+        ran.append(look)
+        rc, out, err = _run(look)
+        if rc != 0:
+            return _result(verb, GITHUB, ran, rc, out, err)
+        parent_id = out.strip()
+    make = ["gh", "api", "graphql", "-H", GRAPHQL_FEATURES, "-f", "query=" + CREATE_ISSUE_MUTATION,
+            "-f", f"repo={repo_id}", "-f", f"title={args['title']}", "-f", f"body={args.get('body', '')}",
+            "-f", f"type={type_id}"]
+    if parent_id:
+        make += ["-f", f"parent={parent_id}"]
+    make += ["--jq", ".data.createIssue.issue.number"]
+    ran.append(make)
+    rc, out, err = _run(make)
+    return _result(verb, GITHUB, ran, rc, out, err)
+
+
 def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
     """Resolve platform, build the argv(s) for `verb`, run them in order, and return
     a result dict. Stops at the first non-zero command."""
@@ -250,6 +339,28 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
         raise ValueError(f"unsupported platform '{platform}'")
     repo = resolve_repo(config_path)
     builder = _gh if platform == GITHUB else _glab
+
+    if verb in GITHUB_ONLY_VERBS and platform != GITHUB:
+        return _result(verb, platform, [], 2, "",
+                       f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                       "here. Nothing was run and nothing was changed.")
+    if verb == "compare-diff" and platform != GITHUB:
+        return _result(verb, platform, [], 2, "",
+                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
+                       "diff here. Nothing was run.")
+    if verb == "create-issue-typed":
+        return _create_issue_typed(args, repo)
+    # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+    if verb == "remove-sub-issue":
+        owner, name = repo
+        look = ["gh", "api", f"/repos/{owner}/{name}/issues/{args['child_number']}", "--jq", ".id"]
+        rc, out, err = _run(look)
+        if rc != 0:
+            return _result(verb, platform, [look], rc, out, err)
+        drop = ["gh", "api", f"/repos/{owner}/{name}/issues/{args['parent_number']}/sub_issue",
+                "-X", "DELETE", "-F", f"sub_issue_id={out.strip()}"]
+        rc, out, err = _run(drop)
+        return _result(verb, platform, [look, drop], rc, out, err)
 
     # attach-sub-issue on GitHub needs the child's numeric id first (a resolve step).
     if verb == "attach-sub-issue" and platform == GITHUB:
@@ -285,7 +396,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Code-host adapter (16 verbs).")
+    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
     ap.add_argument("--verb", required=True)
     ap.add_argument("--config", default=".garura/core/config.yaml")
     ap.add_argument("--platform", default=None)

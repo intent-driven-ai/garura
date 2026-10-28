@@ -1,0 +1,26 @@
+{
+  "changed_kinds": [
+    "Business Intent",
+    "Epic",
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "allowed_kinds": [
+    "Business Intent",
+    "Epic",
+    "Plan",
+    "Slice",
+    "Story"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "8",
+  "version_after": "9",
+  "updated": "2026-10-23",
+  "date": "2026-10-23",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}

@@ -12,7 +12,7 @@ play:
     start: Change. Open a unit of work.
     commit: Change. Commit the work.
     propose: Change. Raise it for review.
-    check: Change and knowledge. A person or a check looks at a thing before it is accepted.
+    check: Change. A person or a check looks at a change before it is accepted.
     merge: Change. Land it.
     fix: Change. Fix a defect.
     refactor: Change. Improve code without changing what it does.
@@ -20,14 +20,12 @@ play:
     show: Plan. Show one thing.
     update: Plan. Change a plan, in its file and the tracker together.
     list: Plan. Show many things.
-    search: Knowledge. Look in memory.
-    research: Knowledge. Look outside.
     record: Record. Write a fact down for good.
     create: Harness. Make a new harness part.
     edit: Harness. Change a harness part.
     install: Harness. Put Garura into a project.
     uninstall: Harness. Take Garura out of a project.
-  one_word: [next]
+  one_word: []
 loop:
   verb: complete
   meaning: A loop runs its plays in rounds until its phase is complete. No play or skill starts with this verb.

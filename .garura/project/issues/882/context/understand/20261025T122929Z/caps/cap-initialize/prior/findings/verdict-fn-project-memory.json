@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every required section is present and substantive: What it does (three bullets: when it runs, what it reads, what it writes); Inputs / Outputs (two inputs, four outputs including the failure output 'when Phoenix memory cannot be reached, a plain message that says so and no project memory built'); Rules & behavior (six rules with edge cases); Acceptance criteria (five Given/When/Then); Out of scope (six items each naming an owner); Agent intent (ICE) with Goal, Limit, Fails if, Context, Checked by.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "fail",
+      "evidence": "Most items carry their why (e.g. 'Every read goes through the memory tool, because every part of Garura reads memory that way and the tool is what records where each file came from'; the unreachable rule explains 'An empty result here would look like \"no file fits\"'). Two do not: 'When an answer selects nothing in Phoenix memory (for example a tool memory has no standard for), the record says so in plain words, and the project's memory is built from the other answers. Our default; the sources do not say what happens then.' and 'When a run is repeated (Run initialize again, fn-rerun-initialize), the memory is rebuilt from the new answers, and the record says which files were added and which were taken out.' Also the output 'each with where it came from in Phoenix memory' states no reason for recording the origin.",
+      "fix": "Add the why to each of the three items. For the selects-nothing rule, say why it goes on instead of stopping (for example: 'because one answer with no matching standard does not make the other answers wrong, unlike an unreachable Phoenix memory, where nothing can be trusted'). For the rerun rule, say why the added and removed files are recorded (for example: 'so the product owner sees what the new answers changed before a later play relies on it'). For the origin output, add 'so a later run (fn-883) can compare each file with Phoenix memory and find when it changed'."
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "All sections are discrete bullets; the feature states the function's behavior ('Runs after the product owner confirms the setup answers. It sets up the project's Garura memory ...'), not a user story; acceptance is Given/When/Then, e.g. 'Given answers that say the project has no database, when the memory is built, then the project's Garura memory holds no database standard.'",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "The parent lists the feature in one line: 'Build the project's memory (fn-project-memory): sets up the project's Garura memory from only the memory files the answers call for, and records the answers in the profile.' The feature adds detail the parent does not hold: the named inputs ('domains, kinds of features, technology standards, tools and frameworks, surfaces, and whether there is a database, personal data, permissions or a running service'), the build record of 'which memory files were taken and which were left out', the selects-nothing branch, the rule that on an unreachable Phoenix memory 'It never writes the profile's answers on their own either, so the project is never left half set up', and the rerun behavior.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "The doc defines Phoenix memory ('the one shared memory on the machine ...') but never says what 'the project's Garura memory' is or where it lives, and its core rule does not say how a file is tied to an answer: 'A memory file is taken only when an answer calls for it. A file that no answer selects stays in Phoenix memory'. The term 'memory blocks' appears in Out of scope ('Keeping each project's memory blocks its own') with no definition here. On a rerun it says the memory is rebuilt but not what happens to the answers already in the profile.",
+      "fix": "Add to What it does one line that defines the project's Garura memory (the project's own memory, read before Phoenix memory, which this feature writes for the first time) and the memory block (the set of Phoenix memory files one answer selects, e.g. the Java standards for a Java answer, one domain shelf for a domain answer). Rewrite the first rule to say how the selection is made: each answer selects its memory block, and a file is taken only when it belongs to the block of an answer given. Add to the rerun rule what happens to the profile: e.g. 'the profile's answers are replaced by the new confirmed answers, each still with its question'."
+    }
+  ]
+}

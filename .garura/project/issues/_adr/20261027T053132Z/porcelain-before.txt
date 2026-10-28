@@ -1,0 +1,39 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/plays/shape-slice/SKILL.md
+ M core/components/plays/shape-slice/reference/ice.md
+ M core/components/plays/shape-slice/scripts/edit_slice.py
+ M core/components/plays/shape-slice/scripts/render_brief.py
+ M core/components/plays/shape-slice/scripts/test_edit_slice.py
+ M core/components/plays/shape-slice/scripts/test_render_brief.py
+ M core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+ M core/components/plays/shape-slice/scripts/write_hidden_file.py
+ M core/components/skills/author-slice/SKILL.md
+?? .garura/project/issues/908/context/categories.yaml
+?? .garura/project/issues/908/context/context.yaml
+?? .garura/project/issues/908/context/decision-comment.md
+?? .garura/project/issues/908/context/design-findings-harness.yaml
+?? .garura/project/issues/908/context/layer1.txt
+?? .garura/project/issues/908/context/lint-components.json
+?? .garura/project/issues/908/context/memory/grounding-harness/manifest.json
+?? .garura/project/issues/908/context/memory/grounding-harness/standards/rules/builder-isolation.md
+?? .garura/project/issues/908/context/memory/grounding-harness/standards/rules/direct-model-write.md
+?? .garura/project/issues/908/context/memory/grounding-harness/standards/rules/evidence-recording.md
+?? .garura/project/issues/908/context/memory/grounding-harness/standards/rules/expectation-generation.md
+?? .garura/project/issues/908/context/memory/grounding-harness/standards/rules/gate-config.md
+?? .garura/project/issues/908/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+?? .garura/project/issues/908/context/memory/knowledge/review/_index.md
+?? .garura/project/issues/908/context/memory/knowledge/review/adrs.md
+?? .garura/project/issues/908/context/memory/knowledge/review/code.md
+?? .garura/project/issues/908/context/memory/knowledge/review/config-maps.md
+?? .garura/project/issues/908/context/memory/knowledge/review/docs.md
+?? .garura/project/issues/908/context/memory/knowledge/review/harness.md
+?? .garura/project/issues/908/context/memory/knowledge/review/memory.md
+?? .garura/project/issues/908/context/memory/knowledge/review/tests.md
+?? .garura/project/issues/908/context/memory/manifest.json
+?? .garura/project/issues/908/context/memory/standards/rules/pr.md
+?? .garura/project/issues/908/context/pr.diff
+?? .garura/project/issues/908/context/quality-findings.yaml
+?? .garura/project/issues/908/context/templates/manifest-check-change.json
+?? .garura/project/issues/908/context/templates/standards/rules/pipeline-next.md
+?? .garura/project/issues/_adr/20261027T053132Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261027T053132Z/run.json

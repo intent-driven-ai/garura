@@ -1,0 +1,30 @@
+# check-change Layer 2 -- category: harness -- PR #834 (issue 813). Grounded on plan/788/base only.
+category: harness
+base: plan/788/base
+principles:
+  - {id: G1, source: "plan/788/base:docs/adr/039 (Decision, line 40) ", principle: "Writing the product model is the work of a play built for it; the product model is part of Garura memory (ADR 039 amends ADR 035 s1)."}
+  - {id: G2, source: "plan/788/base:docs/adr/038", principle: "The install brings no memory."}
+  - {id: G3, source: "plan/788/base:CLAUDE.md Play Pipeline Rules", principle: "A change to what a play guarantees goes through its ICE and /edit-play; a non-intent change is a direct edit."}
+  - {id: G4, source: "plan/788/base:install.py docstring + lead rule", principle: "Install is idempotent and must never write or commit outside the project."}
+  - {id: G5, source: "plan/788/base:docs/adr/048 line 110 'Work This Creates'", principle: "A clean-up chore for the retired intent-epic files was asked for."}
+  - {id: G6, source: "plan/788/base:docs/adr/046, rules/naming.md", principle: "Harness naming standard; nothing renamed here."}
+verified_ok:
+  - "(a) one commit holding only model paths: tested on a scratch repo with an unrelated staged file and an unrelated dirty file; both left alone, commit has only _spine.yaml and the page rename."
+  - "(a) second run is a no-op, exit 0, no new commit."
+  - "(a) both keys in the spine: exit 2, nothing changed; install.py/install.sh report it and carry on."
+  - "(a) prose and IDs unchanged; only keys, path values and the two headings change; code fences skipped."
+  - "(a) both installers call it (install.py step 8; install.sh init 8b and update 7b)."
+  - "(b) 74 scripts guarded (75 files import model_names; one is the test). Only old keys stop a script (exit 2); a new model passes through unchanged. No load path changed beyond wrapping the parsed result."
+  - "(b) the unguarded scripts that mention product-os only handle paths (classify_change, scoped_write_guard, commit_run_files, lines_up, check_model_untouched) or read guarded snapshots (next/derive_candidates reads scan_model output)."
+  - "(b) shared-scripts rule now scans plays/*/scripts and skills/*/scripts; lint-components errors fell from 151 on base to 135, none from model_names or shared-scripts."
+  - "(c) nothing live references a deleted skill, agent, rule, schema or template; every remaining mention is in a file marked deprecated: true, or in ADRs."
+  - "(c) ADR 050 matches Q1-Q3 (counts check: 12 skills, 4 agents, 8 rules, 3 schemas, 1 template; derive-blast-radius kept). ADR 035 s10 line and ADR 017 s1 pointers hit real text. ADR 048 line 110 asked for this chore."
+  - "(c) Rule 12 meaning is kept in rules/user-questions.md (ID, answer slot, grows only, answers are facts, open questions return, write-twice, three checkpoint replies, uncaptured_inference)."
+findings:
+  - {category: harness, severity: P2, path: core/components/plays/install-garura/scripts/migrate_model.py, basis: "G4", message: "No check that the model folder is inside the project. With product.base-path set outside the project (tested: ../out/) in a git repo, migrate() dies with an uncaught RuntimeError ('is outside repository') because run() catches only Refused; install.py then aborts after laying everything. In a non-git target the same path would be rewritten outside the project. Contain the path and turn any git failure into a report.", status: open}
+  - {category: harness, severity: P2, path: core/components/plays/install-garura/scripts/install.py, basis: "G1, G2, G5", message: "The install now rewrites and commits the product model (Garura memory) in the user's repo. No committed decision authorises an install-time writer: ADR 039 says the model is written by a play built for it, ADR 048 does not mention migration, and decisions.md Q4 covers only the guard. ADR 038 itself holds (no memory brought). Record the migration in an ADR (048 addendum or 050) before merge.", status: open}
+  - {category: harness, severity: P3, path: core/components/plays/install-garura/SKILL.md, basis: "G3", message: "install-garura now makes a commit in the project, but its SKILL.md (unchanged; no ICE source exists) never says so. Add a line saying the install moves an old model and makes one commit; direct edit, no rebuild.", status: open}
+  - {category: harness, severity: P3, path: core/components/plays/install-garura/scripts/migrate_model.py, basis: "G4", message: "If a git step fails after files were moved (tested: a failing pre-commit hook), the tree is left moved and the index staged, and the report says 'the commit failed: ' with an empty reason. Safe, but half-done work with no hint how to finish or undo.", status: open}
+  - {category: harness, severity: P4, path: core/components/plays/discover-domains/scripts/check_kept.py, basis: "#813 decision Q4 (every script that loads the model gets the guard)", message: "Reads model pages by name (feature.md) through git diff and has no guard; on an old model it sees no pages and says nothing. Low risk; the other discover-domains scripts are guarded.", status: open}
+  - {category: harness, severity: P4, path: core/components/plays/discover-capabilities/scripts/check_sources.py, basis: "#813 decision Q4", message: "Reads feature.md pages named by a run manifest; unguarded. Same low risk as above.", status: open}
+  - {category: adrs, severity: P4, path: docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md, basis: "plan/788/base:docs/adr/035 and 017 status lines", message: "Header says 'Supersedes: ADR 035 (in part)' but ADR 035's status line says 'amended in part'; ADR 017 is 'Amends'. Use one word.", status: open}

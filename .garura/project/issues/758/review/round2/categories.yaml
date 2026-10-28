@@ -1,0 +1,15 @@
+# check-change round 2, PR #783
+shelf_note: "context.yaml review_shelf (./.garura/core/memory/knowledge/review/) does not exist here (bug #773); read core/components/memory/knowledge/review/ instead."
+categories:
+  - id: memory
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    design_bearing: true
+  - id: stm-records
+    playbook: null
+    note: "playbook missing - run records under .garura/project/issues/758/{context,review}/ (including locked-model.md, decisions.json, round-1 records). Run history, not design; no design-grounding needed. Closest shelf entry: none."
+    evidence:
+      - .garura/project/issues/758/context/**
+      - .garura/project/issues/758/review/**
+    design_bearing: false

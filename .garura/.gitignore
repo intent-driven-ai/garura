@@ -3,3 +3,5 @@
 # The durable record is the evidence system (_evidence/), never these.
 **/status/
 **/_status/
+# Python's caches beside the installed tools' scripts — never part of a change (#613).
+**/__pycache__/

@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "approve"
+round: 1
+citing: []
+recommended: approve (no P1; one P4)
+not_fixed_by_decision:
+  - P4 (product-model-pages) — the pages no longer point to #844 decision 7; the current Thin line has a fixed wording; no action
+  - no review playbook for product model pages or run records — a follow-up issue

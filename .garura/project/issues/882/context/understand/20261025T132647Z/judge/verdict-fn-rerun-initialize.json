@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"Lets the product owner run `initialize` again at any time, when the project changes\" \"Out: the change record, a list of what changed since the last run\" \"When the product profile holds no earlier answers (the first run never finished), the run asks the questions as a first run does\" \"Given an issue type no longer needed, when initialize runs again, then the type stays in the tracker.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed.\" \"A run never removes an issue type from the tracker, because a type may hold work items the team still uses.\" \"because a standard or a rule group the project no longer needs gives only noise.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given the database answer changes from yes to no, when the run ends, then the database block is no longer in the project's memory and the database rule group is recorded as skipped.\" \"A run with every answer unchanged and no change in Phoenix memory changes nothing, so a repeat run is always safe to start.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"When the tracker answer changes (for example from GitHub to Jira), the re-run sets up the issue types Garura files in the new tracker as a first run does\" \"When the product owner says no to the tracker changes, the memory and rule-group changes from the other confirmed answers still apply\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"A second run reads the earlier answers from the product profile and proposes each one again with the earlier answer as its source\" \"Moving the old tracker's work items to the new tracker: no part of initialize does it, because initialize files and moves no work item.\" \"Reinstalling Garura (the Garura install owns it, and it lays no memory).\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}

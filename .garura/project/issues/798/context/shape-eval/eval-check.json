@@ -1,0 +1,106 @@
+{
+  "ok": true,
+  "problems": [],
+  "moved": [],
+  "slices": [
+    {
+      "slice": "sl-intent-to-design",
+      "ready": true,
+      "reason": null,
+      "stories": [
+        {
+          "issue": 795,
+          "feature": "fn-795",
+          "title": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
+          "scenarios": 12,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            3,
+            3
+          ],
+          "failure_conditions": [
+            6,
+            6
+          ],
+          "untestable": []
+        },
+        {
+          "issue": 818,
+          "feature": "fn-818",
+          "title": "The plan play makes the plan file, the epic and one story per feature",
+          "scenarios": 8,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            3,
+            3
+          ],
+          "failure_conditions": [
+            7,
+            7
+          ],
+          "untestable": []
+        },
+        {
+          "issue": 798,
+          "feature": "fn-798",
+          "title": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface",
+          "scenarios": 12,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            2,
+            2
+          ],
+          "failure_conditions": [
+            6,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "F17"
+              ],
+              "reason": "A person must read the steps of each scenario to see if they check only what the tag says, because no step of the library can judge that; the scenario checks only that every tag belongs to its story.",
+              "partly": true
+            }
+          ]
+        },
+        {
+          "issue": 898,
+          "feature": "fn-898",
+          "title": "Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval",
+          "scenarios": 14,
+          "goals": [
+            4,
+            4
+          ],
+          "expectations": [
+            3,
+            3
+          ],
+          "failure_conditions": [
+            6,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "F24"
+              ],
+              "reason": "A person must read the steps of each scenario to see if they check only what the tag says, because no step of the library can judge that; the scenario checks only that every tag belongs to its story.",
+              "partly": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

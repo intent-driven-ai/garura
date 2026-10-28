@@ -289,7 +289,7 @@ the session identity stamp fields from $session_stamp (#463): session_id, ledger
 ledger_start_offset, ledger_end_offset (null when unresolved — never blocks the close)) and
 write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report to the user: `## start-change Delivered — #${issue}`, the Run Summary table, the
 Pipeline Steps table built from the task DAG, the Artifacts Produced table, Next Steps
 (the change is ready — run the build/implement play next), and a pointer to
@@ -350,39 +350,3 @@ branch (C6, F5).
 | step_evals | 10 (SE-1…SE-10) |
 | scenario_evals | 6 (SCE-1…SCE-6) |
 | recovery_entries | 9 (one per failure condition; 8 autonomous / 1 human) |
-
-## Recompile note (#484, scripted chain)
-
-Intent change via `reference/ice.md` → recompile. Reworded C5 (issue work via
-`track-issue`; branch work is not a skill/agent) and added C8 (mechanical branch work runs
-in the bundled `setup_branch.py`, never agent dispatch), F8, REC8, SE-9. Step 4 no longer
-dispatches `repo-orchestrator` → `cut-branch`; it runs `setup_branch.py` (canonical copy
-in `create-play/references/`, stamped here). Issue work keeps `project-orchestrator` for
-the fresh-issue match (genuine judgment). Utility agents 2 → 1; scripts 5 → 6. Guarantees
-(issue-anchored, branch off latest main, worktree per config, resume-safe, Done-means
-proven) unchanged. Fingerprint recomputed over the edited ICE.
-
-## Direct-edit deviation note (#434, pre-flight resolver)
-
-Pre-flight resolution moved from orchestrator inference to the bundled `scripts/preflight.py`
-(harness-led: config/branch/issue/worktree/changeset resolution is a script returning JSON
-facts; the play keeps only the halt policy; the live git-repo and `gh` checks stay in the
-table). The script is the canonical resolver stamped from
-`create-play/references/preflight.py`; a rebuild reproduces it (create-play step 4).
-Non-intent change — no constraint, failure, scenario, eval, or `reference/ice.md` touched, so
-the fingerprint stands and no recompile is required. Direct edit; no recompile needed.
-
-## Compiled note (#467 Batch C)
-
-The confirm-new-issue gate went **off by config** for this project
-(`gates.plays.start-change: off`) in the same change that added its replacement machine
-check: `scripts/validate_issue.py` (canonical copy:
-`create-play/references/validate_issue.py`) runs before any issue create, gate on or
-off, and a non-zero exit hard-halts to a human (C1, F7, SE-8, REC7). The checkpoint
-machinery is KEPT — the switch resolves per `standards/rules/gate-config.md`; flipping
-the config back to on restores the wait; skips are always recorded in evidence. Owned
-by the compiled play (ICE recompile, not a direct edit).
-
-## Direct-edit deviation note (#463, session identity stamp)
-
-Non-intent change: the Standard Play Close gained the session identity stamp — `scripts/session_stamp.py` (canonical copy: `create-play/references/session_stamp.py`) runs `--phase start` at pre-flight and `--phase close` in the close block; the evidence frontmatter carries session_id / ledger_file / ledger_start_offset / ledger_end_offset. Source of truth: `core/components/plays/_shared/play-close.md`; create-play emits the same lines so a rebuild converges. No constraint, failure, scenario, or eval changed; the fingerprint stands.

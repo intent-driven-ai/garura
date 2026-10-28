@@ -1,0 +1,186 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/domain.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:3c8c590af330ace14d5592982f041ffc2f0429c52141efdaaa7320341e55c7f8",
+      "copy": ".garura/project/issues/882/context/memory/standards/schemas/product-os/grounding/domain.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/epic.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:f092695adfe54b71c75a8740e7f1e8fc47fbd54dc43a534c877840244a7bcdd8",
+      "copy": ".garura/project/issues/882/context/memory/standards/schemas/product-os/grounding/epic.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/functionality.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:eaad8d12941243997c629f1fe5b9b65939f6c8d459d8ace7d13f329fc4630c4f",
+      "copy": ".garura/project/issues/882/context/memory/standards/schemas/product-os/grounding/functionality.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/spine.yaml",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:79e2822a72995ffb3cc3b6f034cdbe385032793936f95310a3b1640e15aa0255",
+      "copy": ".garura/project/issues/882/context/memory/standards/schemas/product-os/spine.yaml"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/_content-standard.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:a87ad8b9c992bb6524ea5f995693615241d5368b49df75eb0c9851b924b4025d",
+      "copy": ".garura/project/issues/882/context/memory/standards/schemas/product-os/grounding/_content-standard.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/capability.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:57bcd198b8344c9cba9e84739714f44d6c85eac5dcde9e67d88629c698a3609f",
+      "copy": ".garura/project/issues/882/context/memory/standards/schemas/product-os/grounding/capability.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/grounding/feature.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:8056d0c66a9ef96f306504087fa19aafaa16989e160c424cc497b2b073d3cd20",
+      "copy": ".garura/project/issues/882/context/memory/standards/schemas/product-os/grounding/feature.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/analytics.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:3cbc1cf97272446179c4a6ed9c382b60e8ab5b7c2073a3c110a40dec95ba619d",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/analytics.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/collaboration.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:ad1ce42fc86a7589a75579adac494248b5daf82df4cbe021b9939b85bfead487",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/collaboration.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/content-management.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:94e94658c590265c2a7dde59617f3dc522fe173eb35676d0bf3a25e7376fc24f",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/content-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/ecommerce.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:67f720ca9be8faa4ae642fc05b28940e97751c9659ee533d5eb20dbc330ea11d",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/ecommerce.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/experience.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:ef6dc636f1b2fedb8d487cad106587f43c008f4d53ab3d55e1a8171da6587144",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/experience.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/marketing.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:a3095fe97b907418df15952aa53507bc848638a3fb55a10a36623df83c8dc4d0",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/marketing.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/notifications.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:9d2b81ef7ec4dac3a1364b1d9c36d27acd329babdfa9810329b64e6e4c5d42e3",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/notifications.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/payments.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:ee08a26c2cd669564a789fd311c75c87dc809561dd77dc4b8376b8e3c0d26d3a",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/payments.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/personalization.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:ecea6b3c26d2869be8a85379543b0f4305008bd6983a0f3f42c570ea52707460",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/personalization.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/domains/user-management.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:4e3295d8e54324c20ee2651d7f5b1e1435e52af14a7c440ba5a7610a5229bda8",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/domains/user-management.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/_index.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:e00495d6715687627f4799d9d5ebf966432301d5c2ff914ef4cb8833861996f5",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/adrs.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:374f00d044b749d5f72b5440942d1eb0e290fd925be239f9084c7f6225a5177e",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/adrs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/code.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:1ccf4b6516600b0ebcaf9ab9eeaa995eb158e8d20b03e577ea0300d7f0425645",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/code.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/config-maps.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:95e283ea6c36541dd63428c57edaa95fca913e4814ceb5bb6453cca60d009d40",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/config-maps.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/docs.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:673a338c1dd38889aad23a36f7c0acd9e059989877451e4a3682b9e283e888f7",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/docs.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/harness.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:9f09bac58b9f46d900c54296fad0dd9fbfa23d9b42c72eebb036440e47f49ccd",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/harness.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/memory.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:a95936b01e9b3042d7643cff2f35ba061b25b766155eac80ff701867ead4a7a2",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/memory.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/review/tests.md",
+      "version": "44e1c4c4799a",
+      "fingerprint": "sha256:b5a2d6929776efe3d0a81018309869110edefcc4687d6db70cb8ea85cdfd06eb",
+      "copy": ".garura/project/issues/882/context/memory/knowledge/review/tests.md"
+    },
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/pr.md",
+      "version": null,
+      "fingerprint": "sha256:e3065a238b5c5019907b729200bb2752298d8389f8ef9982ac3d27e8fa7a0392",
+      "copy": ".garura/project/issues/882/context/memory/standards/rules/pr.md"
+    }
+  ]
+}

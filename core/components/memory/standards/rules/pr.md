@@ -78,10 +78,18 @@ legitimately review documentation still fire.
 - A glob is **docs-targeting** (mechanical test on the glob string, case-insensitive) when it
   ends in a prose extension (`.md`, `.rst`, `.txt`), contains `docs/`, or names a known doc
   artifact (`readme`, `changelog`, `security`, `contributing`, `license`, `.env.example`,
-  `.env.sample`, `openapi`, `swagger`, `api-spec`). So `docs/security/**`, `README.md`, and
-  `docs/adr/**` still fire on prose; `**/schema*`, `**/migrations/**`, and `**/canary*` do
+  `.env.sample`, `openapi`, `swagger`, `api-spec`). So `docs/security/**` and `README.md`
+  still fire on prose; `**/schema*`, `**/migrations/**`, and `**/canary*` do
   not. `path:` rules whose target is inherently code/config (`.env`, `package.json`,
   `.github/workflows/**`) are unaffected — those files are never a prose artifact type.
+- **Two kinds of path get no finding (#851).** A path under `docs/adr/` gets no finding: an
+  ADR is a decision record that a person accepts, and its own process checks it (lint, the
+  business-intent check, the person's approval). A finding on a changed ADR only says that an
+  ADR changed. A path whose artifact type is `stm-evidence` (`.garura/project/**`,
+  `.garura/core/**`) gets no finding: these are run records and installed copies that the
+  plays write. They are evidence of a run, not work to review, and the source of an installed
+  copy is reviewed where it lives. The rows that name `docs/adr/**` (ARCH-23, DOC-04, DOC-05)
+  stay for the review layers that read the taxonomy; the scan does not fire them.
 - Every finding carries `artifact_type` (the matched file's classification) so a
   reviewer can see why the rule applied.
 - `scan_coverage` counts guard-exempted files as covered (they were classified and
@@ -99,7 +107,7 @@ legitimately review documentation still fire.
 | SEC-04 | P2 | `grep:(req\.body\|req\.query\|req\.params\|request\.json)` | file, line, snippet |
 | SEC-05 | P2 | `path:**/{middleware,server,app}.{js,ts,py,go}` | file, line, header-config |
 | SEC-06 | P1 | `grep:(multer\|upload\|formidable\|FileUpload)` | file, line, validation-snippet |
-| SEC-07 | P1 | `grep:(JSON\.parse\|yaml\.load\|pickle\.load\|unmarshal)` | file, line, snippet |
+| SEC-07 | P1 | `grep:(pickle\.loads?\s*\(\|marshal\.loads?\s*\(\|yaml\.unsafe_load\s*\(\|yaml\.load\s*\((?!.*SafeLoader)\|JSON\.parse\s*\(\s*(?:await\s+)?(?:\w+\.)*(?:req\|request\|body\|event\|payload\|params\|query\|input)\b)` | file, line, snippet (unsafe loads only: pickle.load(s), marshal.load(s), yaml.load without a safe loader on the line, yaml.unsafe_load, and JSON.parse of request input; not JSON.parse of a file or of a tool's own output, #860) |
 | SEC-08 | P3 | `path:.github/workflows/**,.gitlab-ci.yml,Jenkinsfile` | file, line |
 | SEC-09 | P3 | `path:.github/workflows/**,.gitlab-ci.yml` | file, line |
 | SEC-10 | P4 | `path:docs/security/**` | file |
@@ -110,7 +118,7 @@ legitimately review documentation still fire.
 | SEC-15 | P1 | `grep:(encrypt\|decrypt\|cipher\|aes)` | file, line, snippet |
 | SEC-16 | P1 | `grep:(http://\|TLSv1\.0\|TLSv1\.1\|sslv[23])` | file, line, snippet |
 | SEC-17 | P1 | `grep:(setCookie\|res\.cookie\|Set-Cookie)` | file, line, cookie-flags |
-| SEC-18 | P2 | `grep:(role\|permission\|isAdmin\|can\()` | file, line, snippet |
+| SEC-18 | P2 | `grep:(\bisAdmin\b\|\bhasRole\s*\(\|\bhasPermission\s*\(\|\.can\s*\(\|\brole\s*==)` | file, line, snippet (permission code only: isAdmin, hasRole(, hasPermission(, .can(, a role == test; not the plain word role) |
 | SEC-19 | P1 | `grep:(api[_-]?key\|secret\|password\|token)\s*[:=]\s*["'\x60][^"'\x60$]{8,}["'\x60]` | file, line, redacted-snippet |
 | SEC-20 | P1 | `path:.env,.env.*,!.env.example,!.env.sample` | file |
 | SEC-21 | P3 | `path:.github/workflows/**` | file, line |
@@ -141,7 +149,7 @@ legitimately review documentation still fire.
 | ARCH-20 | P2 | `grep:(throw\s+new\|return.*error\|res\.json.*error)` | file, line, snippet |
 | ARCH-21 | P2 | `grep+path:(findAll\|findMany\|SELECT\s+\*\|\.all\(\))|**/{routes,controllers,handlers}/**` | file, line, snippet |
 | ARCH-22 | P3 | `path:**/{middleware,routes}/**` | file, line |
-| ARCH-23 | P4 | `path:docs/architecture/**,docs/adr/**` | file |
+| ARCH-23 | P4 | `path:docs/architecture/**,docs/adr/**` | file (the scan gives no finding on `docs/adr/**`, #851) |
 | ARCH-24 | P4 | `path:CHANGELOG.md,docs/api/**` | file |
 | BE-01 | P3 | `grep+path:(@(Get\|Post\|Put\|Patch\|Delete)\|router\.)|**/{routes,controllers,api}/**` | file, line, snippet |
 | BE-02 | P1 | `grep+path:(req\.body\|request\.json\|@RequestBody)|**/{routes,controllers,handlers}/**` | file, line, snippet |
@@ -161,7 +169,7 @@ legitimately review documentation still fire.
 | BE-16 | P2 | `grep:(unhandledRejection\|uncaughtException\|sys\.excepthook)` | file, line, snippet |
 | BE-17 | P2 | `grep:for\s*\([^)]*\)\s*\{[^}]*(findOne\|findById\|SELECT)` | file, line, snippet |
 | BE-18 | P2 | `grep:SELECT\s+\*` | file, line, snippet |
-| BE-19 | P2 | `grep:(SELECT\|FROM\|JOIN)` | file, line, query |
+| BE-19 | P2 | `grep:(?-i:["'\x60]\s*(?:SELECT\|select)\b[^"'\x60]*?\b(?:FROM\|from)\b\|\bJOIN\s+[\w."\x60]+(?:\s+(?:AS\s+)?\w+)?\s+ON\b)` | file, line, query (SQL-shaped code only: a SELECT ... FROM in one string, or a JOIN ... ON; not the words from or join, or path.join) |
 | BE-20 | P1 | `path:**/migrations/**,**/db/migrate/**,**/alembic/**` | file, line, ddl-snippet |
 | BE-21 | P2 | `grep:(createPool\|Pool\(\|connection_pool)` | file, line, config-snippet |
 | BE-22 | P3 | `grep:(cache\.set\|redis\.set\|memcached)` | file, line, snippet |
@@ -226,8 +234,8 @@ legitimately review documentation still fire.
 | DOC-01 | P3 | `path:README.md,README.rst,README.txt` | file |
 | DOC-02 | P3 | `path:**/openapi*,**/swagger*,**/api-spec*` | file |
 | DOC-03 | P3 | `path:**/openapi*,**/swagger*` | file, endpoint-coverage |
-| DOC-04 | P3 | `path:docs/adr/**,docs/decisions/**` | file |
-| DOC-05 | P4 | `path:docs/adr/**` | file |
+| DOC-04 | P3 | `path:docs/adr/**,docs/decisions/**` | file (the scan gives no finding on `docs/adr/**`, #851) |
+| DOC-05 | P4 | `path:docs/adr/**` | file (not scanned on `docs/adr/**`, #851; the review layers read this row) |
 | DOC-06 | P4 | `path:docs/architecture/**,docs/diagrams/**` | file |
 | DOC-07 | P4 | `path:docs/deployment/**,docs/ops/**` | file |
 | DOC-08 | P3 | `path:CHANGELOG.md,docs/api/**` | file |

@@ -1,0 +1,31 @@
+---
+# assess-changes output, issue 807, branch plan/788/807-rename-feature
+needs_judgment: false
+
+change_groups:
+  - id: naming-adr-cutoff
+    issue: 807
+    commit_type: fix
+    scope: naming
+    subject: "Move the past-record ADR cut-off from 046 to 048, because ADR 048 records the second rename and names the old names on purpose."
+    files:
+      - core/tools/naming/check_old_names.py
+
+  - id: stm-807-records
+    issue: 807
+    commit_type: chore
+    scope: stm
+    subject: "Record the eval scope fixes with their reasons, the final eval run of 45 of 45, and the porcelain for the rename."
+    files:
+      - .garura/project/issues/807/context/analysis.yaml
+      - .garura/project/issues/807/context/porcelain.txt
+      - .garura/project/issues/807/evidence/eval/allowed-hits.txt
+      - .garura/project/issues/807/evidence/eval/eval_807.py
+      - .garura/project/issues/807/evidence/eval/run-final.txt
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []

@@ -1,0 +1,7 @@
+{
+  "branch": "plan/756/760-ready-check-reads-ice",
+  "kind": "issue-in-plan",
+  "plan_id": "756",
+  "issue": "760",
+  "base": "plan/756/base"
+}

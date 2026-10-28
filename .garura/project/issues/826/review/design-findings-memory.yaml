@@ -1,0 +1,33 @@
+# check-change round 2, Layer 2 -- category: memory -- PR #827
+# Grounded only in plan/788/base committed sources. Severity per rules/pr.md.
+category: memory
+base: plan/788/base
+round: 2
+principles:
+  - {id: G1, source: "plan/788/base:docs/philosophy/idd-principles.md 'The Routing Table'", principle: "Failure conditions: eval author only. Goal, constraints, all Context, success scenarios: builder. Recovery: builder gets only the handoff plan. Validator: evals + Context + recovery."}
+  - {id: G3, source: "plan/788/base:docs/adr/048 Decision 3", principle: "ICE stays in one place; a Story writes its scope from two ICE; no work item carries an ICE."}
+  - {id: G4, source: "plan/788/base:schemas/product-os/ice.yaml; rules/expectation-generation.md lines 3-12 (play scope)", principle: "ICE words are Goal, Limit, Fails if; an ICE has no recovery lines."}
+  - {id: G5, source: "plan/788/base:docs/adr/048", principle: "A change of a decided design needs a decision record."}
+round1_fixes:
+  M2: {fixed: yes, line: "ontology.md:473 -- 'The plan play reads it ... writes the Story's scope of work and Context guidance and the slice's hidden file from them'; also names the Context copy as drift"}
+  M4: {fixed: yes, line: "expectation-generation.md:67-84 -- new section 'A story's recovery (product ICE)'; when/way back/who fixes map to trigger/direction/handoff"}
+  M5: {fixed: yes, line: "ontology.md:114 and :427 -- running eval reads 'only the recovery parts of each entry (when, way back, who fixes), never the failure conditions'; rule file line 83 says the same"}
+  M6: {fixed: yes, line: "ontology.md:636 -- Story scope of work now says 'the limits' (also lines 105, 123)"}
+  name: {fixed: yes, line: "ontology.md:23 'the product owner'; the v5 changelog line also fixed; no 'Kapil' left in either core file or in 816/826 context records"}
+routing_table_check:
+  - {row: Goal, result: holds}
+  - {row: Constraints, result: holds, note: "carried as the Story's 'limits'; ICE word"}
+  - {row: Failure conditions, result: holds, note: "hidden file only; builder and context sub-agent barred (:426); running eval reads recovery parts only (:427); enforcement is by rule (deferred #828)"}
+  - {row: Context, result: holds}
+  - {row: Success scenarios, result: holds}
+  - {row: Recovery, result: holds, note: "builder gets only the handoff plan (:429)"}
+  - {row: Encrypted evals / Implementation, result: holds}
+findings:
+  - {category: memory, id: M1, severity: P3, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G5; ADR 048", message: "Hidden file and Context guidance have no decision record.", status: "deferred: #824"}
+  - {category: memory, id: M2, severity: P3, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G3", message: "ICE kind now names the plan play as reader (:473).", status: fixed}
+  - {category: memory, id: M3, severity: P3, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G1", message: "Hidden file barrier is by rule, not encryption.", status: "deferred: #828"}
+  - {category: memory, id: M4, severity: P3, path: core/components/memory/standards/rules/expectation-generation.md, basis: "G4", message: "Rule now covers a story's recovery (:67-84).", status: fixed}
+  - {category: memory, id: M5, severity: P4, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G1", message: "Running eval reads only the recovery parts (:114, :427).", status: fixed}
+  - {category: memory, id: M6, severity: P4, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G4", message: "Story says 'limits' (:636).", status: fixed}
+  - {category: memory, id: M7, severity: P4, path: core/components/memory/standards/rules/expectation-generation.md, basis: "G4; the file's own base scope note (lines 1-12) says it covers the play case only and names the feature case as a separate generator", message: "New story section sits in a file whose title, opening line and scope note still say plays only; the note now contradicts the section. Widen the scope note (a direct edit).", status: open}
+  - {category: memory, id: M8, severity: P4, path: core/components/memory/standards/schemas/product-os/ontology.md, basis: "G4 (Goal, Limit, Fails if); the same file uses 'limits' elsewhere after the M6 fix", message: "v10 changelog line (:810) still says 'the goal, the constraints' and ':636' reads 'the limits it must stay inside (the limits)', which repeats itself. Say 'limits' once.", status: open}

@@ -1,0 +1,10 @@
+decision: reject
+decided_by: human
+reply: "reject and  fix. Also, the agent's job is only to collect context. It is not supposed to do actual work. That is the skill's job, so if that's not happening in the agent and skills, then that also needs to be fixed."
+round: 1
+citing:
+  - DF-1 (P3) two step evals share SE-6
+  - DF-2 (P3) working files keep Fails-if text and ids outside the evals folder
+  - Q-1 (P3) the brief is not written atomically
+  - Q-2 (P4) the safe-write code is repeated
+  - DF-3 (P4) the agent writes the early brief with no skill; with the product owner's rule, every place where the agent does work instead of a skill is fixed

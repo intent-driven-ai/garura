@@ -484,11 +484,12 @@ When a play presents a checkpoint requiring human approval, the interaction foll
 
 | Response | Parsed As | Action |
 |----------|-----------|--------|
-| `Tether` or `tether` (case-insensitive) | Approve | Proceed to next step |
-| `Vanish` or `vanish` (case-insensitive) | Reject | Halt; update checkpoint artifact to REJECTED |
-| Anything else | Unclear | Clarify — do not proceed and do not halt |
+| `yes` (or `y`, `approve`, `go`) | Approve | Proceed to next step |
+| `change: <what>` | Change asked for | Re-run the gated step with the change; update checkpoint artifact to CHANGE_REQUESTED |
+| `stop` (or `no`, `cancel`) | Reject | Halt; update checkpoint artifact to REJECTED |
+| Anything else | Unclear | Ask again — do not proceed and do not halt |
 
-This protocol applies universally across all plays. The intent is to make approval explicit and unambiguous — neither a casual affirmative ("ok", "yes") nor silence counts as approval.
+This protocol applies universally across all plays. The intent is to make approval explicit and unambiguous — only a typed yes counts as approval; silence never does. The format is `standards/templates/approval-prompt.md`.
 
 **Evidence Artifacts:**
 

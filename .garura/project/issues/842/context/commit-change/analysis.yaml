@@ -1,0 +1,78 @@
+needs_judgment: false
+
+change_groups:
+  - id: shape-slice-ice-and-play
+    issue: 842
+    commit_type: fix
+    scope: shape-slice
+    subject: "round-2 review fixes to the play's ICE and recompiled SKILL.md"
+    files:
+      - core/components/plays/shape-slice/reference/ice.md
+      - core/components/plays/shape-slice/SKILL.md
+  - id: shape-slice-scripts
+    issue: 842
+    commit_type: fix
+    scope: shape-slice
+    subject: "add safe_write and tighten the script modes, with tests"
+    files:
+      - core/components/plays/shape-slice/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/persist_fills.py
+      - core/components/plays/shape-slice/scripts/persist_slice.py
+      - core/components/plays/shape-slice/scripts/record_questions.py
+      - core/components/plays/shape-slice/scripts/render_brief.py
+      - core/components/plays/shape-slice/scripts/write_hidden_file.py
+      - core/components/plays/shape-slice/scripts/write_intent_page.py
+      - core/components/plays/shape-slice/scripts/test_render_brief.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+  - id: new-slice-skills
+    issue: 842
+    commit_type: feat
+    scope: skills
+    subject: "add author-slice, find-slice-gaps, author-slice-brief and enrich-grounding"
+    files:
+      - core/components/skills/author-slice/SKILL.md
+      - core/components/skills/find-slice-gaps/SKILL.md
+      - core/components/skills/author-slice-brief/SKILL.md
+      - core/components/skills/enrich-grounding/SKILL.md
+  - id: existing-skills-and-keeper-fixes
+    issue: 842
+    commit_type: fix
+    scope: skills
+    subject: "align five existing skills and the product-os-keeper agent with the slice flow"
+    files:
+      - core/components/skills/author-business-intent/SKILL.md
+      - core/components/skills/author-domains/SKILL.md
+      - core/components/skills/author-failure-recovery/SKILL.md
+      - core/components/skills/enrich-capability-ice/SKILL.md
+      - core/components/skills/propose-answers/SKILL.md
+      - core/components/agents/product-os-keeper.md
+  - id: naming-rule-2
+    issue: 842
+    commit_type: docs
+    scope: standards
+    subject: "clarify naming rule 2"
+    files:
+      - core/components/memory/standards/rules/naming.md
+  - id: stm-edit-play-records
+    issue: 842
+    commit_type: chore
+    scope: stm
+    subject: "record the edit-play contract and agent audit"
+    files:
+      - .garura/project/issues/842/context/edit-play/contract.md
+      - .garura/project/issues/842/context/edit-play/agent-audit.md
+
+exclusions:
+  - path: .garura/project/issues/842/context/commit-change/analysis.yaml
+    reason: "this play's own run record, rewritten by the run; recorded by the play's closing step"
+  - path: .garura/project/issues/842/context/commit-change/porcelain.txt
+    reason: "this play's own run record, rewritten by the run; recorded by the play's closing step"
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every changed path is in exactly one group or in exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

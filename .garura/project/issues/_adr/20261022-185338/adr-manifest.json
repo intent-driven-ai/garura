@@ -1,0 +1,77 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/048-the-product-model-and-the-work-are-two-layers.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261022-185338/adr-draft.md",
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "019",
+      "file": "docs/adr/019-epic-persistence-keep-delivered.md",
+      "kind": "superseded",
+      "part": "in part \u2014 Decision \u00a71 (the epic is a permanent record in the product model, at {domain}/slices/{slice-id}/epics/{epic-id}.yaml, with `delivered` as its terminal state) and \u00a72 (/launch stamps the epic `delivered` in place); also its Context's premise that a slice is cut into one or more epics"
+    },
+    {
+      "adr": "022",
+      "file": "docs/adr/022-surface-contract.md",
+      "kind": "amended",
+      "part": "\u00a71 'The surface lives on the epic, as structure' (the `surface` block in epic.yaml) and \u00a72 'Declared at cut' (/grill declares it when it cuts the epic)"
+    },
+    {
+      "adr": "024",
+      "file": "docs/adr/024-amendment-record.md",
+      "kind": "amended",
+      "part": "\u00a71 'Anchored, always' and \u00a72 'Append-only' \u2014 the anchor is a delivered epic record on the slice, and 'a slice's current truth = its epics + their amendments'; \u00a76 the home 'on the slice beside the epics'; and the Context's premise 'delivered epics cannot be reopened'"
+    },
+    {
+      "adr": "028",
+      "file": "docs/adr/028-agentic-lifecycle-five-loops.md",
+      "kind": "amended",
+      "part": "\u00a73 'Execute' (its first step, /grill, cuts the slice into epics) and '/grill needs only a slice' (the play that cuts epics checks only that the slice exists); also its Context's realized stamp ('/measure stamps the slice realized')"
+    },
+    {
+      "adr": "031",
+      "file": "docs/adr/031-business-intent-and-ice.md",
+      "kind": "amended",
+      "part": "\u00a71 'Two levels' \u2014 the sentence 'Every piece of agent work still takes ICE form; the business intent is what that work points at'"
+    },
+    {
+      "adr": "043",
+      "file": "docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+      "kind": "amended",
+      "part": "the word only \u2014 'functionality' is now 'feature' in its rules, and the holding folder `functionalities/<id>/` is now `features/<id>/` (\u00a71, \u00a73 'functionality \u2192 capability \u2192 domain')"
+    },
+    {
+      "adr": "046",
+      "file": "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+      "kind": "amended",
+      "part": "\u00a74 'Plays take the verb of what they do' \u2014 the sentence 'Objects use the product model's words (feature, capability), never a word the model dropped (epic, slice)'"
+    },
+    {
+      "adr": "047",
+      "file": "docs/adr/047-the-ice-is-its-own-node.md",
+      "kind": "amended",
+      "part": "the word only \u2014 'one ICE for each capability and each functionality' holds as 'each capability and each feature'; \u00a75 'A functionality has exactly one parent capability' and its holding folder read 'feature' and `features/`"
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "019-epic-persistence-keep-delivered.md",
+    "022-surface-contract.md",
+    "024-amendment-record.md",
+    "028-agentic-lifecycle-five-loops.md",
+    "031-business-intent-and-ice.md",
+    "043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md",
+    "046-one-naming-standard-for-every-harness-part.md",
+    "047-the-ice-is-its-own-node.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

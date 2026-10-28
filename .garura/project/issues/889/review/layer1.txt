@@ -1,0 +1,14 @@
+# Layer 1, round 2 (installed tools, source layout)
+lint-components: {'errors': 36, 'warnings': 1, 'infos': 0}
+findings in changed files: 0 | there before: 37
+lint_play check-change: VERDICT: FAIL (1 gap(s)) 
+lint_play merge-change: VERDICT: PASS (0 gap(s)) 
+lint_play propose-change: VERDICT: PASS (0 gap(s)) 
+lint_play shape-eval: VERDICT: PASS (0 gap(s)) 
+lint_play shape-plan: VERDICT: PASS (0 gap(s)) 
+lint_play shape-slice: VERDICT: PASS (0 gap(s)) 
+# Tests
+core/components/plays/check-change/scripts/test_fetch_pr_context.py: 17 passed, 0 failed
+core/components/plays/create-play/references/test_platform_adapter.py: 53 passed, 0 failed
+core/components/plays/create-play/references/test_fetch_pr_context.py: 17 passed, 0 failed
+ruff: All checks passed!

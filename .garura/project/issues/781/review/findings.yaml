@@ -1,0 +1,31 @@
+findings:
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/rules/pipeline-position.md
+  basis: plan/756/base:core/components/memory/standards/rules/pipeline-position.md
+    line 96 (bounded exception, the play named); lint_play.py D2b (exception recorded
+    per play)
+  message: The new condition ('a meta play that opens and lands its own change is
+    both') does not mark which meta plays qualify, because every both play opens and
+    lands its own change. The reason the base gave (it changes Garura's source with
+    the product owner) was dropped. Suggest tying the condition to the play's recorded
+    position_exception row, or keeping the reason.
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/rules/pipeline-position.md
+  basis: plan/756/base:core/components/memory/standards/rules/pipeline-position.md
+    line 12
+  message: The '/edit-ontology (#777 — ...)' list entry restates the placement, not
+    the reason. Cosmetic.
+  status: null
+- category: run-records
+  severity: P4
+  path: .garura/project/issues/781/
+  basis: 'categories.yaml: playbook missing'
+  message: No review playbook (or skip rule) for short-term memory run records.
+  status: null
+runnable_checks: "lint_play edit-ontology:\nVERDICT: PASS (0 gap(s))\nlint-components:\
+  \ before {'errors': 121, 'warnings': 2, 'infos': 0} after:\n  {'errors': 121, 'warnings':\
+  \ 2, 'infos': 0}\nlinter tests:\n pass naming.test.js\n pass skill-invocable.test.js\n\
+  edit-ontology script tests:\n11 passed, 0 failed\n"

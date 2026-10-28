@@ -1,0 +1,34 @@
+pr: '900'
+change: '798'
+round: 4
+categories: [executable-code, tests, documentation]
+scope:
+  paths_scanned: 48   # 33 executable-code + 9 tests + 6 documentation, from categories.yaml
+  taxonomy: .garura/project/issues/798/context/memory/standards/rules/pr.md
+  scan: "check-pr-quality (scan_taxonomy.py) on pr.diff bounded to the 48 paths: P1=0 P2=0 P3=0 P4=0, no rule errors, scan_coverage 1.0, CODE-20 catch-all covered 44 files (a count, not findings)"
+  ruff: "ruff 0.15.20 check on the 33 executable-code files and the 9 test files (the 42 .py paths): All checks passed (no ruff config in the repo, so ruff defaults)"
+  tests_run:
+    - {file: core/components/plays/check-change/scripts/test_fetch_pr_context.py, result: "8 passed, 0 failed"}
+    - {file: core/components/plays/create-play/references/test_intent_touches.py, result: "21 passed, 0 failed"}
+    - {file: core/components/plays/create-play/references/test_platform_adapter.py, result: "51 passed, 0 failed"}
+    - {file: core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py, result: "41 passed, 0 failed"}
+    - {file: core/components/plays/shape-slice/scripts/test_edit_slice.py, result: "35 passed, 0 failed"}
+    - {file: core/components/plays/shape-slice/scripts/test_persist_slice.py, result: "101 passed, 0 failed"}
+    - {file: core/components/plays/shape-slice/scripts/test_render_brief.py, result: "32 passed, 0 failed"}
+    - {file: core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py, result: "127 passed, 0 failed"}
+    - {file: core/components/plays/shape-slice/scripts/test_write_hidden_file.py, result: "26 passed, 0 failed"}
+    - {file: core/components/plays/create-play/references/test_fetch_pr_context.py, result: "13 passed, 0 failed (unchanged, covers the changed copy)"}
+    - {file: core/components/plays/install-garura/scripts/test_install.py, result: "OK (unchanged, covers install.py)"}
+by_hand_checks:
+  documentation:
+    - "The two edit-design notes name --redraft only to say it is taken back (edit-design.md lines 12, 18, 42; edit-908-design.md lines 39, 53). No file under core/components/plays/shape-slice mentions redraft. Holds."
+    - "docs/components/agents.md line 192 still says 'author-encrypted-evals' by name; it is the old skill name in a sentence that calls both old eval skills stale, not a claim that evals are encrypted, so it does not contradict ADR 057. Holds."
+    - "No leftover TODO, FIXME or XXX in the touched documentation files."
+  executable-code:
+    - "edit_slice.py (new since round 3), read in full and exercised: two edits in a row to the slice record both kept their history lines (edits list grew to 2) and 'check' returned no problems after each; a spine one-line edit also passed apply and check. It refuses an old text that no longer matches, an empty or unchanged new text, a repeated part, a who-fixes value that is neither allowed answer, and a file or part off the list. No finding."
+findings: []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0

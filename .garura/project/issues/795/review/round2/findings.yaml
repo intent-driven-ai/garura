@@ -1,0 +1,155 @@
+# check-change Step 4 -- consolidated findings, PR #840.
+findings:
+- category: harness
+  severity: P2
+  path: core/components/plays/shape-slice/scripts/persist_slice.py
+  basis: G1 C7 / S3 (a slice that already lists the intent is reused, no new slice)
+  message: 'Reuse by ''lists the intent'' fails when the freshly shaped slice has other features or surface. find_serving_slice
+    --reuse-into copies only id and slug, then persist_slice refuses with exit 2 (''give the new slice its own id''),
+    which contradicts the reuse the previous step just chose. Reproduced: spine has sl-a [f1] on scr serving bi-1;
+    shaped slice [f1,f2] on scr2 -> match sl-a, persist rc=2. A second run for an already-served intent hits this.
+    Fix: when reusing, leave the existing slice as it is (or persist only the intent) and report it.'
+  status: open
+- category: harness
+  severity: P2
+  path: core/components/plays/shape-slice/scripts/persist_slice.py
+  basis: G3 + G6 (slice.yaml v2 is the slice record's schema; decisions Q6)
+  message: The record written to slices/<id>.yaml holds slice{id, slug, feature_refs, vertical, surface} only. slice.yaml
+    v2 (changed in this PR) names name, outcome, intents, features[{feature_ref, ice_ref, delivery}], acceptance_intent,
+    metadata and surface.id / user_action. The script and schema disagree, slice_check does not test the record
+    against the schema, and a reused slice's record never gets the added intent although the schema says its `intents`
+    equals the spine entry's. Make the writer produce the schema, or cut the schema to what is written.
+  status: open
+- category: harness
+  severity: P2
+  path: core/components/plays/shape-scope/SKILL.md
+  basis: 'G6, G2 (spine.yaml in this PR: /shape-scope ''does NOT write slices (/shape-slice does)''; slice fields
+    status, order, effort, depends_on, domain_ref are gone)'
+  message: Dependents were not changed with the schema. shape-scope still composes slices and records under <domain>/slices/
+    and its deferred bucket; shape-roadmap still writes order/depends_on/status on slices; shape-measure-lens still
+    stamps slice status realized; build-epic's check_ready_epic.py still requires a slice 'realized' and an epic
+    in the spine epics list that the old /shape-slice cut. After this change no play produces what /build-epic reads,
+    and the schema now contradicts three live plays. If this is the intended gap (#799/#801/#837), say so in the
+    PR and file the follow-ups; today the break is silent.
+  status: open
+- category: harness
+  severity: P3
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: G4 / user-questions.md (ID is unique and the same in every run; an answer is a fact)
+  message: record_questions filter drops a question when its id is answered in the record, by id only. The agent
+    writes new ids (Q-<topic>-<n>) every run, so a later run in the same issue can reuse Q-scope-1 for a different
+    question and have it silently dropped as answered (or the 'add' step keeps the old entry). Match on id and question
+    text, or have the agent reuse ids from the record.
+  status: open
+- category: harness
+  severity: P3
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: G1 C12 / F12 (nothing committed before the person's yes; a stop undoes every write)
+  message: 'Step 11 ''change'': the restore keeps the intent page whole, including the Touches lines persist_fills
+    added (''adds'' links to capability pages the restore just deleted). A changed answer that drops a capability
+    leaves a stale link on the intent page, and lint_grounding then reports a broken link on re-check. Restore the
+    Touches list too (keep only the page this run wrote, not later edits). Step 12 also has no script gate: the
+    commit is by prose only; add a check that approval.json reads yes before git commit.'
+  status: open
+- category: harness
+  severity: P3
+  path: core/components/plays/shape-slice/scripts/record_questions.py
+  basis: G4 / asking-a-person.md (opening, one thing per question, stand alone) and SE-7 'each answer typed is on
+    its entry'
+  message: '`check` exits 0 when asked questions are unanswered (it lists them in ''unanswered'' but ok stays true),
+    so SE-7 and the ''blocking question left unanswered keeps the run here'' rule rest on prose. `answer` also sets
+    user_decision ''in_scope'' by default when none is given, so an empty answer counts as answered and the question
+    is never asked again. The shape check is a heuristic ('' and '' / one ''?'') and does not test the opening.
+    Make an unanswered blocking question fail `check`, and refuse an answer with no text.'
+  status: open
+- category: harness
+  severity: P3
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: plan/788/base:.claude/rules/garura-memory.md (find memory only through the memory tool; every decision
+    keeps its trace with `cite`)
+  message: The play reads memory through the agent, but no step runs `memory.py search/read` for the Garura/Phoenix
+    tiers beyond loading asking-a-person.md, and no step runs `memory.py cite` for the decisions (proposed answers,
+    the slice choice). gather.json names lines read, but the trace the memory rule requires is never recorded or
+    checked (`citations --check`). Wire cite, or state why the model-only trace is enough.
+  status: open
+- category: harness
+  severity: P3
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: G5 (agent crafts context; skills do the work) and the play's own claim 'skills it uses all exist; none
+    created'
+  message: 'Choosing the slice''s features, order, surface and tester has no skill: the agent decides it itself
+    (documented, agent principle P7), and it is the most important step of the play. The play does not create `author-slice`,
+    only names it as a follow-up; no follow-up task is referenced. Also ''utility_agents: 0'' while Step 11 uses
+    template-manager for the approval prompt and the close. Acceptable as a recorded gap, but file the author-slice
+    issue.'
+  status: open
+- category: harness
+  severity: P4
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: G5 (deterministic flow; scripts for mechanical work)
+  message: 'Two glue steps have no script: Step 4 needs `questions-open-list.json` (''the open list written as is'')
+    and Step 5 needs `answers.json` built from the person''s reply; both are done by the orchestrator by hand. Step
+    8''s prose says the spine entry holds ''exactly id, slug, feature_refs, vertical and intents'' while the script
+    and slice_check also require `record`. slice_check also demands the exact key order of the entry, so a reused
+    legacy entry with other keys or an other order fails the check.'
+  status: open
+- category: harness
+  severity: P4
+  path: core/components/plays/shape-slice/scripts/persist_fills.py
+  basis: G2 / C9 (writes only what C9 allows) and safe writes
+  message: Ids and doc paths from the agent are joined to the model root unchecked (an id or doc with '..' in persist_slice
+    record_rel and persist_fills docs can point outside the model); the guard in Step 10 would catch it only after
+    the write. The spine is rewritten in full with yaml.safe_dump, not atomically, so comments and layout in the
+    spine are lost. Reject paths that leave the root; write via temp file and rename.
+  status: open
+- category: harness
+  severity: P4
+  path: core/components/plays/shape-slice/SKILL.md
+  basis: G1 C13 (lands through the change plays)
+  message: Step 12 runs `git add` / `git commit` directly in the play. The model plays in base (discover-domains,
+    shape-scope, edit-ontology) do the same, so this follows the existing pattern; noted only against the CLAUDE.md
+    'agent-first' example.
+  status: accepted
+- category: memory
+  severity: P2
+  path: core/components/memory/standards/schemas/product-os/slice.yaml
+  basis: M2 + the record /shape-slice actually writes (persist_slice.py)
+  message: slice.yaml v2 requires slice.name/outcome/features[]/acceptance_intent/metadata and surface.id/user_action;
+    the play writes none of name, outcome, features, metadata (it writes slug, feature_refs). Either the schema
+    describes a record nothing produces, or the writer is wrong. It also keeps `deferred` and the `{domain}/slices/_deferred.yaml`
+    storage line for /shape-scope, which spine.yaml now says no longer writes slices.
+  status: open
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/schemas/product-os/spine.yaml
+  basis: M1 / M2
+  message: The new `slices` entry matches ontology v10, but the layout comment keeps `slices/{slice}/epics` and
+    `slices/{slice}/lens` under a domain 'written by plays not yet rebuilt' while the same file's fill_rules removes
+    slice composition from shape-scope and roadmap. The tree comment and the fill rules describe two different chains;
+    name which plays still write what, until they are rebuilt.
+  status: open
+- category: memory
+  severity: P3
+  path: core/components/memory/standards/rules/pipeline-next.md
+  basis: M3 (map is the single source; Next line names the successor)
+  message: 'complete-discovery and discover-capabilities now name shape-slice as the successor, but the shape-slice
+    play has no ''issue number'' hint in the Next line, and the loop skill complete-discovery was not changed; shape-scope
+    has no predecessor left in the map (nothing routes to it). The shape-roadmap -> shape-scope -> design lens chain
+    stays described as a Shape loop in the same file next to the Shaping loop (ADR 049) without saying which is
+    live. Coherent enough to run; clarify when #837 decides the lens plays.'
+  status: open
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/rules/no-unbacked-recommendation.md
+  basis: M3 (the table lists which plays are wired to the cardinal rule)
+  message: The `next` row was removed (right). shape-slice now implements the rule in a script (record_questions
+    proposals, SE-3) but is not added to the 'wired' table. Add it, or leave a note.
+  status: open
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/rules/user-questions.md
+  basis: M3 / user-questions.md entry shape
+  message: The record shape the play writes adds fields the rule does not list (kind, blocking, proposed_answer,
+    basis). The rule file is unchanged in this PR, so the format of the file and its rule disagree. Extend the rule's
+    entry, or drop the fields.
+  status: open

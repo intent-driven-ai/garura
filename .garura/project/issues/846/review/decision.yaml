@@ -1,0 +1,7 @@
+decision: approve
+decided_by: human
+reply: "add the p3s and p4s as a chore.. all of them under 1 chore so that we can address them later. approve"
+round: 3
+citing: []
+followups:
+  - "#851 chore: the 13 P3/P4 standards findings, to address later"

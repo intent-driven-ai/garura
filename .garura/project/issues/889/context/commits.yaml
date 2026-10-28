@@ -1,0 +1,22 @@
+commits:
+  - sha: 43fc62c2
+    message: "chore(stm): finish moving review round 1 records into their round folder (#889)"
+    files:
+      - .garura/project/issues/889/review/categories.yaml
+      - .garura/project/issues/889/review/context.yaml
+      - .garura/project/issues/889/review/decision-comment.md
+      - .garura/project/issues/889/review/decision.yaml
+      - .garura/project/issues/889/review/design-findings-harness.yaml
+      - .garura/project/issues/889/review/findings.yaml
+      - .garura/project/issues/889/review/layer1.txt
+      - .garura/project/issues/889/review/posted.json
+      - .garura/project/issues/889/review/pr.diff
+      - .garura/project/issues/889/review/quality-findings.yaml
+      - .garura/project/issues/889/review/recommended_verdict.yaml
+    branch: feature/889-review-reads-full-diff
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

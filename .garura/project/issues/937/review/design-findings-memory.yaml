@@ -1,0 +1,37 @@
+# Layer 2 design-grounding, category: memory. PR #940 / issue #937. Read-only; grounded on main.
+category: memory
+base: main
+verdict: conforms
+grounding:
+  - principle: "An index row describes its file as the file is now, including what a consumer must know to use it"
+    source: "knowledge/review/memory.md (shared copy) - rubric: fit the shelf purpose, resolve cross-references, no contradiction"
+  - principle: "A name mapped to null in rename-map.yaml was removed with no successor; the old-name check still reports it; the install has nothing to lay"
+    source: "main:core/components/memory/standards/rules/rename-map.yaml lines 3 and 22-26; main:docs/adr/059-... (Affects lists rename-map.yaml); main:core/tools/naming/check_old_names.py (reports every key of the map, null or not); main:core/components/plays/install-garura/scripts/install.py retire_renamed (lays/retires only by a non-null new name)"
+  - principle: "decision.yaml carries optional for_the_accepter; each point has six parts (point, what_and_where, detail, why_it_matters, this_decision_does, you_decide)"
+    source: "main:core/components/memory/standards/schemas/product-os/decision.yaml lines 39-45 and migration note line 82 (the six parts, optional, additive); story #930 (closed) asks for the field"
+  - principle: "Shelf _index table shape: Path/Schema, Description/Keeps, Consumers/Lifecycle columns; every named file exists"
+    source: "main:core/components/memory/standards/rules/_index.md and schemas/product-os/_index.md (prior versions)"
+conformance_checks:
+  - {check: "rules/_index.md rename-map.yaml row states null = removed with no successor (ADR 059); old-name check still reports it; install has nothing to lay", result: pass, evidence: "rename-map.yaml header line 3, entries build-knowledge and review-knowledge null (lines 25-26); check_old_names.load_map keeps every key; install.retire_renamed keys on the new name, never None"}
+  - {check: "schemas/product-os/_index.md decision.yaml row names for_the_accepter and its six parts", result: pass, evidence: "decision.yaml lines 39-45 hold exactly six sub-fields"}
+  - {check: "cross-references resolve: ADR 059, #930, #632", result: pass, evidence: "docs/adr/059-... on main; #930 closed story 'A decision record tells the person accepting it what was found on the way'; #632 already cited on main"}
+  - {check: "table shape and row order unchanged; both files exist", result: pass, evidence: "diff touches one cell in each row; rename-map.yaml and decision.yaml are on main"}
+  - {check: "nothing else in the two indexes is left stale by #920", result: pass, evidence: "#920 touched rules/_index.md earlier (pipeline-next row 'A loop's knowledge step is not a play', loop-contract row, severity rows added then removed: no severity.md row on main) - those are already correct on main. schemas index only had the decision.yaml row to fix."}
+findings:
+  - id: DG-1
+    severity: change   # not a P-level finding on this PR: "something new a neighbour does not know"
+    file: core/components/memory/standards/templates/_index.md   # NOT in this PR's diff
+    principle: "A neighbour index must know what #920 added to its file"
+    source: "main:docs/adr/059-... 'Affects' lists core/components/memory/standards/templates/adr.md (the section for the person who accepts a record, and its rule); commit 2a53cf41 (#920)"
+    detail: "The adr.md row in templates/_index.md (line 22 on main) lists the core fields and rules but not the new for_the_accepter field / 'For the Person Who Accepts This' section. Incomplete, not wrong."
+    action: "Follow-up change (own issue or fold into Chore #929's promotion); do not block PR #940."
+  - id: DG-2
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/_index.md
+    principle: "A cross-reference should point where the file's own record points"
+    source: "main:decision.yaml lines 39 and 82 and commit 716764b7 cite #920; the row cites #930 (the story that asked for it; issue text says 'five parts' where the schema and lint say six)"
+    detail: "Both numbers resolve and #930 is the story, so nothing is wrong. Wording only; optional."
+    action: "none required"
+out_of_scope_observations:
+  - "rules/_index.md on main has no rows for builder-isolation.md, direct-model-write.md, expectation-generation.md, gate-config.md, grounding-eval.md, user-facing-voice.md; schemas/product-os/_index.md has none for grounding/ or spine.yaml. All added before #920 (2026-05 to 2026-07); not made stale by #920, so not findings on this PR."
+  - "No P1, P2 or P3 findings. No grounding gap."

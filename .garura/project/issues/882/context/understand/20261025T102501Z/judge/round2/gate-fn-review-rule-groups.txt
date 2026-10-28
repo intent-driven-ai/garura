@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md
+  stranger_test = fail
+    evidence: The node's core term is never defined: "It records which rule groups of the review fit the project" (a cold reader must infer that a rule group is a set of review rules that check one concern, such as database or front end). Two lines also point at a file the reader cannot see: "see the manifest's gaps" and "Our default, held in the manifest's gaps."
+    fix:      Add a first bullet to What it does that defines the term, for example: "A rule group is a set of the review's rules that check one kind of thing (front end, back-end service, database, running service, permissions, personal data); the review runs or skips a group as a whole." Replace both "the manifest's gaps" references with the gap stated in the doc itself, for example: "(open question: the sources do not list every rule group the review has)" and "(open question: Garura's answer to the permissions question is not yet recorded)".
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+  "failures": [
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "The node's core term is never defined: \"It records which rule groups of the review fit the project\" (a cold reader must infer that a rule group is a set of review rules that check one concern, such as database or front end). Two lines also point at a file the reader cannot see: \"see the manifest's gaps\" and \"Our default, held in the manifest's gaps.\"",
+      "fix": "Add a first bullet to What it does that defines the term, for example: \"A rule group is a set of the review's rules that check one kind of thing (front end, back-end service, database, running service, permissions, personal data); the review runs or skips a group as a whole.\" Replace both \"the manifest's gaps\" references with the gap stated in the doc itself, for example: \"(open question: the sources do not list every rule group the review has)\" and \"(open question: Garura's answer to the permissions question is not yet recorded)\"."
+    }
+  ],
+  "missing": []
+}

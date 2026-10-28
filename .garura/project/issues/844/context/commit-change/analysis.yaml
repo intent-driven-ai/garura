@@ -1,0 +1,27 @@
+needs_judgment: false
+change_groups:
+  - id: model-follows-ontology-v11
+    issue: 844
+    commit_type: fix
+    scope: model
+    subject: "the slice's model pages and hidden file follow ontology v11"
+    files:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/software-delivery-planning/cap-718/capability.md
+      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+      - .garura/product/product-os/software-delivery-planning/shape-eval/capability.md
+      - .garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md
+      - .garura/product/product-os/software-delivery-planning/shape-slice/capability.md
+      - .garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md
+      - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  - id: stm-commit-change-records
+    issue: 844
+    commit_type: chore
+    scope: stm
+    subject: "record commit-change run artifacts"
+    files:
+      - .garura/project/issues/844/context/commit-change/analysis.yaml
+      - .garura/project/issues/844/context/commit-change/porcelain.txt
+exclusions: []
+risks:
+  sensitive_files: []

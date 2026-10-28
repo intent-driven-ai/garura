@@ -1,0 +1,44 @@
+# Layer 2 design-grounding, category harness, PR #900, round 7 (change #798).
+# Grounded only in committed sources: plan/788/base docs/standards/harness-standard.md, CLAUDE.md,
+# plan/788/base shape-slice SKILL.md and ICE, and the severity taxonomy (context/memory/standards/rules/pr.md).
+# Nothing new copied to memory this round (grounding-harness/manifest.json is unchanged).
+# Known and not raised again: Q6-2, Q6-3, Q6-4, DF-H-16 (P4), DF-H-12, DF-H-13, DF-H-14 (P4), the older carried P4s.
+# Scope: only commit 66ad0156 to /shape-slice, SKILL.md part (the Pre-flight write-once guard).
+pr: '900'
+issue: 798
+round: 7
+base: plan/788/base
+category: harness
+grounding:
+  - principle: "A change to what a play guarantees is made in its ICE and the play is compiled again; the compiled play records the fingerprint of its ICE (harness-standard principle 4). A change to surface prose or to steps that make an existing guarantee hold is a direct edit (CLAUDE.md 'Play Pipeline Rules': non-intent change)."
+    source: "git show plan/788/base:docs/standards/harness-standard.md, principle 4; CLAUDE.md 'Play Pipeline Rules'"
+  - principle: "Installed parts name only installed files and carry no edit notes."
+    source: "git show plan/788/base:docs/standards/harness-standard.md principle 11; CLAUDE.md 'Source of Truth' and 'Play Pipeline Rules'"
+  - principle: "A play that is run again after a stop resumes: completed steps are skipped and the in-progress step restarts. The base play took start-sha.txt once per run, in pre-flight, and its stop and change checks read it as the state of the run's start."
+    source: "git show plan/788/base:core/components/plays/shape-slice/SKILL.md (Pre-flight block with start-sha.txt, 'Resume check', SE-15)"
+  - principle: "Nothing is written to the model or the plans before the person's yes; the model tree and plans tree are checked clean after Step 0."
+    source: "git show plan/788/base:core/components/plays/shape-slice/SKILL.md (Pre-flight table, C9/C12, SE-15); base reference/ice.md C12"
+  - principle: "Severity buckets: P3 minor (a rule stated but not made to hold in the steps), P4 nit."
+    source: "context/memory/standards/rules/pr.md lines 8-11"
+df_h_15:
+  status: fixed in the play
+  evidence: "SKILL.md lines 137-148 (Pre-flight). start-sha.txt and spine-at-start.yaml are now each written only when the file is not there (test -f ... || ...), so a pre-flight that runs again on a resume keeps both as the first run left them. The command copies from <product_base>product-os/_spine.yaml, so <model> is no longer used before the 'Names used below' line defines it. The sentence under the block now says why (pre-flight runs again on a resume) and names the C7 result."
+verdict_on_commit:
+  harness_side: sound; DF-H-15 is fixed; one new P3 found (DF-H-17)
+  is_it_a_non_intent_edit: "Yes. The ICE's C7 already says 'the same input gives the same result however often a step runs' and the Step 8 command, SE-29 and the --spine-at-start rule were compiled from it in the last round. The commit adds no new guarantee, decision, failure condition or eval: it only makes the pre-flight steps hold a guarantee the ICE already states. By CLAUDE.md 'Play Pipeline Rules' that is a direct edit to SKILL.md, no /edit-play needed. reference/ice.md is unchanged since 32104cbe."
+  checks_of_the_commit:
+    fingerprint: "ok. shasum -a 256 core/components/plays/shape-slice/reference/ice.md = 108b2a8dc4375f71da791ce2a44d44f14813a4e7dff8b43ea66af93e57702059, the value in SKILL.md line 1146 (Compilation Metadata)."
+    plain_words: "ok. The new sentences use the play's own words (pre-flight, resume, start copy); no new jargon."
+    installed_paths_only: "ok. The block names <product_base>product-os/_spine.yaml and scripts/session_stamp.py; it names no core/components, core/tools or docs path."
+    no_edit_notes: "ok. The added sentence says why the step works as it does (pre-flight runs again on a resume); it does not record what was changed or why the edit was made."
+    no_write_before_yes: "ok. Both files go to the run's own short-term folder ({stm_base}<issue>/context/shape-slice), not to the model tree or the plans tree, so the clean-tree checks and SE-15 are not touched."
+findings:
+  - id: DF-H-17
+    severity: P3
+    category: harness
+    title: The start copies are now kept for good, so a new run on the same change issue after a stop can start from an old copy
+    where: core/components/plays/shape-slice/SKILL.md, Pre-flight command block, lines 141-142 (test -f ... || git rev-parse HEAD ...; test -f ... || cp ...) and the sentence at lines 145-146 ("written once, by the run's first pre-flight")
+    basis: "The base play took start-sha.txt on every run (git show plan/788/base:.../SKILL.md, Pre-flight), so a new run always started from its own HEAD; its stop check reads 'HEAD equals start-sha.txt' (SE-15, SCE-6) and the edit checks use 'git diff <start-sha>'. The play's own text says a run that closed HALTED at a stop 'has nothing to resume' (Pause and Resume) and the stop paths (Step 11 stop, Step X3 stop) clear only the hidden-file copy, not these two files. pr.md P3: a rule is stated ('written once, by the run's first pre-flight') but the step cannot tell a first pre-flight from a later fresh run; not P2 because the stop check would fail on the wrong HEAD instead of silently passing, and nothing is lost for good."
+    problem: "test -f only asks 'is the file there', not 'is this a resume'. If a person stops a run (it closes HALTED, writes undone) and later runs /shape-slice again and start-change finds the same change issue, the new run is a fresh run, but pre-flight finds the old start-sha.txt and spine-at-start.yaml and keeps them. The old HEAD then is the base of the stop check (HEAD equals start-sha.txt), of 'no commit after start-sha.txt', and of 'git diff <start-sha>'. The old spine copy then tells Step 8 which intents the slice served at an earlier time, not at this run's start. Whether start-change reuses the same change issue after a stop is not shown in the files read here (start-change's Resume check says it reuses a known issue or branch); the play does not say either way."
+    leads_to: "A fresh run after a stop can fail its own stop check on a HEAD it never started from, or treat an intent as already served (or not) from an old copy, so the brief can show a change that is not a change, or miss one. The yes still gates every write, and a change or stop restores the record, so the harm is a wrong brief or a failed check, not lost work."
+    fix: "Keep the guard but make it say 'resume', which the play already knows: write each copy when it is not there, or when the status marker {stm_base}<issue>/status/shape-slice.json does not exist (a fresh run; the marker is the play's own Resume check). Say the same in the sentence under the block. Alternatively, have the stop and close paths remove both files. This is a non-intent edit of SKILL.md."

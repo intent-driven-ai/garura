@@ -1,0 +1,178 @@
+# categories.yaml - check-change Step 2 (assessment), PR #873 round 2, issue 818, base plan/788/base
+# Treatments are taken from the short-term playbook copies in
+# .garura/project/issues/818/context/memory/knowledge/review/ (Phoenix memory, version 3161dcdfe26f).
+# Severity taxonomy copy: .garura/project/issues/818/context/memory/standards/rules/pr.md (Garura memory tier, version null).
+next_map: .garura/project/issues/818/context/templates/standards/rules/pipeline-next.md
+changed_plays: [shape-plan, shape-slice, check-change, merge-change, propose-change, create-play]
+categories:
+  - name: harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/shape-plan/SKILL.md            # new play (compiled)
+      - core/components/plays/shape-plan/reference/ice.md    # the play's ICE source
+      - core/components/plays/shape-plan/stop-condition.yaml # baked stop condition of the play
+      - core/components/plays/shape-slice/SKILL.md           # play, one close line changed
+      - core/components/skills/author-work-items/SKILL.md    # new skill
+      - core/components/agents/product-os-keeper.md          # agent definition changed
+      - core/components/skills/platform-adapter/SKILL.md     # round 2: skill page documents the five new adapter verbs
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (design) + tool (conformance)
+      linters:
+        - id: lint-components-source
+          command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+          note: "Only violations whose file is in changed_paths are findings; count the rest as 'there before'. Not installed -> 'not installed'; crash -> 'did not run: <first error line>'."
+        - id: lint-play-shape-plan
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-plan/SKILL.md --next-map .garura/project/issues/818/context/templates/standards/rules/pipeline-next.md"
+        - id: lint-play-shape-slice
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/shape-slice/SKILL.md --next-map .garura/project/issues/818/context/templates/standards/rules/pipeline-next.md"
+        - note: "check-change, merge-change, propose-change and create-play have no SKILL.md change in this PR (only an adapter script copy or a reference file), so no lint_play run for them."
+      runnable_checks:
+        - "ICE-source rule (repository holds the plays' source): the shape-plan SKILL.md traces to core/components/plays/shape-plan/reference/ice.md; the shape-slice SKILL.md change (Next Steps wording now says run /shape-plan <intent-issue>) is a non-intent close-line edit only if it alters no constraint, failure, scenario, flow or eval - check by reading the diff and cite it."
+        - "Round 2 wiring check: the six platform_adapter.py copies (create-play/references plus check-change, merge-change, propose-change, shape-plan, shape-slice scripts) must stay byte-identical (cmp each against core/components/plays/create-play/references/platform_adapter.py); the platform-adapter SKILL.md must name exactly the verbs the script defines."
+        - "Layer 2: reconstruct principles from committed sources on plan/788/base (docs/philosophy/**, docs/adr/**, standards via the memory tool, glossary); never from content this branch adds."
+      design_grounding: true
+      grounding_sources: "docs/philosophy/**, docs/adr/**, standards/rules/** (user-facing-voice, play-close, evidence-recording), glossary - all read from the base ref or the memory tool"
+      rubric: "play->agent->skill->script wiring intact; intent change traces to ICE source; the standards the change is subject to are held"
+  - name: memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/rules/pipeline-next.md   # standards rule (the Next-line map)
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (design) + tool (conformance)
+      linters: []   # gap: no installed tool checks memory integrity
+      runnable_checks:
+        - "By hand (known gap), cite each: the file keeps the structure of its standards-rule siblings; every cross-reference and path it names resolves to a real file; frontmatter id (if any) matches the path; any play name it lists matches a real play (shape-plan, shape-slice exist in core/components/plays); it is not duplicated by or contradicting another rule."
+        - "The lint_play.py runs under harness read this file as the Next-line map: confirm the file still parses as that map (lint_play reports an unreadable map)."
+      design_grounding: true
+      grounding_sources: "knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read from the base ref or through the memory tool - never the branch's new text"
+      rubric: "fits the shelf's purpose, follows the template, resolves its cross-references, does not duplicate or contradict existing knowledge"
+  - name: executable-code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/plays/check-change/scripts/platform_adapter.py     # round 2: five new verbs (adapter copy)
+      - core/components/plays/merge-change/scripts/platform_adapter.py
+      - core/components/plays/propose-change/scripts/platform_adapter.py
+      - core/components/plays/shape-slice/scripts/platform_adapter.py
+      - core/components/plays/create-play/references/platform_adapter.py   # the reference every copy comes from
+      - core/components/plays/shape-plan/scripts/check_drafts.py
+      - core/components/plays/shape-plan/scripts/check_ice_workable.py
+      - core/components/plays/shape-plan/scripts/check_plan.py
+      - core/components/plays/shape-plan/scripts/check_stop_condition.py
+      - core/components/plays/shape-plan/scripts/check_tracker.py
+      - core/components/plays/shape-plan/scripts/find_work_items.py
+      - core/components/plays/shape-plan/scripts/gather_plan.py
+      - core/components/plays/shape-plan/scripts/model_names.py
+      - core/components/plays/shape-plan/scripts/plan_common.py
+      - core/components/plays/shape-plan/scripts/platform_adapter.py
+      - core/components/plays/shape-plan/scripts/preflight.py
+      - core/components/plays/shape-plan/scripts/record_approval.py
+      - core/components/plays/shape-plan/scripts/render_brief.py
+      - core/components/plays/shape-plan/scripts/scoped_write_guard.py
+      - core/components/plays/shape-plan/scripts/session_stamp.py
+      - core/components/plays/shape-plan/scripts/write_plan_file.py
+      - core/components/plays/shape-plan/scripts/write_work_items.py
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool, against industry best practice
+      linters:
+        - id: ruff
+          command: "ruff check core/components/plays/shape-plan/scripts core/components/plays/check-change/scripts core/components/plays/merge-change/scripts core/components/plays/propose-change/scripts core/components/plays/shape-slice/scripts core/components/plays/create-play/references --exclude 'test_*.py' --exclude __pycache__"
+          note: "Language linter for Python; ruff is on this machine. Not installed -> record 'not installed'."
+        - id: check-pr-quality
+          command: "run by the play / quality-auditor against the PR diff with the pr.md severity taxonomy copy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)"
+      runnable_checks:
+        - "Read hard the data-safety and idempotency paths: write_plan_file.py, write_work_items.py, platform_adapter.py (tracker writes), scoped_write_guard.py, record_approval.py. The five new adapter verbs (tracker writes) in the reference and its five copies get the same hard read. Check error handling, no stray debug output, no secrets, safe handling of destructive operations, determinism where claimed."
+      design_grounding: false
+  - name: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/plays/shape-plan/scripts/test_check_drafts.py
+      - core/components/plays/shape-plan/scripts/test_check_plan.py
+      - core/components/plays/shape-plan/scripts/test_check_tracker.py
+      - core/components/plays/shape-plan/scripts/test_find_work_items.py
+      - core/components/plays/shape-plan/scripts/test_gather_plan.py
+      - core/components/plays/shape-plan/scripts/test_record_approval.py
+      - core/components/plays/shape-plan/scripts/test_render_brief.py
+      - core/components/plays/shape-plan/scripts/test_write_plan_file.py
+      - core/components/plays/shape-plan/scripts/test_write_work_items.py
+      - core/components/plays/shape-plan/scripts/test_support.py   # shared helper for the tests
+      - core/components/plays/create-play/references/test_platform_adapter.py   # round 2: adapter tests for the five new verbs
+    treatment:
+      layers: [layer-1-linters, run-the-suite]
+      reviewer: tool
+      linters:
+        - id: ruff-tests
+          command: "ruff check core/components/plays/shape-plan/scripts core/components/plays/create-play/references --select F,E9 --exclude __pycache__"
+          note: "Best-practice lint on the test code; also look for skipped/disabled tests and tests that assert nothing. Plus the pr.md TEST-* rows via check-pr-quality (run by the play)."
+      runnable_checks:
+        - "Run each test from the scripts folder (a red suite is a blocker; a test that did not run is 'not run', never 'passed'). test_support.py is a helper, not a test."
+        - "cd core/components/plays/shape-plan/scripts && python3 test_check_drafts.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_check_plan.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_check_tracker.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_find_work_items.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_gather_plan.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_record_approval.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_render_brief.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_write_plan_file.py"
+        - "cd core/components/plays/shape-plan/scripts && python3 test_write_work_items.py"
+        - "cd core/components/plays/create-play/references && python3 test_platform_adapter.py"
+      design_grounding: false
+  - name: documentation
+    design_bearing: false
+    playbook: review/docs
+    evidence:
+      - .garura/user-provided/managing-work.md   # convention guide for people ("how work on Garura gets tracked"); not a play, skill, agent, ADR or memory file
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool (human opts out unless they choose to read it)
+      linters: []   # gap: no committed prose linter
+      runnable_checks:
+        - "By hand (known gap), cite each: spelling and grammar in the changed lines; links and paths named in the changed lines resolve; heading hierarchy intact; no leftover TODOs; terminology consistent with the glossary and with the product model the document describes (the shape-plan / Epic / Story wording in the diff matches what the shape-plan play does)."
+      design_grounding: false
+  - name: config-maps
+    design_bearing: false
+    playbook: review/config-maps
+    evidence:
+      - .garura/install-manifest.json   # lists installed parts and paths by path; this PR changes the recorded Phoenix memory version and empties 'retired'
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: human, by name (the tool only surfaces the named changes)
+      linters: []   # gap: no committed config-map linter
+      runnable_checks:
+        - "By hand (known gap), cite each: the file is valid JSON; every path the changed lines reference still resolves; the entry removed from 'retired' (.garura/core/tools/naming) is not still referenced or still needed; surface the two named changes (memory version 2f68683b1e44 -> 3161dcdfe26f; retired list emptied) for the human."
+      design_grounding: false
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    playbook_missing: true
+    note: "A kind of work no playbook covers: machine-written records of the play runs that built this change (issue 818 short-term memory: analysis, branch, build contract, commits, decisions, issue, plan, porcelain, PR body and number, resolved rules, self-review, target). Not code, docs, harness or memory. A playbook is missing; follow-up recommended (no task tool was available to this agent to create one)."
+    evidence:
+      - .garura/project/issues/818/context/analysis.yaml
+      - .garura/project/issues/818/context/branch.json
+      - .garura/project/issues/818/context/build/contract.md
+      - .garura/project/issues/818/context/commits.yaml
+      - .garura/project/issues/818/context/decisions.md
+      - .garura/project/issues/818/context/issue.json
+      - .garura/project/issues/818/context/plan.json
+      - .garura/project/issues/818/context/porcelain.txt
+      - .garura/project/issues/818/context/pr-body.md
+      - .garura/project/issues/818/context/pr.json
+      - .garura/project/issues/818/context/resolved-rules.json
+      - .garura/project/issues/818/context/self-review.md
+      - .garura/project/issues/818/context/target.json
+      - .garura/project/issues/818/review/*  # this review's own working files (context, diff, categories, findings, verdict, runnable-checks): the review's output, never grounding
+      - .garura/project/issues/818/context/memory/**  # short-term copies of shelf, severity taxonomy and grounding standards (with manifests): copies of memory, not changes to it
+      - .garura/project/issues/818/context/templates/**  # template-manager copies (Next-line map, manifest)
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool
+      linters: []
+      runnable_checks:
+        - "No playbook, so no prescribed treatment. Minimal objective checks by hand, cited: .json files parse as JSON, .yaml files parse as YAML; no secrets or personal data in the records; the record is not used as grounding for any design finding (a run record is the branch's own content)."
+      design_grounding: false

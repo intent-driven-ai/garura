@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "action": "updated",
+  "id": "sl-intent-to-design",
+  "reused": true,
+  "added_intents": [],
+  "record": "slices/sl-intent-to-design.yaml",
+  "record_written": true,
+  "differences": [],
+  "dropped_fields": [],
+  "upgraded_to_v2": [],
+  "pulled_in": [
+    "fn-898"
+  ],
+  "pushed_out": []
+}

@@ -1,0 +1,7 @@
+{
+  "branch": "plan/788/812-skip-adr-by-number",
+  "kind": "issue-in-plan",
+  "plan_id": "788",
+  "issue": "812",
+  "base": "plan/788/base"
+}

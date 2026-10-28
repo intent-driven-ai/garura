@@ -1,0 +1,37 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"It records, in the project, which blocks the project holds and which parts of Phoenix memory each was built from, as they were then, so the project can learn later that Phoenix memory changed.\" \"Out: when Phoenix memory cannot be reached, a plain message that says so and that the Phoenix install must run on this machine, and no memory built.\" \"Given a brief that names two changed parts in the database block, when the product owner types yes to the first and no to the second\" \"Laying the plays, agents, skills, tools and the memory tool in a project: the Garura install owns it, and it lays no memory.\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"It never writes Phoenix memory and never writes another project's memory, because Phoenix memory is shared by every project on the machine and a write there from one project would change what the others draw from.\" \"The reply is per part because one changed standard can be welcome and another in the same block not, and a yes for the whole block only would force the product owner to take both.\" \"An empty answer there would look like \"no block fits\" and leave the project with too little memory.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given a project that took the database block and Phoenix memory added a new part where the block's selection looks, when `initialize` next runs in the project, then its brief names the new part as added under the database block.\" \"A part the list holds whose fingerprint differs is changed.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"For each block it holds the answer that selected it, the block's selection, for each part the block was built from its place in Phoenix memory (the file and the part of it) and its fingerprint (a short code that changes when that part's content changes), and the version of Phoenix memory the block was built from.\" \"A part the selection now finds that the list does not hold is added. A part the list holds that the selection no longer finds is taken out.\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Memory reaches a project in three steps, and this feature is the third.\" \"It keeps each project's blocks its own. A person installs Phoenix once on a machine and initializes many projects there, each with different answers, so two projects hold different blocks taken from the one Phoenix memory, and initializing one project never changes another project or Phoenix memory.\" \"Adding or taking out a whole block when an answer changes: Run initialize again (fn-rerun-initialize) owns it.\"",
+      "fix": ""
+    }
+  ],
+  "prior": []
+}

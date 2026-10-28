@@ -1,0 +1,11 @@
+decision: reject
+decided_by: human
+reply: "reject fix all"
+round: 1
+citing:
+  - DF-1 (P2) ready check change has no ADR
+  - DF-2 (P2) ADR 049 still gives the hidden file to the plan play
+  - DF-3 (P3) ready-check tool counts lines
+  - DF-4 (P3) spine schema lacks the thin mark
+  - DF-5 (P3) slice.yaml, spine.yaml and the /shape-slice play still say "writes nothing else"
+  - DF-6, DF-7, DF-8 (P4)

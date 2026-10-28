@@ -1,0 +1,8 @@
+{
+  "branch_name": "plan/756/760-ready-check-reads-ice",
+  "base_sha": "386cda4afed87842d3c9c15fe425ce06764a410c",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/756/base",
+  "plan_branch_created": false
+}

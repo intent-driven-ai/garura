@@ -1,0 +1,7 @@
+seed:
+  id: cap-initialize
+  domain: dom-software-delivery-planning
+  one_line: "After the install, set a project up for Garura: its memory, its review rules, and its tracker's work-item types."
+  why: "A project gets only the memory and rules that fit it, and its tracker can hold every kind of work item the plays file, so no play stops on a missing type."
+  answered_by: human
+  doc: software-delivery-planning/initialize/capability.md

@@ -1,0 +1,186 @@
+# categories derived from the diff (base plan/788/base), PR #864, anchor issue #860
+# 325 changed paths (GitHub refused the diff, bug #811; built locally with git, see context.yaml recovery)
+# Treatments come from the review shelf copied this run: Phoenix memory 2f68683b1e44
+# (.garura/project/issues/860/context/memory/knowledge/review/, manifest.json beside it).
+# Severity taxonomy copy: Phoenix memory 2f68683b1e44, standards/rules/pr.md.
+# Note: the Garura memory tier holds an older pr.md (303 lines, no version); the lookup rule would
+# stop there, but the review shelf exists only in Phoenix memory, so both copies are from Phoenix
+# memory, as in the last review, so shelf and taxonomy share one version.
+categories:
+  - name: harness
+    design_bearing: true
+    playbook: harness
+    evidence:
+      - core/components/agents/*.md (12 agent definitions) and core/components/agents/_shared/{memory-reading,failure-format}.md
+      - core/components/plays/*/SKILL.md (23 plays - build-epic, check-change, create-loop, create-play, discover-capabilities, discover-intent, edit-loop, edit-play, fix-bug, install-garura, list-focus-issues, merge-change, propose-change, record-decision, refactor-code, shape-agentic-lens, shape-quality-lens, shape-run-lens, shape-slice, shape-ux-lens, start-change, uninstall-garura, validate-epic)
+      - core/components/plays/{check-change,discover-intent,record-decision,shape-slice}/reference/ice.md
+      - core/components/plays/_shared/play-close.md
+      - core/components/loops/_shared/loop-run.md
+      - core/components/skills/*/SKILL.md (assess-changes, assess-pr, author-decision, author-plan-file, author-technical-approach, check-pr-quality, check-quality, enrich-quality-profile, open-pr, track-issue)
+      - core/components/skills/check-pr-quality/reference/{finding-schema,input-contract}.md
+      - core/components/skills/check-quality/reference/subagent-prompts.md
+      - core/components/skills/track-issue/reference/github-issue.md
+      - core/grounding/glossary.md
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [layer-1, layer-2]
+      linters:
+        - name: lint-components (skill and agent shape, naming, installed-paths, memory-reading)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          run_from: project root
+          scope: changed paths under core/components (there are some); count violations in unchanged files as "there before"
+        - name: lint_play (compiled play structure, evals cover every C/F/S, one recovery per failure, intent fingerprint, Next line)
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/<play>/SKILL.md --next-map .garura/project/issues/860/context/templates/standards/rules/pipeline-next.md
+          run_from: project root
+          scope: once for each of the 23 changed plays listed above
+      design_grounding:
+        applies: true
+        sources: docs/philosophy/**, docs/adr/**, standards/rules/** (user-facing-voice, play-close, evidence-recording) read through the memory tool, the glossary on the base ref
+        never_from: content the diff adds or rewrites
+      runnable_checks:
+        - "by hand: every intent change (a SKILL.md changed with its reference/ice.md: check-change, discover-intent, record-decision, shape-slice) traces to its ICE source; any other changed SKILL.md must be a non-intent edit, never a hand edit of an intent"
+        - "by hand: the play -> agent -> skill -> script wiring stays intact (agent-first delegation, JSON contracts)"
+      rubric: play -> agent -> skill -> script wiring intact; an intent change traces to its ICE source; the change holds the standards it is subject to
+  - name: memory
+    design_bearing: true
+    playbook: memory
+    evidence:
+      - core/components/memory/knowledge/review/harness.md
+      - core/components/memory/knowledge/review/memory.md
+      - core/components/memory/standards/rules/pr.md
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [layer-1, layer-2]
+      linters:
+        - name: lint-components (partial shape cover; the dedicated memory-integrity linter is a known gap)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          run_from: project root
+      design_grounding:
+        applies: true
+        sources: knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md and the relevant standards, read on the base ref or through the memory tool
+        never_from: the branch's new shelf text
+      runnable_checks:
+        - "by hand (known gap in the linter): each changed shelf file follows the shelf template (Topic, Conditions, Recommendation, Rationale, Evolve when, Provenance); the review playbooks keep their own shape (Topic, Recognise, Treatment, Rationale, Provenance)"
+        - "by hand: evolve_when and [[...]] cross-references resolve to real files; frontmatter id matches the path; the file is listed in the shelf _index"
+        - "by hand: the severity taxonomy (pr.md) stays mechanical - each rule maps a standard ID to a bucket P1-P4 by glob, with no judgement"
+      rubric: fits the shelf purpose, follows the template, resolves its cross-references, does not duplicate or contradict existing knowledge
+  - name: decision-records
+    design_bearing: false
+    playbook: adrs
+    evidence:
+      - docs/adr/055-installed-parts-read-only-installed-files.md (new)
+      - docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (amended)
+      - docs/adr/_index.md
+    treatment:
+      reviewer: human, line by line (the human judges whether the decision is right)
+      layers: [layer-1]
+      linters: []
+      linter_gap: no ADR linter exists in the repo; the play does the structural checklist by hand and surfaces it for the human
+      design_grounding: {applies: false}
+      runnable_checks:
+        - "by hand: required sections present (status, context, decision, consequences)"
+        - "by hand: status is one of the allowed values"
+        - "by hand: markdown well-formed; ADR 055 is numbered in sequence and linked from docs/adr/_index.md; the amended ADR 039 still reads whole"
+  - name: documentation
+    design_bearing: false
+    playbook: docs
+    note: "CLAUDE.md is a host config map by the config-maps playbook signals, but the change is a prose rule paragraph (installed parts never touch the source), not a pointer; judged as documentation, as in the #841 review. docs/standards/harness-standard.md is a human-facing standard, judged as prose here; its principles are what the harness is graded against, so a reviewer must not use the branch's new text as grounding."
+    evidence:
+      - CLAUDE.md
+      - README.md
+      - docs/standards/harness-standard.md
+      - core/tools/memory/README.md
+    treatment:
+      reviewer: the tool (the human opts out unless they choose to read it)
+      layers: [layer-1]
+      linters: []
+      linter_gap: no committed prose linter or link checker in the repo; the play does the checks directly and cites each as the basis
+      design_grounding: {applies: false}
+      runnable_checks:
+        - "by hand: spelling and grammar"
+        - "by hand: dead or broken links and paths (including the pointers in CLAUDE.md) resolve"
+        - "by hand: heading hierarchy, leftover TODOs, terminology consistent with the glossary, complete"
+  - name: executable-code
+    design_bearing: false
+    playbook: code
+    evidence:
+      - core/components/plays/*/scripts/*.py (143 files, many session_stamp.py copies)
+      - core/components/plays/{create-play,create-loop}/references/*.py (31 files)
+      - core/components/plays/{create-play,edit-play}/scripts/lint_play.py and core/tools/lint-play/lint_play.py
+      - core/components/plays/install-garura/scripts/{install.py,tools_system.py,adapters/codex.py,adapters/common.py}
+      - core/components/plays/uninstall-garura/scripts/uninstall.py
+      - core/components/loops/complete-discovery/scripts/*.py (11 files)
+      - core/components/agents/_shared/copy_memory.py
+      - core/components/skills/{find-architecture-learnings,find-model-gaps,link-model-gaps}/scripts/*.py
+      - core/tools/lint-components/index.js and lib/{discover,reporter}.js and lib/rules/{installed-paths,memory-reading,naming,semantic,shared-scripts,structural}.js
+      - installer/install.sh
+    treatment:
+      reviewer: the tool, against industry best practice
+      layers: [layer-1]
+      linters:
+        - name: check-pr-quality against the diff with the PR severity taxonomy (SEC, CODE, ARCH, BE, PERF, DATA rows)
+          command: dispatch quality-auditor to run the check-pr-quality skill with severity_taxonomy_path=.garura/project/issues/860/context/memory/standards/rules/pr.md, output review/quality-findings.yaml
+          run_from: the play (Step 3)
+        - name: language linter
+          command: none committed - no ruff, eslint or shellcheck config is committed in the repo; record "not committed", do not count it as a pass
+      design_grounding: {applies: false}
+      runnable_checks:
+        - "by hand, hard: data-safety and idempotency paths - install.py, uninstall.py, installer/install.sh and the copy_memory.py script touch the filesystem and the user's project; check destructive operations, error handling, no secrets, no stray debug output, deterministic where claimed"
+  - name: tests
+    design_bearing: false
+    playbook: tests
+    note: "run the suites; a red suite is a blocker; a suite that cannot run is reported 'not run', never 'passed'"
+    evidence:
+      - core/components/plays/install-garura/scripts/test_install.py
+      - core/components/plays/create-play/references/test_fetch_pr_context.py
+      - core/components/plays/create-loop/references/test_lint_loop.py
+      - core/components/agents/_shared/test_copy_memory.py
+      - core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
+      - core/tools/lint-components/test/{installed-paths,memory-reading,shared-scripts}.test.js
+    treatment:
+      reviewer: the tool
+      layers: [layer-1, run-the-suite]
+      linters:
+        - name: check-pr-quality TEST-* rows of the PR severity taxonomy (assertions clear, no skipped or disabled tests, no test that asserts nothing)
+          command: dispatch quality-auditor to run the check-pr-quality skill with severity_taxonomy_path=.garura/project/issues/860/context/memory/standards/rules/pr.md, output review/quality-findings.yaml
+          run_from: the play (Step 3)
+      design_grounding: {applies: false}
+      runnable_checks:
+        - python3 core/components/plays/install-garura/scripts/test_install.py
+        - python3 core/components/plays/create-play/references/test_fetch_pr_context.py
+        - python3 core/components/plays/create-loop/references/test_lint_loop.py
+        - python3 core/components/agents/_shared/test_copy_memory.py
+        - python3 core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
+        - node --test core/tools/lint-components/test/
+      run_from: project root; if a suite needs another working folder, run it from the suite's own folder and say so
+  - name: config-maps
+    design_bearing: false
+    playbook: config-maps
+    note: "files that wire the install by path; core/config.yaml loses the standards.pr-severity-taxonomy path key; the install manifest lists the installed files by path"
+    evidence:
+      - .garura/install-manifest.json
+      - core/config.yaml
+    treatment:
+      reviewer: human, by name (the human reads the named changes directly)
+      layers: [layer-1]
+      linters: []
+      linter_gap: no committed config-map linter in the repo; the play resolves each referenced path by hand and reports any that miss
+      design_grounding: {applies: false}
+      runnable_checks:
+        - "by hand: every path the changed config map references resolves to a real file or folder; no key points at a moved or deleted target"
+        - "by hand: the removed key standards.pr-severity-taxonomy has no remaining reader in core/ or the installed .claude/"
+        - "by hand: the named changes are surfaced to the human"
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    note: "playbook missing - short-term memory records of the change, ADR and review runs for issue 860 (46 paths); records the runs produced, not a standard and not a design. No layer runs on it."
+    evidence:
+      - .garura/project/issues/860/context/** (27 paths, including the memory copies and their manifest)
+      - .garura/project/issues/860/review/** (9 paths, including this file)
+      - .garura/project/issues/_adr/20261024T211640Z/** (10 paths)
+    treatment:
+      reviewer: none
+      layers: []
+      linters: []
+      design_grounding: {applies: false}
+      runnable_checks: []

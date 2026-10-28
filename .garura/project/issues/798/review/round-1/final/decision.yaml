@@ -1,0 +1,6 @@
+decision: reject
+decided_by: human
+reply: "fix p2 and p3s"
+round: 1
+blocking:
+  - every P2 and P3 finding of findings.yaml (2 P2, 21 P3) — the product owner asked for them to be fixed before the merge

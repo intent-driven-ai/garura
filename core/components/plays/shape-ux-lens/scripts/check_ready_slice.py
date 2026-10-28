@@ -4,15 +4,15 @@ check_ready_slice.py — slice-realize readiness gate + hub resolution (SPINE mo
 
 A realize lens (ux / agentic / marketing / architecture / quality / run / measure) runs on
 ONE SLICE — the unit of delivery. A slice has no ICE of its own; its HUB is the union of
-its functionalities' grounding (each `functionality_ref` → the spine's `functionalities`
-entry → its `functionality.md` doc, which may span several capabilities) plus the product
+its features' grounding (each `feature_ref` → the spine's `features`
+entry → its `feature.md` doc, which may span several capabilities) plus the product
 profile (now structured in the spine), and the slice's PERSONA + JOURNEY records — the
 personas its surfaces name and every journey that runs on one of those surfaces. A journey is
 the flow itself: who takes it, the surface it runs on, and the ordered steps. This gate:
 
   - asserts the product profile is `set` (firmed by /discover-capabilities) — read from the SPINE;
-  - resolves the slice record and EVERY `functionality_ref` via the spine to a
-    `functionality.md` grounding doc, asserting each doc exists on disk;
+  - resolves the slice record and EVERY `feature_ref` via the spine to a
+    `feature.md` grounding doc, asserting each doc exists on disk;
   - resolves the slice's people and paths: every `surface[].persona_ref` to a real
     persona record, every journey whose `surface_refs` touch one of the slice's surfaces, and
     each such journey's own `persona_ref` to a real persona record. Records live under the
@@ -20,13 +20,13 @@ the flow itself: who takes it, the surface it runs on, and the ordered steps. Th
     recursive glob keyed on the record's own `id`.
 
 LOUD-FAIL rule: a reference that does not resolve is a BROKEN HUB, not an empty one — an
-error, never a silent pass. That covers a `functionality_ref` with no spine entry or no
+error, never a silent pass. That covers a `feature_ref` with no spine entry or no
 on-disk doc, a `surface[].persona_ref` that opens no persona record, a slice surface reached
 by no journey record, and a resolved journey whose own `persona_ref` opens no persona record
 (C1/F1). A slice that declares NO surfaces is not an error — the persona/journey checks fire
 per surface and per matched journey only, so older slices that predate `surface[]` still pass.
 
-It emits the resolved slice context (the lens dir, the functionality grounding docs, and the
+It emits the resolved slice context (the lens dir, the feature grounding docs, and the
 slice's personas + journeys) so downstream steps read the hub without re-deriving it. This
 script is SHARED — every lens play uses the same hub resolution, and the persona/journey keys
 are purely additive: a lens that does not need them simply does not read them.
@@ -35,7 +35,7 @@ Layer rule: reads files on disk only; no git/gh/network.
 
     python3 check_ready_slice.py --product-base <pb> --slice <slice-id | domain/slice-id>
 
-Prints {ok, errors[], slice_id, domain, slice_file, lens_dir, functionality_groundings[],
+Prints {ok, errors[], slice_id, domain, slice_file, lens_dir, feature_groundings[],
 personas[] ({id, path, name}), journeys[] ({id, path, persona_ref, surface_refs, step_count})}
 JSON — every path relative to --product-base.
 Exit 0 ready, 1 not ready, 2 usage error.
@@ -53,10 +53,13 @@ except ImportError:
     sys.stderr.write("check_ready_slice.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
+
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def _empty(v):
@@ -97,7 +100,7 @@ def main(argv=None):
     out = {"ok": False, "errors": errors, "slice_id": slice_id,
            "personas": [], "journeys": []}
 
-    # --- the spine: profile firmed? + functionality doc index -----------------
+    # --- the spine: profile firmed? + feature doc index -----------------
     spine_path = os.path.join(root, "_spine.yaml")
     func_doc = {}
     if not os.path.isfile(spine_path):
@@ -107,14 +110,14 @@ def main(argv=None):
         state = ((spine.get("profile") or {}).get("state") or "").strip().lower()
         if state != "set":
             errors.append(f"profile.state is '{state}', must be 'set' (firmed by /discover-capabilities) (C1/F1)")
-        func_doc = {f.get("id"): f.get("doc") for f in (spine.get("functionalities") or [])
+        func_doc = {f.get("id"): f.get("doc") for f in (spine.get("features") or [])
                     if isinstance(f, dict)}
 
     # --- resolve the slice (accept 'slice-id' or 'domain/slice-id') -----------
     matches = glob.glob(os.path.join(root, "*", "slices", slice_id + ".yaml"))
     if not matches:
         errors.append(f"slice '{slice_id}' not found under any domain's slices/ "
-                      f"— shape it with /shape-scope first (C1/F1)")
+                      f"— shape it first (C1/F1)")
     elif len(matches) > 1:
         errors.append(f"slice id '{slice_id}' is ambiguous across domains: "
                       f"{[os.path.relpath(m, args.product_base) for m in matches]}")
@@ -122,24 +125,24 @@ def main(argv=None):
         slice_file = matches[0]
         domain = os.path.basename(os.path.dirname(os.path.dirname(slice_file)))
         sl = (load(slice_file).get("slice") or {})
-        funcs = sl.get("functionalities") or []
+        funcs = sl.get("features") or []
         if _empty(funcs):
-            errors.append(f"slice '{slice_id}' bundles no functionalities — nothing to realize (C1/F1)")
+            errors.append(f"slice '{slice_id}' bundles no features — nothing to realize (C1/F1)")
         groundings = []
         for f in funcs:
-            ref = (f or {}).get("functionality_ref")
+            ref = (f or {}).get("feature_ref")
             doc = func_doc.get(ref)
             if _empty(doc):
-                errors.append(f"functionality '{ref}' is not in the spine, or has no grounding "
+                errors.append(f"feature '{ref}' is not in the spine, or has no grounding "
                               f"doc — broken hub, cannot realize (C1/F1)")
-                groundings.append({"functionality_ref": ref, "doc": None, "resolved": False})
+                groundings.append({"feature_ref": ref, "doc": None, "resolved": False})
                 continue
             doc_path = os.path.join(root, doc)
             resolved = os.path.isfile(doc_path)
             if not resolved:
-                errors.append(f"functionality '{ref}' grounding doc does not resolve: {doc} "
+                errors.append(f"feature '{ref}' grounding doc does not resolve: {doc} "
                               f"— broken hub, cannot realize (C1/F1)")
-            groundings.append({"functionality_ref": ref, "doc": doc, "resolved": resolved})
+            groundings.append({"feature_ref": ref, "doc": doc, "resolved": resolved})
 
         # --- the slice's PERSONA + JOURNEY records (C1/F1) ---------------------
         # A journey IS a flow: who, the surface it runs on, the ordered steps. The lens reads
@@ -211,7 +214,7 @@ def main(argv=None):
         rel_slice = os.path.relpath(slice_file, args.product_base)
         lens_dir = os.path.join(os.path.dirname(rel_slice), slice_id, "lens")
         out.update({"domain": domain, "slice_file": rel_slice, "lens_dir": lens_dir,
-                    "functionality_groundings": groundings})
+                    "feature_groundings": groundings})
 
     out["ok"] = not errors
     out["errors"] = errors

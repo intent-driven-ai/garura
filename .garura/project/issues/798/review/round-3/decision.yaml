@@ -1,0 +1,8 @@
+decision: reject
+decided_by: human
+reply: "this is a P1. i didnt ask you to build any options and you did, and i dont recall you showing me that design either. so thats the wrong approach. you need to run this again... design that with me before you make any change an then change has to be n ICE first and edit-play to fix it"
+round: 3
+blocking:
+  - DF-H-9 (Defect A), raised to P1 by the product owner — the --redraft option was added to /shape-slice without a design the product owner saw, and outside the play's ICE; a standard way to edit an existing record is to be designed with the product owner, put in the ICE first, and built with /edit-play
+logged_not_fixed:
+  - DF-H-7 (Defect B) — filed as #903

@@ -1,0 +1,24 @@
+category: harness
+round: 2
+base: plan/788/base
+grounding_sources:
+  - {id: G1, source: "plan/788/base:docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md", point: "section 3: scriber, tech-architect, test-runner left as they are"}
+  - {id: G2, source: "plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md", point: "section 9: one common file for the shared block"}
+  - {id: G3, source: "plan/788/base:CLAUDE.md", point: "Play Pipeline Rules; accepted ADRs change only by forward pointer"}
+  - {id: G4, source: "plan/788/base:docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md", point: "stale plays keep only their words changed"}
+round1_status:
+  H1: "FIXED - ADR 054 (Accepted) amends ADR 050 section 3 and ADR 035 section 10 and names the 3 agents and 28 deleted skills. Forward pointers added on ADR 050 and ADR 035. Checked: the 28 count matches the list; no agent file remains; no deprecated: true left in components (only the skip logic in common.py)."
+  H2: "FIXED - ADR 054 decision 2 covers the move to skills/_shared and the wider install; amends ADR 039 section 9 with a forward pointer on ADR 039. /shape-slice ICE (C18, F18, REC18) already matches the ADR."
+  H3: "MOVED to chore #859 (P4, not re-raised)."
+  H4: "MOVED to chore #859 (P4, not re-raised)."
+delta_checked:
+  - "check_old_names.py: QUOTING_ADRS = {53} is a narrow, commented exemption; no principle broken."
+  - "ADR 053 body edit in the delta puts the line back to the text on plan/788/base (git diff plan/788/base HEAD on ADR 053 is empty), so no accepted ADR is changed net."
+  - "test_naming_tools.py split, asking-a-person.js flag rename, asking-a-person.test.js temp-folder cleanup, naming.test.js constant rename: behavior-preserving; no harness design principle touched."
+  - "pr.md SEC-18 / ARCH-23 change is a standards edit for #851; belongs to the standards check, no harness conflict."
+  - "Seven stale skills each carry a stale marker, as ADR 054 section 1 says."
+findings: []
+not_found:
+  - "No new harness design violation in the round-1 delta."
+  - "Not re-raised: #860 (installed parts read core/components and core/tools at run time), fixed in its own change."
+counts: {P1: 0, P2: 0, P3: 0, P4: 0}

@@ -2,7 +2,7 @@
 """check_sources.py — does every page /discover-capabilities wrote say where it is seen? (C16, #689)
 
 Reads each target's `enrich-manifest.yaml` and the pages it names — the detailed
-`capability.md` and every new `functionality.md` — and checks, mechanically:
+`capability.md` and every new `feature.md` — and checks, mechanically:
 
 - every page ends its content with `## Sources` (before its agent intent), listing at least one
   source;
@@ -13,7 +13,7 @@ Reads each target's `enrich-manifest.yaml` and the pages it names — the detail
   be confirmed" or "not shown … ask" is a gap the skill should have filled with a marked
   default (C16).
 
-Whether a functionality is a whole function or only one panel of a screen is judgement — the
+Whether a feature is a whole function or only one panel of a screen is judgement — the
 agent's, and the rebuild eval's review. This script checks only what can be counted.
 
     python3 check_sources.py --manifest <working>/caps/<cap>/enrich-manifest.yaml [--manifest …] \
@@ -29,6 +29,9 @@ import re
 import sys
 
 import yaml
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
 
 QUOTE = re.compile(r"[\"“]([^\"“”]{4,})[\"”]")
 MARKS = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "–": "-", "—": "-", " ": " "})
@@ -67,7 +70,7 @@ def pages(manifest, model):
     cap = enrich.get("capability") or {}
     if cap.get("doc"):
         docs.append(str(cap["doc"]))
-    docs += [str(f["doc"]) for f in enrich.get("functionalities") or [] if isinstance(f, dict) and f.get("doc")]
+    docs += [str(f["doc"]) for f in enrich.get("features") or [] if isinstance(f, dict) and f.get("doc")]
     return [(d, os.path.join(model, d)) for d in docs]
 
 
@@ -109,7 +112,7 @@ def main(argv=None):
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     try:
-        manifests = [yaml.safe_load(read(p)) for p in args.manifest]
+        manifests = [model_names.check_model(yaml.safe_load(read(p)), p) for p in args.manifest]
         text = None
         if args.source_text:
             parts = []

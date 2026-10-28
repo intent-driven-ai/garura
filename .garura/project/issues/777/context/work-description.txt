@@ -1,0 +1,1 @@
+Work on Story #777 — a play changes the ontology and calls author-product-ontology (plan #756, capability #776). Resolve issue 777.

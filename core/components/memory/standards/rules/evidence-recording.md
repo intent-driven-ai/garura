@@ -85,7 +85,7 @@ is the *mechanism* (the exact C1/C2 block a play emits). They converge:
 
 ## Enforced
 
-- `check-components` already asserts every compiled play carries the Standard
+- `core/tools/lint-components` already asserts every compiled play carries the Standard
   Play Close block (the C1/C2 anchors). That is the structural guarantee a play
   *has* an evidence step.
 - This rule adds the policy check: a compiled play must read the resolved

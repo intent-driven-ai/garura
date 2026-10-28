@@ -1,0 +1,1 @@
+The harness install leaves out the plan play. Add shape-plan and its skill author-work-items to the harness list in install-garura, with a test that a harness install lays both. Serves #788; under story #818.

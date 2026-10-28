@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "version": "3161dcdfe26f",
+      "fingerprint": "sha256:1d659ad60e8248fc6ed4a8d41ae6a445ebf49e08b2da8f79a7b0693e34a6b7f6",
+      "copy": ".garura/project/issues/818/context/memory/grounding-harness/standards/rules/gate-config.md"
+    },
+    {
+      "tier": "garura",
+      "path": "core/memory/standards/rules/expectation-generation.md",
+      "version": null,
+      "fingerprint": "sha256:90e109ef67c23d146f9ad7835cd336ca816d8001f7a43816aa8343c57985d3a4",
+      "copy": ".garura/project/issues/818/context/memory/grounding-harness/standards/rules/expectation-generation.md"
+    }
+  ]
+}

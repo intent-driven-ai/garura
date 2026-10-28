@@ -1,0 +1,99 @@
+# design findings - category: harness (change #798, PR #900, base plan/788/base)
+# Grounded only in committed sources: git show plan/788/base:<path> and the memory tool.
+# Not used as grounding (added or rewritten by this diff): ADR 057, idd-principles.md edits,
+# plays/shape-eval/reference/ice.md, the new eval templates and step library.
+category: harness
+pr: '900'
+change: '798'
+base: plan/788/base
+severity_note: >
+  pr.md has no design-conformance rows (its rows are runtime/security/doc patterns), so each
+  finding takes its bucket from the P1-P4 definitions in pr.md.
+counts: {P1: 0, P2: 0, P3: 3, P4: 2}
+principles:
+  - id: H2
+    text: "Plays orchestrate, agents gather context, skills do the work; contracts of file paths; scripts do mechanical work (principles 2 and 3)"
+    source: "git show plan/788/base:docs/standards/harness-standard.md - principles 2, 3"
+  - id: H4
+    text: "A part is built from its ICE; the compiled play records the ICE fingerprint; an intent change is made in the ICE"
+    source: "plan/788/base:docs/standards/harness-standard.md - principle 4; ADR 027"
+  - id: H11
+    text: "Installed parts name only installed files; no pointer into core/ or docs/"
+    source: "plan/788/base:docs/standards/harness-standard.md - principle 11; ADR 055"
+  - id: A49-2-3
+    text: "A business intent has one plan; a slice serving two intents has one epic used by both plans; the slice's eval, hidden file and guide live once, in its home plan's folder, and another plan points to them and never copies"
+    source: "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md - Decision 2, 3"
+  - id: A49-4
+    text: "The eval play reads the epic, its stories and the hidden file, never the guide or the code; each ICE line has one reader (ADR 052 section 4)"
+    source: "plan/788/base:docs/adr/049-...md Decision 4; plan/788/base:docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md Decision 4; plan/788/base ontology.md Q29, Q36"
+  - id: P4-ROUTE
+    text: "Routing table: Recovery (Expectation) goes to the builder only as a handoff plan and to the validator; the Eval author column is '-'"
+    source: "plan/788/base:docs/philosophy/idd-principles.md - The Routing Table (base version, before this branch's edit)"
+  - id: GATE
+    text: "A pinned checkpoint is declared in the play and never skipped by config"
+    source: "memory tool, phoenix standards/rules/gate-config.md (copy: memory/grounding-harness/standards/rules/gate-config.md)"
+  - id: VOICE
+    text: "Checkpoint prompts and summaries lead in product/outcome language; identifiers go to an appendix"
+    source: "memory tool, garura core/memory/standards/rules/user-facing-voice.md (copy: memory/grounding-harness/core/memory/standards/rules/user-facing-voice.md); CLAUDE.md section 5"
+  - id: STALE
+    text: "A stale part names its callers and waits for their rebuild; the rest of the harness is kept in step"
+    source: "plan/788/base:docs/adr/054-the-last-deprecated-parts-are-deleted-and-the-asking-rule-is-a-shared-skill-file.md (stale parts); plan/788/base:core/components/agents/evals-engineer.md stale_note; plan/788/base:core/components/plays/build-epic/SKILL.md stale_note"
+conformant:
+  - "plays/shape-eval/SKILL.md keeps the play -> agent -> skill -> script wiring (H2): evals-engineer (domain agent) checks copies and calls author-slice-eval; every mechanical step is a bundled script; same shape as the base shape-plan play (script gather, agent passes on, step_failure return)."
+  - "ICE-source discipline (H4): sha256 of reference/ice.md equals the fingerprint in SKILL.md Compilation Metadata (59180bd7...); stop-condition.yaml D1-D5 match the ICE Done means; 14 constraints / 14 failures / 14 recovery rows trace one to one."
+  - "Installed-paths (H11): no core/components, core/tools or docs/ pointer in SKILL.md, evals-engineer.md, author-slice-eval/SKILL.md or stop-condition.yaml; the five shared scripts are byte-identical to create-play/references and shape-plan/scripts on the base."
+  - "Read boundary (A49-4): the play reads the epic, its stories and the hidden file and never an ICE page, the guide or the code; one-way-door pinned checkpoint with a typed yes; nothing committed before the yes (GATE)."
+  - "Standard Play Close anchors, Task DAG ids, position: both and the end sequence match the base shape-plan play."
+findings:
+  - id: DF-H-1
+    severity: P3
+    file: core/components/plays/shape-eval/scripts/gather_eval.py
+    line: 50-54
+    also:
+      - {file: core/components/plays/shape-eval/SKILL.md, line: "12-13, 170-190, 238"}
+      - {file: core/components/plays/shape-eval/reference/ice.md, line: 18-19}
+    principle: "A49-2-3: a slice that serves two intents has one epic used by both plans, and its eval and hidden file live once in the HOME plan's folder; another plan points to them. The home plan is worked out (the first of the slice's intents), never assumed to be the plan being run."
+    source: "plan/788/base:docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md - Decision 2 ('A slice that serves two intents has one epic, used by both plans') and Decision 3 ('<plan-id> is the slice's home plan ... Another plan that holds the slice points to these files and never copies them'); plan/788/base ontology.md Slice 'It has one eval, one hidden file and one usage guide, also when two plans hold it'"
+    detail: "find_hidden() looks only in <plans>/<run's plan id>/evals/*, and SKILL.md / SE-6 pin the written paths to <plans>/<id>/evals/<slug>/ with <id> = the intent being run. For a slice shaped first for another intent (so its folder is in that other plan), the run finds no hidden file and reports the slice as not ready with the reason 'run /shape-slice first', which is the wrong remedy (the hidden file exists, in the home plan). The eval of a shared slice is only made by running /shape-eval on its home plan. ICE C2 itself says 'in its home plan' but the compiled play and the script say the run's plan."
+    suggested_fix: "Work out the home plan from the slice's first intent (as ADR 049 says), look for the hidden file and existing eval files there, and write there; or name the shared-slice case as unsupported with the true reason. Change it in reference/ice.md and recompile (H4)."
+  - id: DF-H-2
+    severity: P3
+    file: core/components/plays/shape-eval/scripts/render_summary.py
+    line: 37-60
+    also:
+      - {file: core/components/plays/shape-eval/SKILL.md, line: 299-304}
+    principle: "VOICE: the summary shown at a checkpoint leads in product/outcome language and states what the person is asked to decide; identifiers and paths go last."
+    source: "memory tool: garura core/memory/standards/rules/user-facing-voice.md ('every reply ... checkpoint prompts, status updates, summaries'; 'A reply with only an appendix (no lead) is non-compliant'); CLAUDE.md section 5. Precedent on the base: plan/788/base:core/components/plays/shape-plan/scripts/render_brief.py opens with a plain paragraph ('This run makes ... Read each write, then type yes ...')"
+    detail: "The summary opens with '## Eval for slice <slice id> (epic #<n>): N stories, M scenarios' and a six-column table of fractions ('2/3') with no sentence saying what the eval checks, what a fraction means, or what to decide. The slice is shown by id only, never by name or outcome. The approval prompt template is wrapped around it, but the summary itself has no lead."
+    suggested_fix: "Open with one plain sentence (what the eval proves, how many stories and failure cases it covers, what is untestable yet), name the slice, explain the fractions once, keep ids and the files path in a closing line. This is a non-intent edit to the script, not an ICE change."
+  - id: DF-H-3
+    severity: P3
+    file: core/components/agents/evals-engineer.md
+    line: 1-7
+    also:
+      - {file: docs/components/agents.md, line: 68}
+      - {file: core/components/plays/build-epic/SKILL.md, line: "69, 342"}
+    principle: "STALE: a part that stale plays still call is kept in step with its callers and with the component docs; a rewritten shared agent leaves no caller pointing at a job it no longer does."
+    source: "plan/788/base:core/components/agents/evals-engineer.md frontmatter stale_note ('waits for the rebuild of /build-epic (#855); only stale plays dispatch it'); plan/788/base:core/components/plays/build-epic/SKILL.md (stale: true, Step 6 dispatches evals-engineer -> author-steelman-evals); ADR 054 (stale parts are kept with a note naming their callers)"
+    detail: "The agent is rewritten from the steelman/legacy-encrypted role to the shape-eval role: the stale flag and the build-epic steelman path are gone, but build-epic Step 6 and the two stale skills (author-steelman-evals, author-encrypted-evals) still name evals-engineer, and docs/components/agents.md line 68 still describes the old job ('steelman refutation evals for /build-epic, legacy encrypted flows'). Callers are stale so nothing runs today; the record is out of step. The diff does not touch docs/components/agents.md or the two skills' stale notes."
+    suggested_fix: "Update docs/components/agents.md (row and 'evals-engineer Skill Pool' section) in this change, and let the stale notes of build-epic and the two skills say the agent no longer does that job (the rebuild #855 picks a new owner)."
+  - id: DF-H-4
+    severity: P4
+    file: core/components/plays/shape-eval/reference/ice.md
+    line: "16-17, 119-121, 161-167"
+    also:
+      - {file: core/components/plays/shape-eval/SKILL.md, line: "454-461, 185-187"}
+    principle: "H4: the compiled play traces to its ICE; the ICE is the one place its wording is decided."
+    source: "plan/788/base:docs/standards/harness-standard.md principle 4; harness review playbook (ICE-source rule); sibling on base: plan/788/base:core/components/plays/shape-plan/reference/ice.md"
+    detail: "The ICE and the compiled play disagree in two small ways. (a) ICE S4, REC8, REC9 and REC12 say 'the brief'; the compiled play says 'the summary' everywhere (and C9 of the ICE also says 'summary'), so the recovery the play carries is not the recovery the ICE states. (b) ICE C1/F1 say the run reads 'only the epic ... stories ... hidden file', while the ICE Context and the play also read the plan file and the slice's existing eval files (SE-1 allows 'existing/'); ADR 049 Decision 4 lists the three files only. Nothing is harmed; the wording should say what the run does."
+    suggested_fix: "Edit reference/ice.md (use 'summary'; add the plan file and the slice's existing eval files to the C1/F1 allowance) and recompile with /edit-play."
+  - id: DF-H-5
+    severity: P4
+    file: core/components/plays/shape-eval/scripts/gather_eval.py
+    line: 87-90
+    also:
+      - {file: core/components/skills/author-slice-eval/SKILL.md, line: "Process step 6"}
+    principle: "P4-ROUTE: the eval author column of the Recovery row in the routing table is empty; recovery reaches only the builder (as a handoff plan) and the validator. Mechanical guards beat a prompt rule (harness principle 3)."
+    source: "plan/788/base:docs/philosophy/idd-principles.md - The Routing Table ('Recovery (Expectation) | only the resulting handoff plan | - | validator'); plan/788/base:docs/standards/harness-standard.md principle 3. Counter-weight: ADR 049 Decision 4 lets the eval play read the whole hidden file, so this is a tension, not a violation."
+    detail: "The whole hidden file (failure conditions and their recovery entries) is copied to the skill. The skill is told in prose never to write recovery text, and check_eval.py then greps for four fixed phrases and the exact recovery lines. A cleaner design hands the skill only the failure lines (inputs.json already holds them in 'failures') so the recovery text never enters the author's context."
+    suggested_fix: "Optional: write a failure-only copy of the hidden file in gather_eval.py for the skill. Needs an ICE change (C1) and an ADR 049 reading, so only if the product owner wants it."

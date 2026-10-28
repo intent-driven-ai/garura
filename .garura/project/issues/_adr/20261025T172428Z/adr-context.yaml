@@ -1,0 +1,94 @@
+# adr-keeper context for the decision of #892 (record-decision, step 2, task draft-adr)
+shape: markdown
+number: "056"              # adr.py number --dir docs/adr -> {"next": "056", "taken": 55}
+file: docs/adr/056-an-epic-and-a-story-are-marked-by-issue-type-with-no-label.md
+level: framework
+status: proposed
+decided_by: "the product owner"   # as ADR 055; adr.py accept --by rewrites it
+decided_in: "#875 (the change: ontology v12, its checkpoints with the product owner, PR #891) and #892 (this record; review finding MEM-1 of PR #891)"
+template_path: .garura/project/issues/_adr/20261025T172428Z/context/templates/standards/templates/adr.md
+brief: .garura/project/issues/_adr/20261025T172428Z/brief.md
+
+overlaps:
+  command: adr.py overlaps --adr <brief.md> --dir docs/adr
+  candidates: ["048"]      # the only candidate: named in the brief, 68 shared terms
+  also_searched: >
+    grep of docs/adr for "work-item", "type Feature", "issue type", "type Epic", "type Story", "#818":
+    only ADR 048 (lines 32 and 82). ADRs 049, 051, 052, 053, 054, 055 name no label and no issue type.
+
+supersedes: []
+amends:
+  - id: "048"
+    file: docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+    part: >
+      Decision §1, the second bullet ("The work layer is tracker issues labelled `work-item`: Epic,
+      Story, Spike, Chore and Bug") — an Epic is now an issue of type Epic and a Story an issue of
+      type Story, each with no label; only a Spike, a Chore or a Bug keeps `work-item`. And
+      Consequences, Positive, the fourth bullet ("`work-item` for everything that is worked") —
+      `work-item` now marks only a Spike, a Chore or a Bug.
+    stands: >
+      The rest of ADR 048 stands: the two layers and the Plan as the thread; "only the Business
+      Intent is a product-layer tracker issue, labelled `product`"; an Epic represents a Slice and a
+      Story represents a Feature; §2 to §5.
+not_affected:
+  - id: "049"
+    why: the order of the shaping plays (/shape-slice, /shape-plan, /shape-eval); names no label and no issue type
+  - id: "051"
+    why: drops /next; the plan is the work list; names no label and no issue type
+  - id: "052"
+    why: /shape-slice writes the hidden file and a thin ICE; it makes no epic and no story
+  - id: "029, 033, 035, 043, 047"
+    why: >
+      candidates on the draft only because they share the ontology or managing-work.md path; none
+      names a tracker label or an issue type (grep of docs/adr), so none is changed
+replaces_non_adr:
+  - "#818 decision 5 (an Epic filed as issue type Feature) — an issue decision, not an ADR; no pointer is written"
+
+affects:   # all landed in #875 except Q20 (#892, commit 063a5e8f)
+  - path: core/components/memory/standards/schemas/product-os/ontology.md
+    what: v12 — the tracker paragraph (line 21), Epic R1 and R3, Story R2 and R3, the Bank example, Q20 (#892)
+  - path: core/components/plays/shape-plan/reference/ice.md
+    what: C13, F11 and REC11
+  - path: core/components/plays/shape-plan/SKILL.md
+    what: the description, SE-15 and the F11 row (compiled from the ICE)
+  - path: core/components/plays/shape-plan/scripts/plan_common.py
+    what: EPIC_TYPE = "Epic", STORY_TYPE = "Story"
+  - path: core/components/plays/shape-plan/scripts/check_tracker.py, render_brief.py, write_work_items.py
+    what: with test_check_tracker.py, test_render_brief.py, test_write_work_items.py (git diff --stat plan/788/base...HEAD)
+  - path: core/components/plays/shape-plan/stop-condition.yaml
+    what: the F11 check
+  - path: .garura/user-provided/managing-work.md
+    what: the tracker section — an Epic is filed with type Epic, never Feature; a Story with type Story
+
+ice_impact: >
+  /shape-plan only, and already changed in #875: C13 (an epic and a story are marked by the issue
+  type, with no label: Epic and Story), F11 (a label on an epic or a story, or a wrong type, is a
+  failure) and its recovery REC11 (take the label off and set the type). No other play, loop or
+  agent ICE changes: no other part files an epic or a story (grep of core/components for issue
+  type and work-item). The product's own ICE (capability and feature) do not change.
+  Read from the ontology source core/components/memory/standards/schemas/product-os/ontology.md
+  (v12), a file the decision names; it was not copied into short-term memory, because the caller
+  allowed only the three output files.
+
+business_intent_check: none
+business_intent_reason: >
+  No person's business intent changes, and the Business Intent kind does not change: it keeps the
+  label `product`, and its links are as before. Only how an Epic and a Story are marked in the
+  tracker changes. No intent page is in Affects; no intent title (bi-717, bi-722, bi-734, bi-756,
+  bi-788) appears in the record.
+
+findings:   # by the ADR keeper, not in the brief; for the person who accepts
+  - >
+    .garura/user-provided/managing-work.md says "No labels, for now. Not for type, status, area,
+    or severity." The ontology (v12) keeps `product` on a Business Intent and `work-item` on a
+    Spike, a Chore and a Bug. This decision keeps those labels "for now" (the brief); the two texts
+    still disagree on those four kinds until the later change the brief names.
+  - >
+    /list-focus-issues finds an issue's kind by its labels
+    (core/components/plays/list-focus-issues/reference/kind-map.yaml: kind epic = label `epic`).
+    An Epic or a Story with no label shows there as "unlabelled", with no recommendation. This was
+    already true under ADR 048 (the `work-item` label maps to no kind); this decision does not
+    cause it.
+
+related: ["ADR 048", "ADR 049", "#788", "#818", "#875", "#891", "#892"]
+style: plain words (ASD-STE100), personas ("the product owner"), no real names in the body; keep it short

@@ -1,0 +1,60 @@
+category: memory
+pr: '885'
+issue: 884
+round: 3
+base: plan/788/base
+artifact: core/components/memory/standards/rules/grounding-eval.md
+also_read:
+  - core/components/memory/standards/schemas/product-os/grounding/_content-standard.md (changed in this PR; read as an artifact, not as grounding)
+  - core/components/skills/judge-grounding/SKILL.md (rubric text; the harness category owns the skill itself)
+  - core/components/plays/discover-capabilities/scripts/grounding_gate.py (the rule's behaviour check)
+principles:
+  - {id: P-A, principle: "The rubric, the judge prompt and the verdict shape have one source, the judge-grounding skill; the rule keeps the gate rule, how the judge runs, how the eval is trusted.", source: "plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (Decision 7); plan/788/base:core/components/memory/standards/rules/grounding-eval.md (intro paragraph)"}
+  - {id: P-B, principle: "The gate decides pass or fail, not the judge; any fail rejects the doc; a missing criterion fails closed.", source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (The gate rule); plan/788/base:core/components/skills/judge-grounding/SKILL.md (Output, last paragraph)"}
+  - {id: P-C, principle: "The content standard is the bar; a doc that fails any rubric line is rejected by the eval.", source: "plan/788/base:core/components/memory/standards/schemas/product-os/grounding/_content-standard.md (Eval rubric, last paragraph); memory tool, phoenix tier, copy in grounding-memory/"}
+  - {id: P-D, principle: "The judge runs in an isolated clean-context sub-agent; inputs named in one place.", source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (How the judge runs); plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (Decision 2)"}
+  - {id: P-E, principle: "Calibration: the eval must separate known answers; a tighter prompt is re-run.", source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (Calibration)"}
+  - {id: P-F, principle: "Memory writes go to the issue's short-term memory; a play reads no memory.", source: "plan/788/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (Decision 1, 2, 11); plan/788/base:docs/adr/035-agents-work-only-from-memory.md"}
+round2_status:
+  N1:
+    fixed: true
+    quote: "rule: \"A point that failed, or was missing, in the last round and fails again is a failure, not a note, whatever the judge says about its fix and whatever else changed on the page.\" gate: `if cid in last_out: ... failed again; it failed or was missing in the last verdict`"
+    run: "scratch folder, canonical gate: round 1 stranger_test fail; a one-word edit elsewhere; round 2 stranger_test fail again + prior fixed: true -> ok: false, failures [stranger_test], notes []"
+  N2:
+    fixed: true
+    quote: "rule: \"A quote counts as content only when it is not a heading (a line that starts with `#`) and has at least three words.\" ... \"A new point with no quote of content (only headings or short words) ... is a failure.\""
+    run: "scratch folder: section body replaced by TBD; round 2 completeness fail quoting only the heading '## Other' -> ok: false, failures [completeness]. A fail quoting a full changed line -> failure too."
+  N3:
+    fixed: true
+    quote: "rule: \"the judge's evidence has at least one quote, each found on the page now\""
+    run: "scratch folder: prior fixed: true with evidence 'it is fine' (no quote) -> failure 'marked fixed, but its evidence quotes no text found on the page now'"
+conformance_checks:
+  - {check: "One source for the rubric", principle: P-A, result: "conforms: the rule names criteria by name only; quote rule sits in the skill."}
+  - {check: "Gate decides, not the judge", principle: P-B, result: "conforms except N4 (P4): the first-round, fix-round and missing-criterion paths match the rule."}
+  - {check: "Rule against the content standard", principle: P-C, result: "conforms: the content standard points to the settling rule; the six-versus-five rubric lines are on the base ref, not from this branch."}
+  - {check: "Isolation against the judge's inputs", principle: P-D, result: "conforms: prior_failures is named in the rule and the skill Input table."}
+  - {check: "Calibration", principle: P-E, result: "conforms: calibration runs state-free."}
+  - {check: "Judge state in short-term memory", principle: P-F, result: "conforms: state folder is the issue's, named by the play; plays pass --judge on kept and gate runs (discover-capabilities SKILL.md lines 408-424)."}
+  - {check: "Cross-references resolve", principle: P-A, result: "conforms: _content-standard.md, judge-grounding skill, grounding_gate.py kept / prior / notes all exist on the branch."}
+  - {check: "Rule against the gate script", principle: P-B, result: "conforms; test_grounding_gate.py 31 tests OK; one wording drift N4."}
+findings:
+  - id: N4
+    class: P4
+    file: core/components/memory/standards/rules/grounding-eval.md
+    location: How the gate settles, The notes (last sentence of the bullet)
+    finding: >
+      The rule ends the bullet with "A new point with no quote of content (only headings or short words), or with
+      a quote not in the snapshot, is a failure." The gate counts only content fragments (not a heading, three
+      words or more) and ignores a short fragment that is not in the snapshot. Run on a scratch folder: round 1
+      all pass; the author replaces a section body with TBD; round 2 completeness fail with evidence
+      Other holds "TBD" while the intro says "The service runs local only" -> ok: true, notes [completeness],
+      failures []. By the rule's last sentence the "TBD" quote is a quote not in the snapshot, so the point is a
+      failure; the gate makes it a note. Fix: make the last clause say "or with a content quote not in the
+      snapshot", and say that a short quote does not turn a point on changed text into a note (or have the
+      gate fail a point when any quote, short or long, is not in the snapshot).
+    principle_violated: P-B
+    committed_source: "plan/788/base:core/components/memory/standards/rules/grounding-eval.md (The gate rule: the gate prints each failing criterion; any fail rejects the doc); plan/788/base:core/components/skills/judge-grounding/SKILL.md (Output, last paragraph)"
+notes:
+  - "Grounding came from the base ref (git show plan/788/base:...), ADR 035 and 039 on the base ref, and the content standard through the memory tool (copy in .garura/project/issues/884/context/memory/grounding-memory/). Nothing is grounded in text this branch adds."
+  - "All round-2 and N4 results were confirmed by running the canonical grounding_gate.py on a throwaway doc in a scratch folder; nothing under review was changed."
+  - "Pre-existing, not from this branch: no row for grounding-eval.md in standards/rules/_index.md; the content standard lists six rubric lines against five criteria."

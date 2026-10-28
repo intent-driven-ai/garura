@@ -9,10 +9,9 @@ each play re-deciding how a change is opened and landed.
 It governs only the **delivery pipeline** (the path that opens an issue, does the work, and
 lands it on main). Every play declares where it sits; many model-building plays now open and
 land their own change. As compiled today: `both` — /discover-domains, /discover-capabilities (#616), /shape-measure-lens,
-/shape-features, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632); `start` — /shape-architecture-lens, /shape-ux-lens, /build-feature; `end` — /shape-roadmap,
-/shape-marketing-lens, /shape-run-lens, /release-feature; `none` — /shape-scope, /shape-agentic-lens, /shape-quality-lens, /validate-feature, /release-increment, /next,
-/list-focus-issues. (A `none` play runs on whatever branch is already started — /shape-scope and /shape-roadmap's
-reliance on /discover-domains's old shared branch is a known follow-up from #616.) Inside a loop the
+/shape-slice, /learn-outcomes, /fix-bug, /refactor-code, /discover-intent (#612), /record-decision (#632), /edit-ontology (#777 — a meta play that opens and lands its own change); `start` — /shape-architecture-lens, /shape-ux-lens, /build-epic; `end` —
+/shape-marketing-lens, /shape-run-lens, /release-epic; `none` — /shape-agentic-lens, /shape-quality-lens, /validate-epic, /release-increment,
+/list-focus-issues. (A `none` play runs on whatever branch is already started.) Inside a loop the
 opening and the end sequence are both skipped — the loop opens and lands the change — and a
 play knows it is inside a loop from the loop's contract (`standards/rules/loop-contract.md`;
 ADR 029, ADR 030 P4). Wired so far: /discover-intent (#612, its own contract check), and /discover-domains (#614) and
@@ -49,11 +48,12 @@ between the injected start and end; the work is not a declared position.
 | start | `start-change` | `start` or `both` |
 | end | `commit-change` → `propose-change` → `check-change` → `merge-change` | `end` or `both` |
 
-These six plays are the **members** — the building blocks. A member play declares the
+These five plays are the **members** — the building blocks. A member play declares the
 `position` of the sequence it belongs to (`start-change: start`; the four end plays: `end`)
 so create-play knows the sequence composition. **A member is never injected into itself**:
 create-play recognizes the members by name and injects no sequence into one of them.
 Everything else with a non-`none` position is a **consumer** that receives injection.
+"Member" means only these change plays: no step of a loop is a member play (ADR 059).
 
 ## How create-play injects it (explicit, named)
 
@@ -93,7 +93,7 @@ compile.
 **Linter (`scripts/lint_play.py`, per-compile, mechanical):**
 - The frontmatter MUST carry a `position` field with one of `start | end | both | none`.
   Missing or invalid ⇒ lint failure. (`position` is required on compiled
-  delivery/consumer plays; strategic, model-building, and meta plays are `none`.)
+  delivery/consumer plays; strategic, model-building, and meta plays are `none` — except a meta play that opens and lands its own change, which is `both`.)
 
 **create-play (compile time):**
 - For a **consumer** play (position not `none`, name not a member): create-play injects

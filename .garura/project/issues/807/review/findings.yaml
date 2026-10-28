@@ -1,0 +1,152 @@
+findings:
+- category: code
+  severity: P3
+  path: core/tools/naming/check_old_names.py
+  basis: 'code: a cut-off wider than its reason hides unrelated drift'
+  message: FIRST_NEW_ADR moved from 47 to 49, so ADR 047 is now also skipped, though
+    the comment says only ADRs 046 and 048 record renames. ADR 047 is not a rename
+    record. Skip 046 and 048 by number instead of a range, or state why 047 is exempt.
+  status: null
+- category: code
+  severity: P3
+  path: core/components/plays/build-epic/scripts/check_ready_epic.py
+  basis: 'code: output or schema key renamed without a way for existing data to follow'
+  message: The scripts now read spine key 'features' and epic key 'feature_refs' only.
+    A product model written before this PR (key 'functionalities' / 'functionality_refs')
+    is read as empty, with no error for the spine lists (the .get(...) or [] fallback).
+    Only this repo's own model was migrated in the PR. Same pattern in lint_grounding.py,
+    persist_understand.py, check_intent.py, persist_intent.py. Confirm that other
+    installed projects are migrated, or add a loud check for the old key.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/build-epic/scripts/check_ready_epic.py
+  basis: 'code: dead or confusing naming after rename'
+  message: Local variable spine_funcs (and live_funcs in persist_understand.py line
+    234) keeps the old 'functionality' meaning after the key became 'features'. Rename
+    to spine_features and live_features.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/discover-capabilities/scripts/persist_understand.py
+  basis: 'code: changed output key may break a consumer'
+  message: The report key 'functionalities_added' became 'features_added'. No other
+    reader of the old key exists in core/ (grep clean), so no break found. Noted because
+    it changes script output.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/install-garura/scripts/test_install.py
+  basis: 'tests: the new test covers two old names for one new name only'
+  message: test_every_old_name_of_one_new_name_goes covers grill and shape-features
+    leading to shape-slice, and it passes. It does not cover the case where only one
+    old folder exists, or an old folder whose name line does not match (must be kept).
+    Existing tests cover those for a single old name, so this is a small gap.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/install-garura/scripts/install.py
+  basis: 'code: install.py retire loop is correct but nested one level deeper'
+  message: 'The change from a single old name to a list is right: setdefault().append,
+    then a loop with continue per old name, so a missing first old folder no longer
+    stops the second. No defect. Note: if two renames chain (A to B, B to C), stem
+    B would now also retire a folder named A when B is the new path. Safe because
+    removal still needs the name line to match the old name.'
+  status: null
+- category: code
+  severity: P4
+  path: core/components/plays/learn-outcomes/SKILL.md
+  basis: 'docs: comment column left misaligned by the replacement'
+  message: After functionality.md became feature.md, the trailing comment in the --allow
+    block no longer lines up with the rows above and below it. Cosmetic.
+  status: null
+- category: code
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/epic.yaml
+  basis: 'config-maps: leftover old word in a schema comment'
+  message: Comment still says functionality_refs. It is a history note and is listed
+    in allowed-hits, so the naming check passes. Say 'formerly functionality_refs'
+    so a reader does not take it for the current key.
+  status: null
+- category: harness
+  severity: P4
+  path: null
+  basis: docs/adr/046 and naming.md (name tells what the part does) on plan/788/base
+  message: core/components/plays/shape-slice/SKILL.md still has the H1 "# grill" (the
+    play's name two renames ago; base shape-features/SKILL.md had it too). Not introduced
+    by this PR, but the rename touched the file and did not clear it. Harmless to
+    behaviour.
+  status: null
+- category: harness
+  severity: P4
+  path: null
+  basis: core/components/memory/standards/rules/pipeline-next.md on plan/788/base
+  message: pipeline-next.md map rows (shape-measure-lens, shape-slice, build-epic,
+    validate-epic, release-epic) keep the old column padding, so the aligned columns
+    are now uneven. Content is correct (every key and target renamed; the execute-loop
+    chain reads /shape-slice -> /build-epic -> /validate-epic -> /release-epic).
+  status: null
+- category: harness
+  severity: P4
+  path: null
+  basis: CLAUDE.md Play Pipeline Rules; design.md step 2 ('the installer removes the
+    old names on the next install')
+  message: install-garura/scripts/install.py changed from one-old-name-per-new-name
+    to a list (new_to_old.setdefault(new, []).append(old)). This is a logic change,
+    not wording, but it is needed because grill and shape-features now both map to
+    shape-slice (rename-map.yaml), and it adds test_every_old_name_of_one_new_name_goes.
+    It is within the agreed scope (installer follows the rename). Noted so the reviewer
+    sees it is code, not wording.
+  status: null
+- category: harness
+  severity: P4
+  path: null
+  basis: core/components/memory/standards/rules/rename-map.yaml on plan/788/base
+  message: 'The skill map flips from ''author-epics: author-features'' to ''author-features:
+    author-epics'' (the #734 rename is undone). Agreed in design.md, and check_old_names.py
+    passes, but a name that went epics->features->epics deserves a note in ADR 048
+    so history stays traceable. Not a violation.'
+  status: null
+- category: harness
+  severity: P4
+  path: null
+  basis: create-play/scripts/lint_play.py run against base copies of the same files
+  message: 'lint_play.py reports gaps on plays/next (no-unbacked-recommendation wiring)
+    and loops/complete-discovery (failure coverage F1-F8 by step eval). The same gaps
+    exist on the base versions, so they are not introduced by #810; design.md says
+    the component linter shows no new error (121 today). Listed for visibility only.'
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/epic.yaml
+  basis: G2
+  message: Line 18 still reads 'functionality_refs plural' in a version-history comment,
+    while the field itself is now feature_refs. It is history, so acceptable; a reader
+    may still be confused.
+  status: null
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/schemas/product-os/spine.yaml
+  basis: G1
+  message: 'Spine still says ''Slices and epics are NOT tree nodes'', has no ''vertical''
+    field, and keeps the epics list and dropped slice fields. This is the deliberate
+    deferral in decision 1a (removed in #795, #799, #801, #803), so it is not a violation.
+    Listed so the gap stays visible.'
+  status: null
+- category: memory
+  severity: P4
+  path: .garura/product/product-os/features/fn-724/feature.md, fn-725/feature.md,
+    fn-597/feature.md
+  basis: G2
+  message: These pages still say 'functionality' inside quotes of GitHub titles, ontology
+    v5 text and the v5 log. They quote past records, so they match the design. No
+    action needed.
+  status: null
+- category: run-records
+  severity: P4
+  path: .garura/project/issues/807/
+  basis: 'categories.yaml: playbook missing'
+  message: No review playbook for STM run records.
+  status: null
+runnable_checks: "hidden eval:\n45 passed, 0 failed\nold-name check:\n  \"ok\": true,\n\
+  \  \"hits\": 0,\n"

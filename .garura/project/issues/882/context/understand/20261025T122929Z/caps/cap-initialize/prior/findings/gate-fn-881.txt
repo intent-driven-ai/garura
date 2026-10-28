@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md
+  discreteness_form = fail
+    evidence: "Given a tracker whose adapter entry says it cannot make the Spike type, when initialize runs, then the brief says so in plain words and proposes a stand-in with why; when the product owner types yes, then the mapping holds that stand-in; when the product owner says no, then Spike stays unmapped and the brief names it." Also "Given that brief, when the product owner types yes, ..." and "Given that brief, when the product owner does not type yes, ..." depend on the criterion before them instead of standing alone.
+    fix:      Split the Spike criterion into three separate Given/When/Then lines (brief proposes a stand-in with why; on yes the mapping holds the stand-in; on no Spike stays unmapped and the brief names it). Rewrite the two "Given that brief" lines so each states its own Given, e.g. "Given a GitHub organization with no Epic type and a brief that marks Epic missing, when the product owner types yes, then ...".
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+  "failures": [
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "\"Given a tracker whose adapter entry says it cannot make the Spike type, when initialize runs, then the brief says so in plain words and proposes a stand-in with why; when the product owner types yes, then the mapping holds that stand-in; when the product owner says no, then Spike stays unmapped and the brief names it.\" Also \"Given that brief, when the product owner types yes, ...\" and \"Given that brief, when the product owner does not type yes, ...\" depend on the criterion before them instead of standing alone.",
+      "fix": "Split the Spike criterion into three separate Given/When/Then lines (brief proposes a stand-in with why; on yes the mapping holds the stand-in; on no Spike stays unmapped and the brief names it). Rewrite the two \"Given that brief\" lines so each states its own Given, e.g. \"Given a GitHub organization with no Epic type and a brief that marks Epic missing, when the product owner types yes, then ...\"."
+    }
+  ],
+  "missing": []
+}

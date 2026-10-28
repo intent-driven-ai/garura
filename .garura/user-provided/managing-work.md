@@ -9,20 +9,24 @@ invent one.
 
 ## First: Garura is built the way it tells others to build
 
-Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v5,
+Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v7,
 `core/components/memory/standards/schemas/product-os/ontology.md`; Kapil: "going forward, our approach
 to building Garura will also change"). There is one plane, not two:
 
 ```
+Product model                          Tracker
 Business Intent                 ── issue: Business Intent   (its issue number is its plan's ID)
-└─ Capability + its ICE         ── issue: Feature
-   └─ Functionality + its ICE   ── issue: Story
-      ├─ Spike / Chore          ── issue, when the work needs one
-      └─ Bug                    ── issue, always under a functionality
+Capability + its ICE            ── never an issue
+└─ Feature + its ICE            ── issue: Story, one in each Epic that delivers it
+Slice (features from any        ── issue: Epic (issue type Epic), made by the plan play for each slice
+       capabilities, in order)     └─ Story, one per feature of the slice
+                                      ├─ Spike / Chore   ── issue, when the work needs one
+                                      └─ Bug             ── issue, always under the Story that introduced it
 ```
 
 Domains live in the product model and link loosely to business intents and capabilities; they are
-never an issue and never part of a plan. Epics and slices are not in the model.
+never an issue and never part of a plan. A slice is in the model; its Epic is the work that
+delivers it.
 
 ---
 
@@ -31,33 +35,73 @@ never an issue and never part of a plan. Epics and slices are not in the model.
 | | What it is | Filed when |
 |---|---|---|
 | **Business Intent** | What a person wants — an outcome. Tracking only: it holds no ICE and agents never build it. Met by its proof, never closed by finishing its children. | A goal is stated that work will be done to serve. |
-| **Feature** | The work order for one capability: something the product can do, with its ICE. | A business intent needs a capability built or changed. |
-| **Story** | The work order for one functionality: one thing a person can do inside a capability, with its ICE. One coherent change that can be built, reviewed, and merged on its own. | A capability's functionality is ready to build. |
-| **Bug** | A defect in a functionality: it behaves differently from what was intended. | Observed behaviour departs from expected behaviour. |
-| **Chore** | Upkeep under a functionality that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
-| **Spike** | A question to answer under a functionality. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
+| **Epic** | The work order for one slice: an ordered group of features, from any capabilities, that a person can test end to end. It holds one Story for each feature of the slice and has no ICE of its own. | /shape-slice shapes a slice for a business intent; the plan play then makes its Epic. |
+| **Story** | The work order for one feature: one thing a person can do inside a capability. Its scope of work is written from its feature's ICE and its capability's ICE, and never holds a failure or recovery condition (ADR 049). One coherent change that can be built, reviewed, and merged on its own. | The plan play makes the Epic of the feature's slice. |
+| **Bug** | A defect in a feature: it behaves differently from what was intended. Filed under the Story that introduced it. | Observed behaviour departs from expected behaviour. |
+| **Chore** | Upkeep under a Story that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
+| **Spike** | A question to answer under a Story. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
 
-A Feature is never worked directly; its Stories are. A Bug is not "something is missing" —
-missing capability is a Feature or a Story.
+An Epic is never worked directly; its Stories are. A Bug is not "something is missing" —
+a missing feature is a Story.
 
 ## Where does it hang?
 
-Every Feature hangs under its business intent, every Story under its Feature, and every Bug, Spike
+Every Epic serves one or more business intents, every Story hangs under its Epic, and every Bug, Spike
 and Chore under a Story — as a real parent/child link in the tracker. A business intent has no parent;
-business intents link to each other only by "identified by". A plan for the business intent is kept
-at `.garura/project/plans/<business-intent-issue>.yaml`. Plays and skills are named by the harness
+business intents link to each other only by "identified by". Each business intent has exactly one plan; it holds every slice that serves the intent (ADR 049). It is kept
+at `.garura/project/plans/<business-intent-issue>.yaml`, and each slice's eval and usage guide sit beside it, in
+`plans/<id>/evals/` and `plans/<id>/guides/`. A builder never reads the evals folder. Plays and skills are named by the harness
 standard (`docs/standards/harness-standard.md`).
 
 ## How does that land in the tracker?
 
 - **Type lives in the type field.** Each of the six types above is an issue
-  type in the `intent-driven-ai` organization. Never encode the type as a title
-  prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
-- **No labels, for now.** Not for type, status, area, or severity. A severity
-  and priority taxonomy will be designed later; until then, open issues carry
-  none. Closed issues keep their old labels as history.
+  type in the `intent-driven-ai` organization. An Epic is filed with the issue
+  type **Epic**, and a Story with the issue type **Story**. The organization also
+  has the type Feature, from before the Epic type existed; a slice's Epic is never
+  filed as Feature. (In the product model, a Feature is a different thing; it is
+  never an issue.) Never encode the type as a
+  title prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
+- **An Epic stands for one slice, and holds only that slice's work.** Its
+  sub-issues are the Stories of its slice; a Chore, Spike or Bug hangs from the
+  Story it serves. A plan holds one Epic for each slice that serves its business
+  intent, so a plan can hold several Epics. Work found along the way that is not
+  the slice's is filed on its own, as a Story, Bug or Chore, never under the Epic;
+  `/shape-slice` and `/shape-plan` place it when they run. Work that blocks the plan
+  gets its own Epic (its own slice), is delivered there, and merges back into the
+  plan branch it spawned from. (The product owner, 2026-10-26, #879.)
+- **No labels, for now.** Not for type, status, area, or severity. Closed issues
+  keep their old labels as history.
+- **A Bug carries its severity in its text.** Its first line is
+  `Severity: P<n> — <why, in one line>`: one value, P1 to P4, that also says what is
+  fixed first. Until the severity rules exist (#934), the product owner sets it.
 - **Title states the outcome**, in the language a reader operates in — what
   changes and for whom — not the files being touched.
+
+## An unplanned epic gathers defects being fixed together
+
+Not every plan is planned. When defects come in against work already delivered, they are
+fixed in the implementation, not in the product model, so there is nothing to shape: no
+`/shape-slice`, no new business intent, no slice. Ask first where the defect is. A defect in
+the implementation (a play, a skill, an agent, a script, a page of Garura's memory) is fixed
+this way. A defect in the product model (a wrong page, a wrong link) is fixed by the play that
+owns that part of the model.
+
+To fix several defects together, open an **unplanned epic** (issue type Epic, no label):
+
+- It serves the business intent whose delivered work broke, as that intent's sub-issue. Its
+  text says it stands for no slice, and it is done when every item on its checklist is closed.
+- Each Bug still hangs under the Story that introduced it, so the trace of where it came from
+  is kept. The epic tracks them with a checklist in its body, because an issue has only one
+  parent. A Chore hangs under the Story it serves; a Story with no other home hangs under the
+  epic.
+- Its plan is the business intent's plan file, `plans/<intent>.yaml`, with `planned: false`
+  and the epic as a node marked `unplanned: true`; the items it tracks are listed under it with
+  the Story each hangs from.
+- The fixes may land as one change, from one branch.
+
+Until `/shape-plan` can open one (#931), an unplanned epic is opened by hand. The first is
+#922, under business intent #606 (the product owner, 2026-10-28).
 
 ## Phoenix tools and the Phoenix project
 
@@ -73,15 +117,15 @@ no-labels rule above stands). The project is also where Phoenix releases are fol
 Before a Story or Bug is handed to a session, it has to stand on its own. The
 session working it reads the issue and its parent, and nothing else.
 
-**A Story is ready when it has** a parent Feature linked, acceptance criteria
+**A Story is ready when it has** a parent Epic linked, acceptance criteria
 (what must be true for this to be done), and a scope boundary (what this issue
 deliberately does *not* touch).
 
 **A Bug is ready when it has** a reproduction — the steps and the actual
 behaviour — and a statement of the expected behaviour.
 
-**A Feature is ready when** it states the problem, the boundary, and the "done
-when." It is then decomposed; it is never worked directly.
+**An Epic is ready when** it names its slice and states the "done when." It is then
+decomposed into Stories; it is never worked directly.
 
 An issue that fails these tests is not blocked on effort — it is blocked on
 being written. Finish writing it before anyone picks it up.
@@ -89,7 +133,7 @@ being written. Finish writing it before anyone picks it up.
 ## How does work get picked up?
 
 Planning and decomposition happen in an **orchestrator session**: reading the
-backlog, shaping Features, cutting Stories, ordering them. No implementation
+backlog, shaping Epics, cutting Stories, ordering them. No implementation
 happens there.
 
 Each Story or Bug then goes to **its own session**. That session:
@@ -110,6 +154,21 @@ the drive's branch. Issues **linked** to the main issue — its child issues,
 by the real parent/child link in the tracker, never a mention in the body —
 are fixed on that same branch, in the same change. The drive writes **one
 handoff**, on its main issue.
+
+## How is a change checked?
+
+Before anyone builds, the session writes the change's **acceptance check**: a small script in
+the issue's own folder, `.garura/project/issues/<issue>/evidence/eval/`, that tests what the
+issue's "Done when" asks.
+
+1. Run it before the build. It must fail. Commit it first.
+2. The agents that build never read the issue's folder. They build from the issue and its
+   decisions, not from the check.
+3. Run it after the build. It must pass. If a check tested the wrong thing, fix the check in
+   its own commit and say why. Never weaken a check to let bad work pass.
+
+This is not a slice's eval. A slice's eval is made by the eval play, inside the shaping loop,
+and kept in `plans/<plan-id>/evals/` (ADR 049).
 
 ## How far does my work extend?
 

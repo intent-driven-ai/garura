@@ -1,0 +1,10 @@
+{
+  "round": "fix",
+  "prior_failures": [
+    {
+      "id": "completeness",
+      "evidence": "\"When the product profile holds no earlier answers (the first run never finished), the run asks the questions as a first run does\" \"Given the tracker answer changes and the product owner says no to the tracker changes, when the run ends, then nothing is made in the new tracker and the mapping is unchanged.\"",
+      "fix": "Rules & behavior is meant to hold every meaningful branch, and two are missing. (1) Add a rule for a question that has no earlier answer while the others do (a question new since the last run, because the questions are built from Phoenix memory and it can change): say the run asks it as a first run does, with a proposal from the project or Phoenix memory, and marks it as new in the brief; add a matching Given/When/Then. (2) Say what happens to the memory and rule-group changes when the product owner says no to the tracker changes: state whether they still apply (and the change record shows the tracker part as declined) or the whole run stops, and extend the acceptance line above to name that outcome."
+    }
+  ]
+}

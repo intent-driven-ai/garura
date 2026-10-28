@@ -1,0 +1,110 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml",
+    "product-os/capabilities/cap-718/capability.md",
+    "product-os/capabilities/cap-shape-eval/capability.md",
+    "product-os/capabilities/cap-shape-slice/capability.md",
+    "product-os/features/fn-727/feature.md",
+    "product-os/features/fn-728/feature.md",
+    "product-os/features/fn-795/feature.md",
+    "product-os/features/fn-798/feature.md",
+    "product-os/features/fn-818/feature.md",
+    "product-os/intents/bi-788.md",
+    "product-os/software-delivery-planning/domain.md",
+    "product-os/software-delivery-planning/cap-718/capability.md",
+    "product-os/software-delivery-planning/cap-718/fn-727/feature.md",
+    "product-os/software-delivery-planning/cap-718/fn-728/feature.md",
+    "product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+    "product-os/software-delivery-planning/shape-eval/capability.md",
+    "product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+    "product-os/software-delivery-planning/shape-slice/capability.md",
+    "product-os/software-delivery-planning/shape-slice/fn-795/feature.md"
+  ],
+  "add_only": [],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/cap-718/capability.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/cap-shape-eval/capability.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/cap-shape-slice/capability.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/features/fn-727/feature.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/features/fn-728/feature.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/features/fn-795/feature.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/features/fn-798/feature.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/features/fn-818/feature.md",
+      "status": "D"
+    },
+    {
+      "path": ".garura/product/product-os/intents/bi-788.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-727/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-728/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/domain.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-slice/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+      "status": "A"
+    }
+  ],
+  "violations": [],
+  "restored": []
+}

@@ -1,0 +1,4 @@
+checkpoint: confirm-merge (pinned)
+pr: 897
+preconditions: {approved: true, mergeable: true, checks_pass: true}
+reply: "approve and merge"

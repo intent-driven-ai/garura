@@ -14,10 +14,13 @@ import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+import check_knowledge as ck  # noqa: E402
 import check_play_done  # noqa: E402
 import commit_run_files  # noqa: E402
+import group_questions as gq  # noqa: E402
 import prepare_check  # noqa: E402
 import record_check  # noqa: E402
+import record_review as rr  # noqa: E402
 import round_state  # noqa: E402
 import run_checker_codex  # noqa: E402
 import loop_preflight  # noqa: E402
@@ -72,9 +75,10 @@ class LoopPreflight(Work):
         self.config = self.write("config.yaml", CONFIG)
         self.write("skills/intent/SKILL.md", "runs check_loop_contract.py first\n")
         self.write("skills/vision/SKILL.md", "runs check_loop_contract.py first\n")
-        self.write("skills/shape/SKILL.md", "no contract here\n")
-        for member in ("search-knowledge", "research-knowledge", "check-knowledge"):
-            self.write(f"skills/{member}/SKILL.md", "runs check_loop_contract.py first\n")
+        self.write("skills/shape-thing/SKILL.md", "no contract here\n")
+        for skill in ("find-answers-in-sources", "author-knowledge-page", "propose-answers",
+                      "author-knowledge-brief"):
+            self.write(f"skills/{skill}/SKILL.md", "a skill\n")
 
     def run_it(self, plays, config=None):
         return quiet(loop_preflight.main, ["--config", config or self.config, "--loop", "discovery",
@@ -90,18 +94,25 @@ class LoopPreflight(Work):
         self.assertTrue(facts["evidence_record"])  # the loop's own switch beats the global off
         self.assertFalse(facts["on_default_branch"])
 
-    def test_a_missing_member_play_halts(self):
-        os.remove(self.p("skills", "check-knowledge", "SKILL.md"))
+    def test_a_missing_knowledge_skill_halts(self):
+        os.remove(self.p("skills", "author-knowledge-brief", "SKILL.md"))
         self.assertEqual(self.run_it("intent,vision"), 2)
-        self.assertEqual(self.read_json("pre.json")["missing"], ["check-knowledge"])
+        facts = self.read_json("pre.json")
+        self.assertEqual(facts["knowledge_missing"], ["author-knowledge-brief"])
+        self.assertEqual(facts["missing"], [])
+
+    def test_no_knowledge_play_is_looked_for(self):
+        self.assertEqual(self.run_it("intent,vision"), 0)
+        self.assertEqual(self.read_json("pre.json")["missing"], [])
+        self.assertFalse(os.path.exists(self.p("skills", "search-knowledge")))
 
     def test_a_missing_play_halts(self):
         self.assertEqual(self.run_it("intent,understand"), 2)
         self.assertEqual(self.read_json("pre.json")["missing"], ["understand"])
 
     def test_a_play_that_checks_no_contract_halts(self):
-        self.assertEqual(self.run_it("intent,shape"), 2)
-        self.assertEqual(self.read_json("pre.json")["no_contract"], ["shape"])
+        self.assertEqual(self.run_it("intent,shape-thing"), 2)
+        self.assertEqual(self.read_json("pre.json")["no_contract"], ["shape-thing"])
 
     def test_defaults_when_the_config_names_no_loop_but_the_checker_model_is_asked_for(self):
         cfg = self.write("bare.yaml", "stm:\n  base-path: x/\n")
@@ -322,7 +333,7 @@ class RoundState(GitWork):
         subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
         subprocess.run(["git", "commit", "-q", "-m", "model"], check=True, capture_output=True)
         os.makedirs(self.p("rev"), exist_ok=True)
-        os.makedirs(self.p("issue", "review", "memory-updates"), exist_ok=True)
+        self.tool = stub_tool(self, [])
 
     def open_q(self, *ids):
         self.write("rev/open-discover-intent.json", json.dumps({"play": "discover-intent", "questions": [
@@ -337,7 +348,8 @@ class RoundState(GitWork):
             self.write(f"work/gaps-{rnd}.json", json.dumps(gaps))
             extra += ["--gaps", f"work/gaps-{rnd}.json"]
         quiet(round_state.main, ["--round", str(rnd), "--max-rounds", str(max_rounds), "--working", "work",
-                                 "--review-dir", "rev", "--issue-dir", "issue", "--model-path", "product",
+                                 "--review-dir", "rev", "--issue", "7", "--memory-tool", self.tool,
+                                 "--model-path", "product",
                                  *extra, "--out", f"work/round-{rnd}.json"])
         return self.read_json(f"work/round-{rnd}.json")
 
@@ -385,13 +397,26 @@ class RoundState(GitWork):
         self.decide(1, report=report)
         self.assertEqual(self.decide(2, report=report)["decision"], "ask")
 
-    def test_a_pending_memory_update_is_an_open_question(self):
-        self.write("issue/review/memory-updates/mu-1.json", json.dumps({"update": {
-            "id": "mu-1", "status": "waiting", "missing": "how long is a cart kept?"}}))
-        self.write("issue/review/memory-updates/mu-2.json", json.dumps({"update": {"id": "mu-2", "status": "applied"}}))
+    def test_a_waiting_memory_update_the_tool_lists_is_an_open_question(self):
+        self.tool = stub_tool(self, [
+            {"id": "mu-1", "issue": 7, "status": "waiting", "missing": "how long is a cart kept?"},
+            {"id": "mu-2", "issue": 7, "status": "applied"},
+            {"id": "mu-3", "issue": 8, "status": "waiting", "missing": "another issue's"}])
         rec = self.decide(1)
         self.assertEqual([q["id"] for q in rec["open"]], ["mu-1"])
         self.assertEqual(self.read_json("work/rounds.json")["open_left"], 1)
+
+    def test_an_update_file_on_disk_is_not_read(self):
+        self.write("issue/review/memory-updates/mu-9.json", json.dumps({"update": {
+            "id": "mu-9", "status": "waiting", "missing": "read by path"}}))
+        self.assertEqual(self.decide(1)["open"], [])
+
+    def test_a_memory_tool_error_stops_the_round(self):
+        self.tool = self.write("bad.py", "import json\nprint(json.dumps({'ok': False, 'message': 'tier_missing'}))\n")
+        rc = quiet(round_state.main, ["--round", "1", "--working", "work", "--review-dir", "rev",
+                                      "--issue", "7", "--memory-tool", self.tool, "--model-path", "product",
+                                      "--out", "work/round-1.json"])
+        self.assertEqual(rc, 2)
 
 
 ICE = """# ICE — t
@@ -534,6 +559,343 @@ class CodexChecker(Work):
         run_checker_codex.CLI = broken
         self.assertEqual(quiet(run_checker_codex.main, ["--bundle", self.p("check"), "--skill", self.skill,
                                                         "--out", self.p("check", "verdict.json")]), 2)
+
+
+# --- The knowledge step (R5c, R5b; ADR 059) ---
+
+def stub_tool(work, updates):
+    """A stand-in memory tool that answers `updates --status waiting` with these updates."""
+    return work.write("memory.py", "import json, sys\nU = " + json.dumps(updates) + "\n"
+                      "print(json.dumps({'ok': True, 'command': 'updates', 'updates': "
+                      "[u for u in U if u['status'] == sys.argv[sys.argv.index('--status') + 1]]}))\n")
+
+
+class GroupQuestions(Work):
+    def setUp(self):
+        super().setUp()
+        self.write("issue/review/loop/open-intent.json", json.dumps({"play": "discover-intent", "questions": [
+            {"id": "i1", "ask": "How will you know signing off a loop works?", "about": "sign-off"},
+            {"id": "i2", "ask": "Why does it matter to the business?", "about": "sign-off"}]}))
+        self.write("issue/review/loop/open-understand.json", json.dumps({"play": "discover-capabilities", "questions": [
+            {"id": "u1", "ask": "How will you know answering every change works?", "about": "answer"},
+            {"id": "u2", "ask": "How quickly must a card open?", "about": "answer"},
+            {"id": "u3", "ask": "How fast must a comment show?", "about": "comment"},
+            {"id": "u4", "ask": "Does GDPR apply to the review record?", "about": "answer"},
+            {"id": "u5", "ask": "Must commenting on an area work without a mouse pointer drag?", "about": "c"}]}))
+        self.write("work/round-2.json", json.dumps({"round": 2, "decision": "ask", "open": [
+            {"from": "discover-intent", "id": "i1", "ask": "How will you know signing off a loop works?"},
+            {"from": "memory-update", "id": "mu-1", "ask": "Speed bar for review pages", "for_person": True}]}))
+
+    def groups(self):
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"),
+                             "--round-record", self.p("work/round-2.json"), "--out", self.p("g.json")])
+        self.assertEqual(rc, 0)
+        return self.read_json("g.json")
+
+    def test_the_same_question_from_several_plays_is_one_group(self):
+        by_topic = {g["topic"]: g for g in self.groups()["groups"]}
+        self.assertEqual(sorted(by_topic["proof"]["members"]), ["i1", "u1"])
+        self.assertEqual(by_topic["proof"]["from"], ["discover-capabilities", "discover-intent"])
+        self.assertEqual(sorted(by_topic["speed"]["members"]), ["mu-1", "u2", "u3"])
+        self.assertEqual(by_topic["compliance"]["members"], ["u4"])
+
+    def test_waiting_updates_come_from_the_round_record_only(self):
+        ids = [m for g in self.groups()["groups"] for m in g["members"]]
+        self.assertIn("mu-1", ids)
+        self.assertEqual(ids.count("i1"), 1)  # a play's question is read from its open file once
+
+    def test_it_never_calls_the_memory_tool(self):
+        with open(gq.__file__, encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertNotIn("subprocess", text)
+        self.assertNotIn("memory.py", text.split('"""', 2)[2])
+
+    def test_every_question_lands_in_exactly_one_group(self):
+        d = self.groups()
+        ids = [m for g in d["groups"] for m in g["members"]]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertEqual(len(ids), d["questions"])
+
+    def test_a_round_record_with_no_open_list_stops_the_grouping(self):
+        bad = self.write("work/round-3.json", json.dumps({"round": 3}))
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"),
+                             "--round-record", bad, "--out", self.p("g.json")])
+        self.assertEqual(rc, 2)
+
+
+GROUPS = {"groups": [{"id": "g1", "members": ["q1", "q2"]}, {"id": "g2", "members": ["q3"]},
+                     {"id": "g3", "members": ["q4"]}]}
+SEARCH = {"groups": [
+    {"id": "g1", "members": ["q1", "q2"], "ask": "Does Later reach Garura?", "found": "answered",
+     "closed_by": "source", "answer": "No; Later keeps the card unread.",
+     "evidence": [{"file": "argus.html", "where": "line 997", "quote": "Later · keep unread"}]},
+    {"id": "g2", "members": ["q3"], "ask": "Is a sent-back decision kept?", "found": "partly",
+     "closed_by": "memory", "answer": "Kept beside the new one.", "trace": "cite-12",
+     "missing": "for how long"},
+    {"id": "g3", "members": ["q4"], "ask": "How will you know reviews work?", "found": "open",
+     "missing": "the business measure", "not_shown": "no-screen"}]}
+
+
+def copy(data):
+    return json.loads(json.dumps(data))
+
+
+class CheckKnowledgeSearch(unittest.TestCase):
+    def test_a_complete_search_is_clean_and_counts_what_is_left(self):
+        gaps, counts = ck.check_search(SEARCH, GROUPS)
+        self.assertEqual(gaps, [])
+        self.assertEqual(counts["left_for_build"], 2)
+        self.assertEqual(counts["questions"], 4)
+
+    def test_a_source_answer_without_a_quote_fails(self):
+        bad = copy(SEARCH)
+        bad["groups"][0]["evidence"] = [{"file": "argus.html", "quote": ""}]
+        self.assertTrue(any("quote" in g for g in ck.check_search(bad, GROUPS)[0]))
+
+    def test_a_memory_answer_without_its_trace_fails(self):
+        bad = copy(SEARCH)
+        bad["groups"][1]["trace"] = ""
+        self.assertTrue(any("trace" in g for g in ck.check_search(bad, GROUPS)[0]))
+
+    def test_an_open_group_says_what_is_missing_and_why(self):
+        bad = copy(SEARCH)
+        bad["groups"][2]["missing"] = ""
+        bad["groups"][2]["not_shown"] = None
+        gaps = ck.check_search(bad, GROUPS)[0]
+        self.assertTrue(any("missing" in g for g in gaps))
+        self.assertTrue(any("should-show" in g for g in gaps))
+
+    def test_a_question_left_out_or_in_two_groups_fails(self):
+        bad = copy(SEARCH)
+        bad["groups"][0]["members"] = ["q1"]
+        bad["groups"][2]["members"] = ["q4", "q3"]
+        gaps = ck.check_search(bad, GROUPS)[0]
+        self.assertTrue(any("q2 is in 0 groups" in g for g in gaps))
+        self.assertTrue(any("q3 is in 2 groups" in g for g in gaps))
+
+
+B_SEARCH = {"groups": [
+    {"id": "s1", "found": "answered"},
+    {"id": "s2", "found": "open", "not_shown": "no-screen"},
+    {"id": "s3", "found": "partly"},
+    {"id": "s4", "found": "open", "not_shown": "should-show"},
+    {"id": "s5", "found": "open", "not_shown": "no-screen"}]}
+B_GOOD = {"groups": [
+    {"id": "b1", "from": ["s2"], "ask": "How fast must a card open?", "closed_by": "update",
+     "update": "mu-9", "for_project_memory": True},
+    {"id": "b2", "from": ["s3"], "ask": "Who decides on a run?", "closed_by": "proposal",
+     "proposal": {"answer": "The person who asked decides on their run.",
+                  "basis": "argus.html shows one reviewer answering every card",
+                  "context": "The prototype never shows a second person."}},
+    {"id": "b3", "from": ["s4"], "ask": "What if memory finds nothing?",
+     "closed_by": "prototype-feedback", "feedback": "Show an empty answer state in Ask memory"},
+    {"id": "b4", "from": ["s5"], "ask": "Does Argus earn money?", "closed_by": "settled",
+     "why": "Argus is an internal tool; the prototype has no pricing or customers.",
+     "basis": "argus.html: no pricing, plan or customer screen in any of the 36 views"}]}
+
+
+class CheckKnowledgeBuild(unittest.TestCase):
+    waiting = {"mu-9"}
+
+    def test_a_complete_build_is_clean(self):
+        gaps, counts = ck.check_build(B_SEARCH, B_GOOD, self.waiting)
+        self.assertEqual(gaps, [])
+        self.assertEqual(counts["left_by_search"], 4)
+        self.assertEqual(counts["closed"]["proposal"], 1)
+
+    def test_a_proposal_needs_its_basis_and_context(self):
+        bad = copy(B_GOOD)
+        bad["groups"][1]["proposal"]["context"] = ""
+        self.assertTrue(any("context" in g for g in ck.check_build(B_SEARCH, bad, self.waiting)[0]))
+
+    def test_an_update_the_memory_tool_does_not_list_as_waiting_fails(self):
+        bad = copy(B_GOOD)
+        bad["groups"][0]["update"] = "mu-404"
+        self.assertTrue(any("mu-404" in g for g in ck.check_build(B_SEARCH, bad, self.waiting)[0]))
+
+    def test_a_screen_the_prototype_should_show_is_feedback(self):
+        bad = copy(B_GOOD)
+        bad["groups"][2]["closed_by"] = "proposal"
+        bad["groups"][2]["proposal"] = {"answer": "x", "basis": "y", "context": "z"}
+        self.assertTrue(any("prototype feedback" in g for g in ck.check_build(B_SEARCH, bad, self.waiting)[0]))
+
+    def test_an_answered_search_group_is_not_built_again_and_none_is_left_out(self):
+        bad = copy(B_GOOD)
+        bad["groups"][3]["from"] = ["s1"]
+        gaps = ck.check_build(B_SEARCH, bad, self.waiting)[0]
+        self.assertTrue(any("already answered" in g for g in gaps))
+        self.assertTrue(any("s5 is in 0 build groups" in g for g in gaps))
+
+    def test_settled_says_why_and_what_it_rests_on(self):
+        bad = copy(B_GOOD)
+        bad["groups"][3]["why"] = ""
+        bad["groups"][3]["basis"] = ""
+        gaps = ck.check_build(B_SEARCH, bad, self.waiting)[0]
+        self.assertTrue(any("settles" in g for g in gaps))
+        self.assertTrue(any("basis" in g for g in gaps))
+
+
+BUILD = {"groups": [
+    {"id": "b1", "closed_by": "update", "update": "mu-9"},
+    {"id": "b2", "closed_by": "proposal"},
+    {"id": "b3", "closed_by": "proposal"},
+    {"id": "b4", "closed_by": "prototype-feedback"},
+    {"id": "b5", "closed_by": "settled"}]}
+BRIEF = {"understood": "Argus is the review tool for the agents' work.",
+         "built": "6 business intents, one domain, 12 capabilities.",
+         "gaps": [{"id": "G1", "theme": "Who decides", "context": "The prototype shows one reviewer.",
+                   "proposal": "The person who asked decides on their run.", "from": ["b2", "b3"]}],
+         "settled": [{"from": ["b5"], "what": "How Argus earns money", "why": "It is an internal tool."}],
+         "pages": [{"update": "mu-9", "what": "Speed bar for Ask memory", "sources": ["nngroup response times"],
+                    "recommend": "approve"}],
+         "prototype_notes": {"count": 1, "where": "build.json"}}
+MD = "## What we understood\n...\n## What we built\n...\n## Where the gaps are\n- G1 Who decides\n"
+
+
+class CheckKnowledgeBrief(unittest.TestCase):
+    def test_a_complete_brief_is_clean(self):
+        problems, counts = ck.check_brief(BRIEF, MD, BUILD, 7)
+        self.assertEqual(problems, [])
+        self.assertEqual(counts["gaps"], 1)
+
+    def test_a_gap_without_a_proposal_or_with_a_question_fails(self):
+        bad = copy(BRIEF)
+        bad["gaps"][0]["proposal"] = "Who should decide?"
+        self.assertTrue(any("question" in p for p in ck.check_brief(bad, MD, BUILD, 7)[0]))
+        bad["gaps"][0]["context"] = ""
+        self.assertTrue(any("context" in p for p in ck.check_brief(bad, MD, BUILD, 7)[0]))
+
+    def test_too_many_gaps_fail(self):
+        bad = copy(BRIEF)
+        bad["gaps"] = [dict(BRIEF["gaps"][0], id=f"G{i}", **{"from": []}) for i in range(1, 10)]
+        bad["gaps"][0]["from"] = ["b2", "b3"]
+        md = MD + "".join(f"G{i}\n" for i in range(1, 10))
+        self.assertTrue(any("at most 7" in p for p in ck.check_brief(bad, md, BUILD, 7)[0]))
+
+    def test_every_proposal_page_and_note_is_carried(self):
+        bad = copy(BRIEF)
+        bad["gaps"][0]["from"] = ["b2"]
+        bad["pages"] = []
+        bad["prototype_notes"]["count"] = 0
+        problems = ck.check_brief(bad, MD, BUILD, 7)[0]
+        self.assertTrue(any("b3 is in 0 gaps" in p for p in problems))
+        self.assertTrue(any("mu-9" in p for p in problems))
+        self.assertTrue(any("prototype notes" in p for p in problems))
+
+    def test_settled_points_and_page_sources_are_shown(self):
+        bad = copy(BRIEF)
+        bad["settled"] = []
+        bad["pages"][0]["sources"] = []
+        problems = ck.check_brief(bad, MD, BUILD, 7)[0]
+        self.assertTrue(any("b5 is shown 0 times" in p for p in problems))
+        self.assertTrue(any("sources" in p for p in problems))
+
+    def test_a_waiting_update_the_build_did_not_name_is_still_listed(self):
+        problems = ck.check_brief(BRIEF, MD, BUILD, 7, waiting={"mu-9", "mu-12"})[0]
+        self.assertTrue(any("mu-12" in p for p in problems))
+
+    def test_the_markdown_carries_the_headings_and_gaps(self):
+        problems = ck.check_brief(BRIEF, "nothing here", BUILD, 7)[0]
+        self.assertTrue(any("What we understood" in p for p in problems))
+        self.assertTrue(any("G1: not named" in p for p in problems))
+
+    def test_a_brief_md_that_is_not_the_renderers_output_fails(self):
+        self.assertEqual(ck.check_brief(BRIEF, MD, BUILD, 7, rendered=MD + "\n")[0], [])
+        problems = ck.check_brief(BRIEF, MD + "Written beside the data.\n", BUILD, 7, rendered=MD)[0]
+        self.assertTrue(any("renderer" in p for p in problems))
+
+
+class CheckKnowledgeMain(Work):
+    def run_main(self, build=B_GOOD):
+        self.write("groups.json", json.dumps({"groups": [{"id": "x", "members": ["q1"]}]}))
+        self.write("search.json", json.dumps({"groups": [
+            {"id": "s2", "members": ["q1"], "ask": "How fast must a card open?", "found": "open",
+             "missing": "the speed bar", "not_shown": "no-screen"}]}))
+        self.write("build.json", json.dumps(build))
+        brief = {"understood": "u", "built": "b", "gaps": [], "settled": [],
+                 "pages": [{"update": "mu-9", "what": "Speed bar", "sources": ["nngroup"], "recommend": "approve"}],
+                 "prototype_notes": {"count": 0, "where": "build.json"}}
+        self.write("brief.json", json.dumps(brief))
+        self.write("brief.md", MD)
+        renderer = self.write("render.py", "import sys\nopen(sys.argv[sys.argv.index('--out') + 1], 'w')"
+                              f".write({MD!r})\n")
+        tool = stub_tool(self, [{"id": "mu-9", "issue": 7, "status": "waiting"}])
+        return quiet(ck.main, ["--groups", self.p("groups.json"), "--search", self.p("search.json"),
+                               "--build", self.p("build.json"), "--brief", self.p("brief.json"),
+                               "--brief-md", self.p("brief.md"), "--issue", "7", "--memory-tool", tool,
+                               "--renderer", renderer, "--out", self.p("check.json")])
+
+    def test_one_run_checks_the_search_the_build_and_the_brief(self):
+        build = {"groups": [{"id": "b1", "from": ["s2"], "ask": "How fast must a card open?",
+                             "closed_by": "update", "update": "mu-9"}]}
+        self.assertEqual(self.run_main(build), 0)
+        report = self.read_json("check.json")
+        self.assertTrue(report["ok"])
+        self.assertEqual(set(report), {"ok", "search", "build", "brief"})
+
+    def test_a_gap_in_one_part_fails_the_whole_check_and_names_its_part(self):
+        build = {"groups": [{"id": "b1", "from": ["s2"], "ask": "How fast must a card open?",
+                             "closed_by": "update", "update": "mu-404"}]}
+        self.assertEqual(self.run_main(build), 1)
+        report = self.read_json("check.json")
+        self.assertFalse(report["ok"])
+        self.assertTrue(any("mu-404" in g for g in report["build"]["gaps"]))
+        self.assertEqual(report["search"]["gaps"], [])
+
+    def test_a_memory_tool_error_is_an_unreadable_input(self):
+        self.write("x.json", "{}")
+        bad = self.write("bad.py", "import json\nprint(json.dumps({'ok': False, 'message': 'tier_missing'}))\n")
+        args = ["--groups", self.p("x.json"), "--search", self.p("x.json"), "--build", self.p("x.json"),
+                "--brief", self.p("x.json"), "--brief-md", self.p("x.json"), "--issue", "7",
+                "--memory-tool", bad, "--renderer", bad, "--out", self.p("check.json")]
+        self.assertEqual(quiet(ck.main, args), 2)
+
+
+class RecordReview(Work):
+    def run_record(self, reply):
+        search = {"groups": [{"id": "s1", "members": ["intent-q7"]}, {"id": "s2", "members": ["understand-q2"]}]}
+        build = {"groups": [{"id": "b2", "from": ["s1"]}, {"id": "b3", "from": ["s2"]}]}
+        for name, data in (("brief.json", BRIEF), ("review.json", reply), ("build.json", build),
+                           ("search.json", search),
+                           ("loop/open-intent.json", {"play": "discover-intent", "questions": [{"id": "intent-q7"}]}),
+                           ("loop/open-understand.json", {"play": "discover-capabilities", "questions": [{"id": "understand-q2"}]})):
+            self.write(name, json.dumps(data))
+        rc = quiet(rr.main, ["--brief", self.p("brief.json"), "--reply", self.p("review.json"),
+                             "--build", self.p("build.json"), "--search", self.p("search.json"),
+                             "--review-dir", self.p("loop"),
+                             "--issue-dir", self.p("issue"), "--round", "3", "--out", self.p("rec.json")])
+        return rc, self.read_json("rec.json")
+
+    def test_yes_takes_every_proposal_and_recommendation(self):
+        rc, rec = self.run_record({"words": "yes", "gaps": {"G1": "accept"}, "pages": {"mu-9": "approve"}})
+        self.assertEqual(rc, 0)
+        with open(rec["written"]) as fh:
+            written = json.load(fh)
+        self.assertEqual(written["gaps"][0]["answer"], BRIEF["gaps"][0]["proposal"])
+        self.assertEqual(written["gaps"][0]["from"], "person")
+        self.assertEqual(written["gaps"][0]["proposed_by"], "knowledge-builder")
+        self.assertEqual(rec["page_decisions"][0]["decision"], "approve")
+
+    def test_the_answer_reaches_each_play_by_its_question_id(self):
+        rc, rec = self.run_record({"words": "yes", "gaps": {"G1": "accept"}, "pages": {"mu-9": "approve"}})
+        with open(rec["written"]) as fh:
+            mapped = json.load(fh)["answers"]
+        self.assertEqual(mapped["discover-intent"]["intent-q7"], BRIEF["gaps"][0]["proposal"])
+        self.assertEqual(mapped["discover-capabilities"]["understand-q2"], BRIEF["gaps"][0]["proposal"])
+        self.assertEqual(rec["questions_answered"], 2)
+
+    def test_a_correction_is_the_persons_own_answer(self):
+        rc, rec = self.run_record({"words": "G1: the owner decides", "gaps": {"G1": {"answer": "The owner decides."}},
+                                   "pages": {"mu-9": "reject"}})
+        self.assertEqual(rc, 0)
+        with open(rec["written"]) as fh:
+            self.assertFalse(json.load(fh)["gaps"][0]["accepted_proposal"])
+
+    def test_an_undecided_gap_or_page_records_nothing(self):
+        rc, rec = self.run_record({"words": "yes", "gaps": {}, "pages": {}})
+        self.assertEqual(rc, 1)
+        self.assertNotIn("written", rec)
+        self.assertFalse(os.path.exists(self.p("issue", "review", "loop", "person-answers-round-3.json")))
 
 
 if __name__ == "__main__":

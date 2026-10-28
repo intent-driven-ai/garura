@@ -1,0 +1,9 @@
+decision: reject
+decided_by: human
+reviewer: the product owner
+recommended: approve
+citing_findings:
+  - F2 (P3) a missing ICE part must stop work — the product owner's rule
+  - F3 (P3) no pointer to the issues that build the ices list, ice.md and the ready check
+  - F4 (P4) locked-model.md does not record the one-domain override
+gate: on (gates.plays.check-change is absent from the installed config, bug #772)

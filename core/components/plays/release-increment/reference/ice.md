@@ -125,7 +125,7 @@ declared steps ran.
 - REC2 (F2) — trigger: production or an out-of-scope tier was targeted. direction: halt; production
   rollout is out of scope — it stays with CD from main. handoff: human.
 - REC3 (F3) — trigger: the increment is not delivered, merged, or validated. direction: halt; `/release-increment`
-  deploys only a validated, merged increment — route to /validate-feature or /release-feature first. handoff: human.
+  deploys only a validated, merged increment — route to /validate-epic or /release-epic first. handoff: human.
 - REC4 (F4) — trigger: a product-model file changed. direction: revert the write; `/release-increment` executes
   only and never writes the model. handoff: autonomous.
 - REC5 (F5) — trigger: success was reported but the increment is not healthy. direction: mark the deploy

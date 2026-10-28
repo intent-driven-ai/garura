@@ -3,8 +3,7 @@
 
 A loop presents what it is doing now in one small file; a display — for Claude Code, a
 plugin — reads it. The loop never displays anything itself. This script writes the file whole
-(a temporary file renamed over it), so a reader never sees half a file. Canonical copy lives at
-create-loop/references/loop_status.py and is stamped into each loop's scripts/.
+(a temporary file renamed over it), so a reader never sees half a file.
 
     python3 loop_status.py --file <stm_base><issue>/status/run-<loop>.json \
         [--name discovery --issue 7 --run-id discovery-<ts>]   # the first call

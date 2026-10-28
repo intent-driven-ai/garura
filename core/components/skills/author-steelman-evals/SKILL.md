@@ -1,10 +1,12 @@
 ---
 name: author-steelman-evals
-description: Author /build-feature's steelman evals for ONE epic — adversarial refutation checks the independent verifier runs against a build that claims "done". Reads the epic's acceptance criteria, user_check, the functionality ICE (failures especially), the quality lens gates, and the build plan's test pieces; writes refutation-style evals — each one a concrete attempt to PROVE THE CLAIM FALSE (probe an edge, violate a constraint, exercise a failure condition, game-check a test) with a binary pass rule. Compartmentalized by design: runs in a sub-agent the implementer never talks to, its output path is never placed in any builder or test-author contract, and it never reads implementer output. The anti-reward-hacking work for the /build-feature play.
+description: 'Author /build-epic''s steelman evals for ONE epic — adversarial refutation checks the independent verifier runs against a build that claims "done". Reads the epic''s acceptance criteria, user_check, the feature ICE (failures especially), the quality lens gates, and the build plan''s test pieces; writes refutation-style evals — each one a concrete attempt to PROVE THE CLAIM FALSE (probe an edge, violate a constraint, exercise a failure condition, game-check a test) with a binary pass rule. Compartmentalized by design: runs in a sub-agent the implementer never talks to, its output path is never placed in any builder or test-author contract, and it never reads implementer output. The anti-reward-hacking work for the /build-epic play.'
 version: 0.1.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
+stale: true
+stale_note: 'waits for the rebuild of /build-epic (#855); evals-engineer no longer dispatches it (#798, ADR 057) — the rebuild picks a new owner or retires it'
 ---
 
 # author-steelman-evals
@@ -19,17 +21,17 @@ the implementer never exchanges context with. Its inputs are spec-side only — 
 reads implementation code, builder output, or piece reports. Its output path lives under
 the play's eval area and is never placed in a builder or test-author contract.
 
-## Inputs
+## Input
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `epic_file` | yes | The epic record (read-only) — acceptance criteria, user_check, outcome, context.scope. |
-| `functionality_ices` | yes | Resolved ICE paths — the failure conditions and constraints are the richest refutation material. |
+| `feature_ices` | yes | Resolved ICE paths — the failure conditions and constraints are the richest refutation material. |
 | `quality_lens` | yes | The slice's lens/quality.yaml — every gate becomes at least one refutation probe. |
 | `plan_path` | yes | The build plan (read-only) — its TEST pieces only: each gets a game-check eval (does the test genuinely exercise behavior, or can it pass vacuously?). Implementation pieces are not its concern. |
 | `evals_path` | yes | Output path under the play's eval area (never inside any builder-visible folder). |
 
-## Procedure
+## Process
 
 1. **Mine the refutation material.** Epic acceptance + user_check (what must observably
    work), ICE failure conditions (what going wrong looks like), ICE constraints (what must
@@ -57,7 +59,9 @@ the play's eval area and is never placed in a builder or test-author contract.
          pass_rule: <binary condition meaning the refutation FAILED>
    ```
 
-## Output contract
+## Output
+
+The output contract.
 
 Return JSON only: `{"evals": "<evals_path>", "checks": <n>}`. The artifact lives on
 disk; the contract carries paths, never content — and the path goes only to the play

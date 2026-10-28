@@ -1,0 +1,41 @@
+category: harness
+base: plan/756/base
+grounding:
+  - principle: ICE is its own node; entry has id/for/for_kind/doc/metadata, page ice.md with ## Intent, ## Context, ## Expectation in that order; no business intent link; one ICE per part
+    source: "plan/756/base:core/components/memory/standards/schemas/product-os/ontology.md (### ICE)"
+  - principle: A present part, however thin or wrong, is not an error; only a missing part is. The check never judges richness.
+    source: "ontology.md ICE rules; issue #759 'Not in this issue'"
+  - principle: Linter enforces shape and link integrity only, never content quality; reads disk only
+    source: "plan/756/base:core/components/plays/discover-domains/scripts/lint_grounding.py header; grounding/_content-standard.md"
+  - principle: v5 inline ICE untouched; a spine with no ices list passes; no ices entry is a warning while #765 is open
+    source: "ontology.md ICE rules (pages before v6 are drift not error); issue #759 Done when; docs/adr/047-the-ice-is-its-own-node.md"
+conformance_summary: >
+  All 12 copies are byte-identical (one md5). Rules match the ontology and #759 Done when:
+  missing page / missing section / empty section = error; thin part = not an error; for unresolved
+  or for_kind mismatch = error; business intent on entry or page = error; two ICE for one part = error;
+  part with no ICE = warning; no ices list = skipped. Test suite not run (pytest not installed here).
+findings:
+  - id: H1
+    severity: P4
+    file: core/components/plays/*/scripts/lint_grounding.py (check_ices)
+    principle: ontology says the page has the three sections "in this order"; the linter checks presence only, not order
+    source: ontology.md ICE 'Lives at'
+    evidence: check_ices tests `p not in sections` only; no order check. Not required by #759 Done when, so low.
+  - id: H2
+    severity: P4
+    file: core/components/plays/*/scripts/lint_grounding.py (check_ices)
+    principle: shape and link integrity - an empty section body is treated as a missing part
+    source: ontology.md ICE Properties ("missing makes it not ready"); linter header
+    evidence: empty '## Intent' etc. is an error. This is consistent with "a part with nothing in it is missing" and with the base substance floor, and a line like "- Goal:" still passes. No violation; noted so the reading is explicit. A "thin" part is never an error.
+  - id: H3
+    severity: P4
+    file: core/components/plays/*/scripts/lint_grounding.py (check_ices, orphan ice.md)
+    principle: #759 Done when lists the error rules; an orphan ice.md error is extra
+    source: issue #759 Done when; base linter already errors on orphan grounding docs
+    evidence: "orphan ICE page ... no ices entry points at it" is an error. Consistent with the base orphan rule, but beyond the listed rules, and ontology says pre-v6 drift is not an error (only applies when an ices list exists, so v5 models are safe).
+  - id: H4
+    severity: P4
+    file: core/components/plays/*/scripts/lint_grounding.py (check_ices, business-intent page check)
+    principle: ontology - an ICE has no link to a business intent; check must be shape-only
+    source: ontology.md ICE rules; linter header
+    evidence: page check is a heuristic (a "- **Business intent" bullet or a heading starting "business intent"); it will miss other phrasings and does not duplicate-id check or validate non-dict entries (an `ices` item that is not a mapping would raise). Minor robustness gaps, no principle breach.

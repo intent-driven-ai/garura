@@ -4,9 +4,7 @@
 `loops.<loop>.checker.kind: coding-agent`. Codex runs in a read-only sandbox with the bundle
 folder as its working root, gets the `judge-loop-result` skill as its instructions, and must
 answer in the skill's verdict schema; its final message is saved as the verdict. It cannot
-write anywhere and sees only the bundle — the loop's outputs, never its reasoning. Canonical
-copy lives at create-loop/references/run_checker_codex.py and is stamped into each loop's
-scripts/.
+write anywhere and sees only the bundle — the loop's outputs, never its reasoning.
 
     python3 run_checker_codex.py --bundle <working>/check/ \
         --skill <skills>/judge-loop-result/SKILL.md [--model M] --out <working>/check/verdict.json

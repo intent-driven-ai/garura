@@ -22,17 +22,17 @@ SPINE = {
         {"id": "reports", "slug": "reports", "domain": "", "intents": [], "doc": "capabilities/reports/capability.md"},
         {"id": "the-board", "slug": "the-board", "domain": "work", "intents": ["share-reports"],
          "doc": "work/the-board/capability.md"}],
-    "functionalities": [
-        {"id": "export", "slug": "export", "capability": "", "intents": [], "doc": "functionalities/export/functionality.md"},
-        {"id": "pin", "slug": "pin", "capability": "the-board", "intents": [], "doc": "work/the-board/pin/functionality.md"}],
+    "features": [
+        {"id": "export", "slug": "export", "capability": "", "intents": [], "doc": "features/export/feature.md"},
+        {"id": "pin", "slug": "pin", "capability": "the-board", "intents": [], "doc": "work/the-board/pin/feature.md"}],
 }
 PAGES = {
     "work/domain.md": "# Theme: Work\n",
     "work/board/capability.md": "# Capability: Board\n",
     "capabilities/reports/capability.md": "# Capability: Reports\n\nbody of reports\n",
     "work/the-board/capability.md": "# Capability: The board\n",
-    "functionalities/export/functionality.md": "# Functionality: Export a report\n\nexport body\n",
-    "work/the-board/pin/functionality.md": "# Functionality: Pin a card\n",
+    "features/export/feature.md": "# Feature: Export a report\n\nexport body\n",
+    "work/the-board/pin/feature.md": "# Feature: Pin a card\n",
     "intents/plan-the-week.md": "# Able to plan the week\n\n**Touches:**\n- [Board](../work/board/capability.md) (capability) — adds\n\n**What was done:** (nothing yet)\n",
     "intents/share-reports.md": "# Able to share reports\n\n**Touches:**\n- [The board](../work/the-board/capability.md) (capability) — adds\n\n**What was done:** (nothing yet)\n",
 }
@@ -84,13 +84,13 @@ class ApplyLinks(unittest.TestCase):
         self.assertFalse(os.path.exists(os.path.join(self.model, "capabilities", "reports")))
         self.assertTrue(any("move" in a for a in rep["applied"]))
 
-    def test_a_holding_functionality_goes_under_its_capability(self):
-        self.run_apply({"links_to_make": [{"kind": "functionality", "id": "export", "field": "capability",
+    def test_a_holding_feature_goes_under_its_capability(self):
+        self.run_apply({"links_to_make": [{"kind": "feature", "id": "export", "field": "capability",
                                            "value": "board"}]})
-        fn = self.node("functionalities", "export")
-        self.assertEqual((fn["capability"], fn["doc"]), ("board", "work/board/export/functionality.md"))
-        self.assertEqual(self.read("work/board/export/functionality.md"),
-                         PAGES["functionalities/export/functionality.md"])
+        fn = self.node("features", "export")
+        self.assertEqual((fn["capability"], fn["doc"]), ("board", "work/board/export/feature.md"))
+        self.assertEqual(self.read("work/board/export/feature.md"),
+                         PAGES["features/export/feature.md"])
 
     def test_a_link_to_an_intent_is_written_on_both_sides(self):
         self.run_apply({"links_to_make": [{"kind": "capability", "id": "reports", "field": "domain", "value": "work"},
@@ -105,7 +105,7 @@ class ApplyLinks(unittest.TestCase):
         ids = [c["id"] for c in self.spine()["capabilities"]]
         self.assertNotIn("the-board", ids)
         self.assertEqual(self.node("capabilities", "board")["intents"], ["plan-the-week", "share-reports"])
-        self.assertEqual(self.node("functionalities", "pin")["capability"], "board")
+        self.assertEqual(self.node("features", "pin")["capability"], "board")
         self.assertFalse(os.path.exists(os.path.join(self.model, "work", "the-board", "capability.md")))
         self.assertIn("(../work/board/capability.md)", self.read("intents/share-reports.md"))
         self.assertTrue(any(a.get("merged") == "the-board" for a in rep["applied"]))
@@ -144,7 +144,7 @@ class ApplyLinks(unittest.TestCase):
         self.assertEqual(rep["changed"], ["_spine.yaml", "intents/share-reports.md"])
 
     def test_work_for_plays_is_handed_back(self):
-        work = [{"play": "/discover-capabilities", "target": "reports", "why": "no functionalities"}]
+        work = [{"play": "/discover-capabilities", "target": "reports", "why": "no features"}]
         self.assertEqual(self.run_apply({"work": work})["work_for_plays"], work)
 
 

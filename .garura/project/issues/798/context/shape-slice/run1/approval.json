@@ -1,0 +1,17 @@
+{
+  "decision": "yes",
+  "reply": "yes",
+  "at": "2026-10-26T07:13:10Z",
+  "history": [
+    {
+      "decision": "yes",
+      "reply": "yes",
+      "at": "2026-10-26T06:52:29Z"
+    },
+    {
+      "decision": "change",
+      "reply": "this gets recoded in evidence.. we will build drift checks and evidence warnigns in griffin so that will be seen there. for now we shoudl record this under evidence",
+      "at": "2026-10-26T06:56:42Z"
+    }
+  ]
+}

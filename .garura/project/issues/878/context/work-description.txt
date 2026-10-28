@@ -1,0 +1,7 @@
+Run /shape-plan on business intent #788 for the first time.
+
+The slice sl-intent-to-design serves #788. This run makes the plan for it, or brings it up to date: one epic (an issue of type Feature) for the slice, and one story (type Story) for each of its features, each written from its feature's ICE and its capability's ICE. The plan file already marks #794 as the slice's work order and #795, #818 and #798 as its stories, so the run must use them and make no copy.
+
+Done when: /shape-plan 788 closes COMPLETED with its stop condition held; the plan file and the tracker agree; the change lands on plan/788/base through the change plays.
+
+Serves: #788. Part of: plan 788 (top level, like #866).

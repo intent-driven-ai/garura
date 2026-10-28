@@ -1,0 +1,61 @@
+category: slice-evals
+round: 6
+status: carried
+carried_from_round: 5
+round_6_check: >
+  Round 6 carry-forward, nothing re-grounded and nothing new. Confirmed with git that the files of this category are unchanged since the round 5 head (ca37fdfe):
+  git diff --stat ca37fdfe HEAD over core/components/memory, .garura/product/product-os and .garura/project/plans/788/evals is empty (and git status over the same paths is clean).
+  The findings below are round 5's, carried as they were, at the severity round 5 gave them.
+new_findings_round_6: none
+base: plan/788/base
+grounding_status: carried
+grounding_note: >
+  Carried forward from round 4 with nothing re-grounded. Confirmed with git that the six slice-eval files are unchanged:
+  git diff --stat 8fceddab HEAD -- .garura/project/plans/788/ is empty, git status for that folder is empty, and 8fceddab is
+  still the last commit that touched the folder (git log). The product model (.garura/product) is also empty in
+  git diff 8fceddab HEAD, so the stories the evals test are the same. Round 4's sources (all committed on the base ref
+  plan/788/base: ontology.md Slice/Eval row and Q29-Q36, docs/adr/049-*.md section 4, docs/adr/052-*.md,
+  docs/philosophy/idd-principles.md Routing Table, core/components/memory/standards/rules/expectation-generation.md lines 47-70,
+  standards/rules/builder-isolation.md) stand as they were. Nothing from ADR 057, ADR 058, the eval templates or lines the
+  branch adds was used as grounding. No review playbook covers this category (playbook_missing). No extra memory was copied.
+principles: "Carried from round 4 (PR-1 to PR-7; see review/round-4/design-findings-slice-evals.yaml and its round-3 file; each source is on the base ref)."
+changed_since_round_4:
+  result: none
+  files:
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md
+    - .garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md
+    - .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  evidence: "git diff --stat 8fceddab HEAD -- .garura/project/plans/788/ is empty; git log shows 8fceddab as the last commit touching it."
+carried_verdict: "Round 4's verdict stands unchanged: 0 P1, 0 P2, 0 P3, 7 P4. Nothing new this round."
+six_who_fixes_lines:
+  file: .garura/project/plans/788/evals/intent-to-design/failure-and-recovery.md
+  result: unchanged since round 4 (file byte-identical)
+  lines:
+    - {id: F7,  line: 74,  value: "a person must decide"}
+    - {id: F8,  line: 78,  value: "a person must decide"}
+    - {id: F10, line: 90,  value: "a person must decide"}
+    - {id: F11, line: 94,  value: "a person must decide"}
+    - {id: F24, line: 180, value: "a person must decide (way back at lines 178-179 unchanged)"}
+    - {id: F25, line: 184, value: "a person must decide (way back at lines 182-183 unchanged)"}
+new_findings: []
+carried_findings:
+  - {id: SE-10, severity: P4, status: carried, note: "two layouts of the hidden file"}
+  - {id: SE-11, severity: P4, status: carried, note: "fn-898 lint check and ledger flag have no base source"}
+  - {id: SE-14, severity: P4, status: carried, note: "fn-818 F12 scenario does not check the hidden file is the same"}
+  - {id: SE-18, severity: P4, status: carried, note: "no note that the handoff-plan command has no work behind it until #819"}
+  - {id: SE-19, severity: P4, status: carried, note: "evals folder defined as two folders"}
+  - {id: SE-20, severity: P4, status: carried, note: "fn-898 goal 1 covers skill/agent/sub-agent only through what they read"}
+  - {id: SE-21, severity: P4, status: carried, note: "F8 and F11 way back lacks the sentence that says what the person decides (lines 77, 93)"}
+findings: []
+summary:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 7
+  total_open: 7
+  new_in_round_5: 0
+  note: "The 7 P4 are carried from round 4, unchanged. Severity basis: standards/rules/pr.md - P4 is a nit that does not block and is shown only in the evidence."
+runner_status: "The eval runner is #819. These evals were read, not run. Not run is not passed."

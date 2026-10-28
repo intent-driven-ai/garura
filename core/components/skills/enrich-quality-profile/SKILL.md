@@ -3,6 +3,10 @@ name: enrich-quality-profile
 description: Stage 2 skill of /shape-architecture-lens. Reads the /specify quality profile, refines targets against architectural reality (inventory constraints, project-profile pins, epic constraints), and writes the refined quality profile to architecture/ with a delta log of every adjustment. The refined QP describes the NFRs physical must deliver; it does NOT name mechanisms.
 version: 0.1.0
 user-invocable: false
+model: sonnet
+allowed-tools: Read, Write, Glob, Grep
+stale: true
+stale_note: 'waits for the rebuild of /shape-architecture-lens (#855)'
 ---
 
 # enrich-quality-profile
@@ -23,12 +27,14 @@ Outputs always carry a `delta_log[]` recording every adjustment (field, before, 
 
 Receive from the `tech-designer` agent. All paths resolve against `{product_base}` and `{ltm_base}` supplied by the play via JSON contract.
 
+No part invokes this skill today (no play dispatches `tech-designer` to run it); its caller fetches the quality knowledge into short-term memory.
+
 - `specify_qp_path` (path, required) — `{product_base}specification/quality-profile.yaml`. When missing or DRAFT under C1 soft pre-flight, the play writes `{product_base}specification/quality-profile-stand-in.yaml` from user answers; this skill reads that instead.
 - `scope_path` (path, required) — `{product_base}scope/scope.yaml`.
 - `epics_dir` (path, required) — `{product_base}scope/epics/`. Per-epic constraints may force a stricter target than the /specify QP allowed for.
 - `inventory_dir` (path, required) — `{product_base}architecture/systems-inventory/`. Each system file's Scale Profile and Tradeoffs sections may cap or force NFR targets.
 - `project_profile_path` (path, required) — `{product_base}user-provided/project-profile.yaml`. `grounded_tools.nfr_floors[]` and security/compliance pins are authoritative.
-- `kb_quality_dir` (path, required) — `{ltm_base}components/memory/knowledge/quality/`. ISO 25010 characteristic definitions and standard targets.
+- `kb_quality_dir` (path, required) — the short-term copy of the quality knowledge (`knowledge/quality/`) that the agent fetched through the memory tool. ISO 25010 characteristic definitions and standard targets.
 - `output_path` (string, required) — `{product_base}architecture/quality-profile.yaml`.
 - `decision_manifest_path` (string, required) — `{product_base}architecture/decision-manifest-refine-quality-profile.yaml`.
 
@@ -111,7 +117,7 @@ manifest:
           why_rejected: {one line}
       agent_reasoning_summary: |
         {2-4 line prose}
-      user_response: accept | override | orbit | pending
+      user_response: accept | override | change | pending
       user_response_detail: {free text — null when pending}
 ```
 
@@ -169,7 +175,7 @@ For each proposed delta:
 When a proposed delta is `loosened` (e.g., a system ceiling forces a relaxation of the /specify target):
 
 - For non-security characteristics: surface at Stage 2 checkpoint per C19 tier. Loosening is a real adjustment but may be acceptable; the user decides.
-- For security characteristics: halt with `what_failed: security_ratchet_violation`. The orchestrator surfaces the conflict — either the system choice changes (orbit to Stage 1) or the /specify target was wrong.
+- For security characteristics: halt with `what_failed: security_ratchet_violation`. The orchestrator surfaces the conflict — either the system choice changes (go back to Stage 1) or the /specify target was wrong.
 
 ### 7. Write outputs
 

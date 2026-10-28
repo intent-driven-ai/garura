@@ -1,0 +1,18 @@
+# edit-ontology stop condition — baked from reference/ice.md "### Done means" (#464).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close.
+# Paths are relative to the run's STM root ({stm_base}{issue}/).
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the ontology check report exists and reads valid"
+      check: { type: field_equals, file: "context/edit-ontology/ontology-check.json", field: "valid", equals: true }
+    - id: D2
+      says: "the decision record holds a yes for each of the three checkpoints"
+      check: { type: field_equals, file: "context/edit-ontology/decisions.json", field: "all_agreed", equals: true }
+    - id: D3
+      says: "the scope report says only the kinds the need touches changed"
+      check: { type: field_equals, file: "context/edit-ontology/change-check.json", field: "scope_ok", equals: true }
+    - id: D4
+      says: "the version is up by one, the date is today, and there is one new log line"
+      check: { type: field_equals, file: "context/edit-ontology/change-check.json", field: "version_ok", equals: true }

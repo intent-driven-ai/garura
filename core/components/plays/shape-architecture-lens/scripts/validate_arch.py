@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate_arch.py — assert /shape-architecture-lens's authored lens is grounded and threads the slice's functionalities.
+validate_arch.py — assert /shape-architecture-lens's authored lens is grounded and threads the slice's features.
 
 Run over the arch manifest before the checkpoint. Under direct-model-write (ADR 026,
 standards/rules/direct-model-write.md) there is no draft tree: the lens doc (`architecture.md`)
@@ -14,12 +14,12 @@ SHAPE (the Intent/Components/Stack/Vertical build sections, each substantive) is
 `lint_grounding.py`, and its UNDERSTANDABILITY by the content eval — both run by the play's
 validate step. THIS script checks the things the manifest carries, which the prose can't enforce:
 
-  - grounded: every component in the manifest names >=1 real source (a functionality of the
+  - grounded: every component in the manifest names >=1 real source (a feature of the
     slice — its systems — or the profile surfaces); the stack grounds on the KB or a decision.
   - hub-only: no component grounds on another realize lens.
   - decisions: a grounding flagged `material: true` names a `decision` that resolves to a
     decision record carried in the manifest.
-  - coverage: the slice's functionalities (read from the slice record) are each threaded by
+  - coverage: the slice's features (read from the slice record) are each threaded by
     at least one component — nothing shaped is left unbuilt.
 
 Layer rule: reads files on disk only; no git/gh/network.
@@ -43,10 +43,13 @@ except ImportError:
 
 OTHER_LENSES = ("quality", "ux", "agentic", "run", "measure", "marketing", "lens")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
+
 
 def load(path):
     with open(path, encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
+        return model_names.check_model(yaml.safe_load(fh) or {}, path)
 
 
 def _blank(v):
@@ -80,7 +83,7 @@ def collect_decisions(man, errors):
 
 
 def check_grounding(man, decision_ids, errors):
-    """Components grounded in functionalities/surfaces; stack on KB/decision. Returns threaded funcs."""
+    """Components grounded in features/surfaces; stack on KB/decision. Returns threaded funcs."""
     threaded = set()
 
     def walk(label, entries):
@@ -95,10 +98,10 @@ def check_grounding(man, decision_ids, errors):
             if st in OTHER_LENSES:
                 errors.append(f"{label} grounds on another lens '{st}' — /shape-architecture-lens reads the slice's "
                               f"hub + the profile, never a measure/run lens")
-            elif st not in ("ice", "functionality", "surface", "profile"):
-                errors.append(f"{label} source_type '{st}' is not functionality/surface/profile")
-            if st in ("ice", "functionality"):
-                fr = e.get("functionality_ref")
+            elif st not in ("ice", "feature", "surface", "profile"):
+                errors.append(f"{label} source_type '{st}' is not feature/surface/profile")
+            if st in ("ice", "feature"):
+                fr = e.get("feature_ref")
                 if not _blank(fr):
                     threaded.add(fr)
             if e.get("material") is True:
@@ -124,13 +127,13 @@ def check_grounding(man, decision_ids, errors):
     return threaded
 
 
-def slice_functionalities(slice_file, errors):
+def slice_features(slice_file, errors):
     if not slice_file or not os.path.isfile(slice_file):
         errors.append(f"slice record not found at {slice_file} — cannot verify coverage")
         return set()
     sl = (load(slice_file).get("slice") or {})
-    return {(f or {}).get("functionality_ref") for f in (sl.get("functionalities") or [])
-            if (f or {}).get("functionality_ref")}
+    return {(f or {}).get("feature_ref") for f in (sl.get("features") or [])
+            if (f or {}).get("feature_ref")}
 
 
 def main(argv=None):
@@ -148,10 +151,10 @@ def main(argv=None):
 
     decision_ids = collect_decisions(man, errors)
     threaded = check_grounding(man, decision_ids, errors)
-    to_cover = slice_functionalities(args.slice_file, errors)
+    to_cover = slice_features(args.slice_file, errors)
     for fid in sorted(f for f in to_cover if f):
         if fid not in threaded:
-            errors.append(f"slice functionality {fid!r} is threaded by no component")
+            errors.append(f"slice feature {fid!r} is threaded by no component")
 
     counts = {"manifest_components": len(man.get("components") or []), "decisions": len(decision_ids),
               "to_cover": len(to_cover), "threaded_funcs": len(threaded)}

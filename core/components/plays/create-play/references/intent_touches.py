@@ -2,7 +2,7 @@
 """intent_touches.py — the Touches list on a business intent page (ontology v4, #637).
 
 A business intent page names every part of the product it touches — each domain,
-capability and functionality — and how: it adds it, changes it, or removes it. The list
+capability and feature — and how: it adds it, changes it, or removes it. The list
 sits on the intent page, in the person's words, and each line links to the part's page:
 
     **Touches:**
@@ -13,8 +13,7 @@ The agent side of the same link is the spine: a node's `intents` names the inten
 serves. Any play that links a node to an intent writes both sides; this module writes the
 intent-page side, so every play writes it the same way. It is never written by an LLM.
 
-Canonical copy lives at create-play/references/intent_touches.py and is stamped into the
-scripts/ of each play that writes intent links (/discover-intent, /discover-domains). Pure text in, text out:
+Pure text in, text out:
 no files, no git, no network.
 
     import intent_touches as it
@@ -25,10 +24,10 @@ import os
 import re
 
 HEADER = "**Touches:**"
-KINDS = ("domain", "capability", "functionality")
+KINDS = ("domain", "capability", "feature")
 MARKS = ("adds", "changes", "removes")
 LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\) "
-                  r"\((?P<kind>domain|capability|functionality)\) — (?P<mark>adds|changes|removes)$")
+                  r"\((?P<kind>domain|capability|feature)\) — (?P<mark>adds|changes|removes)$")
 # The list /discover-intent wrote before ontology v4: capabilities only, all of them new.
 OLD_HEADER = re.compile(r"^\*\*ICE built from it[^*]*:\*\*")
 OLD_LINE = re.compile(r"^- \[(?P<title>[^\]]+)\]\((?P<link>[^)\s]+)\)$")
@@ -87,19 +86,32 @@ def read(text):
 def upsert(text, entries):
     """Add each entry whose link is not listed yet; an entry already listed keeps its mark.
 
-    A page with the pre-v4 list has it turned into a Touches list (each capability `adds`).
-    A page with no list gets one, just before "What was done", or at the end."""
+    Every line already in the list stays, as it is and in its place, also a line in a form
+    this module cannot read (a person wrote it); new entries go after the last line. With
+    nothing new, the page is returned unchanged. A page with the pre-v4 list has it turned
+    into a Touches list (each capability `adds`). A page with no list gets one, just before
+    "What was done", or at the end."""
     lines = text.splitlines()
     found = _block(lines)
     merged = list(found[2]) if found else []
     listed = {e["link"] for e in merged}
+    new = []
     for e in entries:
         if e["link"] not in listed:
-            merged.append(e)
+            new.append(e)
             listed.add(e["link"])
     if found:
-        lines[found[0]:found[1]] = render(merged)
+        start, end, _entries, old = found
+        if not new and not old:
+            return text
+        kept = []
+        for line in lines[start + 1:end]:
+            m = OLD_LINE.match(line.strip()) if old else None
+            kept.append(render([entry(m["title"], m["link"], "capability", "adds")])[1] if m else line)
+        added = render(new)[1:] if new else []
+        lines[start:end] = [HEADER] + kept + added if kept or added else render([])
     else:
+        merged = new
         at = next((i for i, line in enumerate(lines) if line.startswith(NEXT_ANCHOR)), len(lines))
         while at > 0 and not lines[at - 1].strip():
             at -= 1

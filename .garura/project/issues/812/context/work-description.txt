@@ -1,0 +1,1 @@
+Issue #812 (plan 788, under #792). The old-name check (core/tools/naming/check_old_names.py) skips every ADR below 49, so ADR 047 is skipped too, though it records no rename. Change it to skip ADRs before 046, plus 046 and 048 by number; search ADR 047 and every ADR from 049. Cover it in test_naming_tools.py.

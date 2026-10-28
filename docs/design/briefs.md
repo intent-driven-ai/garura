@@ -258,7 +258,7 @@ tr:hover { background: rgba(0,212,255,0.05); }
 │  [Export Comments JSON]  [Copy]             │
 │                                             │
 │  Overall action:                            │
-│  [Tether]  [Vanish]  [Orbit]               │
+│  [Yes]  [Change]  [Stop]                    │
 │                                             │
 └─────────────────────────────────────────────┘
 ```
@@ -284,7 +284,7 @@ tr:hover { background: rgba(0,212,255,0.05); }
       "created_at": "{ISO-8601}"
     }
   ],
-  "action": "tether|vanish|orbit"
+  "action": "yes|change|stop"
 }
 ```
 
@@ -293,7 +293,7 @@ tr:hover { background: rgba(0,212,255,0.05); }
 - **localStorage key:** `garura-comments-{artifact}-{slug}`
 - **Format:** Array of comment objects (id, tab, selected_text, comment, created_at, range data)
 - **Persistence:** Comments survive page reload, browser close/reopen
-- **Clear:** Exporting with an action (tether/vanish/orbit) clears stored comments
+- **Clear:** Exporting with an action (yes/change/stop) clears stored comments
 
 ### JavaScript (vanilla, inline)
 
@@ -406,15 +406,6 @@ Source: `roadmap/epics.yaml` + `roadmap/feasibility.yaml` + `discovery/product.y
 | Feasibility | risk_summary stat cards, per-feature feasibility (risk_level, technical_risks table, blockers, sequencing_constraints, architecture_impact), critical_blockers, open_questions |
 | Comments | All inline comments + export |
 
-### features-brief.html
-Source: `features.yaml`
-
-| Tab | Content |
-|-----|---------|
-| Identity | identity, invariants, scope |
-| Features | features list — each as a card with IDD fields (behaviors, constraints), blast_radius |
-| Comments | All inline comments + export |
-
 ### architecture-brief.html
 Source: `architecture.yaml` + `quality-standards.yaml` + `product.yaml` (for profiles)
 
@@ -479,7 +470,6 @@ at the top of the Structure tab (already approved in a prior stage).
 .garura/product/briefs/hub.html
 .garura/product/briefs/product-brief.html
 .garura/product/briefs/roadmap-brief.html
-.garura/product/briefs/features-brief.html
 .garura/product/briefs/architecture-brief.html
 .garura/product/briefs/tech-brief.html
 .garura/product/briefs/scenarios-brief.html

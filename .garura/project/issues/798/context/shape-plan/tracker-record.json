@@ -1,0 +1,56 @@
+{
+  "ok": true,
+  "plan_id": "788",
+  "approval_at": "2026-10-26T11:36:21Z",
+  "created": [],
+  "updated": [
+    {
+      "issue": 898,
+      "kind": "story",
+      "represents": "fn-898",
+      "changes": [
+        "section added: Scope of work",
+        "section added: Context guidance",
+        "line added: Represents"
+      ],
+      "lines_kept": true
+    },
+    {
+      "issue": 794,
+      "kind": "epic",
+      "represents": "sl-intent-to-design",
+      "changes": [
+        "feature-to-story map written"
+      ],
+      "lines_kept": true
+    }
+  ],
+  "moved_out": [],
+  "epics": {
+    "sl-intent-to-design": 794
+  },
+  "stories": {
+    "fn-795": 795,
+    "fn-818": 818,
+    "fn-798": 798,
+    "fn-898": 898
+  },
+  "maps": {
+    "sl-intent-to-design": {
+      "fn-795": 795,
+      "fn-818": 818,
+      "fn-798": 798,
+      "fn-898": 898
+    }
+  },
+  "titles": {
+    "794": "The shaping loop turns a business intent into a testable slice, its plan and its eval",
+    "795": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
+    "818": "The plan play makes the plan file, the epic and one story per feature",
+    "798": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface",
+    "898": "Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval"
+  },
+  "skipped": [],
+  "failed": null,
+  "error": null
+}

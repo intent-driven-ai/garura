@@ -1,0 +1,31 @@
+---
+# assess-changes output (grouping judgment applied)
+# issue: 812
+needs_judgment: false
+
+change_groups:
+  - files:
+      - core/tools/naming/check_old_names.py
+      - core/tools/naming/test_naming_tools.py
+    commit_type: fix
+    scope: naming
+    issue: 812
+    subject: "the old-name check skips ADRs 046 and 048 by number and searches ADR 047"
+
+exclusions:
+  - path: .garura/project/issues/812/context/analysis.yaml
+    reason: "working file of this commit run, not part of the change"
+  - path: .garura/project/issues/812/context/porcelain.txt
+    reason: "working file of this commit run, not part of the change"
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes:
+    []
+  ambiguous_types:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one concern: code fix and its test in one group"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

@@ -1,0 +1,32 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by the assess-changes skill
+# issue: 908
+needs_judgment: false
+
+change_groups:
+  - id: author-slice-refused-problem-keys
+    issue: 908
+    commit_type: fix
+    scope: author-slice
+    subject: "name where each report keeps its problems in the refused input"
+    files:
+      - core/components/skills/author-slice/SKILL.md
+
+exclusions:
+  - path: ".garura/project/issues/908/context/self-review.md"
+    reason: "run state of the issue; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/908/context/porcelain.txt"
+    reason: "run state of the issue; left to the executor's run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/908/context/analysis.yaml"
+    reason: "run state of the issue; left to the executor's run-state chore group"
+    blocking: false
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "one code file in one group; the three run-state files are non-blocking exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

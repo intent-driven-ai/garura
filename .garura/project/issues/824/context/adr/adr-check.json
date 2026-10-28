@@ -1,0 +1,16 @@
+{
+  "adr": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {"exit": 0, "declared": "kind", "touches_an_intent": [], "verdict": "no person's business intent changes", "intents_dir": ".garura/product/product-os/intents"},
+  "overlaps_judged": {
+    "048": "superseded in part — §2 first paragraph (two tests) and its ADR 022 line on the Plan's first test",
+    "017": "amended — §1 whitelist gains .garura/project/plans/",
+    "047": "not affected — the ICE and its three parts do not change",
+    "031": "not affected — its §1 sentence was already amended by ADR 048",
+    "022": "not affected further — already amended by ADR 048; only ADR 048's own line about it goes",
+    "027": "not affected — ICE stays the IDSD model",
+    "033": "not affected", "035": "not affected", "039": "not affected — the context sub-agent writes to short-term memory, as 039 requires",
+    "043": "not affected"
+  },
+  "retries": 0
+}

@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every section the guidance names is present and substantive: What it does (4 behaviors), Inputs / Outputs (3 in, 3 out, including the install record's fields: \"each file, whether it was added, changed, taken out or left as it was, and its fingerprint\"), Rules & behavior (9 rules covering first install, second install, no-change install, two projects, missing file), 8 Given/When/Then criteria, Out of scope naming owners, and an ICE section with Goal, Limit, Fails if, Context, Checked by and Quality need.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "Items carry their why: \"Phoenix memory is a machine-wide copy and is never laid again for each project\" (because \"A person installs Garura once on a machine and then initializes many projects there\"); \"the check fails until it is moved, because a file outside Phoenix memory is the drift this feature removes\"; \"It never takes the file from the source itself, because installed parts never read the source tree (#860)\"; \"Our default; it keeps a repeat install safe.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "Discrete bullets throughout; the feature states the function's behavior (\"Makes the install lay the whole of Phoenix memory from the source on the machine, once.\"), not a user story; acceptance is Given/When/Then: \"Given no change in the source memory since the last install, when Garura is installed again, then no Phoenix memory file changes and the record says nothing changed.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent gives one line: \"Lay Phoenix memory once, give each project its own blocks (fn-883): treats every memory file in Garura's source as Phoenix memory, has one install lay it on the machine and a second install bring it up to date\". The feature adds what the parent does not: the add/replace/take-out logic of a second install, the 0-change repeat install, the install record's fields, what a memory block is, the two-project isolation rule and the stopped-install branch.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"An install never changes a project's own Garura memory. ... When an install changes a file a project took a block from, the install's record names the change in plain words, so the product owner knows to run `initialize` again.\" The doc never says how a machine-wide install learns which projects exist or which blocks they took, while it also says the install never touches project memory; and it never says where the install record is kept, though `initialize` must read it (\"a file that the install record lists is not in Phoenix memory\"). No acceptance criterion checks either the changed-block notice or \"An install never changes a project's own Garura memory\", though the second is an ICE Limit.",
+      "fix": "In Rules & behavior, say how the install knows a project took a block from a changed file (for example: `initialize` adds the project and the Phoenix paths of its blocks to a machine-wide list beside Phoenix memory, and the install reads that list; or drop the install-side notice and have the project compare its blocks' fingerprints with Phoenix memory on its next `initialize` or play run). In Inputs / Outputs, name where the install record is written on the machine so `initialize` can find it. Add two acceptance criteria: \"Given a project that took the database block, when an install changes a file in that block, then the project's Garura memory does not change and the install record names the project and the changed file\", and \"Given an initialized project, when Garura is installed again, then no file in that project's Garura memory changes.\""
+    }
+  ]
+}

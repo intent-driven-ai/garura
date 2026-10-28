@@ -1,0 +1,10 @@
+core/tools/lint-components/test/asking-a-person.test.js exit=0
+core/tools/lint-components/test/naming.test.js exit=0
+core/tools/lint-components/test/shared-scripts.test.js exit=0
+core/tools/lint-components/test/skill-invocable.test.js exit=0
+core/components/plays/discover-domains/scripts/test_lint_grounding.py exit=0
+core/components/plays/discover-domains/scripts/test_lint_ice.py exit=0
+core/components/plays/discover-domains/scripts/test_lint_slice_intents.py exit=0
+VERDICT: PASS (0 gap(s))
+lint-components     "errors": 151, (121 old + 30 asking-a-person, #831)
+All checks passed!

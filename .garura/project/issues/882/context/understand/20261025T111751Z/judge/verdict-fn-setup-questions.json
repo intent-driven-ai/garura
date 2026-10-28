@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "Every required section is substantive: What it does (three concrete bullets: when it runs, what it reads, what it produces), Inputs / Outputs (three ins, two outs with the question's fields: \"its id, its plain question, its choices and its proposed answer with the source of that answer\"), Rules & behavior (eight rules incl. tier missing, out-of-choice correction, partial reply), seven Given/When/Then criteria, Out of scope naming an owner for each line, and the ICE section with Goal, Limit, Fails if, Context and Checked by.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"A domain, standard or tool that memory does not hold is never a choice, because initialize could not set up memory for it.\"; \"The questions are asked together in one brief, not one at a time, so the person sees the whole set-up at once.\"; \"No unanswered question is recorded as an answer, and no proposal stands in for it, because an answer the person did not give is not the person's.\" Rules and inputs carry their reason, and the doc marks where a rule is its own default (\"Our default; the sources do not say...\").",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "All sections are discrete bullets; the feature is stated as a function (\"Runs when the product owner starts `initialize` after the install. It reads Phoenix memory through the memory tool and builds one short set of questions...\"), never as a user story; acceptance is Given/When/Then, e.g. \"Given a reply that answers four of six questions, when initialize reads it, then it asks again only for the two unanswered questions, keeps the four answers, and records no answer for the two until the person gives one.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent line: \"Ask the setup questions (fn-setup-questions): asks the product owner the short set of questions built from Phoenix memory, each with choices and a proposed answer that names its source, and records the answers.\" The feature adds detail the parent lacks: the six topics the questions cover, the question's fields, where proposals come from (\"its files, its config and, on a later run, its earlier answers\"), and edge cases the parent never states (a correction outside the choices, a partial reply, a short set that asks only what decides memory, review rules or tracker types). One spot is thinner than the parent: the parent says that when Phoenix memory cannot be reached initialize \"says the Phoenix install must run on this machine\", while the feature only says it \"says so in plain words and stops\"; this does not reverse the gradient overall.",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"Out: the confirmed answers, kept in the issue's short-term memory with each question, for the memory, review-rule and tracker features to read.\" set against \"In: what the project already shows, for the proposed answers: its files, its config and, on a later run, its earlier answers.\" Also: \"Shelf: none (routing.yaml, unmatched).\" and \"Finding and making the tracker's work-item types (fn-881 owns it).\"",
+      "fix": "1) Say which issue an initialize run keeps its answers under, and in one clause what short-term memory is (the run's own working folder), so a stranger knows where the answers live. 2) Say where a later run finds the earlier answers (the parent says the profile records them through fn-project-memory); if that is the profile, write \"on a later run, its earlier answers as the profile records them\" so the output and the later input do not seem to be in two different places. 3) In the tier-missing rule, keep the parent's detail: initialize says the Phoenix install must run on this machine, and add it to the matching acceptance criterion. 4) Replace \"(routing.yaml, unmatched)\" with plain words (\"no knowledge shelf in memory covers project set-up\") and give fn-881 a name as the parent does (\"Set up the tracker's work-item types (fn-881)\")."
+    }
+  ]
+}

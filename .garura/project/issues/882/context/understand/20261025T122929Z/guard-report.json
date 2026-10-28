@@ -1,0 +1,56 @@
+{
+  "ok": true,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml",
+    "product-os/decisions/*",
+    "product-os/software-delivery-planning/initialize/capability.md"
+  ],
+  "add_only": [
+    "product-os/software-delivery-planning/initialize/*/feature.md"
+  ],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/decisions/dec-cap-initialize-security-none-medium.yaml",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/capability.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-881/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-883/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-project-memory/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-review-rule-groups/feature.md",
+      "status": "A"
+    },
+    {
+      "path": ".garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+      "status": "A"
+    }
+  ],
+  "violations": [],
+  "restored": []
+}

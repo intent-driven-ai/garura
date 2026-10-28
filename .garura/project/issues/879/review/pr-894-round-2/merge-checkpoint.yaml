@@ -1,0 +1,4 @@
+checkpoint: confirm-merge (pinned)
+preconditions: {approved: true, mergeable: true, checks_pass: true}
+reply: "aprove and merge"
+note: "the typed merge came with the review approval, in the same reply"

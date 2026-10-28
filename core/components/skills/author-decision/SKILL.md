@@ -1,6 +1,6 @@
 ---
 name: author-decision
-description: Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura's own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /record-decision play or the calling play's review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /record-decision, and for plays that record product decisions once they are wired to it (follow-up). Use when a decision needs to be written down as an ADR.
+description: 'Draft a decision record (ADR) from the one ADR template (standards/templates/adr.md), in either of its two shapes — a Markdown ADR for Garura''s own decisions (docs/adr/NNN-<slug>.md) or a decision.yaml record for a product decision — from a decision brief and the context the adr-keeper agent gathered: the older ADRs it supersedes or amends (with what part), what it affects, its effect on agent intent (ICE), and its business-intent check. Always writes the record as proposed; only a person accepts it, through the /record-decision play or the calling play''s review. Its bundled scripts/adr.py does the mechanical work — next number, lint, index, overlap candidates, forward pointers, accept, and the business-intent guard. Generative artifact production for /record-decision, and for plays that record product decisions once they are wired to it (follow-up). Use when a decision needs to be written down as an ADR.'
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Glob
@@ -22,8 +22,8 @@ You draft; you never accept. Every record you write has status `proposed`. A per
 | Field | Required | Meaning |
 |-------|----------|---------|
 | `brief` | yes | The decision brief (`<working>/brief.md`): what is decided, why now, the options considered, who is deciding, where it was decided |
-| `context` | yes | The gathered context (`<working>/adr-context.yaml`) from `adr-keeper`: the shape, the number or id, the older ADRs it supersedes or amends (each with the part), what it affects, its ICE impact, its business-intent check, related ADRs |
-| `template_path` | no | Default: `~/.garura/core/memory/standards/templates/adr.md` |
+| `context` | yes | The gathered context (`<working>/adr-context.yaml`) from `adr-keeper`: the shape, the number or id, the older ADRs it supersedes or amends (each with the part), what it affects, its ICE impact, its business-intent check, related ADRs, and the points for the person who accepts it (`for_the_accepter`), each with its five parts |
+| `template_path` | yes | The short-term copy of `standards/templates/adr.md` that template-manager wrote and the play handed to `adr-keeper` |
 | `draft_path` | yes | Where to write the record |
 
 ## Process
@@ -37,13 +37,19 @@ You draft; you never accept. Every record you write has status `proposed`. A per
 4. **Write Context, Decision, Consequences and Alternatives** in plain words a stranger reads
    cold. Number the Decision's parts when there are several. Every alternative says why it
    lost. Consequences name what gets harder or riskier, not only what improves.
-5. **Fill the header (Markdown) or the fields (YAML)** from the context: status `proposed`,
+5. **Write "For the Person Who Accepts This"** when the context lists points for the accepter
+   (`for_the_accepter`): one sub-heading per point, each with its five parts from the template
+   (what and where, what is wrong or worth knowing, why it matters, what this decision does,
+   what you decide). Give the detail itself, never a summary: which page, which lines, which
+   names, which agent, which rule. A finding you only mention in passing in Context belongs
+   here instead.
+6. **Fill the header (Markdown) or the fields (YAML)** from the context: status `proposed`,
    level, `decided_in`, supersedes and amends (each with the part), affects, ICE impact,
    business-intent check. Leave `decided_by` (Markdown) or `metadata.accepted_by` (YAML) empty —
    it is filled when a person accepts.
-6. **Never write a forward pointer on an older ADR**, and never change an older ADR. The play
+7. **Never write a forward pointer on an older ADR**, and never change an older ADR. The play
    does that, after acceptance, with `scripts/adr.py pointer`.
-7. **Check your own draft against the template's rules** before you return it. The agent runs
+8. **Check your own draft against the template's rules** before you return it. The agent runs
    the linter and the guard on it (`scripts/adr.py lint` / `guard`); you have no shell, so you
    cannot accept an ADR or write a pointer — those are the play's, after a person's word. A
    business-intent check of `instance` stays as the context says — the play takes it to the

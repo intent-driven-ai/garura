@@ -1,0 +1,35 @@
+categories: [memory, product-model]
+base: plan/788/base
+grounding_sources:
+  - {id: G1, path: core/components/memory/standards/schemas/product-os/ontology.md, ref: "plan/788/base (v7)", principle: "Two layers; Feature replaces Functionality; Slice is in the product model; Epic is a work item; the ontology changes only through /edit-ontology"}
+  - {id: G2, path: .garura/project/issues/807/specs/design.md, ref: "plan/788/base (approved 2026-10-22)", principle: "Rename only (decision 1a: spine epics list and slice fields stay); fn- ids kept (3); retired intent-epic files stay out (4); Garura model moves whole, 21 features; ontology leftovers are wording only"}
+  - {id: G3, path: docs/adr/048 (accepted in this change by the product owner)", ref: "read as recorded decision", principle: "ontology v7 adopted; Functionality becomes Feature"}
+conformance_checked:
+  - "Memory schemas, templates, rules, knowledge: no 'functionalit*' left except historical comments and ontology log lines; check_old_names.py reports 0 hits."
+  - "spine.yaml: functionalities->features, functionality_refs->feature_refs, for_kind feature; epics list and slice fields (domain_ref, status, order, effort, depends_on) still present, as decision 1a requires."
+  - "grounding/feature.md exists with H1 'Feature:'; capability.md section is '## Features'."
+  - "glossary: Feature row added, Slice and Epic rows follow v7, Functionality row removed. managing-work.md and CLAUDE.md describe Business Intent -> Capability/Feature/Slice -> Epic -> Story -> Spike/Chore/Bug as in v7."
+  - "Garura model: 21 features under features/, 21 spine entries, every doc pointer resolves, ids still fn-, page H1s renamed, two capability pages have '## Features'; changed lines only wording; eval run-final 45/45, grounding lint counts equal to baseline (70 errors, 9 warnings)."
+  - "Ontology v8: diff is wording only (three 'until the rename' notes removed, Source gets Layer and In-the-tracker-as lines, template gets both lines, log entry); decisions.json shows questions, kinds, links all agreed (yes) by the product owner; no kind, link or rule changed meaning."
+findings:
+  - id: DF-1
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/epic.yaml
+    principle: "The rename leaves no old word in live text (design step 3)"
+    source: G2
+    evidence: "Line 18 still reads 'functionality_refs plural' in a version-history comment, while the field itself is now feature_refs. It is history, so acceptable; a reader may still be confused."
+  - id: DF-2
+    severity: P4
+    file: core/components/memory/standards/schemas/product-os/spine.yaml
+    principle: "v7: Slice is a kind in the product layer; the spine slice entry gains 'vertical' and drops domain_ref/status/order/effort/depends_on; the epics list leaves the model"
+    source: G1
+    evidence: "Spine still says 'Slices and epics are NOT tree nodes', has no 'vertical' field, and keeps the epics list and dropped slice fields. This is the deliberate deferral in decision 1a (removed in #795, #799, #801, #803), so it is not a violation. Listed so the gap stays visible."
+  - id: DF-3
+    severity: P4
+    file: .garura/product/product-os/features/fn-724/feature.md, fn-725/feature.md, fn-597/feature.md
+    principle: "Garura's model moves whole with only wording changes; quoted past records are not rewritten"
+    source: G2
+    evidence: "These pages still say 'functionality' inside quotes of GitHub titles, ontology v5 text and the v5 log. They quote past records, so they match the design. No action needed."
+no_violations_found:
+  - "No principle from ontology v7 or the design is contradicted by the memory or product-model changes."
+  - "No grounding was taken from content the branch adds; all principles come from plan/788/base ontology v7 and the approved design."

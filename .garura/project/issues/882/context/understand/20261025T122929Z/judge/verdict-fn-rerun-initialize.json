@@ -1,0 +1,43 @@
+{
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-rerun-initialize/feature.md",
+  "kind": "feature",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "\"When the product profile holds no earlier answers (the first run never finished), the run asks the questions as a first run does\" \"When a question has no earlier answer while the others do\" \"When the product owner says no to the tracker changes, the memory and rule-group changes from the other confirmed answers still apply\"",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "\"An earlier answer is a proposal, never an answer, on a new run. The product owner confirms it again, because the project may have changed.\" \"A run never removes a work-item type from the tracker, because a type may hold work items the team still uses.\"",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "pass",
+      "evidence": "\"Given the database answer changes from yes to no, when the run ends, then the database block is no longer in the project's memory and the database rule group is recorded as skipped.\"",
+      "fix": ""
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "\"When the tracker answer changes (for example from GitHub to Jira), the re-run sets up the work-item types in the new tracker as a first run does\" \"Out: the change record, a list of what changed since the last run\"",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "\"Lets the product owner run `initialize` again at any time, when the project changes\" \"Moving the old tracker's work items to the new tracker: no part of initialize does it, because initialize files and moves no work item.\"",
+      "fix": ""
+    }
+  ],
+  "prior": [
+    {
+      "id": "completeness",
+      "fixed": true,
+      "evidence": "\"marks it as new in the brief, so the product owner sees it is not a carried-over answer\" \"Given the tracker answer changes, the database answer changes from no to yes, and the product owner says no to the tracker changes, when the run ends, then nothing is made in the new tracker, the mapping is unchanged, the project's memory holds the database block, the database rule group is kept, and the change record shows the tracker part as declined.\""
+    }
+  ]
+}

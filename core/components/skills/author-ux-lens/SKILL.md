@@ -1,17 +1,19 @@
 ---
 name: author-ux-lens
-description: Author a shaped slice's UX lens as an MD grounding doc — the screens (with low-fidelity layouts), the flows that EXPAND the slice's journey records onto those screens (one flow per journey, never an invented one), the states each holds, and the product's visual core (the semantic state vocabulary, its tone map, and the design-system reference the look comes from — never a chosen palette or typography) — from the slice's hub (its functionalities' grounding docs + the spine profile + the slice's persona and journey records) and KB pattern grounding. Also draws the slice as a wireframe record, `lens/screens.yaml` (personas, surfaces, journeys, screens with moments/regions/states/invariants, vocabulary, color rule, open questions), written straight to the live model beside ux.md; a bundled script renders `lens/wireframes.html` from it afterwards — this skill never writes the HTML. Writes both per-node artifacts STRAIGHT TO THE LIVE MODEL and emits the visual-core decision, any design-directive decisions, plus the grounding map as structured data in a manifest; it NEVER writes a shared model file (the spine _spine.yaml, the profile, or a decisions/*.yaml). Reads the functionality.md docs for the hub, never another lens. Generative artifact production for the /shape-ux-lens play under direct-model-write (ADR 026).
+description: Author a shaped slice's UX lens as an MD grounding doc — the screens (with low-fidelity layouts), the flows that EXPAND the slice's journey records onto those screens (one flow per journey, never an invented one), the states each holds, and the product's visual core (the semantic state vocabulary, its tone map, and the design-system reference the look comes from — never a chosen palette or typography) — from the slice's hub (its features' grounding docs + the spine profile + the slice's persona and journey records) and KB pattern grounding. Also draws the slice as a wireframe record, `lens/screens.yaml` (personas, surfaces, journeys, screens with moments/regions/states/invariants, vocabulary, color rule, open questions), written straight to the live model beside ux.md; a bundled script renders `lens/wireframes.html` from it afterwards — this skill never writes the HTML. Writes both per-node artifacts STRAIGHT TO THE LIVE MODEL and emits the visual-core decision, any design-directive decisions, plus the grounding map as structured data in a manifest; it NEVER writes a shared model file (the spine _spine.yaml, the profile, or a decisions/*.yaml). Reads the feature.md docs for the hub, never another lens. Generative artifact production for the /shape-ux-lens play under direct-model-write (ADR 026).
 version: 0.5.0
 user-invocable: false
 model: opus
 allowed-tools: Read, Write, Bash, Glob
+stale: true
+stale_note: 'waits for the rebuild of /shape-ux-lens (#855)'
 ---
 
 # author-ux-lens
 
-Turns a shaped slice's **hub** — the grounding docs of the functionalities it bundles, the
+Turns a shaped slice's **hub** — the grounding docs of the features it bundles, the
 product profile, plus the slice's **persona and journey records** — into the slice's **UX lens**,
-written as the grounding doc `ux.md`: the screens that make every functionality visible, the
+written as the grounding doc `ux.md`: the screens that make every feature visible, the
 flows that expand the slice's journey records onto those screens, the states each screen holds,
 and the product's visual core — the semantic state vocabulary, its tone map, and the
 design-system reference the real look comes from (or an explicit "none yet"). It also draws the
@@ -45,7 +47,7 @@ shared vocabulary and colour-role map, and any open questions. A bundled render 
 skill) turns that record into `lens/wireframes.html` afterwards.
 
 It also writes a structured `ux-manifest.yaml` (an STM, non-model artifact) carrying the
-machine-checkable grounding the prose can't — which screen grounds to which functionality, the
+machine-checkable grounding the prose can't — which screen grounds to which feature, the
 visual-core grounding, any design-directive grounding, and the decision deltas (visual core plus
 any design directives) for the keyed persist to write.
 
@@ -54,10 +56,10 @@ any design directives) for the keyed persist to write.
 | Field | Required | Description |
 |-------|----------|-------------|
 | `slice_ref` | yes | `{domain}/{slice-id}` — display reference and the persist key. |
-| `slice_file` | yes | Path to the live slice record (read-only — for the functionalities list it bundles). |
-| `functionality_groundings` | yes | Paths to each functionality's `functionality.md` grounding doc (the hub, resolved by `check_ready_slice`). Read these for intent/behavior — NOT `ice.yaml` (retired). |
+| `slice_file` | yes | Path to the live slice record (read-only — for the features list it bundles). |
+| `feature_groundings` | yes | Paths to each feature's `feature.md` grounding doc (the hub, resolved by `check_ready_slice`). Read these for intent/behavior — NOT `ice.yaml` (retired). |
 | `profile` | yes | The product profile (from the spine) — conditions + surfaces. Read-only. |
-| `readiness` | yes | Path to `readiness.json` — the resolved hub the play's readiness gate handed over (functionality groundings + `personas[]` + `journeys[]`). Read-only. |
+| `readiness` | yes | Path to `readiness.json` — the resolved hub the play's readiness gate handed over (feature groundings + `personas[]` + `journeys[]`). Read-only. |
 | `personas` | yes | The slice's persona records as `{id, path, name}` entries. Open the record file at each `path` — it says who the person is and what they need. |
 | `journeys` | yes | The slice's journey records as `{id, path, persona_ref, surface_refs, step_count}` entries. Open the record file at each `path` — it carries the persona and the ordered steps each flow expands. |
 | `kb_search` | yes | Path to the KB search script, for pattern grounding. |
@@ -73,20 +75,20 @@ any design directives) for the keyed persist to write.
 Reasoning (drawing screens, drawing flows, enumerating states, choosing the visual core) is
 yours. Template conformance, grounding, and coverage are non-negotiable.
 
-1. **Read the hub.** Load each functionality's `functionality.md` (its behavior, acceptance,
+1. **Read the hub.** Load each feature's `feature.md` (its behavior, acceptance,
    boundary) and the profile box (stage / users / surfaces). Also load every persona and journey
    record at the handed-over `personas[].path` / `journeys[].path` — they are part of the hub.
    Do NOT read any other lens.
-2. **Draw the screens.** For each functionality of the slice, the screen(s) that make it
+2. **Draw the screens.** For each feature of the slice, the screen(s) that make it
    visible — a name, WHO opens it, THE ONE OBJECT the user works with there, and a LOW-FIDELITY
    layout in prose (regions and what each holds). The one object carries the information
-   architecture; there is no separate IA section. Never pixel design. Every functionality the
+   architecture; there is no separate IA section. Never pixel design. Every feature the
    slice bundles must be visualized by at least one screen (coverage).
 3. **Draw the flows — EXPAND the journeys, never invent one.** One flow per journey record of
    the slice, and NEVER a flow without a journey behind it. Every journey handed over must be
    drawn; an undrawn journey fails `validate_ux.py`.
 
-   The journey record already is the flow — /shape-scope wrote it. Take from it:
+   The journey record already is the flow — an older play wrote it. Take from it:
    - **Persona** — resolve the journey's `persona_ref` against the handed-over persona records
      and read that record for who they are and what they need. The persona is the one the
      JOURNEY names; never pick a different one, and never invent one. The validator checks the
@@ -158,7 +160,7 @@ yours. Template conformance, grounding, and coverage are non-negotiable.
 8. **Write the lens, the wireframe record, and the manifest.** Write `ux.md` to the LIVE lens path
    (`product_base` + `lens_rel`), per the template. Write `lens/screens.yaml` to the LIVE path
    (`product_base` + `screens_rel`), per step 7's schema. Write `ux-manifest.yaml` to
-   `manifest_path` (STM) carrying: every screen's `grounds` → a functionality_ref / persona /
+   `manifest_path` (STM) carrying: every screen's `grounds` → a feature_ref / persona /
    journey; every flow's `journey_ref` (the journey it expands) and `persona_ref` (the persona id
    that journey serves), its `grounds` → the persona/journey of the hub it traces to, plus its
    ordered `steps`; the visual core's grounding → kb or the reused decision; every design directive
@@ -191,7 +193,7 @@ ux:
   screens:
     - name: "Source coverage view"
       grounds:
-        - { source_type: functionality, source: "func-source-coverage-freshness", functionality_ref: func-source-coverage-freshness }
+        - { source_type: feature, source: "func-source-coverage-freshness", feature_ref: func-source-coverage-freshness }
   flows:                                          # one entry per journey record of the slice
     - id: flow-analyst-confirm-coverage
       journey_ref: journey-analyst-confirm-coverage   # the journey record this flow EXPANDS
@@ -244,7 +246,7 @@ Return the enriched contract with the live `lens_rel`, the live `screens_rel`, a
 
 ## Rules
 
-- **Hub only.** Derive from the functionalities' grounding docs + the profile + the slice's
+- **Hub only.** Derive from the features' grounding docs + the profile + the slice's
   persona and journey records; never read or ground on another realize lens.
 - **Template-true.** `ux.md` conforms to the UX lens template (Intent/Screens/Flows/States/
   Visual core, in that order) and must clear the linter + the content eval — every item
@@ -260,7 +262,7 @@ Return the enriched contract with the live `lens_rel`, the live `screens_rel`, a
 - **Flows resolve both ways.** No flow step may name a screen that is not in Screens, and no
   screen may be unreachable — every screen is named by at least one flow step. Fix the flow or
   drop the screen; never ship a dangling name either way.
-- **Cover every functionality.** Every functionality the slice bundles is visualized by ≥1
+- **Cover every feature.** Every feature the slice bundles is visualized by ≥1
   screen, recorded in the manifest.
 - **`choices:` is never empty, and never carries the visual core.** The manifest's `choices:`
   block is the KB-grounded pattern choices — the navigation pattern and the responsive strategy.
@@ -269,7 +271,7 @@ Return the enriched contract with the live `lens_rel`, the live `screens_rel`, a
   skill no longer picks a look, so there is nothing here to ground. It names the project's
   design-system reference in the lens instead, or records that none exists yet — and that is never
   a KB gap, because no shelf can tell a project what its brand is.
-- **Grounded, not invented.** Every screen grounds to a functionality or a persona/journey;
+- **Grounded, not invented.** Every screen grounds to a feature or a persona/journey;
   every flow names the `journey_ref` it expands and the `persona_ref` that journey serves, both
   resolving to records the readiness check handed over, never an invented one; the visual core's
   vocabulary grounds to a KB learning or a proposal, and both it and any design directive are

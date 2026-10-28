@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_DESIGN.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:7ec9aaa84087511bd72d4fecce54fcb4d43eb7de549296878fe7d435f160bf68",
+      "copy": ".garura/project/issues/920/context/memory/grounding-memory/knowledge/_DESIGN.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/gate-config.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:1d659ad60e8248fc6ed4a8d41ae6a445ebf49e08b2da8f79a7b0693e34a6b7f6",
+      "copy": ".garura/project/issues/920/context/memory/grounding-memory/standards/rules/gate-config.md"
+    }
+  ]
+}

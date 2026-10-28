@@ -3,9 +3,8 @@
 The close every play runs as its final step. It writes the machine-readable evidence file and
 the user-facing delivery report from templates — never hand-authored prose.
 
-This is a **shared block** (ADR 039 §9): it lives once, here, beside the plays
-(`core/components/plays/_shared/play-close.md`; the install lays it as
-`_shared/play-close.md` next to the installed plays). A play does not carry this text. Its
+This is a **shared block** (ADR 039 §9): it lives once, here, as `_shared/play-close.md`
+beside the plays. A play does not carry this text. Its
 close section holds only the two anchor lines, its own values (where its evidence goes, its
 session stamp marker, its stop-condition paths) and any close step of its own, and points
 here. `/create-play` emits exactly that, so a direct edit and a rebuild converge.
@@ -112,10 +111,9 @@ hand-author prose:
 - Run Summary table: Play, Issue/Slug, Status, Started, Completed.
 - Pipeline Steps table: built from the task DAG (mapping below).
 - Artifacts Produced table: the named artifacts and SHAs from C1.
-- **Next** (always, unless the play is `meta_exempt`): resolve this play in the Next-line map
-  (`$next_map`, from `template-manager`) and render
-  `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` When the
-  play's mapped `command` is `null`, render only the `/next` pointer, or omit the line.
+- **Next** (unless the play is `meta_exempt`): resolve this play in the Next-line map
+  (`$next_map`, from `template-manager`) and render `**Next:** /<command> — <why>.` When the
+  play's mapped `command` is `null`, the play has no single successor: omit the line.
 - Next Steps (optional): other real follow-ons, and any the play's close names.
 - End with a pointer to the evidence file at `$evidence_dest`.
 
@@ -142,12 +140,10 @@ always emitted — it is the user's surface, not audit evidence. Policy (plays o
 agents or skills) lives in `standards/rules/evidence-recording.md`.
 
 **Stop-condition gate (#464).** A play ends because "done" was proven, not because its step
-list ran out. `scripts/check_stop_condition.py` (canonical copy:
-`create-play/references/check_stop_condition.py`) evaluates the baked manifest as pure disk
+list ran out. `scripts/check_stop_condition.py` evaluates the baked manifest as pure disk
 assertions. Held permits COMPLETED; unmet or error closes HALTED.
 
-**Session identity stamp (#463).** `scripts/session_stamp.py` (canonical copy:
-`create-play/references/session_stamp.py`) binds the run to its session ledger: the start
+**Session identity stamp (#463).** `scripts/session_stamp.py` binds the run to its session ledger: the start
 phase runs at pre-flight, the close phase reads the marker. Soft-fail: an unresolved ledger
 gives null fields, never a blocked close.
 
@@ -174,7 +170,7 @@ still closes; the failure is recorded in the evidence file's Recovery Attempts s
 
 ## Enforced
 
-`check-components` checks every compiled play's SKILL.md for the close's two anchor lines,
+The component linter (`.garura/core/tools/lint-components`) checks every compiled play's SKILL.md for the close's two anchor lines,
 each exactly once, opener before closer, and that the shared file exists:
 
 - opener: `# --- Standard Play Close (shared; see ../_shared/play-close.md) ---`

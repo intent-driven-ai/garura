@@ -1,0 +1,8 @@
+decision: reject
+decided_by: human
+reply: "do a. do a proper fix"
+round: 4
+blocking:
+  - DF-H-11 — a re-run of /shape-slice replaces a kept slice's name, outcome and tester's action, and the play's intent never says so; fix by option a — state it in the ICE and recompile with /edit-play, with a history line and the brief naming the work made out of date
+logged_not_fixed:
+  - DF-H-4, DF-H-5, DF-H-6, DF-H-8 (P4, harness), MEM-5, MEM-6, MEM-7 (P4, memory), PM-F2, PM-F6, PM-F7, PM-F9, PM-F10, PM-F11 (P4, product model), and round 3's seven slice-evals P4s — kept in this record, carried from round 3

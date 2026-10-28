@@ -1,6 +1,6 @@
 ---
 name: check-quality-gates
-description: Execute a quality lens's binding cards — the machine sibling quality-gates.yaml — against a project and emit one verdict per gate. Runs every machine-owned card's command through the project's own tools (linters, tests, type checks, coverage, custom check scripts), reads declared measures against thresholds, and normalizes outcomes to pass | fail | error | missing-tool | human. A card whose demanded tooling is absent is a missing-tool FINDING the build loop consumes as provisioning work — never a silent pass. Human-owned cards are visibly skipped, never judged. Verdicts feed the run's evidence file (Gate Outcomes) and, downstream, the loop's stop condition. Use whenever a play or loop needs the quality gates actually executed — "run the gates", "check the quality gates", "execute the lens". Purely mechanical: the script does the work; no inference.
+description: 'Execute a quality lens''s binding cards — the machine sibling quality-gates.yaml — against a project and emit one verdict per gate. Runs every machine-owned card''s command through the project''s own tools (linters, tests, type checks, coverage, custom check scripts), reads declared measures against thresholds, and normalizes outcomes to pass | fail | error | missing-tool | human. A card whose demanded tooling is absent is a missing-tool FINDING the build loop consumes as provisioning work — never a silent pass. Human-owned cards are visibly skipped, never judged. Verdicts feed the run''s evidence file (Gate Outcomes) and, downstream, the loop''s stop condition. Use whenever a play or loop needs the quality gates actually executed — "run the gates", "check the quality gates", "execute the lens". Purely mechanical: the script does the work; no inference.'
 version: 0.1.0
 user-invocable: false
 model: haiku
@@ -64,7 +64,7 @@ or unmeasured gate is a visible row, not an omission.
 
 - Local build/test/scan tools only — never git/gh, never remote systems.
 - The script decides every verdict mechanically; no outcome is authored by inference.
-- Never edit the gates file — cards are authored by the lens (author-quality-lens), fixed
+- Never edit the gates file — cards are authored by the quality lens, fixed
   at design time.
 - A card that cannot produce a verdict is `error`/`missing-tool` — never `pass`.
 

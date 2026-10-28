@@ -1,0 +1,7 @@
+Run /shape-slice again on business intent #788 with the current play.
+
+The slice sl-intent-to-design was shaped on 2026-10-24 (#844) by an older /shape-slice and then fixed to ontology v11 by hand. The play has changed since (#842 rebuild, #854, #860). This run checks the current play on a real intent: the slice already serves #788, so the play must take its reuse path and keep the slice, not make a second one. Its output is the input for testing the plan play (#818).
+
+Done when: /shape-slice 788 closes COMPLETED with its stop condition held; the spine still holds one slice for #788; the hidden file is current; the change lands on plan/788/base through the change plays.
+
+Serves: #788. Part of: plan 788 (top level, like #844).

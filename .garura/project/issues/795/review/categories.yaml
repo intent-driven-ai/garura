@@ -1,0 +1,62 @@
+# check-change round 3 -- categories present in PR #840 (issue 795, plan #788). Derived from the current diff (146 files: 60 added, 22 deleted, 64 modified). Same five kinds of work as before; no new category, no missing playbook.
+categories:
+  - name: harness
+    description: A new /shape-slice play built fresh from its ICE (SKILL.md, reference/ice.md, stop-condition.yaml, 7 new scripts plus platform_adapter and intent_touches copies, 3 test files; old epic-cutting scripts deleted); the whole /next play deleted (SKILL, ICE, 8 scripts, stop condition); 3 skills deleted (author-epics, check-cut-tensions, rank-actions); product-os-keeper agent skill table updated; one-line close/Next-line edits in about 30 other plays; the shared play-close.
+    evidence_paths:
+      - core/components/plays/shape-slice/SKILL.md
+      - core/components/plays/shape-slice/scripts/**
+      - core/components/plays/shape-slice/stop-condition.yaml
+      - core/components/plays/next/** (deleted)
+      - core/components/skills/{author-epics,check-cut-tensions,rank-actions}/SKILL.md (deleted)
+      - core/components/agents/product-os-keeper.md
+      - core/components/plays/_shared/play-close.md
+      - core/components/plays/*/SKILL.md (Next-line wording)
+      - core/components/plays/{list-focus-issues,validate-epic}/scripts/*.py (comment-only)
+    playbook: review/harness
+    design_bearing: true
+    runnable_check: lint-components (check-components)
+  - name: memory
+    description: Product-model schemas rewritten for the new slice (spine.yaml slices list, slice.yaml v2, epic.yaml comment); Next-line map (pipeline-next.md) re-pointed; rules edited (pipeline-position, naming, surface-contract, no-unbacked-recommendation, rules index, rename-map); delivery-report template; work-intelligence knowledge shelf deleted; knowledge index.
+    evidence_paths:
+      - core/components/memory/standards/schemas/product-os/{spine,slice,epic}.yaml
+      - core/components/memory/standards/rules/**   # includes user-questions.md
+      - core/components/memory/standards/templates/delivery-report.md
+      - core/components/memory/knowledge/work-intelligence/** (deleted)
+      - core/components/memory/knowledge/_index.md
+    playbook: review/memory
+    design_bearing: true
+    runnable_check: path / cross-reference / structure integrity check
+  - name: adrs
+    description: New ADR 051 (the /next play is dropped; the plan is the work list) with forward pointers on ADR 020, 022, 023, 045 and 048, and the ADR index.
+    evidence_paths:
+      - docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+      - docs/adr/{020,022,023,045,048}-*.md
+      - docs/adr/_index.md
+    playbook: review/adrs
+    design_bearing: false
+    runnable_check: null
+  - name: tests
+    description: Unit tests for the new scripts; old validate_epics and next tests deleted. Plus the issue's own acceptance check (eval_795.py), not read by this review.
+    evidence_paths:
+      - core/components/plays/shape-slice/scripts/test_find_serving_slice.py
+      - core/components/plays/shape-slice/scripts/test_persist_slice.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/plays/next/scripts/test_derive_candidates.py (deleted)
+      - core/components/plays/shape-slice/scripts/test_validate_epics.py (deleted)
+    playbook: review/tests
+    design_bearing: false
+    runnable_check: test suites
+  - name: docs
+    description: CLAUDE.md, AGENTS.md, glossary, component docs, philosophy page, managing-work.md (new "How is a change checked?" section), docs/command-chain.html deleted, issue 795 working records.
+    evidence_paths:
+      - CLAUDE.md
+      - AGENTS.md
+      - .garura/user-provided/managing-work.md
+      - core/grounding/glossary.md
+      - docs/components/{agents,plays,skills}.md
+      - docs/philosophy/garura-reference-implementation.md
+      - docs/command-chain.html (deleted)
+      - .garura/project/issues/795/context/**
+    playbook: review/docs
+    design_bearing: false
+    runnable_check: null

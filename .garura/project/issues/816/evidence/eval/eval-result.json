@@ -1,0 +1,261 @@
+{
+  "passed": 51,
+  "failed": 0,
+  "results": [
+    {
+      "check": "816: ontology is version 9",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: one v9 log line",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: Slice serves Business Intent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: Slice has the testable-surface rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: Slice names its eval and the evals folder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: Slice names its usage guide",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: a builder never reads the eval",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: the eval never reads the ICE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: no 'two tests' outside the log",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: no 'picks a slice' outside the log",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: one plan for each business intent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: questions Q27 to Q31 exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "816: check_ontology reads valid",
+      "ok": true,
+      "detail": " \"answered\"\n    },\n    {\n      \"id\": \"Q29\",\n      \"status\": \"answered\"\n    },\n    {\n      \"id\": \"Q30\",\n      \"status\": \"answered\"\n    },\n    {\n      \"id\": \"Q31\",\n      \"status\": \"answered\"\n    }\n  ],\n  \"problems\": [],\n  \"ontology\": \"core/components/memory/standards/schemas/product-os/ontology.md\"\n}\n"
+    },
+    {
+      "check": "816: CLAUDE.md says a builder never reads a plan's evals folder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "817: config has shape-slice.grill-tier: m",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "817: tier xs gives 5",
+      "ok": true,
+      "detail": "{\n  \"tier\": \"xs\",\n  \"budget\": 5\n}\n"
+    },
+    {
+      "check": "817: tier s gives 12",
+      "ok": true,
+      "detail": "{\n  \"tier\": \"s\",\n  \"budget\": 12\n}\n"
+    },
+    {
+      "check": "817: tier m gives 25",
+      "ok": true,
+      "detail": "{\n  \"tier\": \"m\",\n  \"budget\": 25\n}\n"
+    },
+    {
+      "check": "817: tier l gives 45",
+      "ok": true,
+      "detail": "{\n  \"tier\": \"l\",\n  \"budget\": 45\n}\n"
+    },
+    {
+      "check": "817: tier xl gives 70",
+      "ok": true,
+      "detail": "{\n  \"tier\": \"xl\",\n  \"budget\": 70\n}\n"
+    },
+    {
+      "check": "817: absent setting gives m, 25",
+      "ok": true,
+      "detail": "{\n  \"tier\": \"m\",\n  \"budget\": 25\n}\n"
+    },
+    {
+      "check": "817: unknown tier exits 2",
+      "ok": true,
+      "detail": "grill_budget.py: unknown shape-slice.grill-tier 'huge'; allowed values: xs, s, m, l, xl\n"
+    },
+    {
+      "check": "817: split asks every blocking question",
+      "ok": true,
+      "detail": "{\n  \"asked\": [\n    {\n      \"id\": \"a\",\n      \"blocking\": false\n    },\n    {\n      \"id\": \"b\",\n      \"blocking\": true\n    }\n  ],\n  \"assumptions\": [\n    {\n      \"id\": \"c\",\n      \"blocking\": false\n    },\n    {\n      \"id\": \"d\",\n      \"blocking\": false\n    }\n  ],\n  \"over_budget\": false\n}\n"
+    },
+    {
+      "check": "817: split asks no more than the budget",
+      "ok": true,
+      "detail": "['a', 'b']"
+    },
+    {
+      "check": "817: split fills the budget in the given order",
+      "ok": true,
+      "detail": "['a', 'b']"
+    },
+    {
+      "check": "817: each question not asked is an assumption",
+      "ok": true,
+      "detail": "['c', 'd']"
+    },
+    {
+      "check": "817: over_budget false when blocking fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "817: blocking over budget are all asked",
+      "ok": true,
+      "detail": "{\n  \"asked\": [\n    {\n      \"id\": \"x\",\n      \"blocking\": true\n    },\n    {\n      \"id\": \"y\",\n      \"blocking\": true\n    },\n    {\n      \"id\": \"z\",\n      \"blocking\": true\n    }\n  ],\n  \"assumptions\": [],\n  \"over_budget\": true\n}\n"
+    },
+    {
+      "check": "817: blocking over budget sets over_budget",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "817: grill_budget tests pass",
+      "ok": true,
+      "detail": "SS] over_budget is false when the blocking ones fit\n  [PASS] blocking over budget: every blocking question is still asked\n  [PASS] blocking over budget: over_budget is true\n  [PASS] blocking over budget: the rest are assumptions\n  [PASS] a question with no blocking flag exits 2\n\n19 passed, 0 failed\n"
+    },
+    {
+      "check": "815: FIRST_NEW_ADR is gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "815: FIRST_RENAME_ADR is used",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "815: test for ADR 049 searched",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "815: test for SUPERSEDED-046 skipped",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "815: test for SUPERSEDED-047 searched",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "815: naming tests pass",
+      "ok": true,
+      "detail": "  [PASS] docs/adr path kept\n  [PASS] play field rewritten, lens and key kept\n  [PASS] /shape-scope not double-rewritten\n  [PASS] past records kept their old words\n{\n  \"moved\": 0,\n  \"files_changed\": 0,\n  \"references\": 0,\n  \"dry_run\": false\n}\n  [PASS] a second run changes nothing\n\n21 passed, 0 failed\n"
+    },
+    {
+      "check": "815: old-name check reads 0",
+      "ok": true,
+      "detail": "{\n  \"ok\": true,\n  \"hits\": 0,\n  \"old_names_left\": 0,\n  \"by_old_name\": {},\n  \"first\": []\n}\n"
+    },
+    {
+      "check": "820: asking-a-person rule exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: rule names the part 'Question'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: rule names the part 'Answer'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: rule names the part 'Why it matters'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: rule names the part 'Example'",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: rule says each question asks one thing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: rule asks for several examples",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: rule says the opening names the decision",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: core/components/plays/edit-ontology/SKILL.md points to the rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "820: core/components/skills/author-product-ontology/SKILL.md points to the rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "all: core/components/plays/edit-ontology/scripts/test_edit_ontology_scripts.py passes",
+      "ok": true,
+      "detail": "nd fails\n  [PASS] two new log lines fail\n  [PASS] a real name fails\n  [PASS] one yes is not all three\n  [PASS] three yes answers are all agreed\n  [PASS] a change before a yes is kept in the history\n  [PASS] an empty reply is refused\n  [PASS] a yes with no draft shown is refused\n\n11 passed, 0 failed\n"
+    },
+    {
+      "check": "all: core/components/plays/shape-slice/scripts/test_grill_budget.py passes",
+      "ok": true,
+      "detail": "SS] over_budget is false when the blocking ones fit\n  [PASS] blocking over budget: every blocking question is still asked\n  [PASS] blocking over budget: over_budget is true\n  [PASS] blocking over budget: the rest are assumptions\n  [PASS] a question with no blocking flag exits 2\n\n19 passed, 0 failed\n"
+    },
+    {
+      "check": "all: core/components/plays/shape-slice/scripts/test_validate_epics.py passes",
+      "ok": true,
+      "detail": " [PASS] legacy questions: entry with no human_response fails as unanswered\n  [PASS] live tension fails the gate and is counted\n  [PASS] off-schema key fails the gate (forged-clean prevention)\n  [PASS] --out writes the write-gate verdict YAML matching stdout (#466 Batch C)\nVERDICT: PASS (6/6 passed)\n"
+    },
+    {
+      "check": "all: core/tools/naming/test_naming_tools.py passes",
+      "ok": true,
+      "detail": "  [PASS] docs/adr path kept\n  [PASS] play field rewritten, lens and key kept\n  [PASS] /shape-scope not double-rewritten\n  [PASS] past records kept their old words\n{\n  \"moved\": 0,\n  \"files_changed\": 0,\n  \"references\": 0,\n  \"dry_run\": false\n}\n  [PASS] a second run changes nothing\n\n21 passed, 0 failed\n"
+    }
+  ]
+}

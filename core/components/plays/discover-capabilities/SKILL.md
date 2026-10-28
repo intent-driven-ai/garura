@@ -1,15 +1,15 @@
 ---
 name: discover-capabilities
 position: both
-description: 'Write the product''s capabilities and functionalities, each with its ICE (ADR 043) — read off a prototype''s screens when a capture is given (a capability with no domain yet waits in the holding folder, not ready until attributed), else every pending capability in the model or the ones the person names (a capability not yet in the model is seeded thinly here from the person''s answers) — promote each grounding from directional to detailed, create and detail its functionalities, set each capability''s own NFR + compliance needs, and roll all those needs up together into the product profile, firming the box and recording a decision for each capability''s out-of-box move. The product-manager step, the last detailing step. Run by hand it needs no earlier play: it opens one change and lands it on main; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves one review record per capability — every box-move as its own line, its decision proposed — for the loop''s end review.'
+description: 'Write the product''s capabilities and features, each with its ICE (ADR 043) — read off a prototype''s screens when a capture is given (a capability with no domain yet waits in the holding folder, not ready until attributed), else every pending capability in the model or the ones the person names (a capability not yet in the model is seeded thinly here from the person''s answers) — promote each grounding from directional to detailed, create and detail its features, set each capability''s own NFR + compliance needs, and roll all those needs up together into the product profile, firming the box and recording a decision for each capability''s out-of-box move. The product-manager step, the last detailing step. Run by hand it needs no earlier play: it opens one change and lands it on main; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves one review record per capability — every box-move as its own line, its decision proposed — for the loop''s end review.'
 user-invocable: true
 ---
 
 # understand
 
-Write the product's **capabilities and functionalities**, each with its ICE (ADR 043: in
+Write the product's **capabilities and features**, each with its ICE (ADR 043: in
 Discovery /discover-intent writes the business intents, /discover-domains the domains, /discover-capabilities the
-capabilities and functionalities). Given a prototype's capture, read the capabilities off the
+capabilities and features). Given a prototype's capture, read the capabilities off the
 screens first — no other play's seed is needed; one with no domain known waits in the
 holding folder, not ready until it is attributed. Then take every target — those, every
 pending (`detail: directional`) capability in the model, or the ones the person names — and
@@ -20,7 +20,7 @@ all of them at once — before any change is opened; its first `capability.md` i
 straight at the detailed stage. Never invented (#616 D1). /discover-capabilities is the
 **product-manager** step, the last detailing step: for each target, promote its
 `capability.md` from the directional stage to the detailed stage, **create its
-functionalities** (a spine entry plus a detailed `functionality.md` each), and set its own
+features** (a spine entry plus a detailed `feature.md` each), and set its own
 concrete NFR + compliance needs; then roll all the targets' needs up together into the
 product profile, each measured against the box as it stood at the start of the run. On a
 still-`directional` box the roll-up establishes the box and firms it to `set`; on an
@@ -31,7 +31,7 @@ commit — all or nothing (C14).
 **Pipeline position: both.** /discover-capabilities stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. **Inside a loop** (ADR 029 §2–3; #615; `standards/rules/loop-contract.md`) the loop hands it a contract (`--contract`); then it runs no `start-change` and no end sequence, does not wait at its checkpoint (Step 6 writes one review record per capability for the loop's end review instead, every box-move as its own line and its decision `proposed`), and commits its model change on the loop's branch. Discovery runs it once for all the capabilities; the run leaves one review record per capability (ADR 029). The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → check-change → merge-change`, landing the detailed capability on main. It writes the persistent product model **directly, in place** on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
 
 **Write discipline (ADR 026, `standards/rules/direct-model-write.md`).** The LLM enrichment
-skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the
+skill writes ONLY the per-node docs (`capability.md`, `feature.md`) straight to the
 live model; every shared-file mutation (the spine `_spine.yaml`, the profile, the box-move
 decisions) is done by the deterministic keyed persist script, in place, keyed to the run's
 target capabilities so it cannot touch any other node inside a shared file. The model tree is asserted
@@ -48,7 +48,7 @@ direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616
 alone: seeds an absent capability from the person's answers, and position none → both;
 #615 — runs inside a loop, and one run details every pending capability). Intent defines
 constraints (C1–C16) and failure conditions (F1–F18); the expectation defines success
-scenarios (S1–S9), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
+scenarios (S1–S10), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. To modify this play, update `reference/ice.md`
 and recompile with edit-play.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -56,7 +56,7 @@ Do NOT edit this file manually — it is a compiled artifact.
 ## Role
 
 You are the orchestrator. You own the workflow and the step order. You delegate the
-domain work — grounded detailing and functionality authoring — to the `product-os-keeper`
+domain work — grounded detailing and feature authoring — to the `product-os-keeper`
 agent, once per target, via a JSON contract over files on disk, and you run the mechanical work (the shape
 linter, the content-quality eval, the monotonic-up roll-up, the keyed in-place persist, and
 the post-write scoped guard) through bundled scripts and an isolated judge. You never write
@@ -66,11 +66,11 @@ recorded config skip, a recorded policy auto-pass, or, inside a loop, a recorded
 the loop's review (C13) — which also carries approval of any out-of-box box-move (C8).
 
 **Forbidden:** hand-writing grounding docs or spine entries; touching any capability,
-functionality, or domain other than the run's targets and their new functionalities (C10);
+feature, or domain other than the run's targets and their new features (C10);
 committing some targets while another failed (C14); measuring a target against a box another
 target in the same run raised (C7/C8);
-prioritizing — writing a slice or an epic, or flipping the capability to active (C2, that
-is /shape-scope); persisting the shared files (spine/profile/decisions) by any route other than
+prioritizing — writing a slice or an epic, or flipping the capability to active (C2; slices
+are /shape-slice's, and no play sets a capability active now); persisting the shared files (spine/profile/decisions) by any route other than
 `scripts/persist_understand.py`; committing before the checkpoint resolves; writing a
 box-move decision `accepted` inside a loop (C8/C13); filling in a seed answer the person or
 the loop did not give (C1/C13); running against
@@ -82,7 +82,7 @@ verdict reading held (C11/F11).
 
 | Agent | Domain | Skill it invokes | Phases |
 |-------|--------|------------------|--------|
-| `product-os-keeper` | For one target per dispatch: recover the capability's KB shelf (re-route), then detail the capability (directional → detailed) writing the docs in place on the live model, author its functionalities, and set its NFR + compliance needs (into its manifest) grounded in that shelf | `find-work-placement`, `enrich-capability-ice` | Enrich |
+| `product-os-keeper` | For one target per dispatch: recover the capability's KB shelf (re-route), then detail the capability (directional → detailed) writing the docs in place on the live model, author its features, and set its NFR + compliance needs (into its manifest) grounded in that shelf | `find-work-placement`, `enrich-capability-ice` | Enrich |
 
 `product-os-keeper` is the single **domain agent** this play uses (1 of the ≤5
 budget), dispatched once per target, all at once as a scoped-write fan-out (C14). No utility agents are needed — the git/issue machinery is the injected `start-change`
@@ -300,7 +300,7 @@ the short-term root before Step 0, and the scratch folder is gone.
 
 ### Phase: Enrich
 
-**Step 1 — Enrich each target (detail + functionalities, docs to live)** · Owner: `product-os-keeper` · Depends on: pre-flight
+**Step 1 — Enrich each target (detail + features, docs to live)** · Owner: `product-os-keeper` · Depends on: pre-flight
 Dispatch the agent once per target in `targets.json`, **all in one concurrent batch** — a
 **scoped-write fan-out** (`standards/rules/concurrent-fanout.md`; C14): each dispatch is handed
 its target's write scope (`targets.json` `scope`, the target's own folder, checked distinct and
@@ -312,14 +312,14 @@ manifests in `targets.json` order. The whole delta is guarded once in Step 5.
 The persisted model does **not** record which KB shelf a capability came from (/discover-domains
 kept that only in STM). So the agent first **re-routes** the capability to its KB shelf
 with `find-work-placement`, then invokes `enrich-capability-ice` to detail it — promote the
-`capability.md` to the detailed stage, author a `functionality.md` per functionality it
+`capability.md` to the detailed stage, author a `feature.md` per feature it
 identifies, set the capability's `nfr_needs` + `compliance_needs`, and emit the implied
 per-dimension levels the roll-up consumes. Per ADR 026 the skill writes the per-node docs
 **straight to the live model** and emits the spine-delta as structured data in the manifest
 (it never writes `_spine.yaml`, `profile.yaml`, or a decision):
 
     {
-      "task":    "re-route this capability to its KB shelf, then detail it (directional->detailed) writing capability.md + functionality.md docs in place on the live model, set its nfr_needs; emit implied NFR levels + the spine-delta into the manifest",
+      "task":    "re-route this capability to its KB shelf, then detail it (directional->detailed) writing capability.md + feature.md docs in place on the live model, set its nfr_needs; emit implied NFR levels + the spine-delta into the manifest",
       "inputs":  { "issue": "<issue, or null>",
                    "capability": "<id + slug + path to its directional capability.md, or <working>/caps/<capability>/seed.yaml when it was absent>",
                    "write_scope": "<targets.json scope, e.g. product-os/commerce/checkout/>",
@@ -335,7 +335,7 @@ The agent passes the shelf `find-work-placement` returned to `enrich-capability-
 actually resolved. It returns the
 contract with the output paths on disk — never inline content. The skill writes the
 capability's detailed `capability.md` (over the live directional one) and the new
-`functionality.md` docs IN PLACE under `<product_base>product-os/`, and writes its
+`feature.md` docs IN PLACE under `<product_base>product-os/`, and writes its
 `enrich-manifest.yaml` (with `capability_ref` set to that capability) under
 `<working>/caps/<capability>/` (STM) with the spine-delta as structured data. It writes NO
 shared model file.
@@ -365,7 +365,7 @@ Run the two guards over the LIVE model before the checkpoint — shape first, th
 Under direct-model-write the docs are already written in place, and the spine has NOT yet
 been mutated for this run (the keyed persist runs after approval). So the linter runs over
 the live tree, and the newly written docs are linted; full spine↔doc consistency for the
-new functionality entries is completed after the keyed persist (Step 6) writes those entries.
+new feature entries is completed after the keyed persist (Step 6) writes those entries.
 
 ```
 python3 scripts/lint_grounding.py --root <product_base>/product-os
@@ -376,7 +376,7 @@ python3 scripts/check_sources.py --manifest <working>/caps/<capability>/enrich-m
 ```
 
 Then run the **content-quality eval** over the grounding docs this run wrote or changed
-(every target's detailed `capability.md` and every new `functionality.md`, at their live
+(every target's detailed `capability.md` and every new `feature.md`, at their live
 paths — all targets in one batch) as a
 **concurrent read-only fan-out** (`standards/rules/concurrent-fanout.md`): dispatch one
 isolated, clean-context judge sub-agent PER doc, ALL IN ONE CONCURRENT BATCH — each running
@@ -394,28 +394,68 @@ kind, before the batch:
 ```
 python3 scripts/guidance_block.py --template {stm_base}<issue>/context/templates/standards/schemas/product-os/grounding/<kind>.md \
     --stage detailed --out <working>/judge/guidance-<kind>.md   # /discover-capabilities writes the detailed stage
-python3 scripts/grounding_gate.py --verdict <verdict.json>
+```
+
+**The eval settles (C4, #884; `standards/rules/grounding-eval.md`).** The judge state lives in
+the issue's short-term memory, `{stm_base}<issue>/context/judge-state/` (`<judge-state>`), so a
+later run on the same issue keeps its passes. Before the batch, for each doc (with `--parent`
+for a doc that has one — a feature's capability, a capability's domain):
+
+`<judge>` is the installed judge skill, `.claude/skills/judge-grounding/SKILL.md`: its text is
+part of the fingerprint, so a changed judge ends every kept pass.
+
+```
+python3 scripts/grounding_gate.py kept --state <judge-state> --doc <doc> \
+    --guidance <working>/judge/guidance-<kind>.md --judge <judge> [--parent <parent doc>] \
+    > <working>/judge/kept-<doc id>.json
+python3 scripts/grounding_gate.py prior --state <judge-state> --doc <doc> \
+    > <working>/judge/prior-<doc id>.json
+```
+
+`kept` exit 0 → the doc's pass is kept (the doc, its parent, the guidance and the judge are
+unchanged): dispatch no judge for it; `kept-<doc id>.json` is its record. Every other doc is
+judged. Its contract adds `"prior_failures": "<working>/judge/prior-<doc id>.json"` only when
+that file reads `round: fix`; then the judge says, for each earlier failure, whether the cited
+fix was made. A `first` round is judged as before. After the join, gate each returned verdict
+with the state:
+
+```
+python3 scripts/grounding_gate.py --verdict <working>/judge/verdict-<doc id>.json --state <judge-state> \
+    --doc <doc> --guidance <working>/judge/guidance-<kind>.md --judge <judge> [--parent <parent doc>] \
+    > <working>/judge/gate-<doc id>.json
+```
+
+The gate's `notes` (a new point on text that did not change) never stop the run. Then collect
+every doc's notes, kept docs included, for the checkpoint (Step 6):
+
+```
+python3 scripts/grounding_gate.py notes --state <judge-state> --out <working>/judge/notes.json
 ```
 
 **SE-3 (F2/C3):** `lint_grounding.py` exits 0 over the live docs this run wrote — each
 detailed `capability.md` conforms to the capability template's detailed stage and every
-new `functionality.md` conforms to the functionality template.
+new `feature.md` conforms to the feature template.
 **SE-4 (F3/C4):** the content-quality eval gate (`grounding_gate.py`) passes for EVERY
 grounding doc — each section self-explains at product-manager altitude and clears the
-stranger test.
+stranger test: for each doc, `kept` read exit 0 (its pass is kept), or its
+`gate-<doc id>.json` reads `ok: true`, gated with `--state <judge-state>` and `--judge`; every
+judged doc whose prior file reads `round: fix` named it in its contract as `prior_failures`; and
+`<working>/judge/notes.json` was written by `grounding_gate.py notes`.
 **SE-5 (F4/C2):** each target's manifest promotes its capability
-(`enrich.capability.detail: detailed`) and every functionality it names carries both a manifest
-`functionalities` entry and a live `functionality.md` doc (the keyed persist in Step 6 writes the entries; the docs are on disk
-now). No functionality is created without both.
+(`enrich.capability.detail: detailed`) and every feature it names carries both a manifest
+`features` entry and a live `feature.md` doc (the keyed persist in Step 6 writes the entries; the docs are on disk
+now). No feature is created without both.
 **SE-19 (F18/C16):** `sources-check.json` reads `ok: true` — every page the run wrote carries
 `## Sources`, every quote on a screen line is on the prototype, and no page leaves a question
-open; the agent's contract reads `completed`, its judgment having found every functionality a
+open; the agent's contract reads `completed`, its judgment having found every feature a
 whole thing a person does or sees on the screens — no panel made a function of its own.
 **SE-6 (F5/C5):** every `nfr_needs.<dimension>` in each manifest's `capability` block is
 concrete — a `level`, a measurable `target`, and a `gate` — and the needs sit on the
 capability, not globally.
 On any GAP, apply the matching recovery (REC2–REC6) and re-run before the checkpoint — a
-content-eval fail (SE-4) is REC3: rewrite the doc to the judge's cited fixes and re-judge. A
+content-eval fail (SE-4) is REC3: rewrite the doc to the judge's cited fixes and re-judge it
+as a fix round (`prior` hands the judge its earlier failures; the gate keeps a new point on
+unchanged text as a note). A
 target that still fails after its recovery halts the whole run and nothing is committed
 (C14/REC16): revert the uncommitted delta with the guard's `--restore` and an empty allow set.
 
@@ -452,10 +492,10 @@ checkpoint, so the guard, the change-shape, and the human all see the real delta
 are already on the live model (Step 1). `persist_understand.py` now writes the SHARED files
 in place, keyed to the targets (one `--capability-ref` and one `--enrich-manifest` per target):
 it reads the manifests + roll-up output and flips each target's spine entry to
-`detail: detailed`, sets its `nfr_needs`/`compliance_needs`, adds its new functionality
+`detail: detailed`, sets its `nfr_needs`/`compliance_needs`, adds its new feature
 entries, writes the rolled-up profile, and writes one decision per box-move linked to the
 capability the move names — and it REFUSES to touch any capability that is not a target or a
-functionality not under its manifest's target (this is the node-level containment the
+feature not under its manifest's target (this is the node-level containment the
 file-level guard cannot provide). Every check runs before any write, so a refusal leaves the
 model untouched. No draft, no
 doc copy. Nothing is COMMITTED yet — the commit (Step 7) happens only after the gate approves;
@@ -489,7 +529,7 @@ an already-detailed target is always refused.
 capability (`node_ref`), its dimension, its from→to, and status `accepted` — `proposed` inside a loop (in
 `persist-manifest.json` `box_moves` + the written decision records).
 **SE-11 (F10):** no slice and no epic was written, and no target's `status` was flipped to
-`active` — prioritization is /shape-scope's.
+`active` — slices are /shape-slice's, and no play sets a capability active now.
 
 ### Phase: Guard + Classify (over the full delta)
 
@@ -504,7 +544,7 @@ target resolve `<cap-dir>` as the directory of its `doc` (e.g. `ecommerce/checko
     --allow    'product-os/_spine.yaml'                    # the shared spine + profile block (persist writes it)
     --allow    'product-os/decisions/*'                    # box-move decisions (persist writes them)
     --allow    'product-os/<cap-dir>/capability.md'        # each target's detailed doc (overwrite)
-    --add-only 'product-os/<cap-dir>/*/functionality.md'   # each target's new functionality docs (added, not modified)
+    --add-only 'product-os/<cap-dir>/*/feature.md'   # each target's new feature docs (added, not modified)
 
 **Guard ONCE over the full delta (C10).** After ALL writes (the LLM docs from Step 1 and the
 keyed persist's shared-file writes from Step 4), run the scoped guard a single time over the
@@ -515,15 +555,15 @@ to complete spine↔doc consistency:
 ```
 python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref HEAD \
         --allow 'product-os/_spine.yaml' --allow 'product-os/decisions/*' \
-        --allow 'product-os/<cap-dir-a>/capability.md' --add-only 'product-os/<cap-dir-a>/*/functionality.md' \
-        [--allow 'product-os/<cap-dir-b>/capability.md' --add-only 'product-os/<cap-dir-b>/*/functionality.md' ...] \
+        --allow 'product-os/<cap-dir-a>/capability.md' --add-only 'product-os/<cap-dir-a>/*/feature.md' \
+        [--allow 'product-os/<cap-dir-b>/capability.md' --add-only 'product-os/<cap-dir-b>/*/feature.md' ...] \
         --out <working>/guard-report.json
 python3 scripts/lint_grounding.py --root <product_base>/product-os \
         --spine <product_base>/product-os/_spine.yaml
 ```
 
 If the guard exits non-zero, re-run with `--restore` to revert the offending paths, apply
-REC9 (a capability/functionality/domain other than the targets changed), and re-persist before
+REC9 (a capability/feature/domain other than the targets changed), and re-persist before
 the checkpoint.
 
 **Classify the full working-tree delta (C9).** Classify the model tree's diff vs HEAD — now
@@ -537,8 +577,8 @@ python3 scripts/classify_change.py --play discover-capabilities \
 ```
 
 **SE-10 (F9/C10):** the scoped-write guard report reads `ok: true` — the model delta is
-confined to the target capabilities (each entry + doc), their new functionalities, the
-profile, and decisions; no other capability, functionality, or domain changed.
+confined to the target capabilities (each entry + doc), their new features, the
+profile, and decisions; no other capability, feature, or domain changed.
 
 ### Phase: Checkpoint (conditional gate, C9)
 
@@ -547,7 +587,7 @@ profile, and decisions; no other capability, functionality, or domain changed.
 wins: an explicit config skip is recorded as a skip, and a policy auto-pass as an auto-pass,
 exactly as by hand. Only where the gate resolves ON — where a run by hand would wait — render
 each target's part of the checkpoint exactly as it would have been shown (the same content as
-the "on" path below: that capability, its functionalities, its NFR needs, and every box-move
+the "on" path below: that capability, its features, its NFR needs, and every box-move
 in `rollup.json` that names it as its own line item, its decision `proposed`) to
 `<working>/caps/<capability>/checkpoint.md`, write one review record per target — named for
 it, so ADR 029's "one `/discover-capabilities` record per capability" holds — and append the crossing
@@ -594,11 +634,13 @@ Anything else resolves the gate on (an explicit `gates.plays.understand: off` in
 records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions row and
 proceeds — box-move approvals ride this same gate, so the recorded skip or auto-pass
 stands in evidence for them too). When on, present each target's detailed capability, its
-functionalities, the per-capability NFR needs, and the profile changes **inline over the real
+features, the per-capability NFR needs, and the profile changes **inline over the real
 model git diff**, one section per target — for each box-move in `rollup.json`, render its
 **own explicit line item** (the capability, the dimension, the from→to levels, and the
 product-level decision (ADR) it will create),
-distinct from the grounding approval — render the approval prompt — the template
+distinct from the grounding approval — and, beside each doc, its content-eval notes from
+`<working>/judge/notes.json` (points the judge found on text that did not change: shown for
+the person to weigh, never a stop; C4) — render the approval prompt — the template
 `standards/templates/approval-prompt.md`, which the play asks `template-manager` for (it never
 reads it from memory) — and wait for the typed response. Approve →
 continue to Step 7 (commit). **Cancel → revert the working tree (ADR 026 step 6):** the full
@@ -663,7 +705,7 @@ tree was already restored in Step 6:
 
 ```
 git add -- <product_base>product-os
-git commit -m "feat(model): detail <capability>, <capability>… — capabilities, functionalities, profile roll-up (#<issue>)"
+git commit -m "feat(model): detail <capability>, <capability>… — capabilities, features, profile roll-up (#<issue>)"
 ```
 **SE-12 (F11/C11):** the close is stop-condition gated — `check_stop_condition.py` over the
 baked `stop-condition.yaml` (D1 the persist record `persist-manifest.json` exists; D2 it
@@ -701,9 +743,9 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
 ### Phase: Scenario Validation
 
 **Step 8 — Scenario evals** · Owner: play · Depends on: the end sequence
-- **SCE-1 (S1 — product manager, detail + functionalities):** every target is detailed
+- **SCE-1 (S1 — product manager, detail + features):** every target is detailed
   (its `capability.md` promoted, its entry `detail: detailed`, with `nfr_needs`) and its
-  functionalities are created (each a spine entry + a `functionality.md`), all clean on
+  features are created (each a spine entry + a `feature.md`), all clean on
   `lint_grounding.py` and passing the content-eval gate; the change is landed on main by the
   end sequence (`{stm_base}<issue>/context/understand/end/merge-change.json` reports the PR
 merged); and the
@@ -716,11 +758,11 @@ merged); and the
   `node_ref` is its capability, recording the from→to from the starting level
   (written by the keyed persist, made durable only by the Step 7 commit; reverted on cancel).
 - **SCE-4 (S4 — product owner, non-destructive):** the scoped-guard report reads `ok`, so the
-  working-tree model delta is confined to the target capabilities, their new functionalities,
+  working-tree model delta is confined to the target capabilities, their new features,
   the profile, and decisions, and no dimension was lowered.
-- **SCE-5 (S5 — reviewer, the checkpoint):** each detailed capability, its functionalities,
+- **SCE-5 (S5 — reviewer, the checkpoint):** each detailed capability, its features,
   its NFR needs, and each box-move (capability, dimension, from→to, ADR) appeared inline over the full
-  written delta, and no SHARED model change was COMMITTED before approval — the full delta
+  written delta, every note in `<working>/judge/notes.json` appeared beside its doc, and no SHARED model change was COMMITTED before approval — the full delta
   written in place (docs + spine/profile/decisions) shows as the branch diff and is reverted
   byte-clean on cancel (ADR 026 step 6) — or, on the auto-pass path (a policy-listed shape),
   the gate resolved with no wait and the recorded auto-pass, the appended ledger line, and
@@ -751,6 +793,10 @@ merged); and the
   its scope (its domain's folder or `capabilities/<id>/`), and `sources-check.json`
   reads `ok: true` over every target's manifest — each page has `## Sources`, every screen
   quote is on the prototype, no page leaves a question open.
+- **SCE-10 (S10 — product manager, a second run on the same issue):** each unchanged doc's
+  `kept-<doc id>.json` reads `kept: true` and no `verdict-<doc id>.json` was written for it; a
+  fix-round `gate-<doc id>.json` with a point on unchanged text reads `ok: true` and holds it in
+  `notes`; `notes.json` lists that note beside its doc.
 
 ### Phase: Evidence & Close
 
@@ -797,11 +843,11 @@ the close stays HALTED until the verdict reads held. An unevaluable verdict is n
 skip the write and record `evidence skipped (record=false)` in the report's pointer line.
 Otherwise fill the `evidence-file.md` slots (play `understand`, run_id `understand-${ts}`,
 product_slug, started_at/completed_at, status per C0, exit_reason; artifacts produced: the
-target pick (`targets.json`), each detailed `capability.md`, the new `functionality.md` docs, the spine entries written, the
+target pick (`targets.json`), each detailed `capability.md`, the new `feature.md` docs, the spine entries written, the
 firmed profile, any decision records, the persist manifest (`persist-manifest.json`), the
 captured `guard-report.json`, the model-delta commit sha, the stop-condition verdict; the
 content-eval verdicts; step and scenario eval results
-SE-1…SE-19 / SCE-1…SCE-9; `run.json` (`in_loop`) and, inside a loop, each review record's
+SE-1…SE-19 / SCE-1…SCE-10; `run.json` (`in_loop`) and, inside a loop, each review record's
 path; checkpoint decision from Step 6 including each approved box-move
 (or the `gate skipped by config` / `gate auto-passed by learned policy` row when the gate
 resolved without a wait) plus the gate ledger line(s) appended this run; the session identity
@@ -810,11 +856,11 @@ ledger_end_offset (null when unresolved — never blocks the close); and stop_co
 C0 with the Stop Condition section filled) and write to `$evidence_dest`. Do NOT
 hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## understand Delivered — ${product_slug}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (the detailed capabilities, their
-functionalities, the firmed profile, any decisions), Next Steps (run /shape-scope to prioritize
-the detailed functionalities into end-to-end verticals and epics), and a pointer to
+features, the firmed profile, any decisions), Next Steps (run /shape-slice <intent> to shape the slice that serves a business intent), and a
+pointer to
 `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -825,7 +871,7 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 
 | Scenario | Persona | Eval |
 |----------|---------|------|
-| S1 — detail + functionalities | product manager | SCE-1 |
+| S1 — detail + features | product manager | SCE-1 |
 | S2 — first firm-up | product strategist | SCE-2 |
 | S3 — out-of-box move | architect | SCE-3 |
 | S4 — non-destructive | product owner | SCE-4 |
@@ -834,6 +880,7 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 | S7 — Discovery loop | product manager | SCE-7 |
 | S8 — many at once | product manager | SCE-8 |
 | S9 — from a prototype | product manager | SCE-9 |
+| S10 — a second run on the same issue | product manager | SCE-10 |
 
 ## Recovery
 
@@ -842,12 +889,12 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 | F1 | an absent capability has no recorded answers, its domain is not in the spine, or the target is already `detailed` | ask the person what the capability is, why it matters, and which existing domain it belongs to, and record the answers before seeding; with no answer or no such domain, halt and say plainly what is needed — inside a loop, write it to `open-understand.json` as the loop's question and detail the other targets (C13); an already-detailed capability is not re-detailed | human |
 | F2 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F3 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, product-manager-altitude statement — and re-judge until the gate passes | autonomous |
-| F4 | the capability stayed directional, or a functionality lacks its entry or its doc | complete the promotion (flip the entry to `detail: detailed`) and emit the missing functionality entry or doc before the checkpoint | autonomous |
+| F4 | the capability stayed directional, or a feature lacks its entry or its doc | complete the promotion (flip the entry to `detail: detailed`) and emit the missing feature entry or doc before the checkpoint | autonomous |
 | F5 | an NFR need has no level/target/gate, or needs were written off the capability | re-draft each need on the capability as a concrete level + target + gate | autonomous |
 | F6 | a profile dimension was lowered, or the box firmed to a state other than `set` | recompute the roll-up monotonic-up (max per dimension) and firm to `set` | autonomous |
 | F7 | an out-of-box need against a `set` box was persisted with no approved decision (inside a loop, no recorded deferral), or a box-move decision was written `accepted` inside a loop | revert the box change, surface the move at the checkpoint, persist only after a human approves it (inside a loop, re-write the decision as `proposed` and record the deferral) | human |
 | F8 | a box-move lacks its decision record, or a decision omits its dimension or from→to | write or complete the product-level decision for each move with its dimension and from→to before persisting | autonomous |
-| F9 | a capability, functionality, or domain other than the targets was changed (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only the target capabilities and their functionalities, after a human confirms the restore | human |
+| F9 | a capability, feature, or domain other than the targets was changed (scoped-guard violation) | the guard's `--restore` already reverted the offending paths; re-run writing only the target capabilities and their features, after a human confirms the restore | human |
 | F10 | a slice, an epic, or a capability status flip was written | strip the prioritization over-reach — remove the slice/epic, reset the status — leaving only /discover-capabilities's detailing scope | autonomous |
 | F11 | the run is about to close COMPLETED with the Done means unmet | close HALTED (`stop_condition_unmet`) with the unmet clauses named; fix the state — re-run the keyed persist, re-capture the scoped-guard report, or make the model-delta commit — and re-evaluate; the close stays HALTED until the verdict reads held | autonomous |
 | F12 | a conditional-gate crossing left no live-eval ledger line, or an auto-pass fired for a shape the policy does not list as auto (or that carried a blocking finding) | re-append the missing ledger line for the recorded crossing; when the auto-pass was unearned, re-run the gate as a live wait — render the approval prompt and wait for the typed response — before proceeding | autonomous |
@@ -856,7 +903,7 @@ the detailed functionalities into end-to-end verticals and epics), and a pointer
 | F15 | no review record, a record that differs from the checkpoint (a box-move missing as its own line), no ledger line, an approval no person gave, or an answer the play picked itself | re-render the checkpoint and re-write the review record with `write_loop_review.py`; append the missing `deferred_to_loop_review` line, or a correction refuting a made-up approval; drop the picked answer and hand the question to the loop (`open-understand.json`; run by hand, ask the person) | autonomous |
 | F16 | a pending capability left out, an unnamed one taken, a target measured against a box raised in the same run, or a part of the run committed while another target failed | re-pick the targets with `pick_targets.py`, re-run the roll-up with every target's manifest against the starting box, and re-render the checkpoint; when a target failed, revert the uncommitted delta and halt the whole run | autonomous |
 | F17 | a working file, an answer, a marker or a sub-play result sits outside `{stm_base}<issue>/`, or something was written to short-term memory before Step 0 gave the issue | move it into the issue's working root (or status folder), delete the stray copy, continue; before the issue is known, hold it in the scratch folder until Step 0 | autonomous |
-| F18 | a panel made a functionality, a functionality no screen shows, a page with no sources or a quote not on the prototype, or a question left open | fold the panel into the functionality that shows it; drop what nothing shows; write each page's sources with the screen's own words; replace the open question with our default, marked as ours | autonomous |
+| F18 | a panel made a feature, a feature no screen shows, a page with no sources or a quote not on the prototype, or a question left open | fold the panel into the feature that shows it; drop what nothing shows; write each page's sources with the screen's own words; replace the open question with our default, marked as ours | autonomous |
 
 ## Pause and Resume
 
@@ -876,10 +923,10 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:9f96478c2d6383a8920927563dd56f964f9712dac5a40a0fe41589f7dc5a0d51 (of `reference/ice.md`) |
-| compiled_by | edit-play (#689 ADR 043: writes the capabilities and functionalities, read off the screens, holding folder when no domain: C1, C2, C16); edit-play (#689 the screens decide the functionalities, every page with its sources: C16); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#615 runs inside a loop; one run details every pending capability); edit-play (#616 stands alone); edit-play (#498 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
+| fingerprint | sha256:8123401ff0f2e9e9d6a5168dacb6e8380f77c4a9ddeeacb0c2305744421f862c (of `reference/ice.md`) |
+| compiled_by | edit-play (#884 the content eval settles: kept pass, fix round, notes; C4, REC3, S5, S10); edit-play (#689 ADR 043: writes the capabilities and features, read off the screens, holding folder when no domain: C1, C2, C16); edit-play (#689 the screens decide the features, every page with its sources: C16); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#615 runs inside a loop; one run details every pending capability); edit-play (#616 stands alone); edit-play (#498 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
-| position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /shape-measure-lens and /discover-domains) |
+| position_exception | model-writing both play — writes the model on its own started branch and commits its own model delta (C12) BEFORE the injected end sequence lands it (same shape as /discover-domains) |
 | workflow_structure | A (single checkpoint carrying box-move approvals — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
@@ -887,7 +934,7 @@ reuses each `<working>/caps/<capability>/seed.yaml` rather than asking again.
 | skills_used | find-work-placement, enrich-capability-ice, judge-grounding (run by each isolated judge) |
 | scripts | 16 (check_sources.py — every page says where it is seen (C16), preflight.py, check_loop_contract.py, pick_targets.py, write_loop_review.py, lint_grounding.py, grounding_gate.py, rollup_box.py, persist_understand.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py, guidance_block.py) |
 | step_evals | 19 (SE-1…SE-19) |
-| scenario_evals | 9 (SCE-1…SCE-9) |
+| scenario_evals | 10 (SCE-1…SCE-10) |
 | recovery_entries | 18 (one per failure condition; 14 autonomous / 4 human) |
 | concurrency | Step 1 scoped-write fan-out (one agent per target); Step 2 read-only fan-out (one judge per doc) |
 
@@ -933,6 +980,6 @@ confirming the emitted SKILL matches this hand-compiled body and refreshing the 
 **before this direct-model-write pattern is fanned out to the other 12 model-writing plays**;
 the fan-out must not proceed on an unverified reference. Note also: `reference/ice.md` C12
 distinguishes the model-delta commit from the Standard Play Close (evidence + delivery report)
-that /discover-capabilities still runs; the close anchor block is retained (required by `check-components`
+that /discover-capabilities still runs; the close anchor block is retained (required by the component linter
 structural.js and the create-play G12 emit on every play), and the `feat(model)` commit is the
 separate lightweight persist step, so both coexist as C12 describes.

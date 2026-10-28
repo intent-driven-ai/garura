@@ -3,8 +3,8 @@
 # Intent / Context / Expectations attached to a ProductOS node. The second of
 # the three things ProductOS keeps forever: INTENT.
 #
-# ICE is the UNIT THAT GOES TO BUILD: functionality-level ICE is what /build-feature
-# consumes. Light by design. Same shape at capability and functionality level.
+# ICE is the UNIT THAT GOES TO BUILD: feature-level ICE is what /build-epic
+# consumes. Light by design. Same shape at capability and feature level.
 
 schema:
   name: ice
@@ -50,8 +50,8 @@ ice:
     version: integer
 
 # Where ICE lives in the tree
-attaches_to: [capability, functionality]   # same shape at both levels;
-                                           # functionality ICE is the build unit
+attaches_to: [capability, feature]   # same shape at both levels;
+                                           # feature ICE is the build unit
 
 # ---- Rules -----------------------------------------------------------------
 # One node, one ICE, one context.
@@ -62,7 +62,7 @@ attaches_to: [capability, functionality]   # same shape at both levels;
 #   - context is ONE, shared by every goal — it is the binder.
 # Decomposition test: goals share an ICE only if they share the context (persona,
 # systems, scope). A goal that needs its own context is a separate node with its
-# own ICE — a child functionality (a behavior) or a sibling capability (a
+# own ICE — a child feature (a behavior) or a sibling capability (a
 # different concern).
 
 # ---- Fill rules -------------------------------------------------------------
@@ -72,9 +72,6 @@ fill_rules:
   - play: "/discover-capabilities"
     writes: "full intent, context (persona/systems/scope), expectations, and the
              capability's nfr_needs + compliance_needs — which roll up the product profile"
-  - play: "/shape-scope"
-    writes: "functionality-level ICE when functionalities are created/reshaped;
-             also creates the persona records that context.persona points to"
   - play: "/learn-outcomes"
     writes: "updates to expectations/outcomes from real-world results"
 

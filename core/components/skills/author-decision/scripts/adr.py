@@ -27,10 +27,14 @@ import sys
 import yaml
 
 STATUSES = {"proposed", "accepted", "superseded", "rejected"}
-LEVELS = {"framework", "product", "capability", "functionality"}
+LEVELS = {"framework", "product", "capability", "feature"}
 BI_CHECKS = {"none", "kind", "instance"}
 MD_HEADERS = ["Status", "Date", "Level", "Decided in", "Affects", "ICE impact", "Business intent check"]
 MD_SECTIONS = ["Context", "Decision", "Consequences", "Alternatives Considered"]
+ACCEPTER_SECTION = "For the Person Who Accepts This"   # optional (#920); each point has five parts
+ACCEPTER_MD = ["What and where", "What is wrong, or worth knowing", "Why it matters",
+               "What this decision does", "What you decide"]
+ACCEPTER_YAML = ["point", "what_and_where", "detail", "why_it_matters", "this_decision_does", "you_decide"]
 YAML_REQUIRED = ["id", "title", "status", "level", "reason", "alternatives", "affects",
                  "ice_impact", "business_intent_check"]
 TITLE = re.compile(r"^#\s+ADR\s+(\d{3})\s*[—:-]\s*(.+?)\s*$", re.MULTILINE)
@@ -156,6 +160,26 @@ def lint_md(text):
         body = re.search(rf"^## {re.escape(s)}[^\n]*\n(.*?)(?=^## |\Z)", text, re.MULTILINE | re.DOTALL)
         if body and not body.group(1).strip():
             problems.append(f"section ## {s} is empty")
+    problems += lint_accepter_md(text)
+    return problems
+
+
+def lint_accepter_md(text):
+    """The optional section for the person who accepts: each ### point carries its five parts."""
+    body = re.search(rf"^## {re.escape(ACCEPTER_SECTION)}[^\n]*\n(.*?)(?=^## |\Z)", text,
+                     re.MULTILINE | re.DOTALL)
+    if not body:
+        return []
+    points = re.split(r"^### ", body.group(1), flags=re.MULTILINE)[1:]
+    if not points:
+        return [f"section ## {ACCEPTER_SECTION} has no ### point"]
+    problems = []
+    for pt in points:
+        name = pt.split("\n", 1)[0].strip()
+        for part in ACCEPTER_MD:
+            m = re.search(rf"^- \*\*{re.escape(part)}:\*\*[ \t]*(\S.*)$", pt, re.MULTILINE)
+            if not m:
+                problems.append(f"point `{name}` has no **{part}:**")
     return problems
 
 
@@ -183,8 +207,8 @@ def lint_yaml(d):
         problems.append(f"`status` must be one of {sorted(STATUSES)}")
     if d.get("level") and d["level"] not in LEVELS:
         problems.append(f"`level` must be one of {sorted(LEVELS)}")
-    if d.get("level") in ("capability", "functionality") and not d.get("node_ref"):
-        problems.append("a capability or functionality decision names its `node_ref`")
+    if d.get("level") in ("capability", "feature") and not d.get("node_ref"):
+        problems.append("a capability or feature decision names its `node_ref`")
     if d.get("business_intent_check") and d["business_intent_check"] not in BI_CHECKS:
         problems.append(f"`business_intent_check` must be one of {sorted(BI_CHECKS)}")
     if d.get("status") == "accepted" and not meta.get("accepted_by"):
@@ -193,6 +217,16 @@ def lint_yaml(d):
         if not isinstance(a, dict) or not a.get("name") or not a.get("why_not"):
             problems.append("each alternative has a `name` and a `why_not`")
             break
+    fta = d.get("for_the_accepter")
+    if fta is not None:
+        if not isinstance(fta, list) or not fta:
+            problems.append("`for_the_accepter` must be a list of points")
+        else:
+            for i, pt in enumerate(fta, 1):
+                missing = [k for k in ACCEPTER_YAML
+                           if not isinstance(pt, dict) or not str(pt.get(k) or "").strip()]
+                if missing:
+                    problems.append(f"`for_the_accepter` point {i} has no {', '.join(missing)}")
     return problems
 
 

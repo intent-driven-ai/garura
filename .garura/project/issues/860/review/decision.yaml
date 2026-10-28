@@ -1,0 +1,12 @@
+decision: approve
+decided_by: human
+reply: "2"
+round: 4
+citing: []
+recommended: reject (5 P1, all SEC-07 under the old wide rule in Phoenix memory; the PR's narrowed SEC-07 gives 0 on the same diff)
+not_fixed_by_decision:
+  - SEC-07 x5 (P1) — false hits of the old rule; the narrowed rule reaches Phoenix memory after this merge
+  - R1, R4-L1 (P3), R2 (P4) — chore #865
+  - N1 (P4), N2 (P3) memory — by the product owner's decisions 11 and 13 (ADR 055 merges with this PR)
+  - the 45+ path-only P2/P3/P4 standards hits on new code files — rules that fire on a file name, not a defect
+note: "The harness grounding agent was stopped early by the auto-mode safety check; its file holds all 15 old findings (fixed) and R1, R2."

@@ -4,9 +4,9 @@
 > cut at user-testable grain — the handoff to the execute pipeline. Because it goes
 > to build, it must be **self-contained and ICE-complete**: intent, constraints,
 > failures, expectations/success, and context, plus its delivery parts. The
-> functionalities it delivers are **linked** to real spine nodes. The linter enforces
+> features it delivers are **linked** to real spine nodes. The linter enforces
 > the heading set and the link integrity; the eval scores depth and self-explanation
-> against `_content-standard.md`. Written by `/shape-features`.
+> against `_content-standard.md`. Written by `/shape-slice`.
 
 ## Heading contract (required, in order)
 
@@ -20,7 +20,7 @@
 ## Outcome
 ## User check
 ## Surface
-## Delivers — functionalities (linked)
+## Delivers — features (linked)
 ## Acceptance criteria
 ```
 
@@ -37,7 +37,7 @@
 - **User check** — the concrete manual verification: open X, do Y, verify Z.
 - **Surface** — type (web_dashboard | server_api | cli | library | service_read_model),
   human run target, and the artifacts that must open. Declared at cut, never re-derived.
-- **Delivers — functionalities (linked)** — the functionality spine nodes this epic
+- **Delivers — features (linked)** — the feature spine nodes this epic
   delivers; each must resolve, or the linter rejects the epic.
 - **Acceptance criteria** — Given / When / Then; done when these pass.
 
@@ -103,7 +103,7 @@ missing), and the seeded private field reads "privacy-blocked".
 - Human run target: http://localhost:<port>/coverage
 - Must open: "Source coverage page", "Trust-label legend"
 
-## Delivers — functionalities (linked)
+## Delivers — features (linked)
 - collect/source-usage-ingest
 - collect/privacy-trust-labeling
 - collect/source-coverage-freshness

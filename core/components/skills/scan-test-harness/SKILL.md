@@ -4,13 +4,13 @@ description: Inspect scan-index manifests, existing CI workflow, and detected te
 user-invocable: false
 model: sonnet
 allowed-tools: Bash, Read, Write, Grep, Glob
-deprecated: true
-deprecated_note: '#434 ProductOS realignment — superseded by the command model; retained for Phase E reference, not installed'
+stale: true
+stale_note: 'waits for the rebuild of /refactor-code and /build-epic (#855)'
 ---
 
 # scan-test-harness
 
-Called by the `/decode` play during pre-flight, after `scan-codebase` and before any test generation or execution. Produces the TEST_HARNESS record that the `test-runner` agent consumes verbatim.
+Called by the `/decode` play during pre-flight, after the codebase scan and before any test generation or execution. Produces the TEST_HARNESS record that the test-running agent consumes verbatim.
 
 ## Purpose
 

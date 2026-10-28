@@ -1,0 +1,87 @@
+# design-findings-memory.yaml - Layer 2 design-grounding, category "memory", PR #932 (issue 920)
+# Read-only. Principles come from the base ref (main), the memory tool and committed code; nothing is
+# grounded in ADR 059 or specs/redesign.md (both are new on this branch).
+pr: 932
+category: memory
+base: main
+changed_files_checked:
+  - core/components/memory/standards/rules/_index.md
+  - core/components/memory/standards/rules/loop-contract.md
+  - core/components/memory/standards/rules/naming.md
+  - core/components/memory/standards/rules/naming.yaml
+  - core/components/memory/standards/rules/pipeline-next.md
+  - core/components/memory/standards/rules/pipeline-position.md
+  - core/components/memory/standards/rules/rename-map.yaml
+  - core/components/memory/standards/templates/adr.md
+grounding:
+  principles:
+    - id: G1
+      principle: "naming.yaml is the one list of verbs, each with one meaning; a verb is added there first. A verb no part uses should not stay listed."
+      source: "main:core/components/memory/standards/rules/naming.md (rule 3, 'One verb, one meaning')"
+    - id: G2
+      principle: "rename-map.yaml 'lists every name changed when this standard was adopted'; check_old_names.py reads it to find a stale old name anywhere in the repo."
+      source: "main:core/components/memory/standards/rules/naming.md (intro) ; main:core/tools/naming/check_old_names.py (docstring, MAP, load_map)"
+    - id: G3
+      principle: "The ADR template's core fields mirror schemas/product-os/decision.yaml; each field the template adds is added to that schema, with its migration note (#632). adr.py lint checks the shape of a record against the template."
+      source: "main:core/components/memory/standards/schemas/product-os/decision.yaml (header, #632 block, migration note) ; main:core/components/memory/standards/templates/adr.md (intro) ; HEAD:core/components/skills/author-decision/scripts/adr.py (unchanged by the branch)"
+    - id: G4
+      principle: "The Next-line map holds one row per play or loop that exists; the standards index lists every file of the shelf; a cross-reference names something that exists."
+      source: "main:core/components/memory/standards/rules/pipeline-next.md (header) ; knowledge/review/memory.md playbook copy (rubric: 'listed in the shelf _index', 'cross-references resolve')"
+    - id: G5
+      principle: "A decision that changes an accepted ADR names it back through a forward pointer, both directions."
+      source: "main:core/components/memory/standards/templates/adr.md (Rules)"
+    - id: G6
+      principle: "'Member' play = the start-change / commit-change / propose-change / check-change / merge-change set."
+      source: "main:core/components/memory/standards/rules/pipeline-position.md (table 'The two sequences')"
+  not_applicable:
+    - "knowledge/_DESIGN.md and knowledge/_TEMPLATE.md (copied to memory_dir via the memory tool, phoenix tier): they govern knowledge shelf files. The branch changes no file under memory/knowledge/, so no shelf-shape check ran. The severity taxonomy (standards/rules/pr.md) is unchanged by the branch, so 'stays mechanical' holds."
+  memory_copies: ".garura/project/issues/920/context/memory/grounding-memory/manifest.json"
+checks_done_by_hand:
+  - check: "Renamed/removed names still match files that exist (playbook check 2)"
+    result: "pass. Every rename-map target exists under core/components; every pipeline-next.md row has a play or loop; no check-knowledge / research-knowledge / search-knowledge / build-knowledge / review-knowledge text is left under core/components/memory (grep, empty). The branch removes the three rows and two verbs together."
+  - check: "Cross-references in loop-contract.md resolve (playbook check 1)"
+    result: "pass. 'Shared Loop Run, R5c and R5b' exist in core/components/loops/_shared/loop-run.md (R5c 'the knowledge step (ADR 059)', R5b). ADR 059 is linked from docs/adr/_index.md, and ADR 046's Status line gains the forward pointer to it (G5 met). ADR 059 is cited as a reference only, never as grounding."
+  - check: "Files are listed in their shelf _index"
+    result: "pass for loop-contract, naming.md, naming.yaml, pipeline-position, rename-map, templates/adr.md; one pre-existing gap, see F5."
+  - check: "lint-components on core/components"
+    result: "no finding in any core/components/memory file (36 errors elsewhere, none in the memory category)."
+  - check: "Severity taxonomy stays mechanical"
+    result: "pass. pr.md is not changed by the branch."
+findings:
+  - id: F1
+    severity: P3
+    file: core/components/memory/standards/rules/rename-map.yaml
+    lines: "removed: build-knowledge: research-knowledge ; review-knowledge: check-knowledge"
+    principle: G2
+    basis_source: "main:naming.md intro ('rename-map.yaml lists every name changed when this standard was adopted'); main:core/tools/naming/check_old_names.py (searches the repo for every key of the map)"
+    finding: "Both entries were real renames made at ADR 046 (they are the only plays rows with knowledge in the old map). Their target plays are now deleted, so the map pointing at them was stale, and removing them is defensible. But the map has no way to say 'old name, now removed'. After this change the names build-knowledge and review-knowledge are no longer known to the old-name check, so a leftover use of either passes it, and the map no longer lists every name the standard changed. Nothing replaces the guard."
+    decision_for_person: "Keep the removal (the targets are gone) or add a way to record 'removed, no successor' so the old-name check still catches the two names. Not a defect in the files as written; it is a design gap the change opens."
+  - id: F2
+    severity: P3
+    file: core/components/memory/standards/templates/adr.md
+    lines: "Core fields row 'for_the_accepter'; Shape 2 (YAML) 'for_the_accepter:' block under decision:"
+    principle: G3
+    basis_source: "main:core/components/memory/standards/schemas/product-os/decision.yaml (closed list of decision fields; migration note says each template core field is added there); core/components/skills/author-decision/scripts/adr.py (unchanged; MD_SECTIONS and YAML_REQUIRED know no such field)"
+    finding: "The template adds the field to the YAML shape, but the decision schema it is 'built from' (unchanged on this branch) has no for_the_accepter field, and neither adr.py lint check (Markdown sections, YAML required fields) looks at it. The template's own intro says adr.py lint checks a record against it, and its rule says a vague point 'is not finished'; no check can enforce either. A YAML decision record that carries the field is outside the committed schema."
+  - id: F3
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-position.md
+    lines: "added: '\"Member\" means only these six change plays: no step of a loop is a member play (ADR 059).'"
+    principle: G6
+    basis_source: "main:pipeline-position.md table 'The two sequences' lists five plays (start-change, commit-change, propose-change, check-change, merge-change); the line 'These six plays are the members' is base text"
+    finding: "The new sentence repeats the number six, but the table lists five plays. The count was already wrong on main; the added line copies it into a second place."
+  - id: F4
+    severity: P4
+    file: core/components/memory/standards/rules/naming.md ; core/components/memory/standards/rules/loop-contract.md
+    lines: "naming.md: 'plan plays\\n`draft`, `show`, `update`, `list`; `record` writes a\\ndecision;' (ragged wrap after the cut) ; loop-contract.md: 'what is left - never a questionnaire (ADR 041, ADR 059). The person's answers are kept in the loop issue's' (line longer than the file's wrap)"
+    principle: "Both files hard-wrap at about 100 columns (surrounding lines in HEAD, same files)."
+    basis_source: "the unchanged lines around each edit in the same files on main"
+    finding: "Style only: two edited paragraphs were not re-wrapped."
+  - id: F5
+    severity: P4
+    file: core/components/memory/standards/rules/_index.md
+    lines: "whole file (pipeline-next.md, changed here, has no row)"
+    principle: G4
+    basis_source: "knowledge/review/memory.md playbook copy ('is it listed in the shelf _index'); main:_index.md has no pipeline-next row either (git show main:... | grep -c pipeline-next = 0)"
+    finding: "pipeline-next.md is changed by this branch but is not listed in the rules index. This gap exists on main and is not caused by the branch."
+counts: { P1: 0, P2: 0, P3: 2, P4: 3, total: 5 }

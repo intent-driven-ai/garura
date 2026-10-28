@@ -16,15 +16,17 @@ core/components/           # Source of truth (edit here)
 ├── loops/                 # loops: higher-order plays that run plays (ADR 029, ADR 045); built by /create-loop
 └── memory/                # LTM: standards, formats, knowledge
 
-{target}/.claude/          # Deployment into a target project (via install-garura)
-├── agents/                # Deployed agents
-└── skills/                # Deployed skills + plays
+{target}/.claude/          # Deployment into a target project (via install-garura; Claude Code only:
+├── agents/                #   the Codex install is stopped for now, #863)
+└── skills/                # Deployed skills + plays, and the shared files in skills/_shared/
+
+{target}/.garura/core/tools/  # Deployed tools (lint-components, lint-play, rebuild-eval, the memory tool)
 
 ~/.garura/core/memory/     # Machine-global KB (via install-garura)
 ```
 
 **Note:** `.claude/` and `.garura/core/memory/` are NO LONGER tracked in the repository. They are gitignored.
-- Components deploy into the target's `.claude/` (Claude Code) or `.agents/skills/` (Codex CLI) via the `install-garura` play
+- Components deploy into the target's `.claude/` (Claude Code) via the `install-garura` play. The Codex install (to `.agents/skills/`) is stopped for now (#863): `--tool codex` stops with a plain message and changes nothing
 - Memory deploys to the machine-global `~/.garura/core/memory/` (default; overridable via `--memory-dest`)
 
 **Data Flow:** Play → invokes agents via Task tool → agents invoke skills → skills produce artifacts to STM (`{stm_base}/{issue}/` — resolved from `stm.base-path` in `.garura/core/config.yaml`)
@@ -35,6 +37,16 @@ core/components/           # Source of truth (edit here)
 
 Author all components in `core/components/`. Deployed copies under a target's `.claude/` are never edited by hand.
 After editing source, run the garura-native `install-garura` play to deploy components into a target's `.claude/` (skills + agents + plays). Deployment tooling lives in `core/components/plays/install-garura/`; the reverse is `uninstall-garura`.
+
+**Installed parts never touch `core/components/` or `core/tools/`: that is precompiled code.** An
+installed play, loop, agent, skill, script, reference file, shared file or tool reads, runs and names
+only installed files (`.claude/skills/`, `.claude/agents/`, the installed `_shared/`,
+`.garura/core/tools/<name>/`), never points to Garura's own `docs/` (the install never copies
+it), and reads memory only through the memory tool. Notes of origin are
+deleted. The source-only parts (create-play, edit-play, create-loop, edit-loop, install-garura,
+uninstall-garura, edit-ontology, author-product-ontology), dev tests and the repo-layout globs of the
+review are the exceptions. The linter rule `installed-paths/source-path` checks it
+(`docs/standards/harness-standard.md`, principle 11).
 
 ### 2. Execution Model
 
@@ -107,22 +119,36 @@ A play change is one of two kinds, and the kind decides the path:
 `create-play` itself has no ICE source (it is the compiler bootstrap) — all
 changes to it are direct edits to its `SKILL.md` by definition.
 
+**When a play's job is gone, build a new play.** If a decision removes what a play was for
+(for example, the old `/shape-slice` cut realized slices into epics), do not refactor it with
+`/edit-play`. Read the old play only for the parts worth keeping, and build the new one with
+`/create-play`. A play that served only a flow that is gone is dropped, with an ADR (ADR 051,
+`/next`).
+
 **Durability rule for non-intent edits:** a hand edit to a generated file is
 clobbered by the next intent-driven rebuild unless the compiler reproduces it.
 The canonical example is the **Standard Play Close** — every play's Evidence &
 Close section. It lives once, in `core/components/plays/_shared/play-close.md`,
 laid beside the installed plays (ADR 039 §9). A play carries only its anchor pair,
 its own values and its own close steps, and points there; `/create-play` emits
-that pointer so direct-edit and rebuild converge; `check-components` fails any
+that pointer so direct-edit and rebuild converge; `core/tools/lint-components` fails any
 play missing its exact anchor pair. Any new shared scaffolding follows the same
 pattern: one common file the plays point to, emitted by the compiler and linted.
 
 
 ## Work Tracking
 
-Garura's own work follows the product model it offers (ontology v5): **Business Intent → Feature
-(a capability, with its ICE) → Story (a functionality, with its ICE) → Spike / Chore / Bug**, as real
-parent/child links. A business intent's issue number is its plan's ID; plans live at
+Garura's own work follows the product model it offers (ontology v9). In the model: **Business
+Intent**, **Capability** and **Feature** (one thing a person can do inside a capability, with its
+ICE), and **Slice** (an ordered group of features that a person can test end to end; it serves one
+or more business intents). In the tracker: each business intent has one plan; it holds every slice
+that serves the intent and makes one **Epic** for each → one **Story** per feature →
+**Spike / Chore / Bug** under a story, as real parent/child links.
+
+**A builder never reads a plan's evals.** Each slice's eval is kept in
+`.garura/project/plans/<plan-id>/evals/`. No agent or skill that builds the software reads that
+folder; only the eval play and the eval itself do. The usage guide the build delivers goes in
+`.garura/project/plans/<plan-id>/guides/`, outside the evals folder. A business intent's issue number is its plan's ID; plans live at
 `.garura/project/plans/`. When work on a plan starts, `start-change` cuts `plan/<id>/base`, and each
 issue's branch `plan/<id>/<issue>-<slug>` under it.
 
@@ -143,6 +169,6 @@ The rules are `core/components/memory/standards/rules/naming.md`; the linter enf
 - `core/grounding/glossary.md` — Canonical definitions of every Garura concept
 - `core/config.yaml` — Paths and settings (the source; the install copies it into a project as
   `.garura/core/config.yaml`, which that project's plays read)
-- `docs/adr/` — Architecture Decision Records (23 ADRs, plus one superseded)
+- `docs/adr/` — Architecture Decision Records (49 ADRs, plus two superseded)
 - `docs/philosophy/` — Core architecture philosophy
 - `docs/components/` — Agent, skill, play, loop, memory documentation (loops: `docs/components/loops.md`)

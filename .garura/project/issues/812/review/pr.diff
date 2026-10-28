@@ -1,0 +1,340 @@
+diff --git a/.garura/project/issues/812/context/analysis.yaml b/.garura/project/issues/812/context/analysis.yaml
+new file mode 100644
+index 00000000..974d6de0
+--- /dev/null
++++ b/.garura/project/issues/812/context/analysis.yaml
+@@ -0,0 +1,31 @@
++---
++# assess-changes output (grouping judgment applied)
++# issue: 812
++needs_judgment: false
++
++change_groups:
++  - files:
++      - core/tools/naming/check_old_names.py
++      - core/tools/naming/test_naming_tools.py
++    commit_type: fix
++    scope: naming
++    issue: 812
++    subject: "the old-name check skips ADRs 046 and 048 by number and searches ADR 047"
++
++exclusions:
++  - path: .garura/project/issues/812/context/analysis.yaml
++    reason: "working file of this commit run, not part of the change"
++  - path: .garura/project/issues/812/context/porcelain.txt
++    reason: "working file of this commit run, not part of the change"
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes:
++    []
++  ambiguous_types:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "one concern: code fix and its test in one group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/812/context/branch.json b/.garura/project/issues/812/context/branch.json
+new file mode 100644
+index 00000000..e40ab7b3
+--- /dev/null
++++ b/.garura/project/issues/812/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/788/812-skip-adr-by-number",
++  "base_sha": "4c0e657e94b2ed96e4882224ff67683275ed2db2",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/788/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/812/context/commits.yaml b/.garura/project/issues/812/context/commits.yaml
+new file mode 100644
+index 00000000..a2bbd1d1
+--- /dev/null
++++ b/.garura/project/issues/812/context/commits.yaml
+@@ -0,0 +1,16 @@
++commits:
++  - sha: cf9b90d7
++    message: "fix(naming): the old-name check skips ADRs 046 and 048 by number and searches ADR 047 (#812)"
++    files:
++      - core/tools/naming/check_old_names.py
++      - core/tools/naming/test_naming_tools.py
++    branch: plan/788/812-skip-adr-by-number
++excluded_files:
++  - path: ".garura/project/issues/812/context/analysis.yaml"
++    reason: "working file of this commit run, not part of the change"
++  - path: ".garura/project/issues/812/context/porcelain.txt"
++    reason: "working file of this commit run, not part of the change"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/812/context/issue.json b/.garura/project/issues/812/context/issue.json
+new file mode 100644
+index 00000000..b8f60032
+--- /dev/null
++++ b/.garura/project/issues/812/context/issue.json
+@@ -0,0 +1 @@
++{ "resolved": true, "issue_number": 812, "title": "chore: the old-name check skips ADR 047 by mistake; skip 046 and 048 by number", "created": false }
+diff --git a/.garura/project/issues/812/context/plan.json b/.garura/project/issues/812/context/plan.json
+new file mode 100644
+index 00000000..2f01b7af
+--- /dev/null
++++ b/.garura/project/issues/812/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "812",
++  "plan_id": "788",
++  "plan_branch": "plan/788/base",
++  "issue_branch": "plan/788/812-skip-adr-by-number"
++}
+diff --git a/.garura/project/issues/812/context/porcelain.txt b/.garura/project/issues/812/context/porcelain.txt
+new file mode 100644
+index 00000000..b691f997
+--- /dev/null
++++ b/.garura/project/issues/812/context/porcelain.txt
+@@ -0,0 +1,3 @@
++ M core/tools/naming/check_old_names.py
++ M core/tools/naming/test_naming_tools.py
++?? .garura/project/issues/812/context/porcelain.txt
+diff --git a/.garura/project/issues/812/context/pr-body.md b/.garura/project/issues/812/context/pr-body.md
+new file mode 100644
+index 00000000..729cc0ce
+--- /dev/null
++++ b/.garura/project/issues/812/context/pr-body.md
+@@ -0,0 +1,72 @@
++The old-name check now skips only the ADRs that record renames. Before, it skipped every ADR below 49, so ADR 047 was never searched, though it records no rename.
++
++## What changes
++
++- `core/tools/naming/check_old_names.py`: skip ADRs before 046, plus 046 and 048 by number (they record the renames). ADR 047 and every ADR from 049 are searched.
++- `core/tools/naming/test_naming_tools.py`: two new checks — ADRs 046 and 048 are not searched; ADR 047 is searched.
++
++## Checks
++
++| Check | Result |
++|---|---|
++| `test_naming_tools.py` | 18 passed, 0 failed |
++| Old-name check on the repo | 0 old names left (ADR 047 has none) |
++
++## Self-review
++
++# Self-review: issue 812 (assess-pr, driven by the base self-review rules)
++
++## Branch Info
++
++- Current Branch: plan/788/812-skip-adr-by-number
++- Base Branch: plan/788/base
++- Branch Pattern: feature
++- Rules file: ~/.garura/core/memory/standards/rules/self-review.md
++- Issue Done when: the check skips ADRs before 046, plus 046 and 048 by number; ADR 047 and later ADRs are searched; test_naming_tools.py covers it and passes.
++
++## Change Summary
++
++- Commits: 2 (one fix(naming), one chore(stm) run record)
++- Files Changed: 9 (2 source files under core/tools/naming, 7 run records under .garura/project/issues/812/context)
++- Source change: about 10 lines in check_old_names.py and test_naming_tools.py
++
++## Suggested PR Title
++
++```
++fix(naming): the old-name check skips ADRs 046 and 048 by number and searches ADR 047 (#812)
++```
++
++## Context Detected
++
++- Code files (*.py): 2 files
++- Configuration (*.yaml, *.json): run records only
++- Commit types: fix 1, chore 1
++
++## Scope checks
++
++- [PASS] Matches the issue. The skip rule is now: ADR number below 46, or 46 or 48. ADR 047 and 049 onward are searched. This is what the issue asks for.
++- [PASS] No scope creep. Besides the two source files, every changed file is a run record for issue 812.
++- [PASS] Reasonable size. About 10 changed source lines, reviewable in one sitting.
++- [PASS] No stray artifacts. No debug prints or commented-out code. Only run records are added, which the pipeline commits on purpose.
++
++## Quality checks
++
++- [PASS] Tests present. test_naming_tools.py adds ADRs 046, 047 and 048 to its fixture and checks that 046 and 048 are skipped and 047 is searched. Run: 18 passed, 0 failed.
++- [PASS] Commits are clean. Conventional format, each one coherent, each references #812.
++- [PASS] No secrets. A scan of the added lines for secret patterns found nothing. Evidence: pattern scan of the diff.
++- [PASS] Docs in step. The module docstring in check_old_names.py states the new skip rule.
++- [PASS] Nothing obviously broken. Merge test against plan/788/base is clean (git merge-tree gave a tree, no conflicts). The old FIRST_NEW_ADR value of 49 is gone; only old review records mention it. The run-record YAML files parse.
++
++## Blocking Issues
++
++None. Ready to raise.
++
++## Readiness Assessment
++
++- Ready: yes
++- Review Required: 0
++- Recommendation: Create PR
++
++Closes #812
++
++🤖 Generated with [Claude Code](https://claude.com/claude-code)
+diff --git a/.garura/project/issues/812/context/pr.json b/.garura/project/issues/812/context/pr.json
+new file mode 100644
+index 00000000..e0806371
+--- /dev/null
++++ b/.garura/project/issues/812/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 814,
++  "url": "https://github.com/intent-driven-ai/garura/pull/814",
++  "state": "OPEN",
++  "base": "plan/788/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/812/context/resolved-rules.json b/.garura/project/issues/812/context/resolved-rules.json
+new file mode 100644
+index 00000000..725c8d8b
+--- /dev/null
++++ b/.garura/project/issues/812/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.garura/core/memory/standards/rules/self-review.md",
++  "source": "~/.garura/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/812/context/self-review.md b/.garura/project/issues/812/context/self-review.md
+new file mode 100644
+index 00000000..549e8b48
+--- /dev/null
++++ b/.garura/project/issues/812/context/self-review.md
+@@ -0,0 +1,52 @@
++# Self-review: issue 812 (assess-pr, driven by the base self-review rules)
++
++## Branch Info
++
++- Current Branch: plan/788/812-skip-adr-by-number
++- Base Branch: plan/788/base
++- Branch Pattern: feature
++- Rules file: ~/.garura/core/memory/standards/rules/self-review.md
++- Issue Done when: the check skips ADRs before 046, plus 046 and 048 by number; ADR 047 and later ADRs are searched; test_naming_tools.py covers it and passes.
++
++## Change Summary
++
++- Commits: 2 (one fix(naming), one chore(stm) run record)
++- Files Changed: 9 (2 source files under core/tools/naming, 7 run records under .garura/project/issues/812/context)
++- Source change: about 10 lines in check_old_names.py and test_naming_tools.py
++
++## Suggested PR Title
++
++```
++fix(naming): the old-name check skips ADRs 046 and 048 by number and searches ADR 047 (#812)
++```
++
++## Context Detected
++
++- Code files (*.py): 2 files
++- Configuration (*.yaml, *.json): run records only
++- Commit types: fix 1, chore 1
++
++## Scope checks
++
++- [PASS] Matches the issue. The skip rule is now: ADR number below 46, or 46 or 48. ADR 047 and 049 onward are searched. This is what the issue asks for.
++- [PASS] No scope creep. Besides the two source files, every changed file is a run record for issue 812.
++- [PASS] Reasonable size. About 10 changed source lines, reviewable in one sitting.
++- [PASS] No stray artifacts. No debug prints or commented-out code. Only run records are added, which the pipeline commits on purpose.
++
++## Quality checks
++
++- [PASS] Tests present. test_naming_tools.py adds ADRs 046, 047 and 048 to its fixture and checks that 046 and 048 are skipped and 047 is searched. Run: 18 passed, 0 failed.
++- [PASS] Commits are clean. Conventional format, each one coherent, each references #812.
++- [PASS] No secrets. A scan of the added lines for secret patterns found nothing. Evidence: pattern scan of the diff.
++- [PASS] Docs in step. The module docstring in check_old_names.py states the new skip rule.
++- [PASS] Nothing obviously broken. Merge test against plan/788/base is clean (git merge-tree gave a tree, no conflicts). The old FIRST_NEW_ADR value of 49 is gone; only old review records mention it. The run-record YAML files parse.
++
++## Blocking Issues
++
++None. Ready to raise.
++
++## Readiness Assessment
++
++- Ready: yes
++- Review Required: 0
++- Recommendation: Create PR
+diff --git a/.garura/project/issues/812/context/target.json b/.garura/project/issues/812/context/target.json
+new file mode 100644
+index 00000000..c680c1b1
+--- /dev/null
++++ b/.garura/project/issues/812/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/788/812-skip-adr-by-number",
++  "kind": "issue-in-plan",
++  "plan_id": "788",
++  "issue": "812",
++  "base": "plan/788/base"
++}
+diff --git a/.garura/project/issues/812/context/work-description.txt b/.garura/project/issues/812/context/work-description.txt
+new file mode 100644
+index 00000000..903191c9
+--- /dev/null
++++ b/.garura/project/issues/812/context/work-description.txt
+@@ -0,0 +1 @@
++Issue #812 (plan 788, under #792). The old-name check (core/tools/naming/check_old_names.py) skips every ADR below 49, so ADR 047 is skipped too, though it records no rename. Change it to skip ADRs before 046, plus 046 and 048 by number; search ADR 047 and every ADR from 049. Cover it in test_naming_tools.py.
+diff --git a/core/tools/naming/check_old_names.py b/core/tools/naming/check_old_names.py
+index a377344c..7ba24860 100644
+--- a/core/tools/naming/check_old_names.py
++++ b/core/tools/naming/check_old_names.py
+@@ -14,7 +14,7 @@
+ 
+ A one-word old name (vision, run, quality) is an everyday word, so plain prose is not
+ searched for it. Past records keep their old words and are not searched: .garura/,
+-CHANGELOG.md, the ADRs up to and including ADR 048 (ADR 046 and ADR 048 record the renames).
++CHANGELOG.md, the ADRs before ADR 046, and ADR 046 and ADR 048 (they record the renames).
+ 
+     python3 core/tools/naming/check_old_names.py [--root .] [--kind plays|skills|loops|agents] \
+         [--out report.json]
+@@ -41,7 +41,8 @@
+               "docs/adr/_index.md", "docs/agentic-methodology/tools/lint-components.md",
+               "core/components/plays/install-garura/scripts/test_install.py"}  # sets up old-name folders on purpose
+ TEXT = (".md", ".py", ".js", ".yaml", ".yml", ".json", ".sh", ".txt", ".toml")
+-FIRST_NEW_ADR = 49  # ADR 046 and ADR 048 record the renames, so they name the old names on purpose
++FIRST_NEW_ADR = 46
++RENAME_ADRS = {46, 48}  # they record the renames, so they name the old names on purpose
+ # Files whose keys are play or loop names (the next-step map, the config).
+ KEYED_FILES = {"core/components/memory/standards/rules/pipeline-next.md", "core/config.yaml"}
+ 
+@@ -54,7 +55,7 @@ def load_map(root):
+ 
+ def is_past_record(rel):
+     m = re.match(r"docs/adr/(?:SUPERSEDED-)?(\d{3})-", rel)
+-    return bool(m) and int(m.group(1)) < FIRST_NEW_ADR
++    return bool(m) and (int(m.group(1)) < FIRST_NEW_ADR or int(m.group(1)) in RENAME_ADRS)
+ 
+ 
+ def patterns(old, kind):
+diff --git a/core/tools/naming/test_naming_tools.py b/core/tools/naming/test_naming_tools.py
+index f06ee76f..c5fd605b 100644
+--- a/core/tools/naming/test_naming_tools.py
++++ b/core/tools/naming/test_naming_tools.py
+@@ -51,6 +51,9 @@ def main():
+                                      "Path: core/components/plays/vision/SKILL.md. Lens quality stays.\n")
+         write(root, "core/x.py", 'play = "vision"\nLENS = ("quality", "run")\nkey = "shape"\n')
+         write(root, "docs/adr/006-naming.md", "The /vision play.\n")
++        write(root, "docs/adr/046-one-naming-standard.md", "The /vision play.\n")
++        write(root, "docs/adr/047-the-ice.md", "The /vision play.\n")
++        write(root, "docs/adr/048-two-layers.md", "The /vision play.\n")
+         write(root, "CHANGELOG.md", "/vision shipped.\n")
+         subprocess.run(["git", "add", "-A"], cwd=root)
+         subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "x"], cwd=root)
+@@ -63,6 +66,9 @@ def main():
+         check("a lens word in code is not flagged", not any(h["file"] == "core/x.py" and h["line"] == 2 for h in before))
+         check("a dict key 'shape' in code is not flagged", not any(h["file"] == "core/x.py" and h["line"] == 3 for h in before))
+         check("past records are not searched", "docs/adr/006-naming.md" not in files_hit and "CHANGELOG.md" not in files_hit)
++        check("the rename ADRs 046 and 048 are not searched",
++              "docs/adr/046-one-naming-standard.md" not in files_hit and "docs/adr/048-two-layers.md" not in files_hit)
++        check("ADR 047 is searched", "docs/adr/047-the-ice.md" in files_hit)
+ 
+         ar.main(["--root", root])
+         after = co.find(root, co.load_map(root), ["plays", "loops", "skills", "agents"])

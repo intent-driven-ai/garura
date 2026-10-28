@@ -1,0 +1,46 @@
+{
+  "ok": true,
+  "slices": [
+    {
+      "slice": "sl-intent-to-design",
+      "written": [
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md"
+      ],
+      "added_scenarios": 0,
+      "added_untestable": 0,
+      "new_files": [
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md",
+        ".garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-795.feature.md",
+      "existed": false
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-818.feature.md",
+      "existed": false
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-798.feature.md",
+      "existed": false
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.fn-898.feature.md",
+      "existed": false
+    },
+    {
+      "path": ".garura/project/plans/788/evals/intent-to-design/eval.sl-intent-to-design.md",
+      "existed": false
+    }
+  ]
+}

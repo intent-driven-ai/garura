@@ -1,0 +1,18 @@
+FAIL — .garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md
+  stranger_test = fail
+    evidence: "Out: the confirmed answers, kept in the issue's short-term memory with each question, for the memory, review-rule and tracker features to read." set against "In: what the project already shows, for the proposed answers: its files, its config and, on a later run, its earlier answers." Also: "Shelf: none (routing.yaml, unmatched)." and "Finding and making the tracker's work-item types (fn-881 owns it)."
+    fix:      1) Say which issue an initialize run keeps its answers under, and in one clause what short-term memory is (the run's own working folder), so a stranger knows where the answers live. 2) Say where a later run finds the earlier answers (the parent says the profile records them through fn-project-memory); if that is the profile, write "on a later run, its earlier answers as the profile records them" so the output and the later input do not seem to be in two different places. 3) In the tier-missing rule, keep the parent's detail: initialize says the Phoenix install must run on this machine, and add it to the matching acceptance criterion. 4) Replace "(routing.yaml, unmatched)" with plain words ("no knowledge shelf in memory covers project set-up") and give fn-881 a name as the parent does ("Set up the tracker's work-item types (fn-881)").
+{
+  "ok": false,
+  "overall": "fail",
+  "doc": ".garura/product/product-os/software-delivery-planning/initialize/fn-setup-questions/feature.md",
+  "failures": [
+    {
+      "id": "stranger_test",
+      "verdict": "fail",
+      "evidence": "\"Out: the confirmed answers, kept in the issue's short-term memory with each question, for the memory, review-rule and tracker features to read.\" set against \"In: what the project already shows, for the proposed answers: its files, its config and, on a later run, its earlier answers.\" Also: \"Shelf: none (routing.yaml, unmatched).\" and \"Finding and making the tracker's work-item types (fn-881 owns it).\"",
+      "fix": "1) Say which issue an initialize run keeps its answers under, and in one clause what short-term memory is (the run's own working folder), so a stranger knows where the answers live. 2) Say where a later run finds the earlier answers (the parent says the profile records them through fn-project-memory); if that is the profile, write \"on a later run, its earlier answers as the profile records them\" so the output and the later input do not seem to be in two different places. 3) In the tier-missing rule, keep the parent's detail: initialize says the Phoenix install must run on this machine, and add it to the matching acceptance criterion. 4) Replace \"(routing.yaml, unmatched)\" with plain words (\"no knowledge shelf in memory covers project set-up\") and give fn-881 a name as the parent does (\"Set up the tracker's work-item types (fn-881)\")."
+    }
+  ],
+  "missing": []
+}

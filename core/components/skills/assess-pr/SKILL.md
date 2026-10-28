@@ -22,6 +22,8 @@ Receive from agent:
 - Base branch (defaults to `main`)
 - Optional: specific commit range
 - Optional: pr_number (GitHub PR number; when provided, skill uses gh CLI to fetch PR diff and metadata instead of git diff)
+- `commits_rules_path` — the short-term copy of the memory rule `standards/rules/commits.md`
+  that the agent fetched through the memory tool
 
 ## Process
 
@@ -69,7 +71,7 @@ Using the changed files list (from Step 0a in PR-scoped mode, or Step 1 in branc
 
 Determine branch pattern using: `reference/branch-patterns.md`
 
-Determine commit types from commit messages using: `~/.garura/core/memory/standards/rules/commits.md`
+Determine commit types from commit messages using the file at `commits_rules_path`.
 
 ### 3. Load Rules
 

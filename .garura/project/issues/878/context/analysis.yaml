@@ -1,0 +1,57 @@
+---
+# assess-changes output (grouping done by the repo-orchestrator)
+# issue: 878
+needs_judgment: false
+
+change_groups:
+  - id: shape-plan-run-records
+    concern: "Run records of the first /shape-plan 788 run: decisions, gathered inputs, drafts, brief, approval, tracker writes, checks, ICE clean copies and issue body backups"
+    commit_type: chore
+    scope: stm
+    subject: "record the shape-plan 788 run"
+    issue: 878
+    files:
+      - .garura/project/issues/878/context/decisions.md
+      - .garura/project/issues/878/context/shape-plan/approval.json
+      - .garura/project/issues/878/context/shape-plan/body-before-794.md
+      - .garura/project/issues/878/context/shape-plan/body-before-795.md
+      - .garura/project/issues/878/context/shape-plan/body-before-798.md
+      - .garura/project/issues/878/context/shape-plan/body-before-818.md
+      - .garura/project/issues/878/context/shape-plan/brief.md
+      - .garura/project/issues/878/context/shape-plan/drafts-check.json
+      - .garura/project/issues/878/context/shape-plan/drafts.json
+      - .garura/project/issues/878/context/shape-plan/gather.json
+      - .garura/project/issues/878/context/shape-plan/guard-report.json
+      - .garura/project/issues/878/context/shape-plan/ice/
+      - .garura/project/issues/878/context/shape-plan/plan-before.txt
+      - .garura/project/issues/878/context/shape-plan/plan-check.json
+      - .garura/project/issues/878/context/shape-plan/plan-write.json
+      - .garura/project/issues/878/context/shape-plan/skill-input.json
+      - .garura/project/issues/878/context/shape-plan/start-sha.txt
+      - .garura/project/issues/878/context/shape-plan/tracker-check.json
+      - .garura/project/issues/878/context/shape-plan/tracker-record.json
+      - .garura/project/issues/878/context/shape-plan/work-items.json
+  - id: shape-plan-template-copies
+    concern: "Template copies the shape-plan run loaded into short-term memory (manifest, pipeline-next rule, approval prompt, delivery report, evidence file)"
+    commit_type: chore
+    scope: stm
+    subject: "record the templates loaded for the shape-plan run"
+    issue: 878
+    files:
+      - .garura/project/issues/878/context/templates/
+
+exclusions:
+  - path: ".garura/project/issues/878/context/analysis.yaml"
+    reason: "commit-change play run file; committed by the executor in the final run-state chore group"
+    blocking: false
+  - path: ".garura/project/issues/878/context/porcelain.txt"
+    reason: "commit-change play run file; committed by the executor in the final run-state chore group"
+    blocking: false
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "all 21 untracked run-record files from git status --porcelain (23 entries less analysis.yaml and porcelain.txt) land in exactly one group; the two play run files are in exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched; grep for tokens, private keys, password/api key/secret assignments over decisions.md, shape-plan/ and templates/ found nothing"}

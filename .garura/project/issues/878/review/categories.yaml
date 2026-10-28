@@ -1,0 +1,58 @@
+# categories.yaml - check-change Step 2 (assessment), PR #880, issue 878, base plan/788/base
+# Treatments are taken from the short-term playbook copies in
+# .garura/project/issues/878/context/memory/knowledge/review/ (Phoenix memory, version 3161dcdfe26f).
+# Severity taxonomy copy: .garura/project/issues/878/context/memory/standards/rules/pr.md (Garura memory tier, version null).
+next_map: .garura/project/issues/878/context/templates/standards/rules/pipeline-next.md
+changed_plays: []   # no play SKILL.md or ICE source is in the diff, so no lint_play run
+categories:
+  - name: config-maps
+    design_bearing: false
+    playbook: review/config-maps
+    evidence:
+      - .garura/install-manifest.json   # install record: the diff adds the skill author-work-items and the play shape-plan to the lists of installed parts and to the kind map, and raises the counts (skills 23 -> 24, plays 14 -> 15)
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: human, by name (the human reads the named changes directly)
+      linters:
+        - id: config-map-path-existence
+          command: "no committed config-map linter exists yet (a known gap in the playbook): the tool resolves each path the change adds and reports any that miss"
+          note: "Gap per playbook review/config-maps; the check is done by hand and cited."
+        - id: check-pr-quality
+          command: "run by the play / quality-auditor against the PR diff with the pr.md severity taxonomy copy"
+      runnable_checks:
+        - "The file still parses as JSON (python3 -c 'import json;json.load(open(\".garura/install-manifest.json\"))')."
+        - "Every path the diff adds resolves: the two added names have a source part (core/components/plays/shape-plan and core/components/skills/author-work-items exist). The .claude/skills/<name> entries point at the installed copies, which are gitignored; they are resolved on the machine that installed, and reported as such."
+        - "The counts agree with the lists: skills 24 and plays 15 match the number of skill and play entries after the change (objective count, cite it)."
+        - "No absolute home path in the changed lines."
+      design_grounding: false
+      note: "A file that points at other files by path. It is machine-written by install-garura, and no play, skill, agent or memory file is changed, so Layer 2 does not apply."
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    playbook_missing: true
+    note: "A kind of work no playbook covers: machine-written and hand-kept records of the /shape-plan 788 run and the plays that built this change (issue 878 short-term memory: analysis, branch, commits, decisions, issue, plan, porcelain, PR body and number, resolved rules, self-review, work description, and the shape-plan working files: approval, work-order bodies before the edit, brief, drafts and checks, tracker records, ICE drafts, work items). Not code, docs, harness or memory. A playbook is missing; follow-up recommended."
+    evidence:
+      - .garura/project/issues/878/context/analysis.yaml
+      - .garura/project/issues/878/context/branch.json
+      - .garura/project/issues/878/context/commits.yaml
+      - .garura/project/issues/878/context/decisions.md
+      - .garura/project/issues/878/context/issue.json
+      - .garura/project/issues/878/context/plan.json
+      - .garura/project/issues/878/context/porcelain.txt
+      - .garura/project/issues/878/context/pr-body.md
+      - .garura/project/issues/878/context/pr.json
+      - .garura/project/issues/878/context/resolved-rules.json
+      - .garura/project/issues/878/context/self-review.md
+      - .garura/project/issues/878/context/work-description.txt
+      - .garura/project/issues/878/context/shape-plan/**   # approval, body-before-*, brief, drafts*, gather, guard-report, ice/fn-*.md, plan-before/check/write, skill-input, start-change, start-sha, tracker-check/record, work-items
+      - .garura/project/issues/878/context/templates/**   # template-manager copies (Next-line map, approval prompt, delivery report, evidence file, manifest)
+      - .garura/project/issues/878/review/*   # this review's own working files (context, diff, categories, findings): the review's output, never grounding
+      - .garura/project/issues/878/context/memory/**   # short-term copies of shelf and severity taxonomy (with manifest): copies of memory, not changes to it
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool
+      linters: []
+      runnable_checks:
+        - "No playbook, so no prescribed treatment. Minimal objective checks by hand, cited: .json files parse as JSON, .yaml files parse as YAML; no secrets or personal data in the records; no absolute home path in the changed lines (the diff holds none)."
+        - "The record is not used as grounding for any design finding (a run record is the branch's own content). The ice/fn-*.md files are drafts of work-item ICE kept as the run's record; they are not the committed design."
+      design_grounding: false

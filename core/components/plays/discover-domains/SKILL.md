@@ -1,7 +1,7 @@
 ---
 name: discover-domains
 position: both
-description: 'Turn business intents, a business goal, a prototype''s shared capture, or any mix into the domains of the product model — or grow the domains already there — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there, found in the knowledge shelves or by research, each page with its sources), the domain spine entries linked to the business intents both ways, and a directional product profile — written directly in place on the live model. Writes domains only (ADR 043): capabilities and functionalities are /discover-capabilities''s. Builds on whatever any play already wrote (light domain pages, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /discover-capabilities and /shape-scope. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves a review record for the loop''s end review.'
+description: 'Turn business intents, a business goal, a prototype''s shared capture, or any mix into the domains of the product model — or grow the domains already there — a detailed domain grounding doc for each domain the product sits in (the field it serves and the job it does there, found in the knowledge shelves or by research, each page with its sources), the domain spine entries linked to the business intents both ways, and a directional product profile — written directly in place on the live model. Writes domains only (ADR 043): capabilities and features are /discover-capabilities''s. Builds on whatever any play already wrote (light domain pages, proposed intents) and never waits for another play. The CXO conversation of the ProductOS command model. Use when starting or growing a product area, before /discover-capabilities and /shape-slice. Run by hand, it opens its own change and lands it on main — no later play is needed to finish it; handed a loop''s contract, it opens nothing, does not stop at its checkpoint, works on the loop''s branch and leaves a review record for the loop''s end review.'
 user-invocable: true
 ---
 
@@ -14,12 +14,12 @@ product sits in (the field it serves and the job it does there — often more th
 entry linked to the business intents it serves (both ways), and a **directional** product
 profile. /discover-domains is the **CXO conversation** — what you take to a CXO and get back:
 strategic, directional, CXO altitude. It writes **domains only** (ADR 043): writing and
-detailing the capabilities and their functionalities is /discover-capabilities's (the product-manager
-step), and breaking the model into deliverable end-to-end verticals and epics is /shape-scope's
+detailing the capabilities and their features is /discover-capabilities's (the product-manager
+step), and shaping the model into slices a person can test end to end is /shape-slice's
 (the product-owner step).
 
 **Every kind written on its own (ADR 043).** Each kind has one writer — /discover-intent the business
-intents, /discover-domains the domains, /discover-capabilities the capabilities and functionalities — and none
+intents, /discover-domains the domains, /discover-capabilities the capabilities and features — and none
 needs another to run first; the links are made later (inside a loop by its gap skills). So
 /discover-domains starts from whatever the model holds: it accepts proposed intents (it never runs the
 workable check and never waits for a confirmation), raises a light domain page to the full
@@ -38,7 +38,7 @@ file. Every shared-file mutation (the spine `_spine.yaml` with its `profile` blo
 intent pages' Touches lists) is done by the deterministic keyed persist script, in place: it
 adds domain entries whose id is absent and the profile only if none exists, makes only the
 named updates to an existing domain entry (raise `detail`, refresh `one_line`, add to
-`intents`), and refuses anything else — any capability, functionality, slice or epic entry
+`intents`), and refuses anything else — any capability, feature, slice or epic entry
 or update above all (ADR 043) (the node-level containment the file-level scoped guard cannot
 see inside the shared spine). The model tree is asserted clean once start-change has cut the
 branch (F9) and the play commits its own model delta after approval (C9), so the working-tree
@@ -51,10 +51,10 @@ This play was compiled from the vision ICE (`reference/ice.md`) by edit-play
 (#466 Batch C, Level 3 rollout per ADR 025; #467 Batch B — the checkpoint upgraded to a
 conditional learned gate, see `standards/rules/gate-config.md`; #500 — migrated to
 direct-model-write per ADR 026 and `standards/rules/direct-model-write.md`; #616 — position
-start → both, so /discover-domains lands its own change instead of leaving it for /shape-roadmap; #637;
+start → both, so /discover-domains lands its own change instead of leaving it for a later play; #637;
 #614; #689 — domains only, per ADR 043).
 Intent defines constraints (C1–C12) and failure conditions (F1–F14); the expectation
-defines success scenarios (S1–S8), a Done means (D1–D4, baked to
+defines success scenarios (S1–S9), a Done means (D1–D4, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition.
 To modify this play, update `reference/ice.md` and recompile with edit-play.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -76,7 +76,7 @@ recorded deferral to the loop's review (C11).
 (`_spine.yaml`/profile) by any route other than `scripts/persist_seed.py`; committing
 the model delta before the Step 6 gate resolves; changing an existing spine entry beyond
 the named updates, or removing or cutting down an existing grounding doc (keep what is
-there — C6/F5); writing, placing or moving a capability, writing a functionality,
+there — C6/F5); writing, placing or moving a capability, writing a feature,
 acceptance criteria, or a `set`/`locked` profile (over-reach — F3); running the
 seed writes against a dirty product-os tree (C9/F9); closing COMPLETED without the
 stop-condition verdict reading held (C8/F7).
@@ -352,21 +352,56 @@ template's gold example (it sees neither the brief nor the author's reasoning), 
 from `grounding-eval.judge.model` (default the session model). The three safety conditions
 hold: each judge only READS its own doc, writes only its own verdict JSON, and no judge
 depends on another. **Join** — wait for every verdict to return before gating any. Then gate
-every returned verdict (order-stable, so the outcome is identical to a serial run):
+every returned verdict (order-stable, so the outcome is identical to a serial run).
+
+**The eval settles (C2, #884; `standards/rules/grounding-eval.md`).** The judge state lives in
+the issue's short-term memory, `{stm_base}<issue>/context/judge-state/` (`<judge-state>`), so a
+later run on the same issue keeps its passes. A domain doc has no parent doc. Before the
+batch, for each doc:
+
+`<judge>` is the installed judge skill, `.claude/skills/judge-grounding/SKILL.md`: its text is
+part of the fingerprint, so a changed judge ends every kept pass.
 
 ```
-python3 scripts/grounding_gate.py --verdict <verdict.json>
+python3 scripts/grounding_gate.py kept --state <judge-state> --doc <doc> \
+    --guidance <working>/judge/guidance-domain.md --judge <judge> \
+    > <working>/judge/kept-<domain id>.json
+python3 scripts/grounding_gate.py prior --state <judge-state> --doc <doc> \
+    > <working>/judge/prior-<domain id>.json
+```
+
+`kept` exit 0 → the doc's pass is kept (the doc, the guidance and the judge are unchanged):
+dispatch no judge for it; `kept-<domain id>.json` is its record. Every other doc is judged. Its
+contract adds `"prior_failures": "<working>/judge/prior-<domain id>.json"` only when that file
+reads `round: fix`; then the judge says, for each earlier failure, whether the cited fix was
+made. A `first` round is judged as before. After the join, gate each returned verdict with the
+state:
+
+```
+python3 scripts/grounding_gate.py --verdict <working>/judge/verdict-<domain id>.json --state <judge-state> \
+    --doc <doc> --guidance <working>/judge/guidance-domain.md --judge <judge> \
+    > <working>/judge/gate-<domain id>.json
+```
+
+The gate's `notes` (a new point on text that did not change) never stop the run. Then collect
+every doc's notes, kept docs included, for the checkpoint (Step 6):
+
+```
+python3 scripts/grounding_gate.py notes --state <judge-state> --out <working>/judge/notes.json
 ```
 
 **SE-1 (F1/C1):** `lint_grounding.py` exits 0 over the live docs this run wrote — every
 domain doc conforms to the Theme template's detailed stage; full spine↔doc consistency for
 the new entries completes after the keyed persist (Step 5). A "not ready until it is
-attributed" warning on another play's capability or functionality is not a failure.
+attributed" warning on another play's capability or feature is not a failure.
 **SE-2 (F2/C2):** the content-quality eval gate (`grounding_gate.py`) passes for EVERY
 domain doc — each section self-explains at CXO altitude and the doc clears the stranger
-test. A label-only or thin doc fails.
-**SE-3 (F3/C3):** no over-reach — no capability or functionality doc was written or moved
-by this run, the manifest's spine-delta holds no capability, functionality, slice or epic
+test. A label-only or thin doc fails. For each doc, `kept` read exit 0 (its pass is kept), or
+its `gate-<domain id>.json` reads `ok: true`, gated with `--state <judge-state>` and `--judge`;
+every judged doc whose prior file reads `round: fix` named it in its contract as
+`prior_failures`; and `<working>/judge/notes.json` was written by `grounding_gate.py notes`.
+**SE-3 (F3/C3):** no over-reach — no capability or feature doc was written or moved
+by this run, the manifest's spine-delta holds no capability, feature, slice or epic
 entry or update, no acceptance criteria appear, and the manifest's profile is not
 `set`/`locked` (manifest scan + `grounding_check.py`).
 **SE-4 (C4):** directional state — every domain entry the run writes or raises is
@@ -381,7 +416,8 @@ main section sits in a listed domain with the evidence and source that its field
 work, and every domain the run adds holds a main section.
 On any GAP, apply the matching recovery (REC1–REC4) and re-run before the checkpoint —
 for a content-eval fail (SE-2), REC2 rewrites the doc to the judge's cited fixes and
-re-judges until the gate passes.
+re-judges it as a fix round (`prior` hands the judge its earlier failures; the gate keeps a
+new point on unchanged text as a note) until the gate passes.
 
 ### Phase: Persist (write the full delta first, ADR 026 write-then-review)
 
@@ -392,7 +428,7 @@ are already on the live model (Step 2). `persist_seed.py` now writes the SHARED 
 place: it adds domain entries whose id is absent and the profile only if the live spine has
 none; it applies only the named `updates` to existing domain entries and REFUSES the whole
 run, before any write, on any other field, an unknown id, a lowered `detail`, or any
-capability, functionality, slice or epic entry or update (ADR 043 — the node-level
+capability, feature, slice or epic entry or update (ADR 043 — the node-level
 containment the file-level guard cannot provide); and it writes each intent page's Touches
 list for the domains linked to it (`adds` for a domain new in this run, `changes` for one
 already there). A missing intent page or an input intent no domain names is a `warnings`
@@ -407,7 +443,7 @@ python3 scripts/persist_seed.py --seed-manifest <working>/seed-manifest.yaml \
 
 **SE-6 (F5/C6):** the persist manifest's `written` list contains no entry that already
 existed (those appear only in `skipped`), every `updated` entry names only named-update
-fields, the run wrote no capability or functionality entry, and the profile is written only when
+fields, the run wrote no capability or feature entry, and the profile is written only when
 the live spine had none; the keep check and the scoped guard (Step 5) confirm no existing
 doc lost a section and no path outside the run's write scope changed.
 **SE-11 (F10/C10):** the run never refused, stopped or waited over another play's work:
@@ -422,7 +458,7 @@ Touches list names the domain; every input intent no domain names has a `warning
 **Step 5 — Guard the full delta + classify the shape** · Owner: play · Depends on: Step 4
 
 **The run's write scope (the per-play guard policy, ADR 026).** /discover-domains adds and grows
-domain docs but never removes one; it writes no capability or functionality page (ADR 043);
+domain docs but never removes one; it writes no capability or feature page (ADR 043);
 it changes intent pages only through the persist's Touches list; the persist merges the
 spine:
 
@@ -436,7 +472,7 @@ Step 2 and the keyed persist from Step 4), run the keep check — every existing
 changed kept each section and agent-intent line it had; its report is the stop condition's
 D4 input — then the scoped guard a single time over the whole delta (its `ok` field is D3).
 Then re-run the linter over the merged live spine to complete spine↔doc consistency (another
-play's capability or functionality not yet attributed is a warning, not a failure):
+play's capability or feature not yet attributed is a warning, not a failure):
 
 ```
 python3 scripts/check_kept.py --product-base <product_base> --base-ref HEAD \
@@ -465,7 +501,7 @@ python3 scripts/classify_change.py --play discover-domains \
 
 **SE-6 (F5/C6):** the keep-check report and the scoped-write guard report both read
 `ok: true` — the model delta is confined to the run's write scope (domain docs added or grown,
-never removed; no capability or functionality page touched; intent pages only changed; the
+never removed; no capability or feature page touched; intent pages only changed; the
 spine merged by the keyed persist), and no existing doc lost a section.
 
 ### Phase: Checkpoint (conditional gate, C7)
@@ -518,8 +554,10 @@ records `gate skipped by config (<resolution path>)` as a Checkpoint Decisions r
 proceeds). When on, present the proposed change **inline over the real model git diff** — each
 domain (its intent, the bet, its guiding rules, the kinds of capability it covers, its
 sources; raised from a light page when it was one), the intent links written (each intent's
-Touches list), the persist's `warnings`, and the directional profile (shape + rough NFR
-levels) —
+Touches list), the persist's `warnings`, the directional profile (shape + rough NFR
+levels), and, beside each domain, its content-eval notes from `<working>/judge/notes.json`
+(points the judge found on text that did not change: shown for the person to weigh, never a
+stop; C2) —
 render the approval prompt — the template `standards/templates/approval-prompt.md`, which
 the play asks `template-manager` for (it never reads it from memory) — and wait for the
 typed response. Approve → continue to Step 7 (commit). **Cancel → revert the working tree
@@ -624,7 +662,7 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
 **Step 8 — Scenario evals** · Owner: play · Depends on: the end sequence
 - **SCE-1 (S1 — CXO / product strategist):** what this run persisted — at least one domain
   entry with a detailed `domain.md` and a `directional` profile, and no capability or
-  functionality entry — clears both guards (`lint_grounding.py` clean; `grounding_gate.py`
+  feature entry — clears both guards (`lint_grounding.py` clean; `grounding_gate.py`
   passes for every domain doc) and is present in the live spine; the run's change is landed on main by the end sequence
   (`{stm_base}<issue>/context/vision/end/merge-change.json` reports the PR merged), with no later play
   needed to finish it; the stop-condition verdict reads held.
@@ -636,7 +674,8 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
   every other pre-existing entry is in `skipped`, the keep-check and scoped-guard reports read
   `ok`, and a re-run with nothing new leaves every model file byte-identical.
 - **SCE-4 (S4 — reviewer):** the Step 6 checkpoint showed each domain and the
-  directional profile inline over the real model git diff, and no
+  directional profile inline over the real model git diff, every note in
+  `<working>/judge/notes.json` beside its doc, and no
   product-model change was COMMITTED before that gate resolved — on cancel the working tree
   returns byte-clean to HEAD — or, on the auto-pass path (a policy-listed shape), the gate
   resolved with no wait and the recorded auto-pass, the appended ledger line, and the diff
@@ -654,6 +693,10 @@ merge; the land on main keeps its pinned human approval (merge-change C7).
   job it does there — each with its `## Sources`, and writes no capability;
   `grounding_check.py` with `--product-base` and `--journeys` exits 0: every main section sits
   in a domain whose research covers it, and every added domain holds one.
+- **SCE-9 (S9 — product strategist, a second run on the same issue):** each unchanged doc's
+  `kept-<domain id>.json` reads `kept: true` and no `verdict-<domain id>.json` was written for
+  it; a fix-round `gate-<domain id>.json` with a point on unchanged text reads `ok: true` and
+  holds it in `notes`; `notes.json` lists that note beside its doc.
 - **SCE-7 (S7 — Discovery loop):** handed a valid contract, `run.json` reads `in_loop: true`
   with the contract's `loop_run_id` and branch; no `start-change` or end-sequence step ran; the
   current branch equals the contract's; a `vision-<ts>.json` review record with
@@ -718,7 +761,7 @@ persisted spine + grounding-doc paths, the persist manifest (`persist-manifest.j
 its intent links and warnings), the captured `kept-report.json` and
 `guard-report.json`, the
 model-delta commit sha, the stop-condition verdict; the content-eval verdicts; step and
-scenario eval results SE-1…SE-15 / SCE-1…SCE-8; `run.json` (`in_loop`) and, inside a loop, the review record's path; checkpoint decision from Step 6 (or the
+scenario eval results SE-1…SE-15 / SCE-1…SCE-9; `run.json` (`in_loop`) and, inside a loop, the review record's path; checkpoint decision from Step 6 (or the
 `gate skipped by config` / `gate auto-passed by learned policy` row when the gate
 resolved without a wait) plus the gate ledger line(s) appended this run; the session
 identity stamp fields from $session_stamp (#463): session_id, ledger_file,
@@ -726,11 +769,11 @@ ledger_start_offset, ledger_end_offset (null when unresolved — never blocks th
 and stop_condition per C0 with the Stop Condition section filled) and write to
 `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## vision Delivered — ${product_slug}`, the Run Summary table, the Pipeline
 Steps table from the task DAG, the Artifacts Produced table (the domain docs, domain spine
 entries, and profile), Next Steps (run /discover-capabilities to write and detail the capabilities and
-their functionalities, and firm the profile), and a
+their features, and firm the profile), and a
 pointer to `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -749,6 +792,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 | S6 — by hand, nothing else run | founder | SCE-6 |
 | S7 — Discovery loop | product strategist | SCE-7 |
 | S8 — from a prototype alone | product strategist | SCE-8 |
+| S9 — a second run on the same issue | product strategist | SCE-9 |
 
 ## Recovery
 
@@ -756,7 +800,7 @@ pointer to `$evidence_dest`. Always emitted; never gated.
 |-----|---------|-----------|---------|
 | F1 | a grounding doc fails its template/shape, or a spine entry fails the schema or spine↔doc consistency | re-emit the failing doc or spine entry to conform and restore consistency before the checkpoint | autonomous |
 | F2 | a grounding doc fails the content-quality eval | rewrite the failing doc to the judge's cited fixes — raise each flagged section to a self-explaining, CXO-altitude statement — and re-judge until the gate passes | autonomous |
-| F3 | a capability page, entry, update or placement, acceptance criteria, a `set`/`locked` profile, or a lowered `detail` appears | strip the over-reach — drop every capability and functionality write (they are /discover-capabilities's), remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` — leaving only domains | autonomous |
+| F3 | a capability page, entry, update or placement, acceptance criteria, a `set`/`locked` profile, or a lowered `detail` appears | strip the over-reach — drop every capability and feature write (they are /discover-capabilities's), remove the acceptance criteria, reset the profile to `directional`, restore a lowered `detail` — leaving only domains | autonomous |
 | F4 | a domain has neither a KB shelf match nor a KB-node proposal, is a made-up name, names a principle, practice, regulation or quality rather than a field the industry identifies itself with, or the field of one feature many products share, or its page lacks `## Sources` | search the KB to ground it, or record a propose-kb-node proposal that names the domain from its research; write its sources; never leave it ungrounded | autonomous |
 | F5 | the scoped-write guard or the keep check report is not ok, or the persist refused an update outside the named ones | the guard's `--restore` already reverted the offending paths; restore any doc that lost a section from HEAD and re-apply only the additions; re-run the keyed persist with only the named updates, after a human confirms the restore | human |
 | F6 | the model delta was committed before the checkpoint resolved (no approval, config skip, auto-pass, or — inside a loop — recorded deferral), or a cancelled checkpoint left writes on the working tree | revert the premature commit and the working-tree writes (guard `--restore`, empty allow set) and re-present the checkpoint; commit only after the human approves (inside a loop, only after the deferral is recorded) | human |
@@ -783,10 +827,10 @@ continues at the first end-sequence member that has not finished.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:8504957c9b6f087fbbc338dc46c466ed38ea75a5130982511ee274a429491ec2 (of `reference/ice.md`) |
-| compiled_by | edit-play (#689 every main section in a domain whose research covers it; no domain from one shared feature: C5, C12); edit-play (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#614 runs inside a loop); edit-play (#637 one product model with /discover-intent); edit-play (#616 position both); edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C); create-play (edited via edit-play, #437; spine+grounding+eval model) |
+| fingerprint | sha256:0055028031462d2dd96cc4449dfdb4a39061d0c67bc0784fcd734862bab09a47 (of `reference/ice.md`) |
+| compiled_by | edit-play (#884 the content eval settles: kept pass, fix round, notes; C2, REC2, S4, S9); edit-play (#689 every main section in a domain whose research covers it; no domain from one shared feature: C5, C12); edit-play (#689 ADR 043 — domains only; a recognised domain by research, every page with its sources, reads a prototype capture: C12); edit-play (#661 reads no memory; the run lives in its issue); edit-play (#614 runs inside a loop); edit-play (#637 one product model with /discover-intent); edit-play (#616 position both); edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#467 Batch B, #466 Batch C); create-play (edited via edit-play, #437; spine+grounding+eval model) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close — #616) |
-| position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it (same shape as /shape-measure-lens) |
+| position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C9) BEFORE the injected end sequence lands it |
 | workflow_structure | A (single checkpoint — class: standard, conditional gate per gate-config.md #467; direct-model-write WRITE-THEN-REVIEW per ADR 026 — persist + guard + classify before the gate, commit after; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
 | domain_agents | 1 (product-os-keeper) |
@@ -794,7 +838,7 @@ continues at the first end-sequence member that has not finished.
 | skills_used | find-work-placement, propose-kb-node, author-domains, judge-grounding (each content-quality judge) |
 | scripts | 17 (preflight.py, check_loop_contract.py, write_loop_review.py, read_intents.py, lint_grounding.py, grounding_check.py, guidance_block.py, grounding_gate.py, persist_seed.py, intent_touches.py, check_kept.py, scoped_write_guard.py, classify_change.py, gate_eval.py, distill_gate_policy.py, check_stop_condition.py, session_stamp.py) |
 | step_evals | 15 (SE-1…SE-15) |
-| scenario_evals | 8 (SCE-1…SCE-8) |
+| scenario_evals | 9 (SCE-1…SCE-9) |
 | recovery_entries | 14 (one per failure condition; 11 autonomous / 3 human) |
 
 **Recompiled note (#467 Batch B):** checkpoint upgraded to a conditional learned gate;

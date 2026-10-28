@@ -33,7 +33,7 @@ Consumers: `ship`, `fix-it`, `implement`, every play that closes with a delivery
 
 ### Next
 
-{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. Or run `/next` to see all recommended actions. If the mapped command is null, render only the /next pointer, or omit where that reads better.}
+{Required unless the play is meta_exempt. Resolve this play in standards/rules/pipeline-next.md and render: **Next:** `/<command>` — <why>. If the mapped command is null, the play has no single successor: omit the line.}
 
 {Optional: any other real follow-ons beyond the mapped next command — open defects, uncommitted artifacts. Omit if none.}
 ```

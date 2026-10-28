@@ -1,0 +1,13 @@
+# Layer 1 (installed tools, source layout)
+lint-components: {'errors': 36, 'warnings': 1, 'infos': 0}
+findings in changed files: 0 | there before: 37
+lint_play check-change:   [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next VERDICT: FAIL (1 gap(s)) 
+lint_play merge-change:   [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next VERDICT: PASS (0 gap(s)) 
+lint_play propose-change:   [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next VERDICT: PASS (0 gap(s)) 
+lint_play shape-eval:   [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next VERDICT: PASS (0 gap(s)) 
+lint_play shape-plan:   [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next VERDICT: PASS (0 gap(s)) 
+lint_play shape-slice:   [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next VERDICT: PASS (0 gap(s)) 
+# Tests
+core/components/plays/check-change/scripts/test_fetch_pr_context.py: 13 passed, 0 failed
+core/components/plays/create-play/references/test_platform_adapter.py: 53 passed, 0 failed
+core/components/plays/create-play/references/test_fetch_pr_context.py: 13 passed, 0 failed

@@ -114,10 +114,10 @@ Never use `AskUser` for checkpoints. Output summary, wait for typed response.
 
 ---
 
-Type **Tether** to proceed or **Vanish** to cancel.
+Reply **yes** to go on, **change: {what to change}** to redo this step with your change, or **stop** to end the run.
 ```
 
-Parse: `Tether`/`tether` → proceed. `Vanish`/`vanish` → cancel. Else → clarify.
+Read the plain typed answer: `yes` → proceed. `change: <what>` → redo the step with the change. `stop` → cancel. Else → ask again. The format is `core/components/memory/standards/templates/approval-prompt.md`.
 
 Applies to: commits, PRs, protected branches, destructive actions.
 
@@ -156,6 +156,6 @@ Always use Task tools for non-trivial work. Plan before executing.
 
 - `core/grounding/glossary.md` — Canonical definitions of every Garura concept
 - `.garura/core/config.yaml` — Paths and settings
-- `docs/adr/` — Architecture Decision Records (8 ADRs)
+- `docs/adr/` — Architecture Decision Records (49 ADRs, plus two superseded)
 - `docs/philosophy/` — Core architecture philosophy
 - `docs/components/` — Agent, skill, play, memory documentation

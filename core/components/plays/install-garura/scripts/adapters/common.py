@@ -49,23 +49,33 @@ def tier_of(model_value):
     return MODEL_TIER.get(str(model_value).strip().lower(), DEFAULT_TIER)
 
 
-SHARED = "_shared"  # blocks every play and loop shares (ADR 039 §9), laid beside them
+SHARED = "_shared"  # blocks the plays, loops and skills share (ADR 039 §9), laid beside them
 # the folders whose components install as skills; loops are higher-order plays (ADR 029)
 SKILL_KINDS = ("skills", "plays", "loops")
 
 
+# the folders whose _shared/ is laid as the one installed _shared/ folder; agents share the memory
+# reading protocol, the failure format and the copy script there (decision 21 of #860)
+SHARED_KINDS = ("plays", "loops", "skills", "agents")
+# dev tests and caches in a _shared/ folder are not laid
+_SHARED_SKIP = shutil.ignore_patterns("test_*", "*.test.js", "__pycache__")
+
+
 def lay_shared(components, skills_root, rel_root, paths, info):
-    """Lay plays/_shared/ and loops/_shared/ as one <skills_root>/_shared/: every installed
-    play points to ../_shared/play-close.md, every installed loop also to
-    ../_shared/loop-run.md. A folder starting with `_` is otherwise never deployed."""
-    sources = [os.path.join(components, kind, SHARED) for kind in ("plays", "loops")]
+    """Lay plays/_shared/, loops/_shared/, skills/_shared/ and agents/_shared/ as one
+    <skills_root>/_shared/: every installed play points to ../_shared/play-close.md, every
+    installed loop also to ../_shared/loop-run.md, the parts that ask a person to
+    ../_shared/asking-a-person.md, and the agents that read memory to its memory-reading.md.
+    A folder starting with `_` is otherwise never deployed (agents/_shared/ is never an agent)."""
+    sources = [os.path.join(components, kind, SHARED) for kind in SHARED_KINDS]
     sources = [s for s in sources if os.path.isdir(s)]
     if not sources:
         return
     dest = os.path.join(skills_root, SHARED)
-    copy_tree_fresh(sources[0], dest)
-    for src in sources[1:]:
-        copy_tree_merge(src, dest)
+    if os.path.isdir(dest):
+        shutil.rmtree(dest)
+    for src in sources:
+        shutil.copytree(src, dest, dirs_exist_ok=True, ignore=_SHARED_SKIP)
     paths.append(os.path.join(rel_root, SHARED))
     info(f"  shared blocks: {os.path.join(rel_root, SHARED)}")
 
@@ -91,22 +101,31 @@ def skippable(name):
 _TRUTHY = {"true", "yes", "1", "on"}
 
 
-def is_deprecated(fm_text):
-    """True if frontmatter carries `deprecated: true` (or yes/1/on)."""
-    v = frontmatter_value(fm_text, "deprecated")
+def _flag(fm_text, key):
+    v = frontmatter_value(fm_text, key)
     return v is not None and str(v).strip().lower() in _TRUTHY
 
 
-def file_is_deprecated(md_path):
-    """Read a SKILL.md/agent.md and report whether it is flagged deprecated.
+def is_deprecated(fm_text):
+    """True if frontmatter carries `deprecated: true` (or yes/1/on)."""
+    return _flag(fm_text, "deprecated")
 
-    Deprecated components are excluded from install — the old pipeline is retired,
-    not shipped. Missing file / no frontmatter -> not deprecated.
+
+def is_skipped(fm_text):
+    """True if frontmatter carries `deprecated: true` or `stale: true` (or yes/1/on)."""
+    return _flag(fm_text, "deprecated") or _flag(fm_text, "stale")
+
+
+def file_is_skipped(md_path):
+    """Read a SKILL.md/agent.md and report whether the install skips it.
+
+    A part is skipped when it is deprecated (retired) or stale (it waits for a rebuild):
+    neither ships to a project. Missing file / no frontmatter -> not skipped.
     """
     if not os.path.isfile(md_path):
         return False
     parts = split_frontmatter(read_text(md_path))
-    return is_deprecated(parts[1]) if parts else False
+    return is_skipped(parts[1]) if parts else False
 
 
 # --- filesystem helpers -------------------------------------------------------

@@ -2,7 +2,7 @@
 #
 # The persistent product model. One of the three things ProductOS keeps forever:
 # STRUCTURE. The tree is always exactly three levels:
-#   Domain -> Capability -> Functionality
+#   Domain -> Capability -> Feature
 #
 # Nodes link by id. ICE, Decisions, Personas, and Journeys attach to nodes by
 # reference (their own schemas).
@@ -17,7 +17,7 @@ node:
   path: string            # human-readable path, derived from names; may change
                           # on rename/reparent, e.g.
                           # order-management.checkout.guest-checkout
-  type: string            # one of: domain | capability | functionality
+  type: string            # one of: domain | capability | feature
   name: string            # human label, e.g. "Guest Checkout"
   summary: string         # one-line description
   parent: string          # parent node id; null only for a domain
@@ -27,9 +27,8 @@ node:
   ice_ref: string         # id of this node's ICE record (null until seeded)
   decision_refs: [string] # ids of decisions (ADRs) affecting this node
   journey_refs: [string]  # ids of journeys linked to this node
-  priority: integer       # DEPRECATED for v1 — /shape-roadmap now plans SLICES, not nodes
-                          # (see slice.yaml: order/effort/depends_on on the slice).
-                          # Left for back-compat; null on the node.
+  priority: integer       # DEPRECATED for v1 — no play ranks nodes (the plan is the work
+                          # list, ADR 051). Left for back-compat; null on the node.
   metadata:
     created_by: string
     updated_by: string
@@ -37,16 +36,16 @@ node:
 
 # ---- Tree rules -------------------------------------------------------------
 structure:
-  levels: [domain, capability, functionality]   # exactly 3, in this order
+  levels: [domain, capability, feature]   # exactly 3, in this order
   domain:        { parent: none,       child: capability }
-  capability:    { parent: domain,     child: functionality }
-  functionality: { parent: capability, child: none }
+  capability:    { parent: domain,     child: feature }
+  feature: { parent: capability, child: none }
 
 # ---- Persona record (persistent, attached to a node) -----------------------
 # A persona is WHO the work is for. It is first-class grounding, not decoration: an
 # ICE record names its personas by reference (ice.yaml `context.persona: []`), so an
-# intent that says what should be true points HERE for whom it should be true. Both
-# /discover-capabilities and /shape-scope write persona records. Structured content (goals /
+# intent that says what should be true points HERE for whom it should be true.
+# /discover-capabilities writes persona records. Structured content (goals /
 # cares_about / failure_means) exists so downstream plays READ the person's goals
 # rather than re-derive them from prose differently every run.
 persona:
@@ -60,9 +59,9 @@ persona:
   # ---- Structured grounding ----
   # ADDITIVE and OPTIONAL: a record written before issue #550 that carries only
   # `description` stays valid, and nothing rewrites it. Every persona written from
-  # now on should carry all three — the writing play (/discover-capabilities, /shape-scope) fills
-  # them. Nothing ERRORS on them; /shape-scope's validator WARNS when one is missing (see the
-  # migration note below for the full validation truth).
+  # now on should carry all three — the writing play (/discover-capabilities) fills
+  # them. Nothing ERRORS on them (see the migration note below for the full validation
+  # truth).
   goals: [string]         # what this person is trying to achieve — outcomes in THEIR
                           # words, never features or solutions
   cares_about: [string]   # what they judge the thing by when deciding whether to
@@ -84,13 +83,9 @@ persona:
 #   and what-they-must-trust into one sentence), and leave `description` behind as the
 #   one-line who-they-are summary. Done by hand, or by the writing play the next time
 #   it touches that persona. No script performs this migration.
-# Validation truth — claim nothing more: `core/components/plays/shape-scope/scripts/validate_shape.py`
-#   ERRORS on only `id` and `name`; `description` and `node_ref` are checked by nothing.
-#   The three new fields are WARNINGS there (#550): the script reads them and warns when a
-#   persona lacks one, so a newly written record is visibly incomplete, but the run still
-#   passes — which is what keeps pre-#550 records valid. /shape-scope's own eval (SE-4) turns a
-#   warning into a gap ONLY for a persona that run actually wrote. Nothing errors on them,
-#   and no other validator or linter reads them at all.
+# Validation truth — claim nothing more: the play that checked persona records was dropped
+#   (ADR 053). No validator or linter reads any persona field now; the persona and journey
+#   work returns with the rebuild of the design plays (#855).
 # Status of this note: it IS the migration record that `enhance_rules` /
 #   `schemas/product-os/_index.md` ask for when a permanent record type changes. It is
 #   NOT a substitute for the parked schema-evolution play, which still owns versioned
@@ -100,7 +95,8 @@ persona:
 # A journey is a USER journey: the ordered steps a persona takes ON a surface to reach
 # an outcome. It is NOT a backend or ingestion pipeline. Every journey traverses at
 # least one surface (surface_refs), and every surface a slice names must be reached by
-# at least one journey. /shape-scope enforces both (C15).
+# at least one journey. No play enforces this now (ADR 053); the design-play rebuild (#855)
+# decides where journeys live.
 journey:
   id: string
   name: string            # e.g. "First-time guest checkout"
@@ -121,25 +117,17 @@ fill_rules:
     writes: "nothing on the node itself — enriches the linked ICE record,
              including each capability's nfr_needs, which roll the product
              profile up to state: derived"
-  - play: "/shape-scope"
-    writes: "profile-driven selection: confirm/prune capabilities and select
-             functionalities against the profile + KB, plus personas, journeys.
-             ALSO writes the domain's SLICES (slice.yaml) — bundling its
-             functionalities into usable increments, referencing their ICE — plus the
-             _deferred bucket. Re-runs when the profile changes."
-  - play: "/shape-roadmap"
-    writes: "the PLAN onto slices (slice.yaml): order, effort, resolved depends_on,
-             across all shaped domains. It does NOT write node.priority (deprecated)
-             and does NOT create/edit slice composition (that is /shape-scope's)."
+  - play: "/shape-slice"
+    writes: "the slices (slice.yaml) — the features, from any capability, that show a
+             business intent is served — and the parts the slice needs that the model
+             lacks."
   - play: "/learn-outcomes"
     writes: "status changes driven by real-world outcomes"
 
 # Pipeline ordering: /discover-domains is directional (capabilities + draft profile) ->
 # /discover-capabilities rolls up the smart profile from capability nfr_needs ->
-# /shape-scope selects capabilities + functionalities against the now-derived profile.
-# So the profile always exists before functionalities are selected. The loop is
-# re-entrant: as intent/profile evolves (climbing the architecture ladder),
-# /shape-scope re-selects.
+# /shape-slice picks the features of one slice from a business intent (ADR 049).
+# So the profile always exists before features are picked.
 
 # ---- Enhance rules: who may change THIS schema -----------------------------
 enhance_rules:
@@ -153,9 +141,9 @@ enhance_rules:
 # records only.
 # Two lifecycle tiers live here:
 #   PERMANENT  — structure, ICE, decisions, the 5 lenses, and epics: epics are
-#                written by /shape-features and stamped `delivered` (kept) when their issue
+#                written by /shape-slice and stamped `delivered` (kept) when their issue
 #                merges — the as-delivered record, never deleted (ADR 019).
-#   (STM, NOT here) — stories, tests, build detail produced by /build-feature.
+#   (STM, NOT here) — stories, tests, build detail produced by /build-epic.
 #
 # Per-capability shape:
 #   product-os/{capability}/
@@ -165,8 +153,8 @@ enhance_rules:
 #       ux.yaml architecture.yaml run.yaml quality.yaml agentic.yaml
 #     decisions/                     # decision (ADR) records
 #     personas/  journeys/           # persona + journey records
-#     functionalities/{functionality}/
-#       node.yaml  ice.yaml          # functionality node + its build-unit ICE
+#     features/{feature}/
+#       node.yaml  ice.yaml          # feature node + its build-unit ICE
 #     epics/                         # PERMANENT — vertical slices awaiting/under
 #                                    # delivery; stamped `delivered` and kept on
 #                                    # their issue merge (ADR 019)

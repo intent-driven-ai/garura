@@ -1,0 +1,20 @@
+routing:
+  capability_ref: cap-723
+  shelf: none
+  why: >-
+    Garura is a framework for building software with AI agents; this capability keeps its own
+    product model linked (needs, identified by, loose domains, the ready rule). None of the ten
+    domain shelves in memory (analytics, collaboration, content-management, ecommerce, experience,
+    marketing, notifications, payments, personalization, user-management) has a trigger about
+    modelling a product or planning delivery work, so find-work-placement returned unmatched.
+  kb_node_proposal: none raised — the caller directed grounding in Garura's committed sources instead (no Garura domain or shelf exists yet; /discover-domains fills that later).
+  route_result: .garura/project/issues/723/context/understand/20261022-041322/caps/cap-723/route.json
+  shelves_read_from: .garura/project/issues/723/context/memory/knowledge/domains/   # copied through the memory tool; sources in context/memory/manifest.json
+  grounded_in:
+    - core/components/memory/standards/schemas/product-os/ontology.md   # v5, this branch
+    - core/components/memory/standards/schemas/product-os/spine.yaml
+    - .garura/project/issues/621/specs/plan-design.md
+    - .garura/project/issues/621/specs/change-list.md
+    - .garura/user-provided/managing-work.md
+    - .garura/product/product-os/intents/bi-722.md
+    - "GitHub #722, #723, #724, #725, #726, #597 (read only)"

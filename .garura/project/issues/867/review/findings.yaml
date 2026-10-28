@@ -1,0 +1,44 @@
+pr: 871
+issue: 867
+findings:
+- id: F1
+  severity: P3
+  file: core/components/agents/_shared/copy_memory.py
+  lines: parse_answer, the new 'version = answer.get("version")' block (about line
+    54-59)
+  principle: 'G2/G3: the tool''s read answer always includes the version field (null
+    for a folder); an answer without the field is not a contract answer and was refused
+    before this change.'
+  source:
+  - 'origin/plan/788/base:core/tools/memory/contract/v5.json (read response: version
+    required, type string|null; update rule: ''null for a folder''; tier enum short-term|garura|phoenix)'
+  - 'origin/plan/788/base:core/components/agents/_shared/copy_memory.py (old rule:
+    tier, path, version, fingerprint all non-empty strings)'
+  finding: 'answer.get(''version'') returns None for a missing key as well as for
+    an explicit null, so a folder-tier answer with no version field at all is now
+    accepted and the manifest records ''version'': null, as if the tool had said so.
+    Run on the head script: {tier: garura, no version key} exits 0. The refusal for
+    a malformed answer is weakened for those two tiers; it is not the Phoenix refusal,
+    which stands. No test covers it.'
+  suggested_fix: 'Test the key, not the value: accept only when ''version'' in answer
+    and answer[''version''] is None and tier in FOLDER_TIERS; add a test that a garura
+    answer with the key missing exits 1 and writes nothing.'
+  category: harness
+  basis: see design-findings-harness.yaml
+- id: F2
+  severity: P4
+  file: core/components/agents/_shared/copy_memory.py
+  lines: the Stop raised for a bad version
+  principle: 'G4: the script says plainly why it refuses (the guide: the script ''says
+    why'').'
+  source:
+  - origin/plan/788/base:core/components/agents/_shared/memory-reading.md
+  - 'origin/plan/788/base:core/components/agents/_shared/copy_memory.py (old rule:
+    tier, path, version, fingerprint all non-empty strings)'
+  finding: 'For a short-term or Garura answer whose version is an empty or non-string
+    value, the message says ''An answer from garura memory must give one'', which
+    is wrong: those tiers give null. The refusal itself is right; only the wording
+    misleads. memory-reading.md also does not say a Phoenix answer with no version
+    is still refused.'
+  category: harness
+  basis: see design-findings-harness.yaml

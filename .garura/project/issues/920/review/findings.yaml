@@ -1,0 +1,274 @@
+pr: 932
+issue: 920
+base: main
+round: 3
+findings:
+- id: H-5
+  severity: P4
+  rule: wording (hard-wrap)
+  standard_id: null
+  file: core/components/plays/create-loop/SKILL.md
+  lines: section 3, 'sequence -> scenario validation -> close. A loop loops over its plays until its job is done;
+    a play's open question is the' (124 columns, line 114)
+  principle: G6
+  committed_source: the unchanged lines around the edit in the same file at main (git show main:core/components/plays/create-loop/SKILL.md)
+  basis: 'Rule: wording. The re-wrap of the ''knowledge step'' sentence stopped one line early and left the next
+    sentence joined onto one over-long line. Same kind of slip as F4 and H-5 (round 1 and 2, called P4). No guarantee
+    or check depends on it. The other long lines in this file (137, 106 columns) are on main.
+
+    '
+  suggestion: Re-wrap the paragraph from 'sequence' to 'the evals as' at about 100 columns.
+  category: harness
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/naming/apply_renames.py
+  line: 1
+  evidence: core/tools/naming/apply_renames.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/naming/check_old_names.py
+  line: 1
+  evidence: core/tools/naming/check_old_names.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  category: executable-code
+  note: 'path-only match: no line or defect named'
+changes_owed: []

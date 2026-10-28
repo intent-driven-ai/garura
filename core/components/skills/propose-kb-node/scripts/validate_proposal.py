@@ -8,7 +8,7 @@ Exit 0 if valid, 1 if not.
 import sys
 import json
 
-LEVELS = {"new-domain", "new-capability", "new-functionality"}
+LEVELS = {"new-domain", "new-capability", "new-feature"}
 
 
 def errors(obj):
@@ -31,7 +31,7 @@ def errors(obj):
     if level == "new-domain":
         if parent not in (None, "", "null"):
             errs.append("parent: must be null for new-domain")
-    elif level in ("new-capability", "new-functionality"):
+    elif level in ("new-capability", "new-feature"):
         if not isinstance(parent, str) or not parent:
             errs.append(f"parent: required (the existing node) for {level}")
 

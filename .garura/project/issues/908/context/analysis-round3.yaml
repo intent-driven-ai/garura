@@ -1,0 +1,16 @@
+needs_judgment: false
+change_groups: []
+exclusions:
+- path: .garura/project/issues/908/context/commit-change/
+  reason: commit-change's own run records; left to the executor's run-state chore
+    group
+  blocking: false
+risks:
+  sensitive_files: []
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: '10 changed paths: 9 in exactly one group, 1 run-state folder excluded'
+  SE-5:
+    status: PASS
+    evidence: no sensitive patterns matched

@@ -38,7 +38,7 @@ Review work before it is used.
 ## Sources
 - https://example.org/approval-workflows
 """
-FUNC = """# Functionality: Finish a review
+FUNC = """# Feature: Finish a review
 
 ## What it does
 Sends every answer back at once.
@@ -73,7 +73,7 @@ class Work(unittest.TestCase):
         self.write("pos/review/domain.md", domain)
         self.write("pos/review/catch-up/capability.md", "# Capability: Catch up\n\n## Seen on the prototype\n"
                                                          "- \"Catch up\"\n")
-        self.write("pos/review/catch-up/finish/functionality.md", func)
+        self.write("pos/review/catch-up/finish/feature.md", func)
         self.write("pos/_spine.yaml", "domains: []\n")
         self.write("pos/notes.txt", "not part of the model")
         self.write("proto/argus.html", "<button>Catch up</button><button>Finish review</button>"
@@ -90,8 +90,8 @@ class Prepare(Work):
         self.assertNotIn(".garura/", text)
         self.assertNotIn("argus.html", text)
         self.assertIn("prototype — file", text)
-        self.assertEqual(m["level"], "functionalities")
-        self.assertEqual(m["counts"], {"intents": 1, "domain": 1, "capabilities": 1, "functionalities": 1})
+        self.assertEqual(m["level"], "features")
+        self.assertEqual(m["counts"], {"intents": 1, "domain": 1, "capabilities": 1, "features": 1})
         self.assertFalse(os.path.exists(self.p("run", "brief", "notes.txt")))
         self.assertTrue(m["removed"])
 
@@ -136,8 +136,8 @@ class CheckOutput(Work):
         r = self.run_check(domain="# Theme: Loop review\n\n## Intent\nMade up.\n")
         self.assertIn("domain-research", self.rules(r))
 
-    def test_a_functionality_without_a_source_fails(self):
-        r = self.run_check(func="# Functionality: Build-from vs waiting split\n\n## What it does\nA split.\n")
+    def test_a_feature_without_a_source_fails(self):
+        r = self.run_check(func="# Feature: Build-from vs waiting split\n\n## What it does\nA split.\n")
         self.assertIn("source-missing", self.rules(r))
 
     def test_a_quote_the_prototype_does_not_have_fails(self):
@@ -205,7 +205,7 @@ if text.startswith("# Build this product"):  # the builder: log what it was give
 out = re.search(r"Write `([^`]+\\.json)`", text).group(1)
 data = {"inventory.json": json.loads(%(inv)r), "compare.json": json.loads(%(cmp)r),
         "review.json": {"intents": [], "domains": [{"recognised": True, "known_as": "Approval workflow"}],
-                        "capabilities": [], "functionalities": [], "missed_behaviours": []}}
+                        "capabilities": [], "features": [], "missed_behaviours": []}}
 open(out, "w").write(json.dumps(data[out.rsplit("/", 1)[-1]]))
 print(json.dumps({"total_cost_usd": 0.01, "num_turns": 1, "result": "done"}))
 """ % {"inv": json.dumps(INVENTORY), "cmp": json.dumps(COMPARE)}

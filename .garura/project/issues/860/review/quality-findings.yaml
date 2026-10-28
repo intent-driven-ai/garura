@@ -1,0 +1,2633 @@
+meta:
+  generated_at: '2026-10-25T06:02:15Z'
+  diff_path: '.garura/project/issues/860/review/pr.diff'
+  taxonomy_path: '.garura/project/issues/860/context/memory/standards/rules/pr.md'
+  changed_paths_count: 325
+  scan_coverage: 1.0000
+  standards_relevant: 42
+  catchall:
+    CODE-20: 276
+findings:
+  - standard_id: 'SEC-07'
+    severity: P1
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 60
+    evidence: 'JSON.parse'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'SEC-07'
+  - standard_id: 'SEC-07'
+    severity: P1
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 146
+    evidence: 'JSON.parse'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'SEC-07'
+  - standard_id: 'SEC-07'
+    severity: P1
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 148
+    evidence: 'JSON.parse'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'SEC-07'
+  - standard_id: 'SEC-07'
+    severity: P1
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 66
+    evidence: 'JSON.parse'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'SEC-07'
+  - standard_id: 'SEC-07'
+    severity: P1
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 68
+    evidence: 'JSON.parse'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'SEC-07'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-12'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 14
+    evidence: 'fetch'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-12'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'DOC-01'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-01'
+  - standard_id: 'DOC-09'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-09'
+  - standard_id: 'DOC-10'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-10'
+  - standard_id: 'DOC-11'
+    severity: P3
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-11'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 64
+    evidence: 'catch ('
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'PERF-19'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 9
+    evidence: 'cache'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'PERF-19'
+  - standard_id: 'PERF-19'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 63
+    evidence: 'cache'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'PERF-19'
+  - standard_id: 'PERF-19'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 142
+    evidence: 'cache'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'PERF-19'
+  - standard_id: 'PERF-19'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 148
+    evidence: 'cache'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'PERF-19'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 86
+    evidence: 'catch ('
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 14
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 14
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'PERF-19'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 129
+    evidence: 'cache'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'PERF-19'
+  - standard_id: 'PERF-19'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 136
+    evidence: 'cache'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'PERF-19'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 147
+    evidence: 'catch ('
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-30'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 147
+    evidence: 'catch'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-30'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 165
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 165
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 13
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 13
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 67
+    evidence: 'catch ('
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-30'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 67
+    evidence: 'catch'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-30'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 73
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 73
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 491
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 497
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'DOC-01'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-01'
+  - standard_id: 'DOC-09'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-09'
+  - standard_id: 'DOC-10'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-10'
+  - standard_id: 'DOC-11'
+    severity: P3
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-11'
+  - standard_id: 'DOC-14'
+    severity: P4
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-14'
+  - standard_id: 'DOC-15'
+    severity: P4
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-15'
+  - standard_id: 'DOC-16'
+    severity: P4
+    file: 'README.md'
+    line: 1
+    evidence: 'README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-16'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 4
+    evidence: 'const fs ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 13
+    evidence: 'const installedPaths ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 14
+    evidence: 'const memoryReading ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 65
+    evidence: 'const components ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 66
+    evidence: 'const notes ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 67
+    evidence: 'const namingFile ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/discover.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 57
+    evidence: 'const root ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 58
+    evidence: 'const file ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 60
+    evidence: 'const kinds ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 61
+    evidence: 'const out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 73
+    evidence: 'const fm ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 81
+    evidence: 'const recorded ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 82
+    evidence: 'const skills ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 83
+    evidence: 'const plays ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 84
+    evidence: 'const loops ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 85
+    evidence: 'const intents ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 86
+    evidence: 'const sharedDir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 87
+    evidence: 'const skillsDir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 91
+    evidence: 'const file ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 93
+    evidence: 'const text ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 94
+    evidence: 'const kind ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 99
+    evidence: 'const intentFile ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 101
+    evidence: 'const expectationFile ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 114
+    evidence: 'const agents ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/discover.js'
+    line: 115
+    evidence: 'const agentsDir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/reporter.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 10
+    evidence: 'const notes ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/reporter.js'
+    line: 25
+    evidence: 'const out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 13
+    evidence: 'const fs ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 14
+    evidence: 'const path ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 33
+    evidence: 'const PATTERNS ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 60
+    evidence: 'const out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 64
+    evidence: 'const full ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 72
+    evidence: 'const out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 73
+    evidence: 'const lines ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 75
+    evidence: 'const doc ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 111
+    evidence: 'const parts ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 112
+    evidence: 'const folderKinds ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 114
+    evidence: 'const dir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 118
+    evidence: 'const root ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 126
+    evidence: 'const agentsDir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 130
+    evidence: 'const name ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 145
+    evidence: 'const toolsDir ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 150
+    evidence: 'const root ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 160
+    evidence: 'let out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/installed-paths.js'
+    line: 164
+    evidence: 'const inPart ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 15
+    evidence: 'const fs ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 17
+    evidence: 'const MISSING ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 18
+    evidence: 'const PASTED ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 22
+    evidence: 'const HEADING ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 33
+    evidence: 'const out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 45
+    evidence: 'const lines ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 46
+    evidence: 'let inFence ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 47
+    evidence: 'let inProtocol ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/memory-reading.js'
+    line: 81
+    evidence: 'let out ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/naming.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 22
+    evidence: 'const file ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/naming.js'
+    line: 88
+    evidence: 'const loaded ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/semantic.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/semantic.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 34
+    evidence: 'const hasPlays ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 66
+    evidence: 'const candidates ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 74
+    evidence: 'const violations ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 76
+    evidence: 'const mainCopy ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 78
+    evidence: 'const mainBytes ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/shared-scripts.js'
+    line: 79
+    evidence: 'const ruleName ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 68
+    evidence: 'const requiredFields ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 416
+    evidence: 'const playsShared ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/installed-paths.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 5
+    evidence: 'const assert ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 6
+    evidence: 'const fs ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 7
+    evidence: 'const os ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 8
+    evidence: 'const path ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 11
+    evidence: 'const discover ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 13
+    evidence: 'let passed ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 17
+    evidence: 'const full ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 27
+    evidence: 'let dir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 68
+    evidence: 'const found ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 79
+    evidence: 'const structural ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 87
+    evidence: 'const proj ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 88
+    evidence: 'const claudeDir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 93
+    evidence: 'const kinds ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 112
+    evidence: 'const docsDir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 123
+    evidence: 'const toolProj ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 124
+    evidence: 'const toolTarget ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 132
+    evidence: 'const re ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 143
+    evidence: 'const index ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 151
+    evidence: 'let out ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/installed-paths.test.js'
+    line: 158
+    evidence: 'const naming ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/memory-reading.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 4
+    evidence: 'const assert ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 5
+    evidence: 'const fs ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 6
+    evidence: 'const os ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 7
+    evidence: 'const path ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 10
+    evidence: 'const discover ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 12
+    evidence: 'let passed ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 16
+    evidence: 'const FM ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 17
+    evidence: 'const POINTS ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 43
+    evidence: 'const full ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 47
+    evidence: 'const src ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 51
+    evidence: 'const names ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 55
+    evidence: 'const proj ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 56
+    evidence: 'const claude ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/memory-reading.test.js'
+    line: 63
+    evidence: 'const index ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/shared-scripts.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 30
+    evidence: 'const root ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 31
+    evidence: 'const comps ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/shared-scripts.test.js'
+    line: 32
+    evidence: 'const toolDir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 1
+    evidence: 'core/tools/lint-play/lint_play.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'BE-23'
+    severity: P4
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 257
+    evidence: 'lock'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-23'
+  - standard_id: 'DEBT-01'
+    severity: P4
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 314
+    evidence: 'todo'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'DEBT-01'
+  - standard_id: 'DEBT-02'
+    severity: P4
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 314
+    evidence: 'todo'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'DEBT-02'
+  - standard_id: 'DEBT-05'
+    severity: P4
+    file: 'core/tools/lint-play/lint_play.py'
+    line: 314
+    evidence: 'todo'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'DEBT-05'
+  - standard_id: 'DOC-14'
+    severity: P4
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-14'
+  - standard_id: 'DOC-15'
+    severity: P4
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-15'
+  - standard_id: 'DOC-16'
+    severity: P4
+    file: 'core/tools/memory/README.md'
+    line: 1
+    evidence: 'core/tools/memory/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-16'
+counts:
+  P1: 5
+  P2: 53
+  P3: 167
+  P4: 149

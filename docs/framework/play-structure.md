@@ -14,7 +14,7 @@ PRE-FLIGHT → [PRE-EXECUTION] → CHECKPOINT → EXECUTE → REPORT
 |-------|----------|----------|---------|
 | **PRE-FLIGHT** | Yes | Orchestrator | Validate preconditions. Halt immediately on failure. |
 | **PRE-EXECUTION** | No | Orchestrator + Agents | Any work needed before a decision can be made (analysis, resolution, planning). One or more named sub-phases. |
-| **CHECKPOINT** | Yes | Orchestrator | Present proposed actions to user. Write STM artifact. Gate: auto-approve or Tether/Vanish. |
+| **CHECKPOINT** | Yes | Orchestrator | Present proposed actions to user. Write STM artifact. Gate: auto-approve or a typed yes / change / stop. |
 | **EXECUTE** | Yes | Agents (domain tasks) | Carry out the approved plan. May be broken into sub-phases. |
 | **REPORT** | Yes | Orchestrator | Write evidence/summary artifacts. Present outcome to user. |
 
@@ -38,7 +38,7 @@ PRE-FLIGHT → [PRE-EXECUTION] → CHECKPOINT → EXECUTE → REPORT
 - Always orchestrator-owned — never delegated to an agent
 - Write STM artifact **before** presenting to user (Status: PENDING_APPROVAL)
 - Auto-approve logic is evaluated by the orchestrator, not an agent
-- If user approval required: present using approval-prompt template, parse Tether/Vanish
+- If user approval required: present using approval-prompt template, read the plain typed answer (yes / change / stop)
 - Update artifact Status to APPROVED or REJECTED before continuing or halting
 
 ### EXECUTE
@@ -152,11 +152,11 @@ Task-driven plays declare their execution DAG as a capability graph table in SKI
 ```
 | # | Capability | Agent | Needs | Produces |
 |---|------------|-------|-------|----------|
-| 1 | Scope epics | feature-steward | vision | epics.yaml |
+| 1 | Scope epics | product-os-keeper | vision | epics.yaml |
 | 2 | Assess feasibility | tech-designer | epics.yaml | feasibility.yaml |
-| 3 | Produce brief | feature-steward | epics, feasibility | brief.html |
+| 3 | Produce brief | product-os-keeper | epics, feasibility | brief.html |
 | — | CHECKPOINT | orchestrator | brief.html | approved_brief |
-| 4 | Produce roadmap | feature-steward | approved brief | roadmap.md |
+| 4 | Produce roadmap | product-os-keeper | approved brief | roadmap.md |
 ```
 
 ### JSON Contract Rule

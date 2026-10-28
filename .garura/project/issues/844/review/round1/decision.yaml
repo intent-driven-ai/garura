@@ -1,0 +1,7 @@
+decision: reject
+decided_by: human
+reply: "reject and fix all"
+recommended: approve
+blocking: []
+round: 1
+to_fix: "all six findings: M2, M4, M6 (text on this run's pages), M3 (check the domain's sources), M5 (page folders), M1 (the ontology and ADR 049 follow decisions 6 and 7)"

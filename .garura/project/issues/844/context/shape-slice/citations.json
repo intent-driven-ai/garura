@@ -1,0 +1,218 @@
+{
+  "issue": 844,
+  "play": "shape-slice",
+  "task_id": "shape-slice-propose",
+  "citations": [
+    {
+      "question_id": "Q-order-1",
+      "ok": true,
+      "result": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261024-002",
+        "stored": {
+          "tier": "short-term",
+          "path": "844/context/citations.jsonl"
+        }
+      },
+      "trace": [
+        {
+          "asked": "the order of the one approval against the parts it approves",
+          "found": "the proof lists the slice, plan and eval first and the one approval at the end",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 9,
+            "end": 16,
+            "fingerprint": "sha256:df3ba9eb2435b03ddf9c8bd462e06086335dd7abba5e0a13f514ec18743d4ec6"
+          }
+        },
+        {
+          "asked": "when the approval happens",
+          "found": "'The product owner gives one approval, at the end.'",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 14,
+            "end": 14,
+            "fingerprint": "sha256:53d1e05884d5f0f8d907f74dc37767737bb4df6ed32c073657f8013944a1f0c0"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "Q-scope-2",
+      "ok": true,
+      "result": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261024-003",
+        "stored": {
+          "tier": "short-term",
+          "path": "844/context/citations.jsonl"
+        }
+      },
+      "trace": [
+        {
+          "asked": "what the proof asks of each step",
+          "found": "'A play runs each step. No step is done by hand.' A step done inside /shape-slice is run by a play",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 15,
+            "end": 15,
+            "fingerprint": "sha256:adf8e6d5be6fa257923ae0090faedce366279ae7c31810db6da596774a4b8f2b"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "Q-test-1",
+      "ok": true,
+      "result": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261024-004",
+        "stored": {
+          "tier": "short-term",
+          "path": "844/context/citations.jsonl"
+        }
+      },
+      "trace": [
+        {
+          "asked": "which product the shaping loop is for",
+          "found": "the why: 'No play designs the work for Garura's own work'",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 5,
+            "end": 5,
+            "fingerprint": "sha256:e0bf1251695c0b7555e39998ea1dbf69ba8cb009be2693cdf0c77cbf4d575d3f"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "Q-tester-1",
+      "ok": true,
+      "result": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261024-005",
+        "stored": {
+          "tier": "short-term",
+          "path": "844/context/citations.jsonl"
+        }
+      },
+      "trace": [
+        {
+          "asked": "who asks for the intent",
+          "found": "'Asked by: the product owner'",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 7,
+            "end": 7,
+            "fingerprint": "sha256:de0d088eb3f5a54585f8dad0c95013110386f9f7a1d62b20f80df4d6a142a20b"
+          }
+        },
+        {
+          "asked": "who gives the approval",
+          "found": "'The product owner gives one approval, at the end.'",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 14,
+            "end": 14,
+            "fingerprint": "sha256:53d1e05884d5f0f8d907f74dc37767737bb4df6ed32c073657f8013944a1f0c0"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "Q-domain-1",
+      "ok": true,
+      "result": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261024-006",
+        "stored": {
+          "tier": "short-term",
+          "path": "844/context/citations.jsonl"
+        }
+      },
+      "trace": [
+        {
+          "asked": "is a capability with no domain ready",
+          "found": "an empty domain is ready, with the warning 'has no domain yet'",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/features/fn-724/feature.md",
+            "start": 20,
+            "end": 21,
+            "fingerprint": "sha256:4fdd6fefe124ba86804cbd9be67ca4e768810f68637e97e1eaaf9739fcd0fdb0"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "Q-tracker-1",
+      "ok": true,
+      "result": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261024-007",
+        "stored": {
+          "tier": "short-term",
+          "path": "844/context/citations.jsonl"
+        }
+      },
+      "trace": [
+        {
+          "asked": "when the plan may go to the tracker",
+          "found": "'Do not send the slice, the plan or the eval to the tracker before the one approval'",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/intents/bi-788.md",
+            "start": 18,
+            "end": 18,
+            "fingerprint": "sha256:4f70a46a736dc626d7ff5be9d683099871b76e86168f3e65e6d91ffe1037c1c3"
+          }
+        }
+      ]
+    },
+    {
+      "question_id": "Q-reuse-1",
+      "ok": true,
+      "result": {
+        "ok": true,
+        "contract_version": "5",
+        "command": "cite",
+        "citation_id": "cite-20261024-008",
+        "stored": {
+          "tier": "short-term",
+          "path": "844/context/citations.jsonl"
+        }
+      },
+      "trace": [
+        {
+          "asked": "a slice in the model that serves bi-788",
+          "found": "the spine has domains, capabilities, features and profile, and no slices list",
+          "source": {
+            "tier": "garura",
+            "path": "product/product-os/_spine.yaml",
+            "start": 1,
+            "end": 378,
+            "fingerprint": "sha256:ad9f09f7f0565f1e3e5be290302e953c95ff4de6cfd5d164c519dd529ea07327"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "intent": "bi-788",
+  "intent_title": "Agents design a named piece of work",
+  "plan_id": "788",
+  "plan_file": ".garura/project/plans/788.yaml",
+  "slices": [
+    {
+      "id": "sl-intent-to-design",
+      "slug": "intent-to-design",
+      "name": "From a named piece of work to its design",
+      "outcome": "The product owner runs three plays on a business intent and gets a slice to test, a plan with one epic and one story for each feature, and an eval that no builder can read.",
+      "features": [
+        {
+          "id": "fn-795",
+          "name": "/shape-slice writes the slice and its hidden file",
+          "one_line": "From a business intent, /shape-slice writes one slice, its link to the intent and its hidden file, and no plan, epic, story or eval.",
+          "capability": "cap-shape-slice",
+          "ready": true,
+          "reason": "",
+          "ice_pages": [
+            ".garura/product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+            ".garura/product/product-os/software-delivery-planning/shape-slice/capability.md"
+          ],
+          "clean_ice": ".garura/project/issues/875/context/shape-plan/ice/fn-795.md"
+        },
+        {
+          "id": "fn-818",
+          "name": "/shape-plan writes the plan, the epic and the stories",
+          "one_line": "From a shaped slice, /shape-plan writes the intent's one plan file, one epic for the slice and one story for each feature.",
+          "capability": "cap-718",
+          "ready": true,
+          "reason": "",
+          "ice_pages": [
+            ".garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+            ".garura/product/product-os/software-delivery-planning/cap-718/capability.md"
+          ],
+          "clean_ice": ".garura/project/issues/875/context/shape-plan/ice/fn-818.md"
+        },
+        {
+          "id": "fn-798",
+          "name": "/shape-eval writes the hidden eval",
+          "one_line": "From the plan's epic and stories, /shape-eval writes the eval for the business intent in the plan's evals folder, where no builder reads.",
+          "capability": "cap-shape-eval",
+          "ready": true,
+          "reason": "",
+          "ice_pages": [
+            ".garura/product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+            ".garura/product/product-os/software-delivery-planning/shape-eval/capability.md"
+          ],
+          "clean_ice": ".garura/project/issues/875/context/shape-plan/ice/fn-798.md"
+        }
+      ]
+    }
+  ]
+}

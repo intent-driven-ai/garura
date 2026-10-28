@@ -1,0 +1,5 @@
+ M .garura/project/issues/879/context/porcelain.txt
+?? .garura/project/issues/879/context/shape-plan/
+?? .garura/project/issues/879/context/templates/manifest-shape-plan.json
+?? .garura/project/issues/879/context/templates/standards/templates/approval-prompt.md
+?? .garura/project/issues/879/simulation/

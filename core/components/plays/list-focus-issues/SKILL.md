@@ -1,7 +1,7 @@
 ---
 name: list-focus-issues
 position: none
-description: 'Show the tracked issues worth attention right now — read the issue host, apply one of three fixed modes (today = open work you could pick up now; review = open work already in flight; recent = issues closed inside the last 7 days), and present a deterministic, capped list of at most 10 entries, each carrying its issue number, title, a plain-language reason built from the signals that selected it, what kind of issue it is (defect / epic / refactor / feature / docs / chore / unlabelled), and — only where the table names one — which garura play to run for it. The issue host is the single source: no backlog, sprint plan, product model or work queue is consulted or created — this is the issue-side counterpart to /next, which reads the product model and is forbidden from reading issues. The mode is a named argument with today as the default; an unrecognised mode halts rather than being guessed. Kind and recommendation are fixed table lookups over the issue''s own labels, held in an editable kind map beside the play; the cardinal rule is that silence beats a wrong answer, so a kind the table has no play for, and any unlabelled issue, carry NO recommendation at all — no default, no generic pointer, no substitute — and the play reports how many entries it could not recommend for; /list-focus-issues never derives a recommendation from the product model, which is /next''s job. Selection, ordering, kind and recommendation are fully deterministic (scripts, never inference), so the same issue set and mode always give the same list. Read-only and position none: it never creates, edits, closes, comments on, labels or assigns an issue, and runs on any branch at any point in the pipeline. Use when the user asks "what should I focus on today", "what is open", "what is in flight", "what got done recently", or wants the long issue list cut down to a workable few.'
+description: 'Show the tracked issues worth attention right now — read the issue host, apply one of three fixed modes (today = open work you could pick up now; review = open work already in flight; recent = issues closed inside the last 7 days), and present a deterministic, capped list of at most 10 entries, each carrying its issue number, title, a plain-language reason built from the signals that selected it, what kind of issue it is (defect / epic / refactor / feature / docs / chore / unlabelled), and — only where the table names one — which garura play to run for it. The issue host is the single source: no backlog, sprint plan, product model or work queue is consulted or created — the work list is the plan (one plan for each business intent), and this play is its issue-side view. The mode is a named argument with today as the default; an unrecognised mode halts rather than being guessed. Kind and recommendation are fixed table lookups over the issue''s own labels, held in an editable kind map beside the play; the cardinal rule is that silence beats a wrong answer, so a kind the table has no play for, and any unlabelled issue, carry NO recommendation at all — no default, no generic pointer, no substitute — and the play reports how many entries it could not recommend for; /list-focus-issues never derives a recommendation from the product model. Selection, ordering, kind and recommendation are fully deterministic (scripts, never inference), so the same issue set and mode always give the same list. Read-only and position none: it never creates, edits, closes, comments on, labels or assigns an issue, and runs on any branch at any point in the pipeline. Use when the user asks "what should I focus on today", "what is open", "what is in flight", "what got done recently", or wants the long issue list cut down to a workable few.'
 user-invokable: true
 ---
 
@@ -13,9 +13,9 @@ plain-language reason for why it is showing, what kind of issue it is, and — w
 kind map names one — the play to run for it. Where it names none, the entry says so and
 stops. Silence beats a wrong answer.
 
-`/list-focus-issues` is the issue-side counterpart to `/next`. `/next` reads the product model
-and its own C1 forbids it from reading any issue store. `/list-focus-issues` reads issues and
-never touches the model. Neither play duplicates the other.
+`/list-focus-issues` is the issue-side view of the work. The work list itself is the plan
+(one plan for each business intent, with done / now / next; ADR 051). `/list-focus-issues`
+reads issues and never touches the product model.
 
 ## Compiled From
 
@@ -46,8 +46,8 @@ reasoning instead of `scripts/select_focus.py` (C7); guessing a mode instead of
 halting on an unrecognised one (C5/F5); presenting a list when the capture came
 back partial or failed (F6); falling back to another mode or widening the window
 when a mode matches nothing (C8); inferring an issue's kind, naming a play the kind map
-does not contain, or working a recommendation out from the product model — model-derived
-recommendation belongs to `/next`, never to this play (C11/F9); giving an entry a
+does not contain, or working a recommendation out from the product model — this play never
+recommends from the model (C11/F9); giving an entry a
 recommendation the kind map has no play for — a default, a generic pointer, another
 play's name — instead of leaving it blank (C12/F10) — the cardinal rule,
 `standards/rules/no-unbacked-recommendation.md`, of which this play is the reference
@@ -132,7 +132,7 @@ never inline content:
 
     {
       "task":    "read the tracked issue host for /list-focus-issues's chosen mode and capture the raw issue set to disk. Invoke platform-adapter with verb list-issues ONLY — never a write verb. For mode `today` or `review`: one query with state=open. For mode `recent`: one query with state=closed limited to issues closed within window_days. Pass fields=number,title,url,state,createdAt,updatedAt,closedAt,labels,assignees and a limit high enough to cover the repo (200). Merge, deduplicate by number, and write {capture_complete, operator, queries, issues:[...]} to out_json. `operator` is the host login of the person running — read it with platform-adapter's `view-user` verb, which returns the authenticated user's login on GitHub and GitLab alike; leave it null if that verb fails. Append the NAME of every platform-adapter verb you invoke, one per line, to verbs_log as you go — that log is the play's read-only proof at Step 3, and a missing log fails the run. Set capture_complete=false and return the host error if ANY query failed or was truncated — never write a partial set as complete. Make no selection, ordering, or ranking decision; capture only.",
-      "intent":  "core/components/plays/list-focus-issues/reference/ice.md",
+      "intent":  "<play-dir>/reference/ice.md",
       "inputs":  { "mode_record": "<working>/mode.json",
                    "config":      ".garura/core/config.yaml" },
       "outputs": { "out_json":  "<working>/issues.json",
@@ -325,8 +325,7 @@ per C0 with the Stop Condition section filled) and write to `$evidence_dest`. Do
 hand-author the body.
 
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play
-in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run
-/next to see all recommended actions.` (only the `/next` pointer, or omit, when the
+in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the
 mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and
 output the report: `## focus Delivered — ${product_slug}`, the Run Summary table, the
 Pipeline Steps table from the task DAG, the Artifacts Produced table (the mode, the
@@ -375,7 +374,7 @@ rm -rf "${working}"            # working = ${product_base}_status/focus/
 | F5 | the mode argument is not one of `today`, `review`, `recent` | halt and print the three valid modes from `mode.json`'s `error` line; never guess a mode | human |
 | F6 | the issue host call fails, is truncated, or returns `capture_complete: false` | halt before rendering; report the host error and that no list was produced — never present a partial list as complete | human |
 | F7 | working files remain after the run completes | delete the working folder; the already-presented list is the only product | autonomous |
-| F9 | an entry's kind or recommended play is absent from the kind map | re-derive both from `kind-map.yaml` over the captured labels and re-render; if either still fails to resolve the map is incomplete — record the gap and fall the entry back to `unlabelled` + the `/next` pointer, never a play the table does not contain | autonomous |
+| F9 | an entry's kind or recommended play is absent from the kind map | re-derive both from `kind-map.yaml` over the captured labels and re-render; if either still fails to resolve the map is incomplete — record the gap and fall the entry back to `unlabelled` with no recommendation, never a play the table does not contain | autonomous |
 | F10 | an entry the kind map has no play for was given a recommendation anyway — a default, a generic pointer, or a substitute play name | strip the recommendation from that entry, re-render it as kind-only with the map's no-command note, and re-report the no-recommendation count; never repair by choosing a different play — the absence IS the correct answer | autonomous |
 | F8 | the close would report COMPLETED without the Done means held | surface the unmet clauses and re-run the producing step (capture or selection) to restore the missing artifact, or close HALTED with the verdict recorded | autonomous |
 

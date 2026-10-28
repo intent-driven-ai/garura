@@ -17,7 +17,7 @@ correctness signals. Stricter than industry change-failure rate: not "low failur
 over time" but "this slice landed clean on the FIRST attempt."
 
 ## Conditions
-Every slice delivery on an agent-led pipeline. Read at /release-feature and in the alignment
+Every slice delivery on an agent-led pipeline. Read at /release-epic and in the alignment
 pipe (/capture).
 
 ## Recommendation
@@ -32,7 +32,7 @@ A clean landing means ALL of:
 
 One-shot cleanliness and low cognition are the same fact seen from two sides: every
 fix-up round after agent-done is both a failed one-shot AND a cognition leak (an
-adjustment in the pipe's sitting time). Defects caught by the human at /release-feature manual
+adjustment in the pipe's sitting time). Defects caught by the human at /release-epic manual
 review count against one-shot — the agents should have caught them.
 
 ## Rationale

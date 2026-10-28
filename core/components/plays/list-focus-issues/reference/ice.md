@@ -10,8 +10,8 @@ fixed modes, with a plain reason on every entry.
 
 The tracked issue host is the single source of "what is worth attention". No backlog
 file, no sprint plan, no product model, and no work queue is consulted, and none is
-created. This play is the issue-side counterpart to `/next`, which reads the product
-model and is explicitly forbidden from reading issues; the two never overlap.
+created. The work list is the plan (one plan for each business intent, with done / now /
+next); this play is the issue-side view of the work and never reads the product model.
 
 A real project's issue list is long, so the play never shows the whole list. It shows a
 capped, ordered slice of it, chosen by the mode the operator asked for:
@@ -34,9 +34,8 @@ Every entry also says what the issue **is** — a defect, an epic, a refactor, a
 documentation, a chore, or unlabelled — and, where the table names one, which garura play
 to run for it. Both come from a fixed table keyed on the issue's own labels, held in a
 data file the project can extend. Neither is ever inferred, and neither is ever worked
-out by reading the product model: recommending from the model is `/next`'s job, and a
-second recommender that can disagree with the first is worse than no recommendation at
-all.
+out by reading the product model: a recommendation worked out from the model can disagree
+with the plan, and that is worse than no recommendation at all.
 
 **The cardinal rule: silence beats a wrong answer.** Where the table names no play — a
 kind with no command, or a label set matching no row — the entry carries **no
@@ -73,8 +72,7 @@ back is worse than the gap it was hiding.
   issue's labels, held in a data file resolved at pre-flight. First matching row wins and
   the row order is the precedence. A label set matching no row falls back to the table's
   declared fallback. The play never infers a kind, never invents a play name, and never
-  derives a recommendation by reading the product model — model-derived recommendation is
-  `/next`'s responsibility, not this play's.
+  derives a recommendation by reading the product model.
 - C12 — Silence beats a wrong answer. Where the table names no play for an entry — a
   matched row with no command, or no matched row at all — the entry carries no
   recommendation whatsoever: no default, no generic pointer, no substitute play name. It
@@ -105,21 +103,19 @@ back is worse than the gap it was hiding.
 
 ## Context
 
-- `/next` (`core/components/plays/next/`) is the model-side recommender. Its C1 forbids
-  reading any backlog or issue store, so `/list-focus-issues` is the issue-side counterpart, not a
-  duplicate. Neither play reads the other's source.
+- The work list is the plan (one plan for each business intent; ADR 051). `/list-focus-issues`
+  is the issue-side view of the work, not a second work list.
 - The issue host is resolved from `.garura/core/config.yaml`; all live host reads go
   through the `platform-adapter` skill's `list-issues` verb, invoked by the
   `project-orchestrator` agent. Scripts never shell out to the host (layer rule).
 - The existing `track-issue` skill's `list` action is hard-capped at 5 results and
   pre-filtered to unassigned enhancement/no-label issues. That is too narrow for this
   play, so `/list-focus-issues` captures through `platform-adapter` directly.
-- The kind map lives at `reference/kind-map.yaml` beside the play, the same
-  data-file-beside-the-play pattern `/next` uses for its work-intelligence shelf. Its label
+- The kind map lives at `reference/kind-map.yaml` beside the play. Its label
   vocabulary matches garura's own issue standard (`standards/templates/github-issue.md`),
   so a project opening issues through the pipeline lands on the right kind unaided. Note
   that `start-change` does not itself apply a kind label — an unlabelled issue is expected
-  and reads as `unlabelled`, pointing at `/next`.
+  and reads as `unlabelled`, with no recommendation.
 - The cardinal rule this play implements — `standards/rules/no-unbacked-recommendation.md`.
   `/list-focus-issues` is its reference implementation: C12 is the rule, F10 its failure, S8 its
   scenario, REC10 its strip-not-replace recovery. Any change here must keep that wiring.
@@ -214,7 +210,7 @@ back is worse than the gap it was hiding.
 - REC9 (F9) — trigger: an entry's kind or recommended play is absent from the kind map.
   Direction: re-derive both from `kind-map.yaml` over the captured labels and re-render; a
   kind or command that still fails to resolve means the map is incomplete — record the gap
-  and fall the entry back to `unlabelled` + the `/next` pointer rather than naming a play
+  and fall the entry back to `unlabelled` with no recommendation rather than naming a play
   the table does not contain. Handoff: autonomous.
 - REC10 (F10) — trigger: an entry the table has no play for carries a recommendation.
   Direction: strip the recommendation from that entry, re-render it as kind-only with the

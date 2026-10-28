@@ -24,6 +24,18 @@ Fetch MR unified diff:
 glab mr diff {pr_number}
 ```
 
+## pr-files
+
+List every changed file of an MR with its diff, page by page:
+
+```bash
+glab api projects/{project}/merge_requests/{pr_number}/diffs --paginate
+```
+
+## compare-diff
+
+Not on GitLab: its compare call gives the diffs as JSON, not one plain diff. The adapter stops with exit code 2 and runs nothing; a caller falls back to `pr-files`.
+
 ## comment-pr
 
 Post a comment (note) on an MR:
@@ -196,3 +208,23 @@ glab api projects/{PROJECT_ID}/notes/{note_id} \
 ```
 
 Note: on GitLab, issue comments and MR notes use different API endpoints (`issues/{iid}/notes` vs `merge_requests/{iid}/notes`). The `notes/{note_id}` path above applies to issue notes; for MR notes use `merge_requests/{iid}/notes/{note_id}`.
+
+## create-issue-typed
+
+Not on GitLab: GitLab has no issue types or sub-issues here. The adapter stops with exit code 2 and runs nothing.
+
+## set-issue-type
+
+Not on GitLab: GitLab has no issue types here. The adapter stops with exit code 2 and runs nothing.
+
+## edit-issue-body
+
+Not on GitLab: the adapter keeps this one to GitHub. The adapter stops with exit code 2 and runs nothing.
+
+## remove-label
+
+Not on GitLab: the adapter keeps this one to GitHub. The adapter stops with exit code 2 and runs nothing.
+
+## remove-sub-issue
+
+Not on GitLab: GitLab has no sub-issues here. The adapter stops with exit code 2 and runs nothing.

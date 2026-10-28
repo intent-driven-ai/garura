@@ -5,7 +5,7 @@ resolve_deploy_target.py — resolve the ONE cloud environment /release-incremen
 /release-increment is lightweight and on-demand: it deploys a delivered increment to a CLOUD environment the
 run lens already defined. This resolver names the target deterministically:
 
-  - known tiers: dev=1, qa=2, stage=3, prod=4 (local=0 is /release-feature's, never a deploy target).
+  - known tiers: dev=1, qa=2, stage=3, prod=4 (local=0 is /release-epic's, never a deploy target).
   - if --env <name> is given, resolve that named CLOUD environment — but if it is prod, exit with
     the distinct PROD_OUT_OF_SCOPE code (3) so the play halts (C2/F2); production stays with CD.
   - else pick the LOWEST cloud tier DEFINED in the slice's run.yaml (dev if present).
@@ -30,7 +30,7 @@ except ImportError:
     sys.stderr.write("resolve_deploy_target.py: PyYAML is required (pip install pyyaml).\n")
     sys.exit(2)
 
-# local (0) is /release-feature's, not a deploy target; /release-increment owns the cloud tiers.
+# local (0) is /release-epic's, not a deploy target; /release-increment owns the cloud tiers.
 CLOUD_TIERS = {"dev": 1, "qa": 2, "stage": 3, "prod": 4}
 OUT_OF_SCOPE = {"prod"}  # production stays with CD from main (#434)
 

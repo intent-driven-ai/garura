@@ -1,0 +1,199 @@
+{
+ "round": 2,
+ "updated": [
+  {
+   "id": "dom-software-delivery-planning",
+   "doc": "software-delivery-planning/domain.md",
+   "added_sections": [],
+   "renamed": [],
+   "kept_lines": 17,
+   "added_lines": [
+    "Sources: GitHub #898",
+    "Sources: the approved design for #798 and #898"
+   ],
+   "rewritten_lines": [
+    {
+     "doc": "domain.md",
+     "before": "and it never lets a builder read the eval.",
+     "after": "and it never gives a builder the eval: the build is given the intent, and a check flags each build session that read the evals folder and records the flag in that build run's evidence."
+    }
+   ]
+  },
+  {
+   "id": "cap-shape-slice",
+   "doc": "software-delivery-planning/shape-slice/capability.md",
+   "added_sections": [],
+   "renamed": [],
+   "kept_lines": 26,
+   "added_lines": [],
+   "rewritten_lines": [],
+   "note": "already at the current rules for its directional stage; nothing the slice needs is missing"
+  },
+  {
+   "id": "cap-718",
+   "doc": "software-delivery-planning/cap-718/capability.md",
+   "added_sections": [],
+   "renamed": [],
+   "kept_lines": 31,
+   "added_lines": [],
+   "rewritten_lines": [],
+   "note": "already at the current rules for its directional stage; nothing the slice needs is missing"
+  },
+  {
+   "id": "cap-shape-eval",
+   "doc": "software-delivery-planning/shape-eval/capability.md",
+   "added_sections": [],
+   "renamed": [],
+   "kept_lines": 24,
+   "added_lines": [
+    "Directional intent: Features line for fn-798 and fn-898 (new-feature mode; a directional page has no Features section)",
+    "Sources: GitHub #898",
+    "Sources: the approved design for #798 and #898"
+   ],
+   "rewritten_lines": [
+    {
+     "doc": "shape-eval/capability.md",
+     "before": "The eval is kept in the plan's evals folder, and no builder, no skill that builds the software and no context sub-agent reads that folder.",
+     "after": "The eval is kept in plain text in the plan's evals folder, and no builder, no skill that builds the software and no context sub-agent is given that folder: the build is given the business intent, never the eval, and a check flags each build session that read the folder and records the flag in that build run's evidence (fn-898)."
+    },
+    {
+     "doc": "shape-eval/capability.md",
+     "before": "- Fails if: a builder can read the eval.",
+     "after": "- Fails if: a builder is given the eval, or a build session read the evals folder and that build run's evidence has no flag that names the read."
+    },
+    {
+     "doc": "shape-eval/capability.md",
+     "before": "until #828 only a read rule keeps the folder from builders; out are running the eval and encrypting it.",
+     "after": "the build is given the intent, never the eval, and fn-898's check flags a build session that read the folder, in that build run's evidence; out are running the eval, blocking a read by hook (#893) and the drift checks and evidence warnings in Griffin; encryption (#828) was dropped by the product owner on 2026-10-26."
+    }
+   ]
+  },
+  {
+   "id": "fn-795",
+   "doc": "software-delivery-planning/shape-slice/fn-795/feature.md",
+   "added_sections": [
+    "Sources"
+   ],
+   "renamed": [],
+   "kept_lines": 47,
+   "added_lines": [
+    "Out of scope: the checks of fn-898"
+   ],
+   "rewritten_lines": [
+    {
+     "doc": "shape-slice/fn-795/feature.md",
+     "before": "- Eval encryption (#828) and the author-slice skill (#838), decision 3.",
+     "after": "- Eval encryption (#828, dropped by the product owner on 2026-10-26) and the author-slice skill (#838), decision 3."
+    }
+   ]
+  },
+  {
+   "id": "fn-818",
+   "doc": "software-delivery-planning/cap-718/fn-818/feature.md",
+   "added_sections": [
+    "Sources"
+   ],
+   "renamed": [],
+   "kept_lines": 48,
+   "added_lines": [
+    "Rules & behavior: the stories are the build's whole brief, never the eval, the hidden file or the evals folder (fn-898)",
+    "Out of scope: the checks of fn-898"
+   ],
+   "rewritten_lines": []
+  },
+  {
+   "id": "fn-798",
+   "doc": "software-delivery-planning/shape-eval/fn-798/feature.md",
+   "added_sections": [
+    "Sources"
+   ],
+   "renamed": [],
+   "kept_lines": 43,
+   "added_lines": [
+    "Out of scope: the checks of fn-898, with the flag in the build run's evidence"
+   ],
+   "rewritten_lines": [
+    {
+     "doc": "shape-eval/fn-798/feature.md",
+     "before": "No builder reads that folder. Not built yet (#798).",
+     "after": "No build is given that folder: the build is given the business intent, never the eval (fn-898). Not built yet (#798)."
+    },
+    {
+     "doc": "shape-eval/fn-798/feature.md",
+     "before": "- Until eval encryption (#828) exists, only a read rule keeps builders out of the evals folder.",
+     "after": "- The eval stays in plain text in the repo. The build is given the intent, never the eval, and fn-898's check flags a build session that read the evals folder, in that build run's evidence (eval encryption, #828, was dropped on 2026-10-26)."
+    },
+    {
+     "doc": "shape-eval/fn-798/feature.md",
+     "before": "- Encrypting the eval so that no builder can read it (#828).",
+     "after": "- Encrypting the eval (#828): dropped by the product owner on 2026-10-26."
+    }
+   ]
+  }
+ ],
+ "new_features": [
+  {
+   "id": "fn-898",
+   "doc": "software-delivery-planning/shape-eval/fn-898/feature.md",
+   "capability": "cap-shape-eval",
+   "features_line_added_to": "software-delivery-planning/shape-eval/capability.md"
+  }
+ ],
+ "thin": [
+  {
+   "id": "fn-898",
+   "lines": [
+    "Goal",
+    "Limit",
+    "Fails if",
+    "Context",
+    "Checked by"
+   ]
+  }
+ ],
+ "answers_used": [
+  {
+   "question": "Q-builders-1",
+   "where": "fn-898 Rules & behavior, ICE Goal and Limit",
+   "note": "the product owner's answer (accepted as proposed): every play, skill and agent that builds the software, and every context sub-agent it starts, is a build play; only /shape-slice, /shape-eval and the eval may name the evals folder"
+  },
+  {
+   "question": "Q-flag-1",
+   "where": "fn-898 What it does, Inputs / Outputs, Rules & behavior, Out of scope, ICE; cap-shape-eval Fails if and Context; fn-798 and the domain",
+   "note": "the product owner's answer: the flag is recorded in the build run's evidence, for now only there; drift checks and evidence warnings in Griffin come later. Round 1's 'and named in that run's close report' is not written"
+  },
+  {
+   "question": "Q-proof-1",
+   "where": "domain, cap-shape-eval, fn-798 rewritten lines",
+   "note": "the product owner said yes to the new proof line; the capability and feature pages say the build is given the intent, never the eval, and a read is flagged; the intent page's proof line is not this skill's"
+  }
+ ],
+ "gaps": [
+  {
+   "id": "fn-898",
+   "what": "the shape of a flag in the evidence file is not set yet",
+   "where": "fn-898 Inputs / Outputs, Thin line"
+  },
+  {
+   "id": "fn-898",
+   "what": "what the ledger check does when it cannot find a build session's ledger is not set yet",
+   "where": "fn-898 Rules & behavior, Thin line"
+  }
+ ],
+ "rewrite_note": "Eight lines that said the old rule (the eval is kept unreadable or encrypted, #828) were kept in place and reworded to the product owner's 2026-10-26 decision (798/specs/design.md lines 7-10); the before and after text of each is listed, so nothing is lost. Every page passes lint_grounding.py with no error.",
+ "fixed": [],
+ "not_mine": [
+  {
+   "what": "The spine's one_line of cap-shape-eval says 'keep it where no builder can read it', and of fn-798 'where no builder reads'",
+   "owner": "the play's spine script (persist_fills.py / persist_slice.py); this skill never writes _spine.yaml"
+  },
+  {
+   "what": "The proof line and Must not of bi-788 still say no builder can read the eval; the product owner said yes to the new proof line (Q-proof-1)",
+   "owner": "the intent page; this skill never writes an intent page"
+  },
+  {
+   "what": "fn-727 and fn-728 fail the feature heading rule (lint_grounding.py --root)",
+   "owner": "not slice features; they were like this before this run"
+  }
+ ]
+}

@@ -1,0 +1,65 @@
+{
+  "ok": false,
+  "base_ref": "HEAD",
+  "tree": ".garura/product/product-os",
+  "allow": [
+    "product-os/_spine.yaml",
+    "product-os/decisions/*",
+    "product-os/capabilities/cap-723/capability.md"
+  ],
+  "add_only": [
+    "product-os/capabilities/cap-723/*/functionality.md"
+  ],
+  "modify_only": [],
+  "remove_only": [],
+  "restore": false,
+  "changed": [
+    {
+      "path": ".garura/product/product-os/_spine.yaml",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/capabilities/cap-723/capability.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/functionalities/fn-597/functionality.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/functionalities/fn-724/functionality.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/functionalities/fn-725/functionality.md",
+      "status": "M"
+    },
+    {
+      "path": ".garura/product/product-os/functionalities/fn-726/functionality.md",
+      "status": "M"
+    }
+  ],
+  "violations": [
+    {
+      "path": ".garura/product/product-os/functionalities/fn-597/functionality.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/functionalities/fn-724/functionality.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/functionalities/fn-725/functionality.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    },
+    {
+      "path": ".garura/product/product-os/functionalities/fn-726/functionality.md",
+      "status": "M",
+      "reason": "out-of-scope"
+    }
+  ],
+  "restored": []
+}

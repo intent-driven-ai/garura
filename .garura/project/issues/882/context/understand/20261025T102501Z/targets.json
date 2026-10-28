@@ -1,0 +1,15 @@
+{
+  "in_loop": false,
+  "targets": [
+    {
+      "id": "cap-initialize",
+      "state": "absent",
+      "seed": ".garura/project/issues/882/context/understand/20261025T102501Z/caps/cap-initialize/seed.yaml",
+      "scope": "product-os/software-delivery-planning/initialize/"
+    }
+  ],
+  "ask": [],
+  "refused": [],
+  "skipped": [],
+  "nothing_pending": false
+}

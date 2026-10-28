@@ -131,7 +131,7 @@ TaskCreate: "{description of discovered work}"
 TaskUpdate: task_id → status: failed
 ```
 
-Write structured failure to the `stm.output.failure` path per `structured-failure-protocol.md`.
+Write structured failure to the `stm.output.failure` path per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`).
 
 ## Capabilities
 
@@ -231,7 +231,7 @@ A plan intent arrives as a JSON contract like any other, with the plan's inputs 
 }
 ```
 
-You pass `author-plan-file` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per `structured-failure-protocol.md`.
+You pass `author-plan-file` exactly: `action`, `issue`, `plan_path` (= `stm.output.plan`), `context_path` (= `stm.output.context`, create/update), `change` (update), `report_path` (= `stm.output.report`). `check` needs no context file. Write the skill's returned paths and the check report's `valid` / `done` to `stm.output.result`; on failure, write `stm.output.failure` per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`).
 
 ## Context Loading
 
@@ -328,7 +328,7 @@ The agent does NOT return the artifact content to the play. It writes artifacts 
 2. **Load intent** — Read `intent.yaml` from `intent_path`, extract constraints, failure conditions, scenarios
 3. **Load context** — Read config, read input data from `stm.input` paths
 4. **Parse the intent** — What is the caller asking for?
-5. **Validate constraints** — For each constraint from the intent file, check against current state. If ANY would be violated, write structured failure to `stm.output.failure` per `structured-failure-protocol.md` and return failed contract. Do NOT proceed to skill invocation.
+5. **Validate constraints** — For each constraint from the intent file, check against current state. If ANY would be violated, write structured failure to `stm.output.failure` per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) and return failed contract. Do NOT proceed to skill invocation.
 6. **Check inputs** — Do I have what the skill needs?
 7. **Invoke skill** — Use the Skill tool with context. For a plan intent: first build the Plan Context (several `track-issue` reads), then make the one `author-plan-file` call
 8. **Enrich results** — Derive `type_hint` from labels/title (issue intents); for a plan intent, record the returned paths and the check's `valid` / `done`
@@ -392,11 +392,43 @@ Bash is available for operations **not covered by skills**:
 
 **All code-host operations must route through the `platform-adapter` skill** (via `track-issue`). Never invoke `gh` or `glab` directly for issue operations.
 
-## Memory
+## Memory Reading Protocol
 
-Load framework protocols from `docs/framework/` as needed:
-- `intent-driven-recovery.md` — Recovery reasoning loop
-- `structured-failure-protocol.md` — Structured failure return format
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
+
+What each skill needs from memory:
+
+| Skill | What you put in short-term memory (glob for `find`), and pass as |
+|-------|-----------------------------------------------|
+| `track-issue` | nothing from memory. For `create`, the issue template (`standards/templates/github-issue.md`) comes from `template-manager` — `issue_template_path` |
+| `author-plan-file` | the work-plan rules (`**/standards/rules/work-plan.md`) — `rules_path`. The work-plan format (`standards/templates/work-plan.md`) comes from `template-manager` — `template_path` |
+
+### Templates come from template-manager
+
+Get every template (`standards/templates/*`) from the `template-manager` agent, never through
+the memory tool. Dispatch it with the Task tool, before the skill that needs the template:
+
+```json
+{ "task": "load these templates into the issue's short-term memory",
+  "inputs": { "issue": <issue>, "templates": ["standards/templates/github-issue.md", "standards/templates/work-plan.md"] },
+  "outputs": { "out_dir": "<issue folder>/context/templates/",
+               "manifest": "<issue folder>/context/templates/manifest-project-orchestrator.json" },
+  "task_id": "load-templates" }
+```
+
+Ask only for the templates this task needs. Hand each skill the copy at `<out_dir><name>` (for
+example `<issue folder>/context/templates/standards/templates/github-issue.md` for `track-issue`). When
+`template-manager` returns `template_missing`, do not write the output off the template: return
+a structured failure that names the missing template.
+
+## Structured Failure Format
+
+Return a failure in the shape of the shared format: `.claude/skills/_shared/failure-format.md`.
+It says when to use it, its fields, and the limit of two attempts to recover.
 
 ## Recovery
 
@@ -424,7 +456,7 @@ When a skill invocation fails and the obstacle is within your domain:
 
 ### Escalation (Outside Domain)
 
-When the obstacle is outside your domain, write a structured failure to `stm.output.failure` per `structured-failure-protocol.md`:
+When the obstacle is outside your domain, write a structured failure to `stm.output.failure` per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`):
 
 ```yaml
 failure:

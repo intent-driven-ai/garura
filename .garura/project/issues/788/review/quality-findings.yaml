@@ -1,0 +1,100 @@
+# quality-findings.yaml - /check-change Step 3, Layer 1 standards linter, PR #916 (issue 788)
+# SCOPED landing review. Standards-driven categories only: documentation, config-maps.
+meta:
+  generated_at: '2026-10-27'
+  inputs:
+    context: .garura/project/issues/788/review/context.yaml
+    categories: .garura/project/issues/788/review/categories.yaml
+    diff: .garura/project/issues/788/review/scoped.diff
+    severity_taxonomy_path: .garura/project/issues/788/context/memory/standards/rules/pr.md
+  categories_run: [documentation, config-maps]
+  files_checked:
+    - .garura/user-provided/managing-work.md
+    - .garura/.gitignore
+  skill: check-pr-quality (scan_taxonomy.py, run on the two files' hunks of scoped.diff, --paths limited to the two files)
+  not_run: tests and linters (already run, cited in .garura/project/issues/788/context/landing-tests.md)
+  severity_note: >
+    The taxonomy has no row for the by-hand prose checks, so severity follows its bucket
+    definitions: P3 = missing or wrong documentation, P4 = style-only.
+
+scan:
+  summary: 'scanner exit 0, no rule errors; 2 raw hits (both PERF-19 on .garura/.gitignore), both dismissed as not defects'
+  catchall_CODE_20: 2
+  raw_hits:
+    - standard_id: PERF-19
+      severity: P3
+      file: .garura/.gitignore
+      lines_in_diff: [6, 7]
+      evidence: 'cache (in the added comment "Python''s caches ..." and in the pattern "__pycache__")'
+      artifact_type_assigned_by_scanner: runtime-code
+      disposition: dismissed
+      reason: >
+        PERF-19 (grep cache|redis|memcached) is a code-performance rule. The scanner gave an ignore
+        file the default type runtime-code (the taxonomy's Artifact-Type table has no type for
+        ignore files), so a word in a comment and in an ignore pattern matched. Nothing in the
+        change uses a cache; no action on this PR. Kept visible so the caller sees the scanner output.
+        Separate tool gap: the taxonomy's Artifact-Type table lacks an ignore-file type.
+
+findings:
+  - id: QF-1
+    category: documentation
+    file: .garura/user-provided/managing-work.md
+    line: 138
+    severity: P3
+    basis: >
+      by-hand check "completeness / consistency against ADR 049" (categories.yaml, documentation);
+      ADR 049 section 4, docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md line 53;
+      severity by taxonomy bucket P3 (wrong documentation)
+    defect: >
+      Line 138 (new section "How is a change checked?", item 2) says "The agents that build never
+      read the issue's folder." The issue's folder is .garura/project/issues/<issue>/. ADR 049
+      section 4 says the build play's context sub-agent collects the context into that same folder
+      ("the issue's short-term memory, .garura/project/issues/<issue>/") and "the builder reads the
+      story and that collected context". So as written the rule forbids what ADR 049 requires, and
+      it also bars the builder from the folder where its own context is put. A reader cannot tell
+      which is meant, and the isolation rule that matters (keep the acceptance check away from the
+      builder) is stated too widely to follow. Fix: narrow it to the check, for example "The agents
+      that build never read the issue's evidence/eval/ folder", matching the path named on line 134.
+    evidence: 'managing-work.md:138 "2. The agents that build never read the issue''s folder."'
+  - id: QF-2
+    category: documentation
+    file: .garura/user-provided/managing-work.md
+    line: 12
+    severity: P3
+    basis: >
+      by-hand check "terminology consistency / completeness" (categories.yaml, documentation);
+      severity by taxonomy bucket P3 (wrong documentation)
+    defect: >
+      Line 12 says Garura's work follows "the product model Garura offers (ontology v7". The
+      ontology at HEAD is version 12 (core/components/memory/standards/schemas/product-os/ontology.md,
+      front matter "version: 12"), and ADR 049 says the Slice, Plan and Epic wording this page now
+      uses landed in v9 and v10. A reader following the pointer to check a term finds a different
+      version than the page names, and v7 predates the model the page now describes. Fix: name the
+      current version (v12), or drop the number and point at the file, so it stops going stale.
+    evidence: 'managing-work.md:12 "(ontology v7,"; ontology.md line 3 "version: 12"'
+
+checks_passed:
+  documentation:
+    - 'spelling and grammar: no errors found in the added prose'
+    - 'links and referenced paths: all resolve at HEAD (docs/standards/harness-standard.md, core/grounding/glossary.md, core/components/memory/standards/schemas/product-os/ontology.md, docs/adr/029-drives.md, plays shape-slice, shape-plan, shape-eval)'
+    - 'heading hierarchy: one H1, H2 sections, no skipped level'
+    - 'leftover TODOs: none'
+    - 'terminology: Epic, Story, Feature, Slice, Plan used as the ontology defines them; six issue types listed match the six rows of the table'
+    - 'consistency with ADR 049: matches on one plan per business intent (line 51), eval and guide folders plans/<id>/evals and guides (line 53), story never holds a failure or recovery condition (line 39), slice eval made by the eval play and kept in plans/<plan-id>/evals/ (line 144), "a plan picks a slice" removed as the ADR''s Work This Creates asks; the one exception is QF-1'
+  config-maps:
+    - 'pattern well-formed and matches only Python caches: "**/__pycache__/" is a valid directory pattern; no other names matched'
+    - 'hides no tracked file: git ls-files lists 0 paths containing __pycache__'
+    - 'comment cites #613 and matches the pattern: yes (.garura/.gitignore lines 6 and 7)'
+    - 'path-existence check: vacuous, no referenced path in the change'
+
+observations_outside_diff:
+  - >
+    managing-work.md line 261 ("the *second* plane above") still speaks of two planes, while line 14
+    ("one plane, not two") already says there is one. Not touched by this PR, so not raised as a
+    finding; worth a follow-up edit.
+
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 0

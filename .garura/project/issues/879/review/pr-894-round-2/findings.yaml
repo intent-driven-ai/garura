@@ -1,0 +1,46 @@
+pr: 894
+issue: 879
+round: 2
+round1_resolved: [H-1, H-2, H-3, H-4]
+findings:
+- id: H-5
+  severity: P3
+  category: harness
+  file: core/components/plays/shape-plan/reference/ice.md (C13, REC12); SKILL.md Step 2 and the F12 row
+  basis: "the ontology's Chore and Bug rules (a required Story parent) and harness-standard principle 7 (base ref); ADR 049 names no play that places a Bug or Chore"
+  finding: "The recovery tells the person to file misplaced work as its own story, bug or chore, placed later by /shape-slice and /shape-plan. The model gives a Chore or Bug a required Story parent, and no play places a Bug or Chore today."
+  fix: "Say what holds until a play places the item (it has no parent until then), or record the interim place."
+- id: Q2
+  severity: P3
+  category: documentation
+  file: .garura/user-provided/managing-work.md (lines 65-72 against "Where does it hang?" and "Is it ready to work?")
+  basis: "review/docs playbook, consistency check (no pr.md row matches this file)"
+  finding: "The new bullet says out-of-slice work is filed on its own, never under the Epic; two unchanged passages say every Story hangs under its Epic and a Bug under its Story."
+  fix: "Name the exception in those passages, or say the parent link comes when the play places the item."
+- id: H-6
+  severity: P3
+  category: harness
+  file: .garura/user-provided/managing-work.md (the blocker bullet)
+  basis: "ADR 049 (base ref): a thing a person cannot test end to end is not a slice; harness-standard principle 8: issues land on plan/<id>/base"
+  finding: "The guide says blocker work gets its own Epic as its own slice; most blocker work cannot be tested end to end, so under ADR 049 it is not a slice."
+  fix: "The product owner decides: describe a blocker in the model's terms, or change ADR 049's slice definition."
+- id: Q1
+  severity: P3
+  category: executable-code
+  file: check_tracker.py check() (complexity 26 to 28); find_work_items.py find() (13 to 15)
+  basis: "pr.md CODE-09, highlight only (no threshold set)"
+  finding: "Two already-complex functions get more complex."
+  fix: "Leave for a later refactor."
+- id: H-7
+  severity: P4
+  category: harness
+  file: core/components/plays/shape-plan/SKILL.md (Step 8 routing line)
+  basis: "harness-standard principle 4 (base ref)"
+  finding: "Step 8 does not route the tracker check's misplaced-work failure to REC12 (almost unreachable: Step 2 stops first)."
+  fix: "Name it in Step 8's routing line."
+layer1:
+  quality: "check-pr-quality 0 (prose glob hides the Python; a scratch rerun found nothing); data-safety checks pass; plan file: 51 nodes, none lost, 16 moved once each"
+  lint_components: "0 in changed paths; 37 there before"
+  lint_play: "0 in changed paths; next-command gap there before"
+  ruff: "clean"
+  tests: "10 suites, 137 passed, 0 failed"

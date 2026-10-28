@@ -12,13 +12,14 @@ user names. It reads garura's `core/components/` (agents, skills, plays, memory)
 and the source `core/config.yaml` + the project instructions, and lays them down so a
 host coding tool can discover them in the target.
 
-    python3 install.py --target <path> [--tool claude|codex] [--scope full|harness]
+    python3 install.py --target <path> [--tool claude] [--scope full|harness]
 
   --target        the project directory to install into (a path, created if absent)
-  --tool          which host tool to target: claude (default) or codex
+  --tool          which host tool to target: claude (default). codex is deprecated (#863):
+                  it stops at once with a plain message and changes nothing
   --scope         which component set to install: full (default, every
-                  component except the meta harness plays and the meta-utility
-                  skills) or harness (meta plays + meta-utility skills + change
+                  component except the meta harness plays and the harness-only
+                  skills) or harness (meta plays + harness-only skills + change
                   chain + discover-capabilities + their workers only)
   --source        the garura checkout to install FROM (auto-derived if omitted)
   --memory-dest   where shared memory goes (default ~/.garura/core/memory)
@@ -44,8 +45,15 @@ installer): the memory tool in `.garura/core/tools/memory/` with its settings, s
 memory's folder, and the memory guide where the host tool loads it for every agent. It then
 checks the tool runs and reaches the project's tiers. The install brings no memory.
 
-Exit: 0 = installed, 1 = installed but the memory check failed, 2 = bad input /
-prerequisite missing.
+It also lays every other tool but the naming tool (`tools_system.py`, shared with the public
+installer) in `.garura/core/tools/<name>/`, because plays and skills run them after the
+install. It gets each tool's packages, runs each tool's smoke check, and writes
+`.garura/core/tools/.gitignore`.
+
+The install never changes a product model the project already has (#813).
+
+Exit: 0 = installed, 1 = installed but the memory check failed or a tool does not load
+(the message names the tool), 2 = bad input / prerequisite missing.
 Idempotent: re-running re-lays garura in place; it never duplicates.
 """
 
@@ -58,12 +66,27 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import memory_system  # noqa: E402
+import tools_system  # noqa: E402
 from adapters import common, get_adapter, known  # noqa: E402
 
 
 def fail(msg):
     sys.stderr.write(f"install.py: {msg}\n")
     sys.exit(2)
+
+
+# The Codex installer is deprecated (#863): it is to be redesigned completely. Until then an
+# install for Codex stops at once and changes nothing in the target.
+DEPRECATED_TOOLS = {
+    "codex": ("the Codex installer is deprecated and installs nothing (#863: it is being "
+              "redesigned). Install for Claude Code with --tool claude, or wait for #863."),
+}
+
+
+def stop_if_deprecated(tool):
+    """Stop with a plain message, before anything is written, when the tool is deprecated."""
+    if tool in DEPRECATED_TOOLS:
+        fail(DEPRECATED_TOOLS[tool])
 
 
 def info(quiet, msg):
@@ -178,7 +201,7 @@ def portable(path):
 # A scope names WHICH components a target receives; everything else about the
 # install (shared memory, config, STM scaffold, manifest) is unchanged. `full`
 # is the default and installs every component EXCEPT the meta harness plays and the
-# meta-utility skills — a product project's ADLC has no use for garura's own build tooling. `harness`
+# harness-only skills — a product project's ADLC has no use for garura's own build tooling. `harness`
 # is for garura-style harness repos that must carry only the meta plays, the
 # change chain, and the workers those plays dispatch — nothing product-facing.
 # Membership is explicit and deterministic: when a kept play gains a new
@@ -189,9 +212,9 @@ def portable(path):
 # receives them under `full`. (`harness` is an explicit allow-list and names the
 # two it does want.)
 META_PLAYS = {"create-play", "edit-play", "create-loop", "edit-loop",
-              "install-garura", "uninstall-garura"}
-# Meta-utility skills are the same kind of build tooling, packaged as a skill: a person
-# invokes them in a harness repo to build garura itself. Never installed under `full`.
+              "install-garura", "uninstall-garura", "edit-ontology"}
+# Harness-only skills are the workers of the meta plays (edit-ontology runs
+# author-product-ontology, #777). Plays run them; no person does (#778). Never installed under `full`.
 META_SKILLS = {"author-product-ontology"}
 
 SCOPES = {
@@ -211,10 +234,26 @@ SCOPES = {
             # Its workers: adr-keeper + author-decision, and the change chain already kept.
             "record-decision",
             # discover-capabilities writes the full ICE for Garura's own capabilities and
-            # functionalities, now that Garura plans its work with its product model (#753).
+            # features, now that Garura plans its work with its product model (#753).
             # Its workers: product-os-keeper + find-work-placement, enrich-capability-ice,
             # judge-grounding; template-manager is already kept.
             "discover-capabilities",
+            # edit-ontology changes the product ontology with the product owner (#777).
+            # Its workers: product-os-keeper + author-product-ontology, both already kept.
+            "edit-ontology",
+            # shape-slice shapes the slice for each of Garura's own business intents (plan 788).
+            # Its workers: product-os-keeper + the skills listed below; template-manager is kept.
+            "shape-slice",
+            # shape-plan makes the plan, and its work items, for each of Garura's own business
+            # intents (#818). Its workers: product-os-keeper + author-work-items; template-manager is kept.
+            "shape-plan",
+            # shape-eval writes each slice's eval for Garura's own business intents (#798).
+            # Its workers: evals-engineer + author-slice-eval; template-manager is kept.
+            "shape-eval",
+            # discover-intent writes and changes Garura's own business intents (plan 788, #798).
+            # Its workers: business-intent-keeper + author-business-intent, prototype-reader +
+            # walk-prototype; template-manager is kept.
+            "discover-intent",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -224,6 +263,15 @@ SCOPES = {
             "find-matching-issues", "cut-branch", "open-pr",
             "author-product-ontology", "author-decision",
             "find-work-placement", "enrich-capability-ice", "judge-grounding",
+            # the skills shape-slice calls (#842)
+            "author-business-intent", "author-domains", "propose-answers", "author-slice",
+            "find-slice-gaps", "author-slice-brief", "enrich-grounding", "author-failure-recovery",
+            # the skill shape-plan calls (#818)
+            "author-work-items",
+            # the skill shape-eval calls (#798)
+            "author-slice-eval",
+            # the skill discover-intent's prototype walk calls
+            "walk-prototype",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
@@ -231,6 +279,10 @@ SCOPES = {
             # every play's close asks template-manager for its templates (ADR 039 §8–9)
             "template-manager",
             "product-os-keeper",
+            # the agent shape-eval dispatches (#798)
+            "evals-engineer",
+            # the agents discover-intent dispatches
+            "business-intent-keeper", "prototype-reader",
         },
     },
 }
@@ -241,7 +293,7 @@ def resolve_scope(scope, components):
 
     A value of None for a kind means "install every component of that kind".
     `harness` is a fixed allow-list. `full` is everything on disk EXCEPT the
-    meta harness plays and the meta-utility skills, so it is resolved against the
+    meta harness plays and the harness-only skills, so it is resolved against the
     source tree at run time.
     """
     if scope != "full":
@@ -256,8 +308,29 @@ def resolve_scope(scope, components):
 
 # --- the install --------------------------------------------------------------
 
+def component_kinds(components, paths):
+    """The kind of each component laid (play, loop, skill or agent), by where it sits in the
+    source. Plays, loops and skills share one installed folder, so the folder alone cannot tell
+    them apart; the linter's installed layout reads this record (#860)."""
+    kinds = {}
+    for rel in paths:
+        head, name = os.path.split(rel.rstrip("/"))
+        if name.startswith((".", "_")):
+            continue
+        if os.path.basename(head) == "agents" and name.endswith(".md"):
+            kinds[rel] = "agent"
+            continue
+        for kind, folder in (("play", "plays"), ("loop", "loops"), ("skill", "skills"), ("agent", "agents")):
+            if os.path.isdir(os.path.join(components, folder, name)) or \
+                    os.path.isfile(os.path.join(components, folder, name + ".md")):
+                kinds[rel] = kind
+                break
+    return kinds
+
+
 def install(source, target, tool, force, quiet, memory_dest, scope="full",
             phoenix_place=memory_system.PHOENIX_PLACE, phoenix_source=memory_system.PHOENIX_SOURCE):
+    stop_if_deprecated(tool)
     adapter = get_adapter(tool)
     components = os.path.join(source, "core", "components")
     if not os.path.isdir(components):
@@ -275,6 +348,7 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
         "config": None,
         "memory": None,
         "global_files": [],
+        "tools": [],
     }
 
     # 1. components — the host surface, owned by the adapter; the scope filter
@@ -283,6 +357,7 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     paths, counts, _ = adapter.lay_components(components, target, _info, allow=allow)
     record["components"] = paths
     record["counts"] = counts
+    record["kinds"] = component_kinds(components, paths)
 
     # 2. machine-global host config (Codex profiles; Claude: none)
     record["global_files"] = adapter.write_global_config(_info)
@@ -335,6 +410,16 @@ def install(source, target, tool, force, quiet, memory_dest, scope="full",
     record["memory_system"] = memory_system.lay(source, target, tool, phoenix_place, phoenix_source, _info)
     record["memory_system"]["check"] = memory_system.check(target, _info)
 
+    # 8. the tools (decision 6 of #860): every tool but the memory tool (laid above), the
+    #    naming tool and the play-reviewer prototype, in .garura/core/tools/<name>/, each with
+    #    its packages and a smoke check, and the tools' ignore file (decisions 20, 23, 24)
+    try:
+        record["tools"] = tools_system.lay(source, target, _info)
+    except tools_system.ToolFailed as exc:
+        record["tools"] = exc.laid
+        record["tools_failed"] = exc.failures
+    record["tools_gitignore"] = tools_system.GITIGNORE
+
     return record
 
 
@@ -351,7 +436,8 @@ def retire_stale(target, new_paths, quiet):
         return []
     try:
         with open(path, encoding="utf-8") as fh:
-            prior = (json.load(fh).get("record") or {}).get("components") or []
+            prior_record = json.load(fh).get("record") or {}
+        prior = (prior_record.get("components") or []) + (prior_record.get("tools") or [])
     except (OSError, ValueError):
         return []
     base = os.path.abspath(target)
@@ -383,35 +469,33 @@ def retire_renamed(source, target, new_paths, quiet):
     import yaml
     with open(map_path, encoding="utf-8") as fh:
         data = yaml.safe_load(fh) or {}
-    new_to_old = {}
+    new_to_old = {}  # one new name can have several old ones (two old play names lead to shape-slice)
     for kind in ("plays", "loops", "skills", "agents"):
         for old, new in (data.get(kind) or {}).items():
-            new_to_old[new] = old
+            new_to_old.setdefault(new, []).append(old)
     base = os.path.abspath(target)
     removed = []
     for rel in new_paths:
         head, last = os.path.split(rel.rstrip("/"))
         stem, ext = os.path.splitext(last) if last.endswith(".md") else (last, "")
-        old = new_to_old.get(stem)
-        if not old:
-            continue
-        old_rel = os.path.join(head, old + ext)
-        full = os.path.normpath(os.path.join(base, old_rel))
-        if not full.startswith(base + os.sep) or not os.path.exists(full):
-            continue
-        marker = full if ext else os.path.join(full, "SKILL.md")
-        try:
-            text = open(marker, encoding="utf-8").read()
-        except OSError:
-            continue
-        if not re.search(rf"^name:\s*(?:garura:)?{re.escape(old)}\s*$", text, re.M):
-            continue
-        if os.path.isdir(full):
-            shutil.rmtree(full)
-        else:
-            os.remove(full)
-        removed.append(old_rel)
-        info(quiet, f"  retired: {old_rel} (old name; now {rel})")
+        for old in new_to_old.get(stem, []):
+            old_rel = os.path.join(head, old + ext)
+            full = os.path.normpath(os.path.join(base, old_rel))
+            if not full.startswith(base + os.sep) or not os.path.exists(full):
+                continue
+            marker = full if ext else os.path.join(full, "SKILL.md")
+            try:
+                text = open(marker, encoding="utf-8").read()
+            except OSError:
+                continue
+            if not re.search(rf"^name:\s*(?:garura:)?{re.escape(old)}\s*$", text, re.M):
+                continue
+            if os.path.isdir(full):
+                shutil.rmtree(full)
+            else:
+                os.remove(full)
+            removed.append(old_rel)
+            info(quiet, f"  retired: {old_rel} (old name; now {rel})")
     return removed
 
 
@@ -429,11 +513,11 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Install Garura into a target project.")
     ap.add_argument("--target", required=True, help="project directory to install into (a path)")
     ap.add_argument("--tool", default="claude", choices=known(),
-                    help="host tool to target (default: claude)")
+                    help="host tool to target (default: claude; codex is deprecated, #863)")
     ap.add_argument("--scope", default="full", choices=sorted(SCOPES),
                     help="component set to install: full (default, every component "
-                         "except the meta harness plays and meta-utility skills) or harness "
-                         "(meta plays + meta-utility skills + change chain + their workers)")
+                         "except the meta harness plays and harness-only skills) or harness "
+                         "(meta plays + harness-only skills + change chain + their workers)")
     ap.add_argument("--source", help="garura checkout to install from (auto-derived if omitted)")
     ap.add_argument("--memory-dest", default="~/.garura/core/memory",
                     help="where shared memory goes (default ~/.garura/core/memory)")
@@ -446,6 +530,7 @@ def main(argv=None):
                     help="where the memory tool downloads Phoenix memory from")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
+    stop_if_deprecated(args.tool)
 
     source = derive_source_root(args.source)
     target = os.path.abspath(args.target)
@@ -456,7 +541,7 @@ def main(argv=None):
     record = install(source, target, args.tool, args.force_config, args.quiet,
                      args.memory_dest, scope=args.scope,
                      phoenix_place=args.phoenix_place, phoenix_source=args.phoenix_source)
-    record["retired"] = retire_stale(target, record["components"], args.quiet)
+    record["retired"] = retire_stale(target, record["components"] + record["tools"], args.quiet)
     record["retired"] += [r for r in retire_renamed(source, target, record["components"], args.quiet)
                           if r not in record["retired"]]
     write_manifest(target, record, args.quiet)
@@ -464,6 +549,10 @@ def main(argv=None):
     c = record["counts"]
     n = c.get("skills", 0) + c.get("plays", 0) + c.get("loops", 0)
     retired = f", retired {len(record['retired'])} stale" if record["retired"] else ""
+    for why in record.get("tools_failed") or []:
+        sys.stderr.write(f"install.py: stopped: {why}. Plays that run it cannot use it until it is fixed\n")
+    if record.get("tools_failed"):
+        sys.exit(1)
     if not record["memory_system"]["check"]["ok"]:
         sys.stderr.write("install.py: installed, but the memory check failed (see above) — "
                          "the project's agents cannot use memory until it is fixed\n")

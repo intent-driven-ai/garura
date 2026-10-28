@@ -182,7 +182,7 @@ The shape compiled plays emit today, taken from `commit-change`'s grouping step 
 
 The play does not pass its ICE source to agents. The intent is compiled *into* the play — its constraints and failure conditions become the play's step evals, scenario evals, recovery entries, and stop condition — so what an agent needs is the task and the files.
 
-> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/create-play` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/release-feature` keeps a `task_id`.
+> ADR 016 recorded an earlier, richer field set (`intent_path` to a `reference/intent.yaml`, `stm_base`, `stm.input` / `stm.output`, `task_id`). Plays compiled by today's `/create-play` emit the leaner shape above; a step may add a field it needs — `/fix-bug`'s RCA step adds `ltm_context` to trigger the R1–R4 resolution protocol (ADR 015), and `/release-epic` keeps a `task_id`.
 
 ### How It Flows
 
@@ -482,9 +482,9 @@ Every checkpoint artifact written to `.garura/project/issues/{N}/checkpoint/{pla
 | Status | Meaning |
 |--------|---------|
 | `PENDING_APPROVAL` | Written; awaiting user decision |
-| `APPROVED` | User responded Tether |
-| `ORBIT_FEEDBACK` | User responded Orbit with feedback; the gated stage re-runs as a new cycle |
-| `REJECTED` | User responded Vanish |
+| `APPROVED` | User replied yes |
+| `CHANGE_REQUESTED` | User replied change: <what>; the gated stage re-runs with the change as a new round |
+| `REJECTED` | User replied stop |
 | `COMPLETED` | Set on every checkpoint of the run when the play closes |
 
 The shape and lifecycle are defined in `standards/templates/checkpoint.md`. Plays update the artifact status before proceeding to the next step. A gate that resolves off or auto-passes (see Gate Configuration) writes no prompt; the skip is recorded as a Checkpoint Decisions row in the run's evidence file. Together these form an auditable record of every approval decision.

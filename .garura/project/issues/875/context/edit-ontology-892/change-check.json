@@ -1,0 +1,20 @@
+{
+  "changed_kinds": [
+    "Epic",
+    "Story"
+  ],
+  "allowed_kinds": [
+    "Epic",
+    "Story"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "11",
+  "version_after": "12",
+  "updated": "2026-10-25",
+  "date": "2026-10-25",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}

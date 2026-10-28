@@ -7,8 +7,7 @@ files the decision stands on — into the loop's `review_dir`, so the loop's end
 can read every play's record in one place. Nothing here decides anything: the record
 reads `decided: false` until the loop's review answers it.
 
-Canonical copy lives at create-play/references/write_loop_review.py and is stamped into
-each play that can run inside a loop. Layer rule: file reads/writes only; no git/gh/network.
+Layer rule: file reads/writes only; no git/gh/network.
 
     python3 write_loop_review.py --run <working>/run.json --summary <checkpoint.md> \
         [--attach name=<path> ...] [--decisions <citations.json>] --ts <run ts>

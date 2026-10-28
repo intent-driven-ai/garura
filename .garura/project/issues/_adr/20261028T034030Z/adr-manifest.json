@@ -1,0 +1,56 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261028T034030Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "042",
+      "file": "docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md",
+      "kind": "superseded",
+      "part": "full"
+    },
+    {
+      "adr": "041",
+      "file": "docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+      "kind": "amended",
+      "part": "\u00a73 \"Before it asks, the drive builds the memory it lacks\" (as amended by ADR 042): the work is one step of the loop, run by the knowledge-builder agent with skills, the memory tool and the loop's scripts, not member plays \u00b7 \u00a74 \"Member plays\" (as amended by ADR 042 and, per its pointer, ADR 043): a loop has no member plays; the knowledge step is a step of the loop; the change plays a loop runs stay as they are \u00b7 \u00a75 \"The person's questions, when they come\" (as amended by ADR 042): restated here \u2014 the person gets the knowledge brief, never a questionnaire"
+    },
+    {
+      "adr": "039",
+      "file": "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+      "kind": "amended",
+      "part": "\u00a72 \"A play is a pure workflow and reads no memory\" and \u00a710's line on ADR 035 \u00a74 (\"only agents call the tool\"), as amended by ADR 042: the one read-only exception \u2014 a script may ask the memory tool's `updates` for the issue's waiting memory updates \u2014 passes from \"a knowledge play's own check script\" to the Discovery loop's scripts `check_knowledge.py` and `round_state.py` (round_state.py stops reading memory-update files by path). The rest of \u00a72 stands and is now kept: no skill calls the memory tool (author-knowledge-page stops calling `propose`; the agent raises the page)."
+    },
+    {
+      "adr": "044",
+      "file": "docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md",
+      "kind": "amended",
+      "part": "\u00a71 \"The Shared Drive Run owns the steps between plays\" (as renamed by ADR 045): its list of run steps gains the knowledge step (R5c: close the open questions; R5b: show the knowledge brief and record the reply). It is a run step, not a product rule, so \u00a71's rule that a loop carries no product rules of its own stands."
+    },
+    {
+      "adr": "046",
+      "file": "docs/adr/046-one-naming-standard-for-every-harness-part.md",
+      "kind": "amended",
+      "part": "\u00a74 \"Plays take the verb of what they do\", the clause \"knowledge plays `search`, `research`, `check`\": there are no knowledge plays. `check` stays a change-play verb (check-change); `search` and `research` are no longer play verbs. The skill verb `research` (\u00a75) stands."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md",
+    "041-a-drive-runs-in-rounds-and-owns-its-questions.md",
+    "039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md",
+    "044-the-shared-drive-run-owns-the-steps-between-plays.md",
+    "046-one-naming-standard-for-every-harness-part.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

@@ -23,7 +23,7 @@
 | `title` | The decision in one line, as a statement — not a topic | yes |
 | `status` | `proposed`, `accepted`, `superseded` or `rejected`. Only a person moves it to `accepted` or `rejected` | yes |
 | `date` | When it was decided (accepted), or proposed | yes |
-| `level` | `framework`, `product`, `capability` or `functionality` | yes |
+| `level` | `framework`, `product`, `capability` or `feature` | yes |
 | `node_ref` | The part of the product it affects; empty for a framework ADR | product levels |
 | `accepted_by` | The PERSON who accepted it; empty while proposed. Markdown: the **Decided by:** line. YAML: `metadata.accepted_by` (YAML's `metadata.decided_by` keeps its original meaning: the play that recorded it) | once accepted |
 | `decided_in` | Where it was decided — the issue, the run, the review | yes |
@@ -38,6 +38,7 @@
 | `decision` | What is decided, in plain words, numbered when there are several parts | yes |
 | `consequences` | What gets better and what gets harder or riskier | yes |
 | `alternatives` | Each option not taken, and why not | yes |
+| `for_the_accepter` | What the person who accepts it must know before deciding: each point found on the way that the person did not ask about. Each point names what it is and where, the detail of what is wrong or worth knowing, why it matters and for whom, what this decision does about it, and what the person decides | when any |
 | `work_this_creates` | Follow-up work the decision opens | no |
 | `references` | Sources: decisions, issues, files | no |
 
@@ -56,6 +57,11 @@
   business intent).
 - Inside a loop, an ADR is written as `proposed` and accepted at the loop's final review; run
   by hand, the person accepts it before it is written as `accepted`.
+- A point for the person who accepts it is written for someone who was not in the work. It
+  names the thing by its plain name and its place, and gives the detail itself (the lines, the
+  names, the dates), not a summary. A point that only says "the page is out of date" or "the
+  agent broke a rule", without which page, out of date how, which agent or which rule, is not
+  finished.
 
 ## Shape 1 — Markdown (Garura's ADRs)
 
@@ -66,7 +72,7 @@ File: `docs/adr/NNN-<slug>.md`. Headings in this order; header lines are bold fi
 
 **Status:** Proposed | Accepted | Superseded by [ADR MMM](MMM-<slug>.md) | Rejected
 **Date:** YYYY-MM-DD
-**Level:** framework | product | capability | functionality
+**Level:** framework | product | capability | feature
 **Decided by:** <person> · **Decided in:** #<issue> (<what kind of work>)
 **Supersedes:** ADR MMM (<in full | in part — what part>) · …            (omit when none)
 **Amends:** ADR MMM — <what part> · …                                      (omit when none)
@@ -78,6 +84,16 @@ File: `docs/adr/NNN-<slug>.md`. Headings in this order; header lines are bold fi
 ## Context
 
 <Why a decision is needed now.>
+
+## For the Person Who Accepts This                                         (when any)
+
+### <The point, as a plain statement>
+
+- **What and where:** <its plain name and its place: a file, a page, an agent, a tier>
+- **What is wrong, or worth knowing:** <the detail itself: the lines, the names, the dates>
+- **Why it matters:** <what goes wrong, and for whom>
+- **What this decision does:** <what changes, or "nothing — <why>">
+- **What you decide:** <the choice left to the person, or "nothing">
 
 ## Decision
 
@@ -119,7 +135,7 @@ decision:
   id: <id>
   title: <the decision as a statement>
   status: proposed | accepted | superseded | rejected
-  level: framework | product | capability | functionality
+  level: framework | product | capability | feature
   node_ref: <the node it affects — empty for framework or product level>
   reason: <context and decision, in plain words>          # v1 field: context + decision
   alternatives:
@@ -132,6 +148,9 @@ decision:
   ice_impact: <the ICE it changes, or "none — why">
   business_intent_check: none | kind | instance
   consequences: { positive: [<…>], negative: [<…>] }
+  for_the_accepter:                                        # when any
+    - { point: <plain statement>, what_and_where: <name and place>, detail: <what is wrong>,
+        why_it_matters: <what goes wrong>, this_decision_does: <what changes>, you_decide: <choice or "nothing"> }
   metadata:
     decided_by: <play that recorded it>                    # v1 meaning kept
     accepted_by: <person, once accepted>

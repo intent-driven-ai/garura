@@ -1,0 +1,36 @@
+{
+  "doc": ".garura/product/product-os/functionalities/fn-725/functionality.md",
+  "kind": "functionality",
+  "criteria": [
+    {
+      "id": "completeness",
+      "verdict": "pass",
+      "evidence": "All required sections are present and substantive: What it does (\"'Needs' says another node must be done first; it is the only link that sets an order of work, and the ready check reads it\"), Inputs / Outputs (\"Out: the spine linter's result — an error per link that points at an id not in the spine, or at an id that is work...\"), Rules & behavior (nine rules incl. self-link, loop, rename carry-over), eight Given/When/Then acceptance criteria, Out of scope naming fn-724, cap-718, cap-720, cap-721, fn-597, fn-726, and an Agent intent (ICE) section with Goal, Limit, Fails if, Context, Checked by and Quality need.",
+      "fix": ""
+    },
+    {
+      "id": "self_explanation",
+      "verdict": "pass",
+      "evidence": "Items carry their why: \"every mix is allowed, because work across capabilities often needs a piece of another capability\"; \"Work never carries these links: a Feature, Story, Spike, Chore or Bug is the order to build a node, so any link belongs on the node it tracks\"; \"It is an error and not a warning, unlike a missing link, because a missing link is a gap the model fills as it grows, while a loop is a link that is present and can never come true\"; \"Slices and epics ... are renamed in the same change so one field name means one thing.\" The one thin item, \"'Identified by' holds at most one id\", is minor against the whole.",
+      "fix": ""
+    },
+    {
+      "id": "discreteness_form",
+      "verdict": "fail",
+      "evidence": "Rules & behavior: \"Until the rename lands on main, a reader that finds the old name `depends_on` on a capability or functionality reads it as `needs` and warns rather than fails ... once the rename is on main, the old name on a capability or functionality is an error\"; Acceptance: \"Given a capability that still carries `depends_on` before the rename is on main, when the linter runs, then it warns ...; given the same capability after the rename is on main, then it fails\". A linter run cannot observe whether a change has landed on main, so this criterion is not concrete or testable as written; everything else is discrete bullets with Given/When/Then acceptance and a function-shaped (not user-story) description.",
+      "fix": "Replace \"before / after the rename is on main\" with a condition the linter can actually see — for example a spine schema version field (\"a spine whose `schema_version` is below N reads `depends_on` as `needs` and warns; at N or above it is an error\") or an explicit linter flag — and rewrite both the rule and the acceptance criterion to name that condition, e.g. \"Given a spine at schema version N-1 whose capability carries `depends_on`, when the linter runs, then it warns and reads the values as needs; given the same entry in a spine at version N, then it fails with an error naming the old field.\" If the intent is only that the shipped linter rejects the old name, drop the warn phase and say so."
+    },
+    {
+      "id": "depth_gradient",
+      "verdict": "pass",
+      "evidence": "Parent capability gives one line: \"'Needs' and 'identified by' link capabilities and functionalities (fn-725) — the two links any mix ... may carry, the check that each points at a real node, and the rename of the spine field `depends_on` to `needs`.\" The child adds the input/output shapes (\"its `identified_by` value (one id, or empty when it was found on its own)\"), self-link and loop rules, the business-intent exclusion, the cross-plan need rule, the old-name carry-over, and eight acceptance tests including \"cap-742 and cap-747 still need cap-739, and fn-727 still needs fn-724\".",
+      "fix": ""
+    },
+    {
+      "id": "stranger_test",
+      "verdict": "pass",
+      "evidence": "What: \"A capability or functionality can need, and be identified by, another capability or functionality — any mix. Never on work.\" Why: \"The rename makes the field say what the ontology says: today the ontology and the pages say 'needs' while the spine field is `depends_on`, which a reader must translate.\" Edges: \"The ready answer itself — ... (fn-724) owns how needs decide readiness\"; \"The links from domains — ... (fn-726) owns those\"; \"How pages are saved does not change\". A cold reader can explain what the node does, why, and where it stops.",
+      "fix": ""
+    }
+  ]
+}

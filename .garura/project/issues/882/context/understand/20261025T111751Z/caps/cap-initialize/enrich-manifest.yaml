@@ -1,0 +1,102 @@
+enrich:
+  capability_ref: cap-initialize
+  grounded_in: "no domain shelf (routing.yaml: unmatched against the ten Phoenix 44e1c4c shelves); the domain page software-delivery-planning/domain.md and its sources; the product owner's sources GitHub #862 (business intent), #881 (story) and #883 (story, the memory rule rewritten 2026-10-25)"
+  capability:
+    id: cap-initialize
+    slug: initialize
+    domain: dom-software-delivery-planning
+    status: proposed
+    detail: detailed
+    one_line: "After the install, set a project up for Garura: its memory, its review rules, and its tracker's work-item types."
+    doc: software-delivery-planning/initialize/capability.md
+    intents: []
+    nfr_needs:
+      reliability:
+        level: medium
+        target: "a second run with every answer unchanged and no Phoenix memory change changes 0 files in the project's memory, its rule-group record and its tracker; an install changes 0 files in any project's Garura memory"
+        gate: "run initialize twice on a test project with the same answers and diff the memory folder, the rule-group record and the tracker's type list; install Garura and Phoenix again and diff the project's memory folder"
+      security:
+        level: medium
+        target: "0 writes to the tracker or the type mapping before the product owner's typed yes; 0 writes to Phoenix memory or another project's memory from initialize; every type made is named in the run's record"
+        gate: "run initialize on a test GitHub organization with a missing type, answer no, and check the tracker's type list and the mapping are unchanged; answer yes and check the record names each type made; initialize two test projects and diff Phoenix memory and the other project's memory before and after"
+      maintainability:
+        level: medium
+        target: "a new tracker (Jira, Linear) is added by one entry in the adapter with 0 changes to any play; the plays read only the type mapping"
+        gate: "review of the change that adds the second tracker: its diff touches the adapter and no play"
+    compliance_needs: []
+    metadata:
+      created_by: /discover-capabilities
+  features:
+    - id: fn-setup-questions
+      slug: fn-setup-questions
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Ask the product owner the short set of setup questions built from Phoenix memory, each with choices and a proposed answer that names its source."
+      doc: software-delivery-planning/initialize/fn-setup-questions/feature.md
+    - id: fn-project-memory
+      slug: fn-project-memory
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Set up the project's Garura memory from only the part of Phoenix memory the answers call for, and record the answers in the profile."
+      doc: software-delivery-planning/initialize/fn-project-memory/feature.md
+    - id: fn-review-rule-groups
+      slug: fn-review-rule-groups
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Record which review rule groups fit the project, so a review runs only those and names the groups it skipped."
+      doc: software-delivery-planning/initialize/fn-review-rule-groups/feature.md
+    - id: fn-881
+      slug: fn-881
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Find the tracker's work-item types, make each missing one (Business Intent, Epic, Story, Bug, Chore, Spike) after a typed yes, and record a stand-in, also after a typed yes, where one cannot be made."
+      doc: software-delivery-planning/initialize/fn-881/feature.md
+    - id: fn-rerun-initialize
+      slug: fn-rerun-initialize
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Run initialize again when the project changes, with the earlier answers proposed, so the memory, rule groups and tracker set-up follow it."
+      doc: software-delivery-planning/initialize/fn-rerun-initialize/feature.md
+    - id: fn-883
+      slug: fn-883
+      capability: cap-initialize
+      intents: []
+      status: proposed
+      one_line: "Give each project its own memory blocks from the one Phoenix memory on the machine, and on each run compare them with Phoenix memory so the project learns when a block changed."
+      doc: software-delivery-planning/initialize/fn-883/feature.md
+  implied_levels:
+    reliability: { level: medium, gate: "run initialize twice on a test project with the same answers and diff the results; reinstall and diff the project's memory" }
+    security: { level: medium, gate: "no tracker or mapping write before the typed yes, on a test GitHub organization; no write to Phoenix memory or another project's memory" }
+    maintainability: { level: medium, gate: "the change that adds the second tracker touches the adapter and no play" }
+  compliance: []
+  gaps:
+    - about: cap-initialize
+      missing: "the business intent id of #862 in the model"
+      why: "#862 is the business intent this capability serves, but the model has no intent page for it (intents/ holds bi-717, bi-722, bi-734, bi-756, bi-788), so the capability's and features' intents lists are left empty and their ICE is not workable until it is linked"
+    - about: fn-review-rule-groups
+      missing: "the list of the review's rule groups and which setup answer decides each"
+      why: "#862 names front end, back-end service, database and running service for Garura and #860 names permissions; the full list is not in the sources and no memory shelf holds it; the page writes six groups as our default and keeps any other group"
+    - about: fn-review-rule-groups
+      missing: "Garura's own answer to the permissions question"
+      why: "the page keeps the permission group for Garura until that answer says no (our default, stated on the page)"
+  defaults_written:
+    - { about: fn-881, what: "where the type mapping and its record are kept (with the project's settings)", marked_on_page: true }
+    - { about: fn-881, what: "the one-line meaning of each work-item type", marked_on_page: true }
+    - { about: fn-881, what: "initialize proposes a stand-in and the product owner's typed yes writes it; 'cannot make' gets a stand-in, 'making failed' stays unmapped", marked_on_page: false }
+    - { about: fn-883, what: "what one memory block holds (the files one answer selects)", marked_on_page: true }
+    - { about: fn-883, what: "the project's block list with fingerprints, the fingerprint compare on each initialize run, and a changed block taken in only on a typed yes", marked_on_page: true }
+    - { about: fn-project-memory, what: "stop and build nothing when Phoenix memory cannot be reached", marked_on_page: true }
+    - { about: fn-rerun-initialize, what: "a changed tracker answer sets up the new tracker after a typed yes and leaves the old tracker as it is", marked_on_page: true }
+  fixed_from_round_2:
+    cap-initialize: "boundary rewritten to the product owner's memory rule (#883): the Phoenix install lays Phoenix memory, the Garura install lays no memory; a sixth In line for fn-883; 'six jobs'; Phoenix memory, memory block and rule group defined; fn-883 line names only initialize's part; Phoenix-unreachable rule added"
+    fn-883: "rewritten: initialize's part only (blocks per project, block list with fingerprints, compare on each run, taken in on a typed yes); the install-lays-memory lines dropped; Phoenix-unreachable rule; acceptance criteria for an install changing no project file and for a changed block being named"
+    fn-881: "the adapter defined; who picks a stand-in and its typed yes; 'cannot make' told apart from 'making failed'; matching acceptance criteria"
+    fn-project-memory: "Phoenix-unreachable rule with its acceptance criterion; out-of-scope lines for the Phoenix install and fn-883; the #860 and the later-move lines given their reasons"
+    fn-rerun-initialize: "changed-tracker rule with two acceptance criteria; every feature named by its title beside its id; Phoenix memory changes taken in through fn-883"
+    fn-review-rule-groups: "rule group defined; both pointers to the manifest's gaps replaced by the open point stated on the page"
+    fn-setup-questions: "unchanged (passed round 2)"

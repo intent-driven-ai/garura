@@ -1,0 +1,11 @@
+{
+  "task_id": "draft-adr",
+  "draft": ".garura/project/issues/_adr/20261026T094549Z/adr-draft.md",
+  "lint": {"command": "adr.py lint --adr <draft>", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --adr <draft> --intents-dir .garura/product/product-os/intents", "exit": 0,
+            "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes",
+            "agrees_with_declared_check": true,
+            "note": "The guard keys on intent ids (bi-NNN) and intent titles. The draft names business intent #788 by issue number and quotes its proof line in the Business intent check; the guard does not see that. The keeper's judgment is none: see adr-context.yaml, business_intent_check_why."},
+  "affects_paths_exist": true,
+  "retries": 0
+}

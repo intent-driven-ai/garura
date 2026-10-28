@@ -1,0 +1,49 @@
+{
+  "why": "Story #915: only the pieces no earlier review saw; the rest is carried forward from the 29 approved pull-request reviews (context/landing-evidence.md). Tests and linters are not run again (context/landing-tests.md).",
+  "pieces": [
+    {
+      "id": "adr-049",
+      "commit": "277dff56",
+      "paths": [
+        "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+        "docs/adr/017-folder-whitelist.md",
+        "docs/adr/048-the-product-model-and-the-work-are-two-layers.md"
+      ],
+      "note": "ADR 049 and its forward pointers on ADR 017 and ADR 048; accepted by the product owner through /record-decision"
+    },
+    {
+      "id": "adr-053",
+      "commit": "56ea71a4",
+      "paths": [
+        "docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md",
+        "docs/adr/028-agentic-lifecycle-five-loops.md",
+        "docs/adr/033-approval-in-the-product-model.md"
+      ],
+      "note": "ADR 053 and its forward pointers on ADR 028 and ADR 033; accepted the same way"
+    },
+    {
+      "id": "managing-work",
+      "commit": "b71be9ea",
+      "paths": [
+        ".garura/user-provided/managing-work.md"
+      ],
+      "note": "follows ADR 049"
+    },
+    {
+      "id": "gitignore",
+      "commit": "ad818869",
+      "paths": [
+        ".garura/.gitignore"
+      ],
+      "note": "from a harness install"
+    },
+    {
+      "id": "plan-788",
+      "commit": "several direct commits and the e2871e44 merge",
+      "paths": [
+        ".garura/project/plans/788.yaml"
+      ],
+      "note": "the plan file as it stands"
+    }
+  ]
+}

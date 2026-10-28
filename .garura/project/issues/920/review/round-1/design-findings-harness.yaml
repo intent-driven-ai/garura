@@ -1,0 +1,111 @@
+category: harness
+pr: 932
+base: main
+playbook: review/harness
+severity_source: .garura/project/issues/920/context/memory/standards/rules/pr.md
+severity_note: >
+  The taxonomy has no Standard ID row for a design-conformance finding. Each severity below
+  follows the bucket definitions in the taxonomy (P3 Minor: naming, docs, borderline; P4 Nit:
+  style-only). standard_id is null for that reason.
+grounding:
+  memory_dir: .garura/project/issues/920/context/memory/grounding-harness/
+  principles:
+    - id: G1
+      principle: "Plays orchestrate, agents gather context and call skills, skills do the work and write an artifact to disk; a play hands an agent a contract of file paths."
+      source: docs/standards/harness-standard.md (principle 2) at main
+    - id: G2
+      principle: "Intent changes are made in the ICE and the part is compiled again; the compiled part records the ICE fingerprint."
+      source: docs/standards/harness-standard.md (principle 4) at main; CLAUDE.md Play Pipeline Rules
+    - id: G3
+      principle: "Only agents call the memory tool; a skill never calls it and reads only what its agent puts in short-term memory; the one exception is a knowledge play's own check script asking the read-only `updates`."
+      source: docs/adr/039 (section 4 and the section 10 line on ADR 035 section 4, as amended by ADR 042 section 4) at main; docs/adr/009 Rule 3 as amended by ADR 035 (cited in ADR 039)
+    - id: G4
+      principle: "Memory is never read by a path; an agent fetches it through the memory tool. Installed parts never touch core/components/ (source)."
+      source: docs/standards/harness-standard.md (principles 9 and 11) at main; .claude/rules/garura-memory.md; docs/adr/055 at main
+    - id: G5
+      principle: "The Shared Loop Run owns a stated list of run steps between plays (write-up R3, one reading of the source R4b, the two gap skills R5); a loop carries no product rules of its own."
+      source: docs/adr/044 section 1 at main
+    - id: G6
+      principle: "A loop contract hands each play its inputs by file; a loop reads no memory itself; the loop owns one issue, branch and pull request."
+      source: core/components/memory/standards/rules/loop-contract.md at main (git show main:...)
+    - id: G7
+      principle: "A drive/loop reaches the person with a brief, never a questionnaire; every gap carries its context and our proposed answer."
+      source: docs/adr/042 section 2 at main; standards/rules/drive-contract.md (Phoenix memory, copied to memory_dir)
+  not_used_as_grounding:
+    - docs/adr/059-*.md (new on this branch)
+    - .garura/project/issues/920/specs/redesign.md (new on this branch)
+  gaps:
+    - "loop-contract.md, naming.md and play-close.md are in no memory tier (the memory tool's find answered nothing for them). They were read from the base ref with git show main:<path>, which is committed and outside the branch. Phoenix memory holds the older name drive-contract.md, copied to memory_dir."
+conformance_checked_and_held:
+  - "ICE trace: complete-discovery SKILL.md and reference/ice.md both change and agree (C5, SE-5, SCE-3, F5 name the knowledge step and knowledge-check.json). The recorded fingerprint 9a868ef8... equals sha256 of reference/ice.md on HEAD (G2)."
+  - "The compiled-loop-example ice.md fingerprint c16942eb... equals the recorded digest (G2)."
+  - "Wiring intact: no live reference to /search-knowledge, /research-knowledge or /check-knowledge remains under core/components or docs/components (the only hits are the check-knowledge review shelf, which is a different thing, and a rename note in fn-744). create-loop copies group_questions.py, check_knowledge.py, record_review.py from references/, which exist (G1)."
+  - "author-knowledge-page no longer calls the memory tool and loses Bash; knowledge-builder raises the draft with propose, cites, and lists updates. This moves memory access to the agent, as G3 requires."
+  - "The deleted plays' ICE go with them; no orphan ICE source is left."
+  - "Config keys that the loop SKILL.md now names (loops.complete-discovery, evidence.plays.complete-discovery) exist in core/config.yaml."
+findings:
+  - id: H-1
+    severity: P3
+    standard_id: null
+    file: core/components/agents/adr-keeper.md
+    lines: "added paragraph after the memory-reading sentence, about 'the seed of the memory in the repository it is decided in'"
+    principle: "G4 - memory is never read by a path; an installed agent does not reach into the source tree. G3 - memory only through the tool."
+    committed_source: "docs/standards/harness-standard.md principles 9 and 11 at main; .claude/rules/garura-memory.md"
+    finding: >
+      The new text tells adr-keeper that when a decision changes the seed of the memory in the
+      repository, 'that seed is a repository file, not a memory tier: read it as one'. That
+      opens a by-path read of memory content (the seed under core/components/memory/) from an
+      installed agent, beside lines that forbid it. The text names no path and no limit, so an
+      agent can read any memory file by its path. The same paragraph says to compare it with a
+      tier's copy 'only through the tool's read', which shows the intended limit but not what
+      the allowed file read is.
+    suggestion: "Name the one thing allowed (for example the single file the decision edits, given in the brief) and say that it is not a lookup of memory, or drop the carve-out and have the person's brief carry the seed text."
+  - id: H-2
+    severity: P3
+    standard_id: null
+    file: core/components/loops/_shared/loop-run.md
+    lines: "R5c step 1 (group_questions.py ... --memory-tool .garura/core/tools/memory/memory.py)"
+    principle: "G3 - the memory tool is called by agents; the one exception is a check script asking the read-only `updates`."
+    committed_source: "docs/adr/039 section 10 as amended by docs/adr/042 section 4 at main"
+    finding: >
+      R5c step 1 has the loop script group_questions.py call the memory tool (`updates`). That
+      script groups questions; it is not a check script. The same call was in the deleted
+      /search-knowledge play (there before), so this PR keeps an exception that the committed
+      rule gives only to check scripts. The exception text this PR writes (in the new ADR, not
+      used as grounding) lists check_knowledge.py and round_state.py, not group_questions.py,
+      so the three scripts and the exception do not match.
+    suggestion: "Either let the agent pass the waiting updates to group_questions.py (as a file) so the script calls no tool, or name group_questions.py in the exception wherever the exception is written."
+  - id: H-3
+    severity: P4
+    standard_id: null
+    file: core/components/loops/_shared/loop-run.md
+    lines: "opening paragraph; also core/grounding/glossary.md, Loop entry, sentence 'These run steps - the write-up, reading the source once and closing the gaps - live once in the Shared Loop Run'"
+    principle: "G5 - the Shared Loop Run owns a stated list of run steps between plays."
+    committed_source: "docs/adr/044 section 1 at main"
+    finding: >
+      The knowledge step is now a run step the loop owns (R5c, R5b), but the opening of
+      loop-run.md still lists only R3, R4b and R5 step 7 as what the shared run owns, and the
+      glossary's Loop entry lists the same three. The step list is stale, so a reader who
+      starts from the opening or the glossary does not learn the loop now owns a step that
+      dispatches an agent.
+    suggestion: "Add the knowledge step (R5c close the open questions, R5b show the brief) to both lists."
+  - id: H-4
+    severity: P4
+    standard_id: null
+    file: core/components/agents/knowledge-builder.md
+    lines: "'The knowledge step', part 2 Build (the propose block and 'name the update it returns')"
+    principle: "G1 - the artifact the next step reads must be written by the step that knows it; the build record is the contract between the agent and the check."
+    committed_source: "docs/standards/harness-standard.md principle 2 at main"
+    finding: >
+      author-knowledge-page now writes `for_project_memory` into its draft and stops there. The
+      check script's build.json shape has `for_project_memory` for an `update` group. The
+      agent's Build part says to raise the draft and name the update, but not to copy
+      `for_project_memory` from the draft into build.json, so the flag can be lost between
+      the skill and the record.
+    suggestion: "Add 'carry the draft's for_project_memory into the group in build.json' to the Build part."
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 2
+  total: 4

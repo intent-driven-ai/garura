@@ -1,0 +1,1 @@
+The ready check reads each ICE node (ontology v6, #760): check_ice_workable.py reads the ices spine list and each ice.md, and answers ready, partly ready or not ready, with the gaps listed.

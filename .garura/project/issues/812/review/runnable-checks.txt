@@ -1,0 +1,23 @@
+python3 core/tools/naming/test_naming_tools.py
+  [PASS] today: the check finds the old names
+  [PASS] a plain English 'vision' in prose is not flagged
+  [PASS] a lens word in code is not flagged
+  [PASS] a dict key 'shape' in code is not flagged
+  [PASS] past records are not searched
+  [PASS] the rename ADRs 046 and 048 are not searched
+  [PASS] ADR 047 is searched
+  [PASS] after the rename the check finds nothing
+  [PASS] folders moved
+  [PASS] agent file moved
+  [PASS] name line updated
+  [PASS] commands and paths rewritten
+  [PASS] prose words and lens words kept
+  [PASS] docs/adr path kept
+  [PASS] play field rewritten, lens and key kept
+  [PASS] /shape-scope not double-rewritten
+  [PASS] past records kept their old words
+  [PASS] a second run changes nothing
+18 passed, 0 failed
+python3 core/tools/naming/check_old_names.py --root .
+  "ok": true,
+  "old_names_left": 0,

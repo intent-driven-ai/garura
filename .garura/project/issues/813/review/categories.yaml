@@ -1,0 +1,70 @@
+# check-change -- categories present in PR #834 (issue 813, with #809)
+categories:
+  - name: harness
+    description: A by-hand migration script for a pre-#807 product model (migrate_model.py; the install no longer runs it, #813 round 2), the shared model-name guard (model_names.py, 21 copies, wired into 74 scripts in plays and two skills), and the deletion of the retired intent-epic pipeline (4 agents, 12 skills).
+    evidence_paths:
+      - core/components/plays/install-garura/scripts/migrate_model.py
+      - core/components/plays/install-garura/scripts/install.py
+      - core/components/plays/*/scripts/model_names.py
+      - core/components/plays/create-play/references/{model_names,check_ice_workable,lint_grounding}.py
+      - core/components/skills/{find-model-gaps,link-model-gaps}/scripts/**
+      - core/components/agents/{epic-expectation-crafter,feature-steward,market-analyst,product-keeper}.md
+      - core/components/skills/{infer-features,infer-feature-catalog,author-feature-catalog,author-product-spec,derive-*}/**
+    playbook: review/harness
+    design_bearing: true
+    runnable_check: lint-components (check-components)
+  - name: memory
+    description: Standards rules, schemas and templates of the retired pipeline deleted; Rule 12 kept as rules/user-questions.md; research notes moved in as rules/play-patterns.md and rules/play-orchestration.md; indexes, rename map and approval-prompt template updated.
+    evidence_paths:
+      - core/components/memory/standards/rules/**
+      - core/components/memory/standards/schemas/**
+      - core/components/memory/standards/templates/**
+      - core/components/memory/standards/_index.md
+    playbook: review/memory
+    design_bearing: true
+    runnable_check: path / cross-reference / structure integrity check
+  - name: adrs
+    description: New ADR 050 (retired intent-epic pipeline is deleted) with forward pointers added to ADR 017 and ADR 035, and the ADR index.
+    evidence_paths:
+      - docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+      - docs/adr/017-folder-whitelist.md
+      - docs/adr/035-agents-work-only-from-memory.md
+      - docs/adr/_index.md
+    playbook: review/adrs
+    design_bearing: false
+    runnable_check: null
+  - name: config-maps
+    description: core/config.yaml no longer lists product specification/ and scope/ folders.
+    evidence_paths:
+      - core/config.yaml
+    playbook: review/config-maps
+    design_bearing: false
+    runnable_check: null
+  - name: code
+    description: Component linter shared-scripts rule now also covers skills/*/scripts and lists model_names.py; installer/install.sh is unchanged from base (the migrate step was removed in round 2).
+    evidence_paths:
+      - core/tools/lint-components/lib/rules/shared-scripts.js
+    playbook: review/code
+    design_bearing: false
+    runnable_check: language linters
+  - name: tests
+    description: Tests for the migration script, the guard, and the linter rule.
+    evidence_paths:
+      - core/components/plays/install-garura/scripts/test_migrate_model.py
+      - core/components/plays/discover-domains/scripts/test_model_names.py
+      - core/tools/lint-components/test/shared-scripts.test.js
+    playbook: review/tests
+    design_bearing: false
+    runnable_check: test suites
+  - name: docs
+    description: Component and design docs updated for the deletions; issue 813 working records; removal of old .garura/product run records (scope/, specification/, checkpoints, evidence, five research notes, grounding questions).
+    evidence_paths:
+      - docs/components/{agents,plays,skills}.md
+      - docs/design/{briefs,playbook-catalog}.md
+      - docs/framework/play-structure.md
+      - docs/philosophy/garura-reference-implementation.md
+      - .garura/project/issues/813/context/**
+      - .garura/product/** (deletions)
+    playbook: review/docs
+    design_bearing: false
+    runnable_check: null

@@ -45,7 +45,7 @@ def git(root, *args):
     return r.stdout
 
 
-def classify_git(base_files, new_files, play="shape-ux-lens", deletions=()):
+def classify_git(base_files, new_files, play="discover-domains", deletions=()):
     """
     Drive classify_change.py in git mode (ADR 026): commit `base_files` under
     <product_base>product-os/ as HEAD, then apply `new_files`/`deletions` to the working
@@ -78,14 +78,14 @@ def test_classifier():
         {"ux.md": "## Screens\nThe list screen shows items.\n"},
         {"ux.md": "## Screens\nThe list screen shows items, newest first.\n"},
     )
-    assert r["shape_key"] == "shape-ux-lens:prose_edits", r
+    assert r["shape_key"] == "discover-domains:prose_edits", r
     assert r["axes"]["sections_rewritten"] == 0, r
 
     # 2. status flip -> status_changes counted
     r = classify_git(
         {"_spine.yaml": "- id: slice-1\n  status: shaped\n"},
         {"_spine.yaml": "- id: slice-1\n  status: realized\n"},
-        play="shape-measure-lens",
+        play="discover-capabilities",
     )
     assert r["axes"]["status_changes"] == 1, r
     assert "status_changes" in r["shape_key"], r
@@ -113,7 +113,7 @@ def test_classifier():
     r = classify_git(
         {"decisions/log.yaml": "- id: d1\n  decision: use X\n"},
         {"decisions/log.yaml": "- id: d1\n  decision: use X\n- id: d2\n  decision: use Y\n"},
-        play="shape-architecture-lens",
+        play="shape-slice",
     )
     assert r["axes"]["decisions_added"] >= 1, r
 
@@ -129,7 +129,7 @@ def test_classifier():
         {"a.md": "same\n", "b.md": "untouched\n"},
         {},  # working tree matches HEAD
     )
-    assert r["shape_key"] == "shape-ux-lens:none", r
+    assert r["shape_key"] == "discover-domains:none", r
 
     # 8. brand-new decision file (untracked) is still counted -> decisions_added
     #    (regression guard: untracked adds are invisible to `git diff` alone)
@@ -185,18 +185,18 @@ def test_learner():
     t = tempfile.mkdtemp(prefix="gl-")
     ledger = os.path.join(t, "gate-evals.jsonl")
     policy = os.path.join(t, "gate-policy.yaml")
-    S = "shape-ux-lens:prose_edits"
+    S = "discover-domains:prose_edits"
 
     # 1. two cleans: not earned
-    ledger_line(ledger, "shape-ux-lens", S, "approved_clean", "t1")
-    ledger_line(ledger, "shape-ux-lens", S, "approved_clean", "t2")
+    ledger_line(ledger, "discover-domains", S, "approved_clean", "t1")
+    ledger_line(ledger, "discover-domains", S, "approved_clean", "t2")
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [], r
     # #690: nothing learned and no policy yet -> no file written
     assert r["written"] is False and not os.path.exists(policy), r
 
     # 2. third clean earns auto
-    ledger_line(ledger, "shape-ux-lens", S, "approved_clean", "t3")
+    ledger_line(ledger, "discover-domains", S, "approved_clean", "t3")
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [S], r
     assert r["written"] is True and r["version"] == 1, r  # the first real change writes version 1
@@ -209,45 +209,45 @@ def test_learner():
     assert r["written"] is False and r["version"] == 1 and before == after, r
 
     # 3. auto_pass extends; still auto
-    ledger_line(ledger, "shape-ux-lens", S, "auto_pass", "t4", predicted="auto")
+    ledger_line(ledger, "discover-domains", S, "auto_pass", "t4", predicted="auto")
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [S], r
 
     # 4. a rejection resets the shape to gated
-    ledger_line(ledger, "shape-ux-lens", S, "rejected", "t5")
+    ledger_line(ledger, "discover-domains", S, "rejected", "t5")
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [], r
 
     # 5. three fresh cleans re-earn
     for ts in ("t6", "t7", "t8"):
-        ledger_line(ledger, "shape-ux-lens", S, "approved_clean", ts)
+        ledger_line(ledger, "discover-domains", S, "approved_clean", ts)
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [S], r
 
     # 6. a correction refuting an earning line resets
     #    (line 8 = the t8 clean; a correction pointing at it breaks the streak)
-    ledger_line(ledger, "shape-ux-lens", S, "rejected", "t9", refutes=8)
+    ledger_line(ledger, "discover-domains", S, "rejected", "t9", refutes=8)
     r = distill(ledger, policy)
     assert r["auto_shapes"] == [], r
 
     # 7. never_auto survives distills and blocks earning
     with open(policy, encoding="utf-8") as fh:
         text = fh.read()
-    text = text.replace("never_auto: []", "never_auto:\n  - shape-quality-lens:prose_edits")
+    text = text.replace("never_auto: []", "never_auto:\n  - discover-intent:prose_edits")
     with open(policy, "w", encoding="utf-8") as fh:
         fh.write(text)
     for ts in ("t10", "t11", "t12"):
-        ledger_line(ledger, "shape-quality-lens", "shape-quality-lens:prose_edits", "approved_clean", ts)
+        ledger_line(ledger, "discover-intent", "discover-intent:prose_edits", "approved_clean", ts)
     r = distill(ledger, policy)
-    assert "shape-quality-lens:prose_edits" not in r["auto_shapes"], r
-    assert r["never_auto"] == ["shape-quality-lens:prose_edits"], r
+    assert "discover-intent:prose_edits" not in r["auto_shapes"], r
+    assert r["never_auto"] == ["discover-intent:prose_edits"], r
 
     # 8. approved_edited also resets (friction = not clean)
-    S2 = "shape-architecture-lens:prose_edits"
+    S2 = "shape-slice:prose_edits"
     for ts in ("u1", "u2"):
-        ledger_line(ledger, "shape-architecture-lens", S2, "approved_clean", ts)
-    ledger_line(ledger, "shape-architecture-lens", S2, "approved_edited", "u3")
-    ledger_line(ledger, "shape-architecture-lens", S2, "approved_clean", "u4")
+        ledger_line(ledger, "shape-slice", S2, "approved_clean", ts)
+    ledger_line(ledger, "shape-slice", S2, "approved_edited", "u3")
+    ledger_line(ledger, "shape-slice", S2, "approved_clean", "u4")
     r = distill(ledger, policy)
     assert S2 not in r["auto_shapes"], r
 
@@ -304,14 +304,14 @@ def test_ledgers_under_each_issue():
     assert distill(two, policy)["auto_shapes"] == [], "a later reject in another issue did not reset"
 
     # a correction's refutes is a line in its own issue's ledger, not another's
-    S2 = "shape-ux-lens:prose_edits"
+    S2 = "discover-domains:prose_edits"
     for ts in ("2026-10-24T01:00:00Z", "2026-10-24T02:00:00Z", "2026-10-24T03:00:00Z"):
-        ledger_line(one, "shape-ux-lens", S2, "approved_clean", ts)
-    ledger_line(two, "shape-ux-lens", S2, "rejected", "2026-10-24T04:00:00Z", refutes=4)  # issue 2 has no line 4
+        ledger_line(one, "discover-domains", S2, "approved_clean", ts)
+    ledger_line(two, "discover-domains", S2, "rejected", "2026-10-24T04:00:00Z", refutes=4)  # issue 2 has no line 4
     assert S2 not in distill(one, policy)["auto_shapes"]  # the reject itself still resets
     # the config's path, as it is: append fills {issue}, the learner reads every issue (#662)
     slot = os.path.join(base, "{issue}", "review", "gate-evals.jsonl")
-    run("gate_eval.py", "append", "--ledger", slot, "--play", "shape-run-lens", "--issue", "3", "--shape", "shape-run-lens:x",
+    run("gate_eval.py", "append", "--ledger", slot, "--play", "record-decision", "--issue", "3", "--shape", "record-decision:x",
         "--predicted", "gate", "--human", "approved_clean", "--ts", "2026-10-25T01:00:00Z")
     assert os.path.isfile(os.path.join(base, "3", "review", "gate-evals.jsonl"))
     assert not os.path.exists(os.path.join(base, "{issue}")), "a literal {issue} folder was made"

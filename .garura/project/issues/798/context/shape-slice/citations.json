@@ -1,0 +1,477 @@
+{
+ "issue": 798,
+ "play": "shape-slice",
+ "task_id": "shape-slice-propose",
+ "citations": [
+  {
+   "question_id": "Q-redraft-1",
+   "closed_by": "settled",
+   "basis": {
+    "kind": "person",
+    "ref": "#798 run 3 change, change.md line 5"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-001",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "which hidden-file entries the person's run 3 change drafts again",
+     "found": "draft the entries of fn-818 and fn-898 again, and keep the meaning of every other recovery",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:d748895ec9ae754a19e5ebda118fd0bd77f8fe0d93392e406317a32c500a5ed1"
+     }
+    }
+   ]
+  },
+  {
+   "question_id": "Q-wayback-1",
+   "closed_by": "settled",
+   "basis": {
+    "kind": "person",
+    "ref": "#798 run 3 change, change.md line 9, with the naming rule at line 11"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-002",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "where fn-898's fix for F25 goes",
+     "found": "fn-898's fix for F25 names neither the eval nor the hidden file, or it goes to a person",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 9,
+      "end": 9,
+      "fingerprint": "sha256:0a30b476ff3748ee564b718271ff2753cfb1e219517f1b3bea7202e79b6daaff"
+     }
+    },
+    {
+     "asked": "what a fix given to the builder may name",
+     "found": "a fix given to the builder may name what the feature itself builds; it never names the test that found the failure",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 11,
+      "end": 11,
+      "fingerprint": "sha256:b0462ac994bd180167906cebd34a5aa357a63f81e01b12645bb688f1604a3e82"
+     }
+    }
+   ]
+  },
+  {
+   "question_id": "Q-naming-1",
+   "closed_by": "settled",
+   "basis": {
+    "kind": "person",
+    "ref": "Q-recovery-1-4 (#798), as the run 3 change states it (change.md line 11)"
+   },
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-003",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the product owner's answer to Q-recovery-1-4",
+     "found": "in_scope; the reply asks why the question matters, since the feature builds the files for itself",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 192,
+      "end": 221,
+      "fingerprint": "sha256:f1ab8fc96f900e94f94b37557bf1b107767e33717d4559ca6f1f90a569feb06e"
+     }
+    },
+    {
+     "asked": "the naming rule as the run 3 change states it",
+     "found": "a fix given to the builder may name what the feature itself builds; it never names the test that found the failure",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 11,
+      "end": 11,
+      "fingerprint": "sha256:b0462ac994bd180167906cebd34a5aa357a63f81e01b12645bb688f1604a3e82"
+     }
+    }
+   ]
+  },
+  {
+   "decision": "Which features does the slice hold?",
+   "decided_by": "author-slice (via product-os-keeper)",
+   "task_id": "shape-slice-shape",
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-004",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the features of the kept slice and whether the change keeps them",
+     "found": "the slice record lists fn-795, fn-818, fn-798 and fn-898, in that order",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 9,
+      "end": 13,
+      "fingerprint": "sha256:baa3134ed19071bdbd96a14099dbb20338d9b101c65fcc62c1cc017f1212563f"
+     }
+    },
+    {
+     "asked": "the features of the kept slice and whether the change keeps them",
+     "found": "the spine's slice sl-intent-to-design holds fn-795, fn-818, fn-798 and fn-898 and serves bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 570,
+      "end": 579,
+      "fingerprint": "sha256:64394ca6b63f7f5047678afa4d984391ec77796b769be69a47937061ec3f460b"
+     }
+    },
+    {
+     "asked": "the features of the kept slice and whether the change keeps them",
+     "found": "the slice sl-intent-to-design and every model page stay as run 2 left them; only the hidden file changes",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:d748895ec9ae754a19e5ebda118fd0bd77f8fe0d93392e406317a32c500a5ed1"
+     }
+    },
+    {
+     "asked": "the features of the kept slice and whether the change keeps them",
+     "found": "Q-builders-1 accepted: every play, skill and agent that builds the software is a build play for the check",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 7,
+      "end": 33,
+      "fingerprint": "sha256:32c724a66849e3d597cea9aa03e63e5711cc10fe5bd72f11b272667815083977"
+     }
+    },
+    {
+     "asked": "the features of the kept slice and whether the change keeps them",
+     "found": "Q-flag-1: the flag is recorded in the build run's evidence for now",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/grounding-questions.md",
+      "start": 34,
+      "end": 53,
+      "fingerprint": "sha256:232f514d96b600531f279de41c3c0e82728df0f70adf2165ba966a9ede8bf149"
+     }
+    }
+   ]
+  },
+  {
+   "decision": "In which order are the features built?",
+   "decided_by": "author-slice (via product-os-keeper)",
+   "task_id": "shape-slice-shape",
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-005",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the order in which the tester can test the features",
+     "found": "the slice record lists fn-795, fn-818, fn-798 and fn-898, in that order",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 9,
+      "end": 13,
+      "fingerprint": "sha256:baa3134ed19071bdbd96a14099dbb20338d9b101c65fcc62c1cc017f1212563f"
+     }
+    },
+    {
+     "asked": "the order in which the tester can test the features",
+     "found": "/shape-plan runs after /shape-slice",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+      "start": 4,
+      "end": 4,
+      "fingerprint": "sha256:994885950cc86d2453e28af308067e90cd83ed82d1ef9626e2a157812c7b8819"
+     }
+    },
+    {
+     "asked": "the order in which the tester can test the features",
+     "found": "/shape-eval runs after /shape-plan and reads the epic, its stories and the hidden file",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+      "start": 4,
+      "end": 4,
+      "fingerprint": "sha256:040588fb1725bd4ef117100580e5eac7418407a4c3f641d07e9f729fa24aa5ac"
+     }
+    },
+    {
+     "asked": "the order in which the tester can test the features",
+     "found": "the slice sl-intent-to-design and every model page stay as run 2 left them; only the hidden file changes",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:d748895ec9ae754a19e5ebda118fd0bd77f8fe0d93392e406317a32c500a5ed1"
+     }
+    }
+   ]
+  },
+  {
+   "decision": "Which surface does the tester use?",
+   "decided_by": "author-slice (via product-os-keeper)",
+   "task_id": "shape-slice-shape",
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-006",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the one surface where the product owner runs the three plays",
+     "found": "the slice's vertical and surface are the Claude Code command line, persona product-owner, with the tester's action",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 14,
+      "end": 23,
+      "fingerprint": "sha256:503e50ec802ebf96e64c12fe1ca57912d850bf50c26714cd78ac4b654d6612c6"
+     }
+    },
+    {
+     "asked": "the one surface where the product owner runs the three plays",
+     "found": "the product owner names a piece of work and agents shape, plan and eval it, which the product owner runs as plays",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 3,
+      "end": 3,
+      "fingerprint": "sha256:2b57e7172fd80751ff52a570a3403dd241d0428ad66919276ada03cc1b2819ab"
+     }
+    },
+    {
+     "asked": "the one surface where the product owner runs the three plays",
+     "found": "the slice sl-intent-to-design and every model page stay as run 2 left them; only the hidden file changes",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:d748895ec9ae754a19e5ebda118fd0bd77f8fe0d93392e406317a32c500a5ed1"
+     }
+    }
+   ]
+  },
+  {
+   "decision": "Who tests the slice?",
+   "decided_by": "author-slice (via product-os-keeper)",
+   "task_id": "shape-slice-shape",
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-007",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the persona who tests the slice on the surface",
+     "found": "asked by: the product owner",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/intents/bi-788.md",
+      "start": 7,
+      "end": 7,
+      "fingerprint": "sha256:de0d088eb3f5a54585f8dad0c95013110386f9f7a1d62b20f80df4d6a142a20b"
+     }
+    },
+    {
+     "asked": "the persona who tests the slice on the surface",
+     "found": "persona_ref: product-owner",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 20,
+      "end": 20,
+      "fingerprint": "sha256:3d969030c31daee3dcfff40b9e7df245f6f7fbbfa1285f1acf0886cf77238ddf"
+     }
+    },
+    {
+     "asked": "the persona who tests the slice on the surface",
+     "found": "the slice sl-intent-to-design and every model page stay as run 2 left them; only the hidden file changes",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:d748895ec9ae754a19e5ebda118fd0bd77f8fe0d93392e406317a32c500a5ed1"
+     }
+    }
+   ]
+  },
+  {
+   "decision": "What is the slice's name?",
+   "decided_by": "author-slice (via product-os-keeper)",
+   "task_id": "shape-slice-shape",
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-008",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the slice's name, id and slug, and whether the change keeps them",
+     "found": "id sl-intent-to-design, slug intent-to-design, name 'Name a business intent, and three plays write its slice, plan and eval'",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/slices/sl-intent-to-design.yaml",
+      "start": 2,
+      "end": 4,
+      "fingerprint": "sha256:1a1af32b7bae1d23c05f273bdf8d49343a4d6c107df4a4975072b4eb7232826b"
+     }
+    },
+    {
+     "asked": "the slice's name, id and slug, and whether the change keeps them",
+     "found": "the slice sl-intent-to-design and every model page stay as run 2 left them; only the hidden file changes",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:d748895ec9ae754a19e5ebda118fd0bd77f8fe0d93392e406317a32c500a5ed1"
+     }
+    }
+   ]
+  },
+  {
+   "decision": "Which slice serves this business intent, and does it change?",
+   "decided_by": "author-slice (via product-os-keeper)",
+   "task_id": "shape-slice-reuse",
+   "cite": {
+    "ok": true,
+    "contract_version": "5",
+    "command": "cite",
+    "citation_id": "cite-20261027-009",
+    "stored": {
+     "tier": "short-term",
+     "path": "798/context/citations.jsonl"
+    }
+   },
+   "trace": [
+    {
+     "asked": "the kept slice's features and whether each still serves bi-788",
+     "found": "the spine's slice sl-intent-to-design holds fn-795, fn-818, fn-798 and fn-898 and serves bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 570,
+      "end": 579,
+      "fingerprint": "sha256:64394ca6b63f7f5047678afa4d984391ec77796b769be69a47937061ec3f460b"
+     }
+    },
+    {
+     "asked": "the kept slice's features and whether each still serves bi-788",
+     "found": "fn-795 sits under cap-shape-slice and serves bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 452,
+      "end": 456,
+      "fingerprint": "sha256:792230356c117a8bf5b9905dde822d81c0b841342d022c04e0aec6a182ec0933"
+     }
+    },
+    {
+     "asked": "the kept slice's features and whether each still serves bi-788",
+     "found": "fn-818 sits under cap-718 and serves bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 465,
+      "end": 469,
+      "fingerprint": "sha256:68143928ae9a889ca6788aabf83c18ed22ecab904af47d16036b80ec834aedd2"
+     }
+    },
+    {
+     "asked": "the kept slice's features and whether each still serves bi-788",
+     "found": "fn-798 sits under cap-shape-eval and serves bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 478,
+      "end": 482,
+      "fingerprint": "sha256:ef5dcce9289e1b7a1ac5cfa3209f5155717e41c4c63c7ff7898c19ece3fc56db"
+     }
+    },
+    {
+     "asked": "the kept slice's features and whether each still serves bi-788",
+     "found": "fn-898 sits under cap-shape-eval and serves bi-788",
+     "source": {
+      "tier": "garura",
+      "path": "product/product-os/_spine.yaml",
+      "start": 542,
+      "end": 546,
+      "fingerprint": "sha256:a5dca1bee2838c19ead85a956d0d02f751d238439eb6821ea7d2eeb0dc644b3c"
+     }
+    },
+    {
+     "asked": "the kept slice's features and whether each still serves bi-788",
+     "found": "the slice sl-intent-to-design and every model page stay as run 2 left them; only the hidden file changes",
+     "source": {
+      "tier": "short-term",
+      "path": "798/context/shape-slice/change.md",
+      "start": 5,
+      "end": 5,
+      "fingerprint": "sha256:d748895ec9ae754a19e5ebda118fd0bd77f8fe0d93392e406317a32c500a5ed1"
+     }
+    }
+   ]
+  }
+ ]
+}

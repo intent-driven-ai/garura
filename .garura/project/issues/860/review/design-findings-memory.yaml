@@ -1,0 +1,59 @@
+# Layer 2 design-grounding, category: memory. PR #864, issue #860, base plan/788/base (origin/plan/788/base). Round 4.
+# Changed artifacts: core/components/memory/knowledge/review/harness.md, core/components/memory/knowledge/review/memory.md,
+# core/components/memory/standards/rules/pr.md (SEC-07 row only).
+# Extra memory copied for this job: knowledge/_DESIGN.md (Phoenix 2f68683b1e44) under context/memory/grounding-memory/.
+category: memory
+principles:
+  - id: G1
+    text: "Only agents call the memory tool; memory is read through it, never by a path. A play reads no memory; a skill reads only what its agent puts in short-term memory."
+    source: "docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (base) section 2; docs/adr/035-agents-work-only-from-memory.md (base) section 4; .claude/rules/garura-memory.md"
+  - id: G2
+    text: "The installed tool folder is .garura/core/tools/, and at the base it holds the memory tool only."
+    source: "docs/adr/039-... (base) section 5 tree ('tools/ # the memory tool'); core/components/plays/install-garura/SKILL.md (base) line 74"
+  - id: G3
+    text: "Components deploy into the target's .claude/ (Claude Code) or .agents/skills/ (Codex CLI); a tool-neutral shelf must not assume one."
+    source: "CLAUDE.md (base) line 27"
+  - id: G4
+    text: "A gap is reported, never hidden or filled with a default."
+    source: "core/components/memory/standards/rules/no-unbacked-recommendation.md (base)"
+  - id: G5
+    text: "A playbook states a gap honestly; keeps the review playbook shape (Topic, Recognise, Treatment, Rationale, Provenance)."
+    source: "knowledge/review/memory.md (Phoenix 2f68683b1e44, short-term copy) Treatment, Linter bullet; knowledge/_DESIGN.md (Phoenix 2f68683b1e44, grounding-memory copy)"
+  - id: G6
+    text: "The PR severity taxonomy is mechanical: each row maps a standard ID to a bucket by regex or glob, no judgement."
+    source: "standards/rules/pr.md (base) header, 'Mechanical rule'"
+old_findings:
+  M1: "PARTLY FIXED. Now carried as N1 (P4)."
+  M2: "FIXED. memory.md Gap now says no installed tool checks memory integrity; the lint-components claim is gone."
+  M3: "FIXED. memory.md no longer names a bare path; both playbooks no longer name the tool differently."
+  M4: "FIXED. The lint_play.py commands are single-line code spans with the placeholder <next-map copy>, defined in the next bullet."
+  M5: "FIXED. The ICE-source rule is now scoped to repositories that hold the plays' source; the rubric says the same."
+  M6: "NOT FIXED (cannot be, by the playbook). Carried as N2 (P3)."
+conformance_ok:
+  - "harness.md: the Next-line map is the short-term copy from template-manager (G1); a missing tool is recorded 'not installed' and a crash 'did not run', neither a pass (G4)."
+  - "memory.md: the Gap is stated honestly and the reviewer does the checks by hand and cites each (G5, G4). Playbook shape is kept in both files (G5)."
+  - "pr.md SEC-07: the new regex parses with scan_taxonomy.parse_taxonomy and compiles; tested on 9 sample lines it flags pickle.load(s), marshal.load(s), yaml.load without SafeLoader, JSON.parse(req...) and not yaml.safe_load, json.loads, JSON.parse of a file. It stays a mechanical regex with no judgement (G6). It narrows coverage (drops Go 'unmarshal' and plain JSON.parse), which is a decision of the taxonomy owner, not a violation."
+grounding_unavailable:
+  - id: GU1
+    note: "Placing lint-components and lint-play under .garura/core/tools/ is in no committed source at the base (G2). Only ADR 055 and the new installer code, both added by this branch, sanction it, so they cannot ground it."
+findings:
+  - id: N2
+    carries: M6
+    severity: P3
+    file: core/components/memory/knowledge/review/harness.md
+    line: 24
+    what: "The playbook tells every project that reads Phoenix memory to run .garura/core/tools/lint-components and .garura/core/tools/lint-play. The base design and installer put only the memory tool in that folder. The playbook is right only if ADR 055 (new on this branch) is accepted, and a shelf in Phoenix memory outlives a branch that is not merged."
+    basis: "G2. Not a violation of a base principle; a missing base ground. A person judges ADR 055; merge the shelf edit with it, not before."
+  - id: N1
+    carries: M1
+    severity: P4
+    file: core/components/memory/knowledge/review/harness.md
+    line: 30
+    what: "The installed layout still names `.claude` only. The edit now says why (Codex install stopped, #863) and the not-installed fallback covers a project with no .claude. But the reason rests on ADR 055 (branch content), and the note holds an issue number that goes stale when #863 lands; until then a Codex project at the base (G3 allows it) gets 'not installed', not a lint."
+    basis: "G3 (CLAUDE.md base line 27 names both targets); the stop itself is branch-only (see GU1)."
+    suggestion: "Keep the note, and update the line in the same change that closes #863."
+summary:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 1

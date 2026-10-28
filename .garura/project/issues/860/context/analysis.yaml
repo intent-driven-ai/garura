@@ -1,0 +1,151 @@
+needs_judgment: false
+change_groups:
+- id: sec-07-narrowed
+  issue: 860
+  commit_type: fix
+  scope: check-pr-quality
+  subject: narrow the SEC-07 rule to unsafe loads and request-shaped JSON parsing
+  files:
+  - core/components/memory/standards/rules/pr.md
+  - core/components/skills/check-pr-quality/scripts/test_scan_taxonomy.py
+- id: install-tools-and-ignore
+  issue: 860
+  commit_type: fix
+  scope: install-garura
+  subject: lay each tool with its packages and smoke check, keep the naming tool out, ignore tool caches in git, and remove the ignore file on uninstall
+  files:
+  - core/components/plays/install-garura/SKILL.md
+  - core/components/plays/install-garura/scripts/adapters/common.py
+  - core/components/plays/install-garura/scripts/install.py
+  - core/components/plays/install-garura/scripts/test_install.py
+  - core/components/plays/install-garura/scripts/tools_system.py
+  - core/components/plays/uninstall-garura/SKILL.md
+  - core/components/plays/uninstall-garura/scripts/uninstall.py
+- id: lint-components-installed-layout
+  issue: 860
+  commit_type: feat
+  scope: lint-components
+  subject: scan laid tools in the installed-paths rule and add a memory-reading rule with tests
+  files:
+  - core/tools/lint-components/index.js
+  - core/tools/lint-components/lib/rules/installed-paths.js
+  - core/tools/lint-components/test/installed-paths.test.js
+  - core/tools/lint-components/lib/rules/memory-reading.js
+  - core/tools/lint-components/test/memory-reading.test.js
+- id: lint-play-next-map
+  issue: 860
+  commit_type: fix
+  scope: lint-play
+  subject: require the Next-line map in the play and loop linters and pass it from the create and edit callers
+  files:
+  - core/tools/lint-play/lint_play.py
+  - core/components/plays/create-play/scripts/lint_play.py
+  - core/components/plays/edit-play/scripts/lint_play.py
+  - core/components/plays/create-play/SKILL.md
+  - core/components/plays/edit-play/SKILL.md
+  - core/components/plays/create-loop/SKILL.md
+  - core/components/plays/create-loop/scripts/lint_loop.py
+  - core/components/plays/create-loop/references/test_lint_loop.py
+  - core/components/plays/edit-loop/SKILL.md
+  - core/components/plays/edit-loop/scripts/lint_loop.py
+- id: agents-shared-memory-protocol
+  issue: 860
+  commit_type: refactor
+  scope: agents
+  subject: move the memory reading protocol and failure format into shared agent files and have agents point to them
+  files:
+  - core/components/agents/adr-keeper.md
+  - core/components/agents/change-reviewer.md
+  - core/components/agents/code-builder.md
+  - core/components/agents/intent-resolver.md
+  - core/components/agents/knowledge-builder.md
+  - core/components/agents/product-os-keeper.md
+  - core/components/agents/project-orchestrator.md
+  - core/components/agents/quality-auditor.md
+  - core/components/agents/repo-orchestrator.md
+  - core/components/agents/tech-designer.md
+  - core/components/agents/template-manager.md
+  - core/components/agents/test-engineer.md
+  - core/components/agents/_shared/copy_memory.py
+  - core/components/agents/_shared/failure-format.md
+  - core/components/agents/_shared/memory-reading.md
+  - core/components/agents/_shared/test_copy_memory.py
+- id: check-change-record-decision-ice
+  issue: 860
+  commit_type: fix
+  scope: check-change
+  subject: take review treatment from categories, lint changed parts in place, and load the ADR template through template-manager
+  files:
+  - core/components/plays/check-change/SKILL.md
+  - core/components/plays/check-change/reference/ice.md
+  - core/components/plays/record-decision/SKILL.md
+  - core/components/plays/record-decision/reference/ice.md
+- id: skills-template-wording-and-guard
+  issue: 860
+  commit_type: fix
+  scope: skills
+  subject: guard check-pr-quality on its standards sources and word skill templates as coming from template-manager
+  files:
+  - core/components/skills/check-pr-quality/SKILL.md
+  - core/components/skills/check-pr-quality/reference/input-contract.md
+  - core/components/skills/author-decision/SKILL.md
+  - core/components/skills/author-plan-file/SKILL.md
+  - core/components/skills/open-pr/SKILL.md
+  - core/components/skills/track-issue/SKILL.md
+  - core/components/skills/check-quality/SKILL.md
+  - core/components/skills/enrich-quality-profile/SKILL.md
+- id: review-playbooks
+  issue: 860
+  commit_type: docs
+  scope: memory
+  subject: align the harness and memory review playbooks with the installed-layout checks
+  files:
+  - core/components/memory/knowledge/review/harness.md
+  - core/components/memory/knowledge/review/memory.md
+- id: installed-parts-docs
+  issue: 860
+  commit_type: docs
+  scope: docs
+  subject: correct the glossary, CLAUDE.md, README, harness standard and ADR 055 for the installed-parts rule
+  files:
+  - CLAUDE.md
+  - README.md
+  - core/grounding/glossary.md
+  - docs/standards/harness-standard.md
+  - docs/adr/055-installed-parts-read-only-installed-files.md
+- id: issue-run-records
+  issue: 860
+  commit_type: chore
+  scope: stm
+  subject: record the round-4 review fixes run files for the installed-parts issue
+  files:
+  - .garura/project/issues/860/context/analysis.yaml
+  - .garura/project/issues/860/context/decisions.md
+  - .garura/project/issues/860/context/memory/knowledge/review/_index.md
+  - .garura/project/issues/860/context/memory/knowledge/review/adrs.md
+  - .garura/project/issues/860/context/memory/knowledge/review/code.md
+  - .garura/project/issues/860/context/memory/knowledge/review/config-maps.md
+  - .garura/project/issues/860/context/memory/knowledge/review/docs.md
+  - .garura/project/issues/860/context/memory/knowledge/review/harness.md
+  - .garura/project/issues/860/context/memory/knowledge/review/memory.md
+  - .garura/project/issues/860/context/memory/knowledge/review/tests.md
+  - .garura/project/issues/860/context/memory/manifest.json
+  - .garura/project/issues/860/context/memory/standards/rules/pipeline-next.md
+  - .garura/project/issues/860/context/memory/standards/rules/pr.md
+  - .garura/project/issues/860/context/memory/standards/schemas/pr-findings.yaml
+  - .garura/project/issues/860/context/porcelain.txt
+  - .garura/project/issues/860/review/categories.yaml
+  - .garura/project/issues/860/review/context.yaml
+  - .garura/project/issues/860/review/design-findings-harness.yaml
+  - .garura/project/issues/860/review/design-findings-memory.yaml
+  - .garura/project/issues/860/review/findings.yaml
+  - .garura/project/issues/860/review/pr.diff
+  - .garura/project/issues/860/review/quality-findings.yaml
+  - .garura/project/issues/860/review/recommended_verdict.yaml
+  - .garura/project/issues/860/review/runnable-checks.txt
+exclusions: []
+risks:
+  sensitive_files: []
+notes:
+  sensitive_review: The scan flagged password-pattern matches in pr.md (source and its short-term copy); both are the SEC-07 rule prose, non-blocking warnings (#438), so sensitive_files stays empty.
+  grouping: Single issue branch, split by concern per the round-4 decisions 17-25; the issue run records are the last group.

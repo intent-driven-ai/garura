@@ -1,0 +1,70 @@
+# categories.yaml - check-change Step 2 (assessment), PR #877, issue 876, base plan/788/base
+# Treatments are taken from the short-term playbook copies in
+# .garura/project/issues/876/context/memory/knowledge/review/ (Phoenix memory, version 3161dcdfe26f).
+# Severity taxonomy copy: .garura/project/issues/876/context/memory/standards/rules/pr.md (Garura memory tier, version null).
+next_map: .garura/project/issues/876/context/templates/standards/rules/pipeline-next.md
+changed_plays: [install-garura]   # scripts only; no SKILL.md or ICE change, so no lint_play run
+categories:
+  - name: executable-code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/plays/install-garura/scripts/install.py   # python script the runtime executes; the diff adds the play name shape-plan and the skill name author-work-items to the harness scope sets (11 lines incl. comments)
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool, against industry best practice
+      linters:
+        - id: ruff
+          command: "ruff check core/components/plays/install-garura/scripts/install.py"
+          note: "Language linter for Python; ruff is on this machine. Not installed -> record 'not installed'."
+        - id: check-pr-quality
+          command: "run by the play / quality-auditor against the PR diff with the pr.md severity taxonomy copy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)"
+      runnable_checks:
+        - "Install.py touches the filesystem and lays files into a target, so read the changed lines hard for data safety: the change only adds two names to existing sets (plays and skills of the harness scope); confirm no other behaviour changed, no stray debug output, no secrets."
+        - "By hand, cite: both added names resolve to real source parts (core/components/plays/shape-plan and core/components/skills/author-work-items exist); the set literals are still valid Python (ruff covers it); the added comments name the issue numbers (#818) the change serves."
+      design_grounding: false
+      note: "The harness scope list wires parts by name, but the change edits a script, not a play, skill, agent or memory file, and no SKILL.md or ICE source of install-garura is in the diff. The standard is industry best practice, so Layer 2 does not apply."
+  - name: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/plays/install-garura/scripts/test_install.py   # one new test: test_the_harness_scope_lays_the_plan_play_and_its_skill
+    treatment:
+      layers: [layer-1-linters, run-the-suite]
+      reviewer: tool
+      linters:
+        - id: ruff-tests
+          command: "ruff check core/components/plays/install-garura/scripts/test_install.py --select F,E9"
+          note: "Best-practice lint on the test code; also look for skipped/disabled tests and tests that assert nothing. Plus the pr.md TEST-* rows via check-pr-quality (run by the play)."
+      runnable_checks:
+        - "Run the suite from the scripts folder (a red suite is a blocker; a test that did not run is 'not run', never 'passed'): cd core/components/plays/install-garura/scripts && python3 test_install.py"
+        - "Run the new test alone and confirm it asserts both files exist (shape-plan/SKILL.md and author-work-items/SKILL.md under .claude/skills): cd core/components/plays/install-garura/scripts && python3 -m unittest test_install -k test_the_harness_scope_lays_the_plan_play_and_its_skill"
+      design_grounding: false
+  - name: run-records
+    design_bearing: false
+    playbook: null
+    playbook_missing: true
+    note: "A kind of work no playbook covers: machine-written records of the play runs that built this change (issue 876 short-term memory: analysis, branch, commits, issue, plan, porcelain, PR body and number, resolved rules, self-review, work description). Not code, docs, harness or memory. A playbook is missing; follow-up recommended (no task tool was available to this agent to create one)."
+    evidence:
+      - .garura/project/issues/876/context/analysis.yaml
+      - .garura/project/issues/876/context/branch.json
+      - .garura/project/issues/876/context/commits.yaml
+      - .garura/project/issues/876/context/issue.json
+      - .garura/project/issues/876/context/plan.json
+      - .garura/project/issues/876/context/porcelain.txt
+      - .garura/project/issues/876/context/pr-body.md
+      - .garura/project/issues/876/context/pr.json
+      - .garura/project/issues/876/context/resolved-rules.json
+      - .garura/project/issues/876/context/self-review.md
+      - .garura/project/issues/876/context/work-description.txt
+      - .garura/project/issues/876/review/*  # this review's own working files (context, diff, categories, findings): the review's output, never grounding
+      - .garura/project/issues/876/context/memory/**  # short-term copies of shelf and severity taxonomy (with manifest): copies of memory, not changes to it
+      - .garura/project/issues/876/context/templates/**  # template-manager copies (Next-line map, manifest)
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: tool
+      linters: []
+      runnable_checks:
+        - "No playbook, so no prescribed treatment. Minimal objective checks by hand, cited: .json files parse as JSON, .yaml files parse as YAML; no secrets or personal data in the records; the record is not used as grounding for any design finding (a run record is the branch's own content)."
+        - "Note for the reviewer: resolved-rules.json and self-review.md carry the tilde path ~/.garura/... (a home-relative pointer, not an absolute /Users path)."
+      design_grounding: false

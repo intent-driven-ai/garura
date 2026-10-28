@@ -1,0 +1,817 @@
+diff --git a/.garura/.gitignore b/.garura/.gitignore
+index 732c84d6d..d4c192100 100644
+--- a/.garura/.gitignore
++++ b/.garura/.gitignore
+@@ -3,3 +3,5 @@
+ # The durable record is the evidence system (_evidence/), never these.
+ **/status/
+ **/_status/
++# Python's caches beside the installed tools' scripts — never part of a change (#613).
++**/__pycache__/
+diff --git a/.garura/project/plans/788.yaml b/.garura/project/plans/788.yaml
+index fb7f94478..8c4884924 100644
+--- a/.garura/project/plans/788.yaml
++++ b/.garura/project/plans/788.yaml
+@@ -15,7 +15,7 @@ branch: plan/788/base
+ identified_by:
+ - 756
+ returns_to: 756
+-updated: '2026-10-25'
++updated: '2026-10-27'
+ tree:
+ - issue: 792
+   kind: capability
+@@ -49,72 +49,11 @@ tree:
+     title: Archive or remove the retired intent-epic pipeline and its feature-catalog names
+     status: done
+ - issue: 794
+-  kind: capability
++  kind: epic
+   represents: sl-intent-to-design
+   title: The shaping loop turns a business intent into a testable slice, its plan and its eval
+   status: now
+   children:
+-  - issue: 816
+-    kind: feature
+-    title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
+-    status: done
+-    needs:
+-    - 807
+-  - issue: 817
+-    kind: feature
+-    title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
+-    status: done
+-  - issue: 820
+-    kind: feature
+-    title: One shared rule for how a play asks a person a question
+-    status: done
+-  - issue: 826
+-    kind: bug
+-    title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
+-    status: done
+-    needs:
+-    - 816
+-  - issue: 828
+-    kind: feature
+-    title: Encrypt each slice's eval and hidden file so a builder cannot read them
+-    status: next
+-    needs:
+-    - 798
+-    - 842
+-  - issue: 824
+-    kind: chore
+-    title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
+-    status: done
+-    needs:
+-    - 826
+-  - issue: 829
+-    kind: chore
+-    title: The spine's slice entry names the business intents the slice serves
+-    status: done
+-    needs:
+-    - 824
+-  - issue: 830
+-    kind: chore
+-    title: 'managing-work.md follows ADR 049: one plan per intent, no slice picking'
+-    status: done
+-    needs:
+-    - 824
+-  - issue: 821
+-    kind: feature
+-    title: 'Lint: a play that asks a person must point to the asking-a-person rule'
+-    status: done
+-    needs:
+-    - 820
+-  - issue: 825
+-    kind: chore
+-    title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
+-    status: done
+-    needs:
+-    - 820
+-  - issue: 854
+-    kind: chore
+-    title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
+-    status: done
+   - issue: 795
+     kind: feature
+     represents: fn-795
+@@ -124,35 +63,28 @@ tree:
+     - 816
+     - 817
+     - 826
+-  - issue: 836
+-    kind: chore
+-    title: 'Drop /next: the plan is the work list (ADR 051)'
+-    status: done
+-  - issue: 842
+-    kind: bug
+-    title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
+-    status: done
+-    needs:
+-    - 795
+-  - issue: 837
+-    kind: chore
+-    title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
+-    status: done
+-    needs:
+-    - 795
+-  - issue: 838
+-    kind: feature
+-    title: An author-slice skill picks the slice's features, surface and tester
+-    status: done
+-    needs:
+-    - 795
+   - issue: 798
+     kind: feature
+     represents: fn-798
+     title: "The eval play (/shape-eval) writes the slice's eval: is the business intent met, tested on the slice's surface"
+-    status: next
++    status: done
+     needs:
+     - 818
++    children:
++    # #908 is a story of business intent #904, built inside this change (PR #911 merged into the #798 branch).
++    - issue: 908
++      kind: feature
++      title: '/shape-slice --edit: a person changes the slice record or an entry of its hidden file'
++      status: done
++      children:
++      - issue: 913
++        kind: chore
++        title: The findings left by the PR #911 review (the slice play's edit option)
++        status: later
++    - issue: 912
++      kind: chore
++      title: The findings left by the PR #900 review (the eval play and the slice play)
++      status: later
+   - issue: 818
+     kind: feature
+     represents: fn-818
+@@ -168,20 +100,113 @@ tree:
+     - issue: 875
+       kind: bug
+       title: '/shape-plan files the Epic with issue type Feature; a slice''s Epic must be type Epic (P1)'
+-      status: next
++      status: done
++      children:
++      - issue: 892
++        kind: chore
++        title: 'The two medium findings left by the PR #891 review: amend ADR 048, and separate kind from finding in Q20'
++        status: done
+       needs:
+       - 876
+     - issue: 879
+       kind: bug
+-      title: '/shape-plan fails its tracker check on a plan that was already running: a work order can hold more than its slice''s stories'
+-      status: next
+-  - issue: 796
++      title: '/shape-plan stops when an epic holds work that is not its slice''s: an epic stands for one slice'
++      status: done
++  - issue: 898
+     kind: feature
+-    title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
++    represents: fn-898
++    title: 'Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval'
+     status: next
+-    needs:
+-    - 798
+-    - 818
++- issue: 895
++  kind: chore
++  title: 'The open points left by the PR #894 review: where misplaced work sits until a play places it, and blocker work as its own slice'
++  status: next
++# Moved out from under epic #794 on 2026-10-26 (#879): not stories of its slice. Each is filed as its own
++# story, bug or chore; /shape-slice and /shape-plan place them when they run.
++- issue: 816
++  kind: feature
++  title: 'edit-ontology: a Slice serves a business intent, and /shape-slice makes the plan'
++  status: done
++  needs:
++  - 807
++- issue: 817
++  kind: feature
++  title: 'The grilling tier is a setting: XS 5, S 12, M 25, L 45, XL 70 questions'
++  status: done
++- issue: 820
++  kind: feature
++  title: One shared rule for how a play asks a person a question
++  status: done
++- issue: 826
++  kind: bug
++  title: 'Ontology v9 breaks the IDD routing table: keep failure conditions off the Story'
++  status: done
++  needs:
++  - 816
++- issue: 824
++  kind: chore
++  title: 'Record the ADR for ontology v9: the shaping loop, one plan per intent, evals and guides'
++  status: done
++  needs:
++  - 826
++- issue: 829
++  kind: chore
++  title: The spine's slice entry names the business intents the slice serves
++  status: done
++  needs:
++  - 824
++- issue: 830
++  kind: chore
++  title: 'managing-work.md follows ADR 049: one plan per intent, no slice picking'
++  status: done
++  needs:
++  - 824
++- issue: 821
++  kind: feature
++  title: 'Lint: a play that asks a person must point to the asking-a-person rule'
++  status: done
++  needs:
++  - 820
++- issue: 825
++  kind: chore
++  title: 'One checkpoint format: make the approval template follow the asking-a-person rule'
++  status: done
++  needs:
++  - 820
++- issue: 854
++  kind: chore
++  title: 'The asking rule leaves memory: a shared skill file for the ontology and /shape-slice skills only'
++  status: done
++- issue: 836
++  kind: chore
++  title: 'Drop /next: the plan is the work list (ADR 051)'
++  status: done
++- issue: 842
++  kind: bug
++  title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
++  status: done
++  needs:
++  - 795
++- issue: 837
++  kind: chore
++  title: 'Drop /shape-scope and /shape-roadmap: the shaping loop took their jobs'
++  status: done
++  needs:
++  - 795
++- issue: 838
++  kind: feature
++  title: An author-slice skill picks the slice's features, surface and tester
++  status: done
++  needs:
++  - 795
++- issue: 796
++  kind: feature
++  title: "The shaping loop's one checkpoint is pinned: the person approves the slice, the plan and the eval"
++  status: next
++  needs:
++  - 798
++  - 818
++# Dropped on 2026-10-26: #828 (encrypt the evals; not planned — the ICE and the model are plain text anyway, so the build is given the intent, never the eval; replaced by #898).
+ # Dropped on 2026-10-24: #831 (not planned; replaced by #854).
+ # Not in this plan (standalone): #839 (review the agent's memory), #843 (a sandbox install scope), #847 (check-change's
+ # review-rules folder is missing), #848 (start-change cannot find an issue's plan from a plan
+@@ -234,6 +259,18 @@ tree:
+     kind: chore
+     title: 'The findings left by the PR #873 review (the plan play)'
+     status: later
++  - issue: 902
++    kind: bug
++    title: '/check-change reports findings in a form a person cannot act on; add a generic defect template'
++    status: later
++  - issue: 903
++    kind: bug
++    title: "The GitLab instructions for the platform adapter's pr-files command use an undefined placeholder"
++    status: later
++  - issue: 914
++    kind: bug
++    title: "Run records carry the person's home-folder paths, so every change publishes their user name and disk layout"
++    status: later
+   - issue: 888
+     kind: bug
+     title: 'The change plays push with no scan for client, company or personal references'
+@@ -267,11 +304,6 @@ tree:
+   kind: chore
+   title: 'Record cap-initialize in the product model with /discover-capabilities (#862, #881)'
+   status: done
+-  children:
+-  - issue: 887
+-    kind: bug
+-    title: "/discover-capabilities drops the capability's slug when it writes the spine"
+-    status: done
+ - issue: 884
+   kind: bug
+   title: 'The content judge passes a page and then fails the same page unchanged, so a model run cannot finish'
+diff --git a/.garura/user-provided/managing-work.md b/.garura/user-provided/managing-work.md
+index 5cbf10980..5767eb752 100644
+--- a/.garura/user-provided/managing-work.md
++++ b/.garura/user-provided/managing-work.md
+@@ -9,20 +9,24 @@ invent one.
+ 
+ ## First: Garura is built the way it tells others to build
+ 
+-Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v5,
++Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v7,
+ `core/components/memory/standards/schemas/product-os/ontology.md`; Kapil: "going forward, our approach
+ to building Garura will also change"). There is one plane, not two:
+ 
+ ```
++Product model                          Tracker
+ Business Intent                 ── issue: Business Intent   (its issue number is its plan's ID)
+-└─ Capability + its ICE         ── issue: Feature
+-   └─ Functionality + its ICE   ── issue: Story
+-      ├─ Spike / Chore          ── issue, when the work needs one
+-      └─ Bug                    ── issue, always under a functionality
++Capability + its ICE            ── never an issue
++└─ Feature + its ICE            ── issue: Story, one in each Epic that delivers it
++Slice (features from any        ── issue: Epic (issue type Epic), made by the plan play for each slice
++       capabilities, in order)     └─ Story, one per feature of the slice
++                                      ├─ Spike / Chore   ── issue, when the work needs one
++                                      └─ Bug             ── issue, always under the Story that introduced it
+ ```
+ 
+ Domains live in the product model and link loosely to business intents and capabilities; they are
+-never an issue and never part of a plan. Epics and slices are not in the model.
++never an issue and never part of a plan. A slice is in the model; its Epic is the work that
++delivers it.
+ 
+ ---
+ 
+@@ -31,28 +35,41 @@ never an issue and never part of a plan. Epics and slices are not in the model.
+ | | What it is | Filed when |
+ |---|---|---|
+ | **Business Intent** | What a person wants — an outcome. Tracking only: it holds no ICE and agents never build it. Met by its proof, never closed by finishing its children. | A goal is stated that work will be done to serve. |
+-| **Feature** | The work order for one capability: something the product can do, with its ICE. | A business intent needs a capability built or changed. |
+-| **Story** | The work order for one functionality: one thing a person can do inside a capability, with its ICE. One coherent change that can be built, reviewed, and merged on its own. | A capability's functionality is ready to build. |
+-| **Bug** | A defect in a functionality: it behaves differently from what was intended. | Observed behaviour departs from expected behaviour. |
+-| **Chore** | Upkeep under a functionality that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
+-| **Spike** | A question to answer under a functionality. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
++| **Epic** | The work order for one slice: an ordered group of features, from any capabilities, that a person can test end to end. It holds one Story for each feature of the slice and has no ICE of its own. | /shape-slice shapes a slice for a business intent; the plan play then makes its Epic. |
++| **Story** | The work order for one feature: one thing a person can do inside a capability. Its scope of work is written from its feature's ICE and its capability's ICE, and never holds a failure or recovery condition (ADR 049). One coherent change that can be built, reviewed, and merged on its own. | The plan play makes the Epic of the feature's slice. |
++| **Bug** | A defect in a feature: it behaves differently from what was intended. Filed under the Story that introduced it. | Observed behaviour departs from expected behaviour. |
++| **Chore** | Upkeep under a Story that changes no behaviour. | Something needs tidying and nothing a user sees will change. |
++| **Spike** | A question to answer under a Story. The result is a decision record, not shipped code. | A Story can't be built until something is found out. |
+ 
+-A Feature is never worked directly; its Stories are. A Bug is not "something is missing" —
+-missing capability is a Feature or a Story.
++An Epic is never worked directly; its Stories are. A Bug is not "something is missing" —
++a missing feature is a Story.
+ 
+ ## Where does it hang?
+ 
+-Every Feature hangs under its business intent, every Story under its Feature, and every Bug, Spike
++Every Epic serves one or more business intents, every Story hangs under its Epic, and every Bug, Spike
+ and Chore under a Story — as a real parent/child link in the tracker. A business intent has no parent;
+-business intents link to each other only by "identified by". A plan for the business intent is kept
+-at `.garura/project/plans/<business-intent-issue>.yaml`. Plays and skills are named by the harness
++business intents link to each other only by "identified by". Each business intent has exactly one plan; it holds every slice that serves the intent (ADR 049). It is kept
++at `.garura/project/plans/<business-intent-issue>.yaml`, and each slice's eval and usage guide sit beside it, in
++`plans/<id>/evals/` and `plans/<id>/guides/`. A builder never reads the evals folder. Plays and skills are named by the harness
+ standard (`docs/standards/harness-standard.md`).
+ 
+ ## How does that land in the tracker?
+ 
+ - **Type lives in the type field.** Each of the six types above is an issue
+-  type in the `intent-driven-ai` organization. Never encode the type as a title
+-  prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
++  type in the `intent-driven-ai` organization. An Epic is filed with the issue
++  type **Epic**, and a Story with the issue type **Story**. The organization also
++  has the type Feature, from before the Epic type existed; a slice's Epic is never
++  filed as Feature. (In the product model, a Feature is a different thing; it is
++  never an issue.) Never encode the type as a
++  title prefix (`[Story]`, `Bug:`, `[DEF]`); the field is the only place it belongs.
++- **An Epic stands for one slice, and holds only that slice's work.** Its
++  sub-issues are the Stories of its slice; a Chore, Spike or Bug hangs from the
++  Story it serves. A plan holds one Epic for each slice that serves its business
++  intent, so a plan can hold several Epics. Work found along the way that is not
++  the slice's is filed on its own, as a Story, Bug or Chore, never under the Epic;
++  `/shape-slice` and `/shape-plan` place it when they run. Work that blocks the plan
++  gets its own Epic (its own slice), is delivered there, and merges back into the
++  plan branch it spawned from. (The product owner, 2026-10-26, #879.)
+ - **No labels, for now.** Not for type, status, area, or severity. A severity
+   and priority taxonomy will be designed later; until then, open issues carry
+   none. Closed issues keep their old labels as history.
+@@ -73,15 +90,15 @@ no-labels rule above stands). The project is also where Phoenix releases are fol
+ Before a Story or Bug is handed to a session, it has to stand on its own. The
+ session working it reads the issue and its parent, and nothing else.
+ 
+-**A Story is ready when it has** a parent Feature linked, acceptance criteria
++**A Story is ready when it has** a parent Epic linked, acceptance criteria
+ (what must be true for this to be done), and a scope boundary (what this issue
+ deliberately does *not* touch).
+ 
+ **A Bug is ready when it has** a reproduction — the steps and the actual
+ behaviour — and a statement of the expected behaviour.
+ 
+-**A Feature is ready when** it states the problem, the boundary, and the "done
+-when." It is then decomposed; it is never worked directly.
++**An Epic is ready when** it names its slice and states the "done when." It is then
++decomposed into Stories; it is never worked directly.
+ 
+ An issue that fails these tests is not blocked on effort — it is blocked on
+ being written. Finish writing it before anyone picks it up.
+@@ -89,7 +106,7 @@ being written. Finish writing it before anyone picks it up.
+ ## How does work get picked up?
+ 
+ Planning and decomposition happen in an **orchestrator session**: reading the
+-backlog, shaping Features, cutting Stories, ordering them. No implementation
++backlog, shaping Epics, cutting Stories, ordering them. No implementation
+ happens there.
+ 
+ Each Story or Bug then goes to **its own session**. That session:
+@@ -111,6 +128,21 @@ by the real parent/child link in the tracker, never a mention in the body —
+ are fixed on that same branch, in the same change. The drive writes **one
+ handoff**, on its main issue.
+ 
++## How is a change checked?
++
++Before anyone builds, the session writes the change's **acceptance check**: a small script in
++the issue's own folder, `.garura/project/issues/<issue>/evidence/eval/`, that tests what the
++issue's "Done when" asks.
++
++1. Run it before the build. It must fail. Commit it first.
++2. The agents that build never read the issue's folder. They build from the issue and its
++   decisions, not from the check.
++3. Run it after the build. It must pass. If a check tested the wrong thing, fix the check in
++   its own commit and say why. Never weaken a check to let bad work pass.
++
++This is not a slice's eval. A slice's eval is made by the eval play, inside the shaping loop,
++and kept in `plans/<plan-id>/evals/` (ADR 049).
++
+ ## How far does my work extend?
+ 
+ **The issue being worked defines the scope. Work never goes beyond it.**
+diff --git a/docs/adr/017-folder-whitelist.md b/docs/adr/017-folder-whitelist.md
+index 664468882..452a09b2f 100644
+--- a/docs/adr/017-folder-whitelist.md
++++ b/docs/adr/017-folder-whitelist.md
+@@ -1,6 +1,6 @@
+ # ADR 017 — `.garura/` Folder Whitelist and Play Terminology Cleanup
+ 
+-**Status:** Accepted — amended in part by [ADR 035](035-agents-work-only-from-memory.md): §1's `.garura/core/` entry ("framework state (config, synced memory)") and §2's line that `.garura/core/memory/` stays a gitignored synced copy: a project no longer holds a copy of all memory; it holds the subset it pulled from Phoenix memory, with a short list of what it pulled and from which version. Where in `.garura/` that lives is settled in plan item 3; and amended in part by [ADR 038](038-install-brings-no-memory.md): §1 "Strict .garura/ folder whitelist": the whitelist gains `.garura/tools/`, holding `memory/` — the memory tool as installed, with its settings.json beside it. The tool's own folder is never answered as Garura memory. The rest of §1 stands; and amended in part by [ADR 039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md); and amended in part by [ADR 040](040-config-source-is-core-config-yaml.md): §2 "Config relocation" — the source half: the source goes back to core/config.yaml; each project still holds .garura/core/config.yaml
++**Status:** Accepted — amended in part by [ADR 035](035-agents-work-only-from-memory.md): §1's `.garura/core/` entry ("framework state (config, synced memory)") and §2's line that `.garura/core/memory/` stays a gitignored synced copy: a project no longer holds a copy of all memory; it holds the subset it pulled from Phoenix memory, with a short list of what it pulled and from which version. Where in `.garura/` that lives is settled in plan item 3; and amended in part by [ADR 038](038-install-brings-no-memory.md): §1 "Strict .garura/ folder whitelist": the whitelist gains `.garura/tools/`, holding `memory/` — the memory tool as installed, with its settings.json beside it. The tool's own folder is never answered as Garura memory. The rest of §1 stands; and amended in part by [ADR 039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md); and amended in part by [ADR 040](040-config-source-is-core-config-yaml.md): §2 "Config relocation" — the source half: the source goes back to core/config.yaml; each project still holds .garura/core/config.yaml; and amended in part by [ADR 049](049-a-slice-is-shaped-then-planned-then-given-its-eval.md): §1 (adds plans/ under .garura/project/); and amended in part by [ADR 050](050-the-retired-intent-epic-pipeline-is-deleted.md): §1: the product folders specification/ and scope/ leave the layout of .garura/product/, and core/config.yaml no longer lists them
+ **Date:** 2026-04-14
+ **Supersedes:** none (partial overlap with ADR 008 issue-centric STM, ADR 013 play maturity model)
+ **Related:** ADR 001 (three-layer hierarchy), ADR 008 (issue-centric STM), ADR 013 (play maturity model — superseded by this ADR's "no levels" decision), ADR 016 (agent JSON contract)
+diff --git a/docs/adr/028-agentic-lifecycle-five-loops.md b/docs/adr/028-agentic-lifecycle-five-loops.md
+index 13edc6a11..4185ee388 100644
+--- a/docs/adr/028-agentic-lifecycle-five-loops.md
++++ b/docs/adr/028-agentic-lifecycle-five-loops.md
+@@ -1,6 +1,6 @@
+ # ADR 028 — The Agentic Lifecycle Is Five Loops
+ 
+-**Status:** Accepted — superseded in part by [ADR 029](029-drives.md): a loop recipe is now a **drive**; the first loop is now **Kickoff** (`/intent` → `/vision` → `/understand`); "the plays stay as they are" no longer holds. The other four loops stand until their spikes (#608–#611) settle them; and amended in part by [ADR 045](045-a-drive-is-now-called-a-loop.md): "Each loop is an intent" — the names Understand, Shape, Execute, Change, Learn are no longer working names: the loops are named Discovery (was Understand), Slice (was Shape), Execute, Ship (was Change) and Learn; and §5 "Learn": its plays are /learn, /promote and /drift (in place of /next, /focus, /learn). Also the word ADR 029 took from it ("loop recipe" becomes drive) comes back: a loop is a loop.
++**Status:** Accepted — superseded in part by [ADR 029](029-drives.md): a loop recipe is now a **drive**; the first loop is now **Kickoff** (`/intent` → `/vision` → `/understand`); "the plays stay as they are" no longer holds. The other four loops stand until their spikes (#608–#611) settle them; and amended in part by [ADR 045](045-a-drive-is-now-called-a-loop.md): "Each loop is an intent" — the names Understand, Shape, Execute, Change, Learn are no longer working names: the loops are named Discovery (was Understand), Slice (was Shape), Execute, Ship (was Change) and Learn; and §5 "Learn": its plays are /learn, /promote and /drift (in place of /next, /focus, /learn). Also the word ADR 029 took from it ("loop recipe" becomes drive) comes back: a loop is a loop; and amended in part by [ADR 048](048-the-product-model-and-the-work-are-two-layers.md): §3 'Execute' (its first step, /grill, cuts the slice into epics) and '/grill needs only a slice' (the play that cuts epics checks only that the slice exists); also its Context's realized stamp ('/measure stamps the slice realized'); and amended in part by [ADR 053](053-shape-scope-and-shape-roadmap-are-dropped.md): 'Loops run the plays', the sentence '/roadmap belongs to the Shape loop: ordering the slices is part of slicing', and Open question 2 — /roadmap (now /shape-roadmap) is dropped and no play orders the slices
+ **Date:** 2026-10-07 (proposed); accepted 2026-10-07, open questions settled under #592
+ **Affects:** ADR 023 (three execution trinities — the epic trinity's check step), ADR 025 (Level 3 skeleton and loop), `docs/philosophy/idsd.md` (IDSD in One Page), `docs/philosophy/garura-reference-implementation.md` (The Loop as Commands), `core/components/memory/standards/rules/pipeline-next.md`
+ **Related:** ADR 027 (ICE is the IDSD model), IDD Principle 1 (`docs/philosophy/idd-principles.md`), #539
+diff --git a/docs/adr/033-approval-in-the-product-model.md b/docs/adr/033-approval-in-the-product-model.md
+index 33d0ec237..83ecf18e0 100644
+--- a/docs/adr/033-approval-in-the-product-model.md
++++ b/docs/adr/033-approval-in-the-product-model.md
+@@ -1,6 +1,6 @@
+ # ADR 033 — Approval Is Part of the Product Model, and Agents Work Only on Approved Pieces
+ 
+-**Status:** Accepted — amended in part by [ADR 043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md): §4 "Approval follows links" — widened: a node is not approved and not workable until it is attributed (functionality → capability → domain, its ICE → a confirmed business intent). This also widens ADR 031 §4 as ADR 033 already amended it (workable = ICE, node and intent approved; now also attributed).
++**Status:** Accepted — amended in part by [ADR 043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md): §4 "Approval follows links" — widened: a node is not approved and not workable until it is attributed (functionality → capability → domain, its ICE → a confirmed business intent). This also widens ADR 031 §4 as ADR 033 already amended it (workable = ICE, node and intent approved; now also attributed); and amended in part by [ADR 047](047-the-ice-is-its-own-node.md): §4 only — the ICE's own approval and its part's are no longer a condition of ready; the business intent's confirmation stays; and amended in part by [ADR 053](053-shape-scope-and-shape-roadmap-are-dropped.md): Negative / Risks 'Three places approve outside the review step' and Work This Creates item 6 — the '/shape sets capabilities active' place goes with /shape-scope
+ **Date:** 2026-10-18
+ **Level:** framework
+ **Decided by:** Kapil Viren Ahuja
+diff --git a/docs/adr/048-the-product-model-and-the-work-are-two-layers.md b/docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+new file mode 100644
+index 000000000..149320311
+--- /dev/null
++++ b/docs/adr/048-the-product-model-and-the-work-are-two-layers.md
+@@ -0,0 +1,118 @@
++# ADR 048 — The Product Model and the Work Are Two Layers Joined by the Plan: Functionality Becomes Feature, a Slice Is in the Model, and an Epic Is a Work Item That Delivers One Slice
++
++**Status:** Accepted — superseded by [ADR 049](049-a-slice-is-shaped-then-planned-then-given-its-eval.md): §2 first paragraph (the plan picks slices by two tests); and amended in part by [ADR 051](051-the-next-play-is-dropped-the-plan-is-the-work-list.md): Work This Creates, #803 (/next stops reading the epic record): not done, the play is deleted; and amended in part by [ADR 056](056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md): Decision §1, the second bullet ("The work layer is tracker issues labelled `work-item`: Epic, Story, Spike, Chore and Bug") — an Epic is now an issue of type Epic and a Story an issue of type Story, each with no label; only a Spike, a Chore or a Bug keeps `work-item`. And Consequences, Positive, the fourth bullet ("`work-item` for everything that is worked") — `work-item` now marks only a Spike, a Chore or a Bug.
++**Date:** 2026-10-23
++**Level:** framework
++**Decided by:** Kapil Viren Ahuja 
++**Decided in:** #793 (product ontology v7 — the three `/edit-ontology` checkpoints of 2026-10-22, PR #808) and #807 (the on-disk rename — its design approval of 2026-10-22)
++**Supersedes:** ADR 019 (in part — Decision §1, the epic as a permanent record in the product model with `delivered` as its last state, and §2, `/launch` stamps the epic `delivered` in place; with them the premise that a slice is cut into one or more epics)
++**Amends:** ADR 022 — §1 "The surface lives on the epic, as structure" and §2 "Declared at cut": the epic record and the cut both go · ADR 024 — §1 "Anchored, always", §2 "Append-only" ("a slice's current truth = its epics + their amendments"), §6 the home "on the slice beside the epics", and the premise that a delivered epic cannot be reopened · ADR 028 — §3 "Execute", its first step that cuts a slice into epics, and "`/grill` needs only a slice"; with them the slice's realized stamp · ADR 031 — §1, the sentence "Every piece of agent work still takes ICE form" · ADR 043 — the word only: "functionality" is now "feature", and the holding folder `functionalities/<id>/` is now `features/<id>/` · ADR 046 — §4, the sentence "Objects use the product model's words (feature, capability), never a word the model dropped (epic, slice)" · ADR 047 — the word only: "one ICE for each capability and each functionality" holds as "each capability and each feature", and §5 reads "feature" and `features/`
++**Affects:** `core/components/memory/standards/schemas/product-os/ontology.md` (v7, landed in #793), `core/components/memory/standards/schemas/product-os/spine.yaml` (`functionalities` → `features`, `functionality_refs` → `feature_refs`; the `epics` list and the slice fields status, order, effort, depends_on and domain_ref leave in #795, #799, #801, #803), `core/components/memory/standards/schemas/product-os/epic.yaml` and `slice.yaml`, `core/components/memory/standards/schemas/product-os/grounding/feature.md` (was `functionality.md`), `core/components/memory/standards/rules/rename-map.yaml`, `core/tools/naming/check_old_names.py`, `core/components/memory/standards/rules/pipeline-next.md` and `pipeline-position.md`, the renamed delivery plays `core/components/plays/shape-slice/` (was shape-features), `core/components/plays/build-epic/` (was build-feature), `core/components/plays/validate-epic/` (was validate-feature), `core/components/plays/release-epic/` (was release-feature), the renamed skill `core/components/skills/author-epics/` (was author-features), the ICE source and compiled play of 21 plays and the `complete-discovery` loop that name a functionality, `core/grounding/glossary.md`, `.garura/user-provided/managing-work.md`, `CLAUDE.md` (Work Tracking), `docs/` (not the ADRs), and Garura's own model `.garura/product/product-os/features/` (was `functionalities/`, 21 features) and `_spine.yaml`
++**ICE impact:** The ICE of 21 plays and the Discovery loop changes in wording only in #807: "functionality" becomes "feature", and the four delivery plays take their new names; each fingerprint is stamped again, and no constraint, failure condition or scenario changes in meaning. The product's own ICE keep their shape: one for each capability and each feature (ADR 047). What changes in meaning: a work item carries no ICE; a Story writes its own scope of work from its Feature's ICE and that Feature's Capability's ICE; an Epic has no ICE. The ICE of `/shape-slice`, `/build-epic`, `/validate-epic` and `/next` change in meaning later, in #795, #799, #801 and #803, when each stops reading the epic record and the dropped slice fields.
++**Business intent check:** kind — this ADR changes the Business Intent kind, not any person's business intent. The kind gains the tracker label `product` (the only kind with it), an Epic serves it, and a work item reaches it through its Epic. No business intent is confirmed, dropped or changed in meaning. The #807 rename also changed "functionality" to "feature" in six lines on three intent pages (bi-717's Plan line, bi-722's Outcome and Why lines, bi-756's Why line), with the same meaning. Shown those lines on 2026-10-23, the product owner chose to keep the new wording. So those words were changed by the person who owns the intents, not by this decision, and the pages are not in this ADR's Affects.
++**Related:** ADR 019, ADR 022, ADR 024, ADR 028, ADR 031, ADR 033, ADR 043, ADR 045, ADR 046, ADR 047, #788, #792, #793, PR #808, #795, #799, #801, #803, #807
++
++## Context
++
++The delivery chain (#788) runs four steps: shape the work, build a hidden eval suite from the design, build the work without seeing the evals, then validate it. To do that, each step must know what it works on.
++
++Ontology v6 could not say. It had no Slice and no Epic, although the delivery plays read both from the spine. Its work types did not match how work is picked and delivered: one Feature for each capability, one Story for each functionality, and every piece of work carrying an ICE. The word "Feature" meant a capability's work order, while the delivery plays used it to mean an epic.
++
++The product owner decided ontology v7 at the three checkpoints of `/edit-ontology` for #793 on 2026-10-22 (the questions, the kinds, the links and rules). The product owner then approved the design of #807, which renames Functionality to Feature on disk now: "There is no later."
++
++Older decisions rest on the old picture. ADR 019 keeps an epic in the product model and stamps it `delivered`. ADR 022 puts the surface contract on that epic record. ADR 024 anchors its amendment record to a delivered epic. ADR 028 has a play cut each slice into epics. ADR 031 says every piece of agent work takes ICE form. ADR 046 says play names never use "epic" or "slice", because the model had dropped them. ADR 043 and ADR 047 use the word "functionality" in their rules.
++
++Two findings by the ADR keeper are not in the brief. First, ADR 046 §4 is contradicted: v7 makes Slice and Epic model words again, which is why the delivery plays can be named `/shape-slice` and `/build-epic`. Second, the business intent check is not `none`: v7 changes the Business Intent kind, so the check is `kind`. A first draft of this ADR declared `instance`, because the rename had changed words on three business intent pages; it went to the product owner, who chose to keep the new wording on those pages. Both findings are flagged here for the person who accepts.
++
++## Decision
++
++### 1. Two layers, with the Plan as the thread
++
++- The **product layer** is the model: Business Intent, Source, Domain, Capability (with its ICE), Feature (with its ICE; the old Functionality), Slice and ICE.
++- The **work layer** is tracker issues labelled `work-item`: Epic, Story, Spike, Chore and Bug.
++- Only the Business Intent is a product-layer tracker issue, labelled `product`. Domain, Capability, Feature, Slice, Source and ICE are never tracker issues. In the tracker, a Story stands for a Feature and an Epic stands for a Slice.
++- The **Plan** is a file. It is the thread between the two layers.
++
++### 2. The Plan picks slices and creates one epic for each
++
++A Plan is given one business intent. It picks the slice or slices that best serve it, by two tests: (1) the slice gives a vertical outcome a person can test end to end, a screen or a surface; (2) of the slices that pass, the one with the most features and capabilities that serve the intent. It creates one Epic for each slice it picks, or uses the epic that exists.
++
++A **Slice** is an ordered group of features, from any capabilities, that gives one vertical a person can test end to end. It lives in the model and holds no ICE.
++
++### 3. Epic, Story, and their children
++
++- An **Epic** represents one slice. It holds stories and serves the business intent. It is long-lived: it stays open when its stories are done, and new stories can join it. It has no ICE and knows no capability.
++- A **Story** represents one feature and delivers it. There is one story for each feature in each epic. When a story is made, it writes its own scope of work from its feature's ICE and its capability's ICE.
++- A **Spike**, **Chore** or **Bug** is a child of one story. A spike comes only after its story is built. A bug sits under the story that introduced the defect.
++- No work item carries an ICE. The ICE stays on the capability and the feature (ADR 047).
++
++### 4. Functionality is renamed Feature everywhere on disk
++
++The schemas, templates, scripts, plays, the loop, skills, agents, rules, knowledge, tools, docs and Garura's own model use "feature". Feature IDs keep the `fn-` prefix; new features use `ft-`. Older ADRs keep their words and get only a forward pointer where they are amended.
++
++So that "feature" means one thing, the delivery plays are renamed: `/shape-features` → `/shape-slice`, `/build-feature` → `/build-epic`, `/validate-feature` → `/validate-epic`, `/release-feature` → `/release-epic`, and the skill `author-features` → `author-epics`. The old names are in `rename-map.yaml`, and `check_old_names.py` fails while any is still used.
++
++### 5. The epic record and the old slice fields leave the model, each with the play that used them
++
++The spine's `epics` list, the `epic.md` pages, and the slice fields status, order, effort, depends_on and domain_ref leave the product model in #795, #799, #801 and #803. Each leaves in the story that redesigns the play that reads it. Until then they stay on disk.
++
++### What this changes in older ADRs
++
++- **ADR 019 §1 and §2** — superseded in part. The epic is not a record in the product model and has no `delivered` stamp; it is a tracker work item that stays open. One epic represents one slice. Its aim stays: the as-delivered record is never destroyed. The epic is never closed, and a closed story means delivered.
++- **ADR 022 §1 and §2** — the surface no longer lives on an epic record, and no play cuts an epic from a slice. The slice now names its `vertical`, and the Plan's first test refuses a slice with none. §3 (one shared standard) and §4 (the gates) stand. Where the structured surface contract (type, how a person reaches it, what must open) lives after the epic record leaves is **not decided here**.
++- **ADR 024 §1, §2 and §6** — the delivered epic record it anchors to leaves the model, and an epic is never closed, so new work can join it. Its premise, that a delivered epic cannot be reopened, no longer holds as written. Whether the amendment record is still needed is **not decided here**.
++- **ADR 028 §3 and "`/grill` needs only a slice"** — no play cuts a slice into epics; the Plan creates one epic for each slice it picks. The slice has no status, so there is no realized stamp: whether a slice is picked is shown by its epic. §2 ("split the model into vertical slices") stands.
++- **ADR 031 §1** — "Every piece of agent work still takes ICE form" no longer holds. Only a capability and a feature have an ICE; a story writes its scope from two ICE. The rest of §1 stands: a business intent is not ICE, and only a person confirms or drops one.
++- **ADR 043 and ADR 047** — the word only. Their rules hold with "feature" for "functionality" and `features/` for `functionalities/`. ADR 047's "one ICE for each capability and each functionality" holds as "each capability and each feature".
++- **ADR 046 §4** — "never a word the model dropped (epic, slice)" no longer holds: Epic and Slice are kinds again. The verb-first rule and the rest of §4 stand.
++
++### What this does not change
++
++- ADR 045: the Slice loop keeps its name. Its always-full-name rule keeps "the Slice loop" apart from the Slice kind and the `/shape-slice` play.
++- ADR 033 and other older ADRs that use "functionality" in passing: their rules stand; read the word as "feature".
++- No business intent is confirmed, dropped or changed in meaning. The new wording on three intent pages is the product owner's own choice, not this decision's.
++
++## Consequences
++
++### Positive
++
++- Each delivery step knows what it works on: a slice, the epic that represents it, and one story for each feature.
++- The vertical slice across capabilities, the unit a person can test end to end, has a home in the model and an epic in the tracker.
++- "Feature" means one thing: a part of one capability with its own ICE.
++- The tracker filters cleanly: `product` for business intents, `work-item` for everything that is worked.
++- The ICE stays in one place. A story writes its own scope from two ICE instead of carrying a copy that can drift.
++
++### Negative / Risks
++
++- The rename touches many files at once. A missed reference breaks a path or a check. `check_old_names.py` and the touched test suites are the guard.
++- Until #795, #799, #801 and #803 land, the spine still holds the `epics` list and the old slice fields, so the model says one thing and v7 says another.
++- Two open points are left: where ADR 022's surface contract lives, and whether ADR 024's amendment record is still needed. Until they are decided, a play may have nowhere to put a declared surface.
++- Older ADRs and past run records keep "functionality", and some keep "feature" in its old meaning (a capability's work order) or as the old play names. A reader must map them.
++- One story per feature in each epic means one feature can have several stories across epics, so tracing a feature's delivery reads more than one epic.
++- The Business Intent kind changes (a new label, and a work item reaches an intent only through its Epic), so any play or check that reads an intent's links must follow it.
++
++## Alternatives Considered
++
++- **Keep v6 and add Slice and Epic beside the old work types** — lost: two overlapping hierarchies, and "Feature" would keep meaning both a capability's work order and an epic.
++- **Replace Slice and Epic with Stories under a Feature** (round 2 of #793) — lost: the vertical slice across capabilities "is the golden moment and this has to stay", and it needs an Epic.
++- **Make Capability and Feature tracker issues too** — lost: they are product visibility only; only the business intent ties the product to the work.
++- **Rename on disk later** — lost: the product owner chose now, to stop drift.
++
++## Work This Creates
++
++- #795 — `/shape-slice` stops writing the spine `epics` list and the dropped slice fields.
++- #799 — `/build-epic` works on the epic as a tracker work item.
++- #801 — `/validate-epic` the same.
++- #803 — `/next` stops reading the epic record and the slice status.
++- Decide where ADR 022's surface contract lives once the epic record leaves.
++- Decide whether ADR 024's amendment record is still needed.
++- A short `/edit-ontology` run for the ontology's leftovers: the three "until the rename story lands" notes, and the Layer and "In the tracker as" lines on Source (#807 design, step 5).
++- A clean-up chore for the retired intent-epic files.
++
++## References
++
++- `.garura/project/issues/_adr/20261022-185338/brief.md` — the brief
++- `.garura/project/issues/793/context/edit-ontology/need.md` and `decisions.json` — the product owner's answers and the three checkpoints
++- `.garura/project/issues/807/specs/design.md` — the rename design and its decisions 1a, 2, 3 and 4
++- `core/components/memory/standards/schemas/product-os/ontology.md` — v7
++- `core/components/memory/standards/rules/rename-map.yaml` — the old and new names
+diff --git a/docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md b/docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+new file mode 100644
+index 000000000..dd44ca6ef
+--- /dev/null
++++ b/docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md
+@@ -0,0 +1,122 @@
++# ADR 049 — A Slice Is Shaped, Then Planned, Then Given Its Eval: One Plan for Each Business Intent, the Eval Kept in the Plan's Folder, and No Failure Condition Reaches the Builder
++
++**Status:** Accepted — amended in part by [ADR 052](052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md): §1.1, §1.2, §4, §5, its ICE impact, the 'What this does not change' line on ADR 047's ready check, and the Consequence 'each ICE is interpreted once, by the plan play' — /shape-slice writes the hidden file (one entry per feature) and a thin ICE; the plan play only plans; and amended in part by [ADR 057](057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md): §4, the sentence "Encrypting the evals is #828"; Negative / Risks, the words "Until #828" in "Until #828, only a read rule keeps the eval from the builder"; and Work This Creates, "#828 — encrypt the evals"
++**Date:** 2026-10-23
++**Level:** framework
++**Decided by:** the product owner · **Decided in:** #824 (records product ontology v9, #816 and PR #823, and v10, #826 and PR #827, both decided with the product owner at the three `/edit-ontology` checkpoints, plan #788)
++**Supersedes:** ADR 048 (in part — Decision §2, its first paragraph: "A Plan is given one business intent. It picks the slice or slices that best serve it, by two tests … It creates one Epic for each slice it picks"; and, in its list "What this changes in older ADRs", the ADR 022 line "the Plan's first test refuses a slice with none". The slice definition in §2 stands, and §1, §3, §4 and §5 stand)
++**Amends:** ADR 017 — §1 "Strict `.garura/` folder whitelist": under `.garura/project/` the whitelist gains `plans/`, which holds one file `<id>.yaml` for each plan and its folder `<id>/`, with `evals/<slug>/` (the slice's eval and its hidden file `failure-and-recovery.md`) and `guides/<slug>.md`. The rest of §1 stands
++**Affects:** `core/components/memory/standards/schemas/product-os/ontology.md` (v9 and v10, landed), `core/components/memory/standards/rules/expectation-generation.md` (the section "A story's recovery (product ICE)", landed), `CLAUDE.md` (Work Tracking, landed), `.garura/user-provided/managing-work.md` (still says "a plan picks a slice"), `core/components/memory/standards/schemas/product-os/spine.yaml` and `slice.yaml` (the slice entry gains `intents`), `core/components/plays/shape-slice/`, `core/components/plays/build-epic/` (its context sub-agent), the plan play and the eval play (not built yet), and the folder `.garura/project/plans/`
++**ICE impact:** The product ICE does not change: each capability and each feature keeps one ICE in three parts (ADR 047). What changes is where each part of it goes, so that the routing table in `docs/philosophy/idd-principles.md` holds word for word. The plan play reads both ICE of a story once. The story gets the goal, the limits, the expectations and the Context guidance. The slice's hidden file gets the failure conditions, with one recovery condition each. The build play's context sub-agent and the builder never open an ICE page or a plan's evals folder. The eval play reads the epic, its stories and the hidden file; the running eval reads the eval, the usage guide, the Context guidance in the eval and only the recovery parts of the hidden file. The ICE of `/shape-slice` and `/build-epic` change in meaning when they are rebuilt; the plan play and the eval play get their ICE when they are built.
++**Business intent check:** kind — the Business Intent kind changes: a slice serves it (the link is kept on the slice's side only), it is a destination that does not point at its slices, and it has exactly one plan. No person's business intent changes: the v9 and v10 commits touch no page in `.garura/product/product-os/intents/`
++**Related:** ADR 017, ADR 022, ADR 027, ADR 031, ADR 047, ADR 048, #788, #816, PR #823, #822, #826, PR #827, #828
++
++## Context
++
++The delivery chain (#788) shapes the work, builds a hidden eval, builds the work without the eval, then checks it. ADR 048 put the Slice in the model and the Epic in the tracker, with the Plan between them. It said a plan is given a business intent and picks slices by two tests.
++
++Ontology v9 (#816) changed how the work is made, and no ADR records it. At the checkpoints the product owner said three things. First, `/shape-slice` must only shape the slice and pass on to the plan, so that no work is done twice ("I don't want to duplicate the functionality"). Second, the shaping work is three plays in a row: shape the slice, build the plan, build the eval. Third, only one place interprets the ICE ("I don't want two or three different things to talk to ICE and have different interpretations").
++
++v9 then broke a principle. In v9 a story's scope of work said "what must never happen", and the builder reads the story. So failure conditions reached the builder, and recovery conditions had no place. The routing table in `docs/philosophy/idd-principles.md` says the builder never gets them. The product owner said: "idd principles need to hold true … we cant break the principle". Ontology v10 (#826) fixed it.
++
++`/record-decision` cannot join an open change (#822), so this ADR is its own record. The product owner asked for it to be drafted in place, with no change cycle.
++
++Note from the ADR keeper: ADR 048 §3 says a story writes its scope of work from two ICE, and no work item carries an ICE. That still holds, so §3 is not amended; this ADR adds to it (Decision §4). ADR 047 is not changed: the ICE keeps its three parts.
++
++## Decision
++
++### 1. The shaping loop: three plays, one after the other
++
++1. `/shape-slice` shapes one slice and writes one link: "slice serves business intent" (the slice's `intents` list; the first is the intent it was first shaped for). It writes nothing else: no plan, no epic, no story, no eval. A thing with no screen or surface that a person can test end to end is not a slice, and `/shape-slice` does not shape it. That rule is now the Slice's own.
++2. The plan play runs right after it, with no stop between them. It makes the plan, the epic for the slice (or uses the one that exists), one story for each feature of the slice, and the slice's hidden file.
++3. The eval play builds the slice's eval.
++
++The plan does not pick, rank or test slices. The person chose the slice at `/shape-slice`. This replaces the two tests of ADR 048 §2.
++
++### 2. One plan for each business intent
++
++A business intent has one plan, and never a second. The plan's ID is the intent's issue number. The plan holds every slice that serves its intent, found by reading the link "slice serves business intent". When a new slice is shaped for an intent that has a plan, the plan play adds the slice and its epic to that plan. A slice that serves two intents has one epic, used by both plans.
++
++### 3. Where the eval, the hidden file and the usage guide live
++
++- The slice's eval and its hidden file: `.garura/project/plans/<plan-id>/evals/<slug>/` (the eval, and `failure-and-recovery.md`).
++- The slice's usage guide: `.garura/project/plans/<plan-id>/guides/<slug>.md`, beside the evals folder, not in it.
++- `<plan-id>` is the slice's home plan: the plan for the intent it was first shaped for. It is worked out, never stored. Another plan that holds the slice points to these files and never copies them.
++- The build writes the usage guide. It is the eval's only way into the built product.
++
++This adds `plans/` under `.garura/project/`, which the folder list of ADR 017 §1 does not name.
++
++### 4. How the ICE reaches the eval and the builder
++
++- **The plan play reads all of each ICE, once.** For each story it reads the feature's ICE and that feature's capability's ICE.
++- **The story** holds the goal, the limits and the expectations in its scope of work, and the Context guidance (the four Context lines: what to read, what never to read, the persona, the scope) as its own property. It never holds a failure condition or a recovery condition, and it never holds the context itself.
++- **The build play's context sub-agent** reads the story's Context guidance, collects the context at run time and puts it in the issue's short-term memory, `.garura/project/issues/<issue>/`. It never opens an ICE page or a plan's evals folder. The builder reads the story and that collected context.
++- **The hidden file**, written by the plan play from the same two ICE: for each story, its failure conditions, and exactly one recovery condition for each (when, way back, who fixes).
++- **The eval is read at two times.** The eval play, before the build, reads the epic, its stories and the hidden file, never the guide or the code. The running eval, after the build, reads the eval, the usage guide, the Context guidance in the eval and only the recovery parts of the hidden file, never the failure conditions.
++- **A failure gives a handoff plan.** It says what the product does wrong, as a symptom, and the way back. It never names the failure condition, its id or the check. It goes to the builder or to a person, as the recovery condition says.
++- When an ICE changes after its story is made, the story and its hidden-file entry are drift. They are made again together, from the same two ICE.
++
++Today the eval is kept from the builder by a read rule only: no builder, no skill that builds the software and no context sub-agent reads a plan's evals folder. Encrypting the evals is #828.
++
++### 5. The recovery rule covers a story
++
++`core/components/memory/standards/rules/expectation-generation.md` now gives a story its recovery, by the same rule as a play's: one recovery condition for each "Fails if" line, marked "the builder can fix this alone" or "a person must decide".
++
++### What this changes in older ADRs
++
++- **ADR 048 §2, first paragraph** — superseded. The plan does not pick slices by two tests; it holds every slice that serves its intent. The surface rule moves to the Slice and to `/shape-slice`, so ADR 048's line that "the Plan's first test refuses a slice with none" goes too. The definition of a slice in §2 stands.
++- **ADR 017 §1** — amended. The whitelist under `.garura/project/` gains `plans/`.
++
++### What this does not change
++
++- ADR 047: the ICE, its three parts and its ready check.
++- ADR 048 §1, §3, §4 and §5: the two layers, the Epic and the Story, the rename, and the fields that leave the model.
++- The routing table in `docs/philosophy/idd-principles.md`: it is not changed; this decision makes it hold.
++- No person's business intent.
++
++## Consequences
++
++### Positive
++
++- Each play has one job. Shaping, planning and eval building do not repeat each other's work.
++- Each ICE is interpreted once, by the plan play. The story, the hidden file and the eval cannot read the ICE in different ways.
++- The builder never sees a failure condition or the eval, so it cannot build to the test. The routing table holds.
++- One plan for each intent: a person sees all the work for one intent in one place.
++- A shared slice has one eval, one hidden file and one guide, so they cannot drift apart.
++
++### Negative / Risks
++
++- Until #828, only a read rule keeps the eval from the builder. A play that breaks the rule is not stopped by anything on disk.
++- The plan play and the eval play are not built yet, and `/shape-slice` still cuts a slice into epics. Until they change, the plays and the ontology say different things.
++- The story's Context guidance is a copy of the ICE's Context. When the ICE changes, the copy is out of date until the Alignment loop finds it.
++- Where the handoff plan is kept, and how it reaches the builder, is not decided.
++- The spine's slice entry has no `intents` field yet, so the link "slice serves business intent" has no place on disk today.
++
++## Alternatives Considered
++
++- **The plan picks slices by two tests (ADR 048 §2)** — lost: the person already chose the slice at `/shape-slice`; testing it again in the plan does the work twice.
++- **`/shape-slice` also makes the plan, the epic and the stories** — lost: the product owner wanted `/shape-slice` to stop at the slice and pass on to the plan, with no duplicated work.
++- **The eval reads the ICE of the features and capabilities itself** — lost: two readers of one ICE give two interpretations. The eval reads what the plan play wrote.
++- **The story's scope of work says what must never happen (v9)** — lost: the builder reads the story, so failure conditions would reach it, against the routing table.
++- **The story carries the context itself** — lost: the story holds guidance only; the context sub-agent collects the context when the build runs, so it is current.
++- **A plan copies the eval of a slice it shares with another plan** — lost: two copies drift; the other plan points to the home plan's files.
++
++## Work This Creates
++
++- `/shape-slice` shapes the slice and writes only the link "slice serves business intent".
++- Build the plan play and the eval play.
++- `/build-epic`: its context sub-agent collects the context from the story's Context guidance into short-term memory and never reads a plan's evals folder.
++- `spine.yaml` and `slice.yaml`: the slice entry gains `intents`.
++- `.garura/user-provided/managing-work.md`: drop "a plan picks a slice".
++- #828 — encrypt the evals.
++- Decide where the handoff plan is kept and how it reaches the builder.
++- After acceptance: the forward pointers on ADR 048 and ADR 017, and close #816.
++
++## References
++
++- `.garura/project/issues/824/context/issue.md` — the brief
++- `.garura/project/issues/816/context/edit-ontology/decisions.json` — the product owner's answers for v9
++- `.garura/project/issues/826/context/edit-ontology/need.md` and `decisions.json` — the need and the answers for v10
++- `core/components/memory/standards/schemas/product-os/ontology.md` — v9 and v10 log lines; the Slice, Plan, Story and ICE kinds
++- `docs/philosophy/idd-principles.md` — "The Routing Table"
++- `core/components/memory/standards/rules/expectation-generation.md` — "A story's recovery (product ICE)"
+diff --git a/docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md b/docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+new file mode 100644
+index 000000000..4771d0239
+--- /dev/null
++++ b/docs/adr/053-shape-scope-and-shape-roadmap-are-dropped.md
+@@ -0,0 +1,82 @@
++# ADR 053 — /shape-scope and /shape-roadmap Are Dropped; the Shaping Loop Does Their Jobs
++
++**Status:** Accepted
++**Date:** 2026-10-24
++**Level:** framework
++**Decided by:** the product owner · **Decided in:** #837 (drop the old Shape plays), plan #788
++**Amends:** ADR 028 — "Loops run the plays; the plays stay as they are", the sentence "`/roadmap` belongs to the Shape loop: ordering the slices is part of slicing", and Open question 2 ("Does `/roadmap` fold into Shape?"): `/roadmap` (now `/shape-roadmap`) is dropped, and no play orders the slices · ADR 033 — Negative / Risks, "Three places approve outside the review step today", and Work This Creates item 6: the place "`/shape` sets capabilities `active`" goes with `/shape-scope`
++**Affects:** `core/components/plays/shape-scope/` and `core/components/plays/shape-roadmap/` (deleted); `core/components/skills/author-scope/` and `core/components/skills/author-roadmap/` (deleted); `core/components/agents/product-os-keeper.md` (the skill and routing rows of the two skills); `core/components/memory/standards/rules/pipeline-next.md`, `pipeline-position.md` and `rename-map.yaml`; the product-os schemas that name the plays (`spine.yaml`, `slice.yaml`, `product-os.yaml`, `product-profile.yaml`, `decision.yaml`, `ice.yaml`, `_index.md`, `lens/_index.md`, `grounding/feature.md`); the text of `core/components/plays/discover-capabilities/` (with `scripts/rollup_box.py`) and `core/components/plays/discover-domains/`; the skills `enrich-capability-ice`, `author-domains`, `find-work-placement`, `author-implementation-plan`, `author-verification-scenarios` and `author-ux-lens`; the text of the stale plays that name them (the seven `shape-*-lens` plays, with their `scripts/check_ready_slice.py`, and `learn-outcomes`); the tests `core/components/plays/create-loop/references/test_lint_loop.py`, `test_loop_scripts.py`, `core/tools/lint-components/test/naming.test.js` and `core/tools/naming/test_naming_tools.py`; `core/grounding/glossary.md`; `docs/components/agents.md`, `docs/components/skills.md`, `docs/philosophy/garura-reference-implementation.md` and `docs/standards/harness-standard.md`
++**ICE impact:** The ICE of `/shape-scope` and `/shape-roadmap` goes with the plays. No other play's constraints, failure conditions or scenarios change in meaning. `/discover-domains` and `/discover-capabilities` keep their limits (they do not prioritise, set a capability `active` or lock the profile); only the text that names `/shape-scope` as the owner of that work changes. The seven lens plays and `/learn-outcomes` name `/shape-scope` in their text and ICE; they are stale (#855), so only those words are removed now, and each gets a new ICE when it is rebuilt. The ICE of `/shape-slice` does not change.
++**Business intent check:** none — this drops two framework plays and two skills. The Business Intent kind does not change, and no page in `.garura/product/product-os/intents/` names either play.
++**Related:** ADR 028, ADR 033, ADR 048, ADR 049, ADR 051, #837, #855, plan #788
++
++## Context
++
++The product flow is rebuilt from the top down. It is now three discovery plays, then `/shape-slice`, then the plan play and the eval play (ADR 049). Two plays of the old Shape loop have no place in this flow:
++
++- `/shape-roadmap` put every slice into one build order. It wrote order, effort, depends_on and `status: planned` on each slice. Ontology v11 removed those fields from the slice. The plan does not pick, rank or test slices (ADR 049), and the plan is the work list (ADR 051). Nothing reads those fields now. Also, its persist script would write them onto the six-field slice entries that `/shape-slice` writes, and the slice check then fails.
++- `/shape-scope` worked on one domain. It picked the features to build, grouped them into slices behind a surface, and wrote persona and journey records. `/shape-slice` now picks the features and shapes the slice, from a business intent. Ontology v11 has no Persona kind and no Journey kind. Only the old lens plays read those records, and they are marked stale (#855). Also, its validate script fails on the slice records that `/shape-slice` writes (`slice.yaml` v2).
++
++So the two plays do no job in the current flow, and they damage the current model or fail on it. The rule in `CLAUDE.md` is: "A play that served only a flow that is gone is dropped, with an ADR."
++
++Two older ADRs name these plays. ADR 028 says ordering the slices belongs to the Shape loop. ADR 033 names "`/shape` sets capabilities `active`" as one of three places that approve outside the review step; `/shape` is the old name of `/shape-scope` (`rename-map.yaml`), so that place goes with it.
++
++## Decision
++
++### 1. Drop /shape-scope and /shape-roadmap
++
++The two plays are deleted: their `SKILL.md`, their ICE, their scripts and their stop conditions. Git keeps the history.
++
++### 2. Drop everything that only they use, and every reference to them
++
++The skills `author-scope` and `author-roadmap` are deleted. No sub-agent and no memory file is used by these two plays alone, so none is deleted; the persona and journey parts of the schemas stay, because the stale lens plays also read them. Every part that names the two plays or their skills is edited to remove the name: the `product-os-keeper` agent, the rules, the schemas, the skills, the plays (the stale ones too), the tests, the glossary and the docs. The older ADRs are history and are not edited, except for the forward pointer on each ADR this one amends. A reinstall removes both plays from a project that has them.
++
++### 3. The shaping loop does their jobs
++
++`/shape-slice` picks the features and shapes the slice, from a business intent. The plan holds the slices that serve its intent. No play orders the slices across the product.
++
++### 4. The other plays of the old chain stay, marked stale
++
++The seven design lens plays, `/build-epic`, `/validate-epic`, `/release-epic`, `/release-increment` and `/learn-outcomes` are not dropped. They are marked stale and rebuilt when their stage comes (#855). The persona and journey work returns with the lens rebuild.
++
++### 5. What this changes in older records
++
++- ADR 028: "`/roadmap` belongs to the Shape loop: ordering the slices is part of slicing" no longer holds, and nor does the answer to Open question 2. §2 "Shape" and the rest of the ADR stand.
++- ADR 033: the place "`/shape` sets capabilities `active`" goes from the risk "Three places approve outside the review step today" and from Work This Creates item 6. The other two places (`/intent` and `/adr` run by hand) stand.
++- ADR 029, ADR 045, ADR 048, ADR 049, ADR 051 and ADR 052 do not change. ADR 048 §5 already said the old slice fields leave the model with the play that uses them.
++
++## Consequences
++
++### Positive
++
++- The shaping flow has one way through: the discovery plays, then `/shape-slice`, then the plan play and the eval play.
++- No play writes order, effort, depends_on or `status: planned` onto the slice entries of `/shape-slice`, so the slice check does not fail on them.
++- No validate script fails on the slice records of `/shape-slice`.
++- The `product-os-keeper` agent has two fewer skills to route to.
++
++### Negative / Risks
++
++- Persona and journey records lose their only writer. They wait for the lens rebuild.
++- `/shape-scope` was the only play that set a capability `active` and set the product profile `locked` (`spine.yaml`, `product-profile.yaml`, `rollup_box.py`). After this decision no play does this. Which play does it, if one does, is not decided here.
++- The text that names the two plays must be removed in the same change. If not, a reader follows a link to a play that is gone.
++
++## Alternatives Considered
++
++- **Rebuild both plays for the shaping loop with `/create-play`** — lost: `/shape-slice` and the plan do their jobs, and the fields they write are gone. A rebuilt play would have no job.
++- **Mark both plays stale, like the lens plays** — lost: stale means "rebuild later", and these two will not be rebuilt.
++- **Keep `/shape-scope` for personas and journeys only** — lost: no current play reads them, and ontology v11 has no kind for them. The lens rebuild decides where they live.
++
++## Work This Creates
++
++- Delete the two plays and the two skills, and remove their names from the files under Affects (#837).
++- Decide which play, if one, sets a capability `active` and the product profile `locked`, now that `/shape-scope` is gone.
++- Decide where persona and journey records live, in the lens rebuild (#855).
++- After acceptance: the forward pointers on ADR 028 and ADR 033.
++
++## References
++
++- `.garura/project/issues/_adr/20261024T163114Z/brief.md` — the brief
++- `CLAUDE.md` — "A play that served only a flow that is gone is dropped, with an ADR"
++- `core/components/memory/standards/schemas/product-os/ontology.md` — v11: the slice has no order, effort, depends_on or status; no Persona or Journey kind
++- `core/components/memory/standards/schemas/product-os/slice.yaml` — v2, the six-field slice entry
++- `core/components/memory/standards/rules/rename-map.yaml` — `shape` → `shape-scope`, `roadmap` → `shape-roadmap`

@@ -1,0 +1,21 @@
+commits:
+  - sha: 4fba5837
+    message: "fix(naming): Move the past-record ADR cut-off from 046 to 048, because ADR 048 records the second rename and names the old names on purpose. (#807)"
+    files:
+      - core/tools/naming/check_old_names.py
+    branch: plan/788/807-rename-feature
+  - sha: 48b83adf
+    message: "chore(stm): Record the eval scope fixes with their reasons, the final eval run of 45 of 45, and the porcelain for the rename. (#807)"
+    files:
+      - .garura/project/issues/807/context/analysis.yaml
+      - .garura/project/issues/807/context/porcelain.txt
+      - .garura/project/issues/807/evidence/eval/allowed-hits.txt
+      - .garura/project/issues/807/evidence/eval/eval_807.py
+      - .garura/project/issues/807/evidence/eval/run-final.txt
+    branch: plan/788/807-rename-feature
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

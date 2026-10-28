@@ -1,0 +1,7 @@
+# check-change round 2 -- category: memory -- PR #834 (issue 813). Grounded on plan/788/base only.
+category: memory
+base: plan/788/base
+status: unchanged since round 1
+findings:
+  - {category: memory, severity: P4, path: core/components/memory/standards/rules/rename-map.yaml, basis: "round 1 (ADR 050 Risks)", message: "Six old-name entries removed; accepted in round 1.", status: accepted}
+  - {category: memory, severity: P4, path: core/components/skills/check-abstraction-layer/SKILL.md, basis: "round 1 / decision Q2", message: "Dead links in deprecated skills; deferred to its own issue.", status: "deferred: own issue"}

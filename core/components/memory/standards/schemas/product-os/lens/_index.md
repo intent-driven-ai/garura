@@ -2,7 +2,7 @@
 
 The seven faces of a **slice's** realization — one per realize lens:
 **quality · ux · agentic · marketing · architecture · measure · run**. These are
-realization, NOT intent — the intent is the ICE of the functionalities the slice
+realization, NOT intent — the intent is the ICE of the features the slice
 bundles. Six lenses carry a YAML schema in this directory; **marketing** is a
 grounding-doc-only lens (`lens/marketing.md`, written by the /shape-marketing-lens play from
 its grounding template — no YAML record). The /shape-measure-lens gate counts all seven lens
@@ -12,18 +12,18 @@ slice should be) and the **foundation trinity** (architecture, measure, run — 
 makes it real); foundation lenses read the trinity, the trinity reads only the hub;
 marketing closes the functional pipe after agentic.
 
-**The slice is the unit of realization (#434).** A slice (from `/shape-scope`) is a
+**The slice is the unit of realization (#434).** A slice (from the older chain) is a
 vertical product increment — the thing you actually deliver. You pick a slice and
 run ux → agentic → marketing (functional) and arch → quality → run (non-functional),
 then measure stamps it realized. The lenses are therefore stored ON the slice, not
 on a capability:
 
-    {domain}/slices/{slice-id}.yaml          # the slice record (shape/roadmap own it)
+    {domain}/slices/{slice-id}.yaml          # the slice record of the older chain
     {domain}/slices/{slice-id}/lens/{type}.yaml   # the slice's lenses (realize owns these)
     {domain}/slices/{slice-id}/decisions/*.yaml   # decisions a lens records
 
-A slice has no ICE of its own — its hub is the union of its functionalities' ICE
-(each `functionalities[].ice_ref`, which may span several capabilities) plus the
+A slice has no ICE of its own — its hub is the union of its features' ICE
+(each `features[].ice_ref`, which may span several capabilities) plus the
 product profile. PERMANENT.
 
 ## Shared envelope (every lens record)

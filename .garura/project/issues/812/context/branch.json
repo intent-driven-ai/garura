@@ -1,0 +1,8 @@
+{
+  "branch_name": "plan/788/812-skip-adr-by-number",
+  "base_sha": "4c0e657e94b2ed96e4882224ff67683275ed2db2",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/788/base",
+  "plan_branch_created": false
+}

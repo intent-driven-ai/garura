@@ -1,0 +1,15 @@
+ M .garura/project/issues/920/context/commit-change/porcelain.txt
+ M .garura/project/issues/920/context/memory/grounding-memory/manifest.json
+ M .garura/project/issues/920/context/templates/manifest-check-change.json
+ M .garura/user-provided/managing-work.md
+ M core/components/agents/change-reviewer.md
+ M core/components/agents/knowledge-builder.md
+ M core/components/loops/_shared/loop-run.md
+ M core/components/loops/complete-discovery/SKILL.md
+ M core/components/loops/complete-discovery/reference/ice.md
+ M core/components/memory/standards/rules/_index.md
+ M core/components/memory/standards/rules/pr.md
+D  core/components/memory/standards/rules/severity.md
+ M core/components/plays/create-loop/SKILL.md
+?? .garura/project/issues/920/context/memory/grounding-memory/standards/
+?? CLAUDE.md.new

@@ -9,9 +9,8 @@ Agents and skills query this category when they need to know: **"What does a val
 | Path | Description | Consumers |
 |------|-------------|-----------|
 | `intent.yaml` | Canonical intent.yaml contract — the 4 content fields (intent, constraints, failure_conditions, scenarios) plus the metadata zone (name, description, version, checksum). Produced by `intent-crafter`, consumed by `intent-resolver` and `/create-play`. | `intent-crafter`, `intent-resolver`, `create-play`, every play's `reference/intent.yaml` |
-| `intent-epic.yaml` | Canonical intent-epic contract — identity, WHAT/WHY, boundaries (in_scope/anti_goals/must_not_break), outcomes, constraints, business rules, validation, KB traceability, dependency graph, foundation flag, mock tracking. | `generate-intent-epics`, `validate-intent-epics` |
-| `screen-inventory.yaml` | Canonical screen-inventory contract — per-screen states, data fields, actions, accessibility posture, wireframe reference. | `generate-screen-inventory`, `validate-screen-coverage`, `compile-design-spec` |
 | `pr-findings.yaml` | Canonical schema for the `findings.yaml` artifact produced by `check-pr-quality`. Defines meta fields, findings array (standard_id, severity, file, line, evidence), counts, sort order, and rejection rules. | `check-pr-quality`, `review-pr`, `check-quality` |
+| `eval/steps-<kind>.yaml` | The step library of one surface kind for a slice's eval (#798): every sentence an eval step may use, each one exact action or check that a runner does with no agent. `eval/steps-command-line.yaml` is the first; a library for the browser, the mobile app and the backend endpoint is added when a slice first needs it. | `/shape-eval`, `author-slice-eval`, the eval runner (later) |
 
 ## ProductOS v1 schemas (`product-os/`)
 
@@ -19,11 +18,11 @@ The persistent data model for the ProductOS Command Model (#434) lives in the `p
 
 | Path | Defines | Lifecycle |
 |------|---------|-----------|
-| `product-os/product-os.yaml` | the Domain → Capability → Functionality tree, personas, journeys | permanent |
+| `product-os/product-os.yaml` | the Domain → Capability → Feature tree, personas, journeys | permanent |
 | `product-os/ice.yaml` | Intent / Context (persona, systems, scope) / Expectations on a node — the build unit | permanent |
 | `product-os/decision.yaml` | decision records (ADRs) at any level | permanent |
 | `product-os/capability-intent.yaml` | the 5 realize lenses (ux, architecture, delivery, quality, agentic) | permanent |
-| `product-os/epic.yaml` | a vertical slice of a functionality, the delivery/issue grain | temporary (deleted on merge) |
+| `product-os/epic.yaml` | a vertical slice of a feature, the delivery/issue grain | temporary (deleted on merge) |
 
 See `product-os/_index.md` for the full set and storage lifecycle.
 

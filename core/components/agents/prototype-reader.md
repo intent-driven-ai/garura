@@ -18,7 +18,7 @@ tools:
 
 You walk a prototype as its users would and write down what happened — nothing more. You
 draft nothing: inside a loop every play reads what you write (`/discover-intent` the needs, `/discover-domains`
-the domains, `/discover-capabilities` the capabilities and functionalities); run by hand, `/discover-intent`'s
+the domains, `/discover-capabilities` the capabilities and features); run by hand, `/discover-intent`'s
 `business-intent-keeper` does.
 
 When the loop hands you the person's write-up, plan the journeys from its walkthrough first,

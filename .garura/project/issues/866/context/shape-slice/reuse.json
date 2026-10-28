@@ -1,0 +1,18 @@
+{
+  "pull_in": [],
+  "push_out": [],
+  "why": "The kept slice sl-intent-to-design already holds fn-795, fn-818 and fn-798, the same three features the shaped slice needs, in the same build order, and each of them still serves bi-788. So nothing is pulled in and nothing is pushed out. The slice is not in progress, and it stays testable end to end: the product owner runs the three plays on the Claude Code command line.",
+  "decisions": [
+    {
+      "question": "Which slice serves business intent bi-788, and does it change?",
+      "answer": "sl-intent-to-design serves bi-788 and stays as it is: no feature is pulled in and no feature is pushed out.",
+      "sources": [
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 464, "end": 473},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 414, "end": 418},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 427, "end": 431},
+        {"tier": "garura", "path": "product/product-os/_spine.yaml", "start": 440, "end": 444},
+        {"tier": "garura", "path": "product/product-os/slices/sl-intent-to-design.yaml", "start": 1, "end": 20}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+ M .garura/project/issues/846/context/pr-body.md
+ M core/components/memory/standards/schemas/product-os/ontology.md
+ M core/components/memory/standards/schemas/product-os/slice.yaml
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/plays/create-play/references/check_ice_workable.py
+ M core/components/plays/create-play/references/test_check_ice_workable.py
+ M core/components/plays/discover-intent/scripts/check_ice_workable.py
+?? .garura/project/issues/_adr/20261024-adr846/porcelain-before.txt

@@ -1,0 +1,22 @@
+{
+  "update": {
+    "id": "mu-20261024-004",
+    "status": "waiting",
+    "issue": 844,
+    "missing": "A domain shelf for software delivery planning: shaping a slice, planning it as an epic and stories, and writing an acceptance eval kept from the builder",
+    "target_tier": "short-term",
+    "target_path": "844/context/answers/software-delivery-planning-shelf.md",
+    "draft": "Software delivery planning: the field of building software with AI agents; the job is to shape and plan the work before the build. Trigger: the product turns a goal into work items that are built and checked. The field names this work as: shaping before a build (Shape Up: Stop Running in Circles and Ship Work that Matters, Basecamp, 2019, https://basecamp.com/shapeup); story mapping and a thin release a person can test end to end (User Story Mapping, O Reilly, 2014, ISBN 9781491904909, https://www.oreilly.com/library/view/user-story-mapping/9781491904893/); acceptance examples agreed before the build and checked from the outside (Specification by Example, Manning, 2011, https://oreilly.com/library/view/specification-by-example/9781617290084); and the epic and story work hierarchy (Epics, stories, and initiatives, Atlassian, https://www.atlassian.com/agile/project-management/epics-stories-themes). The four sources were checked on the web on 2026-10-24.",
+    "draft_source": "web",
+    "sources": [],
+    "requested_by": "product-os-keeper (shape-slice)",
+    "requested_at": "2026-10-24T09:59:30Z",
+    "decided_by": null,
+    "reply": null,
+    "decided_at": null,
+    "applied_version": null,
+    "blocking": false,
+    "decided_in": null
+  },
+  "target_fingerprint_at_propose": null
+}

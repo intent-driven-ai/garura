@@ -3,6 +3,10 @@ name: find-architecture-learnings
 description: Search the empirical Knowledge Base for the best-fit architecture and technology learnings given a product's conditions. Use during context-building in the realize lenses (/shape-architecture-lens, /shape-run-lens, /shape-ux-lens, /shape-agentic-lens) when you need to know what worked before for a product in this situation — its stage, scale, persistence, and monetization. Reads the architecture/ and technology/ shelves (the condition-matched, "what works for us" engine), distinct from find-work-placement which routes work to a domain. Returns the learnings that fit, with recommendation, rationale, and provenance.
 version: 0.1.0
 user-invocable: false
+model: sonnet
+allowed-tools: Read, Glob, Grep
+stale: true
+stale_note: 'waits for the rebuild of the design plays (#855)'
 ---
 
 # find-architecture-learnings
@@ -16,7 +20,7 @@ memory.
 the Conditions and judge fit. The script does not rank for you; that is
 deliberate (the V1 engine; a server will rank later).
 
-## Inputs
+## Input
 
 A **condition profile** for the product you are building context for, read from
 its ProductOS — as many of these as you know:
@@ -27,7 +31,7 @@ its ProductOS — as many of these as you know:
 - `monetization`: none | lead-capture | paywall
 - plus any free-text intent ("quick demo for one teammate")
 
-## How to use
+## Process
 
 The script lives at `scripts/kb_search.py` (Python 3, no dependencies). Always pass
 `--kb-root <kb_root>`: the copy of the architecture and technology shelves your agent put in

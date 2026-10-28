@@ -8,7 +8,7 @@
 > **Two artifacts, one lens (#434).** This `run.md` is the NARRATIVE — the *why* behind the
 > operational choices, for a human to read. Beside it, `/shape-run-lens` also writes the structured
 > `lens/run.yaml` (per `standards/schemas/product-os/lens/run.yaml`) — the MACHINE-READABLE
-> facts the delivery plays execute against (`/release-feature` reads the local environment; `/release-increment`
+> facts the delivery plays execute against (`/release-epic` reads the local environment; `/release-increment`
 > reads a cloud environment). The narrative explains the choices; the yaml carries the exact
 > providers, regions, firewalls, secrets bindings, and deploy commands. Keep the two in step.
 >
@@ -31,7 +31,7 @@
 
 - **Environments** — one entry per environment defined so far, in tier order (local, then dev,
   then higher). For each: what it is for and why it is shaped this way. A **local** environment
-  is the lightweight bring-up `/release-feature` uses for human testing. A **cloud** environment carries
+  is the lightweight bring-up `/release-epic` uses for human testing. A **cloud** environment carries
   real infrastructure — provider and region, the compute each component runs on, managed
   services, networking and firewalls, and security (identity, secrets, controls); the exact
   values live in `run.yaml`, the narrative explains the choices. Higher cloud tiers (qa, stage,
@@ -50,7 +50,7 @@
 ## Environments
 Two environments defined so far, in tier order.
 
-**local (tier 0).** A developer laptop — the bring-up `/release-feature` uses for human testing. It runs
+**local (tier 0).** A developer laptop — the bring-up `/release-epic` uses for human testing. It runs
 the read API and the browser view against fixture files, started with one compose command. No
 cloud, no secrets; fixtures stand in for real sources.
 

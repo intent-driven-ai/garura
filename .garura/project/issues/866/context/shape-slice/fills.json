@@ -1,0 +1,15 @@
+{
+  "domains": [],
+  "capabilities": [],
+  "features": [],
+  "ices": [],
+  "updates": [],
+  "thin": [
+    "fn-795",
+    "cap-shape-slice",
+    "fn-818",
+    "cap-718",
+    "fn-798",
+    "cap-shape-eval"
+  ]
+}

@@ -5,9 +5,9 @@ edit-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-/discover-capabilities writes the product's **capabilities and functionalities**, each with its ICE
+/discover-capabilities writes the product's **capabilities and features**, each with its ICE
 (ADR 043: in Discovery each play writes one kind — /discover-intent the business intents, /discover-domains the
-domains, /discover-capabilities the capabilities and functionalities). Given a prototype's capture, it
+domains, /discover-capabilities the capabilities and features). Given a prototype's capture, it
 reads the capabilities off the screens itself — no other play's seed is needed — and writes
 each one; a capability whose domain is not known yet waits in the holding folder with its
 domain empty, kept and not ready until it is attributed. Given no capture, it takes the
@@ -21,8 +21,8 @@ it thinly from those answers: a spine entry, enough for the detailing to start, 
 `capability.md` is then written straight at the detailed stage. Never invented (#616 D1).
 /discover-capabilities is the **product-manager** step, the last detailing step: for each target,
 promote its `capability.md` from the directional stage to the detailed stage (benefit
-hypothesis, boundary, guiding rules, functionalities), **create its functionalities** (a
-spine entry plus a detailed `functionality.md` for each), and set the capability's own
+hypothesis, boundary, guiding rules, features), **create its features** (a
+spine entry plus a detailed `feature.md` for each), and set the capability's own
 concrete NFR + compliance needs. Then roll all the targets' needs up together into the
 product profile box, each measured against the box as it stood at the start of the run: on
 a still-directional box the roll-up establishes the box and firms it to `set`; on an
@@ -34,7 +34,7 @@ structural linter (shape) and the content-quality eval (a judge).
 
 Pipeline position: **both**. /discover-capabilities stands on its own (ADR 029 §4; #616 D2): run by hand, it needs no other play to have run first. Inside a loop (ADR 029 §2–3; #615) it is handed the loop's contract (`standards/rules/loop-contract.md`) and opens nothing: no `start-change`, no end sequence, no wait at its checkpoint — it works on the loop's branch, commits its model delta there, and keeps what its checkpoint would have shown, every box-move included, as review records for the loop's end review. Discovery runs it once for all the capabilities; the run leaves one review record per capability (ADR 029: "one `/discover-capabilities` record per capability"). The D2 rule prepends `start-change` — resolve or create the issue, cut the branch off fresh main, optional worktree, init STM — and, after the model delta is committed, appends the close sequence `commit-change → propose-change → check-change → merge-change`, landing the detailed capability on main. It writes the persistent product model directly, in place, on its own started branch — there is no draft copy and no apply/promote step; review is the branch git diff and the end PR. (#437, #498, ADR 026; position changed from none to both in #616.)
 
-Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `functionality.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the run's target capabilities so it cannot touch any other node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
+Write discipline (ADR 026, `standards/rules/direct-model-write.md`): the LLM enrichment skill writes ONLY the per-node docs (`capability.md`, `feature.md`) straight to the live model; every shared-file mutation (the spine `_spine.yaml`, `profile.yaml`, the box-move decisions) is done by the deterministic keyed persist script, in place, keyed to the run's target capabilities so it cannot touch any other node inside a shared file. The model tree is asserted clean at entry and the play commits its own model delta at close, so the working-tree diff vs HEAD is exactly this run's delta.
 
 Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os-keeper` (domain agent) re-routes each target with `find-work-placement` and details it with `enrich-capability-ice`, reading memory only through the memory tool. `template-manager` (utility agent) hands the play the approval prompt, each judged kind's grounding template and the shared close's templates, copied into the issue's short-term memory. Each content-quality judge is an isolated sub-agent running the `judge-grounding` skill, handed only its doc (and parent doc) and the kind's `## Per-section guidance` block, which the bundled `guidance_block.py` cuts from the template copy — the judge never sees the template's gold example (`standards/rules/grounding-eval.md`).
 
@@ -68,24 +68,31 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   in the contract, the play stops and asks the person before any model write — it never
   fills them in itself.
 - C2 — It promotes each target capability `directional → detailed` and CREATES its
-  functionalities (each a spine `functionalities` entry plus a detailed `functionality.md`).
-  This is the structure /discover-capabilities owns — capabilities and functionalities, the last
+  features (each a spine `features` entry plus a detailed `feature.md`).
+  This is the structure /discover-capabilities owns — capabilities and features, the last
   detailing step. It never writes a business intent or a domain (ADR 043), never touches a
   capability outside the run's targets, and never prioritizes (no slices, no
-  epics, no capability status flip — that is /shape-scope).
+  epics, no capability status flip — slices are /shape-slice's, and no play sets a
+  capability active now).
 - C3 — The detailed `capability.md` is complete to its template (benefit hypothesis,
-  boundary In/Out/Never, guiding rules, and a Functionalities index whose entries link to
-  real functionality ids), and every `functionality.md` is complete to its template (what
+  boundary In/Out/Never, guiding rules, and a Features index whose entries link to
+  real feature ids), and every `feature.md` is complete to its template (what
   it does, inputs/outputs, rules & behavior, acceptance criteria, out of scope). No
   required section is empty, and the spine and docs stay consistent (the linter passes).
 - C4 — Content quality: every grounding doc (the detailed capability and each
-  functionality) clears the content-quality eval, not just the linter — each section is
+  feature) clears the content-quality eval, not just the linter — each section is
   self-explaining at product-manager altitude and the doc passes the stranger test.
+  The eval settles (`standards/rules/grounding-eval.md`; Kapil, #884): a doc's pass is kept
+  while the doc, its parent doc, the guidance and the judge are unchanged, so it is not judged again; a
+  fix round checks each earlier failure and judges new points only on the text that changed;
+  a new point on unchanged text is a note — shown to the person at the checkpoint with its
+  doc — and never stops the run. The judge state lives in the issue's short-term memory, so a
+  later run on the same issue keeps the passes.
 - C5 — The capability's NFR needs are per-capability and concrete: each dimension it
   constrains carries a `level` (none<low<medium<high<xhigh), a measurable `target`, and a
   `gate` (how it is checked); `compliance_needs` are listed. No vague adjective.
 - C6 — Detail is grounded in the capability's KB shelf (personas, systems, NFR hints,
-  scope, functionality baseline) and, when a prototype's capture is given, in its screens
+  scope, feature baseline) and, when a prototype's capture is given, in its screens
   (C16) — it does not invent what the shelf already covers.
 - C7 — Profile roll-up is monotonic-up: each dimension's committed level becomes the
   greater of the current box and every target's required level; no dimension is ever
@@ -104,7 +111,7 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   loop — and appears as its own line in the review record when the checkpoint is
   deferred; the loop's review accepts or drops it (Kapil, #615).
 - C9 — Exactly one human checkpoint for the whole run, presenting each target's detailed
-  capability, its functionalities and its NFR needs, and the profile changes — every
+  capability, its features and its NFR needs, and the profile changes — every
   box-move as its own line item (capability, dimension, from→to, the decision it creates). The checkpoint is a
   **conditional gate** (#467; `gate-config.md` three gate kinds — /discover-capabilities is one of
   the eleven conditional document plays). Resolution order: pinned (n/a here) → the
@@ -129,16 +136,16 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   paths).
 - C10 — Non-destructive to the rest of the model, enforced by the post-write scoped guard:
   the run writes only the target capabilities (each doc + spine entry), their new
-  functionalities (docs + entries), the firmed profile, and the box-move decisions. After the
+  features (docs + entries), the firmed profile, and the box-move decisions. After the
   writes and before the checkpoint, the bundled `scoped_write_guard.py` diffs the model tree
   against HEAD and FAILS the run (reverting the offending paths) if any model path outside
-  that scope changed. No capability outside the targets, and no other functionality or
+  that scope changed. No capability outside the targets, and no other feature or
   domain, is changed; the monotonic-up
   roll-up guarantees no other capability's need is undercut. Node-level containment inside
   the shared spine/profile is kept by the keyed persist script (only it writes those files),
   not the guard.
 - C11 — The play ends by proving its Done means at close (gated, #464): the keyed persist
-  record exists (every target's detailed grounding, its functionality docs, and the profile
+  record exists (every target's detailed grounding, its feature docs, and the profile
   roll-up were written in place on the live model), the persist record stamps the roll-up as
   written, and the scoped-write guard report reads ok (the allowlist held). The play then
   commits its own model delta on the branch, and the injected end sequence (commit →
@@ -206,19 +213,19 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   still leaves no issue, no branch and no stray files. Resume finds the run through the
   branch's issue.
 
-- C16 — The screens decide the capabilities and the functionalities — the person's write-up, when
+- C16 — The screens decide the capabilities and the features — the person's write-up, when
   the capture carries it, says what on the screens is only sample data and how a person walks
   them (Kapil, 2026-10-20, after Kickoff run 7:
-  "you engineered a functionality called 'Build-from vs waiting split' — where on the
-  prototype is this functionality?"). Handed a prototype's capture, each capability is a
-  thing the product offers its user on its screens, and each functionality is
+  "you engineered a feature called 'Build-from vs waiting split' — where on the
+  prototype is this feature?"). Handed a prototype's capture, each capability is a
+  thing the product offers its user on its screens, and each feature is
   something a person does or sees on its screens, named in its users' words; one panel, count
-  or label is a part of the functionality that shows it, never a functionality of its own;
+  or label is a part of the feature that shows it, never a feature of its own;
   nothing the screens do not show and no shelf holds is written. Every page the run writes
   carries `## Sources`: each screen it is seen on with the exact words there. A behaviour the
   screens do not show is written as our default, marked as ours — never left as an open
   question; only a business rule an agent intent cannot be written without, and that nothing
-  shows or holds, is the loop's question (C13). A capability or functionality names the
+  shows or holds, is the loop's question (C13). A capability or feature names the
   business intents it serves when the model holds them; otherwise its `intents` stay empty
   and the loop's gap skills link them later (ADR 043).
 
@@ -231,7 +238,7 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   the spine↔doc consistency check.
 - F3 — A grounding doc fails the content-quality eval.
 - F4 — The capability was not promoted (its entry left `detail: directional`), or a
-  functionality was created without both a spine entry and a detailed `functionality.md`.
+  feature was created without both a spine entry and a detailed `feature.md`.
 - F5 — An NFR need is non-concrete (no level, no measurable target, or no gate), or NFR
   needs were written globally instead of on the capability.
 - F6 — A profile dimension was lowered, or the box was firmed to a state other than `set`
@@ -242,10 +249,11 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   a loop, a box-move decision was written `accepted` instead of `proposed`.
 - F8 — A box-move was persisted without its own decision record, or a decision omits the
   dimension or the from→to it represents.
-- F9 — Allowlist breach: a capability, functionality, or domain other than the targets (and
-  their new functionalities) was changed during the run.
+- F9 — Allowlist breach: a capability, feature, or domain other than the targets (and
+  their new features) was changed during the run.
 - F10 — Over-reach into prioritization: a slice or an epic was written, or a target
-  capability's status was flipped to active — that is /shape-scope's job.
+  capability's status was flipped to active — slices are /shape-slice's job, and no play
+  sets a capability active now.
 - F11 — The run closed COMPLETED without the Done means held (no persist record, the
   profile roll-up not stamped as written, the scoped-write guard report not captured or not
   ok, or the model delta not committed).
@@ -271,7 +279,7 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   answer, a status marker or a sub-play result under any other folder of the short-term root,
   or, run by hand, anything written to short-term memory before `start-change` gave the issue.
 
-- F18 — A functionality is one panel, count or label of a screen made into a function of its
+- F18 — A feature is one panel, count or label of a screen made into a function of its
   own, or something no screen shows and no shelf holds; a page the run wrote has no
   `## Sources`, or quotes words the prototype does not have; or a behaviour the screens do not
   show was left as an open question instead of a marked default.
@@ -280,12 +288,12 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
 
 ### Success scenarios
 
-- S1 — (product manager, detail + functionalities) Given directional capabilities, when
+- S1 — (product manager, detail + features) Given directional capabilities, when
   /discover-capabilities runs and the checkpoint is approved, then each is detailed (its
-  `capability.md` promoted, its spine entry `detail: detailed`) and its functionalities are
-  created (each a spine entry plus a detailed `functionality.md`), all conforming to their
+  `capability.md` promoted, its spine entry `detail: detailed`) and its features are
+  created (each a spine entry plus a detailed `feature.md`), all conforming to their
   templates and clearing the content-quality eval. Measure: every target entry is
-  `detail: detailed` and carries `nfr_needs`; each target has at least one functionality
+  `detail: detailed` and carries `nfr_needs`; each target has at least one feature
   entry with `capability` set to it and its doc present; the linter is clean; the content eval
   gate passes for every grounding doc; the run's change is landed on main by the injected
   end sequence (merge-change reports the PR merged); the stop-condition verdict reads held.
@@ -302,15 +310,17 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
   `accepted`; the profile's level on that dimension equals the highest need.
 - S4 — (product owner, non-destructive) Given several capabilities already detailed, when
   /discover-capabilities runs on more, then only the targets (each doc + entry), their new
-  functionalities, the profile, and the box-move decisions change — and no dimension of the
+  features, the profile, and the box-move decisions change — and no dimension of the
   box is lowered. Measure: a before/after diff of the spine shows changes only to the target
-  capabilities, their new functionalities, the profile, and decisions; every profile dimension
+  capabilities, their new features, the profile, and decisions; every profile dimension
   level is greater than or equal to its pre-run value.
 - S5 — (reviewer, the checkpoint) Given the detailed grounding and the profile changes are
   ready, when the checkpoint is presented, then it shows each detailed capability, its
-  functionalities, its NFR needs, and, for each box-move, an explicit line naming the
+  features, its NFR needs, and, for each box-move, an explicit line naming the
   capability, the dimension, the from→to levels, and the ADR it will create — rendered inline,
-  over the full written delta. Measure: each box-move appears as its own line item; no
+  over the full written delta — and each doc's content-eval notes beside its doc. Measure:
+  each box-move appears as its own line item; every note in the gate results appears with its
+  doc; no
   product-model change is COMMITTED before the approval, and on cancel the working tree
   returns byte-clean to HEAD (`git restore` + `git clean`) — or, on the auto-pass path (a
   policy-listed shape), the gate resolves with no wait and the recorded auto-pass, the
@@ -346,20 +356,27 @@ Agents and skills (ADR 039 §2, §7, §8): the play reads no memory. `product-os
 
 - S9 — (product manager, from a prototype) Given a prototype's capture and no capability in
   the model, when /discover-capabilities runs, then it writes each capability the screens show — under
-  its domain, or in the holding folder with its domain empty — and each functionality is
+  its domain, or in the holding folder with its domain empty — and each feature is
   something a person does or sees on the screens, every page says where it is seen, and nothing is left as an open question.
   Measure: `targets.json` lists a `found` target per capability in `found.yaml`, each with its
   scope (its domain's folder or `capabilities/<id>/`); `check_sources.py` over every target's
   manifest, with `--source-text`, exits 0;
-  the rebuild eval's review reads no functionality `invented` or `panel`.
+  the rebuild eval's review reads no feature `invented` or `panel`.
+- S10 — (product manager, a second run on the same issue) Given an earlier run on this issue
+  whose docs passed the content-quality eval, when /discover-capabilities runs again and a
+  doc, its parent, the guidance and the judge are unchanged, then no judge is dispatched for
+  that doc and its pass stands; and in a fix round, a new point the judge finds on text that
+  did not change is a note that does not stop the run (#884). Measure: `kept` reads exit 0
+  for each unchanged doc and no verdict file is written for it; a fix-round gate result with
+  such a point reads `ok: true` and holds it in `notes`; `notes.json` lists it beside its doc.
 
 ### Done means
 
 Paths are relative to the run's working root (`{stm_base}<issue>/context/understand/<run ts>/`, C15).
 `persist-manifest.json` is the record the keyed persist script writes before the checkpoint
 (its contract: `written`, `capability_refs`, `seeded`, `changed.{capabilities,
-functionalities_added, profile, decisions}`, `box_moves`) — every target's detailed
-grounding, its functionality docs, and the profile roll-up, all written in place on the
+features_added, profile, decisions}`, `box_moves`) — every target's detailed
+grounding, its feature docs, and the profile roll-up, all written in place on the
 live model; `guard-report.json` is the captured `scoped_write_guard.py` output — the play
 always writes it, and its `ok` field is the mechanical proof that no model path changed
 outside the targets' scope (the allowlist held). Node-level promotion, concrete needs,
@@ -367,7 +384,7 @@ monotonic-up box to `set`, and each box-move's accepted decision are stamped in 
 record.
 
 - D1 — says: "the persist record exists — every target's detailed grounding, its
-  functionality docs, and the roll-up were written in place on the live model"
+  feature docs, and the roll-up were written in place on the live model"
   check: { type: artifact_exists, path: "persist-manifest.json" }
 - D2 — says: "the profile roll-up was persisted — the persist record stamps the firmed box"
   check: { type: field_equals, file: "persist-manifest.json", field: "changed.profile", equals: true }
@@ -387,11 +404,12 @@ record.
   restore consistency before the checkpoint. handoff: autonomous.
 - REC3 (F3) — trigger: a grounding doc fails the content-quality eval. direction: rewrite
   the failing doc to the judge's cited fixes — raise each flagged section to a
-  self-explaining, product-manager-altitude statement — and re-judge until the gate passes.
-  handoff: autonomous.
-- REC4 (F4) — trigger: the capability stayed directional, or a functionality lacks its entry
+  self-explaining, product-manager-altitude statement — and re-judge it as a fix round (the
+  judge gets its earlier failures, and the gate keeps a new point on unchanged text as a note)
+  until the gate passes. handoff: autonomous.
+- REC4 (F4) — trigger: the capability stayed directional, or a feature lacks its entry
   or its doc. direction: complete the promotion (flip the entry to `detail: detailed`) and
-  emit the missing functionality entry or doc before the checkpoint. handoff: autonomous.
+  emit the missing feature entry or doc before the checkpoint. handoff: autonomous.
 - REC5 (F5) — trigger: an NFR need has no level/target/gate, or needs were written off the
   capability. direction: re-draft each need on the capability as a concrete level + target +
   gate. handoff: autonomous.
@@ -405,9 +423,9 @@ record.
 - REC8 (F8) — trigger: a box-move lacks its decision record, or a decision omits the
   dimension or from→to. direction: write (or complete) the product-level decision for each
   move with its dimension and from→to before persisting. handoff: autonomous.
-- REC9 (F9) — trigger: a capability, functionality, or domain other than the targets was
+- REC9 (F9) — trigger: a capability, feature, or domain other than the targets was
   changed. direction: restore the other artifact and re-run writing only the target
-  capabilities and their functionalities, after a human confirms the restore. handoff: human.
+  capabilities and their features, after a human confirms the restore. handoff: human.
 - REC10 (F10) — trigger: a slice, an epic, or a capability status flip was written.
   direction: strip the prioritization over-reach — remove the slice/epic, reset the status —
   leaving only /discover-capabilities's detailing scope. handoff: autonomous.
@@ -450,8 +468,8 @@ record.
   Step 0. handoff: autonomous.
 
 
-- REC18 (F18) — trigger: a panel made a functionality, a functionality no screen shows, a page
+- REC18 (F18) — trigger: a panel made a feature, a feature no screen shows, a page
   with no sources or a quote not on the prototype, or a question left open. direction: fold
-  the panel into the functionality that shows it; drop what nothing shows; write each page's
+  the panel into the feature that shows it; drop what nothing shows; write each page's
   sources with the screen's own words; replace the open question with our default, marked as
   ours. handoff: autonomous.

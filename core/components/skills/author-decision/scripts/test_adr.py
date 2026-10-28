@@ -164,6 +164,31 @@ def test_lint():
               code == 2 and any("node_ref" in p for p in out["problems"])
               and any("accepted_by" in p for p in out["problems"]))
         check("an unreadable file exits 3", run(["lint", "--adr", os.path.join(tmp, "nope.md")])[0] == 3)
+        point = ("\n## For the Person Who Accepts This\n\n### The cache page is out of date\n\n"
+                 "- **What and where:** the cache page, docs/cache.md\n"
+                 "- **What is wrong, or worth knowing:** it says ten minutes; the code says one hour\n"
+                 "- **Why it matters:** an operator tunes the wrong value\n"
+                 "- **What this decision does:** nothing — a later change fixes the page\n"
+                 "- **What you decide:** nothing\n")
+        with_point = GOOD_MD.replace("\n## Decision", point + "\n## Decision", 1)
+        code, out = run(["lint", "--adr", write(os.path.join(tmp, "005-p.md"), with_point)])
+        check("a Markdown ADR whose accepter points have their five parts is valid", code == 0)
+        short = with_point.replace("- **Why it matters:** an operator tunes the wrong value\n", "")
+        code, out = run(["lint", "--adr", write(os.path.join(tmp, "006-p.md"), short)])
+        check("an accepter point with a part missing is caught",
+              code == 2 and any("Why it matters" in p for p in out["problems"]))
+        ok = yaml.safe_load(yaml.safe_dump(GOOD_YAML))
+        ok["decision"]["for_the_accepter"] = [{k: "x" for k in ("point", "what_and_where", "detail",
+                                                                 "why_it_matters", "this_decision_does", "you_decide")}]
+        with open(y, "w") as fh:
+            yaml.safe_dump(ok, fh)
+        check("a YAML decision with a full accepter point is valid", run(["lint", "--adr", y])[0] == 0)
+        ok["decision"]["for_the_accepter"][0]["you_decide"] = ""
+        with open(y, "w") as fh:
+            yaml.safe_dump(ok, fh)
+        code, out = run(["lint", "--adr", y])
+        check("a YAML accepter point with a part missing is caught",
+              code == 2 and any("you_decide" in p for p in out["problems"]))
 
 
 def test_overlaps():

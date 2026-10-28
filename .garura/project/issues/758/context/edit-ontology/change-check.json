@@ -1,0 +1,26 @@
+{
+  "changed_kinds": [
+    "Business Intent",
+    "Capability",
+    "Functionality",
+    "ICE",
+    "Work"
+  ],
+  "allowed_kinds": [
+    "Business Intent",
+    "Capability",
+    "Functionality",
+    "ICE",
+    "Work"
+  ],
+  "out_of_scope": [],
+  "scope_ok": true,
+  "version_before": "5",
+  "version_after": "6",
+  "updated": "2026-10-22",
+  "date": "2026-10-22",
+  "new_log_lines": 1,
+  "version_ok": true,
+  "names_found": [],
+  "names_ok": true
+}

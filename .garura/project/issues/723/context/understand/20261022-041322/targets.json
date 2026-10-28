@@ -1,0 +1,15 @@
+{
+  "in_loop": false,
+  "targets": [
+    {
+      "id": "cap-723",
+      "state": "directional",
+      "seed": null,
+      "scope": "product-os/capabilities/cap-723/"
+    }
+  ],
+  "ask": [],
+  "refused": [],
+  "skipped": [],
+  "nothing_pending": false
+}

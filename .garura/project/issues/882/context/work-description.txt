@@ -1,0 +1,9 @@
+Record the initialize capability in the product model, with /discover-capabilities.
+
+The product owner asked to record #881 (initialize sets up the tracker's work-item types) under business intent #862 in both the tracker and the product model. The model had nothing for initialize. This run seeds the capability cap-initialize from the product owner's answers (one line, why, domain dom-software-delivery-planning), details it, and writes its features with their ICE, #881's feature among them.
+
+It runs in plan 788 because the domain it names lives only on plan/788/base today; it lands there and reaches main with plan 788.
+
+Done when: /discover-capabilities closes COMPLETED with its stop condition held; the spine holds cap-initialize under dom-software-delivery-planning at detail: detailed with its features; the change lands on plan/788/base through the change plays.
+
+Serves: #862 (#881). Part of: plan 788 (top level).

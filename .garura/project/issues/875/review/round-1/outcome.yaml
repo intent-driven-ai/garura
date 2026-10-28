@@ -1,0 +1,3 @@
+round: 1
+outcome: no decision typed; the product owner asked to fix the two P3 findings (MEM-1, MEM-2) in this PR as chore #892, then review again.
+reply: "fix mediums. tell me first what the fix will is" / "ok go for those together as chore"

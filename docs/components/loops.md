@@ -72,7 +72,7 @@ Older ADRs and past run records say "drive". Read it as "loop".
 
 | Loop | What it does | State |
 |------|--------------|-------|
-| **Discovery** | Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/discover-intent`), domains (`/discover-domains`), capabilities and functionalities (`/discover-capabilities`) | Built: `core/components/loops/complete-discovery/` |
+| **Discovery** | Takes a working prototype and its short write-up, and builds the product model from it: business intents (`/discover-intent`), domains (`/discover-domains`), capabilities and features (`/discover-capabilities`) | Built: `core/components/loops/complete-discovery/` |
 | **Slice** | Locks domains and capabilities, cuts the model into vertical slices, and designs the project once | To build (#608) |
 | **Execute** | Grill, implement, validate and launch | To build (#609) |
 | **Ship** | Lands every change the same way: start, commit, propose, review, merge | To build (#610) |
@@ -96,8 +96,9 @@ there.
    found and closed (`find-model-gaps`, `link-model-gaps`) and gives the work still missing to
    the play that does it. The next round runs only those plays.
 6. **Ask only what no one could answer.** A question one play cannot answer is the loop's, not
-   a stop. The knowledge member plays — `/search-knowledge`, `/research-knowledge`,
-   `/check-knowledge` — try first. The person gets a brief only on what is left: what the loop
+   a stop. The loop's knowledge step tries first: one agent, `knowledge-builder`, answers
+   from the source and memory, researches the rest and writes the brief (R5c, ADR 059). The
+   person gets a brief only on what is left: what the loop
    understood, what it built, and a few gaps, each with its proposed answer.
 7. **The checker.** A model or agent that did not run the loop judges the result against the
    loop's goal and Done means (`judge-loop-result`, through the `result-checker` agent).

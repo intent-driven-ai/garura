@@ -1,0 +1,37 @@
+ M .garura/project/issues/821/context/analysis.yaml
+ M .garura/project/issues/821/context/porcelain.txt
+ M .garura/project/issues/821/evidence/eval/eval-result.json
+ M .garura/project/issues/821/evidence/eval/eval_821.py
+ M AGENTS.md
+ M core/components/agents/epic-expectation-crafter.md
+ M core/components/agents/product-keeper.md
+ M core/components/memory/standards/rules/features.md
+ M core/components/memory/standards/schemas/intent-epic.yaml
+ M core/components/plays/create-play/SKILL.md
+ M core/components/plays/edit-ontology/SKILL.md
+ M core/components/plays/edit-ontology/reference/ice.md
+ M core/components/plays/fix-bug/SKILL.md
+ M core/components/plays/refactor-code/SKILL.md
+ M core/components/skills/check-architecture-spec/SKILL.md
+ M core/components/skills/derive-logical-architecture/SKILL.md
+ M core/components/skills/derive-physical-architecture/SKILL.md
+ M core/components/skills/derive-systems-inventory/SKILL.md
+ M core/components/skills/derive-tech-stack/SKILL.md
+ M core/components/skills/enrich-quality-profile/SKILL.md
+ M core/grounding/glossary.md
+ M core/tools/lint-components/index.js
+ M core/tools/lint-components/lib/rules/asking-a-person.js
+ M core/tools/lint-components/test/asking-a-person.test.js
+ M docs/components/plays.md
+ M docs/design/briefs.md
+ M docs/design/playbook-catalog.md
+ M docs/framework/intent-driven-recovery.md
+ M docs/framework/play-structure.md
+ M docs/philosophy/architecture.md
+ M docs/philosophy/garura-reference-implementation.md
+ M docs/philosophy/intent-driven-development.md
+ M docs/usage/plays/create-pr.md
+?? .garura/project/issues/821/evidence/eval/eval-hb2-before.json
+?? core/components/plays/create-play/references/lint_grounding.py
+?? core/tools/lint-components/lib/rules/shared-scripts.js
+?? core/tools/lint-components/test/shared-scripts.test.js

@@ -1,0 +1,40 @@
+{
+  "draft": ".garura/project/issues/_adr/20261022-124516/adr-draft.md",
+  "next_number": "047",
+  "lint": {
+    "valid": true,
+    "problems": [],
+    "exit": 0
+  },
+  "guard": {
+    "declared": "kind",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes",
+    "exit": 0,
+    "agrees_with_declared": true
+  },
+  "overlaps_judged": {
+    "amended": {
+      "031": "§1, §3, §4 — ICE parts only",
+      "043": "§1, §2, §3 — ICE parts only",
+      "033": "§4 only — the ICE's own approval and its part's no longer a condition of ready; the business intent's confirmation stays"
+    },
+    "superseded": [],
+    "not_affected": [
+      "026",
+      "027",
+      "029",
+      "032",
+      "039",
+      "041",
+      "042",
+      "044",
+      "045",
+      "046"
+    ]
+  },
+  "skill_retries": 0,
+  "revision": 2,
+  "decided_by_note": "Decided by filled with Kapil Viren Ahuja on the brief's instruction; the template leaves it empty while proposed, and the lint accepts it. The accept step should use the same name.",
+  "note_for_person": "ADR 033 §3 (agents work only on approved pieces) is not named in the amend line; the draft says it no longer applies to an ICE or its part as a condition of ready, as a reading of the §4 change."
+}

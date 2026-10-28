@@ -1,0 +1,9 @@
+decision: approve
+decided_by: human
+reply: "approve"
+scope: the five pieces no earlier review saw (review/scope.json, Story #915); the rest carried forward from 29 approved pull-request reviews
+blocking: []
+logged_not_fixed:
+  - QF-1 (P3) — managing-work.md, "How is a change checked?" point 2 says builders never read the issue's folder; ADR 049 section 4 has them read the context collected there. Fix: name the evidence/eval/ folder.
+  - QF-2 (P3) — managing-work.md line 12 names ontology v7; the ontology is at version 12.
+  - PF-1 (P4) — the plan file uses the kinds "capability" (#792) and "group" (the parked list's head), which no rule defines.

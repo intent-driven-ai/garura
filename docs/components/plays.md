@@ -21,7 +21,7 @@ Per ADR 017 (2026-04-14), play levels (L1/L2) and agent-count budgets are retire
 
 Plays still distinguish themselves along two axes:
 
-- **Invocability**: some plays are human-only (they stop at checkpoints waiting for Tether/Vanish); others can be model-invoked for automated sequencing.
+- **Invocability**: some plays are human-only (they stop at checkpoints waiting for a typed yes, change or stop); others can be model-invoked for automated sequencing.
 - **Chaining**: some plays chain other plays — the pipeline end sequence chains `commit-change` → `propose-change` → `check-change` → `merge-change` (injected per `standards/rules/pipeline-position.md`); most are standalone.
 
 Neither of these requires a level label.
@@ -38,11 +38,10 @@ in `core/components/loops/<loop>/`, are built by `/create-loop` and changed by
 checker, the end), as every play points to the shared close. The install lays loops as skills
 beside the plays.
 
-Every loop also runs three **knowledge member plays** inside its rounds (ADR 042):
-`/search-knowledge` answers open questions from the loop's sources and memory,
-`/research-knowledge` drafts knowledge pages and proposed answers for the rest, and
-`/check-knowledge` writes the brief the person reads — never a questionnaire. They reach memory
-only through the memory tool and run only inside a loop.
+Every loop also has a **knowledge step** inside its rounds (ADR 059): not a play, but one step
+of the shared run, where the `knowledge-builder` agent answers open questions from the loop's
+sources and memory, drafts knowledge pages and proposed answers for the rest, and writes the
+brief the person reads — never a questionnaire. Only the agent calls the memory tool.
 
 ## Two Play Patterns
 
@@ -288,17 +287,17 @@ If no checkpoint is found, the play halts with a message directing the user to s
 
 Task-driven plays declare a capability graph that defines the execution DAG. This is the static description of what the play will create when it builds the task graph.
 
-Example from `prepare`:
+An example, in the shape of the old `prepare` play (the agents named are today's):
 
 | # | Capability | Agent | Needs | Produces |
 |---|------------|-------|-------|----------|
-| 1 | Draft product spec (features.yaml) | feature-steward | feature intent | features.yaml |
+| 1 | Draft product spec (features.yaml) | product-os-keeper | feature intent | features.yaml |
 | 2 | Draft technical approach | tech-designer | features.yaml | technical-approach.md |
-| 3 | Draft low-level design | tech-architect | features.yaml, technical-approach.md | tech.yaml |
-| 4 | Draft verification scenarios | feature-steward | features.yaml | scenarios.yaml |
+| 3 | Draft low-level design | tech-designer | features.yaml, technical-approach.md | tech.yaml |
+| 4 | Draft verification scenarios | evals-engineer | features.yaml | scenarios.yaml |
 | — | CHECKPOINT: human review | orchestrator | features, tech, scenarios | approved_design |
 | 5 | Draft execution plan | tech-designer | features, tech, scenarios, approved design | plan.yaml |
-| 6 | Cross-validate all artifacts | feature-steward | features, tech, scenarios, plan | validation-result.yaml |
+| 6 | Cross-validate all artifacts | quality-auditor | features, tech, scenarios, plan | validation-result.yaml |
 
 **Capability graph vs. task graph:** The capability graph (6 capabilities + checkpoint) shows WHAT gets produced — the deliverables and their data dependencies. The task graph adds orchestrator-owned tasks that are not capabilities: the human review checkpoint task and the final report task. The two views are complementary: the capability graph is the design-time declaration; the task graph is the runtime execution plan created from it.
 
@@ -343,9 +342,7 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `adr` | Record a decision as an ADR from the one template — what it supersedes or amends, what it affects, its ICE impact, and a business-intent guard; accepted only on a person's word (proposed inside a loop); older ADRs gain only a forward pointer; the ADR index is rebuilt |
 | `intent` | Turn what a person shares — a prototype, a project folder, a site, a document or a statement — into their business intents and, under each, the ICE the source shows, written into the product model (under its domain when something shows it, else in the holding folder); the person confirms each intent; keeps the source as a snapshot and links all three |
 | `vision` | Turn business intents, a business goal, or both into the seed of the product model — or grow the model already there — domain grounding, directional capability grounding, spine entries; places capabilities waiting for a domain and links every part to its intents both ways; never waits for another play |
-| `understand` | Detail one capability that `/discover-domains` seeded — promote its grounding to detailed, create its functionalities |
-| `shape` | Select what to build in one domain and compose it into deliverable vertical slices |
-| `roadmap` | Order the shaped slices into a build sequence with dependencies and effort |
+| `understand` | Detail one capability that `/discover-domains` seeded — promote its grounding to detailed, create its features |
 | `quality` | Write a slice's quality lens grounding doc — checkable pass/fail gates |
 | `ux` | Write a slice's UX lens grounding doc — screens, states, visual core |
 | `agentic` | Write a slice's agentic lens grounding doc — the is-it-an-agent gate, load weights, controls |
@@ -354,7 +351,6 @@ Recovery reasoning is loaded from LTM: `docs/framework/intent-driven-recovery.md
 | `measure` | Write a slice's measure lens grounding doc — delivery-measurement claims (baseline / target / proof) |
 | `run` | Write a slice's run lens — narrative run.md plus machine-readable run.yaml environments |
 | `grill` | Cut one realized slice into user-testable delivery epics |
-| `next` | Recommend what to do next on the product from the model's current state |
 | `focus` | Show the tracked issues worth attention now — three fixed modes, capped list, kind + play per entry |
 | `implement` | Build one ready epic to done via a test-first plan with spec separation |
 | `validate` | Independently verify one built epic — the deep gate of the execute pipeline |

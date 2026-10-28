@@ -1,0 +1,67 @@
+commits:
+  - sha: 97c269f0
+    message: "chore(stm): record the /shape-slice 788 re-run files (#866)"
+    files:
+      - .garura/project/issues/866/context/analysis.yaml
+      - .garura/project/issues/866/context/citations.jsonl
+      - .garura/project/issues/866/context/grounding-questions.md
+      - .garura/project/issues/866/context/memory/core/memory/standards/rules/expectation-generation.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/analytics.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/collaboration.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/content-management.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/ecommerce.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/experience.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/marketing.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/notifications.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/payments.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/personalization.md
+      - .garura/project/issues/866/context/memory/knowledge/domains/user-management.md
+      - .garura/project/issues/866/context/memory/manifest.json
+      - .garura/project/issues/866/context/memory/standards/schemas/product-os/ontology.md
+      - .garura/project/issues/866/context/porcelain.txt
+      - .garura/project/issues/866/context/shape-slice/answers.json
+      - .garura/project/issues/866/context/shape-slice/approval.json
+      - .garura/project/issues/866/context/shape-slice/brief-split.json
+      - .garura/project/issues/866/context/shape-slice/brief.md
+      - .garura/project/issues/866/context/shape-slice/budget.json
+      - .garura/project/issues/866/context/shape-slice/citations-check.json
+      - .garura/project/issues/866/context/shape-slice/citations-live.json
+      - .garura/project/issues/866/context/shape-slice/citations.json
+      - .garura/project/issues/866/context/shape-slice/early-split.json
+      - .garura/project/issues/866/context/shape-slice/fills.json
+      - .garura/project/issues/866/context/shape-slice/gather.json
+      - .garura/project/issues/866/context/shape-slice/guard-report.json
+      - .garura/project/issues/866/context/shape-slice/hidden-file.json
+      - .garura/project/issues/866/context/shape-slice/hidden-write.json
+      - .garura/project/issues/866/context/shape-slice/intent-issue.json
+      - .garura/project/issues/866/context/shape-slice/intent-page.json
+      - .garura/project/issues/866/context/shape-slice/lint-before-run.json
+      - .garura/project/issues/866/context/shape-slice/opening.md
+      - .garura/project/issues/866/context/shape-slice/persist-fills.json
+      - .garura/project/issues/866/context/shape-slice/persist-slice.json
+      - .garura/project/issues/866/context/shape-slice/placement.json
+      - .garura/project/issues/866/context/shape-slice/proposals.json
+      - .garura/project/issues/866/context/shape-slice/questions-checked.json
+      - .garura/project/issues/866/context/shape-slice/questions-open-list.json
+      - .garura/project/issues/866/context/shape-slice/questions-open.json
+      - .garura/project/issues/866/context/shape-slice/questions.json
+      - .garura/project/issues/866/context/shape-slice/reply-1.md
+      - .garura/project/issues/866/context/shape-slice/reply-2-confirmation.md
+      - .garura/project/issues/866/context/shape-slice/reply.md
+      - .garura/project/issues/866/context/shape-slice/reuse.json
+      - .garura/project/issues/866/context/shape-slice/run-id.txt
+      - .garura/project/issues/866/context/shape-slice/serving.json
+      - .garura/project/issues/866/context/shape-slice/slice-check.json
+      - .garura/project/issues/866/context/shape-slice/slice.json
+      - .garura/project/issues/866/context/shape-slice/split.json
+      - .garura/project/issues/866/context/shape-slice/start-sha.txt
+      - .garura/project/issues/866/context/shape-slice/trace-check.json
+      - .garura/project/issues/866/context/templates/manifest-shape-slice.json
+      - .garura/project/issues/866/context/templates/standards/templates/approval-prompt.md
+    branch: plan/788/866-shape-slice-788-rerun
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

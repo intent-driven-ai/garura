@@ -1,0 +1,200 @@
+{
+ "task_id": "shape-slice-propose",
+ "stored_in": {
+  "tier": "short-term",
+  "path": "798/context/citations.jsonl"
+ },
+ "citations": [
+  {
+   "citation_id": "cite-20261026-002",
+   "group": "Q-builders-1",
+   "basis_kind": "model",
+   "sources": [
+    {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/shape-eval/capability.md",
+     "start": 4,
+     "end": 4,
+     "fingerprint": "sha256:cc6845f29cb9f3b1c50c6b4a22323314470f5d20b0bec7323fd8da213bc10d09"
+    },
+    {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+     "start": 4,
+     "end": 4,
+     "fingerprint": "sha256:e2ee291f90ccf3c89354da90015cf1f7868c5b1391201868ed80a3eac9446eb7"
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-003",
+   "group": "Q-proof-1",
+   "basis_kind": "person",
+   "sources": [
+    {
+     "tier": "short-term",
+     "path": "798/specs/design.md",
+     "start": 7,
+     "end": 10,
+     "fingerprint": "sha256:67276d84990702ee9e707b0af9f4ca80a2d75b31fb402f97e0f517231d9a3f18"
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-004",
+   "group": "Q-encrypt-1",
+   "basis_kind": "person",
+   "sources": [
+    {
+     "tier": "short-term",
+     "path": "798/specs/design.md",
+     "start": 7,
+     "end": 11,
+     "fingerprint": "sha256:733dd75da8cd46f15d6ad24a0389678fc2d5f80163a4f7dae307a9bc05b47646"
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-005",
+   "group": "slice-features",
+   "task_id": "shape-slice-shape",
+   "basis_kind": "model",
+   "question": "Which features does the slice hold?",
+   "sources": [
+    {
+     "tier": "garura",
+     "path": "product/product-os/_spine.yaml",
+     "start": 556,
+     "end": 565,
+     "fingerprint": "sha256:0ea3c68ccb38675e601173f5a27bf2f81f11ad39bf2d12122448c9d9d119e308"
+    },
+    {
+     "tier": "short-term",
+     "path": "798/specs/design.md",
+     "start": 16,
+     "end": 18,
+     "fingerprint": "sha256:dfde5ebcbe51177a29b7ba060cee9ce4c05de4370cbbb02d41fcba6d6c6229ec"
+    },
+    {
+     "tier": "short-term",
+     "path": "798/context/shape-slice/feature-issue-898.json",
+     "start": 1,
+     "end": 18,
+     "fingerprint": "sha256:0c81beaf99f6294dd3616a847cd48cf34b6c49ff1df9793875cd5dbc57a071bb"
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-006",
+   "group": "slice-order",
+   "task_id": "shape-slice-shape",
+   "basis_kind": "model",
+   "question": "In which order are the features built?",
+   "sources": [
+    {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+     "start": 4,
+     "end": 4,
+     "fingerprint": "sha256:994885950cc86d2453e28af308067e90cd83ed82d1ef9626e2a157812c7b8819"
+    },
+    {
+     "tier": "garura",
+     "path": "product/product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+     "start": 4,
+     "end": 4,
+     "fingerprint": "sha256:040588fb1725bd4ef117100580e5eac7418407a4c3f641d07e9f729fa24aa5ac"
+    },
+    {
+     "tier": "short-term",
+     "path": "798/specs/design.md",
+     "start": 22,
+     "end": 23,
+     "fingerprint": "sha256:f52dce5529cadbb199f4da8c79ecddf7a323312035ac9952c07deb5868d4e36a"
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-007",
+   "group": "slice-surface",
+   "task_id": "shape-slice-shape",
+   "basis_kind": "model",
+   "question": "Which surface does the tester use?",
+   "sources": [
+    {
+     "tier": "garura",
+     "path": "product/product-os/slices/sl-intent-to-design.yaml",
+     "start": 15,
+     "end": 20,
+     "fingerprint": "sha256:4a2bf683f15724c3a5fd145970358fdd638197e1df4e8c2c04441040277a4130"
+    },
+    {
+     "tier": "garura",
+     "path": "product/product-os/intents/bi-788.md",
+     "start": 3,
+     "end": 3,
+     "fingerprint": "sha256:2b57e7172fd80751ff52a570a3403dd241d0428ad66919276ada03cc1b2819ab"
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-008",
+   "group": "slice-tester",
+   "task_id": "shape-slice-shape",
+   "basis_kind": "model",
+   "question": "Who tests the slice?",
+   "sources": [
+    {
+     "tier": "garura",
+     "path": "product/product-os/intents/bi-788.md",
+     "start": 7,
+     "end": 7,
+     "fingerprint": "sha256:de0d088eb3f5a54585f8dad0c95013110386f9f7a1d62b20f80df4d6a142a20b"
+    },
+    {
+     "tier": "garura",
+     "path": "product/product-os/slices/sl-intent-to-design.yaml",
+     "start": 18,
+     "end": 18,
+     "fingerprint": "sha256:3d969030c31daee3dcfff40b9e7df245f6f7fbbfa1285f1acf0886cf77238ddf"
+    }
+   ]
+  },
+  {
+   "citation_id": "cite-20261026-009",
+   "group": "slice-reuse",
+   "task_id": "shape-slice-reuse",
+   "basis_kind": "model",
+   "question": "Which slice serves this business intent, and does it change?",
+   "sources": [
+    {
+     "tier": "garura",
+     "path": "product/product-os/_spine.yaml",
+     "start": 556,
+     "end": 565,
+     "fingerprint": "sha256:0ea3c68ccb38675e601173f5a27bf2f81f11ad39bf2d12122448c9d9d119e308"
+    },
+    {
+     "tier": "short-term",
+     "path": "798/context/shape-slice/serving.json",
+     "start": 3,
+     "end": 3,
+     "fingerprint": "sha256:b09c15604a608807eda5bac746b47ed1020d856921e45c8b36daed6d365ab6e5"
+    },
+    {
+     "tier": "short-term",
+     "path": "798/context/shape-slice/serving.json",
+     "start": 8,
+     "end": 8,
+     "fingerprint": "sha256:fbf264c6101df4da7f6b7825b78a7617a59f3586fd7ff9c1c8c19007600f70c5"
+    }
+   ]
+  }
+ ],
+ "not_cited": [
+  {
+   "group": "Q-flag-1",
+   "why": "no proposed answer: no model page, memory line or earlier answer names where the product owner sees the flag"
+  }
+ ]
+}

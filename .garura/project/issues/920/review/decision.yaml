@@ -1,0 +1,12 @@
+decision: approve
+decided_by: human
+reply: "1 is a chaneg in adr play. this is not a minor thing and is not a defect. is a change / 2 its a missing test - p3 / 3 this is a p2.. if memory is wrong its a major problem / 4 this is a changein installer - so a feature inside that / 5 why do we want to check the evidence files? thse are not outputs - these are agenic work products. anything in .garura should not go under self-review or pr-review. if its happening for others, we need to fix this. this is a change. record as a feature. / 1, 3, 4, and 5 are features and non-blocking / 2 is minor - record as a chore that we can do later / approve and merge and record stories. dont worry about model changes"
+round: 3
+blocking: []
+recorded_after_merge:
+  - "1 (change): /record-decision checks the points for the person who accepts — a Story"
+  - "2 (P3): the naming tools' tests cover a name removed with no successor — a Chore, later"
+  - "3 (P2, recorded as a feature): two index rows describe the rename map and the decision record as they were — a Story"
+  - "4 (change): the installer removes old parts in a project installed before the install record — a Story"
+  - "5 (change): self-review and the PR review leave out .garura/ work products, for every project — a Story"
+not_fixed: one over-long line in core/components/plays/create-loop/SKILL.md (P4); merged as approved

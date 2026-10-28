@@ -3,6 +3,8 @@ name: refactor-code
 position: both
 description: 'Improve the internal quality of a named code target — structure, duplication, naming, complexity — without changing its external behavior or the product model, proving behavior is preserved before it lands. Pins current behavior first (characterization tests where coverage is thin), presents a refactor plan at a single human checkpoint, then refactors and verifies independently that the model is untouched, tests are green before and after, and no test was weakened. The /refactor-code command in the ProductOS command model. Use when code needs to get better on the inside without changing what it does.'
 user-invocable: true
+stale: true
+stale_note: 'waits for a rebuild on test skills that are not stale (#855)'
 ---
 
 # refactor
@@ -198,7 +200,7 @@ weakened or deleted.
   — green before AND after, no test weakened); a broken pin at either point is a HARD HALT, never
   gated (REC8), and the refactor must not land. If the baseline is not green, do NOT proceed — apply
   REC3/REC8: pin the behavior first.
-- **on** — present the plan inline and wait for the typed Tether/Vanish; the agent never skips it on
+- **on** — present the plan inline and wait for the typed yes/stop; the agent never skips it on
   its own judgment.
 
 Present the plan inline (rendered whether the gate is on for the human, or recorded alongside the
@@ -220,11 +222,11 @@ config-skip row when off):
 {the behavior contract + the tests/characterization suite that pins it; coverage assessment}
 
 ---
-Type **Tether** to approve and proceed, or **Vanish** to reject.
+Reply **yes** to approve and proceed, or **stop** to reject.
 ```
 
-- `Tether` → proceed to Step 6.
-- `Vanish` → halt; write rejection evidence; no implementation occurs.
+- `yes` → proceed to Step 6.
+- `stop` → halt; write rejection evidence; no implementation occurs.
 - else → clarify.
 
 **SE-3 (F6/C6):** no implementation report
@@ -241,7 +243,7 @@ replaced the human approval was not met.
 
 ### Phase: Implement & Verify (retry loop, cap 2)
 
-**Step 6 — Implement Refactor** · Owner: `code-builder` · Depends on: Step 5 (Tether only)
+**Step 6 — Implement Refactor** · Owner: `code-builder` · Depends on: Step 5 (yes only)
 First snapshot the product model so Step 7 can prove it untouched:
 
 ```
@@ -310,7 +312,7 @@ reads held before the run may close COMPLETED; preservation asserted only in pro
 Retry semantics: all guards PASS → proceed to the end sequence. A guard FAIL with retries remaining
 → re-run Step 6 → Step 7. On exhaustion (cap 2) → re-invoke `tech-designer` to revise the plan, then
 resume; it does not halt blindly. A behavior-change fail (SE-6) that is actually wanted is not a
-refactor — apply REC2 (route to /fix or /build-feature).
+refactor — apply REC2 (route to /fix or /build-epic).
 
 ### Phase: End sequence (injected — D2 position: both)
 
@@ -362,7 +364,7 @@ verdict) — merge the PR, switch to main and pull, delete the feature branch (l
 ### Phase: Evidence & Close
 
 Closes with the **Standard Play Close** — the canonical three-table delivery report, not prose. See
-`core/components/plays/_shared/play-close.md`.
+`../_shared/play-close.md`.
 
 ```bash
 # --- Standard Play Close (shared; see ../_shared/play-close.md) ---
@@ -402,7 +404,7 @@ filled) and write to `$evidence_dest`. Do NOT hand-author the body. Then dispatc
 the listed evidence files with message `chore(stm): record refactor evidence for #{issue}`
 (non-blocking — a commit failure logs a warning, never halts).
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output it:
 `## refactor Delivered — #{issue}`, the Run Summary table, the Pipeline Steps table from the task DAG
 (T1–T13, including the injected start/end members), the Artifacts Produced table, Next Steps (only
 real follow-ons), and a pointer to `$evidence_dest`. Always emitted; never gated. When this play
@@ -431,11 +433,11 @@ below cover this play's refactor core.
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | a product-model file was added, removed, or changed | revert the product-model write and restore product-os to the pre-refactor snapshot; a refactor changes code only | autonomous |
-| F2 | external behavior changed — an API, input→output, or side effect differs | revert the behavior-changing edit; if the change is actually wanted it is not a refactor — route it to /fix or /build-feature | human |
+| F2 | external behavior changed — an API, input→output, or side effect differs | revert the behavior-changing edit; if the change is actually wanted it is not a refactor — route it to /fix or /build-epic | human |
 | F3 | a test was weakened/deleted, or behavior is unproven (baseline or post not green) | restore the test to its prior strength and re-run; where coverage was thin, capture characterization tests first and prove green before and after | autonomous |
 | F4 | a modified file lies outside the declared target with no justification | restrict the change to the target, or record the deviation justification, before the close | autonomous |
 | F5 | the change is cosmetic churn with no real quality gain | re-scope the refactor to a concrete quality issue named against the standards, or drop it | human |
-| F6 | a code change was made with no completed checkpoint preceding it | hold for the single human Tether/Vanish before any implementation step runs; revert any premature edit | human |
+| F6 | a code change was made with no completed checkpoint preceding it | hold for the single human yes/stop before any implementation step runs; revert any premature edit | human |
 | F7 | the run is about to close COMPLETED with the Done means unmet (a missing plan or baseline artifact, or preservation asserted in prose with no machine record) | produce the missing artifact — re-run the behavior guard with `--out` so `preservation.yaml` carries the machine fields — then re-evaluate the stop condition; the close stays HALTED until the verdict reads held | autonomous |
 | F8 | with the plan-approval gate off, a refactor proceeded or landed without the behavior-pin holding (behavior suite not green both before and after, or a test weakened/deleted) | restore the behavior-pin — re-capture or repair the characterization suite to green on the pre-refactor code and restore any weakened test to its prior strength — re-run the behavior guard, and do not land until green before AND after | human |
 
@@ -455,7 +457,7 @@ are themselves resumable and never duplicate an issue, branch, PR, or merge on a
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c1bd9e2a02a00cc32dac7fc01430940b5b6687db458b4def63d2a383cf341fe8 (of `reference/ice.md`) |
+| fingerprint | sha256:3d9a6dcb814d178f0a025b4f4697d21550de74ec1a2b7f6d5aa850d387f016a2 (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch B; #467 Batch D — Step 5 gate off + C6 gate-resolution/behavior-pin + F8/REC8/SE-10) |
 | pipeline_position | both (start-change head; commit-change → propose-change → check-change → merge-change tail) |
 | workflow_structure | A (single checkpoint — gate off under #467 Batch D, the human plan-approval replaced by the behavior-pin machine wall, C3/C6; with retry loop around implement + verify, cap 2) |

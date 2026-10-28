@@ -1,0 +1,4 @@
+all lint-components, play and skill tests run (failures listed above)
+  "hits": 0,
+lint-components     "errors": 135,
+All checks passed!

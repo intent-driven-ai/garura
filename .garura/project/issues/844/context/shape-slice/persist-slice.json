@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "action": "created",
+  "id": "sl-intent-to-design",
+  "reused": false,
+  "added_intents": [
+    "bi-788"
+  ],
+  "record": "slices/sl-intent-to-design.yaml",
+  "record_written": true,
+  "differences": [],
+  "dropped_fields": [],
+  "upgraded_to_v2": []
+}

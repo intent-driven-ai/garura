@@ -1,0 +1,11 @@
+{
+  "doc": ".garura/product/product-os/capabilities/cap-723/capability.md",
+  "kind": "capability",
+  "criteria": [
+    {"id": "completeness", "verdict": "pass", "evidence": "All detailed-stage headings are present and in order (Benefit hypothesis; Boundary (In / Out / Never); Guiding rules; Functionalities), plus Agent intent (ICE) with Goal, Limit, Fails if, Context, Checked by and Quality need lines. Each section has real content, e.g. \"Ready: it serves a confirmed business intent, and everything it needs is done.\"", "fix": ""},
+    {"id": "self_explanation", "verdict": "fail", "evidence": "\"In: the check that each link points at a part that exists.\" and \"In: search by domain. A person picks a domain and sees its capabilities and business intents.\" Unlike the other boundary lines (e.g. \"Every play reads them from there, so all plays agree.\"), these two say what is owned but not why.", "fix": "Add the reason to each line. For example: \"In: the check that each link points at a part that exists, because the ready check reads those links and a link to nothing would give a wrong answer.\" and \"In: search by domain ... because domains no longer gate work, so finding things is the only job a domain still has.\""},
+    {"id": "discreteness_form", "verdict": "pass", "evidence": "Every section is a list of separate bullets, e.g. \"Never: stop a write. A rule can stop work, but the page is always kept, so no work that a play found is lost.\" Functionalities are one linked line each, e.g. \"Ready without a domain (fn-724): the ready check gives its answer without the domain.\" None of them is written as a user story.", "fix": ""},
+    {"id": "depth_gradient", "verdict": "na", "evidence": "No parent doc was supplied.", "fix": ""},
+    {"id": "stranger_test", "verdict": "pass", "evidence": "What: \"work can start before the model is complete, if the model links its parts by these rules\" plus the three ready-check answers. Why: work need not wait for a full model. Edges: \"Out: making, showing or changing a plan. The plan capabilities own this (Build a plan, View plans, Manage a plan).\" and \"Never: change how model pages are saved.\" A cold reader can explain the node. One small gap: the term \"spine\" in the ICE goal is never explained.", "fix": ""}
+  ]
+}

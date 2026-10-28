@@ -23,10 +23,13 @@ import os
 import subprocess
 import sys
 
+import yaml
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import model_names  # noqa: E402  (stamped beside this script)
 from lint_grounding import ICE_SECTION, parse_sections  # noqa: E402
 
-DOCS = ("domain.md", "capability.md", "functionality.md")
+DOCS = ("domain.md", "capability.md", "feature.md")
 HOLDING = "capabilities/"
 
 
@@ -68,6 +71,11 @@ def main(argv=None):
         sys.stderr.write("check_kept.py: not a git repo\n")
         return 2
     root = top.strip()
+    spine = os.path.join(args.product_base, "product-os", "_spine.yaml")
+    if os.path.isfile(spine):  # a model with the old names would match no page here: stop on it
+        with open(spine, encoding="utf-8") as fh:
+            model_names.check_spine(yaml.safe_load(fh) or {}, spine)
+    model_names.check_pages(os.path.join(args.product_base, "product-os"))  # old page names too
     tree = os.path.relpath(os.path.realpath(os.path.join(args.product_base, "product-os")),
                            os.path.realpath(root)).replace(os.sep, "/")
     rc, diff = git(root, "diff", "--name-status", "--no-renames", args.base_ref, "--", tree)

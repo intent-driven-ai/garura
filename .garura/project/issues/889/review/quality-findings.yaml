@@ -1,0 +1,175 @@
+# quality-findings.yaml - /check-change Step 3, Layer 1 standards linter, PR #918, issue 889, review round 2
+# Scope: executable-code, tests, and the SEC rows for issue-run-records.
+# Severity from the PR taxonomy copy .garura/project/issues/889/context/memory/standards/rules/pr.md
+status: completed
+round: 2
+categories: [executable-code, tests, issue-run-records]
+taxonomy_path: .garura/project/issues/889/context/memory/standards/rules/pr.md
+
+tools:
+  check_pr_quality:
+    script: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+    diff: .garura/project/issues/889/review/pr.diff
+    changed_paths_count: 53
+    exit_code: 0
+    rule_errors: 0
+    scan_coverage: 1.0
+    counts: {P1: 0, P2: 0, P3: 0, P4: 0}
+    catchall_CODE-20: 15
+    note: >
+      Zero findings is a property of the taxonomy, not proof the code is clean. Every path under
+      core/components/** is garura-prose, so the grep rules (SEC, BE, CODE, TEST-01) are not eligible on the
+      11 changed .py files; every path under .garura/project/** is stm-evidence and gets no finding by the
+      taxonomy. The by-hand findings below stand in for that gap.
+  ruff:
+    version: "0.15.20"
+    command: "ruff check --no-cache <the 12 changed .py files>"
+    result: "All checks passed (0 findings)"
+    note: "12 changed .py files checked (round 1 had 11; the create-play fetcher test is the new one)."
+  python_files_checked:
+    - core/components/plays/check-change/scripts/fetch_pr_context.py
+    - core/components/plays/check-change/scripts/platform_adapter.py
+    - core/components/plays/check-change/scripts/test_fetch_pr_context.py
+    - core/components/plays/create-play/references/fetch_pr_context.py
+    - core/components/plays/create-play/references/platform_adapter.py
+    - core/components/plays/create-play/references/test_fetch_pr_context.py
+    - core/components/plays/create-play/references/test_platform_adapter.py
+    - core/components/plays/merge-change/scripts/platform_adapter.py
+    - core/components/plays/propose-change/scripts/platform_adapter.py
+    - core/components/plays/shape-eval/scripts/platform_adapter.py
+    - core/components/plays/shape-plan/scripts/platform_adapter.py
+    - core/components/plays/shape-slice/scripts/platform_adapter.py
+
+test_runs:
+  - file: core/components/plays/check-change/scripts/test_fetch_pr_context.py
+    result: "17 passed, 0 failed"
+  - file: core/components/plays/create-play/references/test_platform_adapter.py
+    result: "53 passed, 0 failed"
+  - file: core/components/plays/create-play/references/test_fetch_pr_context.py
+    result: "17 passed, 0 failed"
+
+copies_agree:
+  platform_adapter_7_copies: "one md5 (47c9c5e82338b0e73456e5d9fc363604) in all 7 plays"
+  fetch_pr_context_2_copies: "one md5 (1caf4a665a95e1468a5b1df523e27c4a) in both places"
+  note: "The two test_fetch_pr_context.py files are different files by design (different tests); only the create-play one has a test of the create-play fetcher copy."
+
+round_1_fixes:
+  - id: Q-001
+    result: fixed_in_part
+    evidence: >
+      core/components/plays/create-play/references/test_fetch_pr_context.py:125-173 now has test_compare_fallbacks
+      (compare used, dropped call tried again, three drops fall back to pr-files, 404 stops at once), called from
+      __main__ at line 181, 17 of 17 pass. Mutation check on a scratch copy: removing the early stop in
+      read_compare makes this suite fail (IndexError), so drift in the retry and stop logic is caught.
+      Still absent from this file: the fork rule, exit 2 (host without compare), the no-head skip, and the exit-3
+      count check on the compare diff. A scratch copy with the fork rule removed from the create-play fetcher
+      still passes 17 of 17. See Q-008.
+  - id: Q-002
+    result: fixed
+    evidence: >
+      fetch_pr_context.py (both copies, identical) lines 99-125: COMPARE_TRIES = 3, COMPARE_PAUSE = 5 seconds, so the
+      wait is at most 2 x 5 = 10 seconds in all (the sleep runs before tries 2 and 3 only, line 120-121). The loop
+      breaks at once on exit 0, on exit 2, or on a stderr matching HTTP 404 or 422 (line 123). Both fetcher tests set
+      COMPARE_PAUSE = 0 (check-change test line 44, create-play test line 127), so the suite stays fast. Tests pin the
+      three-drop fallback, the recovery on try 3, the 404 stop and the exit 2 stop (the exit 2 case is in the
+      check-change test only).
+  - id: Q-003
+    result: fixed_in_part
+    evidence: >
+      The adapter's view-pr now asks for isCrossRepository and headRepositoryOwner (platform_adapter.py:109-112, same
+      in all 7 copies); read live against this PR: isCrossRepository false, owner intent-driven-ai.
+      compare_head (fetch_pr_context.py:106-112, both copies) returns owner:branch for a fork and the plain branch
+      otherwise. The check-change test pins both (fork gives someone:fix-x; same repository gives the branch only);
+      a scratch copy with the fork rule removed fails that test. The exit-3 count check still runs on the compare
+      diff (fetch_pr_context.py:209-216; test "the compare diff still has to match the host's count"). Hole left:
+      a fork PR whose owner is missing falls back to the plain branch name, the original defect. See Q-009.
+
+by_hand_checks:
+  - check: "compare-diff call is read-only and well formed"
+    result: pass
+    evidence: "platform_adapter.py:121-125 builds gh api repos/{owner}/{name}/compare/{base}...{head} with the diff Accept header: a GET; argv is a list, no shell."
+  - check: "retry loop, pause, early stop, fallback to pr-files"
+    result: pass
+    evidence: "fetch_pr_context.py:115-125 and 194-204. Pause bounded at 5 seconds, 2 pauses at most. No head gives no call and goes to pr-files (test pins it)."
+  - check: "exit-3 count check runs on the compare diff"
+    result: pass
+    evidence: "fetch_pr_context.py:208-216 runs after the diff source is chosen; check-change test pins exit 3 with no context written."
+  - check: "adapter copies byte-identical, fetcher copies byte-identical"
+    result: pass
+    evidence: "md5 equal across the 7 adapter copies and the 2 fetcher copies (see copies_agree)."
+  - check: "no stray debug output, no secrets, bounded sleep"
+    result: pass
+    evidence: "No print or debug call added to the fetcher or adapter; one time.sleep, bounded by COMPARE_PAUSE."
+  - check: "issue-run-records: no secrets, home-folder paths, temp paths, personal or client names, Claude attribution in added lines"
+    result: pass
+    evidence: >
+      Searched the added lines of pr.diff for home-folder and temp-folder paths, attribution lines,
+      personal and company names, and key and token patterns: 19 hits, all prose
+      that describes a check (for example '[PASS] No secrets') or taxonomy rows; none is a value.
+
+findings:
+  - id: Q-008
+    category: tests
+    file: core/components/plays/create-play/references/test_fetch_pr_context.py
+    line: 125
+    severity: P3
+    basis: "TEST-01 (new behaviour needs a test; scan_taxonomy cannot fire it on garura-prose) plus by-hand mutation check. Residual of round-1 Q-001."
+    defect: >
+      test_compare_fallbacks in the create-play fetcher test covers only four cases (compare used, dropped call
+      retried, three drops fall back, 404 stops). It has no case for the fork rule (owner:branch), the host without
+      the compare command (exit 2), a PR with no head branch, or the exit-3 count check on the compare diff. These
+      are the Q-003 data-safety guard and the stop rules. Proof: on a scratch copy of the create-play fetcher with
+      compare_head changed to ignore forks, this suite still passes 17 of 17 (the check-change suite fails on the
+      same change). So if the create-play fetcher copy loses the fork rule, nothing in create-play notices, and a
+      fork PR reviewed from that copy can read another branch's diff. Fix: copy the fork, exit 2, no-head and
+      exit-3 cases from core/components/plays/check-change/scripts/test_fetch_pr_context.py into
+      test_compare_fallbacks (they need a head and a fork answer in view; the local run() helper takes a fixed
+      view, so pass the view in), or make the two test files one shared file.
+  - id: Q-009
+    category: executable-code
+    file: core/components/plays/check-change/scripts/fetch_pr_context.py
+    line: 110
+    severity: P3
+    basis: "by hand: data-safety of the external-call path (categories.yaml executable-code by_hand). Gap in the Q-003 fix. Same defect in core/components/plays/create-play/references/fetch_pr_context.py:110 (identical copy)."
+    defect: >
+      compare_head names the fork owner only when isCrossRepository is true AND headRepositoryOwner has a login.
+      When isCrossRepository is true but the owner is missing or empty (a fork that was deleted, where the host
+      returns no owner), it falls through to return the plain branch name (line 112). That is the exact
+      Q-003 case: the compare runs against the base repository with the fork's branch name, and if the base
+      repository has a branch of the same name the review reads that other branch's diff. Checked by calling
+      compare_head with isCrossRepository true and headRepositoryOwner null or {login: ''}: both return the plain
+      name. The exit-3 count check catches it only when the file counts differ. Fix: when isCrossRepository is
+      true and there is no owner login, return None so read_compare skips compare-diff and the review falls back
+      to pr-files; change both fetcher copies and add a test case for it.
+  - id: Q-010
+    category: executable-code
+    file: core/components/plays/check-change/scripts/fetch_pr_context.py
+    line: 18
+    severity: P4
+    basis: "CODE-12 style (readability); by hand. Same in core/components/plays/create-play/references/fetch_pr_context.py:18."
+    defect: >
+      The module docstring paragraph was extended in round 2 without re-wrapping: line 18 is 147 characters
+      ('For a PR from a fork ... When the compare call fails, the diff is built ...') against about 95 on the lines
+      around it, and line 23 is 127. Nothing breaks. Fix: re-wrap lines 14-23 to the width of the rest of the
+      docstring, in both fetcher copies.
+  - id: R-1
+    category: issue-run-records
+    file: .garura/project/issues/889/context/analysis.yaml
+    line: 1
+    severity: P4
+    basis: "by hand: 'the records agree with the code change' (categories.yaml issue-run-records by_hand); the taxonomy gives no finding on stm-evidence paths."
+    defect: >
+      analysis.yaml and commits.yaml are overwritten by each commit-change run. They now describe only the last
+      run (moving the round-1 review records, commit 43fc62c2, 11 files), not the 15 source files or the round-2
+      fix commit 486e6c65. The categories note that they 'cover all 14 source files plus 486e6c65' does not hold
+      any more, so a reader cannot use these two files to see what the change touched. The source change is
+      recorded in git history (33a84e05 and 486e6c65) and in the PR body. Fix: none needed in the code; read
+      the change from git log, or have commit-change keep one analysis file for each run.
+
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 2
+
+not_reraised: "Q-004..Q-007 and H-4 (filed as #919): none was made worse by round 2."

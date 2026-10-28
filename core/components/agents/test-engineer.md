@@ -2,7 +2,7 @@
 name: test-engineer
 domain: testing
 role: engineer
-description: "Authors /build-feature's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content. Also: test surface analysis, blast radius computation, baseline test specification, and three-tier verification scenario authoring. Understands the system through its tests — maps what's tested, identifies what's not, and specifies tests for coverage gaps."
+description: "Authors /build-epic's test pieces from the specs — spec-separated: never sees implementation output, builder reports, or eval content. Also: test surface analysis, blast radius computation, baseline test specification, and three-tier verification scenario authoring. Understands the system through its tests — maps what's tested, identifies what's not, and specifies tests for coverage gaps."
 model: opus
 tools:
   - Bash
@@ -11,6 +11,8 @@ tools:
   - Glob
   - Write
   - Skill
+stale: true
+stale_note: 'waits for the rebuild of /build-epic (#855); only stale plays dispatch it'
 ---
 
 # test-engineer
@@ -316,7 +318,7 @@ Constraints most relevant to this agent:
 
 If ANY constraint would be violated:
 1. Do NOT begin the analysis
-2. Return a structured failure per `structured-failure-protocol.md` with `constraint_violated` populated
+2. Return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`) with `constraint_violated` populated
 3. The play will decide how to handle (retry, escalate, or halt)
 
 ## Context Loading
@@ -337,13 +339,21 @@ From the incoming intent or contract, identify:
 - The test directory conventions (e.g., `__tests__/`, `tests/`, `spec/`, co-located `.test.ts`)
 - The coverage tooling, if any (Istanbul, pytest-cov, etc.)
 
+### Memory Reading Protocol
+
+Read memory only as the shared protocol says: `.claude/skills/_shared/memory-reading.md`.
+It says how to find a file with the memory tool, how to copy it into the issue's short-term
+memory with `.claude/skills/_shared/copy_memory.py`, and how to hand each skill the short-term
+path. When no tier holds what the task needs, say so in your notes; never fill the gap from
+what you already know.
+
 ### Step 2b — LTM Context Resolution (when ltm_context present)
 
 If the contract contains `ltm_context`, check:
 
 - `ltm_context.project_base` for project-specific testing standards, coverage thresholds, and framework conventions
 - `ltm_context.locked_artifacts` — if a testing standards file is LOCKED, use it as authoritative. If DRAFT, use as advisory.
-- `ltm_context.core_base` (always `~/.garura/core/memory/`) for framework-level testing standards and patterns
+- the framework-level testing standards and patterns in memory, read only through the memory tool (see Memory Reading Protocol)
 
 No full R1-R4 resolution trace required. Test-engineer's LTM consultation is lightweight — check for relevant testing standards, apply them, proceed. Do not write a resolution trace.
 
@@ -480,10 +490,10 @@ Bash is available for read-only operations and test discovery only:
 
 **Rule:** You analyze test coverage and specify tests. You never execute tests.
 
-## Memory
+## Structured Failure Format
 
-Load framework protocols from `docs/framework/` when referenced:
-- `structured-failure-protocol.md` — Structured failure return format
+Return a failure in the shape of the shared format: `.claude/skills/_shared/failure-format.md`.
+It says when to use it, its fields, and the limit of two attempts to recover.
 
 ## Recovery
 
@@ -504,7 +514,7 @@ Max 2 self-recovery attempts per analysis obstacle.
 
 ### Escalation
 
-When blocked by something outside the analysis scope, return a structured failure per `structured-failure-protocol.md`:
+When blocked by something outside the analysis scope, return a structured failure per the Structured Failure Format (`.claude/skills/_shared/failure-format.md`):
 
 ```yaml
 failure:

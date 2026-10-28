@@ -1,0 +1,227 @@
+{
+  "ok": true,
+  "problems": [],
+  "moved": [],
+  "slices": [
+    {
+      "slice": "sl-intent-to-design",
+      "ready": true,
+      "reason": null,
+      "stories": [
+        {
+          "issue": 795,
+          "feature": "fn-795",
+          "title": "/shape-slice grills within the tier and assembles the slice that delivers the business intent",
+          "scenarios": 10,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            3,
+            3
+          ],
+          "failure_conditions": [
+            6,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "goal-2"
+              ],
+              "reason": "A person walking through every feature of the slice on its surface needs the features built. This eval is written before the build, so it checks only the slice record: one surface and one tester.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "goal-3"
+              ],
+              "reason": "That each entry ends with exactly one way back needs a count of lines inside a Markdown file. The step library has no step that counts them.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "F3"
+              ],
+              "reason": "A failure line with no recovery, or with two recoveries, needs the same count of lines. The step library has no step for it. The scenario checks that the hidden file exists and holds the failure and recovery parts of each feature.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "expectation-3"
+              ],
+              "reason": "The words say a run on a real business intent. This eval runs in a test project, not on the real intent #788. The scenario for `@F1` checks the same result in the test project.",
+              "partly": true
+            }
+          ]
+        },
+        {
+          "issue": 818,
+          "feature": "fn-818",
+          "title": "The plan play makes the plan file, the epic and one story per feature",
+          "scenarios": 7,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            2,
+            3
+          ],
+          "failure_conditions": [
+            7,
+            7
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "expectation-2"
+              ],
+              "reason": "The scenario checks the section names, the labels Way back and Who fixes, and the Fails if lines. It does not compare a story with every other line of the hidden file. The step library has no step for that.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "expectation-3"
+              ],
+              "reason": "It needs the real business intent #717, its partner and the trees filed by hand on 2026-10-21. This eval runs in a test project that has none of them.",
+              "partly": false
+            }
+          ]
+        },
+        {
+          "issue": 798,
+          "feature": "fn-798",
+          "title": "The eval play writes the slice's eval: is the business intent met, tested on the slice's surface",
+          "scenarios": 8,
+          "goals": [
+            3,
+            3
+          ],
+          "expectations": [
+            2,
+            2
+          ],
+          "failure_conditions": [
+            6,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "goal-2"
+              ],
+              "reason": "The scenario checks that each tag is in each story file. It cannot tell a tag on a scenario from a tag on an Untestable line, because the step library has no step for that. It does not check that each scenario does the right thing.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "F14"
+              ],
+              "reason": "Same reason as for `@goal-2`: a tag on an Untestable line also counts as present.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "F15"
+              ],
+              "reason": "The stories do not say where a handoff plan is written or what it is called. The scenario checks the eval's own files for recovery text and for the failure conditions. It does not check a handoff plan.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "F17"
+              ],
+              "reason": "A scenario that checks something the business intent does not ask for needs a person to judge it. The scenario checks only that no tag from outside the story is in a story file.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "F19"
+              ],
+              "reason": "A build session that read the evals folder, and the flag in that build run's evidence, need a build. This slice does not run a build (#819). The scenario checks only the inputs of the build plays.",
+              "partly": true
+            }
+          ]
+        },
+        {
+          "issue": 898,
+          "feature": "fn-898",
+          "title": "Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval",
+          "scenarios": 7,
+          "goals": [
+            2,
+            4
+          ],
+          "expectations": [
+            2,
+            3
+          ],
+          "failure_conditions": [
+            4,
+            6
+          ],
+          "untestable": [
+            {
+              "tags": [
+                "goal-1"
+              ],
+              "reason": "A build skill, a build agent or a context sub-agent that a build starts is given its inputs when the build runs. This slice does not run a build (#819). The scenarios check the inputs of the build plays only.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "goal-2"
+              ],
+              "reason": "A build is given the business intent through the slice's stories only when a build runs. This slice does not run a build (#819).",
+              "partly": false
+            },
+            {
+              "tags": [
+                "goal-3"
+              ],
+              "reason": "A build session that read the evals folder, and the flag in that build run's evidence, need a build session. This slice does not run a build (#819).",
+              "partly": false
+            },
+            {
+              "tags": [
+                "expectation-2"
+              ],
+              "reason": "The test of the session-ledger check needs a build session and its ledger. This slice does not run a build (#819).",
+              "partly": false
+            },
+            {
+              "tags": [
+                "F21"
+              ],
+              "reason": "A build session that read the plan's evals folder, and the flag in that build run's evidence, need a build session. This slice does not run a build (#819).",
+              "partly": false
+            },
+            {
+              "tags": [
+                "F22"
+              ],
+              "reason": "A clean build session and a stopped build need a build session. This slice does not run a build (#819).",
+              "partly": false
+            },
+            {
+              "tags": [
+                "F23"
+              ],
+              "reason": "A build session that read the evals folder, and the flag in that build run's evidence, need a build session. This slice does not run a build (#819). The scenario for `@F23` checks only the inputs of the build plays.",
+              "partly": true
+            },
+            {
+              "tags": [
+                "F24"
+              ],
+              "reason": "A scenario that checks something the business intent does not ask for needs a person to judge it. The scenario checks only that no tag from outside the story is in a story file.",
+              "partly": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

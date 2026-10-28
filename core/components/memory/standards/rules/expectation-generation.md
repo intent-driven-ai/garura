@@ -7,7 +7,9 @@ generation reviewable, not magic.
 
 > Scope: this is the **play** case (a play's intent → that play's expectation). The
 > runtime **feature** case (a feature's intent + codebase context → its expectation)
-> is a separate generator and a separate set of rules.
+> is a separate generator and a separate set of rules. One part reaches past plays:
+> the recovery rule below also gives a **story** its recovery (see "A story's
+> recovery (product ICE)").
 
 ## Input shapes
 
@@ -63,6 +65,33 @@ Worked example (commit-code): "a commit mixes concerns" → autonomous (regroup 
 mechanical); "a commit references the wrong issue" → human (issue mapping is external
 judgment); "a below-confidence mapping was committed without approval" → human
 (approval is an authority the builder lacks).
+
+## A feature's recovery (product ICE)
+
+A product ICE has no recovery part. When `/shape-slice` shapes a slice (ontology v11), it
+writes each feature's recovery itself, into the slice's hidden file
+(`.garura/project/plans/<plan-id>/evals/<slug>/failure-and-recovery.md`), one entry for
+each feature, by the same rule as above: for each "Fails if" line of the feature's two
+ICE (its own and its capability's), exactly one recovery condition. When one of the two
+ICE is thin, the entry says so. The plan play writes nothing in the evals folder; the
+epic's feature-to-story map tells the eval play which story each entry is for.
+
+- **when** — the "Fails if" line restated as a symptom the eval sees (the `trigger`).
+- **way back** — the inverse of the failure, as guidance, never code (the `direction`).
+- **who fixes** — "the builder can fix this alone" or "a person must decide", by the
+  handoff rule above (`autonomous` / `human`).
+
+Example (a shop): "Fails if: a card is charged twice" → when: one order has two charges;
+way back: refund the second charge; who fixes: a person must decide (money goes out).
+
+The story that delivers the feature never holds these lines. The running eval reads only the recovery
+parts of the hidden file, and the builder gets only the handoff plan made from them.
+
+When the recovery says "the builder can fix this alone", its **when** and **way back** go to the builder in the
+handoff plan, so they name what the builder sees and changes in the product, never the evals folder, the eval, the
+hidden file or the check that found it. Example (a clinic): "Fails if: a build was given the eval" → when: the
+build's inputs name a file it must not be given; way back: take that file out of the build's inputs; never "take
+the evals folder out of the contract".
 
 ## Provenance
 

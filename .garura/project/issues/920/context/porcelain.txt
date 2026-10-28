@@ -1,0 +1,18 @@
+ M core/components/agents/adr-keeper.md
+ M core/components/memory/standards/templates/adr.md
+ M core/components/skills/author-decision/SKILL.md
+?? .garura/project/issues/920/context/memory/manifest.json
+?? .garura/project/issues/920/context/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/920/context/porcelain.txt
+?? .garura/project/issues/920/specs/redesign.md
+?? .garura/project/issues/_adr/20261028T034030Z/adr-check.json
+?? .garura/project/issues/_adr/20261028T034030Z/adr-context.yaml
+?? .garura/project/issues/_adr/20261028T034030Z/adr-draft.md
+?? .garura/project/issues/_adr/20261028T034030Z/brief.md
+?? .garura/project/issues/_adr/20261028T034030Z/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261028T034030Z/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261028T034030Z/decision.yaml
+?? .garura/project/issues/_adr/20261028T034030Z/hashes-before.json
+?? .garura/project/issues/_adr/20261028T034030Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261028T034030Z/run.json
+?? CLAUDE.md.new

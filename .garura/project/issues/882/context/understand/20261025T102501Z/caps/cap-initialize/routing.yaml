@@ -1,0 +1,15 @@
+{
+  "routing_result": {
+    "work": "cap-initialize: after the install, set a project up for Garura - its memory, its review rules, and its tracker's work-item types - so a project gets only the memory and rules that fit it and its tracker holds every kind of work item the plays file.",
+    "placements": [],
+    "spans_multiple_domains": false,
+    "unmatched": true,
+    "unmatched_domains": [
+      {
+        "name": "software-delivery-planning",
+        "why": "The field is software delivery: the job is to set a project up before agents plan and build in it (pick the memory and review rules that fit, and make the tracker's work-item types). None of the ten shelves has a trigger for this work. Analytics, collaboration, content management, ecommerce, experience, marketing, notifications, payments and personalization are about what an end user does in a product. User management covers accounts, login and roles; 'permissions' in the work is a question asked of the project, not access control the capability gives. The product model already holds this domain (software-delivery-planning/domain.md), grounded in its own outside sources and recorded there as unmatched to the shelves, so the capability is placed under that domain and no new node is proposed."
+      }
+    ],
+    "seed_domain": "dom-software-delivery-planning"
+  }
+}

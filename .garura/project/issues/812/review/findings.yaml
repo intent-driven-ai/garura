@@ -1,0 +1,16 @@
+# check-change Step 4 -- consolidated findings, PR #814 (issue 812). No design-bearing category, so no grounding ran.
+# Runnable checks: test_naming_tools.py 18 passed, 0 failed; check_old_names.py ok, 0 left (runnable-checks.txt).
+# The linter's third note (docstring) states no defect and is dropped.
+findings:
+- category: code
+  severity: P4
+  path: core/tools/naming/check_old_names.py
+  basis: 'code: dead or confusing naming after a rule change'
+  message: FIRST_NEW_ADR = 46 no longer means the first ADR that is searched, because ADR 046 is skipped through RENAME_ADRS. A name like FIRST_RENAME_ADR would match the use. The logic is correct.
+  status: null
+- category: tests
+  severity: P4
+  path: core/tools/naming/test_naming_tools.py
+  basis: 'tests: the new cases check one of the skipped ADR neighbours only'
+  message: The new checks cover ADRs 046, 047 and 048. ADR 049 and the SUPERSEDED- prefix are not covered.
+  status: null

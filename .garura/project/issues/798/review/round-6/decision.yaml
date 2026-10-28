@@ -1,0 +1,10 @@
+decision: reject
+decided_by: human
+reply: "fix 1 and 2"
+round: 6
+blocking:
+  - DF-H-15 (P3) — a resume can overwrite the start copy of the spine, which brings back the twice-run overwrite
+  - Q6-1 (P3) — a malformed start copy crashes the slice writer instead of refusing cleanly
+logged_not_fixed:
+  - Q6-2, Q6-3, Q6-4, DF-H-16 (P4) — kept in this record, not fixed in this change
+  - the thirteen P4s carried from earlier rounds

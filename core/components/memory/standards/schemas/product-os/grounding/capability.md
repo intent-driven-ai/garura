@@ -1,19 +1,19 @@
 # Capability Grounding Doc — TEMPLATE & CONTRACT
 
 > Locked contract for a capability's `capability.md`. A capability reads as a
-> **capability / feature** — more specific than its theme, less concrete than its
-> functionalities. No acceptance criteria at this level (that lives on the
-> functionality).
+> **capability** — more specific than its theme, less concrete than its
+> features. No acceptance criteria at this level (that lives on the
+> feature).
 >
 > **This doc is STAGE-AWARE — it has two valid shapes, and the spine records which
 > one applies via the capability entry's `detail:` field (`directional | detailed`):**
 >
 > - **directional** — written by `/discover-intent` (from a source) or `/discover-domains` (from the KB and
 >   the intents). It NAMES the capability and gives it directionality only; it does not
->   detail it and never touches functionalities. Any play may add to it later, keeping
+>   detail it and never touches features. Any play may add to it later, keeping
 >   what is there (ontology v3: no play owns a kind).
 > - **detailed** — written by `/discover-capabilities`. Understand is the last detailing step: it
->   fills the full capability and creates its functionality nodes + docs.
+>   fills the full capability and creates its feature nodes + docs.
 >
 > The linter validates the doc against the shape its `detail:` field names; the eval
 > scores depth and self-explanation against `_content-standard.md`.
@@ -37,7 +37,7 @@
 ## Benefit hypothesis
 ## Boundary (In / Out / Never)
 ## Guiding rules
-## Functionalities
+## Features
 ```
 
 ## Sources — after the other sections, before the agent intent (#689)
@@ -86,9 +86,9 @@ agent works from. Each line explains itself (at least five words), like every ot
   refuse to do. Each line explained, so a reader knows *why* the edge is there.
 - **Guiding rules** — rules specific to this capability (the domain's rules already
   apply). Each with its reason.
-- **Functionalities** — each functionality this capability contains, with one
+- **Features** — each feature this capability contains, with one
   explained line, linked to its spine node. The detailed spec lives in each
-  functionality's own doc.
+  feature's own doc.
 
 ## Gold example — DIRECTIONAL stage (/discover-domains)
 
@@ -143,7 +143,7 @@ labels, and no raw private content ever reaches a shared row.
 - Every record is labeled at collection time, not lazily later, because an unlabeled
   record that escapes into a view is already a trust failure.
 
-## Functionalities
+## Features
 - Source & usage ingest (collect/source-usage-ingest) — reads each tool/harness
   source and extracts burn, time, and context.
 - Privacy & trust labeling (collect/privacy-trust-labeling) — scans and stamps every

@@ -1,0 +1,7 @@
+{ "task": "have the eval of each ready slice drafted. Check the copies are complete before you call the skill: each story copy of each ready slice in inputs.json has a Scope of work, the hidden-file copy has an entry for each story's feature, the step library of the slice's surface kind and the two templates are given; if one is missing, stop with step_failure and name it. Call author-slice-eval with these inputs and, on a fix, the problems of eval-check.json, or, on a re-run, the product owner's change. Pass its drafts folder on as it is. Read only the copies; never open an ICE page, the usage guide, the code, the product model or the plans folder. Gather and pass on only; the skill writes every scenario",
+  "inputs": { "inputs": ".garura/project/issues/798/context/shape-eval/inputs.json", "copies": ".garura/project/issues/798/context/shape-eval/inputs/",
+              "library": [".garura/project/issues/798/context/shape-eval/templates/standards/schemas/eval/steps-command-line.yaml"],
+              "templates": [".garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-story.feature.md", ".garura/project/issues/798/context/shape-eval/templates/standards/templates/eval-slice.md"] },
+  "outputs": { "drafts": ".garura/project/issues/798/context/shape-eval/drafts/" },
+  "skills": ["author-slice-eval"],
+  "task_id": "shape-eval-draft" }

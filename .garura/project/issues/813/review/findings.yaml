@@ -1,0 +1,35 @@
+# check-change Step 4 -- consolidated findings, PR #834 round 2.
+findings:
+- category: adrs
+  severity: P4
+  path: docs/adr/050-the-retired-intent-epic-pipeline-is-deleted.md
+  basis: plan/788/base:docs/adr/035 and 017 status lines ('amended in part')
+  message: 'Yes, fixed: header line 7 ''Supersedes: none'', line 8 ''Amends: ADR 035 ... ADR 017'', lines 38-41
+    ''amends''; ADR 035 and 017 status lines point to ADR 050 as ''amended in part''. Consistent.'
+  status: resolved
+- category: harness
+  severity: P4
+  path: core/components/plays/discover-domains/scripts/check_kept.py
+  basis: round1/decision.yaml, G4 (guard on every model reader)
+  message: check_kept.py guards only the spine; a model whose spine is already new but whose page files still carry
+    old names would not be caught. Narrow case (migrator moves both together); no action needed.
+  status: 'fixed after round 2 (4a14cf2d: the guard also checks page file names)'
+- category: harness
+  severity: P4
+  path: core/components/plays/install-garura/scripts/migrate_model.py
+  basis: D1
+  message: 'Left behind in the PR is a migrator no play or install calls; it is run by hand per the Done when, and
+    the guard message tells the person how. Fine; revisit under #835.'
+  status: accepted
+- category: memory
+  severity: P4
+  path: core/components/memory/standards/rules/rename-map.yaml
+  basis: round 1 (ADR 050 Risks)
+  message: Six old-name entries removed; accepted in round 1.
+  status: accepted
+- category: memory
+  severity: P4
+  path: core/components/skills/check-abstraction-layer/SKILL.md
+  basis: round 1 / decision Q2
+  message: Dead links in deprecated skills; deferred to its own issue.
+  status: 'deferred: own issue'

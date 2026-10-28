@@ -1,8 +1,10 @@
 ---
 name: shape-measure-lens
 position: both
-description: 'Write a SLICE''s measure lens as a grounding doc (measure.md) — the delivery-measurement focus, the metrics that prove it (baseline / target / proof, triangle-primary speed/tokens/cognition), and what is out of scope — then, when all seven lens docs line up, stamp the slice realized on the spine. The DELIVER pipe of realize (runs last): it opens its own branch (start-change) and closes it (commit → propose → review → merge). Reads the hub from the spine; the single play that flips a slice to realized — the marker /shape-features checks. Writes the lens doc + decisions + the realized stamp directly on the live model (ADR 026 direct-model-write).'
+description: 'Write a SLICE''s measure lens as a grounding doc (measure.md) — the delivery-measurement focus, the metrics that prove it (baseline / target / proof, triangle-primary speed/tokens/cognition), and what is out of scope — then, when all seven lens docs line up, stamp the slice realized on the spine. The DELIVER pipe of realize (runs last): it opens its own branch (start-change) and closes it (commit → propose → review → merge). Reads the hub from the spine; the single play that flips a slice to realized — the marker /shape-slice checks. Writes the lens doc + decisions + the realized stamp directly on the live model (ADR 026 direct-model-write).'
 user-invocable: true
+stale: true
+stale_note: 'waits for the rebuild of the design plays after the shaping loop (#855, ADR 053)'
 ---
 
 # measure
@@ -10,10 +12,10 @@ user-invocable: true
 Write a shaped slice's **measure lens** as the grounding doc `measure.md` — what delivery the slice is
 proving, the metrics that prove it (each a baseline, a target, and a proof; triangle-primary on
 speed/tokens/cognition), and what is out of scope — and, when the slice **lines up** (all seven lens
-docs present), **stamp it realized**. /shape-measure-lens reads the slice's **hub** — its functionalities'
+docs present), **stamp it realized**. /shape-measure-lens reads the slice's **hub** — its features'
 grounding docs plus the profile, both from the spine. It is the **deliver** lens, the last of the
 three realize pipes, and the one play that flips a slice's `status` to `realized` on the spine — the
-single marker /shape-features checks before it cuts delivery work.
+single marker /shape-slice checks before it cuts delivery work.
 
 **Pipeline position: both.** /shape-measure-lens is the DELIVER pipe — a single-play pipe that runs last (after
 the functional pipe ux → agentic → marketing and the non-functional pipe architecture → quality → run
@@ -95,8 +97,8 @@ python3 scripts/check_ready_slice.py --product-base <product_base> --slice <slic
 ```
 
 It asserts the profile is `set` (from the spine), resolves the slice record, and resolves every
-`functionality_ref` through the spine to its `functionality.md` grounding doc — the hub. If the slice
-is absent, a functionality does not resolve, or the profile is not firmed, hard halt (C1/REC1).
+`feature_ref` through the spine to its `feature.md` grounding doc — the hub. If the slice
+is absent, a feature does not resolve, or the profile is not firmed, hard halt (C1/REC1).
 
 The run's working root (`<working>` below) is `{stm_base}_realize/measure/` — the manifests, the
 lines-up capture, the keyed persist record (`persist-manifest.json`), the captured scoped-guard report
@@ -177,7 +179,7 @@ tree halts (REC15), so the change-shape and the scoped guard reflect only this r
 
 **Step 1 — Draft the lens (doc to live)** · Owner: `product-os-keeper` · Depends on: Step 0
 The agent invokes `author-measure-lens` to author the slice's `measure.md` (focus / metrics / out of
-scope, per the Measure lens template) from the hub (the functionality grounding docs + the profile) and
+scope, per the Measure lens template) from the hub (the feature grounding docs + the profile) and
 KB measurement-frame grounding. Per ADR 026 the skill writes the doc **straight to the live model** at
 its lens path under `<product_base>product-os/`, and emits the shared-file deltas — the grounds, any
 material choices, the material decision records, and the doc record — as structured data in
@@ -185,10 +187,10 @@ material choices, the material decision records, and the doc record — as struc
 — the keyed persist (Step 3) applies the manifest's decisions and the realized stamp:
 
     {
-      "task":    "author the slice's measure lens (focus / metrics baseline-target-proof / out-of-scope) from its hub, in place on the live model; ground each metric in the functionalities + profile and the frames in the KB; emit the grounds, decisions, and doc record into the manifest",
+      "task":    "author the slice's measure lens (focus / metrics baseline-target-proof / out-of-scope) from its hub, in place on the live model; ground each metric in the features + profile and the frames in the KB; emit the grounds, decisions, and doc record into the manifest",
       "inputs":  { "slice_ref": "<domain>/<slice>",
                    "slice_file": "<slice record>",
-                   "functionality_groundings": "<from check_ready_slice>",
+                   "feature_groundings": "<from check_ready_slice>",
                    "profile": "<spine profile>", "product_base": "<product_base>",
                    "lens_rel": "product-os/<domain>/slices/<slice>/lens/measure.md",
                    "manifest_path": "<working>/measure-manifest.yaml",
@@ -228,10 +230,10 @@ python3 scripts/grounding_gate.py --verdict <verdict.json>
 (Focus / Metrics / Out of scope), no missing/extra/empty section.
 **SE-3 (F4/C4):** the content-quality eval gate (`grounding_gate.py`) passes — `measure.md` is
 self-explaining and clears the stranger test.
-**SE-4 (F5/C5):** `validate_measure.py` — every metric grounds in a functionality's acceptance or a
+**SE-4 (F5/C5):** `validate_measure.py` — every metric grounds in a feature's acceptance or a
 profile outcome (the manifest grounds), and a material choice names a decision that resolves in the
 manifest's `decisions:` list.
-**SE-5 (F6/C6):** `validate_measure.py` — every functionality the slice bundles is considered.
+**SE-5 (F6/C6):** `validate_measure.py` — every feature the slice bundles is considered.
 **SE-6 (F7/C7):** `validate_measure.py` — the metrics ground on no other realize lens.
 **SE-7 (F12/C12):** `check_kb_grounding.py` exits 0 — the measurement-frame choices trace to a KB
 learning or a recorded proposal.
@@ -435,7 +437,7 @@ Each end member owns its own evals (commit grouped by concern, PR opened, verdic
   report prove it).
 - **SCE-3 (S3 — reviewer, not-yet-lined-up):** with a lens missing, `measure.md` is written but the
   slice is NOT stamped; the missing lens is named in the stamp record and the status unchanged.
-- **SCE-4 (S4 — architect, hub-only):** every metric grounds in a functionality or the profile, never
+- **SCE-4 (S4 — architect, hub-only):** every metric grounds in a feature or the profile, never
   another lens (`validate_measure.py` clean).
 - **SCE-5 (S5 — delivery owner, re-run):** a re-run re-derives only `measure.md` and re-affirms the
   stamp; everything else byte-identical; no accepted decision edited in place (the guard report reads
@@ -504,10 +506,10 @@ from $session_stamp (#463): session_id, ledger_file, ledger_start_offset, ledger
 unresolved — never blocks the close); and stop_condition per C0 with the Stop Condition section filled)
 and write to `$evidence_dest`. Do NOT hand-author the body.
 
-**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>. Or run /next to see all recommended actions.` (only /next pointer, or omit, when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## measure Delivered —
+**Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots: `## measure Delivered —
 ${slug}`, the Run Summary table, the Pipeline Steps table, the Artifacts Produced table (the measure
 lens + any decision + whether the slice was stamped realized + the model-delta commit), Next Steps (if
-realized: run /shape-features to cut this slice into epics; else: run the missing lens pipe), and a pointer to
+realized: run /shape-slice to cut this slice into epics; else: run the missing lens pipe), and a pointer to
 `$evidence_dest`. Always emitted.
 
 ```bash
@@ -529,12 +531,12 @@ realized: run /shape-features to cut this slice into epics; else: run the missin
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the slice is absent, a functionality does not resolve, or the profile is not firmed | halt and route to /shape-scope or /discover-capabilities before /shape-measure-lens runs | human |
+| F1 | the slice is absent, a feature does not resolve, or the profile is not firmed | halt and route to /discover-capabilities before /shape-measure-lens runs | human |
 | F2 | a write touched something beyond this slice's measure.md, a decision, or the one realized status field | revert the out-of-scope write; /shape-measure-lens writes only those | autonomous |
 | F3 | measure.md fails the template/shape | re-emit to the Measure lens template (Focus / Metrics / Out of scope only) | autonomous |
 | F4 | measure.md fails the content-quality eval | rewrite the failing section to the judge's cited fixes and re-judge until the gate passes | autonomous |
 | F5 | a metric lacks a baseline/target/proof or grounds in nothing the slice delivers | re-draft the metric as a concrete baseline + target + proof tied to the hub | autonomous |
-| F6 | a functionality is neither measured nor named out of scope | add a metric for it or name it in out-of-scope with the reason | autonomous |
+| F6 | a feature is neither measured nor named out of scope | add a metric for it or name it in out-of-scope with the reason | autonomous |
 | F7 | the assessment read or grounded on another lens | remove the dependency; derive only from the slice's hub | autonomous |
 | F8 | the slice was stamped realized when a lens doc was missing | revert the stamp, report the missing lens, route to the pipe that owns it | human |
 | F9 | the keyed persist changed more than this slice's status field on the spine | restore the spine and re-run `persist_measure.py` so only the single status flip on this slice is applied | human |
@@ -556,7 +558,7 @@ resume that already wrote the model doc continues its own in-progress delta.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:c51b54d5163349b6ad43f7f63d980f14ccd3327ade6afb3a9a3107a3ea6652c9 (of `reference/ice.md`) |
+| fingerprint | sha256:76568d1e6bda57e5f653af81ae1c3a2c2da6fa346745481de4696638006d2f35 (of `reference/ice.md`) |
 | compiled_by | edit-play (#500 direct-model-write, ADR 026); prior: edit-play (#466 Batch C; #467 Batch B — conditional learned gate) |
 | pipeline_position | both (deliver pipe — injects start-change head and commit → propose → review → merge close) |
 | position_exception | model-writing both play — writes the model on the started branch and commits its own model delta (C14) BEFORE the injected close sequence, which then handles only what remains uncommitted |
@@ -606,4 +608,4 @@ names edit-play for provenance intent, but no edit-play run actually occurred an
 UNVERIFIED.** An interactive `/edit-play` convergence run against `reference/ice.md` is **REQUIRED** —
 confirming the emitted SKILL matches this hand-compiled body and refreshing the fingerprint. This mirrors
 the same caveat on /discover-capabilities's #498 migration (the ratified reference implementation) and the /discover-domains,
-/shape-features, /learn-outcomes fan-out of that pattern.
+/shape-slice, /learn-outcomes fan-out of that pattern.
