@@ -1,0 +1,8 @@
+decision: approve
+decided_by: human
+reply: "yes we can remove drive-contract. we no longer call it drive. rest approve"
+blocking: []
+follow_up:
+  - "DG-1: the templates index row for adr.md does not name the section for the person who accepts — recorded as a Chore"
+not_fixed:
+  - "DG-2 (P4): #930's text says five parts where the schema holds six keys (the point plus its five parts); wording only"

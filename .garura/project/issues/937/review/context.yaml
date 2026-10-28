@@ -1,0 +1,26 @@
+{
+  "pr_number": "940",
+  "base": "main",
+  "changed_paths": [
+    ".garura/project/issues/937/context/analysis.yaml",
+    ".garura/project/issues/937/context/branch.json",
+    ".garura/project/issues/937/context/commits.yaml",
+    ".garura/project/issues/937/context/issue.json",
+    ".garura/project/issues/937/context/porcelain.txt",
+    ".garura/project/issues/937/context/pr-body.md",
+    ".garura/project/issues/937/context/pr.json",
+    ".garura/project/issues/937/context/resolved-rules.json",
+    ".garura/project/issues/937/context/self-review.md",
+    ".garura/project/issues/937/context/work-description.txt",
+    ".garura/project/plans/606.yaml",
+    "core/components/memory/standards/rules/_index.md",
+    "core/components/memory/standards/schemas/product-os/_index.md"
+  ],
+  "changed_files_reported": 13,
+  "diff_source": "diff-pr",
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}

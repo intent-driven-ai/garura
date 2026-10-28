@@ -1,0 +1,15 @@
+pr: 940
+issue: 937
+base: main
+findings:
+- id: DG-2
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/_index.md
+  principle: A cross-reference should point where the file's own record points
+  source: 'main:decision.yaml lines 39 and 82 and commit 716764b7 cite #920; the row cites #930 (the story that
+    asked for it; issue text says ''five parts'' where the schema and lint say six)'
+  detail: 'Both numbers resolve and #930 is the story, so nothing is wrong. Wording only; optional.'
+  action: none required
+layer1:
+  lint_components: 0 in changed paths; 37 there before
+  plan_606: parses
