@@ -48,12 +48,12 @@ between the injected start and end; the work is not a declared position.
 | start | `start-change` | `start` or `both` |
 | end | `commit-change` → `propose-change` → `check-change` → `merge-change` | `end` or `both` |
 
-These six plays are the **members** — the building blocks. A member play declares the
+These five plays are the **members** — the building blocks. A member play declares the
 `position` of the sequence it belongs to (`start-change: start`; the four end plays: `end`)
 so create-play knows the sequence composition. **A member is never injected into itself**:
 create-play recognizes the members by name and injects no sequence into one of them.
 Everything else with a non-`none` position is a **consumer** that receives injection.
-"Member" means only these six change plays: no step of a loop is a member play (ADR 059).
+"Member" means only these change plays: no step of a loop is a member play (ADR 059).
 
 ## How create-play injects it (explicit, named)
 

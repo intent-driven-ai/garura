@@ -94,8 +94,8 @@ A JSON file, passed to the play as `--contract <path>`:
    memory update still waiting for a person (ADR 035). A question no play of the loop can
    answer goes to the loop's knowledge step, run by one agent: it searches the sources and
    memory, drafts knowledge pages and our proposed answers, and the loop briefs the person on
-   what is left — never a questionnaire (ADR 041, ADR 059). The person's answers are kept in the loop issue's
-   short-term memory (ADR 039 §1) and reach the play on the next round as
+   what is left — never a questionnaire (ADR 041, ADR 059). The person's answers are kept in
+   the loop issue's short-term memory (ADR 039 §1) and reach the play on the next round as
    `answers.<play>.<question id>`.
 6. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
    answers (`gate_eval.py`) records a deferred crossing as `deferred_to_loop_review` (a
