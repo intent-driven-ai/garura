@@ -582,14 +582,13 @@ class GroupQuestions(Work):
             {"id": "u3", "ask": "How fast must a comment show?", "about": "comment"},
             {"id": "u4", "ask": "Does GDPR apply to the review record?", "about": "answer"},
             {"id": "u5", "ask": "Must commenting on an area work without a mouse pointer drag?", "about": "c"}]}))
-        self.tool = stub_tool(self, [
-            {"id": "mu-1", "issue": 7, "status": "waiting", "missing": "Speed bar for review pages"},
-            {"id": "mu-2", "issue": 7, "status": "applied", "missing": "Old"},
-            {"id": "mu-3", "issue": 8, "status": "waiting", "missing": "Another issue's speed"}])
+        self.write("work/round-2.json", json.dumps({"round": 2, "decision": "ask", "open": [
+            {"from": "discover-intent", "id": "i1", "ask": "How will you know signing off a loop works?"},
+            {"from": "memory-update", "id": "mu-1", "ask": "Speed bar for review pages", "for_person": True}]}))
 
     def groups(self):
-        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"), "--issue", "7",
-                             "--memory-tool", self.tool, "--out", self.p("g.json")])
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"),
+                             "--round-record", self.p("work/round-2.json"), "--out", self.p("g.json")])
         self.assertEqual(rc, 0)
         return self.read_json("g.json")
 
@@ -600,11 +599,16 @@ class GroupQuestions(Work):
         self.assertEqual(sorted(by_topic["speed"]["members"]), ["mu-1", "u2", "u3"])
         self.assertEqual(by_topic["compliance"]["members"], ["u4"])
 
-    def test_only_this_issues_waiting_updates_come_from_the_memory_tool(self):
+    def test_waiting_updates_come_from_the_round_record_only(self):
         ids = [m for g in self.groups()["groups"] for m in g["members"]]
         self.assertIn("mu-1", ids)
-        self.assertNotIn("mu-2", ids)
-        self.assertNotIn("mu-3", ids)
+        self.assertEqual(ids.count("i1"), 1)  # a play's question is read from its open file once
+
+    def test_it_never_calls_the_memory_tool(self):
+        with open(gq.__file__, encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertNotIn("subprocess", text)
+        self.assertNotIn("memory.py", text.split('"""', 2)[2])
 
     def test_every_question_lands_in_exactly_one_group(self):
         d = self.groups()
@@ -612,10 +616,10 @@ class GroupQuestions(Work):
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual(len(ids), d["questions"])
 
-    def test_a_memory_tool_error_stops_the_grouping(self):
-        bad = self.write("bad.py", "import json\nprint(json.dumps({'ok': False, 'message': 'tier_missing'}))\n")
-        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"), "--issue", "7",
-                             "--memory-tool", bad, "--out", self.p("g.json")])
+    def test_a_round_record_with_no_open_list_stops_the_grouping(self):
+        bad = self.write("work/round-3.json", json.dumps({"round": 3}))
+        rc = quiet(gq.main, ["--review-dir", self.p("issue/review/loop"),
+                             "--round-record", bad, "--out", self.p("g.json")])
         self.assertEqual(rc, 2)
 
 

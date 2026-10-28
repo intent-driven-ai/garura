@@ -3,8 +3,8 @@
 The steps every loop runs, in order. A loop is a higher-order play: it runs other plays
 until its intent is met or it fails, and carries no product rules of its own (ADR 029). It owns
 only the run steps every loop takes between its plays — the write-up (R3), reading the source
-once (R4b) and closing the model's gaps after each round (R5 step 7) — and those live here
-(ADR 044). So the run is the same for every loop and lives once, here, in the `_shared/` folder beside
+once (R4b), closing the model's gaps after each round (R5 step 7) and the knowledge step with its
+brief to the person (R5c, R5b; ADR 059) — and those live here (ADR 044). So the run is the same for every loop and lives once, here, in the `_shared/` folder beside
 the plays' shared close. A compiled loop holds only the two anchor lines, its own values — its plays in order, its
 questions, its config keys, its end — and points here. `/create-loop` emits exactly that, so
 a direct edit and a rebuild converge.
@@ -260,11 +260,13 @@ Before asking anyone, the loop closes what it can of the open questions in one s
 the `knowledge-builder` agent. It is a step of the loop, not a play: no pre-flight, done
 check or close of its own.
 
-1. **Group the open questions.** The same question often comes from several plays.
+1. **Group the open questions.** The same question often comes from several plays. The waiting
+   memory updates come from the round record R5 step 8 wrote; this script asks the memory tool
+   nothing (ADR 059).
 
    ```bash
-   python3 scripts/group_questions.py --review-dir "<review_dir>" --issue <issue> \
-       --memory-tool .garura/core/tools/memory/memory.py --out <working>/question-groups-round-<n>.json
+   python3 scripts/group_questions.py --review-dir "<review_dir>" \
+       --round-record <working>/round-<n>.json --out <working>/question-groups-round-<n>.json
    ```
 
 2. **Close them.** Dispatch `knowledge-builder` once, in the foreground, with this contract:
