@@ -155,6 +155,25 @@ by the real parent/child link in the tracker, never a mention in the body —
 are fixed on that same branch, in the same change. The drive writes **one
 handoff**, on its main issue.
 
+## A plan's branch: start, pause, start again
+
+- **A plan gets its branch when its work starts**, `plan/<plan-id>/base`, cut from
+  main. Each issue in the plan gets a branch cut from it and lands back on it.
+- **When the plan pauses, its branch merges into main**, through the change plays,
+  even with issues of the plan still open. The branch is then deleted, and the plan
+  file says `branch: null`. A plan's branch is never kept off main just because the
+  plan is not done.
+- **The only reason to hold it back is that it would break main.** The review and
+  the merge checks (approved, no conflicts, no failing required checks) decide that.
+- **When the plan starts again, a new branch is cut from main.**
+- A detour plan works the same way: pause the plan it came from (merge it), cut the
+  detour from main, and land the detour on main.
+
+Why: on 2026-10-28 five plan branches sat 697 to 791 commits behind main, and the
+work of one (#721) had never reached main. The product owner: "start a plan with a
+branch, and when we want to pause a plan, merge it. branch should not be stopped to
+merge just because plan is not complete."
+
 ## How is a change checked?
 
 Before anyone builds, the session writes the change's **acceptance check**: a small script in
