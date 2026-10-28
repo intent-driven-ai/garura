@@ -57,8 +57,9 @@ One contract, three parts in this order. Each part reads the one before it.
    still open through the memory tool and `cite` what you use. RECORD `search.json`.
 2. **Build** — take `search.json`'s `partly` and `open` groups. For each: the source should
    show it → a note for the prototype; the context settles it → `settled`, with what settles
-   it; research can answer it → INVOKE `author-knowledge-page` (one page per topic; it writes a
-   draft), then raise the draft yourself:
+   it; research can answer it → INVOKE `author-knowledge-page` (one page per topic), handing it
+   the topic, the context and its `draft_path`, `<k>/pages/<topic-slug>.json`; it writes the
+   draft there. Then raise the draft yourself:
 
    ```bash
    python3 .garura/core/tools/memory/memory.py propose --request '{"issue": <issue>,

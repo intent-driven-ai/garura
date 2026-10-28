@@ -306,7 +306,7 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:9a868ef86ed4e0867022d40f2e3ad63a70cec91556fa0712959c65a90f43b677 (of `reference/ice.md`) |
+| fingerprint | sha256:2ed346c270bfc2e3d8ccae2197e4fba49818100a780629e6b34a9e9f396483b0 (of `reference/ice.md`) |
 | compiled_by | edit-loop (#920, ADR 059: the knowledge step is one step run by one agent); edit-loop (#689, ADR 043: one reading, one kind per play, the gap skills close the loop); create-loop (#613) |
 | kind | loop |
 | pipeline_position | both |

@@ -51,7 +51,8 @@ checked by a checker the config picks (ADR 043).
   can answer is drafted as knowledge pages for the person to approve, and for what only the
   person can confirm we draft our own answer. Only then does it reach the person — with the
   brief that step writes (R5b): what we understood, what we built, and a few gaps each with its
-  context and our proposed answer, never a questionnaire (Kapil, 2026-10-20). The answers are kept in the issue's short-term memory.
+  context and our proposed answer, never a questionnaire (Kapil, 2026-10-20). The answers are
+  kept in the issue's short-term memory.
 - C6 — A checker the config picks, which is not the loop's own model, judges the result against
   this intent from the loop's outputs only. A reject halts the loop.
 - C7 — The loop never confirms or drops an intent, and never changes an intent's state in the

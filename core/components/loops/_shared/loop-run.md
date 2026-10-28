@@ -4,8 +4,9 @@ The steps every loop runs, in order. A loop is a higher-order play: it runs othe
 until its intent is met or it fails, and carries no product rules of its own (ADR 029). It owns
 only the run steps every loop takes between its plays — the write-up (R3), reading the source
 once (R4b), closing the model's gaps after each round (R5 step 7) and the knowledge step with its
-brief to the person (R5c, R5b; ADR 059) — and those live here (ADR 044). So the run is the same for every loop and lives once, here, in the `_shared/` folder beside
-the plays' shared close. A compiled loop holds only the two anchor lines, its own values — its plays in order, its
+brief to the person (R5c, R5b; ADR 059) — and those live here (ADR 044). So the run is the
+same for every loop and lives once, here, in the `_shared/` folder beside the plays' shared
+close. A compiled loop holds only the two anchor lines, its own values — its plays in order, its
 questions, its config keys, its end — and points here. `/create-loop` emits exactly that, so
 a direct edit and a rebuild converge.
 
