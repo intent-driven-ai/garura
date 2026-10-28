@@ -1,57 +1,22 @@
 commits:
-  - sha: 486e6c65
-    message: "fix(check-change): make the compare-diff fallback wait, stop on unfixable failures and name fork heads (#889)"
+  - sha: 43fc62c2
+    message: "chore(stm): finish moving review round 1 records into their round folder (#889)"
     files:
-      - core/components/plays/check-change/scripts/fetch_pr_context.py
-      - core/components/plays/check-change/scripts/platform_adapter.py
-      - core/components/plays/check-change/scripts/test_fetch_pr_context.py
-      - core/components/plays/create-play/references/fetch_pr_context.py
-      - core/components/plays/create-play/references/platform_adapter.py
-      - core/components/plays/create-play/references/test_fetch_pr_context.py
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/shape-eval/scripts/platform_adapter.py
-      - core/components/plays/shape-plan/scripts/platform_adapter.py
-      - core/components/plays/shape-slice/scripts/platform_adapter.py
-      - core/components/skills/platform-adapter/SKILL.md
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
-    branch: feature/889-review-reads-full-diff
-  - sha: 2b22787d
-    message: "chore(stm): record review round 1 run artifacts (#889)"
-    files:
-      - .garura/project/issues/889/context/porcelain.txt
-      - .garura/project/issues/889/review/round-1/categories.yaml
-      - .garura/project/issues/889/review/round-1/context.yaml
-      - .garura/project/issues/889/review/round-1/decision-comment.md
-      - .garura/project/issues/889/review/round-1/decision.yaml
-      - .garura/project/issues/889/review/round-1/design-findings-harness.yaml
-      - .garura/project/issues/889/review/round-1/findings.yaml
-      - .garura/project/issues/889/review/round-1/layer1.txt
-      - .garura/project/issues/889/review/round-1/posted.json
-      - .garura/project/issues/889/review/round-1/pr.diff
-      - .garura/project/issues/889/review/round-1/quality-findings.yaml
-      - .garura/project/issues/889/review/round-1/recommended_verdict.yaml
-      - .garura/project/issues/889/context/memory/grounding-harness/manifest.json
-      - .garura/project/issues/889/context/memory/grounding-harness/tools/github/adapter.md
-      - .garura/project/issues/889/context/memory/grounding-harness/tools/gitlab/adapter.md
-      - .garura/project/issues/889/context/memory/knowledge/review/_index.md
-      - .garura/project/issues/889/context/memory/knowledge/review/adrs.md
-      - .garura/project/issues/889/context/memory/knowledge/review/code.md
-      - .garura/project/issues/889/context/memory/knowledge/review/config-maps.md
-      - .garura/project/issues/889/context/memory/knowledge/review/docs.md
-      - .garura/project/issues/889/context/memory/knowledge/review/harness.md
-      - .garura/project/issues/889/context/memory/knowledge/review/memory.md
-      - .garura/project/issues/889/context/memory/knowledge/review/tests.md
-      - .garura/project/issues/889/context/memory/manifest.json
-      - .garura/project/issues/889/context/memory/standards/rules/pr.md
-      - .garura/project/issues/889/context/templates/manifest-check-change.json
-      - .garura/project/issues/889/context/templates/standards/rules/pipeline-next.md
-      - .garura/project/issues/889/context/analysis.yaml
+      - .garura/project/issues/889/review/categories.yaml
+      - .garura/project/issues/889/review/context.yaml
+      - .garura/project/issues/889/review/decision-comment.md
+      - .garura/project/issues/889/review/decision.yaml
+      - .garura/project/issues/889/review/design-findings-harness.yaml
+      - .garura/project/issues/889/review/findings.yaml
+      - .garura/project/issues/889/review/layer1.txt
+      - .garura/project/issues/889/review/posted.json
+      - .garura/project/issues/889/review/pr.diff
+      - .garura/project/issues/889/review/quality-findings.yaml
+      - .garura/project/issues/889/review/recommended_verdict.yaml
     branch: feature/889-review-reads-full-diff
 excluded_files:
   []
-leftover_count: 11
-tree_clean: false
+leftover_count: 0
+tree_clean: true
 pushed: false
 run_state_committed: true
