@@ -18,7 +18,7 @@ tree:
   - issue: 731
     kind: functionality
     title: start-change cuts a plan's branch, and each issue's branch from it
-    status: done
+    status: now
   - issue: 673
     kind: functionality
     title: merge-change lands an issue on its plan branch, and a plan on main only when it is done
