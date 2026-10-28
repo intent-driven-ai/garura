@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """record_review.py — record the person's reply to the brief (Shared Loop Run, R5b).
 
-The loop shows the brief /check-knowledge wrote and waits for the person's typed reply:
-"yes" (take every proposal and every recommendation), or corrections to some gaps and pages.
+The loop shows the knowledge brief the knowledge-builder agent wrote (R5c) and waits for the
+person's typed reply: "yes" (take every proposal and every recommendation), or corrections to
+some gaps and pages.
 The loop writes that reply as review.json; this script checks it covers the whole brief and
 records the answers in the issue's short-term memory, so the next round's plays read them.
 
     python3 record_review.py --brief <working>/brief.json --reply <working>/review.json \
-        --build <build>/build.json --search <search>/search.json --review-dir <review_dir> \
+        --build <working>/build.json --search <working>/search.json --review-dir <review_dir> \
         --issue-dir <stm_base><issue>/ --round <n> --out <working>/review-record.json
 
 review.json:

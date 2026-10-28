@@ -57,15 +57,15 @@ without the checker's pass; confirming, dropping or otherwise changing an intent
 
 | Check | Constraint | Action on Failure |
 |-------|-----------|-------------------|
-| Config, the three plays installed and each accepts a loop contract, runner and checker known (`loop_preflight.py`) | C4 | Hard halt |
+| Config, the three plays installed and each accepts a loop contract, the knowledge step's skills installed, runner and checker known (`loop_preflight.py`) | C4 | Hard halt |
 | A working prototype is given — ask where it is and, for a file or folder, how it starts | C2 | Ask the person (gather, not a halt) |
 | The write-up is given, in its five parts | C2 | Ask the person (gather, not a halt); never write it yourself |
 | The prototype runs (`check_prototype.py`) | C2 | Hard halt, before anything is opened |
 
 ```bash
 git branch --show-current
-python3 scripts/loop_preflight.py --config .garura/core/config.yaml --loop discovery \
-    --skills-root .. --plays intent,vision,understand \
+python3 scripts/loop_preflight.py --config .garura/core/config.yaml --loop complete-discovery \
+    --skills-root .. --plays discover-intent,discover-domains,discover-capabilities \
     --branch "$(git branch --show-current)" --out <pre>/preflight.json
 python3 scripts/check_prototype.py --prototype "<where it is>" [--start "<how it starts>"] \
     --out <pre>/prototype.json
@@ -86,10 +86,8 @@ into the loop's working folder `{stm_base}<issue>/context/discovery/<run-ts>/` (
 [T6] Round n: run /discover-capabilities (if given work)     blockedBy: [T3b]
 [T6a] After the round: find and close the gaps    blockedBy: [T4, T5, T6]
 [T6b] After the round: done, again or ask         blockedBy: [T6a]  (again: back to T4, round n+1, only the plays given work)
-[T6c] Search the knowledge (search-knowledge)    blockedBy: [T6b] (only on ask)
-[T6d] Build the knowledge (research-knowledge)      blockedBy: [T6c]
-[T6e] Write the brief (check-knowledge)         blockedBy: [T6d]
-[T6f] Brief the person; record the reply         blockedBy: [T6e] (then back to T4)
+[T6c] The knowledge step (knowledge-builder)    blockedBy: [T6b] (only on ask)
+[T6d] Brief the person; record the reply         blockedBy: [T6c] (then back to T4)
 [T7] The checker                                  blockedBy: [T6b]
 [E1] commit-change                                blockedBy: [T7]
 [E2] propose-change                               blockedBy: [E1]
@@ -161,14 +159,14 @@ one play cannot answer goes to the loop, not to the person: the play records it 
 `open-<play>.json` and finishes what it can (C5). Round 1 runs all three, in turn; a later round
 runs only the plays `round-<n>.json` names in `next`, each on its `targets`.
 
-**Step 4 — Round n: run /discover-intent** · Owner: `discover-intent` · Depends on: Step 3b (or Step 6b, 6f)
+**Step 4 — Round n: run /discover-intent** · Owner: `discover-intent` · Depends on: Step 3b (or Step 6b, 6d)
 Run R5 for `discover-intent` on the capture: it writes business intents only, as `proposed`, naming
 each gap as an open question.
 
-**Step 5 — Round n: run /discover-domains** · Owner: `discover-domains` · Depends on: Step 3b (or Step 6b, 6f)
+**Step 5 — Round n: run /discover-domains** · Owner: `discover-domains` · Depends on: Step 3b (or Step 6b, 6d)
 Run R5 for `discover-domains` on the capture and the write-up: it writes domains only, found by research.
 
-**Step 6 — Round n: run /discover-capabilities** · Owner: `discover-capabilities` · Depends on: Step 3b (or Step 6b, 6f)
+**Step 6 — Round n: run /discover-capabilities** · Owner: `discover-capabilities` · Depends on: Step 3b (or Step 6b, 6d)
 Run R5 for `discover-capabilities` on the capture (`inputs.discover-capabilities.capture`; on a later round its
 `inputs.discover-capabilities.targets`): it writes capabilities and features with their ICE.
 
@@ -182,23 +180,18 @@ Run R5 step 8 (`round_state.py` with `--gaps` and `--close-report`, `--max-round
 `loops.complete-discovery.max_rounds`). `done` → Step 7. `again` → Step 4, round n+1, only the plays named
 in `next`. `ask` → Step 6c.
 
-**Step 6c — Search the knowledge** · Owner: `search-knowledge` · Depends on: Step 6b
-Run R5c's first play: `/search-knowledge` merges the questions asked again and answers what the
-prototype shows (quoted) and what memory holds (through the memory tool, traced).
+**Step 6c — The knowledge step** · Owner: loop · Depends on: Step 6b
+Run R5c (ADR 059): `group_questions.py` merges the questions asked again; one `knowledge-builder`
+dispatch answers what the prototype shows (quoted) and what memory holds (through the memory
+tool, traced), closes the rest — knowledge pages it raises as memory updates waiting for the
+person, our proposed answer with its basis and context, notes for the prototype, settled for
+what the context answers — and has the brief written: what we understood, what we built (each
+proposed business intent, the domains, the capabilities and features), a few gaps each with its
+context and our proposed answer, the knowledge pages with our recommendation, a pointer to the
+prototype notes. `check_knowledge.py` checks all three records.
 
-**Step 6d — Build the knowledge** · Owner: `research-knowledge` · Depends on: Step 6c
-Run R5c's second play: `/research-knowledge` closes the rest — knowledge pages as memory updates
-waiting for the person, our proposed answer with its basis and context, notes for the
-prototype, settled for what the context answers.
-
-**Step 6e — Write the brief** · Owner: `check-knowledge` · Depends on: Step 6d
-Run R5b step 1: `/check-knowledge` writes the brief — what we understood, what we built (each
-proposed business intent, the domains, the capabilities and features), a few gaps each
-with its context and our proposed answer, the knowledge pages with our recommendation, a
-pointer to the prototype notes.
-
-**Step 6f — Brief the person; record the reply** · Owner: loop · Depends on: Step 6e
-Run R5b steps 2–3: show the brief, wait for the reply, record it with `record_review.py`
+**Step 6d — Brief the person; record the reply** · Owner: loop · Depends on: Step 6c
+Run R5b: show the brief, wait for the reply, record it with `record_review.py`
 (`from: person`), then Step 4, round n+1.
 **SE-4 (F4/C4):** each play that ran has its `<play>-done.json` reading `done: true`; no
 play's contract input names another play's output; each play wrote only its own kind;
@@ -207,8 +200,7 @@ every node linked, no duplicate left, no screen uncovered.
 **SE-5 (F5/C5):** the memory tool's `citations --issue <issue> --check` lists no problems, and
 every memory update the plays applied was approved by a person; the person was asked only in a
 round whose `round-<n>.json` reads `ask`, never after a round that read `again`, and only after
-`/search-knowledge`, `/research-knowledge` and `/check-knowledge` ran for that round (their
-`search-check.json`, `build-check.json` and `brief-check.json` read `ok: true`); the person saw
+the knowledge step ran for that round (its `knowledge-check.json` reads `ok: true`); the person saw
 the brief, never a bare question; each answer is in the issue's short-term memory with
 `from: person` (`person-answers-round-<n>.json`).
 
@@ -255,7 +247,7 @@ reads `Stage: proposed`.
 - **SCE-3 (S3 — business owner, gaps closed round by round):** `round-1.json` reads `again`
   with `next` naming the plays and their targets, the last `rounds.json` reads `gaps_left: 0`
   and `open_left: 0`, any brief came only after a `round-<n>.json` that reads `ask`
-  (`brief-check.json` reads `ok: true`), and each answer is in the issue's short-term memory
+  (`knowledge-check.json` reads `ok: true`), and each answer is in the issue's short-term memory
   with `from: person`.
 - **SCE-4 (S4 — business owner, a checker reject):** `check.yaml` reads `verdict: reject` with
   a reason per failed criterion, and no pull request exists for the branch.
@@ -264,7 +256,7 @@ reads `Stage: proposed`.
 
 **Step 10 — Close** · Owner: loop · Depends on: Step 9
 **SE-8 (F8/C8):** an evidence file exists under `{stm_base}<issue>/evidence/discovery/`
-(`evidence.plays.discovery: true` in the config), naming every play's result, the contract, the
+(`evidence.plays.complete-discovery: true` in the config), naming every play's result, the contract, the
 answers and the checker's verdict.
 
 ```bash
@@ -297,7 +289,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | F2 | no prototype, or one that does not run | halt before opening; ask the person for a working prototype | human |
 | F3 | a play ran before the questions or the write-up, an answer or the write-up has no source, or a play walked the prototype again | stop; get the write-up and ask the questions, record each source, read the prototype once, re-run the play on the capture | autonomous |
 | F4 | a play took another's output or wrote another's kind, an unclean tree, or done with gaps left | halt; re-run the play on the capture alone, writing only its kind; commit the round; run the gap skills and the plays they give work to | autonomous |
-| F5 | an answer from the model alone, a stop for a question the loop could still answer, or a bare question put to the person | strip the answer, or go on round the loop; brief the person only on what no play answers (`/check-knowledge`: our proposed answer with its context); re-run the play | human |
+| F5 | an answer from the model alone, a stop for a question the loop could still answer, or a bare question put to the person | strip the answer, or go on round the loop; brief the person only on what no play answers (the knowledge step's brief: our proposed answer with its context); re-run the play | human |
 | F6 | done without the checker's pass | run the checker; a reject halts the loop | autonomous |
 | F7 | the loop changed an intent's state, or recorded a decision without the person's word | undo the change to the intent page; ask the person and record their own words | human |
 | F8 | no evidence record | write the evidence before closing; the close stays HALTED until it exists | autonomous |
@@ -314,8 +306,8 @@ a question resumes the same play with the person's answer (shared run, R5 step 3
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:ce505dc3760dbea9c83f0d0d0eb0240363495333a9fb34fde61abfe8310468b8 (of `reference/ice.md`) |
-| compiled_by | edit-loop (#689, ADR 043: one reading, one kind per play, the gap skills close the loop); create-loop (#613) |
+| fingerprint | sha256:9a868ef86ed4e0867022d40f2e3ad63a70cec91556fa0712959c65a90f43b677 (of `reference/ice.md`) |
+| compiled_by | edit-loop (#920, ADR 059: the knowledge step is one step run by one agent); edit-loop (#689, ADR 043: one reading, one kind per play, the gap skills close the loop); create-loop (#613) |
 | kind | loop |
 | pipeline_position | both |
 | plays | discover-intent, discover-domains, discover-capabilities |

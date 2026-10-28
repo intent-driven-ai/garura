@@ -45,11 +45,11 @@ OPENER = "# --- Shared Loop Run (shared; see ../_shared/loop-run.md) ---"
 CLOSER = "# --- end Shared Loop Run ---"
 VALUES = ("loop", "plays", "questions", "runner_key", "checker_key", "end")
 CHANGE_PLAYS = {"start-change", "commit-change", "propose-change", "check-change", "merge-change"}
-MEMBER_PLAYS = {"search-knowledge", "research-knowledge", "check-knowledge"}  # plays the Shared Loop Run runs inside every loop (R5c, R5b)
 LOOP_OWNERS = {"loop", "loop (script)", "checker"}
 STAMPED = ("loop_preflight.py", "write_loop_contract.py", "check_loop_contract.py",
            "check_play_done.py", "commit_run_files.py", "run_play_headless.py",
            "round_state.py", "loop_status.py", "prepare_check.py", "run_checker_codex.py", "record_check.py",
+           "group_questions.py", "check_knowledge.py", "record_review.py",
            "session_stamp.py", "check_stop_condition.py")
 CONTRACT_MARK = "check_loop_contract"
 
@@ -146,7 +146,7 @@ def check_plays(ctx):
 
 
 def check_owners(ctx):
-    allowed = LOOP_OWNERS | CHANGE_PLAYS | MEMBER_PLAYS | set(plays_of(loop_values(ctx["text"])))
+    allowed = LOOP_OWNERS | CHANGE_PLAYS | set(plays_of(loop_values(ctx["text"])))
     owners = [o.strip().strip("`").strip() for o in
               re.findall(r"Owner:\s*([^·\n]+?)\s*(?:·|$)", ctx["workflow"], re.M)]
     if not owners:

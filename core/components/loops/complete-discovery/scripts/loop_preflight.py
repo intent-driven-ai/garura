@@ -12,11 +12,13 @@ Facts: `stm_base`; `runner` (`loops.<loop>.runner`, default `subagent`); `checke
 (`loops.<loop>.checker`, kind default `subagent`; a sub-agent checker must name its model); `evidence_record`
 (`evidence.plays.<loop>`, else `evidence.record`, else true); `on_default_branch`; and
 `plays_ok` with `missing` (no SKILL.md under the skills root) and `no_contract` (a play that
-does not check a loop contract, so it cannot run inside a loop) — the loop's plays and the
-member plays every loop runs (`search-knowledge`, `research-knowledge`, `check-knowledge`).
+does not check a loop contract, so it cannot run inside a loop) for the loop's plays; and
+`knowledge_missing`, the skills of the loop's knowledge step (R5c, ADR 059) that are not
+installed.
 
 Exit 0 — facts written and every play is present and accepts a contract. Exit 2 — the config
-cannot be read, a play is missing or cannot run inside a loop, or the runner is unknown: the
+cannot be read, a play or a knowledge skill is missing, a play cannot run inside a loop, or
+the runner is unknown: the
 loop halts and says why. Reads files only; no git, gh or network. Standard library only.
 """
 import argparse
@@ -28,7 +30,8 @@ RUNNERS = ("subagent", "headless")
 CHECKERS = ("subagent", "coding-agent")
 DEFAULT_BRANCHES = {"main", "master"}
 CONTRACT_MARK = "check_loop_contract"
-MEMBERS = ("search-knowledge", "research-knowledge", "check-knowledge")  # member plays every loop runs (R5c, R5b)
+KNOWLEDGE_SKILLS = ("find-answers-in-sources", "author-knowledge-page", "propose-answers",
+                    "author-knowledge-brief")  # the skills the knowledge step's agent calls (R5c)
 
 
 def parse_config(text):
@@ -88,7 +91,9 @@ def resolve(cfg, loop, skills_root, plays, branch):
     evidence = ev_loop if ev_loop is not None else (ev_global if ev_global is not None else True)
     checker = get(cfg, "loops", loop, "checker", default={})
     checker = checker if isinstance(checker, dict) else {"kind": checker}
-    missing, no_contract = check_plays(skills_root, list(plays) + [m for m in MEMBERS if m not in plays])
+    missing, no_contract = check_plays(skills_root, plays)
+    knowledge_missing = [k for k in KNOWLEDGE_SKILLS
+                         if not os.path.isfile(os.path.join(skills_root, k, "SKILL.md"))]
     return {
         "loop": loop,
         "stm_base": get(cfg, "stm", "base-path"),
@@ -99,8 +104,9 @@ def resolve(cfg, loop, skills_root, plays, branch):
         "branch": branch,
         "on_default_branch": branch in DEFAULT_BRANCHES,
         "plays": plays,
-        "plays_ok": not missing and not no_contract,
+        "plays_ok": not missing and not no_contract and not knowledge_missing,
         "missing": missing,
+        "knowledge_missing": knowledge_missing,
         "no_contract": no_contract,
     }
 
@@ -113,6 +119,9 @@ def problems(facts):
                    f"`evidence.plays.kickoff` to `evidence.plays.{facts['loop']}`)")
     if facts["missing"]:
         out.append(f"these plays are not installed: {', '.join(facts['missing'])}")
+    if facts["knowledge_missing"]:
+        out.append(f"these skills of the knowledge step are not installed: "
+                   f"{', '.join(facts['knowledge_missing'])}")
     if facts["no_contract"]:
         out.append(f"these plays cannot run inside a loop (they check no loop contract): "
                    f"{', '.join(facts['no_contract'])}")

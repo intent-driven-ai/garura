@@ -15,9 +15,9 @@ only what none of its plays, memory or approved research answers.
   that issue.
 - C2 — The loop asks its own questions before any play runs and reads no memory itself. A
   question one play cannot answer is the loop's, not a stop: the play records it and finishes
-  what it can, and the other play, the next round or the knowledge plays may answer it. The loop
+  what it can, and the other play, the next round or the knowledge step may answer it. The loop
   briefs the person only on what none of them can — a few gaps, each with its context and our
-  proposed answer (ADR 041, ADR 042).
+  proposed answer (ADR 041, ADR 059).
 - C3 — The plays read the statement independently and each writes its own kind — `/discover-intent`
   business intents, `/discover-domains` domains — in rounds until the loop's job is done; no play takes
   another's output as its input; after each round the loop's gap skills link what they wrote
@@ -74,7 +74,7 @@ The injected end sequence: `commit-change` → `propose-change` → `check-chang
   run, the checker passes, and one pull request carries the change; measure: the contract,
   both plays' done verdicts reading held, and the checker's `pass` exist under the issue.
 - S2 — product owner. Given a statement where `/discover-domains` leaves a question no play or memory
-  answers; then `/discover-domains` records it and finishes, the knowledge plays run, the loop shows the
+  answers; then `/discover-domains` records it and finishes, the knowledge step runs, the loop shows the
   brief and the person confirms or corrects our proposed answer, and the next round fills it; measure: the answer is in the
   issue's short-term memory with `from: person`, and `/discover-domains`'s done verdict reads held.
 
@@ -83,7 +83,7 @@ The injected end sequence: `commit-change` → `propose-change` → `check-chang
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | a write outside the issue, or a second issue or branch | move the record under the loop's issue and run on the contract's branch | autonomous |
-| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the loop's own questions first; send an unanswered question to the loop (`open-<play>.json`), run the knowledge plays, brief the person on what is left, then run the next round | human |
+| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the loop's own questions first; send an unanswered question to the loop (`open-<play>.json`), run the knowledge step, brief the person on what is left, then run the next round | human |
 | F3 | a play took another's output, an unclean tree, or done with a node not linked | halt; re-run the play on the statement alone; commit the round; run the gap skills and the plays they give work to | human |
 | F4 | the loop would end done with no checker pass | run the checker; a reject halts the loop | autonomous |
 

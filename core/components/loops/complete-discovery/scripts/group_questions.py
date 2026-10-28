@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""group_questions.py — merge a loop's open questions into what is actually being asked (/search-knowledge).
+"""group_questions.py — merge a loop's open questions into what is actually being asked (the
+Shared Loop Run, R5c).
 
 A loop's round can leave dozens of open questions that are a few questions asked again: the
 same business proof once per intent and once per play, the same speed target once per
