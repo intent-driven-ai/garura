@@ -87,6 +87,11 @@ their order is enforced by each one's pre-flight, not by welding them into one p
   propose-change runs, then the PR opens against `plan/P/base`, not main. Measure: the PR's
   base on the host is `plan/P/base`; pr.json reads `on_target: true`; target.json names
   `plan/P/base`.
+- S6 — (developer, a plan's own branch) Given a committed branch `plan/P/base` whose plan is
+  pausing, when propose-change runs, then the PR opens (or is updated) against main and
+  references the plan's issue P. Measure: target.json reads `kind: plan` and `base: main`;
+  the PR's base on the host is main; the PR body references `#P`; pr.json reads
+  `on_target: true`.
 
 ### Done means
 

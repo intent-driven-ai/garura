@@ -1,14 +1,16 @@
 ---
 name: merge-change
 position: end
-description: 'Merge an approved change — merge the PR, switch to main and pull the latest, and delete the feature branch (local and remote). The final step of the end sequence in the ProductOS command model. Use when a reviewed, approved PR is ready to land.'
+description: 'Merge an approved change where its branch lands — its plan''s branch for an issue in a plan, main otherwise (a plan''s own branch lands on main while the plan is in progress) — switch to that branch and pull the latest, and delete the change''s branch (local and remote). The final step of the end sequence in the ProductOS command model. Use when a reviewed, approved PR is ready to land.'
 user-invocable: true
 ---
 
 # merge-change
 
-Merge an approved change: merge the PR, switch to main and pull the latest, and delete the
-feature branch (local and remote).
+Merge an approved change where its branch lands — its plan's branch for an issue in a plan,
+main otherwise; a plan's own branch lands on main while the plan is still in progress. Merge
+the PR, switch to that branch and pull the latest, and delete the change's branch (local and
+remote). An issue that lands on its plan's branch is closed there.
 
 **Pipeline position: end** (fourth step of the end sequence: commit-change →
 propose-change → check-change → merge-change). The D2 pipeline-position rule injects this
@@ -262,7 +264,7 @@ NOT hand-author the body.
 **Step C2 — Render delivery report.** Also render the **Next** line: resolve this play in the Next-line map (`$next_map`, from `template-manager`) and emit `**Next:** /<command> — <why>.` (omitted when the mapped command is null), per `play-close.md`. Fill the `delivery-report.md` slots and output the
 report: `## merge-change Delivered — #${issue}`, the Run Summary table, the Pipeline Steps
 table from the task DAG, the Artifacts Produced table (incl. the merge commit), Next Steps
-(the change has landed on main), and a pointer to `$evidence_dest`. Always emitted; never
+(the change has landed where its branch belongs: main, or its plan's branch), and a pointer to `$evidence_dest`. Always emitted; never
 gated.
 
 ```bash

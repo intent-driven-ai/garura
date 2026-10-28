@@ -8,8 +8,9 @@ user-invocable: true
 # propose-change
 
 Raise the current change for review: run a self-review on its scope and quality, push the
-branch, and open a pull request that carries that review — so the change is ready for
-check-change.
+branch, and open a pull request that carries that review against where the branch lands —
+its plan's branch for an issue in a plan, main for a plan's own branch or a one-off change —
+so the change is ready for check-change.
 
 **Pipeline position: end** (second step of the end sequence: commit-change →
 propose-change → check-change → merge-change). The D2 pipeline-position rule injects this
@@ -21,7 +22,7 @@ ordering is enforced by each one's pre-flight, not by welding them together.
 This play was compiled from the propose-change ICE (`reference/ice.md`) by edit-play
 (#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling; #673 plan targets).
 Intent defines constraints (C1–C9) and failure conditions (F1–F10); the expectation defines
-success scenarios (S1–S5), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
+success scenarios (S1–S6), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. This play is SINGLE-PASS: no loop, no iteration cap — the Done means is
 proven once, at the gated close.
 To modify this play, update `reference/ice.md` and recompile with edit-play.
@@ -53,7 +54,7 @@ play uses **zero domain agents**.
 | Check | Constraint | Action on Failure |
 |-------|-----------|-------------------|
 | Resolve working base + config (`.garura/core/config.yaml`) | — | Hard halt |
-| On a feature branch (not `main`) | C2 | Hard halt |
+| On a change's branch (not `main`) | C2 | Hard halt |
 | Working tree is clean (change is committed) | C3 | Hard halt |
 | Platform CLI available (`gh`) | C2 | Hard halt |
 | Resolve self-review rules file via `standards_order` (project override → base `standards/rules/self-review.md`) | C6 | Hard halt |
@@ -138,7 +139,7 @@ Opening or updating a PR is outward-facing. The checkpoint is a config switch pe
 `gates.classes.standard` → `gates.default`; absent ⇒ on) — per the #467 ruling
 `gates.plays.propose-change` is `off`, so the resolved default is the off path; flipping
 the config back to `on` restores the wait unchanged.
-- **On** — present the self-review and the PR draft (title, body, base = main, issue
+- **On** — present the self-review and the PR draft (title, body, base = `target.json.base`, issue
   reference) and wait for a typed approval. Approve → continue; cancel → halt without
   pushing or opening.
 - **Off** — do not wait: record `gate skipped by config (gates.plays.propose-change)` as
@@ -221,6 +222,9 @@ invoked for the push/PR work.
 - **SCE-5 (S5 — developer, issue in a plan):** for a branch `plan/<P>/<issue>-<slug>`, the
   PR's base on the host is `plan/<P>/base`, `target.json.base` names it, and `pr.json`
   reads `on_target: true`.
+- **SCE-6 (S6 — developer, a plan's own branch):** for a branch `plan/<P>/base`,
+  `target.json` reads `kind: plan` and `base: main`, the PR's base on the host is main, the
+  PR body references `#<P>`, and `pr.json` reads `on_target: true`.
 
 ### Phase: Evidence & Close
 
@@ -287,6 +291,7 @@ gated.
 | S3 — re-raise | developer | SCE-3 |
 | S4 — dirty tree | developer | SCE-4 |
 | S5 — issue in a plan | developer | SCE-5 |
+| S6 — a plan's own branch | developer | SCE-6 |
 
 ## Recovery
 
@@ -314,7 +319,7 @@ it rather than opening a new one (C5, F5).
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:065ab44879489f1056559b7aaf9d327cc5f563893ff0ac48d1eb375aa15ca198 (of `reference/ice.md`) |
+| fingerprint | sha256:6ade767e626b4604596a7ad070f7cec4432c300d29091e4e6d1e80bfb7dd221c (of `reference/ice.md`) |
 | compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #673 plan targets) |
 | pipeline_position | end |
 | workflow_structure | B (fast execution flow, single-pass — no loop, no cap; gated close) |
@@ -325,5 +330,5 @@ it rather than opening a new one (C5, F5).
 | standards_consumed | standards/rules/self-review.md (overrideable per project); standards/rules/gate-config.md (Step 2 switch) |
 | scripts | 8 (resolve_target.py — where the branch lands; resolve_standard.py — standards-file precedence; preflight.py — pre-flight facts; session_stamp.py — session identity stamp; check_stop_condition.py — Done-means gate; check_self_review.py — pre-push blocking-finding check; platform_adapter.py — code-host adapter; submit_pr.py — push + PR-open) |
 | step_evals | 10 (SE-1…SE-10) |
-| scenario_evals | 5 (SCE-1…SCE-5) |
+| scenario_evals | 6 (SCE-1…SCE-6) |
 | recovery_entries | 10 (one per failure condition; 8 autonomous / 2 human) |
