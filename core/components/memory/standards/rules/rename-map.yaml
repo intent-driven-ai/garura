@@ -1,5 +1,6 @@
 # rename-map.yaml — old component name -> new name (harness standard, #734, ADR 046).
 # Read by the old-name check (core/tools/naming/check_old_names.py) and by install-garura.
+# A name mapped to `null` was removed with no successor: the check still reports it.
 plays:
   intent: discover-intent
   vision: discover-domains
@@ -19,6 +20,10 @@ plays:
   learn: learn-outcomes
   review-change: check-change
   refactor: refactor-code
+  # Removed with no successor (ADR 059, #920): the knowledge step is a step of the loop, not a play.
+  # `null` keeps the old name caught by the old-name check; the install has no new name to lay.
+  build-knowledge: null
+  review-knowledge: null
   adr: record-decision
   play-creator: create-play
   play-editor: edit-play
