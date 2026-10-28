@@ -11,13 +11,13 @@ planned: false
 started: '2026-10-28'
 branch: null  # #920 landed on main through PR #932, 2026-10-28
 identified_by: []
-updated: '2026-10-28'  # #920 and its bugs done; #929 waits for the Phoenix memory promotion
+updated: '2026-10-28'  # epic #922 done: #929 promoted the pages to Phoenix memory (phoenix-memory dfdafe6)
 tree:
 - issue: 922
   kind: epic
   unplanned: true
   title: Fix the defects in the Discovery loop's knowledge step and the memory its agents read
-  status: now
+  status: done
   tracks:
   - issue: 920
     kind: bug
@@ -58,10 +58,14 @@ tree:
     kind: chore
     under: 921
     title: Send the pages the #920 change corrected to Phoenix memory
-    status: blocked
-    blocked_on: the product owner's yes to promote
+    status: done
   - issue: 930
     kind: story
     under: 922
     title: A decision record tells the person accepting it what was found on the way
     status: done
+  - issue: 941
+    kind: chore
+    under: 930
+    title: The templates index names the ADR template section for the person who accepts a decision
+    status: later
