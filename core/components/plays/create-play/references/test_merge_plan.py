@@ -108,6 +108,22 @@ def main():
             check("the issue is closed, because the host will not close it off main", "673" in g["issues_closed"])
             check("its capability closes once every issue under it is closed", "721" in g["issues_closed"])
             check("the issue branch is gone both sides", g["branch_deleted"])
+
+            # A first run merged, then stopped before closing the issue: the re-run closes it (H9).
+            json.dump({"approved": True, "mergeable": True, "pr_number": 9, "already_merged": True}, open(gate, "w"))
+            host = Host("plan/717/base", {"731": "CLOSED", "673": "OPEN"})
+            code = run(host, ["--branch", "plan/717/673-x", "--base", "plan/717/base", "--gate", gate,
+                              "--close-issue", "673", "--plans-dir", plans, "--plan-id", "717"])
+            g = json.load(open(gate))
+            check("a re-run on a merged PR still closes the landed issue",
+                  code == 0 and g["status"] == "already_merged" and "673" in g["issues_closed"])
+            check("a re-run does not merge again", not any(v == "merge-pr" for v, _ in host.calls))
+            host = Host("plan/717/base", {"731": "CLOSED", "673": "CLOSED", "721": "CLOSED"})
+            json.dump({"approved": True, "mergeable": True, "pr_number": 9, "already_merged": True}, open(gate, "w"))
+            run(host, ["--branch", "plan/717/673-x", "--base", "plan/717/base", "--gate", gate,
+                       "--close-issue", "673", "--plans-dir", plans, "--plan-id", "717"])
+            check("an issue already closed is not closed again",
+                  not any(v == "close-issue" and str(a.get("issue_number")) == "673" for v, a in host.calls))
         finally:
             os.chdir(cwd)
     print(f"\n{PASSED} passed, {FAILED} failed")

@@ -92,6 +92,24 @@ def _pr_base(config, pr_number):
     return None
 
 
+def _close_landed(ns):
+    """Close an issue that landed on its plan branch (and its capability once every issue
+    under it is closed). An issue already closed is left as it is, so a re-run is safe."""
+    closed = []
+    if not ns.close_issue:
+        return closed
+    import resolve_target as rt
+    if rt.tracker_state(str(ns.close_issue), ns.config, None) != "CLOSED":
+        res = pa.dispatch("close-issue", {"issue_number": ns.close_issue,
+                                          "comment": f"Landed on {ns.base} (merge-change)."},
+                          config_path=ns.config)
+        if res["exit_code"] == 0:
+            closed.append(str(ns.close_issue))
+    if ns.plans_dir and ns.plan_id:
+        closed += _close_finished_capability(ns, str(ns.close_issue))
+    return closed
+
+
 def _close_finished_capability(ns, issue):
     """Close the capability over `issue` when every issue under it is closed (#673)."""
     import resolve_target as rt
@@ -102,6 +120,8 @@ def _close_finished_capability(ns, issue):
     for cap in plan.get("tree") or []:
         kids = [str(i) for i in rt.work_issues(cap.get("children"))]
         if issue in kids and cap.get("issue") is not None:
+            if rt.tracker_state(str(cap["issue"]), ns.config, None) == "CLOSED":
+                return []
             if all(rt.tracker_state(i, ns.config, None) == "CLOSED" for i in kids):
                 res = pa.dispatch("close-issue", {"issue_number": cap["issue"],
                                                   "comment": "Every issue under it has landed."},
@@ -161,6 +181,9 @@ def main(argv=None):
     # where leftovers were observed (#491).
     if gate.get("already_merged"):
         base = _pr_base(ns.config, pr_number) if pr_number else None
+        if base == ns.base:
+            # A first run may have merged and stopped before closing the issue: close it now.
+            gate["issues_closed"] = _close_landed(ns)
         committed = finalize(True, _branch_gone(ns.branch),
                              {"status": "already_merged", "on_target": base == ns.base})
         sys.exit(0 if committed in (True, None) else 1)
@@ -194,16 +217,7 @@ def main(argv=None):
     branch_deleted = _branch_gone(ns.branch)
 
     # An issue in a plan lands on its plan branch, where the host does not close it.
-    closed = []
-    if ns.close_issue:
-        res = pa.dispatch("close-issue", {"issue_number": ns.close_issue,
-                                          "comment": f"Landed on {ns.base} (merge-change)."},
-                          config_path=ns.config)
-        if res["exit_code"] == 0:
-            closed.append(str(ns.close_issue))
-        if ns.plans_dir and ns.plan_id:
-            closed += _close_finished_capability(ns, str(ns.close_issue))
-    gate["issues_closed"] = closed
+    gate["issues_closed"] = _close_landed(ns)
     # Verify we landed on updated base.
     _, cur, _ = _git("branch", "--show-current")
     on_base = cur == ns.base

@@ -84,9 +84,10 @@ def main(argv=None):
 
     existing = _open_pr_number(ns.config)
     if existing:
-        # Update the existing PR's body/title rather than opening a second one (C5).
+        # Update the existing PR's body/title rather than opening a second one (C5), and point
+        # it at the target its branch lands on (#673; F10's recovery runs here, by itself).
         subprocess.run(["gh", "pr", "edit", existing, "--title", ns.title,
-                        "--body", body], capture_output=True, text=True)
+                        "--body", body, "--base", ns.base], capture_output=True, text=True)
         rec = _pr_record(ns.config, existing, ns.base)
     else:
         args = {"title": ns.title, "body": body, "base": ns.base}
