@@ -1,35 +1,114 @@
-# analyze_changeset.py output (C8 fast path), grouped by the repo-orchestrator (assess-changes), round 2
-# issue: 717
-branch: plan/717/base
-issue: 717
+---
 needs_judgment: false
-
 change_groups:
-  - id: chore-plan-717-upkeep
-    issue: 717
-    commit_type: chore
-    scope: plan
-    subject: "update plan 717 to match the plan-branch rule"
-    confidence: high
-    files:
-      - .garura/project/plans/717.yaml
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "Plan upkeep: #721 and #673 now, #791 out, branch null. Round 1 committed the docs group (30b117b0); this group failed on a git index lock and was not committed."
-
-exclusions:
-  - path: ".garura/project/issues/717/status/session-stamp-commit-change.json"
-    reason: "play run-state directory — mutated by the running play itself; committed later by an stm chore commit, never by its own run"
-    blocking: false
-  - path: ".garura/project/issues/717/status/stop-condition-commit-change.yaml"
-    reason: "play run-state directory — mutated by the running play itself; committed later by an stm chore commit, never by its own run"
-    blocking: false
-
+- id: preflight-plan-number
+  issue: 717
+  commit_type: fix
+  scope: preflight
+  subject: read the plan number from a plan's own branch in every play pre-flight
+  files:
+  - core/components/plays/build-epic/scripts/preflight.py
+  - core/components/plays/check-change/scripts/preflight.py
+  - core/components/plays/commit-change/scripts/preflight.py
+  - core/components/plays/create-play/references/preflight.py
+  - core/components/plays/create-play/references/test_resolve_plan.py
+  - core/components/plays/discover-capabilities/scripts/preflight.py
+  - core/components/plays/discover-domains/scripts/preflight.py
+  - core/components/plays/discover-intent/scripts/preflight.py
+  - core/components/plays/edit-ontology/scripts/preflight.py
+  - core/components/plays/learn-outcomes/scripts/preflight.py
+  - core/components/plays/list-focus-issues/scripts/preflight.py
+  - core/components/plays/merge-change/scripts/preflight.py
+  - core/components/plays/propose-change/scripts/preflight.py
+  - core/components/plays/record-decision/scripts/preflight.py
+  - core/components/plays/refactor-code/scripts/preflight.py
+  - core/components/plays/release-epic/scripts/preflight.py
+  - core/components/plays/release-increment/scripts/preflight.py
+  - core/components/plays/shape-agentic-lens/scripts/preflight.py
+  - core/components/plays/shape-architecture-lens/scripts/preflight.py
+  - core/components/plays/shape-eval/scripts/preflight.py
+  - core/components/plays/shape-marketing-lens/scripts/preflight.py
+  - core/components/plays/shape-measure-lens/scripts/preflight.py
+  - core/components/plays/shape-plan/scripts/preflight.py
+  - core/components/plays/shape-quality-lens/scripts/preflight.py
+  - core/components/plays/shape-run-lens/scripts/preflight.py
+  - core/components/plays/shape-slice/scripts/preflight.py
+  - core/components/plays/shape-ux-lens/scripts/preflight.py
+  - core/components/plays/start-change/scripts/preflight.py
+  - core/components/plays/validate-epic/scripts/preflight.py
+- id: setup-branch-resume
+  issue: 717
+  commit_type: fix
+  scope: setup-branch
+  subject: record the plan branch tip on a resume and cut a fresh plan branch when only a stale local copy is left
+  files:
+  - core/components/plays/create-play/references/setup_branch.py
+  - core/components/plays/create-play/references/test_setup_branch.py
+  - core/components/plays/start-change/scripts/setup_branch.py
+- id: pr-scripts-landing
+  issue: 717
+  commit_type: fix
+  scope: change-scripts
+  subject: point an existing PR at its target and close a landed issue on the already-merged path
+  files:
+  - core/components/plays/create-play/references/merge_pr.py
+  - core/components/plays/create-play/references/submit_pr.py
+  - core/components/plays/create-play/references/test_merge_plan.py
+  - core/components/plays/merge-change/scripts/merge_pr.py
+  - core/components/plays/propose-change/scripts/submit_pr.py
+- id: lint-shared-scripts
+  issue: 717
+  commit_type: feat
+  scope: lint-components
+  subject: hold the plan scripts and pre-flight identical across plays in the shared-scripts rule
+  files:
+  - core/tools/lint-components/lib/rules/shared-scripts.js
+- id: create-play-plan-scripts
+  issue: 717
+  commit_type: docs
+  scope: create-play
+  subject: name the plan scripts a play copies from references
+  files:
+  - core/components/plays/create-play/SKILL.md
+- id: landing-branch-docs
+  issue: 717
+  commit_type: docs
+  scope: change-plays
+  subject: say a change lands where its branch belongs and add scenario S6 for a plan's own branch
+  files:
+  - core/components/plays/merge-change/SKILL.md
+  - core/components/plays/propose-change/SKILL.md
+  - core/components/plays/propose-change/reference/ice.md
+- id: stm-review-evidence
+  issue: 717
+  commit_type: chore
+  scope: stm
+  subject: record the review short-term memory copies and run records
+  files:
+  - .garura/project/issues/717/context/analysis-run1.yaml
+  - .garura/project/issues/717/context/analysis.yaml
+  - .garura/project/issues/717/context/memory/grounding-harness/manifest.json
+  - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/commits.md
+  - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/evidence-recording.md
+  - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/gate-config.md
+  - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/git.md
+  - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/naming.md
+  - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-position.md
+  - .garura/project/issues/717/context/memory/knowledge/review/_index.md
+  - .garura/project/issues/717/context/memory/knowledge/review/adrs.md
+  - .garura/project/issues/717/context/memory/knowledge/review/code.md
+  - .garura/project/issues/717/context/memory/knowledge/review/config-maps.md
+  - .garura/project/issues/717/context/memory/knowledge/review/docs.md
+  - .garura/project/issues/717/context/memory/knowledge/review/harness.md
+  - .garura/project/issues/717/context/memory/knowledge/review/memory.md
+  - .garura/project/issues/717/context/memory/knowledge/review/tests.md
+  - .garura/project/issues/717/context/memory/manifest.json
+  - .garura/project/issues/717/context/memory/standards/rules/pr.md
+  - .garura/project/issues/717/context/porcelain.txt
+  - .garura/project/issues/717/context/templates/manifest-check-change.json
+  - .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
+exclusions: []
 risks:
-  sensitive_files:
-    []
-
-eval_gates:
-  SE-1: {status: PASS, evidence: "1 group: the plan file; every other changed path is under .garura/project/issues/717/ (the play's own working files), left to its run-state chore commit"}
-  SE-5: {status: PASS, evidence: "no sensitive patterns matched in filenames or diff"}
+  sensitive_files: []
+notes:
+  warning: context/memory/standards/rules/pr.md matches password pattern; it is the severity taxonomy text (a pattern carrier), not a secret. Non-blocking.

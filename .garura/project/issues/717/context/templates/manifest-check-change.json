@@ -1,0 +1,17 @@
+{
+  "task_id": "load-next-map",
+  "status": "completed",
+  "templates": [
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/717/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "dfdafe6104e6",
+        "fingerprint": "sha256:7e0bdb113d9bd309e341b2cd9f0ac8b7534f2fe12b8467092b68a2388aedf7d9"
+      }
+    }
+  ],
+  "missing": []
+}
