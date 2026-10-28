@@ -1,74 +1,29 @@
+ M .garura/project/issues/920/context/commit-change/porcelain.txt
+ M .garura/project/issues/920/context/memory/manifest.json
  M .garura/user-provided/managing-work.md
  M core/components/agents/adr-keeper.md
+ M core/components/agents/change-reviewer.md
  M core/components/agents/knowledge-builder.md
  M core/components/loops/_shared/loop-run.md
- M core/components/loops/complete-discovery/SKILL.md
- M core/components/loops/complete-discovery/reference/ice.md
- M core/components/loops/complete-discovery/scripts/loop_preflight.py
- M core/components/loops/complete-discovery/scripts/round_state.py
+ M core/components/loops/complete-discovery/scripts/group_questions.py
  M core/components/memory/standards/rules/_index.md
  M core/components/memory/standards/rules/loop-contract.md
  M core/components/memory/standards/rules/naming.md
- M core/components/memory/standards/rules/naming.yaml
- M core/components/memory/standards/rules/pipeline-next.md
  M core/components/memory/standards/rules/pipeline-position.md
+ M core/components/memory/standards/rules/pr.md
  M core/components/memory/standards/rules/rename-map.yaml
-D  core/components/plays/check-knowledge/SKILL.md
-D  core/components/plays/check-knowledge/reference/ice.md
-D  core/components/plays/check-knowledge/scripts/check_brief.py
-D  core/components/plays/check-knowledge/scripts/check_loop_contract.py
-D  core/components/plays/check-knowledge/scripts/check_stop_condition.py
-D  core/components/plays/check-knowledge/scripts/preflight.py
-D  core/components/plays/check-knowledge/scripts/session_stamp.py
-D  core/components/plays/check-knowledge/scripts/test_review_knowledge_scripts.py
-D  core/components/plays/check-knowledge/stop-condition.yaml
- M core/components/plays/create-loop/SKILL.md
- M core/components/plays/create-loop/references/compiled-loop-example/SKILL.md
- M core/components/plays/create-loop/references/compiled-loop-example/reference/ice.md
- M core/components/plays/create-loop/references/compiled-loop-example/scripts/loop_preflight.py
- M core/components/plays/create-loop/references/compiled-loop-example/scripts/round_state.py
-R  core/components/plays/search-knowledge/scripts/group_questions.py -> core/components/plays/create-loop/references/group_questions.py
- M core/components/plays/create-loop/references/loop_preflight.py
-R  core/components/plays/check-knowledge/scripts/record_review.py -> core/components/plays/create-loop/references/record_review.py
- M core/components/plays/create-loop/references/round_state.py
+ M core/components/memory/standards/schemas/product-os/decision.yaml
+ M core/components/plays/create-loop/references/compiled-loop-example/scripts/group_questions.py
+ M core/components/plays/create-loop/references/group_questions.py
  M core/components/plays/create-loop/references/test_loop_scripts.py
- M core/components/plays/create-loop/scripts/lint_loop.py
- M core/components/plays/edit-loop/scripts/lint_loop.py
-D  core/components/plays/research-knowledge/SKILL.md
-D  core/components/plays/research-knowledge/reference/ice.md
-D  core/components/plays/research-knowledge/scripts/check_knowledge_build.py
-D  core/components/plays/research-knowledge/scripts/check_loop_contract.py
-D  core/components/plays/research-knowledge/scripts/check_stop_condition.py
-D  core/components/plays/research-knowledge/scripts/preflight.py
-D  core/components/plays/research-knowledge/scripts/session_stamp.py
-D  core/components/plays/research-knowledge/scripts/test_build_knowledge_scripts.py
-D  core/components/plays/research-knowledge/stop-condition.yaml
-D  core/components/plays/search-knowledge/SKILL.md
-D  core/components/plays/search-knowledge/reference/ice.md
-D  core/components/plays/search-knowledge/scripts/check_loop_contract.py
-D  core/components/plays/search-knowledge/scripts/check_search.py
-D  core/components/plays/search-knowledge/scripts/check_stop_condition.py
-D  core/components/plays/search-knowledge/scripts/preflight.py
-D  core/components/plays/search-knowledge/scripts/session_stamp.py
-D  core/components/plays/search-knowledge/scripts/test_search_knowledge_scripts.py
-D  core/components/plays/search-knowledge/stop-condition.yaml
- M core/components/skills/author-knowledge-brief/SKILL.md
- M core/components/skills/author-knowledge-brief/scripts/render_brief.py
- M core/components/skills/author-knowledge-page/SKILL.md
- M core/components/skills/find-answers-in-sources/SKILL.md
- M core/components/skills/propose-answers/SKILL.md
+ M core/components/plays/record-decision/scripts/adr.py
+ M core/components/skills/author-decision/scripts/adr.py
+ M core/components/skills/author-decision/scripts/test_adr.py
  M core/grounding/glossary.md
- M docs/components/agents.md
- M docs/components/loops.md
- M docs/components/plays.md
-?? ..json
-?? .garura/project/issues/920/context/commit-change/
-?? .garura/project/plans/606.yaml
+?? .garura/project/issues/920/context/memory/grounding-harness/
+?? .garura/project/issues/920/context/memory/grounding-memory/
+?? .garura/project/issues/920/context/memory/knowledge/
+?? .garura/project/issues/920/context/memory/standards/rules/
+?? .garura/project/issues/920/context/templates/
 ?? CLAUDE.md.new
-?? core/components/loops/complete-discovery/scripts/check_knowledge.py
-?? core/components/loops/complete-discovery/scripts/group_questions.py
-?? core/components/loops/complete-discovery/scripts/record_review.py
-?? core/components/plays/create-loop/references/check_knowledge.py
-?? core/components/plays/create-loop/references/compiled-loop-example/scripts/check_knowledge.py
-?? core/components/plays/create-loop/references/compiled-loop-example/scripts/group_questions.py
-?? core/components/plays/create-loop/references/compiled-loop-example/scripts/record_review.py
+?? core/components/memory/standards/rules/severity.md

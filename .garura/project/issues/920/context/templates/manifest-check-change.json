@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/920/context/templates/manifest-check-change.json"
+  },
+  "templates": [
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/920/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "23387be24c0d",
+        "fingerprint": "sha256:dd5e92bef37a1c6b0b18bcb86537ce5d3fe327cdeb696cf524c067c2619b2639"
+      }
+    }
+  ],
+  "missing": [],
+  "task_id": "load-next-map",
+  "error": null
+}
