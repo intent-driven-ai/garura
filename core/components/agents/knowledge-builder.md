@@ -68,9 +68,9 @@ One contract, three parts in this order. Each part reads the one before it.
      "requested_by": "knowledge-builder (the loop's knowledge step)"}'
    ```
 
-   and name the update it returns; only a person can confirm it → INVOKE `propose-answers` for
-   our answer with its basis and context, handing it what memory said about the gap. RECORD
-   `build.json`.
+   and name the update it returns, with the draft's `for_project_memory`, in the build group;
+   only a person can confirm it → INVOKE `propose-answers` for our answer with its basis and
+   context, handing it what memory said about the gap. RECORD `build.json`.
 3. **Brief** — GATHER what the run made (the product model's proposed intents, domain and
    capabilities), `search.json`, `build.json`, and the waiting pages through `updates`. INVOKE
    `author-knowledge-brief`, which writes `brief.json` and renders `brief.md` from it with its
