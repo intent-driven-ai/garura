@@ -76,6 +76,31 @@ standard (`docs/standards/harness-standard.md`).
 - **Title states the outcome**, in the language a reader operates in — what
   changes and for whom — not the files being touched.
 
+## An unplanned epic gathers defects being fixed together
+
+Not every plan is planned. When defects come in against work already delivered, they are
+fixed in the implementation, not in the product model, so there is nothing to shape: no
+`/shape-slice`, no new business intent, no slice. Ask first where the defect is. A defect in
+the implementation (a play, a skill, an agent, a script, a page of Garura's memory) is fixed
+this way. A defect in the product model (a wrong page, a wrong link) is fixed by the play that
+owns that part of the model.
+
+To fix several defects together, open an **unplanned epic** (issue type Epic, no label):
+
+- It serves the business intent whose delivered work broke, as that intent's sub-issue. Its
+  text says it stands for no slice, and it is done when every item on its checklist is closed.
+- Each Bug still hangs under the Story that introduced it, so the trace of where it came from
+  is kept. The epic tracks them with a checklist in its body, because an issue has only one
+  parent. A Chore hangs under the Story it serves; a Story with no other home hangs under the
+  epic.
+- Its plan is the business intent's plan file, `plans/<intent>.yaml`, with `planned: false`
+  and the epic as a node marked `unplanned: true`; the items it tracks are listed under it with
+  the Story each hangs from.
+- The fixes may land as one change, from one branch.
+
+Until `/shape-plan` can open one (#931), an unplanned epic is opened by hand. The first is
+#922, under business intent #606 (the product owner, 2026-10-28).
+
 ## Phoenix tools and the Phoenix project
 
 Tools built beside Garura — Argus (the review tool), and later Griffin, Sphinx and others —
