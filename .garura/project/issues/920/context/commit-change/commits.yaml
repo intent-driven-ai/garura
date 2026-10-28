@@ -1,20 +1,34 @@
 commits:
-  - sha: b08e3c08
-    message: "fix(naming): Skip ADR 059 in the old-name check and skip names removed with no successor in the rename (#920)"
+  - sha: 865faa23
+    message: "refactor(memory-rules): Take the severity rules out of this change, moved to #934 (#920)"
     files:
-      - core/tools/naming/check_old_names.py
-      - core/tools/naming/apply_renames.py
+      - core/components/memory/standards/rules/severity.md
+      - core/components/memory/standards/rules/pr.md
+      - core/components/memory/standards/rules/_index.md
+      - core/components/agents/change-reviewer.md
+      - .garura/user-provided/managing-work.md
     branch: feature/920-knowledge-steps-become-skills
-  - sha: c8e278a9
-    message: "chore(stm): Record the self-review and commit-change run artifacts (#920)"
+  - sha: ad3c3c0a
+    message: "docs(loop): Re-wrap the loop files and name the draft path for the research skill (#920)"
     files:
-      - .garura/project/issues/920/context/self-review.md
-      - .garura/project/issues/920/context/commit-change/porcelain.txt
+      - core/components/loops/_shared/loop-run.md
+      - core/components/loops/complete-discovery/reference/ice.md
+      - core/components/loops/complete-discovery/SKILL.md
+      - core/components/plays/create-loop/SKILL.md
+      - core/components/agents/knowledge-builder.md
+    branch: feature/920-knowledge-steps-become-skills
+  - sha: f56decd4
+    message: "chore(stm): Record the round-2 review records and copies (#920)"
+    files:
       - .garura/project/issues/920/context/commit-change/analysis.yaml
+      - .garura/project/issues/920/context/commit-change/porcelain.txt
+      - .garura/project/issues/920/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/920/context/memory/grounding-memory/standards/rules/gate-config.md
+      - .garura/project/issues/920/context/templates/manifest-check-change.json
     branch: feature/920-knowledge-steps-become-skills
 excluded_files:
   - path: "CLAUDE.md.new"
-    reason: "Untracked scratch draft of a project CLAUDE.md, not part of issue 920's change; left out of every commit"
+    reason: "Untracked draft of a project CLAUDE.md for installs; not part of #920 and not meant to be committed with it"
 leftover_count: 0
 tree_clean: true
 pushed: false
