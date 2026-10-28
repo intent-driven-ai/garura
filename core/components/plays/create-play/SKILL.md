@@ -254,7 +254,10 @@ checking a design.
    use from config.
 3. Copy the job scripts the play needs from `references/`: `setup_branch.py`,
    `submit_pr.py`, `read_merge_state.py`, `merge_pr.py`, `fetch_pr_context.py`,
-   `post_verdict.py`. Each one is built on the adapter.
+   `post_verdict.py`. Each one is built on the adapter. A play that works with plans also
+   gets the plan scripts: `resolve_plan.py` (start-change: which plan an issue is in, and its
+   branches) and `resolve_target.py` (propose-change and merge-change: where a branch lands;
+   merge-change's `merge_pr.py` uses it to close an issue that lands on its plan branch).
 4. The play's step runs the script directly.
 
 Because create-play writes these scripts into the play, a rebuild brings them back. The
