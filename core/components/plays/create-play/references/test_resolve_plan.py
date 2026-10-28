@@ -55,9 +55,12 @@ def main():
         check("an empty plans folder means no plan", rp.resolve(d, 5, "x")["plan_id"] is None)
     cfg = {}
     for branch, want in (("feature/731-plan-branches", "731"), ("plan/717/731-plan-branches", "731"),
-                         ("plan/717/base", None), ("fix/42-typo", "42"), ("main", None)):
+                         ("plan/717/base", "717"), ("fix/42-typo", "42"), ("main", None)):
         got = preflight.resolve(cfg, "start-change", branch, "")["issue"]
         check(f"pre-flight reads issue {want} from {branch}", got == want)
+    import resolve_target as rt
+    check("pre-flight and the landing script agree on a plan's own branch (H1)",
+          preflight.resolve(cfg, "commit-change", "plan/717/base", "")["issue"] == rt.classify("plan/717/base")["issue"])
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 
