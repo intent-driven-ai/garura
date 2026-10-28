@@ -1,77 +1,20 @@
 commits:
-  - sha: fdc1aa06
-    message: "fix(loop): The grouping script no longer calls the memory tool; it reads the round record (#920)"
+  - sha: b08e3c08
+    message: "fix(naming): Skip ADR 059 in the old-name check and skip names removed with no successor in the rename (#920)"
     files:
-      - core/components/plays/create-loop/references/group_questions.py
-      - core/components/loops/complete-discovery/scripts/group_questions.py
-      - core/components/plays/create-loop/references/compiled-loop-example/scripts/group_questions.py
-      - core/components/plays/create-loop/references/test_loop_scripts.py
-      - core/components/loops/_shared/loop-run.md
+      - core/tools/naming/check_old_names.py
+      - core/tools/naming/apply_renames.py
     branch: feature/920-knowledge-steps-become-skills
-  - sha: 54b18064
-    message: "fix(agents): Remove the loophole sentence from adr-keeper and carry for_project_memory in knowledge-builder (#920)"
+  - sha: c8e278a9
+    message: "chore(stm): Record the self-review and commit-change run artifacts (#920)"
     files:
-      - core/components/agents/adr-keeper.md
-      - core/components/agents/knowledge-builder.md
-    branch: feature/920-knowledge-steps-become-skills
-  - sha: 29087a32
-    message: "docs(memory-rules): Add severity rules for findings and defects (#920)"
-    files:
-      - core/components/memory/standards/rules/severity.md
-      - core/components/memory/standards/rules/pr.md
-      - core/components/memory/standards/rules/_index.md
-      - core/components/agents/change-reviewer.md
-      - .garura/user-provided/managing-work.md
-    branch: feature/920-knowledge-steps-become-skills
-  - sha: 7ca15433
-    message: "fix(naming): Keep build-knowledge and review-knowledge as null in the rename map (#920)"
-    files:
-      - core/components/memory/standards/rules/rename-map.yaml
-    branch: feature/920-knowledge-steps-become-skills
-  - sha: 418d77cb
-    message: "feat(adr): Add for_the_accepter to the decision schema and the ADR linter (#920)"
-    files:
-      - core/components/memory/standards/schemas/product-os/decision.yaml
-      - core/components/skills/author-decision/scripts/adr.py
-      - core/components/plays/record-decision/scripts/adr.py
-      - core/components/skills/author-decision/scripts/test_adr.py
-    branch: feature/920-knowledge-steps-become-skills
-  - sha: 9d9485ce
-    message: "docs(docs): Align glossary and rule wording with pipeline position, naming and loop contract (#920)"
-    files:
-      - core/grounding/glossary.md
-      - core/components/memory/standards/rules/pipeline-position.md
-      - core/components/memory/standards/rules/naming.md
-      - core/components/memory/standards/rules/loop-contract.md
-    branch: feature/920-knowledge-steps-become-skills
-  - sha: ac687273
-    message: "chore(stm): Record the run artifacts (#920)"
-    files:
-      - .garura/project/issues/920/context/commit-change/analysis.yaml
+      - .garura/project/issues/920/context/self-review.md
       - .garura/project/issues/920/context/commit-change/porcelain.txt
-      - .garura/project/issues/920/context/memory/manifest.json
-      - .garura/project/issues/920/context/memory/grounding-harness/manifest.json
-      - .garura/project/issues/920/context/memory/grounding-harness/standards/rules/concurrent-fanout.md
-      - .garura/project/issues/920/context/memory/grounding-harness/standards/rules/drive-contract.md
-      - .garura/project/issues/920/context/memory/grounding-harness/standards/rules/evidence-recording.md
-      - .garura/project/issues/920/context/memory/grounding-harness/standards/rules/user-facing-voice.md
-      - .garura/project/issues/920/context/memory/grounding-memory/knowledge/_DESIGN.md
-      - .garura/project/issues/920/context/memory/grounding-memory/manifest.json
-      - .garura/project/issues/920/context/memory/knowledge/review/_index.md
-      - .garura/project/issues/920/context/memory/knowledge/review/adrs.md
-      - .garura/project/issues/920/context/memory/knowledge/review/code.md
-      - .garura/project/issues/920/context/memory/knowledge/review/config-maps.md
-      - .garura/project/issues/920/context/memory/knowledge/review/docs.md
-      - .garura/project/issues/920/context/memory/knowledge/review/harness.md
-      - .garura/project/issues/920/context/memory/knowledge/review/memory.md
-      - .garura/project/issues/920/context/memory/knowledge/review/tests.md
-      - .garura/project/issues/920/context/memory/standards/rules/pr.md
-      - .garura/project/issues/920/context/templates/manifest-check-change.json
-      - .garura/project/issues/920/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/920/context/commit-change/analysis.yaml
     branch: feature/920-knowledge-steps-become-skills
 excluded_files:
   - path: "CLAUDE.md.new"
-    reason: "Untracked scratch draft of a CLAUDE.md, not part of issue 920; left out of every commit"
+    reason: "Untracked scratch draft of a project CLAUDE.md, not part of issue 920's change; left out of every commit"
 leftover_count: 0
 tree_clean: true
 pushed: false
