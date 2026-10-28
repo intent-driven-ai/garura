@@ -1,0 +1,1 @@
+Record the plan-branch decision for plan 717 (finding H2 of the PR #950 review): a plan merges into main when it pauses. Resume of #717 on plan/717/base; no new issue.
