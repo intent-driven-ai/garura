@@ -102,11 +102,8 @@ any new design-bearing category), run the Layer-2 sequence:
 
 Write the contract's `design_findings` file (the play names it per category, e.g.
 `design-findings-<category>.yaml`): each finding with its file, the principle violated, the
-committed source of that principle, and a severity set by the severity rules
-(`standards/rules/severity.md`): first whether it is a defect or a change (a change gets no
-severity), then P1 to P4 by the first rule that fits, with the rule named in its basis. The PR
-severity taxonomy (the short-term copy the assessment made) classifies only what its table
-matches.
+committed source of that principle, and a severity drawn from the PR severity taxonomy (the
+short-term copy the assessment made).
 
 ## Memory Reading Protocol
 
@@ -121,7 +118,7 @@ What you put in short-term memory (glob for `find`):
 | Job | What, and where |
 |-----|-----------------|
 | Assessment | every review playbook (`**/knowledge/review/*.md`) — the contract's `review_shelf` folder, `<issue folder>/context/memory/knowledge/review/`; the PR severity taxonomy (`**/standards/rules/pr.md`) — the contract's `severity_taxonomy` file, `<issue folder>/context/memory/standards/rules/pr.md`. The manifest is `<issue folder>/context/memory/manifest.json` |
-| Grounding | the severity rules (`**/standards/rules/severity.md`), and only what the shared copies do not hold: the standards and shelves the category's principles rest on (`**/standards/rules/*.md`, `**/knowledge/**`) — `<issue folder>/context/memory/grounding-<category>/<path as found>`, with the manifest `<issue folder>/context/memory/grounding-<category>/manifest.json` |
+| Grounding | only what the shared copies do not hold: the standards and shelves the category's principles rest on (`**/standards/rules/*.md`, `**/knowledge/**`) — `<issue folder>/context/memory/grounding-<category>/<path as found>`, with the manifest `<issue folder>/context/memory/grounding-<category>/manifest.json` |
 
 ## What You Do / MUST NOT Do
 

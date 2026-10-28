@@ -4,8 +4,6 @@
 
 **Mechanical rule:** Every row has `Standard ID`, `Severity`, `Match Rule` (grep regex or path glob), and `Evidence Required`. **No LLM judgment.** If no Match Rule fires against the diff, no finding is emitted for that standard. If a finding cannot be tied to a row in this table by `Standard ID`, the skill MUST reject it (F3 enforcement).
 
-**Findings this table cannot match** — a design-conformance finding, a defect found in a review or a run, a Bug — get their severity by judgment, from `standards/rules/severity.md`, never from this table.
-
 **Severity buckets:**
 - **P1 — Blocker.** Halts ship pipeline. Security, secrets, injection, auth, data-loss, breaking API contract, migration safety.
 - **P2 — Major.** Highlights without blocking. Lint errors, missing tests for new code, error-handling violations, load-critical perf regressions, structural BE/FE violations.

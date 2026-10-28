@@ -34,7 +34,6 @@ Agents and skills query this category when they need to know: **"What rules must
 | `git.md` | Branch naming conventions (feature/, fix/, hotfix/, etc.) and how branch patterns map to quality-gate priorities | `repo-orchestrator`, `cut-branch`, `start-change` |
 | `pr.md` | PR severity taxonomy — deterministic mapping from quality standard IDs (SEC, ARCH, BE, CODE, FE, TEST, DOC, OPS, PERF, DATA, DEBT) to P1–P4 severity buckets with grep / path match rules. No LLM judgment. | `review-pr`, `check-pr-quality`, `assess-pr` |
 | `self-review.md` | Base scope-and-quality self-review checklist a change runs before it is raised. Resolved via `standards_order` (most-specific wins); overrideable per project. Informational (rides in the PR), not the approve/reject gate. | `propose-change`, `assess-pr` |
-| `severity.md` | How a finding that needs judgment gets its severity — a design-conformance finding, a defect found in a review or a run, a Bug: written for any harness built on the Phoenix architecture: its parts and its six guardrails, first whether it is a defect or a change, then P1 (a guardrail broken, or the change breaks the rule it enforces; a run can no longer reach done; data, secrets, security), P2 (a loophole; a weakened guarantee), P3 (a check silently covers less), P4 (wording); a byproduct defect takes the severity of its own effect | `change-reviewer` (design findings in `/check-change`), anyone filing a Bug |
 
 ### Play lifecycle rules (auto-emitted by the play compiler)
 
