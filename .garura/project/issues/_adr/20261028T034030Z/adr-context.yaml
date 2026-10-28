@@ -1,0 +1,374 @@
+# adr-keeper context for the #920 decision (record-decision step 2, draft-adr)
+shape: markdown
+number: "059"                       # adr.py number --dir docs/adr -> {"next": "059", "taken": 58}
+slug: the-discovery-loops-knowledge-step-is-one-agent-step-and-the-knowledge-plays-are-removed
+title_hint: "The Discovery loop's knowledge step is one step run by one agent; the three knowledge plays are removed, and the memory that taught them is corrected"
+status: proposed
+date: 2026-10-28
+level: framework
+node_ref: ""
+decided_by: ""                      # filled only when a person accepts
+decided_in: "#920 (the knowledge steps become skills), the session of 2026-10-28; design .garura/project/issues/920/specs/redesign.md"
+brief: .garura/project/issues/_adr/20261028T034030Z/brief.md
+design: .garura/project/issues/920/specs/redesign.md
+template_path: .garura/project/issues/_adr/20261028T034030Z/context/templates/standards/templates/adr.md   # the run copy (Phoenix memory's, older)
+template_new_section: core/components/memory/standards/templates/adr.md   # Garura's source copy on this branch: adds "For the Person Who Accepts This" and its rule; write that section as this copy shows
+round: 2   # the person typed a change (brief "## Change", 2026-10-28); round-one judgments on supersede/amend are kept
+ontology_copy: .garura/project/issues/920/context/memory/standards/schemas/product-os/ontology.md   # read via memory tool (phoenix tier), copied to STM
+
+# ---------------------------------------------------------------------------
+# Older ADRs: overlap candidates (adr.py overlaps on the brief), each read and judged
+# ---------------------------------------------------------------------------
+supersedes:
+  - id: "042"
+    file: docs/adr/042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md
+    part: full
+    why: >
+      ADR 042 §1 made the knowledge step three member plays. The product owner calls that a bug and
+      retires the record. Because a full supersede ends everything ADR 042 decided, the new ADR must
+      carry forward, in its own words, the parts that still hold: §2 the person gets a brief, never a
+      questionnaire (at most seven gaps, settled points shown with why, waiting pages listed with a
+      recommendation, "yes" or corrections by id); §3 the loop shows the brief, records the reply into the
+      issue's short-term memory (from: person) and records each page decision through the memory tool's
+      `decide`; §4 memory only through the memory tool, with the one read-only `updates` exception for a
+      script. It also carries forward ADR 042's amendment of ADR 041 §5 (a brief, not a questionnaire) and
+      of ADR 039 §2 / §10 (the exception), now restated below as this ADR's own amendments.
+    keeps_in_substance: ["§2 the brief", "§3 show the brief and record the reply", "§4 memory only through the tool"]
+amends:
+  - id: "041"
+    file: docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md
+    part: >
+      §3 "Before it asks, the drive builds the memory it lacks" (as amended by ADR 042): the work is one
+      step of the loop, run by the knowledge-builder agent with skills, the memory tool and the loop's
+      scripts, not member plays · §4 "Member plays" (as amended by ADR 042 and, per its pointer, ADR 043):
+      a loop has no member plays; the knowledge step is a step of the loop; the change plays a loop runs
+      stay as they are · §5 "The person's questions, when they come" (as amended by ADR 042): restated
+      here — the person gets the knowledge brief, never a questionnaire
+    note: >
+      With no member plays left, ADR 041's own amendment of ADR 029 §4 ("holds for work plays, not member
+      plays") no longer has anything to exempt; ADR 029 §4 holds for every play a loop runs. Say this; it
+      is not a new amendment of ADR 029. ADR 041's Status line says ADR 043 amended §4 to make "the connect
+      step a member play too", but ADR 043's own body runs the connect step as two skills
+      (find-model-gaps, close-model-gaps), never a play; after this ADR no step of a loop is a member play.
+  - id: "039"
+    file: docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md
+    part: >
+      §2 "A play is a pure workflow and reads no memory" and §10's line on ADR 035 §4 ("only agents call the
+      tool"), as amended by ADR 042: the one read-only exception — a script may ask the memory tool's
+      `updates` for the issue's waiting memory updates — passes from "a knowledge play's own check script"
+      to the Discovery loop's scripts `check_knowledge.py` and `round_state.py` (round_state.py stops
+      reading memory-update files by path). The rest of §2 stands and is now kept: no skill calls the
+      memory tool (author-knowledge-page stops calling `propose`; the agent raises the page).
+    why: >
+      ADR 042 is superseded in full, so the exception it gave would lapse; the design keeps it (the check
+      script lists waiting updates "read-only, as ADR 042 allows") and adds round_state.py (it "asks the
+      memory tool (updates)"). A reader of ADR 039 must find who may call the tool.
+  - id: "044"
+    file: docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md
+    part: >
+      §1 "The Shared Drive Run owns the steps between plays" (as renamed by ADR 045): its list of run steps
+      gains the knowledge step (R5c: close the open questions; R5b: show the knowledge brief and record the
+      reply). It is a run step, not a product rule, so §1's rule that a loop carries no product rules of its
+      own stands.
+    why: >
+      §1 names R3, R4b and R5 as the steps the Shared Loop Run owns. The knowledge step was then run by
+      member plays; now loop-run.md runs it itself (agent + skills + loop scripts stamped into every loop by
+      create-loop). A reader of ADR 044 alone would think the shared run owns only three steps.
+  - id: "046"
+    file: docs/adr/046-one-naming-standard-for-every-harness-part.md
+    part: >
+      §4 "Plays take the verb of what they do", the clause "knowledge plays `search`, `research`, `check`":
+      there are no knowledge plays. `check` stays a change-play verb (check-change); `search` and
+      `research` are no longer play verbs. The skill verb `research` (§5) stands.
+    why: naming.md line 49 and naming.yaml lines 15, 23, 24 teach the clause; they change with it.
+
+not_affected:
+  - id: "043"
+    why: >
+      Its body never makes the connect step a play (two gap skills, no new play). Only the pointer it left on
+      ADR 041 says "member play"; that is handled through the ADR 041 §4 amendment. Its rounds and gap skills stand.
+  - id: "045"
+    why: "Its ICE-impact line names the knowledge plays as part of a wording-only rename; history, no rule that stands."
+  - id: "035"
+    why: "A researched page is still a memory update a person approves before use; the agent now raises it with `propose`."
+  - { id: "048", why: "Overlap only through shared files (pipeline-position.md, rename-map.yaml); no knowledge-step content." }
+  - { id: "053", why: "Overlap only through shared files; drops other plays." }
+  - { id: "051", why: "Overlap only through shared files; drops /next." }
+  - { id: "030", why: "Overlap only through pipeline-position.md; plan mode." }
+
+# ---------------------------------------------------------------------------
+# The bug, and the memory it left wrong (the brief's own "Why now": stays in Context)
+# ---------------------------------------------------------------------------
+bug:
+  statement: >
+    ADR 042 introduced a bug: it made one agent's job three member plays that no person runs. Found under #920:
+  findings:
+    - "Three pre-flights, loop-contract checks, stop conditions and closes per round, for one agent's job."
+    - "Two plays write their done record under old names, so the loop's done check cannot find them:
+       core/components/plays/research-knowledge/SKILL.md line 148 writes status/stop-condition-build-knowledge.yaml;
+       core/components/plays/check-knowledge/SKILL.md line 160 writes status/stop-condition-review-knowledge.yaml."
+    - "The research skill calls the memory tool itself, against ADR 039 §2:
+       core/components/skills/author-knowledge-page/SKILL.md lines 23 and 36 (`memory_tool`, `propose`)."
+    - "core/components/loops/complete-discovery/scripts/round_state.py line 58 reads
+       <issue>/review/memory-updates/*.json by path (ADR 042 left this as follow-up work)."
+    - "The memory search duplicated the memory tool."
+  memory_left_wrong:
+    why_it_matters: >
+      This project holds no memory of its own (ADR 038; no `initialize` yet), so its agents read Phoenix memory
+      (one copy on each machine, ~/.phoenix/core/memory). What Phoenix memory says is what the agents decide from.
+      The memory tool reports Phoenix memory's version as 23387be24c0d.
+    phoenix_pages_teaching_the_old_shape:   # all read through the memory tool, read --tier phoenix, 2026-10-28
+      - page: standards/rules/pipeline-next.md
+        fingerprint: "sha256:dd5e92bef37a1..."
+        lines: "21 (the Discovery loop's knowledge member plays); 76-79 ('# Loop members (run by a loop inside its rounds, never on their own)': search-knowledge, research-knowledge, check-knowledge)"
+      - page: standards/rules/_index.md
+        fingerprint: "sha256:e8e2f86dba666..."
+        lines: "56 (the loop-contract row: the loop 'runs its knowledge plays'); 13-15 list naming.md, naming.yaml, rename-map.yaml and 56 lists loop-contract.md, none of which Phoenix memory holds"
+      - page: standards/rules/pipeline-position.md
+        note: "speaks of 'member plays'; detail in for_the_accepter point 1"
+    missing_from_phoenix:                    # memory tool: find --every-tier, no tier answers (2026-10-28)
+      - standards/rules/loop-contract.md     # exists in core/components/memory/standards/rules/
+      - standards/rules/naming.md
+      - standards/rules/rename-map.yaml
+      - standards/rules/naming.yaml          # beyond the brief: for_the_accepter point 7
+    garura_product_model: ".garura/product/product-os/features/fn-744/feature.md line 4 names the knowledge plays (build-knowledge → research-knowledge, review-knowledge → check-knowledge)."
+    correction_path: >
+      Correct the pages in core/components/memory/standards/ (rules/ and templates/adr.md), then promote them to Phoenix
+      memory, a person's deliberate act after this change merges (ADR 039 §1). This ADR names the pages; it does not promote them.
+
+# ---------------------------------------------------------------------------
+# For the person who accepts this (the person's change, 2026-10-28): every point found on the way,
+# moved OUT of Context into the section "## For the Person Who Accepts This", right after Context.
+# Points 1-3 confirmed through the memory tool (read --tier phoenix; find --every-tier) on 2026-10-28.
+# ---------------------------------------------------------------------------
+for_the_accepter:
+  - point: "Phoenix memory's page on where a play sits in the pipeline is older than Garura's, and teaches names that no longer exist"
+    what_and_where: >
+      The rule page `standards/rules/pipeline-position.md` in Phoenix memory (memory tool: tier phoenix, version 23387be24c0d,
+      fingerprint sha256:8d332a3c4b3c…), against Garura's source copy `core/components/memory/standards/rules/pipeline-position.md`
+      (last changed in this repository on 2026-10-24, commit bf570ece). The brief dates the Phoenix copy to 2026-10-20; the memory
+      tool reports the tier's version, not a date for one page.
+    detail: >
+      The Phoenix copy calls the play builder `play-creator` (lines 4, 5, 31, 34 and on; it is now `/create-play`). It names the
+      review step of the end sequence `review-change` (lines 35, 50, 70, 71, 118; it is now `/check-change`). It lists the plays by
+      their old names (lines 11-14: `/vision`, `/understand`, `/measure`, `/grill`, `/learn`, `/refactor`, `/intent`, `/adr`, `/arch`,
+      `/ux`, `/implement`, `/roadmap`, `/marketing`, `/run`, `/launch`, `/shape`, `/agentic`, `/quality`, `/validate`, `/deploy`,
+      `/next`, `/focus`). It says "drive" and points to `drive-contract.md` (lines 15-17, 120) and `check_drive_contract.py`
+      (line 19). The source copy has the new names throughout (`create-play`, `check-change`, `/discover-intent`, `/record-decision`,
+      "loop", `loop-contract.md`, `check_loop_contract.py`). Separately, both copies use "members" (lines 47-56 in Phoenix) for the six
+      change plays a play's position brings in (`start-change` and the four end plays). That is a different meaning from the
+      knowledge "member plays" this decision removes.
+    why_it_matters: >
+      Every agent in this project reads this page from Phoenix memory, because the project has no memory of its own. A play built
+      from it gets an end sequence whose third step, `review-change`, no longer exists, so the built play cannot land its change.
+      An agent that looks up a play by the names on this page finds nothing.
+    this_decision_does: >
+      Promotes Garura's source copy to Phoenix memory (part 6), with its wording checked so that "member" reads only as the six
+      change plays. It keeps that meaning of "members"; it retires only the knowledge member plays.
+    you_decide: "Nothing beyond accepting this record."
+  - point: "Phoenix memory holds the loop contract only under its old name, the drive contract"
+    what_and_where: >
+      The rule page `standards/rules/drive-contract.md` in Phoenix memory (memory tool: tier phoenix, version 23387be24c0d,
+      fingerprint sha256:32588ee0ef37…). No tier holds `standards/rules/loop-contract.md` (memory tool: find --every-tier, no match).
+      Garura's source has `core/components/memory/standards/rules/loop-contract.md`. The brief dates the Phoenix page to 2026-10-20.
+    detail: >
+      `drive-contract.md` opens "# Drive Contract … A drive is a run of plays that keeps going until its goal is met" (lines 1-6).
+      ADR 045 renamed the drive to the loop and this page to the loop contract in Garura's source; the rename did not reach Phoenix
+      memory. The page still says `/build-memory` "builds the memory it lacks before it asks" (lines 124-125), the one play ADR 042 split into three.
+    why_it_matters: >
+      An agent that looks up the loop contract through the memory tool finds nothing, or, by a search for the contract's words,
+      the old drive version, which teaches drives, `/build-memory` and old field names. The loop and the plays that run inside it
+      depend on that contract.
+    this_decision_does: >
+      Adds `loop-contract.md` to Phoenix memory by promotion (part 6), after its lines 131-132, which cite ADR 042's member plays,
+      are corrected in the source.
+    you_decide: "Whether `standards/rules/drive-contract.md` is deleted from Phoenix memory when `loop-contract.md` is promoted. Left there, a search can still find the old drive version."
+  - point: "Phoenix memory's ADR template, which every decision record is drafted from, is older than Garura's"
+    what_and_where: >
+      The template `standards/templates/adr.md` in Phoenix memory (memory tool: tier phoenix, version 23387be24c0d, fingerprint
+      sha256:8be7c19d1725…), against Garura's source copy `core/components/memory/standards/templates/adr.md`. The copy this run of
+      `/record-decision` was handed (`.garura/project/issues/_adr/20261028T034030Z/context/templates/standards/templates/adr.md`)
+      is the Phoenix copy.
+    detail: >
+      The Phoenix copy names the play `/adr` and the skill `author-adr` (lines 12, 52; now `/record-decision` and `author-decision`).
+      It says "Inside a drive … at the drive's final review" (line 57). It offers the level `functionality` (lines 26, 69, 122; now
+      `feature`). Its example names `/intent`, `/vision`, "Kickoff" and `play-creator` (lines 154-156). It has no section for the
+      person who accepts the record: that section and its rule are new in the source copy on this branch, made under this change.
+    why_it_matters: >
+      Every ADR, in this project and in any project that reads Phoenix memory, is drafted from this template. Drafted from the old
+      copy, a record names plays that are gone, can take a level the model no longer has, and has no place to tell the person who
+      accepts it what was found on the way. This record itself was handed the old copy; the new section was taken from the source.
+    this_decision_does: "Adds the ADR template to the pages promoted to Phoenix memory (part 6); the source copy already has the new names and the new section (part 7)."
+    you_decide: "Nothing beyond accepting this record."
+  - point: "Garura's source memory and Phoenix memory differ far beyond the pages this decision touches"
+    what_and_where: "Garura's source memory (`core/components/memory/`) against Phoenix memory, as a whole."
+    detail: >
+      Counted on 2026-10-28: 49 pages differ between the two, 7 pages are in the source only, and 16 are in Phoenix memory only.
+      These counts come from the comparison named in point 5, which read the files by their paths; they have not been counted
+      again through the memory tool.
+    why_it_matters: >
+      Each differing page is a place where the agents of this project may decide from an older rule than the one Garura is built
+      with, the same way as points 1 to 3.
+    this_decision_does: >
+      Fixes only the pages it touches: `_index.md`, `pipeline-next.md`, `pipeline-position.md`, `loop-contract.md`, `naming.md`,
+      `naming.yaml`, `rename-map.yaml` and the ADR template. The rest is #921 ("Phoenix memory stays up to date as Garura is built,
+      and is versioned per release with its own release notes"), which serves business intent #899 ("A person works across
+      Garura's repositories in one change: the source, Phoenix memory and the projects stay in step").
+    you_decide: "Nothing here; #921 takes the rest. When #921 is worked, the counts should be taken again through the memory tool."
+  - point: "The ADR keeper agent broke the memory rule while drafting this record"
+    what_and_where: >
+      The `adr-keeper` agent (`core/components/agents/adr-keeper.md`), in the first draft of this record on 2026-10-28, run by hand
+      inside #920. The rule is `.claude/rules/garura-memory.md`.
+    detail: >
+      The agent listed and compared files inside the `phoenix-memory` repository by their paths. The rule says: "You find it only
+      through the memory tool, run from the project's root folder. Never read a memory file by its path." The agent then checked
+      again, through the memory tool, every fact it used; in this round, points 1 to 3 were read through the tool (`read --tier
+      phoenix`, `find --every-tier`), with the fingerprints given above. The counts in point 4 are the one thing that still rests
+      on the path comparison.
+    why_it_matters: >
+      The memory tool gives each answer its tier and its fingerprint, so a decision can cite what it rests on (`cite`) and a later
+      check can say when that source changed (`citations --check`). A read by path skips that: nothing records which tier said what,
+      and nothing flags it when the page changes.
+    this_decision_does: >
+      Fixes the agent. `core/components/agents/adr-keeper.md` now says how to find and compare pages through the tool (`find
+      --tier`, `--every-tier`, `read --tier`), treats Garura's source memory as repository files, and forbids reading, listing or
+      comparing memory by its path in any tier (part 7).
+    you_decide: "Nothing beyond accepting this record."
+  - point: "ADR 041's status line says the connect step is a member play; ADR 043 itself says it is not"
+    what_and_where: "The Status line of ADR 041 (`docs/adr/041-a-drive-runs-in-rounds-and-owns-its-questions.md`, line 3), and ADR 043 (`docs/adr/043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md`)."
+    detail: >
+      ADR 041's forward pointer for ADR 043 ends: "And §4 'Member plays' (as amended by ADR 042): the connect step is a member play
+      too." ADR 043's own text runs the connect step as two skills, `find-model-gaps` and `close-model-gaps`: "skills, not plays"
+      (line 65), and its ICE impact says "The two gap skills are new; no new play" (line 10).
+    why_it_matters: "A reader of ADR 041 alone would think a loop has a second member play, and look for a play that does not exist."
+    this_decision_does: "After it, no step of a loop is a member play (ADR 041 §4 is amended). Accepted ADRs are not edited; the forward pointer this decision writes on ADR 041 says so."
+    you_decide: "Nothing."
+  - point: "A fourth standard is missing from Phoenix memory: the machine half of the naming rules"
+    what_and_where: "`standards/rules/naming.yaml`: in Garura's source (`core/components/memory/standards/rules/naming.yaml`), in no memory tier (memory tool: find --every-tier, no match)."
+    detail: >
+      The brief names three standards the loop depends on that Phoenix memory lacks: `loop-contract.md`, `naming.md`,
+      `rename-map.yaml`. `naming.yaml` is missing the same way. Phoenix memory's own `_index.md` lists it (line 14: "The machine
+      half: the verb lists, industry terms, reserved built-in commands").
+    why_it_matters: "An agent that follows the index to the verb lists finds nothing, so it cannot check a new name against the standard (ADR 046)."
+    this_decision_does: "Adds `naming.yaml` to Phoenix memory with the other pages (part 6), after its lines 15, 23 and 24 drop the knowledge-play verbs."
+    you_decide: "Nothing beyond accepting this record."
+
+# ---------------------------------------------------------------------------
+# Decision parts (the brief's Decision, plus part 7 from the person's change)
+# ---------------------------------------------------------------------------
+decision_part_7:
+  title: "A decision record tells the person who accepts it what was found on the way, in full"
+  from: "the person's change, 2026-10-28: 'I think we should also update the ADR template so that things that I should know should be properly explained.'"
+  says:
+    - "The ADR template (core/components/memory/standards/templates/adr.md) gains the field for_the_accepter and the Markdown section 'For the Person Who Accepts This', right after Context: one sub-heading per point, five parts each (what and where; what is wrong, or worth knowing; why it matters; what this decision does; what you decide), and the rule that a point gives the detail itself (the lines, the names, the dates), not a summary."
+    - "author-decision writes that section from the context's for_the_accepter (core/components/skills/author-decision/SKILL.md, step 5)."
+    - "adr-keeper gathers those points, and reaches memory only through the memory tool, never by a path (core/components/agents/adr-keeper.md)."
+    - "The template is promoted to Phoenix memory with the other pages (part 6)."
+
+# ---------------------------------------------------------------------------
+# Affects (all paths checked to exist on branch feature/920-knowledge-steps-become-skills)
+# ---------------------------------------------------------------------------
+affects:
+  removed:
+    - core/components/plays/search-knowledge/      # SKILL.md, reference/, scripts/, stop-condition.yaml
+    - core/components/plays/research-knowledge/
+    - core/components/plays/check-knowledge/
+  agent_and_skills:
+    - core/components/agents/knowledge-builder.md   # one contract for the step; calls skills and the memory tool directly; raises pages with propose
+    - core/components/skills/author-knowledge-page/SKILL.md   # drafts the page only; stops calling the memory tool
+    - core/components/skills/author-knowledge-brief/ (SKILL.md line 53, scripts/render_brief.py line 6 name /check-knowledge's check)
+    - core/components/skills/find-answers-in-sources/SKILL.md (names the plays)
+    - core/components/skills/propose-answers/SKILL.md (lines 19-21 name /research-knowledge; unchanged for /shape-slice)
+  decision_records:                                   # new in round 2 (the person's change)
+    - core/components/memory/standards/templates/adr.md   # the section 'For the Person Who Accepts This' and its rule; for_the_accepter field
+    - core/components/skills/author-decision/SKILL.md     # step 5 writes the section
+    - core/components/agents/adr-keeper.md                # gathers for_the_accepter; memory only through the tool, never by path
+  loop:
+    - core/components/loops/complete-discovery/SKILL.md
+    - core/components/loops/complete-discovery/reference/ice.md   # C5 names /search-knowledge and /research-knowledge — an intent change, through /edit-loop
+    - core/components/loops/complete-discovery/scripts/loop_preflight.py   # MEMBERS tuple
+    - core/components/loops/complete-discovery/scripts/round_state.py      # asks the memory tool's updates
+    - "new loop scripts: group_questions.py, check_knowledge.py, record_review.py (in the loop's scripts/)"
+    - core/components/loops/_shared/loop-run.md   # R5c, R5b
+  loop_builders:
+    - core/components/plays/create-loop/SKILL.md
+    - core/components/plays/create-loop/references/loop_preflight.py
+    - core/components/plays/create-loop/references/test_loop_scripts.py
+    - core/components/plays/create-loop/references/compiled-loop-example/   # SKILL.md, scripts/loop_preflight.py
+    - core/components/plays/create-loop/scripts/lint_loop.py   # MEMBER_PLAYS
+    - core/components/plays/edit-loop/scripts/lint_loop.py     # MEMBER_PLAYS
+  memory_rules_source_then_phoenix:
+    - core/components/memory/standards/rules/_index.md
+    - core/components/memory/standards/rules/pipeline-next.md
+    - core/components/memory/standards/rules/pipeline-position.md
+    - core/components/memory/standards/rules/loop-contract.md   # lines 131-132 cite ADR 042's member plays
+    - core/components/memory/standards/rules/naming.md          # line 49
+    - core/components/memory/standards/rules/naming.yaml        # lines 15, 23, 24
+    - core/components/memory/standards/rules/rename-map.yaml    # lines 22-23 map to the removed names
+    - core/components/memory/standards/templates/adr.md         # promoted too (round 2)
+  phoenix_memory: "standards/rules/{_index.md, pipeline-next.md, pipeline-position.md} and standards/templates/adr.md corrected; standards/rules/{loop-contract.md, naming.md, naming.yaml, rename-map.yaml} added — by promotion"
+  docs_and_install:
+    - core/grounding/glossary.md   # the Loop entry
+    - docs/components/plays.md     # line 41
+    - docs/components/loops.md     # line 99
+    - docs/components/agents.md    # line 70
+    - docs/components/skills.md
+    - core/components/plays/install-garura/scripts/install.py   # retire_stale removes the installed copies of the three plays
+  product_model:
+    - .garura/product/product-os/features/fn-744/feature.md
+  not_affected_note: "check-change and change-reviewer say 'check-knowledge' for the review memory shelf (knowledge/review/), a different thing; they do not change."
+
+ice_impact: >
+  Agent intents change for the Discovery loop, the knowledge-builder agent and the adr-keeper agent. The loop's C5 stops naming
+  /search-knowledge and /research-knowledge: before it asks, the loop runs one step that closes the open questions
+  (an intent change, through /edit-loop). The knowledge-builder agent gets one contract for the whole step: it merges
+  nothing itself (group_questions.py does), answers from the loop's sources (find-answers-in-sources), looks in memory
+  through the memory tool (search, find, read, cite), has author-knowledge-page draft a researched page and raises it
+  with the tool's propose, has propose-answers draft what only the person can confirm, and has author-knowledge-brief
+  write the knowledge brief. author-knowledge-page stops calling the memory tool. The three plays' own ICE go with
+  them. create-loop compiles every new loop with the step and no member plays. propose-answers is unchanged for
+  /shape-slice. The adr-keeper agent also gathers the points for the person who accepts a record and reaches memory only
+  through the memory tool; author-decision writes those points as their own section. No ontology kind changes (the ICE kind
+  keeps its shape; ontology read through the memory tool).
+business_intent_check: none
+business_intent_check_reason: >
+  A framework decision on how a loop closes its open questions, how it reaches memory, and how a decision record is
+  written; no person's business intent changes, and the Business Intent kind's rules stand (ADR 031). The guard is run
+  against .garura/product/product-os/intents.
+
+options_considered:   # from the brief, as given
+  - { option: "Keep the three plays and fix the done-record names", why_not: "No person runs them, and the ceremony stays." }
+  - { option: "Three skills, each called by its own agent dispatch", why_not: "Three dispatches for one agent's job." }
+  - { option: "One loop step, one agent, skills plus direct memory-tool calls", chosen: true }
+
+related: ["ADR 029", "ADR 035", "ADR 038", "ADR 039", "ADR 041", "ADR 042", "ADR 043", "ADR 044", "ADR 045", "ADR 046", "#920", "#921", "#899", "#686"]
+
+consequences_from_design_and_findings:
+  positive:
+    - "One agent dispatch per round for the step, one check, one place a failure points to."
+    - "The done-record mismatch goes with its cause."
+    - "Every memory call is the agent's or a named read-only script's; no skill calls the tool."
+    - "Agents reading Phoenix memory learn the real shape once the pages are promoted."
+    - "A person accepting a record sees each thing found on the way in full, in one place, with what they decide."
+  negative:
+    - "Until the corrected pages are promoted, agents in this project still read the old shape from Phoenix memory and cannot find loop-contract.md, naming.md, naming.yaml or rename-map.yaml."
+    - "Two scripts now call the memory tool's read-only updates, where ADR 042 allowed one; the exception must stay read-only."
+    - "One step does more; its check (check_knowledge.py) must catch what three plays' checks caught. A failure is sent back at most twice."
+    - "An installed project keeps the three plays until its next install retires them."
+    - "propose-answers says it drafts from memory, but in this flow it is handed no memory (in the design, redesign.md line 48; not fixed here)."
+    - "Until the ADR template is promoted, /record-decision hands its agents the old Phoenix copy, which has no section for the accepter."
+
+work_this_creates:
+  - "/edit-loop complete-discovery: C5 and the loop's step (intent change)."
+  - "Direct edits: loop-run.md R5b/R5c, create-loop references and example loop, knowledge-builder, author-knowledge-page, the skills that name the plays."
+  - "Remove the three play folders; update loop_preflight.py, both lint_loop.py, tests, installer lists."
+  - "Correct the memory pages in core/components/memory/standards/ and promote them to Phoenix memory (part 6), including the ADR template; the person decides on drive-contract.md (for_the_accepter point 2)."
+  - "Glossary, docs/components, fn-744's feature page."
+  - "The rest of the gap between Garura's source memory and Phoenix memory: #921 (for_the_accepter point 4)."
+  - "After acceptance, the play writes the forward pointers on ADR 042 (superseded), ADR 041, ADR 039, ADR 044, ADR 046 (amended in part)."
+
+draft_instructions:
+  - "Write '## For the Person Who Accepts This' right after Context, one '### <point>' per for_the_accepter entry, in this order, each with the five bold-labelled lines of the source template (template_new_section). Give the detail itself, never a summary."
+  - "Move every finding out of Context into that section: Context keeps the situation, the bug and the memory it left wrong (the brief's Why now), and points to the section; it no longer holds 'two notes from the ADR keeper' or the naming.yaml finding."
+  - "Add Decision part 7 (decision_part_7). Add the ADR template to part 6's promoted pages. Add the three decision_records paths to the Affects header."
+  - "Keep round one's supersede and amend lines, Decision parts 1-6, Alternatives as they were, except where this file changes them."

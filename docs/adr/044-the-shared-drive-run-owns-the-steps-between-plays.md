@@ -1,6 +1,6 @@
 # ADR 044 — The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files
 
-**Status:** Accepted — amended in part by [ADR 045](045-a-drive-is-now-called-a-loop.md): §1 "The Shared Drive Run owns the steps between plays" — the name only: the Shared Drive Run is now the Shared Loop Run. What it owns does not change.
+**Status:** Accepted — amended in part by [ADR 045](045-a-drive-is-now-called-a-loop.md): §1 "The Shared Drive Run owns the steps between plays" — the name only: the Shared Drive Run is now the Shared Loop Run. What it owns does not change; and amended in part by [ADR 059](059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md): §1 "The Shared Drive Run owns the steps between plays" (as renamed by ADR 045): its list of run steps gains the knowledge step (R5c: close the open questions; R5b: show the knowledge brief and record the reply). It is a run step, not a product rule, so §1's rule that a loop carries no product rules of its own stands.
 **Date:** 2026-10-21
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #693 — after the reviews of PR #691 (#689) and PR #696 (#692, finding H1)

@@ -1,6 +1,6 @@
 ---
 name: propose-answers
-description: For each gap a loop's search could not close and only the person can confirm — who may decide, how we will know it works, how big it will get — draft our own proposed answer from what the loop's sources, memory and run already show, with its basis and the context the person needs to judge it, so the person confirms or corrects instead of answering a bare question. Closes as settled a gap the context already answers (an internal tool is not asked how it earns money). Used by the knowledge-builder agent in /research-knowledge, and by the product-os-keeper agent in /shape-slice (one proposal per gap question; the play's record_questions.py merge-proposals copies them into the questions). A value with no source gets no proposed answer.
+description: For each gap a loop's search could not close and only the person can confirm — who may decide, how we will know it works, how big it will get — draft our own proposed answer from what the loop's sources, memory and run already show, with its basis and the context the person needs to judge it, so the person confirms or corrects instead of answering a bare question. Closes as settled a gap the context already answers (an internal tool is not asked how it earns money). Used by the knowledge-builder agent in the loop's knowledge step (Shared Loop Run, R5c), and by the product-os-keeper agent in /shape-slice (one proposal per gap question; the play's record_questions.py merge-proposals copies them into the questions). A value with no source gets no proposed answer.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Glob, Grep
@@ -16,9 +16,9 @@ already saw, and shows why — so the person only says yes or corrects.
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `gaps` | yes | The gaps only the person can confirm, each with its id, its plain question, what is missing, and any partial answer. For /research-knowledge: the search groups still `partly` or `open` that research cannot answer. For /shape-slice: `questions.json`, one gap per question (its `id` is the group) |
-| `sources` | yes | What the answers may rest on. For /research-knowledge: the loop's Source evidence (for a prototype: views, journeys, the page). For /shape-slice: `gather.json` and its short-term copies (the model pages and memory lines read), and the question record (a person's earlier answers) |
-| `run` | yes | What the run made. For /research-knowledge: the proposed intents, the domain, its capabilities (the product model's files for this run). For /shape-slice: the intent page |
+| `gaps` | yes | The gaps only the person can confirm, each with its id, its plain question, what is missing, and any partial answer. For the loop's knowledge step: the search groups still `partly` or `open` that research cannot answer. For /shape-slice: `questions.json`, one gap per question (its `id` is the group) |
+| `sources` | yes | What the answers may rest on. For the loop's knowledge step: the loop's Source evidence (for a prototype: views, journeys, the page) and the memory lines the agent read for the gap, each with its trace. For /shape-slice: `gather.json` and its short-term copies (the model pages and memory lines read), and the question record (a person's earlier answers) |
+| `run` | yes | What the run made. For the loop's knowledge step: the proposed intents, the domain, its capabilities (the product model's files for this run). For /shape-slice: the intent page |
 | `out` | yes | Where to write the proposals (`<working>/proposals.json`) |
 
 ## Process

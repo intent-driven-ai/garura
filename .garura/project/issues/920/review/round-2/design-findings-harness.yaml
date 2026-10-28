@@ -1,0 +1,168 @@
+category: harness
+pr: 932
+round: 2
+base: main
+playbook: review/harness
+severity_source: >
+  .garura/project/issues/920/context/memory/standards/rules/pr.md (the PR taxonomy's buckets) and the
+  product owner's round-1 calls (.garura/project/issues/920/review/round-1/decision.yaml) as precedent.
+  The severity rules page (severity.md) is new on this branch and is not in any memory tier; it is not a
+  source here. Rule names below are the precedent's: "guardrail" (memory only through the tool; only
+  agents call the tool; plays and loops read no memory; installed parts read only installed files),
+  "loophole", "weakened guarantee", "silent cover", "wording".
+grounding:
+  memory_dir: .garura/project/issues/920/context/memory/grounding-harness/
+  note: >
+    Round 2 reads no new memory page. The round-1 copies in memory_dir stand. Every principle is read from
+    the base ref (git show main:<path>) or from the memory tool (search, --issue 920, short-term).
+  principles:
+    - id: G1
+      principle: "Plays orchestrate, agents gather context and call skills, skills do the work and write an artifact; an agent hands each skill a contract of file paths."
+      source: "docs/standards/harness-standard.md principle 2 at main"
+    - id: G2
+      principle: "Intent changes are made in the ICE and the part is compiled again; the compiled part records the ICE fingerprint."
+      source: "docs/standards/harness-standard.md principle 4 at main; CLAUDE.md Play Pipeline Rules"
+    - id: G3
+      principle: "Only agents call the memory tool; a skill never calls it; the exceptions are a script the architecture's own decision names, read-only (`updates`), and a loop's `decide` for a person's typed word."
+      source: "docs/adr/039 section 10 as amended by ADR 042 section 4 at main (check script, `updates`); docs/adr/041 part 8 at main (a drive may call `decide`); docs/adr/009 Rule 3 as amended by ADR 035. The two loop scripts now allowed (check_knowledge.py, round_state.py) rest on ADR 059, which is new on this branch: the product owner accepted that list in round 1, so it is precedent, not grounding."
+    - id: G4
+      principle: "Memory is never read, listed or compared by a path; an agent fetches it through the memory tool. Installed parts read only installed files."
+      source: "docs/standards/harness-standard.md principles 9 and 11 at main; .claude/rules/garura-memory.md; docs/adr/055 at main"
+    - id: G5
+      principle: "The Shared Loop Run owns a stated list of run steps between plays."
+      source: "docs/adr/044 section 1 at main"
+    - id: G6
+      principle: "Prose in the harness files hard-wraps at about 100 columns."
+      source: "the unchanged lines around each edit, same files, at main"
+
+round_1_check:
+  - id: H-2
+    round_1_severity: P1   # set by the product owner
+    status: fixed
+    evidence: >
+      core/components/loops/complete-discovery/scripts/group_questions.py (and its two copies under
+      core/components/plays/create-loop/references/) no longer imports subprocess or names the memory
+      tool; it takes --round-record <working>/round-<n>.json and reads the waiting updates from that
+      file's `open` list. core/components/loops/_shared/loop-run.md R5c step 1 passes
+      --round-record and says the script asks the tool nothing. round_state.py (R5 step 8) writes
+      that record before R5c runs, with `from: memory-update` and `ask`, which the script reads. The
+      three copies are byte-identical; test_loop_scripts.py passes (82 tests), including a test that
+      the script holds no `subprocess` and no `memory.py`. The only loop scripts left that call the
+      tool are check_knowledge.py and round_state.py, the two the product owner named.
+  - id: H-1
+    round_1_severity: P2   # set by the product owner
+    status: fixed
+    evidence: >
+      core/components/agents/adr-keeper.md: the sentence "that seed is a repository file, not a memory
+      tier: read it as one" is gone. The paragraph now says memory is reached only through the memory
+      tool, never by a path, for every tier and copy, and a new MUST NOT line says "Read, list or compare
+      memory by its path, in any tier - only through the memory tool". No other line in the file invites
+      a by-path read.
+  - id: H-3
+    round_1_severity: P4
+    status: fixed
+    evidence: >
+      loop-run.md opening paragraph now lists R5c and R5b (ADR 059) beside R3, R4b and R5 step 7; the
+      glossary Loop entry (core/grounding/glossary.md) lists "the knowledge step" among the run steps and
+      no longer names the three member plays.
+  - id: H-4
+    round_1_severity: P4
+    status: fixed
+    evidence: >
+      core/components/agents/knowledge-builder.md, Build part: "name the update it returns, with the
+      draft's `for_project_memory`, in the build group". The skill's Output block carries the field.
+  - id: F1
+    round_1_severity: P3   # set by the product owner
+    status: fixed
+    evidence: >
+      core/components/memory/standards/rules/rename-map.yaml keeps build-knowledge and review-knowledge
+      as `null` (removed, no successor) with a header line saying the check still reports them;
+      check_old_names.py searches every key and tolerates a null value; apply_renames.py skips null
+      values. Old-name check on the branch: ok, 0 hits (round-2 runnable-checks).
+  - id: F2
+    round_1_severity: change   # set by the product owner
+    status: fixed
+    evidence: >
+      core/components/memory/standards/schemas/product-os/decision.yaml lists `for_the_accepter`;
+      adr.py (author-decision and record-decision copies, identical) lints the Markdown section and the
+      YAML field; test_adr.py has tests for it. This is a memory-category item; the harness side
+      (adr-keeper gathers the points, author-decision writes them) agrees with the schema.
+  - id: F3
+    round_1_severity: P4
+    status: fixed
+    evidence: "core/components/memory/standards/rules/pipeline-position.md now reads 'These five plays are the members', matching its table."
+  - id: F4
+    round_1_severity: P4
+    status: fixed
+    evidence: "naming.md and loop-contract.md paragraphs are re-wrapped at about 100 columns."
+  - id: F5
+    round_1_severity: P4
+    status: fixed
+    evidence: "core/components/memory/standards/rules/_index.md now has a pipeline-next.md row (and a severity.md row)."
+  - id: L-1
+    status: not_in_scope   # product owner: create-loop is hand-written; same errors on main
+  - id: L-2
+    status: not_in_scope
+
+findings:
+  - id: H-5
+    severity: P4
+    rule: "wording (hard-wrap)"
+    standard_id: null
+    file: core/components/loops/_shared/loop-run.md
+    lines: "line 7 (the opening paragraph, 166 columns, rewritten for H-3); also core/components/loops/complete-discovery/reference/ice.md C5 paragraph ('context and our proposed answer, never a questionnaire (Kapil, 2026-10-20). The answers are kept ...', 132 columns) and core/components/plays/create-loop/SKILL.md section 3 ('\"brief the person on what the loop could not answer\" (loop, R5b) -> the checker ...', 129 columns) and step 3 of the folder list ('`record_check.py`, `group_questions.py`, ...', 146 columns)"
+    principle: G6
+    committed_source: "the unchanged lines around each edit in the same files at main wrap at about 100 columns (git show main:<file>)"
+    basis: >
+      Rule: wording. Four edited paragraphs were joined onto one over-long line instead of re-wrapped.
+      The same kind of slip was F4 in round 1, which the product owner called P4. No guarantee or check
+      depends on it.
+    suggestion: Re-wrap the four paragraphs at about 100 columns.
+    category: harness
+  - id: H-6
+    severity: P4
+    rule: "wording (an instruction that leaves an input out)"
+    standard_id: null
+    file: core/components/agents/knowledge-builder.md
+    lines: "'The knowledge step', part 2 Build: 'INVOKE `author-knowledge-page` (one page per topic; it writes a draft), then raise the draft yourself'"
+    principle: G1
+    committed_source: "docs/standards/harness-standard.md principle 2 at main: an agent hands each skill a contract of file paths"
+    basis: >
+      Rule: wording. The reworked skill author-knowledge-page lists `draft_path` as a required input
+      (the page's place under <working>/knowledge-round-<n>/pages/), but the agent's Build part does not
+      tell the agent to hand it. The agent can still choose a path and read the draft back, and no check
+      reads the pages folder, so nothing breaks; the contract between the two is only incomplete.
+    suggestion: "Say in the Build part: hand the skill the topic, the context and `draft_path` (<working>/knowledge-round-<n>/pages/<topic-slug>.json)."
+    category: harness
+
+changes_not_defects:
+  # Something new that a neighbouring part does not know yet. Not a defect, no severity.
+  - id: CH-1
+    file: core/components/agents/change-reviewer.md (new severity wording) against core/components/plays/check-change/SKILL.md and scripts/compute_verdict.py
+    note: >
+      The agent now says a "change" finding gets no severity. compute_verdict.py documents every finding
+      as carrying `severity` P1..P4, and check-change's Step 2 copies only pr.md as the severity source.
+      The play and its verdict script do not know the new kind of finding, nor that the agent now wants
+      severity.md copied into its grounding folder (the page is in no memory tier yet). Work the change owes:
+      teach check-change, or file a Story.
+  - id: CH-2
+    file: core/components/plays/record-decision/SKILL.md and reference/ice.md (unchanged)
+    note: >
+      adr-keeper's context file gains `for_the_accepter`; the play's adr-context.yaml checks (SE-3) and its
+      ICE do not list the field. adr.py lint covers the record itself, so nothing slips through. Same kind
+      as round-1 F2.
+  - id: CH-3
+    file: core/components/loops/complete-discovery/scripts/round_state.py and check_knowledge.py
+    note: >
+      Both ask the memory tool's read-only `updates`. The committed rule on main (ADR 039 section 10 as
+      amended by ADR 042 section 4) gives that only to a knowledge play's check script; the widening to
+      these two loop scripts is ADR 059's, which is new on this branch. The product owner accepted exactly
+      these two in round 1, so it is recorded here, not raised.
+  - id: CH-4
+    file: core/components/plays/install-garura/scripts/install.py (retire_renamed, unchanged)
+    note: >
+      With build-knowledge and review-knowledge now mapped to null there is no new name to lay, so a project
+      installed before the install manifest existed keeps its old copies of those two plays; only
+      retire_stale (manifest) removes the three deleted plays. No project is known to be in that state.
+
+verdict_summary: "no P1, P2 or P3 in the harness category; two P4; four changes owed; all nine round-1 items fixed"

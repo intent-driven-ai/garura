@@ -3,8 +3,8 @@
 
 The agent writes the brief's content once, in brief.json. This script lays it out as the page
 the person reads, the same way every time, so the page holds exactly what the check reads and
-nothing written beside it. /check-knowledge's check renders brief.json again with this script
-and fails a brief.md that differs.
+nothing written beside it. The knowledge step's check (check_knowledge.py) renders brief.json
+again with this script and fails a brief.md that differs.
 
     python3 render_brief.py --brief <working>/brief.json --out <working>/brief.md
 

@@ -44,9 +44,10 @@ TEXT = (".md", ".py", ".js", ".yaml", ".yml", ".json", ".sh", ".txt", ".toml")
 FIRST_RENAME_ADR = 46
 RENAME_ADRS = {46, 48}  # they record the renames, so they name the old names on purpose
 # ADRs that quote an older ADR word for word, old names included. ADR 053 quotes ADR 033's
-# "`/intent` and `/adr` run by hand". An accepted ADR is not edited (only a forward pointer
-# may be added), so the check does not search these.
-QUOTING_ADRS = {53}
+# "`/intent` and `/adr` run by hand". ADR 059 quotes the old names of the plays and the loop it
+# found left behind, as the defect it records. An accepted ADR is not edited (only a forward
+# pointer may be added), so the check does not search these.
+QUOTING_ADRS = {53, 59}
 # Files whose keys are play or loop names (the next-step map, the config).
 KEYED_FILES = {"core/components/memory/standards/rules/pipeline-next.md", "core/config.yaml"}
 

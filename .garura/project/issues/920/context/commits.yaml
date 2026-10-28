@@ -1,0 +1,19 @@
+commits:
+  - sha: 97749e3c
+    message: "chore(stm): record run artifacts (#920)"
+    files:
+      - .garura/project/issues/920/context/analysis.yaml
+      - .garura/project/issues/920/context/porcelain.txt
+      - .garura/project/issues/920/context/memory/manifest.json
+      - .garura/project/issues/920/context/memory/standards/schemas/product-os/ontology.md
+      - .garura/project/issues/920/specs/redesign.md
+    branch: feature/920-knowledge-steps-become-skills
+excluded_files:
+  - path: ".garura/project/issues/_adr/20261028T034030Z/"
+    reason: "Working folder of the /record-decision run; that play's own Step 6 commits it, so this change must not take it (adr-check.json, adr-context.yaml, adr-draft.md, brief.md, context/templates/**, decision.yaml, hashes-before.json, porcelain-before.txt, run.json)."
+  - path: "CLAUDE.md.new"
+    reason: "Written by the install beside the real CLAUDE.md; never committed."
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

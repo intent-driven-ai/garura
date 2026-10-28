@@ -1,6 +1,6 @@
 ---
 name: author-knowledge-brief
-description: Write the brief a loop shows the person when it must reach them — what we understood, what we built, and where the gaps are, each with its context and our proposed answer — the way you would brief someone who can help close the piece. A few themed gaps (at most seven), the knowledge pages waiting for approval with our recommendation, and a pointer to the prototype notes. Never a questionnaire. Used by the knowledge-builder agent in /check-knowledge.
+description: Write the brief a loop shows the person when it must reach them — what we understood, what we built, and where the gaps are, each with its context and our proposed answer — the way you would brief someone who can help close the piece. A few themed gaps (at most seven), the knowledge pages waiting for approval with our recommendation, and a pointer to the prototype notes. Never a questionnaire. Used by the knowledge-builder agent in the loop's knowledge step (Shared Loop Run, R5c).
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Write, Glob, Grep, Bash
@@ -19,7 +19,7 @@ behind each. This skill writes that brief.
 | `run` | yes | What the loop made: the proposed intents, the domain, its capabilities |
 | `search` | yes | `search.json` — what the sources and memory answered |
 | `build` | yes | `build.json` — proposals, knowledge pages, prototype notes, settled gaps |
-| `pages` | yes | The waiting memory updates, as the memory tool's `updates` lists them |
+| `pages` | yes | The waiting memory updates, as the agent read them from the memory tool's `updates` |
 | `audience` | yes | Who reads it (for Discovery: who shared the prototype) |
 | `out` | yes | `brief.json` and `brief.md` |
 
@@ -50,7 +50,8 @@ behind each. This skill writes that brief.
 
    The script lays out the page the same way every time: the three headings, each gap as
    "What we saw" and "Our answer", the settled points, the pages, the notes and how to reply.
-   `/check-knowledge`'s check renders `brief.json` again and fails a `brief.md` that differs.
+   The knowledge step's check (`check_knowledge.py`) renders `brief.json` again and fails a
+   `brief.md` that differs.
 
 ## Output
 

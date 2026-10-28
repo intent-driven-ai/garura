@@ -1,0 +1,7 @@
+PLAY LINT: core/components/plays/edit-loop/SKILL.md
+  [GAP ] required sections: missing: Compiled From, Role, Pre-flight, Task DAG, Workflow, Scenario Validation, Recovery, Pause and Resume, Compilation Metadata
+  [GAP ] declared set: could not read C/F/S ranges from 'Compiled From' — coverage and orphan checks below are unreliable
+  [GAP ] pipeline position (D2): frontmatter missing or has no 'position' field (D2)
+  [GAP ] standard play close (D1): missing or misordered Standard Play Close anchors
+  [GAP ] fingerprint: missing or placeholder — compute a real one with shasum -a 256
+VERDICT: FAIL (5 gap(s))

@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/drive-contract.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:32588ee0ef3778c6e5cc508711fe96f6f7cb2b570efa65c1fd975614cc7843fa",
+      "copy": ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/drive-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
+      "copy": ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/user-facing-voice.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/concurrent-fanout.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:b717c8606645f240e78cb7c9bb9783d8e7d06bda8b029ea0de3d35232a72df8e",
+      "copy": ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/concurrent-fanout.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/evidence-recording.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:bbe5dd4de226615571fa3f2a0a857a1768b12a17e13eef5a27b47b25a6ef93e1",
+      "copy": ".garura/project/issues/920/context/memory/grounding-harness/standards/rules/evidence-recording.md"
+    }
+  ]
+}

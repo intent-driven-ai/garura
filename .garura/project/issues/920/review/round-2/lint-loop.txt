@@ -1,0 +1,27 @@
+LOOP LINT: core/components/loops/complete-discovery/SKILL.md
+  [PASS] required sections: all present
+  [PASS] failure coverage: every failure has a step eval
+  [PASS] scenario coverage: every scenario has a scenario eval
+  [PASS] constraint coverage: every constraint is in pre-flight or a step eval
+  [PASS] recovery 1:1: exactly one recovery per failure
+  [PASS] no orphans: no references to undeclared C/F/S
+  [PASS] standard play close (D1): evidence close block present
+  [PASS] stop condition (#464): Done means baked: manifest + checker present, clause types valid
+  [PASS] fingerprint: present
+  [PASS] next-command (pipeline-next): resolves in pipeline-next.md and the close renders Next
+  [PASS] kind: kind: loop
+  [PASS] loop position: position: both
+  [PASS] shared loop run: anchors present, once each, in order
+  [PASS] shared loop run file: ../_shared/loop-run.md exists
+  [PASS] loop values: loop, plays, questions, runner_key, checker_key, end set
+  [PASS] config keys: runner and checker keys name the loop's own config
+  [PASS] plays: 3 plays, each runs inside a loop
+  [PASS] step owners (ADR 029 §2): every step is run by the loop, its checker, or a play
+  [PASS] done means: the ICE has a Done means
+  [PASS] stamped scripts: the shared run's scripts are in scripts/
+  [PASS] stamped scripts unchanged: each stamped script matches its source
+  [PASS] fingerprint matches: the fingerprint is reference/ice.md's sha256
+  [PASS] config entries: config.yaml sets the loop's runner, checker and evidence
+  [PASS] one step and one done clause per play: every play has its step and its done clause
+  [PASS] handed inputs are read: every input handed to a play is one it reads
+VERDICT: PASS (0 gap(s))

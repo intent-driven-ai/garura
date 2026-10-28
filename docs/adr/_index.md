@@ -47,7 +47,7 @@ may have no Status line.
 | [039](039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md) | Every Memory Write Goes to Short-Term Memory, a Play Reads No Memory, and the Memory Tool Reads Phoenix Memory Without Copying It | Accepted | 2026-10-19 |
 | [040](040-config-source-is-core-config-yaml.md) | The Config's Source Is core/config.yaml; a Project's .garura/core/config.yaml Is the Installed Copy | Accepted | 2026-10-19 |
 | [041](041-a-drive-runs-in-rounds-and-owns-its-questions.md) | A Drive Runs Its Plays in Rounds, Owns the Questions No Play Can Answer, and Builds the Missing Memory Before It Asks | Accepted | 2026-10-20 |
-| [042](042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md) | A Drive Finds, Builds and Reviews the Knowledge It Lacks, and Briefs the Person Instead of Asking | Accepted | 2026-10-20 |
+| [042](042-a-drive-finds-builds-and-reviews-the-knowledge-it-lacks.md) | A Drive Finds, Builds and Reviews the Knowledge It Lacks, and Briefs the Person Instead of Asking | Superseded by [ADR 059](059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md) | 2026-10-20 |
 | [043](043-kickoff-plays-read-independently-and-the-drive-closes-the-loop.md) | The Kickoff Drive's Plays Read the Prototype on Their Own, Any Node Is Written Without Its Parent, and the Drive Connects the Nodes and Closes the Loop | Accepted | 2026-10-21 |
 | [044](044-the-shared-drive-run-owns-the-steps-between-plays.md) | The Shared Drive Run Owns the Steps Between Plays, and Inside a Drive the Gap-Closing Script May Write Shared Model Files | Accepted | 2026-10-21 |
 | [045](045-a-drive-is-now-called-a-loop.md) | A Drive Is Now Called a Loop, a Loop Is Always Named in Full, and the Five Loops Are Discovery, Slice, Execute, Ship and Learn | Accepted | 2026-10-21 |
@@ -64,3 +64,4 @@ may have no Status line.
 | [056](056-an-epic-and-a-story-are-marked-by-their-issue-type-with-no-label.md) | An Epic and a Story Are Marked by Their Issue Type, With No Label | Accepted | 2026-10-25 |
 | [057](057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md) | A Slice's Eval Is Plain-Text Gherkin, One File for Each Story and One for the Slice, That Runs With No Agent and Is Not Encrypted | Accepted | 2026-10-26 |
 | [058](058-an-edit-the-person-approves-may-change-a-slice-in-progress.md) | An Edit the Person Approves May Change a Slice in Progress, and Its Brief Names the Epic as Out of Date | Accepted | 2026-10-27 |
+| [059](059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md) | The Discovery Loop's Knowledge Step Is One Step Run by One Agent, the Three Knowledge Plays Are Removed, and the Memory That Taught Them Is Corrected | Accepted | 2026-10-28 |

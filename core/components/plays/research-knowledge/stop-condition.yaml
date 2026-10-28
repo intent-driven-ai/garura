@@ -1,9 +1,0 @@
-schema: {name: stop-condition}
-content:
-  done:
-    - id: D1
-      says: "the build record was written"
-      check: {type: artifact_exists, path: "build.json"}
-    - id: D2
-      says: "every gap the search left is closed one honest way"
-      check: {type: field_equals, file: "build-check.json", field: ok, equals: true}

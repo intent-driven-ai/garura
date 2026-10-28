@@ -46,8 +46,8 @@ a product moves through:
 | Run → Product | `learn` | `learn-outcomes` |
 
 Change plays use `start`, `commit`, `propose`, `check`, `merge`, `fix`, `refactor`; plan plays
-`draft`, `show`, `update`, `list`; knowledge plays `search`, `research`, `check`; `record` writes a
-decision; harness plays `create`, `edit`, `install`, `uninstall`.
+`draft`, `show`, `update`, `list`; `record` writes a decision; harness plays `create`, `edit`,
+`install`, `uninstall`.
 
 **Skills** — `<verb>-<object>`, the verb from the skill verbs (`author`, `infer`, `derive`, `scan`,
 `check`, `judge`, `assess`, `find`, `link`, `enrich`, `propose`, `research`, `rank`, `recommend`,

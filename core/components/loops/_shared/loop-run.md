@@ -3,9 +3,10 @@
 The steps every loop runs, in order. A loop is a higher-order play: it runs other plays
 until its intent is met or it fails, and carries no product rules of its own (ADR 029). It owns
 only the run steps every loop takes between its plays — the write-up (R3), reading the source
-once (R4b) and closing the model's gaps after each round (R5 step 7) — and those live here
-(ADR 044). So the run is the same for every loop and lives once, here, in the `_shared/` folder beside
-the plays' shared close. A compiled loop holds only the two anchor lines, its own values — its plays in order, its
+once (R4b), closing the model's gaps after each round (R5 step 7) and the knowledge step with its
+brief to the person (R5c, R5b; ADR 059) — and those live here (ADR 044). So the run is the
+same for every loop and lives once, here, in the `_shared/` folder beside the plays' shared
+close. A compiled loop holds only the two anchor lines, its own values — its plays in order, its
 questions, its config keys, its end — and points here. `/create-loop` emits exactly that, so
 a direct edit and a rebuild converge.
 
@@ -240,7 +241,8 @@ For each play in `plays`:
 
    ```bash
    python3 scripts/round_state.py --round <n> --max-rounds <loops.<loop>.max_rounds, default 3> \
-       --working <working> --review-dir "<review_dir>" --issue-dir "{stm_base}<issue>/" \
+       --working <working> --review-dir "<review_dir>" --issue <issue> \
+       --memory-tool .garura/core/tools/memory/memory.py \
        --model-path "<product_base>" --gaps <working>/gaps-round-<n>.json \
        --close-report <working>/close-report-round-<n>.json --out <working>/round-<n>.json
    ```
@@ -253,46 +255,89 @@ For each play in `plays`:
    - `ask` — a whole round closed nothing new, or the round limit is reached: the open
      questions and the gaps left are the loop's. Go to R5c, then R5b.
 
-### Step R5c — Find and build the knowledge the round found missing
+### Step R5c — Close what the round left: the knowledge step (ADR 059)
 
-Before asking anyone, run the knowledge member plays (ADR 042), each as a play runs (the
-configured runner, in the foreground, with the contract), in this order:
+Before asking anyone, the loop closes what it can of the open questions in one step, run by
+the `knowledge-builder` agent. It is a step of the loop, not a play: no pre-flight, done
+check or close of its own.
 
-```bash
-/search-knowledge --contract <working>/contract.json
-/research-knowledge  --contract <working>/contract.json
-```
+1. **Group the open questions.** The same question often comes from several plays. The waiting
+   memory updates come from the round record R5 step 8 wrote; this script asks the memory tool
+   nothing (ADR 059).
 
-`/search-knowledge` merges the questions asked again and answers what the loop's sources show
-(quoted) and what memory holds (through the memory tool, traced). `/research-knowledge` closes what
-it left: a researched knowledge page raised through the memory tool as a memory update waiting
-for a person (ADR 035), our proposed answer with its basis and context for what only the person
-can confirm, a note for each screen state the prototype lacks, and settled for what the context
-already answers. Each play's done check must hold; then commit its run files (R5 step 5).
+   ```bash
+   python3 scripts/group_questions.py --review-dir "<review_dir>" \
+       --round-record <working>/round-<n>.json --out <working>/question-groups-round-<n>.json
+   ```
+
+2. **Close them.** Dispatch `knowledge-builder` once, in the foreground, with this contract:
+
+       { "task":    "knowledge: close the round's open questions and write the brief",
+         "inputs":  { "groups": "<working>/question-groups-round-<n>.json",
+                      "sources": ["<the loop's Source evidence folders — for a prototype: views, journeys, the page>"],
+                      "issue": "<issue>", "run": "<working>",
+                      "audience": "<who gave the loop its input — for Discovery, who shared the prototype>",
+                      "check_script": "scripts/check_knowledge.py",
+                      "renderer": "<skills>/author-knowledge-brief/scripts/render_brief.py" },
+         "outputs": { "search": "<working>/knowledge-round-<n>/search.json",
+                      "build": "<working>/knowledge-round-<n>/build.json",
+                      "brief": "<working>/knowledge-round-<n>/brief.json",
+                      "brief_md": "<working>/knowledge-round-<n>/brief.md" },
+         "task_id": "knowledge-round-<n>" }
+
+   The agent searches, then builds, then writes the brief:
+   - **Search.** It confirms the groups by judgment, gives each one plain question, runs
+     `find-answers-in-sources` on every group (an answer quoted with its file), then looks up
+     what is still open through the memory tool (`search`, `find`, `read`) and `cite`s what it
+     uses. → `search.json`.
+   - **Build.** It closes each group the search left one way: a screen the source should show
+     → a note for the prototype; research can answer it → `author-knowledge-page` drafts the
+     page and the agent raises it with the memory tool's `propose` (a memory update waiting
+     for a person, ADR 035); the context settles it → settled, with what settles it; only the
+     person can confirm it → `propose-answers` drafts our answer with its basis and context.
+     → `build.json`.
+   - **Brief.** It reads the product model and the run for what we understood and what we
+     built, lists the waiting updates through the memory tool, and has `author-knowledge-brief`
+     write `brief.json` and render `brief.md` with `render_brief.py` (never by hand).
+
+   `<skills>` is the folder the installed skills sit in (`.claude/skills/`). Memory is reached
+   only through the memory tool; no skill calls it.
+
+3. **Check the step.**
+
+   ```bash
+   python3 scripts/check_knowledge.py --groups <working>/question-groups-round-<n>.json \
+       --search <k>/search.json --build <k>/build.json --brief <k>/brief.json \
+       --brief-md <k>/brief.md --issue <issue> --memory-tool .garura/core/tools/memory/memory.py \
+       --renderer <skills>/author-knowledge-brief/scripts/render_brief.py \
+       --out <k>/knowledge-check.json
+   ```
+
+   `<k>` is `<working>/knowledge-round-<n>`. Exit 0 — clean. Otherwise send the report back to
+   the agent (at most twice); still not clean halts the loop (`knowledge_not_closed`).
+4. **Commit the step's files** (R5 step 5, with `--play knowledge-round-<n>`). The step
+   changes nothing outside the issue's folder: the memory updates it raised wait in the
+   issue's short-term memory.
 
 ### Step R5b — Brief the person on what the loop could not close
 
 Only now, and only once per stop, the loop reaches the person — with a brief, never a
 questionnaire:
 
-1. Run the member play `/check-knowledge --contract <working>/contract.json`. It writes
-   `{stm_base}<issue>/context/check-knowledge/round-<n>/brief.md`: what we understood, what we
-   built (the draft first — for Discovery, each proposed business intent, the domain and its
-   capabilities), and where the gaps are — a few themed gaps, each with its context and our
-   proposed answer — then the points settled from the context, each with why, the knowledge
-   pages waiting for approval, each with its sources and our recommendation, and a pointer to
-   the notes for the prototype. Its done check must hold;
-   commit its run files.
-2. Show `brief.md` as it is, and wait for the typed reply (never `AskUserQuestion`). "yes" takes
-   every proposal and every recommendation shown; the person may correct a gap, a settled point
-   or a page by its id.
-3. Write the reply as `review.json` (`words` verbatim; each gap `accept` or the person's own
+1. Show `<k>/brief.md` as it is: what we understood, what we built (the draft first — for
+   Discovery, each proposed business intent, the domain and its capabilities), and where the
+   gaps are — a few themed gaps, each with its context and our proposed answer — then the
+   points settled from the context, each with why, the knowledge pages waiting for approval,
+   each with its sources and our recommendation, and a pointer to the notes for the prototype.
+   Wait for the typed reply (never `AskUserQuestion`). "yes" takes every proposal and every
+   recommendation shown; the person may correct a gap, a settled point or a page by its id.
+2. Write the reply as `review.json` (`words` verbatim; each gap `accept` or the person's own
    answer; each page `approve` or `reject`) and record it:
 
    ```bash
-   python3 <check-knowledge play dir>/scripts/record_review.py \
-       --brief <brief.json> --reply <working>/review.json --build <build.json> \
-       --search <search.json> --review-dir <review_dir> --issue-dir "{stm_base}<issue>/" \
+   python3 scripts/record_review.py \
+       --brief <k>/brief.json --reply <working>/review.json --build <k>/build.json \
+       --search <k>/search.json --review-dir <review_dir> --issue-dir "{stm_base}<issue>/" \
        --round <n> --out <working>/review-record.json
    ```
 
@@ -370,6 +415,7 @@ answers and the checker's verdict. The loop writes the one delivery report for t
 | Files outside the issue's folder stay changed after a play | `unclean_tree` |
 | The checker rejects | `checker_reject` |
 | The checker gives no verdict, or a malformed one | `checker_invalid` |
+| The knowledge step's check still fails after two fixes | `knowledge_not_closed` |
 | The person stops at the loop's questions | `stopped_at_question` |
 
 A halted loop closes HALTED with its exit reason. Its run stays under the issue, so a re-run

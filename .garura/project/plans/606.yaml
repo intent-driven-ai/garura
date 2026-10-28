@@ -1,0 +1,67 @@
+# Plan 606 — its ID is the business intent's issue number (ontology v11, Plan).
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later.
+# Unplanned: this plan was not shaped. Its one epic stands for no slice; it gathers defects
+# found in work already delivered under #606 and fixes them together (managing-work.md,
+# "An unplanned epic gathers defects being fixed together"). The Bugs hang under the Stories
+# that introduced them; the epic tracks them in its checklist, because an issue has one parent.
+id: 606
+title: Garura's agentic lifecycle runs as five loops, starting from a working prototype
+status: active
+planned: false
+started: '2026-10-28'
+branch: feature/920-knowledge-steps-become-skills
+identified_by: []
+updated: '2026-10-28'
+tree:
+- issue: 922
+  kind: epic
+  unplanned: true
+  title: Fix the defects in the Discovery loop's knowledge step and the memory its agents read
+  status: now
+  tracks:
+  - issue: 920
+    kind: bug
+    under: 686
+    title: The knowledge steps were built as three plays no one runs
+    status: now
+  - issue: 923
+    kind: bug
+    under: 744
+    title: Two knowledge plays write their done records under their old names
+    status: now
+  - issue: 924
+    kind: bug
+    under: 745
+    title: The Discovery loop's pre-flight uses the plays' and the loop's old names
+    status: now
+  - issue: 925
+    kind: bug
+    under: 613
+    title: The round script reads waiting memory updates from their files
+    status: now
+  - issue: 926
+    kind: bug
+    under: 686
+    title: The research skill calls the memory tool itself
+    status: now
+  - issue: 927
+    kind: bug
+    under: 686
+    title: The proposed-answers skill is handed no memory in the loop
+    status: now
+  - issue: 928
+    kind: bug
+    under: 632
+    title: The ADR keeper agent read Phoenix memory by its file paths
+    status: now
+  - issue: 929
+    kind: chore
+    under: 921
+    title: Send the pages the #920 change corrected to Phoenix memory
+    status: blocked
+    blocked_on: the product owner's yes to promote
+  - issue: 930
+    kind: story
+    under: 922
+    title: A decision record tells the person accepting it what was found on the way
+    status: now

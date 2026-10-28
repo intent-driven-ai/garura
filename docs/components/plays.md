@@ -38,11 +38,10 @@ in `core/components/loops/<loop>/`, are built by `/create-loop` and changed by
 checker, the end), as every play points to the shared close. The install lays loops as skills
 beside the plays.
 
-Every loop also runs three **knowledge member plays** inside its rounds (ADR 042):
-`/search-knowledge` answers open questions from the loop's sources and memory,
-`/research-knowledge` drafts knowledge pages and proposed answers for the rest, and
-`/check-knowledge` writes the brief the person reads — never a questionnaire. They reach memory
-only through the memory tool and run only inside a loop.
+Every loop also has a **knowledge step** inside its rounds (ADR 059): not a play, but one step
+of the shared run, where the `knowledge-builder` agent answers open questions from the loop's
+sources and memory, drafts knowledge pages and proposed answers for the rest, and writes the
+brief the person reads — never a questionnaire. Only the agent calls the memory tool.
 
 ## Two Play Patterns
 

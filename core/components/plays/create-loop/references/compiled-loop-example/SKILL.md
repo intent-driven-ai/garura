@@ -55,10 +55,8 @@ without the checker's pass.
 [T4] Round n: run /discover-intent                   blockedBy: [T3]
 [T5] Round n: run /discover-domains                   blockedBy: [T3]
 [T5b] After the round: done, again or ask    blockedBy: [T4, T5]   (again: back to T4, round n+1)
-[T5c] Search the knowledge                 blockedBy: [T5b] (only on ask)
-[T5d] Build the knowledge                  blockedBy: [T5c]
-[T5e] Write the brief                      blockedBy: [T5d]
-[T5f] Brief the person; record the reply   blockedBy: [T5e] (then back to T4)
+[T5c] The knowledge step                  blockedBy: [T5b] (only on ask)
+[T5d] Brief the person; record the reply   blockedBy: [T5c] (then back to T4)
 [T6] The checker                            blockedBy: [T5b]
 [E1] commit-change                          blockedBy: [T6]
 [E2] propose-change                         blockedBy: [E1]
@@ -109,10 +107,10 @@ The plays run in rounds until the loop's job is done (R5, C3). A question one pl
 answer goes to the loop, not to the person: the play records it in `open-<play>.json` and
 finishes what it can (C2).
 
-**Step 4 — Round n: run /discover-intent** · Owner: `discover-intent` · Depends on: Step 3 (or Step 5b, 5f)
+**Step 4 — Round n: run /discover-intent** · Owner: `discover-intent` · Depends on: Step 3 (or Step 5b, 5d)
 Run R5 for `discover-intent`. A later round: it reads what `/discover-domains` wrote and fills what it left open.
 
-**Step 5 — Round n: run /discover-domains** · Owner: `discover-domains` · Depends on: Step 3 (or Step 5b, 5f)
+**Step 5 — Round n: run /discover-domains** · Owner: `discover-domains` · Depends on: Step 3 (or Step 5b, 5d)
 Run R5 for `discover-domains` with the statement as `inputs.discover-domains.goal` — never another play's output
 (ADR 043).
 
@@ -122,20 +120,14 @@ is committed once, then `round_state.py` (with `--gaps` and `--close-report`, `-
 from `loops.sample-loop.max_rounds`). `done` → Step 6. `again` → Step 4, round n+1, only the
 plays named in `next`. `ask` → Step 5c.
 
-**Step 5c — Search the knowledge** · Owner: `search-knowledge` · Depends on: Step 5b
-Run R5c's first play: it answers what the sources show and what memory holds (through the
-memory tool).
+**Step 5c — The knowledge step** · Owner: loop · Depends on: Step 5b
+Run R5c: group the open questions, dispatch `knowledge-builder` once (it answers what the
+sources show and what memory holds, through the memory tool; raises knowledge pages as memory
+updates waiting for the person; drafts our proposed answer, with its basis and context, for
+what only the person can confirm; and writes the brief), then `check_knowledge.py`.
 
-**Step 5d — Build the knowledge** · Owner: `research-knowledge` · Depends on: Step 5c
-Run R5c's second play: knowledge pages as memory updates waiting for the person, and our
-proposed answer, with its basis and context, for what only the person can confirm.
-
-**Step 5e — Write the brief** · Owner: `check-knowledge` · Depends on: Step 5d
-Run R5b step 1: what we understood, what we built, a few gaps each with its context and our
-proposed answer.
-
-**Step 5f — Brief the person; record the reply** · Owner: loop · Depends on: Step 5e
-Run R5b steps 2–3: show the brief, record the reply (`from: person`), then Step 4, round n+1.
+**Step 5d — Brief the person; record the reply** · Owner: loop · Depends on: Step 5c
+Run R5b: show the brief, record the reply (`from: person`), then Step 4, round n+1.
 **SE-3 (F3/C3):** `discover-intent-done.json` and `discover-domains-done.json` read `done: true`; no play's
 contract input names another play's output; `round-<n>-commit.json` shows no leftover; the last
 `rounds.json` reads `gaps_left: 0`.
@@ -160,7 +152,7 @@ model; a reject halted the loop.
 - **SCE-1 (S1 — product owner):** `contract.json`, `discover-intent-done.json`, `discover-domains-done.json` and
   `check.yaml` (`verdict: pass`) exist under the issue; one pull request carries the change.
 - **SCE-2 (S2 — product owner):** `/discover-domains`'s question was in `open-discover-domains.json`, the knowledge
-  plays ran for that round, the person's answer is in the issue's short-term memory with
+  step ran for that round, the person's answer is in the issue's short-term memory with
   `from: person`, and `discover-domains-done.json` reads `done: true`.
 
 ### Phase: Evidence & Close
@@ -192,7 +184,7 @@ sc_exit=$?   # 0 held · 1 unmet · 2 error
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
 | F1 | a write outside the issue, or a second issue or branch | move the record under the loop's issue and run on the contract's branch | autonomous |
-| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the loop's own questions first; send an unanswered question to the loop (`open-<play>.json`), run the knowledge plays, brief the person on what is left, then run the next round | human |
+| F2 | a play ran before the questions, answered from nothing, or the person was asked what a play or memory answers | ask the loop's own questions first; send an unanswered question to the loop (`open-<play>.json`), run the knowledge step, brief the person on what is left, then run the next round | human |
 | F3 | a play took another's output, an unclean tree, or done with a node not linked | halt; re-run the play on the statement alone; commit the round; run the gap skills and the plays they give work to | human |
 | F4 | the loop would end done with no checker pass | run the checker; a reject halts the loop | autonomous |
 
@@ -207,7 +199,7 @@ from the first play not done.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:645685e1cd04eaa7be717cff9fb923ac19dd22b75df1b08f3342b5c5635ca421 (of `reference/ice.md`) |
+| fingerprint | sha256:c16942eb14108a8a6b97dc62094b2ec4bce71d7bf8bc95aae8ef84be7834a966 (of `reference/ice.md`) |
 | compiled_by | create-loop |
 | kind | loop |
 | pipeline_position | both |

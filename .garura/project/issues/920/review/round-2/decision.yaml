@@ -1,0 +1,12 @@
+decision: reject
+decided_by: human
+reply: "And this is not approved yet. You have to redesign that page and tell me what it is. I think the fix for round 2 is fine, but the page is what my problem is. If it is confusing the two, you can create a new feature request for working with Phoenix Harness and creating its own memory. Of course, the scale part of it is a different feature, and we can move it out and handle it there. Make sure all of this is recorded, and we can finish the current piece of work."
+round: 2
+round_1_fixes: accepted ("the fix for round 2 is fine")
+blocking:
+  - the severity page (standards/rules/severity.md) is not approved; it moves out of this change to #934
+moved_out:
+  - "#934 — findings and defects get one severity, P1 to P4, in three layers (industry: Mozilla S1-S4; surface; architecture); round 2's findings S1-S5 on the page go with it"
+  - "#933 — the Phoenix architecture memory under standards/architecture/phoenix/, which #934's third layer tests against"
+to_fix_this_round: [remove the severity page and its four pointers, H-5 (over-long lines), H-6 (the agent names the draft's place)]
+kept: the Severity line at the top of each Bug of epic #922 (the product owner's calls)
