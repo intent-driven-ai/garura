@@ -18,7 +18,7 @@ business intent, with done / now / next) or from `/list-focus-issues` (ADR 051).
 
 The lifecycle runs as five loops (ADR 028; the names are working names). The plays below are the steps inside each loop. Until the loop recipes exist (#594), a person runs each play, and this map tells them which comes next.
 
-- **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge member plays (`/search-knowledge`, `/research-knowledge`, `/check-knowledge`) run only inside it.
+- **Discovery loop (ADR 029):** `/discover-intent → /discover-domains → /discover-capabilities`. `/discover-intent` is optional: `/discover-domains` can still start from a goal typed as text. The Discovery loop (`/complete-discovery`) runs the three in rounds (ADR 041) and is listed here by its own name; its knowledge step is a step of the loop run by one agent, not a play (ADR 059).
 - **Shaping loop (ADR 049) — the live shape loop:** `/shape-slice <intent>`, then `/shape-plan <intent>`, then `/shape-eval <intent>`. `/shape-slice` hands to `/shape-plan`, which makes the intent's one plan: the plan file, one epic for each slice and one story for each feature; `/shape-plan` hands to `/shape-eval`, which writes each slice's eval. The build stage (#819) is not built yet, so `/shape-eval` has no Next line. The Discovery plays hand to the loop (`/shape-slice <intent>`, the business intent's issue number).
 - **Older chain, not the live loop:** the design plays of the old Shape loop. They are stale (#855): the install skips them, and each is rebuilt when its stage comes (ADR 053). Nothing in the map routes into them:
   - Functional: `/shape-ux-lens → /shape-agentic-lens → /shape-marketing-lens`
@@ -72,11 +72,6 @@ next:
 
   # Navigation
   list-focus-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
-
-  # Loop members (run by a loop inside its rounds, never on their own)
-  search-knowledge: { command: null,         why: "runs inside a loop; /research-knowledge follows" }
-  research-knowledge:  { command: null,         why: "runs inside a loop; /check-knowledge follows" }
-  check-knowledge: { command: null,         why: "runs inside a loop; the loop shows the brief and waits for the person" }
 
   # Change loop (git members)
   start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }

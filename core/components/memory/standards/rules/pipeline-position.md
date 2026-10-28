@@ -53,6 +53,7 @@ These six plays are the **members** — the building blocks. A member play decla
 so create-play knows the sequence composition. **A member is never injected into itself**:
 create-play recognizes the members by name and injects no sequence into one of them.
 Everything else with a non-`none` position is a **consumer** that receives injection.
+"Member" means only these six change plays: no step of a loop is a member play (ADR 059).
 
 ## How create-play injects it (explicit, named)
 

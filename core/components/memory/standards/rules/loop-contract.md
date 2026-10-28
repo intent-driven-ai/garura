@@ -92,9 +92,9 @@ A JSON file, passed to the play as `--contract <path>`:
    plays wrote and fills what it can — only from its sources, approved memory (an applied
    memory update included) and the product model the loop's plays wrote; never from a
    memory update still waiting for a person (ADR 035). A question no play of the loop can
-   answer goes to the loop's knowledge plays: they search the sources and memory, draft
-   knowledge pages and our proposed answers, and the loop briefs the person on what is left —
-   never a questionnaire (ADR 041, ADR 042). The person's answers are kept in the loop issue's
+   answer goes to the loop's knowledge step, run by one agent: it searches the sources and
+   memory, drafts knowledge pages and our proposed answers, and the loop briefs the person on
+   what is left — never a questionnaire (ADR 041, ADR 059). The person's answers are kept in the loop issue's
    short-term memory (ADR 039 §1) and reach the play on the next round as
    `answers.<play>.<question id>`.
 6. **A learned checkpoint still learns.** A play whose checkpoint learns from people's
@@ -128,7 +128,8 @@ the full contract holds those fields too; such plays move to the shared checker 
 - ADR 029 — Drives, now loops (ADR 045) (questions first; no stops for the plays' checkpoints; a new question
   stops the loop; the loop owns one issue, one branch, one pull request).
 - ADR 041 — a loop runs in rounds and owns the questions no play can answer.
-- ADR 042 — the knowledge member plays: `/search-knowledge` and `/research-knowledge` find and build
-  what the loop lacks; `/check-knowledge` briefs the person, never a questionnaire.
+- ADR 059 — the loop's knowledge step is one step run by the `knowledge-builder` agent, not
+  plays (it supersedes ADR 042): it finds and builds what the loop lacks and writes the brief the
+  loop shows the person, never a questionnaire (Shared Loop Run, R5c and R5b).
 - `standards/rules/gate-config.md` — gate kinds; the `deferred_to_loop_review` answer.
 - `standards/rules/pipeline-position.md` — the injected opening and end sequence a loop skips.

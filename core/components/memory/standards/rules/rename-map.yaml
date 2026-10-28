@@ -19,8 +19,6 @@ plays:
   learn: learn-outcomes
   review-change: check-change
   refactor: refactor-code
-  build-knowledge: research-knowledge
-  review-knowledge: check-knowledge
   adr: record-decision
   play-creator: create-play
   play-editor: edit-play
