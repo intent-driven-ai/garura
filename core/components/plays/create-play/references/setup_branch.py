@@ -43,6 +43,18 @@ def _branch_exists(branch):
     return bool(out_r.strip())
 
 
+def _on_origin(branch):
+    _, out_r, _ = _git("ls-remote", "--heads", "origin", branch)
+    return bool(out_r.strip())
+
+
+def _tip(branch):
+    rc, sha, _ = _git("rev-parse", f"origin/{branch}")
+    if rc != 0 or not sha.strip():
+        rc, sha, _ = _git("rev-parse", branch)
+    return sha.strip() if rc == 0 else None
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--issue", required=True)
@@ -67,6 +79,10 @@ def main(argv=None):
     if ns.plan_branch and not _branch_exists(branch):
         # The issue sits in a plan: bring the plan branch up to the latest main, or cut it.
         plan = ns.plan_branch
+        if not _on_origin(plan) and _branch_exists(plan):
+            # Only a stale local copy is left: the plan paused, merged into main and its branch
+            # was deleted on origin. A plan that starts again gets a fresh cut from main.
+            _git("branch", "-D", plan)
         if _branch_exists(plan):
             _git("fetch", "origin", plan)
             rc, _, err = _git("checkout", plan)
@@ -91,6 +107,10 @@ def main(argv=None):
         if not ns.no_push:
             _git("push", "-u", "origin", plan)
         _, base_sha, _ = _git("rev-parse", "HEAD")
+    elif ns.plan_branch:
+        # Resume of an issue in a plan: its branch was cut from the plan branch, so the
+        # base it records is the plan branch's tip, not main's.
+        base_sha = _tip(ns.plan_branch) or base_sha
 
     worktree_path = None
     if _branch_exists(branch):

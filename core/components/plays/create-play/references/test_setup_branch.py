@@ -72,6 +72,22 @@ def main():
 
         rc, r = run(work, out, "--issue", "731", "--branch-name", "plan/717/731-x", "--plan-branch", "plan/717/base")
         check("a re-run resumes the issue branch, with no new branch", rc == 0 and git(work, "branch", "--show-current") == "plan/717/731-x")
+        git(work, "checkout", "-q", "main"); commit(work, "c"); git(work, "push", "-q", "origin", "main")
+        rc, r = run(work, out, "--issue", "731", "--branch-name", "plan/717/731-x", "--plan-branch", "plan/717/base")
+        check("a resume records the plan branch tip as its base, not main's (H4)",
+              rc == 0 and r["base_sha"] == git(work, "rev-parse", "origin/plan/717/base")
+              and r["base_sha"] != git(work, "rev-parse", "origin/main"))
+
+        # The plan paused: its branch merged into main and was deleted on origin; a stale copy stays here.
+        git(work, "checkout", "-q", "main")
+        git(work, "push", "-q", "origin", "--delete", "plan/717/base")
+        stale = git(work, "rev-parse", "plan/717/base")
+        commit(work, "d"); git(work, "push", "-q", "origin", "main")
+        rc, r = run(work, out, "--issue", "740", "--branch-name", "plan/717/740-w", "--plan-branch", "plan/717/base")
+        check("a plan that starts again gets a fresh cut from main, not the stale local copy (H10)",
+              rc == 0 and r["plan_branch_created"]
+              and git(work, "rev-parse", "origin/plan/717/base") == git(work, "rev-parse", "origin/main")
+              and git(work, "rev-parse", "origin/plan/717/base") != stale)
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)
 
