@@ -1,0 +1,1055 @@
+diff --git a/.garura/project/issues/889/context/analysis.yaml b/.garura/project/issues/889/context/analysis.yaml
+new file mode 100644
+index 00000000..06226ea1
+--- /dev/null
++++ b/.garura/project/issues/889/context/analysis.yaml
+@@ -0,0 +1,43 @@
++---
++needs_judgment: false
++branch: feature/889-review-reads-full-diff
++issue: 889
++
++change_groups:
++  - id: fix-check-change-compare-diff
++    issue: 889
++    commit_type: fix
++    scope: check-change
++    subject: "read the compare diff when GitHub refuses a pull request's single diff"
++    confidence: high
++    files:
++      - core/components/plays/check-change/scripts/fetch_pr_context.py
++      - core/components/plays/check-change/scripts/platform_adapter.py
++      - core/components/plays/check-change/scripts/test_fetch_pr_context.py
++      - core/components/plays/create-play/references/fetch_pr_context.py
++      - core/components/plays/create-play/references/platform_adapter.py
++      - core/components/plays/create-play/references/test_platform_adapter.py
++      - core/components/plays/merge-change/scripts/platform_adapter.py
++      - core/components/plays/propose-change/scripts/platform_adapter.py
++      - core/components/plays/shape-eval/scripts/platform_adapter.py
++      - core/components/plays/shape-plan/scripts/platform_adapter.py
++      - core/components/plays/shape-slice/scripts/platform_adapter.py
++      - core/components/skills/platform-adapter/SKILL.md
++      - core/components/skills/platform-adapter/reference/github/verbs.md
++      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "One fix for one issue. The new adapter verb compare-diff (GitHub only) is copied identically into 7 plays; fetch_pr_context.py has 2 identical copies; the platform-adapter docs describe the same verb, so they stay in the same commit as the code they document (one issue, one commit)."
++
++exclusions:
++  - path: ".garura/project/issues/889/context/porcelain.txt"
++    reason: "commit-change run record (scan output), not part of the change"
++    blocking: false
++
++risks:
++  sensitive_files: []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "all 15 porcelain entries accounted for: 14 in one group, 1 excluded"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/889/context/branch.json b/.garura/project/issues/889/context/branch.json
+new file mode 100644
+index 00000000..a0cac873
+--- /dev/null
++++ b/.garura/project/issues/889/context/branch.json
+@@ -0,0 +1,6 @@
++{
++  "branch_name": "feature/889-review-reads-full-diff",
++  "base_sha": "e8f54c05975be3cd0c6dfe8f6a116163674dd7ff",
++  "on_default_branch": false,
++  "worktree_path": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/889/context/check-self-review.json b/.garura/project/issues/889/context/check-self-review.json
+new file mode 100644
+index 00000000..c352bfc4
+--- /dev/null
++++ b/.garura/project/issues/889/context/check-self-review.json
+@@ -0,0 +1,5 @@
++{
++  "clean": true,
++  "count": 0,
++  "blockers": []
++}
+diff --git a/.garura/project/issues/889/context/commits.yaml b/.garura/project/issues/889/context/commits.yaml
+new file mode 100644
+index 00000000..b34fc610
+--- /dev/null
++++ b/.garura/project/issues/889/context/commits.yaml
+@@ -0,0 +1,26 @@
++commits:
++  - sha: 33a84e05
++    message: "fix(check-change): read the compare diff when GitHub refuses a pull request's single diff (#889)"
++    files:
++      - core/components/plays/check-change/scripts/fetch_pr_context.py
++      - core/components/plays/check-change/scripts/platform_adapter.py
++      - core/components/plays/check-change/scripts/test_fetch_pr_context.py
++      - core/components/plays/create-play/references/fetch_pr_context.py
++      - core/components/plays/create-play/references/platform_adapter.py
++      - core/components/plays/create-play/references/test_platform_adapter.py
++      - core/components/plays/merge-change/scripts/platform_adapter.py
++      - core/components/plays/propose-change/scripts/platform_adapter.py
++      - core/components/plays/shape-eval/scripts/platform_adapter.py
++      - core/components/plays/shape-plan/scripts/platform_adapter.py
++      - core/components/plays/shape-slice/scripts/platform_adapter.py
++      - core/components/skills/platform-adapter/SKILL.md
++      - core/components/skills/platform-adapter/reference/github/verbs.md
++      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
++    branch: feature/889-review-reads-full-diff
++excluded_files:
++  - path: ".garura/project/issues/889/context/porcelain.txt"
++    reason: "commit-change run record (scan output), not part of the change"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/889/context/confirm-raise.txt b/.garura/project/issues/889/context/confirm-raise.txt
+new file mode 100644
+index 00000000..4f96338d
+--- /dev/null
++++ b/.garura/project/issues/889/context/confirm-raise.txt
+@@ -0,0 +1 @@
++gate skipped by config (gates.plays.propose-change)
+diff --git a/.garura/project/issues/889/context/issue.json b/.garura/project/issues/889/context/issue.json
+new file mode 100644
+index 00000000..caf67169
+--- /dev/null
++++ b/.garura/project/issues/889/context/issue.json
+@@ -0,0 +1,8 @@
++{
++  "resolved": true,
++  "issue_number": 889,
++  "title": "Bug: /check-change halts on a PR with more than 300 files",
++  "created": false,
++  "state": "open",
++  "type": "Bug"
++}
+diff --git a/.garura/project/issues/889/context/porcelain.txt b/.garura/project/issues/889/context/porcelain.txt
+new file mode 100644
+index 00000000..ad7294f7
+--- /dev/null
++++ b/.garura/project/issues/889/context/porcelain.txt
+@@ -0,0 +1,15 @@
++ M core/components/plays/check-change/scripts/fetch_pr_context.py
++ M core/components/plays/check-change/scripts/platform_adapter.py
++ M core/components/plays/check-change/scripts/test_fetch_pr_context.py
++ M core/components/plays/create-play/references/fetch_pr_context.py
++ M core/components/plays/create-play/references/platform_adapter.py
++ M core/components/plays/create-play/references/test_platform_adapter.py
++ M core/components/plays/merge-change/scripts/platform_adapter.py
++ M core/components/plays/propose-change/scripts/platform_adapter.py
++ M core/components/plays/shape-eval/scripts/platform_adapter.py
++ M core/components/plays/shape-plan/scripts/platform_adapter.py
++ M core/components/plays/shape-slice/scripts/platform_adapter.py
++ M core/components/skills/platform-adapter/SKILL.md
++ M core/components/skills/platform-adapter/reference/github/verbs.md
++ M core/components/skills/platform-adapter/reference/gitlab/verbs.md
++?? .garura/project/issues/889/context/porcelain.txt
+diff --git a/.garura/project/issues/889/context/pr-body.md b/.garura/project/issues/889/context/pr-body.md
+new file mode 100644
+index 00000000..cf4cecb4
+--- /dev/null
++++ b/.garura/project/issues/889/context/pr-body.md
+@@ -0,0 +1,39 @@
++Fixes #889: `/check-change` can now review a pull request of any size.
++
++GitHub gives one diff for at most 300 files, and its paged file list stops at 3,000. The plan 788 landing (PR #916) changed 3,192 files, so the review stopped at its first step. Now, when the one diff is refused, the review reads the compare diff of the pull request's two branches. GitHub returns that with every file and its full text. A very large diff can drop the connection, so the call gets three tries. If it still fails, the review falls back to the paged file list, as before. The count check is unchanged: if the files found don't match GitHub's count, the review stops.
++
++- The code-host helper gets one new command, `compare-diff`, in all 7 copies. It is GitHub only, and on GitLab it stops with a plain message.
++- The review's context script tries the commands in the new order, in both copies.
++- New tests cover a pull request over 3,000 files, a dropped call tried again, the fallback, and a count that does not match.
++- The helper's docs and its GitHub and GitLab pages name the new command.
++
++## Self-review
++
++
++Rules used: standards/rules/self-review.md (base, no project override). This list is information for the reviewer. It is not the approve or reject gate, and nothing here stops the raise.
++
++Summary: no blocker. Three points for the reviewer (one scope note, one issue-text note, one edge case).
++
++## Scope checks
++
++- [PASS] Matches the issue. The change makes /check-change read a pull request with more than 300 files, which is what issue 889 is about. The count check is unchanged.
++- [REVIEW] Same goal, different route than the issue text. Issue 889 says to read GitHub's paged file list and to fill a file that has no patch from local git. The change reads the compare diff of the two branches first (up to three tries) and uses the paged file list second. The reason is in the code: the paged file list stops at 3,000 files, and the compare diff has no file limit. A file with no patch is not filled from local git; the existing behaviour is kept (the file keeps its header and a note). The issue text should be updated to say this, so the work order matches what was built.
++- [PASS] No scope creep. Every file touched is one of: the fetch script and its copy, the adapter library (seven identical copies), the two test files, the three adapter docs, and the run records for this issue.
++- [PASS] The copies agree. The adapter file is byte-identical in all 7 plays, and the fetch script is byte-identical in its 2 places.
++- [REVIEW] Size. 14 source files and about 230 added lines, but most of it is the same 19-line adapter change copied 7 times, so the real change is small (one verb, one fallback step, tests, docs). Fine to review in one sitting.
++- [PASS] No stray artifacts. No commented-out code, debug prints, TODO or FIXME in the added lines. One untracked file is left over from this run: .garura/project/issues/889/context/resolved-rules.json (the run record of this self-review; the play handles it).
++
++## Quality checks
++
++- [PASS] Tests present. check-change/scripts/test_fetch_pr_context.py: 13 passed, 0 failed (compare diff used; 3,192 files past the list limit; failed compare falls back to the file list after 3 tries; a dropped call is retried; no head branch skips the compare; count check holds for both new paths; other failures still stop). create-play/references/test_platform_adapter.py: 53 passed, 0 failed (compare-diff command, GitLab stops with exit 2, verb count 23).
++- [PASS] Linter, lint-components (node core/tools/lint-components/index.js --target core/components): 36 errors and 1 warning, the same 37 findings as on main. Nothing new from this change. Old gap, not this change's.
++- [PASS] Linter, play linter on the 7 plays whose files changed (check-change, create-play, merge-change, propose-change, shape-eval, shape-plan, shape-slice): same verdict as on main for each. Old gaps, not this change's: check-change has 1 gap (no-unbacked-recommendation) and create-play has 6 gaps, both the same on main. The other five pass.
++- [PASS] Commits are clean. 3 commits since main: one fix(check-change) commit with the code, tests and docs together (one concern, one issue), and two chore(stm) run-record commits. All three reference (#889).
++- [PASS] Docs in step. platform-adapter SKILL.md (verb count 22 to 23, new table row, the unknown-verb message), the GitHub verbs page and the GitLab verbs page all describe compare-diff. The script header comments and the "23 verbs" text in the adapter agree with them.
++- [PASS] No secrets. The added lines hold no credentials, tokens or keys.
++- [PASS] Hygiene. No home-folder path, scratchpad path, company or personal name in the added lines or the run records. No Claude attribution or Co-Authored-By line in any commit message since main.
++- [REVIEW] Edge case worth a look. The compare call uses only the head branch name. A pull request from a fork has a head branch that does not exist in the base repository, so the compare call fails; after 3 tries the play falls back to the paged file list, so it still works up to 3,000 files. The failed compare is retried on any error, including a plain 404, which costs two extra calls and no more. Not a blocker.
++- [PASS] Nothing obviously broken. The one-diff path is unchanged and tested; a failed compare never skips the count check; GitLab stops with a plain message and runs nothing, and the caller falls back to the file list.
++- [PASS] Compared against main. The installed copy under .claude/skills/platform-adapter still says 22 verbs, but that folder is a deployed copy that is not tracked here and is refreshed by the install; it is not part of this change.
++
++Blocking issues: none.
+diff --git a/.garura/project/issues/889/context/pr.json b/.garura/project/issues/889/context/pr.json
+new file mode 100644
+index 00000000..94bfd742
+--- /dev/null
++++ b/.garura/project/issues/889/context/pr.json
+@@ -0,0 +1,6 @@
++{
++  "number": 918,
++  "url": "https://github.com/intent-driven-ai/garura/pull/918",
++  "state": "OPEN",
++  "base": "main"
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/889/context/resolved-rules.json b/.garura/project/issues/889/context/resolved-rules.json
+new file mode 100644
+index 00000000..7e1dab07
+--- /dev/null
++++ b/.garura/project/issues/889/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/889/context/self-review.md b/.garura/project/issues/889/context/self-review.md
+new file mode 100644
+index 00000000..f19a49d7
+--- /dev/null
++++ b/.garura/project/issues/889/context/self-review.md
+@@ -0,0 +1,29 @@
++# Self-review: issue 889, branch feature/889-review-reads-full-diff against main
++
++Rules used: standards/rules/self-review.md (base, no project override). This list is information for the reviewer. It is not the approve or reject gate, and nothing here stops the raise.
++
++Summary: no blocker. Three points for the reviewer (one scope note, one issue-text note, one edge case).
++
++## Scope checks
++
++- [PASS] Matches the issue. The change makes /check-change read a pull request with more than 300 files, which is what issue 889 is about. The count check is unchanged.
++- [REVIEW] Same goal, different route than the issue text. Issue 889 says to read GitHub's paged file list and to fill a file that has no patch from local git. The change reads the compare diff of the two branches first (up to three tries) and uses the paged file list second. The reason is in the code: the paged file list stops at 3,000 files, and the compare diff has no file limit. A file with no patch is not filled from local git; the existing behaviour is kept (the file keeps its header and a note). The issue text should be updated to say this, so the work order matches what was built.
++- [PASS] No scope creep. Every file touched is one of: the fetch script and its copy, the adapter library (seven identical copies), the two test files, the three adapter docs, and the run records for this issue.
++- [PASS] The copies agree. The adapter file is byte-identical in all 7 plays, and the fetch script is byte-identical in its 2 places.
++- [REVIEW] Size. 14 source files and about 230 added lines, but most of it is the same 19-line adapter change copied 7 times, so the real change is small (one verb, one fallback step, tests, docs). Fine to review in one sitting.
++- [PASS] No stray artifacts. No commented-out code, debug prints, TODO or FIXME in the added lines. One untracked file is left over from this run: .garura/project/issues/889/context/resolved-rules.json (the run record of this self-review; the play handles it).
++
++## Quality checks
++
++- [PASS] Tests present. check-change/scripts/test_fetch_pr_context.py: 13 passed, 0 failed (compare diff used; 3,192 files past the list limit; failed compare falls back to the file list after 3 tries; a dropped call is retried; no head branch skips the compare; count check holds for both new paths; other failures still stop). create-play/references/test_platform_adapter.py: 53 passed, 0 failed (compare-diff command, GitLab stops with exit 2, verb count 23).
++- [PASS] Linter, lint-components (node core/tools/lint-components/index.js --target core/components): 36 errors and 1 warning, the same 37 findings as on main. Nothing new from this change. Old gap, not this change's.
++- [PASS] Linter, play linter on the 7 plays whose files changed (check-change, create-play, merge-change, propose-change, shape-eval, shape-plan, shape-slice): same verdict as on main for each. Old gaps, not this change's: check-change has 1 gap (no-unbacked-recommendation) and create-play has 6 gaps, both the same on main. The other five pass.
++- [PASS] Commits are clean. 3 commits since main: one fix(check-change) commit with the code, tests and docs together (one concern, one issue), and two chore(stm) run-record commits. All three reference (#889).
++- [PASS] Docs in step. platform-adapter SKILL.md (verb count 22 to 23, new table row, the unknown-verb message), the GitHub verbs page and the GitLab verbs page all describe compare-diff. The script header comments and the "23 verbs" text in the adapter agree with them.
++- [PASS] No secrets. The added lines hold no credentials, tokens or keys.
++- [PASS] Hygiene. No home-folder path, scratchpad path, company or personal name in the added lines or the run records. No Claude attribution or Co-Authored-By line in any commit message since main.
++- [REVIEW] Edge case worth a look. The compare call uses only the head branch name. A pull request from a fork has a head branch that does not exist in the base repository, so the compare call fails; after 3 tries the play falls back to the paged file list, so it still works up to 3,000 files. The failed compare is retried on any error, including a plain 404, which costs two extra calls and no more. Not a blocker.
++- [PASS] Nothing obviously broken. The one-diff path is unchanged and tested; a failed compare never skips the count check; GitLab stops with a plain message and runs nothing, and the caller falls back to the file list.
++- [PASS] Compared against main. The installed copy under .claude/skills/platform-adapter still says 22 verbs, but that folder is a deployed copy that is not tracked here and is refreshed by the install; it is not part of this change.
++
++Blocking issues: none.
+diff --git a/.garura/project/issues/889/context/work-description.txt b/.garura/project/issues/889/context/work-description.txt
+new file mode 100644
+index 00000000..b6af5d00
+--- /dev/null
++++ b/.garura/project/issues/889/context/work-description.txt
+@@ -0,0 +1,7 @@
++Issue #889: /check-change halts on a pull request with too many files.
++
++The review play reads a pull request's changed files from the code host. GitHub gives one diff for at most 300 files; the earlier fix on this line falls back to the paged file list, which GitHub stops at 3,000 files. A pull request with more files (the plan 788 landing, PR #916, had 3,192) still stops the review at its first step.
++
++The work: when the host's file list is cut off, the review reads the pull request's full diff through GitHub's compare call (diff form, base...head), which returns every file. The paged file list stays as a second try. The count check stays: when the diff's file count does not match the host's count, the review still stops.
++
++Done when: a pull request over 3,000 files gets a full context record through the compare diff, a failed compare call falls back to the paged list, a count mismatch still stops the review, and the tests show all three.
+diff --git a/core/components/plays/check-change/scripts/fetch_pr_context.py b/core/components/plays/check-change/scripts/fetch_pr_context.py
+index 7d4b7035..a4637bdd 100644
+--- a/core/components/plays/check-change/scripts/fetch_pr_context.py
++++ b/core/components/plays/check-change/scripts/fetch_pr_context.py
+@@ -12,11 +12,14 @@
+         [--pr-number N] --out-context <context.yaml> --out-diff <pr.diff>
+ 
+ When the host refuses the one diff because the PR changes more than 300 files, the diff is
+-built from the host's list of the PR's files (`pr-files`), each with its patch; a file the
+-host gives no patch for keeps its header and a note.
++read as the compare diff of the PR's base and head branches (`compare-diff`), which has no
++file limit; a diff that large can drop the connection, so the call gets three tries. When
++all three fail, the diff is built from the host's list of the PR's files
++(`pr-files`, at most 3000), each with its patch; a file the host gives no patch for keeps
++its header and a note.
+ 
+ context.yaml records: standards_order, changed_paths,
+-changed_files_reported, base, diff_source (diff-pr or pr-files). changed_paths comes from the diff text: one path
++changed_files_reported, base, diff_source (diff-pr, compare-diff or pr-files). changed_paths comes from the diff text: one path
+ for each `diff --git` header, so a PR of any size gives every path.
+ changed_files_reported is the count the host gives (null when it gives none).
+ Exit 0 on success, 1 on a fetch failure, 3 when the host's count and the count
+@@ -91,6 +94,7 @@ def paths_from_diff(diff_text):
+ 
+ 
+ TOO_MANY_FILES = ("exceeded the maximum number of files", "too_large")
++COMPARE_TRIES = 3
+ 
+ 
+ def _side(prefix, path):
+@@ -153,17 +157,29 @@ def main(argv=None):
+         sys.exit(1)
+     data = json.loads(meta["stdout"])
+     base = data.get("baseRefName", "main")
++    head = data.get("headRefName")
+     changed_files_reported = reported_count(data)
+ 
+     diff = pa.dispatch("diff-pr", {"pr_number": pr}, config_path=ns.config)
+     source = "diff-pr"
+     if diff["exit_code"] != 0 and any(s in diff["stderr"] for s in TOO_MANY_FILES):
+-        # the host gives one diff for at most 300 files; list the files with their patches
+-        files = pa.dispatch("pr-files", {"pr_number": pr}, config_path=ns.config)
+-        if files["exit_code"] != 0:
+-            sys.stderr.write(f"fetch_pr_context.py: pr-files failed: {files['stderr']}\n")
+-            sys.exit(1)
+-        diff, source = {"exit_code": 0, "stdout": diff_from_files(files["stdout"])}, "pr-files"
++        # the host gives one diff for at most 300 files; the compare diff of the two
++        # branches has no file limit, and the file list (at most 3000) is the second try
++        # a diff this large can drop the connection part way, so the call gets three tries
++        compared = {"exit_code": 1}
++        for _ in range(COMPARE_TRIES if head else 0):
++            compared = pa.dispatch("compare-diff", {"base": base, "head": head},
++                                   config_path=ns.config)
++            if compared["exit_code"] == 0:
++                break
++        if compared["exit_code"] == 0:
++            diff, source = compared, "compare-diff"
++        else:
++            files = pa.dispatch("pr-files", {"pr_number": pr}, config_path=ns.config)
++            if files["exit_code"] != 0:
++                sys.stderr.write(f"fetch_pr_context.py: pr-files failed: {files['stderr']}\n")
++                sys.exit(1)
++            diff, source = {"exit_code": 0, "stdout": diff_from_files(files["stdout"])}, "pr-files"
+     if diff["exit_code"] != 0:
+         sys.stderr.write(f"fetch_pr_context.py: diff-pr failed: {diff['stderr']}\n")
+         sys.exit(1)
+diff --git a/core/components/plays/check-change/scripts/platform_adapter.py b/core/components/plays/check-change/scripts/platform_adapter.py
+index 7efb1a34..c3f047b0 100644
+--- a/core/components/plays/check-change/scripts/platform_adapter.py
++++ b/core/components/plays/check-change/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -27,6 +27,8 @@
+ GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+ remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+ nothing.
++compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
++GitLab's compare gives no plain diff, so on GitLab it stops the same way.
+ 
+ GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
+ `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
+@@ -115,6 +117,11 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                  "--paginate", "--jq", ".[] | @json"]]
++    if verb == "compare-diff":
++        # the whole diff between two branches as plain text, with no file limit
++        owner, name = repo
++        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
++                 "-H", "Accept: application/vnd.github.diff"]]
+     if verb == "comment-pr":
+         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
+     if verb == "request-changes":
+@@ -247,8 +254,8 @@ def _glab(verb, args, repo):
+ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                      "remove-label", "remove-sub-issue"}
+ 
+-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
+-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
++VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
++         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+ 
+@@ -336,6 +343,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         return _result(verb, platform, [], 2, "",
+                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                        "here. Nothing was run and nothing was changed.")
++    if verb == "compare-diff" and platform != GITHUB:
++        return _result(verb, platform, [], 2, "",
++                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
++                       "diff here. Nothing was run.")
+     if verb == "create-issue-typed":
+         return _create_issue_typed(args, repo)
+     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+@@ -384,7 +395,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/check-change/scripts/test_fetch_pr_context.py b/core/components/plays/check-change/scripts/test_fetch_pr_context.py
+index 6dc39716..72eda554 100644
+--- a/core/components/plays/check-change/scripts/test_fetch_pr_context.py
++++ b/core/components/plays/check-change/scripts/test_fetch_pr_context.py
+@@ -1,6 +1,7 @@
+ #!/usr/bin/env python3
+-"""test_fetch_pr_context.py — the PR context of check-change Step 1: the diff, and the fallback
+-to the host's file list when the PR changes more than 300 files.
++"""test_fetch_pr_context.py — the PR context of check-change Step 1: the diff, and the fallbacks
++when the PR changes more than 300 files: the compare diff of its branches, then the host's file
++list.
+ 
+     python3 core/components/plays/check-change/scripts/test_fetch_pr_context.py
+ """
+@@ -42,7 +43,8 @@ def run_main(responses, tmp):
+ 
+     def dispatch(verb, args, config_path=None):
+         calls.append(verb)
+-        return responses[verb]
++        answer = responses[verb]
++        return answer.pop(0) if isinstance(answer, list) else answer
+ 
+     real = fpc.pa.dispatch
+     fpc.pa.dispatch = dispatch
+@@ -72,26 +74,66 @@ def main():
+           and "--- a/gone.txt\n+++ /dev/null" in text and "--- a/core/old_b.py" in text)
+     check("the patch is kept as the host gives it", "@@ -1 +1 @@\n-x\n+y" in text)
+ 
+-    view = {"exit_code": 0, "stdout": json.dumps({"baseRefName": "plan/1/base", "changedFiles": 5}),
++    view = {"exit_code": 0, "stdout": json.dumps({"baseRefName": "plan/1/base",
++                                                  "headRefName": "feature/1-x", "changedFiles": 5}),
+             "stderr": ""}
+     too_big = {"exit_code": 1, "stdout": "",
+                "stderr": "HTTP 406: Sorry, the diff exceeded the maximum number of files (300)."}
+     files = {"exit_code": 0, "stdout": "\n".join(json.dumps(f) for f in FILES) + "\n", "stderr": ""}
++    compared = {"exit_code": 0, "stdout": text, "stderr": ""}
++    no_compare = {"exit_code": 1, "stdout": "", "stderr": "HTTP 404: Not Found"}
+     with tempfile.TemporaryDirectory() as tmp:
+-        code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big, "pr-files": files}, tmp)
+-        check("over 300 files: the context is built from the file list (exit 0)",
++        code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big, "compare-diff": compared,
++                                     "pr-files": files}, tmp)
++        check("over 300 files: the context is built from the compare diff (exit 0)",
++              code == 0 and ctx["diff_source"] == "compare-diff" and len(ctx["changed_paths"]) == 5
++              and calls == ["view-pr", "diff-pr", "compare-diff"])
++    with tempfile.TemporaryDirectory() as tmp:
++        many = [f"records/r{i}.json" for i in range(3192)]
++        big_text = "".join(f"diff --git a/{p} b/{p}\n--- /dev/null\n+++ b/{p}\n" for p in many)
++        big_view = {"exit_code": 0, "stdout": json.dumps({"baseRefName": "main", "headRefName": "plan/1/base",
++                                                         "changedFiles": 3192}), "stderr": ""}
++        code, ctx, calls = run_main({"view-pr": big_view, "diff-pr": too_big,
++                                     "compare-diff": {"exit_code": 0, "stdout": big_text, "stderr": ""}}, tmp)
++        check("over 3000 files (past the file list's limit): every path comes from the compare diff",
++              code == 0 and ctx["diff_source"] == "compare-diff" and len(ctx["changed_paths"]) == 3192
++              and "pr-files" not in calls)
++    with tempfile.TemporaryDirectory() as tmp:
++        code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big, "compare-diff": no_compare,
++                                     "pr-files": files}, tmp)
++        check("a failed compare call falls back to the file list (exit 0)",
+               code == 0 and ctx["diff_source"] == "pr-files" and len(ctx["changed_paths"]) == 5
+-              and calls == ["view-pr", "diff-pr", "pr-files"])
++              and calls == ["view-pr", "diff-pr"] + ["compare-diff"] * 3 + ["pr-files"])
++    with tempfile.TemporaryDirectory() as tmp:
++        dropped = {"exit_code": 1, "stdout": "", "stderr": "stream error: stream ID 3; CANCEL"}
++        code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big,
++                                     "compare-diff": [dropped, dropped, compared]}, tmp)
++        check("a dropped compare call is tried again, up to three times",
++              code == 0 and ctx["diff_source"] == "compare-diff" and calls.count("compare-diff") == 3
++              and "pr-files" not in calls)
++    with tempfile.TemporaryDirectory() as tmp:
++        no_head = {"exit_code": 0, "stdout": json.dumps({"baseRefName": "main", "changedFiles": 5}),
++                   "stderr": ""}
++        code, ctx, calls = run_main({"view-pr": no_head, "diff-pr": too_big, "pr-files": files}, tmp)
++        check("with no head branch named, the compare call is skipped and the file list is used",
++              code == 0 and ctx["diff_source"] == "pr-files" and "compare-diff" not in calls)
++    with tempfile.TemporaryDirectory() as tmp:
++        short_cmp = {"exit_code": 0, "stdout": fpc.diff_from_files(
++            "\n".join(json.dumps(f) for f in FILES[:4]) + "\n"), "stderr": ""}
++        code, ctx, _ = run_main({"view-pr": view, "diff-pr": too_big, "compare-diff": short_cmp}, tmp)
++        check("the compare diff still has to match the host's count, or no context is written (exit 3)",
++              code == 3 and ctx is None)
+     with tempfile.TemporaryDirectory() as tmp:
+         short = {"exit_code": 0, "stdout": "\n".join(json.dumps(f) for f in FILES[:4]) + "\n", "stderr": ""}
+-        code, ctx, _ = run_main({"view-pr": view, "diff-pr": too_big, "pr-files": short}, tmp)
++        code, ctx, _ = run_main({"view-pr": view, "diff-pr": too_big, "compare-diff": no_compare,
++                                 "pr-files": short}, tmp)
+         check("the file list still has to match the host's count, or no context is written (exit 3)",
+               code == 3 and ctx is None)
+     with tempfile.TemporaryDirectory() as tmp:
+         other = {"exit_code": 1, "stdout": "", "stderr": "HTTP 404: Not Found"}
+         code, ctx, calls = run_main({"view-pr": view, "diff-pr": other}, tmp)
+         check("any other diff failure stops as before, with no fallback (exit 1)",
+-              code == 1 and ctx is None and "pr-files" not in calls)
++              code == 1 and ctx is None and "pr-files" not in calls and "compare-diff" not in calls)
+     with tempfile.TemporaryDirectory() as tmp:
+         ok = {"exit_code": 0, "stdout": text, "stderr": ""}
+         code, ctx, calls = run_main({"view-pr": view, "diff-pr": ok}, tmp)
+diff --git a/core/components/plays/create-play/references/fetch_pr_context.py b/core/components/plays/create-play/references/fetch_pr_context.py
+index 7d4b7035..a4637bdd 100644
+--- a/core/components/plays/create-play/references/fetch_pr_context.py
++++ b/core/components/plays/create-play/references/fetch_pr_context.py
+@@ -12,11 +12,14 @@
+         [--pr-number N] --out-context <context.yaml> --out-diff <pr.diff>
+ 
+ When the host refuses the one diff because the PR changes more than 300 files, the diff is
+-built from the host's list of the PR's files (`pr-files`), each with its patch; a file the
+-host gives no patch for keeps its header and a note.
++read as the compare diff of the PR's base and head branches (`compare-diff`), which has no
++file limit; a diff that large can drop the connection, so the call gets three tries. When
++all three fail, the diff is built from the host's list of the PR's files
++(`pr-files`, at most 3000), each with its patch; a file the host gives no patch for keeps
++its header and a note.
+ 
+ context.yaml records: standards_order, changed_paths,
+-changed_files_reported, base, diff_source (diff-pr or pr-files). changed_paths comes from the diff text: one path
++changed_files_reported, base, diff_source (diff-pr, compare-diff or pr-files). changed_paths comes from the diff text: one path
+ for each `diff --git` header, so a PR of any size gives every path.
+ changed_files_reported is the count the host gives (null when it gives none).
+ Exit 0 on success, 1 on a fetch failure, 3 when the host's count and the count
+@@ -91,6 +94,7 @@ def paths_from_diff(diff_text):
+ 
+ 
+ TOO_MANY_FILES = ("exceeded the maximum number of files", "too_large")
++COMPARE_TRIES = 3
+ 
+ 
+ def _side(prefix, path):
+@@ -153,17 +157,29 @@ def main(argv=None):
+         sys.exit(1)
+     data = json.loads(meta["stdout"])
+     base = data.get("baseRefName", "main")
++    head = data.get("headRefName")
+     changed_files_reported = reported_count(data)
+ 
+     diff = pa.dispatch("diff-pr", {"pr_number": pr}, config_path=ns.config)
+     source = "diff-pr"
+     if diff["exit_code"] != 0 and any(s in diff["stderr"] for s in TOO_MANY_FILES):
+-        # the host gives one diff for at most 300 files; list the files with their patches
+-        files = pa.dispatch("pr-files", {"pr_number": pr}, config_path=ns.config)
+-        if files["exit_code"] != 0:
+-            sys.stderr.write(f"fetch_pr_context.py: pr-files failed: {files['stderr']}\n")
+-            sys.exit(1)
+-        diff, source = {"exit_code": 0, "stdout": diff_from_files(files["stdout"])}, "pr-files"
++        # the host gives one diff for at most 300 files; the compare diff of the two
++        # branches has no file limit, and the file list (at most 3000) is the second try
++        # a diff this large can drop the connection part way, so the call gets three tries
++        compared = {"exit_code": 1}
++        for _ in range(COMPARE_TRIES if head else 0):
++            compared = pa.dispatch("compare-diff", {"base": base, "head": head},
++                                   config_path=ns.config)
++            if compared["exit_code"] == 0:
++                break
++        if compared["exit_code"] == 0:
++            diff, source = compared, "compare-diff"
++        else:
++            files = pa.dispatch("pr-files", {"pr_number": pr}, config_path=ns.config)
++            if files["exit_code"] != 0:
++                sys.stderr.write(f"fetch_pr_context.py: pr-files failed: {files['stderr']}\n")
++                sys.exit(1)
++            diff, source = {"exit_code": 0, "stdout": diff_from_files(files["stdout"])}, "pr-files"
+     if diff["exit_code"] != 0:
+         sys.stderr.write(f"fetch_pr_context.py: diff-pr failed: {diff['stderr']}\n")
+         sys.exit(1)
+diff --git a/core/components/plays/create-play/references/platform_adapter.py b/core/components/plays/create-play/references/platform_adapter.py
+index 7efb1a34..c3f047b0 100644
+--- a/core/components/plays/create-play/references/platform_adapter.py
++++ b/core/components/plays/create-play/references/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -27,6 +27,8 @@
+ GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+ remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+ nothing.
++compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
++GitLab's compare gives no plain diff, so on GitLab it stops the same way.
+ 
+ GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
+ `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
+@@ -115,6 +117,11 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                  "--paginate", "--jq", ".[] | @json"]]
++    if verb == "compare-diff":
++        # the whole diff between two branches as plain text, with no file limit
++        owner, name = repo
++        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
++                 "-H", "Accept: application/vnd.github.diff"]]
+     if verb == "comment-pr":
+         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
+     if verb == "request-changes":
+@@ -247,8 +254,8 @@ def _glab(verb, args, repo):
+ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                      "remove-label", "remove-sub-issue"}
+ 
+-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
+-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
++VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
++         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+ 
+@@ -336,6 +343,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         return _result(verb, platform, [], 2, "",
+                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                        "here. Nothing was run and nothing was changed.")
++    if verb == "compare-diff" and platform != GITHUB:
++        return _result(verb, platform, [], 2, "",
++                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
++                       "diff here. Nothing was run.")
+     if verb == "create-issue-typed":
+         return _create_issue_typed(args, repo)
+     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+@@ -384,7 +395,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/create-play/references/test_platform_adapter.py b/core/components/plays/create-play/references/test_platform_adapter.py
+index 25e9b6e6..6e5328fd 100644
+--- a/core/components/plays/create-play/references/test_platform_adapter.py
++++ b/core/components/plays/create-play/references/test_platform_adapter.py
+@@ -81,6 +81,10 @@ def test_github_argv():
+     check("pr-files lists every file of the PR through the api, page by page",
+           pa._gh("pr-files", {"pr_number": 900}, repo)
+           == [["gh", "api", "repos/o/n/pulls/900/files", "--paginate", "--jq", ".[] | @json"]])
++    check("compare-diff asks the compare api for the plain diff of the two branches",
++          pa._gh("compare-diff", {"base": "main", "head": "plan/788/base"}, repo)
++          == [["gh", "api", "repos/o/n/compare/main...plan/788/base",
++               "-H", "Accept: application/vnd.github.diff"]])
+     check("update-comment uses repo api path",
+           pa._gh("update-comment", {"comment_id": 9, "body": "x"}, repo)[0][2]
+           == "repos/o/n/issues/comments/9")
+@@ -161,7 +165,7 @@ def test_unknown_verb():
+         check("unknown verb raises", False)
+     except KeyError:
+         check("unknown verb raises", True)
+-    check("VERBS has exactly 22", len(pa.VERBS) == 22)
++    check("VERBS has exactly 23", len(pa.VERBS) == 23)
+ 
+ 
+ def _fake(replies):
+@@ -221,6 +225,10 @@ def test_github_only_verbs():
+             res = pa.dispatch(verb, {}, platform="gitlab")
+             check(f"gitlab: {verb} stops with a plain message and runs nothing",
+                   res["exit_code"] == 2 and calls == [] and "GitHub only" in res["stderr"])
++        calls, pa._run = _fake([])
++        res = pa.dispatch("compare-diff", {"base": "main", "head": "x"}, platform="gitlab")
++        check("gitlab: compare-diff stops with a plain message and runs nothing",
++              res["exit_code"] == 2 and calls == [] and "GitHub only" in res["stderr"])
+     finally:
+         pa._run, pa.resolve_repo = real_run, real_repo
+ 
+diff --git a/core/components/plays/merge-change/scripts/platform_adapter.py b/core/components/plays/merge-change/scripts/platform_adapter.py
+index 7efb1a34..c3f047b0 100644
+--- a/core/components/plays/merge-change/scripts/platform_adapter.py
++++ b/core/components/plays/merge-change/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -27,6 +27,8 @@
+ GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+ remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+ nothing.
++compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
++GitLab's compare gives no plain diff, so on GitLab it stops the same way.
+ 
+ GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
+ `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
+@@ -115,6 +117,11 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                  "--paginate", "--jq", ".[] | @json"]]
++    if verb == "compare-diff":
++        # the whole diff between two branches as plain text, with no file limit
++        owner, name = repo
++        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
++                 "-H", "Accept: application/vnd.github.diff"]]
+     if verb == "comment-pr":
+         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
+     if verb == "request-changes":
+@@ -247,8 +254,8 @@ def _glab(verb, args, repo):
+ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                      "remove-label", "remove-sub-issue"}
+ 
+-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
+-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
++VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
++         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+ 
+@@ -336,6 +343,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         return _result(verb, platform, [], 2, "",
+                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                        "here. Nothing was run and nothing was changed.")
++    if verb == "compare-diff" and platform != GITHUB:
++        return _result(verb, platform, [], 2, "",
++                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
++                       "diff here. Nothing was run.")
+     if verb == "create-issue-typed":
+         return _create_issue_typed(args, repo)
+     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+@@ -384,7 +395,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/propose-change/scripts/platform_adapter.py b/core/components/plays/propose-change/scripts/platform_adapter.py
+index 7efb1a34..c3f047b0 100644
+--- a/core/components/plays/propose-change/scripts/platform_adapter.py
++++ b/core/components/plays/propose-change/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -27,6 +27,8 @@
+ GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+ remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+ nothing.
++compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
++GitLab's compare gives no plain diff, so on GitLab it stops the same way.
+ 
+ GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
+ `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
+@@ -115,6 +117,11 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                  "--paginate", "--jq", ".[] | @json"]]
++    if verb == "compare-diff":
++        # the whole diff between two branches as plain text, with no file limit
++        owner, name = repo
++        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
++                 "-H", "Accept: application/vnd.github.diff"]]
+     if verb == "comment-pr":
+         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
+     if verb == "request-changes":
+@@ -247,8 +254,8 @@ def _glab(verb, args, repo):
+ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                      "remove-label", "remove-sub-issue"}
+ 
+-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
+-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
++VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
++         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+ 
+@@ -336,6 +343,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         return _result(verb, platform, [], 2, "",
+                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                        "here. Nothing was run and nothing was changed.")
++    if verb == "compare-diff" and platform != GITHUB:
++        return _result(verb, platform, [], 2, "",
++                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
++                       "diff here. Nothing was run.")
+     if verb == "create-issue-typed":
+         return _create_issue_typed(args, repo)
+     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+@@ -384,7 +395,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/shape-eval/scripts/platform_adapter.py b/core/components/plays/shape-eval/scripts/platform_adapter.py
+index 7efb1a34..c3f047b0 100644
+--- a/core/components/plays/shape-eval/scripts/platform_adapter.py
++++ b/core/components/plays/shape-eval/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -27,6 +27,8 @@
+ GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+ remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+ nothing.
++compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
++GitLab's compare gives no plain diff, so on GitLab it stops the same way.
+ 
+ GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
+ `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
+@@ -115,6 +117,11 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                  "--paginate", "--jq", ".[] | @json"]]
++    if verb == "compare-diff":
++        # the whole diff between two branches as plain text, with no file limit
++        owner, name = repo
++        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
++                 "-H", "Accept: application/vnd.github.diff"]]
+     if verb == "comment-pr":
+         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
+     if verb == "request-changes":
+@@ -247,8 +254,8 @@ def _glab(verb, args, repo):
+ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                      "remove-label", "remove-sub-issue"}
+ 
+-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
+-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
++VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
++         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+ 
+@@ -336,6 +343,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         return _result(verb, platform, [], 2, "",
+                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                        "here. Nothing was run and nothing was changed.")
++    if verb == "compare-diff" and platform != GITHUB:
++        return _result(verb, platform, [], 2, "",
++                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
++                       "diff here. Nothing was run.")
+     if verb == "create-issue-typed":
+         return _create_issue_typed(args, repo)
+     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+@@ -384,7 +395,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/shape-plan/scripts/platform_adapter.py b/core/components/plays/shape-plan/scripts/platform_adapter.py
+index 7efb1a34..c3f047b0 100644
+--- a/core/components/plays/shape-plan/scripts/platform_adapter.py
++++ b/core/components/plays/shape-plan/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -27,6 +27,8 @@
+ GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+ remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+ nothing.
++compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
++GitLab's compare gives no plain diff, so on GitLab it stops the same way.
+ 
+ GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
+ `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
+@@ -115,6 +117,11 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                  "--paginate", "--jq", ".[] | @json"]]
++    if verb == "compare-diff":
++        # the whole diff between two branches as plain text, with no file limit
++        owner, name = repo
++        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
++                 "-H", "Accept: application/vnd.github.diff"]]
+     if verb == "comment-pr":
+         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
+     if verb == "request-changes":
+@@ -247,8 +254,8 @@ def _glab(verb, args, repo):
+ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                      "remove-label", "remove-sub-issue"}
+ 
+-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
+-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
++VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
++         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+ 
+@@ -336,6 +343,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         return _result(verb, platform, [], 2, "",
+                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                        "here. Nothing was run and nothing was changed.")
++    if verb == "compare-diff" and platform != GITHUB:
++        return _result(verb, platform, [], 2, "",
++                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
++                       "diff here. Nothing was run.")
+     if verb == "create-issue-typed":
+         return _create_issue_typed(args, repo)
+     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+@@ -384,7 +395,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/shape-slice/scripts/platform_adapter.py b/core/components/plays/shape-slice/scripts/platform_adapter.py
+index 7efb1a34..c3f047b0 100644
+--- a/core/components/plays/shape-slice/scripts/platform_adapter.py
++++ b/core/components/plays/shape-slice/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -27,6 +27,8 @@
+ GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
+ remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
+ nothing.
++compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
++GitLab's compare gives no plain diff, so on GitLab it stops the same way.
+ 
+ GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
+ `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
+@@ -115,6 +117,11 @@ def _gh(verb, args, repo):
+         owner, name = repo
+         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
+                  "--paginate", "--jq", ".[] | @json"]]
++    if verb == "compare-diff":
++        # the whole diff between two branches as plain text, with no file limit
++        owner, name = repo
++        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
++                 "-H", "Accept: application/vnd.github.diff"]]
+     if verb == "comment-pr":
+         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
+     if verb == "request-changes":
+@@ -247,8 +254,8 @@ def _glab(verb, args, repo):
+ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
+                      "remove-label", "remove-sub-issue"}
+ 
+-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
+-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
++VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
++         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+ 
+@@ -336,6 +343,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+         return _result(verb, platform, [], 2, "",
+                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
+                        "here. Nothing was run and nothing was changed.")
++    if verb == "compare-diff" and platform != GITHUB:
++        return _result(verb, platform, [], 2, "",
++                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
++                       "diff here. Nothing was run.")
+     if verb == "create-issue-typed":
+         return _create_issue_typed(args, repo)
+     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
+@@ -384,7 +395,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/skills/platform-adapter/SKILL.md b/core/components/skills/platform-adapter/SKILL.md
+index c74a3929..25ffa1d5 100644
+--- a/core/components/skills/platform-adapter/SKILL.md
++++ b/core/components/skills/platform-adapter/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: platform-adapter
+-description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 22 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
++description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 23 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
+ user-invocable: false
+ model: haiku
+ allowed-tools: Bash, Read
+@@ -27,13 +27,14 @@ Receive from caller (agent):
+ 
+ ## Verb Interface
+ 
+-The adapter exposes exactly 22 verbs:
++The adapter exposes exactly 23 verbs:
+ 
+ | Verb | Purpose |
+ |------|---------|
+ | `view-pr` | Fetch PR/MR metadata (JSON) |
+ | `diff-pr` | Fetch PR/MR unified diff |
+ | `pr-files` | List every changed file of a PR/MR with its patch, page by page (for a PR over the 300-file diff limit) |
++| `compare-diff` | The plain diff between two branches, with no file limit (for a PR over the 3000-file limit of `pr-files`; GitHub only) |
+ | `comment-pr` | Post a comment on a PR/MR |
+ | `request-changes` | Request changes on a PR/MR, blocking merge |
+ | `add-reviewer` | Add a reviewer to a PR/MR |
+@@ -107,7 +108,7 @@ Apply the platform resolution steps above. Halt on pre-flight failure before exe
+ 
+ ### Step 2: Look Up Verb
+ 
+-Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment."`
++Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment."`
+ 
+ ### Step 3: Substitute Arguments
+ 
+diff --git a/core/components/skills/platform-adapter/reference/github/verbs.md b/core/components/skills/platform-adapter/reference/github/verbs.md
+index 93bf31be..8621272c 100644
+--- a/core/components/skills/platform-adapter/reference/github/verbs.md
++++ b/core/components/skills/platform-adapter/reference/github/verbs.md
+@@ -28,6 +28,14 @@ List every changed file of a PR with its patch, one JSON object a line, page by
+ gh api repos/{owner}/{repo}/pulls/{pr_number}/files --paginate --jq '.[] | @json'
+ ```
+ 
++## compare-diff
++
++The plain diff between two branches, three-dot (from where `head` left `base`), with no file limit. Use it for a PR whose file list `pr-files` cuts off at 3000 files:
++
++```bash
++gh api repos/{owner}/{repo}/compare/{base}...{head} -H "Accept: application/vnd.github.diff"
++```
++
+ ## comment-pr
+ 
+ Post a comment on a PR:
+diff --git a/core/components/skills/platform-adapter/reference/gitlab/verbs.md b/core/components/skills/platform-adapter/reference/gitlab/verbs.md
+index 4e9ee684..45bec6e5 100644
+--- a/core/components/skills/platform-adapter/reference/gitlab/verbs.md
++++ b/core/components/skills/platform-adapter/reference/gitlab/verbs.md
+@@ -32,6 +32,10 @@ List every changed file of an MR with its diff, page by page:
+ glab api projects/{project}/merge_requests/{pr_number}/diffs --paginate
+ ```
+ 
++## compare-diff
++
++Not on GitLab: its compare call gives the diffs as JSON, not one plain diff. The adapter stops with exit code 2 and runs nothing; a caller falls back to `pr-files`.
++
+ ## comment-pr
+ 
+ Post a comment (note) on an MR:
