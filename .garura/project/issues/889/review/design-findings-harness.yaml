@@ -1,0 +1,80 @@
+# design-findings-harness.yaml - /check-change Step 3, Layer 2 (harness), PR #918, issue 889
+# Base ref: main (e8f54c05975be3cd0c6dfe8f6a116163674dd7ff). Severity from the pr.md taxonomy copy
+# (.garura/project/issues/889/context/memory/standards/rules/pr.md): P3 Minor "missing docs, naming";
+# P4 Nit "style-only". No finding is P1 or P2.
+category: harness
+changed_artifacts:
+  - core/components/skills/platform-adapter/SKILL.md
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+principles:
+  - id: PR-1
+    text: "Mechanical work is a script, judgment is a model. A fixed sequence runs as a script the step calls; a model only where judgment is needed."
+    source: "docs/standards/harness-standard.md:42-48 (main), which cites ADR 025 and #484"
+    note: "docs/adr/025-level-3-redefined-skeleton-and-loop.md on main does not itself state this rule; the standard is the committed source that carries it."
+  - id: PR-2
+    text: "The skill states its interface once: 'exactly N verbs', one table row per verb, and each platform page carries 'one section per verb'."
+    source: "core/components/skills/platform-adapter/SKILL.md:3,30,31-56 and reference/github/verbs.md:3 (main)"
+  - id: PR-3
+    text: "A GitHub-only verb is marked in the SKILL.md table as 'GitHub only; GitLab stops with a plain message' and is handled by the one GITHUB_ONLY_VERBS stop in the adapter code."
+    source: "core/components/skills/platform-adapter/SKILL.md:51-55 (main); core/components/plays/create-play/references/platform_adapter.py:24-29,247,335-338 (main)"
+  - id: PR-4
+    text: "The skill's own constraints bind it: the verb list in the 'Unknown verb' halt names the verbs the adapter supports, and 'NEVER add verbs beyond the N defined above without a schema change'."
+    source: "core/components/skills/platform-adapter/SKILL.md:25,110,138 (main)"
+  - id: PR-5
+    text: "Each verb's page entry says when a caller uses it, and a caller's real use agrees with it."
+    source: "core/components/skills/platform-adapter/SKILL.md:36 and reference/github/verbs.md:23-28 (main): pr-files is 'for a PR over the 300-file diff limit'."
+  - id: PR-6
+    text: "Memory (Phoenix) lists the adapter verb surface per platform."
+    source: "tools/github/adapter.md and tools/gitlab/adapter.md, read through the memory tool, copied to .garura/project/issues/889/context/memory/grounding-harness/ (manifest.json beside them)"
+checks_passed:
+  - "Verb count agrees at 23 everywhere the change touches: SKILL.md description (line 3), SKILL.md heading (line 30) and its 23 table rows, the adapter docstring, argparse text, len(VERBS) (counted: 18 plain + 5 GITHUB_ONLY_VERBS = 23) and the test 'VERBS has exactly 23'. No 22 is left in core."
+  - "The 7 adapter copies are byte-identical (cmp against create-play/references/platform_adapter.py: check-change, merge-change, propose-change, shape-eval, shape-plan, shape-slice same). The two fetch_pr_context.py copies are byte-identical."
+  - "compare-diff is on the same verb list in the SKILL.md table, the unknown-verb message, both verbs.md pages and the code."
+  - "PR-1 holds: the compare, the 3 tries and the fall back to pr-files are in fetch_pr_context.py (a script); the adapter returns raw output with a fixed argv list per verb; no model step was added. The GitLab case cannot reach compare-diff from the fetcher (headRefName is absent on GitLab, so the loop runs 0 times and pr-files runs)."
+  - "No compiled play SKILL.md changed, so there is no intent change to trace to an ICE source; the platform-adapter skill has no ICE source."
+findings:
+  - id: H-1
+    severity: P3
+    principle: PR-4
+    source: "core/components/skills/platform-adapter/SKILL.md:25 and :138 (main): 'One of the 16 supported verbs' and 'NEVER add verbs beyond the 16 defined above without a schema change'; the same file states 'exactly 22 verbs' at :3 and :30 (main)."
+    file: core/components/skills/platform-adapter/SKILL.md
+    lines: [25, 139]
+    defect: "The change moves the verb count to 23 in the description and the Verb Interface heading, but the same file still says 'one of the 16 supported verbs' (line 25) and 'NEVER add verbs beyond the 16 defined above without a schema change' (line 139). The skill now states 16 and 23 together, and its own constraint forbids the very verb this change adds. A model that runs this skill and obeys the constraint can refuse compare-diff, and a reader cannot tell how many verbs exist. The 16 was stale before this change (main:25,138) but the change edits the count in the same file and leaves the contradiction."
+    fix: "Change line 25 to 'One of the 23 supported verbs' and line 139 to 'NEVER add verbs beyond the 23 defined above without a schema change' (or name the table: 'beyond those in the Verb Interface table')."
+    pre_existing_in_part: true
+  - id: H-2
+    severity: P3
+    principle: PR-2
+    source: "core/components/skills/platform-adapter/SKILL.md:30-56 (main, 22 rows) and reference/github/verbs.md:3 (main, 'One section per verb'); SKILL.md:108-110 (main, Step 2 halts 'Unknown verb' when no section matches)."
+    file: core/components/skills/platform-adapter/SKILL.md
+    lines: [111]
+    defect: "The 'Unknown verb' message lists 18 verbs (view-pr ... update-comment, now with compare-diff) while the table and the code have 23. The 5 GitHub-only verbs (create-issue-typed, set-issue-type, edit-issue-body, remove-label, remove-sub-issue) are in the table but in no verbs.md page: each page has 18 sections and claims 'One section per verb'. By Step 2 (find the section whose heading matches) a model-run adapter would halt 'Unknown verb' for those 5, and the message would not list them. The change adds the sixth GitHub-only verb and keeps the gap, and its new sections make compare-diff the only GitHub-only verb that has one."
+    fix: "Add the verb to the list the message prints for all 23 verbs, and either add a section for each of the 5 verbs to both pages (GitLab: the stop with exit code 2) or change Step 2 and the page headers to say a GitHub-only verb has its command in the adapter script and is listed in the table only. Do one of these for compare-diff too, so the six GitHub-only verbs follow one rule."
+    pre_existing_in_part: true
+  - id: H-3
+    severity: P3
+    principle: PR-5
+    source: "core/components/skills/platform-adapter/SKILL.md:36 (main): pr-files is 'for a PR over the 300-file diff limit'; the fetcher on this branch, core/components/plays/check-change/scripts/fetch_pr_context.py:165-182, tries compare-diff first for every PR over 300 files."
+    file: core/components/skills/platform-adapter/SKILL.md
+    lines: [37]
+    also_in:
+      - "core/components/skills/platform-adapter/reference/github/verbs.md:31-37 (line 33: 'Use it for a PR whose file list pr-files cuts off at 3000 files')"
+    defect: "The new row and the GitHub page say compare-diff is for a PR over the 3000-file limit of pr-files, so a reader takes pr-files as the answer for 301 to 3000 files. The only caller does the opposite: it tries compare-diff first, for any PR over 300 files (3 tries), and uses pr-files only when compare-diff fails or the head branch is unknown (fetch_pr_context.py:97, 170-182). The fetcher docstring (lines 14-19) and the GitLab page (gitlab/verbs.md:37, 'a caller falls back to pr-files') say it correctly; the two lines in SKILL.md and github/verbs.md disagree with them. A future play author following the table would pick the verb in the wrong order."
+    fix: "SKILL.md:37: 'The plain diff between two branches, with no file limit (for a PR over the 300-file diff limit; tried before pr-files; GitHub only; GitLab stops with a plain message)'. github/verbs.md:33: 'Use it for a PR over the 300-file diff limit; fall back to pr-files when it fails.'"
+  - id: H-4
+    severity: P4
+    principle: PR-3
+    source: "core/components/skills/platform-adapter/SKILL.md:51-55 (main): each GitHub-only row ends '(GitHub only; GitLab stops with a plain message)'; core/components/plays/create-play/references/platform_adapter.py:247,335-338 (main): one GITHUB_ONLY_VERBS set and one stop for all of them."
+    file: core/components/plays/check-change/scripts/platform_adapter.py
+    lines: [30, 254, 346]
+    also_in:
+      - "core/components/skills/platform-adapter/SKILL.md:37"
+      - "the same lines in the 6 other adapter copies (create-play/references, merge-change, propose-change, shape-eval, shape-plan, shape-slice)"
+    defect: "compare-diff is GitHub only, but it is not in GITHUB_ONLY_VERBS. It has its own second 'if' with its own message (line 346), and the docstring counts it apart ('Five verbs ... compare-diff ... is GitHub only too', lines 25-31). The SKILL.md row says only 'GitHub only', without the 'GitLab stops with a plain message' the other five carry. So the six GitHub-only verbs follow two rules, in the code and in the table. The behaviour is right (exit code 2, nothing run, tested); the cost is that anyone who loops over GITHUB_ONLY_VERBS to list the GitHub-only verbs (as the test at test_platform_adapter.py:223 does) misses compare-diff, and the copies in 7 plays carry the second branch."
+    fix: "Either put compare-diff in GITHUB_ONLY_VERBS and make the message a per-verb reason (issue types and sub-issues, or no plain diff), or keep the second branch and add it to the docstring count ('Six verbs work on GitHub only'). Add 'GitLab stops with a plain message' to the SKILL.md row. Edit the one source and copy it to the 7 plays, as before."
+notes:
+  - "Memory gap, outside this PR: the Phoenix memory pages tools/github/adapter.md and tools/gitlab/adapter.md (copied under grounding-harness/) list 16 verbs and none of pr-files, the 5 GitHub-only verbs or compare-diff. They are not in the diff and are not a finding on it; they are the same count drift as H-1 and need a memory update by a person if the KB narrative should match."
+  - "ADR 025 (docs/adr/025-level-3-redefined-skeleton-and-loop.md) does not state the script-per-verb rule in its text; the rule is committed in docs/standards/harness-standard.md:42-48, which cites ADR 025 and #484. The adapter docstring cites the same pair. No finding; recorded so the grounding is not read as an ADR 025 quote."
+  - "Layer 1 results for the 3 harness files are not part of this file; the play runs lint-components and lint-play."
+  - "Not verified: whether GitHub's compare endpoint with the diff media type has no file limit and no size cap. That claim is in the change (SKILL.md:37, verbs.md:33) and is external to the committed sources; it is not graded here."
