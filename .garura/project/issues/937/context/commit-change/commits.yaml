@@ -1,0 +1,19 @@
+commits:
+  - sha: 09b491d4
+    message: "chore(plan): bring plan 606 up to date after the knowledge-steps change landed (#937)"
+    files:
+      - .garura/project/plans/606.yaml
+    branch: feature/937-memory-index-rows
+  - sha: ff8a3694
+    message: "chore(stm): record the commit-change run records (#937)"
+    files:
+      - .garura/project/issues/937/context/commit-change/analysis.yaml
+      - .garura/project/issues/937/context/commit-change/porcelain.txt
+    branch: feature/937-memory-index-rows
+excluded_files:
+  - path: "CLAUDE.md.new"
+    reason: "Untracked scratch copy of a CLAUDE.md draft, not part of issue 937 and not named by the grouping; left on disk for its owner, not committed."
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
