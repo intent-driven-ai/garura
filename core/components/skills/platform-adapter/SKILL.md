@@ -22,7 +22,7 @@ Receive from caller (agent):
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `verb` | Yes | One of the 16 supported verbs (see Verb Interface below) |
+| `verb` | Yes | One of the 23 supported verbs (see Verb Interface below) |
 | `args` | Yes | Map of named arguments for the verb (see per-verb reference) |
 
 ## Verb Interface
@@ -34,7 +34,7 @@ The adapter exposes exactly 23 verbs:
 | `view-pr` | Fetch PR/MR metadata (JSON) |
 | `diff-pr` | Fetch PR/MR unified diff |
 | `pr-files` | List every changed file of a PR/MR with its patch, page by page (for a PR over the 300-file diff limit) |
-| `compare-diff` | The plain diff between two branches, with no file limit (for a PR over the 3000-file limit of `pr-files`; GitHub only) |
+| `compare-diff` | The plain diff between two branches, with no file limit: the first try for a PR whose one diff is refused (over 300 files), before `pr-files` (GitHub only; GitLab stops with a plain message) |
 | `comment-pr` | Post a comment on a PR/MR |
 | `request-changes` | Request changes on a PR/MR, blocking merge |
 | `add-reviewer` | Add a reviewer to a PR/MR |
@@ -108,7 +108,7 @@ Apply the platform resolution steps above. Halt on pre-flight failure before exe
 
 ### Step 2: Look Up Verb
 
-Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment."`
+Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment, create-issue-typed, set-issue-type, edit-issue-body, remove-label, remove-sub-issue."`
 
 ### Step 3: Substitute Arguments
 
@@ -136,7 +136,7 @@ Return to caller:
 - NEVER fall back silently when a platform reference file is missing — halt with structured failure
 - ALWAYS perform the `which glab` pre-flight check before any operation when platform=gitlab
 - ALWAYS halt with the prescribed install hint text when `glab` is missing: `"glab CLI not found. Install via: brew install glab or https://gitlab.com/gitlab-org/cli"`
-- NEVER add verbs beyond the 16 defined above without a schema change
+- NEVER add verbs beyond the 23 defined above without a schema change
 
 ## Version
 

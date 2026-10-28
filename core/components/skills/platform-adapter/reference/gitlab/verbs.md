@@ -208,3 +208,23 @@ glab api projects/{PROJECT_ID}/notes/{note_id} \
 ```
 
 Note: on GitLab, issue comments and MR notes use different API endpoints (`issues/{iid}/notes` vs `merge_requests/{iid}/notes`). The `notes/{note_id}` path above applies to issue notes; for MR notes use `merge_requests/{iid}/notes/{note_id}`.
+
+## create-issue-typed
+
+Not on GitLab: GitLab has no issue types or sub-issues here. The adapter stops with exit code 2 and runs nothing.
+
+## set-issue-type
+
+Not on GitLab: GitLab has no issue types here. The adapter stops with exit code 2 and runs nothing.
+
+## edit-issue-body
+
+Not on GitLab: the adapter keeps this one to GitHub. The adapter stops with exit code 2 and runs nothing.
+
+## remove-label
+
+Not on GitLab: the adapter keeps this one to GitHub. The adapter stops with exit code 2 and runs nothing.
+
+## remove-sub-issue
+
+Not on GitLab: GitLab has no sub-issues here. The adapter stops with exit code 2 and runs nothing.

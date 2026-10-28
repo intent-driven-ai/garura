@@ -30,7 +30,7 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/files --paginate --jq '.[] | @json
 
 ## compare-diff
 
-The plain diff between two branches, three-dot (from where `head` left `base`), with no file limit. Use it for a PR whose file list `pr-files` cuts off at 3000 files:
+The plain diff between two branches, three-dot (from where `head` left `base`), with no file limit. It is the first try for a PR whose one diff `diff-pr` refuses (over 300 files); `pr-files` (at most 3000 files) is the second. For a PR from a fork, `head` is `{owner}:{branch}`:
 
 ```bash
 gh api repos/{owner}/{repo}/compare/{base}...{head} -H "Accept: application/vnd.github.diff"
@@ -201,4 +201,53 @@ Derive `{owner}/{repo}` from:
 
 ```bash
 gh repo view --json nameWithOwner --jq '.nameWithOwner'
+```
+
+## create-issue-typed
+
+Create an issue with its title, body, issue type and parent in one call (GitHub only). First read the repository's id and its issue types, then create the issue with the type's id and, when there is a parent, the parent's node id. Stdout is the new issue's number.
+
+```bash
+gh api graphql -H "GraphQL-Features: issue_types,sub_issues" \
+  -f query='query($owner:String!,$name:String!){repository(owner:$owner,name:$name){id issueTypes(first:50){nodes{id name}}}}' \
+  -f owner={owner} -f name={repo}
+
+gh api graphql -H "GraphQL-Features: issue_types,sub_issues" \
+  -f query='mutation($repo:ID!,$title:String!,$body:String,$type:ID,$parent:ID){createIssue(input:{repositoryId:$repo,title:$title,body:$body,issueTypeId:$type,parentIssueId:$parent}){issue{number url}}}' \
+  -f repo={repo_id} -f title="{title}" -f body="{body}" -f type={type_id} [-f parent={parent_node_id}]
+```
+
+An `issue_type` the repository does not have stops with exit 1, and nothing is made.
+
+## set-issue-type
+
+Set an issue's type (GitHub only):
+
+```bash
+gh api -X PATCH repos/{owner}/{repo}/issues/{issue_number} -f type="{issue_type}"
+```
+
+## edit-issue-body
+
+Replace an issue's body (GitHub only):
+
+```bash
+gh api -X PATCH repos/{owner}/{repo}/issues/{issue_number} -f body="{body}"
+```
+
+## remove-label
+
+Take one label off an issue (GitHub only):
+
+```bash
+gh issue edit {issue_number} --remove-label "{label}"
+```
+
+## remove-sub-issue
+
+Take a child issue off its parent (GitHub only). Like `attach-sub-issue`, it needs the child's internal numeric id first:
+
+```bash
+CHILD_ID=$(gh api /repos/{owner}/{repo}/issues/{child_number} --jq '.id')
+gh api /repos/{owner}/{repo}/issues/{parent_number}/sub_issue -X DELETE -F sub_issue_id="$CHILD_ID"
 ```

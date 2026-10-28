@@ -16,6 +16,7 @@ import fetch_pr_context as fpc  # noqa: E402
 
 PASSED = 0
 FAILED = 0
+HEADS = []
 
 
 def check(name, cond):
@@ -40,9 +41,12 @@ FILES = [
 def run_main(responses, tmp):
     """Run main() with the host's answers stubbed; return (exit code, context or None)."""
     calls = []
+    fpc.COMPARE_PAUSE = 0
 
     def dispatch(verb, args, config_path=None):
         calls.append(verb)
+        if verb == "compare-diff":
+            HEADS.append(args["head"])
         answer = responses[verb]
         return answer.pop(0) if isinstance(answer, list) else answer
 
@@ -101,9 +105,35 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big, "compare-diff": no_compare,
                                      "pr-files": files}, tmp)
-        check("a failed compare call falls back to the file list (exit 0)",
+        check("a compare call the host cannot answer (not found) stops at once and falls back to the file list",
               code == 0 and ctx["diff_source"] == "pr-files" and len(ctx["changed_paths"]) == 5
+              and calls == ["view-pr", "diff-pr", "compare-diff", "pr-files"])
+    with tempfile.TemporaryDirectory() as tmp:
+        dropped = {"exit_code": 1, "stdout": "", "stderr": "stream error: stream ID 3; CANCEL"}
+        code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big,
+                                     "compare-diff": [dropped, dropped, dropped], "pr-files": files}, tmp)
+        check("a compare call that drops three times falls back to the file list",
+              code == 0 and ctx["diff_source"] == "pr-files"
               and calls == ["view-pr", "diff-pr"] + ["compare-diff"] * 3 + ["pr-files"])
+    with tempfile.TemporaryDirectory() as tmp:
+        not_here = {"exit_code": 2, "stdout": "", "stderr": "compare-diff works on GitHub only"}
+        code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big, "compare-diff": not_here,
+                                     "pr-files": files}, tmp)
+        check("a host without the compare command (exit 2) is not tried again",
+              code == 0 and ctx["diff_source"] == "pr-files" and calls.count("compare-diff") == 1)
+    with tempfile.TemporaryDirectory() as tmp:
+        fork = {"exit_code": 0, "stdout": json.dumps({"baseRefName": "main", "headRefName": "fix-x",
+                                                     "isCrossRepository": True,
+                                                     "headRepositoryOwner": {"login": "someone"},
+                                                     "changedFiles": 5}), "stderr": ""}
+        HEADS.clear()
+        code, ctx, _ = run_main({"view-pr": fork, "diff-pr": too_big, "compare-diff": compared}, tmp)
+        check("a PR from a fork names its head with the fork's owner (someone:fix-x)",
+              code == 0 and HEADS == ["someone:fix-x"])
+    with tempfile.TemporaryDirectory() as tmp:
+        HEADS.clear()
+        run_main({"view-pr": view, "diff-pr": too_big, "compare-diff": compared}, tmp)
+        check("a PR from the same repository names its head by branch only", HEADS == ["feature/1-x"])
     with tempfile.TemporaryDirectory() as tmp:
         dropped = {"exit_code": 1, "stdout": "", "stderr": "stream error: stream ID 3; CANCEL"}
         code, ctx, calls = run_main({"view-pr": view, "diff-pr": too_big,

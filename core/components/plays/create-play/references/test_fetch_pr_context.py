@@ -122,10 +122,62 @@ def test_header_forms():
     check("unique", got == ["docs/my fileé.md", "new/name.py", "x.py"])
 
 
+def test_compare_fallbacks():
+    print("A refused diff: the compare diff first, the file list second")
+    fpc.COMPARE_PAUSE = 0
+    paths = [f"a{i}.txt" for i in range(5)]
+    view = {"number": 7, "baseRefName": "main", "headRefName": "x", "changedFiles": 5}
+    too_big = {"exit_code": 1, "stdout": "",
+               "stderr": "HTTP 406: Sorry, the diff exceeded the maximum number of files (300)."}
+    files = "\n".join(json.dumps({"filename": p, "status": "modified", "patch": "@@ -1 +1 @@\n-a\n+b"})
+                      for p in paths) + "\n"
+
+    def run(compare_answers):
+        calls = []
+
+        def fake_dispatch(verb, args, config_path=None):
+            calls.append(verb)
+            if verb == "view-pr":
+                return {"exit_code": 0, "stdout": json.dumps(view), "stderr": ""}
+            if verb == "diff-pr":
+                return too_big
+            if verb == "compare-diff":
+                return compare_answers.pop(0)
+            return {"exit_code": 0, "stdout": files, "stderr": ""}
+        real = fpc.pa.dispatch
+        fpc.pa.dispatch = fake_dispatch
+        tmp = tempfile.mkdtemp()
+        ctx_path = os.path.join(tmp, "context.yaml")
+        try:
+            with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                fpc.main(["--config", os.path.join(tmp, "none.yaml"), "--pr-number", "7",
+                          "--out-context", ctx_path, "--out-diff", os.path.join(tmp, "pr.diff")])
+        except SystemExit:
+            pass
+        finally:
+            fpc.pa.dispatch = real
+        ctx = json.load(open(ctx_path)) if os.path.exists(ctx_path) else None
+        return ctx, calls
+
+    ok = {"exit_code": 0, "stdout": _diff_for(paths), "stderr": ""}
+    dropped = {"exit_code": 1, "stdout": "", "stderr": "stream error: CANCEL"}
+    ctx, calls = run([ok])
+    check("compare diff used", ctx is not None and ctx["diff_source"] == "compare-diff")
+    ctx, calls = run([dropped, ok])
+    check("a dropped compare call is tried again", ctx is not None
+          and ctx["diff_source"] == "compare-diff" and calls.count("compare-diff") == 2)
+    ctx, calls = run([dropped, dropped, dropped])
+    check("three drops fall back to the file list", ctx is not None
+          and ctx["diff_source"] == "pr-files" and calls.count("compare-diff") == 3)
+    ctx, calls = run([{"exit_code": 1, "stdout": "", "stderr": "HTTP 404: Not Found"}])
+    check("not found stops at once", ctx is not None and calls.count("compare-diff") == 1)
+
+
 if __name__ == "__main__":
     test_large_pr()
     test_mismatch()
     test_no_count()
     test_header_forms()
+    test_compare_fallbacks()
     print(f"\n{PASSED} passed, {FAILED} failed")
     sys.exit(1 if FAILED else 0)

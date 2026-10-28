@@ -13,8 +13,9 @@ review playbooks (knowledge/review/*.md) through the memory tool.
 
 When the host refuses the one diff because the PR changes more than 300 files, the diff is
 read as the compare diff of the PR's base and head branches (`compare-diff`), which has no
-file limit; a diff that large can drop the connection, so the call gets three tries. When
-all three fail, the diff is built from the host's list of the PR's files
+file limit; a diff that large can drop the connection, so the call gets three tries, a few
+seconds apart (a failure no retry can fix, such as a branch the host does not have, stops at
+once). For a PR from a fork the head is named with its owner. When the compare call fails, the diff is built from the host's list of the PR's files
 (`pr-files`, at most 3000), each with its patch; a file the host gives no patch for keeps
 its header and a note.
 
@@ -31,6 +32,7 @@ import json
 import os
 import re
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -95,6 +97,32 @@ def paths_from_diff(diff_text):
 
 TOO_MANY_FILES = ("exceeded the maximum number of files", "too_large")
 COMPARE_TRIES = 3
+COMPARE_PAUSE = 5  # seconds between tries
+# a failure no retry can fix: the host does not have the branches (or the adapter's exit 2:
+# the command is not on this host)
+COMPARE_FINAL = re.compile(r"HTTP 4(04|22)\b")
+
+
+def compare_head(data):
+    """The PR's head as the compare call names it: `owner:branch` for a PR from a fork."""
+    head = data.get("headRefName")
+    owner = (data.get("headRepositoryOwner") or {}).get("login")
+    if head and data.get("isCrossRepository") and owner:
+        return f"{owner}:{head}"
+    return head
+
+
+def read_compare(base, head, config):
+    """The compare diff, tried up to COMPARE_TRIES times with a pause between, since a diff
+    this large can drop the connection; a failure no retry can fix stops at once."""
+    compared = {"exit_code": 1, "stderr": "no head branch"}
+    for n in range(COMPARE_TRIES if head else 0):
+        if n:
+            time.sleep(COMPARE_PAUSE)
+        compared = pa.dispatch("compare-diff", {"base": base, "head": head}, config_path=config)
+        if compared["exit_code"] in (0, 2) or COMPARE_FINAL.search(compared.get("stderr", "")):
+            break
+    return compared
 
 
 def _side(prefix, path):
@@ -157,7 +185,7 @@ def main(argv=None):
         sys.exit(1)
     data = json.loads(meta["stdout"])
     base = data.get("baseRefName", "main")
-    head = data.get("headRefName")
+    head = compare_head(data)
     changed_files_reported = reported_count(data)
 
     diff = pa.dispatch("diff-pr", {"pr_number": pr}, config_path=ns.config)
@@ -165,13 +193,7 @@ def main(argv=None):
     if diff["exit_code"] != 0 and any(s in diff["stderr"] for s in TOO_MANY_FILES):
         # the host gives one diff for at most 300 files; the compare diff of the two
         # branches has no file limit, and the file list (at most 3000) is the second try
-        # a diff this large can drop the connection part way, so the call gets three tries
-        compared = {"exit_code": 1}
-        for _ in range(COMPARE_TRIES if head else 0):
-            compared = pa.dispatch("compare-diff", {"base": base, "head": head},
-                                   config_path=ns.config)
-            if compared["exit_code"] == 0:
-                break
+        compared = read_compare(base, head, ns.config)
         if compared["exit_code"] == 0:
             diff, source = compared, "compare-diff"
         else:
