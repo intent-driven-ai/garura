@@ -1,0 +1,8 @@
+{
+  "resolved": true,
+  "issue_number": 889,
+  "title": "Bug: /check-change halts on a PR with more than 300 files",
+  "created": false,
+  "state": "open",
+  "type": "Bug"
+}

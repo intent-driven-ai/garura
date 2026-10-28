@@ -1,0 +1,113 @@
+pr: 918
+issue: 889
+base: main
+round: 2
+layer1: review/layer1.txt (installed tools, source layout; 0 findings in changed files; tests 17/53/17; ruff clean)
+round_1_fixes:
+  H-1: fixed
+  H-2: fixed
+  H-3: fixed
+  Q-001: fixed in part (see Q-008)
+  Q-002: fixed
+  Q-003: fixed in part (see Q-009)
+findings:
+- id: N-1
+  severity: P3
+  principle: PR-2
+  source: 'reference/github/verbs.md:3 (main): the page is the ''normative reference'' and each section holds ''the
+    exact gh command'' the adapter runs.'
+  file: core/components/skills/platform-adapter/reference/github/verbs.md
+  lines:
+  - 10
+  defect: Round 2 (Q-003) changed the adapter's view-pr to ask for two more fields, isCrossRepository and headRepositoryOwner
+    (platform_adapter.py:108-112, all 7 copies), so the fetcher can name a fork's head as owner:branch. The GitHub
+    page's view-pr section still shows the old field list (number ... mergeable,url). The page the adapter is said
+    to mirror no longer shows what the adapter runs, and a reader who relies on the page does not learn that view-pr
+    gives the fork facts that compare-diff's {owner}:{branch} head depends on.
+  fix: 'In github/verbs.md line 10 add '',isCrossRepository,headRepositoryOwner'' to the --json list, and add a
+    note under it: ''isCrossRepository and headRepositoryOwner say whether the PR comes from a fork and whose; compare-diff
+    needs them to name the head.'' GitLab needs no change (its MR has no fork fields in the fetcher''s use; the
+    fetcher reads them with .get).'
+  category: harness
+- id: N-2
+  severity: P4
+  principle: PR-2
+  source: 'reference/github/verbs.md:3 (main): each section holds the exact command the adapter runs.'
+  file: core/components/skills/platform-adapter/reference/github/verbs.md
+  lines:
+  - 208
+  - 215
+  - 217
+  defect: The new create-issue-typed section says 'Stdout is the new issue's number', but the second command it
+    shows has no '--jq .data.createIssue.issue.number' (the adapter adds it, platform_adapter.py:326), so run as
+    written it prints JSON, not the number. The section also tells the reader to pass 'the parent's node id' but
+    not how to get it; the adapter reads it with 'gh api repos/{owner}/{repo}/issues/{parent_number} --jq .node_id'
+    before the second call. A person or model following the page, not the script, gets a different output and has
+    to guess the parent step.
+  fix: Add the parent look-up line to the code block (gh api repos/{owner}/{repo}/issues/{parent_number} --jq .node_id)
+    and end the second command with --jq .data.createIssue.issue.number.
+  category: harness
+- id: Q-008
+  category: tests
+  file: core/components/plays/create-play/references/test_fetch_pr_context.py
+  line: 125
+  severity: P3
+  basis: TEST-01 (new behaviour needs a test; scan_taxonomy cannot fire it on garura-prose) plus by-hand mutation
+    check. Residual of round-1 Q-001.
+  defect: 'test_compare_fallbacks in the create-play fetcher test covers only four cases (compare used, dropped
+    call retried, three drops fall back, 404 stops). It has no case for the fork rule (owner:branch), the host without
+    the compare command (exit 2), a PR with no head branch, or the exit-3 count check on the compare diff. These
+    are the Q-003 data-safety guard and the stop rules. Proof: on a scratch copy of the create-play fetcher with
+    compare_head changed to ignore forks, this suite still passes 17 of 17 (the check-change suite fails on the
+    same change). So if the create-play fetcher copy loses the fork rule, nothing in create-play notices, and a
+    fork PR reviewed from that copy can read another branch''s diff. Fix: copy the fork, exit 2, no-head and exit-3
+    cases from core/components/plays/check-change/scripts/test_fetch_pr_context.py into test_compare_fallbacks (they
+    need a head and a fork answer in view; the local run() helper takes a fixed view, so pass the view in), or make
+    the two test files one shared file.
+
+    '
+- id: Q-009
+  category: executable-code
+  file: core/components/plays/check-change/scripts/fetch_pr_context.py
+  line: 110
+  severity: P3
+  basis: 'by hand: data-safety of the external-call path (categories.yaml executable-code by_hand). Gap in the Q-003
+    fix. Same defect in core/components/plays/create-play/references/fetch_pr_context.py:110 (identical copy).'
+  defect: 'compare_head names the fork owner only when isCrossRepository is true AND headRepositoryOwner has a login.
+    When isCrossRepository is true but the owner is missing or empty (a fork that was deleted, where the host returns
+    no owner), it falls through to return the plain branch name (line 112). That is the exact Q-003 case: the compare
+    runs against the base repository with the fork''s branch name, and if the base repository has a branch of the
+    same name the review reads that other branch''s diff. Checked by calling compare_head with isCrossRepository
+    true and headRepositoryOwner null or {login: ''''}: both return the plain name. The exit-3 count check catches
+    it only when the file counts differ. Fix: when isCrossRepository is true and there is no owner login, return
+    None so read_compare skips compare-diff and the review falls back to pr-files; change both fetcher copies and
+    add a test case for it.
+
+    '
+- id: Q-010
+  category: executable-code
+  file: core/components/plays/check-change/scripts/fetch_pr_context.py
+  line: 18
+  severity: P4
+  basis: CODE-12 style (readability); by hand. Same in core/components/plays/create-play/references/fetch_pr_context.py:18.
+  defect: 'The module docstring paragraph was extended in round 2 without re-wrapping: line 18 is 147 characters
+    (''For a PR from a fork ... When the compare call fails, the diff is built ...'') against about 95 on the lines
+    around it, and line 23 is 127. Nothing breaks. Fix: re-wrap lines 14-23 to the width of the rest of the docstring,
+    in both fetcher copies.
+
+    '
+- id: R-1
+  category: issue-run-records
+  file: .garura/project/issues/889/context/analysis.yaml
+  line: 1
+  severity: P4
+  basis: 'by hand: ''the records agree with the code change'' (categories.yaml issue-run-records by_hand); the taxonomy
+    gives no finding on stm-evidence paths.'
+  defect: 'analysis.yaml and commits.yaml are overwritten by each commit-change run. They now describe only the
+    last run (moving the round-1 review records, commit 43fc62c2, 11 files), not the 15 source files or the round-2
+    fix commit 486e6c65. The categories note that they ''cover all 14 source files plus 486e6c65'' does not hold
+    any more, so a reader cannot use these two files to see what the change touched. The source change is recorded
+    in git history (33a84e05 and 486e6c65) and in the PR body. Fix: none needed in the code; read the change from
+    git log, or have commit-change keep one analysis file for each run.
+
+    '

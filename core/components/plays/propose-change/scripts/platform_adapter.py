@@ -4,7 +4,7 @@ platform_adapter.py — the code-host adapter as a SCRIPT LIBRARY (#484).
 
 The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
 execute; that boot + context re-read is the chain-time cost #484 removes. This module
-is the same verb interface as a bundled script (22 verbs): it resolves the active platform from
+is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
 `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
 returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
 a script, per the tool-first rule and ADR 025.
@@ -27,6 +27,8 @@ Five verbs work on GitHub only, because they set or read what GitLab does not ha
 GraphQL createIssue call), set-issue-type, edit-issue-body, remove-label and
 remove-sub-issue. On GitLab each one stops with exit_code 2 and a plain message, and runs
 nothing.
+compare-diff (the plain diff between two branches, with no file limit) is GitHub only too:
+GitLab's compare gives no plain diff, so on GitLab it stops the same way.
 
 GitHub is complete and exercised. GitLab argv is encoded verbatim from the skill's
 `reference/gitlab/verbs.md` but is UNTESTED here (this repo is GitHub); the `glab` path is
@@ -106,7 +108,8 @@ def _gh(verb, args, repo):
     if verb == "view-pr":
         return [["gh", "pr", "view", str(a["pr_number"]), "--json",
                  "number,title,body,state,author,headRefName,baseRefName,"
-                 "files,changedFiles,commits,mergeable,url"]]
+                 "files,changedFiles,commits,mergeable,url,isCrossRepository,"
+                 "headRepositoryOwner"]]
     if verb == "diff-pr":
         return [["gh", "pr", "diff", str(a["pr_number"])]]
     if verb == "pr-files":
@@ -115,6 +118,11 @@ def _gh(verb, args, repo):
         owner, name = repo
         return [["gh", "api", f"repos/{owner}/{name}/pulls/{a['pr_number']}/files",
                  "--paginate", "--jq", ".[] | @json"]]
+    if verb == "compare-diff":
+        # the whole diff between two branches as plain text, with no file limit
+        owner, name = repo
+        return [["gh", "api", f"repos/{owner}/{name}/compare/{a['base']}...{a['head']}",
+                 "-H", "Accept: application/vnd.github.diff"]]
     if verb == "comment-pr":
         return [["gh", "pr", "comment", str(a["pr_number"]), "--body", a["body"]]]
     if verb == "request-changes":
@@ -247,8 +255,8 @@ def _glab(verb, args, repo):
 GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
                      "remove-label", "remove-sub-issue"}
 
-VERBS = {"view-pr", "diff-pr", "pr-files", "comment-pr", "request-changes", "add-reviewer",
-         "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+         "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
          "view-user", "update-comment"} | GITHUB_ONLY_VERBS
 
@@ -336,6 +344,10 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
         return _result(verb, platform, [], 2, "",
                        f"{verb} works on GitHub only: GitLab has no issue types or sub-issues "
                        "here. Nothing was run and nothing was changed.")
+    if verb == "compare-diff" and platform != GITHUB:
+        return _result(verb, platform, [], 2, "",
+                       "compare-diff works on GitHub only: GitLab's compare gives no plain "
+                       "diff here. Nothing was run.")
     if verb == "create-issue-typed":
         return _create_issue_typed(args, repo)
     # remove-sub-issue needs the child's numeric id first, as attach-sub-issue does.
@@ -384,7 +396,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Code-host adapter (22 verbs).")
+    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
     ap.add_argument("--verb", required=True)
     ap.add_argument("--config", default=".garura/core/config.yaml")
     ap.add_argument("--platform", default=None)

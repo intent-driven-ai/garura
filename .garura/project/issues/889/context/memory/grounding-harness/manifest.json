@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "tools/github/adapter.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:7e2a36e5804d88b3be98c0922aad54dc7b823604a3843804e4d49924c56a19fa",
+      "copy": ".garura/project/issues/889/context/memory/grounding-harness/tools/github/adapter.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "tools/gitlab/adapter.md",
+      "version": "23387be24c0d",
+      "fingerprint": "sha256:3633f7cb634dc85a53946948b1d11d075772c345c6686b98b85b040eeedd7df6",
+      "copy": ".garura/project/issues/889/context/memory/grounding-harness/tools/gitlab/adapter.md"
+    }
+  ]
+}
