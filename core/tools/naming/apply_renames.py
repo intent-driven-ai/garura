@@ -85,7 +85,9 @@ def main(argv=None):
     ap.add_argument("--kind", choices=["plays", "loops", "skills", "agents"], action="append")
     ap.add_argument("--dry-run", action="store_true")
     ns = ap.parse_args(argv)
-    rename = co.load_map(ns.root)
+    # a name mapped to null was removed with no successor: nothing to move or rewrite to
+    rename = {kind: {old: new for old, new in pairs.items() if new}
+              for kind, pairs in co.load_map(ns.root).items()}
     kinds = ns.kind or ["plays", "loops", "skills", "agents"]
     moved = [m for kind in kinds for old, new in rename[kind].items()
              if (m := move(ns.root, kind, old, new, ns.dry_run))]
