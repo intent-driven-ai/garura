@@ -79,12 +79,12 @@ what you already know.
 
 Memory is reached only through the memory tool (`.garura/core/tools/memory/memory.py`), never
 by a path. That holds for every tier and every copy of it: never list, read or compare a
-memory folder on disk (`~/.phoenix/`, the `phoenix-memory` repository, a project's
-`.garura/core/memory/`). To learn whether a tier holds a page, use the tool's `find` with
-`--tier <tier>` or `--every-tier`; to see what a page says in a tier, use its `read` with
-`--tier`. Garura's own source memory (`core/components/memory/`) is source code in this
-repository, not a memory tier: read it as a repository file when a decision changes it, and
-compare it with a tier's copy only through the tool's `read`.
+memory folder on disk (Phoenix memory's folder or its repository, a project's memory folder).
+To learn whether a tier holds a page, use the tool's `find` with `--tier <tier>` or
+`--every-tier`; to see what a page says in a tier, use its `read` with `--tier`. When a
+decision changes the seed of the memory in the repository it is decided in, that seed is a
+repository file, not a memory tier: read it as one, and compare it with a tier's copy only
+through the tool's `read`.
 
 What each skill needs from memory:
 

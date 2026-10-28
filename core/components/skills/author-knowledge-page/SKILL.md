@@ -1,9 +1,9 @@
 ---
 name: author-knowledge-page
-description: Draft one knowledge page for a topic a loop found missing from memory — something no screen shows and research can answer (a speed bar for a kind of product, the rules that apply to a kind of record, the usual roles in a kind of team) — researched with its sources, and raise it through the memory tool as a memory update a person approves (ADR 035). One page answers every question of its topic. Marks the page for the project's memory when it is a fact about the product or its team, not about one loop. Used by the knowledge-builder agent in /research-knowledge.
+description: Draft one knowledge page for a topic a loop found missing from memory — something no screen shows and research can answer (a speed bar for a kind of product, the rules that apply to a kind of record, the usual roles in a kind of team) — researched with its sources. One page answers every question of its topic. Marks the page for the project's memory when it is a fact about the product or its team, not about one loop. Draft only — the knowledge-builder agent raises the page through the memory tool as a memory update a person approves (ADR 035, ADR 059); the skill never calls the memory tool. Used by the knowledge-builder agent in the loop's knowledge step (Shared Loop Run, R5c).
 user-invocable: false
 model: opus
-allowed-tools: Read, Write, Bash, WebSearch, WebFetch
+allowed-tools: Read, Write, WebSearch, WebFetch
 ---
 
 # author-knowledge-page
@@ -18,9 +18,8 @@ skill drafts the knowledge once, with its sources, for the person to approve.
 | Field | Required | Meaning |
 |-------|----------|---------|
 | `topic` | yes | The topic (e.g. "speed bar for a review tool's pages") and the questions it must answer |
-| `context` | yes | What the loop knows of the product — its intents, its domain — from the build's working files |
-| `issue` | yes | The loop's issue; the memory update lands in its short-term memory |
-| `memory_tool` | yes | `.garura/core/tools/memory/memory.py` |
+| `context` | yes | What the loop knows of the product — its intents, its domain — from the step's working files |
+| `draft_path` | yes | Where to write the draft, in the loop's working folder (`<working>/knowledge-round-<n>/pages/<topic-slug>.json`) |
 
 ## Process
 
@@ -30,24 +29,30 @@ skill drafts the knowledge once, with its sources, for the person to approve.
 3. Write the page in plain words, as knowledge an agent can use on any later loop for this
    product: the facts, the usual values, the choices and when each applies. Mark what is a
    choice the person must make (a target they set), not a fact.
-4. Raise it through the memory tool, never by writing memory yourself:
-
-   ```bash
-   python3 <memory_tool> propose --request '{"issue": <issue>,
-     "missing": "<the topic, in one line>", "target_tier": "short-term",
-     "target_path": "<issue>/context/answers/kb/<topic-slug>.md", "draft": "<the page>",
-     "draft_source": "web", "sources": [<each link>], "requested_by": "knowledge-builder (/research-knowledge)"}'
-   ```
-
-5. Say whether the page belongs in the **project's memory** (`for_project_memory: true`): a
+4. Say whether the page belongs in the **project's memory** (`for_project_memory: true`): a
    fact about this product or its team that every later loop needs. Moving it there is a
-   person's promotion, later (`/promote-memory`).
+   person's promotion, later.
+5. Write the draft to `draft_path`. Never write memory, and never call the memory tool: the
+   agent raises the page as a memory update.
 
 ## Output
 
-The memory update's id, and `for_project_memory`.
+`draft_path` holds:
+
+```json
+{
+  "missing": "<the topic, in one line>",
+  "slug": "<topic-slug>",
+  "draft": "<the page, Markdown>",
+  "sources": ["<each link>"],
+  "for_project_memory": true
+}
+```
+
+Return its path — never the content.
 
 ## Rules
 
-- Never decide, apply or promote an update; a person decides (ADR 035, ADR 039).
+- Draft only. Never decide, apply or promote an update, and never raise one; a person decides
+  (ADR 035, ADR 039).
 - Every fact on the page has a source; a value the person must choose is marked as a choice.

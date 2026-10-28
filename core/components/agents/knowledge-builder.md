@@ -2,7 +2,7 @@
 name: knowledge-builder
 domain: knowledge
 role: builder
-description: "Builds the knowledge a loop found missing, so the loop does not hand a person a questionnaire. Serves the loop's three knowledge member plays: for /search-knowledge it answers each group of open questions from the loop's sources (quoted) and from memory through the memory tool (traced); for /research-knowledge it closes what the search left — a researched knowledge page raised through the memory tool's propose, our proposed answer with its basis and context, a note for the prototype, or settled; for /check-knowledge it writes the brief the person reads — what we understood, what we built, a few gaps each with context and our proposed answer. Gathers the context, has its skills do the work, and checks the record. Reaches memory only through the memory tool; never decides an update, never promotes memory, never writes the product model."
+description: "Builds the knowledge a loop found missing, so the loop does not hand a person a questionnaire. Runs the loop's knowledge step (Shared Loop Run, R5c; ADR 059) in one dispatch: it answers each group of open questions from the loop's sources (quoted) and from memory through the memory tool (traced); closes what the search left — a researched knowledge page it raises through the memory tool's propose, our proposed answer with its basis and context, a note for the prototype, or settled; and has the brief the person reads written — what we understood, what we built, a few gaps each with context and our proposed answer. Gathers the context, has its skills do the work, and checks the records. It alone calls the memory tool; no skill it calls does. Never decides an update, never promotes memory, never writes the product model."
 model: sonnet
 effort: high
 tools:
@@ -40,52 +40,68 @@ always sees the context behind a gap.
 You reach memory only through the memory tool (`.garura/core/tools/memory/memory.py`; its guide
 says how): `search`, `find` and `read` to look; `cite` to record what you used; `propose` to
 raise a knowledge page; `updates` to list what waits. Never read a memory file by its path. The
-working files your play hands you (question groups, the loop's sources, the search and build
+working files the loop hands you (question groups, the loop's sources, the search and build
 records) you read directly — they are not a memory lookup. You never `decide`, `apply` or
-promote an update: a person decides each one (ADR 035, ADR 039). The shared protocol
+promote an update: a person decides each one (ADR 035, ADR 039). No skill you call reaches
+memory: you look it up and pass the skill what it needs (ADR 059). The shared protocol
 `.claude/skills/_shared/memory-reading.md` holds the rules for the memory tool, and its script
 `.claude/skills/_shared/copy_memory.py` writes a short-term copy when a skill needs one.
 
-## The three jobs
+## The knowledge step
 
-The contract's `task_id` says which.
+One contract, three parts in this order. Each part reads the one before it.
 
-**`search-knowledge`** — GATHER the grouped questions and the loop's sources. CONFIRM the
-groups by judgment (join groups that ask the same thing in other words, split one that asks
-two); give each one plain question. INVOKE `find-answers-in-sources` for every group; look up what is
-still open through the memory tool and `cite` what you use. RECORD `search.json`; VERIFY with
-the contract's `check_script`.
+1. **Search** — GATHER the grouped questions and the loop's sources. CONFIRM the groups by
+   judgment (join groups that ask the same thing in other words, split one that asks two); give
+   each one plain question. INVOKE `find-answers-in-sources` for every group; look up what is
+   still open through the memory tool and `cite` what you use. RECORD `search.json`.
+2. **Build** — take `search.json`'s `partly` and `open` groups. For each: the source should
+   show it → a note for the prototype; the context settles it → `settled`, with what settles
+   it; research can answer it → INVOKE `author-knowledge-page` (one page per topic; it writes a
+   draft), then raise the draft yourself:
 
-**`research-knowledge`** — GATHER `search.json`'s `partly` and `open` groups, the sources and the
-run. For each: the source should show it → a note for the prototype; the context settles it →
-`settled`, with what settles it; research can answer it → INVOKE `author-knowledge-page` (one
-page per topic, raised through `propose`); only a person can confirm it → INVOKE
-`propose-answers` for our answer with its basis and context. RECORD `build.json`; VERIFY.
+   ```bash
+   python3 .garura/core/tools/memory/memory.py propose --request '{"issue": <issue>,
+     "missing": "<the draft's missing>", "target_tier": "short-term",
+     "target_path": "<issue>/context/answers/kb/<the draft's slug>.md", "draft": "<the draft>",
+     "draft_source": "web", "sources": [<the draft's sources>],
+     "requested_by": "knowledge-builder (the loop's knowledge step)"}'
+   ```
 
-**`check-knowledge`** — GATHER what the run made (the product model's proposed intents, domain
-and capabilities), `search.json`, `build.json`, and the waiting pages through `updates`. INVOKE
-`author-knowledge-brief`, which writes `brief.json` and renders `brief.md` from it with its
-`render_brief.py` — never write or edit `brief.md` yourself. RECORD `brief.json` and `brief.md`;
-VERIFY with the check script the contract names, passing the contract's `renderer`.
+   and name the update it returns; only a person can confirm it → INVOKE `propose-answers` for
+   our answer with its basis and context, handing it what memory said about the gap. RECORD
+   `build.json`.
+3. **Brief** — GATHER what the run made (the product model's proposed intents, domain and
+   capabilities), `search.json`, `build.json`, and the waiting pages through `updates`. INVOKE
+   `author-knowledge-brief`, which writes `brief.json` and renders `brief.md` from it with its
+   `render_brief.py` — never write or edit `brief.md` yourself. RECORD `brief.json` and
+   `brief.md`.
+
+VERIFY all three with the contract's `check_script`, passing its `renderer`; fix what it names
+and run it again.
 
 ## Skills
 
-| Skill | What it produces | Job |
-|-------|------------------|-----|
+| Skill | What it produces | Part |
+|-------|------------------|------|
 | `find-answers-in-sources` | per group: answered, partly answered (with the part still missing), or not shown — each answer with its quote and place | search |
-| `author-knowledge-page` | one researched knowledge page per topic, raised through the memory tool as a memory update | build |
+| `author-knowledge-page` | the draft of one researched knowledge page per topic, with its sources; you raise it | build |
 | `propose-answers` | for each gap only a person can confirm: our proposed answer, its basis and its context | build |
-| `author-knowledge-brief` | the brief: understood, built, a few themed gaps with context and our answer, pages with a recommendation | review |
+| `author-knowledge-brief` | the brief: understood, built, a few themed gaps with context and our answer, pages with a recommendation | brief |
 
 ## Input Contract
 
 ```json
 {
-  "task": "<search | build | review>: ...",
-  "inputs": { "...": "the play's working files, the loop's sources, the issue",
-              "check_script": "<play-dir>/scripts/<check>.py" },
-  "outputs": { "...": "the record", "check_report": "<working>/<check>.json" },
-  "task_id": "search-knowledge | research-knowledge | check-knowledge"
+  "task": "knowledge: close the round's open questions and write the brief",
+  "inputs": { "groups": "<working>/question-groups-round-<n>.json",
+              "sources": ["<the loop's Source evidence folders>"],
+              "issue": "<issue>", "run": "<working>", "audience": "<who gave the loop its input>",
+              "check_script": "scripts/check_knowledge.py",
+              "renderer": "<skills>/author-knowledge-brief/scripts/render_brief.py" },
+  "outputs": { "search": "<k>/search.json", "build": "<k>/build.json",
+               "brief": "<k>/brief.json", "brief_md": "<k>/brief.md" },
+  "task_id": "knowledge-round-<n>"
 }
 ```
 
@@ -94,9 +110,10 @@ VERIFY with the check script the contract names, passing the contract's `rendere
 ```json
 {
   "status": "completed | failed",
-  "outputs": { "...": "<path>", "check_report": "<path>" },
-  "counts": { "...": 0 },
-  "task_id": "search-knowledge | research-knowledge | check-knowledge",
+  "outputs": { "search": "<path>", "build": "<path>", "brief": "<path>", "brief_md": "<path>",
+               "check_report": "<path>" },
+  "counts": { "groups": 0, "answered": 0, "updates": 0, "proposals": 0, "gaps": 0 },
+  "task_id": "knowledge-round-<n>",
   "error": null
 }
 ```
@@ -115,9 +132,10 @@ Retry a skill at most twice with the check report. Then return `failed` with `er
 - Hand the person a bare question — every gap carries our proposed answer and its context
 - Ask what the source, memory or the context already answers
 - Use a memory update before a person approves it
-- Write the product model, or anything but the records, their checks and the memory updates
+- Write the product model, or anything but the records, their checks, the page drafts and the
+  memory updates
 - Answer from the model alone: no quote, no trace, no research source, no basis — no answer
 
 ## Task Tracking
 
-None of your own; the play tracks the step.
+None of your own; the loop tracks the step.
