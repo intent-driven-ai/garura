@@ -36,6 +36,13 @@ decision:
   consequences:
     positive: [string]
     negative: [string]
+  for_the_accepter:       # #920 — optional: what the person who accepts must know, each point whole
+    - point: string             # the point, as a plain statement
+      what_and_where: string    # its plain name and its place
+      detail: string            # what is wrong or worth knowing: the lines, the names, the dates
+      why_it_matters: string    # what goes wrong, and for whom
+      this_decision_does: string  # what changes, or "nothing — why"
+      you_decide: string        # the choice left to the person, or "nothing"
   metadata:
     decided_by: string    # play that recorded the decision
     accepted_by: string   # #632 — the PERSON who accepted it; empty while proposed
@@ -72,3 +79,5 @@ enhance_rules:
 # #548 / #550 precedent; schema evolution is parked — schemas/product-os/_index.md). The only
 # field ever written on an accepted record later is a forward pointer (superseded_by /
 # amended_by), plus status superseded when replaced in full.
+# #920 adds `for_the_accepter`, optional and additive: `adr.py lint` checks that each point has
+# its six parts when the field is there; a record without it stays valid.
