@@ -1,0 +1,305 @@
+# design-findings-harness.yaml — Layer 2 design-grounding for the 'harness' category (PR 950, issue 717)
+# Plays checked: start-change, propose-change, merge-change (SKILL.md, reference/ice.md, stop-condition.yaml, scripts).
+# Every principle below comes from a source that exists on origin/main (or the memory tool copies), never from
+# prose this branch adds. Severity comes from the PR severity taxonomy copy at
+# .garura/project/issues/717/context/memory/standards/rules/pr.md (P1 blocker, P2 major, P3 minor, P4 nit).
+category: harness
+base: origin/main
+base_sha: c5b5982adf9f9a793408abde3e0433f4ae51301f
+decision_in_scope: >
+  The product owner decided on 2026-10-28 that a plan's branch lands on main while the plan is still in
+  progress, and that a new plan branch is cut when the plan starts again. That rule is the change's intent and
+  is not counted as a defect anywhere below.
+
+grounding:
+  principles:
+    - id: G1
+      principle: "Mechanical work is a script, judgment is a model (harness standard, principle 3)."
+      source: "docs/standards/harness-standard.md at origin/main, section 3 (cites ADR 025, #484)"
+    - id: G2
+      principle: "Every part is built from its intent: a change to what a part guarantees is made in the ICE and the part is compiled again; the compiled part carries the fingerprint of its ICE (principle 4)."
+      source: "docs/standards/harness-standard.md at origin/main, section 4 (cites ADR 027); CLAUDE.md at origin/main, 'Play Pipeline Rules'"
+    - id: G3
+      principle: "Build the eval first: the check that proves a change is done exists before the change (principle 5)."
+      source: "docs/standards/harness-standard.md at origin/main, section 5"
+    - id: G4
+      principle: "A change to the harness standard is a decision: it goes through record-decision as an ADR, and the rule files and the page change with it."
+      source: "docs/standards/harness-standard.md at origin/main, 'How the standard is kept'; precedent docs/adr/055-installed-parts-read-only-installed-files.md (amends the harness standard with an ADR)"
+    - id: G5
+      principle: "Installed parts name only installed files; a pointer in an installed file never reaches core/components, core/tools or Garura's own docs (principle 11)."
+      source: "docs/standards/harness-standard.md at origin/main, section 11; docs/adr/055-installed-parts-read-only-installed-files.md"
+    - id: G6
+      principle: "New shared scaffolding follows one pattern: one common file the plays point to, emitted by the compiler and linted."
+      source: "CLAUDE.md at origin/main, 'Durability rule for non-intent edits'; core/tools/lint-components/lib/rules/shared-scripts.js at origin/main (byte-for-byte rule for stamped scripts)"
+    - id: G7
+      principle: "A start play opens a pipeline: it resolves or creates the issue and cuts the branch; the end plays run in order commit, propose, check, merge, and each finds its issue from the branch."
+      source: "standards/rules/pipeline-position.md (memory tool copy: .garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-position.md)"
+    - id: G8
+      principle: "Branch patterns are listed in the git rule so people and quality gates know each pattern."
+      source: "standards/rules/git.md (memory tool copy: .garura/project/issues/717/context/memory/grounding-harness/standards/rules/git.md)"
+    - id: G9
+      principle: "A play matches its compiled shape: every constraint, failure and scenario has an eval, one recovery per failure, the Standard Play Close is intact."
+      source: "review playbook review/harness (short-term copy .garura/project/issues/717/context/memory/knowledge/review/harness.md); core/components/plays/_shared/play-close.md at origin/main"
+  gaps: []
+
+conformance_checked_and_held:
+  - "Fingerprints: the sha256 in each SKILL.md equals the sha256 of its reference/ice.md (start-change 98bd008d, propose-change 065ab448, merge-change c018f453). Intent and compiled file moved together."
+  - "Linters: lint_play.py passes all three plays (0 gaps: eval coverage, one recovery per failure, no orphans, play close, stop condition, fingerprint, next line). lint-components --layout source shows 36 errors and 1 warning, none in a changed play file (the create-play ones are 'there before')."
+  - "Recovery counts and eval counts in each SKILL.md summary table agree with the sections (start-change F9/REC9, propose-change F10/REC10, merge-change F9/REC9)."
+  - "stop-condition.yaml matches the ICE Done means in propose-change (D3 on_target) and merge-change (D4 on_target)."
+  - "Stamped copies: the 27 preflight.py copies, resolve_plan.py, resolve_target.py (both plays), setup_branch.py, submit_pr.py and merge_pr.py are byte-identical to their originals in core/components/plays/create-play/references/; platform_adapter.py is identical and already has the close-issue, view-issue and view-pr verbs."
+  - "Installed-path rule: no added line in the three plays names core/components, core/tools or docs/."
+  - "Mechanical git and gh work sits in bundled scripts (resolve_plan.py, setup_branch.py, resolve_target.py, submit_pr.py, merge_pr.py); the three plays dispatch zero domain agents."
+  - "Nothing added names a play that is gone; every play named in the added text exists in core/components/plays."
+  - "Standard Play Close anchors are untouched in the three plays."
+
+findings:
+  - id: H1
+    severity: P2
+    file: core/components/plays/merge-change/scripts/preflight.py
+    line: 122
+    also_in:
+      - core/components/plays/propose-change/scripts/preflight.py:122
+      - core/components/plays/start-change/scripts/preflight.py:122
+      - core/components/plays/create-play/references/preflight.py:122
+      - "the 24 other stamped preflight.py copies, including commit-change and check-change"
+    principle: G7, G1
+    basis: "standards/rules/pipeline-position.md (end plays find their issue from the branch); docs/standards/harness-standard.md at origin/main, section 3 (resolve the facts by script, not by inference)"
+    what: >
+      The new issue rule returns no issue for the plan's own branch (plan/<id>/base). The script says so in its
+      own comment. Yet the new pause rule sends exactly that branch through commit-change, propose-change,
+      check-change and merge-change, and every one of them keys its run folder, session stamp, PR issue reference
+      and stop-condition path on the issue the resolver returns. resolve_target.py in the same change gives that
+      branch the issue number of the plan (kind plan, issue 717), so the two scripts disagree. I ran both on
+      plan/717/base: preflight.py returns issue null, resolve_target.py returns issue 717.
+    impact: >
+      Pausing a plan is the headline path of this change, and on it the pre-flight facts carry no issue. The
+      run folder path would be built from an empty value, and the PR reference rule (the PR must name its issue)
+      has nothing to name. The runs for this very PR worked only because the agents guessed the plan number,
+      which is the inference the scripts are there to remove. Fix: let preflight.py take the plan number from
+      plan/<id>/base (the same rule resolve_target.py uses) and re-stamp all copies.
+
+  - id: H2
+    severity: P3
+    file: docs/standards/harness-standard.md
+    line: 88
+    principle: G4
+    basis: "docs/standards/harness-standard.md at origin/main, 'How the standard is kept' (a change to the standard goes through record-decision as an ADR); docs/adr/055-installed-parts-read-only-installed-files.md (an earlier amendment of this standard carried its own ADR)"
+    what: >
+      Principle 8 is rewritten (a plan lands on main whenever it pauses, instead of only when every issue is
+      closed) and the same rule is added to .garura/user-provided/managing-work.md and to the ICE of all three
+      plays. The branch adds no ADR (no file under docs/adr/ changed), and no ADR on origin/main records the plan
+      branch rule at all (searched docs/adr for plan branch wording: none).
+    impact: >
+      The decision of 2026-10-28 is held only in a working note and in the standard's own new text, so a later
+      reader cannot see who decided it, what it replaced, or which plays and ICE it amends. The rule itself is not
+      in question; the missing record is.
+
+  - id: H3
+    severity: P3
+    file: core/components/plays/propose-change/SKILL.md
+    line: 10
+    also_in:
+      - core/components/plays/merge-change/SKILL.md:3
+      - core/components/plays/merge-change/SKILL.md:10
+      - core/components/plays/propose-change/SKILL.md:56
+      - core/components/plays/propose-change/SKILL.md:141
+      - core/components/plays/merge-change/SKILL.md:265
+    principle: G2
+    basis: "docs/standards/harness-standard.md at origin/main, section 4 (the compiled part matches its intent); CLAUDE.md at origin/main, 'Play Pipeline Rules' (an intent change is made in the ICE and compiled, never hand-edited)"
+    what: >
+      The ICE Intent paragraph changed in all three plays, and start-change's SKILL.md lead and description follow
+      it. For propose-change and merge-change they do not. merge-change still opens with "switch to main and pull
+      the latest, and delete the feature branch" (lead at line 10 and the frontmatter description at line 3),
+      propose-change's lead has no plan target, its pre-flight row still says "On a feature branch (not main)",
+      its optional approval step still shows "base = main", and merge-change's closing report still says the
+      change "has landed on main". A rebuild from the new ICE would not write these lines, which is the sign of a
+      patched file rather than a compiled one, even though the fingerprints match.
+    impact: >
+      The skill list and the approval text tell people the old behaviour. An issue in a plan lands on its plan
+      branch, but the text a person approves says main. The approval step is switched off by config today, so the
+      harm is a misleading description, not a wrong merge.
+
+  - id: H4
+    severity: P3
+    file: core/components/plays/start-change/scripts/setup_branch.py
+    line: 67
+    also_in:
+      - core/components/plays/start-change/SKILL.md:184
+      - core/components/plays/create-play/references/setup_branch.py:67
+    principle: G9
+    basis: "review playbook review/harness (every step eval must hold for the script it checks); docs/standards/harness-standard.md at origin/main, section 5 (the check must be able to fail for the right reason)"
+    what: >
+      The plan block only runs when the issue's own branch does not exist yet (line 67). On a resume, where the
+      issue branch already exists, base_sha stays at the origin/main tip and plan_branch_created is false. But
+      eval SE-2 says that for an issue in a plan, base_sha equals the plan branch tip. On a resume that holds only
+      when the plan branch happens to sit level with main.
+    impact: >
+      Scenario S3 (resume) for an issue in a plan can fail SE-2 although nothing is wrong, or a reader trusting
+      base_sha as "where this branch was cut" is told the wrong commit. Resume is a path the play promises
+      works (C6).
+
+  - id: H5
+    severity: P3
+    file: core/components/plays/create-play/SKILL.md
+    line: 255
+    principle: G6
+    basis: "CLAUDE.md at origin/main, 'Durability rule for non-intent edits' (shared scaffolding is emitted by the compiler); core/components/plays/create-play/SKILL.md at origin/main, 'Code-host scripts' ('a rebuild brings them back')"
+    what: >
+      The compiler's list of job scripts to copy into a play (setup_branch.py, submit_pr.py, read_merge_state.py,
+      merge_pr.py, fetch_pr_context.py, post_verdict.py) does not name the two new scripts, resolve_plan.py and
+      resolve_target.py. The file is not changed by this branch.
+    impact: >
+      The new scripts live in the three plays and in create-play/references, but the instructions that stamp
+      scripts into a play never mention them. A rebuild of a play, or a new play built later, may not carry them,
+      and the plan wiring would quietly drop out.
+
+  - id: H6
+    severity: P3
+    file: core/tools/lint-components/lib/rules/shared-scripts.js
+    line: 10
+    principle: G6
+    basis: "CLAUDE.md at origin/main, 'Durability rule for non-intent edits' (shared scaffolding is linted); core/tools/lint-components/lib/rules/shared-scripts.js at origin/main (only lint_grounding.py and model_names.py are held byte-identical)"
+    what: >
+      This change edits 27 stamped copies of preflight.py at once and adds two stamped copies of resolve_target.py
+      and one of resolve_plan.py. The shared-scripts rule checks only lint_grounding.py and model_names.py, so
+      nothing in the linters would catch a copy that drifts later. Today all copies are identical (checked by hand).
+    impact: >
+      The next hand edit of one play's preflight.py or resolve script slips through the linter, and plays then
+      disagree about how an issue is read from a branch. This is the gap that H1 would have been caught by.
+
+  - id: H7
+    severity: P3
+    file: core/components/plays/propose-change/reference/ice.md
+    line: 86
+    also_in:
+      - core/components/plays/propose-change/SKILL.md:221
+    principle: G3
+    basis: "docs/standards/harness-standard.md at origin/main, section 5 (build the eval first; a scenario for each promised path)"
+    what: >
+      propose-change has one new scenario, S5, for an issue in a plan. Its constraint C2 and failure F10 also say a
+      plan's own branch (plan/<id>/base) must open against main, and that is the path a paused plan takes. No
+      scenario or eval raises that branch.
+    impact: >
+      The pause-and-land path is proved only on the merge side (merge-change S6). A plan branch raised against the
+      wrong base, or raised with no issue (see H1), would pass every propose-change check in the play.
+
+  - id: H8
+    severity: P3
+    file: core/components/plays/propose-change/SKILL.md
+    line: 304
+    also_in:
+      - core/components/plays/propose-change/reference/ice.md:127
+      - core/components/plays/propose-change/scripts/submit_pr.py:88
+    principle: G1
+    basis: "docs/standards/harness-standard.md at origin/main, section 3 (mechanical work is a script); the play's own recovery contract (one recovery per failure, handoff stated)"
+    what: >
+      Recovery F10 is marked autonomous and says "change the PR's base on the host to the target". No script does
+      this. When a PR already exists, submit_pr.py only edits the title and body (line 88, a direct gh call) and
+      never the base, so a re-run leaves the wrong base in place and the run closes unmet on on_target.
+    impact: >
+      The recovery named for a wrong-base PR cannot run by itself, so the run halts with an instruction nobody
+      automates. Either give submit_pr.py a retarget step through the adapter or mark the recovery as a person's.
+
+  - id: H9
+    severity: P3
+    file: core/components/plays/merge-change/scripts/merge_pr.py
+    line: 162
+    principle: G9
+    basis: "Constraint C5 of merge-change at origin/main (a re-run on a merged PR is a clean no-op) read with the new C9 (an issue that lands on its plan branch is closed by the merge script)"
+    what: >
+      The close-issue and capability-close steps run only on the fresh-merge path (lines 196 to 206). The
+      already-merged path (line 162) records on_target and ends, so when a first run merged the PR and then stopped
+      before closing the issue, a re-run never closes it.
+    impact: >
+      An issue that landed on its plan branch can stay open for good, and the plan tree then shows it as open work.
+      Failure F9 names "a landed issue left open" and sends it to a person, so the gap is known, but the cheap
+      repair (do it on re-run) is missing.
+
+  - id: H10
+    severity: P3
+    file: core/components/plays/start-change/scripts/setup_branch.py
+    line: 69
+    principle: G9
+    basis: ".garura/user-provided/managing-work.md on this branch states 'When the plan starts again, a new branch is cut from main' (the rule under review); start-change ICE C9 says the branch is cut only when it does not exist"
+    what: >
+      A plan branch counts as existing if it exists locally or on origin (_branch_exists). After a pause the merge
+      script deletes it on origin and in the clone that merged. A second clone that still holds the old local
+      plan/<id>/base is treated as live: the script merges main into that stale branch instead of cutting a new one,
+      and pushes it back to origin. If the plan was squash merged, the old commits conflict with main.
+    impact: >
+      On a second machine the restart rule does not hold. The run either stops on a conflict or recreates the
+      deleted plan branch with old history. Check origin first, and cut fresh when origin has no such branch.
+
+  - id: H11
+    severity: P4
+    file: core/components/plays/start-change/SKILL.md
+    line: 58
+    principle: G1
+    basis: "docs/standards/harness-standard.md at origin/main, section 3; core/components/plays/start-change/SKILL.md at origin/main (worktree flag is resolved by preflight.py, 'not by inference')"
+    what: >
+      The pre-flight row "Read plans.base-path" is not among the facts preflight.py prints (it prints worktree,
+      stm paths and others, but no plans path). The model has to read the key from config by itself, while the
+      sibling worktree flag comes from the script.
+    impact: >
+      A small drift risk: the folder resolve_plan.py reads is chosen by the model, not by the resolver. If the key
+      is missing in an older project config, the default is used and the issue silently gets a feature branch.
+
+  - id: H12
+    severity: P4
+    file: core/components/plays/propose-change/scripts/submit_pr.py
+    line: 106
+    principle: G9
+    basis: "review playbook review/harness (an eval must be able to fail)"
+    what: >
+      When create-pr succeeds but the follow-up lookup finds no number, the record is built with base set to the
+      requested base (lines 101 to 104). Line 106 then compares that value with itself, so on_target is always true
+      on this branch of the code.
+    impact: >
+      D3 cannot catch a wrong base on that path. The path is rare, and the normal path reads the base from the host.
+
+  - id: H13
+    severity: P4
+    file: core/components/plays/merge-change/SKILL.md
+    line: 176
+    principle: G3
+    basis: "docs/standards/harness-standard.md at origin/main, section 5; merge-change ICE C9 in this change (its capability is closed once every issue under it is closed)"
+    what: >
+      C9 says the merge script also closes the capability once every issue under it is closed. Eval SE-9 and
+      scenario S5 check only that the issue is in issues_closed. Nothing in the play checks the capability close.
+    impact: >
+      An outward write (closing a tracker issue) happens with no eval watching it. The unit test covers it, the
+      play does not.
+
+  - id: H14
+    severity: P4
+    file: docs/standards/harness-standard.md
+    line: 88
+    principle: G9
+    basis: "docs/standards/harness-standard.md at origin/main, section 8 line 90 ('and after every plan it needs'); .garura/project/plans/717.yaml at origin/main (needs_plans)"
+    what: >
+      The old principle said a plan lands on main only "after every plan it needs". The rewrite drops that clause
+      and no play or note says whether plan order (needs_plans) still matters when a plan merges on pause.
+    impact: >
+      A person pausing a plan that depends on another plan has no stated rule. Say in the standard that the order
+      no longer holds, or keep a check.
+
+  - id: H15
+    severity: P4
+    file: standards/rules/git.md
+    line: 5
+    also_in:
+      - standards/rules/pipeline-position.md:31
+    principle: G7, G8
+    basis: "standards/rules/git.md and standards/rules/pipeline-position.md (memory tool copies under .garura/project/issues/717/context/memory/grounding-harness/standards/rules/)"
+    what: >
+      Two standards the plays rely on were not updated. The branch pattern table in git.md has no plan/* pattern,
+      and pipeline-position.md still says start-change cuts "the branch off fresh main" for every issue.
+    impact: >
+      The standards now disagree with the plays: a reader of the rule files learns the old branch model. These
+      files are not in this PR; they are memory files and need their own update.
+
+notes:
+  - "Detour plans: the removal of issue 791 from .garura/project/plans/717.yaml is a plan-record change, outside this category."
+  - "submit_pr.py line 88 calls gh directly instead of the platform adapter. The line is unchanged by this branch, so it is counted as there before."
+  - "Tests, executable code and documentation categories are graded by their own playbooks; only their effect on the three plays is noted here."
