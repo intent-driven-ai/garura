@@ -1,0 +1,15 @@
+commits:
+  - sha: 0705b6a6
+    message: "chore(plan): update plan 717 to match the plan-branch rule (#717)"
+    files:
+      - .garura/project/plans/717.yaml
+    branch: plan/717/base
+excluded_files:
+  - path: ".garura/project/issues/717/status/session-stamp-commit-change.json"
+    reason: "play run-state directory — mutated by the running play itself; committed later by an stm chore commit, never by its own run"
+  - path: ".garura/project/issues/717/status/stop-condition-commit-change.yaml"
+    reason: "play run-state directory — mutated by the running play itself; committed later by an stm chore commit, never by its own run"
+leftover_count: 1
+tree_clean: false
+pushed: false
+run_state_committed: true
