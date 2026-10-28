@@ -1,0 +1,5 @@
+Issue #920 (Bug, P1): the Discovery loop's three knowledge steps (/search-knowledge, /research-knowledge, /check-knowledge) are built as plays, but no person runs them; only the loop does. They should be skills the loop's agent calls, and memory must be reached only through the memory tool (no skill searches memory on its own; at most a thin wrapper that calls the memory tool).
+
+This change first reads all three plays, their scripts and tests, the knowledge-builder agent, the four skills they use and the loop's Steps 6b to 6f, then shows the product owner a redesign. Nothing is built before the product owner's yes. After the yes: record the decision (amends ADR 042), change the loop, remove the three plays, update the installer, docs and the command catalogue.
+
+Done when: no play remains that only a loop runs; no skill searches memory on its own; the loop's tests pass; a Discovery round with open questions still ends in a brief the person can answer.
