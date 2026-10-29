@@ -68,8 +68,10 @@ standard (`docs/standards/harness-standard.md`).
   intent, so a plan can hold several Epics. Work found along the way that is not
   the slice's is filed on its own, as a Story, Bug or Chore, never under the Epic;
   `/shape-slice` and `/shape-plan` place it when they run. Work that blocks the plan
-  gets its own Epic (its own slice), is delivered there, and merges back into the
-  plan branch it spawned from. (The product owner, 2026-10-26, #879.)
+  gets its own Epic (its own slice) and is delivered there (the product owner,
+  2026-10-26, #879). It lands on main, not on the blocked plan's branch: the blocked
+  plan pauses and merges into main first, and the blocker is cut from main (see
+  "A plan's branch: start, pause, start again"; the product owner, 2026-10-28).
 - **No labels, for now.** Not for type, status, area, or severity. Closed issues
   keep their old labels as history.
 - **A Bug carries its severity in its text.** Its first line is
