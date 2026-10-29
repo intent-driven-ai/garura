@@ -58,7 +58,7 @@ tree:
     - issue: 986
       kind: story
       title: '/list-plans card heading: the title at the left edge, the direction icon on its own line, the rows at the left edge'
-      status: Not Started  # filed 2026-10-29; design agreed in the issue
+      status: Done  # landed on plan/717/base with PR #987, 2026-10-29
   - issue: 720
     kind: feature
     title: 'Manage a plan: change the plan file and the tracker together'
