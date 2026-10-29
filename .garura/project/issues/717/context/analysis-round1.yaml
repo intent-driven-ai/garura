@@ -1,0 +1,46 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by the repo-orchestrator (assess-changes)
+# issue: 717
+branch: plan/717/base
+issue: 717
+needs_judgment: false
+
+change_groups:
+  - id: docs-plan-branch-rule
+    issue: 717
+    commit_type: docs
+    scope: plan-branch
+    subject: "write down that a plan's branch merges into main when the plan pauses"
+    confidence: high
+    files:
+      - docs/standards/harness-standard.md
+      - .garura/user-provided/managing-work.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "One concern: the plan-branch rule (merge on pause, cut a new branch on start again) written for the standard (section 8) and for agents and people (managing-work.md)."
+  - id: chore-plan-717-upkeep
+    issue: 717
+    commit_type: chore
+    scope: plan
+    subject: "update plan 717 to match the plan-branch rule"
+    confidence: high
+    files:
+      - .garura/project/plans/717.yaml
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Plan upkeep: #721 and #673 now, #791 out, branch null."
+
+exclusions:
+  - path: ".garura/project/issues/717/status/session-stamp-commit-change.json"
+    reason: "play run-state directory — mutated by the running play itself; committed later by an stm chore commit, never by its own run"
+    blocking: false
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "2 groups: docs (rule written down, 2 files) and chore (plan file); every changed file in exactly one group or exclusions; the play's own context/ working files are left to its stm chore commit"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched in filenames or diff"}

@@ -4,16 +4,16 @@ id: 717
 title: People plan work toward a business intent, and pick it up across days and people
 status: active
 started: '2026-10-22'
-branch: plan/717/base
+branch: null  # plan/717/base merges into main and is deleted on 2026-10-28; a new one is cut when the work starts again
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-22'
+updated: '2026-10-28'
 tree:
 - issue: 721
   kind: capability
   title: 'Start and land work against a plan: plan branches in start-change and merge-change'
-  status: next
+  status: now
   children:
   - issue: 731
     kind: functionality
@@ -21,12 +21,8 @@ tree:
     status: now
   - issue: 673
     kind: functionality
-    title: merge-change lands an issue on its plan branch, and a plan on main only when it is done
-    status: done
-  - issue: 791
-    kind: functionality
-    title: A detour plan's branch is cut from the plan it came from, and lands back there
-    status: next
+    title: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses
+    status: now
 - issue: 718
   kind: capability
   title: 'Build a plan: a tree with an issue for every node, from a business intent'

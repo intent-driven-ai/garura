@@ -1,0 +1,42 @@
+---
+needs_judgment: false
+
+change_groups:
+  - id: managing-work-blocking-lands-on-main
+    issue: 717
+    commit_type: docs
+    scope: managing-work
+    subject: "blocking work lands on main, not on the blocked plan's branch (ADR 060)"
+    files:
+      - .garura/user-provided/managing-work.md
+  - id: plan-788-no-branch-no-detour
+    issue: 717
+    commit_type: chore
+    scope: plan
+    subject: "plan 788 has no branch and no detour target (ADR 060)"
+    files:
+      - .garura/project/plans/788.yaml
+  - id: stm-run-records
+    issue: 717
+    commit_type: chore
+    scope: stm
+    subject: "record the run records for the plan-branch change"
+    files:
+      - .garura/project/issues/717/context/citations.jsonl
+      - .garura/project/issues/717/context/memory/manifest.json
+      - .garura/project/issues/717/context/memory/standards/templates/product-ontology.md
+      - .garura/project/issues/717/context/porcelain.txt
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every file listed in porcelain.txt sits in exactly one group"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched"}

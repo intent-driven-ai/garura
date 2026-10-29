@@ -11,5 +11,5 @@ content:
       says: "the PR record exists"
       check: { type: artifact_exists, path: "context/pr.json" }
     - id: D3
-      says: "the PR targets main"
-      check: { type: field_equals, file: "context/pr.json", field: "base", equals: "main" }
+      says: "the PR targets where its branch lands"
+      check: { type: field_equals, file: "context/pr.json", field: "on_target", equals: true }

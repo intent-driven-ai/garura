@@ -1,0 +1,157 @@
+# categories.yaml — work categories present in PR #950 (issue 717 review)
+# Derived from the diff; treatment copied from the review playbooks in short-term memory
+# (.garura/project/issues/717/context/memory/knowledge/review/).
+categories:
+  - name: harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/merge-change/reference/ice.md
+      - core/components/plays/merge-change/stop-condition.yaml
+      - core/components/plays/propose-change/SKILL.md
+      - core/components/plays/propose-change/reference/ice.md
+      - core/components/plays/propose-change/stop-condition.yaml
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/start-change/reference/ice.md
+    treatment:
+      layers: [1, 2]
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+        - name: lint-play (one run per changed play)
+          commands:
+            - python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/merge-change/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
+            - python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/propose-change/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
+            - python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/start-change/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
+      runnable_checks:
+        - Only a violation whose file is in changed_paths is a finding; count the rest as "there before".
+        - A tool that is not installed is recorded as "not installed"; a crash as "did not run: <first error line>". Neither is a pass.
+        - ICE-source rule applies here (the repository holds the plays' source): an intent change to merge-change, propose-change or start-change must trace to its reference/ice.md, not to a hand edit of SKILL.md.
+        - Layer 2 design-grounding from committed sources only (docs/philosophy, docs/adr, standards rules, glossary), read on the base ref, never from this branch's new prose.
+  - name: executable code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/plays/build-epic/scripts/preflight.py
+      - core/components/plays/check-change/scripts/preflight.py
+      - core/components/plays/commit-change/scripts/preflight.py
+      - core/components/plays/create-play/references/merge_pr.py
+      - core/components/plays/create-play/references/preflight.py
+      - core/components/plays/create-play/references/resolve_plan.py
+      - core/components/plays/create-play/references/resolve_target.py
+      - core/components/plays/create-play/references/setup_branch.py
+      - core/components/plays/create-play/references/submit_pr.py
+      - core/components/plays/discover-capabilities/scripts/preflight.py
+      - core/components/plays/discover-domains/scripts/preflight.py
+      - core/components/plays/discover-intent/scripts/preflight.py
+      - core/components/plays/edit-ontology/scripts/preflight.py
+      - core/components/plays/learn-outcomes/scripts/preflight.py
+      - core/components/plays/list-focus-issues/scripts/preflight.py
+      - core/components/plays/merge-change/scripts/merge_pr.py
+      - core/components/plays/merge-change/scripts/preflight.py
+      - core/components/plays/merge-change/scripts/resolve_target.py
+      - core/components/plays/propose-change/scripts/preflight.py
+      - core/components/plays/propose-change/scripts/resolve_target.py
+      - core/components/plays/propose-change/scripts/submit_pr.py
+      - core/components/plays/record-decision/scripts/preflight.py
+      - core/components/plays/refactor-code/scripts/preflight.py
+      - core/components/plays/release-epic/scripts/preflight.py
+      - core/components/plays/release-increment/scripts/preflight.py
+      - core/components/plays/shape-agentic-lens/scripts/preflight.py
+      - core/components/plays/shape-architecture-lens/scripts/preflight.py
+      - core/components/plays/shape-eval/scripts/preflight.py
+      - core/components/plays/shape-marketing-lens/scripts/preflight.py
+      - core/components/plays/shape-measure-lens/scripts/preflight.py
+      - core/components/plays/shape-plan/scripts/preflight.py
+      - core/components/plays/shape-quality-lens/scripts/preflight.py
+      - core/components/plays/shape-run-lens/scripts/preflight.py
+      - core/components/plays/shape-slice/scripts/preflight.py
+      - core/components/plays/shape-ux-lens/scripts/preflight.py
+      - core/components/plays/start-change/scripts/preflight.py
+      - core/components/plays/start-change/scripts/resolve_plan.py
+      - core/components/plays/start-change/scripts/setup_branch.py
+      - core/components/plays/validate-epic/scripts/preflight.py
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (best-practice and severity checks against the diff with the pr.md taxonomy)
+          command: python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py (run by the play or quality-auditor; the playbook names the skill, not a command line)
+        - name: language linter
+          command: none committed in this repo (no ruff or similar config); record "not installed"
+      runnable_checks:
+        - Review the data-safety and idempotency paths hard: merge_pr.py, submit_pr.py, setup_branch.py touch git, the filesystem and the GitHub API.
+        - Rubric: error handling, function size, no stray debug output, no secrets, safe handling of destructive operations, deterministic where claimed.
+        - Many preflight.py files share one change (the branch-name fix copied into every play); check the copies agree with the reference copy in create-play/references.
+  - name: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/plays/create-play/references/test_merge_plan.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+      - core/components/plays/create-play/references/test_resolve_target.py
+      - core/components/plays/create-play/references/test_setup_branch.py
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality TEST-* rows from the pr.md taxonomy
+          command: python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+      runnable_checks:
+        - "Run the suite; a red suite is a blocker. Each file is a standalone script:"
+        - cd core/components/plays/create-play/references && python3 test_merge_plan.py
+        - cd core/components/plays/create-play/references && python3 test_resolve_plan.py
+        - cd core/components/plays/create-play/references && python3 test_resolve_target.py
+        - cd core/components/plays/create-play/references && python3 test_setup_branch.py
+        - Check assertions are clear, no skipped or disabled tests, no test that asserts nothing.
+  - name: documentation
+    design_bearing: false
+    playbook: review/docs
+    evidence:
+      - .garura/user-provided/managing-work.md
+      - docs/standards/harness-standard.md
+    note: >
+      Both files carry the plan-branch rule (start, pause and merge, start again). They are prose
+      read by people (and by agents as project rules), not plays, skills, agents, ADRs or memory.
+      The playbook gives docs no design-grounding; the plays that apply the rule are grounded under harness.
+    treatment:
+      layers: [1]
+      linters:
+        - name: prose checks (spelling, grammar, dead links, heading hierarchy, leftover to-do notes, terminology, completeness)
+          command: none committed; the tool performs the checks directly and cites each as the basis
+      runnable_checks:
+        - Links and issue references resolve; the two files state the same rule (merge on pause, new branch on resume) as each other and as the plays.
+  - name: config maps
+    design_bearing: false
+    playbook: review/config-maps
+    evidence:
+      - core/config.yaml
+    treatment:
+      layers: [1]
+      linters:
+        - name: path-existence check
+          command: none committed (gap); the tool resolves each referenced path itself
+      runnable_checks:
+        - "plans.base-path (.garura/project/plans/) resolves to a real folder and matches where resolve_plan.py reads."
+        - A human reads the named change directly.
+  - name: plan records
+    design_bearing: false
+    playbook: null
+    playbook_note: "playbook missing: no review/ playbook covers a plan file (a work-tracking record of a business intent: status, branch, tree). Not force-fitted to docs or config maps. A playbook should be written."
+    evidence:
+      - .garura/project/plans/717.yaml
+    treatment:
+      layers: []
+      linters: []
+      runnable_checks:
+        - "Hand checks, no playbook: the file parses as YAML; branch null matches the pause-and-merge rule; tree statuses and the removed issue 791 agree with the issue tracker."
+  - name: run records
+    design_bearing: false
+    playbook: null
+    playbook_note: "no playbook by design: these are the agents' working records of plays that ran (#939), not work under review."
+    evidence:
+      - "19 files under .garura/project/issues/ (issues 673, 717 and 731: context/ and review/ records). Full list in context.yaml changed_paths."
+    treatment:
+      layers: []
+      linters: []
+      runnable_checks: []
+design_bearing: [harness]

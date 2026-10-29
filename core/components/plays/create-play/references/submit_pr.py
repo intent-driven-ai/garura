@@ -13,7 +13,9 @@ judgment.
         [--draft] --out <pr.json>
 
 Idempotent: if an open PR already exists for the branch, it is updated (C5) — not
-duplicated. Writes pr.json: { number, url, state, base }.
+duplicated. Writes pr.json: { number, url, state, base, on_target }. --base is the target
+resolve_target.py gave (#673): the plan branch for an issue in a plan, else main;
+on_target is true when the PR's base on the host equals it.
 
 Exit 0 on success, 1 on a push/create failure.
 """
@@ -82,9 +84,10 @@ def main(argv=None):
 
     existing = _open_pr_number(ns.config)
     if existing:
-        # Update the existing PR's body/title rather than opening a second one (C5).
+        # Update the existing PR's body/title rather than opening a second one (C5), and point
+        # it at the target its branch lands on (#673; F10's recovery runs here, by itself).
         subprocess.run(["gh", "pr", "edit", existing, "--title", ns.title,
-                        "--body", body], capture_output=True, text=True)
+                        "--body", body, "--base", ns.base], capture_output=True, text=True)
         rec = _pr_record(ns.config, existing, ns.base)
     else:
         args = {"title": ns.title, "body": body, "base": ns.base}
@@ -100,6 +103,8 @@ def main(argv=None):
             "number": None, "url": res["stdout"].strip(), "state": "OPEN",
             "base": ns.base}
 
+    # The PR must point where its branch lands (#673): main, or its plan branch.
+    rec["on_target"] = rec.get("base") == ns.base
     with open(ns.out, "w", encoding="utf-8") as fh:
         json.dump(rec, fh, indent=2)
     print(json.dumps(rec, indent=2))

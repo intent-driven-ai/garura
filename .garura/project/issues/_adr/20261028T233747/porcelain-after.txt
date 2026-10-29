@@ -1,0 +1,19 @@
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261028T233747/adr-check.json
+?? .garura/project/issues/_adr/20261028T233747/adr-context.yaml
+?? .garura/project/issues/_adr/20261028T233747/adr-draft.md
+?? .garura/project/issues/_adr/20261028T233747/adr-manifest.json
+?? .garura/project/issues/_adr/20261028T233747/brief.md
+?? .garura/project/issues/_adr/20261028T233747/context/memory/manifest.json
+?? .garura/project/issues/_adr/20261028T233747/context/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/_adr/20261028T233747/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261028T233747/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261028T233747/decision.yaml
+?? .garura/project/issues/_adr/20261028T233747/guard-report.json
+?? .garura/project/issues/_adr/20261028T233747/hashes-before.json
+?? .garura/project/issues/_adr/20261028T233747/porcelain-after.txt
+?? .garura/project/issues/_adr/20261028T233747/porcelain-before.txt
+?? .garura/project/issues/_adr/20261028T233747/run.json
+?? .garura/project/issues/_adr/20261028T233747/start-change.json
+?? .garura/project/issues/_adr/20261028T233747/target.txt
+?? docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md

@@ -117,8 +117,14 @@ def resolve(cfg, play, branch, porcelain_text):
     issue = None
     on_default = False
     if branch:
-        m = re.search(r"/(\d+)", branch)
-        if m:
+        # The issue is the number that starts a branch's last part:
+        # feature/731-slug and plan/717/731-slug both give 731 (#731). A plan's own branch,
+        # plan/717/base, gives the plan's number, 717: the same rule as resolve_target.py.
+        plan_base = re.match(r"^plan/(\d+)/base$", branch)
+        m = re.match(r"(\d+)(?:-|$)", branch.rsplit("/", 1)[-1]) if "/" in branch else None
+        if plan_base:
+            issue = plan_base.group(1)
+        elif m:
             issue = m.group(1)
         on_default = branch in DEFAULT_BRANCHES
 

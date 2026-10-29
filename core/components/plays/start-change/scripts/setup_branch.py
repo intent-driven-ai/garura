@@ -8,11 +8,17 @@ the repo-orchestrator → cut-branch dispatch. Pure git — a fixed sequence, ze
 judgment.
 
     python3 setup_branch.py --issue N --branch-name feature/N-slug \
-        [--base main] [--worktree] [--no-push] --out <branch.json>
+        [--base main] [--plan-branch plan/P/base] [--worktree] [--no-push] --out <branch.json>
+
+With --plan-branch (an issue in a plan, from resolve_plan.py — #731): the plan branch is
+cut from the latest main when it does not exist yet (the plan's work starts now); when it
+exists, the latest main is merged into it first. The issue's branch
+(plan/P/<issue>-<slug>) is then cut from the plan branch. A merge conflict stops the run
+(exit 1) with the plan branch left as it was.
 
 Idempotent: if the branch already exists (local or remote), it is a resume —
 switch to it, do not re-cut. Writes branch.json:
-  { branch_name, base_sha, on_default_branch, worktree_path }
+  { branch_name, base_sha, on_default_branch, worktree_path, plan_branch, plan_branch_created }
 
 Exit 0 on success, 1 on a git failure.
 """
@@ -37,11 +43,24 @@ def _branch_exists(branch):
     return bool(out_r.strip())
 
 
+def _on_origin(branch):
+    _, out_r, _ = _git("ls-remote", "--heads", "origin", branch)
+    return bool(out_r.strip())
+
+
+def _tip(branch):
+    rc, sha, _ = _git("rev-parse", f"origin/{branch}")
+    if rc != 0 or not sha.strip():
+        rc, sha, _ = _git("rev-parse", branch)
+    return sha.strip() if rc == 0 else None
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--issue", required=True)
     ap.add_argument("--branch-name", required=True)
     ap.add_argument("--base", default="main")
+    ap.add_argument("--plan-branch")
     ap.add_argument("--worktree", action="store_true")
     ap.add_argument("--no-push", action="store_true")
     ap.add_argument("--out", required=True)
@@ -55,6 +74,43 @@ def main(argv=None):
         sys.exit(1)
     _git("pull", "--ff-only", "origin", ns.base)
     _, base_sha, _ = _git("rev-parse", f"origin/{ns.base}")
+
+    plan_created = False
+    if ns.plan_branch and not _branch_exists(branch):
+        # The issue sits in a plan: bring the plan branch up to the latest main, or cut it.
+        plan = ns.plan_branch
+        if not _on_origin(plan) and _branch_exists(plan):
+            # Only a stale local copy is left: the plan paused, merged into main and its branch
+            # was deleted on origin. A plan that starts again gets a fresh cut from main.
+            _git("branch", "-D", plan)
+        if _branch_exists(plan):
+            _git("fetch", "origin", plan)
+            rc, _, err = _git("checkout", plan)
+            if rc != 0:
+                rc, _, err = _git("checkout", "-b", plan, f"origin/{plan}")
+            if rc != 0:
+                sys.stderr.write(f"setup_branch.py: checkout {plan} failed: {err}\n")
+                sys.exit(1)
+            _git("pull", "--ff-only", "origin", plan)
+            rc, _, err = _git("merge", "--no-edit", f"origin/{ns.base}")
+            if rc != 0:
+                _git("merge", "--abort")
+                sys.stderr.write(f"setup_branch.py: merging {ns.base} into {plan} conflicts — "
+                                 f"resolve it by hand: {err}\n")
+                sys.exit(1)
+        else:
+            rc, _, err = _git("checkout", "-b", plan, f"origin/{ns.base}")
+            if rc != 0:
+                sys.stderr.write(f"setup_branch.py: cutting {plan} failed: {err}\n")
+                sys.exit(1)
+            plan_created = True
+        if not ns.no_push:
+            _git("push", "-u", "origin", plan)
+        _, base_sha, _ = _git("rev-parse", "HEAD")
+    elif ns.plan_branch:
+        # Resume of an issue in a plan: its branch was cut from the plan branch, so the
+        # base it records is the plan branch's tip, not main's.
+        base_sha = _tip(ns.plan_branch) or base_sha
 
     worktree_path = None
     if _branch_exists(branch):
@@ -82,7 +138,8 @@ def main(argv=None):
         _git("push", "-u", "origin", branch)
 
     record = {"branch_name": branch, "base_sha": base_sha,
-              "on_default_branch": False, "worktree_path": worktree_path}
+              "on_default_branch": False, "worktree_path": worktree_path,
+              "plan_branch": ns.plan_branch, "plan_branch_created": plan_created}
     with open(ns.out, "w", encoding="utf-8") as fh:
         json.dump(record, fh, indent=2)
     print(json.dumps(record, indent=2))

@@ -1,0 +1,6 @@
+ M .garura/project/issues/717/context/memory/manifest.json
+ M .garura/project/issues/717/context/porcelain.txt
+ M .garura/project/plans/788.yaml
+ M .garura/user-provided/managing-work.md
+?? .garura/project/issues/717/context/citations.jsonl
+?? .garura/project/issues/717/context/memory/standards/templates/

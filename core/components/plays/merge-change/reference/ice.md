@@ -5,8 +5,11 @@ create-play; never hand-edit the compiled SKILL.md.
 
 ## Intent
 
-Merge an approved change: merge the PR, switch to main and pull the latest, and delete
-the feature branch (local and remote).
+Merge an approved change into where its branch lands — its plan's branch for an issue in a
+plan, main otherwise: merge the PR, switch to that branch and pull the latest, and delete
+the change's branch (local and remote). An issue that lands on its plan's branch is closed
+there; a plan's branch lands on main whenever its review approves it, while the plan is
+still in progress — a plan is merged when it pauses, not kept off main until it is done.
 
 Pipeline position: **end** (fourth step of the end sequence: commit-change →
 propose-change → check-change → merge-change). Independent, invokable play; ordering is
@@ -16,7 +19,8 @@ play.
 ### Constraints
 
 - C1 — The PR is merged only after check-change approved it (an approval verdict exists).
-- C2 — After the merge, the checkout switches to main and pulls the latest.
+- C2 — After the merge, the checkout switches to the branch the change landed on (main, or
+  the plan's branch) and pulls the latest.
 - C3 — The feature branch is deleted, both local and remote, after a successful merge.
 - C4 — The merge happens only when the PR is mergeable (no conflicts, required checks not
   failing).
@@ -49,10 +53,21 @@ play.
   for genuine judgment — this play has none, so it dispatches **zero agents**. Running any
   of these fixed command sequences through an agent is the bug #484 fixes.
 
+- C9 — Where a change lands is read from its branch name by the bundled
+  `resolve_target.py`, never guessed (#673): `plan/<plan-id>/<issue>-<slug>` lands on
+  `plan/<plan-id>/base`; `plan/<plan-id>/base` and a one-off branch land on main. The PR's
+  own base must equal that target (`on_target`), or nothing is merged. An issue that lands
+  on its plan's branch is closed by the merge script, because the code host closes issues
+  only on main; its capability is closed once every issue under it is closed. A plan's
+  branch lands on main like any approved change, with issues of the plan still open: open
+  work is no reason to hold it off main. The only reason to hold it back is that it would
+  break main, and the machine wall (C7) — approved by the review, mergeable, no failing
+  required checks — is what guards that. Its open issues stay open and in the plan.
+
 ### Failure conditions
 
 - F1 — The PR is merged without an approval verdict.
-- F2 — After the merge, the checkout isn't on updated main.
+- F2 — After the merge, the checkout isn't on the updated branch the change landed on.
 - F3 — The feature branch is left undeleted (local or remote) after merge.
 - F4 — A merge is attempted on a non-mergeable PR (conflicts or failing checks).
 - F5 — Re-running on an already-merged PR errors or attempts to re-merge.
@@ -63,6 +78,9 @@ play.
   verified true before the human was presented.
 - F8 — A mechanical git/gh operation (reading merge state, or the merge + sync + cleanup)
   was run through an agent dispatch instead of its bundled script.
+- F9 — A change lands in the wrong place — an issue in a plan on main, or a PR whose base is
+  not its target — or an approved plan's branch is held off main because the plan still
+  has open issues, or an issue that landed on its plan's branch is left open.
 
 ## Expectation
 
@@ -82,6 +100,17 @@ play.
   then it is a no-op and ends cleanly. Measure: no second merge is attempted; the run ends
   successfully; merge-gate.json reads pr_merged true and branch_deleted true; the records
   commit exists on main; the stop-condition verdict reads held.
+- S5 — (developer, issue in a plan) Given an approved PR from `plan/P/<issue>-<slug>` into
+  `plan/P/base`, when it runs, then the PR merges into `plan/P/base`, the checkout ends on
+  updated `plan/P/base`, the issue's branch is deleted, and the issue is closed. Measure:
+  merge-gate.json reads `on_target: true` and lists the issue in `issues_closed`; the
+  current branch is `plan/P/base`.
+- S6 — (developer, plan paused in progress) Given an approved, mergeable PR from
+  `plan/P/base` into main while issues in P are still open, when it runs and the human
+  approves, then the plan's work lands on main, its branch is deleted, and its open issues
+  stay open. Measure: target.json reads `kind: plan` and `base: main`; merge-gate.json reads
+  `on_target: true`, `pr_merged: true` and `branch_deleted: true`; the checkout is on
+  updated main; the plan's open issues are still open.
 
 ### Done means
 
@@ -91,13 +120,16 @@ play.
   check: { type: field_equals, file: "review/merge-gate.json", field: "pr_merged", equals: true }
 - D3 — says: "the branch is gone both sides"
   check: { type: field_equals, file: "review/merge-gate.json", field: "branch_deleted", equals: true }
+- D4 — says: "the PR landed where its branch belongs"
+  check: { type: field_equals, file: "review/merge-gate.json", field: "on_target", equals: true }
 
 ### Recovery (one per failure condition)
 
 - REC1 (F1) — trigger: a merge was attempted without an approval verdict. direction: halt
   and require check-change to approve the PR first. handoff: human.
-- REC2 (F2) — trigger: after merge the checkout isn't on updated main. direction: check
-  out main and pull the latest. handoff: autonomous.
+- REC2 (F2) — trigger: after merge the checkout isn't on the updated branch the change
+  landed on. direction: check out that branch (main or the plan's branch) and pull the
+  latest. handoff: autonomous.
 - REC3 (F3) — trigger: the feature branch is still present after merge. direction: delete
   the branch locally and on remote. handoff: autonomous.
 - REC4 (F4) — trigger: the PR is not mergeable. direction: halt; conflicts must be
@@ -117,3 +149,8 @@ play.
   its bundled script. direction: route it through the script (`read_merge_state.py` /
   `merge_pr.py`, via `platform_adapter.py`) and remove the agent dispatch. handoff:
   autonomous.
+- REC9 (F9) — trigger: the PR's base is not its target, an approved plan's branch was held
+  off main for its open issues, or a landed issue is still open. direction: on a wrong
+  base, stop and retarget the PR (propose-change); on a plan held back for open work, drop
+  the hold and land it when the machine wall holds; on a landed issue left open, close it.
+  handoff: human.

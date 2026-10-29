@@ -54,6 +54,11 @@ ltm:
 # Variables: {stm_base} = base-path, {stm_pending} = pending-path, {stm_archive} = archive-path
 # All agents, plays, and skills resolve these from config — never hardcode paths.
 # Per ADR 017, only 5 structure keys are permitted: specs, evidence, checkpoint, context, review.
+# Plans (ontology v5, #717): one file per plan, named by its business intent's issue number.
+# start-change reads them (resolve_plan.py) to cut an issue's branch under its plan's branch.
+plans:
+  base-path: .garura/project/plans/
+
 stm:
   base-path: .garura/project/issues/
   pending-path: .garura/project/issues/_pending/

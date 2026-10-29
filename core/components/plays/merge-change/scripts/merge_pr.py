@@ -13,6 +13,13 @@ bookkeeping push rides on that authorization, no second ask. A failed push is
 reported visibly (records_pushed: false) with the push left owed — never silent.
 Zero judgment — a fixed sequence gated on the mergeable read.
 
+Plans (#673): --base is the target resolve_target.py gave — the plan branch for an
+issue in a plan, main otherwise. Before merging, the PR's own base must equal it
+(`on_target`), or nothing is merged. With --close-issue (an issue in a plan), the
+issue is closed after the merge, because the code host closes issues only on main;
+with --plans-dir and --plan-id, its capability is closed too once every issue under
+it is closed.
+
     python3 merge_pr.py --config .garura/core/config.yaml \
         --branch <feature-branch> --base main \
         --gate <merge-gate.json> \
@@ -74,6 +81,55 @@ def _commit_records(gate_path, records_dir, issue):
     return True
 
 
+def _pr_base(config, pr_number):
+    """The PR's base branch on the host, or None when it cannot be read."""
+    view = pa.dispatch("view-pr", {"pr_number": pr_number}, config_path=config)
+    if view["exit_code"] == 0 and view["stdout"].strip():
+        try:
+            return json.loads(view["stdout"]).get("baseRefName")
+        except ValueError:
+            return None
+    return None
+
+
+def _close_landed(ns):
+    """Close an issue that landed on its plan branch (and its capability once every issue
+    under it is closed). An issue already closed is left as it is, so a re-run is safe."""
+    closed = []
+    if not ns.close_issue:
+        return closed
+    import resolve_target as rt
+    if rt.tracker_state(str(ns.close_issue), ns.config, None) != "CLOSED":
+        res = pa.dispatch("close-issue", {"issue_number": ns.close_issue,
+                                          "comment": f"Landed on {ns.base} (merge-change)."},
+                          config_path=ns.config)
+        if res["exit_code"] == 0:
+            closed.append(str(ns.close_issue))
+    if ns.plans_dir and ns.plan_id:
+        closed += _close_finished_capability(ns, str(ns.close_issue))
+    return closed
+
+
+def _close_finished_capability(ns, issue):
+    """Close the capability over `issue` when every issue under it is closed (#673)."""
+    import resolve_target as rt
+    try:
+        plan = rt.load_plan(ns.plans_dir, ns.plan_id)
+    except (OSError, ValueError):
+        return []
+    for cap in plan.get("tree") or []:
+        kids = [str(i) for i in rt.work_issues(cap.get("children"))]
+        if issue in kids and cap.get("issue") is not None:
+            if rt.tracker_state(str(cap["issue"]), ns.config, None) == "CLOSED":
+                return []
+            if all(rt.tracker_state(i, ns.config, None) == "CLOSED" for i in kids):
+                res = pa.dispatch("close-issue", {"issue_number": cap["issue"],
+                                                  "comment": "Every issue under it has landed."},
+                                  config_path=ns.config)
+                return [str(cap["issue"])] if res["exit_code"] == 0 else []
+    return []
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=".garura/core/config.yaml")
@@ -82,6 +138,9 @@ def main(argv=None):
     ap.add_argument("--gate", required=True)
     ap.add_argument("--issue", default=None)
     ap.add_argument("--records-dir", default=None)
+    ap.add_argument("--close-issue", default=None)
+    ap.add_argument("--plans-dir", default=None)
+    ap.add_argument("--plan-id", default=None)
     ns = ap.parse_args(argv)
 
     with open(ns.gate, encoding="utf-8") as fh:
@@ -121,12 +180,24 @@ def main(argv=None):
     # re-merge. The records self-commit still runs — the no-op path is exactly
     # where leftovers were observed (#491).
     if gate.get("already_merged"):
+        base = _pr_base(ns.config, pr_number) if pr_number else None
+        if base == ns.base:
+            # A first run may have merged and stopped before closing the issue: close it now.
+            gate["issues_closed"] = _close_landed(ns)
         committed = finalize(True, _branch_gone(ns.branch),
-                             {"status": "already_merged"})
+                             {"status": "already_merged", "on_target": base == ns.base})
         sys.exit(0 if committed in (True, None) else 1)
 
     if not pr_number:
         sys.stderr.write("merge_pr.py: no pr_number in gate — cannot merge\n")
+        sys.exit(1)
+
+    # The PR must land where its branch belongs (#673): its base equals the target.
+    pr_base = _pr_base(ns.config, pr_number)
+    gate["on_target"] = pr_base == ns.base
+    if not gate["on_target"]:
+        finalize(False, False, {"status": "wrong_target",
+                                "error": f"PR base is {pr_base!r}, but this branch lands on {ns.base!r}"})
         sys.exit(1)
 
     # Merge via the adapter (repository default strategy).
@@ -144,6 +215,9 @@ def main(argv=None):
     _git("push", "origin", "--delete", ns.branch)  # some hosts auto-delete → no-op
 
     branch_deleted = _branch_gone(ns.branch)
+
+    # An issue in a plan lands on its plan branch, where the host does not close it.
+    gate["issues_closed"] = _close_landed(ns)
     # Verify we landed on updated base.
     _, cur, _ = _git("branch", "--show-current")
     on_base = cur == ns.base

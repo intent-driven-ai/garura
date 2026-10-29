@@ -8,8 +8,9 @@ user-invocable: true
 # propose-change
 
 Raise the current change for review: run a self-review on its scope and quality, push the
-branch, and open a pull request that carries that review — so the change is ready for
-check-change.
+branch, and open a pull request that carries that review against where the branch lands —
+its plan's branch for an issue in a plan, main for a plan's own branch or a one-off change —
+so the change is ready for check-change.
 
 **Pipeline position: end** (second step of the end sequence: commit-change →
 propose-change → check-change → merge-change). The D2 pipeline-position rule injects this
@@ -19,9 +20,9 @@ ordering is enforced by each one's pre-flight, not by welding them together.
 ## Compiled From
 
 This play was compiled from the propose-change ICE (`reference/ice.md`) by edit-play
-(#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling). Intent defines
-constraints (C1–C9) and failure conditions (F1–F9); the expectation defines success
-scenarios (S1–S4), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
+(#466 Batch A, Level 3 rollout per ADR 025; #467 Batch C gate ruling; #673 plan targets).
+Intent defines constraints (C1–C9) and failure conditions (F1–F10); the expectation defines
+success scenarios (S1–S6), a Done means (D1–D3, baked to `stop-condition.yaml`), and one
 recovery entry per failure condition. This play is SINGLE-PASS: no loop, no iteration cap — the Done means is
 proven once, at the gated close.
 To modify this play, update `reference/ice.md` and recompile with edit-play.
@@ -53,7 +54,7 @@ play uses **zero domain agents**.
 | Check | Constraint | Action on Failure |
 |-------|-----------|-------------------|
 | Resolve working base + config (`.garura/core/config.yaml`) | — | Hard halt |
-| On a feature branch (not `main`) | C2 | Hard halt |
+| On a change's branch (not `main`) | C2 | Hard halt |
 | Working tree is clean (change is committed) | C3 | Hard halt |
 | Platform CLI available (`gh`) | C2 | Hard halt |
 | Resolve self-review rules file via `standards_order` (project override → base `standards/rules/self-review.md`) | C6 | Hard halt |
@@ -138,7 +139,7 @@ Opening or updating a PR is outward-facing. The checkpoint is a config switch pe
 `gates.classes.standard` → `gates.default`; absent ⇒ on) — per the #467 ruling
 `gates.plays.propose-change` is `off`, so the resolved default is the off path; flipping
 the config back to `on` restores the wait unchanged.
-- **On** — present the self-review and the PR draft (title, body, base = main, issue
+- **On** — present the self-review and the PR draft (title, body, base = `target.json.base`, issue
   reference) and wait for a typed approval. Approve → continue; cancel → halt without
   pushing or opening.
 - **Off** — do not wait: record `gate skipped by config (gates.plays.propose-change)` as
@@ -164,8 +165,18 @@ the blocking findings the script printed, and do not push or open until they are
 and the check passes (REC8). Record the executed command and its exit code for the
 evidence file.
 
+First read where the branch lands, from its name — never guess it (C2):
+
+```
+python3 scripts/resolve_target.py --branch "$(git branch --show-current)" \
+    --out "<working>/target.json"
+```
+
+`target.json.base` is `plan/<plan-id>/base` for a branch `plan/<plan-id>/<issue>-<slug>`, and
+`main` for a plan branch or a one-off branch.
+
 Then run the bundled `submit_pr.py` — it pushes the branch and opens (or updates, C5) a PR
-against main carrying the pre-rendered body, and writes `pr.json` (via `platform_adapter.py`).
+against that base carrying the pre-rendered body, and writes `pr.json` (via `platform_adapter.py`).
 No agent (C9). Assemble the body first (the self-review embedded + the issue reference),
 and commit the run artifacts BEFORE the push so the tree stays clean and the PR carries the
 record (C7): (1) render the PR body to `<working>/pr-body.md`; (2) `git add` the issue's
@@ -174,7 +185,7 @@ context dir and commit `chore(stm): record propose-change run artifacts (#<issue
 
 ```
 python3 scripts/submit_pr.py --config .garura/core/config.yaml \
-    --title "<conventional title (#<issue>)>" --base main \
+    --title "<conventional title (#<issue>)>" --base "<target.json base>" \
     --body-file "<working>/pr-body.md" --out "<working>/pr.json"
 ```
 
@@ -183,7 +194,9 @@ carries the play's full record.
 **SE-6 (F3/C3):** the working tree was clean (no uncommitted changes) immediately before
 the push — nothing was left behind.
 **SE-3 (F2/C2):** after the step, local HEAD matches the pushed remote branch and a PR is
-open against main for the branch.
+open for the branch against `target.json.base`.
+**SE-10 (F10/C2):** `target.json` was written by `resolve_target.py` before the PR opened,
+and `pr.json.on_target` is true — the PR's base on the host equals `target.json.base`.
 **SE-4 (F4/C4):** the PR body references the issue (`#<issue>`).
 **SE-5 (F5/C5):** the open-PR count for the branch is exactly one — a pre-existing PR was
 updated, not duplicated.
@@ -206,6 +219,12 @@ invoked for the push/PR work.
   reused the same PR number.
 - **SCE-4 (S4 — developer, dirty tree):** with uncommitted changes, the run halted at
   pre-flight — no push and no PR were made.
+- **SCE-5 (S5 — developer, issue in a plan):** for a branch `plan/<P>/<issue>-<slug>`, the
+  PR's base on the host is `plan/<P>/base`, `target.json.base` names it, and `pr.json`
+  reads `on_target: true`.
+- **SCE-6 (S6 — developer, a plan's own branch):** for a branch `plan/<P>/base`,
+  `target.json` reads `kind: plan` and `base: main`, the PR's base on the host is main, the
+  PR body references `#<P>`, and `pr.json` reads `on_target: true`.
 
 ### Phase: Evidence & Close
 
@@ -271,6 +290,8 @@ gated.
 | S2 — project override | developer | SCE-2 |
 | S3 — re-raise | developer | SCE-3 |
 | S4 — dirty tree | developer | SCE-4 |
+| S5 — issue in a plan | developer | SCE-5 |
+| S6 — a plan's own branch | developer | SCE-6 |
 
 ## Recovery
 
@@ -285,6 +306,7 @@ gated.
 | F7 | the close would stamp COMPLETED without the stop-condition verdict held | evaluate the stop condition, surface the unmet clauses, and close HALTED (`stop_condition_unmet`) until they are fixed — an unevaluable verdict is never a pass | autonomous |
 | F8 | a push or PR-open happened (or would happen) while the self-review carried a blocking finding | halt to a human — fix the blocking findings, then re-run so `check_self_review.py` passes before any push or PR-open | human |
 | F9 | the mechanical push or PR-open ran through an agent instead of `submit_pr.py` | route it through `submit_pr.py` (via `platform_adapter.py`) and remove the agent dispatch | autonomous |
+| F10 | the PR's base differs from the target `resolve_target.py` gives | change the PR's base on the host to the target (or re-open it there) and re-record `pr.json` | autonomous |
 
 ## Pause and Resume
 
@@ -297,8 +319,8 @@ it rather than opening a new one (C5, F5).
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:51f2edb37f2b3aa6399486127127c5b9238a19b47c65b335e0717c064f194871 (of `reference/ice.md`) |
-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain) |
+| fingerprint | sha256:6ade767e626b4604596a7ad070f7cec4432c300d29091e4e6d1e80bfb7dd221c (of `reference/ice.md`) |
+| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted chain; #673 plan targets) |
 | pipeline_position | end |
 | workflow_structure | B (fast execution flow, single-pass — no loop, no cap; gated close) |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 |
@@ -306,7 +328,7 @@ it rather than opening a new one (C5, F5).
 | utility_agents | 1 (repo-orchestrator — self-review judgment, Step 1 only) |
 | skills_reused | assess-pr |
 | standards_consumed | standards/rules/self-review.md (overrideable per project); standards/rules/gate-config.md (Step 2 switch) |
-| scripts | 7 (resolve_standard.py — standards-file precedence; preflight.py — pre-flight facts; session_stamp.py — session identity stamp; check_stop_condition.py — Done-means gate; check_self_review.py — pre-push blocking-finding check; platform_adapter.py — code-host adapter; submit_pr.py — push + PR-open) |
-| step_evals | 9 (SE-1…SE-9) |
-| scenario_evals | 4 (SCE-1…SCE-4) |
-| recovery_entries | 9 (one per failure condition; 7 autonomous / 2 human) |
+| scripts | 8 (resolve_target.py — where the branch lands; resolve_standard.py — standards-file precedence; preflight.py — pre-flight facts; session_stamp.py — session identity stamp; check_stop_condition.py — Done-means gate; check_self_review.py — pre-push blocking-finding check; platform_adapter.py — code-host adapter; submit_pr.py — push + PR-open) |
+| step_evals | 10 (SE-1…SE-10) |
+| scenario_evals | 6 (SCE-1…SCE-6) |
+| recovery_entries | 10 (one per failure condition; 8 autonomous / 2 human) |

@@ -1,0 +1,147 @@
+# quality-findings.yaml: PR 950 (issue 717), round 2, standards-driven categories: executable code, tests, documentation, config maps, decision records.
+# Harness, memory, plan records and run records skipped by instruction. 49 files scanned (the changed files of those categories). 47 are covered only by the catch-all rule (a count, not findings).
+# The 16 findings all sit on one file, core/tools/lint-components/lib/rules/shared-scripts.js, and all come from path-only rules: the taxonomy flags a changed script and asks a tool to measure it. No measuring tool is set up in this repository, so none of them is a measured defect.
+# Decision records (docs/adr) get no finding by the taxonomy scoping rule. Documentation and config files matched no row.
+meta:
+  generated_at: '2026-10-29T02:40:27Z'
+  diff_path: .garura/project/issues/717/review/pr.diff
+  taxonomy_path: .garura/project/issues/717/context/memory/standards/rules/pr.md
+  changed_paths_count: 49
+  scan_coverage: 1.0
+  standards_relevant: 16
+  catchall:
+    CODE-20: 47
+findings:
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  impact: The rule asks for a check that this script does not import itself in a circle. It matched because the file changed. No tool measured the imports.
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  impact: The rule asks for a clean run of a language linter on this script. It matched because the file changed. No linter is set up in this repository, so the run did not happen.
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  impact: The rule asks for a format check on this script. It matched because the file changed. No formatter is set up in this repository, so the check did not happen.
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  impact: The rule asks for a check that this script is not part of a circle of imports. It matched because the file changed. No tool measured it.
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  impact: The rule asks for a size check on this script. It matched because the file changed. The file is 97 lines, so size is not a concern.
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  impact: The rule asks for a check on how the script is placed in its folder. It matched because the file changed. No tool measured it.
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  impact: The rule asks for a complexity score per function. It matched because the file changed. No complexity tool is set up, so no score exists.
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  impact: The rule asks for a length check per function. It matched because the file changed. No tool measured it; the whole file is 97 lines.
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  impact: The rule asks for a check on how deeply the code nests. It matched because the file changed. No tool measured it.
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  impact: The rule asks for a check on file length. It matched because the file changed. The file is 97 lines, so length is not a concern.
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  impact: The rule asks for a readability score per function. It matched because the file changed. No tool measured it.
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  impact: The rule asks for a check on names in this script. It matched because the file changed. No tool measured it.
+- standard_id: CODE-18
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-18
+  impact: The rule asks for a check on names in this script. It matched because the file changed. No tool measured it.
+- standard_id: FE-08
+  severity: P3
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: FE-08
+  impact: The rule asks for a bundle size check on browser code. It matched only because the file ends in .js. This script is a Node tool rule, not browser code, so it most likely does not apply.
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  impact: The rule asks for a check on how much code is repeated. It matched because the file changed. No tool measured it.
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  evidence: core/tools/lint-components/lib/rules/shared-scripts.js
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  impact: The rule asks for a check on names in this script. It matched because the file changed. No tool measured it.
+counts:
+  P1: 0
+  P2: 4
+  P3: 10
+  P4: 2
