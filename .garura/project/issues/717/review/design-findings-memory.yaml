@@ -1,0 +1,142 @@
+# design-findings-memory.yaml - Layer 2 design-grounding of the memory category, PR #950 (issue 717, review round 2)
+# Category: memory. Changed memory file: core/components/memory/standards/schemas/product-os/ontology.md (v12 -> v13).
+# Base ref: origin/main. Every principle below is read from a file that exists on the base ref.
+category: memory
+base_ref: origin/main
+severity_taxonomy: .garura/project/issues/717/context/memory/standards/rules/pr.md
+own_memory:
+  dir: .garura/project/issues/717/context/memory/grounding-memory/
+  manifest: .garura/project/issues/717/context/memory/grounding-memory/manifest.json
+  copied:
+    - standards/rules/git.md   # read through the memory tool (phoenix tier); a generic branch-naming rule, it holds no plan-landing rule, so the landing rule has no home in this standard either
+
+principles:
+  - id: PM1
+    principle: >
+      The ontology says what each kind is, how it links and what must stay true. It is a map of the product,
+      and it does not hold delivery rules. The Plan kind itself says "managing a plan changes both together
+      and never touches branches or code".
+    source: core/components/memory/standards/schemas/product-os/ontology.md at origin/main, Plan kind, rule "Its plan file and the tracker always agree" (line 598); opening paragraph (line 9)
+  - id: PM2
+    principle: >
+      The ontology changes one need at a time, through the edit-ontology play. Only the kinds the need touches
+      change (C1, F1). The product owner types a yes at three points (C2, F2). The version goes up by one, the
+      date is set, and one log line says what changed and why (C6, F6). A kind that changes meaning needs a log
+      line that says so (C3, F3). Pages use plain English, personas and no real names (C4, F4).
+    source: core/components/plays/edit-ontology/reference/ice.md at origin/main (Intent C1-C6, failure conditions F1-F6, Done means D1-D4)
+  - id: PM3
+    principle: >
+      A plan's branch is a delivery matter held by the harness standard (principle 8, "Branches follow the plan")
+      and by the work guide. On the base ref, principle 8 held the old landing rule; the ontology held a copy of
+      it. A rule that sits in two homes can drift from either.
+    source: docs/standards/harness-standard.md at origin/main, principle 8; .garura/user-provided/managing-work.md at origin/main
+  - id: PM4
+    principle: >
+      "Needs" has its own meaning inside the model: for a capability, the other must be done first, and a
+      missing need is a gap. A plan needs another plan only when a feature in it belongs to a capability that
+      needs a capability whose features are in that plan. Two plans that need each other are one plan.
+    source: core/components/memory/standards/schemas/product-os/ontology.md at origin/main, Capability kind (line 310) and Plan kind rules (lines 597 and 600)
+  - id: PM5
+    principle: >
+      Nothing is blocked. Work never waits for a model to be complete; a missing link is a warning, not a stop.
+    source: docs/standards/harness-standard.md at origin/main, principle 6; ontology at origin/main, "Nothing is blocked" paragraph
+  - id: PM6
+    principle: >
+      The review shelf asks of a memory change: does it fit its purpose, resolve its cross-references, and avoid
+      duplicating or contradicting existing knowledge.
+    source: knowledge/review/memory.md (review playbook copy in short-term memory, .garura/project/issues/717/context/memory/knowledge/review/memory.md)
+
+grounding_notes:
+  - >
+    The log line of v13 names ADR 060 and the rewrite of harness-standard principle 8 as the reason. Both are
+    new in this diff, so this review does not use them as grounding. The removal does not need them: PM1 and PM3,
+    read from origin/main, already say the ontology does not hold a branch-landing rule, and the base ontology
+    contradicted itself by holding one next to "never touches branches or code". The removal conforms on base
+    grounds alone.
+  - >
+    The ontology that agents read through Phoenix memory is older than this file (ADR 060 says version 4). That
+    is outside this diff and is already recorded in the ADR; it is not a finding here.
+
+checks:
+  - check: Only the Plan kind changed
+    result: pass
+    basis: >
+      PM2 (C1, F1, S3)
+    evidence: >
+      The diff of the ontology file has 6 changed lines. They are the version line, the date line, one removed Plan rule (old line 599), and the new log line. change-check.json in the edit-ontology records reads changed_kinds [Plan], out_of_scope [], scope_ok true.
+  - check: Version up by one, date set, one new log line
+    result: pass
+    basis: >
+      PM2 (C6, F6, D4)
+    evidence: >
+      ontology.md line 3 reads version 13 (was 12); line 4 reads updated 2026-10-29 (was 2026-10-25); the Log gains one line, line 856, "2026-10-29 - v13 (#717, plan #717, with the product owner)". It follows the form of the v12 line and sits last. change-check.json reads version_ok true, new_log_lines 1.
+  - check: The product owner agreed at the three points
+    result: pass
+    basis: >
+      PM2 (C2, F2, D2)
+    evidence: >
+      .garura/project/issues/717/context/edit-ontology/decisions.json holds a yes for questions, kinds and links, each with the hash of its draft, and all_agreed true. ontology-check.json reads valid true with no problems.
+  - check: The remaining Plan rules agree with each other
+    result: pass
+    basis: >
+      PM1, PM4
+    evidence: >
+      The Plan rules now run: three-step order, one plan per intent, holds every slice, finds work items first,
+      writes only plan file and epic and stories, reads ICE, folder, "needs another plan when a feature ..." (597),
+      "plan file and tracker always agree ... never touches branches or code" (598), "Two plans that need each other
+      are one plan" (599), "A bug found after a plan is done ..." (600), "holds no capability". The property "Needs
+      plans" (575), the link "It needs another plan" (586) and the Shop example "Needs plan #118" still agree with
+      rule 597. No rule depends on the dropped one. The dropped rule was the only one that tied a plan's order to a
+      branch, and rule 598 already said a plan never touches branches.
+  - check: Nothing else in the ontology still states a branch-landing rule
+    result: pass
+    basis: >
+      PM1, PM3
+    evidence: >
+      A search of the ontology for land, landed, merged into, plan branch, plan/ and "cannot land" finds only the v8
+      log line ("until the rename story lands", about a rename, not a branch) and the v13 log line that quotes the
+      dropped rule. The word "done first" in the Capability kind and "nothing it needs is open" in the ready rule are
+      about the order of capability work, not about where a branch goes, so they stay.
+  - check: No real name
+    result: pass
+    basis: >
+      PM2 (C4, F4, S4)
+    evidence: >
+      The added lines hold no person's name. change-check.json reads names_found [] and names_ok true.
+  - check: Cross-references in the new log line resolve
+    result: pass
+    basis: >
+      PM6
+    evidence: >
+      docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, docs/standards/harness-standard.md (principle 8) and .garura/user-provided/managing-work.md ("A plan's branch: start, pause, start again") all exist in the branch and say what the log line says they say. They are new or changed in this PR, so they prove the link and not the principle (see grounding_notes).
+
+findings:
+  - id: MEM-1
+    severity: P3
+    in_diff: false
+    file: .garura/product/product-os/features/fn-673/feature.md
+    line: 4
+    principle: >
+      PM6 (a memory change must not leave existing knowledge contradicting it); PM3 (the landing rule has one home)
+    basis: >
+      Committed on origin/main. The page reads: "A plan's branch merges into main only when every issue in the plan
+      is closed, and only after every plan it needs has landed or been merged into it." The ontology rule that said
+      the same is gone in v13, and harness-standard principle 8 and the work guide now say a plan's branch merges
+      into main when the plan pauses, with issues still open. A search of the repository (outside run records) found
+      this page as the only other file that states the old rule.
+    impact: >
+      An agent that reads the product model page for this feature learns the old landing rule and believes it still
+      holds. The page is not in this diff and is outside the ontology, so it does not block this change. It is the
+      one place left that keeps the old rule alive.
+    suggested_fix: >
+      Change the page through its own play so it matches the new rule, or file it as follow-up work; do not edit it by hand in this change.
+
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 0
+conclusion: >
+  The ontology change conforms. Only the Plan kind changed, the version went up by one with one log line, the
+  product owner agreed at all three points, the remaining Plan rules agree, and no other ontology text states a
+  branch-landing rule. One neighbour, a product model page outside the diff, still states the old rule (MEM-1, P3).

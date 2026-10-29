@@ -1,11 +1,14 @@
-# categories.yaml — work categories present in PR #950 (issue 717 review)
-# Derived from the diff; treatment copied from the review playbooks in short-term memory
-# (.garura/project/issues/717/context/memory/knowledge/review/).
+# categories.yaml - work categories present in PR #950 (issue 717 review, round 2)
+# Derived from the whole diff (142 paths). Treatment is copied from the review playbooks held in
+# short-term memory (.garura/project/issues/717/context/memory/knowledge/review/); round 2 checked
+# every playbook and the severity taxonomy against the memory tool and found each one unchanged
+# (same version and fingerprint as the manifest), so none was copied again.
 categories:
   - name: harness
     design_bearing: true
     playbook: review/harness
     evidence:
+      - core/components/plays/create-play/SKILL.md
       - core/components/plays/merge-change/SKILL.md
       - core/components/plays/merge-change/reference/ice.md
       - core/components/plays/merge-change/stop-condition.yaml
@@ -14,6 +17,10 @@ categories:
       - core/components/plays/propose-change/stop-condition.yaml
       - core/components/plays/start-change/SKILL.md
       - core/components/plays/start-change/reference/ice.md
+    note: >
+      create-play is the compiler bootstrap and has no ICE source, so its change is a direct edit by
+      definition. merge-change, propose-change and start-change are compiled plays: an intent change
+      to one must trace to its reference/ice.md, not to a hand edit of SKILL.md.
     treatment:
       layers: [1, 2]
       linters:
@@ -21,6 +28,7 @@ categories:
           command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
         - name: lint-play (one run per changed play)
           commands:
+            - python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/create-play/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
             - python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/merge-change/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
             - python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/propose-change/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
             - python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/start-change/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
@@ -28,7 +36,24 @@ categories:
         - Only a violation whose file is in changed_paths is a finding; count the rest as "there before".
         - A tool that is not installed is recorded as "not installed"; a crash as "did not run: <first error line>". Neither is a pass.
         - ICE-source rule applies here (the repository holds the plays' source): an intent change to merge-change, propose-change or start-change must trace to its reference/ice.md, not to a hand edit of SKILL.md.
-        - Layer 2 design-grounding from committed sources only (docs/philosophy, docs/adr, standards rules, glossary), read on the base ref, never from this branch's new prose.
+        - Layer 2 design-grounding from committed sources only (docs/philosophy, docs/adr, standards rules, glossary), read on the base ref, never from this branch's new prose. ADR 060 and the harness-standard principle 8 edit are new in this diff, so they are not grounding for the plays that apply them.
+  - name: memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/schemas/product-os/ontology.md
+    note: >
+      The product ontology (a schema under memory/standards) moves from v12 to v13: it drops the rule
+      that a plan which needs another cannot land on main until that plan is done. Agents read it as
+      belief about the Plan kind, so it gets the memory treatment, not the docs treatment.
+    treatment:
+      layers: [1, 2]
+      linters:
+        - name: memory integrity check (path, cross-reference and structure)
+          command: none committed (gap, no installed tool checks memory integrity); the reviewer reads the changed file and cites each check
+      runnable_checks:
+        - "Hand checks, each cited: the front matter (version 13, updated date) and the change-log line agree; cross-references (ADR 060, harness-standard principle 8, the work guide) resolve to real files; no other rule or question still cites the dropped rule."
+        - Layer 2 grounds what the Plan kind is for, and how the ontology is meant to be shaped, from the ontology on the base ref and committed sources (docs/adr, docs/philosophy, standards), never from the v13 change-log line itself.
   - name: executable code
     design_bearing: false
     playbook: review/code
@@ -72,6 +97,7 @@ categories:
       - core/components/plays/start-change/scripts/resolve_plan.py
       - core/components/plays/start-change/scripts/setup_branch.py
       - core/components/plays/validate-epic/scripts/preflight.py
+      - core/tools/lint-components/lib/rules/shared-scripts.js
     treatment:
       layers: [1]
       linters:
@@ -80,9 +106,11 @@ categories:
         - name: language linter
           command: none committed in this repo (no ruff or similar config); record "not installed"
       runnable_checks:
-        - Review the data-safety and idempotency paths hard: merge_pr.py, submit_pr.py, setup_branch.py touch git, the filesystem and the GitHub API.
-        - Rubric: error handling, function size, no stray debug output, no secrets, safe handling of destructive operations, deterministic where claimed.
-        - Many preflight.py files share one change (the branch-name fix copied into every play); check the copies agree with the reference copy in create-play/references.
+        - "Review the data-safety and idempotency paths hard: merge_pr.py, submit_pr.py, setup_branch.py touch git, the filesystem and the GitHub API."
+        - "Rubric: error handling, function size, no stray debug output, no secrets, safe handling of destructive operations, deterministic where claimed."
+        - "Many preflight.py files share one change (the branch-name fix copied into every play), and the plan scripts (resolve_plan.py, resolve_target.py, setup_branch.py, submit_pr.py, merge_pr.py) are copied from create-play/references: check every copy agrees with the reference copy."
+        - "core/tools/lint-components/lib/rules/shared-scripts.js now treats those scripts as shared. Run the source copy of the component linter from the repo root (node core/tools/lint-components/index.js --target core/components) and its rule test (node core/tools/lint-components/test/shared-scripts.test.js): the installed copy of the linter may not hold the new rule yet, so a pass there proves nothing about it. A red test is a blocker."
+        - "Check the linter's list names exactly the scripts that have a reference copy, so no copy is left unchecked and no missing reference is demanded."
   - name: tests
     design_bearing: false
     playbook: review/tests
@@ -103,6 +131,23 @@ categories:
         - cd core/components/plays/create-play/references && python3 test_resolve_target.py
         - cd core/components/plays/create-play/references && python3 test_setup_branch.py
         - Check assertions are clear, no skipped or disabled tests, no test that asserts nothing.
+  - name: decision records
+    design_bearing: false
+    playbook: review/adrs
+    evidence:
+      - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+      - docs/adr/_index.md
+    note: >
+      ADR 060 is new and its row is added to the ADR index. The decision is the design, so it has no
+      prior principle to conform to; a person owns the judgement of whether it is right.
+    treatment:
+      layers: [1]
+      linters:
+        - name: ADR structural checklist (no ADR linter exists in the repository yet; the tool surfaces it for the human)
+          command: none committed (gap); manual checklist
+      runnable_checks:
+        - "Required sections present (status, context, decision, consequences); status is an allowed value; markdown well-formed; the ADR is numbered 060 in sequence and linked from docs/adr/_index.md with the same title, status and date."
+        - A person reads the decision line by line; the tool never judges its merit.
   - name: documentation
     design_bearing: false
     playbook: review/docs
@@ -110,16 +155,17 @@ categories:
       - .garura/user-provided/managing-work.md
       - docs/standards/harness-standard.md
     note: >
-      Both files carry the plan-branch rule (start, pause and merge, start again). They are prose
-      read by people (and by agents as project rules), not plays, skills, agents, ADRs or memory.
-      The playbook gives docs no design-grounding; the plays that apply the rule are grounded under harness.
+      Both files carry the plan-branch rule (a plan's branch merges into main when the plan pauses;
+      blocking work lands on main). They are prose read by people (and by agents as project rules),
+      not plays, skills, agents, ADRs or memory, so the playbook gives them no design-grounding.
+      The plays that apply the rule are grounded under harness.
     treatment:
       layers: [1]
       linters:
         - name: prose checks (spelling, grammar, dead links, heading hierarchy, leftover to-do notes, terminology, completeness)
           command: none committed; the tool performs the checks directly and cites each as the basis
       runnable_checks:
-        - Links and issue references resolve; the two files state the same rule (merge on pause, new branch on resume) as each other and as the plays.
+        - Links and issue references resolve (including the link to ADR 060); the two files state the same rule as each other, as ADR 060 and as the plays.
   - name: config maps
     design_bearing: false
     playbook: review/config-maps
@@ -139,19 +185,21 @@ categories:
     playbook_note: "playbook missing: no review/ playbook covers a plan file (a work-tracking record of a business intent: status, branch, tree). Not force-fitted to docs or config maps. A playbook should be written."
     evidence:
       - .garura/project/plans/717.yaml
+      - .garura/project/plans/788.yaml
     treatment:
       layers: []
       linters: []
       runnable_checks:
-        - "Hand checks, no playbook: the file parses as YAML; branch null matches the pause-and-merge rule; tree statuses and the removed issue 791 agree with the issue tracker."
+        - "Hand checks, no playbook: each file parses as YAML; branch values match the pause-and-merge rule of ADR 060 (plan 788 has no branch and no detour target); tree statuses agree with the issue tracker."
+# run records
   - name: run records
     design_bearing: false
     playbook: null
-    playbook_note: "no playbook by design: these are the agents' working records of plays that ran (#939), not work under review."
+    playbook_note: "no playbook by design: these are the agents' working records of plays that ran (#939), not work under review. No layers apply."
     evidence:
-      - "19 files under .garura/project/issues/ (issues 673, 717 and 731: context/ and review/ records). Full list in context.yaml changed_paths."
+      - ".garura/project/issues/ holds 81 changed files: 673 (8: context and review records), 717 (53: context 42, review 11), 731 (3: context records), _adr/20261028T233747 (17: the record-decision run). Full list in context.yaml changed_paths."
     treatment:
       layers: []
       linters: []
       runnable_checks: []
-design_bearing: [harness]
+design_bearing: [harness, memory]

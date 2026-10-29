@@ -1,208 +1,222 @@
 pr: 950
 issue: 717
+round: 2
 sources:
 - quality-findings.yaml
 - design-findings-harness.yaml
+- design-findings-memory.yaml
 - layer1.yaml
-layer1: 'lint-components: 0 in changed files (37 there before); lint_play: 3 plays pass, 0 gaps; 16 shared test
-  files pass; language linter not installed'
 findings:
-- id: H1
-  category: harness
-  severity: P2
-  file: core/components/plays/merge-change/scripts/preflight.py
-  line: 122
-  basis: standards/rules/pipeline-position.md (end plays find their issue from the branch); docs/standards/harness-standard.md
-    at origin/main, section 3 (resolve the facts by script, not by inference)
-  what: 'The new issue rule returns no issue for the plan''s own branch (plan/<id>/base). The script says so in
-    its own comment. Yet the new pause rule sends exactly that branch through commit-change, propose-change, check-change
-    and merge-change, and every one of them keys its run folder, session stamp, PR issue reference and stop-condition
-    path on the issue the resolver returns. resolve_target.py in the same change gives that branch the issue number
-    of the plan (kind plan, issue 717), so the two scripts disagree. I ran both on plan/717/base: preflight.py returns
-    issue null, resolve_target.py returns issue 717.'
-  impact: 'Pausing a plan is the headline path of this change, and on it the pre-flight facts carry no issue. The
-    run folder path would be built from an empty value, and the PR reference rule (the PR must name its issue) has
-    nothing to name. The runs for this very PR worked only because the agents guessed the plan number, which is
-    the inference the scripts are there to remove. Fix: let preflight.py take the plan number from plan/<id>/base
-    (the same rule resolve_target.py uses) and re-stamp all copies.'
-- id: H2
-  category: harness
-  severity: P3
-  file: docs/standards/harness-standard.md
-  line: 88
-  basis: docs/standards/harness-standard.md at origin/main, 'How the standard is kept' (a change to the standard
-    goes through record-decision as an ADR); docs/adr/055-installed-parts-read-only-installed-files.md (an earlier
-    amendment of this standard carried its own ADR)
-  what: 'Principle 8 is rewritten (a plan lands on main whenever it pauses, instead of only when every issue is
-    closed) and the same rule is added to .garura/user-provided/managing-work.md and to the ICE of all three plays.
-    The branch adds no ADR (no file under docs/adr/ changed), and no ADR on origin/main records the plan branch
-    rule at all (searched docs/adr for plan branch wording: none).'
-  impact: The decision of 2026-10-28 is held only in a working note and in the standard's own new text, so a later
-    reader cannot see who decided it, what it replaced, or which plays and ICE it amends. The rule itself is not
-    in question; the missing record is.
-- id: H3
-  category: harness
-  severity: P3
-  file: core/components/plays/propose-change/SKILL.md
-  line: 10
-  basis: docs/standards/harness-standard.md at origin/main, section 4 (the compiled part matches its intent); CLAUDE.md
-    at origin/main, 'Play Pipeline Rules' (an intent change is made in the ICE and compiled, never hand-edited)
-  what: The ICE Intent paragraph changed in all three plays, and start-change's SKILL.md lead and description follow
-    it. For propose-change and merge-change they do not. merge-change still opens with "switch to main and pull
-    the latest, and delete the feature branch" (lead at line 10 and the frontmatter description at line 3), propose-change's
-    lead has no plan target, its pre-flight row still says "On a feature branch (not main)", its optional approval
-    step still shows "base = main", and merge-change's closing report still says the change "has landed on main".
-    A rebuild from the new ICE would not write these lines, which is the sign of a patched file rather than a compiled
-    one, even though the fingerprints match.
-  impact: The skill list and the approval text tell people the old behaviour. An issue in a plan lands on its plan
-    branch, but the text a person approves says main. The approval step is switched off by config today, so the
-    harm is a misleading description, not a wrong merge.
-- id: H4
-  category: harness
-  severity: P3
-  file: core/components/plays/start-change/scripts/setup_branch.py
-  line: 67
-  basis: review playbook review/harness (every step eval must hold for the script it checks); docs/standards/harness-standard.md
-    at origin/main, section 5 (the check must be able to fail for the right reason)
-  what: The plan block only runs when the issue's own branch does not exist yet (line 67). On a resume, where the
-    issue branch already exists, base_sha stays at the origin/main tip and plan_branch_created is false. But eval
-    SE-2 says that for an issue in a plan, base_sha equals the plan branch tip. On a resume that holds only when
-    the plan branch happens to sit level with main.
-  impact: Scenario S3 (resume) for an issue in a plan can fail SE-2 although nothing is wrong, or a reader trusting
-    base_sha as "where this branch was cut" is told the wrong commit. Resume is a path the play promises works (C6).
-- id: H5
-  category: harness
-  severity: P3
-  file: core/components/plays/create-play/SKILL.md
-  line: 255
-  basis: CLAUDE.md at origin/main, 'Durability rule for non-intent edits' (shared scaffolding is emitted by the
-    compiler); core/components/plays/create-play/SKILL.md at origin/main, 'Code-host scripts' ('a rebuild brings
-    them back')
-  what: The compiler's list of job scripts to copy into a play (setup_branch.py, submit_pr.py, read_merge_state.py,
-    merge_pr.py, fetch_pr_context.py, post_verdict.py) does not name the two new scripts, resolve_plan.py and resolve_target.py.
-    The file is not changed by this branch.
-  impact: The new scripts live in the three plays and in create-play/references, but the instructions that stamp
-    scripts into a play never mention them. A rebuild of a play, or a new play built later, may not carry them,
-    and the plan wiring would quietly drop out.
-- id: H6
-  category: harness
-  severity: P3
+- id: ARCH-02
+  category: executable code
+  severity: P4
   file: core/tools/lint-components/lib/rules/shared-scripts.js
-  line: 10
-  basis: CLAUDE.md at origin/main, 'Durability rule for non-intent edits' (shared scaffolding is linted); core/tools/lint-components/lib/rules/shared-scripts.js
-    at origin/main (only lint_grounding.py and model_names.py are held byte-identical)
-  what: This change edits 27 stamped copies of preflight.py at once and adds two stamped copies of resolve_target.py
-    and one of resolve_plan.py. The shared-scripts rule checks only lint_grounding.py and model_names.py, so nothing
-    in the linters would catch a copy that drifts later. Today all copies are identical (checked by hand).
-  impact: The next hand edit of one play's preflight.py or resolve script slips through the linter, and plays then
-    disagree about how an issue is read from a branch. This is the gap that H1 would have been caught by.
-- id: H7
-  category: harness
-  severity: P3
-  file: core/components/plays/propose-change/reference/ice.md
-  line: 86
-  basis: docs/standards/harness-standard.md at origin/main, section 5 (build the eval first; a scenario for each
-    promised path)
-  what: propose-change has one new scenario, S5, for an issue in a plan. Its constraint C2 and failure F10 also
-    say a plan's own branch (plan/<id>/base) must open against main, and that is the path a paused plan takes. No
-    scenario or eval raises that branch.
-  impact: The pause-and-land path is proved only on the merge side (merge-change S6). A plan branch raised against
-    the wrong base, or raised with no issue (see H1), would pass every propose-change check in the play.
-- id: H8
-  category: harness
-  severity: P3
-  file: core/components/plays/propose-change/SKILL.md
-  line: 304
-  basis: docs/standards/harness-standard.md at origin/main, section 3 (mechanical work is a script); the play's
-    own recovery contract (one recovery per failure, handoff stated)
-  what: Recovery F10 is marked autonomous and says "change the PR's base on the host to the target". No script does
-    this. When a PR already exists, submit_pr.py only edits the title and body (line 88, a direct gh call) and never
-    the base, so a re-run leaves the wrong base in place and the run closes unmet on on_target.
-  impact: The recovery named for a wrong-base PR cannot run by itself, so the run halts with an instruction nobody
-    automates. Either give submit_pr.py a retarget step through the adapter or mark the recovery as a person's.
-- id: H9
-  category: harness
-  severity: P3
-  file: core/components/plays/merge-change/scripts/merge_pr.py
-  line: 162
-  basis: Constraint C5 of merge-change at origin/main (a re-run on a merged PR is a clean no-op) read with the new
-    C9 (an issue that lands on its plan branch is closed by the merge script)
-  what: The close-issue and capability-close steps run only on the fresh-merge path (lines 196 to 206). The already-merged
-    path (line 162) records on_target and ends, so when a first run merged the PR and then stopped before closing
-    the issue, a re-run never closes it.
-  impact: An issue that landed on its plan branch can stay open for good, and the plan tree then shows it as open
-    work. Failure F9 names "a landed issue left open" and sends it to a person, so the gap is known, but the cheap
-    repair (do it on re-run) is missing.
-- id: H10
-  category: harness
-  severity: P3
-  file: core/components/plays/start-change/scripts/setup_branch.py
-  line: 69
-  basis: .garura/user-provided/managing-work.md on this branch states 'When the plan starts again, a new branch
-    is cut from main' (the rule under review); start-change ICE C9 says the branch is cut only when it does not
-    exist
-  what: 'A plan branch counts as existing if it exists locally or on origin (_branch_exists). After a pause the
-    merge script deletes it on origin and in the clone that merged. A second clone that still holds the old local
-    plan/<id>/base is treated as live: the script merges main into that stale branch instead of cutting a new one,
-    and pushes it back to origin. If the plan was squash merged, the old commits conflict with main.'
-  impact: On a second machine the restart rule does not hold. The run either stops on a conflict or recreates the
-    deleted plan branch with old history. Check origin first, and cut fresh when origin has no such branch.
-- id: H11
-  category: harness
+  line: 1
+  basis: ARCH-02 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a check that this script does not
+    import itself in a circle. It matched because the file changed. No tool measured the imports.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-03
+  category: executable code
   severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-03 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a clean run of a language linter
+    on this script. It matched because the file changed. No linter is set up in this repository, so the run did
+    not happen.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-04
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-04 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a format check on this script.
+    It matched because the file changed. No formatter is set up in this repository, so the check did not happen.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-14
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-14 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a check that this script is not
+    part of a circle of imports. It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: ARCH-03
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: ARCH-03 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a size check on this script. It
+    matched because the file changed. The file is 97 lines, so size is not a concern.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: ARCH-08
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: ARCH-08 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on how the script is placed
+    in its folder. It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-09
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-09 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a complexity score per function.
+    It matched because the file changed. No complexity tool is set up, so no score exists.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-10
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-10 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a length check per function. It
+    matched because the file changed. No tool measured it; the whole file is 97 lines.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-11
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-11 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on how deeply the code
+    nests. It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-12
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-12 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on file length. It matched
+    because the file changed. The file is 97 lines, so length is not a concern.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-15
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-15 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a readability score per function.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-17
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-17 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on names in this script.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-18
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-18 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on names in this script.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: FE-08
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: FE-08 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a bundle size check on browser
+    code. It matched only because the file ends in .js. This script is a Node tool rule, not browser code, so it
+    most likely does not apply.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-13
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-13 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P4): The rule asks for a check on how much code is repeated.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-19
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-19 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P4): The rule asks for a check on names in this script.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: N1
+  category: harness
+  severity: P3
   file: core/components/plays/start-change/SKILL.md
-  line: 58
-  basis: docs/standards/harness-standard.md at origin/main, section 3; core/components/plays/start-change/SKILL.md
-    at origin/main (worktree flag is resolved by preflight.py, 'not by inference')
-  what: The pre-flight row "Read plans.base-path" is not among the facts preflight.py prints (it prints worktree,
-    stm paths and others, but no plans path). The model has to read the key from config by itself, while the sibling
-    worktree flag comes from the script.
-  impact: 'A small drift risk: the folder resolve_plan.py reads is chosen by the model, not by the resolver. If
-    the key is missing in an older project config, the default is used and the issue silently gets a feature branch.'
-- id: H12
-  category: harness
-  severity: P4
-  file: core/components/plays/propose-change/scripts/submit_pr.py
-  line: 106
-  basis: review playbook review/harness (an eval must be able to fail)
-  what: When create-pr succeeds but the follow-up lookup finds no number, the record is built with base set to the
-    requested base (lines 101 to 104). Line 106 then compares that value with itself, so on_target is always true
-    on this branch of the code.
-  impact: D3 cannot catch a wrong base on that path. The path is rare, and the normal path reads the base from the
-    host.
-- id: H13
+  line: 4
+  basis: docs/standards/harness-standard.md at origin/main, section 4 (the compiled part matches its intent); CLAUDE.md
+    at origin/main, 'Play Pipeline Rules' (the compiled file follows the ICE)
+  what: The frontmatter description still says the play cuts "a feature branch off up-to-date main". The ICE intent
+    (reference/ice.md:11-13) and the lead of the same file (lines 10-14) now say an issue in a plan gets a sub-branch
+    of its plan's branch. The description of the other two plays was updated in the same change.
+  impact: The description is what the skill list shows a person who picks the start play. It tells them the old
+    branch model, so they may expect a feature branch for an issue that sits in a plan.
+- id: N2
   category: harness
   severity: P4
   file: core/components/plays/merge-change/SKILL.md
-  line: 176
-  basis: docs/standards/harness-standard.md at origin/main, section 5; merge-change ICE C9 in this change (its capability
-    is closed once every issue under it is closed)
-  what: C9 says the merge script also closes the capability once every issue under it is closed. Eval SE-9 and scenario
-    S5 check only that the issue is in issues_closed. Nothing in the play checks the capability close.
-  impact: An outward write (closing a tracker issue) happens with no eval watching it. The unit test covers it,
-    the play does not.
-- id: H14
+  line: 172
+  basis: review playbook review/harness (an eval must be able to fail for the right reason); docs/standards/harness-standard.md
+    at origin/main, section 5
+  what: Step 3 and the evals SE-6, SCE-1 and SCE-4 still say the run records are committed "on main" and that "main
+    is level with origin". For an issue in a plan the script commits and pushes on the plan's branch (merge_pr.py
+    pushes to the base it was given). SE-3 and SCE-5 are already right.
+  impact: Read literally, the eval for a plan-branch landing checks the wrong branch. The scripts and stop condition
+    are right, so no run fails; the text is out of date for the plan case.
+- id: N3
+  category: harness
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 82
+  basis: docs/standards/harness-standard.md at origin/main, section 3 (a script resolves the fact; it does not guess);
+    review playbook review/harness (short-term copy)
+  what: The fix for the stale plan branch (H10) deletes the local plan branch whenever origin shows none, using
+    git branch -D. A failed lookup of origin (offline, or a host error) prints nothing, so _on_origin reads it as
+    "not on origin". The delete also does not check that the local branch holds commits that exist nowhere else.
+    The push on line 108 is not checked either, so a local-only plan branch is possible.
+  impact: 'On a bad network day a live plan branch can be dropped and cut again from main, and any local-only commits
+    on it are lost; the new branch then fails to push over the real one without a word. A safer rule: delete only
+    when the lookup succeeded, and keep the old branch under a backup name instead of removing it.'
+- id: N4
   category: harness
   severity: P4
-  file: docs/standards/harness-standard.md
-  line: 88
-  basis: docs/standards/harness-standard.md at origin/main, section 8 line 90 ('and after every plan it needs');
-    .garura/project/plans/717.yaml at origin/main (needs_plans)
-  what: The old principle said a plan lands on main only "after every plan it needs". The rewrite drops that clause
-    and no play or note says whether plan order (needs_plans) still matters when a plan merges on pause.
-  impact: A person pausing a plan that depends on another plan has no stated rule. Say in the standard that the
-    order no longer holds, or keep a check.
-- id: H15
-  category: harness
-  severity: P4
-  file: standards/rules/git.md
-  line: 5
-  basis: standards/rules/git.md and standards/rules/pipeline-position.md (memory tool copies under .garura/project/issues/717/context/memory/grounding-harness/standards/rules/)
-  what: Two standards the plays rely on were not updated. The branch pattern table in git.md has no plan/* pattern,
-    and pipeline-position.md still says start-change cuts "the branch off fresh main" for every issue.
-  impact: 'The standards now disagree with the plays: a reader of the rule files learns the old branch model. These
-    files are not in this PR; they are memory files and need their own update.'
+  file: core/components/plays/create-play/references/test_setup_branch.py
+  line: 87
+  basis: CLAUDE.md at origin/main, 'Source of Truth' (notes of origin are deleted); docs/standards/harness-standard.md
+    at origin/main, section 11
+  what: Four test names and comments carry the round-1 review labels (H1, H4, H9, H10). The labels point to a review
+    file that is not part of the product. The stamped scripts themselves are clean.
+  impact: A future reader sees a label with nothing to look up. Style only; the tests are not installed.
+- id: MEM-1
+  category: memory
+  severity: P3
+  file: .garura/product/product-os/features/fn-673/feature.md
+  line: 4
+  basis: 'Committed on origin/main. The page reads: "A plan''s branch merges into main only when every issue in
+    the plan is closed, and only after every plan it needs has landed or been merged into it." The ontology rule
+    that said the same is gone in v13, and harness-standard principle 8 and the work guide now say a plan''s branch
+    merges into main when the plan pauses, with issues still open. A search of the repository (outside run records)
+    found this page as the only other file that states the old rule.'
+  what: An agent that reads the product model page for this feature learns the old landing rule and believes it
+    still holds. The page is not in this diff and is outside the ontology, so it does not block this change. It
+    is the one place left that keeps the old rule alive.
+  impact: An agent that reads the product model page for this feature learns the old landing rule and believes it
+    still holds. The page is not in this diff and is outside the ontology, so it does not block this change. It
+    is the one place left that keeps the old rule alive.
 counts:
-  P2: 1
-  P3: 9
-  P4: 5
+  P4: 18
+  P3: 3

@@ -1,15 +1,20 @@
-# Layer 1 — installed linters and runnable checks (PR #950)
+# Layer 1 — round 2 (PR #950)
 lint_components:
-  command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
-  in_changed_paths: 0
-  there_before: 37
+  in_changed_paths: 4
+  there_before: 33
+    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
+    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
+    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
+    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-standard-play-close", "severity": "error", "message": "Stand
+  note: the installed linter (.garura/core/tools) is main's copy; the source copy with the new shared-scripts rule:
+   source-rule drift findings: 0
 lint_play:
   start-change: VERDICT: PASS (0 gap(s))
-    next-command check lines: 1
   propose-change: VERDICT: PASS (0 gap(s))
-    next-command check lines: 1
   merge-change: VERDICT: PASS (0 gap(s))
-    next-command check lines: 1
+adr_lint:
+  060: }
+ontology_check: valid
 tests:
   test_chain_checks.py: ALL PASS
   test_check_ice_workable.py: 46 passed, 0 failed
@@ -19,12 +24,16 @@ tests:
   test_guidance_block.py: 13 passed, 0 failed
   test_intent_touches.py: 21 passed, 0 failed
   test_loop_contract.py: 36 passed, 0 failed
-  test_merge_plan.py: 7 passed, 0 failed
+  test_merge_plan.py: 10 passed, 0 failed
   test_merge_scripts.py: 15 passed, 0 failed
   test_platform_adapter.py: 53 passed, 0 failed
   test_post_verdict.py: 31 passed, 0 failed
-  test_resolve_plan.py: 12 passed, 0 failed
+  test_resolve_plan.py: 13 passed, 0 failed
   test_resolve_target.py: 7 passed, 0 failed
   test_scoped_write_guard.py: 15 passed, 0 failed
-  test_setup_branch.py: 7 passed, 0 failed
-language_linter: not installed (none committed in the repo)
+  test_setup_branch.py: 9 passed, 0 failed
+  lint-components tests:    6 ℹ fail 0 
+language_linter: not installed (none committed)
+notes:
+  - "lint_components: the 4 violations in changed paths are all on core/components/plays/create-play/SKILL.md (missing sections, missing play close). create-play is hand-written and source-only; its section list is the same as on origin/main, so the 4 were there before this change (counted as there before; this change only added lines to one list)."
+  - "adr_lint: ADR 060 valid, no problems."

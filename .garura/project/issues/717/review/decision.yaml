@@ -1,9 +1,7 @@
-decision: reject
+decision: approve
 decided_by: human
 recommended: approve
 reason: >
-  The product owner rejected on 2026-10-28: fix H1 (the pre-flight script reads no issue from a plan's own
-  branch, so the next plan pause breaks once installed) and all nine minor findings (H2 to H10) before landing.
-  The five small findings (H11 to H15) are filed as one chore.
-to_fix: [H1, H2, H3, H4, H5, H6, H7, H8, H9, H10]
-to_file: [H11, H12, H13, H14, H15]
+  The product owner approved round 2 on 2026-10-29 ("approve and merge"). H1 to H10 from round 1 are fixed.
+  The round-2 findings N1 to N4 and MEM-1 (no P1, no P2) are filed as a follow-up chore; the 16 standards
+  items on shared-scripts.js are checks with no tool, not defects.
