@@ -314,6 +314,10 @@ tree:
       kind: story
       title: 'Several ready issues land in one change: one branch, one pull request, one review'
       status: Not Started  # filed 2026-10-29: optimizes the Ship loop
+    - issue: 915
+      kind: story
+      title: Landing a plan branch on main shows evidence that every commit was reviewed and that the plan, its epics and the commits agree
+      status: Not Started  # moved from #965 (plan 717) on 2026-10-29: a question for the change plays
 - issue: 922
   kind: epic
   title: Fix the defects in the Discovery loop's knowledge step and the memory its agents read

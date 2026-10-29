@@ -106,9 +106,4 @@ tree:
   - issue: 965
     kind: feature
     title: A plan's work lands on main with evidence that all of it was reviewed
-    status: Not Started
-    children:
-    - issue: 915
-      kind: story
-      title: Landing a plan branch on main shows evidence that every commit was reviewed and that the plan, its epics and the commits agree
-      status: Not Started
+    status: Dropped  # 2026-10-29: its only story, #915, moved under #510 in plan 606
