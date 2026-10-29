@@ -1,0 +1,94 @@
+# design-findings-memory.yaml - check-change Layer 2, PR #984 (issue 983), category: memory
+# Changed artifact: core/components/memory/standards/templates/plan-view.md
+category: memory
+agreed_design: "GitHub issue #983 (design agreed with the product owner, 2026-10-29). Read by gh issue view; it is the agreement, not a principle taken from the diff."
+grounding_manifest: .garura/project/issues/983/context/memory/grounding-memory/manifest.json
+principles:
+  - id: G1
+    principle: "A template is the canonical output shape; it is registered in the templates index, and the index entry says what the template holds."
+    source: "standards/templates/_index.md, sections Contents and When to Add Here (memory tool, phoenix tier; copy in grounding-memory/standards/templates/_index.md). The base ref carries the same plan-view row."
+  - id: G2
+    principle: "The Plan kind of the product ontology says what a plan is and which properties it has: Status is 'active, done or dropped'; no Direction property exists. A change to a kind goes through /edit-ontology."
+    source: "git show plan/717/base:core/components/memory/standards/schemas/product-os/ontology.md, line 576 (Plan kind) ; docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, Affects line (ontology edits go through /edit-ontology). The phoenix copy of the ontology holds no Plan kind, so the base ref is the source."
+  - id: G3
+    principle: "The template stays mechanical: the plan tool prints from the settings and the plan files alone, with no model call; statuses are set by a person and never worked out from the work."
+    source: "git show plan/717/base:core/components/memory/standards/templates/plan-view.md (intro and The tree section); issue #983 Rules."
+  - id: G4
+    principle: "The statuses section defines each status by meaning; a status name that is used must be defined where the template defines statuses."
+    source: "git show plan/717/base:core/components/memory/standards/templates/plan-view.md, section The statuses (table with a Meaning column); ADR 060 (a paused plan has branch: null)."
+  - id: G5
+    principle: "Voice: output a person reads is in plain words, no paths or field names in the lead."
+    source: "standards/rules/user-facing-voice.md (memory tool). Checked: the card rows are plain labels; no finding."
+findings:
+  - id: M-1
+    severity: P2
+    file: core/components/memory/standards/templates/plan-view.md
+    what: >
+      The template makes a plan's own Status one of Not Started, In Progress, Paused, Done, Dropped
+      (list.plan_statuses) and adds a plan Direction (1, 2, 3 or none). The committed Plan kind in the
+      product ontology still says a plan's Status is "active, done or dropped" and has no Direction
+      property. The diff does not change the ontology, so two committed standards now disagree on what a
+      plan's status is. plan.py now rejects "active", which the ontology and the shape-plan play text
+      (core/components/plays/shape-plan/SKILL.md line 339: "status: active") still name. The agreed
+      design (#983) does not list an ontology change; the Plan kind has to be changed through
+      /edit-ontology, in this change or a named follow-up.
+    basis: G2
+  - id: M-2
+    severity: P3
+    file: core/components/memory/standards/templates/_index.md
+    what: >
+      The index row for plan-view.md was not updated and is now wrong: it says the template "holds the
+      six statuses ... and the layout of each view" and "the list of every plan". It does not say that the
+      template now also holds the five plan statuses, the direction marks and the card layout. The index
+      is not in the PR's changed paths.
+    basis: G1
+  - id: M-3
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    what: >
+      The section "The statuses" says "Every node of a plan has one of six statuses" and defines each by
+      meaning. The card's plan Status is a second set of five, kept only as a name list in the list
+      section and in list.plan_statuses. Four names (Not Started, In Progress, Done, Dropped) are shared
+      with the node set but "In Progress" there means "no one works on it in an open change right now";
+      "Paused" is defined nowhere in the template. A reader cannot tell whether a plan's In Progress means
+      the node meaning, and cannot tell what Paused means (ADR 060 gives it a branch rule only).
+      Define the five plan statuses and their meaning once, beside the node statuses.
+    basis: G4
+  - id: M-4
+    severity: P4
+    file: core/components/memory/standards/templates/plan-view.md
+    what: >
+      The Waits on rule says each needed plan is shown "with its title" and the agreed design says "never a
+      bare number". plan.py (listing, waits_item) falls back to the number alone when the needed plan has
+      no file in the plans folder. The template does not say what is shown then. State the fallback in the
+      template, or say that a missing plan file is an error.
+    basis: G3
+  - id: M-5
+    severity: P4
+    file: core/components/memory/standards/templates/plan-view.md
+    what: >
+      The Progress row reads "done, open, and dropped when there are any" but does not say what is counted.
+      plan.py counts the nodes under the epic (the epic itself is not counted), "open" is every node that
+      is neither Done nor Dropped (so Now and Blocked count as open), and nodes outside the epics are left
+      out. The old template said the same of "open" implicitly; the new row should say it, because the
+      template is the one place a person reads the rule.
+    basis: G3
+memory_integrity_checks:   # by hand, each cited (the playbook names no installed tool)
+  - check: "Frontmatter id matches path"
+    result: "n/a - plan-view.md carries no frontmatter, as on the base ref and as the sibling templates work-plan.md and checkpoint.md (templates start at the H1)."
+  - check: "Registered in the shelf index"
+    result: "registered (templates/_index.md row for plan-view.md) but the row is stale: see M-2."
+  - check: "Cross-references and paths resolve"
+    result: "pass - /list-plans -> core/components/plays/list-plans; /show-plan -> core/components/plays/show-plan; template-manager -> core/components/agents/template-manager.md; plan tool -> core/tools/plan/plan.py (installed as .garura/core/tools/plan/plan.py, present); plans dir .garura/project/plans (present)."
+  - check: "Template is consumable by the plan tool"
+    result: "pass - ran python3 core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md --plans-dir .garura/project/plans: exit 0, seven cards. plan.py reads every list.* key the template has (plan_statuses, directions, direction_names, legend_join, direction_width, plan_rule, epic_rule, head, row, label_width, labels, waits_item, waits_join, epic, progress, dropped, none). The removed keys (detail, now, waits) are read nowhere else in core/tools or core/components/plays (git grep)."
+  - check: "Prose example matches the settings"
+    result: "pass - plan_rule is 72 wide as in the example; head with direction_width 5 gives the example's '⏵    #717'; row with label_width 15 gives '  Status         Paused'. Tool output for #717 matches the shape (counts differ because the work moved, expected)."
+  - check: "Does not duplicate or contradict the other sections"
+    result: "tree and graph sections untouched and still consistent; the card's Status rule (set by a person, never worked out) agrees with the tree's 'no status is worked out'. Gaps: M-3 (two status sets), M-5. Note, not changed by this diff: the intro says the views are printed 'from the plan files alone' while the Branch row falls back to git when a plan file names no branch (plan.py plan_branch)."
+  - check: "Voice (user-facing-voice)"
+    result: "pass - labels and rows are plain words; no path or field name in the card."
+notes:
+  - "specs/design.md and the PR's own prose were not used as grounding."
+  - "For the harness/code grounding: write_plan_file.py now writes 'status: Not Started' but still carries a comment above it listing the six node statuses (line ~226), which reads as the plan status set; shape-plan SKILL.md line 339 still says status: active."
+counts: {P1: 0, P2: 1, P3: 2, P4: 2, total: 5}
