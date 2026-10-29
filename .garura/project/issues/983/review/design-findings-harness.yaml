@@ -1,0 +1,53 @@
+# design-findings-harness.yaml - check-change on PR #984 (issue 983), Layer 2, category: harness
+# Evidence: core/components/plays/list-plans/SKILL.md, core/components/plays/list-plans/reference/ice.md
+category: harness
+grounding:
+  base_ref: plan/717/base
+  agreed_design: "issue #983 text (outside the branch): the card layout and its Rules - Status and Direction set by a person in the plan file, never worked out; Waits on always shown; epics only with a Progress row; template holds the marks; plan tool prints with no model call"
+  principles:
+    - id: P-ICE
+      principle: "A play is compiled from its ICE. A change to what a part guarantees is made in the ICE and the part is compiled again; the compiled part records a fingerprint of its ICE so the two never drift."
+      source: "docs/standards/harness-standard.md principle 4 (git show plan/717/base); ADR 027"
+    - id: P-ORCH
+      principle: "Plays orchestrate, agents gather context, skills do the work; mechanical work is a script, judgment is a model."
+      source: "docs/standards/harness-standard.md principles 2 and 3 (base)"
+    - id: P-NONOTES
+      principle: "No deviation notes or change logs in skill files; edit history belongs in the commit and the issue."
+      source: "CLAUDE.md, Play Pipeline Rules (base)"
+    - id: P-MEM
+      principle: "A play reads no memory; template-manager hands it the template copy."
+      source: "ADR 039 section 2 (base)"
+  conformance_held:
+    - "ICE-source rule holds: every intent change in SKILL.md (C10, F8, SE-7, S6, SCE-6, the widened C6 text in SE-2, the description) traces to reference/ice.md (C10, F8, S6, C6, Intent). SE-7 and SCE-6 are the compiled evals of F8 and S6."
+    - "Fingerprint is real: the sha256 in the SKILL.md provenance row (7ede4179...) equals the sha256 of reference/ice.md at HEAD; the base value (c1bffdbb...) equals the base ice.md. The two did not drift."
+    - "Wiring intact: the play still delegates only template loading (template-manager), the plan tool prints the view, check_list.py proves it; the new Status/Direction check is a script check (as_set), not a model judgment (P-ORCH). The play still reads no memory (P-MEM). No new agent, skill or script."
+    - "Agreed design met in the harness part: Status and Direction come from the plan file and are never worked out (C10, F8, SE-7); the card parts named in #983 are in the Intent and S1; the template holds the marks (C4 unchanged)."
+    - "Layer 1: lint-play list-plans PASS (0 gaps); lint-components source layout: 0 violations in changed paths (37 elsewhere, there before)."
+findings:
+  - id: H-1
+    severity: P3
+    file: core/components/plays/list-plans/reference/ice.md
+    what: "C6 was widened to stop the play on an unknown status, plan status or direction, and the SKILL.md SE-2 line and description were widened to match. The chain from C6 down stayed old: failure F5 still reads 'a plan with an unknown status', scenario S4 and SCE-4 still say 'a status the template does not know', and the recovery row F5 still reads 'exits 2 on a status it does not know ... name the plan file and its status'. The plan tool does stop on a plan status or a direction it does not know (plan.py), but no failure condition, scenario or recovery in the ICE names that case. The constraint is guaranteed in code and prose yet has no matching failure, scenario or recovery entry for the two new cases. The same stale F5 row is copied into SKILL.md (Recovery table) and SCE-4."
+    basis: "docs/standards/harness-standard.md principle 4 (base): the ICE is what the team agreed and the compiled play carries it; a guarantee changed in the ICE must be changed through the whole ICE (constraint, failure, scenario, recovery) so the part and the agreement do not drift unseen. Agreed design #983 adds Status and Direction values that a person sets, which makes an unknown value reachable."
+    suggested: "Widen F5, S4 and the F5 recovery row in reference/ice.md to 'status, plan status or direction', recompile with edit-play."
+  - id: H-2
+    severity: P4
+    file: core/components/plays/list-plans/reference/ice.md
+    what: "The Context line still says the plan files have 'Six statuses: Not Started, In Progress, Now, Done, Blocked, Dropped'. After this change a plan file holds two kinds of status: the plan's own (Not Started, In Progress, Paused, Done, Dropped, set by a person) and the six statuses of its nodes. The line names only the node statuses and does not say so, so a reader of the ICE would take 'Paused' for an unknown status. Paused is not in the Context at all."
+    basis: "Issue #983 'Rules - Status' (the plan's five statuses: Not Started, In Progress, Paused, Done, Dropped); docs/standards/harness-standard.md principle 4 (base): the ICE Context is part of what the compile is made from."
+    suggested: "Name both lists in the Context, the plan statuses and the node statuses."
+  - id: H-3
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md
+    what: "The 'Compiled From' paragraph and the provenance row now carry 'changed by edit-play (#983, the cards)'. That is an edit-history note inside a compiled skill file. Weak finding: the provenance row 'compiled_by' is a field the compiler emits and an edit-play run may be the source of this wording; the play should confirm whether edit-play writes it by rule. If it does, this is not a violation."
+    basis: "CLAUDE.md, Play Pipeline Rules (base): 'Add no deviation notes or change logs to skill files.'"
+    suggested: "Confirm that edit-play emits this text; if it does not, move it to the commit message and the issue."
+notes:
+  - "Observation, no finding: the Done means (D1-D4, stop-condition.yaml) is unchanged, so the new as_set check (S6/F8) is proved by SE-7 and SCE-6 but not by the close gate. This matches the graph number check (F6/SE-5), which is also outside D1-D4, so it follows the existing pattern."
+  - "Observation, no finding: S6 sits after a blank line in ice.md Success scenarios (S1-S5 have none), and SE-7 is placed between SE-4 and SE-5 in SKILL.md. Layout only."
+  - "Nothing was grounded from specs/design.md or from any prose the branch adds. The agreed design is the issue text."
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 2

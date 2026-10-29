@@ -1,0 +1,130 @@
+# categories.yaml - check-change on PR #984 (issue 983), assessed from the diff content.
+# Treatments come from the playbook copies in .garura/project/issues/983/context/memory/knowledge/review/.
+# next-map copy: .garura/project/issues/983/context/templates/standards/rules/pipeline-next.md
+severity_taxonomy: .garura/project/issues/983/context/memory/standards/rules/pr.md
+review_shelf: .garura/project/issues/983/context/memory/knowledge/review/
+categories:
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/list-plans/SKILL.md   # compiled play: new constraint C10, failure F8, step check SE-7, scenario S6
+      - core/components/plays/list-plans/reference/ice.md   # the play's ICE source (intent change)
+    treatment:
+      layers: [1, 2]
+      linters:
+        - name: lint-components (source layout)
+          command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+          note: "only violations in changed paths are findings; count the rest as 'there before'"
+        - name: lint-play (list-plans)
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/list-plans/SKILL.md --next-map .garura/project/issues/983/context/templates/standards/rules/pipeline-next.md"
+      runnable_checks:
+        - "ICE-source rule: the repo holds the plays' source, so every intent change in list-plans/SKILL.md (C10, F8, SE-7, S6, SCE-6) must trace to reference/ice.md"
+        - "tool not installed -> record 'not installed'; tool crash -> 'did not run: <first error line>'; neither is a pass"
+      design_grounding: "yes - from docs/philosophy/**, docs/adr/**, memory/standards/rules/** (user-facing-voice, play-close, evidence-recording) and the glossary on the base ref; never from the branch's new prose"
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/templates/plan-view.md   # standards template: list becomes cards, new settings (plan_statuses, directions, labels)
+    treatment:
+      layers: [1, 2]
+      linters:
+        - name: memory integrity (known gap - no installed tool)
+          command: null
+          note: "reviewer checks by reading the changed file and cites each check"
+      runnable_checks:
+        - "by hand: frontmatter/id matches path; cross-references and paths named in the template resolve (plan tool path, plans dir, /list-plans, /show-plan); the template is consumable by the plan tool (plan.py reads the new list.* settings)"
+        - "by hand: the template stays mechanical and does not duplicate or contradict the other plan-view sections (statuses, tree, graph)"
+      design_grounding: "yes - from knowledge/_DESIGN.md, _index.md, _TEMPLATE.md and the relevant standards, read through the memory tool; never from the branch's new text"
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/tools/plan/plan.py   # card rendering, plan status and direction validation
+      - core/components/plays/list-plans/scripts/check_list.py   # new as_set check
+      - core/components/plays/shape-plan/scripts/write_plan_file.py   # new plan file starts Not Started with empty direction
+    treatment:
+      layers: [1]
+      linters:
+        - name: ruff (language linter)
+          command: "ruff check core/tools/plan/plan.py core/components/plays/list-plans/scripts/check_list.py core/components/plays/shape-plan/scripts/write_plan_file.py"
+          note: "if the repo commits no ruff config, record that; do not treat 'not run' as passed"
+        - name: check-pr-quality (pr.md taxonomy rows SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*)
+          command: "run by the play against the diff with .garura/project/issues/983/context/memory/standards/rules/pr.md"
+      runnable_checks:
+        - "by hand: data-safety - plan.py and check_list.py must not write plan files, issues or branches (the play says nothing changes); check_list.py hashes before/after"
+        - "by hand: error handling, function size, no stray debug output, no secrets, deterministic output (same files print the same way twice)"
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/tools/plan/test_plan.py
+      - core/components/plays/shape-plan/scripts/test_write_plan_file.py
+    treatment:
+      layers: [1]
+      linters:
+        - name: ruff on test code + check-pr-quality TEST-* rows
+          command: "ruff check core/tools/plan/test_plan.py core/components/plays/shape-plan/scripts/test_write_plan_file.py"
+      runnable_checks:
+        - "RUN the suites; a red suite is a blocker: python3 -m pytest core/tools/plan/test_plan.py core/components/plays/shape-plan/scripts/test_write_plan_file.py"
+        - "by hand: no skipped/disabled tests, no test that asserts nothing; if a suite cannot be run, say 'not run', never 'passed'"
+  - name: documentation
+    playbook: review/docs
+    design_bearing: false
+    evidence:
+      - core/tools/plan/README.md   # tool usage prose
+    treatment:
+      layers: [1]
+      linters:
+        - name: prose checks (known gap - no committed prose linter)
+          command: null
+          note: "the tool performs the checks directly and cites each"
+      runnable_checks:
+        - "by hand: spelling, grammar, dead links, heading hierarchy, leftover TODOs, terminology (cards, Status, Direction) consistent with the template and the play; the README matches what plan.py does"
+  - name: plan-records
+    playbook: null
+    playbook_note: "playbook missing - no review/ playbook covers plan files (.garura/project/plans/<id>.yaml): hand-kept work-tracking data the plan tool reads"
+    design_bearing: false
+    evidence:
+      - .garura/project/plans/606.yaml   # status active -> Paused, new direction key
+      - .garura/project/plans/717.yaml
+      - .garura/project/plans/722.yaml
+      - .garura/project/plans/734.yaml
+      - .garura/project/plans/756.yaml
+      - .garura/project/plans/767.yaml
+      - .garura/project/plans/788.yaml
+    treatment:
+      layers: [1]
+      linters: []
+      runnable_checks:
+        - "by hand: each file is valid YAML; status is one of the plan statuses in plan-view.md (Not Started, In Progress, Paused, Done, Dropped); direction is 1, 2, 3 or empty"
+        - "RUN: python3 .garura/core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md --plans-dir .garura/project/plans  (must exit 0 on the changed plan files)"
+        - "by hand: the recorded reason (product owner, 2026-10-29) is in a comment, not invented; no other keys changed"
+  - name: run-records
+    playbook: null
+    playbook_note: "playbook missing - no review/ playbook covers short-term-memory run records (the issue's context/ and specs/ working files)"
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/983/context/analysis.yaml
+      - .garura/project/issues/983/context/branch.json
+      - .garura/project/issues/983/context/check-self-review-exit.txt
+      - .garura/project/issues/983/context/commits.yaml
+      - .garura/project/issues/983/context/issue.json
+      - .garura/project/issues/983/context/plan.json
+      - .garura/project/issues/983/context/porcelain.txt
+      - .garura/project/issues/983/context/pr-body.md
+      - .garura/project/issues/983/context/pr.json
+      - .garura/project/issues/983/context/resolved-rules.json
+      - .garura/project/issues/983/context/self-review.md
+      - .garura/project/issues/983/context/target.json
+      - .garura/project/issues/983/context/work-description.txt
+      - .garura/project/issues/983/specs/design.md
+    treatment:
+      layers: [1]
+      linters: []
+      runnable_checks:
+        - "by hand: no secrets and no home-folder absolute paths in the added lines (#982: write paths relative to the repo or with ~)"
+        - "by hand: JSON and YAML records parse; no scratch or debug artifacts"
+        - "note: the PR body says resolved-rules.json is untracked and in no commit, yet it is in changed_paths - flag for the play to confirm"
+        - "specs/design.md is a design for this change, not a standard: it is not grounding for any principle (never ground from it)"

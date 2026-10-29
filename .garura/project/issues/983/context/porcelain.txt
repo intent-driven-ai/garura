@@ -1,0 +1,18 @@
+ M .garura/project/plans/606.yaml
+ M .garura/project/plans/717.yaml
+ M .garura/project/plans/722.yaml
+ M .garura/project/plans/734.yaml
+ M .garura/project/plans/756.yaml
+ M .garura/project/plans/767.yaml
+ M .garura/project/plans/788.yaml
+ M core/components/memory/standards/templates/plan-view.md
+ M core/components/plays/list-plans/SKILL.md
+ M core/components/plays/list-plans/reference/ice.md
+ M core/components/plays/list-plans/scripts/check_list.py
+ M core/components/plays/shape-plan/scripts/test_write_plan_file.py
+ M core/components/plays/shape-plan/scripts/write_plan_file.py
+ M core/tools/plan/README.md
+ M core/tools/plan/plan.py
+ M core/tools/plan/test_plan.py
+?? .garura/project/issues/983/context/porcelain.txt
+?? .garura/project/issues/983/specs/

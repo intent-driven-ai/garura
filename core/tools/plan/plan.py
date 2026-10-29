@@ -78,6 +78,10 @@ def load_plans(plans_dir, template):
         if not plan.get("title"):
             raise BadInput(f"{path} has no title")
         check_shape(plan.get("tree"), path)
+        if plan.get("status") not in template["list"]["plan_statuses"]:
+            raise BadInput(f"{path}: the plan status {plan.get('status')!r} is not one the template knows")
+        if plan.get("direction") not in (None, *template["list"]["directions"]):
+            raise BadInput(f"{path}: the direction {plan.get('direction')!r} is not 1, 2, 3 or empty")
         for node in walk(plan.get("tree")):
             missing = [k for k in ("issue", "title", "status") if not node.get(k)]
             if missing:
@@ -164,20 +168,6 @@ def show(plans, plan, template, plans_dir):
     return 0, lines
 
 
-def in_play(nodes):
-    """The nodes worked now; when none is, the deepest nodes in progress."""
-    now = [n for n in walk(nodes) if n["status"] == "Now"]
-    if now:
-        return now
-    def deepest(ns):
-        out = []
-        for n in ns or []:
-            below = deepest(n.get("children"))
-            out += below if below else ([n] if n["status"] == "In Progress" else [])
-        return out
-    return deepest(nodes)
-
-
 def plan_branch(plan, repo):
     """The plan's branch: the one its file names, else plan/<id>/base when git has it."""
     if plan.get("branch"):
@@ -203,22 +193,45 @@ def ref_of(branch, repo):
 
 
 def listing(plans, template, plans_dir, repo):
+    """One card for each plan: direction, number and title; Status, Branch, Waits on; then each
+    epic with its Progress. Status and Direction are read from the plan file as a person set
+    them, never worked out from the work."""
     li = template["list"]
     if not plans:
         return [li["none"].format(dir=plans_dir)]
-    lines = []
+    by_id = {str(p["id"]): p for p in plans}
+    width, label_width = li["direction_width"], li["label_width"]
+    icons = li["directions"]
+    lines = [li["legend_join"].join(f"{icons[k]} {li['direction_names'][k]}" for k in sorted(icons)), ""]
+
+    def row(key, value=""):
+        return li["row"].format(label=li["labels"][key].ljust(label_width), value=value).rstrip()
+
     for plan in plans:
-        nodes = list(walk(plan.get("tree")))
-        done = sum(1 for n in nodes if n["status"] == "Done")
-        open_ = sum(1 for n in nodes if n["status"] not in ("Done", "Dropped"))
-        now = "".join(li["now"].format(mark=template["by_name"][n["status"]]["mark"], issue=n["issue"],
-                                       title=n["title"]) for n in in_play(plan.get("tree")))
-        needs = plan.get("needs_plans") or []
-        waits = li["waits"].format(plans=", ".join(str(p) for p in needs)) if needs else ""
-        lines.append(li["head"].format(plan=plan["id"], title=plan["title"]))
-        lines.append(li["detail"].format(branch=plan_branch(plan, repo) or "main", done=done, open=open_,
-                                         now=now, waits=waits))
-    return lines
+        direction = icons.get(plan.get("direction"), "")
+        lines.append(li["plan_rule"])
+        lines.append(li["head"].format(direction=direction.ljust(width), plan=plan["id"], title=plan["title"]))
+        lines.append(row("status", plan.get("status") or ""))
+        lines.append(row("branch", plan_branch(plan, repo) or "main"))
+        waits = li["waits_join"].join(
+            li["waits_item"].format(plan=n, title=by_id[str(n)]["title"]) if str(n) in by_id
+            else li["waits_item"].format(plan=n, title="").rstrip()
+            for n in plan.get("needs_plans") or [])
+        lines.append(row("waits", waits))
+        epics = [n for n in plan.get("tree") or [] if n.get("kind") == "epic"]
+        for i, epic in enumerate(epics):
+            lines.append("" if i == 0 else li["epic_rule"])
+            nodes = list(walk(epic.get("children")))
+            done = sum(1 for n in nodes if n["status"] == "Done")
+            dropped = sum(1 for n in nodes if n["status"] == "Dropped")
+            mark = template["by_name"][epic["status"]]["mark"]
+            lines.append(row("epic", li["epic"].format(mark=mark, issue=epic["issue"], title=epic["title"])))
+            progress = li["progress"].format(done=done, open=len(nodes) - done - dropped)
+            if dropped:
+                progress += li["dropped"].format(dropped=dropped)
+            lines.append(row("progress", progress))
+        lines.append("")
+    return lines[:-1]
 
 
 def graph(plans, template, repo):

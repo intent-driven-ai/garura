@@ -6,8 +6,11 @@ edit-play; never hand-edit the compiled SKILL.md.
 ## Intent
 
 Anyone, a person or an agent, sees every plan of the project at once, from the plan files
-alone: one line for each plan with its branch, how much is done and how much is open, what is
-worked now, and the plans it waits on. With `--graph`, the same plans are drawn against main:
+alone: one card for each plan, with the plan's direction, its number and business intent, its
+Status, its Branch and the plans it Waits on (always shown, blank when none), then each of its
+epics with its Progress (done, open, dropped). The plan's Status and Direction are what a person
+set in the plan file, never worked out from the work under it (#983). With `--graph`, the same
+plans are drawn against main:
 each plan's branch with its commits ahead of and behind main, and the plans with no branch
 named as on main.
 
@@ -26,12 +29,15 @@ play reads them and nothing else, and prints them the same way every time.
 - C4 — Every mark and every line of the view comes from the plan-view template. The play
   never makes up a layout of its own.
 - C5 — The same plan files and the same branches print the same output.
-- C6 — A plan file that cannot be read, or that has a status the template does not know,
-  stops the play with the file named. A part of the list is never shown.
+- C6 — A plan file that cannot be read, or that has a status, a plan status or a direction
+  the template does not know, stops the play with the file named. A part of the list is never
+  shown.
 - C7 — When the plans folder holds no plan, the play says so plainly.
 - C8 — There are two modes: the list (the default) and `--graph`. Any other mode stops the
   play; it is never guessed.
 - C9 — The play ends by proving its Done means at close, never by its step list running out.
+- C10 — Each card shows the plan's Status and Direction exactly as the plan file holds them,
+  set by a person. The play never works either out from the work under the plan.
 
 ### Failure conditions
 
@@ -43,6 +49,7 @@ play reads them and nothing else, and prints them the same way every time.
 - F5 — A plan with an unknown status is shown instead of stopping the play.
 - F6 — A number of commits ahead or behind in the graph does not come from git.
 - F7 — The close reports COMPLETED without the Done means held.
+- F8 — A card shows a Status or a Direction that is not the one in the plan file.
 
 ## Context
 
@@ -54,15 +61,15 @@ play reads them and nothing else, and prints them the same way every time.
 - The template (`standards/templates/plan-view.md`) holds the marks and the layout. The play
   reads no memory: `template-manager` puts a copy in the run's working folder (ADR 039).
 - Stories: #729 (list every plan, from the plan files alone), #806 (see every plan as a graph
-  against main). Feature #719. Business intent #717.
+  against main), #983 (the list as one card per plan). Feature #719. Business intent #717.
 
 ## Expectation
 
 ### Success scenarios
 
 - **S1 — developer, every plan at once.** Given a plans folder with three plans, when
-  `/list-plans` runs, then each of the three is listed once, in the order of the plan numbers,
-  with its branch, its Done and open counts and what is worked now. *Measure:* the check
+  `/list-plans` runs, then each of the three has one card, in the order of the plan numbers,
+  with its Status, Branch and Waits on, and each epic with its Progress. *Measure:* the check
   record reads `all_listed: true` and `in_order: true`.
 - **S2 — lead, plans against main.** Given a plan whose branch is ahead of or behind main, when
   `/list-plans --graph` runs, then its line shows the commits ahead and behind that git counts,
@@ -79,6 +86,11 @@ play reads them and nothing else, and prints them the same way every time.
   unchanged. *Measure:* the check record reads `same_twice: true`, `unchanged: true` and
   `template_used: true`.
 
+- **S6 — product owner, the direction as set.** Given plans whose files hold a status and a
+  direction a person set, when `/list-plans` runs, then each card shows that direction's icon
+  before the plan's number and that status on its Status row. *Measure:* the check record
+  reads `as_set: true`.
+
 ### Recovery
 
 | For | Trigger | Direction | Handoff |
@@ -90,6 +102,7 @@ play reads them and nothing else, and prints them the same way every time.
 | F5 | the plan tool exits 2 on a status it does not know | stop, name the plan file and its status, and show no list; a person fixes the plan file | human |
 | F6 | a graph number does not equal git's count | re-run the graph and check again; if it still differs, close HALTED with both numbers | autonomous |
 | F7 | the close would report COMPLETED without the Done means held | surface the unmet clauses and re-run the step that makes the missing record, or close HALTED | autonomous |
+| F8 | a card's Status or Direction differs from the plan file | re-run the plan tool with the template and check again; never correct the card by hand — the plan file is the only source | autonomous |
 
 ### Done means
 

@@ -5,7 +5,7 @@
         --record <tracker-record.json> --out <working>/plan-write.json
 
 When the plan file is missing it is made: `id`, `title` (the business intent's title),
-`status: active` and `tree`. Then, for each slice of gather.json, from the record:
+`status: Not Started`, `direction` (empty; a person sets it) and `tree`. Then, for each slice of gather.json, from the record:
   - when no node of the tree has `represents: <slice id>`, an epic node is added at the end
     of the tree (`issue`, `kind: epic`, `title`, `status`, `represents`), with one story node
     for each line of the epic's map (`issue`, `kind: story`, `title`, `status`, `represents`)
@@ -226,7 +226,7 @@ def main(argv=None):
                      "# Made by /shape-plan. Status: Not Started | In Progress | Now | Done | Blocked | Dropped.",
                      f"id: {scalar(int(gather['plan_id']))}",
                      f"title: {scalar(gather.get('intent_title') or 'Plan ' + str(gather['plan_id']))}",
-                     "status: active", "tree: []"]
+                     "status: Not Started", "direction:", "tree: []"]
         else:
             original = pc.read_text(args.plan_file)
             if not isinstance(pc.yaml.safe_load(original), dict):

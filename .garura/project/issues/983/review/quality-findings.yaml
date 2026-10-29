@@ -1,0 +1,453 @@
+meta:
+  pr: 984
+  issue: 983
+  generated_at: '2026-10-29T15:43:42Z'
+  taxonomy: .garura/project/issues/983/context/memory/standards/rules/pr.md
+  diff: .garura/project/issues/983/review/pr.diff
+  categories_run:
+  - executable-code
+  - tests
+  - documentation
+  - plan-records
+  - run-records
+  scan: python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py (exit 0, errors 0, scan_coverage 1.0, changed paths
+    30)
+  catchall_CODE-20: 9
+  note: 'Only plan.py and test_plan.py are classed as runtime-code by the taxonomy (the other .py files sit under core/components,
+    so they are garura-prose, and .garura/project/** is stm-evidence: no finding by the taxonomy). Nine-code-category path-only
+    rows fire on both files; they carry no located defect.'
+runnable:
+  test_plan:
+    command: cd core/tools/plan && python3 test_plan.py
+    exit_code: 0
+    result: Ran 17 tests, OK, 0 failed, 0 skipped
+    note: 'pytest is not installed here (python3 -m pytest: No module named pytest), so the unittest runner was used. RepoPlansTest
+      ran against .garura/project/plans.'
+  test_write_plan_file:
+    command: cd core/components/plays/shape-plan/scripts && python3 test_write_plan_file.py
+    exit_code: 0
+    result: 9 passed, 0 failed
+  plan_list:
+    command: python3 core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md --plans-dir
+      .garura/project/plans
+    exit_code: 0
+    result: 7 plan cards printed (606, 717, 722, 734, 756, 767, 788); a second run is byte-identical; the plan files' hashes
+      are the same before and after
+    note: 'The command in categories.yaml names the installed copy .garura/core/tools/plan/plan.py. That copy is the old version
+      and exits 1 (KeyError: ''direction'') against the new template. It is outside the changed paths and only an install
+      refreshes it. Not a finding.'
+  ruff:
+    command: ruff check on the five changed .py files (no ruff config committed; ruff defaults)
+    exit_code: 1
+    result: '3 errors, all E731 (lambda assigned to a name): core/components/plays/list-plans/scripts/check_list.py:33, :124
+      and core/tools/plan/test_plan.py:219. The same 3 exist on plan/717/base (checked by running ruff on the base copies),
+      so they are there before. Nothing new.'
+  plan_files:
+    result: 'all 7 parse as YAML; status is Paused in all 7 (a status the template lists); direction is empty, 1 (717) or
+      2 (788); only status, direction and one moved comment changed; the reason comment names the product owner and 2026-10-29.
+      In 734.yaml the old note ''more work to file under Epic #958'' moved to its own comment line, text kept.'
+  run_records:
+    result: '6 JSON and 2 YAML records parse. No secrets in added lines (searched api key, secret, token, password, bearer,
+      ghp_, sk-, AKIA, private key; only hit was the test card title). No /Users, /home, /private or /tmp paths in added lines.
+      Home-folder paths use ~/.phoenix/... (resolved-rules.json, self-review.md, pr-body.md): allowed form. The only URL is
+      the PR link in pr.json.'
+  data_safety:
+    result: plan.py has no file writes (its only subprocess call is a read-only git call with a 30 s timeout); check_list.py
+      hashes the plan files before and after and reports unchanged; write_plan_file.py only writes the plan file it is asked
+      to.
+  tests_by_hand:
+    result: One skipTest, conditional on a missing plans folder; it did not skip. Every changed test asserts exact output.
+      No tests removed apart from the two renamed for the card layout.
+  docs_by_hand:
+    result: 'core/tools/plan/README.md: the new list bullet matches what plan.py list prints (direction, number, title; Status,
+      Branch, Waits on; epics with Progress). Terms match the template. No TODOs, no links to check.'
+counts_as_scanned:
+  P1: 1
+  P2: 8
+  P3: 20
+  P4: 7
+counts_confirmed:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 1
+counts_note: counts_as_scanned is the raw script output (36 hits). Of those, 35 are path-only checklist rows or a dismissed
+  false positive (DATA-18 on test text). counts_confirmed is what stands after the runs and hand checks.
+findings:
+- id: Q01
+  severity: P1
+  file: core/tools/plan/test_plan.py
+  line: 1037
+  what: scan hit on the word 'password' in an added line (pr.diff line 1037)
+  basis: DATA-18
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: 'dismissed after review: the text is a test card title (''A person resets a lost password''), not a credential
+    or personal data'
+- id: Q02
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (ARCH-02) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: ARCH-02
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q03
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-03) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-03
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q04
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-04) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-04
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q05
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-14) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-14
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q06
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (ARCH-02) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: ARCH-02
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q07
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-03) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-03
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q08
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-04) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-04
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q09
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-14) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-14
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: path-only row (DOC-01) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: DOC-01
+  source: scan_taxonomy.py
+  artifact_type: docs-planning
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: path-only row (DOC-09) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: DOC-09
+  source: scan_taxonomy.py
+  artifact_type: docs-planning
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q12
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: path-only row (DOC-10) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: DOC-10
+  source: scan_taxonomy.py
+  artifact_type: docs-planning
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q13
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: path-only row (DOC-11) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: DOC-11
+  source: scan_taxonomy.py
+  artifact_type: docs-planning
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q14
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (ARCH-03) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: ARCH-03
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q15
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (ARCH-08) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: ARCH-08
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q16
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-09) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-09
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q17
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-10) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-10
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q18
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-11) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-11
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q19
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-12) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-12
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q20
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-15) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-15
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q21
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-17) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-17
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q22
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (ARCH-03) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: ARCH-03
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q23
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (ARCH-08) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: ARCH-08
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q24
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-09) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-09
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q25
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-10) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-10
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q26
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-11) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-11
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q27
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-12) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-12
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q28
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-15) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-15
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q29
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-17) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-17
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q30
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  what: path-only row (DOC-14) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: DOC-14
+  source: scan_taxonomy.py
+  artifact_type: docs-planning
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q31
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  what: path-only row (DOC-15) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: DOC-15
+  source: scan_taxonomy.py
+  artifact_type: docs-planning
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q32
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  what: path-only row (DOC-16) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: DOC-16
+  source: scan_taxonomy.py
+  artifact_type: docs-planning
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q33
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-13) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-13
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q34
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  what: path-only row (CODE-19) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-19
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q35
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-13) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-13
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- id: Q36
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  what: path-only row (CODE-19) fires on any file of this type; it is a checklist prompt, not a located defect
+  basis: CODE-19
+  source: scan_taxonomy.py
+  artifact_type: runtime-code
+  disposition: checklist row; answered by the hand checks and runs under runnable (ruff, function size, read of the diff);
+    no defect located
+- severity: P3
+  file: .garura/project/issues/983/context/self-review.md
+  line: 21
+  what: 'The self-review says resolved-rules.json is untracked and in no commit. It is tracked: commit 5652534c added it,
+    and it is in this PR. The same sentence is in pr-body.md line 39.'
+  basis: run-records check named in categories.yaml (PR body vs changed_paths); confirmed with git log and git ls-files
+  also:
+  - .garura/project/issues/983/context/pr-body.md:39
+  source: by hand
+  id: Q37
+- severity: P4
+  file: core/components/plays/shape-plan/scripts/write_plan_file.py
+  line: 8
+  what: The docstring line added here is 126 characters long, while the lines around it wrap near 100. Style only.
+  basis: CODE-04 (format); no formatter or line-length config is committed
+  source: by hand
+  id: Q38

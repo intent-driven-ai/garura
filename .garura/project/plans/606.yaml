@@ -6,7 +6,8 @@
 # that introduced them; the epic tracks them in its checklist, because an issue has one parent.
 id: 606
 title: Garura's agentic lifecycle runs as five loops, starting from a working prototype
-status: active
+status: Paused  # set by the product owner, 2026-10-29: no plan runs on its own branch
+direction:
 planned: false
 started: '2026-10-28'
 branch: null  # #920 landed on main through PR #932, 2026-10-28
