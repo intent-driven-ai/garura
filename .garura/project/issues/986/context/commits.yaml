@@ -1,10 +1,17 @@
 commits:
-  - sha: 3daf3e61
-    message: "chore(stm): record the card heading work (#986)"
+  - sha: f2b7dba3
+    message: "docs(list-plans): say the direction icon sits on its own line under the heading (#986)"
+    files:
+      - core/components/plays/list-plans/reference/ice.md
+      - core/components/plays/list-plans/SKILL.md
+    branch: plan/717/986-card-heading
+  - sha: 8644eee2
+    message: "chore(stm): record the commit-change run artifacts (#986)"
     files:
       - .garura/project/issues/986/context/analysis.yaml
       - .garura/project/issues/986/context/porcelain.txt
-      - .garura/project/issues/986/specs/design.md
+      - .garura/project/issues/986/context/resolved-rules.json
+      - .garura/project/issues/986/context/self-review.md
     branch: plan/717/986-card-heading
 excluded_files:
   []
