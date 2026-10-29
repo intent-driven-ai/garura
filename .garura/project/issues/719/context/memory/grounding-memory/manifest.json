@@ -69,6 +69,20 @@
       "version": "dfdafe6104e6",
       "fingerprint": "sha256:7e0bdb113d9bd309e341b2cd9f0ac8b7534f2fe12b8467092b68a2388aedf7d9",
       "copy": ".garura/project/issues/719/context/memory/grounding-memory/standards/rules/pipeline-next.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/adr.md",
+      "version": "dfdafe6104e6",
+      "fingerprint": "sha256:eeb9faca459b881d4d533b7499b0b3841a21c14b90ee0262f4325c1b6521b872",
+      "copy": ".garura/project/issues/719/context/memory/grounding-memory/standards/templates/adr.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/ontology.md",
+      "version": "dfdafe6104e6",
+      "fingerprint": "sha256:c07cbc674d46f6748637293ad96c5ad6b7841e98b02caa95464ce74639523f3c",
+      "copy": ".garura/project/issues/719/context/memory/grounding-memory/standards/schemas/product-os/ontology.md"
     }
   ]
 }
