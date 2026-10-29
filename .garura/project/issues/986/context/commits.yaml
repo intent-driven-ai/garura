@@ -1,0 +1,14 @@
+commits:
+  - sha: 3daf3e61
+    message: "chore(stm): record the card heading work (#986)"
+    files:
+      - .garura/project/issues/986/context/analysis.yaml
+      - .garura/project/issues/986/context/porcelain.txt
+      - .garura/project/issues/986/specs/design.md
+    branch: plan/717/986-card-heading
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
