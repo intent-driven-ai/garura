@@ -65,6 +65,9 @@ def test_github_argv():
     check("merge-pr argv",
           pa._gh("merge-pr", {"pr_number": "489"}, repo)
           == [["gh", "pr", "merge", "489", "--merge"]])
+    check("edit-issue-title argv keeps the title as one literal argument",
+          pa._gh("edit-issue-title", {"issue_number": 7, "title": 'A $(x) "q"'}, repo)
+          == [["gh", "issue", "edit", "7", "--title", 'A $(x) "q"']])
     check("comment-pr keeps body as ONE argv element (injection-safe)",
           pa._gh("comment-pr", {"pr_number": 1, "body": 'a "$(rm -rf /)" b'}, repo)[0]
           == ["gh", "pr", "comment", "1", "--body", 'a "$(rm -rf /)" b'])
@@ -152,6 +155,9 @@ def test_gitlab_argv():
     check("view-pr → glab mr view",
           pa._glab("view-pr", {"pr_number": 7}, repo)
           == [["glab", "mr", "view", "7", "--output", "json"]])
+    check("edit-issue-title → glab issue update --title",
+          pa._glab("edit-issue-title", {"issue_number": 7, "title": "T"}, repo)
+          == [["glab", "issue", "update", "7", "--title", "T"]])
     check("request-changes → two commands (draft + note)",
           len(pa._glab("request-changes", {"pr_number": 7, "body": "b"}, repo)) == 2)
     check("close-issue has no --reason (gap)",
@@ -165,7 +171,7 @@ def test_unknown_verb():
         check("unknown verb raises", False)
     except KeyError:
         check("unknown verb raises", True)
-    check("VERBS has exactly 23", len(pa.VERBS) == 23)
+    check("VERBS has exactly 24", len(pa.VERBS) == 24)
 
 
 def _fake(replies):

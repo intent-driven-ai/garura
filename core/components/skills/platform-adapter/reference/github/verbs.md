@@ -146,6 +146,14 @@ Post a comment on an issue:
 gh issue comment {issue_number} --body "{body}"
 ```
 
+## edit-issue-title
+
+Change an issue's title:
+
+```bash
+gh issue edit {issue_number} --title "{title}"
+```
+
 ## add-label
 
 Add labels to an issue or PR:
