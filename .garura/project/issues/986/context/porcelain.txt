@@ -1,0 +1,6 @@
+ M core/components/memory/standards/templates/plan-view.md
+ M core/components/plays/list-plans/scripts/check_list.py
+ M core/tools/plan/plan.py
+ M core/tools/plan/test_plan.py
+?? .garura/project/issues/986/context/porcelain.txt
+?? .garura/project/issues/986/specs/

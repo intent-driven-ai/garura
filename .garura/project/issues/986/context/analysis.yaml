@@ -1,0 +1,27 @@
+needs_judgment: false
+
+change_groups:
+  - id: plans-card-heading
+    issue: 986
+    commit_type: feat
+    scope: plans
+    subject: "put the card title and rows at the left edge and the direction icon on its own line"
+    files:
+      - core/components/memory/standards/templates/plan-view.md
+      - core/tools/plan/plan.py
+      - core/tools/plan/test_plan.py
+      - core/components/plays/list-plans/scripts/check_list.py
+  - id: stm-986
+    issue: 986
+    commit_type: chore
+    scope: stm
+    subject: "record the card heading work"
+    files:
+      - .garura/project/issues/986/context/analysis.yaml
+      - .garura/project/issues/986/context/porcelain.txt
+      - .garura/project/issues/986/specs/design.md
+
+exclusions: []
+
+risks:
+  sensitive_files: []
