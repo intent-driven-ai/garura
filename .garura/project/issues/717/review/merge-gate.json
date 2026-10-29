@@ -1,0 +1,16 @@
+{
+  "approved": true,
+  "mergeable": true,
+  "already_merged": false,
+  "checks_pass": true,
+  "pr_number": "985",
+  "pr_merged": true,
+  "branch_deleted": true,
+  "on_target": true,
+  "status": "merged",
+  "on_base": true,
+  "merge_sha": "7354fd8a787747d62462fd165ca5b9f013c2e4ad",
+  "merge_method": "squash",
+  "merge_method_note": "squashed by the product owner's choice; merge-change has no squash option yet (#982)",
+  "issues_closed": []
+}
