@@ -24,18 +24,14 @@ tree:
     - issue: 727
       kind: story
       title: Build the plan tree from a business intent
-      status: next
+      status: done  # done by /shape-slice and /shape-plan (#818), 2026-10-29
     - issue: 728
       kind: story
       title: Create or link a tracker issue for every node in a plan
-      status: next
+      status: done  # /shape-plan makes stories only, never chores, bugs or spikes, 2026-10-29
     - issue: 896
       kind: story
       title: /shape-plan stops when the business intent already has a plan, and does not run again
-      status: next
-    - issue: 931
-      kind: story
-      title: /shape-plan opens an unplanned epic that gathers defects fixed together
       status: next
   - issue: 719
     kind: feature
@@ -72,6 +68,10 @@ tree:
       kind: story
       title: '/shape-plan --edit: a person changes the plan file, an epic or a story that already exists'
       status: next
+    - issue: 931
+      kind: story
+      title: /update-plan adds a new feature found while a plan is in progress to the model, its slice and its epic
+      status: next  # moved from #718 on 2026-10-29: not /shape-plan
   - issue: 721
     kind: feature
     title: 'Start and land work against a plan: plan branches in start-change and merge-change'
