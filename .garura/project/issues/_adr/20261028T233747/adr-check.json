@@ -1,0 +1,17 @@
+{
+  "draft": ".garura/project/issues/_adr/20261028T233747/adr-draft.md",
+  "number": "060",
+  "round": "change round 1 (2026-10-29)",
+  "lint": {"command": "adr.py lint --adr <draft>", "exit": 0, "valid": true, "problems": []},
+  "guard": {"command": "adr.py guard --adr <draft> --intents-dir .garura/product/product-os/intents", "exit": 0,
+            "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes",
+            "agrees_with_context": true},
+  "retries": 0,
+  "supersedes": 0,
+  "amends": 0,
+  "notes": [
+    "Decided by is filled with Kapil Viren Ahuja at the brief's request. The template defines that line as the person who accepted; adr.py accept rewrites it with the --by name at acceptance.",
+    "The managing-work.md and plan 788 fixes the draft calls 'fixed in PR #950' were in the working tree of plan/717/base, not yet committed, when the keeper read them on 2026-10-29.",
+    "The ontology is still version 12 with line 599 present; the /edit-ontology run the draft names has not happened yet."
+  ]
+}

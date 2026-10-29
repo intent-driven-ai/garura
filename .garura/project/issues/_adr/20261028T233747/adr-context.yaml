@@ -1,0 +1,306 @@
+# Context gathered by adr-keeper for the draft (record-decision, issue #717). Change round 1, 2026-10-29.
+shape: markdown
+id: "060"
+slug: a-plans-branch-merges-into-main-when-the-plan-pauses
+file: docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+status: proposed
+level: framework
+node_ref: null
+decided_in: "#717 (plan 717, plans and the change plays), on plan/717/base, PR #950 (the review's finding H2 asked for this record), 2026-10-28"
+decided_by: Kapil Viren Ahuja
+decided_by_why: >-
+  The brief's Change round 1 asks for it, "as the other ADRs record it" (ADR 054 and ADR 057
+  write "Decided by: Kapil Viren Ahuja"). Who decided is not who accepts: the acceptance stays
+  the person's, through the play.
+date: 2026-10-28
+template_path: .garura/project/issues/_adr/20261028T233747/context/templates/standards/templates/adr.md
+
+overlaps:
+  script: "adr.py overlaps --adr <brief> --dir docs/adr --top 12"
+  candidates_listed: ["048", "049", "056", "053", "035", "043", "029", "055", "047", "033", "046", "052"]
+  also_read_by_hand: ["030"]
+  search: >-
+    Every ADR was searched for a rule on plan branches or on when a plan lands on main
+    ("plan branch", "plan/<", "/base", "needs_plans", "lands on main", "detour", "main only").
+    No ADR states one. The rule this decision replaces was never recorded in an ADR: it was
+    written into the harness standard's principle 8 in commit b1c95fed (2026-10-22, #737/#738,
+    the commit that also added ADR 046) and into merge-change's ICE (C9, F9, S6, S7) in commit
+    e55fe748 (2026-10-22, #673).
+  judgments:
+    - adr: "030"
+      verdict: not affected
+      why: >-
+        Plan mode: a plan on disk, its items, how it is kept current and how done is checked.
+        It says nothing about branches or where a plan's work lands. §6 "the issue is done only
+        when its plan is done" is about the done check, not about merging; this decision leaves it.
+    - adr: "049"
+      verdict: not affected
+      why: >-
+        One plan for each business intent, the eval in the plan's folder, the shaping loop. No
+        branch or landing rule. The plan folder (.garura/project/plans/) and the plan file stay;
+        only the hand-kept `branch` field's meaning on pause is now written down.
+    - adr: "046"
+      verdict: not affected
+      why: >-
+        Its decision is naming only (§1–§6). It lists docs/standards/harness-standard.md under
+        Affects as new, because the standard was published with it, but principle 8 is not part
+        of ADR 046's decision and no section of ADR 046 states it. The new ADR changes principle 8
+        of the standard, not ADR 046.
+    - adr: "048"
+      verdict: not affected
+      why: Two layers (model and work), Epic and Story. No branch rule.
+    - adr: "056"
+      verdict: not affected
+      why: Issue type marks an Epic or Story. No branch rule.
+    - adr: "053"
+      verdict: not affected
+      why: Drops shape-scope and shape-roadmap. Shares two files only.
+    - adr: "035"
+      verdict: not affected
+      why: Agents work only from memory. Shares managing-work.md only.
+    - adr: "043"
+      verdict: not affected
+      why: Kickoff plays read independently. Shares the ontology file only.
+    - adr: "029"
+      verdict: not affected
+      why: >-
+        §3: a drive (loop) opens one branch for its main issue and raises one PR. It does not say
+        where that branch lands; the change plays decide that, and still do.
+    - adr: "055"
+      verdict: not affected
+      why: Installed parts read only installed files. Shares the harness standard only (principle 11).
+    - adr: "047"
+      verdict: not affected
+      why: The ICE is its own node. Shares the ontology file only.
+    - adr: "033"
+      verdict: not affected
+      why: Approval in the product model. Shares the ontology file only.
+    - adr: "052"
+      verdict: not affected
+      why: /shape-slice writes the hidden file. Shares the ontology file only.
+
+supersedes: []
+amends: []
+
+
+affects:
+  - path: docs/standards/harness-standard.md
+    what: principle 8 "Branches follow the plan" and its Why line (rewritten on this branch, commit 30b117b0)
+  - path: core/components/plays/merge-change/reference/ice.md
+    what: C9 (a plan's branch lands on main like any approved change, open issues stay open), F9, S6 (plan paused in progress), REC9; S7 (plan done) dropped — changed through /edit-play on this branch (commit d2e64f85)
+  - path: core/components/plays/merge-change/SKILL.md
+    what: compiled from that ICE
+  - path: core/components/plays/propose-change/reference/ice.md
+    what: S6 (a plan's own branch, pausing, opens its PR against main)
+  - path: core/components/plays/start-change/reference/ice.md
+    what: C9 (a plan's branch is cut from the latest main when work on the plan starts; after a pause there is no branch, so the next start cuts a new one)
+  - path: .garura/user-provided/managing-work.md
+    what: >-
+      section "A plan's branch: start, pause, start again" (lines 160–177), and the Epic bullet's
+      sentence on blocking work (lines 70–74: it lands on main; the blocked plan pauses and merges
+      first) — both on this branch, for PR #950
+  - path: core/components/memory/standards/schemas/product-os/ontology.md
+    what: >-
+      line 599, the Plan kind's rule "A plan that needs another cannot land on main until that plan
+      is done", removed in this same change (PR #950) through /edit-ontology (version 12 → 13, one
+      log line). The link "It needs another plan" (line 586, rule line 597) and "Two plans that need
+      each other are one plan" (line 600) stay. On 2026-10-29 the file still reads version 12; the
+      /edit-ontology run has not happened yet.
+  - path: .garura/project/plans/
+    what: >-
+      the plan files' `branch` field reads `null` while a plan is paused (606, 717, 722, 756, 767 do;
+      788 corrected on this branch for PR #950), and a plan file has no `returns_to`
+  - issue: "#791"
+    what: closed as not planned, 2026-10-28T17:41Z (detour plans that land back on the plan they came from)
+  - issue: "#730"
+    what: >-
+      the plan update play: comment of 2026-10-29T01:06Z says it writes `branch: null` when a plan's
+      branch lands and the new name when start-change cuts one, and removes a `returns_to` it finds
+
+ice_impact: >-
+  Three change plays' intents change in meaning. merge-change: a plan's branch (plan/<id>/base)
+  lands on main like any approved change, with issues of the plan still open; holding it off main
+  for open work is now a failure (F9, REC9); the only guard is the machine wall (C7: approved,
+  mergeable, no failing required checks); the "plan done" check and its scenario S7 are gone.
+  propose-change: S6, a pausing plan's own branch opens its PR against main. start-change: C9, a
+  plan's branch is cut from the latest main when work starts, so after a pause the next start
+  cuts a new one. The product ontology changes in this same change: /edit-ontology removes the Plan
+  kind's landing rule (line 599). No product agent reads branches (the Plan kind's line 598:
+  managing a plan never touches branches or code), so no product agent's ICE changes.
+
+business_intent_check: none
+business_intent_check_why: >-
+  A framework rule about branches. Nothing under .garura/product/product-os/intents/ changes on
+  this branch (git diff main...HEAD on that folder is empty). The one intent page that names
+  branches, bi-717.md line 11, says its plan plays must not touch branches or code; this decision
+  changes the change plays, not the plan plays, so that line still holds. Removing ontology line
+  599 changes the Plan kind's rules (framework doctrine), not a person's intent; the declared check
+  stays none, as the brief expects, because no intent page or Business Intent kind rule moves.
+
+related:
+  - ADR 030 (plan mode)
+  - ADR 046 (the naming standard, published with the harness standard)
+  - ADR 049 (one plan for each business intent)
+  - "#717, #721, #730, #731, #673, #791, #879, #949, PR #916, PR #950"
+
+memory_notes:
+  - >-
+    The ontology was found through the memory tool (find --issue 717 --glob
+    "**/standards/schemas/product-os/ontology.md") and copied into
+    context/memory/standards/schemas/product-os/ontology.md (manifest beside it). Only the
+    Phoenix tier holds it, at version 4 (205 lines). That copy has no Plan kind, so the ICE impact
+    on the Plan kind could not be read from memory. The Plan rule (line 599) was read in the
+    source file the brief names as affected (core/components/memory/.../ontology.md, version 12),
+    as a file the decision changes, not as memory. #949 tracks the promotion.
+
+change_round_1:
+  source: the brief's "Change round 1" (the product owner, 2026-10-29)
+  checked_by_keeper_2026-10-29:
+    - >-
+      managing-work.md lines 70–74 now read: "Work that blocks the plan gets its own Epic (its own
+      slice) and is delivered there (the product owner, 2026-10-26, #879). It lands on main, not on
+      the blocked plan's branch: the blocked plan pauses and merges into main first, and the blocker
+      is cut from main". The edit is in the working tree of plan/717/base, not yet committed.
+    - >-
+      plan 788's file now reads `branch: null` (line 13), has no `returns_to`, and its comment
+      (lines 6–8) says plan/788/base merged into main with PR #916 on 2026-10-27 and no detour plans
+      (#791 closed). Also in the working tree, not yet committed.
+    - "#730 holds the comment of 2026-10-29T01:06Z on the branch field and returns_to."
+    - "#949 is open: Phoenix memory behind the source in 60 places, the ontology named among them."
+    - ontology.md still version 12, line 599 present; no other line of it names a branch or main.
+
+for_the_accepter:
+  - point: No earlier ADR held the rule this one replaces, so it supersedes and amends nothing
+    what_and_where: >-
+      The rule "a plan lands on main only when every issue in it is closed, and after every plan
+      it needs" — docs/standards/harness-standard.md principle 8, and merge-change's ICE C9, F9,
+      S6 and S7 (core/components/plays/merge-change/reference/ice.md).
+    detail: >-
+      Every ADR in docs/adr/ was searched; none states a plan-branch or plan-landing rule. The rule
+      came into principle 8 in commit b1c95fed on 2026-10-22 (#737, #738), the same commit that
+      added ADR 046 — but ADR 046's decision is naming only, and it lists the harness standard
+      under Affects just as a new file. The merge-change rule came in commit e55fe748 on
+      2026-10-22 (#673). ADR 030 (plan mode) and ADR 049 (one plan for each business intent) say
+      nothing about branches.
+    why_it_matters: >-
+      A reader who looks for the ADR this one replaces finds none, and could think an older ADR
+      still says a plan waits until done. Whoever accepts needs to know the old rule was a
+      standard's line and a play's ICE, not a recorded decision.
+    this_decision_does: Records the rule for the first time; no older ADR gains a forward pointer.
+    you_decide: Nothing, unless you hold that ADR 046 owns every principle of the harness standard; then say so and it becomes an amendment of ADR 046.
+
+
+  - point: "Fixed in PR #950 — the work-management guide now says blocking work lands on main"
+    what_and_where: >-
+      .garura/user-provided/managing-work.md, the bullet "An Epic stands for one slice, and holds
+      only that slice's work", lines 70–74.
+    detail: >-
+      The draft found lines 70–72 saying blocking work "merges back into the plan branch it spawned
+      from" (#879), against the guide's new section (lines 160–177). They now read: it gets its own
+      Epic and is delivered there; "It lands on main, not on the blocked plan's branch: the blocked
+      plan pauses and merges into main first, and the blocker is cut from main".
+    why_it_matters: >-
+      The guide is read before any issue is filed or worked (CLAUDE.md, Work Tracking); the old
+      lines sent blocking work to a plan branch, the landing target this decision drops (#791).
+    this_decision_does: States the rule the fixed lines now follow.
+    you_decide: "Nothing — the product owner fixed it in PR #950 (2026-10-29)."
+
+  - point: "Fixed in PR #950 — plan 788's file no longer names a gone branch or a detour target"
+    what_and_where: .garura/project/plans/788.yaml, the comment (lines 6–8) and `branch` (line 13).
+    detail: >-
+      The draft found `branch: plan/788/base`, `returns_to: 756` and a comment that plan 788 lands
+      back into plan/756/base, though PR #916 had merged plan/788/base into main on 2026-10-27 and
+      #791 was closed. The file now reads `branch: null`, has no `returns_to`, and its comment says
+      the branch merged with PR #916 and is gone, with no detour plans. Keeping these facts right from
+      now on is #730's (the plan update play), recorded there on 2026-10-29.
+    why_it_matters: >-
+      The plan file is the person's view of the plan (ADR 030 §0); a wrong branch or a promised
+      detour landing misleads a reader or a later start-change run.
+    this_decision_does: "Says what a paused plan's file reads (`branch: null`, no detour target)."
+    you_decide: "Nothing — the product owner fixed it in PR #950 (2026-10-29)."
+
+  - point: The ontology's landing rule leaves the ontology in this change, through /edit-ontology
+    what_and_where: >-
+      core/components/memory/standards/schemas/product-os/ontology.md line 599 (version 12), and
+      the plan files .garura/project/plans/717.yaml lines 9–10 and 722.yaml line 5.
+    detail: >-
+      Line 599 reads: "A plan that needs another cannot land on main until that plan is done: the
+      other plan has landed on main, or has been merged into this plan's branch." Plan 717 needs
+      plan 722 (`needs_plans: [722]`), and plan 722 is `status: active`, not done, so PR #950 lands
+      plan/717/base on main against that rule. The product owner, 2026-10-29: the line goes in this
+      same change, through /edit-ontology. It does not belong in the ontology: the ontology says what
+      a plan is and how it links; when a branch lands is a delivery rule, held by the harness
+      standard (principle 8) and the plan rules in managing-work.md. The ontology's own line 598 says
+      managing a plan never touches branches. The link "It needs another plan" stays, as the order of
+      work, not a gate on landing.
+    why_it_matters: >-
+      Done in this change, the standard, the change plays and the ontology agree when PR #950 merges,
+      and no agent or review reading the Plan kind finds plan 717 on main against its rule.
+    this_decision_does: Removes line 599 in this change, through /edit-ontology (ontology version 13).
+    you_decide: Nothing — decided by the product owner, 2026-10-29. The /edit-ontology run has its own three checkpoints.
+
+  - point: "Later, #949 — the memory tool's copy of the ontology is eight versions behind and has no Plan kind"
+    what_and_where: >-
+      Phoenix memory, standards/schemas/product-os/ontology.md — the only tier that holds the
+      ontology (find --every-tier).
+    detail: >-
+      The memory tool returns version 4 (205 lines) of the ontology. The source is version 12,
+      updated 2026-10-25, and holds the Plan kind and its rules (lines 590–604); after this change it
+      is version 13. The memory copy names "plan" only once (line 168). #949 (open) tracks Phoenix
+      memory being behind the source in 60 places, the ontology among them.
+    why_it_matters: >-
+      Agents read the ontology only through the memory tool, so until #949 no agent sees the Plan
+      rules, nor the removal of line 599.
+    this_decision_does: Nothing — the gap is outside this decision.
+    you_decide: "Nothing now — the product owner will do it later, in #949."
+
+  - point: "Recorded on #730 — nothing writes a plan file's branch field yet; it is kept by hand"
+    what_and_where: >-
+      The `branch` field of each plan file in .garura/project/plans/; start-change's
+      resolve_plan.py and setup_branch.py, merge-change's merge_pr.py; issue #730.
+    detail: >-
+      resolve_plan.py builds the branch name from the plan id and never reads or writes `branch`;
+      merge_pr.py never writes the plan file. So `branch: null` on a pause, and the name on a new
+      start, are written by hand; plan 788's file showed the drift. Plan 717's file (line 7) already
+      reads `branch: null  # plan/717/base merges into main and is deleted on 2026-10-28` while PR
+      #950 is open. The comment on #730 (2026-10-29) says the plan update writes `null` when a plan's
+      branch lands and the new name when start-change cuts one, and removes a `returns_to` it finds.
+    why_it_matters: >-
+      Until #730 is built, each pause and start needs a hand edit, or the plan files and the branches
+      drift apart; and plan 717's `null` is true only once PR #950 merges.
+    this_decision_does: "States what the field reads on a pause (`null`); leaves writing it to #730."
+    you_decide: "Nothing — recorded on #730 by the product owner."
+
+  - point: Kept — start-change still brings main into a plan branch that exists
+    what_and_where: >-
+      core/components/plays/start-change/reference/ice.md C9 (lines 31–36) and S6 (lines 100–104).
+    detail: >-
+      C9 says that when a plan's branch already exists, "the latest main is merged into it before
+      the issue's branch is cut (#731, Kapil 2026-10-22)"; S6 checks it. The option that lost is
+      keeping a paused branch open; the merge of main into a running plan's branch stays, because a
+      plan's branch now exists only while the plan runs.
+    why_it_matters: >-
+      A reader of the lost option could take it that start-change no longer brings main in, and
+      remove C9's step. Without it, a running plan falls behind main between issues.
+    this_decision_does: Keeps C9 and S6 of start-change as they are.
+    you_decide: Nothing — the product owner kept it, 2026-10-29.
+
+consequences_guidance:
+  - The ontology gap closes in this change, so it is no longer a risk past PR #950's merge.
+  - managing-work.md lines 70–74 and plan 788's file are fixed, so they leave the risks.
+  - The branch field stays hand-kept until #730; the Phoenix memory copy stays behind until #949.
+
+work_this_creates:
+  - In this change (PR #950), before it merges, run /edit-ontology to remove the Plan kind's line 599 (ontology version 13, one log line).
+  - "#730: the plan update writes `branch: null` when a plan's branch lands and the new name when start-change cuts one, and removes `returns_to` (recorded there)."
+  - "#949, later: promote the ontology (version 13) into Phoenix memory, with the other pages behind."
+  - After acceptance, rebuild the ADR index (adr.py index) — no forward pointers, as nothing is superseded or amended.
+
+references:
+  - .garura/project/issues/_adr/20261028T233747/brief.md
+  - docs/standards/harness-standard.md principle 8 (commits b1c95fed, 30b117b0)
+  - core/components/plays/merge-change/reference/ice.md (commits e55fe748, d2e64f85)
+  - core/components/memory/standards/schemas/product-os/ontology.md lines 586–600
+  - .garura/user-provided/managing-work.md
+  - .garura/project/plans/717.yaml, 722.yaml, 788.yaml
+  - "#721, #730, #731, #673, #791, #879, #949, PR #916, PR #950"

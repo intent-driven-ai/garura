@@ -1,0 +1,1 @@
+docs/adr/060-a-plan-s-branch-merges-into-main-when-the-plan-pauses-even-with-issues.md

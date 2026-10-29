@@ -1,0 +1,6 @@
+?? .garura/project/issues/_adr/20261028T233747/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261028T233747/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261028T233747/hashes-before.json
+?? .garura/project/issues/_adr/20261028T233747/porcelain-before.txt
+?? .garura/project/issues/_adr/20261028T233747/run.json
+?? .garura/project/issues/_adr/20261028T233747/start-change.json
