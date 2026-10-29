@@ -1,6 +1,7 @@
 {
-  "number": 950,
-  "url": "https://github.com/intent-driven-ai/garura/pull/950",
+  "number": 981,
+  "url": "https://github.com/intent-driven-ai/garura/pull/981",
   "state": "OPEN",
-  "base": "main"
+  "base": "main",
+  "on_target": true
 }
