@@ -9,27 +9,6 @@
     },
     {
       "tier": "phoenix",
-      "path": "knowledge/_DESIGN.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:7ec9aaa84087511bd72d4fecce54fcb4d43eb7de549296878fe7d435f160bf68",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/knowledge/_DESIGN.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "knowledge/_TEMPLATE.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:7f617f26f0c9b0e81e6880563986061b528985761548e2dc8af9937297322d62",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/knowledge/_TEMPLATE.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "knowledge/_index.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:7555a0c72c51137af2a3cbb8554a45805261c7829fce64fe549bd3f884cb57f3",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/knowledge/_index.md"
-    },
-    {
-      "tier": "phoenix",
       "path": "standards/schemas/product-os/_index.md",
       "version": "d68154ae75e9",
       "fingerprint": "sha256:d7a79a6cb2dbd6caf8ce8e4078b718e4c38c09fcd087b087c95c024123c79b22",
@@ -72,13 +51,6 @@
     },
     {
       "tier": "phoenix",
-      "path": "standards/rules/work-plan.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:8cec138764534e90ed4b66f0ff4779073dd3405187d4eb4b8c89bad29b7558fb",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/work-plan.md"
-    },
-    {
-      "tier": "phoenix",
       "path": "standards/rules/pipeline-next.md",
       "version": "d68154ae75e9",
       "fingerprint": "sha256:62dc217d7193fafd1e27a697e3d577c2945b709579fb260be6229fd46a65c11f",
@@ -90,13 +62,6 @@
       "version": "d68154ae75e9",
       "fingerprint": "sha256:bc30f763d43e43918b53f8ebb80307fc3081f1a3b0695b110b8fce04cb2ed8ac",
       "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/_index.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/templates/_index.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:4a39ac371d347053bbe21e0a93018c78d369c2ea6ae0990b66f23a6e9b57fa2c",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/_index.md"
     },
     {
       "tier": "phoenix",
@@ -118,6 +83,55 @@
       "version": "d68154ae75e9",
       "fingerprint": "sha256:eeb9faca459b881d4d533b7499b0b3841a21c14b90ee0262f4325c1b6521b872",
       "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/adr.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_DESIGN.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:7ec9aaa84087511bd72d4fecce54fcb4d43eb7de549296878fe7d435f160bf68",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/knowledge/_DESIGN.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_TEMPLATE.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:7f617f26f0c9b0e81e6880563986061b528985761548e2dc8af9937297322d62",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/knowledge/_TEMPLATE.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "knowledge/_index.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:7555a0c72c51137af2a3cbb8554a45805261c7829fce64fe549bd3f884cb57f3",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/knowledge/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/work-plan.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:8cec138764534e90ed4b66f0ff4779073dd3405187d4eb4b8c89bad29b7558fb",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/work-plan.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/user-facing-voice.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/_index.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:4a39ac371d347053bbe21e0a93018c78d369c2ea6ae0990b66f23a6e9b57fa2c",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/plan-view.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:9ae2afaeabfe962d2ae8508e8adf5d829ec459f9a36487a883008c1b431a2fc6",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/plan-view.md"
     }
   ]
 }
