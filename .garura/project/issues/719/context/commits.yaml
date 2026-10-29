@@ -1,105 +1,69 @@
 commits:
-  - sha: e3e6f6e7
-    message: "feat(plans): add the plan tool and the list-plans and show-plan plays (#719)"
+  - sha: c2d05a76
+    message: "fix(plan): refuse a plan or node with missing fields and name the file (#719)"
     files:
-      - core/components/memory/standards/rules/pipeline-next.md
-      - core/components/memory/standards/rules/work-plan.md
-      - core/components/memory/standards/templates/_index.md
-      - core/components/memory/standards/templates/plan-view.md
-      - core/components/plays/list-plans/SKILL.md
-      - core/components/plays/list-plans/reference/ice.md
-      - core/components/plays/list-plans/scripts/check_list.py
-      - core/components/plays/list-plans/scripts/check_stop_condition.py
-      - core/components/plays/list-plans/scripts/preflight.py
-      - core/components/plays/list-plans/scripts/resolve_args.py
-      - core/components/plays/list-plans/scripts/session_stamp.py
-      - core/components/plays/list-plans/stop-condition.yaml
-      - core/components/plays/show-plan/SKILL.md
-      - core/components/plays/show-plan/reference/ice.md
-      - core/components/plays/show-plan/scripts/check_stop_condition.py
-      - core/components/plays/show-plan/scripts/check_tree.py
-      - core/components/plays/show-plan/scripts/preflight.py
-      - core/components/plays/show-plan/scripts/resolve_args.py
-      - core/components/plays/show-plan/scripts/session_stamp.py
-      - core/components/plays/show-plan/stop-condition.yaml
-      - core/tools/plan/README.md
       - core/tools/plan/plan.py
       - core/tools/plan/test_plan.py
     branch: plan/717/719-view-plans
-  - sha: f9dcf71f
-    message: "feat(plans): give every plan file the six statuses and make shape-plan write Not Started (#719)"
+  - sha: 76d29ee5
+    message: "fix(safe-write): keep a file's permissions when writing it (#979)"
     files:
-      - .garura/project/plans/606.yaml
-      - .garura/project/plans/717.yaml
-      - .garura/project/plans/722.yaml
-      - .garura/project/plans/734.yaml
-      - .garura/project/plans/756.yaml
-      - .garura/project/plans/767.yaml
-      - .garura/project/plans/788.yaml
-      - core/components/plays/shape-plan/scripts/write_plan_file.py
-    branch: plan/717/719-view-plans
-  - sha: 3f714fad
-    message: "chore(install): install the plan tool and the two plan-view plays (#719)"
-    files:
-      - .garura/install-manifest.json
-      - core/components/plays/install-garura/scripts/install.py
-      - core/components/plays/install-garura/scripts/test_install.py
-    branch: plan/717/719-view-plans
-  - sha: f18502c9
-    message: "feat(model): add link-model-part so a part found during work gets a thin page and a spine entry (#979)"
-    files:
-      - core/components/agents/product-os-keeper.md
-      - core/components/skills/enrich-grounding/SKILL.md
-      - core/components/skills/link-model-part/SKILL.md
-      - core/components/skills/link-model-part/scripts/link_part.py
-      - core/components/skills/link-model-part/scripts/model_names.py
+      - core/components/plays/shape-slice/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
       - core/components/skills/link-model-part/scripts/safe_write.py
-      - core/components/skills/link-model-part/scripts/spine_text.py
+    branch: plan/717/719-view-plans
+  - sha: 31a7ba44
+    message: "fix(link-model-part): put back every written file when a write fails part way (#979)"
+    files:
+      - core/components/skills/link-model-part/scripts/link_part.py
       - core/components/skills/link-model-part/scripts/test_link_part.py
     branch: plan/717/719-view-plans
-  - sha: 92355cbe
-    message: "docs(model): bring the product model up to the plan-view work (#719)"
-    files:
-      - .garura/product/product-os/_spine.yaml
-      - .garura/product/product-os/capabilities/cap-739/capability.md
-      - .garura/product/product-os/features/fn-628/feature.md
-      - .garura/product/product-os/features/fn-729/feature.md
-      - .garura/product/product-os/features/fn-731/feature.md
-      - .garura/product/product-os/features/fn-746/feature.md
-      - .garura/product/product-os/features/fn-806/feature.md
-      - .garura/product/product-os/intents/bi-717.md
-      - .garura/product/product-os/intents/bi-722.md
-      - .garura/product/product-os/intents/bi-734.md
-    branch: plan/717/719-view-plans
-  - sha: 588f1915
-    message: "chore(stm): record the working files of the plan-view change (#719)"
+  - sha: 819b7eab
+    message: "chore(stm): record the check-change run working files (#719)"
     files:
       - .garura/project/issues/719/context/analysis.yaml
-      - .garura/project/issues/719/context/grouping-notes.md
-      - .garura/project/issues/719/context/issue-edits/edits-979.json
-      - .garura/project/issues/719/context/issue-edits/edits.json
-      - .garura/project/issues/719/context/issue-edits/report-979.json
-      - .garura/project/issues/719/context/issue-edits/report.json
       - .garura/project/issues/719/context/memory/manifest.json
-      - .garura/project/issues/719/context/memory/standards/schemas/product-os/grounding/_content-standard.md
-      - .garura/project/issues/719/context/memory/standards/schemas/product-os/grounding/capability.md
-      - .garura/project/issues/719/context/memory/standards/schemas/product-os/grounding/feature.md
-      - .garura/project/issues/719/context/model-update/intent-report.json
-      - .garura/project/issues/719/context/model-update/intent-request.json
-      - .garura/project/issues/719/context/model-update/issue-628.md
-      - .garura/project/issues/719/context/model-update/issue-729.md
-      - .garura/project/issues/719/context/model-update/issue-806.md
-      - .garura/project/issues/719/context/model-update/link-report.json
-      - .garura/project/issues/719/context/model-update/link-request.json
-      - .garura/project/issues/719/context/model-update/pages-report-2.json
-      - .garura/project/issues/719/context/model-update/pages-report-3.json
-      - .garura/project/issues/719/context/model-update/pages-report.json
-      - .garura/project/issues/719/context/model-update/request.md
       - .garura/project/issues/719/context/porcelain.txt
-      - .garura/project/issues/719/context/templates/manifest-close-start-change.json
-      - .garura/project/issues/719/context/templates/standards/rules/pipeline-next.md
-      - .garura/project/issues/719/context/templates/standards/templates/delivery-report.md
-      - .garura/project/issues/719/specs/design.md
+      - .garura/project/issues/719/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/direct-model-write.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/naming.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/no-unbacked-recommendation.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-position.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/surface-contract.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/eval-format.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/work-plan.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/eval-slice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/work-plan.md
+      - .garura/project/issues/719/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/719/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/code.md
+      - .garura/project/issues/719/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/719/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/719/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/719/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/719/context/memory/standards/rules/pr.md
+      - .garura/project/issues/719/context/templates/manifest-check-change.json
+      - .garura/project/issues/719/review/categories.yaml
+      - .garura/project/issues/719/review/config-maps-check.txt
+      - .garura/project/issues/719/review/context.yaml
+      - .garura/project/issues/719/review/design-findings-harness.yaml
+      - .garura/project/issues/719/review/design-findings-memory.yaml
+      - .garura/project/issues/719/review/lint-components.json
+      - .garura/project/issues/719/review/lint-play.txt
+      - .garura/project/issues/719/review/pr.diff
+      - .garura/project/issues/719/review/quality-findings.yaml
+      - .garura/project/issues/719/review/runnable-checks.txt
     branch: plan/717/719-view-plans
 excluded_files:
   []
