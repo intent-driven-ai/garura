@@ -1,0 +1,82 @@
+---
+# assess-changes output (judgment done). Branch plan/717/993-page-skill-named-lines; issue 993 also carries #994.
+needs_judgment: false
+
+change_groups:
+  - id: page-skill-named-lines
+    issue: 993
+    commit_type: feat
+    scope: enrich-grounding
+    subject: "let the page skill change the named lines of any model page"
+    files:
+      - core/components/skills/enrich-grounding/SKILL.md
+      - core/components/skills/enrich-grounding/scripts/change_lines.py
+      - core/components/skills/enrich-grounding/scripts/test_change_lines.py
+      - core/components/skills/enrich-grounding/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/safe_write.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+      - core/components/agents/product-os-keeper.md
+
+  - id: platform-adapter-edit-issue-title
+    issue: 993
+    commit_type: feat
+    scope: platform-adapter
+    subject: "add the edit-issue-title verb (#994)"
+    files:
+      - core/components/skills/platform-adapter/SKILL.md
+      - core/components/skills/platform-adapter/reference/github/verbs.md
+      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+      - core/components/plays/check-change/scripts/platform_adapter.py
+      - core/components/plays/create-play/references/platform_adapter.py
+      - core/components/plays/create-play/references/test_platform_adapter.py
+      - core/components/plays/merge-change/scripts/platform_adapter.py
+      - core/components/plays/propose-change/scripts/platform_adapter.py
+      - core/components/plays/shape-eval/scripts/platform_adapter.py
+      - core/components/plays/shape-plan/scripts/platform_adapter.py
+      - core/components/plays/shape-slice/scripts/platform_adapter.py
+
+  - id: model-720-730-design
+    issue: 993
+    commit_type: docs
+    scope: product-model
+    subject: "bring capability 720 and feature 730 to the approved #720 design"
+    files:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/capabilities/cap-720/capability.md
+      - .garura/product/product-os/features/fn-730/feature.md
+
+  - id: plan-717-titles
+    issue: 993
+    commit_type: chore
+    scope: plan
+    subject: "update plan 717 with the new titles of #720 and #730 and add #994"
+    files:
+      - .garura/project/plans/717.yaml
+
+  - id: stm-993-record
+    issue: 993
+    commit_type: chore
+    scope: stm
+    subject: "record the design and model-line evidence"
+    files:
+      - .garura/project/issues/993/specs/design.md
+      - .garura/project/issues/993/context/analysis.yaml
+      - .garura/project/issues/993/context/porcelain.txt
+      - .garura/project/issues/993/context/model-lines/lines-report.json
+      - .garura/project/issues/993/context/model-lines/lines-request.json
+      - .garura/project/issues/993/context/model-lines/link-report.json
+      - .garura/project/issues/993/context/model-lines/link-request.json
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "5 groups; 29 scanned files, each in exactly one group; no exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in diff or new files"}

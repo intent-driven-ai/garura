@@ -1,0 +1,74 @@
+{
+  "by": "the #720 design, through #993's change",
+  "source": "the approved design of #720 (the product owner, 2026-10-30), .garura/project/issues/720/specs/design.md",
+  "pages": [
+    {
+      "page": "capabilities/cap-720/capability.md",
+      "changes": [
+        {
+          "old": "# Capability: Manage a plan",
+          "new": "# Capability: Manage a plan with /update-plan"
+        },
+        {
+          "old": "update, edit and delete plans, and keep the plan file and its tracker issues in step. Orchestration only.",
+          "new": "a working session on one plan: a person gives instructions in their own words, the play checks each one against the product model, the rules for GitHub and how an epic holds its work, keeps a running list, and on a plain \"approved\" lands every change at once in the plan file, GitHub and the product model, on the plan's own branch. Orchestration only."
+        },
+        {
+          "old": "- Goal: After any change, the plan file and the tracker agree.",
+          "new": "- Goal: After the person approves, the plan file, GitHub and the product model agree, and nothing beyond the approved list has changed."
+        },
+        {
+          "old": "- Limit: It never cuts or merges a branch and never changes code — that is the implementation plays' work.",
+          "new": "- Limit: Nothing is written before a plain \"approved\". It changes a plan only on the plan's own branch; it cuts a branch only when the plan has none (main's plan file first, then the cut), never merges one, and never changes code."
+        },
+        {
+          "old": "- Fails if: a change lands in the plan file and not in the tracker, or the other way round.",
+          "new": "- Fails if: a write happens before approval; a change lands in one of the three and not the others; a change the person did not approve lands; a plan is changed anywhere but on its own branch."
+        },
+        {
+          "old": "- Checked by: a compare of the plan file with the tracker finds no difference after each change.",
+          "new": "- Checked by: after landing, a compare of the plan file, GitHub and the model finds no difference, and a compare against the approved list finds nothing extra."
+        }
+      ],
+      "lines_before": 10,
+      "lines_after": 10,
+      "lines_kept": 4
+    },
+    {
+      "page": "features/fn-730/feature.md",
+      "changes": [
+        {
+          "old": "# Feature: Update, edit or delete a plan file, and connect it to its issues",
+          "new": "# Feature: The /update-plan session — instructions, checks, one approval, one landing on the plan's branch"
+        },
+        {
+          "old": "add, move, drop or finish a node, or delete a plan — in the plan file and in the tracker (create, re-parent, close) together. Work can go on in the plan file; the sync brings the tracker up to date.",
+          "new": "a person opens a session on one plan with `/update-plan <id>` or a description, gives instructions in their own words, and approves; the play lands the changes in the plan file and GitHub together, on the plan's own branch. Changing an epic's or a story's text is one more instruction (#909 folded in)."
+        },
+        {
+          "old": "- Goal: Any change to a plan reaches both the plan file and the tracker.",
+          "new": "- Goal: Every instruction the person approved reaches the plan file and GitHub, in one landing on the plan's branch, and they agree afterwards."
+        },
+        {
+          "old": "- Limit: Never touches branches or code.",
+          "new": "- Limit: Nothing is written before a plain \"approved\". It never merges a branch and never changes code; it cuts the plan's branch only when the plan has none, with main's plan file set first."
+        },
+        {
+          "old": "- Fails if: the tracker is left behind, or a dropped node stays open.",
+          "new": "- Fails if: a write happens before approval; GitHub is left behind or ahead of the plan file; a dropped item stays open; anything changes that the person did not approve; it switches away from a branch with uncommitted work."
+        },
+        {
+          "old": "- Checked by: a test edits a plan three ways and the compare finds no difference.",
+          "new": "- Checked by: a test session with several instructions (add, move, drop, finish, change a story's text, set Status and Direction), approved once; the compare of the plan file with GitHub finds no difference, and nothing outside the list changed."
+        }
+      ],
+      "lines_before": 10,
+      "lines_after": 10,
+      "lines_kept": 4
+    }
+  ],
+  "changed": [
+    "capabilities/cap-720/capability.md",
+    "features/fn-730/feature.md"
+  ]
+}
