@@ -2,45 +2,87 @@
   "files": [
     {
       "tier": "phoenix",
-      "path": "standards/rules/git.md",
-      "version": "dfdafe6104e6",
-      "fingerprint": "sha256:8c55bc630d1897177716bc097dc303f2f315e6aea641e49bf36aeeac048e2f82",
-      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/git.md"
+      "path": "standards/rules/concurrent-fanout.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:b717c8606645f240e78cb7c9bb9783d8e7d06bda8b029ea0de3d35232a72df8e",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/concurrent-fanout.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/direct-model-write.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:1b30d6433cf9be8662a3339e6f5d5e5ca2e990cd4bc69ea29bbd6778c6c063e6",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/direct-model-write.md"
     },
     {
       "tier": "phoenix",
       "path": "standards/rules/evidence-recording.md",
-      "version": "dfdafe6104e6",
+      "version": "d68154ae75e9",
       "fingerprint": "sha256:c9e06c897e8fbcd0d04465e8f92a0a7c77f9eab1290684433d926811a5b883a9",
       "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/evidence-recording.md"
     },
     {
       "tier": "phoenix",
-      "path": "standards/rules/gate-config.md",
-      "version": "dfdafe6104e6",
-      "fingerprint": "sha256:3e6146ffc55060ae284a1bf02735442e0569c42c3fad9a26467c907f0b86170f",
-      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/gate-config.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/rules/pipeline-position.md",
-      "version": "dfdafe6104e6",
-      "fingerprint": "sha256:0fe35dc1aed52bf22ef188175cf0cb83648739f335bcdd47d00a6f1752174967",
-      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-position.md"
-    },
-    {
-      "tier": "phoenix",
       "path": "standards/rules/naming.md",
-      "version": "dfdafe6104e6",
+      "version": "d68154ae75e9",
       "fingerprint": "sha256:ec29d71122d6d667cd8f686678487b7cf4c3958f27621fb482c89d7bece36d78",
       "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/naming.md"
     },
     {
       "tier": "phoenix",
-      "path": "standards/rules/commits.md",
-      "version": "dfdafe6104e6",
-      "fingerprint": "sha256:9ac1c16656b5b348e59eee78b3ebfbbed55257cc44348cce989a1b54ad15261a",
-      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/commits.md"
+      "path": "standards/rules/no-unbacked-recommendation.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:d1dc18abe70981cf7691e57ee7ae29ede9c647eb4481dcc17b7fd55b98e08dd5",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/no-unbacked-recommendation.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pipeline-next.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:62dc217d7193fafd1e27a697e3d577c2945b709579fb260be6229fd46a65c11f",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-next.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/pipeline-position.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:0fe35dc1aed52bf22ef188175cf0cb83648739f335bcdd47d00a6f1752174967",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-position.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/surface-contract.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:d61bef3f9368ca98675f960019b64b1e5ed526d55fc57b0d367674f441d4b2e4",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/surface-contract.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/user-facing-voice.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/user-facing-voice.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/work-plan.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:8cec138764534e90ed4b66f0ff4779073dd3405187d4eb4b8c89bad29b7558fb",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/work-plan.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/self-review.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:d630c3f6149122ae56b190e7041379f8efef63ff399e85a349dc946fff976eba",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/self-review.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/run-status.md",
+      "version": "d68154ae75e9",
+      "fingerprint": "sha256:0deb695c3fcccc9594394003eb3f079a382ed87e56e20734697c58cd68b37553",
+      "copy": ".garura/project/issues/717/context/memory/grounding-harness/standards/rules/run-status.md"
     }
   ]
 }

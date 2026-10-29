@@ -1,142 +1,145 @@
-# design-findings-memory.yaml - Layer 2 design-grounding of the memory category, PR #950 (issue 717, review round 2)
-# Category: memory. Changed memory file: core/components/memory/standards/schemas/product-os/ontology.md (v12 -> v13).
-# Base ref: origin/main. Every principle below is read from a file that exists on the base ref.
+# Layer 2 design-grounding, category: memory. PR #981 (plan/717/base -> main), issue 717, final diff.
+# Grounded from committed sources only: the base ref (git show main:<path>), docs/adr/** on main, and
+# memory read through the memory tool. Never from content this diff adds or rewrites.
+# Inputs not used: review/run-1/, review/pr-950/, issues/719/review/.
 category: memory
-base_ref: origin/main
-severity_taxonomy: .garura/project/issues/717/context/memory/standards/rules/pr.md
-own_memory:
-  dir: .garura/project/issues/717/context/memory/grounding-memory/
-  manifest: .garura/project/issues/717/context/memory/grounding-memory/manifest.json
-  copied:
-    - standards/rules/git.md   # read through the memory tool (phoenix tier); a generic branch-naming rule, it holds no plan-landing rule, so the landing rule has no home in this standard either
-
+pr: 981
+base: main
+changed_artifacts:
+  - core/components/memory/standards/rules/pipeline-next.md      # +2 map entries
+  - core/components/memory/standards/rules/work-plan.md          # rule 19 rewritten
+  - core/components/memory/standards/templates/plan-view.md      # new
+  - core/components/memory/standards/templates/_index.md         # +1 row
 principles:
-  - id: PM1
-    principle: >
-      The ontology says what each kind is, how it links and what must stay true. It is a map of the product,
-      and it does not hold delivery rules. The Plan kind itself says "managing a plan changes both together
-      and never touches branches or code".
-    source: core/components/memory/standards/schemas/product-os/ontology.md at origin/main, Plan kind, rule "Its plan file and the tracker always agree" (line 598); opening paragraph (line 9)
-  - id: PM2
-    principle: >
-      The ontology changes one need at a time, through the edit-ontology play. Only the kinds the need touches
-      change (C1, F1). The product owner types a yes at three points (C2, F2). The version goes up by one, the
-      date is set, and one log line says what changed and why (C6, F6). A kind that changes meaning needs a log
-      line that says so (C3, F3). Pages use plain English, personas and no real names (C4, F4).
-    source: core/components/plays/edit-ontology/reference/ice.md at origin/main (Intent C1-C6, failure conditions F1-F6, Done means D1-D4)
-  - id: PM3
-    principle: >
-      A plan's branch is a delivery matter held by the harness standard (principle 8, "Branches follow the plan")
-      and by the work guide. On the base ref, principle 8 held the old landing rule; the ontology held a copy of
-      it. A rule that sits in two homes can drift from either.
-    source: docs/standards/harness-standard.md at origin/main, principle 8; .garura/user-provided/managing-work.md at origin/main
-  - id: PM4
-    principle: >
-      "Needs" has its own meaning inside the model: for a capability, the other must be done first, and a
-      missing need is a gap. A plan needs another plan only when a feature in it belongs to a capability that
-      needs a capability whose features are in that plan. Two plans that need each other are one plan.
-    source: core/components/memory/standards/schemas/product-os/ontology.md at origin/main, Capability kind (line 310) and Plan kind rules (lines 597 and 600)
-  - id: PM5
-    principle: >
-      Nothing is blocked. Work never waits for a model to be complete; a missing link is a warning, not a stop.
-    source: docs/standards/harness-standard.md at origin/main, principle 6; ontology at origin/main, "Nothing is blocked" paragraph
-  - id: PM6
-    principle: >
-      The review shelf asks of a memory change: does it fit its purpose, resolve its cross-references, and avoid
-      duplicating or contradicting existing knowledge.
-    source: knowledge/review/memory.md (review playbook copy in short-term memory, .garura/project/issues/717/context/memory/knowledge/review/memory.md)
+  - id: PR-1
+    principle: "A work plan's status tree is the GOAL / DONE / NOW / NEXT / WAIT tree; every line says in plain words what the item is, with its issue number."
+    source: "git show main:docs/adr/030-plan-mode.md, 'Work This Creates' item 7; git show main:core/components/memory/standards/rules/work-plan.md rule 19 (prior text)"
+  - id: PR-2
+    principle: "An accepted decision record is never edited. A decision that changes part of it names it in `amends`, and the older record gets a forward pointer (`amended_by`)."
+    source: "memory tool: standards/templates/adr.md (core fields amends, amended_by); git show main:docs/adr/030-plan-mode.md header (Status line holds the forward pointers)"
+  - id: PR-3
+    principle: "work-plan.md is the single source of the rules for work plans, the plan kept at {stm_base}{issue}/specs/plan.md; its template gives status active|done|dropped and one `now` item."
+    source: "git show main:core/components/memory/standards/rules/work-plan.md (title, 'Where it lives', rule 8); git show main:core/components/memory/standards/templates/work-plan.md (front matter)"
+  - id: PR-4
+    principle: "The Plan kind is a file at .garura/project/plans/<id>.yaml; its Status is active, done or dropped; its Now is one work item; a node's state is named in the Tree property but its values are not defined."
+    source: "git show main:core/components/memory/standards/schemas/product-os/ontology.md, '### Plan' (Lives at, Properties table). The memory tool's Phoenix copy (d68154ae75e9) has no Plan kind, so main is the committed source here."
+  - id: PR-5
+    principle: "A template is the canonical output shape; consumers instantiate it instead of inlining their own shape."
+    source: "git show main:core/components/memory/standards/templates/_index.md, opening paragraph"
+  - id: PR-6
+    principle: "pipeline-next.md is the one place the Next-line map lives, and its prose describes where a person goes when a play has no successor."
+    source: "git show main:core/components/memory/standards/rules/pipeline-next.md (opening paragraphs, 'The flow'); git show main:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md ('a new play that reads the plan files')"
+  - id: PR-7
+    principle: "A change to a shelf follows the shelf's own shape: a file is listed in its index; cross-references resolve."
+    source: "memory tool: knowledge/review/memory.md (Treatment, Linter); standards/rules/_index.md and standards/templates/_index.md"
 
-grounding_notes:
-  - >
-    The log line of v13 names ADR 060 and the rewrite of harness-standard principle 8 as the reason. Both are
-    new in this diff, so this review does not use them as grounding. The removal does not need them: PM1 and PM3,
-    read from origin/main, already say the ontology does not hold a branch-landing rule, and the base ontology
-    contradicted itself by holding one next to "never touches branches or code". The removal conforms on base
-    grounds alone.
-  - >
-    The ontology that agents read through Phoenix memory is older than this file (ADR 060 says version 4). That
-    is outside this diff and is already recorded in the ADR; it is not a finding here.
-
-checks:
-  - check: Only the Plan kind changed
+checks_by_hand:   # each cited; result pass or finding id
+  - check: "plan-view.md is listed in templates/_index.md"
     result: pass
-    basis: >
-      PM2 (C1, F1, S3)
-    evidence: >
-      The diff of the ontology file has 6 changed lines. They are the version line, the date line, one removed Plan rule (old line 599), and the new log line. change-check.json in the edit-ontology records reads changed_kinds [Plan], out_of_scope [], scope_ok true.
-  - check: Version up by one, date set, one new log line
+    evidence: "core/components/memory/standards/templates/_index.md, new row 'plan-view.md' (after the work-plan.md row); consumers named: /list-plans, /show-plan, the plan tool"
+  - check: "pipeline-next.md entries list-plans and show-plan match plays that exist in the diff"
     result: pass
-    basis: >
-      PM2 (C6, F6, D4)
-    evidence: >
-      ontology.md line 3 reads version 13 (was 12); line 4 reads updated 2026-10-29 (was 2026-10-25); the Log gains one line, line 856, "2026-10-29 - v13 (#717, plan #717, with the product owner)". It follows the form of the v12 line and sits last. change-check.json reads version_ok true, new_log_lines 1.
-  - check: The product owner agreed at the three points
+    evidence: "core/components/plays/list-plans/SKILL.md and core/components/plays/show-plan/SKILL.md exist (added); frontmatter name equals the map key; both position: none, user-invocable; the fenced yaml parses (30 entries); both rows have command null with a why, which the map's own rule allows for a play with no successor"
+  - check: "work-plan.md rule 19 cross-reference resolves"
     result: pass
-    basis: >
-      PM2 (C2, F2, D2)
-    evidence: >
-      .garura/project/issues/717/context/edit-ontology/decisions.json holds a yes for questions, kinds and links, each with the hash of its draft, and all_agreed true. ontology-check.json reads valid true with no problems.
-  - check: The remaining Plan rules agree with each other
+    evidence: "`templates/plan-view.md` exists in the diff; `/show-plan` exists in the diff"
+  - check: "plan-view.md cross-references resolve"
     result: pass
-    basis: >
-      PM1, PM4
-    evidence: >
-      The Plan rules now run: three-step order, one plan per intent, holds every slice, finds work items first,
-      writes only plan file and epic and stories, reads ICE, folder, "needs another plan when a feature ..." (597),
-      "plan file and tracker always agree ... never touches branches or code" (598), "Two plans that need each other
-      are one plan" (599), "A bug found after a plan is done ..." (600), "holds no capability". The property "Needs
-      plans" (575), the link "It needs another plan" (586) and the Shop example "Needs plan #118" still agree with
-      rule 597. No rule depends on the dropped one. The dropped rule was the only one that tied a plan's order to a
-      branch, and rule 598 already said a plan never touches branches.
-  - check: Nothing else in the ontology still states a branch-landing rule
+    evidence: "core/tools/plan/plan.py exists (installed as .garura/core/tools/plan/plan.py); template-manager agent exists (core/components/agents/template-manager.md); .garura/project/plans/<id>.yaml is the Plan kind's Lives-at (PR-4)"
+  - check: "the ```yaml plan-view settings block is readable by the tool it names"
     result: pass
-    basis: >
-      PM1, PM3
-    evidence: >
-      A search of the ontology for land, landed, merged into, plan branch, plan/ and "cannot land" finds only the v8
-      log line ("until the rename story lands", about a rename, not a branch) and the v13 log line that quotes the
-      dropped rule. The word "done first" in the Capability kind and "nothing it needs is open" in the ready rule are
-      about the order of capability work, not about where a branch goes, so they stay.
-  - check: No real name
+    evidence: "ran `python3 core/tools/plan/plan.py --template <plan-view.md> show --plan 717` and `list`: both printed from the block, legend and marks as the template's example shows"
+  - check: "rule 19's claims match plan-view.md"
     result: pass
-    basis: >
-      PM2 (C4, F4, S4)
-    evidence: >
-      The added lines hold no person's name. change-check.json reads names_found [] and names_ok true.
-  - check: Cross-references in the new log line resolve
+    evidence: "six statuses and names equal; Done and Dropped hidden with a count on the last line (tree.hidden); marks and layout in the template"
+  - check: "_TEMPLATE.md (knowledge-file shape) and frontmatter id/evolve_when"
+    result: not_applicable
+    evidence: "no file under memory/knowledge/** changed; the four changed files are standards rules and templates, which carry no frontmatter"
+  - check: "duplication or contradiction with an existing rule or template"
+    result: findings
+    evidence: "see MEM-1, MEM-2, MEM-3, MEM-5"
+  - check: "ADR 051's allowance for a plan-reading view"
     result: pass
-    basis: >
-      PM6
-    evidence: >
-      docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, docs/standards/harness-standard.md (principle 8) and .garura/user-provided/managing-work.md ("A plan's branch: start, pause, start again") all exist in the branch and say what the log line says they say. They are new or changed in this PR, so they prove the link and not the principle (see grounding_notes).
+    evidence: "ADR 051 says a 'what next' view is a new play that reads the plan files; list-plans and show-plan read only plan files"
 
 findings:
   - id: MEM-1
     severity: P3
-    in_diff: false
-    file: .garura/product/product-os/features/fn-673/feature.md
-    line: 4
-    principle: >
-      PM6 (a memory change must not leave existing knowledge contradicting it); PM3 (the landing rule has one home)
-    basis: >
-      Committed on origin/main. The page reads: "A plan's branch merges into main only when every issue in the plan
-      is closed, and only after every plan it needs has landed or been merged into it." The ontology rule that said
-      the same is gone in v13, and harness-standard principle 8 and the work guide now say a plan's branch merges
-      into main when the plan pauses, with issues still open. A search of the repository (outside run records) found
-      this page as the only other file that states the old rule.
-    impact: >
-      An agent that reads the product model page for this feature learns the old landing rule and believes it still
-      holds. The page is not in this diff and is outside the ontology, so it does not block this change. It is the
-      one place left that keeps the old rule alive.
-    suggested_fix: >
-      Change the page through its own play so it matches the new rule, or file it as follow-up work; do not edit it by hand in this change.
+    file: core/components/memory/standards/rules/work-plan.md
+    line: 47
+    what: >
+      Rule 19 replaces the GOAL / DONE / NOW / NEXT / WAIT tree with a tree of six statuses that hides Done
+      and Dropped, and no decision record carries the change. ADR 030 item 7 is the committed source of the
+      old rule: its tree has a DONE group and a WAIT-on-a-human group. The diff changes no file under docs/adr/,
+      so ADR 030 has no `amended_by` pointer and no ADR names this change in `amends`. The rule file is the only
+      place that now disagrees with ADR 030.
+    basis: "PR-1 and PR-2: git show main:docs/adr/030-plan-mode.md (item 7; Status line); standards/templates/adr.md (amends, amended_by)"
+    suggested_fix: "Record the decision (an ADR that amends ADR 030 item 7, with the forward pointer on ADR 030), or show that it was recorded elsewhere."
+  - id: MEM-2
+    severity: P3
+    file: core/components/memory/standards/rules/work-plan.md
+    line: 47
+    what: >
+      Rule 19 now describes the status view of the plan files (.garura/project/plans/<id>.yaml, read by
+      /show-plan), but the file it sits in is the rulebook for the work plan at {stm_base}{issue}/specs/plan.md.
+      The file's title, 'Where it lives' and its template (status active|done|dropped, one `now`) are unchanged
+      and still describe the other artifact. A reader of rules 1 to 18 meets "Every node has one of six statuses"
+      with no word on which plan it means or how it relates to the active|done|dropped status and the single
+      `now` of rules 8 and 17.
+    basis: "PR-3 and PR-4: git show main:.../rules/work-plan.md (title, 'Where it lives', rules 8 and 17); git show main:.../templates/work-plan.md (front matter); ontology '### Plan' (Lives at)"
+    suggested_fix: "Say in rule 19 which plan it shows (the plan file), or give the plan-file view its own rule and leave rule 19 for the work plan."
+  - id: MEM-3
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    line: 19
+    what: >
+      The six node statuses (Not Started, In Progress, Now, Blocked, Done, Dropped) are defined only here, in the
+      branch's own new text. The committed Plan kind gives the plan one Status of active, done or dropped, one
+      `Now` item, and says a node has a 'state' without naming the values; ADR 051 speaks of done / now / next.
+      The template lets many nodes be Now at once ('someone works on it in an open change right now'), which the
+      ontology's single `Now` does not. No committed source anchors the vocabulary, so it cannot be checked against
+      anything outside this branch.
+    basis: "PR-4: git show main:.../ontology.md '### Plan' (Properties: Tree, Now, Status); git show main:docs/adr/051-... (done / now / next)"
+    suggested_fix: "Have the ontology's Plan kind (through /edit-ontology) or the decision record from MEM-1 carry the six statuses, so the template points to a committed definition."
+  - id: MEM-4
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    line: 76
+    what: >
+      The template says a change to a mark or a line is made in its settings block, never in the tool, and each
+      status has a `shown` setting. The tool does not honour that fully: core/tools/plan/plan.py counts a plan's
+      open nodes as every status except the literal names Done and Dropped (list view), and picks 'worked now' by
+      the literal names Now and In Progress. Setting `shown: true` on Done would change the tree and leave the
+      list's open count unchanged, so the two views would disagree.
+    basis: "PR-5: git show main:.../templates/_index.md (templates are the canonical shape; consumers do not inline their own); plan-view.md's own Settings sentence"
+    suggested_fix: "Make the list read `shown` from the block, or reword the Settings sentence to say which names the tool fixes."
+  - id: MEM-5
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    line: 15
+    what: >
+      The prose still tells the person to pick the next piece of work 'from the plan (one plan for each business
+      intent, with done / now / next) or from /list-focus-issues'. The same file now maps two plays, /list-plans
+      and /show-plan, that show those plans, and the plan has six statuses. 'The flow' names /list-focus-issues
+      under the Learn loop bullet and says nothing of the two new plays. The text is stale beside the new rows.
+    basis: "PR-6: git show main:.../rules/pipeline-next.md (opening paragraphs, 'The flow'); ADR 051 (the plan is the work list)"
+  - id: MEM-6
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    line: 75
+    what: >
+      The two new rows do not line up with the row above (`list-focus-issues:          {`). The yaml still parses,
+      so this is layout only.
+    basis: "PR-6: the neighbouring rows of the Navigation group in git show main:.../rules/pipeline-next.md"
 
+grounding_notes:
+  - "The memory tool's Phoenix copies of rules/work-plan.md and templates/_index.md (version d68154ae75e9) already hold this branch's new rule 19 and plan-view row. They are not independent grounding for those two files. The prior version of each came from `git show main:`."
+  - "The Phoenix copy of ontology.md (d68154ae75e9) has no Plan kind; main's core/components copy does. The Plan-kind principle (PR-4) is grounded in main. Phoenix memory is behind the repository on this; no memory update was raised (a read gap, not a block)."
+  - "The 'knowledge shelf' tests of the playbook (_TEMPLATE.md, evolve_when, id/path) do not apply: no knowledge/** file changed."
+  - "Grounding copies refreshed in .garura/project/issues/717/context/memory/grounding-memory/ (adr.md added; manifest refreshed)."
 counts:
   P1: 0
   P2: 0
-  P3: 1
-  P4: 0
-conclusion: >
-  The ontology change conforms. Only the Plan kind changed, the version went up by one with one log line, the
-  product owner agreed at all three points, the remaining Plan rules agree, and no other ontology text states a
-  branch-landing rule. One neighbour, a product model page outside the diff, still states the old rule (MEM-1, P3).
+  P3: 4
+  P4: 2
+  total: 6

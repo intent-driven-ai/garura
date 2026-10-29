@@ -1,0 +1,83 @@
+{
+  "updated": [
+    {
+      "id": "bi-717",
+      "doc": "intents/bi-717.md",
+      "kind": "intent",
+      "changed_lines": [
+        {
+          "old": "**Asked by:** the product owner",
+          "new": "**Asked by:** the product owner"
+        },
+        {
+          "old": "**Stage:** confirmed — by the product owner, 2026-10-21",
+          "new": "**Stage:** confirmed — by the product owner, 2026-10-21"
+        }
+      ],
+      "changed_line_numbers": [
+        7,
+        15
+      ],
+      "added_sections": [],
+      "renamed": [],
+      "kept_lines": 14,
+      "total_lines": 16
+    },
+    {
+      "id": "bi-722",
+      "doc": "intents/bi-722.md",
+      "kind": "intent",
+      "changed_lines": [
+        {
+          "old": "Rule from here on (the product owner, 2026-10-21): nothing is blocked.",
+          "new": "Rule from here on (the product owner, 2026-10-21): nothing is blocked."
+        },
+        {
+          "old": "**Asked by:** the product owner",
+          "new": "**Asked by:** the product owner"
+        },
+        {
+          "old": "**Stage:** confirmed — by the product owner, 2026-10-21",
+          "new": "**Stage:** confirmed — by the product owner, 2026-10-21"
+        }
+      ],
+      "changed_line_numbers": [
+        5,
+        7,
+        17
+      ],
+      "added_sections": [],
+      "renamed": [],
+      "kept_lines": 15,
+      "total_lines": 18
+    },
+    {
+      "id": "bi-734",
+      "doc": "intents/bi-734.md",
+      "kind": "intent",
+      "changed_lines": [
+        {
+          "old": "**Asked by:** the product owner",
+          "new": "**Asked by:** the product owner"
+        },
+        {
+          "old": "**Stage:** confirmed — by the product owner, 2026-10-22",
+          "new": "**Stage:** confirmed — by the product owner, 2026-10-22"
+        }
+      ],
+      "changed_line_numbers": [
+        7,
+        17
+      ],
+      "added_sections": [],
+      "renamed": [],
+      "kept_lines": 16,
+      "total_lines": 18
+    }
+  ],
+  "new_features": [],
+  "thin": [],
+  "fixed": [],
+  "not_mine": [],
+  "refused": []
+}

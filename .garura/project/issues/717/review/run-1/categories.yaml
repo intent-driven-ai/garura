@@ -1,0 +1,220 @@
+# Work categories present in PR #981 (plan/717/base -> main), issue 717.
+# Derived from the diff content (157 changed files). Treatments are taken from the playbook copies in
+# .garura/project/issues/717/context/memory/knowledge/review/ (refreshed this run, version d68154ae75e9).
+# Pre-existing bound: this PR carries PR #980 (the #719 change) merged in, plus run records and plan-file updates.
+pr: 981
+issue: 717
+base: main
+shelf_copy: .garura/project/issues/717/context/memory/knowledge/review/
+severity_taxonomy_copy: .garura/project/issues/717/context/memory/standards/rules/pr.md
+next_map: .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md   # for lint_play.py --next-map
+categories:
+
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/list-plans/SKILL.md            # new play (view plans)
+      - core/components/plays/list-plans/reference/ice.md
+      - core/components/plays/list-plans/stop-condition.yaml
+      - core/components/plays/show-plan/SKILL.md             # new play (view one plan)
+      - core/components/plays/show-plan/reference/ice.md
+      - core/components/plays/show-plan/stop-condition.yaml
+      - core/components/skills/link-model-part/SKILL.md      # new skill
+      - core/components/skills/enrich-grounding/SKILL.md     # changed skill description and modes
+      - core/components/agents/product-os-keeper.md          # changed agent (now also links parts found during work, #979)
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          note: only a violation whose file is in the changed paths is a finding; count the rest as "there before". Run from the repo root.
+        - name: lint-play (per changed play)
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/<play>/SKILL.md --next-map .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
+          for_each_play: [list-plans, show-plan]
+      runnable_checks:
+        - "Both new plays: lint_play.py (every C-/F-/S- has an eval, one recovery per failure, required sections, intent fingerprint, no orphan reference)."
+        - "ICE-source rule applies (this repo holds the plays' source): list-plans and show-plan carry reference/ice.md; confirm SKILL.md traces to it (no hand-edited intent)."
+        - "Skill/agent shape through lint-components; installed-paths/source-path rule on the new skill and the changed agent."
+        - "By hand: the changed agent and skill descriptions name only installed parts (no core/components, docs/ paths)."
+      design_grounding: >
+        Layer 2 from committed sources only: docs/philosophy/**, docs/adr/**, the glossary, and standards/rules read
+        through the memory tool (user-facing-voice, play-close, evidence-recording, naming, pipeline-next, surface-contract).
+        Never ground from the SKILL.md/ice.md the branch adds. docs/standards/harness-standard.md (base ref) for naming and
+        installed-path principles. Note: .garura/project/issues/719/specs/design.md is the branch's own design, not grounding.
+
+  - name: memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/rules/pipeline-next.md   # two new map rows (list-plans, show-plan)
+      - core/components/memory/standards/rules/work-plan.md       # rule 19 rewritten: six statuses, tree view
+      - core/components/memory/standards/templates/_index.md      # new index row
+      - core/components/memory/standards/templates/plan-view.md   # new template (marks and layout, settings block)
+      - .garura/product/product-os/_spine.yaml                    # product model: Garura memory tier (product), per .claude/rules/garura-memory.md
+      - .garura/product/product-os/intents/bi-717.md
+      - .garura/product/product-os/intents/bi-722.md
+      - .garura/product/product-os/intents/bi-734.md
+      - .garura/product/product-os/capabilities/cap-739/capability.md
+      - .garura/product/product-os/features/fn-628/feature.md
+      - .garura/product/product-os/features/fn-729/feature.md
+      - .garura/product/product-os/features/fn-731/feature.md
+      - .garura/product/product-os/features/fn-746/feature.md
+      - .garura/product/product-os/features/fn-806/feature.md     # new feature page
+    notes:
+      - "The memory playbook's signals name core/components/memory/**. The product-model pages are knowledge the agents read and are the second folder of Garura memory (garura-memory.md), so they are reviewed here by the same playbook; no separate playbook exists for them (gap noted below)."
+      - "The six-status vocabulary and the plan-view template are introduced by this branch; the grounder must ground the status change in the base-ref work-plan.md (git show main:...) and ADR 030, not in the new rule 19 text."
+    treatment:
+      reviewer: human (the design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: memory integrity (GAP - no installed tool)
+          command: null
+          note: playbook says the reviewer does these by reading and cites each check.
+      runnable_checks:
+        - "By hand, cite each: changed template/rule follows standards/templates/_TEMPLATE shape; templates/_index.md row exists for plan-view.md; cross-references resolve (rules/work-plan.md -> templates/plan-view.md; plan-view.md settings block is the one plan.py reads)."
+        - "By hand: pipeline-next.md rows for list-plans and show-plan are valid against the map's own format (command null + why); the play linter reads this map."
+        - "By hand: _spine.yaml entries for fn-628, fn-729, fn-806 resolve to a page (doc:) that exists, and the intents/capability named exist; ontology fields present (against standards/schemas/product-os, read through the memory tool)."
+        - "By hand: the model pages name personas, not real people (model-pages rule); the bi-717/722/734 and cap-739 edits are the persona rewrite."
+      design_grounding: >
+        Layer 2 from knowledge/_DESIGN.md, _index.md, _TEMPLATE.md, standards/schemas/product-os/ontology.md and grounding/*,
+        standards/rules/work-plan.md and pipeline-next.md on the base ref - never from the plan-view.md the branch adds.
+
+  - name: executable_code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/tools/plan/plan.py                                        # new tool (list/show/graph; calls git)
+      - core/components/plays/list-plans/scripts/{check_list,check_stop_condition,preflight,resolve_args,session_stamp}.py
+      - core/components/plays/show-plan/scripts/{check_stop_condition,check_tree,preflight,resolve_args,session_stamp}.py
+      - core/components/skills/link-model-part/scripts/{link_part,model_names,safe_write,spine_text}.py   # new: writes the product model
+      - core/components/plays/shape-slice/scripts/safe_write.py        # changed: atomic write now keeps file mode
+      - core/components/plays/shape-plan/scripts/write_plan_file.py    # changed: status words
+      - core/components/plays/install-garura/scripts/install.py        # changed: scope sets for the new parts
+    treatment:
+      reviewer: the tool, against industry best practice
+      layers: [1]
+      linters:
+        - name: ruff (language linter; no repo ruff config, defaults)
+          command: ruff check <the changed .py files above>
+          note: ruff is installed at ~/.local/bin/ruff; record "did not run" if absent.
+        - name: check-pr-quality (pr.md taxonomy, SEC/CODE/ARCH/BE/PERF/DATA rows)
+          command: python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy .garura/project/issues/717/context/memory/standards/rules/pr.md --diff .garura/project/issues/717/review/pr.diff --paths <working>/changed-paths.txt --out <working>/quality-findings.yaml
+      runnable_checks:
+        - "Review data-safety and idempotency paths hard: safe_write.py (both copies), link_part.py (writes _spine.yaml and pages), write_plan_file.py, install.py, plan.py graph (shells out to git; no git on the machine)."
+        - "By hand: no stray debug output, no secrets, error handling on file and git failures, deterministic where claimed (view twice = same)."
+      design_grounding: "none (industry best practice plus the taxonomy)"
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/tools/plan/test_plan.py                                            # new
+      - core/components/skills/link-model-part/scripts/test_link_part.py        # new
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py   # changed (+11)
+      - core/components/plays/install-garura/scripts/test_install.py            # changed (plan tool laid)
+    treatment:
+      reviewer: the tool
+      layers: [1]
+      linters:
+        - name: ruff on the test files
+          command: ruff check core/tools/plan/test_plan.py core/components/skills/link-model-part/scripts/test_link_part.py core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py core/components/plays/install-garura/scripts/test_install.py
+        - name: check-pr-quality (pr.md TEST-* rows)
+          command: same scan_taxonomy.py run as executable_code
+      runnable_checks:
+        - "RUN the suites; a red suite is a blocker. Run each from the repo root:"
+        - "python3 -m unittest discover -s core/tools/plan -p 'test_plan.py'"
+        - "python3 -m unittest discover -s core/components/skills/link-model-part/scripts -p 'test_link_part.py'"
+        - "python3 -m unittest discover -s core/components/plays/shape-slice/scripts -p 'test_shape_slice_scripts.py'"
+        - "python3 -m unittest discover -s core/components/plays/install-garura/scripts -p 'test_install.py'"
+        - "Say explicitly when a suite was not run; 'not run' is never 'passed'. test_plan.py has a RepoPlansTest that reads the live plan files and skips when absent - record a skip as a skip."
+        - "By hand: no skipped/disabled tests, no assert-nothing tests."
+      design_grounding: none
+
+  - name: docs
+    playbook: review/docs
+    design_bearing: false
+    evidence:
+      - core/tools/plan/README.md      # new tool README, human-facing prose
+    treatment:
+      reviewer: the tool
+      layers: [1]
+      linters:
+        - name: prose checks (GAP - no committed prose linter)
+          command: null
+          note: the tool performs them directly and cites each - spelling, grammar, dead links, heading hierarchy, leftover TODOs, terminology.
+      runnable_checks:
+        - "By hand: every command and path the README names resolves (plan.py list/show/graph, templates/plan-view.md, the ```yaml plan-view block); the three subcommands match plan.py's argparse."
+        - "By hand: the 'later users' issue numbers (#730, #896) are as the README says (read only)."
+      design_grounding: none
+
+  - name: config_maps
+    playbook: review/config-maps
+    design_bearing: false
+    evidence:
+      - .garura/install-manifest.json   # lists installed skills/plays/tools by path; counts changed (skills 26->27, plays 17->19), new tool .garura/core/tools/plan
+    treatment:
+      reviewer: human, by name (reads the named changes directly)
+      layers: [1]
+      linters:
+        - name: path-existence check (GAP - no committed config-map linter)
+          command: null
+          note: the tool resolves each path the manifest lists and reports any that miss.
+      runnable_checks:
+        - "Resolve every path added or changed: .claude/skills/link-model-part, .claude/skills/list-plans, .claude/skills/show-plan, .garura/core/tools/plan; report any that does not exist in the working tree."
+        - "By hand: counts match the lists (skills 27, plays 19, agents 10); entries added in `kinds` for each new part."
+      design_grounding: none
+
+  - name: plan_files
+    playbook: null
+    playbook_missing: true
+    note: "playbook missing - no review/ playbook covers the plan files (tracking records the plays and people keep). Follow-up: write review/plans. Treated here by the nearest objective checks only; no design-grounding of their own."
+    design_bearing: false
+    evidence:
+      - .garura/project/plans/606.yaml
+      - .garura/project/plans/717.yaml
+      - .garura/project/plans/722.yaml
+      - .garura/project/plans/734.yaml
+      - .garura/project/plans/756.yaml
+      - .garura/project/plans/767.yaml
+      - .garura/project/plans/788.yaml
+    treatment:
+      reviewer: the tool
+      layers: [1]
+      linters: []
+      runnable_checks:
+        - "RUN the plan tool over the plans; it refuses any node whose status is outside the six words (exit 2): python3 core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md --plans-dir .garura/project/plans   (expect exit 0)"
+        - "Per file: python3 core/tools/plan/plan.py show --template core/components/memory/standards/templates/plan-view.md --plans-dir .garura/project/plans --plan <id> for 606 717 722 734 756 767 788 (expect exit 0)."
+        - "By hand: every changed plan file parses as YAML; the header comment status list matches the six words; no node was dropped or its issue number changed (diff is status words and node updates only)."
+      design_grounding: none (the six-status vocabulary is grounded under the memory category)
+
+  - name: run_records
+    playbook: null
+    playbook_missing: true
+    note: "playbook missing - no review/ playbook covers the run records of earlier plays (issue short-term memory and evidence). Follow-up: write review/run-records. Not review subjects of design; checked for well-formedness and leaks only."
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/717/context/{check-self-review-exit.txt,pr-body.md,pr.json,resolved-rules.json,self-review.md,target.json}
+      - .garura/project/issues/719/context/** (analysis, branch, commits, grouping notes, issue-edits, model-update, plan, pr, self-review, target, templates, work-description)
+      - .garura/project/issues/719/context/memory/** (copies of memory files and manifests the #719 review made)
+      - .garura/project/issues/719/review/** (earlier review records: categories, findings, decision, run-1, lint output, pr.diff)
+      - .garura/project/issues/719/specs/design.md   # the #719 design doc: the branch's own, never grounding for this review
+    treatment:
+      reviewer: the tool
+      layers: [1]
+      linters: []
+      runnable_checks:
+        - "Every changed .json parses (python3 -c 'import json,sys; json.load(open(sys.argv[1]))') and every changed .yaml parses."
+        - "By hand: no secrets, tokens, real names of people or client data in the records (record text only)."
+        - "Do not read these as input for design or findings (the records are earlier output, not committed design)."
+      design_grounding: none
+
+design_bearing_categories: [harness, memory]
+non_design_bearing: [executable_code, tests, docs, config_maps, plan_files, run_records]
+playbook_missing:
+  - {category: plan_files, follow_up: "write review/plans playbook"}
+  - {category: run_records, follow_up: "write review/run-records playbook"}
+  - {category: product_model_pages, follow_up: "memory playbook signals do not name .garura/product/product-os/**; covered under memory by the garura-memory.md tier rule, a signal to add"}
+notes:
+  - "Memory copies were refreshed: all 8 review playbooks and standards/rules/pr.md copied from Phoenix memory, version d68154ae75e9 (older copies were dfdafe6104e6)."

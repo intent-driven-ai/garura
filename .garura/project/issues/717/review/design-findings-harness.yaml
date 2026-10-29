@@ -1,197 +1,138 @@
-# design-findings-harness.yaml — Layer 2 design-grounding, round 2, category 'harness' (PR 950, issue 717)
-# Plays checked: start-change, propose-change, merge-change (SKILL.md, reference/ice.md, stop-condition.yaml,
-# scripts), the stamped scripts in create-play/references, and the shared-scripts rule.
-# Every principle comes from a source on origin/main or from the memory-tool copies in the grounding folder;
-# none comes from text this branch adds. ADR 060 is in this diff, so it is not a grounding source.
-# Severity comes from the PR severity taxonomy copy at
-# .garura/project/issues/717/context/memory/standards/rules/pr.md (P1 blocker, P2 major, P3 minor, P4 nit).
+# Layer 2 design-grounding, category: harness. PR #981 (plan/717/base -> main), issue 717.
+# Grounded only from committed sources: the base ref (git show main:<path>), docs/standards,
+# docs/adr (main), and standards/rules read through the memory tool (Phoenix, version d68154ae75e9;
+# copies in .garura/project/issues/717/context/memory/grounding-harness/, manifest beside them).
+# Nothing here is grounded in text this diff adds or rewrites. The branch's own 719/specs/design.md
+# was not used.
 category: harness
-round: 2
-base: origin/main
-base_sha: c5b5982adf9f9a793408abde3e0433f4ae51301f
-decision_in_scope: >
-  The product owner accepted ADR 060: a plan's branch lands on main when the plan pauses, even with issues
-  still open, and a new plan branch is cut when the plan starts again. That rule is the change's intent and is
-  not counted as a defect anywhere below.
+pr: 981
+base: main
+changed_harness_files:
+  - core/components/plays/list-plans/ (SKILL.md, reference/ice.md, stop-condition.yaml)
+  - core/components/plays/show-plan/ (SKILL.md, reference/ice.md, stop-condition.yaml)
+  - core/components/skills/link-model-part/SKILL.md
+  - core/components/skills/enrich-grounding/SKILL.md
+  - core/components/agents/product-os-keeper.md
 
-grounding:
-  memory_dir: .garura/project/issues/717/context/memory/grounding-harness/
-  manifest: .garura/project/issues/717/context/memory/grounding-harness/manifest.json
-  manifest_check: "all six copies (git, pipeline-position, evidence-recording, gate-config, naming, commits) match their recorded fingerprints"
-  principles:
-    - id: G1
-      principle: "Mechanical work is a script, judgment is a model (harness standard, principle 3)."
-      source: "docs/standards/harness-standard.md at origin/main, section 3"
-    - id: G2
-      principle: "Every part is built from its intent; the compiled part matches its ICE and carries its fingerprint (principle 4)."
-      source: "docs/standards/harness-standard.md at origin/main, section 4; CLAUDE.md at origin/main, 'Play Pipeline Rules'"
-    - id: G3
-      principle: "Build the eval first: a check exists for each promised path and it can fail for the right reason (principle 5)."
-      source: "docs/standards/harness-standard.md at origin/main, section 5"
-    - id: G4
-      principle: "A change to the harness standard is a decision: it goes through record-decision as an ADR."
-      source: "docs/standards/harness-standard.md at origin/main, 'How the standard is kept'"
-    - id: G5
-      principle: "Installed parts read, run and name only installed files; notes of origin are deleted."
-      source: "docs/standards/harness-standard.md at origin/main, section 11; CLAUDE.md at origin/main, 'Source of Truth'"
-    - id: G6
-      principle: "Shared scaffolding is one common file the plays point to, emitted by the compiler and linted."
-      source: "CLAUDE.md at origin/main, 'Durability rule for non-intent edits'; core/tools/lint-components/lib/rules/shared-scripts.js at origin/main"
-    - id: G7
-      principle: "The end plays find their issue from the branch; a start play cuts the branch."
-      source: "standards/rules/pipeline-position.md (memory copy in the grounding folder)"
-    - id: G9
-      principle: "A play matches its compiled shape: each constraint, failure and scenario has an eval, one recovery per failure."
-      source: "review playbook review/harness (short-term copy .garura/project/issues/717/context/memory/knowledge/review/harness.md); core/components/plays/_shared/play-close.md at origin/main"
-  gaps: []
-
-round1_status:
-  H1:
-    status: fixed
-    evidence: >
-      core/components/plays/merge-change/scripts/preflight.py:120-127 now reads plan/<id>/base as issue <id>
-      (the same rule as resolve_target.py:39-41). I ran both scripts on plan/717/base: preflight gives issue 717,
-      resolve_target gives kind plan, issue 717, base main. Branch plan/717/731-x gives 731 in both. All 27
-      preflight.py copies and the create-play reference copy have one checksum. The tests in
-      core/components/plays/create-play/references/test_resolve_plan.py:62 pass.
-  H2:
-    status: fixed
-    evidence: >
-      docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md records the decision, what it
-      amends and why no older ADR held the rule; docs/adr/_index.md:68 lists it. (ADR 060 is read as the record
-      the standard asked for, not as grounding.)
-  H3:
-    status: fixed
-    evidence: >
-      merge-change SKILL.md:4 and :10-13 and propose-change SKILL.md:10-14 now name where the branch lands.
-      propose-change SKILL.md:142 reads base = target.json.base. The pre-flight row at propose-change
-      SKILL.md:57 says "a change's branch (not main)". Fingerprints in the three SKILL.md files equal the
-      sha256 of their ice.md (start 98bd008d, propose 6ade767e, merge c018f453). One leftover of the same kind
-      remains in start-change (see N1) and in the merge-change evals (see N2).
-  H4:
-    status: fixed
-    evidence: >
-      core/components/plays/start-change/scripts/setup_branch.py:109-113 (the resume branch) records the plan
-      branch tip as base_sha; test_setup_branch.py:77 passes. The create-play reference copy is identical.
-  H5:
-    status: fixed
-    evidence: core/components/plays/create-play/SKILL.md:257-260 now names resolve_plan.py and resolve_target.py.
-  H6:
-    status: fixed
-    evidence: >
-      core/tools/lint-components/lib/rules/shared-scripts.js:10-12 now holds preflight.py, resolve_plan.py,
-      resolve_target.py, setup_branch.py, submit_pr.py and merge_pr.py byte-identical to the create-play copy.
-      lint-components over core/components reports the same 36 errors and 1 warning as before; none is in a
-      changed play file and none is a drift error.
-  H7:
-    status: fixed
-    evidence: >
-      core/components/plays/propose-change/reference/ice.md:90 adds scenario S6 (a plan's own branch);
-      propose-change SKILL.md:225-228 adds eval SCE-6 (kind plan, base main, PR body names the plan,
-      on_target true). lint_play.py passes the play.
-  H8:
-    status: fixed
-    evidence: >
-      core/components/plays/propose-change/scripts/submit_pr.py:88-91 now passes --base to the PR edit, so the
-      wrong-base recovery runs by itself; line 107 writes on_target; stop-condition.yaml D3 reads on_target.
-  H9:
-    status: fixed
-    evidence: >
-      core/components/plays/merge-change/scripts/merge_pr.py:183-186 (already-merged path) closes the landed
-      issue when the PR base equals the target; test_merge_plan.py:112 covers it and passes.
-  H10:
-    status: fixed_with_new_risk
-    evidence: >
-      core/components/plays/start-change/scripts/setup_branch.py:80-85 deletes a local plan branch when origin has
-      none, so a restarted plan gets a fresh cut; test_setup_branch.py:87 passes. The fix brings a new risk, N3.
-  H11_to_H15:
-    status: filed_as_951
-    note: "Filed as #951; no fix needed in this change. Not counted below."
+principles:
+  - id: P-a
+    text: "Plays orchestrate, agents gather context, skills do the work; a play owns the order of steps."
+    source: "main:docs/standards/harness-standard.md, principle 2 (ADR 001, 005, 016)"
+  - id: P-b
+    text: "Mechanical work is a script, judgment is a model."
+    source: "main:docs/standards/harness-standard.md, principle 3"
+  - id: P-c
+    text: "Every part is built from its ICE; a change to what a part guarantees is made in the ICE and the part recompiled; the compiled part records the ICE fingerprint."
+    source: "main:docs/standards/harness-standard.md, principle 4 (ADR 027); Phoenix harness playbook (ICE-source rule)"
+  - id: P-d
+    text: "Installed parts name only installed files; a pointer to a file the install does not copy is a background pointer and is deleted; a note of origin is deleted."
+    source: "main:docs/standards/harness-standard.md, principle 11 (ADR 055)"
+  - id: P-e
+    text: "One name, one meaning; verb first; plan plays use draft, show, update, list."
+    source: "Phoenix standards/rules/naming.md (rules 1-5, 'By kind')"
+  - id: P-f
+    text: "Direct model write: the LLM writes only per-node grounding docs; every shared file (the spine, the profile, decisions) is written by a keyed script; containment is a scoped-write guard after the writes; clean tree in, committed delta out."
+    source: "Phoenix standards/rules/direct-model-write.md (steps 3, 4, 7); main:docs/adr/026-direct-to-model-writes.md"
+  - id: P-g
+    text: "The writers of shared model files are a closed, declared list: each play's keyed persist script, and inside a drive close-model-gaps' apply_links.py (spine, and the Touches list on intent pages). ADR 044 'records that exception; it does not widen it'. Intent pages are shared files: base enrich-grounding Rules and base product-os-keeper 'Never' list both forbid a skill writing one."
+    source: "main:docs/adr/026-direct-to-model-writes.md (Status line, amended by ADR 043 and 044); main:docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md (lines 7-10, 42); main:core/components/skills/enrich-grounding/SKILL.md (Rules); main:core/components/agents/product-os-keeper.md ('Never' list)"
+  - id: P-h
+    text: "A change to the harness standard is a decision: it goes through /record-decision as an ADR, and the rule files change with it."
+    source: "main:docs/standards/harness-standard.md ('How the standard is kept')"
+  - id: P-i
+    text: "A fan-out of model writes is allowed only with each sub-task's write scope declared and script-checked distinct before dispatch, shared-file changes made by one keyed persist after the join, and the scoped-write guard run after the join. The fan-out is declared by the play."
+    source: "Phoenix standards/rules/concurrent-fanout.md (scoped-write fan-out, conditions 1, 2, 5; 'Declaring it in a play')"
+  - id: P-j
+    text: "Evidence is recorded only by a play, through the Standard Play Close, gated on evidence.record (global plus per-play); agents and skills never write evidence."
+    source: "Phoenix standards/rules/evidence-recording.md; main:core/components/plays/_shared/play-close.md"
+  - id: P-k
+    text: "Every user-invocable play is in the Next-line map or meta_exempt; a play with no successor has command null."
+    source: "Phoenix standards/rules/pipeline-next.md"
+  - id: P-l
+    text: "A play declares position start|end|both|none; a none play runs on whatever branch is already started."
+    source: "Phoenix standards/rules/pipeline-position.md ('The declaration')"
 
 findings:
-  - id: N1
+  - id: H-01
+    severity: P2
+    file: core/components/skills/enrich-grounding/SKILL.md
+    what: >
+      The skill now writes on intent pages (`kind: intent`, step 5, the Rules line "On an intent
+      page, change only the lines the request names"). On main the same Rules line says "Never
+      write ... an intent page". An intent page is a shared model file: the committed design
+      reserves it to the keyed script (the Touches list) and keeps its words with the person.
+      This moves an LLM write onto a shared file, and the found-work path that carries it has no
+      play, so nothing runs the scoped-write guard or the clean-tree and commit steps around it.
+      The request text ("each line to change with its new words") is the only containment.
+    basis: "P-f and P-g: direct-model-write.md step 3 (the LLM writes only per-node docs, never a shared file) and step 4 (guard after the writes); ADR 044 line 42 (the shared files are the spine and the Touches list on intent pages); main enrich-grounding Rules and main product-os-keeper 'Never' list (both forbid a skill writing an intent page)."
+    suggested_direction: "Record the decision as an ADR amendment (P-h) and put the intent-page edit behind a keyed script with a scope check, or keep the intent-page line change out of this skill."
+
+  - id: H-02
+    severity: P2
+    file: core/components/agents/product-os-keeper.md
+    what: >
+      The "Never" bullet "Write a shared model file yourself (the spine, the profile, an intent
+      page)" is replaced by "Change the product model by hand. You may change any part of it ...
+      but only through a skill (the product owner, 2026-10-29)". Two things move together: the
+      list of spine writers gains a third (link-model-part's script, for a part found during
+      work), and the bullet that forbids now also permits and cites a dated statement as its
+      authority. The writer list in ADR 026 / 043 / 044 is closed, and each earlier widening came
+      with an ADR amendment; no ADR in this change or on main mentions link-model-part or the
+      found-work path. The rewritten rule also disagrees with direct-model-write.md, which this
+      change does not touch. A rule inside a "never" list that reads as permission is
+      unclear for the agent that follows it.
+    basis: "P-g and P-h: ADR 026 Status line (shared-file writers named, widened only by ADR 031/032/043/044); ADR 044 line 9 ('it does not widen it'); harness-standard 'How the standard is kept' (a change to the standard is a decision); Phoenix direct-model-write.md step 3."
+    suggested_direction: "Record the found-work decision as an ADR (amend ADR 026), bring direct-model-write.md in line, and state the rule in the bullet as a plain 'Never ...' with the exception named, as the loop exception already is."
+
+  - id: H-03
     severity: P3
-    file: core/components/plays/start-change/SKILL.md
-    line: 4
-    principle: G2
-    basis: "docs/standards/harness-standard.md at origin/main, section 4 (the compiled part matches its intent); CLAUDE.md at origin/main, 'Play Pipeline Rules' (the compiled file follows the ICE)"
+    file: core/components/agents/product-os-keeper.md
     what: >
-      The frontmatter description still says the play cuts "a feature branch off up-to-date main". The ICE
-      intent (reference/ice.md:11-13) and the lead of the same file (lines 10-14) now say an issue in a plan gets
-      a sub-branch of its plan's branch. The description of the other two plays was updated in the same change.
-    impact: >
-      The description is what the skill list shows a person who picks the start play. It tells them the old
-      branch model, so they may expect a feature branch for an issue that sits in a plan.
+      The new routing row and the description ("any play or run that finds a part the model lacks")
+      give the keeper an order of work and a fan-out: "one run per part, in parallel when there are
+      several (each writes only its own page); one link-model-part run for all of them after they
+      join". That order belongs to a play, and no play owns it ("No discovery play run"). The
+      committed keeper description lists callers that are plays. The scoped-write fan-out needs
+      write scopes declared and checked distinct before dispatch and the guard run after the join;
+      the row names neither.
+    basis: "P-a: harness-standard principle 2 (a play owns the order of steps; ADR 001, 005, 016); P-i: concurrent-fanout.md scoped-write conditions 1 and 5 and 'Declaring it in a play'; main product-os-keeper description ('Used by the strategic plays ... /shape-slice, /shape-plan, /edit-ontology')."
+    suggested_direction: "Name the play (or loop) that dispatches this path and carries the scopes and the guard, or have the row say one skill per dispatch and leave the order to the caller."
 
-  - id: N2
-    severity: P4
-    file: core/components/plays/merge-change/SKILL.md
-    line: 172
-    also_in:
-      - core/components/plays/merge-change/SKILL.md:155
-      - core/components/plays/merge-change/SKILL.md:186
-      - core/components/plays/merge-change/SKILL.md:200
-      - core/components/plays/merge-change/SKILL.md:209
-    principle: G9
-    basis: "review playbook review/harness (an eval must be able to fail for the right reason); docs/standards/harness-standard.md at origin/main, section 5"
-    what: >
-      Step 3 and the evals SE-6, SCE-1 and SCE-4 still say the run records are committed "on main" and that
-      "main is level with origin". For an issue in a plan the script commits and pushes on the plan's branch
-      (merge_pr.py pushes to the base it was given). SE-3 and SCE-5 are already right.
-    impact: >
-      Read literally, the eval for a plan-branch landing checks the wrong branch. The scripts and stop
-      condition are right, so no run fails; the text is out of date for the plan case.
-
-  - id: N3
+  - id: H-04
     severity: P3
-    file: core/components/plays/start-change/scripts/setup_branch.py
-    line: 82
-    also_in:
-      - core/components/plays/create-play/references/setup_branch.py:82
-    principle: G1
-    basis: "docs/standards/harness-standard.md at origin/main, section 3 (a script resolves the fact; it does not guess); review playbook review/harness (short-term copy)"
+    file: core/components/plays/list-plans/reference/ice.md
+    also_files: [core/components/plays/show-plan/reference/ice.md]
     what: >
-      The fix for the stale plan branch (H10) deletes the local plan branch whenever origin shows none, using
-      git branch -D. A failed lookup of origin (offline, or a host error) prints nothing, so _on_origin reads it
-      as "not on origin". The delete also does not check that the local branch holds commits that exist nowhere
-      else. The push on line 108 is not checked either, so a local-only plan branch is possible.
-    impact: >
-      On a bad network day a live plan branch can be dropped and cut again from main, and any local-only commits
-      on it are lost; the new branch then fails to push over the real one without a word. A safer rule: delete
-      only when the lookup succeeded, and keep the old branch under a backup name instead of removing it.
+      The Context of both ICE sources points to `.garura/project/issues/719/specs/design.md`
+      ("#719 design"). The install lays reference/ice.md into the project
+      (.claude/skills/list-plans/reference/ice.md), but the design note is a short-term-memory file
+      of Garura's own repository; a project that installs Garura does not have it. It is a
+      background pointer in an installed file. No other ICE source on main points to an issue's
+      specs folder.
+    basis: "P-d: harness-standard principle 11 (a pointer in an installed file points to another installed file; a background pointer is deleted; the text a part needs goes in the part or its reference/ folder; ADR 055)."
+    suggested_direction: "Delete the pointer from both ICE sources (and recompile with edit-play so the fingerprints follow), or move the facts the plays need into the ICE Context."
 
-  - id: N4
+  - id: H-05
     severity: P4
-    file: core/components/plays/create-play/references/test_setup_branch.py
-    line: 87
-    also_in:
-      - core/components/plays/create-play/references/test_setup_branch.py:77
-      - core/components/plays/create-play/references/test_resolve_plan.py:62
-      - core/components/plays/create-play/references/test_merge_plan.py:112
-    principle: G5
-    basis: "CLAUDE.md at origin/main, 'Source of Truth' (notes of origin are deleted); docs/standards/harness-standard.md at origin/main, section 11"
+    file: core/components/plays/show-plan/SKILL.md
     what: >
-      Four test names and comments carry the round-1 review labels (H1, H4, H9, H10). The labels point to a
-      review file that is not part of the product. The stamped scripts themselves are clean.
-    impact: >
-      A future reader sees a label with nothing to look up. Style only; the tests are not installed.
+      The description says "Read only and position none: it writes nothing". The play writes its
+      working folder and, when evidence.record resolves true, an evidence file at the close
+      (Step C1). Its own ICE (C2) is narrower and correct: no plan file, no issue, no branch.
+      list-plans words the same claim correctly ("writes no plan file, issue or branch").
+    basis: "P-j: evidence-recording.md (the play records evidence at the close, gated on evidence.record) and the play's own ICE constraint C2 (reference/ice.md)."
+    suggested_direction: "Word it as list-plans does."
 
-conformance_checked_and_held:
-  - "Fingerprints: the sha256 in each SKILL.md equals the sha256 of its reference/ice.md."
-  - "lint_play.py passes all three plays (0 gaps), run with the Next-line map copy."
-  - "Unit tests pass: test_setup_branch (9), test_merge_plan (10), test_resolve_plan (13), test_resolve_target (7), test_merge_scripts (15)."
-  - "Stamped copies: the 27 preflight.py files and the plan scripts in the three plays are byte-identical to the create-play references, and the rule now enforces it."
-  - "Installed-path rule: no added line in the three plays names core/components, core/tools or docs/."
-  - "Mechanical git and gh work sits in bundled scripts; the three plays dispatch zero domain agents."
-  - "Standard Play Close anchors are untouched in the three plays."
-  - "The harness standard's rule for changes (an ADR) is met: docs/adr/060 exists and is indexed."
+checked_and_held:
+  - "ICE-source discipline: both new plays carry reference/ice.md; the fingerprint in each SKILL.md equals sha256 of its ice.md (list-plans c1bffdbb..., show-plan a643f24f...). The constraints, failures, scenarios, recovery rows and Done means in each SKILL.md and stop-condition.yaml match the ICE. No compiled file was changed apart from its ICE (P-c)."
+  - "Layer 1: lint-play PASS (0 gaps) for list-plans, show-plan, shape-plan, shape-slice (review/lint-play.txt); lint-components reports 36 errors, none in a changed harness file (counted as there before)."
+  - "Wiring (P-a, P-b): both plays are orchestrators with one utility agent (template-manager, no domain agent); the view, the check and the mode are scripts; the plan tool is an installed path (.garura/core/tools/plan/plan.py); no source path (core/components, core/tools) appears in an installed harness file (grep checked; P-d)."
+  - "Naming (P-e): list-plans, show-plan (plan-play verbs list and show), link-model-part (skill verb link) follow the rule; no tool built-in command is a name or a prefix; names are unique."
+  - "Next-line map and position (P-k, P-l): both plays are position none and are listed in the Next-line map with command null; the Phoenix map holds both entries."
+  - "Evidence (P-j): both plays record evidence only through the Standard Play Close, gated on evidence.plays.<play> then evidence.record, and the delivery report is not gated; no agent or skill writes evidence."
+  - "Spine writes by link-model-part (P-f, mechanics only): the skill's script writes only inside the product model, checks every path first, refuses all or nothing, and lists every file it changed. The design question of adding it as a writer is H-02."
+  - "Voice: the lead line the plays print names the plans, not files; the plan tool's text is printed unchanged."
 
-counts:
-  P1: 0
-  P2: 0
-  P3: 2
-  P4: 2
-
+grounding_unavailable: []
 notes:
-  - "Fixed: H1 H2 H3 H4 H5 H6 H7 H8 H9 H10. Open: none of H1-H10 (H10 is fixed; its fix brings N3)."
-  - "New this round: N1 N2 N3 N4. None blocks the merge."
+  - "pipeline-position.md (Phoenix) lists the none-position plays by name and does not name list-plans or show-plan; that is a memory-category matter, not recorded here."

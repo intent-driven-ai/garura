@@ -1,0 +1,14 @@
+{
+  "by": "the product owner, 2026-10-29",
+  "edits": [
+    {
+      "issue": 979,
+      "replace": [
+        [
+          "**Built in the change for #719 (view plans), on its branch:** the `link-feature` skill (a feature's spine entry, with its thin mark) and its route in `product-os-keeper`, so #719's own model updates (#806's thin page, #628's page) run through the sub-agent. The shared play step comes later.",
+          "**Built in the change for #719 (view plans), on its branch:** the `link-model-part` skill (the spine entry of a domain, a capability or a feature, with its thin mark), the page skill `enrich-grounding` reaching intent pages and found work, and their route in `product-os-keeper`, so #719's own model updates (#806's thin page, #628's and #729's pages, the persona on three intent pages) run through the sub-agent and its skills. The shared play step comes later."
+        ]
+      ]
+    }
+  ]
+}

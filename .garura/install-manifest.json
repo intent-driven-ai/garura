@@ -35,6 +35,7 @@
       ".claude/skills/find-slice-gaps",
       ".claude/skills/find-work-placement",
       ".claude/skills/judge-grounding",
+      ".claude/skills/link-model-part",
       ".claude/skills/merge-pr",
       ".claude/skills/open-pr",
       ".claude/skills/platform-adapter",
@@ -51,20 +52,22 @@
       ".claude/skills/edit-ontology",
       ".claude/skills/edit-play",
       ".claude/skills/list-focus-issues",
+      ".claude/skills/list-plans",
       ".claude/skills/merge-change",
       ".claude/skills/propose-change",
       ".claude/skills/record-decision",
       ".claude/skills/shape-eval",
       ".claude/skills/shape-plan",
       ".claude/skills/shape-slice",
+      ".claude/skills/show-plan",
       ".claude/skills/start-change",
       ".claude/skills/.gitignore",
       ".claude/skills/_shared"
     ],
     "counts": {
       "agents": 10,
-      "skills": 26,
-      "plays": 17,
+      "skills": 27,
+      "plays": 19,
       "loops": 0
     },
     "instruction_surface": "CLAUDE.md.new",
@@ -74,6 +77,7 @@
     "tools": [
       ".garura/core/tools/lint-components",
       ".garura/core/tools/lint-play",
+      ".garura/core/tools/plan",
       ".garura/core/tools/rebuild-eval"
     ],
     "kinds": {
@@ -107,6 +111,7 @@
       ".claude/skills/find-slice-gaps": "skill",
       ".claude/skills/find-work-placement": "skill",
       ".claude/skills/judge-grounding": "skill",
+      ".claude/skills/link-model-part": "skill",
       ".claude/skills/merge-pr": "skill",
       ".claude/skills/open-pr": "skill",
       ".claude/skills/platform-adapter": "skill",
@@ -123,12 +128,14 @@
       ".claude/skills/edit-ontology": "play",
       ".claude/skills/edit-play": "play",
       ".claude/skills/list-focus-issues": "play",
+      ".claude/skills/list-plans": "play",
       ".claude/skills/merge-change": "play",
       ".claude/skills/propose-change": "play",
       ".claude/skills/record-decision": "play",
       ".claude/skills/shape-eval": "play",
       ".claude/skills/shape-plan": "play",
       ".claude/skills/shape-slice": "play",
+      ".claude/skills/show-plan": "play",
       ".claude/skills/start-change": "play"
     },
     "status_gitignore": ".garura/.gitignore",
@@ -148,38 +155,11 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version dfdafe6104e6."
+          "Phoenix memory: on this machine, at version d68154ae75e9."
         ]
       }
     },
     "tools_gitignore": ".garura/core/tools/.gitignore",
-    "retired": [
-      ".claude/agents/code-builder.md",
-      ".claude/agents/intent-resolver.md",
-      ".claude/agents/knowledge-builder.md",
-      ".claude/agents/result-checker.md",
-      ".claude/agents/tech-designer.md",
-      ".claude/skills/author-fix-design",
-      ".claude/skills/author-implementation-plan",
-      ".claude/skills/author-knowledge-brief",
-      ".claude/skills/author-knowledge-page",
-      ".claude/skills/author-lld",
-      ".claude/skills/author-plan-file",
-      ".claude/skills/author-play-ice",
-      ".claude/skills/author-rca",
-      ".claude/skills/author-regression-test",
-      ".claude/skills/author-technical-approach",
-      ".claude/skills/check-quality",
-      ".claude/skills/check-quality-gates",
-      ".claude/skills/complete-discovery",
-      ".claude/skills/discover-domains",
-      ".claude/skills/find-answers-in-sources",
-      ".claude/skills/find-model-gaps",
-      ".claude/skills/fix-bug",
-      ".claude/skills/judge-loop-result",
-      ".claude/skills/link-model-gaps",
-      ".claude/skills/propose-kb-node",
-      ".claude/skills/research-domain-context"
-    ]
+    "retired": []
   }
 }

@@ -1,7 +1,7 @@
 # Feature: start-change cuts a plan's branch, and each issue's branch from it
 
 ## What it does
-when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (Kapil, 2026-10-21).
+when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (the product owner, 2026-10-21).
 
 ## Agent intent (ICE)
 - Goal: Every issue in a plan works on a branch cut from its plan's branch.

@@ -1,0 +1,212 @@
+# Layer 2 design-grounding for the 'product-model' category, PR #981 (plan/717/base -> main), issue 717.
+# Grounded only in sources outside this diff: the main-ref versions of the same pages and the schemas
+# (git blob ids below), the Phoenix memory copies read through the memory tool (manifest:
+# .garura/project/issues/717/context/memory/grounding-product-model/manifest.json), and the tracker
+# issue text agreed before the branch (#719, #628, #729, #806). Not used as input: review/run-1/,
+# review/pr-950/, issues/719/review/.
+pr: 981
+base: main
+issue: 717
+category: product-model
+playbook: null          # playbook missing: no review/product-model on the shelf; treatment is the assessor's stated judgement
+severity_taxonomy: .garura/project/issues/717/context/memory/standards/rules/pr.md   # P1 blocker, P2 major, P3 minor, P4 nit
+
+grounding:
+  sources:
+    - id: G1
+      what: product ontology (the kinds Business Intent, Capability, Feature, ICE, Slice, Plan and their rules)
+      committed_source: "main:core/components/memory/standards/schemas/product-os/ontology.md (blob a65577579d, version 13)"
+      note: >
+        The Phoenix copy read through the memory tool is version 4 (2026-10-18) and has no Feature, Slice,
+        Plan or thin-ICE kind. Phoenix lags, so version 13 on main is the ground. The diff does not touch this file.
+    - id: G2
+      what: spine schema (features list, ices list, thin mark in metadata)
+      committed_source: "main:core/components/memory/standards/schemas/product-os/spine.yaml (blob bcb6dc38f2)"
+      note: The Phoenix copy is spine v2 (functionalities); main has features and ices. The diff does not touch this file.
+    - id: G3
+      what: feature grounding contract (heading set, Sources, Agent intent section, Out of scope names the neighbour)
+      committed_source: "main:core/components/memory/standards/schemas/product-os/grounding/feature.md (blob bb057fbedc)"
+    - id: G4
+      what: grounding content standard (self-explaining, discrete, depth gradient, links real, stranger test)
+      committed_source: "main:core/components/memory/standards/schemas/product-os/grounding/_content-standard.md (blob e658aec431); Phoenix copy via the memory tool matches in substance"
+    - id: G5
+      what: model-write rule (keyed script owns shared files; the LLM writes per-node docs only)
+      committed_source: "main:core/components/memory/standards/rules/direct-model-write.md (blob 22634999af); Phoenix copy via the memory tool"
+    - id: G6
+      what: base-ref versions of the pages in the diff
+      committed_source: "main:.garura/product/product-os/{_spine.yaml, features/fn-628, fn-729, fn-731, fn-746, capabilities/cap-719, cap-739, intents/bi-717, bi-722, bi-734}"
+    - id: G7
+      what: the work-plan rule (rule 10 and 19) before this branch
+      committed_source: "main:core/components/memory/standards/rules/work-plan.md (blob 75ccdd078b)"
+    - id: G8
+      what: the agreed design for the plan view
+      committed_source: >
+        Tracker issues #719 (View plans: see every plan, and any one plan as a tree), #628 (show one plan as a tree),
+        #729 (list every plan) and #806 (see every plan as a graph), section "Design (agreed 2026-10-29)". External to the
+        branch; the branch's own design.md (issues/719/specs/design.md) is not used.
+    - id: G9
+      what: scope rule — the issue being worked defines the scope
+      committed_source: "main:.garura/user-provided/managing-work.md line 196 (blob 9423a3bd74)"
+    - id: G10
+      what: the exact Thin line and the thin check the shape-slice play runs
+      committed_source: "main:core/components/plays/shape-slice/scripts/slice_check.py (blob 591e7402dd); not changed by this diff"
+
+checks_run:
+  thin_problems:
+    tool: "core/components/plays/shape-slice/scripts/slice_check.py :: thin_problems(root, spine, parts), the check /shape-slice runs"
+    ran_on: "main model and PR-head model, over every feature and capability in the spine (43 parts on main, 44 on the head)"
+    result: >
+      PASS. 0 problems on main, 0 on the head. On the head ten entries are marked thin: fn-729, fn-628, fn-806 (new in this PR),
+      fn-795, fn-818, fn-798, fn-898, cap-718, cap-shape-slice, cap-shape-eval. Each marked entry has the one exact Thin line just
+      before '## Agent intent (ICE)' and each page with the line has metadata.thin; the three PR pages (fn-628, fn-729, fn-806)
+      carry Goal, Limit, Fails if, Context and Checked by. Run restricted to the six PR-touched parts (fn-628, fn-729, fn-731,
+      fn-746, fn-806, cap-739): 0 problems.
+  grounding_linter:
+    tool: "core/components/plays/shape-slice/scripts/lint_grounding.py --root <product-os> --spine <_spine.yaml>"
+    result: >
+      FAIL, but only partly this PR's. Main: 70 errors, 8 warnings (12 capabilities, 31 features, 1 domain). Head: 74 errors,
+      8 warnings (32 features). The 4 new errors are all on the new page fn-806 (missing '## Inputs / Outputs', '## Rules & behavior',
+      '## Acceptance criteria', '## Out of scope'). No error was removed, no new warning. fn-628 and fn-729 had the same four
+      errors on main, so they are not new. See finding PM-1.
+  by_hand:
+    - "Every feature in the diff has a spine entry (fn-628, fn-729, fn-731, fn-746, fn-806) and cap-739 has one; every doc path resolves: PASS."
+    - "Spine ids match the page folders (features/<id>/feature.md, capabilities/<id>/capability.md): PASS. No orphan page under features/. No duplicate spine id."
+    - "Every intent id named in the five feature entries and cap-739 has a page in intents/; every feature's capability exists (fn-806 -> cap-719): PASS."
+    - "fn-806 keeps its place: capability cap-719 and intents [bi-717], the same intents cap-719 serves (ontology: a feature's business intents are its parent capability's): PASS."
+    - "Every ICE line in fn-628, fn-729 and fn-806 has a known label and at least five words (grounding/feature.md): PASS."
+    - "Real names: 10 occurrences of the product owner's first name on main in the model pages, 0 on the head. The replacement is a role ('the product owner'), as the ontology's own examples use roles: PASS. The Stage line still records that a person confirmed each intent."
+    - "Model writes: the spine edits for fn-628, fn-729 and fn-806 carry updated_by/created_by from a keyed route (the remark-thin report lists them as updated through the model sub-agent); no hand edit of a shared file is visible. direct-model-write rule 3: no finding."
+    - "Pages follow the agreed design of the tracker issues: fn-628 hides Done and Dropped and counts them (issue #628, acceptance criteria 2); the six statuses are issue #719's; the Fails-if line 'a done line does not say decided, built or shipped' is dropped on purpose (issue #628: 'Replaced on 2026-10-29'): PASS."
+    - "The page text of fn-628, fn-729 and fn-806 matches what the plan tool prints for the list, the tree and the graph (ran: list shows branch, Done against open, Now/In Progress, waits on; graph shows ahead, behind, 'on main'): PASS, except PM-3."
+
+findings:
+  - id: PM-1
+    severity: P3
+    file: .garura/product/product-os/features/fn-806/feature.md
+    what: >
+      The new feature page has only 'What it does' and the Agent intent section, so it misses four of the five required headings
+      (Inputs / Outputs, Rules & behavior, Acceptance criteria, Out of scope). The grounding linter goes from 70 to 74 errors, all
+      four on this page. The thin mark is correct (the thin check passes), and fn-628 and fn-729 already had the same four errors
+      on main, so this follows the model's current habit; but it adds new errors to a model the linter already rejects. Also,
+      issue #806 says its page is added "through /discover-capabilities" (the full page); the change delivered the thin page
+      through the model sub-agent, with 'deepen with /discover-capabilities' still owed.
+    basis: >
+      G3 (feature grounding contract: heading set 'required, in order'); the grounding linter result above (main 70, head 74);
+      G8 (issue #806, first paragraph: "Its feature page is added to the product model in that change, through /discover-capabilities").
+    suggested: >
+      Either deepen fn-806 now (the four headings, Given / When / Then acceptance criteria), or record that thin pages are exempt from the heading set.
+
+  - id: PM-2
+    severity: P3
+    file: .garura/product/product-os/features/fn-806/feature.md
+    also: .garura/product/product-os/capabilities/cap-719/capability.md
+    what: >
+      The feature reads git (branches, commits ahead of and behind main), and its output changes when git changes, but its parent
+      capability cap-719 (not changed by this PR) says plans are shown "from the plan files alone", with the limit "the same files print
+      differently twice" counted as a failure. The intent bi-717 says the same: its proof is a plan shown "from the plan file alone,
+      with no other reading". So the feature's edge (plan files and git) sits outside the edge its capability and its intent state,
+      and nobody says so. fn-806's own ICE names "the plan files and git", which is honest, but the capability page and its ICE
+      were left as they were.
+    basis: >
+      G1 (ontology Feature: "its order of work and its business intents come from its parent capability"; Capability: serves its
+      intents and has the features inside it); G4 (stranger test: the doc says "where its edges are"); G6 (cap-719 and bi-717 as on main).
+    suggested: >
+      Add one line to cap-719's ICE that the graph also reads git (and so differs when branches move), or state the exception on fn-806.
+
+  - id: PM-3
+    severity: P3
+    file: .garura/product/product-os/features/fn-628/feature.md
+    what: >
+      The page says the tree opens with "the legend first, with the marks of Not Started, In Progress, Now and Blocked". The tool,
+      as built, prints a legend of all six statuses (it shows the Done and Dropped marks too: '○ Not Started · ◐ In Progress · ▶ Now ·
+      ⛔ Blocked · ✓ Done · ✗ Dropped'), and the plan-view template says "the mark and name of every status". The page matches the agreed
+      text of issue #628 (acceptance criterion 2 and its example show four marks); the built behaviour differs. One of the two is
+      wrong, and the model page is what an agent reads as the promise.
+    basis: >
+      G8 (issue #628: "It shows Not Started, In Progress, Now and Blocked. It hides Done and Dropped" and the example legend with four
+      marks); G4 (link integrity and truthfulness of the Checked-by line: "the tree for plan #717 matches its plan file").
+    suggested: >
+      Decide with the product owner: change the tool and template to the four-mark legend of the issue, or change the page and the issue to six marks.
+
+  - id: PM-4
+    severity: P4
+    file: .garura/product/product-os/features/fn-806/feature.md
+    what: >
+      Issue #806's "Done when" asked for more than the page covers: the plan's links (identified_by, needs_plans) on the graph, and each
+      plan's open and landed issues. The agreed design section of the same issue narrows it to branch, ahead, behind and the behind mark,
+      and names only 'where it was cut from' and 'returns to' as left out. The page's Out of scope names those two and
+      '(#720, #730)', but not the links and the issue lists, so a reader cannot tell whether they are missing or meant to be.
+    basis: >
+      G3 ('Out of scope — what this function does not do, naming the neighbour that owns each excluded concern'); G8 (issue #806, "Done when"
+      against "Design (agreed 2026-10-29)").
+    suggested: >
+      Add one Out of scope line for the links and the per-plan issue list, naming which issue owns them.
+
+  - id: PM-5
+    severity: P4
+    file: .garura/product/product-os/_spine.yaml
+    also: [.garura/product/product-os/features/fn-628/feature.md, .garura/product/product-os/features/fn-729/feature.md, .garura/product/product-os/features/fn-806/feature.md]
+    what: >
+      The three pages carry the fixed line "Thin: proposed by `/shape-slice` from the person's answers". None of them was proposed by
+      /shape-slice: fn-628 and fn-729 were written earlier and re-marked, and fn-806 was added by the #719 change through link-model-part
+      (its spine entry says created_by "the #719 change (view plans)"). The ontology says the thin mark is "set by /shape-slice and removed
+      by the play that deepens it"; another play setting it is sanctioned only by issue #979 (a feature found during work gets a thin page),
+      which is still open, and the ontology was not changed to say so. In the spine, fn-628 and fn-729 also lack the 'deepen: true' that
+      fn-806 and the five other thin entries carry. The exact line is what slice_check requires, so this is a wording and provenance
+      point, not a failed check.
+    basis: >
+      G1 (ontology ICE: "Thin mark ... both set by /shape-slice and both removed by the play that deepens it"); G10 (the one exact line the
+      check reads); G6 (the spine metadata of the five existing thin entries on main).
+    suggested: >
+      When #979 lands, have the ontology name the second writer of the mark; add 'deepen: true' to fn-628 and fn-729.
+
+  - id: PM-6
+    severity: P4
+    file: .garura/product/product-os/intents/bi-722.md
+    also: [.garura/product/product-os/intents/bi-717.md, .garura/product/product-os/intents/bi-734.md, .garura/product/product-os/capabilities/cap-739/capability.md, .garura/product/product-os/features/fn-731/feature.md, .garura/product/product-os/features/fn-746/feature.md]
+    what: >
+      The scrub of the product owner's name (10 occurrences, now 0) is complete and well made: roles in place of the name, and the
+      confirmation by a person kept on each Stage line. But it is outside the agreed design and scope of #719 (view plans): no issue or
+      agreed design cited in the diff asks for it, and six of the pages have nothing to do with plan views. Also the rule behind it ("no real
+      names on model pages") has no committed source on main: main holds it only for approval prompts (templates/approval-prompt.md line 50:
+      "Personas only ... Never a real person's name") and as a one-line note in the ontology log (#656). So the change cannot be
+      measured against a committed rule, and the next page written can bring a name back.
+    basis: >
+      G9 (managing-work.md: "The issue being worked defines the scope. Work never goes beyond it."); the rule's absence on main (git grep of
+      core/components/memory and docs on main finds only approval-prompt.md:50 and the ontology log entry of 2026-10-18).
+    suggested: >
+      Write the rule for model pages into a standard (user-facing-voice or the grounding content standard) and say in the PR body that the scrub was asked for.
+
+  - id: PM-7
+    severity: P4
+    file: .garura/product/product-os/features/fn-806/feature.md
+    also: [.garura/product/product-os/features/fn-628/feature.md, .garura/product/product-os/features/fn-729/feature.md]
+    what: >
+      Information only, not a fault of the diff. The ontology (v13) puts a feature's ICE on its own page (ice.md) and says it is "never a
+      section of the feature page". The model's feature pages still hold the ICE as an inline '## Agent intent (ICE)' section, and the new
+      fn-806 does the same. The ontology names this as not yet moved ("the move of Garura's own model, #765"), the spine has no 'ices' list,
+      and slice_check accepts the inline form in that case. So the new page follows the model's present shape.
+    basis: >
+      G1 (ontology Feature rule 2 and the ICE kind: "Not built yet: plays that write ICE nodes ..., and the move of Garura's own model, #765"); G2 (ices list).
+    suggested: >
+      None for this PR. fn-806 joins the pages to move under #765.
+
+  - id: PM-8
+    severity: P4
+    file: .garura/product/product-os/features/fn-628/feature.md
+    what: >
+      Cross-category note for the memory review. fn-628 drops its Fails-if line "a done line does not say decided, built or shipped" (agreed on
+      issue #628, 2026-10-29: Done nodes are hidden). The committed work-plan rule 10 on main still says "A finished item says whether it was only
+      decided, built or shipped"; the branch changes only rule 19. The model page and the work-plan rule now disagree about done items.
+    basis: >
+      G7 (work-plan.md rules 10 and 19 on main); G8 (issue #628, "Replaced on 2026-10-29").
+    suggested: >
+      Check in the memory category whether rule 10 should say it applies to the plan file's own notes, not to the printed tree.
+
+summary:
+  total: 8
+  by_severity: {P1: 0, P2: 0, P3: 3, P4: 5}
+  grounding_unavailable: []
+  notes:
+    - "Phoenix memory copies of the ontology (v4) and spine (v2) lag main (ontology v13); the main-ref versions were used where they differ. This is a gap in Phoenix, outside this diff."
+    - "No review/product-model playbook exists; a follow-up task to write one is open with the assessor's categories.yaml note."

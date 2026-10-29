@@ -1,5 +1,5 @@
 # Plan 722 — its ID is the business intent's issue number (ontology v5, Plan).
-# Kept by hand until manage-plan (#730) exists. Status: done | now | next | blocked | dropped (closed as not planned or as a duplicate).
+# Kept by hand until manage-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 722
 title: A product model can be managed, and grows as plans are built
 status: active
@@ -14,47 +14,51 @@ tree:
 - issue: 957
   kind: epic
   title: A person links the parts of the product model, and the model grows as plans are built
-  status: next
+  status: Not Started
   children:
   - issue: 723
     kind: feature
     title: 'Link the product model: needs, identified by, and loose domains'
-    status: now
+    status: In Progress
     children:
     - issue: 724
       kind: story
       title: A capability or functionality is ready without a domain
-      status: done
+      status: Done
     - issue: 725
       kind: story
       title: '"Needs" and "identified by" link capabilities'
-      status: next
+      status: Not Started
     - issue: 726
       kind: story
       title: Domains link to business intents and capabilities, outside the plan tree
-      status: next
+      status: Not Started
     - issue: 597
       kind: story
       title: Rebuild the product model as an ontology
-      status: done
+      status: Done
     - issue: 694
       kind: chore
       title: 'feat: the product model rules say what ADR 043 changed — who writes each kind, loose nodes, Sources'
-      status: next
+      status: Not Started
+  - issue: 979
+    kind: story
+    title: A feature found during work gets a thin page in the product model, inside the open change, without the full discovery
+    status: In Progress  # link-model-part landed with PR #980; the shared play step is still to come
   - issue: 964
     kind: feature
     title: Each piece of the product model carries its approval state, and agents build only from approved pieces
-    status: next
+    status: Not Started
     children:
     - issue: 645
       kind: story
       title: 'Every piece of the product model carries its approval state: approved, changed or in progress'
-      status: next
+      status: Not Started
     - issue: 646
       kind: story
       title: Agents build only from approved pieces
-      status: next
+      status: Not Started
     - issue: 647
       kind: spike
       title: Decide how approval is recorded outside the review step
-      status: next
+      status: Not Started

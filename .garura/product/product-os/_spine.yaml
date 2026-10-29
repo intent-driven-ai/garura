@@ -312,17 +312,23 @@ features:
   depends_on: []
   identified_by: ''
   issue: 729
+  metadata:
+    updated_by: /show-plan and /list-plans change (#719)
+    thin: true
 - id: fn-628
   slug: fn-628
   capability: cap-719
   intents:
   - bi-717
   status: proposed
-  one_line: 'Show the plan as a plain-words tree: goal, done, now, next, wait'
+  one_line: Show one plan as a tree, from its plan file alone
   doc: features/fn-628/feature.md
   depends_on: []
   identified_by: ''
   issue: 628
+  metadata:
+    updated_by: /show-plan and /list-plans change (#719)
+    thin: true
 - id: fn-730
   slug: fn-730
   capability: cap-720
@@ -552,6 +558,24 @@ features:
     created_by: /shape-slice
     deepen: true
     thin: true
+- id: fn-806
+  slug: fn-806
+  capability: cap-719
+  intents:
+  - bi-717
+  status: proposed
+  one_line: 'See every plan as a graph against main: each plan''s branch, and its
+    commits ahead and behind'
+  doc: features/fn-806/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  issue: 806
+  metadata:
+    created_by: 'the #719 change (view plans)'
+    deepen: true
+    thin: true
+    updated_by: /show-plan and /list-plans change (#719)
 profile:
   state: set
   nfr:

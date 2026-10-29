@@ -1,0 +1,222 @@
+pr: 950
+issue: 717
+round: 2
+sources:
+- quality-findings.yaml
+- design-findings-harness.yaml
+- design-findings-memory.yaml
+- layer1.yaml
+findings:
+- id: ARCH-02
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: ARCH-02 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a check that this script does not
+    import itself in a circle. It matched because the file changed. No tool measured the imports.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-03
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-03 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a clean run of a language linter
+    on this script. It matched because the file changed. No linter is set up in this repository, so the run did
+    not happen.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-04
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-04 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a format check on this script.
+    It matched because the file changed. No formatter is set up in this repository, so the check did not happen.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-14
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-14 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P2): The rule asks for a check that this script is not
+    part of a circle of imports. It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: ARCH-03
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: ARCH-03 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a size check on this script. It
+    matched because the file changed. The file is 97 lines, so size is not a concern.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: ARCH-08
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: ARCH-08 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on how the script is placed
+    in its folder. It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-09
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-09 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a complexity score per function.
+    It matched because the file changed. No complexity tool is set up, so no score exists.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-10
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-10 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a length check per function. It
+    matched because the file changed. No tool measured it; the whole file is 97 lines.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-11
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-11 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on how deeply the code
+    nests. It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-12
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-12 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on file length. It matched
+    because the file changed. The file is 97 lines, so length is not a concern.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-15
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-15 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a readability score per function.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-17
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-17 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on names in this script.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-18
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-18 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a check on names in this script.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: FE-08
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: FE-08 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P3): The rule asks for a bundle size check on browser
+    code. It matched only because the file ends in .js. This script is a Node tool rule, not browser code, so it
+    most likely does not apply.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-13
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-13 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P4): The rule asks for a check on how much code is repeated.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: CODE-19
+  category: executable code
+  severity: P4
+  file: core/tools/lint-components/lib/rules/shared-scripts.js
+  line: 1
+  basis: CODE-19 (pr.md)
+  what: 'A check is owed with no tool to run it (taxonomy P4): The rule asks for a check on names in this script.
+    It matched because the file changed. No tool measured it.'
+  note: 'not a defect: the rule matched because the file changed'
+- id: N1
+  category: harness
+  severity: P3
+  file: core/components/plays/start-change/SKILL.md
+  line: 4
+  basis: docs/standards/harness-standard.md at origin/main, section 4 (the compiled part matches its intent); CLAUDE.md
+    at origin/main, 'Play Pipeline Rules' (the compiled file follows the ICE)
+  what: The frontmatter description still says the play cuts "a feature branch off up-to-date main". The ICE intent
+    (reference/ice.md:11-13) and the lead of the same file (lines 10-14) now say an issue in a plan gets a sub-branch
+    of its plan's branch. The description of the other two plays was updated in the same change.
+  impact: The description is what the skill list shows a person who picks the start play. It tells them the old
+    branch model, so they may expect a feature branch for an issue that sits in a plan.
+- id: N2
+  category: harness
+  severity: P4
+  file: core/components/plays/merge-change/SKILL.md
+  line: 172
+  basis: review playbook review/harness (an eval must be able to fail for the right reason); docs/standards/harness-standard.md
+    at origin/main, section 5
+  what: Step 3 and the evals SE-6, SCE-1 and SCE-4 still say the run records are committed "on main" and that "main
+    is level with origin". For an issue in a plan the script commits and pushes on the plan's branch (merge_pr.py
+    pushes to the base it was given). SE-3 and SCE-5 are already right.
+  impact: Read literally, the eval for a plan-branch landing checks the wrong branch. The scripts and stop condition
+    are right, so no run fails; the text is out of date for the plan case.
+- id: N3
+  category: harness
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 82
+  basis: docs/standards/harness-standard.md at origin/main, section 3 (a script resolves the fact; it does not guess);
+    review playbook review/harness (short-term copy)
+  what: The fix for the stale plan branch (H10) deletes the local plan branch whenever origin shows none, using
+    git branch -D. A failed lookup of origin (offline, or a host error) prints nothing, so _on_origin reads it as
+    "not on origin". The delete also does not check that the local branch holds commits that exist nowhere else.
+    The push on line 108 is not checked either, so a local-only plan branch is possible.
+  impact: 'On a bad network day a live plan branch can be dropped and cut again from main, and any local-only commits
+    on it are lost; the new branch then fails to push over the real one without a word. A safer rule: delete only
+    when the lookup succeeded, and keep the old branch under a backup name instead of removing it.'
+- id: N4
+  category: harness
+  severity: P4
+  file: core/components/plays/create-play/references/test_setup_branch.py
+  line: 87
+  basis: CLAUDE.md at origin/main, 'Source of Truth' (notes of origin are deleted); docs/standards/harness-standard.md
+    at origin/main, section 11
+  what: Four test names and comments carry the round-1 review labels (H1, H4, H9, H10). The labels point to a review
+    file that is not part of the product. The stamped scripts themselves are clean.
+  impact: A future reader sees a label with nothing to look up. Style only; the tests are not installed.
+- id: MEM-1
+  category: memory
+  severity: P3
+  file: .garura/product/product-os/features/fn-673/feature.md
+  line: 4
+  basis: 'Committed on origin/main. The page reads: "A plan''s branch merges into main only when every issue in
+    the plan is closed, and only after every plan it needs has landed or been merged into it." The ontology rule
+    that said the same is gone in v13, and harness-standard principle 8 and the work guide now say a plan''s branch
+    merges into main when the plan pauses, with issues still open. A search of the repository (outside run records)
+    found this page as the only other file that states the old rule.'
+  what: An agent that reads the product model page for this feature learns the old landing rule and believes it
+    still holds. The page is not in this diff and is outside the ontology, so it does not block this change. It
+    is the one place left that keeps the old rule alive.
+  impact: An agent that reads the product model page for this feature learns the old landing rule and believes it
+    still holds. The page is not in this diff and is outside the ontology, so it does not block this change. It
+    is the one place left that keeps the old rule alive.
+counts:
+  P4: 18
+  P3: 3

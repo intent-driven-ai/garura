@@ -1,0 +1,73 @@
+commits:
+  - sha: c2d05a76
+    message: "fix(plan): refuse a plan or node with missing fields and name the file (#719)"
+    files:
+      - core/tools/plan/plan.py
+      - core/tools/plan/test_plan.py
+    branch: plan/717/719-view-plans
+  - sha: 76d29ee5
+    message: "fix(safe-write): keep a file's permissions when writing it (#979)"
+    files:
+      - core/components/plays/shape-slice/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+    branch: plan/717/719-view-plans
+  - sha: 31a7ba44
+    message: "fix(link-model-part): put back every written file when a write fails part way (#979)"
+    files:
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+    branch: plan/717/719-view-plans
+  - sha: 819b7eab
+    message: "chore(stm): record the check-change run working files (#719)"
+    files:
+      - .garura/project/issues/719/context/analysis.yaml
+      - .garura/project/issues/719/context/memory/manifest.json
+      - .garura/project/issues/719/context/porcelain.txt
+      - .garura/project/issues/719/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/direct-model-write.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/naming.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/no-unbacked-recommendation.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-position.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/surface-contract.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/eval-format.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/work-plan.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/eval-slice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/work-plan.md
+      - .garura/project/issues/719/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/719/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/code.md
+      - .garura/project/issues/719/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/719/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/719/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/719/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/719/context/memory/standards/rules/pr.md
+      - .garura/project/issues/719/context/templates/manifest-check-change.json
+      - .garura/project/issues/719/review/categories.yaml
+      - .garura/project/issues/719/review/config-maps-check.txt
+      - .garura/project/issues/719/review/context.yaml
+      - .garura/project/issues/719/review/design-findings-harness.yaml
+      - .garura/project/issues/719/review/design-findings-memory.yaml
+      - .garura/project/issues/719/review/lint-components.json
+      - .garura/project/issues/719/review/lint-play.txt
+      - .garura/project/issues/719/review/pr.diff
+      - .garura/project/issues/719/review/quality-findings.yaml
+      - .garura/project/issues/719/review/runnable-checks.txt
+    branch: plan/717/719-view-plans
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

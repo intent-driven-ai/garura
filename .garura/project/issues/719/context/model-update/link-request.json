@@ -1,0 +1,7 @@
+{"by": "the #719 change (view plans)",
+ "features": [
+  {"id": "fn-806", "mode": "new", "slug": "fn-806", "capability": "cap-719", "intents": ["bi-717"],
+   "one_line": "See every plan as a graph against main: each plan's branch, and its commits ahead and behind",
+   "doc": "features/fn-806/feature.md", "issue": 806, "identified_by": "", "thin": true},
+  {"id": "fn-628", "mode": "update", "one_line": "Show one plan as a tree, from its plan file alone", "thin": true},
+  {"id": "fn-729", "mode": "update", "thin": true}]}

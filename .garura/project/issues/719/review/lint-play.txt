@@ -1,0 +1,10 @@
+== list-plans
+  [GAP ] next-command (pipeline-next): list-plans has no entry in pipeline-next.md (add one, or meta_exempt it)
+VERDICT: FAIL (1 gap(s))
+== show-plan
+  [GAP ] next-command (pipeline-next): show-plan has no entry in pipeline-next.md (add one, or meta_exempt it)
+VERDICT: FAIL (1 gap(s))
+== shape-plan
+VERDICT: PASS (0 gap(s))
+== shape-slice
+VERDICT: PASS (0 gap(s))

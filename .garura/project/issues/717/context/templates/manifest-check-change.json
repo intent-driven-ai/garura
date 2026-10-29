@@ -8,10 +8,11 @@
       "source": {
         "tier": "phoenix",
         "path": "standards/rules/pipeline-next.md",
-        "version": "dfdafe6104e6",
-        "fingerprint": "sha256:7e0bdb113d9bd309e341b2cd9f0ac8b7534f2fe12b8467092b68a2388aedf7d9"
+        "version": "d68154ae75e9",
+        "fingerprint": "sha256:62dc217d7193fafd1e27a697e3d577c2945b709579fb260be6229fd46a65c11f"
       }
     }
   ],
-  "missing": []
+  "missing": [],
+  "error": null
 }

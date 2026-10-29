@@ -1,0 +1,19 @@
+# show-plan stop condition — baked from reference/ice.md "### Done means" (#464).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close —
+# BEFORE the self-clean deletes the working folder; the verdict's durable copy is the
+# evidence record. Paths are relative to the run's working folder (${stm_base}_plans/show-plan/).
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the view exists"
+      check: { type: artifact_exists, path: "view.txt" }
+    - id: D2
+      says: "the tree is what the plan file and the template say"
+      check: { type: field_equals, file: "check.json", field: "tree_ok", equals: true }
+    - id: D3
+      says: "the same files printed the same way twice"
+      check: { type: field_equals, file: "check.json", field: "same_twice", equals: true }
+    - id: D4
+      says: "no plan file changed"
+      check: { type: field_equals, file: "check.json", field: "unchanged", equals: true }

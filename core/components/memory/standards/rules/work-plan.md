@@ -44,4 +44,4 @@ A work plan is the **human's interface** to a business intent. It shows how the 
 
 ## How status is shown
 
-19. **As a tree, never bare numbers:** GOAL → DONE → NOW → NEXT → WAIT (on the human). Every line says in plain words what the item is, with its issue number beside it — so a reader coming back after two days knows where things stand from the tree alone.
+19. **As a tree, never bare numbers:** `/show-plan <id>` prints the plan as a tree, one node per line: its status mark, its issue number and its plain-words title, so a reader coming back after two days knows where things stand from the tree alone. Every node has one of six statuses: Not Started, In Progress, Now, Done, Blocked, Dropped. The tree hides Done and Dropped and counts them on its last line. The marks and the layout are in `templates/plan-view.md`.

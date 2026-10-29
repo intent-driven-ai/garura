@@ -1,0 +1,88 @@
+needs_judgment: false
+change_groups:
+  # #719 plan tool validation
+  - id: plan-tool-refuse-incomplete-plan
+    issue: 719
+    commit_type: fix
+    scope: plan
+    subject: "refuse a plan or node with missing fields and name the file"
+    files:
+      - core/tools/plan/plan.py
+      - core/tools/plan/test_plan.py
+  # #979 both identical safe_write.py copies plus the shape-slice test
+  - id: safe-write-keep-permissions
+    issue: 979
+    commit_type: fix
+    scope: safe-write
+    subject: "keep a file's permissions when writing it"
+    files:
+      - core/components/plays/shape-slice/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+  # #979 link_part rollback
+  - id: link-part-roll-back-failed-write
+    issue: 979
+    commit_type: fix
+    scope: link-model-part
+    subject: "put back every written file when a write fails part way"
+    files:
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+  # #719 working record (includes this analysis.yaml, porcelain.txt, manifest.json)
+  - id: stm-719-check-change-record
+    issue: 719
+    commit_type: chore
+    scope: stm
+    subject: "record the check-change run working files"
+    files:
+      - .garura/project/issues/719/context/analysis.yaml
+      - .garura/project/issues/719/context/memory/manifest.json
+      - .garura/project/issues/719/context/porcelain.txt
+      - .garura/project/issues/719/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/direct-model-write.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/naming.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/no-unbacked-recommendation.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-position.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/surface-contract.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/eval-format.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/work-plan.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/eval-slice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/work-plan.md
+      - .garura/project/issues/719/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/719/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/code.md
+      - .garura/project/issues/719/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/719/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/719/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/719/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/719/context/memory/standards/rules/pr.md
+      - .garura/project/issues/719/context/templates/manifest-check-change.json
+      - .garura/project/issues/719/review/categories.yaml
+      - .garura/project/issues/719/review/config-maps-check.txt
+      - .garura/project/issues/719/review/context.yaml
+      - .garura/project/issues/719/review/design-findings-harness.yaml
+      - .garura/project/issues/719/review/design-findings-memory.yaml
+      - .garura/project/issues/719/review/lint-components.json
+      - .garura/project/issues/719/review/lint-play.txt
+      - .garura/project/issues/719/review/pr.diff
+      - .garura/project/issues/719/review/quality-findings.yaml
+      - .garura/project/issues/719/review/runnable-checks.txt
+exclusions: []
+risks:
+  sensitive_files: []
+  warnings:
+    - path: ".garura/project/issues/719/context/memory/standards/rules/pr.md"
+      match: 'password\s*=' 
+      note: "copied PR severity taxonomy, a pattern carrier in a standards artifact; not a block"
+      blocking: false

@@ -1,7 +1,9 @@
 decision: approve
-decided_by: human
-recommended: approve
-reason: >
-  The product owner approved round 2 on 2026-10-29 ("approve and merge"). H1 to H10 from round 1 are fixed.
-  The round-2 findings N1 to N4 and MEM-1 (no P1, no P2) are filed as a follow-up chore; the 16 standards
-  items on shared-scripts.js are checks with no tool, not defects.
+decided_by: harness
+gate: skipped by config (gates.plays.check-change)
+reason: no P1 findings; confidence acceptable
+citing: []
+counts:
+  P3: 13
+  P4: 12
+  P2: 2

@@ -1,8 +1,7 @@
 # Plan 788 — its ID is the business intent's issue number (ontology v11, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later | dropped (closed as not planned or as a duplicate).
+# Kept by hand until update-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 # represents: the slice id an epic stands for, or the feature id a story stands for (#818,
 # Q-find-1); /shape-plan finds work items by it, never by title.
-# later = parked: open, but not the next work; done when the product owner picks it up.
 # Found while working on plan 756 (identified_by). Its branch, plan/788/base, merged into main
 # with PR #916 on 2026-10-27 and is gone; a new one is cut from main when work starts again
 # (managing-work.md, "A plan's branch: start, pause, start again"). No detour plans (#791 closed).
@@ -34,153 +33,153 @@ tree:
   kind: epic
   represents: sl-intent-to-design
   title: The shaping loop turns a business intent into a testable slice, its plan and its eval
-  status: now
+  status: In Progress
   children:
   - issue: 963
     kind: feature
     title: A slice's eval is written and kept from the builder
-    status: next
+    status: Not Started
     children:
     - issue: 898
       kind: story
       represents: fn-898
       title: 'Agents build for the business intent, not only to pass the eval: the build is given the intent, never the eval'
-      status: next
+      status: Not Started
     - issue: 798
       kind: story
       represents: fn-798
       title: 'The eval play writes the slice''s eval: is the business intent met, tested on the slice''s surface'
-      status: done
+      status: Done
       children:
       - issue: 912
         kind: chore
         title: 'The findings left by the PR #900 review (the eval play and the slice play)'
-        status: later
+        status: Not Started
       - issue: 903
         kind: bug
         title: The GitLab instructions for the platform adapter's pr-files command use an undefined placeholder
-        status: later
+        status: Not Started
   - issue: 970
     kind: feature
     title: The slice that serves a business intent is shaped
-    status: next
+    status: Not Started
     children:
     - issue: 795
       kind: story
       represents: fn-795
       title: /shape-slice grills within the tier and assembles the slice that delivers the business intent
-      status: done
+      status: Done
   - issue: 971
     kind: feature
     title: The plan of a shaped slice is made
-    status: next
+    status: Not Started
     children:
     - issue: 818
       kind: story
       represents: fn-818
       title: The plan play makes the plan file, the epic and one story per feature
-      status: done
+      status: Done
       children:
       - issue: 875
         kind: bug
         title: /shape-plan files the Epic with issue type Feature; a slice's Epic must be type Epic (P1)
-        status: done
+        status: Done
         children:
         - issue: 892
           kind: chore
           title: 'The two medium findings left by the PR #891 review: amend ADR 048, and separate kind from finding in the ontology''s Q20'
-          status: done
+          status: Done
       - issue: 876
         kind: bug
         title: An install into Garura's own repo leaves out the plan play, so /shape-plan cannot run
-        status: done
+        status: Done
       - issue: 879
         kind: bug
         title: '/shape-plan stops when an epic holds work that is not its slice''s: an epic stands for one slice'
-        status: done
+        status: Done
       - issue: 954
         kind: bug
         title: /shape-plan makes an Epic for each slice; a plan should have one Epic that holds all its slices
-        status: next
+        status: Not Started
       - issue: 874
         kind: chore
         title: 'The findings left by the PR #873 review (the plan play)'
-        status: later
+        status: Not Started
       - issue: 895
         kind: chore
         title: 'The open points left by the PR #894 review: where misplaced work sits until a play places it, and blocker work as its own slice'
-        status: next
+        status: Not Started
       - issue: 975
         kind: bug
         title: /shape-plan expects only Stories under an Epic; the tracker now has Features between them
-        status: next
+        status: Not Started
 - issue: 792
   kind: issue
   title: The delivery chain works on Work, not on epics and slices
-  status: done
+  status: Done
   children:
   - issue: 793
     kind: issue
     title: 'Decide in the ontology what the delivery chain works on: two layers, the plan as the thread'
-    status: done
+    status: Done
   - issue: 807
     kind: issue
     title: Rename Functionality to Feature on disk, and take epics out of the product model
-    status: done
+    status: Done
   - issue: 809
     kind: issue
     title: 'chore: archive or remove the retired intent-epic pipeline and its feature-catalog names'
-    status: done
+    status: Done
   - issue: 812
     kind: issue
     title: 'chore: the old-name check skips ADR 047 by mistake; skip 046 and 048 by number'
-    status: done
+    status: Done
   - issue: 813
     kind: issue
     title: Upgrading Garura moves a project's product model to the Feature names, and scripts stop on old keys
-    status: done
+    status: Done
 - issue: 842
   kind: bug
   title: '/shape-slice: show the reuse and warning results at the checkpoint, and close three small gaps'
-  status: done
+  status: Done
 - issue: 841
   kind: issue
   title: '[BUG] check-change reviews only the first 100 files of a pull request'
-  status: done
+  status: Done
 - issue: 860
   kind: issue
   title: '[BUG] Installed parts (plays, agents, skills) read Garura''s source tree (core/components, core/tools) at run time, so they break after an install (P1)'
-  status: done
+  status: Done
 - issue: 855
   kind: issue
   title: '[TASK] Mark the twelve old-chain plays and their skills stale, and keep stale parts out of every install'
-  status: done
+  status: Done
 - issue: 833
   kind: issue
   title: Remove the remaining deprecated skills and agents, and stop the public installer shipping them
-  status: done
+  status: Done
 - issue: 867
   kind: issue
   title: '[BUG] The agents'' copy script refuses reads from short-term and Garura memory (no version)'
-  status: done
+  status: Done
 - issue: 866
   kind: issue
   title: '[TASK] shape-slice: shape the slice for business intent #788'
-  status: done
+  status: Done
 - issue: 878
   kind: chore
   title: '[TASK] shape-plan: make the plan for business intent #788'
-  status: done
+  status: Done
 - issue: 844
   kind: issue
   title: '[TASK] shape-slice: shape the slice for business intent #788'
-  status: done
+  status: Done
 - issue: 846
   kind: issue
   title: '[TASK] edit-ontology: /shape-slice writes the slice''s hidden file and proposes a thin ICE (ontology v11)'
-  status: done
+  status: Done
   children:
   - issue: 851
     kind: issue
     title: '[TASK] Chore: the 13 P3/P4 standards findings left by the PR #849 review'
-    status: done
+    status: Done
