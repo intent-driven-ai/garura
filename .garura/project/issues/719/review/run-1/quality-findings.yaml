@@ -1,0 +1,627 @@
+pr: 980
+issue: 719
+base: plan/717/base
+skill: check-pr-quality
+categories_covered:
+- executable-code
+- tests
+- documentation
+- config-maps
+taxonomy: .garura/project/issues/719/context/memory/standards/rules/pr.md
+standards_resolved:
+  taxonomy_copy: true
+  quality_standards: 'none: the memory tool finds no knowledge/quality shelf in short-term, Garura or Phoenix memory; DOC-*,
+    ARCH-*, CODE-* rows cannot be read back to their standard text'
+scope:
+  changed_paths_scanned: 22
+  list: evidence paths of the four categories in categories.yaml
+  scan_blind_spot: The taxonomy classes everything under core/components/ as garura-prose, so the scan skips the python files
+    there (18 of the 20) (only the CODE-20 catch-all counts them). Those scripts were covered by ruff and a by-hand rubric read of
+    the data-safety paths (link_part.py, safe_write.py, install.py's diff, write_plan_file.py's diff), not by a line-by-line read
+    of the other scripts.
+counts:
+  findings:
+    P2: 4
+    P3: 5
+    P4: 4
+  total: 13
+scan_counts_raw:
+  as_emitted_by_scan_taxonomy:
+    P1: 3
+    P2: 10
+    P3: 23
+    P4: 16
+  total: 52
+  note: The scan fires path-only rows once per matching file at line 1. Each is triaged in `scan` below; none of the 52 is
+    dropped. Those that held a real defect are folded into `findings`.
+findings:
+- id: F-01
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 153
+  what: A lambda is assigned to a name (`git = lambda ...`); ruff E731 wants a def.
+  basis: CODE-03
+  severity_source: taxonomy row
+  evidence: 'ruff check: E731'
+- id: F-02
+  severity: P2
+  file: core/components/plays/list-plans/scripts/check_list.py
+  line: 33
+  what: A lambda is assigned to a name (`key = lambda ...`); ruff E731.
+  basis: CODE-03
+  severity_source: taxonomy row
+  evidence: 'ruff check: E731'
+- id: F-03
+  severity: P2
+  file: core/components/plays/list-plans/scripts/check_list.py
+  line: 110
+  what: A lambda is assigned to a name (`in_plan_order = lambda ...`); ruff E731.
+  basis: CODE-03
+  severity_source: taxonomy row
+  evidence: 'ruff check: E731'
+- id: F-04
+  severity: P2
+  file: core/components/skills/link-model-part/scripts/test_link_part.py
+  line: 8
+  what: '`textwrap` is imported and never used; ruff F401.'
+  basis: CODE-03
+  severity_source: taxonomy row
+  evidence: 'ruff check: F401'
+- id: F-05
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 120
+  what: 'A plan file with no `title` stops with a Python traceback (KeyError) at `plan["title"]` (also line 191). The file''s
+    own header promises exit 2 with a message for a plan file that cannot be used; node fields `issue`, `title` are read the
+    same way (lines 104, 78). Reproduced: `plan.py show` on a plan file with a tree and no title.'
+  basis: 'CODE-25 (error-handling row) and review/code rubric: error handling'
+  severity_source: 'reviewer: no taxonomy row fires; severity read from the P1-P4 definitions in pr.md'
+  evidence: 'ran plan.py on a plan with no title: KeyError: ''title'''
+- id: F-06
+  severity: P3
+  file: core/components/skills/link-model-part/scripts/safe_write.py
+  line: 22
+  what: 'The temp file is made with mkstemp, which creates it with mode 0600, and os.replace puts it over the target, so every
+    product-model file this skill rewrites (the spine, the pages) ends up 0600 whatever mode it had. Reproduced: a 0644 file
+    came back 0600.'
+  basis: 'review/code rubric: safe handling of irreversible operations'
+  severity_source: 'reviewer: no taxonomy row fires; severity read from the P1-P4 definitions in pr.md'
+  evidence: 'python run of atomic_write on a 0644 file: mode 0o600'
+- id: F-07
+  severity: P3
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 229
+  what: 'The spine and then each page are written one by one after the checks. If a write fails part way (disk full, permission),
+    the spine and the pages disagree and the OSError is not caught: a traceback, and no link-report.json. The header says
+    a failure ''writes nothing'', which is true only for the checks before the first write.'
+  basis: 'review/code rubric: data-safety and idempotency paths'
+  severity_source: 'reviewer: no taxonomy row fires; severity read from the P1-P4 definitions in pr.md'
+  evidence: 'read of main(): the except clause at line 225 covers the checks only'
+- id: F-08
+  severity: P3
+  file: core/components/skills/link-model-part/scripts/link_part.py
+  line: 136
+  what: 'plan() is 70 lines with a rough branch count of 37 (ast count of if/for/except/and-or/comprehension), the largest
+    in the PR, on the model-write path. It does five jobs: id checks, parent checks, page location, update, thin mark.'
+  basis: CODE-09 (complexity), CODE-10 (function length)
+  severity_source: taxonomy row
+  evidence: ast count; the taxonomy gives no number, so the severity is the row's
+- id: F-09
+  severity: P3
+  file: core/components/plays/shape-plan/scripts/write_plan_file.py
+  line: 143
+  what: The new node's status changed from `next` to `Not Started` (lines 143 and 226, the header comment) and no test pins
+    it. The test file still writes the old words (done, now) in its fixtures. Its 9 checks pass, so they would also pass with
+    the old status.
+  basis: 'review/tests: a changed behaviour with no test (TEST-01 intent)'
+  severity_source: 'reviewer: no taxonomy row fires; severity read from the P1-P4 definitions in pr.md'
+  evidence: 'grep of test_write_plan_file.py for ''Not Started'': none'
+- id: F-10
+  severity: P4
+  file: core/components/skills/link-model-part/scripts/safe_write.py
+  line: 1
+  what: The docstring says it is the way /shape-slice's scripts write a file and names persist_fills.py, persist_slice.py,
+    write_hidden_file.py, render_brief.py and write_intent_page.py; none of those is in this skill, and the temp-file prefix
+    is '.shape-slice-'. It is a copy of the shape-slice file with its wording left in.
+  basis: 'review/docs: terminology consistency'
+  severity_source: 'reviewer: no taxonomy row fires; severity read from the P1-P4 definitions in pr.md'
+  evidence: read of safe_write.py lines 1-11 and 22
+- id: F-11
+  severity: P4
+  file: core/components/plays/list-plans/scripts/check_list.py
+  line: 53
+  what: check() is 73 lines with a rough branch count of 35. show-plan's check_tree.py check() (line 72, 68 lines, count 38)
+    has the same shape.
+  basis: CODE-10 (function length)
+  severity_source: taxonomy row
+  evidence: ast count
+- id: F-12
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 171
+  what: git is called through subprocess.run with no handling for a machine with no git (FileNotFoundError, a traceback) and
+    no timeout (also line 209). Only `graph` and `list` with a branch read git.
+  basis: 'review/code rubric: error handling'
+  severity_source: 'reviewer: no taxonomy row fires; severity read from the P1-P4 definitions in pr.md'
+  evidence: read of ref_of() and graph()
+- id: F-13
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 166
+  what: RepoPlansTest skips itself when the plans folder is missing, and otherwise reads the repository's live plan files,
+    so the test result depends on repository data, and a skip reads as a pass.
+  basis: 'review/tests: no skipped or disabled tests'
+  severity_source: 'reviewer: no taxonomy row fires; severity read from the P1-P4 definitions in pr.md'
+  evidence: read of test_plan.py lines 164-171
+runnable:
+  source: .garura/project/issues/719/review/runnable-checks.txt (already run)
+  red_suite: false
+  suites:
+  - suite: core/tools/plan/test_plan
+    result: Ran 11 tests, OK
+  - suite: link-model-part/test_link_part
+    result: Ran 13 tests, OK
+  - suite: shape-plan/test_write_plan_file
+    result: 9 passed, 0 failed
+  - suite: install-garura/test_install
+    result: Ran 75 tests, OK (133.9s)
+  linters_run_here:
+  - tool: ruff check (default rules, no repo config) on the 20 changed python files
+    result: '4 violations: E731 x3, F401 x1 (F-01 to F-04); no other'
+  - tool: black --check
+    result: 19 of 20 files would be reformatted; not counted, the repo commits no formatter and its older scripts fail it
+      too
+  config_maps:
+    file: .garura/install-manifest.json
+    check: every .claude/ and .garura/ path in the manifest (68) resolved on disk, including the three added skills and .garura/core/tools/plan
+    missing: []
+  documentation:
+    file: core/tools/plan/README.md
+    check: 'read directly: the commands match plan.py; `--graph` exists in list-plans; Done and Dropped are the two not-shown
+      statuses in plan-view.md; the install lays the tool (manifest lists .garura/core/tools/plan; test_install asserts it);
+      one H1, no TODO/FIXME, no dead path'
+    defects: 0
+  lint_play_note: lint-play and lint-components results in the review folder belong to the harness category and were not judged
+    here.
+scan:
+- scan_id: S-01
+  standard_id: DATA-18
+  severity: P1
+  file: core/tools/plan/test_plan.py
+  line: 26
+  evidence: password
+  disposition: false-positive
+  reason: 'keyword only: ''password''/''email'' appear in a test fixture title or a throwaway git identity (user.email=t@t),
+    not in stored or handled personal data'
+- scan_id: S-02
+  standard_id: DATA-18
+  severity: P1
+  file: core/tools/plan/test_plan.py
+  line: 155
+  evidence: email
+  disposition: false-positive
+  reason: 'keyword only: ''password''/''email'' appear in a test fixture title or a throwaway git identity (user.email=t@t),
+    not in stored or handled personal data'
+- scan_id: S-03
+  standard_id: DATA-18
+  severity: P1
+  file: core/tools/plan/test_plan.py
+  line: 157
+  evidence: email
+  disposition: false-positive
+  reason: 'keyword only: ''password''/''email'' appear in a test fixture title or a throwaway git identity (user.email=t@t),
+    not in stored or handled personal data'
+- scan_id: S-04
+  standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: 'no import cycle: plan.py imports only the standard library and yaml; test_plan.py imports plan'
+- scan_id: S-05
+  standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: ruff reports no violation in plan.py
+- scan_id: S-06
+  standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: not-a-defect
+  reason: no formatter is committed in the repo; black defaults would also reformat the older scripts (shape-slice, lint_play),
+    so this is the repo's existing style
+- scan_id: S-07
+  standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: 'no import cycle: plan.py imports only the standard library and yaml; test_plan.py imports plan'
+- scan_id: S-08
+  standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: measured-clean
+  reason: 'no import cycle: plan.py imports only the standard library and yaml; test_plan.py imports plan'
+- scan_id: S-09
+  standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: confirmed
+  reason: ruff finds E731 here; see F-01
+- scan_id: S-10
+  standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: not-a-defect
+  reason: no formatter is committed in the repo; black defaults would also reformat the older scripts (shape-slice, lint_play),
+    so this is the repo's existing style
+- scan_id: S-11
+  standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: measured-clean
+  reason: 'no import cycle: plan.py imports only the standard library and yaml; test_plan.py imports plan'
+- scan_id: S-12
+  standard_id: DATA-17
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 155
+  evidence: email
+  disposition: false-positive
+  reason: 'keyword only: ''password''/''email'' appear in a test fixture title or a throwaway git identity (user.email=t@t),
+    not in stored or handled personal data'
+- scan_id: S-13
+  standard_id: DATA-17
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 157
+  evidence: email
+  disposition: false-positive
+  reason: 'keyword only: ''password''/''email'' appear in a test fixture title or a throwaway git identity (user.email=t@t),
+    not in stored or handled personal data'
+- scan_id: S-14
+  standard_id: DOC-01
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  disposition: measured-clean
+  reason: a README exists for the tool
+- scan_id: S-15
+  standard_id: DOC-09
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  disposition: not-judged
+  reason: 'path-only row; its standard text is not in short-term, Garura or Phoenix memory (no knowledge/quality shelf), so
+    the check cannot be named. The README was read directly: see documentation'
+- scan_id: S-16
+  standard_id: DOC-10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  disposition: not-judged
+  reason: 'path-only row; its standard text is not in short-term, Garura or Phoenix memory (no knowledge/quality shelf), so
+    the check cannot be named. The README was read directly: see documentation'
+- scan_id: S-17
+  standard_id: DOC-11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  disposition: not-judged
+  reason: 'path-only row; its standard text is not in short-term, Garura or Phoenix memory (no knowledge/quality shelf), so
+    the check cannot be named. The README was read directly: see documentation'
+- scan_id: S-18
+  standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: file length 250 lines; the taxonomy states no limit
+- scan_id: S-19
+  standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-20
+  standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: longest function is 25 lines (main); branch depth is shallow
+- scan_id: S-21
+  standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: longest function is 25 lines (main); branch depth is shallow
+- scan_id: S-22
+  standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: longest function is 25 lines (main); branch depth is shallow
+- scan_id: S-23
+  standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: measured-clean
+  reason: file length 250 lines; the taxonomy states no limit
+- scan_id: S-24
+  standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-25
+  standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-26
+  standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 44
+  evidence: 'except '
+  disposition: reviewed-ok
+  reason: catches a named exception only (OSError, YAMLError, BadInput) and turns it into a stated message and exit 2; nothing
+    is swallowed
+- scan_id: S-27
+  standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 71
+  evidence: 'except '
+  disposition: reviewed-ok
+  reason: catches a named exception only (OSError, YAMLError, BadInput) and turns it into a stated message and exit 2; nothing
+    is swallowed
+- scan_id: S-28
+  standard_id: CODE-25
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 242
+  evidence: 'except '
+  disposition: reviewed-ok
+  reason: catches a named exception only (OSError, YAMLError, BadInput) and turns it into a stated message and exit 2; nothing
+    is swallowed
+- scan_id: S-29
+  standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: measured-clean
+  reason: file length 174 lines; the taxonomy states no limit
+- scan_id: S-30
+  standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-31
+  standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: measured-clean
+  reason: longest function is 10 lines (a test); branch depth is shallow
+- scan_id: S-32
+  standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: measured-clean
+  reason: longest function is 10 lines (a test); branch depth is shallow
+- scan_id: S-33
+  standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: measured-clean
+  reason: longest function is 10 lines (a test); branch depth is shallow
+- scan_id: S-34
+  standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: measured-clean
+  reason: file length 174 lines; the taxonomy states no limit
+- scan_id: S-35
+  standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-36
+  standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-37
+  standard_id: DOC-14
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  disposition: not-judged
+  reason: 'path-only row; its standard text is not in short-term, Garura or Phoenix memory (no knowledge/quality shelf), so
+    the check cannot be named. The README was read directly: see documentation'
+- scan_id: S-38
+  standard_id: DOC-15
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  disposition: not-judged
+  reason: 'path-only row; its standard text is not in short-term, Garura or Phoenix memory (no knowledge/quality shelf), so
+    the check cannot be named. The README was read directly: see documentation'
+- scan_id: S-39
+  standard_id: DOC-16
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  evidence: core/tools/plan/README.md
+  disposition: not-judged
+  reason: 'path-only row; its standard text is not in short-term, Garura or Phoenix memory (no knowledge/quality shelf), so
+    the check cannot be named. The README was read directly: see documentation'
+- scan_id: S-40
+  standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-41
+  standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-42
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 15
+  evidence: lock
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-43
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 19
+  evidence: lock
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-44
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 33
+  evidence: LOCK
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-45
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 46
+  evidence: LOCK
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-46
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 48
+  evidence: lock
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-47
+  standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-48
+  standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: not-judged
+  reason: path-only row whose evidence field (score or identifier) no committed tool measures; not judged
+- scan_id: S-49
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 44
+  evidence: Lock
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-50
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 71
+  evidence: lock
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-51
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 123
+  evidence: lock
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'
+- scan_id: S-52
+  standard_id: BE-23
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 144
+  evidence: lock
+  disposition: false-positive
+  reason: 'keyword only: matched ''lock'' inside ''block'' (the ```yaml plan-view block) or the fixture title ''Lock the account'';
+    no locking code'

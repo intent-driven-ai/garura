@@ -1,5 +1,6 @@
 ## Runnable checks (executed)
-core/tools/plan/test_plan: Ran 11 tests in 0.612s  OK 
-link-model-part/test_link_part: Ran 13 tests in 1.081s  OK 
-shape-plan/test_write_plan_file: 9 passed, 0 failed
-install-garura/test_install: Ran 75 tests in 133.890s  OK 
+test_plan: Ran 12 tests in 0.536s  OK 
+test_link_part: Ran 15 tests in 1.119s  OK 
+test_write_plan_file: 9 passed, 0 failed
+test_shape_slice_scripts: 129 passed, 0 failed
+test_install: Ran 75 tests in 121.837s  OK 

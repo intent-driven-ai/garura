@@ -1,6 +1,9 @@
 # Categories present in PR #980 (plan/717/719-view-plans -> plan/717/base), issue 719.
-# Derived from the diff content, not from a presumed list. Treatments are taken from the
-# playbook copies in short-term memory (.garura/project/issues/719/context/memory/knowledge/review/).
+# Run 2 (after three fixes: #719 plan refuses missing fields, #979 safe_write keeps permissions,
+# #979 link-model-part puts back files on a failed write). Derived from the diff content, not
+# from a presumed list, and not from the run-1 files. Treatments come from the playbook copies in
+# short-term memory, refreshed this run through the memory tool (phoenix tier, version dfdafe6104e6):
+#   .garura/project/issues/719/context/memory/knowledge/review/
 # next_map copy: .garura/project/issues/719/context/templates/standards/rules/pipeline-next.md
 # Severity taxonomy copy: .garura/project/issues/719/context/memory/standards/rules/pr.md
 pr: 980
@@ -18,35 +21,35 @@ categories:
     - core/components/plays/show-plan/SKILL.md
     - core/components/plays/show-plan/reference/ice.md
     - core/components/plays/show-plan/stop-condition.yaml
-    - core/components/skills/enrich-grounding/SKILL.md
     - core/components/skills/link-model-part/SKILL.md
+    - core/components/skills/enrich-grounding/SKILL.md
     - core/components/agents/product-os-keeper.md
-  note: two new plays (list-plans, show-plan), one new skill (link-model-part), one changed skill and one changed agent. The python scripts inside these plays/skills are reviewed under "executable-code".
+  note: two new plays (list-plans, show-plan, each with its ICE source), one new skill (link-model-part), one changed skill (enrich-grounding) and one changed agent (product-os-keeper). The python scripts inside them are reviewed under executable-code.
   treatment:
     reviewer: human (the design) + tool (conformance)
     layers: [layer-1, layer-2]
     linters:
       - name: lint-components (source layout; the PR changes core/components/)
         command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
-      - name: lint_play, for each changed play (list-plans, show-plan)
+      - name: lint_play for list-plans
         command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/list-plans/SKILL.md --next-map .garura/project/issues/719/context/templates/standards/rules/pipeline-next.md
-      - name: lint_play (show-plan)
+      - name: lint_play for show-plan
         command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/show-plan/SKILL.md --next-map .garura/project/issues/719/context/templates/standards/rules/pipeline-next.md
     runnable_checks:
-      - "Only a violation whose file is in the changed paths is a finding; count the other violations as 'there before'."
+      - "Only a violation whose file is in the PR's changed paths is a finding. Count the other violations and record the count as 'there before'."
       - "A tool that is not installed is recorded 'not installed'; a tool that crashes is recorded 'did not run: <first error line>'. Neither is a pass."
-      - "ICE-source rule applies (the repo holds the plays' source): an intent change must trace to the play's reference/ice.md, not to a hand edit of the compiled SKILL.md."
-    design_grounding: "Layer 2: reconstruct principles from committed sources only (docs/philosophy/**, docs/adr/**, memory standards rules such as user-facing-voice, play-close, evidence-recording, the glossary), never from the branch's new prose. Check agent-first delegation, JSON contracts over files, play orchestrates / skills produce / scripts do mechanical work, ICE-source discipline."
+      - "ICE-source rule applies (the repository holds the plays' source): an intent change must trace to the play's reference/ice.md, not to a hand edit of the compiled SKILL.md."
+    design_grounding: "Layer 2: reconstruct the principles from committed sources only (docs/philosophy/**, docs/adr/**, memory standards rules such as user-facing-voice, play-close, evidence-recording, and the glossary), never from the branch's new prose. Check agent-first delegation, JSON contracts over files, play orchestrates / skills produce / scripts do mechanical work, ICE-source discipline."
 
 - name: memory
   playbook: review/memory
   design_bearing: true
   evidence:
-    - core/components/memory/standards/rules/pipeline-next.md
     - core/components/memory/standards/rules/work-plan.md
-    - core/components/memory/standards/templates/_index.md
+    - core/components/memory/standards/rules/pipeline-next.md
     - core/components/memory/standards/templates/plan-view.md
-  note: one new template (plan-view.md), one rule reworded (work-plan.md rule 19), the Next-line map (pipeline-next.md) and the templates index.
+    - core/components/memory/standards/templates/_index.md
+  note: one new template (plan-view.md), one rule reworded (work-plan.md rule 19), two Next-line map rows (pipeline-next.md) and the templates index row.
   treatment:
     reviewer: human (the design) + tool (conformance)
     layers: [layer-1, layer-2]
@@ -54,7 +57,7 @@ categories:
       - name: "GAP - no installed tool checks memory integrity"
         command: null
     runnable_checks:
-      - "Done by hand, citing each check: follows the shelf template where it applies; evolve_when and [[...]] cross-references resolve to real files; frontmatter id consistent with the path; listed in the shelf _index (templates/_index.md lists plan-view.md)."
+      - "Done by hand, citing each check: the file follows the shelf template where one applies; evolve_when and [[...]] cross-references resolve to real files; frontmatter id is consistent with the path; the file is listed in the shelf _index (templates/_index.md must list plan-view.md)."
     design_grounding: "Layer 2: reconstruct what the knowledge base is for and how a shelf is shaped from committed sources (knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md, the relevant standards), never from the branch's new text. Check: is a learning truly conditional, does it earn its place, does it duplicate an existing entry, does the severity taxonomy stay mechanical."
 
 - name: executable-code
@@ -73,22 +76,23 @@ categories:
     - core/components/plays/show-plan/scripts/resolve_args.py
     - core/components/plays/show-plan/scripts/session_stamp.py
     - core/components/plays/shape-plan/scripts/write_plan_file.py
+    - core/components/plays/shape-slice/scripts/safe_write.py
     - core/components/skills/link-model-part/scripts/link_part.py
     - core/components/skills/link-model-part/scripts/model_names.py
     - core/components/skills/link-model-part/scripts/safe_write.py
     - core/components/skills/link-model-part/scripts/spine_text.py
     - core/components/plays/install-garura/scripts/install.py
-  note: link_part.py / safe_write.py write the product model (data-safety paths, review hard); install.py touches the filesystem (review hard).
+  note: data-safety paths to review hard - link_part.py and both safe_write.py files write the product model (the two fixes of #979 sit here: keep file permissions, put back written files on a failed write); plan.py reads every plan file and refuses a plan or node with missing fields (the fix of #719); install.py touches the filesystem.
   treatment:
     reviewer: the tool, against industry best practice
     layers: [layer-1]
     linters:
-      - name: the language linter the repo commits (python); none is named by the playbook
+      - name: the language linter the repository commits for python (the playbook names none)
         command: null
       - name: check-pr-quality against the diff using the pr.md taxonomy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)
         command: null   # the playbook gives no command; the play or quality-auditor runs check-pr-quality
     runnable_checks:
-      - "Rubric: error handling, function size, no stray debug output, no secrets, safe handling of destructive/irreversible operations, deterministic where it claims to be."
+      - "Rubric: error handling, function size, no stray debug output, no secrets, safe handling of destructive or irreversible operations, deterministic where it claims to be."
       - "Review the data-safety and idempotency paths hard (scripts touching git, the filesystem, external services)."
     design_grounding: "no - the standard is industry best practice plus the pr.md taxonomy."
 
@@ -99,17 +103,19 @@ categories:
     - core/tools/plan/test_plan.py
     - core/components/skills/link-model-part/scripts/test_link_part.py
     - core/components/plays/install-garura/scripts/test_install.py
+    - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
   treatment:
     reviewer: the tool
     layers: [layer-1, run-the-suite]
     linters:
-      - name: coding-best-practice linter on the test code (clear assertions, no skipped/disabled tests, no test that asserts nothing) plus the pr.md TEST-* rows via check-pr-quality
+      - name: coding-best-practice check on the test code (clear assertions, no skipped or disabled tests, no test that asserts nothing) plus the pr.md TEST-* rows via check-pr-quality
         command: null   # the playbook gives no command
     runnable_checks:
-      - "Run the suites; a red suite is a blocker finding. Never treat 'not run' as 'passed'."
-      - "core/tools/plan: python3 -m unittest test_plan   (run from core/tools/plan; command from core/tools/plan/README.md)"
-      - "link-model-part: python3 -m unittest test_link_part   (run from core/components/skills/link-model-part/scripts; the file ends in unittest.main())"
-      - "install-garura: python3 test_install.py   (run from core/components/plays/install-garura/scripts; the file's own header gives this command)"
+      - "Run the suites. A red suite is a blocker finding. Never treat 'not run' as 'passed'."
+      - "core/tools/plan - run from core/tools/plan: python3 -m unittest test_plan   (command from core/tools/plan/README.md)"
+      - "link-model-part - run from core/components/skills/link-model-part/scripts: python3 -m unittest test_link_part   (the file ends in unittest.main())"
+      - "install-garura - run from core/components/plays/install-garura/scripts: python3 test_install.py   (the file's own header gives this command)"
+      - "shape-slice - run from the repo root: python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py   (the file's own header gives this command; it exits 1 on a failure)"
     design_grounding: "no"
 
 - name: documentation
@@ -121,7 +127,7 @@ categories:
     reviewer: the tool
     layers: [layer-1]
     linters:
-      - name: "GAP - no committed prose linter; the tool performs these checks directly and cites each: spelling, grammar, dead/broken links, heading hierarchy, leftover TODOs, terminology consistency, completeness"
+      - name: "GAP - no committed prose linter; the tool performs these checks directly and cites each: spelling, grammar, dead or broken links, heading hierarchy, leftover TODOs, terminology consistency, completeness"
         command: null
     runnable_checks: []
     design_grounding: "no"
@@ -131,7 +137,7 @@ categories:
   design_bearing: false
   evidence:
     - .garura/install-manifest.json
-  note: judged by content, not path. It is a generated install record that lists, by path, the skills the install laid (adds link-model-part, list-plans, show-plan). It points at other files by path, so the path-existence check is the one that applies.
+  note: judged by content, not path. It is the install record; it lists by path the skills, plays and tools the install laid (adds link-model-part, list-plans, show-plan and the plan tool; counts 26->27 skills, 17->19 plays) and empties the "retired" list. It points at other files by path, so the path-existence check applies.
   treatment:
     reviewer: human, by name
     layers: [layer-1]
@@ -139,7 +145,8 @@ categories:
       - name: "GAP - no committed config-map linter; the tool resolves each referenced path and reports any that miss"
         command: null
     runnable_checks:
-      - "Resolve every path added to the manifest (.claude/skills/link-model-part, .claude/skills/list-plans, .claude/skills/show-plan) and report any that do not exist."
+      - "Resolve every path the manifest diff adds (.claude/skills/link-model-part, .claude/skills/list-plans, .claude/skills/show-plan, .garura/core/tools/plan) and report any that do not exist."
+      - "Surface for the human the removal of the whole 'retired' list and the changed counts."
     design_grounding: "no"
 
 # New categories: the diff holds kinds of work that no playbook on the shelf covers.
@@ -147,8 +154,7 @@ categories:
 - name: product-model
   playbook: null
   playbook_missing: true
-  note: "playbook missing - no review/ playbook covers the product model (the 'product' tier of Garura memory: spine, intents, capability and feature pages). Do not force-fit onto memory or docs. A follow-up task to write the playbook is needed. Whether it is design-bearing is not decided by any playbook; committed standards that govern its shape exist (standards/schemas/product-os/grounding/*, copied into short-term memory for this issue), so the play may choose to ground it in them."
-  design_bearing: null
+  design_bearing: null   # no playbook says; not decided here
   evidence:
     - .garura/product/product-os/_spine.yaml
     - .garura/product/product-os/capabilities/cap-739/capability.md
@@ -160,16 +166,15 @@ categories:
     - .garura/product/product-os/intents/bi-717.md
     - .garura/product/product-os/intents/bi-722.md
     - .garura/product/product-os/intents/bi-734.md
+  note: "playbook missing - the product model (the 'product' tier of Garura memory: spine, intents, capability and feature pages) is a kind of work no review/ playbook covers. Not force-fitted onto memory or docs. Whether it carries Layer 2 is a call no playbook makes. Committed standards that govern its shape exist (standards/schemas/product-os/grounding/*, copied into short-term memory for this issue). A follow-up to write the playbook is needed."
   treatment:
     layers: []
     linters: []
     runnable_checks: []
-    note: no treatment can be taken from a playbook, so none is invented.
 
 - name: plan-files
   playbook: null
   playbook_missing: true
-  note: "playbook missing - the plan files (.garura/project/plans/<id>.yaml) are tracking data: a tree of issues with a status per node. No review/ playbook covers them. This PR rewrites the status vocabulary across them (done/now/next -> Not Started/In Progress/Now/Done/Blocked/Dropped). A follow-up task to write the playbook is needed."
   design_bearing: null
   evidence:
     - .garura/project/plans/606.yaml
@@ -179,22 +184,22 @@ categories:
     - .garura/project/plans/756.yaml
     - .garura/project/plans/767.yaml
     - .garura/project/plans/788.yaml
+  note: "playbook missing - plan files are work-tracking data (the tree of epics, stories and chores of each business intent), not a play, memory shelf, doc or code. The diff moves every node to the six statuses (Not Started, In Progress, Now, Done, Blocked, Dropped). No review/ playbook covers them. Their shape is checked by the new plan tool (core/tools/plan/plan.py) that this same PR adds, so that tool cannot be the independent check. A follow-up to write the playbook is needed."
   treatment:
     layers: []
     linters: []
     runnable_checks: []
-    note: no treatment can be taken from a playbook, so none is invented.
 
-- name: stm-run-records
+- name: issue-working-records
   playbook: null
   playbook_missing: true
-  note: "playbook missing - issue 719's short-term memory folder, committed as chore(stm) records of the plays that ran (analysis, commits, model-update requests and reports, issue edits, PR body, self-review, templates and memory copies, and specs/design.md, the human-agreed design of this change). Machine-written records of runs, not authored product. No review/ playbook covers them. A follow-up task to write the playbook is needed."
   design_bearing: null
   evidence:
-    - .garura/project/issues/719/context/** (36 files, including context/memory/** copies and context/templates/** copies)
+    - .garura/project/issues/719/context/ (issue, plan, pr, branch and commit records, model-update and issue-edits requests and reports, templates, copied memory and its manifests, grounding-harness and grounding-memory copies)
+    - .garura/project/issues/719/review/ (this run's working files and the run-1 record)
     - .garura/project/issues/719/specs/design.md
+  note: "playbook missing - these are short-term memory records the plays wrote while doing the work (77 files under .garura/project/issues/719/ in this diff). They are evidence, not product. specs/design.md is the branch's own agreed design, so it can never be the grounding for a design finding (circular). No review/ playbook covers this kind. A follow-up to write the playbook is needed."
   treatment:
     layers: []
     linters: []
     runnable_checks: []
-    note: no treatment can be taken from a playbook, so none is invented.
