@@ -1,0 +1,1 @@
+#719 View plans: see every plan, and any one plan as a tree. One change for its three stories: #729 (list every plan, from the plan files alone), #628 (show the plan as a plain-words tree) and #806 (see every plan as a graph against main). Design agreed with the product owner on 2026-10-29: .garura/project/issues/719/specs/design.md.
