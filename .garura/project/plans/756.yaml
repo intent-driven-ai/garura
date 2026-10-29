@@ -10,78 +10,81 @@ identified_by:
 - 722
 needs_plans:
 - 722
-updated: '2026-10-29'
+updated: '2026-10-29'  # tree rebuilt from GitHub after the tracker clean-up
 tree:
-- issue: 776
-  kind: capability
-  title: Change the product ontology through a play
-  status: now
+- issue: 959
+  kind: epic
+  title: Each agent intent (ICE) is its own part of the product model, written by plays
+  status: next
   children:
-  - issue: 777
-    kind: functionality
-    title: A play changes the ontology and calls author-product-ontology
+  - issue: 757
+    kind: feature
+    title: The ICE is its own kind in the product model
     status: done
     children:
-    - issue: 778
-      kind: bug
-      title: The skill author-product-ontology is user-invocable
+    - issue: 758
+      kind: story
+      title: 'The ICE kind: its own page, spine entry and three parts'
       status: done
-    - issue: 781
-      kind: chore
-      title: Tidy four review notes on the edit-ontology play and its skill
+    - issue: 759
+      kind: story
+      title: The linter checks each ICE's three parts and its two links
       status: done
+      children:
+      - issue: 804
+        kind: chore
+        title: 'chore: harden the ICE checks in the grounding linter (review notes from PR #786)'
+        status: next
+    - issue: 760
+      kind: story
+      title: The ready check reads each ICE node and answers ready, partly ready or not ready, with the gaps listed
+      status: done
+      children:
+      - issue: 805
+        kind: chore
+        title: 'chore: the ready check says when needs were not checked (review notes from PR #789)'
+        status: next
+  - issue: 761
+    kind: feature
+    title: Plays write ICE nodes
+    status: next
+    children:
+    - issue: 762
+      kind: story
+      title: /discover-capabilities and its skills write ICE nodes
+      status: next
+    - issue: 763
+      kind: story
+      title: The judges check plain English and the three parts
+      status: next
+  - issue: 764
+    kind: feature
+    title: Move Garura's own model to ICE nodes
+    status: next
+    children:
+    - issue: 765
+      kind: story
+      title: Move each ICE section to its own ICE node, and lose nothing
+      status: next
+  - issue: 776
+    kind: feature
+    title: Change the product ontology through a play
+    status: done
+    children:
+    - issue: 777
+      kind: story
+      title: A play changes the ontology and calls author-product-ontology
+      status: done
+      children:
+      - issue: 778
+        kind: bug
+        title: '[BUG] The skill author-product-ontology is user-invocable'
+        status: done
+      - issue: 781
+        kind: chore
+        title: Tidy four review notes on the edit-ontology play and its skill
+        status: done
     - issue: 785
-      kind: chore
-      title: Copy the fixed preflight.py into the edit-ontology play once plan 717 reaches plan 756
-      status: blocked
-- issue: 757
-  kind: capability
-  title: The ICE is its own kind in the product model
-  status: done
-  children:
-  - issue: 758
-    kind: functionality
-    title: 'The ICE kind: its own page, spine entry and three parts'
-    status: done
-    needs:
-    - 777
-  - issue: 759
-    kind: functionality
-    title: The linter checks each ICE's three parts and its two links
-    status: done
-    children:
-    - issue: 804
-      kind: chore
-      title: Harden the ICE checks in the grounding linter
-      status: next
-  - issue: 760
-    kind: functionality
-    title: 'The ready check reads each ICE node: ready, partly ready or not ready'
-    status: done
-    children:
-    - issue: 805
-      kind: chore
-      title: The ready check says when needs were not checked
-      status: next
-- issue: 761
-  kind: capability
-  title: Plays write ICE nodes
-  status: next
-  children:
-  - issue: 762
-    kind: functionality
-    title: /discover-capabilities and its skills write ICE nodes
-    status: next
-  - issue: 763
-    kind: functionality
-    title: The judges check plain English and the three parts
-    status: next
-- issue: 764
-  kind: capability
-  title: Move Garura's own model to ICE nodes
-  status: next
-  children:
-  - issue: 765
-    kind: functionality
-    title: Move each ICE section to its own ICE node, and lose nothing
-    status: next
+      kind: issue
+      title: 'chore: copy the fixed preflight.py into the edit-ontology play once plan #717 reaches plan #756'
+      status: done

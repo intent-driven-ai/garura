@@ -9,26 +9,52 @@ epic: 957  # this plan's Epic, a sub-issue of business intent #722
 identified_by:
 - 717
 needs_plans: []
-updated: '2026-10-29'
+updated: '2026-10-29'  # tree rebuilt from GitHub after the tracker clean-up
 tree:
-- issue: 723
-  kind: capability
-  title: 'Link the product model: needs, identified by, and loose domains'
-  status: now
+- issue: 957
+  kind: epic
+  title: A person links the parts of the product model, and the model grows as plans are built
+  status: next
   children:
-  - issue: 724
-    kind: functionality
-    title: A capability or functionality is ready without a domain
-    status: done
-  - issue: 597
-    kind: functionality
-    title: Rebuild the product model as an ontology
-    status: done
-  - issue: 725
-    kind: functionality
-    title: '"Needs" and "identified by" link capabilities and functionalities'
+  - issue: 723
+    kind: feature
+    title: 'Link the product model: needs, identified by, and loose domains'
+    status: now
+    children:
+    - issue: 724
+      kind: story
+      title: A capability or functionality is ready without a domain
+      status: done
+    - issue: 725
+      kind: story
+      title: '"Needs" and "identified by" link capabilities'
+      status: next
+    - issue: 726
+      kind: story
+      title: Domains link to business intents and capabilities, outside the plan tree
+      status: next
+    - issue: 597
+      kind: story
+      title: Rebuild the product model as an ontology
+      status: done
+    - issue: 694
+      kind: chore
+      title: 'feat: the product model rules say what ADR 043 changed — who writes each kind, loose nodes, Sources'
+      status: next
+  - issue: 964
+    kind: feature
+    title: Each piece of the product model carries its approval state, and agents build only from approved pieces
     status: next
-  - issue: 726
-    kind: functionality
-    title: Domains link to business intents and capabilities, outside the plan tree
-    status: next
+    children:
+    - issue: 645
+      kind: story
+      title: 'Every piece of the product model carries its approval state: approved, changed or in progress'
+      status: next
+    - issue: 646
+      kind: story
+      title: Agents build only from approved pieces
+      status: next
+    - issue: 647
+      kind: spike
+      title: Decide how approval is recorded outside the review step
+      status: next

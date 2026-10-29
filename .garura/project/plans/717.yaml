@@ -9,59 +9,102 @@ epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-29'
+updated: '2026-10-29'  # tree rebuilt from GitHub after the tracker clean-up
 tree:
-- issue: 721
-  kind: capability
-  title: 'Start and land work against a plan: plan branches in start-change and merge-change'
-  status: done
+- issue: 956
+  kind: epic
+  title: A person builds, views and manages the plan of a business intent
+  status: next
   children:
-  - issue: 731
-    kind: functionality
-    title: start-change cuts a plan's branch, and each issue's branch from it
+  - issue: 718
+    kind: feature
+    title: 'Build a plan: a tree with an issue for every node, from a business intent'
+    status: next
+    children:
+    - issue: 727
+      kind: story
+      title: Build the plan tree from a business intent
+      status: next
+    - issue: 728
+      kind: story
+      title: Create or link a tracker issue for every node in a plan
+      status: next
+    - issue: 896
+      kind: story
+      title: /shape-plan stops when the business intent already has a plan, and does not run again
+      status: next
+    - issue: 931
+      kind: story
+      title: /shape-plan opens an unplanned epic that gathers defects fixed together
+      status: next
+  - issue: 719
+    kind: feature
+    title: 'View plans: see every plan, and any one plan as a tree'
+    status: next
+    children:
+    - issue: 729
+      kind: story
+      title: List every plan, from the plan files alone
+      status: next
+    - issue: 628
+      kind: story
+      title: 'Show the plan as a plain-words tree: goal, done, now, next, wait'
+      status: next
+    - issue: 806
+      kind: story
+      title: 'See every plan as a graph: which plan is on which branch, compared to main'
+      status: next
+  - issue: 720
+    kind: feature
+    title: 'Manage a plan: change the plan file and the tracker together'
+    status: next
+    children:
+    - issue: 730
+      kind: story
+      title: Update, edit or delete a plan file, and connect it to its issues
+      status: next
+      children:
+      - issue: 917
+        kind: chore
+        title: 'The findings left by the PR #916 review (the plan 788 landing)'
+        status: next
+  - issue: 721
+    kind: feature
+    title: 'Start and land work against a plan: plan branches in start-change and merge-change'
     status: done
-  - issue: 673
-    kind: functionality
-    title: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses
-    status: done
-- issue: 718
-  kind: capability
-  title: 'Build a plan: a tree with an issue for every node, from a business intent'
-  status: next
-  children:
-  - issue: 727
-    kind: functionality
-    title: Build the plan tree from a business intent
+    children:
+    - issue: 731
+      kind: story
+      title: start-change cuts a plan's branch, and each issue's branch from it
+      status: done
+      children:
+      - issue: 779
+        kind: bug
+        title: '[BUG] start-change reads plan files from the checked-out branch, so a new issue looks like it is in no plan'
+        status: next
+      - issue: 953
+        kind: chore
+        title: 'The findings left by round 2 of the PR #950 review: an unsafe delete of a stale plan branch, and four wording fixes'
+        status: next
+    - issue: 673
+      kind: story
+      title: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses
+      status: done
+      children:
+      - issue: 951
+        kind: chore
+        title: 'The five small findings of the PR #950 review: plan folder from pre-flight, one always-true target check, capability-close check, plan order, two rule pages'
+        status: next
+    - issue: 791
+      kind: issue
+      title: The plan file names the plan a detour returns to; start-change cuts from it and merge-change lands back on it
+      status: done
+  - issue: 965
+    kind: feature
+    title: A plan's work lands on main with evidence that all of it was reviewed
     status: next
-    needs:
-    - 724
-  - issue: 728
-    kind: functionality
-    title: Create or link a tracker issue for every node in a plan
-    status: next
-- issue: 719
-  kind: capability
-  title: 'View plans: see every plan, and any one plan as a tree'
-  status: next
-  children:
-  - issue: 729
-    kind: functionality
-    title: List every plan, from the plan files alone
-    status: next
-  - issue: 628
-    kind: functionality
-    title: 'Show the plan as a plain-words tree: goal, done, now, next, wait'
-    status: next
-  - issue: 806
-    kind: functionality
-    title: See every plan as a graph, which plan is on which branch, compared to main
-    status: next
-- issue: 720
-  kind: capability
-  title: 'Manage a plan: change the plan file and the tracker together'
-  status: next
-  children:
-  - issue: 730
-    kind: functionality
-    title: Update, edit or delete a plan file, and connect it to its issues
-    status: next
+    children:
+    - issue: 915
+      kind: story
+      title: Landing a plan branch on main shows evidence that every commit was reviewed and that the plan, its epics and the commits agree
+      status: next

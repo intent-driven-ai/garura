@@ -9,23 +9,9 @@ epic: 960  # this plan's Epic, a sub-issue of business intent #767
 identified_by:
 - 753
 needs_plans: []
-updated: '2026-10-29'
+updated: '2026-10-29'  # tree rebuilt from GitHub after the tracker clean-up
 tree:
-- issue: 768
-  kind: capability
-  title: Guidance that Claude Code reads in this repo
+- issue: 960
+  kind: epic
+  title: Claude Code in this repo reads each rule once, in the right place
   status: next
-  children:
-  - issue: 769
-    kind: functionality
-    title: CLAUDE.md says each rule once and right
-    status: next
-    children:
-    - issue: 770
-      kind: chore
-      title: Merge the installer's memory rule into CLAUDE.md and drop the voice rule
-      status: next
-    - issue: 774
-      kind: bug
-      title: The long user-facing voice rule file is still in memory after CLAUDE.md dropped the rule
-      status: next
