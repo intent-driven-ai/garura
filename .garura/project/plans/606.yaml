@@ -10,8 +10,9 @@ status: active
 planned: false
 started: '2026-10-28'
 branch: null  # #920 landed on main through PR #932, 2026-10-28
+epic: 955  # this plan's Epic, a sub-issue of business intent #606
 identified_by: []
-updated: '2026-10-28'  # epic #922 done: #929 promoted the pages to Phoenix memory (phoenix-memory dfdafe6)
+updated: '2026-10-29'
 tree:
 - issue: 922
   kind: epic

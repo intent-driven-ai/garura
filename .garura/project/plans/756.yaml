@@ -5,11 +5,12 @@ title: The agent intent (ICE) is its own part of the product model
 status: active
 started: '2026-10-22'
 branch: null  # no branch until work on the plan starts again (2026-10-28)
+epic: 959  # this plan's Epic, a sub-issue of business intent #756
 identified_by:
 - 722
 needs_plans:
 - 722
-updated: '2026-10-22'
+updated: '2026-10-29'
 tree:
 - issue: 776
   kind: capability

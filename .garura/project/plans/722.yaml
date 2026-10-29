@@ -5,10 +5,11 @@ title: A product model can be managed, and grows as plans are built
 status: active
 started: '2026-10-21'
 branch: null  # no branch until work on the plan starts again (2026-10-28)
+epic: 957  # this plan's Epic, a sub-issue of business intent #722
 identified_by:
 - 717
 needs_plans: []
-updated: '2026-10-22'
+updated: '2026-10-29'
 tree:
 - issue: 723
   kind: capability

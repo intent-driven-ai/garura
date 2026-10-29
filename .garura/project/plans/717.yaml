@@ -5,10 +5,11 @@ title: People plan work toward a business intent, and pick it up across days and
 status: active
 started: '2026-10-22'
 branch: null  # plan/717/base merged into main with PR #950 and was deleted on 2026-10-29; a new one is cut when the work starts again
+epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-28'
+updated: '2026-10-29'
 tree:
 - issue: 721
   kind: capability

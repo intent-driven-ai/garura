@@ -2,13 +2,14 @@
 # Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
 id: 734
 title: Garura publishes a standard for building agentic harnesses
-status: done
+status: active  # more work to file under Epic #958 (the product owner, 2026-10-29)
 started: '2026-10-22'
 branch: null
+epic: 958  # this plan's Epic, a sub-issue of business intent #734
 identified_by:
 - 717
 needs_plans: []
-updated: '2026-10-22'
+updated: '2026-10-29'
 tree:
 - issue: 735
   kind: capability
