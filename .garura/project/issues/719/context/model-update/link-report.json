@@ -1,0 +1,21 @@
+{
+  "written": [
+    "fn-806"
+  ],
+  "updated": [
+    "fn-628",
+    "fn-729"
+  ],
+  "thin": [
+    "fn-806",
+    "fn-628",
+    "fn-729"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/features/fn-806/feature.md",
+    "product-os/features/fn-628/feature.md",
+    "product-os/features/fn-729/feature.md"
+  ],
+  "layout_kept": true
+}

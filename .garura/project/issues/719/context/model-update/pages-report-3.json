@@ -1,0 +1,5 @@
+{"updated": [{"id": "fn-729", "doc": "features/fn-729/feature.md",
+              "added_sections": [], "renamed": [],
+              "changed_lines": [{"line": 7, "old": "- Goal: Anyone sees every active plan at once.", "new": "- Goal: Anyone sees every plan at once."}],
+              "kept_lines": 12}],
+ "new_features": [], "thin": [], "fixed": [], "not_mine": []}

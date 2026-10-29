@@ -1,0 +1,37 @@
+ M .garura/install-manifest.json
+ M .garura/product/product-os/_spine.yaml
+ M .garura/product/product-os/capabilities/cap-739/capability.md
+ M .garura/product/product-os/features/fn-628/feature.md
+ M .garura/product/product-os/features/fn-729/feature.md
+ M .garura/product/product-os/features/fn-731/feature.md
+ M .garura/product/product-os/features/fn-746/feature.md
+ M .garura/product/product-os/intents/bi-717.md
+ M .garura/product/product-os/intents/bi-722.md
+ M .garura/product/product-os/intents/bi-734.md
+ M .garura/project/issues/719/specs/design.md
+ M .garura/project/plans/606.yaml
+ M .garura/project/plans/717.yaml
+ M .garura/project/plans/722.yaml
+ M .garura/project/plans/734.yaml
+ M .garura/project/plans/756.yaml
+ M .garura/project/plans/767.yaml
+ M .garura/project/plans/788.yaml
+ M core/components/agents/product-os-keeper.md
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/memory/standards/rules/work-plan.md
+ M core/components/memory/standards/templates/_index.md
+ M core/components/plays/install-garura/scripts/install.py
+ M core/components/plays/install-garura/scripts/test_install.py
+ M core/components/plays/shape-plan/scripts/write_plan_file.py
+ M core/components/skills/enrich-grounding/SKILL.md
+?? .garura/product/product-os/features/fn-806/
+?? .garura/project/issues/719/context/issue-edits/
+?? .garura/project/issues/719/context/memory/
+?? .garura/project/issues/719/context/model-update/
+?? .garura/project/issues/719/context/porcelain.txt
+?? .garura/project/issues/719/context/templates/
+?? core/components/memory/standards/templates/plan-view.md
+?? core/components/plays/list-plans/
+?? core/components/plays/show-plan/
+?? core/components/skills/link-model-part/
+?? core/tools/plan/

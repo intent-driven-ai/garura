@@ -1,0 +1,25 @@
+{
+  "written": [
+    ".garura/product/product-os/features/fn-729/feature.md",
+    ".garura/product/product-os/capabilities/cap-739/capability.md",
+    ".garura/product/product-os/features/fn-731/feature.md",
+    ".garura/product/product-os/features/fn-746/feature.md"
+  ],
+  "grounding": {
+    "updated": [
+      {"id": "fn-729", "doc": "features/fn-729/feature.md",
+       "replaced": ["What it does line (ID, business intent, what is now, who it waits on) -> the design's list line: number and title, branch, Done count against open count, what is Now or In Progress, the plans it waits on (needs_plans), from the plan-view template"],
+       "added_lines": ["Limit: no model call makes the list", "Context"],
+       "kept_lines": ["title", "## What it does", "## Agent intent (ICE)", "Goal", "Limit: Reads the plan files only", "Fails if", "Checked by"]},
+      {"id": "cap-739", "doc": "capabilities/cap-739/capability.md", "replaced": ["a real name -> the product owner, on the Directional intent line only"]},
+      {"id": "fn-731", "doc": "features/fn-731/feature.md", "replaced": ["a real name -> the product owner, on the What it does line only"]},
+      {"id": "fn-746", "doc": "features/fn-746/feature.md", "replaced": ["a real name -> the product owner, on the What it does line only"]}
+    ],
+    "not_written": ["Thin line and metadata.thin (link-feature, phase B)", "_spine.yaml (phase B)", "any intent page"]
+  },
+  "notes": [
+    "fn-729 now matches the #719 design: its What it does names each part of a list line, a second Limit says no model call makes the list and the marks and layout come from the plan-view template, and a Context line puts the graph (/list-plans --graph, fn-806) and the tree (fn-628) out of scope.",
+    "fn-729's Goal still says 'every active plan' while the design and the plan tool list every plan; the design does not replace that line, so it was kept as it was.",
+    "cap-739 still uses the old 'Directional intent' heading; only the name on its line was changed, as the contract asks."
+  ]
+}

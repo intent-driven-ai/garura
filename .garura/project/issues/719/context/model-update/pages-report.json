@@ -1,0 +1,27 @@
+{
+  "written": [
+    ".garura/product/product-os/features/fn-806/feature.md",
+    ".garura/product/product-os/features/fn-628/feature.md"
+  ],
+  "grounding": {
+    "new_features": [{"id": "fn-806", "doc": "features/fn-806/feature.md"}],
+    "updated": [{"id": "fn-628", "doc": "features/fn-628/feature.md",
+                 "replaced": ["title line", "legend and linked-plans part of What it does", "second half of the Fails if line (decided, built or shipped)"],
+                 "added_lines": ["Limit: no model call", "Context"],
+                 "kept_lines": ["## What it does", "## Agent intent (ICE)", "Goal", "Limit: read only", "Fails if: a line is only an issue number", "Checked by"]}],
+    "thin": [
+      {"id": "fn-806", "lines": ["Goal", "Limit", "Fails if", "Context", "Checked by"]},
+      {"id": "fn-628", "lines": ["Goal", "Limit", "Fails if", "Context", "Checked by"]}
+    ],
+    "not_written": ["Thin line and metadata.thin (link-feature, phase B)", "_spine.yaml (phase B)", "a Features line on the cap-719 page (the page has no Features list, and the contract allows only the two feature pages)"]
+  },
+  "fn_729": {
+    "matches_design": false,
+    "why": "The page still says one line per plan shows its ID, its business intent, what is now and who it waits on. The design's line holds the number, the title, the branch, the Done count against the open count, what is Now or In Progress, and the plans it waits on (needs_plans). The page names no branch and no Done or open count, says 'what is now' where the design also shows In Progress, and its ICE has no Context line and no 'no model call' limit (the capability's ICE holds that one). Its Goal ('every active plan'), Limit (plan files only), Fails if and Checked by do not contradict the design. Nothing was changed."
+  },
+  "notes": [
+    "Both pages keep the shape of the other feature pages (title, What it does, Agent intent) as the contract asks, not the full feature template with Inputs / Outputs, Rules, Acceptance criteria, Out of scope and Sources.",
+    "The fn-628 Fails if line says a Done or Dropped node with no open work under it must not show, because the built /show-plan still prints a hidden node that has a shown node under it, to keep its place.",
+    "The bi-717 intent page names a real person on its Asked by and Stage lines; it was not touched here."
+  ]
+}

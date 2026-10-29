@@ -1,0 +1,16 @@
+{
+  "edited": [
+    {
+      "issue": 979,
+      "replacements": 1,
+      "old_found_count": 1,
+      "body_length_before": 4218,
+      "body_length_after": 4389
+    }
+  ],
+  "skipped": [],
+  "verbs_used": [
+    "view-issue",
+    "edit-issue-body"
+  ]
+}

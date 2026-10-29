@@ -1,0 +1,44 @@
+{
+  "by": "the product owner, 2026-10-29",
+  "edits": [
+    {
+      "issue": 729,
+      "replace": [
+        [
+          "- Goal: Anyone sees every active plan at once.",
+          "- Goal: Anyone sees every plan at once."
+        ],
+        [
+          "- Statuses in every plan: `Not Started`, `In Progress` (started, no one on it in an open change), `Now` (worked in an open change), `Done`, `Blocked`, `Dropped` (closed as not planned; hidden in every view). `next` and `later` go and become `Not Started`.",
+          "- Statuses in every plan: `Not Started`, `In Progress` (started, no one on it in an open change), `Now` (worked in an open change), `Done`, `Blocked`, `Dropped` (closed as not planned; hidden in every view). `next` and `later` go and become `Not Started`.\n- No roll-ups (the product owner, 2026-10-29): a node shows the status its plan file gives it; nothing is worked out from the nodes under it. Done means it landed on main; an epic may be closed with stories open; a defect found later is linked under its story and the story stays Done. The plan's first line, its business intent, has no mark."
+        ]
+      ]
+    },
+    {
+      "issue": 628,
+      "replace": [
+        [
+          "○ #717  People plan work toward a business intent, and pick it up across days and people",
+          "#717  People plan work toward a business intent, and pick it up across days and people"
+        ],
+        [
+          "   ├─ ◐ #718  Build a plan",
+          "   ├─ ○ #718  Build a plan"
+        ],
+        [
+          "- Statuses in every plan: `Not Started`, `In Progress` (started, no one on it in an open change), `Now` (worked in an open change), `Done`, `Blocked`, `Dropped` (closed as not planned; hidden in every view). `next` and `later` go and become `Not Started`.",
+          "- Statuses in every plan: `Not Started`, `In Progress` (started, no one on it in an open change), `Now` (worked in an open change), `Done`, `Blocked`, `Dropped` (closed as not planned; hidden in every view). `next` and `later` go and become `Not Started`.\n- No roll-ups (the product owner, 2026-10-29): a node shows the status its plan file gives it; nothing is worked out from the nodes under it. Done means it landed on main; an epic may be closed with stories open; a defect found later is linked under its story and the story stays Done. The plan's first line, its business intent, has no mark."
+        ]
+      ]
+    },
+    {
+      "issue": 719,
+      "replace": [
+        [
+          "- Statuses in every plan: `Not Started`, `In Progress` (started, no one on it in an open change), `Now` (worked in an open change), `Done`, `Blocked`, `Dropped` (closed as not planned; hidden in every view). `next` and `later` go and become `Not Started`.",
+          "- Statuses in every plan: `Not Started`, `In Progress` (started, no one on it in an open change), `Now` (worked in an open change), `Done`, `Blocked`, `Dropped` (closed as not planned; hidden in every view). `next` and `later` go and become `Not Started`.\n- No roll-ups (the product owner, 2026-10-29): a node shows the status its plan file gives it; nothing is worked out from the nodes under it. Done means it landed on main; an epic may be closed with stories open; a defect found later is linked under its story and the story stays Done. The plan's first line, its business intent, has no mark."
+        ]
+      ]
+    }
+  ]
+}

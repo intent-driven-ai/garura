@@ -25,6 +25,11 @@ Every node of every plan has one of six statuses:
 `next` and `later` go. Every `next` and `later` node becomes `Not Started`. The two `now` nodes of
 2026-10-29 (#723, #794) have no open change, so they become `In Progress`.
 
+No roll-ups (the product owner, 2026-10-29). A node's status is its own; nothing is worked out
+from the nodes under it. Done means it landed on main. An epic may be closed with stories still
+open. A defect found later is linked under the story it came from, and the story stays Done.
+The plan's first line, its business intent, has no mark.
+
 ## The parts
 
 1. **The template** — `plan-view.md`, in the templates folder
@@ -54,9 +59,9 @@ Example, `/show-plan 717`:
 ```
 ○ Not Started · ◐ In Progress · ▶ Now · ⛔ Blocked
 
-○ #717  People plan work toward a business intent, and pick it up across days and people
+#717  People plan work toward a business intent, and pick it up across days and people
 └─ ○ #956  A person builds, views and manages the plan of a business intent
-   ├─ ◐ #718  Build a plan
+   ├─ ○ #718  Build a plan
    │  └─ ○ #896  /shape-plan stops when the business intent already has a plan
    ├─ ○ #719  View plans
    │  ├─ ○ #729  List every plan
