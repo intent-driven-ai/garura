@@ -1,95 +1,11 @@
 commits:
-  - sha: 29e49599
-    message: "fix(preflight): read the plan number from a plan's own branch in every play pre-flight (#717)"
+  - sha: 69745add
+    message: "chore(stm): record the run records for the plan-branch change (#717)"
     files:
-      - core/components/plays/build-epic/scripts/preflight.py
-      - core/components/plays/check-change/scripts/preflight.py
-      - core/components/plays/commit-change/scripts/preflight.py
-      - core/components/plays/create-play/references/preflight.py
-      - core/components/plays/create-play/references/test_resolve_plan.py
-      - core/components/plays/discover-capabilities/scripts/preflight.py
-      - core/components/plays/discover-domains/scripts/preflight.py
-      - core/components/plays/discover-intent/scripts/preflight.py
-      - core/components/plays/edit-ontology/scripts/preflight.py
-      - core/components/plays/learn-outcomes/scripts/preflight.py
-      - core/components/plays/list-focus-issues/scripts/preflight.py
-      - core/components/plays/merge-change/scripts/preflight.py
-      - core/components/plays/propose-change/scripts/preflight.py
-      - core/components/plays/record-decision/scripts/preflight.py
-      - core/components/plays/refactor-code/scripts/preflight.py
-      - core/components/plays/release-epic/scripts/preflight.py
-      - core/components/plays/release-increment/scripts/preflight.py
-      - core/components/plays/shape-agentic-lens/scripts/preflight.py
-      - core/components/plays/shape-architecture-lens/scripts/preflight.py
-      - core/components/plays/shape-eval/scripts/preflight.py
-      - core/components/plays/shape-marketing-lens/scripts/preflight.py
-      - core/components/plays/shape-measure-lens/scripts/preflight.py
-      - core/components/plays/shape-plan/scripts/preflight.py
-      - core/components/plays/shape-quality-lens/scripts/preflight.py
-      - core/components/plays/shape-run-lens/scripts/preflight.py
-      - core/components/plays/shape-slice/scripts/preflight.py
-      - core/components/plays/shape-ux-lens/scripts/preflight.py
-      - core/components/plays/start-change/scripts/preflight.py
-      - core/components/plays/validate-epic/scripts/preflight.py
-    branch: plan/717/base
-  - sha: a1719136
-    message: "fix(setup-branch): record the plan branch tip on a resume and cut a fresh plan branch when only a stale local copy is left (#717)"
-    files:
-      - core/components/plays/create-play/references/setup_branch.py
-      - core/components/plays/create-play/references/test_setup_branch.py
-      - core/components/plays/start-change/scripts/setup_branch.py
-    branch: plan/717/base
-  - sha: 503cd46c
-    message: "fix(change-scripts): point an existing PR at its target and close a landed issue on the already-merged path (#717)"
-    files:
-      - core/components/plays/create-play/references/merge_pr.py
-      - core/components/plays/create-play/references/submit_pr.py
-      - core/components/plays/create-play/references/test_merge_plan.py
-      - core/components/plays/merge-change/scripts/merge_pr.py
-      - core/components/plays/propose-change/scripts/submit_pr.py
-    branch: plan/717/base
-  - sha: 6ecf2d9d
-    message: "feat(lint-components): hold the plan scripts and pre-flight identical across plays in the shared-scripts rule (#717)"
-    files:
-      - core/tools/lint-components/lib/rules/shared-scripts.js
-    branch: plan/717/base
-  - sha: 17c29d56
-    message: "docs(create-play): name the plan scripts a play copies from references (#717)"
-    files:
-      - core/components/plays/create-play/SKILL.md
-    branch: plan/717/base
-  - sha: 0332b4ff
-    message: "docs(change-plays): say a change lands where its branch belongs and add scenario S6 for a plan's own branch (#717)"
-    files:
-      - core/components/plays/merge-change/SKILL.md
-      - core/components/plays/propose-change/SKILL.md
-      - core/components/plays/propose-change/reference/ice.md
-    branch: plan/717/base
-  - sha: ac867996
-    message: "chore(stm): record the review short-term memory copies and run records (#717)"
-    files:
-      - .garura/project/issues/717/context/analysis-run1.yaml
-      - .garura/project/issues/717/context/analysis.yaml
-      - .garura/project/issues/717/context/memory/grounding-harness/manifest.json
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/commits.md
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/evidence-recording.md
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/gate-config.md
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/git.md
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/naming.md
-      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-position.md
-      - .garura/project/issues/717/context/memory/knowledge/review/_index.md
-      - .garura/project/issues/717/context/memory/knowledge/review/adrs.md
-      - .garura/project/issues/717/context/memory/knowledge/review/code.md
-      - .garura/project/issues/717/context/memory/knowledge/review/config-maps.md
-      - .garura/project/issues/717/context/memory/knowledge/review/docs.md
-      - .garura/project/issues/717/context/memory/knowledge/review/harness.md
-      - .garura/project/issues/717/context/memory/knowledge/review/memory.md
-      - .garura/project/issues/717/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/717/context/citations.jsonl
       - .garura/project/issues/717/context/memory/manifest.json
-      - .garura/project/issues/717/context/memory/standards/rules/pr.md
+      - .garura/project/issues/717/context/memory/standards/templates/product-ontology.md
       - .garura/project/issues/717/context/porcelain.txt
-      - .garura/project/issues/717/context/templates/manifest-check-change.json
-      - .garura/project/issues/717/context/templates/standards/rules/pipeline-next.md
     branch: plan/717/base
 excluded_files:
   []
