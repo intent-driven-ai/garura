@@ -1,0 +1,18 @@
+{
+  "moved": [{"issue": 915, "from_parent": 965, "to_parent": 510}],
+  "commented": [
+    {"issue": 915, "url": "https://github.com/intent-driven-ai/garura/issues/915#issuecomment-6498566334"},
+    {"issue": 965, "url": "https://github.com/intent-driven-ai/garura/issues/965#issuecomment-6498567384"}
+  ],
+  "closed": [{"issue": 965, "reason": "not planned", "closedAt": "2026-10-29T13:53:51Z"}],
+  "verbs_used": ["view-issue", "remove-sub-issue", "attach-sub-issue", "comment-issue", "close-issue"],
+  "check": {
+    "915_parent": 510,
+    "915_state": "OPEN",
+    "965_state": "CLOSED",
+    "965_state_reason": "NOT_PLANNED",
+    "965_sub_issues": 0,
+    "comment_before_close": true,
+    "note": "Verbs were run with the gh commands from platform-adapter's github verbs.md (the adapter skill is not user-invocable); no other issue was touched."
+  }
+}

@@ -1,0 +1,6 @@
+{"by": "the product owner, 2026-10-29",
+ "moves": [{"issue": 915, "from_parent": 965, "to_parent": 510}],
+ "comments": [
+   {"issue": 915, "body": "Moved under #510 (the change delivery pipeline: propose, review, merge), in the loop intent #606, on 2026-10-29 (the product owner): what a landing review checks again is a question for the change plays, not for planning.\n\nA second case, found today: plan 717 landing on main (PR #981) runs the full check-change again over PR #980's work, which check-change had already reviewed twice before it merged into plan/717/base. The landing review should check only what no earlier pull request reviewed."},
+   {"issue": 965, "body": "Closed on 2026-10-29 (the product owner): its only story, #915 (what a plan's landing review checks again), moved under #510, the change delivery pipeline in the loop intent #606."}],
+ "close": [{"issue": 965, "reason": "not planned"}]}
