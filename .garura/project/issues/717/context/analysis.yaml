@@ -1,42 +1,90 @@
----
 needs_judgment: false
 
 change_groups:
-  - id: managing-work-blocking-lands-on-main
-    issue: 717
-    commit_type: docs
-    scope: managing-work
-    subject: "blocking work lands on main, not on the blocked plan's branch (ADR 060)"
+  - id: link-model-part-thin-line
+    issue: 979
+    commit_type: fix
+    scope: link-model-part
+    subject: "write the exact Thin line and refuse a malformed request"
     files:
-      - .garura/user-provided/managing-work.md
-  - id: plan-788-no-branch-no-detour
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+  - id: plan-tool-plain-stops
+    issue: 719
+    commit_type: fix
+    scope: plan
+    subject: "stop with a plain message on missing git, a non-folder repo or a non-mapping plan node"
+    files:
+      - core/tools/plan/plan.py
+      - core/tools/plan/test_plan.py
+  - id: remark-thin-feature-pages
+    issue: 719
+    commit_type: fix
+    scope: product-os
+    subject: "re-mark three feature pages thin with the exact line"
+    files:
+      - .garura/product/product-os/_spine.yaml
+      - .garura/product/product-os/features/fn-806/feature.md
+      - .garura/product/product-os/features/fn-628/feature.md
+      - .garura/product/product-os/features/fn-729/feature.md
+  - id: reinstall-record
     issue: 717
     commit_type: chore
-    scope: plan
-    subject: "plan 788 has no branch and no detour target (ADR 060)"
+    scope: install
+    subject: "record the reinstall"
     files:
-      - .garura/project/plans/788.yaml
-  - id: stm-run-records
+      - .garura/install-manifest.json
+  - id: check-change-working-files
     issue: 717
     commit_type: chore
     scope: stm
-    subject: "record the run records for the plan-branch change"
+    subject: "record check-change run working files"
     files:
-      - .garura/project/issues/717/context/citations.jsonl
-      - .garura/project/issues/717/context/memory/manifest.json
-      - .garura/project/issues/717/context/memory/standards/templates/product-ontology.md
+      - .garura/project/issues/717/context/analysis.yaml
+      - .garura/project/issues/717/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/commits.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/concurrent-fanout.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/direct-model-write.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/gate-config.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/git.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/no-unbacked-recommendation.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-next.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/surface-contract.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/717/context/memory/grounding-harness/standards/rules/work-plan.md
+      - .garura/project/issues/717/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/717/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/717/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/717/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/rules/_index.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/rules/direct-model-write.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/rules/pipeline-next.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/rules/work-plan.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/_index.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/grounding/_content-standard.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/grounding/capability.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/grounding/feature.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/ontology.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/spine.yaml
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/templates/_index.md
+      - .garura/project/issues/717/context/memory/grounding-memory/standards/templates/work-plan.md
       - .garura/project/issues/717/context/porcelain.txt
+      - .garura/project/issues/717/context/remark-thin-report.json
+      - .garura/project/issues/717/context/remark-thin.json
+      - .garura/project/issues/717/review/context.yaml
+      - .garura/project/issues/717/review/design-findings-harness.yaml
+      - .garura/project/issues/717/review/design-findings-memory.yaml
+      - .garura/project/issues/717/review/pr.diff
+      - .garura/project/issues/717/review/quality-findings.yaml
 
-exclusions:
-  []
+exclusions: []
 
 risks:
-  sensitive_files:
-    []
+  sensitive_files: []
   breaking_changes: []
   ambiguous_types: []
   hotfix_branch: false
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "every file listed in porcelain.txt sits in exactly one group"}
-  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched"}
+  SE-1: {status: PASS, evidence: "every changed path is in exactly one of 5 groups"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns in the 45 changed paths"}

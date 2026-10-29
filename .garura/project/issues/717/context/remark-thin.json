@@ -1,0 +1,5 @@
+{"by": "/show-plan and /list-plans change (#719)",
+ "parts": [
+  {"id": "fn-806", "kind": "feature", "mode": "update", "thin": true},
+  {"id": "fn-628", "kind": "feature", "mode": "update", "thin": true},
+  {"id": "fn-729", "kind": "feature", "mode": "update", "thin": true}]}
