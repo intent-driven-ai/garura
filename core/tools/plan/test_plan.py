@@ -153,6 +153,33 @@ class PlanToolTest(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertIn("has no title", err)
 
+    def test_a_node_that_is_not_a_mapping_is_refused(self):
+        with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
+            fh.write("id: 9\ntitle: x\ntree:\n- just a line\n")
+        code, _, err = run("list", *self.base)
+        self.assertEqual(code, 2)
+        self.assertIn("not a mapping", err)
+
+    def test_a_repo_that_is_not_a_folder_is_refused(self):
+        code, _, err = run("list", "--template", TEMPLATE, "--plans-dir", self.dir,
+                           "--repo", os.path.join(self.dir, "no-such-folder"))
+        self.assertEqual(code, 2)
+        self.assertIn("is not a folder", err)
+
+    def test_no_git_shows_every_plan_on_main_instead_of_crashing(self):
+        real = plan.subprocess.run
+
+        def no_git(*a, **k):
+            raise FileNotFoundError("git")
+
+        plan.subprocess.run = no_git
+        try:
+            code, out, _ = run("graph", *self.base)
+        finally:
+            plan.subprocess.run = real
+        self.assertEqual(code, 0)
+        self.assertIn("on main: #9, #10, #20", out)
+
     def test_a_template_with_no_settings_block_is_refused(self):
         bad = os.path.join(self.dir, "bad.md")
         with open(bad, "w", encoding="utf-8") as fh:

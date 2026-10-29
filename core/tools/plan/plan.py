@@ -17,7 +17,9 @@ never here.
 
 Output goes to stdout. Exit: 0 = printed, 1 = the plan asked for does not exist, 2 = bad input
 (a template with no settings block, a plan file that cannot be read, a plan with no title, a
-node with no issue, title or status, a status the template does not know).
+node that is not a mapping or has no issue, title or status, a status the template does not
+know, a --repo that is not a folder). When git is not installed, every plan shows as on main
+and the graph's counts read ?.
 """
 
 import argparse
@@ -75,6 +77,7 @@ def load_plans(plans_dir, template):
         plan.setdefault("id", plan_id(path))
         if not plan.get("title"):
             raise BadInput(f"{path} has no title")
+        check_shape(plan.get("tree"), path)
         for node in walk(plan.get("tree")):
             missing = [k for k in ("issue", "title", "status") if not node.get(k)]
             if missing:
@@ -84,6 +87,18 @@ def load_plans(plans_dir, template):
                                f"which the template does not know")
         plans.append(plan)
     return plans
+
+
+def check_shape(nodes, path):
+    """Every tree level is a list and every node a mapping, before anything reads a field."""
+    if nodes is None:
+        return
+    if not isinstance(nodes, list):
+        raise BadInput(f"{path}: a tree or a children list is not a list")
+    for node in nodes:
+        if not isinstance(node, dict):
+            raise BadInput(f"{path}: a node is not a mapping: {node!r}")
+        check_shape(node.get("children"), path)
 
 
 def walk(nodes):
@@ -171,11 +186,18 @@ def plan_branch(plan, repo):
     return name if ref_of(name, repo) else None
 
 
+def git(args, repo):
+    """Run git in `repo`; None when git is not installed or cannot run there."""
+    try:
+        return subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+
+
 def ref_of(branch, repo):
     for ref in (branch, f"origin/{branch}"):
-        r = subprocess.run(["git", "rev-parse", "--verify", "--quiet", ref],
-                           cwd=repo, capture_output=True, text=True)
-        if r.returncode == 0:
+        r = git(["rev-parse", "--verify", "--quiet", ref], repo)
+        if r is not None and r.returncode == 0:
             return ref
     return None
 
@@ -211,9 +233,8 @@ def graph(plans, template, repo):
         ref = ref_of(branch, repo)
         ahead = behind = "?"
         if ref and main:
-            r = subprocess.run(["git", "rev-list", "--left-right", "--count", f"{main}...{ref}"],
-                               cwd=repo, capture_output=True, text=True)
-            if r.returncode == 0:
+            r = git(["rev-list", "--left-right", "--count", f"{main}...{ref}"], repo)
+            if r is not None and r.returncode == 0:
                 behind, ahead = r.stdout.split()
         flag = g["behind_flag"] if behind not in ("?", "0") else ""
         bar = "└─" if i == len(branched) - 1 else "├─"
@@ -233,6 +254,8 @@ def main(argv=None):
     ap.add_argument("--repo", default=".", help="the git repository (graph and branches)")
     args = ap.parse_args(argv)
     try:
+        if args.command in ("list", "graph") and not os.path.isdir(args.repo):
+            raise BadInput(f"--repo {args.repo} is not a folder")
         template = load_template(args.template)
         plans = load_plans(args.plans_dir, template)
         code = 0
