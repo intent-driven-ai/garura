@@ -35,6 +35,10 @@ tree:
       kind: story
       title: One ADR that replaces ADR 006 and ADR 018
       status: Done
+    - issue: 992
+      kind: story
+      title: 'Harness principle: a person is never stopped — every gate has a key, and using it records what is owed'
+      status: Not Started  # filed 2026-10-30 from #990; the product owner asked for it in the harness standard
   - issue: 739
     kind: feature
     title: The naming checks, built before any rename
