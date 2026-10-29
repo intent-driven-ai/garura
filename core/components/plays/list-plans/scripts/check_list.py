@@ -77,22 +77,28 @@ def check(a):
     elif a.mode == "list":
         li = t["list"]
         icons = li["directions"]
-        heads = [li["head"].format(direction=icons.get(direction, "").ljust(li["direction_width"]),
-                                   plan=pid, title=title) for pid, title, direction in plans]
+        heads = [li["head"].format(plan=pid, title=title) for pid, title, _ in plans]
         seen = [ln for ln in view if ln in heads]
         rec["all_listed"] = sorted(seen) == sorted(heads) and len(seen) == len(heads)
         rec["in_order"] = seen == heads
-        listed = [ln for ln in view if re.match(r"^\S*\s*#\d+  ", ln)]
+        listed = [ln for ln in view if re.match(r"^#\d+  ", ln)]
         rec["template_used"] = listed == seen and bool(view) and view[0].startswith(icons[1])
-        # C10: each card's Status row and direction icon are what the plan file holds, as set
-        status_rows = {}
+        # C10: under each heading, the direction line (only when the plan file sets one), a blank
+        # line, then the Status row — all exactly as the plan file holds them
+        def card(h, direction, status):
+            want = []
+            if direction in icons:
+                want.append(li["direction_line"].format(direction=icons[direction]))
+            want.append("")
+            want.append(li["row"].format(label=li["labels"]["status"].ljust(li["label_width"]),
+                                         value=status or "").rstrip())
+            return want
+        got = {}
         for i, ln in enumerate(view):
-            if ln in heads and i + 1 < len(view):
-                status_rows[ln] = view[i + 1]
-        want = {h: li["row"].format(label=li["labels"]["status"].ljust(li["label_width"]),
-                                     value=st or "").rstrip()
-                for h, st in zip(heads, statuses)}
-        rec["as_set"] = all(status_rows.get(h) == w for h, w in want.items())
+            if ln in heads:
+                got[ln] = view[i + 1:i + 4]
+        want = {h: card(h, d, st) for h, (_, _, d), st in zip(heads, plans, statuses)}
+        rec["as_set"] = all(got.get(h, [])[:len(w)] == w for h, w in want.items())
     else:
         g = t["graph"]
         pat = re.compile(r"^[├└]─ (\S+)  (\S+) ahead · (\S+) behind.*  #(\d+) ")
