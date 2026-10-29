@@ -1,7 +1,7 @@
 # Self-review: #719 View plans (also closes #729, #628, #806; related #979)
 
 Branch `plan/717/719-view-plans` against `plan/717/base`. This is the second review, run after the three fixes `c2d05a76`, `76d29ee5` and `31a7ba44`; it replaces the first.
-Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
+Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
 Design: `.garura/project/issues/719/specs/design.md`.
 
 Verdict: nothing found stops the raise. Seven notes for the reviewer; the first three are items the change-review already named that are still open, and the other four are riders and gaps.

@@ -74,7 +74,7 @@ index 000000000..04f1552ac
 @@ -0,0 +1,18 @@
 +{
 +  "approved": true,
-+  "approval_source": "typed by Kapil in session, 2026-10-22: 'merge it' \u2014 no review-change verdict was run",
++  "approval_source": "typed by the product owner in session, 2026-10-22: 'merge it' \u2014 no review-change verdict was run",
 +  "mergeable": true,
 +  "checks_pass": true,
 +  "already_merged": false,
@@ -2639,7 +2639,7 @@ index 797621280..a02d1bc00 100644
 +  default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. A
 +  plan's branch is created only when work on the plan starts — by the first start-change
 +  for an issue in it, cut from the latest main; when it already exists, the latest main is
-+  merged into it before the issue's branch is cut (#731, Kapil 2026-10-22). A merge
++  merged into it before the issue's branch is cut (#731, the product owner 2026-10-22). A merge
 +  conflict stops the run for a person to resolve.
  - C3 — A git worktree is set up only when config calls for it (config-driven, not
    automatic).

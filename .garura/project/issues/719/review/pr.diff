@@ -162,7 +162,7 @@ index 6ac6a33d7..497c2dc2a 100644
  # Capability: The naming checks, built before any rename
  
  ## Directional intent
--the evals that prove names follow the standard — built first, failing on today's names, passing as each family is renamed (Kapil: build the eval first).
+-the evals that prove names follow the standard — built first, failing on today's names, passing as each family is renamed (the product owner: build the eval first).
 +the evals that prove names follow the standard — built first, failing on today's names, passing as each family is renamed (the product owner: build the eval first).
  
  ## Agent intent (ICE)
@@ -218,7 +218,7 @@ index 890d0961f..d5be27b3b 100644
  # Feature: start-change cuts a plan's branch, and each issue's branch from it
  
  ## What it does
--when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (Kapil, 2026-10-21).
+-when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (the product owner, 2026-10-21).
 +when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (the product owner, 2026-10-21).
  
  ## Agent intent (ICE)
@@ -231,7 +231,7 @@ index 490388f95..cfe2a6682 100644
  # Feature: Rename the skills
  
  ## What it does
--every skill renamed to the skill verb list (to be agreed with Kapil), including the duplicates kb-search / search-kb and the manage-plan skill.
+-every skill renamed to the skill verb list (to be agreed with the product owner), including the duplicates kb-search / search-kb and the manage-plan skill.
 +every skill renamed to the skill verb list (to be agreed with the product owner), including the duplicates kb-search / search-kb and the manage-plan skill.
  
  ## Agent intent (ICE)
@@ -265,7 +265,7 @@ index 8a71cbf1e..4bcb1232f 100644
  
  **Why:** today the plan tree is rebuilt by hand each time. On 2026-10-21 it took 20 plan files and about 30 tracker reads, and the plans had gone stale (the #613 plan said "active" after #613 had closed).
  
--**Asked by:** Kapil
+-**Asked by:** the product owner
 +**Asked by:** the product owner
  
  **Proof it is met:** a plan is built from a business intent; a second session shows it from the plan file alone, with no other reading; a change to the plan reaches the plan file and the tracker together.
@@ -274,7 +274,7 @@ index 8a71cbf1e..4bcb1232f 100644
  
  **Plan:** this issue's number is the plan's ID — `.garura/project/plans/717.yaml`. Tracking only: a business intent holds no ICE; agents work on its capabilities and features.
  
--**Stage:** confirmed — by Kapil, 2026-10-21
+-**Stage:** confirmed — by the product owner, 2026-10-21
 +**Stage:** confirmed — by the product owner, 2026-10-21
  **Tracker:** #717
 diff --git a/.garura/product/product-os/intents/bi-722.md b/.garura/product/product-os/intents/bi-722.md
@@ -285,10 +285,10 @@ index 6a066ceba..4b7bd8dfb 100644
  
  **Outcome:** a plan can be built and worked on without first writing a full product model. The model grows as the work goes, and still links up: capabilities and features to the business intents they serve, to what they need, and to what identified them; domains to business intents and capabilities.
  
--**Why:** today a capability or feature is not "ready" until it links all the way up to a domain (ADR 043), so no play may plan or build from it. That blocks a plan built straight from a business intent. Rule from here on (Kapil, 2026-10-21): nothing is blocked.
+-**Why:** today a capability or feature is not "ready" until it links all the way up to a domain (ADR 043), so no play may plan or build from it. That blocks a plan built straight from a business intent. Rule from here on (the product owner, 2026-10-21): nothing is blocked.
 +**Why:** today a capability or feature is not "ready" until it links all the way up to a domain (ADR 043), so no play may plan or build from it. That blocks a plan built straight from a business intent. Rule from here on (the product owner, 2026-10-21): nothing is blocked.
  
--**Asked by:** Kapil
+-**Asked by:** the product owner
 +**Asked by:** the product owner
  
  **Proof it is met:** a capability with no domain, serving a confirmed business intent, is ready; Garura's own model is built this way for #717 and this intent.
@@ -297,7 +297,7 @@ index 6a066ceba..4b7bd8dfb 100644
  
  **Plan:** this issue's number is the plan's ID — `.garura/project/plans/722.yaml`. Tracking only: a business intent holds no ICE.
  
--**Stage:** confirmed — by Kapil, 2026-10-21
+-**Stage:** confirmed — by the product owner, 2026-10-21
 +**Stage:** confirmed — by the product owner, 2026-10-21
  **Tracker:** #722
 diff --git a/.garura/product/product-os/intents/bi-734.md b/.garura/product/product-os/intents/bi-734.md
@@ -308,7 +308,7 @@ index 7bc9d06d7..a148083d3 100644
  
  **Why:** Garura's names grew in four shapes (`vision`, `understand`, `fix-bug`, `play-creator`), verbs meant two things, and a planned play clashed with a skill (`manage-plan`). A harness clients adopt needs one rule they can learn once. People will mostly run loops, so loop names matter most.
  
--**Asked by:** Kapil
+-**Asked by:** the product owner
 +**Asked by:** the product owner
  
  **Proof it is met:** the standard is published; the component linter enforces it; every play, skill and loop in Garura passes the linter; an install leaves no old name behind in a project.
@@ -317,7 +317,7 @@ index 7bc9d06d7..a148083d3 100644
  
  **Plan:** this issue's number is the plan's ID — `.garura/project/plans/734.yaml`. Tracking only: a business intent holds no ICE.
  
--**Stage:** confirmed — by Kapil, 2026-10-22
+-**Stage:** confirmed — by the product owner, 2026-10-22
 +**Stage:** confirmed — by the product owner, 2026-10-22
  **Tracker:** #734
 diff --git a/.garura/project/issues/719/context/analysis.yaml b/.garura/project/issues/719/context/analysis.yaml
@@ -3738,11 +3738,11 @@ index 000000000..3607ee46c
 +      "kind": "intent",
 +      "changed_lines": [
 +        {
-+          "old": "**Asked by:** Kapil",
++          "old": "**Asked by:** the product owner",
 +          "new": "**Asked by:** the product owner"
 +        },
 +        {
-+          "old": "**Stage:** confirmed — by Kapil, 2026-10-21",
++          "old": "**Stage:** confirmed — by the product owner, 2026-10-21",
 +          "new": "**Stage:** confirmed — by the product owner, 2026-10-21"
 +        }
 +      ],
@@ -3761,15 +3761,15 @@ index 000000000..3607ee46c
 +      "kind": "intent",
 +      "changed_lines": [
 +        {
-+          "old": "Rule from here on (Kapil, 2026-10-21): nothing is blocked.",
++          "old": "Rule from here on (the product owner, 2026-10-21): nothing is blocked.",
 +          "new": "Rule from here on (the product owner, 2026-10-21): nothing is blocked."
 +        },
 +        {
-+          "old": "**Asked by:** Kapil",
++          "old": "**Asked by:** the product owner",
 +          "new": "**Asked by:** the product owner"
 +        },
 +        {
-+          "old": "**Stage:** confirmed — by Kapil, 2026-10-21",
++          "old": "**Stage:** confirmed — by the product owner, 2026-10-21",
 +          "new": "**Stage:** confirmed — by the product owner, 2026-10-21"
 +        }
 +      ],
@@ -3789,11 +3789,11 @@ index 000000000..3607ee46c
 +      "kind": "intent",
 +      "changed_lines": [
 +        {
-+          "old": "**Asked by:** Kapil",
++          "old": "**Asked by:** the product owner",
 +          "new": "**Asked by:** the product owner"
 +        },
 +        {
-+          "old": "**Stage:** confirmed — by Kapil, 2026-10-22",
++          "old": "**Stage:** confirmed — by the product owner, 2026-10-22",
 +          "new": "**Stage:** confirmed — by the product owner, 2026-10-22"
 +        }
 +      ],
@@ -3829,11 +3829,11 @@ index 000000000..d3e084a58
 +      "doc": "intents/bi-717.md",
 +      "lines": [
 +        [
-+          "**Asked by:** Kapil",
++          "**Asked by:** the product owner",
 +          "**Asked by:** the product owner"
 +        ],
 +        [
-+          "**Stage:** confirmed — by Kapil, 2026-10-21",
++          "**Stage:** confirmed — by the product owner, 2026-10-21",
 +          "**Stage:** confirmed — by the product owner, 2026-10-21"
 +        ]
 +      ]
@@ -3844,15 +3844,15 @@ index 000000000..d3e084a58
 +      "doc": "intents/bi-722.md",
 +      "lines": [
 +        [
-+          "Rule from here on (Kapil, 2026-10-21): nothing is blocked.",
++          "Rule from here on (the product owner, 2026-10-21): nothing is blocked.",
 +          "Rule from here on (the product owner, 2026-10-21): nothing is blocked."
 +        ],
 +        [
-+          "**Asked by:** Kapil",
++          "**Asked by:** the product owner",
 +          "**Asked by:** the product owner"
 +        ],
 +        [
-+          "**Stage:** confirmed — by Kapil, 2026-10-21",
++          "**Stage:** confirmed — by the product owner, 2026-10-21",
 +          "**Stage:** confirmed — by the product owner, 2026-10-21"
 +        ]
 +      ]
@@ -3863,11 +3863,11 @@ index 000000000..d3e084a58
 +      "doc": "intents/bi-734.md",
 +      "lines": [
 +        [
-+          "**Asked by:** Kapil",
++          "**Asked by:** the product owner",
 +          "**Asked by:** the product owner"
 +        ],
 +        [
-+          "**Stage:** confirmed — by Kapil, 2026-10-22",
++          "**Stage:** confirmed — by the product owner, 2026-10-22",
 +          "**Stage:** confirmed — by the product owner, 2026-10-22"
 +        ]
 +      ]
@@ -3891,7 +3891,7 @@ index 000000000..838d01828
 +
 +A `show` mode for the `manage-plan` skill. A script prints the plan as a short **tree** — GOAL → DONE → NOW → NEXT → WAIT (on the human) — and follows `serves_plan` so the parent level shows too.
 +
-+Every line says in plain words what the item is, with its issue number beside it — never a bare number — so a reader coming back after two days knows where things stand from the tree alone. Every DONE line says what kind of done: **decided**, **built**, or **shipped**, and what is still pending. Thorough, but crisp. (Kapil, 2026-10-08, after a long readout and then an over-compressed one both failed; rules in `standards/rules/work-plan.md`, rule 19.)
++Every line says in plain words what the item is, with its issue number beside it — never a bare number — so a reader coming back after two days knows where things stand from the tree alone. Every DONE line says what kind of done: **decided**, **built**, or **shipped**, and what is still pending. Thorough, but crisp. (the product owner, 2026-10-08, after a long readout and then an over-compressed one both failed; rules in `standards/rules/work-plan.md`, rule 19.)
 +
 +## Acceptance criteria
 +
@@ -3952,7 +3952,7 @@ index 000000000..3421346b4
 +- Serves: #717
 +- Identified by: found on its own
 +
-+Design: `.garura/project/issues/621/specs/plan-design.md` and `change-list.md` (agreed with Kapil, 2026-10-21).
++Design: `.garura/project/issues/621/specs/plan-design.md` and `change-list.md` (agreed with the product owner, 2026-10-21).
 +
 +
 +## Design (agreed 2026-10-29)
@@ -4205,7 +4205,7 @@ index 000000000..87f02f2ce
 +# Self-review: #719 View plans (also closes #729, #628, #806; related #979)
 +
 +Branch `plan/717/719-view-plans` against `plan/717/base`. This is the second review, run after the three fixes `c2d05a76`, `76d29ee5` and `31a7ba44`; it replaces the first.
-+Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
 +Design: `.garura/project/issues/719/specs/design.md`.
 +
 +Verdict: nothing found stops the raise. Seven notes for the reviewer; the first three are items the change-review already named that are still open, and the other four are riders and gaps.
@@ -4263,8 +4263,8 @@ index 000000000..ad1581750
 @@ -0,0 +1,6 @@
 +{
 +  "resolved": true,
-+  "path": "/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md",
-+  "source": "/Users/kapilahuja/.phoenix/core/memory/standards/rules",
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
 +  "is_override": false
 +}
 diff --git a/.garura/project/issues/719/context/self-review.md b/.garura/project/issues/719/context/self-review.md
@@ -4276,7 +4276,7 @@ index 000000000..0f0305e85
 +# Self-review: #719 View plans (also closes #729, #628, #806; related #979)
 +
 +Branch `plan/717/719-view-plans` against `plan/717/base`. This is the second review, run after the three fixes `c2d05a76`, `76d29ee5` and `31a7ba44`; it replaces the first.
-+Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
 +Design: `.garura/project/issues/719/specs/design.md`.
 +
 +Verdict: nothing found stops the raise. Seven notes for the reviewer; the first three are items the change-review already named that are still open, and the other four are riders and gaps.
@@ -4361,12 +4361,12 @@ index 000000000..352b2cec9
 +{
 +  "status": "completed",
 +  "outputs": {
-+    "manifest": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/manifest-close-start-change.json"
++    "manifest": ".garura/project/issues/719/context/templates/manifest-close-start-change.json"
 +  },
 +  "templates": [
 +    {
 +      "name": "standards/templates/delivery-report.md",
-+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/standards/templates/delivery-report.md",
++      "copy": ".garura/project/issues/719/context/templates/standards/templates/delivery-report.md",
 +      "source": {
 +        "tier": "phoenix",
 +        "path": "standards/templates/delivery-report.md",
@@ -4376,7 +4376,7 @@ index 000000000..352b2cec9
 +    },
 +    {
 +      "name": "standards/rules/pipeline-next.md",
-+      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/standards/rules/pipeline-next.md",
++      "copy": ".garura/project/issues/719/context/templates/standards/rules/pipeline-next.md",
 +      "source": {
 +        "tier": "phoenix",
 +        "path": "standards/rules/pipeline-next.md",
@@ -5270,259 +5270,259 @@ index 000000000..46f9d65cf
 +{
 +  "violations": [
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Input",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Process",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/check-quality/SKILL.md",
++      "file": "core/components/skills/check-quality/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Output",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/find-matching-issues/SKILL.md",
++      "file": "core/components/skills/find-matching-issues/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/find-matching-issues/SKILL.md",
++      "file": "core/components/skills/find-matching-issues/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
++      "file": "core/components/skills/merge-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/merge-pr/SKILL.md",
++      "file": "core/components/skills/merge-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/open-pr/SKILL.md",
++      "file": "core/components/skills/open-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: model",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/open-pr/SKILL.md",
++      "file": "core/components/skills/open-pr/SKILL.md",
 +      "rule": "structural/missing-frontmatter-field",
 +      "severity": "error",
 +      "message": "Missing required frontmatter field: allowed-tools",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Input",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Process",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/skills/propose-kb-node/SKILL.md",
++      "file": "core/components/skills/propose-kb-node/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Output",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-loop/SKILL.md",
++      "file": "core/components/plays/create-loop/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md",
++      "file": "core/components/plays/create-play/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-loop/SKILL.md",
++      "file": "core/components/plays/edit-loop/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Pre-flight",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/edit-play/SKILL.md",
++      "file": "core/components/plays/edit-play/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/install-garura/SKILL.md",
++      "file": "core/components/plays/install-garura/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Compiled From",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-section",
 +      "severity": "error",
 +      "message": "Missing required section: ## Role",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/uninstall-garura/SKILL.md",
++      "file": "core/components/plays/uninstall-garura/SKILL.md",
 +      "rule": "structural/missing-standard-play-close",
 +      "severity": "error",
 +      "message": "Standard Play Close anchors must appear exactly once each (found opener 0, closer 0). See ../_shared/play-close.md.",
 +      "line": 1
 +    },
 +    {
-+      "file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/list-focus-issues/SKILL.md",
++      "file": "core/components/plays/list-focus-issues/SKILL.md",
 +      "rule": "structural/spelling-inconsistency",
 +      "severity": "warning",
 +      "message": "Corpus uses mixed spellings for user-invocable/user-invokable. This file uses `user-invokable` (minority form).",
@@ -5727,7 +5727,7 @@ index 000000000..6793a6c05
 + # Capability: The naming checks, built before any rename
 + 
 + ## Directional intent
-+-the evals that prove names follow the standard — built first, failing on today's names, passing as each family is renamed (Kapil: build the eval first).
++-the evals that prove names follow the standard — built first, failing on today's names, passing as each family is renamed (the product owner: build the eval first).
 ++the evals that prove names follow the standard — built first, failing on today's names, passing as each family is renamed (the product owner: build the eval first).
 + 
 + ## Agent intent (ICE)
@@ -5783,7 +5783,7 @@ index 000000000..6793a6c05
 + # Feature: start-change cuts a plan's branch, and each issue's branch from it
 + 
 + ## What it does
-+-when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (Kapil, 2026-10-21).
++-when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (the product owner, 2026-10-21).
 ++when work on a plan starts, start-change cuts the plan's branch from main; for each issue in the plan it cuts the issue's branch from the plan branch, and takes the latest main into the plan branch first. First in this plan's order (the product owner, 2026-10-21).
 + 
 + ## Agent intent (ICE)
@@ -5796,7 +5796,7 @@ index 000000000..6793a6c05
 + # Feature: Rename the skills
 + 
 + ## What it does
-+-every skill renamed to the skill verb list (to be agreed with Kapil), including the duplicates kb-search / search-kb and the manage-plan skill.
++-every skill renamed to the skill verb list (to be agreed with the product owner), including the duplicates kb-search / search-kb and the manage-plan skill.
 ++every skill renamed to the skill verb list (to be agreed with the product owner), including the duplicates kb-search / search-kb and the manage-plan skill.
 + 
 + ## Agent intent (ICE)
@@ -5830,7 +5830,7 @@ index 000000000..6793a6c05
 + 
 + **Why:** today the plan tree is rebuilt by hand each time. On 2026-10-21 it took 20 plan files and about 30 tracker reads, and the plans had gone stale (the #613 plan said "active" after #613 had closed).
 + 
-+-**Asked by:** Kapil
++-**Asked by:** the product owner
 ++**Asked by:** the product owner
 + 
 + **Proof it is met:** a plan is built from a business intent; a second session shows it from the plan file alone, with no other reading; a change to the plan reaches the plan file and the tracker together.
@@ -5839,7 +5839,7 @@ index 000000000..6793a6c05
 + 
 + **Plan:** this issue's number is the plan's ID — `.garura/project/plans/717.yaml`. Tracking only: a business intent holds no ICE; agents work on its capabilities and features.
 + 
-+-**Stage:** confirmed — by Kapil, 2026-10-21
++-**Stage:** confirmed — by the product owner, 2026-10-21
 ++**Stage:** confirmed — by the product owner, 2026-10-21
 + **Tracker:** #717
 +diff --git a/.garura/product/product-os/intents/bi-722.md b/.garura/product/product-os/intents/bi-722.md
@@ -5850,10 +5850,10 @@ index 000000000..6793a6c05
 + 
 + **Outcome:** a plan can be built and worked on without first writing a full product model. The model grows as the work goes, and still links up: capabilities and features to the business intents they serve, to what they need, and to what identified them; domains to business intents and capabilities.
 + 
-+-**Why:** today a capability or feature is not "ready" until it links all the way up to a domain (ADR 043), so no play may plan or build from it. That blocks a plan built straight from a business intent. Rule from here on (Kapil, 2026-10-21): nothing is blocked.
++-**Why:** today a capability or feature is not "ready" until it links all the way up to a domain (ADR 043), so no play may plan or build from it. That blocks a plan built straight from a business intent. Rule from here on (the product owner, 2026-10-21): nothing is blocked.
 ++**Why:** today a capability or feature is not "ready" until it links all the way up to a domain (ADR 043), so no play may plan or build from it. That blocks a plan built straight from a business intent. Rule from here on (the product owner, 2026-10-21): nothing is blocked.
 + 
-+-**Asked by:** Kapil
++-**Asked by:** the product owner
 ++**Asked by:** the product owner
 + 
 + **Proof it is met:** a capability with no domain, serving a confirmed business intent, is ready; Garura's own model is built this way for #717 and this intent.
@@ -5862,7 +5862,7 @@ index 000000000..6793a6c05
 + 
 + **Plan:** this issue's number is the plan's ID — `.garura/project/plans/722.yaml`. Tracking only: a business intent holds no ICE.
 + 
-+-**Stage:** confirmed — by Kapil, 2026-10-21
++-**Stage:** confirmed — by the product owner, 2026-10-21
 ++**Stage:** confirmed — by the product owner, 2026-10-21
 + **Tracker:** #722
 +diff --git a/.garura/product/product-os/intents/bi-734.md b/.garura/product/product-os/intents/bi-734.md
@@ -5873,7 +5873,7 @@ index 000000000..6793a6c05
 + 
 + **Why:** Garura's names grew in four shapes (`vision`, `understand`, `fix-bug`, `play-creator`), verbs meant two things, and a planned play clashed with a skill (`manage-plan`). A harness clients adopt needs one rule they can learn once. People will mostly run loops, so loop names matter most.
 + 
-+-**Asked by:** Kapil
++-**Asked by:** the product owner
 ++**Asked by:** the product owner
 + 
 + **Proof it is met:** the standard is published; the component linter enforces it; every play, skill and loop in Garura passes the linter; an install leaves no old name behind in a project.
@@ -5882,7 +5882,7 @@ index 000000000..6793a6c05
 + 
 + **Plan:** this issue's number is the plan's ID — `.garura/project/plans/734.yaml`. Tracking only: a business intent holds no ICE.
 + 
-+-**Stage:** confirmed — by Kapil, 2026-10-22
++-**Stage:** confirmed — by the product owner, 2026-10-22
 ++**Stage:** confirmed — by the product owner, 2026-10-22
 + **Tracker:** #734
 +diff --git a/.garura/project/issues/719/context/analysis.yaml b/.garura/project/issues/719/context/analysis.yaml
@@ -6671,11 +6671,11 @@ index 000000000..6793a6c05
 ++      "kind": "intent",
 ++      "changed_lines": [
 ++        {
-++          "old": "**Asked by:** Kapil",
+++          "old": "**Asked by:** the product owner",
 ++          "new": "**Asked by:** the product owner"
 ++        },
 ++        {
-++          "old": "**Stage:** confirmed — by Kapil, 2026-10-21",
+++          "old": "**Stage:** confirmed — by the product owner, 2026-10-21",
 ++          "new": "**Stage:** confirmed — by the product owner, 2026-10-21"
 ++        }
 ++      ],
@@ -6694,15 +6694,15 @@ index 000000000..6793a6c05
 ++      "kind": "intent",
 ++      "changed_lines": [
 ++        {
-++          "old": "Rule from here on (Kapil, 2026-10-21): nothing is blocked.",
+++          "old": "Rule from here on (the product owner, 2026-10-21): nothing is blocked.",
 ++          "new": "Rule from here on (the product owner, 2026-10-21): nothing is blocked."
 ++        },
 ++        {
-++          "old": "**Asked by:** Kapil",
+++          "old": "**Asked by:** the product owner",
 ++          "new": "**Asked by:** the product owner"
 ++        },
 ++        {
-++          "old": "**Stage:** confirmed — by Kapil, 2026-10-21",
+++          "old": "**Stage:** confirmed — by the product owner, 2026-10-21",
 ++          "new": "**Stage:** confirmed — by the product owner, 2026-10-21"
 ++        }
 ++      ],
@@ -6722,11 +6722,11 @@ index 000000000..6793a6c05
 ++      "kind": "intent",
 ++      "changed_lines": [
 ++        {
-++          "old": "**Asked by:** Kapil",
+++          "old": "**Asked by:** the product owner",
 ++          "new": "**Asked by:** the product owner"
 ++        },
 ++        {
-++          "old": "**Stage:** confirmed — by Kapil, 2026-10-22",
+++          "old": "**Stage:** confirmed — by the product owner, 2026-10-22",
 ++          "new": "**Stage:** confirmed — by the product owner, 2026-10-22"
 ++        }
 ++      ],
@@ -6762,11 +6762,11 @@ index 000000000..6793a6c05
 ++      "doc": "intents/bi-717.md",
 ++      "lines": [
 ++        [
-++          "**Asked by:** Kapil",
+++          "**Asked by:** the product owner",
 ++          "**Asked by:** the product owner"
 ++        ],
 ++        [
-++          "**Stage:** confirmed — by Kapil, 2026-10-21",
+++          "**Stage:** confirmed — by the product owner, 2026-10-21",
 ++          "**Stage:** confirmed — by the product owner, 2026-10-21"
 ++        ]
 ++      ]
@@ -6777,15 +6777,15 @@ index 000000000..6793a6c05
 ++      "doc": "intents/bi-722.md",
 ++      "lines": [
 ++        [
-++          "Rule from here on (Kapil, 2026-10-21): nothing is blocked.",
+++          "Rule from here on (the product owner, 2026-10-21): nothing is blocked.",
 ++          "Rule from here on (the product owner, 2026-10-21): nothing is blocked."
 ++        ],
 ++        [
-++          "**Asked by:** Kapil",
+++          "**Asked by:** the product owner",
 ++          "**Asked by:** the product owner"
 ++        ],
 ++        [
-++          "**Stage:** confirmed — by Kapil, 2026-10-21",
+++          "**Stage:** confirmed — by the product owner, 2026-10-21",
 ++          "**Stage:** confirmed — by the product owner, 2026-10-21"
 ++        ]
 ++      ]
@@ -6796,11 +6796,11 @@ index 000000000..6793a6c05
 ++      "doc": "intents/bi-734.md",
 ++      "lines": [
 ++        [
-++          "**Asked by:** Kapil",
+++          "**Asked by:** the product owner",
 ++          "**Asked by:** the product owner"
 ++        ],
 ++        [
-++          "**Stage:** confirmed — by Kapil, 2026-10-22",
+++          "**Stage:** confirmed — by the product owner, 2026-10-22",
 ++          "**Stage:** confirmed — by the product owner, 2026-10-22"
 ++        ]
 ++      ]
@@ -6824,7 +6824,7 @@ index 000000000..6793a6c05
 ++
 ++A `show` mode for the `manage-plan` skill. A script prints the plan as a short **tree** — GOAL → DONE → NOW → NEXT → WAIT (on the human) — and follows `serves_plan` so the parent level shows too.
 ++
-++Every line says in plain words what the item is, with its issue number beside it — never a bare number — so a reader coming back after two days knows where things stand from the tree alone. Every DONE line says what kind of done: **decided**, **built**, or **shipped**, and what is still pending. Thorough, but crisp. (Kapil, 2026-10-08, after a long readout and then an over-compressed one both failed; rules in `standards/rules/work-plan.md`, rule 19.)
+++Every line says in plain words what the item is, with its issue number beside it — never a bare number — so a reader coming back after two days knows where things stand from the tree alone. Every DONE line says what kind of done: **decided**, **built**, or **shipped**, and what is still pending. Thorough, but crisp. (the product owner, 2026-10-08, after a long readout and then an over-compressed one both failed; rules in `standards/rules/work-plan.md`, rule 19.)
 ++
 ++## Acceptance criteria
 ++
@@ -6885,7 +6885,7 @@ index 000000000..6793a6c05
 ++- Serves: #717
 ++- Identified by: found on its own
 ++
-++Design: `.garura/project/issues/621/specs/plan-design.md` and `change-list.md` (agreed with Kapil, 2026-10-21).
+++Design: `.garura/project/issues/621/specs/plan-design.md` and `change-list.md` (agreed with the product owner, 2026-10-21).
 ++
 ++
 ++## Design (agreed 2026-10-29)
@@ -7156,7 +7156,7 @@ index 000000000..6793a6c05
 ++# Self-review: #719 View plans (also closes #729, #628, #806; related #979)
 ++
 ++Branch `plan/717/719-view-plans` against `plan/717/base`.
-++Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
+++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
 ++Design: `.garura/project/issues/719/specs/design.md`.
 ++
 ++Verdict: no findings stop the raise. Six notes for the reviewer, none of them a fault.
@@ -7212,8 +7212,8 @@ index 000000000..6793a6c05
 +@@ -0,0 +1,6 @@
 ++{
 ++  "resolved": true,
-++  "path": "/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md",
-++  "source": "/Users/kapilahuja/.phoenix/core/memory/standards/rules",
+++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
+++  "source": "~/.phoenix/core/memory/standards/rules",
 ++  "is_override": false
 ++}
 +diff --git a/.garura/project/issues/719/context/self-review.md b/.garura/project/issues/719/context/self-review.md
@@ -7225,7 +7225,7 @@ index 000000000..6793a6c05
 ++# Self-review: #719 View plans (also closes #729, #628, #806; related #979)
 ++
 ++Branch `plan/717/719-view-plans` against `plan/717/base`.
-++Rules: `/Users/kapilahuja/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
+++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (the base file, no project override; recorded in `resolved-rules.json`).
 ++Design: `.garura/project/issues/719/specs/design.md`.
 ++
 ++Verdict: no findings stop the raise. Six notes for the reviewer, none of them a fault.
@@ -7281,12 +7281,12 @@ index 000000000..6793a6c05
 ++{
 ++  "status": "completed",
 ++  "outputs": {
-++    "manifest": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/manifest-close-start-change.json"
+++    "manifest": ".garura/project/issues/719/context/templates/manifest-close-start-change.json"
 ++  },
 ++  "templates": [
 ++    {
 ++      "name": "standards/templates/delivery-report.md",
-++      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/standards/templates/delivery-report.md",
+++      "copy": ".garura/project/issues/719/context/templates/standards/templates/delivery-report.md",
 ++      "source": {
 ++        "tier": "phoenix",
 ++        "path": "standards/templates/delivery-report.md",
@@ -7296,7 +7296,7 @@ index 000000000..6793a6c05
 ++    },
 ++    {
 ++      "name": "standards/rules/pipeline-next.md",
-++      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/standards/rules/pipeline-next.md",
+++      "copy": ".garura/project/issues/719/context/templates/standards/rules/pipeline-next.md",
 ++      "source": {
 ++        "tier": "phoenix",
 ++        "path": "standards/rules/pipeline-next.md",

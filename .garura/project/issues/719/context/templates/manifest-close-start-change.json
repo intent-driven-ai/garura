@@ -1,12 +1,12 @@
 {
   "status": "completed",
   "outputs": {
-    "manifest": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/manifest-close-start-change.json"
+    "manifest": ".garura/project/issues/719/context/templates/manifest-close-start-change.json"
   },
   "templates": [
     {
       "name": "standards/templates/delivery-report.md",
-      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/standards/templates/delivery-report.md",
+      "copy": ".garura/project/issues/719/context/templates/standards/templates/delivery-report.md",
       "source": {
         "tier": "phoenix",
         "path": "standards/templates/delivery-report.md",
@@ -16,7 +16,7 @@
     },
     {
       "name": "standards/rules/pipeline-next.md",
-      "copy": "/Users/kapilahuja/cto/builder/garura/.garura/project/issues/719/context/templates/standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/719/context/templates/standards/rules/pipeline-next.md",
       "source": {
         "tier": "phoenix",
         "path": "standards/rules/pipeline-next.md",

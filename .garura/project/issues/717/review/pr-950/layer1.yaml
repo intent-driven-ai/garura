@@ -2,10 +2,10 @@
 lint_components:
   in_changed_paths: 4
   there_before: 33
-    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
-    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
-    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
-    {"file": "/Users/kapilahuja/cto/builder/garura/core/components/plays/create-play/SKILL.md", "rule": "structural/missing-standard-play-close", "severity": "error", "message": "Stand
+    {"file": "core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
+    {"file": "core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
+    {"file": "core/components/plays/create-play/SKILL.md", "rule": "structural/missing-section", "severity": "error", "message": "Missing required 
+    {"file": "core/components/plays/create-play/SKILL.md", "rule": "structural/missing-standard-play-close", "severity": "error", "message": "Stand
   note: the installed linter (.garura/core/tools) is main's copy; the source copy with the new shared-scripts rule:
    source-rule drift findings: 0
 lint_play:

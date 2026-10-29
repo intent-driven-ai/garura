@@ -8,7 +8,7 @@
 
 A `show` mode for the `manage-plan` skill. A script prints the plan as a short **tree** — GOAL → DONE → NOW → NEXT → WAIT (on the human) — and follows `serves_plan` so the parent level shows too.
 
-Every line says in plain words what the item is, with its issue number beside it — never a bare number — so a reader coming back after two days knows where things stand from the tree alone. Every DONE line says what kind of done: **decided**, **built**, or **shipped**, and what is still pending. Thorough, but crisp. (Kapil, 2026-10-08, after a long readout and then an over-compressed one both failed; rules in `standards/rules/work-plan.md`, rule 19.)
+Every line says in plain words what the item is, with its issue number beside it — never a bare number — so a reader coming back after two days knows where things stand from the tree alone. Every DONE line says what kind of done: **decided**, **built**, or **shipped**, and what is still pending. Thorough, but crisp. (the product owner, 2026-10-08, after a long readout and then an over-compressed one both failed; rules in `standards/rules/work-plan.md`, rule 19.)
 
 ## Acceptance criteria
 

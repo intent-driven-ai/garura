@@ -14,7 +14,7 @@ Functionality: one list of every plan — its ID, its business intent, what is n
 - Serves: #717
 - Identified by: found on its own
 
-Design: `.garura/project/issues/621/specs/plan-design.md` and `change-list.md` (agreed with Kapil, 2026-10-21).
+Design: `.garura/project/issues/621/specs/plan-design.md` and `change-list.md` (agreed with the product owner, 2026-10-21).
 
 
 ## Design (agreed 2026-10-29)

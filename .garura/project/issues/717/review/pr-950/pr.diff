@@ -74,7 +74,7 @@ index 000000000..04f1552ac
 @@ -0,0 +1,18 @@
 +{
 +  "approved": true,
-+  "approval_source": "typed by Kapil in session, 2026-10-22: 'merge it' \u2014 no review-change verdict was run",
++  "approval_source": "typed by the product owner in session, 2026-10-22: 'merge it' \u2014 no review-change verdict was run",
 +  "mergeable": true,
 +  "checks_pass": true,
 +  "already_merged": false,
@@ -4651,7 +4651,7 @@ index 000000000..e8310187b
 +@@ -0,0 +1,18 @@
 ++{
 ++  "approved": true,
-++  "approval_source": "typed by Kapil in session, 2026-10-22: 'merge it' \u2014 no review-change verdict was run",
+++  "approval_source": "typed by the product owner in session, 2026-10-22: 'merge it' \u2014 no review-change verdict was run",
 ++  "mergeable": true,
 ++  "checks_pass": true,
 ++  "already_merged": false,
@@ -7216,7 +7216,7 @@ index 000000000..e8310187b
 ++  default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. A
 ++  plan's branch is created only when work on the plan starts — by the first start-change
 ++  for an issue in it, cut from the latest main; when it already exists, the latest main is
-++  merged into it before the issue's branch is cut (#731, Kapil 2026-10-22). A merge
+++  merged into it before the issue's branch is cut (#731, the product owner 2026-10-22). A merge
 ++  conflict stops the run for a person to resolve.
 + - C3 — A git worktree is set up only when config calls for it (config-driven, not
 +   automatic).
@@ -7602,7 +7602,7 @@ index 000000000..b547fa5d6
 +  "supersedes": 0,
 +  "amends": 0,
 +  "notes": [
-+    "Decided by is filled with Kapil Viren Ahuja at the brief's request. The template defines that line as the person who accepted; adr.py accept rewrites it with the --by name at acceptance.",
++    "Decided by is filled with the product owner at the brief's request. The template defines that line as the person who accepted; adr.py accept rewrites it with the --by name at acceptance.",
 +    "The managing-work.md and plan 788 fixes the draft calls 'fixed in PR #950' were in the working tree of plan/717/base, not yet committed, when the keeper read them on 2026-10-29.",
 +    "The ontology is still version 12 with line 599 present; the /edit-ontology run the draft names has not happened yet."
 +  ]
@@ -7622,10 +7622,10 @@ index 000000000..db62457e2
 +level: framework
 +node_ref: null
 +decided_in: "#717 (plan 717, plans and the change plays), on plan/717/base, PR #950 (the review's finding H2 asked for this record), 2026-10-28"
-+decided_by: Kapil Viren Ahuja
++decided_by: the product owner
 +decided_by_why: >-
 +  The brief's Change round 1 asks for it, "as the other ADRs record it" (ADR 054 and ADR 057
-+  write "Decided by: Kapil Viren Ahuja"). Who decided is not who accepts: the acceptance stays
++  write "Decided by: the product owner"). Who decided is not who accepts: the acceptance stays
 +  the person's, through the play.
 +date: 2026-10-28
 +template_path: .garura/project/issues/_adr/20261028T233747/context/templates/standards/templates/adr.md
@@ -7891,7 +7891,7 @@ index 000000000..db62457e2
 +      core/components/plays/start-change/reference/ice.md C9 (lines 31–36) and S6 (lines 100–104).
 +    detail: >-
 +      C9 says that when a plan's branch already exists, "the latest main is merged into it before
-+      the issue's branch is cut (#731, Kapil 2026-10-22)"; S6 checks it. The option that lost is
++      the issue's branch is cut (#731, the product owner 2026-10-22)"; S6 checks it. The option that lost is
 +      keeping a paused branch open; the merge of main into a running plan's branch stays, because a
 +      plan's branch now exists only while the plan runs.
 +    why_it_matters: >-
@@ -7930,7 +7930,7 @@ index 000000000..e5cb9437f
 +**Status:** Proposed
 +**Date:** 2026-10-28
 +**Level:** framework
-+**Decided by:** Kapil Viren Ahuja · **Decided in:** #717 (plan 717, plans and the change plays), on `plan/717/base`, PR #950 — the review's finding H2 asked for this record
++**Decided by:** the product owner · **Decided in:** #717 (plan 717, plans and the change plays), on `plan/717/base`, PR #950 — the review's finding H2 asked for this record
 +**Affects:** `docs/standards/harness-standard.md` (principle 8 "Branches follow the plan" and its Why line) · `core/components/plays/merge-change/reference/ice.md` (C9, F9, S6, REC9; S7 dropped) and its compiled `SKILL.md` · `core/components/plays/propose-change/reference/ice.md` (S6) · `core/components/plays/start-change/reference/ice.md` (C9) · `.garura/user-provided/managing-work.md` (section "A plan's branch: start, pause, start again", lines 160–177, and the Epic bullet's sentence on blocking work, lines 70–74) · `core/components/memory/standards/schemas/product-os/ontology.md` line 599 (the Plan kind's landing rule; removed in this same change through /edit-ontology, version 12 to 13) · the `branch` field of the plan files in `.garura/project/plans/` (`null` while a plan is paused; plan 788's file corrected in PR #950) · #791 (closed as not planned) · #730 (the plan update will write the `branch` field)
 +**ICE impact:** Three change plays change in meaning. merge-change lands a plan's branch on main like any approved change, with issues of the plan still open; holding it off main for open work is now a failure (F9, REC9); the only guard is the machine wall (C7 — approved, mergeable, no failing required checks); the "plan done" check and scenario S7 are gone. propose-change S6 opens a pausing plan's PR against main. start-change C9 cuts a plan's branch from the latest main when work starts, so after a pause the next start cuts a new one. In this same change, /edit-ontology removes the Plan kind's landing rule (line 599). No product agent reads branches (line 598: managing a plan never touches branches or code), so no product agent's ICE changes.
 +**Business intent check:** none — a framework rule about branches; nothing under `.garura/product/product-os/intents/` changes on this branch
@@ -8010,7 +8010,7 @@ index 000000000..e5cb9437f
 +### Kept — start-change still brings main into a plan branch that exists
 +
 +- **What and where:** `core/components/plays/start-change/reference/ice.md`, C9 (lines 31–36) and S6 (lines 100–104).
-+- **What is wrong, or worth knowing:** C9 says that when a plan's branch already exists, "the latest main is merged into it before the issue's branch is cut (#731, Kapil 2026-10-22)", and S6 checks it. The brief lists "Keep plan branches open while paused, and bring main into them on each start" as an option that lost. What lost is keeping a paused branch open. The merge of main into a running plan's branch stays, because a plan's branch now exists only while the plan runs.
++- **What is wrong, or worth knowing:** C9 says that when a plan's branch already exists, "the latest main is merged into it before the issue's branch is cut (#731, the product owner 2026-10-22)", and S6 checks it. The brief lists "Keep plan branches open while paused, and bring main into them on each start" as an option that lost. What lost is keeping a paused branch open. The merge of main into a running plan's branch stays, because a plan's branch now exists only while the plan runs.
 +- **Why it matters:** a reader of the lost option could take it that start-change no longer brings main in, and remove C9's step. Without it, a running plan falls behind main between its issues.
 +- **What this decision does:** keeps start-change's C9 and S6 as they are.
 +- **What you decide:** nothing. The product owner kept it (2026-10-29).
@@ -8117,7 +8117,7 @@ index 000000000..0068044d0
 +  },
 +  "olders": [],
 +  "status": "accepted",
-+  "accepted_by": "Kapil Viren Ahuja",
++  "accepted_by": "the product owner",
 +  "pointers_written": [],
 +  "pointers_missing": [],
 +  "index_ok": true
@@ -8149,7 +8149,7 @@ index 000000000..174586057
 +
 +## Decided by
 +
-+The product owner (Kapil Viren Ahuja).
++The product owner (the product owner).
 +
 +## Decided in
 +
@@ -8173,7 +8173,7 @@ index 000000000..174586057
 +- Point 5 (Phoenix memory's ontology copy is behind): the product owner will do it later (#949).
 +- Point 6 (the plan file's branch field is kept by hand): recorded on #730 — the plan update writes `null` when a plan's branch lands and the new name when start-change cuts one.
 +- Point 7: start-change still merges main into a running plan's branch — kept.
-+- Decided by: Kapil Viren Ahuja (as the other ADRs record it).
++- Decided by: the product owner (as the other ADRs record it).
 diff --git a/.garura/project/issues/_adr/20261028T233747/context/memory/manifest.json b/.garura/project/issues/_adr/20261028T233747/context/memory/manifest.json
 new file mode 100644
 index 000000000..d5ff32977
@@ -8625,7 +8625,7 @@ index 000000000..8de2a5f97
 +decision:
 +  verdict: accept
 +  by: person
-+  accepted_by: Kapil Viren Ahuja
++  accepted_by: the product owner
 +  reply: "accept"
 diff --git a/.garura/project/issues/_adr/20261028T233747/guard-report.json b/.garura/project/issues/_adr/20261028T233747/guard-report.json
 new file mode 100644
@@ -11348,7 +11348,7 @@ index 797621280..a02d1bc00 100644
 +  default `.garura/project/plans/`) by the bundled `resolve_plan.py`, never guessed. A
 +  plan's branch is created only when work on the plan starts — by the first start-change
 +  for an issue in it, cut from the latest main; when it already exists, the latest main is
-+  merged into it before the issue's branch is cut (#731, Kapil 2026-10-22). A merge
++  merged into it before the issue's branch is cut (#731, the product owner 2026-10-22). A merge
 +  conflict stops the run for a person to resolve.
  - C3 — A git worktree is set up only when config calls for it (config-driven, not
    automatic).
@@ -11686,7 +11686,7 @@ index 000000000..0faf03db8
 +**Status:** Accepted
 +**Date:** 2026-10-29
 +**Level:** framework
-+**Decided by:** Kapil Viren Ahuja · **Decided in:** #717 (plan 717, plans and the change plays), on `plan/717/base`, PR #950 — the review's finding H2 asked for this record
++**Decided by:** the product owner · **Decided in:** #717 (plan 717, plans and the change plays), on `plan/717/base`, PR #950 — the review's finding H2 asked for this record
 +**Affects:** `docs/standards/harness-standard.md` (principle 8 "Branches follow the plan" and its Why line) · `core/components/plays/merge-change/reference/ice.md` (C9, F9, S6, REC9; S7 dropped) and its compiled `SKILL.md` · `core/components/plays/propose-change/reference/ice.md` (S6) · `core/components/plays/start-change/reference/ice.md` (C9) · `.garura/user-provided/managing-work.md` (section "A plan's branch: start, pause, start again", lines 160–177, and the Epic bullet's sentence on blocking work, lines 70–74) · `core/components/memory/standards/schemas/product-os/ontology.md` line 599 (the Plan kind's landing rule; removed in this same change through /edit-ontology, version 12 to 13) · the `branch` field of the plan files in `.garura/project/plans/` (`null` while a plan is paused; plan 788's file corrected in PR #950) · #791 (closed as not planned) · #730 (the plan update will write the `branch` field)
 +**ICE impact:** Three change plays change in meaning. merge-change lands a plan's branch on main like any approved change, with issues of the plan still open; holding it off main for open work is now a failure (F9, REC9); the only guard is the machine wall (C7 — approved, mergeable, no failing required checks); the "plan done" check and scenario S7 are gone. propose-change S6 opens a pausing plan's PR against main. start-change C9 cuts a plan's branch from the latest main when work starts, so after a pause the next start cuts a new one. In this same change, /edit-ontology removes the Plan kind's landing rule (line 599). No product agent reads branches (line 598: managing a plan never touches branches or code), so no product agent's ICE changes.
 +**Business intent check:** none — a framework rule about branches; nothing under `.garura/product/product-os/intents/` changes on this branch
@@ -11766,7 +11766,7 @@ index 000000000..0faf03db8
 +### Kept — start-change still brings main into a plan branch that exists
 +
 +- **What and where:** `core/components/plays/start-change/reference/ice.md`, C9 (lines 31–36) and S6 (lines 100–104).
-+- **What is wrong, or worth knowing:** C9 says that when a plan's branch already exists, "the latest main is merged into it before the issue's branch is cut (#731, Kapil 2026-10-22)", and S6 checks it. The brief lists "Keep plan branches open while paused, and bring main into them on each start" as an option that lost. What lost is keeping a paused branch open. The merge of main into a running plan's branch stays, because a plan's branch now exists only while the plan runs.
++- **What is wrong, or worth knowing:** C9 says that when a plan's branch already exists, "the latest main is merged into it before the issue's branch is cut (#731, the product owner 2026-10-22)", and S6 checks it. The brief lists "Keep plan branches open while paused, and bring main into them on each start" as an option that lost. What lost is keeping a paused branch open. The merge of main into a running plan's branch stays, because a plan's branch now exists only while the plan runs.
 +- **Why it matters:** a reader of the lost option could take it that start-change no longer brings main in, and remove C9's step. Without it, a running plan falls behind main between its issues.
 +- **What this decision does:** keeps start-change's C9 and S6 as they are.
 +- **What you decide:** nothing. The product owner kept it (2026-10-29).
