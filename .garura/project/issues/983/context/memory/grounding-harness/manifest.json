@@ -1,0 +1,4 @@
+{
+  "files": [],
+  "note": "No memory-tool copy was needed. The principles were read from committed files on the base ref plan/717/base with git show: docs/standards/harness-standard.md (principles 2, 3, 4), docs/adr/027-ice-model-pcam-design.md, docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md, CLAUDE.md (Play Pipeline Rules). The agreed design is the text of issue #983 (read with gh issue view 983). The playbook and severity copies are the shared ones in context/memory/."
+}
