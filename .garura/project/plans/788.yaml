@@ -1,5 +1,5 @@
 # Plan 788 — its ID is the business intent's issue number (ontology v11, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later.
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later | dropped (closed as not planned or as a duplicate).
 # represents: the slice id an epic stands for, or the feature id a story stands for (#818,
 # Q-find-1); /shape-plan finds work items by it, never by title.
 # later = parked: open, but not the next work; done when the product owner picks it up.
@@ -109,6 +109,10 @@ tree:
       - issue: 895
         kind: chore
         title: 'The open points left by the PR #894 review: where misplaced work sits until a play places it, and blocker work as its own slice'
+        status: next
+      - issue: 975
+        kind: bug
+        title: /shape-plan expects only Stories under an Epic; the tracker now has Features between them
         status: next
 - issue: 792
   kind: issue

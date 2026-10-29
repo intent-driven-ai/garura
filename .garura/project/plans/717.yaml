@@ -1,5 +1,5 @@
 # Plan 717 — its ID is the business intent's issue number (ontology v5, Plan).
-# Kept by hand until manage-plan (#730) exists. Status: done | now | next | blocked.
+# Kept by hand until manage-plan (#730) exists. Status: done | now | next | blocked | dropped (closed as not planned or as a duplicate).
 id: 717
 title: People plan work toward a business intent, and pick it up across days and people
 status: active
@@ -68,6 +68,10 @@ tree:
         kind: chore
         title: 'The findings left by the PR #916 review (the plan 788 landing)'
         status: next
+    - issue: 909
+      kind: story
+      title: '/shape-plan --edit: a person changes the plan file, an epic or a story that already exists'
+      status: next
   - issue: 721
     kind: feature
     title: 'Start and land work against a plan: plan branches in start-change and merge-change'
@@ -98,7 +102,7 @@ tree:
     - issue: 791
       kind: issue
       title: The plan file names the plan a detour returns to; start-change cuts from it and merge-change lands back on it
-      status: done
+      status: dropped
   - issue: 965
     kind: feature
     title: A plan's work lands on main with evidence that all of it was reviewed

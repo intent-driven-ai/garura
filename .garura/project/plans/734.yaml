@@ -1,5 +1,5 @@
 # Plan 734 — its ID is the business intent's issue number (ontology v5, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | dropped (closed as not planned or as a duplicate).
 id: 734
 title: Garura publishes a standard for building agentic harnesses
 status: active  # more work to file under Epic #958 (the product owner, 2026-10-29)

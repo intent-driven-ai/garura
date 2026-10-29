@@ -1,5 +1,5 @@
 # Plan 756 — its ID is the business intent's issue number (ontology v5, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked.
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | dropped (closed as not planned or as a duplicate).
 id: 756
 title: The agent intent (ICE) is its own part of the product model
 status: active

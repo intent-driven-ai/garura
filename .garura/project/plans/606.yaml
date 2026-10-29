@@ -1,5 +1,5 @@
 # Plan 606 — its ID is the business intent's issue number (ontology v11, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later.
+# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later | dropped (closed as not planned or as a duplicate).
 # Unplanned: this plan was not shaped. Its one epic stands for no slice; it gathers defects
 # found in work already delivered under #606 and fixes them together (managing-work.md,
 # "An unplanned epic gathers defects being fixed together"). The Bugs hang under the Stories
@@ -141,7 +141,7 @@ tree:
     - issue: 701
       kind: issue
       title: '[TASK] chore: bring the #606 plan tree up to date after the 20–21 October work'
-      status: done
+      status: dropped
   - issue: 653
     kind: feature
     title: 'Agents work only from memory: Phoenix memory, project memory and short-term memory, reached through one memory tool'
@@ -263,7 +263,7 @@ tree:
     - issue: 580
       kind: story
       title: /review-change has a review playbook for pipeline run records
-      status: next
+      status: dropped
     - issue: 583
       kind: bug
       title: /merge-change crashes at Step 1 when the change has no review folder yet
@@ -284,7 +284,7 @@ tree:
     - issue: 695
       kind: issue
       title: 'fix: /commit-change cuts a commit subject short at an issue number in the middle'
-      status: done
+      status: dropped
     - issue: 939
       kind: story
       title: Self-review and the PR review leave out the agents' working records under .garura/, and keep reviewing the product model and memory
