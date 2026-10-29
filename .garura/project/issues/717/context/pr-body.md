@@ -1,114 +1,88 @@
-## What this lands
+## Summary
 
-Plan 717 pauses here. Its branch lands on main with issues still open, by the product owner's rule of 2026-10-28: a plan gets a branch when it starts, merges into main when it pauses, and gets a fresh branch when it starts again.
+Plan 717 (people plan work toward a business intent, and pick it up across days and people) lands on main while it pauses. Its branch carries one landed change:
 
-- **start-change knows about plans (#731).** An issue in a plan gets a branch under its plan's branch; the plan's branch is cut from main, or brought up to main first. Every play's pre-flight now reads the issue from the last part of a branch name, so `plan/788/908-x` gives 908, not 788.
-- **propose-change and merge-change land a change where its branch belongs (#673).** An issue in a plan lands on its plan's branch and is closed there, with its capability once all its issues are closed. A plan's branch lands on main while the plan is in progress; open issues never hold it. merge-change's intent changed through /edit-play, and the product owner approved the new wording.
-- **The rule is written down**: the harness standard (section 8) and the plan rules ("A plan's branch: start, pause, start again").
-- **main merged in**: 717's behaviour kept in the three change plays, main's later fixes kept; the pre-flight copies of three removed plays dropped.
-- Plan 717's file: #721 and #673 in progress, #791 out (closed as not needed), no branch until the work starts again.
+- **PR #980** — #719 (view plans): `/list-plans` (with `--graph`) and `/show-plan`, the plan tool, the `plan-view` template, and the six statuses in every plan file (Not Started, In Progress, Now, Done, Blocked, Dropped; no roll-ups). Closed #719, #729, #628, #806.
+- With it, the first piece of #979: the `link-model-part` skill (a domain's, capability's or feature's spine entry, with its thin mark), the page skill reaching intent pages, and the model sub-agent's route and rule — so the model was brought up to what was built through the sub-agent and its skills.
+- PR #980 was reviewed twice by check-change (harness verdict approve, no blocking finding); the three defects of the first review were fixed before it merged.
 
-All 16 shared test files pass; the three change plays pass the play linter with no gaps; the component linter finds nothing in the changed files.
+The template and the two Next-map rows are already promoted to Phoenix memory (phoenix-memory d68154a). After this merges, the harness is reinstalled from main.
 
-Refs #717, #721, #731, #673.
-
-## Round 2 — the review's findings (PR #950 review, the product owner rejected and asked for H1 and all minor findings)
-
-- **H1** every play's pre-flight reads a plan's own branch as that plan's number (all 28 copies), so the next plan pause has its issue.
-- **H2** ADR 060, accepted by the product owner: a plan's branch merges into main when the plan pauses.
-- **H3** merge-change and propose-change say a change lands where its branch belongs.
-- **H4 + H10** start-change records the plan branch tip on a resume, and cuts a fresh plan branch when only a stale local copy is left.
-- **H5** the play compiler names the two plan scripts.
-- **H6** the component linter holds the six plan scripts and the pre-flight identical across plays.
-- **H7** propose-change gains scenario S6, a plan's own branch raised against main.
-- **H8** re-raising a pull request also points it at its target.
-- **H9** a re-run on a merged change still closes the landed issue.
-- Ontology v13 (through /edit-ontology, three product-owner yeses): the Plan kind drops its branch-landing rule.
-- managing-work.md: blocking work lands on main; plan 788's file has no branch and no detour target.
-- H11–H15 filed as #951.
+Refs #717 — the plan stays open; its other work (#718's #896, #720, #965 and the fixes under #721) is still to come.
 
 ## Self-review
 
-# Self-review, round 2: plan 717 branch lands on main (issue 717)
+# Self-review: plan 717 branch lands on main after #719 (issue 717)
 
 Rules file: the base `self-review.md` (resolved, no project override; record in `.garura/project/issues/717/context/resolved-rules.json`).
-Diff: `origin/main...HEAD`, branch `plan/717/base`, PR #950. This review informs the reviewer; it is not the approve/reject gate.
-Round 1 is replaced by this file. It found one item the reviewer had to look at first (a personal name in a shipped file) and five REVIEW items; the table below says what round 2 found for each.
+Diff: `main...HEAD`, branch `plan/717/base`. This review informs the reviewer; it is not the approve/reject gate. The rules file sets no blocking mark: the self-review never blocks the raise on its own, so a finding here is marked REVIEW (the reviewer looks) and the Blocking issues section lists anything the reviewer must settle first.
+This file replaces the earlier one for PR #950 (that PR is merged).
 
 ## Change summary
 
-- Commits: 38 (9 carry a Claude co-author trailer; the same 9 as round 1, none added since)
-- Files changed: 142 (+9980 / -180)
-- Where: 81 run records under `.garura/project/issues` (8181 of the added lines), 52 under `core/components/plays`, 2 ADR files (`docs/adr`), 2 plan files, and 1 each in `core/components/memory` (the ontology), `core/tools/lint-components`, `core/config.yaml`, `docs/standards/harness-standard.md`, `.garura/user-provided/managing-work.md`
-- Hand-written change outside run records: 1799 added, 180 removed
-- Suggested title: `feat(change-plays): a plan's branch merges into main when the plan pauses (#717)`
-
-## What changed since round 1
-
-- Review findings H1 and H3 to H10 are fixed. Pre-flight reads a plan's own branch number in all 28 copies; `setup_branch.py` records the plan tip on a resume and cuts a fresh plan branch when only a stale local copy is left; `submit_pr.py` points an existing PR at its target; `merge_pr.py` closes a landed issue on a re-run; the shared-scripts lint rule holds six plan scripts identical; create-play names the plan scripts; merge-change and propose-change wording and propose-change scenario S6 are updated.
-- ADR 060 (accepted) records the rule that a plan's branch merges into main when the plan pauses (finding H2).
-- Ontology v13 drops the Plan kind's landing rule. The one log line and the version bump (12 to 13) are present; no other kind changed.
-- `.garura/user-provided/managing-work.md` gains the section on a plan's branch and the line that blocking work lands on main; plan 788's file has `branch: null` and no detour target.
-- Findings H11 to H15 are filed as #951 (`.garura/project/issues/717/review/decision.yaml` lists them).
+- Landed change: PR #980, `plan/717/719-view-plans` into `plan/717/base` (#719 view plans, with #729, #628, #806 and the first piece of #979). Its own review (`.garura/project/issues/719/review/`) recommended approve: 0 P1, 7 P2, 8 P3, 6 P4, and the harness approved it (check-change gate skipped by config).
+- Commits ahead of `main`: 24, none behind. 21 belong to #719 or #979 (including the merge commit of PR #980), 2 are plan-file updates (#719, #717), 1 is the merge commit.
+- Files changed: 151 (+36745 / -302)
+- Where: 97 run records under `.garura/project/issues` (32900 added lines), 36 under `core/` (+3545 / -31), 7 plan files, 11 under `.garura/product/product-os`, and `.garura/install-manifest.json`
+- Hand-written change outside run records: about 3800 added lines, almost all new: the plan tool, two new plays (list-plans, show-plan), the link-model-part skill, the plan-view template
+- Suggested title: `feat(plans): see every plan and one plan as a tree, and put a part found during work into the model (#719)`
 
 ## Scope checks
 
 | Check | Status | Evidence |
 |-------|--------|----------|
-| Matches the issue | PASS | Every hand-written file maps to #731 (issue branch under the plan branch), #673 (change plays land a change where its branch belongs), or the plan-branch rule that #717 now holds: ADR 060, ontology v13, the harness standard (principle 8), `managing-work.md`, merge-change, propose-change and start-change. Run records under `.garura/project/issues` are the plays' normal evidence. |
-| No scope creep | PASS | The 28 pre-flight copies are one identical edit (checked: one checksum across all 28). The six plan scripts are byte-identical between `core/components/plays/create-play/references` and each play that carries them (checked pair by pair, and the three `resolve_target.py` copies against each other). The `plans.base-path` key in `core/config.yaml` is read by `resolve_plan.py`. The lint rule change only widens the list of scripts held identical. |
-| Plan file drops an item | PASS | Round 1 asked the reviewer to confirm that plan 717 loses its child #791 (detour plan's branch). ADR 060 and `managing-work.md` now say there are no detour plans, #791 is closed as not planned, and plan 788's file says the same. The drop is deliberate and written down. |
-| Reasonable size | REVIEW | 9980 added lines, but 8181 are run records (for example the 2938-line `.garura/project/issues/717/review/pr.diff` and the 856-line `.garura/project/issues/717/context/edit-ontology/ontology-before.md`). Earlier issues on main keep a `review/pr.diff` too, so this is the repo's habit. The code to read is about 1800 lines: `resolve_plan.py`, `resolve_target.py`, the `setup_branch.py`, `merge_pr.py` and `submit_pr.py` changes, four test files, three SKILL.md and ice.md pairs, and ADR 060 (172 lines). |
-| No stray artifacts | PASS | No scratch files, no commented-out blocks, no leftover TODO or FIXME in hand-written files. The working tree is clean. The `print` calls are the scripts' JSON output and the test runners' report lines. |
+| Matches the issue | PASS | Every file maps to #719 (plan tool, list-plans, show-plan, plan-view template, six plan statuses, the shape-plan writer change, the install of those parts), or to the #979 first piece (link-model-part, its two write-safety fixes, the product-os-keeper and enrich-grounding wording), or to the model pages of #729, #628, #806 and their intents. The two plan-file commits record that work as Done. |
+| No scope creep | PASS | The edits to plans 606, 722, 734, 756, 767 and 788 are one change: the old five statuses become the six new ones (`Not Started`, `In Progress`, `Now`, `Done`, `Blocked`, `Dropped`), which #719 introduces. Spot check of 788 and 717 shows only status words and the header comment changed. The three `safe_write.py` copies (shape-slice, link-model-part) are the #979 fix. No unrelated edits found. |
+| Reasonable size | REVIEW | 36745 added lines, but 32900 are run records (for example `.garura/project/issues/719/review/run-1/pr.diff`, 7048 lines, and 68 context files). Earlier issues on main keep these records too. The code to read is about 3500 lines in 36 files, and it was reviewed once already in PR #980. |
+| No stray artifacts | PASS | No `.orig`, `.bak`, `.tmp`, `.DS_Store` or `.pyc` file in the diff. No TODO, FIXME, `breakpoint()` or `pdb` in added lines under `core/`. The `print` calls are the scripts' JSON or message output, not debug output (noted in the #719 review). The only dirty file in the working tree is `.garura/project/issues/717/context/resolved-rules.json`, which holds this run's own record. |
 
 ## Quality checks
 
 | Check | Status | Evidence |
 |-------|--------|----------|
-| Tests present | PASS | Four new test files cover plan resolution, target resolution, branch setup and the plan merge. Run from `core/components/plays/create-play/references`: `test_resolve_plan.py` 13 passed, `test_resolve_target.py` 7 passed, `test_setup_branch.py` 9 passed, `test_merge_plan.py` 10 passed, 0 failed; `test_merge_scripts.py` 15 passed. The other tests in that folder also pass. |
-| Commits are clean | REVIEW | The 18 commits added since round 1 are conventional and carry the issue number. Unchanged from round 1: nine early commits carry a `Co-Authored-By` Claude trailer (`0edd7a66`, `ad0f8b93`, `67721ff6`, `e55fe748`, `62ece2b9`, `d82d6061`, `0b206df1`, `2d438571`, `b714b7f0`), which the project owner's rule forbids, and `2d438571` has no type-scope-subject shape. They came in through the sub-branch pull requests already merged into the plan branch, so rewording them means rewriting shared history; the reviewer decides whether to leave them. |
-| No secrets | PASS | A scan of added lines for keys, tokens, passwords, private-key headers and cloud key patterns found nothing. |
-| Docs in step | PASS | The rule is written in four places that agree: ADR 060, `docs/standards/harness-standard.md` (principle 8 and its Why line), `.garura/user-provided/managing-work.md`, and the ontology v13 log line. A search of `core/components`, `docs/standards`, `docs/components`, `core/grounding` and `.garura/user-provided` finds no sentence left that says a plan lands on main only when done. The `ice.md` and compiled `SKILL.md` of merge-change, propose-change and start-change change together, and both `stop-condition.yaml` files follow. ADR index has the new line. |
-| Nothing obviously broken | PASS | A trial merge against `origin/main` has no conflicts. The component linter, run from the repo root, reports 36 errors and 1 warning, none in a file this diff introduces. The only changed file with findings is `core/components/plays/create-play/SKILL.md`: four whole-file structure findings at line 1 (it has no ICE source, so it lacks the compiled-play sections). The diff to that file is a four-line prose addition. The shared-scripts rule, now holding six more scripts, reports nothing. |
-| Personal names in committed files | REVIEW | Still open from round 1, and wider. (1) `core/components/plays/start-change/reference/ice.md` names a person once ("... (#731, <first name> 2026-10-22)"); this file ships with the installed plays, so it should read "the product owner" before it lands on main. (2) `docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md` puts a full name on the "Decided by" line and in two other places in its text; ADRs 050 to 053 write "the product owner" there. The record's own draft says the name was filled in at the brief's request, so the reviewer should confirm that choice or switch to the role. (3) Run records name the person too (`.garura/project/issues/673/review/merge-gate.json`, the `_adr` records for ADR 060, and the copied diff in `.garura/project/issues/717/review/pr.diff`); these are history and follow from (1) and (2). Home-folder paths: none in hand-written files. |
-| Merge record for 673 | REVIEW | Unchanged from round 1: `.garura/project/issues/673/review/merge-gate.json` says that change was merged on a typed reply with no review-change verdict run. It is a true record, but the reviewer should know that change landed without that check. |
-| Open follow-ups | PASS | Findings H11 to H15 are known, small, and filed as #951; none changes what this PR guarantees. |
+| Tests present | PASS | Each new piece carries tests, and they pass when run again here: plan tool 12 tests OK; link-model-part 15 tests OK; shape-plan `test_write_plan_file.py` 9 passed, 0 failed; shape-slice 129 passed, 0 failed; install-garura 75 tests OK. The new plays' scripts (list-plans, show-plan) have no test file of their own; the plan tool they print through is tested, and the plays' checks run in the play (see the #719 review's coverage note). |
+| Commits are clean | PASS | All 24 are conventional (`feat`, `fix`, `docs`, `chore`) with the issue in the subject; the one exception in shape is `0ce79da7 docs(719): the agreed design for viewing plans`, which names the issue in the scope instead of at the end. Plus GitHub's merge commit `b53d8f19` for PR #980. Each commit is one concern (tool, plays, install, model pages, two write fixes, run records). No `Co-Authored-By` or "Generated with Claude" line in any message. |
+| No secrets | PASS | A scan of added lines in `core/`, `.garura/product` and the plan files for keys, tokens, passwords, private-key headers and cloud key patterns found only the words "token" and "password" in prose and test data (a test plan titled "A person resets a lost password"). The #719 review reached the same result. |
+| Docs in step | PASS | The plan tool has its README (`core/tools/plan/README.md`) with commands, exit codes, statuses and test command. The two plays carry SKILL.md and `reference/ice.md`. `work-plan.md`, `pipeline-next.md` and the template index name the new statuses and the plan-view template. The model pages and spine for #729, #628, #806 and the intents are brought up to date. No personal name or home-folder path in added lines under `core/`, `.garura/product` or the plan files. |
+| Nothing obviously broken | PASS | A trial merge against `main` has no conflicts. The component linter, run from the repo root, reports 36 errors and 1 warning, none in a file this diff touches (checked by file). No failing test above. |
+| Install record | REVIEW | `.garura/install-manifest.json` now lists the new skill, the two plays and the plan tool, and the counts rise (skills 26 to 27, plays 17 to 19). Its `retired` list goes from 26 entries to empty. The cause is `install.py`: the list is what the last install retired, so a re-run that has nothing left to retire writes an empty list. The reviewer should confirm that is the wanted record. |
+| Data-safety paths | REVIEW | The #719 review could not check the write-safety code with a taxonomy rule and asked a person to read it: `link_part.py`, the two `safe_write.py` files (the #979 fixes) and the missing-field refusal in `plan.py`. Their tests pass, but a person has not read them as a rubric pass. |
+| Small style messages | REVIEW | Four ruff default-settings messages from the #719 review remain: lambdas assigned to a name in `list-plans/scripts/check_list.py` (lines 33, 110) and `core/tools/plan/test_plan.py` (line 165), and an unused `textwrap` import in `link-model-part/scripts/test_link_part.py`. The repository commits no Python lint config, and the reviewer already accepted them as P2. |
 
 ## Blocking issues
 
-None. The items marked REVIEW need a reviewer's eye; none stops the raise.
+None. The four REVIEW items need a reviewer's eye; none stops the raise.
 
 ## Readiness
 
 - Ready: yes
 - Blocking count: 0
-- Review required: 5 (size, commits, personal names, 673 merge record; the plan-file item from round 1 is closed)
-- Recommendation: update the PR. Ask the reviewer to look first at the personal name in the shipped `ice.md` and the "Decided by" line of ADR 060, then at the commit trailers.
+- Review required: 4 (size, install record, data-safety paths, style messages)
+- Recommendation: raise the PR. Ask the reviewer to look first at the empty `retired` list and at the write-safety scripts, then at the size note.
 
 ```yaml
 analysis:
   branch: plan/717/base
   base: main
-  commits: 38
-  changes: { files: 142, additions: 9980, deletions: 180 }
-  suggested_title: "feat(change-plays): a plan's branch merges into main when the plan pauses (#717)"
+  commits: 24
+  changes: { files: 151, additions: 36745, deletions: 302 }
+  suggested_title: "feat(plans): see every plan and one plan as a tree, and put a part found during work into the model (#719)"
   checklist:
     scope:
       matches_issue: PASS
       no_scope_creep: PASS
-      plan_file_drops_791: PASS
       reasonable_size: REVIEW
       no_stray_artifacts: PASS
     quality:
       tests_present: PASS
-      commits_clean: REVIEW
+      commits_clean: PASS
       no_secrets: PASS
       docs_in_step: PASS
       nothing_obviously_broken: PASS
-      personal_names: REVIEW
-      merge_record_673: REVIEW
-      open_followups: PASS
+      install_record: REVIEW
+      data_safety_paths: REVIEW
+      style_messages: REVIEW
   blocking_issues: []
   ready: true
-  recommendation: "Update PR"
+  recommendation: "Raise PR"
 ```
