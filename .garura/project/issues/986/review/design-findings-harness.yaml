@@ -1,0 +1,40 @@
+# Layer 2 design-grounding, category: harness. PR #987, issue 986. Base ref: plan/717/base.
+category: harness
+agreed_design: "Issue #986 text (the agreed layout: heading at the left edge, direction icon on its own line, none when no direction, blank line, rows at the left edge; everything from #983 stays)."
+grounding_sources:
+  - id: G1
+    source: "docs/standards/harness-standard.md principle 4 (plan/717/base): a change to what a part guarantees is made in the ICE and the part is compiled again; the compiled part records the ICE fingerprint."
+  - id: G2
+    source: "docs/standards/harness-standard.md principle 3 (plan/717/base): mechanical work is a script (the plan tool prints, check_list.py checks)."
+  - id: G3
+    source: "CLAUDE.md Play Pipeline Rules + review/harness playbook rubric: intent change traces to ICE source; non-intent change is a direct edit."
+  - id: G4
+    source: "list-plans/reference/ice.md and SKILL.md at plan/717/base (prior design of the play); template plan-view.md at base."
+principles_checked:
+  - "ICE-source discipline (G1, G3): the S6 scenario edit is in ice.md and the SKILL.md SE-7/description/fingerprint follow it. Fingerprint in SKILL.md (004240ca...) equals sha256 of the branch ice.md: holds."
+  - "Wiring (G2): template yaml keys (head, direction_line, row, epic_rule; direction_width removed) are read consistently by plan.py and check_list.py; no stale direction_width left anywhere in core/. Holds."
+  - "Agreed design (#986): the check enforces heading at left edge, icon line only when a direction is set, blank line, Status row. Holds."
+  - "Untouched guarantees from #983 (C1..C10, F1..F8, D1..D4, recovery) unchanged. Holds."
+findings:
+  - id: H-1
+    severity: P3
+    file: core/components/plays/list-plans/SKILL.md
+    what: "The compiled description now says 'its number and business intent, its direction on the line under', but the ICE Intent paragraph (reference/ice.md line 9) still reads 'with the plan's direction, its number and business intent'. The description is the compiled form of the Intent, so the compiled file now states the layout in an order the ICE source does not. Only scenario S6 was edited in the ICE; the Intent sentence was not."
+    basis: "G1 and G3: a change to what the play prints is made in the ICE and the part recompiled; the two must not drift. Base ref ice.md and SKILL.md matched on this sentence."
+    fix: "Edit the Intent sentence in reference/ice.md (via edit-play) to the new order, then recompile so the description and fingerprint follow."
+  - id: H-2
+    severity: P4
+    file: core/components/plays/list-plans/reference/ice.md
+    what: "SKILL.md 'Compiled From' and the compiled_by row now cite #986, but the ICE 'Stories' line (line 64) lists #729, #806 and #983 only. The compiled file names a story the ICE source does not."
+    basis: "G1: the compiled part records what its ICE says; base ref SKILL.md and ice.md named the same stories."
+    fix: "Add #986 (the card heading) to the Stories line of ice.md and recompile."
+  - id: H-3
+    severity: P4
+    file: core/components/plays/list-plans/scripts/check_list.py
+    what: "The check now also requires a blank line between the icon line (or heading) and the Status row, and rows at the left edge. The ICE (S6, C10) and SE-7 say only 'the icon line, and the Status row'; the blank line and left-edge rules are enforced by the script and written only in the template and the issue. A reader of the ICE cannot see what as_set: true now proves."
+    basis: "G2 and G1: the eval is the ICE's measure; what the check proves should be what the ICE promises (agreed layout rules in issue #986)."
+    fix: "Say in S6 and SE-7 that the heading is at the left edge and a blank line comes before the rows, or accept as template-owned and note it."
+not_findings:
+  - "lint-play: PASS, 0 gaps (layer1_results)."
+  - "No intent drift in C/F/D/recovery; no invented behavior outside issue #986 scope (tree and --graph untouched)."
+counts: {P1: 0, P2: 0, P3: 1, P4: 2}

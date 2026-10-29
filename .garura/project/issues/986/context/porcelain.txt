@@ -1,0 +1,5 @@
+ M .garura/project/issues/986/context/porcelain.txt
+ M core/components/plays/list-plans/SKILL.md
+ M core/components/plays/list-plans/reference/ice.md
+?? .garura/project/issues/986/context/resolved-rules.json
+?? .garura/project/issues/986/context/self-review.md

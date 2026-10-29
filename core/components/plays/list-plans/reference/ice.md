@@ -88,7 +88,8 @@ play reads them and nothing else, and prints them the same way every time.
 
 - **S6 — product owner, the direction as set.** Given plans whose files hold a status and a
   direction a person set, when `/list-plans` runs, then each card shows that direction's icon
-  before the plan's number and that status on its Status row. *Measure:* the check record
+  on its own line under the plan's heading (no icon line when none is set) and that status on
+  its Status row. *Measure:* the check record
   reads `as_set: true`.
 
 ### Recovery

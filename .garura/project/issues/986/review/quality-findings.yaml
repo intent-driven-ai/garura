@@ -1,0 +1,332 @@
+pr: '987'
+issue: 986
+layer: 1
+generated_at: '2026-10-29'
+categories_covered:
+- executable-code
+- tests
+- issue-work-records
+categories_not_covered:
+  harness: human design review plus lint tools; owned by another check step
+  memory: human design review; owned by another check step
+taxonomy:
+  path: .garura/project/issues/986/context/memory/standards/rules/pr.md
+  scanner_output_copy: .garura/project/issues/986/review/scan-findings.yaml
+runnable:
+- name: check-pr-quality scan (scan_taxonomy.py)
+  command: python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy <pr.md copy> --diff pr.diff --paths <20 changed paths> --out scan-findings.yaml
+  result: ran, exit 0, 20 paths, scan_coverage 1.0, 0 taxonomy errors
+  raw_counts:
+    P1: 1
+    P2: 8
+    P3: 16
+    P4: 4
+    catchall_CODE-20: 6
+  confirmed_counts: P1 0, P2 0, P3 0, P4 0 from the scan; all 29 hits dismissed (see dismissed)
+- name: ruff
+  command: ruff check core/tools/plan/plan.py core/components/plays/list-plans/scripts/check_list.py core/tools/plan/test_plan.py
+  result: 'ran, exit 1: 3 E731 (lambda assigned to a name), check_list.py:33, check_list.py:130, test_plan.py:221. The same rule fired 3 times on the base files (check_list.py:33, :124, test_plan.py:219):
+    there before, not findings.'
+- name: test_plan (unit tests)
+  command: cd core/tools/plan && python3 -m unittest test_plan
+  result: 'ran, exit 0: 17 tests, OK, 0 skipped, 0 failed. The conditional skip in RepoPlansTest did not fire (the plans folder exists). No empty tests: each of the 17 asserts.'
+- name: /list-plans check script on the real plans
+  command: check_list.py hash --plans-dir .garura/project/plans; plan.py list --template core/components/memory/standards/templates/plan-view.md (run twice, this branch's template and tool); check_list.py
+    check --mode list --repo .
+  result: 'ran, exit 0 on every step. check.json: ok true, plans_in_folder 7, all_listed true, in_order true, template_used true, as_set true, same_twice true, unchanged true, problems []. git status of
+    .garura/project/plans shows no change. Graph mode not run (not asked).'
+  note: Run with the branch's plan.py and the branch's plan-view.md, not the installed copy in .garura/core/tools.
+- name: 'work-record scan: home-folder paths (#982)'
+  command: grep for the macOS, Linux and Windows home-folder prefixes and the system temp prefixes over the 13 context records and specs/design.md
+  result: 'ran: no absolute home-folder path. 4 hits on ~/.phoenix/... in pr-body.md:26, resolved-rules.json:3 and :4, self-review.md:4 are the allowed ''~'' form.'
+- name: 'work-record scan: secrets'
+  command: grep for key, secret, token, password, bearer, private-key, AKIA, ghp_, sk-, sk_live, xox over the same records and the 6 changed code and doc files; plus a scan for strings of 40 or more characters
+  result: 'ran: no credential. Two hits are the review''s own words (''secrets'', ''token'') in pr-body.md:59 and self-review.md:37; the long strings are file paths and one git commit id (branch.json:3).'
+- name: ICE trace for list-plans SKILL.md
+  command: shasum -a 256 core/components/plays/list-plans/reference/ice.md vs the fingerprint in SKILL.md line 269
+  result: 'ran: the hashes match (004240ca...2dd4), so the compiled play was rebuilt from the changed ICE source.'
+there_before:
+- file: core/components/plays/list-plans/scripts/check_list.py
+  line: 33
+  what: ruff E731, lambda assigned to a name (key)
+  note: also in base
+- file: core/components/plays/list-plans/scripts/check_list.py
+  line: 130
+  what: ruff E731, lambda assigned to a name (in_plan_order); base line 124
+  note: also in base
+- file: core/tools/plan/test_plan.py
+  line: 221
+  what: ruff E731, lambda assigned to a name (git); base line 219
+  note: also in base
+findings:
+- id: F-1
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 197
+  what: The listing() docstring has a line of 152 characters because the new text was joined onto the old line; the rest of the file keeps lines near 100 to 120. Wrap it onto two lines.
+  basis: 'Measured: awk length on plan.py gives 152 at line 197 (the only line over 120 in the file); the author''s own self-review.md line 47 and pr-body.md line 69 name the same line and leave it unfixed.
+    Maintainability, no standard row fires (CODE-17 and CODE-19 are path-only and cover names).'
+dismissed:
+- id: D-1
+  standard_id: DATA-18
+  severity: P1
+  file: core/tools/plan/test_plan.py
+  line: 120
+  evidence: password
+  disposition: 'dismissed: false positive. The word is inside a test fixture title, ''A person resets a lost password'' (also test_plan.py line 28); no credential, no personal data, and no field named password.'
+  basis: scan_taxonomy.py hit of grep:(email|ssn|password|credit_card|cvv) on the diff line; read against the file.
+- id: D-2
+  standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (import cycles); it marks the file for review and does not mean a defect. The diff adds no import and no new module edge, so no cycle can have come from it.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-3
+  standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (lint messages); it marks the file for review and does not mean a defect. ruff check on the three changed Python files finds only 3 E731 (lambda assigned to a name),
+    all three also in the base file plan/717/base: ''there before'', not from this change.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-4
+  standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (format diff); it marks the file for review and does not mean a defect. No formatter is configured in the project (no pyproject.toml, ruff.toml or .ruff.toml);
+    the diff re-wraps no existing code.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-5
+  standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (import cycles); it marks the file for review and does not mean a defect. The diff adds no import and no new module edge, so no cycle can have come from it.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-6
+  standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (file length); it marks the file for review and does not mean a defect. The diff changes 12 lines of plan.py and 32 of test_plan.py; neither grows by a size that
+    changes the file''s shape.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-7
+  standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (file-level architecture review); it marks the file for review and does not mean a defect. The change only reshapes the printed card heading; no layer boundary
+    is touched.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-8
+  standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (function complexity); it marks the file for review and does not mean a defect. The edited listing() in plan.py gains one conditional and loses the width padding;
+    nothing nests beyond what was there.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-9
+  standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (function length); it marks the file for review and does not mean a defect. Edited functions stay short; the only length defect in the diff is the docstring line,
+    recorded as F-1.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-10
+  standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (nesting depth); it marks the file for review and does not mean a defect. No new nesting beyond one level was added by the diff.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-11
+  standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (file length); it marks the file for review and does not mean a defect. The diff changes 12 lines of plan.py and 32 of test_plan.py; neither grows by a size that
+    changes the file''s shape.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-12
+  standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (function score); it marks the file for review and does not mean a defect. The diff shrinks listing() (removes the width padding) and adds one conditional; no new
+    complexity.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-13
+  standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (identifier naming); it marks the file for review and does not mean a defect. New names (card, got, want, direction_line, heads) are plain and match the surrounding
+    style.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-14
+  standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (file-level review); it marks the file for review and does not mean a defect. The diff adds no commented-out code or dead helper; the removed direction_width has
+    no remaining reader (grep over the changed paths finds none).'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-15
+  standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: path-only rule (identifier naming); it marks the file for review and does not mean a defect. New names (card, got, want, direction_line, heads) are plain and match the surrounding
+    style.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-16
+  standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (import cycles); it marks the file for review and does not mean a defect. The diff adds no import and no new module edge, so no cycle can have come from it.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-17
+  standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (lint messages); it marks the file for review and does not mean a defect. ruff check on the three changed Python files finds only 3 E731 (lambda assigned to a name),
+    all three also in the base file plan/717/base: ''there before'', not from this change.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-18
+  standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (format diff); it marks the file for review and does not mean a defect. No formatter is configured in the project (no pyproject.toml, ruff.toml or .ruff.toml);
+    the diff re-wraps no existing code.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-19
+  standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (import cycles); it marks the file for review and does not mean a defect. The diff adds no import and no new module edge, so no cycle can have come from it.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-20
+  standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (file length); it marks the file for review and does not mean a defect. The diff changes 12 lines of plan.py and 32 of test_plan.py; neither grows by a size that
+    changes the file''s shape.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-21
+  standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (file-level architecture review); it marks the file for review and does not mean a defect. The change only reshapes the printed card heading; no layer boundary
+    is touched.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-22
+  standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (function complexity); it marks the file for review and does not mean a defect. The edited listing() in plan.py gains one conditional and loses the width padding;
+    nothing nests beyond what was there.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-23
+  standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (function length); it marks the file for review and does not mean a defect. Edited functions stay short; the only length defect in the diff is the docstring line,
+    recorded as F-1.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-24
+  standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (nesting depth); it marks the file for review and does not mean a defect. No new nesting beyond one level was added by the diff.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-25
+  standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (file length); it marks the file for review and does not mean a defect. The diff changes 12 lines of plan.py and 32 of test_plan.py; neither grows by a size that
+    changes the file''s shape.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-26
+  standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (function score); it marks the file for review and does not mean a defect. The diff shrinks listing() (removes the width padding) and adds one conditional; no new
+    complexity.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-27
+  standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (identifier naming); it marks the file for review and does not mean a defect. New names (card, got, want, direction_line, heads) are plain and match the surrounding
+    style.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-28
+  standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (file-level review); it marks the file for review and does not mean a defect. The diff adds no commented-out code or dead helper; the removed direction_width has
+    no remaining reader (grep over the changed paths finds none).'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+- id: D-29
+  standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: path-only rule (identifier naming); it marks the file for review and does not mean a defect. New names (card, got, want, direction_line, heads) are plain and match the surrounding
+    style.'
+  basis: scan_taxonomy.py path rule match; checked by ruff, by the diff read, and by the unit tests
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1
+observations:
+- The taxonomy classes core/tools/plan/test_plan.py as runtime-code, because the test-type glob needs a test/ or tests/ folder. So no TEST-* row was checked for it; the tests were judged by running them
+  (17 pass) and reading the diff. Not a finding on this PR; the taxonomy has no row for a test file next to its code.
+- 'issue-work-records: no playbook exists for these per-issue records (categories.yaml says so). Only the secret and home-path scans apply.'

@@ -1,0 +1,1 @@
+#986 /list-plans card heading: the title at the left edge, the direction icon on its own line, the rows at the left edge. Design agreed with the product owner on 2026-10-29, in the issue text. Part of #719 (view plans), plan 717.

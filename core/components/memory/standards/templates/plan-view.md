@@ -50,8 +50,9 @@ Every node of a plan has one of six statuses. The order below is the order of th
 ## The list (`/list-plans`)
 
 One card for each plan, in the order of the plan numbers. A legend of the direction icons comes
-first. Each card opens with a heavy rule, then the plan's heading — its direction icon (or
-blanks), its number and its business intent's title — then labeled rows:
+first. Each card opens with a heavy rule, then the plan's heading — its number and its business
+intent's title, at the left edge — then its direction icon on a line of its own (no line when the
+plan has no direction), then a blank line, then labeled rows at the left edge:
 
 - **Status** — the plan's own status, as the plan file gives it (`status`): Not Started, In
   Progress, Paused, Done or Dropped. Set by a person, never worked out from the work.
@@ -63,20 +64,27 @@ is not shown — with its status mark, number and title, and a **Progress** row:
 dropped when there are any. A dotted rule separates the epics of one plan.
 
 **Direction** is set by a person in the plan file (`direction`: 1, 2, 3 or none) and shown as
-⏵, ⏵⏵ or ⏵⏵⏵ before the plan's number. It is directional, not a ranking: several plans may
-share a level.
+⏵, ⏵⏵ or ⏵⏵⏵ on the line under the plan's heading. It is directional, not a ranking: several
+plans may share a level. Never worked out from the work.
 
 ```
 ⏵ next · ⏵⏵ next in line · ⏵⏵⏵ later
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⏵    #717  People plan work toward a business intent, and pick it up across days and people
-  Status         Paused
-  Branch         main
-  Waits on       #722 A product model can be managed, and grows as plans are built
+#717  People plan work toward a business intent, and pick it up across days and people
+⏵
 
-  Epic           ○ #956  A person builds, views and manages the plan of a business intent
-  Progress       9 done · 10 open · 2 dropped
+Status         Paused
+Branch         main
+Waits on       #722 A product model can be managed, and grows as plans are built
+
+Epic           ○ #956  A person builds, views and manages the plan of a business intent
+Progress       10 done · 10 open · 2 dropped
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#722  A product model can be managed, and grows as plans are built
+
+Status         Paused
 ```
 
 ## The graph (`/list-plans --graph`)
@@ -117,11 +125,11 @@ list:
   directions: {1: "⏵", 2: "⏵⏵", 3: "⏵⏵⏵"}
   direction_names: {1: next, 2: next in line, 3: later}
   legend_join: " · "
-  direction_width: 5
   plan_rule: "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  epic_rule: "  ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"
-  head: "{direction}#{plan}  {title}"
-  row: "  {label}{value}"
+  epic_rule: "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"
+  head: "#{plan}  {title}"
+  direction_line: "{direction}"
+  row: "{label}{value}"
   label_width: 15
   labels: {status: Status, branch: Branch, waits: Waits on, epic: Epic, progress: Progress}
   waits_item: "#{plan} {title}"

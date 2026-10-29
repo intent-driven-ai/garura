@@ -193,14 +193,14 @@ def ref_of(branch, repo):
 
 
 def listing(plans, template, plans_dir, repo):
-    """One card for each plan: direction, number and title; Status, Branch, Waits on; then each
-    epic with its Progress. Status and Direction are read from the plan file as a person set
+    """One card for each plan: number and title, the direction icon on its own line (none when the
+    plan has no direction); Status, Branch, Waits on; then each epic with its Progress. Status and Direction are read from the plan file as a person set
     them, never worked out from the work."""
     li = template["list"]
     if not plans:
         return [li["none"].format(dir=plans_dir)]
     by_id = {str(p["id"]): p for p in plans}
-    width, label_width = li["direction_width"], li["label_width"]
+    label_width = li["label_width"]
     icons = li["directions"]
     lines = [li["legend_join"].join(f"{icons[k]} {li['direction_names'][k]}" for k in sorted(icons)), ""]
 
@@ -208,9 +208,11 @@ def listing(plans, template, plans_dir, repo):
         return li["row"].format(label=li["labels"][key].ljust(label_width), value=value).rstrip()
 
     for plan in plans:
-        direction = icons.get(plan.get("direction"), "")
         lines.append(li["plan_rule"])
-        lines.append(li["head"].format(direction=direction.ljust(width), plan=plan["id"], title=plan["title"]))
+        lines.append(li["head"].format(plan=plan["id"], title=plan["title"]))
+        if plan.get("direction") in icons:
+            lines.append(li["direction_line"].format(direction=icons[plan["direction"]]))
+        lines.append("")
         lines.append(row("status", plan.get("status") or ""))
         lines.append(row("branch", plan_branch(plan, repo) or "main"))
         waits = li["waits_join"].join(

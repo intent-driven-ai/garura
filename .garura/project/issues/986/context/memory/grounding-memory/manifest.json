@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/work-plan.md",
+      "version": "de02add33862",
+      "fingerprint": "sha256:8cec138764534e90ed4b66f0ff4779073dd3405187d4eb4b8c89bad29b7558fb",
+      "copy": ".garura/project/issues/986/context/memory/grounding-memory/standards/rules/work-plan.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/_index.md",
+      "version": "de02add33862",
+      "fingerprint": "sha256:4a39ac371d347053bbe21e0a93018c78d369c2ea6ae0990b66f23a6e9b57fa2c",
+      "copy": ".garura/project/issues/986/context/memory/grounding-memory/standards/templates/_index.md"
+    }
+  ]
+}
