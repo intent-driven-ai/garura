@@ -36,20 +36,20 @@ tree:
   - issue: 719
     kind: feature
     title: 'View plans: see every plan, and any one plan as a tree'
-    status: Now
+    status: Done  # landed on plan/717/base with PR #980, 2026-10-29
     children:
     - issue: 729
       kind: story
       title: List every plan, from the plan files alone
-      status: Now
+      status: Done  # landed on plan/717/base with PR #980, 2026-10-29
     - issue: 628
       kind: story
       title: Show one plan as a tree, from its plan file alone
-      status: Now
+      status: Done  # landed on plan/717/base with PR #980, 2026-10-29
     - issue: 806
       kind: story
       title: 'See every plan as a graph: which plan is on which branch, compared to main'
-      status: Now
+      status: Done  # landed on plan/717/base with PR #980, 2026-10-29
   - issue: 720
     kind: feature
     title: 'Manage a plan: change the plan file and the tracker together'

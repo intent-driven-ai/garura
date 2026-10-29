@@ -44,7 +44,7 @@ tree:
   - issue: 979
     kind: story
     title: A feature found during work gets a thin page in the product model, inside the open change, without the full discovery
-    status: Now  # built in #719's change (plan/717/719-view-plans), 2026-10-29
+    status: In Progress  # link-model-part landed with PR #980; the shared play step is still to come
   - issue: 964
     kind: feature
     title: Each piece of the product model carries its approval state, and agents build only from approved pieces
