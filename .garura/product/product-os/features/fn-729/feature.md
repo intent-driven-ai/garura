@@ -3,7 +3,7 @@
 ## What it does
 Print one list of every plan from the plan files: one line for each plan, with the plan's number and title, its branch, its Done count against its open count, what is Now or In Progress, and the plans it waits on (needs_plans). The marks and the layout come from the plan-view template.
 
-Thin: proposed by the #719 change (view plans) from the person's words; deepen with `/discover-capabilities`.
+Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: Anyone sees every plan at once.

@@ -313,7 +313,7 @@ features:
   identified_by: ''
   issue: 729
   metadata:
-    updated_by: 'the #719 change (view plans)'
+    updated_by: /show-plan and /list-plans change (#719)
     thin: true
 - id: fn-628
   slug: fn-628
@@ -327,7 +327,7 @@ features:
   identified_by: ''
   issue: 628
   metadata:
-    updated_by: 'the #719 change (view plans)'
+    updated_by: /show-plan and /list-plans change (#719)
     thin: true
 - id: fn-730
   slug: fn-730
@@ -575,6 +575,7 @@ features:
     created_by: 'the #719 change (view plans)'
     deepen: true
     thin: true
+    updated_by: /show-plan and /list-plans change (#719)
 profile:
   state: set
   nfr:

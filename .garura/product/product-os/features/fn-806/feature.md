@@ -3,7 +3,7 @@
 ## What it does
 Draw every plan against main, like a git branch graph, from the plan files and git alone: each plan's branch, its commits ahead of main and behind main, and a mark when the plan has fallen behind main. A plan with no branch shows as on main. It runs as `/list-plans --graph`; the marks and the layout come from the plan-view template, and the plan tool prints the graph with no model call. It writes nothing.
 
-Thin: proposed by the #719 change (view plans) from the person's words; deepen with `/discover-capabilities`.
+Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: a person sees at a glance which plan is on which branch, and how far each plan is from main.
