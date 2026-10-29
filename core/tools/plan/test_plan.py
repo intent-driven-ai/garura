@@ -100,29 +100,31 @@ class PlanToolTest(unittest.TestCase):
         self.assertEqual(code, 0)
         lines = out.splitlines()
         self.assertEqual(lines[0], "⏵ next · ⏵⏵ next in line · ⏵⏵⏵ later")
-        heads = [ln for ln in lines if re.match(r"^\S*\s*#\d+  ", ln)]
-        self.assertEqual(heads, ["     #9  Invoices print on one page",
-                                 "⏵    #10  People find a reset link in their mail",
-                                 "⏵⏵   #20  Mail goes out through one service"])
+        heads = [ln for ln in lines if re.match(r"^#\d+  ", ln)]
+        self.assertEqual(heads, ["#9  Invoices print on one page",
+                                 "#10  People find a reset link in their mail",
+                                 "#20  Mail goes out through one service"])
 
-    def test_a_card_shows_status_branch_waits_on_and_each_epic_with_its_progress(self):
+    def test_a_card_shows_its_direction_status_branch_waits_on_and_each_epic(self):
         _, out, _ = run("list", *self.base)
         lines = out.splitlines()
-        at = lines.index("⏵    #10  People find a reset link in their mail")
+        at = lines.index("#10  People find a reset link in their mail")
         self.assertEqual(lines[at - 1], "━" * 72)
-        self.assertEqual(lines[at + 1:at + 7], [
-            "  Status         Paused",
-            "  Branch         main",
-            "  Waits on       #20 Mail goes out through one service",
+        self.assertEqual(lines[at + 1:at + 9], [
+            "⏵",
             "",
-            "  Epic           ◐ #11  A person resets a lost password",
-            "  Progress       2 done · 2 open · 1 dropped"])
+            "Status         Paused",
+            "Branch         main",
+            "Waits on       #20 Mail goes out through one service",
+            "",
+            "Epic           ◐ #11  A person resets a lost password",
+            "Progress       2 done · 2 open · 1 dropped"])
 
-    def test_waits_on_is_always_shown_and_blank_when_none(self):
+    def test_a_plan_with_no_direction_has_no_icon_line(self):
         _, out, _ = run("list", *self.base)
         lines = out.splitlines()
-        at = lines.index("     #9  Invoices print on one page")
-        self.assertEqual(lines[at + 3], "  Waits on")
+        at = lines.index("#9  Invoices print on one page")
+        self.assertEqual(lines[at + 1:at + 5], ["", "Status         In Progress", "Branch         main", "Waits on"])
 
     def test_a_plan_status_or_direction_the_template_does_not_know_is_refused(self):
         for bad in ("status: active\n", "status: Paused\ndirection: 7\n"):

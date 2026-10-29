@@ -6,9 +6,9 @@
       "name": "standards/rules/pipeline-next.md",
       "copy": ".garura/project/issues/717/context/templates/standards/rules/pipeline-next.md",
       "source": {
-        "tier": "phoenix",
-        "path": "standards/rules/pipeline-next.md",
-        "version": "d68154ae75e9",
+        "tier": "short-term",
+        "path": "717/context/templates/standards/rules/pipeline-next.md",
+        "version": null,
         "fingerprint": "sha256:62dc217d7193fafd1e27a697e3d577c2945b709579fb260be6229fd46a65c11f"
       }
     }

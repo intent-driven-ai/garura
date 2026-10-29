@@ -1,7 +1,7 @@
 ---
 name: list-plans
 position: none
-description: 'See every plan of the project at once, from the plan files alone — one card for each plan with its direction (⏵, ⏵⏵, ⏵⏵⏵), number and business intent, its Status, Branch and the plans it Waits on, then each of its epics with its Progress; the plan''s Status and Direction are what a person set in the plan file, never worked out; with --graph, each plan''s branch drawn against main with its commits ahead and behind, and the plans with no branch named as on main. Reads only the plan files (.garura/project/plans/) and, for the graph, git; never the tracker or the product model, and no model call makes the view: the plan tool prints it from the plan-view template, so the same files print the same way every time. Read only and position none: it writes no plan file, issue or branch, and runs on any branch. A plan file with a status, plan status or direction the template does not know stops the play with the file named. Use when someone asks "what plans are there", "where does every plan stand", "which plans are on a branch", or "how far is each plan from main".'
+description: 'See every plan of the project at once, from the plan files alone — one card for each plan with its number and business intent, its direction (⏵, ⏵⏵, ⏵⏵⏵) on the line under, its Status, Branch and the plans it Waits on, then each of its epics with its Progress; the plan''s Status and Direction are what a person set in the plan file, never worked out; with --graph, each plan''s branch drawn against main with its commits ahead and behind, and the plans with no branch named as on main. Reads only the plan files (.garura/project/plans/) and, for the graph, git; never the tracker or the product model, and no model call makes the view: the plan tool prints it from the plan-view template, so the same files print the same way every time. Read only and position none: it writes no plan file, issue or branch, and runs on any branch. A plan file with a status, plan status or direction the template does not know stops the play with the file named. Use when someone asks "what plans are there", "where does every plan stand", "which plans are on a branch", or "how far is each plan from main".'
 user-invocable: true
 ---
 
@@ -15,7 +15,7 @@ that nothing changed.
 ## Compiled From
 
 This play was compiled from the list-plans ICE (`reference/ice.md`) by create-play (#719,
-stories #729 and #806) and changed by edit-play (#983, the cards). Intent defines constraints
+stories #729 and #806) and changed by edit-play (#983, #986). Intent defines constraints
 (C1–C10) and failure conditions (F1–F8); the expectation defines success scenarios (S1–S6), a Done means (D1–D4, baked to
 `stop-condition.yaml`), and one recovery entry per failure condition.
 To modify this play, update `reference/ice.md` and recompile with edit-play.
@@ -143,9 +143,10 @@ an empty folder holds the template's no-plans line — C7), `in_order: true` (C3
 **SE-4 (C2/F2):** `check.json` reads `unchanged: true` — every plan file hashes the same as
 before the tool ran — and no tracker or branch verb was run in this play (the play's only
 commands are the ones written above). A changed hash is a hard halt (REC2).
-**SE-7 (C10/F8):** in `list` mode, `check.json` reads `as_set: true`: each card's heading
-carries the direction icon of the plan file's `direction`, and its Status row reads the plan
-file's `status` — nothing worked out from the work. On a GAP, apply REC8.
+**SE-7 (C10/F8):** in `list` mode, `check.json` reads `as_set: true`: under each card's
+heading, the line holds the direction icon of the plan file's `direction` (and there is no
+icon line when the file sets none), and the Status row reads the plan file's `status` —
+nothing worked out from the work. On a GAP, apply REC8.
 **SE-5 (C1/F6):** for `graph`, `check.json` reads `graph_numbers_match: true`: every
 ahead/behind number equals git's own count (`git rev-list --left-right --count`). On a GAP,
 apply REC6.
@@ -265,8 +266,8 @@ overwritten. There is no status marker.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:7ede417926a9a4e143f207a04d3f85fee3210c57a8a230b4bb58fcf9b080f555 (of `reference/ice.md`) |
-| compiled_by | create-play (#719; stories #729, #806); edit-play (#983, the cards) |
+| fingerprint | sha256:004240cafed7ab99d5b550b4077f0f99a6cfc0f6ff627bfbe38fb9d099dc2dd4 (of `reference/ice.md`) |
+| compiled_by | create-play (#719; stories #729, #806); edit-play (#983, #986) |
 | pipeline_position | none |
 | structural_constraints | C1 (the play's only reads are the plan tool over the plan files and git — no tracker or model path is opened anywhere); C4 (every line is printed by the plan tool from the template; the play presents it unchanged); C8 (the mode is `resolve_args.py`'s fixed choice); C10 (the plan tool reads Status and Direction from the plan file and has no code path that derives them) |
 | workflow_structure | readiness-only (a view, no generation; no checkpoint) |

@@ -1,202 +1,108 @@
-pr: 985
+pr: 988
 issue: 717
 findings:
-- id: DOC-HAND-1
+- id: Q1
+  category: code-and-tests
+  severity: P2
+  file: core/components/plays/list-plans/scripts/check_list.py
+  what: The changed check logic (the new card() helper and the as_set comparison of the direction line, blank line and Status
+    row, and the narrowed heading match) has no test. No test file in this diff or in core/ imports check_list.py. The play's
+    own run exercises it, and it passed on the real plans, but no test would catch a wrong card being accepted or a right
+    card being refused.
+  basis: TEST-01 (new code without a test, P2 in pr.md); scanner did not fire it (garura-prose classification), confirmed
+    by hand
+  source: quality-findings.yaml
+- id: Q2
   category: code-and-tests
   severity: P4
-  file: core/tools/plan/README.md
-  what: 'The status paragraph still says only the six node statuses exist and that ''any other status'' is refused. This PR
-    adds a separate plan-level status set (Not Started, In Progress, Paused, Done, Dropped) and a direction (1, 2, 3 or empty),
-    and plan.py now refuses a plan file with another plan status or direction in list, show and graph alike (load_plans, plan.py:81-84).
-    The README names neither, so a reader cannot learn that an older ''status: active'' plan file is now refused by every
-    command.'
-  basis: 'by hand: category documentation check ''the README''s list description agrees with what plan.py does''; plan.py:81-84;
-    plan-view.md:116-117'
+  file: core/tools/plan/plan.py
+  what: Line 197, inside the listing() docstring, is 152 characters. The edit joined two sentences without re-wrapping, so
+    the docstring wraps at about 100 columns on its first line and then runs far past it. Every other line in the three python
+    files is under 140.
+  basis: pr.md bucket P4 (style only); nearest scanner row CODE-04 (format), which is a path-only rule and fires on every
+    .py file
   source: quality-findings.yaml
-- id: H-1
-  category: harness
-  severity: P3
-  file: core/components/plays/list-plans/SKILL.md
-  what: Step C1 (Evidence) still says the evidence file records the step and scenario eval results 'SE-1...SE-6 / SCE-1...SCE-5'.
-    The play now defines SE-1...SE-7 and SCE-1...SCE-6, and the summary table at the end of the same file was updated to 7
-    and 6. The new SE-7 and SCE-6 results (the only evals that prove C10/F8) would be left out of the evidence record.
-  basis: 'P-evidence: evidence-recording.md (main) line 99, ''every eval the play defines''. Also internal drift between Step
-    C1 and the file''s own summary table, which the ICE-recompile should have reproduced.'
-  source: design-findings-harness.yaml
-- id: H-2
+- id: Q3
+  category: code-and-tests
+  severity: P4
+  file: core/components/plays/list-plans/scripts/check_list.py
+  what: The new inner function card(h, direction, status) never uses its first argument h; the caller passes a heading it
+    does not need.
+  basis: pr.md bucket P4 (style only); nearest scanner row CODE-17 (identifier), a path-only rule
+  source: quality-findings.yaml
+- id: H1
   category: harness
   severity: P3
   file: core/components/plays/list-plans/reference/ice.md
-  what: S1 now promises each plan's card 'with its Status, Branch and Waits on, and each epic with its Progress', but its
-    Measure is still only all_listed and in_order. No eval of the play (check_list.py as_set checks heading icon and Status
-    row only) measures Branch, Waits on, the epic lines or Progress, so the larger part of the agreed card design (Waits on
-    always shown with a title, Branch 'main' when none, epics only, Progress counts, dropped only when any) is unguarded at
-    the play level and rests on the plan tool's own unit tests alone.
-  basis: 'P-eval (harness-standard principle 5; idd-principles: a success scenario carries a measure the eval runs); P-design
-    (the rules of #983 that no play check covers).'
+  what: 'The Intent paragraph (line 9) still says each card shows "the plan''s direction, its number and business intent",
+    in that order. This PR moves the direction to its own line under the heading (S6 now says so, and the SKILL.md description
+    says "number and business intent, its direction ... on the line under"). The ICE intent statement was not brought in line
+    with its own scenario, so the source the play is compiled from now states the old order while S6 states the new one.
+
+    '
+  basis:
+    principle: 'G1: the ICE is what the team agreed and the compiled part must not drift from it. The compiled description
+      (SKILL.md) and the ICE intent statement now say different things about the card.'
+    source: docs/standards/harness-standard.md principle 4 (base ref); base ice.md line 9 (git show main:core/components/plays/list-plans/reference/ice.md)
+      shows the intent text this PR left unchanged
   source: design-findings-harness.yaml
-- id: H-3
+- id: H2
   category: harness
   severity: P4
   file: core/components/plays/list-plans/reference/ice.md
-  what: 'Three rules of the agreed card design are not in the ICE, so no later edit-play run can see them: Waits on shows
-    each plan with its title and never a bare number; items outside any epic are not shown; Progress shows ''dropped'' only
-    when there are any. The ICE says only ''Waits on (always shown, blank when none)'' and ''each of its epics with its Progress
-    (done, open, dropped)''.'
-  basis: 'P-design (issue #983 Rules section); P-ice (what a play guarantees belongs in its ICE).'
+  what: 'The Context line that lists the stories the play was compiled from (line 64: #729, #806, #983) does not name #986,
+    while SKILL.md Compiled From and the compiled_by row now cite #986. The two provenance lists disagree.
+
+    '
+  basis:
+    principle: 'G1: the compiled part and its ICE agree on where the play came from (the #983 change added its story to both).'
+    source: 'docs/standards/harness-standard.md principle 4 (base ref); base ice.md Context lines, which name #983 in the
+      same list'
   source: design-findings-harness.yaml
-- id: H-4
+- id: H3
   category: harness
   severity: P4
-  file: core/components/plays/list-plans/SKILL.md
-  what: 'as_set (C10/F8) is checked at SE-7 and SCE-6 only. The Done means (D1-D4, stop-condition.yaml, unchanged) do not
-    include it, so a close can read COMPLETED even if as_set were false and REC8 had not cleared it. Precedent: F3 and F6
-    are also outside the Done means, so this is an observation, not a break.'
-  basis: P-ice and F7/C9 of the play's own ICE (the close is proven by the Done means); harness-standard principle 5.
+  file: core/components/plays/list-plans/reference/ice.md
+  what: 'Scenario S6 now breaks after "the check record" and leaves a short line ("*Measure:* the check record" then "reads
+    `as_set: true`."). The author''s own self-review called it cosmetic. Style only.
+
+    '
+  basis:
+    principle: Plain wrapping of ICE prose (style only, no committed rule is violated)
+    source: 'P4 bucket of the PR severity taxonomy (standards/rules/pr.md, short-term copy): style-only nits are surfaced
+      in evidence only'
   source: design-findings-harness.yaml
-- id: H-5
-  category: harness
-  severity: P4
-  file: core/components/plays/list-plans/SKILL.md
-  what: 'Cosmetic drift from the compiler''s shape: SE-7 sits between SE-4 and SE-5 (numbering out of order) in Step 3; the
-    intro and Compiled From lines are re-wrapped unevenly; ice.md has a blank line between S5 and S6 that splits the scenario
-    list.'
-  basis: P-ice (the compiled file should be reproducible from the ICE by the compiler); no behaviour effect.
-  source: design-findings-harness.yaml
-- id: M-1
-  category: memory
-  severity: P3
-  file: core/components/memory/standards/templates/plan-view.md
-  what: 'The template now carries content rules for a plan''s own Status (five values, among them Paused, "set by a person,
-    never worked out") and Direction (1, 2, 3 or none). The single source of the work-plan rules says nothing of plan-level
-    Status or Direction: its rule 19 gives only six node statuses (Not Started, In Progress, Now, Done, Blocked, Dropped).
-    The template''s own "The statuses" section still says "Every node of a plan has one of six statuses" and has no pointer
-    to the plan-level set, so a reader meets two status lists with no line saying which is which.
-
-    '
-  basis: G1 (templates define shape, rules define content; rules/work-plan.md is the single source), G3
-  source: design-findings-memory.yaml
-- id: M-2
-  category: memory
-  severity: P3
-  file: core/components/memory/standards/templates/plan-view.md
-  what: '"Waits on" is specified as "each plan it needs, with its title", and #983 says "never a bare number". The template
-    does not say what is printed when a needed plan has no plan file, and the plan tool (plan.py, listing) then prints a bare
-    "#N" with no title. That breaks "never bare numbers" for that case, and the template leaves the case open.
-
-    '
-  basis: 'G3 (work-plan.md rule 19 ''never bare numbers''), G5 (#983 Rules: Waits on)'
-  source: design-findings-memory.yaml
-- id: M-3
-  category: memory
-  severity: P3
-  file: core/components/plays/shape-plan/scripts/write_plan_file.py
-  what: 'Cross-check of the template''s new plan_statuses against the writer of plan files. The comment that /shape-plan writes
-    at the top of every new plan file still reads "Status: Not Started | In Progress | Now | Done | Blocked | Dropped." The
-    template''s plan_statuses are Not Started, In Progress, Paused, Done, Dropped, and plan.py now stops on any other value.
-    Until /update-plan (#730) exists, a person sets Status by hand from that comment, and Now or Blocked would stop /list-plans,
-    /show-plan and /graph. (Code file; reported here because the vocabulary it contradicts is the template''s.)
-
-    '
-  basis: 'G4 (the template is the source of the marks and values), G5 (#983: Status is Not Started, In Progress, Paused, Done,
-    Dropped)'
-  source: design-findings-memory.yaml
-- id: M-4
-  category: memory
-  severity: P4
-  file: core/components/memory/standards/templates/_index.md
-  what: 'The index row for plan-view.md was not changed. It still describes "the list of every plan" and says the file holds
-    "the six statuses ... their marks and the layout". It now also holds the plan-level Status set (with Paused) and the Direction
-    icons. The file is listed, so the listing check passes; only the description is behind.
-
-    '
-  basis: G2
-  source: design-findings-memory.yaml
-- id: M-5
+- id: MEM-1
   category: memory
   severity: P4
   file: core/components/memory/standards/templates/plan-view.md
-  what: 'The Direction paragraph says "set by a person in the plan file" and "directional, not a ranking", but omits "never
-    worked out from the work", which #983 states for Direction and which the template does say for Status. The blank case
-    is covered only by "(or blanks)".
-
-    '
-  basis: 'G5 (#983 Rules: Direction)'
-  source: design-findings-memory.yaml
-- id: M-6
-  category: memory
-  severity: P4
-  file: core/components/memory/standards/templates/plan-view.md
-  what: 'The Progress row is described as "done, open, and dropped when there are any" without saying what is counted. The
-    tool counts the items under the epic and not the epic itself. #983 words it the same way, so the template matches the
-    agreed text, but a person cannot tell from the template what "9 done" counts.
-
-    '
-  basis: G5 (the agreed text is silent; a gap, not a departure)
-  source: design-findings-memory.yaml
-- id: M-7
-  category: memory
-  severity: P4
-  file: core/components/memory/standards/templates/plan-view.md
-  what: 'plan_statuses is read by load_plans, which every mode shares. After this change /show-plan and /list-plans --graph
-    also stop on a plan file whose status is not in the new set (the seven plan files on main hold "active"). #983 puts the
-    tree and the graph out of scope. This PR rewrites all seven plan files to Paused, so nothing breaks today; a plan file
-    on another branch with the old value would stop the tree and the graph with its file named.
-
-    '
-  basis: G5 (#983 Not in scope); main:core/components/plays/show-plan/SKILL.md ("a plan file with a status the template does
-    not know stops the play")
+  what: 'The example in ''The list'' shows a second card (#722) that ends after the Status row. It has no Branch row, no Waits
+    on row, and no Epic/Progress rows. The prose above it says Branch and Waits on are always shown (Waits on blank when none),
+    and the tool prints them for every plan (observed output for plan 722: Status, Branch, Waits on, Epic, Progress). A reader
+    copying the example would think a plan with nothing to wait on drops those rows. The first card is complete; only the
+    second is cut short, with nothing (such as an ellipsis) saying so.'
+  basis: 'Principle: the template''s example must show the shape its own rules and the tool print, because the template is
+    the ''what should this look like?'' reference. Sources: main:core/components/memory/standards/templates/plan-view.md (''Waits
+    on — always shown ... blank when none''; Branch shown, ''main'' when none); standards/templates/_index.md, Phoenix memory
+    copy (''It answers what should this look like?''). No pr.md row fires for this; classed P4 (nit: illustration only, no
+    effect on the tool, which reads the settings block, not the example).'
   source: design-findings-memory.yaml
 - id: PLAN-1
   category: plan-records
-  severity: P2
-  file: '.garura/project/plans/606.yaml, 717.yaml, 722.yaml, 734.yaml, 756.yaml, 767.yaml, 788.yaml (line `status: Paused`)'
-  what: 'All seven plan files now carry the plan status `Paused`. The committed definition of a plan''s Status on main is
-    active, done or dropped, and the ontology is not in this PR''s changed paths, so the model and the files disagree after
-    the merge: a reader of the ontology cannot know `Paused` exists, and the plan-level `Now` property ("while active") still
-    depends on `active`. The tool that writes new plan files on main wrote `status: active`; the PR changes that script to
-    write `Not Started`, which is a third value outside the ontology''s three. The vocabulary is changed in files, tool and
-    template, but the ontology (the committed standard for the kind) is not changed in the same PR.
-
-    '
-  basis: 'PR-1 (ontology v13, kind Plan, Status row; ADR 060 line 62). The new vocabulary appears only in issue #983''s text
-    (PR-5), which is not a committed source. Per the plan-records category rubric, Paused is new in this PR, so this is a
-    gap in the committed vocabulary.'
-  source: design-findings-plan-records.yaml
-- id: PLAN-2
-  category: plan-records
-  severity: P3
-  file: .garura/project/plans/606.yaml, 717.yaml, 722.yaml, 734.yaml, 756.yaml, 767.yaml, 788.yaml (new `direction:` key)
-  what: 'A new top-level `direction` key (1, 2, 3 or empty) is added to every plan file. The ontology''s Plan Properties table
-    on main has no Direction property, and the Plan kind''s rules do not mention it. The key is set by a person and the tool
-    reads it; nothing committed on main says what it means or who may set it. Its only definition is issue #983''s text.
-
-    '
-  basis: 'PR-5 against PR-1/PR-4: the ontology (main) is the committed definition of what a plan holds; Direction is not in
-    it. Grounding unavailable on main for this key.'
-  source: design-findings-plan-records.yaml
-- id: PLAN-3
-  category: plan-records
-  severity: P3
-  file: .garura/project/plans/606.yaml, 717.yaml, 722.yaml, 734.yaml, 756.yaml, 767.yaml, 788.yaml (header comment line 2,
-    unchanged)
-  what: 'The header comment in every file still says `Status: Not Started | In Progress (...) | Now (...) | Done | Blocked
-    | Dropped`. Read next to `status: Paused` on a later line, it reads as the list of values for the file''s `status:` key,
-    and Paused is not in it. It is the node vocabulary only. The header says nothing about the plan-level Paused or about
-    `direction`. Each file contradicts its own header.
-
-    '
-  basis: 'PR-3 (work-plan.md rule 19 and plan-view.md: six node statuses) is correct for nodes; the header does not separate
-    node status from plan status. The category''s own by-hand check asked that the header list the vocabulary the file uses.'
-  source: design-findings-plan-records.yaml
-- id: PLAN-4
-  category: plan-records
   severity: P4
-  file: .garura/project/plans/734.yaml (line 6)
-  what: 'The reason that sat on the status line (`more work to file under Epic #958`) moved to a stand-alone comment line
-    between `direction:` and `started:`. It no longer attaches to a key, and it explained why the plan was `active`; with
-    `Paused` it reads as a stray note. The same-day product-owner wording is kept, so no information is lost.
+  file: .garura/project/plans/717.yaml (line 8, comment on `branch`)
+  what: 'The comment says plan/717/base "merged into main on 2026-10-29 after #719, #983 and #986 landed". This diff adds
+    #986 to that sentence, but the branch has not merged: PR #988, the PR under review, is the merge, and the branch still
+    exists. The sentence is true only after PR #988 lands. The sentence was already on main before this PR (main''s file names
+    #719 and #983 with the same wording), and the value `branch: null` is what ADR 060 says a pausing plan reads, so the value
+    is right; only the dated claim in the comment runs ahead of the merge.
 
     '
-  basis: PR-4 (the plan file stays readable as the record of where the work stands); nit only.
+  basis: 'PR-3: ADR 060 records this exact drift as a known risk of keeping the field by hand until #730 (''Plan 717''s `null`
+    is true only once PR #950 merges''). No rule forbids writing the value ahead of the merge, so this is a nit, not a violation.'
   source: design-findings-plan-records.yaml
+there_before:
+  lint-components: 37 violations, none in changed_paths
+layer1:
+  lint-play list-plans: PASS (0 gaps), next-command check ran
+  test_plan: 17 OK

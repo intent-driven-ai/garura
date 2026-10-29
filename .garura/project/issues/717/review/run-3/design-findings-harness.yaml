@@ -1,0 +1,76 @@
+# Layer 2 design-grounding, category: harness. PR #985 (plan/717/base -> main), issue 717.
+# Changed harness files: core/components/plays/list-plans/SKILL.md, core/components/plays/list-plans/reference/ice.md
+# Grounding: committed sources on main only (git show main:<path>), plus the agreed design = the text of issue #983
+# (read with gh issue view 983). Nothing is grounded in the PR's own added prose (plan-view.md, specs/design.md,
+# the 983 run records and the earlier review folders were not used).
+category: harness
+pr: 985
+base: main
+
+principles:
+  - id: P-roles
+    text: "Plays orchestrate, agents gather context, skills/scripts do the work; mechanical work is a script, judgment a model."
+    source: "main:docs/standards/harness-standard.md principles 2 and 3"
+  - id: P-ice
+    text: "A change to what a play guarantees is made in its ICE and the play is compiled again; the compiled play records the ICE fingerprint so the two never drift unseen."
+    source: "main:docs/standards/harness-standard.md principle 4 (ADR 027)"
+  - id: P-eval
+    text: "The check that proves a change is done is built with the change; a stated success scenario carries a measure the check can run."
+    source: "main:docs/standards/harness-standard.md principle 5; main:docs/philosophy/idd-principles.md (evals compiled from failure conditions + success scenarios)"
+  - id: P-noreadmem
+    text: "A play reads no memory; templates come from template-manager (ADR 039)."
+    source: "main:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 2"
+  - id: P-evidence
+    text: "The evidence file lists every eval the play defines (Step Eval Results / Scenario Eval Results)."
+    source: "main:core/components/memory/standards/rules/evidence-recording.md line 99 (copy: .garura/project/issues/717/context/memory/grounding-harness/standards/rules/evidence-recording.md)"
+  - id: P-design
+    text: "The agreed card design: direction, number and title; Status, Branch, Waits on (always shown, with the plan's title, never a bare number, blank when none); only the plan's epics, each with a Progress row (dropped only when there are any); items outside an epic not shown; Status and Direction set by a person, never worked out."
+    source: "issue #983 body (the agreed design, 2026-10-29)"
+
+conformance_checked_ok:
+  - "ICE-source trace: every intent change in SKILL.md (description, intro, C10, F8, S6, SE-2 wording, SE-7, SCE-6, F8 recovery row, structural_constraints, counts) has its source in reference/ice.md (intent, C6, C10, F8, S6, F8 recovery row). Basis P-ice."
+  - "Fingerprint: SKILL.md records sha256:7ede4179...f555 and sha256 of the branch's reference/ice.md is exactly that. Basis P-ice. The edit landed in one commit (12104f1b) with ice.md and SKILL.md together."
+  - "Wiring intact: still zero domain agents, template-manager the only agent, plan tool prints the view, check_list.py proves it, the play writes nothing and reads no memory (Step 1 unchanged). Basis P-roles, P-noreadmem."
+  - "Forbidden list and structural_constraints gain C10 truthfully: plan.py's list rendering reads status and direction straight from the plan file (plan.py lines 211-214) and has no derivation path. Basis P-design."
+  - "C6/SE-2/F5 widening (plan status and direction the template does not know stop the play, file named) matches the agreed rule 'direction 1, 2, 3 or none' and plan.py lines 81-84. Basis P-design."
+  - "Recovery table: one entry per failure condition, F8 added in both ice.md and SKILL.md; lint-play PASS (0 gaps) from layer 1."
+  - "Ran the branch's own check on the current plan files (read-only, scratch copy of output): as_set true, all_listed true, in_order true, template_used true, 7 plans."
+
+findings:
+  - id: H-1
+    severity: P3
+    file: core/components/plays/list-plans/SKILL.md
+    what: "Step C1 (Evidence) still says the evidence file records the step and scenario eval results 'SE-1...SE-6 / SCE-1...SCE-5'. The play now defines SE-1...SE-7 and SCE-1...SCE-6, and the summary table at the end of the same file was updated to 7 and 6. The new SE-7 and SCE-6 results (the only evals that prove C10/F8) would be left out of the evidence record."
+    basis: "P-evidence: evidence-recording.md (main) line 99, 'every eval the play defines'. Also internal drift between Step C1 and the file's own summary table, which the ICE-recompile should have reproduced."
+  - id: H-2
+    severity: P3
+    file: core/components/plays/list-plans/reference/ice.md
+    what: "S1 now promises each plan's card 'with its Status, Branch and Waits on, and each epic with its Progress', but its Measure is still only all_listed and in_order. No eval of the play (check_list.py as_set checks heading icon and Status row only) measures Branch, Waits on, the epic lines or Progress, so the larger part of the agreed card design (Waits on always shown with a title, Branch 'main' when none, epics only, Progress counts, dropped only when any) is unguarded at the play level and rests on the plan tool's own unit tests alone."
+    basis: "P-eval (harness-standard principle 5; idd-principles: a success scenario carries a measure the eval runs); P-design (the rules of #983 that no play check covers)."
+  - id: H-3
+    severity: P4
+    file: core/components/plays/list-plans/reference/ice.md
+    what: "Three rules of the agreed card design are not in the ICE, so no later edit-play run can see them: Waits on shows each plan with its title and never a bare number; items outside any epic are not shown; Progress shows 'dropped' only when there are any. The ICE says only 'Waits on (always shown, blank when none)' and 'each of its epics with its Progress (done, open, dropped)'."
+    basis: "P-design (issue #983 Rules section); P-ice (what a play guarantees belongs in its ICE)."
+  - id: H-4
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md
+    what: "as_set (C10/F8) is checked at SE-7 and SCE-6 only. The Done means (D1-D4, stop-condition.yaml, unchanged) do not include it, so a close can read COMPLETED even if as_set were false and REC8 had not cleared it. Precedent: F3 and F6 are also outside the Done means, so this is an observation, not a break."
+    basis: "P-ice and F7/C9 of the play's own ICE (the close is proven by the Done means); harness-standard principle 5."
+  - id: H-5
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md
+    what: "Cosmetic drift from the compiler's shape: SE-7 sits between SE-4 and SE-5 (numbering out of order) in Step 3; the intro and Compiled From lines are re-wrapped unevenly; ice.md has a blank line between S5 and S6 that splits the scenario list."
+    basis: "P-ice (the compiled file should be reproducible from the ICE by the compiler); no behaviour effect."
+
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 3
+  total: 5
+
+grounding_unavailable: []
+notes:
+  - "No extra memory was copied: the shared copies and the grounding-harness folder already held evidence-recording.md; other sources were read from main (git show main:...) and the issue text."
+  - "Out of scope for this category (code/tests): plan.py falls back to a blank title when a 'needs_plans' plan is not found (plan.py lines ~213-215), against the agreed 'never a bare number'. Left for the executable-code review."

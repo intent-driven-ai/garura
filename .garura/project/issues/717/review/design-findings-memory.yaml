@@ -1,143 +1,44 @@
-# Layer 2 design-grounding, category: memory (PR #985, issue 717)
-# Changed artifact: core/components/memory/standards/templates/plan-view.md (the list section, settings, consumers line)
-# Agreed design (outside the branch): the issue text of #983, "/list-plans shows each plan as a card", closed, design agreed 2026-10-29.
+# Layer 2 design-grounding: category "memory", PR #988 (plan/717/base -> main).
+# One changed file: core/components/memory/standards/templates/plan-view.md (a standards template).
+# Every principle below comes from the base ref (main) or from Phoenix memory read through the
+# memory tool (copies in context/memory/grounding-memory/, manifest beside them). Nothing is
+# grounded in text the branch adds.
+pr: 988
 category: memory
-pr: 985
 base: main
-base_sha: e8375148531fd44edec940398e290eb3a477edff
-grounding_copies: .garura/project/issues/717/context/memory/grounding-memory/   # manifest.json beside them; all read through the memory tool, byte-compared with main
 
-principles:
-  - id: G1
-    principle: "A templates/ file defines the shape of an output artifact; rules about artifact content belong in rules/. Rules for work plans have one source (rules/work-plan.md), which skills do not restate."
-    source: "main:core/components/memory/standards/templates/_index.md ('When to Add Here'); main:core/components/memory/standards/rules/work-plan.md (opening paragraph, rule 19)"
-  - id: G2
-    principle: "The templates index lists every template with an accurate description and its consumers."
-    source: "main:core/components/memory/standards/templates/_index.md (Contents table); review playbook memory.md (listed in the index)"
-  - id: G3
-    principle: "A plan's status is shown as a person set it and never worked out from the nodes under it; a plan is shown with plain-words titles, never bare issue numbers."
-    source: "main:core/components/memory/standards/rules/work-plan.md rule 19; the agreed design, issue #983 (Rules: Status, Waits on)"
-  - id: G4
-    principle: "The template's settings block is the only place marks and lines live; the plan tool reads exactly the keys the template holds."
-    source: "main:core/components/memory/standards/templates/plan-view.md (Settings: 'A change to a mark or a line is made here, never in the tool'); main:core/components/plays/list-plans/reference/ice.md C4"
-  - id: G5
-    principle: "The layout and rules of the card are those agreed in #983."
-    source: "issue #983 body (The layout, Rules, Today's values, Not in scope)"
-  - id: G6
-    principle: "User-facing voice applies to replies to the user; artifact templates are outside its scope."
-    source: "main:core/components/memory/standards/rules/user-facing-voice.md (Scope)"
+grounding:
+  - principle: "A change to a mark or a line is made in the settings block, never in the tool. The tool prints the view from the block, so the block and the tool must agree key for key."
+    source: "main:core/components/memory/standards/templates/plan-view.md (the Settings section: 'The plan tool reads this block. A change to a mark or a line is made here, never in the tool.')"
+  - principle: "The list card has Status, Branch and Waits on rows, always shown (Waits on blank when none), then each epic with its Progress row; a dotted rule separates epics."
+    source: "main:core/components/memory/standards/templates/plan-view.md (The list section)"
+  - principle: "A template answers 'what should this look like?' and is listed in the templates index with its consumers."
+    source: "standards/templates/_index.md, Phoenix memory copy (When to Add Here; the plan-view.md row), same as the file on main"
+  - principle: "The marks and the layout of the plan views live in templates/plan-view.md, and the statuses are the six named in the work-plan rules."
+    source: "standards/rules/work-plan.md rule 19, Phoenix memory copy (same text on main)"
+  - principle: "Plain words for a business reader; a plan view must be understood by a person coming back after two days."
+    source: "standards/rules/work-plan.md ('Who the plan is for', rule 19) and standards/rules/user-facing-voice.md, Phoenix memory copies"
+  - principle: "Knowledge-shelf shape (_TEMPLATE.md, shelf _index) applies to knowledge learnings, not to standards templates. plan-view.md is a template, so the shelf template and the frontmatter-id check do not apply; main's version has none either."
+    source: "knowledge/_DESIGN.md and knowledge/_TEMPLATE.md, Phoenix memory copies; main:core/components/memory/standards/templates/plan-view.md (no frontmatter on the base ref)"
+
+checks_passed:
+  - "Shape and id: plan-view.md has no frontmatter on main and none on the branch; nothing to match. Cited: main:core/components/memory/standards/templates/plan-view.md."
+  - "Cross-references: no [[...]] or evolve_when in the file. The one path it names (.garura/core/tools/plan/plan.py) is unchanged from main."
+  - "Index: standards/templates/_index.md (Phoenix copy, identical on main) lists plan-view.md, and its description (six statuses, layout of each view, a settings block the plan tool reads) is still true after the change. The index is not in this diff and needs no edit."
+  - "Settings vs readers: the keys the code reads are present in the block. plan.py (listing) reads directions, direction_names, legend_join, plan_rule, head, direction_line, row, labels, label_width, waits_item, waits_join, epic, progress, dropped, none, epic_rule. check_list.py reads head, direction_line, row, labels, label_width, directions, none. Neither reads direction_width. A search of HEAD outside .garura finds no remaining direction_width. On main it was read by plan.py and check_list.py; both were changed in this same PR, so removing it breaks nothing."
+  - "Read-only view: python3 core/tools/plan/plan.py list on the branch prints the heading, then the direction line (when set), a blank line, then Status, Branch, Waits on, Epic, Progress, as the new prose says. Output was only read; nothing was written."
+  - "Contradiction with other committed text: none. work-plan.md rule 19 covers the tree only, and the list/direction text appears in no other committed standard, ADR or philosophy page on main (searched docs/adr, core/grounding and core/components/memory on main for plan-view, direction and list-plans)."
 
 findings:
-  - id: M-1
-    severity: P3
-    file: core/components/memory/standards/templates/plan-view.md
-    what: >
-      The template now carries content rules for a plan's own Status (five values, among them Paused,
-      "set by a person, never worked out") and Direction (1, 2, 3 or none). The single source of the
-      work-plan rules says nothing of plan-level Status or Direction: its rule 19 gives only six node
-      statuses (Not Started, In Progress, Now, Done, Blocked, Dropped). The template's own "The
-      statuses" section still says "Every node of a plan has one of six statuses" and has no pointer
-      to the plan-level set, so a reader meets two status lists with no line saying which is which.
-    basis: "G1 (templates define shape, rules define content; rules/work-plan.md is the single source), G3"
-    suggestion: "Add the plan-level Status and Direction rule to rules/work-plan.md (one line, rule 19 neighbour), and name the two vocabularies in the template's statuses section."
-
-  - id: M-2
-    severity: P3
-    file: core/components/memory/standards/templates/plan-view.md
-    what: >
-      "Waits on" is specified as "each plan it needs, with its title", and #983 says "never a bare
-      number". The template does not say what is printed when a needed plan has no plan file, and the
-      plan tool (plan.py, listing) then prints a bare "#N" with no title. That breaks "never bare
-      numbers" for that case, and the template leaves the case open.
-    basis: "G3 (work-plan.md rule 19 'never bare numbers'), G5 (#983 Rules: Waits on)"
-    suggestion: "State in the template what the line shows when the needed plan is missing (for example a plain 'no plan file'), and make the tool follow it."
-
-  - id: M-3
-    severity: P3
-    file: core/components/plays/shape-plan/scripts/write_plan_file.py
-    what: >
-      Cross-check of the template's new plan_statuses against the writer of plan files. The comment
-      that /shape-plan writes at the top of every new plan file still reads "Status: Not Started | In
-      Progress | Now | Done | Blocked | Dropped." The template's plan_statuses are Not Started, In
-      Progress, Paused, Done, Dropped, and plan.py now stops on any other value. Until /update-plan
-      (#730) exists, a person sets Status by hand from that comment, and Now or Blocked would stop
-      /list-plans, /show-plan and /graph. (Code file; reported here because the vocabulary it
-      contradicts is the template's.)
-    basis: "G4 (the template is the source of the marks and values), G5 (#983: Status is Not Started, In Progress, Paused, Done, Dropped)"
-    suggestion: "Change the comment to the plan-level set, or point it at the template."
-
-  - id: M-4
-    severity: P4
-    file: core/components/memory/standards/templates/_index.md
-    what: >
-      The index row for plan-view.md was not changed. It still describes "the list of every plan" and
-      says the file holds "the six statuses ... their marks and the layout". It now also holds the
-      plan-level Status set (with Paused) and the Direction icons. The file is listed, so the
-      listing check passes; only the description is behind.
-    basis: "G2"
-    suggestion: "Update the row's description."
-
-  - id: M-5
+  - id: MEM-1
     severity: P4
     file: core/components/memory/standards/templates/plan-view.md
-    what: >
-      The Direction paragraph says "set by a person in the plan file" and "directional, not a
-      ranking", but omits "never worked out from the work", which #983 states for Direction and which
-      the template does say for Status. The blank case is covered only by "(or blanks)".
-    basis: "G5 (#983 Rules: Direction)"
+    what: "The example in 'The list' shows a second card (#722) that ends after the Status row. It has no Branch row, no Waits on row, and no Epic/Progress rows. The prose above it says Branch and Waits on are always shown (Waits on blank when none), and the tool prints them for every plan (observed output for plan 722: Status, Branch, Waits on, Epic, Progress). A reader copying the example would think a plan with nothing to wait on drops those rows. The first card is complete; only the second is cut short, with nothing (such as an ellipsis) saying so."
+    basis: "Principle: the template's example must show the shape its own rules and the tool print, because the template is the 'what should this look like?' reference. Sources: main:core/components/memory/standards/templates/plan-view.md ('Waits on — always shown ... blank when none'; Branch shown, 'main' when none); standards/templates/_index.md, Phoenix memory copy ('It answers what should this look like?'). No pr.md row fires for this; classed P4 (nit: illustration only, no effect on the tool, which reads the settings block, not the example)."
+    suggested_fix: "Show the second card in full (Status, Branch main, Waits on blank, Epic, Progress) or end it with an ellipsis line."
 
-  - id: M-6
-    severity: P4
-    file: core/components/memory/standards/templates/plan-view.md
-    what: >
-      The Progress row is described as "done, open, and dropped when there are any" without saying
-      what is counted. The tool counts the items under the epic and not the epic itself. #983 words
-      it the same way, so the template matches the agreed text, but a person cannot tell from the
-      template what "9 done" counts.
-    basis: "G5 (the agreed text is silent; a gap, not a departure)"
-
-  - id: M-7
-    severity: P4
-    file: core/components/memory/standards/templates/plan-view.md
-    what: >
-      plan_statuses is read by load_plans, which every mode shares. After this change /show-plan and
-      /list-plans --graph also stop on a plan file whose status is not in the new set (the seven plan
-      files on main hold "active"). #983 puts the tree and the graph out of scope. This PR rewrites
-      all seven plan files to Paused, so nothing breaks today; a plan file on another branch with the
-      old value would stop the tree and the graph with its file named.
-    basis: "G5 (#983 Not in scope); main:core/components/plays/show-plan/SKILL.md (\"a plan file with a status the template does not know stops the play\")"
-
-checks_by_hand:
-  - check: "template shape: a templates/ file, no frontmatter (none required for templates; main version has none), same sections as on main (statuses, tree, list, graph, settings)"
-    result: "pass"
-    cited: "main:core/components/memory/standards/templates/plan-view.md vs the branch file (git diff main...HEAD)"
-  - check: "[[...]] and evolve_when cross-references"
-    result: "pass, none in the file"
-    cited: "plan-view.md"
-  - check: "cross-references by path and name resolve: /list-plans, /show-plan, template-manager, .garura/core/tools/plan/plan.py (source core/tools/plan/plan.py)"
-    result: "pass"
-    cited: "core/components/plays/list-plans/SKILL.md, show-plan/SKILL.md"
-  - check: "listed in standards/templates/_index.md"
-    result: "pass (listed); description stale, see M-4"
-    cited: "main:core/components/memory/standards/templates/_index.md line 21"
-  - check: "list settings against core/tools/plan/plan.py: every key plan.py reads (direction_width, directions, direction_names, plan_statuses, legend_join, plan_rule, epic_rule, head, row, label_width, labels, waits_item, waits_join, epic, progress, dropped, none) is in the settings block; no key plan.py reads is missing; the removed keys detail, now and waits are no longer read"
-    result: "pass"
-    cited: "script run: python3 core/tools/plan/plan.py list --template <plan-view.md> --plans-dir .garura/project/plans printed the cards; key comparison of the yaml block against li[...] reads in plan.py"
-  - check: "layout against #983: legend line, heavy rule (72), head with direction padded to 5, rows Status/Branch/Waits on, blank, Epic/Progress, dotted rule between epics, order by plan number, plain-titled Waits on"
-    result: "pass"
-    cited: "issue #983 body; tool output matches the layout"
-  - check: "list-plans check_list.py reads only keys the template still holds (directions, head, direction_width, row, labels, label_width, none)"
-    result: "pass"
-    cited: "core/components/plays/list-plans/scripts/check_list.py"
-  - check: "plan files carry a valid status and direction (#983 Today's values: all Paused; 717 direction 1, 788 direction 2, others none)"
-    result: "pass"
-    cited: ".garura/project/plans/*.yaml"
-  - check: "contradiction with existing knowledge: work-plan.md rule 19 (six node statuses, tree) is not contradicted; it is silent on plan-level Status and Direction (M-1)"
-    result: "no contradiction; gap"
-    cited: "main:core/components/memory/standards/rules/work-plan.md rule 19"
-  - check: "user-facing voice: artifact templates are out of that rule's scope; the printed words (Paused, Waits on, next, later) are plain"
-    result: "pass"
-    cited: "main:core/components/memory/standards/rules/user-facing-voice.md Scope"
-
-grounding_unavailable: []
-counts: {P1: 0, P2: 0, P3: 3, P4: 4, total: 7}
+counts: {P1: 0, P2: 0, P3: 0, P4: 1}
+notes:
+  - "The branch's own new prose (card heading at the left edge, icon on its own line) was checked against the settings block, the tool and the base-ref rules above, not used as a source. Where the base ref is silent on the new layout (direction icon on its own line), no committed source states a contrary rule, so no finding is raised."
+  - "The Phoenix copy of plan-view.md (version de02add33862) matches main except a final newline; the design-intent text is the base text, not the branch's."
+  - "No playbook gap for this category: review/memory exists. The tool's blank lines are fixed in the code, not in the settings block; that pattern is already on main (blank before the first epic, between cards) so it is not raised."

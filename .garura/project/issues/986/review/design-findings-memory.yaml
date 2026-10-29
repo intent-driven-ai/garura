@@ -1,0 +1,87 @@
+# Layer 2 design-grounding, category: memory (core/components/memory/standards/templates/plan-view.md)
+# Checked against: the issue text of #986 (the agreed design; read with gh, not from this branch),
+# the base-ref file plan/717/base:plan-view.md, the unchanged rule standards/rules/work-plan.md
+# and the unchanged templates index (both copied via the memory tool, see grounding-memory/).
+# Never grounded in specs/design.md or any prose this diff adds.
+category: memory
+base: plan/717/base
+grounding:
+  - principle: "Card heading is the plan's number and title at the left edge, no icon or padding before it"
+    source: "GitHub issue #986 body, 'Rules' (agreed design, 2026-10-29)"
+  - principle: "Direction icon on its own line under the heading; no icon line when the plan has no direction"
+    source: "GitHub issue #986 body, 'Rules'"
+  - principle: "Blank line, then rows (Status, Branch, Waits on, each epic with Progress) all at the left edge"
+    source: "GitHub issue #986 body, 'Rules' and 'The layout'"
+  - principle: "Everything from #983 stays: legend, rules between plans and epics, Waits on always shown, Status and Direction set by a person"
+    source: "GitHub issue #986 body, 'Rules'; base-ref plan/717/base:core/components/memory/standards/templates/plan-view.md ('Waits on - always shown', 'Set by a person, never worked out from the work')"
+  - principle: "The template's yaml plan-view block holds every mark and line; the tool reads it; a change to a line is made there, never in the tool"
+    source: "base-ref plan-view.md section 'Settings'; base-ref core/tools/plan/plan.py module docstring"
+  - principle: "plan-view.md is listed in the templates index and cited by rules/work-plan.md rule 19"
+    source: "standards/templates/_index.md line 21; standards/rules/work-plan.md rule 19 (grounding-memory/ copies; neither file is in the diff)"
+  - principle: "The change is scoped to the list cards; the tree and the graph are not in scope"
+    source: "GitHub issue #986 body, 'Not in scope'"
+memory_integrity_checks:   # done by hand; no installed tool checks memory integrity (playbook gap)
+  - check: "File follows its template shape / shape of the base file"
+    result: pass
+    evidence: "Same sections and order as plan/717/base (statuses, tree, list, graph, Settings); no frontmatter before or after, as for its sibling templates (work-plan.md)."
+  - check: "Frontmatter id matches path"
+    result: not_applicable
+    evidence: "Neither the base-ref file nor sibling templates in standards/templates/ carry frontmatter."
+  - check: "[[...]] and evolve_when cross-references resolve"
+    result: pass
+    evidence: "No [[...]] or evolve_when in the file. Its one pointer, `.garura/core/tools/plan/plan.py`, is unchanged from base."
+  - check: "Listed in the templates index"
+    result: pass
+    evidence: "standards/templates/_index.md line 21 lists plan-view.md; its description (three views, six statuses, settings block) still holds; the diff does not alter what the file is."
+  - check: "Rule 19 of rules/work-plan.md ('the marks and the layout are in templates/plan-view.md') still true"
+    result: pass
+    evidence: "That rule covers the tree; unchanged and still accurate."
+  - check: "The yaml plan-view block still parses and every key plan.py reads exists"
+    result: pass
+    evidence: >
+      Parsed both the base and the HEAD block with a fenced-block regex identical to plan.py's BLOCK and PyYAML.
+      list keys at HEAD: direction_line, direction_names, directions, dropped, epic, epic_rule, head, label_width,
+      labels, legend_join, none, plan_rule, plan_statuses, progress, row, waits_item, waits_join.
+      plan.py listing() reads exactly: legend_join, directions, direction_names, label_width, row, labels,
+      plan_rule, head, direction_line, waits_item, waits_join, epic_rule, epic, progress, dropped, none;
+      load_plans reads plan_statuses and directions. All present. tree and graph keys are untouched.
+      direction_width is removed and read nowhere: grep of core/ and docs/ finds no remaining use.
+      Ran `plan.py list|show|graph --template <HEAD file>` against the real plan files: all three print, no error.
+  - check: "Template example matches what the tool prints"
+    result: pass
+    evidence: "The first card in the template matches the tool's real output for plan 717 (heading, icon line, blank, rows, epic, Progress)."
+  - check: "No duplication or contradiction with other committed knowledge"
+    result: pass_with_note
+    evidence: "No other standard restates the card layout. One doc does (see F-002)."
+findings:
+  - id: F-001
+    severity: P4
+    file: core/components/memory/standards/templates/plan-view.md
+    what: >
+      The list example ends the second card (#722) after the Status row, with no ellipsis. The tool always
+      prints Branch and Waits on for every card (and the prose says Waits on is always shown), so the example
+      reads as if a card could stop after Status. The agreed layout in the issue marks the cut with "...".
+    basis: >
+      GitHub issue #986 body, 'The layout' (second card ends "Status Paused" then "..."); base-ref plan-view.md
+      'Waits on - always shown'. Observed: plan.py list prints Branch and Waits on for every plan.
+  - id: F-002
+    severity: P4
+    file: core/tools/plan/README.md
+    what: >
+      README line 10 still describes a card as "its direction (⏵, ⏵⏵, ⏵⏵⏵), number and title", which
+      reads as the icon coming first. The template now puts the number and title first and the icon on its
+      own line below. The README is not in the diff, so it was not updated with the template. This is
+      outside the memory file itself; reported here because it restates the template's layout.
+    basis: >
+      GitHub issue #986 body, 'Rules' (heading first, icon on its own line under it); the changed
+      plan-view.md 'The list' section is the single place the layout is defined.
+conformance_to_agreed_design:
+  - "Heading at the left edge, no icon or padding: conforms (head: \"#{plan}  {title}\")."
+  - "Icon on its own line, none when no direction: conforms (direction_line key; tool prints it only when direction is set)."
+  - "Blank line then rows at the left edge: conforms (row: \"{label}{value}\", no indent; epic_rule indent removed)."
+  - "Legend, plan and epic rules, Waits on always shown, Status and Direction set by a person: all kept; 'Never worked out from the work' now also stated for Direction."
+  - "Tree and graph sections: untouched, as the issue says. The only other edit is Progress example 9 -> 10 done, matching the issue's own layout."
+notes:
+  - "Dotted epic rule is 67 characters wide against a 72-character plan rule. The issue does not set the widths and the base was already narrower (66 + 2 indent), so not a finding."
+  - "Grounding copies in grounding-memory/ (rules/work-plan.md, templates/_index.md) were fetched through the memory tool. plan-view.md itself was read from the repo and base ref because it is the file under review, not a memory lookup."
+counts: {P1: 0, P2: 0, P3: 0, P4: 2}

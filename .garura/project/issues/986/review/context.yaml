@@ -1,0 +1,33 @@
+{
+  "pr_number": "987",
+  "base": "plan/717/base",
+  "changed_paths": [
+    ".garura/project/issues/986/context/analysis.yaml",
+    ".garura/project/issues/986/context/branch.json",
+    ".garura/project/issues/986/context/check-self-review-exit.txt",
+    ".garura/project/issues/986/context/commits.yaml",
+    ".garura/project/issues/986/context/issue.json",
+    ".garura/project/issues/986/context/plan.json",
+    ".garura/project/issues/986/context/porcelain.txt",
+    ".garura/project/issues/986/context/pr-body.md",
+    ".garura/project/issues/986/context/pr.json",
+    ".garura/project/issues/986/context/resolved-rules.json",
+    ".garura/project/issues/986/context/self-review.md",
+    ".garura/project/issues/986/context/target.json",
+    ".garura/project/issues/986/context/work-description.txt",
+    ".garura/project/issues/986/specs/design.md",
+    "core/components/memory/standards/templates/plan-view.md",
+    "core/components/plays/list-plans/SKILL.md",
+    "core/components/plays/list-plans/reference/ice.md",
+    "core/components/plays/list-plans/scripts/check_list.py",
+    "core/tools/plan/plan.py",
+    "core/tools/plan/test_plan.py"
+  ],
+  "changed_files_reported": 20,
+  "diff_source": "diff-pr",
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}
