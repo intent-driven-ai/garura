@@ -2,7 +2,9 @@
 # Kept by hand until update-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 734
 title: Garura publishes a standard for building agentic harnesses
-status: active  # more work to file under Epic #958 (the product owner, 2026-10-29)
+status: Paused  # set by the product owner, 2026-10-29: no plan runs on its own branch
+direction:
+# more work to file under Epic #958 (the product owner, 2026-10-29)
 started: '2026-10-22'
 branch: null
 epic: 958  # this plan's Epic, a sub-issue of business intent #734

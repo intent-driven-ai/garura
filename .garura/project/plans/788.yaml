@@ -7,7 +7,8 @@
 # (managing-work.md, "A plan's branch: start, pause, start again"). No detour plans (#791 closed).
 id: 788
 title: Agents design the work, then build it through plays and a loop
-status: active
+status: Paused  # set by the product owner, 2026-10-29: no plan runs on its own branch
+direction: 2
 started: '2026-10-22'
 branch: null
 epic: 794  # this plan's Epic, a sub-issue of business intent #788
