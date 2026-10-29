@@ -1,0 +1,4 @@
+link-model-part listed: True all exist: True ['.claude/skills/link-model-part', '.claude/skills/link-model-part']
+list-plans listed: True all exist: True ['.claude/skills/list-plans', '.claude/skills/list-plans']
+show-plan listed: True all exist: True ['.claude/skills/show-plan', '.claude/skills/show-plan']
+plan listed: True all exist: True ['.claude/skills/list-plans', '.claude/skills/shape-plan']

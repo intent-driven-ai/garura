@@ -1,128 +1,88 @@
----
-# assess-changes: grouping by concern (issue 719, with 979 for link-model-part)
-needs_judgment: true
+needs_judgment: false
 change_groups:
-- id: plan-view-tool-and-plays
-  issue: 719
-  commit_type: feat
-  scope: plans
-  subject: add the plan tool and the list-plans and show-plan plays
-  files:
-  - core/components/memory/standards/rules/pipeline-next.md
-  - core/components/memory/standards/rules/work-plan.md
-  - core/components/memory/standards/templates/_index.md
-  - core/components/memory/standards/templates/plan-view.md
-  - core/components/plays/list-plans/SKILL.md
-  - core/components/plays/list-plans/reference/ice.md
-  - core/components/plays/list-plans/scripts/check_list.py
-  - core/components/plays/list-plans/scripts/check_stop_condition.py
-  - core/components/plays/list-plans/scripts/preflight.py
-  - core/components/plays/list-plans/scripts/resolve_args.py
-  - core/components/plays/list-plans/scripts/session_stamp.py
-  - core/components/plays/list-plans/stop-condition.yaml
-  - core/components/plays/show-plan/SKILL.md
-  - core/components/plays/show-plan/reference/ice.md
-  - core/components/plays/show-plan/scripts/check_stop_condition.py
-  - core/components/plays/show-plan/scripts/check_tree.py
-  - core/components/plays/show-plan/scripts/preflight.py
-  - core/components/plays/show-plan/scripts/resolve_args.py
-  - core/components/plays/show-plan/scripts/session_stamp.py
-  - core/components/plays/show-plan/stop-condition.yaml
-  - core/tools/plan/README.md
-  - core/tools/plan/plan.py
-  - core/tools/plan/test_plan.py
-- id: plan-six-statuses
-  issue: 719
-  commit_type: feat
-  scope: plans
-  subject: give every plan file the six statuses and make shape-plan write Not Started
-  files:
-  - .garura/project/plans/606.yaml
-  - .garura/project/plans/717.yaml
-  - .garura/project/plans/722.yaml
-  - .garura/project/plans/734.yaml
-  - .garura/project/plans/756.yaml
-  - .garura/project/plans/767.yaml
-  - .garura/project/plans/788.yaml
-  - core/components/plays/shape-plan/scripts/write_plan_file.py
-- id: install-plan-tool-and-plays
-  issue: 719
-  commit_type: chore
-  scope: install
-  subject: install the plan tool and the two plan-view plays
-  files:
-  - .garura/install-manifest.json
-  - core/components/plays/install-garura/scripts/install.py
-  - core/components/plays/install-garura/scripts/test_install.py
-- id: link-model-part
-  issue: 979
-  commit_type: feat
-  scope: model
-  subject: add link-model-part so a part found during work gets a thin page and a spine entry
-  files:
-  - core/components/agents/product-os-keeper.md
-  - core/components/skills/enrich-grounding/SKILL.md
-  - core/components/skills/link-model-part/SKILL.md
-  - core/components/skills/link-model-part/scripts/link_part.py
-  - core/components/skills/link-model-part/scripts/model_names.py
-  - core/components/skills/link-model-part/scripts/safe_write.py
-  - core/components/skills/link-model-part/scripts/spine_text.py
-  - core/components/skills/link-model-part/scripts/test_link_part.py
-- id: product-model-update
-  issue: 719
-  commit_type: docs
-  scope: model
-  subject: bring the product model up to the plan-view work
-  files:
-  - .garura/product/product-os/_spine.yaml
-  - .garura/product/product-os/capabilities/cap-739/capability.md
-  - .garura/product/product-os/features/fn-628/feature.md
-  - .garura/product/product-os/features/fn-729/feature.md
-  - .garura/product/product-os/features/fn-731/feature.md
-  - .garura/product/product-os/features/fn-746/feature.md
-  - .garura/product/product-os/features/fn-806/feature.md
-  - .garura/product/product-os/intents/bi-717.md
-  - .garura/product/product-os/intents/bi-722.md
-  - .garura/product/product-os/intents/bi-734.md
-- id: issue-working-record
-  issue: 719
-  commit_type: chore
-  scope: stm
-  subject: record the working files of the plan-view change
-  files:
-  - .garura/project/issues/719/context/analysis.yaml
-  - .garura/project/issues/719/context/grouping-notes.md
-  - .garura/project/issues/719/context/issue-edits/edits-979.json
-  - .garura/project/issues/719/context/issue-edits/edits.json
-  - .garura/project/issues/719/context/issue-edits/report-979.json
-  - .garura/project/issues/719/context/issue-edits/report.json
-  - .garura/project/issues/719/context/memory/manifest.json
-  - .garura/project/issues/719/context/memory/standards/schemas/product-os/grounding/_content-standard.md
-  - .garura/project/issues/719/context/memory/standards/schemas/product-os/grounding/capability.md
-  - .garura/project/issues/719/context/memory/standards/schemas/product-os/grounding/feature.md
-  - .garura/project/issues/719/context/model-update/intent-report.json
-  - .garura/project/issues/719/context/model-update/intent-request.json
-  - .garura/project/issues/719/context/model-update/issue-628.md
-  - .garura/project/issues/719/context/model-update/issue-729.md
-  - .garura/project/issues/719/context/model-update/issue-806.md
-  - .garura/project/issues/719/context/model-update/link-report.json
-  - .garura/project/issues/719/context/model-update/link-request.json
-  - .garura/project/issues/719/context/model-update/pages-report-2.json
-  - .garura/project/issues/719/context/model-update/pages-report-3.json
-  - .garura/project/issues/719/context/model-update/pages-report.json
-  - .garura/project/issues/719/context/model-update/request.md
-  - .garura/project/issues/719/context/porcelain.txt
-  - .garura/project/issues/719/context/templates/manifest-close-start-change.json
-  - .garura/project/issues/719/context/templates/standards/rules/pipeline-next.md
-  - .garura/project/issues/719/context/templates/standards/templates/delivery-report.md
-  - .garura/project/issues/719/specs/design.md
+  # #719 plan tool validation
+  - id: plan-tool-refuse-incomplete-plan
+    issue: 719
+    commit_type: fix
+    scope: plan
+    subject: "refuse a plan or node with missing fields and name the file"
+    files:
+      - core/tools/plan/plan.py
+      - core/tools/plan/test_plan.py
+  # #979 both identical safe_write.py copies plus the shape-slice test
+  - id: safe-write-keep-permissions
+    issue: 979
+    commit_type: fix
+    scope: safe-write
+    subject: "keep a file's permissions when writing it"
+    files:
+      - core/components/plays/shape-slice/scripts/safe_write.py
+      - core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+      - core/components/skills/link-model-part/scripts/safe_write.py
+  # #979 link_part rollback
+  - id: link-part-roll-back-failed-write
+    issue: 979
+    commit_type: fix
+    scope: link-model-part
+    subject: "put back every written file when a write fails part way"
+    files:
+      - core/components/skills/link-model-part/scripts/link_part.py
+      - core/components/skills/link-model-part/scripts/test_link_part.py
+  # #719 working record (includes this analysis.yaml, porcelain.txt, manifest.json)
+  - id: stm-719-check-change-record
+    issue: 719
+    commit_type: chore
+    scope: stm
+    subject: "record the check-change run working files"
+    files:
+      - .garura/project/issues/719/context/analysis.yaml
+      - .garura/project/issues/719/context/memory/manifest.json
+      - .garura/project/issues/719/context/porcelain.txt
+      - .garura/project/issues/719/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/direct-model-write.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/naming.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/no-unbacked-recommendation.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/pipeline-position.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/surface-contract.md
+      - .garura/project/issues/719/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/719/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/eval-format.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/pipeline-next.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/rules/work-plan.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/_index.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/eval-slice.md
+      - .garura/project/issues/719/context/memory/grounding-memory/standards/templates/work-plan.md
+      - .garura/project/issues/719/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/719/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/code.md
+      - .garura/project/issues/719/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/719/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/719/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/719/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/719/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/719/context/memory/standards/rules/pr.md
+      - .garura/project/issues/719/context/templates/manifest-check-change.json
+      - .garura/project/issues/719/review/categories.yaml
+      - .garura/project/issues/719/review/config-maps-check.txt
+      - .garura/project/issues/719/review/context.yaml
+      - .garura/project/issues/719/review/design-findings-harness.yaml
+      - .garura/project/issues/719/review/design-findings-memory.yaml
+      - .garura/project/issues/719/review/lint-components.json
+      - .garura/project/issues/719/review/lint-play.txt
+      - .garura/project/issues/719/review/pr.diff
+      - .garura/project/issues/719/review/quality-findings.yaml
+      - .garura/project/issues/719/review/runnable-checks.txt
 exclusions: []
 risks:
   sensitive_files: []
-eval_gates:
-  SE-1:
-    status: PASS
-    evidence: every changed file placed in exactly one group; 78 files, 6 groups
-  SE-5:
-    status: PASS
-    evidence: no sensitive patterns matched
+  warnings:
+    - path: ".garura/project/issues/719/context/memory/standards/rules/pr.md"
+      match: 'password\s*=' 
+      note: "copied PR severity taxonomy, a pattern carrier in a standards artifact; not a block"
+      blocking: false

@@ -1,0 +1,183 @@
+# Layer 2 design-grounding, category: harness. PR #980 (plan/717/719-view-plans -> plan/717/base), issue 719.
+# Principles come from committed sources only: the base ref (git show plan/717/base:<path>), docs/adr/**,
+# docs/standards/harness-standard.md and standards/rules/** read through the memory tool (copies in
+# context/memory/grounding-harness/, manifest.json beside them). No principle is taken from a file this diff adds.
+category: harness
+pr: 980
+base: plan/717/base
+issue: 719
+files_reviewed:
+  - core/components/plays/list-plans/SKILL.md
+  - core/components/plays/list-plans/reference/ice.md
+  - core/components/plays/list-plans/stop-condition.yaml
+  - core/components/plays/show-plan/SKILL.md
+  - core/components/plays/show-plan/reference/ice.md
+  - core/components/plays/show-plan/stop-condition.yaml
+  - core/components/skills/enrich-grounding/SKILL.md
+  - core/components/skills/link-model-part/SKILL.md
+  - core/components/agents/product-os-keeper.md
+
+principles:
+  - id: PR1
+    says: "Plays orchestrate, agents gather context, skills do the work; a play hands an agent paths, never data."
+    source: "plan/717/base:docs/standards/harness-standard.md, principle 2 (ADR 001, ADR 005, ADR 016)"
+  - id: PR2
+    says: "Mechanical work is a script, judgment is a model."
+    source: "plan/717/base:docs/standards/harness-standard.md, principle 3 (ADR 025)"
+  - id: PR3
+    says: "Every part is built from its ICE; a guarantee changes in the ICE and the part is compiled again; the fingerprint records the ICE."
+    source: "plan/717/base:docs/standards/harness-standard.md, principle 4 (ADR 027); CLAUDE.md 'Play Pipeline Rules'"
+  - id: PR4
+    says: "A play reads no memory; its sub-agents read it through the memory tool; templates come from template-manager."
+    source: "plan/717/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md, section 2 and section 8"
+  - id: PR5
+    says: "The shared Standard Play Close lives once in _shared/play-close.md; a play carries only the anchor pair, its own values and its own close steps; a play with no single successor prints no Next line."
+    source: "plan/717/base:core/components/plays/_shared/play-close.md; ADR 039 section 9; ADR 051 section 2"
+  - id: PR6
+    says: "A 'what next' / plan view, if needed, is a new play that reads the plan files and is built from its own ICE; the plan is the one work list."
+    source: "plan/717/base:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md, section 3 and Context"
+  - id: PR7
+    says: "Installed parts point only to installed files; a pointer into one issue's folder is a background pointer."
+    source: "plan/717/base:docs/standards/harness-standard.md, principle 11 (ADR 055)"
+  - id: PR8
+    says: "Direct model write: the LLM writes only per-node docs; every shared model file (the spine, the profile, decisions/) is written solely by a deterministic keyed script, contained to the product model. Any other writer is a recorded exception."
+    source: "plan/717/base:docs/adr/026-direct-to-model-writes.md (the lines on shared files and the keyed script); standards/rules/direct-model-write.md rule 3 (memory tool, tier phoenix, copy in grounding-harness/); plan/717/base:core/components/agents/product-os-keeper.md NEVER list, whose one recorded exception was link-model-gaps (ADR 043, ADR 044)"
+  - id: PR9
+    says: "Only a person confirms or drops a Business Intent; an agent never changes what an intent means."
+    source: "plan/717/base:docs/adr/031-business-intent-and-ice.md, section 1 ('Only a person confirms or drops it')"
+  - id: PR10
+    says: "A change to a harness standard is a decision: it goes through /record-decision as an ADR, and the rule files change with it."
+    source: "plan/717/base:docs/standards/harness-standard.md, 'How the standard is kept'"
+  - id: PR11
+    says: "One name, one meaning: list = show many things, show = show one thing."
+    source: "standards/rules/naming.md and naming.yaml (plan/717/base:core/components/memory/standards/rules/naming.yaml verbs list and show)"
+  - id: PR12
+    says: "Build the eval first; a change is proved by a check that failed before it."
+    source: "plan/717/base:docs/standards/harness-standard.md, principle 5"
+  - id: PR13
+    says: "Memory comes from the three tiers; a project's memory is built by initialize and by promotion; a template the memory tool does not find is reported missing, never made up."
+    source: "plan/717/base:docs/adr/039-... sections 3, 4 and 8; plan/717/base:core/components/agents/template-manager.md 'What You MUST NOT Do'"
+
+conformance_confirmed:
+  - "list-plans and show-plan are new plays with their own reference/ice.md and stop-condition.yaml, as ADR 051 section 3 asks (PR6). Both compiled fingerprints equal sha256 of their ice.md (checked with shasum: c1bffdbb... and a643f24f...) (PR3)."
+  - "Zero domain agents; the one delegation is template-manager for the plan-view template and the close templates, with a paths-only contract and issue: null for an issue-less run, which the template-manager contract allows (PR1, PR4)."
+  - "The view, the check, the mode and the plan-number rule are scripts; no model call makes the view (PR2)."
+  - "The close keeps the Standard Play Close anchor pair, adds its own values and steps, gates COMPLETED on the stop-condition verdict and runs it before the self-clean, as the shared close and the base list-focus-issues do (PR5). Evidence base ${stm_base}_plans/... follows the base ${stm_base}_adr, ${stm_base}_deploy precedent."
+  - "pipeline-next.md in this PR adds list-plans and show-plan with command null, as ADR 051 section 2 requires (PR5). The Layer-1 'next-command' gap in lint-play.txt comes from a stale Next-line map copy; run against this branch's own pipeline-next.md both plays print VERDICT: PASS (0 gaps) (checked in the scratchpad). See H4 for why the copy was stale."
+  - "Names list-plans and show-plan follow verb-first and the list/show meanings (PR11)."
+  - "link-model-part's script is keyed to the parts named, refuses a path outside the product model, is all-or-nothing and reads and writes files only (no git, no network). That is the shape PR8 asks of a spine writer."
+  - "lint-components reports no violation in any changed harness file (36 errors there before, none in changed paths)."
+
+findings:
+  - id: H1
+    severity: P2
+    file: core/components/agents/product-os-keeper.md
+    what: >
+      The agent's NEVER rule was rewritten from 'write no shared model file yourself (the spine, the profile, an
+      intent page); the play's keyed persist script owns every shared file, with one exception, link-model-gaps
+      inside a loop (ADR 043, ADR 044)' to 'you may change any part of the model by hand, but only through a skill
+      (the product owner, 2026-10-29)', and a second spine writer, link-model-part, is added for 'a part found
+      during work (#979)' to be run by any play or run. The decision it rests on is a dated remark of the product
+      owner; no ADR or amended rule file records it. ADR 026 and direct-model-write rule 3 still say a shared file
+      is written solely by the play's keyed persist script, so the agent file and the committed rule now disagree.
+      The script itself is keyed, path-contained and all-or-nothing, so the mechanism fits the intent of PR8; what
+      is missing is the recorded exception (the prior exception, link-model-gaps, was recorded in ADR 043/044), and
+      the rule file's guard steps (clean model tree on entry, one scoped-diff guard after the writes) are not
+      named for this new path.
+    basis: "PR8 (ADR 026; direct-model-write.md rule 3; base product-os-keeper.md NEVER list and its ADR 043/044 exception) and PR10 (harness-standard 'How the standard is kept': a change to the standard is a decision, recorded as an ADR)."
+    suggested: "Record the decision (a new ADR or an amendment to ADR 026) naming link-model-part as a spine writer outside a play's keyed persist script, and update direct-model-write.md to match; name which guard covers a run that uses it."
+
+  - id: H2
+    severity: P3
+    file: core/components/skills/enrich-grounding/SKILL.md
+    what: >
+      A new 'intent page (update or fix mode only)' step lets the skill change named lines of a business intent
+      page (the example is a real person's name to a persona). The base skill said 'Never write ... an intent
+      page' and the base agent listed the intent page as a shared model file the agent must not write. The new
+      guard rails are sound (only the lines the request names, no new intent, no change of meaning, a person's
+      request), but the move from 'never' to 'named lines only' changes who may write a person's intent and has
+      no committed record. A Business Intent belongs to the person (confirm or drop).
+    basis: "PR9 (ADR 031 section 1), PR8 (base enrich-grounding Rules and base product-os-keeper NEVER list class the intent page as shared) and PR10."
+    suggested: "Cover it in the same record as H1, and say there that a rename to a persona is a wording change a person asked for, not a change of meaning."
+
+  - id: H3
+    severity: P3
+    file: core/components/plays/list-plans/SKILL.md; core/components/plays/show-plan/SKILL.md (with core/components/plays/shape-plan/scripts/write_plan_file.py)
+    what: >
+      GROUNDING UNAVAILABLE for the six-status vocabulary (Not Started, In Progress, Now, Done, Blocked, Dropped).
+      No committed source on the base ref defines it: ADR 051 and the base list-focus-issues text speak of
+      'done / now / next', and the base write_plan_file.py wrote 'done | now | next | blocked | later'. The new
+      vocabulary is defined only in files this branch adds or rewrites (plan-view.md, plan.py, work-plan rule 19,
+      the plans' header comments, and the STM design.md), so it cannot be used as grounding. It is a contract
+      between plays: plan.py rejects any status that is not a template name, case sensitive, and /shape-plan now
+      writes 'Not Started' for a new node. Nothing pins that coupling: the shape-plan test does not assert the new
+      node's status and its fixture still carries 'done' and 'now', which plan.py would stop on; the compiled
+      shape-plan SKILL and ICE say nothing of the vocabulary; /list-focus-issues (not in this diff) still says
+      'done / now / next'. The retired 'later' has no stated successor.
+    basis: "PR10 (a standard-level change is a decision; no ADR on the base ref carries it), PR12 (build the eval first: a changed output of /shape-plan has no check that failed before) and PR3 (the compiled shape-plan does not carry the contract it now keeps). Evidence: plan/717/base:docs/adr/051-... Context; plan/717/base:core/components/plays/shape-plan/scripts/write_plan_file.py line 226."
+    suggested: "Record the status vocabulary and the mapping from the old five (including 'later') in an ADR or in the plan-file rule; add one check to the shape-plan test that a new node is 'Not Started' and make its fixtures use the new names; fix the done / now / next wording in /list-focus-issues on the next touch."
+
+  - id: H4
+    severity: P3
+    file: core/components/plays/list-plans/SKILL.md; core/components/plays/show-plan/SKILL.md
+    what: >
+      Both plays load standards/templates/plan-view.md through template-manager and hard-halt when it is missing
+      (SE-1). Today the memory tool finds plan-view.md in no tier (short-term, Garura, Phoenix; looked up with
+      'find --glob **/plan-view.md', answered_by null), and the Phoenix copy of pipeline-next.md has no entry for
+      either play. The template and the map entries exist only in this branch's core/components. So on any
+      machine that reads Phoenix memory the two plays stop at Step 1 until the seed is promoted, and the Layer-1
+      'next-command' gap in lint-play.txt is the same dependency (its Next-line map copy came from memory and was
+      stale). Not a defect in the plays: an ordering dependency the PR does not state.
+    basis: "PR13 (ADR 039 sections 3, 4 and 8: memory arrives by tier, promotion and initialize; template-manager reports a missing template and never makes one up). Evidence: memory tool 'find' on 2026-10-29, tier phoenix version dfdafe6104e6; copy in grounding-harness/standards/rules/pipeline-next.md."
+    suggested: "State in the PR that plan-view.md and the two pipeline-next entries must be promoted to Phoenix memory (edit the seed, push, pull) before the plays are run, or before the PR merges."
+
+  - id: H5
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md; core/components/plays/show-plan/SKILL.md; the two reference/ice.md
+    what: >
+      Recovery cross-references do not agree with the recovery table. SE-1 says a missing plan-view.md is 'a hard
+      halt (REC3)' in list-plans and '(REC5)' in show-plan, but the table's REC3 (list-plans F3) and REC5
+      (show-plan F5) say 'load the template again through template-manager and re-run', which is what just failed,
+      and is marked autonomous. The same condition (an unknown plan status) is handed to a person in list-plans (F5,
+      human) and left autonomous in show-plan (F7).
+    basis: "PR3 (the recovery table is part of the compiled guarantee; the harness playbook asks for exactly one recovery for each failure, which the linter checks by count, not by meaning)."
+    suggested: "Name a recovery for 'template not found' (report it and stop, human) or reword SE-1 to the reload-then-halt it means; give the unknown-status case the same handoff in both plays. Change it in the ICE and recompile."
+
+  - id: H6
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md; core/components/plays/show-plan/SKILL.md
+    what: >
+      The read-only guarantee (C2 / F2, 'no issue and no branch written') is proved for plan files by a hash
+      comparison but for the tracker and branches only by the sentence 'the play's only commands are the ones
+      written above' (SE-4 / SE-5). The base list-focus-issues proves its read-only claim with a verbs log and
+      calls a missing log a GAP, never a pass. Here no agent runs a host verb, so the risk is low, but the check
+      is an assertion.
+    basis: "PR12 and the base list-focus-issues SKILL.md Step 1 / SE-1 (host-verbs.log) as the committed precedent."
+    suggested: "Optional: have the check compare the branch list and the issue-write verbs before and after, or word SE-4 as what it proves (plan files unchanged)."
+
+  - id: H7
+    severity: P4
+    file: core/components/plays/list-plans/reference/ice.md; core/components/plays/show-plan/reference/ice.md
+    what: >
+      The Context of both ICE files points to '.garura/project/issues/719/specs/design.md', one issue's
+      short-term-memory file. reference/ice.md is laid by the install, and a project that installs Garura has no
+      such file. Pattern there before: base shape-plan and shape-slice ice.md cite issues/818, 795, 844, 842 the
+      same way.
+    basis: "PR7 (harness-standard principle 11: a pointer in an installed file points to an installed file; a background pointer is deleted)."
+    suggested: "On the next recompile, put the six statuses and the tree rule in the ICE's own words and drop the path."
+
+  - id: H8
+    severity: P4
+    file: core/components/plays/show-plan/SKILL.md
+    what: >
+      show-plan takes one required plan number and list-plans takes an optional --graph, but neither carries an
+      argument-hint in its frontmatter. The base plays that take an argument (shape-plan, shape-eval, shape-slice)
+      all carry one.
+    basis: "Committed precedent: plan/717/base:core/components/plays/shape-plan/SKILL.md line 4 (argument-hint: \"<business intent issue number>\"), shape-eval line 4, shape-slice line 4."
+    suggested: "Add argument-hint \"<plan number>\" to show-plan and \"[--graph]\" to list-plans in the ICE-driven compile."
+
+notes:
+  - "Grounding reads: git show plan/717/base for harness-standard.md, ADR 039, 051, 026, 031, play-close.md, template-manager.md, product-os-keeper.md, enrich-grounding, list-focus-issues, shape-plan, naming.yaml; memory tool (tier phoenix) for direct-model-write, pipeline-position, user-facing-voice, naming, evidence-recording, pipeline-next, surface-contract, no-unbacked-recommendation. play-orchestration.md and play-patterns.md were looked up and found in no tier (not used)."
+  - "No principle was taken from content this diff adds. The only branch-side sources read were the changed files under review."
+  - "Not findings, other categories: the python scripts (executable-code), plan.py README and tests, work-plan.md rule 19 and plan-view.md (memory), the product model pages, plan files and STM records."
+  - "Phoenix memory copies (version dfdafe6104e6) may be newer or older than the base ref copies of the same rules; where a rule is cited it is also the rule in the base ref's core/components/memory/standards/rules/."
