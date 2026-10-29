@@ -1,0 +1,145 @@
+# Layer 2 design-grounding, category: memory. PR #981 (plan/717/base -> main), issue 717, final diff.
+# Grounded from committed sources only: the base ref (git show main:<path>), docs/adr/** on main, and
+# memory read through the memory tool. Never from content this diff adds or rewrites.
+# Inputs not used: review/run-1/, review/pr-950/, issues/719/review/.
+category: memory
+pr: 981
+base: main
+changed_artifacts:
+  - core/components/memory/standards/rules/pipeline-next.md      # +2 map entries
+  - core/components/memory/standards/rules/work-plan.md          # rule 19 rewritten
+  - core/components/memory/standards/templates/plan-view.md      # new
+  - core/components/memory/standards/templates/_index.md         # +1 row
+principles:
+  - id: PR-1
+    principle: "A work plan's status tree is the GOAL / DONE / NOW / NEXT / WAIT tree; every line says in plain words what the item is, with its issue number."
+    source: "git show main:docs/adr/030-plan-mode.md, 'Work This Creates' item 7; git show main:core/components/memory/standards/rules/work-plan.md rule 19 (prior text)"
+  - id: PR-2
+    principle: "An accepted decision record is never edited. A decision that changes part of it names it in `amends`, and the older record gets a forward pointer (`amended_by`)."
+    source: "memory tool: standards/templates/adr.md (core fields amends, amended_by); git show main:docs/adr/030-plan-mode.md header (Status line holds the forward pointers)"
+  - id: PR-3
+    principle: "work-plan.md is the single source of the rules for work plans, the plan kept at {stm_base}{issue}/specs/plan.md; its template gives status active|done|dropped and one `now` item."
+    source: "git show main:core/components/memory/standards/rules/work-plan.md (title, 'Where it lives', rule 8); git show main:core/components/memory/standards/templates/work-plan.md (front matter)"
+  - id: PR-4
+    principle: "The Plan kind is a file at .garura/project/plans/<id>.yaml; its Status is active, done or dropped; its Now is one work item; a node's state is named in the Tree property but its values are not defined."
+    source: "git show main:core/components/memory/standards/schemas/product-os/ontology.md, '### Plan' (Lives at, Properties table). The memory tool's Phoenix copy (d68154ae75e9) has no Plan kind, so main is the committed source here."
+  - id: PR-5
+    principle: "A template is the canonical output shape; consumers instantiate it instead of inlining their own shape."
+    source: "git show main:core/components/memory/standards/templates/_index.md, opening paragraph"
+  - id: PR-6
+    principle: "pipeline-next.md is the one place the Next-line map lives, and its prose describes where a person goes when a play has no successor."
+    source: "git show main:core/components/memory/standards/rules/pipeline-next.md (opening paragraphs, 'The flow'); git show main:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md ('a new play that reads the plan files')"
+  - id: PR-7
+    principle: "A change to a shelf follows the shelf's own shape: a file is listed in its index; cross-references resolve."
+    source: "memory tool: knowledge/review/memory.md (Treatment, Linter); standards/rules/_index.md and standards/templates/_index.md"
+
+checks_by_hand:   # each cited; result pass or finding id
+  - check: "plan-view.md is listed in templates/_index.md"
+    result: pass
+    evidence: "core/components/memory/standards/templates/_index.md, new row 'plan-view.md' (after the work-plan.md row); consumers named: /list-plans, /show-plan, the plan tool"
+  - check: "pipeline-next.md entries list-plans and show-plan match plays that exist in the diff"
+    result: pass
+    evidence: "core/components/plays/list-plans/SKILL.md and core/components/plays/show-plan/SKILL.md exist (added); frontmatter name equals the map key; both position: none, user-invocable; the fenced yaml parses (30 entries); both rows have command null with a why, which the map's own rule allows for a play with no successor"
+  - check: "work-plan.md rule 19 cross-reference resolves"
+    result: pass
+    evidence: "`templates/plan-view.md` exists in the diff; `/show-plan` exists in the diff"
+  - check: "plan-view.md cross-references resolve"
+    result: pass
+    evidence: "core/tools/plan/plan.py exists (installed as .garura/core/tools/plan/plan.py); template-manager agent exists (core/components/agents/template-manager.md); .garura/project/plans/<id>.yaml is the Plan kind's Lives-at (PR-4)"
+  - check: "the ```yaml plan-view settings block is readable by the tool it names"
+    result: pass
+    evidence: "ran `python3 core/tools/plan/plan.py --template <plan-view.md> show --plan 717` and `list`: both printed from the block, legend and marks as the template's example shows"
+  - check: "rule 19's claims match plan-view.md"
+    result: pass
+    evidence: "six statuses and names equal; Done and Dropped hidden with a count on the last line (tree.hidden); marks and layout in the template"
+  - check: "_TEMPLATE.md (knowledge-file shape) and frontmatter id/evolve_when"
+    result: not_applicable
+    evidence: "no file under memory/knowledge/** changed; the four changed files are standards rules and templates, which carry no frontmatter"
+  - check: "duplication or contradiction with an existing rule or template"
+    result: findings
+    evidence: "see MEM-1, MEM-2, MEM-3, MEM-5"
+  - check: "ADR 051's allowance for a plan-reading view"
+    result: pass
+    evidence: "ADR 051 says a 'what next' view is a new play that reads the plan files; list-plans and show-plan read only plan files"
+
+findings:
+  - id: MEM-1
+    severity: P3
+    file: core/components/memory/standards/rules/work-plan.md
+    line: 47
+    what: >
+      Rule 19 replaces the GOAL / DONE / NOW / NEXT / WAIT tree with a tree of six statuses that hides Done
+      and Dropped, and no decision record carries the change. ADR 030 item 7 is the committed source of the
+      old rule: its tree has a DONE group and a WAIT-on-a-human group. The diff changes no file under docs/adr/,
+      so ADR 030 has no `amended_by` pointer and no ADR names this change in `amends`. The rule file is the only
+      place that now disagrees with ADR 030.
+    basis: "PR-1 and PR-2: git show main:docs/adr/030-plan-mode.md (item 7; Status line); standards/templates/adr.md (amends, amended_by)"
+    suggested_fix: "Record the decision (an ADR that amends ADR 030 item 7, with the forward pointer on ADR 030), or show that it was recorded elsewhere."
+  - id: MEM-2
+    severity: P3
+    file: core/components/memory/standards/rules/work-plan.md
+    line: 47
+    what: >
+      Rule 19 now describes the status view of the plan files (.garura/project/plans/<id>.yaml, read by
+      /show-plan), but the file it sits in is the rulebook for the work plan at {stm_base}{issue}/specs/plan.md.
+      The file's title, 'Where it lives' and its template (status active|done|dropped, one `now`) are unchanged
+      and still describe the other artifact. A reader of rules 1 to 18 meets "Every node has one of six statuses"
+      with no word on which plan it means or how it relates to the active|done|dropped status and the single
+      `now` of rules 8 and 17.
+    basis: "PR-3 and PR-4: git show main:.../rules/work-plan.md (title, 'Where it lives', rules 8 and 17); git show main:.../templates/work-plan.md (front matter); ontology '### Plan' (Lives at)"
+    suggested_fix: "Say in rule 19 which plan it shows (the plan file), or give the plan-file view its own rule and leave rule 19 for the work plan."
+  - id: MEM-3
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    line: 19
+    what: >
+      The six node statuses (Not Started, In Progress, Now, Blocked, Done, Dropped) are defined only here, in the
+      branch's own new text. The committed Plan kind gives the plan one Status of active, done or dropped, one
+      `Now` item, and says a node has a 'state' without naming the values; ADR 051 speaks of done / now / next.
+      The template lets many nodes be Now at once ('someone works on it in an open change right now'), which the
+      ontology's single `Now` does not. No committed source anchors the vocabulary, so it cannot be checked against
+      anything outside this branch.
+    basis: "PR-4: git show main:.../ontology.md '### Plan' (Properties: Tree, Now, Status); git show main:docs/adr/051-... (done / now / next)"
+    suggested_fix: "Have the ontology's Plan kind (through /edit-ontology) or the decision record from MEM-1 carry the six statuses, so the template points to a committed definition."
+  - id: MEM-4
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    line: 76
+    what: >
+      The template says a change to a mark or a line is made in its settings block, never in the tool, and each
+      status has a `shown` setting. The tool does not honour that fully: core/tools/plan/plan.py counts a plan's
+      open nodes as every status except the literal names Done and Dropped (list view), and picks 'worked now' by
+      the literal names Now and In Progress. Setting `shown: true` on Done would change the tree and leave the
+      list's open count unchanged, so the two views would disagree.
+    basis: "PR-5: git show main:.../templates/_index.md (templates are the canonical shape; consumers do not inline their own); plan-view.md's own Settings sentence"
+    suggested_fix: "Make the list read `shown` from the block, or reword the Settings sentence to say which names the tool fixes."
+  - id: MEM-5
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    line: 15
+    what: >
+      The prose still tells the person to pick the next piece of work 'from the plan (one plan for each business
+      intent, with done / now / next) or from /list-focus-issues'. The same file now maps two plays, /list-plans
+      and /show-plan, that show those plans, and the plan has six statuses. 'The flow' names /list-focus-issues
+      under the Learn loop bullet and says nothing of the two new plays. The text is stale beside the new rows.
+    basis: "PR-6: git show main:.../rules/pipeline-next.md (opening paragraphs, 'The flow'); ADR 051 (the plan is the work list)"
+  - id: MEM-6
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    line: 75
+    what: >
+      The two new rows do not line up with the row above (`list-focus-issues:          {`). The yaml still parses,
+      so this is layout only.
+    basis: "PR-6: the neighbouring rows of the Navigation group in git show main:.../rules/pipeline-next.md"
+
+grounding_notes:
+  - "The memory tool's Phoenix copies of rules/work-plan.md and templates/_index.md (version d68154ae75e9) already hold this branch's new rule 19 and plan-view row. They are not independent grounding for those two files. The prior version of each came from `git show main:`."
+  - "The Phoenix copy of ontology.md (d68154ae75e9) has no Plan kind; main's core/components copy does. The Plan-kind principle (PR-4) is grounded in main. Phoenix memory is behind the repository on this; no memory update was raised (a read gap, not a block)."
+  - "The 'knowledge shelf' tests of the playbook (_TEMPLATE.md, evolve_when, id/path) do not apply: no knowledge/** file changed."
+  - "Grounding copies refreshed in .garura/project/issues/717/context/memory/grounding-memory/ (adr.md added; manifest refreshed)."
+counts:
+  P1: 0
+  P2: 0
+  P3: 4
+  P4: 2
+  total: 6
