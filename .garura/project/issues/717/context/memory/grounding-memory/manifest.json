@@ -1,0 +1,11 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/git.md",
+      "version": "dfdafe6104e6",
+      "fingerprint": "sha256:8c55bc630d1897177716bc097dc303f2f315e6aea641e49bf36aeeac048e2f82",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/git.md"
+    }
+  ]
+}
