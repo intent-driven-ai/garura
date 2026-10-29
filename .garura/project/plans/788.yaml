@@ -3,18 +3,16 @@
 # represents: the slice id an epic stands for, or the feature id a story stands for (#818,
 # Q-find-1); /shape-plan finds work items by it, never by title.
 # later = parked: open, but not the next work; done when the product owner picks it up.
-# A detour: found while working on plan 756. Its branch is cut from plan/756/base, takes in
-# 756's changes on each start, and lands back into plan/756/base (returns_to); then work goes
-# back to 756. Not a "needs" link. #791 (in plan 717, under #721) teaches start-change and
-# merge-change to do this; until then the first cut uses setup_branch.py's --base.
+# Found while working on plan 756 (identified_by). Its branch, plan/788/base, merged into main
+# with PR #916 on 2026-10-27 and is gone; a new one is cut from main when work starts again
+# (managing-work.md, "A plan's branch: start, pause, start again"). No detour plans (#791 closed).
 id: 788
 title: Agents design the work, then build it through plays and a loop
 status: active
 started: '2026-10-22'
-branch: plan/788/base
+branch: null
 identified_by:
 - 756
-returns_to: 756
 updated: '2026-10-27'
 tree:
 - issue: 792
