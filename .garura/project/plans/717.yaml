@@ -108,6 +108,10 @@ tree:
         kind: chore
         title: 'The five small findings of the PR #950 review: plan folder from pre-flight, one always-true target check, capability-close check, plan order, two rule pages'
         status: Not Started
+    - issue: 989
+      kind: story
+      title: 'start-change starts a plan on its own: it cuts the plan''s branch from main, with no story branch'
+      status: Not Started  # filed 2026-10-29, after plan 717 was started by hand with plain git
     - issue: 791
       kind: issue
       title: The plan file names the plan a detour returns to; start-change cuts from it and merge-change lands back on it
