@@ -7,8 +7,9 @@ no model call, and the same files print the same way every time (#719).
     python3 plan.py show  --template <plan-view.md> [--plans-dir D] --plan <id>
     python3 plan.py graph --template <plan-view.md> [--plans-dir D] [--repo R]
 
-- `list` — one line for each plan: its branch, Done against open, what is worked now, the plans
-  it waits on. Used by `/list-plans`.
+- `list` — one card for each plan: its direction (⏵, ⏵⏵, ⏵⏵⏵), number and title; its Status,
+  Branch and Waits on; then each of its epics with its Progress. Status and Direction are read
+  from the plan file as a person set them. Used by `/list-plans`.
 - `show` — one plan as a tree, with the plans it needs after it. Done and Dropped are hidden and
   counted. Used by `/show-plan`.
 - `graph` — each plan's branch against main, with commits ahead and behind. Used by

@@ -2,6 +2,7 @@
 
 import io
 import os
+import re
 import subprocess
 import tempfile
 import textwrap
@@ -17,7 +18,8 @@ PLANS = {
     "10": """
         id: 10
         title: People find a reset link in their mail
-        status: active
+        status: Paused
+        direction: 1
         branch: null
         needs_plans: [20]
         tree:
@@ -51,7 +53,8 @@ PLANS = {
     "20": """
         id: 20
         title: Mail goes out through one service
-        status: active
+        status: Not Started
+        direction: 2
         branch: null
         tree:
         - issue: 21
@@ -62,7 +65,7 @@ PLANS = {
     "9": """
         id: 9
         title: Invoices print on one page
-        status: active
+        status: In Progress
         branch: null
         tree:
         - issue: 31
@@ -92,18 +95,42 @@ class PlanToolTest(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def test_list_names_every_plan_in_number_order(self):
+    def test_list_names_every_plan_in_number_order_with_its_direction(self):
         code, out, _ = run("list", *self.base)
         self.assertEqual(code, 0)
-        heads = [ln.split()[0] for ln in out.splitlines() if ln.startswith("#")]
-        self.assertEqual(heads, ["#9", "#10", "#20"])
+        lines = out.splitlines()
+        self.assertEqual(lines[0], "⏵ next · ⏵⏵ next in line · ⏵⏵⏵ later")
+        heads = [ln for ln in lines if re.match(r"^\S*\s*#\d+  ", ln)]
+        self.assertEqual(heads, ["     #9  Invoices print on one page",
+                                 "⏵    #10  People find a reset link in their mail",
+                                 "⏵⏵   #20  Mail goes out through one service"])
 
-    def test_list_counts_and_names_the_work_now_and_the_plans_it_waits_on(self):
+    def test_a_card_shows_status_branch_waits_on_and_each_epic_with_its_progress(self):
         _, out, _ = run("list", *self.base)
-        detail = out.splitlines()[out.splitlines().index("#10  People find a reset link in their mail") + 1]
-        self.assertIn("main · 2 Done · 3 open", detail)
-        self.assertIn("▶ #14 Show the reset page", detail)
-        self.assertIn("waits on plan 20", detail)
+        lines = out.splitlines()
+        at = lines.index("⏵    #10  People find a reset link in their mail")
+        self.assertEqual(lines[at - 1], "━" * 72)
+        self.assertEqual(lines[at + 1:at + 7], [
+            "  Status         Paused",
+            "  Branch         main",
+            "  Waits on       #20 Mail goes out through one service",
+            "",
+            "  Epic           ◐ #11  A person resets a lost password",
+            "  Progress       2 done · 2 open · 1 dropped"])
+
+    def test_waits_on_is_always_shown_and_blank_when_none(self):
+        _, out, _ = run("list", *self.base)
+        lines = out.splitlines()
+        at = lines.index("     #9  Invoices print on one page")
+        self.assertEqual(lines[at + 3], "  Waits on")
+
+    def test_a_plan_status_or_direction_the_template_does_not_know_is_refused(self):
+        for bad in ("status: active\n", "status: Paused\ndirection: 7\n"):
+            with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
+                fh.write(f"id: 9\ntitle: x\n{bad}tree: []\n")
+            code, _, err = run("list", *self.base)
+            self.assertEqual(code, 2, bad)
+            self.assertIn("9.yaml", err)
 
     def test_show_hides_done_and_dropped_and_counts_them(self):
         code, out, _ = run("show", *self.base, "--plan", "10")
@@ -143,19 +170,19 @@ class PlanToolTest(unittest.TestCase):
 
     def test_a_plan_or_node_with_a_missing_field_is_refused_with_the_file_named(self):
         with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
-            fh.write("id: 9\nstatus: active\ntree: []\n")
+            fh.write("id: 9\nstatus: Paused\ntree: []\n")
         code, _, err = run("list", *self.base)
         self.assertEqual(code, 2)
         self.assertIn("9.yaml has no title", err)
         with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
-            fh.write("id: 9\ntitle: x\ntree:\n- issue: 31\n  kind: epic\n  status: Done\n")
+            fh.write("id: 9\ntitle: x\nstatus: Paused\ntree:\n- issue: 31\n  kind: epic\n  status: Done\n")
         code, _, err = run("show", *self.base, "--plan", "9")
         self.assertEqual(code, 2)
         self.assertIn("has no title", err)
 
     def test_a_node_that_is_not_a_mapping_is_refused(self):
         with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
-            fh.write("id: 9\ntitle: x\ntree:\n- just a line\n")
+            fh.write("id: 9\ntitle: x\nstatus: Paused\ntree:\n- just a line\n")
         code, _, err = run("list", *self.base)
         self.assertEqual(code, 2)
         self.assertIn("not a mapping", err)
