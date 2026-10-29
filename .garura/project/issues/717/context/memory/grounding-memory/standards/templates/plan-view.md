@@ -5,7 +5,7 @@ plan as a graph against main. The plan tool (`.garura/core/tools/plan/plan.py`) 
 from the settings below, from the plan files alone (`.garura/project/plans/<id>.yaml`): no
 tracker read and no model call, so the same files print the same way every time.
 
-Consumers: `/list-plans` (the list and `--graph`), `/show-plan` (the tree). Each play gets a copy
+Consumers: `/list-plans` (the cards and `--graph`), `/show-plan` (the tree). Each play gets a copy
 of this file from `template-manager` and passes its path to the plan tool.
 
 ## The statuses
@@ -49,13 +49,34 @@ Every node of a plan has one of six statuses. The order below is the order of th
 
 ## The list (`/list-plans`)
 
-One line for each plan, in the order of the plan numbers: its number, its title, its branch (or
-`main` when it has none), its Done count against its open count, what is Now or In Progress, and
-the plans it waits on.
+One card for each plan, in the order of the plan numbers. A legend of the direction icons comes
+first. Each card opens with a heavy rule, then the plan's heading — its direction icon (or
+blanks), its number and its business intent's title — then labeled rows:
+
+- **Status** — the plan's own status, as the plan file gives it (`status`): Not Started, In
+  Progress, Paused, Done or Dropped. Set by a person, never worked out from the work.
+- **Branch** — the plan's branch, or `main` when it has none.
+- **Waits on** — always shown: each plan it needs, with its title; blank when none.
+
+Then, after a blank line, each of the plan's epics — only the epics; an item outside every epic
+is not shown — with its status mark, number and title, and a **Progress** row: done, open, and
+dropped when there are any. A dotted rule separates the epics of one plan.
+
+**Direction** is set by a person in the plan file (`direction`: 1, 2, 3 or none) and shown as
+⏵, ⏵⏵ or ⏵⏵⏵ before the plan's number. It is directional, not a ranking: several plans may
+share a level.
 
 ```
-#717  People plan work toward a business intent, and pick it up across days and people
-      main · 5 Done · 16 open · ▶ #719 View plans: see every plan, and any one plan as a tree · waits on plan 722
+⏵ next · ⏵⏵ next in line · ⏵⏵⏵ later
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏵    #717  People plan work toward a business intent, and pick it up across days and people
+  Status         Paused
+  Branch         main
+  Waits on       #722 A product model can be managed, and grows as plans are built
+
+  Epic           ○ #956  A person builds, views and manages the plan of a business intent
+  Progress       9 done · 10 open · 2 dropped
 ```
 
 ## The graph (`/list-plans --graph`)
@@ -92,10 +113,22 @@ tree:
   needs: "Plan {plan} needs plan {needed}:"
   no_plan: "No plan {plan} in {dir}."
 list:
-  head: "#{plan}  {title}"
-  detail: "      {branch} · {done} Done · {open} open{now}{waits}"
-  now: " · {mark} #{issue} {title}"
-  waits: " · waits on plan {plans}"
+  plan_statuses: [Not Started, In Progress, Paused, Done, Dropped]
+  directions: {1: "⏵", 2: "⏵⏵", 3: "⏵⏵⏵"}
+  direction_names: {1: next, 2: next in line, 3: later}
+  legend_join: " · "
+  direction_width: 5
+  plan_rule: "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  epic_rule: "  ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"
+  head: "{direction}#{plan}  {title}"
+  row: "  {label}{value}"
+  label_width: 15
+  labels: {status: Status, branch: Branch, waits: Waits on, epic: Epic, progress: Progress}
+  waits_item: "#{plan} {title}"
+  waits_join: "; "
+  epic: "{mark} #{issue}  {title}"
+  progress: "{done} done · {open} open"
+  dropped: " · {dropped} dropped"
   none: "No plans in {dir}."
 graph:
   main: "main"
