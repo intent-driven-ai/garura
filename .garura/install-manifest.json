@@ -148,11 +148,38 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version 23387be24c0d."
+          "Phoenix memory: on this machine, at version dfdafe6104e6."
         ]
       }
     },
     "tools_gitignore": ".garura/core/tools/.gitignore",
-    "retired": []
+    "retired": [
+      ".claude/agents/code-builder.md",
+      ".claude/agents/intent-resolver.md",
+      ".claude/agents/knowledge-builder.md",
+      ".claude/agents/result-checker.md",
+      ".claude/agents/tech-designer.md",
+      ".claude/skills/author-fix-design",
+      ".claude/skills/author-implementation-plan",
+      ".claude/skills/author-knowledge-brief",
+      ".claude/skills/author-knowledge-page",
+      ".claude/skills/author-lld",
+      ".claude/skills/author-plan-file",
+      ".claude/skills/author-play-ice",
+      ".claude/skills/author-rca",
+      ".claude/skills/author-regression-test",
+      ".claude/skills/author-technical-approach",
+      ".claude/skills/check-quality",
+      ".claude/skills/check-quality-gates",
+      ".claude/skills/complete-discovery",
+      ".claude/skills/discover-domains",
+      ".claude/skills/find-answers-in-sources",
+      ".claude/skills/find-model-gaps",
+      ".claude/skills/fix-bug",
+      ".claude/skills/judge-loop-result",
+      ".claude/skills/link-model-gaps",
+      ".claude/skills/propose-kb-node",
+      ".claude/skills/research-domain-context"
+    ]
   }
 }
