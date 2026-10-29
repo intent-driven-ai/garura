@@ -1,5 +1,5 @@
 # Plan 767 — its ID is the business intent's issue number (ontology v5, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | dropped (closed as not planned or as a duplicate).
+# Kept by hand until update-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 767
 title: People and agents use Garura the right way in this repo
 status: active
@@ -14,4 +14,4 @@ tree:
 - issue: 960
   kind: epic
   title: Claude Code in this repo reads each rule once, in the right place
-  status: next
+  status: Not Started

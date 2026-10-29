@@ -1,5 +1,5 @@
 # Plan 606 — its ID is the business intent's issue number (ontology v11, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | later | dropped (closed as not planned or as a duplicate).
+# Kept by hand until update-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 # Unplanned: this plan was not shaped. Its one epic stands for no slice; it gathers defects
 # found in work already delivered under #606 and fixes them together (managing-work.md,
 # "An unplanned epic gathers defects being fixed together"). The Bugs hang under the Stories
@@ -17,366 +17,366 @@ tree:
 - issue: 955
   kind: epic
   title: A person runs a lifecycle loop's plays until the loop's intent is met, with agents working only from memory
-  status: next
+  status: Not Started
   children:
   - issue: 594
     kind: feature
     title: Loop recipes run each lifecycle loop's plays until the loop's intent is met
-    status: next
+    status: Not Started
     children:
     - issue: 595
       kind: story
       title: /grill cuts any slice, and grills its missing design areas itself
-      status: next
+      status: Not Started
     - issue: 596
       kind: story
       title: IDSD and reference-implementation docs describe the five loops
-      status: done
+      status: Done
     - issue: 607
       kind: spike
       title: Decide the Understand loop's recipe — the intent pulled from a working prototype
-      status: done
+      status: Done
     - issue: 608
       kind: spike
       title: Decide the Slice loop's recipe — lock, slice, order, design once
-      status: next
+      status: Not Started
     - issue: 609
       kind: spike
       title: Decide the Execute loop's recipe — grill, implement, validate, launch
-      status: next
+      status: Not Started
     - issue: 610
       kind: spike
       title: Decide the Ship loop's recipe — every change lands the same way
-      status: next
+      status: Not Started
     - issue: 611
       kind: spike
       title: Decide the Learn loop's recipe — learn into Garura memory, promote to Phoenix memory, find drift
-      status: next
+      status: Not Started
     - issue: 612
       kind: story
       title: /intent pulls the intent out of a working prototype
-      status: done
+      status: Done
     - issue: 613
       kind: story
       title: The Kickoff drive runs /intent, /vision and /understand from a prototype to a detailed product model
-      status: done
+      status: Done
       children:
       - issue: 925
         kind: bug
         title: The loop's round script reads waiting memory updates from their files instead of asking the memory tool
-        status: done
+        status: Done
     - issue: 614
       kind: story
       title: /vision runs inside a drive without stopping, and its review happens after the drive
-      status: done
+      status: Done
     - issue: 615
       kind: story
       title: /understand runs inside a drive without stopping, and its review happens after the drive
-      status: done
+      status: Done
     - issue: 616
       kind: story
       title: /intent, /vision and /understand each run by hand without needing another to run first
-      status: done
+      status: Done
     - issue: 617
       kind: spike
       title: Decide how a finished drive is reviewed
-      status: done
+      status: Done
     - issue: 637
       kind: story
       title: /vision starts from the business intents /intent saved, and gives their capabilities a domain
-      status: done
+      status: Done
     - issue: 648
       kind: story
       title: Garura opens a review on what a drive changed and records every answer on the drive's branch
-      status: next
+      status: Not Started
     - issue: 649
       kind: story
       title: A sent-back piece comes back reworked, with Garura's reply on the comment
-      status: next
+      status: Not Started
     - issue: 650
       kind: story
       title: The drive's last step applies the review's answers in one commit and writes approval
-      status: next
+      status: Not Started
     - issue: 686
       kind: story
       title: 'feat: a drive finds, builds and reviews the knowledge it lacks — /search-knowledge, /build-knowledge, /review-knowledge'
-      status: done
+      status: Done
       children:
       - issue: 920
         kind: bug
         title: The Discovery loop's three knowledge steps are built as plays no one runs, and one duplicates the memory tool
-        status: done
+        status: Done
       - issue: 926
         kind: bug
         title: The research skill raises its knowledge page through the memory tool itself, though only agents may call it
-        status: done
+        status: Done
       - issue: 927
         kind: bug
         title: The proposed-answers skill is handed no memory inside the Discovery loop, though its answers should rest on it
-        status: done
+        status: Done
     - issue: 689
       kind: story
       title: 'feat: Kickoff output must rebuild the prototype — rebuild eval, ADR 043, fix /intent, /vision, /understand'
-      status: done
+      status: Done
     - issue: 690
       kind: bug
       title: 'fix: a play rewrites gate-policy.yaml on every run, outside the drive''s issue'
-      status: done
+      status: Done
     - issue: 692
       kind: issue
       title: 'feat: the Kickoff drive''s gap and brief steps are checked, not trusted'
-      status: done
+      status: Done
     - issue: 693
       kind: issue
       title: 'feat: the drive texts say plays run in any order and the drive saves once per round (ADR 043)'
-      status: done
+      status: Done
     - issue: 698
       kind: story
       title: 'feat: rename drive to loop and Kickoff to Discovery everywhere'
-      status: done
+      status: Done
     - issue: 699
       kind: story
       title: 'feat: loop builders and the loop linter check the loop principles'
-      status: next
+      status: Not Started
     - issue: 701
       kind: issue
       title: '[TASK] chore: bring the #606 plan tree up to date after the 20–21 October work'
-      status: dropped
+      status: Dropped
     - issue: 977
       kind: story
       title: The Learn loop finds where the product model has drifted from what was built, and fixes the model
-      status: next  # captured 2026-10-29, not shaped
+      status: Not Started  # captured 2026-10-29, not shaped
   - issue: 653
     kind: feature
     title: 'Agents work only from memory: Phoenix memory, project memory and short-term memory, reached through one memory tool'
-    status: next
+    status: Not Started
     children:
     - issue: 654
       kind: spike
       title: 'Decide Garura''s memory system: three tiers, one memory tool, and a memory update before any guess'
-      status: done
+      status: Done
     - issue: 655
       kind: story
       title: The memory tool has a written contract for finding and updating memory
-      status: done
+      status: Done
     - issue: 656
       kind: story
       title: Phoenix memory has its own repository, and each project pulls only the subset it needs into Garura memory
-      status: done
+      status: Done
     - issue: 657
       kind: story
       title: The memory tool finds memory across short-term, Garura and Phoenix memory the way Claude Code searches
-      status: done
+      status: Done
     - issue: 658
       kind: story
       title: When no memory answers, an agent raises a memory update a person approves, and then decides from memory
-      status: done
+      status: Done
     - issue: 659
       kind: story
       title: Every decision an agent makes names the memory it came from, and a script checks it
-      status: done
+      status: Done
       children:
       - issue: 852
         kind: bug
         title: '[BUG] memory tool: a decision that a later person''s decision replaced cannot be marked, so citations --check never clears'
-        status: next
+        status: Not Started
     - issue: 660
       kind: story
       title: Every Garura install carries the memory tool, a memory guide, and a check that the tool works
-      status: done
+      status: Done
     - issue: 661
       kind: story
       title: /intent, /vision, /understand and every play's close read memory only through the memory tool
-      status: done
+      status: Done
     - issue: 662
       kind: story
       title: /intent, /vision and /understand run on a test project from memory alone
-      status: done
+      status: Done
     - issue: 663
       kind: story
       title: Every agent and skill reads memory only through the memory tool, and lint fails any that names a memory path
-      status: next
+      status: Not Started
       children:
       - issue: 865
         kind: chore
         title: 'The three small findings left by the PR #864 review, round 4'
-        status: next
+        status: Not Started
       - issue: 872
         kind: chore
         title: 'The two small findings left by the PR #871 review'
-        status: next
+        status: Not Started
     - issue: 667
       kind: spike
       title: Decide where an approved memory update lands and where memory and ADRs are reviewed
-      status: done
+      status: Done
   - issue: 972
     kind: feature
     title: A person runs the Discovery loop and gets product-model pages they can use
-    status: next
+    status: Not Started
     children:
     - issue: 755
       kind: bug
       title: '[BUG] /discover-capabilities writes pages that pass its checks but a person cannot use'
-      status: next
+      status: Not Started
   - issue: 510
     kind: feature
     title: 'Change delivery pipeline: propose, review, merge'
-    status: next
+    status: Not Started
     children:
     - issue: 443
       kind: story
       title: 'Redesign /review-change: thorough, category-aware, externally-grounded PR review'
-      status: done
+      status: Done
       children:
       - issue: 974
         kind: bug
         title: /check-change goes on without its review rules; it should stop and say they are missing
-        status: next
+        status: Not Started
       - issue: 919
         kind: chore
         title: 'The findings left by the PR #918 review (the review reads the full diff)'
-        status: next
+        status: Not Started
       - issue: 535
         kind: bug
         title: /review-change has no model of what the project is, so Garura's own scripts are never code-checked
-        status: next
+        status: Not Started
       - issue: 890
         kind: bug
         title: 'Bug: the review''s path table treats scripts in plays and skills as prose, so code rules never check them'
-        status: next
+        status: Not Started
       - issue: 902
         kind: bug
         title: /check-change reports findings in a form a person cannot act on; add a generic defect template
-        status: next
+        status: Not Started
     - issue: 438
       kind: bug
       title: review-change rejects planning docs and skill prose as P1 security defects
-      status: next
+      status: Not Started
     - issue: 452
       kind: bug
       title: propose-change halts on its own evidence files at push time
-      status: next
+      status: Not Started
     - issue: 517
       kind: story
       title: Give pull requests a template so every raise says the same things
-      status: next
+      status: Not Started
     - issue: 579
       kind: bug
       title: /merge-change records an empty merge commit id after a successful merge
-      status: next
+      status: Not Started
     - issue: 580
       kind: story
       title: /review-change has a review playbook for pipeline run records
-      status: dropped
+      status: Dropped
     - issue: 583
       kind: bug
       title: /merge-change crashes at Step 1 when the change has no review folder yet
-      status: next
+      status: Not Started
     - issue: 672
       kind: story
       title: The pre-merge reviews enforce Garura's no-client-names rule from project memory
-      status: next
+      status: Not Started
       children:
       - issue: 888
         kind: bug
         title: 'Bug: the change plays push with no scan for client, company or personal references'
-        status: next
+        status: Not Started
       - issue: 914
         kind: bug
         title: Run records carry the person's home-folder paths, so every change publishes their user name and disk layout
-        status: next
+        status: Not Started
     - issue: 695
       kind: issue
       title: 'fix: /commit-change cuts a commit subject short at an issue number in the middle'
-      status: dropped
+      status: Dropped
     - issue: 939
       kind: story
       title: Self-review and the PR review leave out the agents' working records under .garura/, and keep reviewing the product model and memory
-      status: next
+      status: Not Started
       children:
       - issue: 870
         kind: chore
         title: check-change has no review playbook for product model pages or run records
-        status: next
+        status: Not Started
     - issue: 537
       kind: bug
       title: '"The working tree ended clean" can read held on a dirty tree — commit-change D3 checks less than it claims'
-      status: next
+      status: Not Started
     - issue: 787
       kind: bug
       title: '[BUG] merge_pr.py cannot recover after a host error during the merge'
-      status: next
+      status: Not Started
     - issue: 857
       kind: bug
       title: '[BUG] commit-change never reads its own record as clean: the record sits outside the folder its last step commits'
-      status: next
+      status: Not Started
     - issue: 976
       kind: story
       title: 'Several ready issues land in one change: one branch, one pull request, one review'
-      status: next  # filed 2026-10-29: optimizes the Ship loop
+      status: Not Started  # filed 2026-10-29: optimizes the Ship loop
 - issue: 922
   kind: epic
   title: Fix the defects in the Discovery loop's knowledge step and the memory its agents read
-  status: done
+  status: Done
   children:
   - issue: 930
     kind: story
     title: A decision record tells the person accepting it what was found on the way
-    status: done
+    status: Done
     children:
     - issue: 941
       kind: chore
       title: The templates index names the ADR template section for the person who accepts a decision
-      status: later
+      status: Not Started
   unplanned: true
   tracks:
   - issue: 920
     kind: bug
     under: 686
     title: The knowledge steps were built as three plays no one runs
-    status: done
+    status: Done
   - issue: 923
     kind: bug
     under: 744
     title: Two knowledge plays write their done records under their old names
-    status: done
+    status: Done
   - issue: 924
     kind: bug
     under: 745
     title: The Discovery loop's pre-flight uses the plays' and the loop's old names
-    status: done
+    status: Done
   - issue: 925
     kind: bug
     under: 613
     title: The round script reads waiting memory updates from their files
-    status: done
+    status: Done
   - issue: 926
     kind: bug
     under: 686
     title: The research skill calls the memory tool itself
-    status: done
+    status: Done
   - issue: 927
     kind: bug
     under: 686
     title: The proposed-answers skill is handed no memory in the loop
-    status: done
+    status: Done
   - issue: 928
     kind: bug
     under: 632
     title: The ADR keeper agent read Phoenix memory by its file paths
-    status: done
+    status: Done
   - issue: 929
     kind: chore
     under: 921
     title: Send the pages the
-    status: done
+    status: Done
   - issue: 930
     kind: story
     under: 922
     title: A decision record tells the person accepting it what was found on the way
-    status: done
+    status: Done
   - issue: 941
     kind: chore
     under: 930
     title: The templates index names the ADR template section for the person who accepts a decision
-    status: later
+    status: Not Started
