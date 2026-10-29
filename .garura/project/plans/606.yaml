@@ -306,6 +306,10 @@ tree:
       kind: bug
       title: '[BUG] commit-change never reads its own record as clean: the record sits outside the folder its last step commits'
       status: next
+    - issue: 976
+      kind: story
+      title: 'Several ready issues land in one change: one branch, one pull request, one review'
+      status: next  # filed 2026-10-29: optimizes the Ship loop
 - issue: 922
   kind: epic
   title: Fix the defects in the Discovery loop's knowledge step and the memory its agents read
