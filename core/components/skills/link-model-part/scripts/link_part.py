@@ -41,7 +41,8 @@ link-request.json:
   metadata.updated_by is set. Every other field is kept.
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
-writes nothing. Paths that leave the model folder are refused. Every intent a part names must
+writes nothing. When a write itself fails part way, every file already written is put back as
+it was, so the spine and the pages never disagree (exit 2). Paths that leave the model folder are refused. Every intent a part names must
 have its page. The spine keeps its comments and layout (spine_text.py); every file is written
 through safe_write.atomic_write. Reads and writes files on disk only; no git, no network.
 Exit 0 written, 2 refused or bad input.
@@ -205,6 +206,27 @@ def plan(root, spine, request):
     return new_spine, pages, report
 
 
+def write_all(writes):
+    """Write every (path, text); when one write fails, put back each file already written
+    (its old text, or no file when it was new) and raise the error."""
+    done = []
+    try:
+        for path, text in writes:
+            old = None
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as fh:
+                    old = fh.read()
+            safe_write.atomic_write(path, text)
+            done.append((path, old))
+    except OSError:
+        for path, old in reversed(done):
+            if old is None:
+                os.remove(path)
+            else:
+                safe_write.atomic_write(path, old)
+        raise
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--request", required=True)
@@ -226,10 +248,13 @@ def main():
         sys.stderr.write(f"link_part.py: refused, nothing written: {e}\n")
         return 2
     text, kept = spine_text.dump(old_text, spine, new_spine)
-    safe_write.atomic_write(spine_path, text)
+    try:
+        write_all([(spine_path, text)] + list(pages.items()))
+    except OSError as e:
+        sys.stderr.write(f"link_part.py: a write failed, every file is back as it was: {e}\n")
+        return 2
     report["changed"].append(os.path.relpath(spine_path, a.product_base))
-    for page, page_text in pages.items():
-        safe_write.atomic_write(page, page_text)
+    for page in pages:
         report["changed"].append(os.path.relpath(page, a.product_base))
     report["layout_kept"] = kept
     with open(a.out, "w", encoding="utf-8") as fh:

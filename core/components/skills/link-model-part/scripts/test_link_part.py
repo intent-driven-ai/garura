@@ -194,6 +194,38 @@ class LinkPartTest(unittest.TestCase):
         cap = yaml.safe_load(self.read("_spine.yaml"))["capabilities"][0]
         self.assertEqual(cap["one_line"], "Send every mail")
 
+    def test_a_rewritten_page_keeps_its_permissions(self):
+        page = os.path.join(self.root, "features/fn-2/feature.md")
+        os.chmod(page, 0o644)
+        r, _ = self.run_request([self.new_fn2()])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(os.stat(page).st_mode & 0o777, 0o644)
+        self.assertEqual(os.stat(os.path.join(self.root, "_spine.yaml")).st_mode & 0o777,
+                         os.stat(os.path.join(self.root, "intents/bi-1.md")).st_mode & 0o777)
+
+    def test_a_write_that_fails_part_way_puts_every_file_back(self):
+        sys.path.insert(0, HERE)
+        import link_part
+        import safe_write
+        spine_path = os.path.join(self.root, "_spine.yaml")
+        page = os.path.join(self.root, "features/fn-2/feature.md")
+        before = (self.read("_spine.yaml"), self.read("features/fn-2/feature.md"))
+        real, calls = safe_write.atomic_write, []
+
+        def flaky(path, text):
+            calls.append(path)
+            if len(calls) == 2:
+                raise OSError("disk full")
+            real(path, text)
+
+        safe_write.atomic_write = flaky
+        try:
+            with self.assertRaises(OSError):
+                link_part.write_all([(spine_path, "changed\n"), (page, "changed\n")])
+        finally:
+            safe_write.atomic_write = real
+        self.assertEqual((self.read("_spine.yaml"), self.read("features/fn-2/feature.md")), before)
+
     def assert_refused_parts(self, parts, words):
         before = self.read("_spine.yaml")
         r, _ = self.run_request(parts=parts)
