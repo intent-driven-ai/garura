@@ -1,0 +1,27 @@
+commits:
+  - sha: f2ff5fbb
+    message: "feat(plans): give each plan a status and a direction set by the product owner (#983)"
+    files:
+      - .garura/project/plans/606.yaml
+      - .garura/project/plans/717.yaml
+      - .garura/project/plans/722.yaml
+      - .garura/project/plans/734.yaml
+      - .garura/project/plans/756.yaml
+      - .garura/project/plans/767.yaml
+      - .garura/project/plans/788.yaml
+      - core/components/plays/shape-plan/scripts/write_plan_file.py
+      - core/components/plays/shape-plan/scripts/test_write_plan_file.py
+    branch: plan/717/983-list-view-cards
+  - sha: 1d7a237c
+    message: "chore(stm): record the working files of the list view cards (#983)"
+    files:
+      - .garura/project/issues/983/context/analysis.yaml
+      - .garura/project/issues/983/context/porcelain.txt
+      - .garura/project/issues/983/specs/design.md
+    branch: plan/717/983-list-view-cards
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

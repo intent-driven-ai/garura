@@ -10,7 +10,7 @@ template, the same way twice, and no plan file changed (C1–C8, F1–F6).
 
 `hash` records the plan files' hashes before the tool runs. `check` re-derives what the view
 must hold from the plan files, the template and git, and writes check.json:
-{plans_in_folder, all_listed, in_order, template_used, same_twice, unchanged,
+{plans_in_folder, all_listed, in_order, template_used, as_set, same_twice, unchanged,
 graph_numbers_match, problems, ok}. Exit 0 = ok, 1 = a check failed, 2 = bad input.
 """
 
@@ -56,29 +56,43 @@ def check(a):
     if not m:
         raise SystemExit(2)
     t = yaml.safe_load(m.group(1))
-    plans = []
+    plans, statuses = [], []
     for p in plan_paths(a.plans_dir):
         with open(p, encoding="utf-8") as fh:
             plan = yaml.safe_load(fh) or {}
-        plans.append((str(plan.get("id", os.path.splitext(os.path.basename(p))[0])), plan.get("title", "")))
+        plans.append((str(plan.get("id", os.path.splitext(os.path.basename(p))[0])), plan.get("title", ""),
+                      plan.get("direction")))
+        statuses.append(plan.get("status"))
     view = open(a.view, encoding="utf-8").read().splitlines()
     view2 = open(a.view2, encoding="utf-8").read().splitlines()
     with open(a.before, encoding="utf-8") as fh:
         before = json.load(fh)
-    ids = [pid for pid, _ in plans]
+    ids = [pid for pid, _, _ in plans]
     problems = []
     rec = {"plans_in_folder": len(ids), "same_twice": view == view2,
-           "unchanged": before == hashes(a.plans_dir), "graph_numbers_match": None}
+           "unchanged": before == hashes(a.plans_dir), "graph_numbers_match": None, "as_set": True}
     if not ids:
         none = (t["list"]["none"].format(dir=a.plans_dir) if a.mode == "list" else t["graph"]["main"])
         rec.update(all_listed=none in view, in_order=True, template_used=none in view)
     elif a.mode == "list":
-        heads = [t["list"]["head"].format(plan=pid, title=title) for pid, title in plans]
+        li = t["list"]
+        icons = li["directions"]
+        heads = [li["head"].format(direction=icons.get(direction, "").ljust(li["direction_width"]),
+                                   plan=pid, title=title) for pid, title, direction in plans]
         seen = [ln for ln in view if ln in heads]
         rec["all_listed"] = sorted(seen) == sorted(heads) and len(seen) == len(heads)
         rec["in_order"] = seen == heads
-        listed = [ln for ln in view if re.match(r"^#\d+ ", ln)]
-        rec["template_used"] = listed == seen
+        listed = [ln for ln in view if re.match(r"^\S*\s*#\d+  ", ln)]
+        rec["template_used"] = listed == seen and bool(view) and view[0].startswith(icons[1])
+        # C10: each card's Status row and direction icon are what the plan file holds, as set
+        status_rows = {}
+        for i, ln in enumerate(view):
+            if ln in heads and i + 1 < len(view):
+                status_rows[ln] = view[i + 1]
+        want = {h: li["row"].format(label=li["labels"]["status"].ljust(li["label_width"]),
+                                     value=st or "").rstrip()
+                for h, st in zip(heads, statuses)}
+        rec["as_set"] = all(status_rows.get(h) == w for h, w in want.items())
     else:
         g = t["graph"]
         pat = re.compile(r"^[├└]─ (\S+)  (\S+) ahead · (\S+) behind.*  #(\d+) ")
@@ -112,7 +126,7 @@ def check(a):
         rec["in_order"] = in_plan_order(branched) and in_plan_order(on_main)
         rec["template_used"] = bool(view) and view[0] == g["main"]
         rec["graph_numbers_match"] = match
-    for key in ("all_listed", "in_order", "template_used", "same_twice", "unchanged"):
+    for key in ("all_listed", "in_order", "template_used", "same_twice", "unchanged", "as_set"):
         if not rec[key]:
             problems.append(f"{key} is false")
     if rec["graph_numbers_match"] is False and not any("git says" in p for p in problems):

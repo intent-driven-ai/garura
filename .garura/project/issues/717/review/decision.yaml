@@ -4,6 +4,6 @@ gate: skipped by config (gates.plays.check-change)
 reason: no P1 findings; confidence acceptable
 citing: []
 counts:
-  P3: 13
-  P4: 12
-  P2: 2
+  P4: 9
+  P3: 7
+  P2: 1

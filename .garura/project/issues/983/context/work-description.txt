@@ -1,0 +1,1 @@
+#983 /list-plans shows each plan as a card: direction, status, branch, waits on, and each epic with its progress. Design agreed with the product owner on 2026-10-29, in the issue text. Part of #719 (view plans), plan 717.

@@ -1,79 +1,42 @@
-# Self-review: plan 717 branch lands on main after #719, re-raised as PR #981 after the review fixes (issue 717)
+# Self-review: plan 717 branch lands on main after #983 (issue 717)
 
 Rules file: the base `self-review.md` (resolved, no project override; record in `.garura/project/issues/717/context/resolved-rules.json`).
-Diff: `main...HEAD`, branch `plan/717/base`. This review informs the reviewer; it is not the approve/reject gate. The rules file sets no blocking mark: the self-review never blocks the raise on its own, so a finding here is marked REVIEW (the reviewer looks) and the Blocking issues section lists anything the reviewer must settle first.
-This file replaces the earlier one written for PR #981 before its review fixes.
+Diff: `main...HEAD`, branch `plan/717/base`. This review informs the reviewer; it is not the approve/reject gate. The rules file sets no blocking mark, so a finding here is marked REVIEW (the reviewer looks) and the Blocking issues section lists anything the reviewer must settle first.
+This file replaces the earlier one written for the first raise of this branch.
 
 ## Change summary
 
-- Landed change: PR #980, `plan/717/719-view-plans` into `plan/717/base` (#719 view plans, with #729, #628, #806 and the first piece of #979). It was reviewed on its own and the harness approved it.
-- Fixes since the first raise of #981, from its review (4 commits of hand-written change plus the run records around them):
-  - `b3c12458` link-model-part (#979): the Thin line is now the one exact line the ontology fixes (`THIN_LINE`, the same text `slice_check.py` reads), and a request that is not a JSON object, or whose `parts` or `features` are not lists of objects, is refused with nothing written.
-  - `16b6fc17` plan tool (#719): a plan node that is not a mapping, a `--repo` that is not a folder, and a missing git program each stop with a plain message (or, for no git, show every plan as on main) instead of a traceback.
-  - `c15648b0` product model (#719): the three feature pages fn-729, fn-628 and fn-806 carry the exact Thin line, and their spine entries say `updated_by` the same way.
-  - `322f0bfc` install record: the Phoenix memory version in `.garura/install-manifest.json` moves to `d68154ae75e9`.
-- Commits ahead of `main`: 34, none behind. 17 are `chore(stm)` run records, 3 are plan-file updates (#719, #717), 1 is GitHub's merge commit for PR #980, the rest are #719 or #979 work.
-- Files changed: 225 (+152785 / -11259)
-- Where: 171 run-record files under `.garura/project/issues` (+148855), 36 under `core/` (+3625 / -31), 7 plan files, 10 under `.garura/product`, and `.garura/install-manifest.json`
-- Hand-written change outside run records: about 3700 added lines, almost all new: the plan tool, two plays (list-plans, show-plan), the link-model-part skill, the plan-view template. The four fix commits add about 100 lines.
-- Suggested title: `feat(plans): plan 717 lands on main — see every plan and one plan as a tree (#717)`
+- Landed change: PR #984, `plan/717/983-list-view-cards` into `plan/717/base` (#983, `/list-plans` shows each plan as a card: direction, status, branch, waits on, and each epic with its progress). It was reviewed on its own by the harness and approved (0 blocking findings; 1 P2, 4 P3, 5 P4). Verdict and findings: `.garura/project/issues/983/review/` (`decision.yaml`, `findings.yaml`).
+- Fix commit: `f2ff5fbb` gives every plan a status (Not Started, In Progress, Paused, Done, Dropped) and a direction set by the product owner, and sets the seven plan files to match.
+- Plan file update on this branch: `e1324108` pauses plan 717 on main again after #983 and `399b94df` marks #983 Done.
+- The rest of the 13 commits are run records (`chore(stm)`) under `.garura/project/issues/983/`.
+- Size: 66 files. 16 are hand-written (7 plan files, the plan tool and its tests, the `/list-plans` play, the plan-view template, 2 `shape-plan` script files, one README). 50 are run records and copied memory files. Hand-written part: about 194 lines added and 84 removed under `core/`.
 
 ## Scope checks
 
-| Check | Status | Evidence |
-|-------|--------|----------|
-| Matches the issue | PASS | Every file maps to #717's landing of #719 (plan tool, list-plans, show-plan, plan-view template, six plan statuses, the shape-plan writer change, the install of those parts), to the first piece of #979 (link-model-part, its write-safety fixes, the product-os-keeper and enrich-grounding wording), to the model pages of #729, #628, #806, or to run records and plan files that record that work. The four review-fix commits touch only link-model-part, the plan tool, three feature pages with their spine entries, and the install record. |
-| No scope creep | PASS | The plan-file edits (606, 722, 734, 756, 767, 788, 717) are the old five statuses becoming the six that #719 introduces, plus plan upkeep (the #915 move under #510 and the pause of 717). The fix commits stay inside what the review named. No unrelated edits found. |
-| Reasonable size | REVIEW | 152785 added lines, but 148855 are run records, mostly three review diffs: `.garura/project/issues/717/review/pr.diff` (+98825), `.garura/project/issues/719/review/pr.diff` (+18535) and `.garura/project/issues/717/review/pr-950/pr.diff` (+11886). The code to read is about 3700 lines in 36 files under `core/`, reviewed once already in PR #980; the new fix commits are small (about 100 lines). |
-| No stray artifacts | PASS | No `.orig`, `.bak`, `.tmp`, `.DS_Store`, `.pyc` or `__pycache__` file in the diff. No TODO, FIXME, `breakpoint()`, `pdb`, home-folder path or personal name in added lines under `core/`, `.garura/product` or the plan files. The working tree is clean. |
+- PASS: Matches the issue. Every change under `core/` and the plan files serves #983 (the card view, the plan status and direction). Evidence: file list of `git diff --name-only main...HEAD`; the two `shape-plan` script edits only make a new plan file start with the new status (`Not Started`) and an empty direction, which the card view needs.
+- REVIEW: No scope creep. The seven plan files change status from `active` to `Paused` on the product owner's word (comment in each file, 2026-10-29). That is a plan-state decision riding with the code change; the reviewer should confirm it is wanted in this landing. Plan 734 also had its status comment moved to its own line.
+- PASS: Reasonable size. The hand-written part is small; the bulk is run records, which this repo commits on purpose.
+- PASS: No stray artifacts. No debug prints, no scratch files, no commented-out blocks in added source lines. One `print(` hit is a test card title, not a debug print.
 
 ## Quality checks
 
-| Check | Status | Evidence |
-|-------|--------|----------|
-| Tests present | PASS | The fix commits carry tests, and all suites pass when run again here: plan tool 15 tests OK (3 new: node not a mapping, repo not a folder, no git); link-model-part 17 tests OK (2 new: the Thin line equals the one `slice_check.py` expects, and four malformed requests are refused with nothing written); shape-plan `test_write_plan_file.py` 9 passed, 0 failed; shape-slice 129 passed, 0 failed; install-garura 75 tests OK. The scripts of list-plans and show-plan have no test file of their own; the plan tool they print through is tested and the plays' checks run in the play. |
-| Commits are clean | PASS | 33 of 34 are conventional (`feat`, `fix`, `docs`, `chore`) with the issue in the subject; the exception is GitHub's own merge commit `b53d8f19` for PR #980. `0ce79da7 docs(719): ...` names the issue in the scope instead of at the end. Each commit is one concern. No `Co-Authored-By` or "Generated with Claude" line in any message. |
-| No secrets | PASS | A scan of added lines in `core/`, `.garura/product` and the plan files for key, token, private-key and cloud-key patterns found nothing. |
-| Docs in step | PASS | The plan tool README (`core/tools/plan/README.md`) lists the exit codes, and the new exit-2 cases (node not a mapping, repo not a folder) are also in the module's own header. The link-model-part SKILL.md and the spine schema (`spine.yaml`) already describe the Thin line as the exact `/shape-slice` text, so the code now matches the docs. All 10 thin entries in the spine have exactly one exact Thin line on their page (checked by script). |
-| Nothing obviously broken | PASS | A trial merge against `main` (`git merge-tree --write-tree`) has no conflicts. The component linter, run from the repo root, reports 36 errors and 1 warning, none in a file this diff touches (checked by file; they sit in create-play, edit-play, create-loop, edit-loop, install-garura, uninstall-garura, list-focus-issues and older skills). No failing test above. |
-| Install record | REVIEW | `.garura/install-manifest.json` lists the new skill, the two plays and the plan tool, the counts rise (skills 26 to 27, plays 17 to 19), and its `retired` list goes from 26 entries to none. The cause is `install.py`: the list is what the last install retired, so a re-run with nothing left to retire writes none. The reviewer should confirm that is the wanted record. |
-| Data-safety paths | REVIEW | The write-safety code (`link_part.py`, the `safe_write.py` copies, the missing-field and non-mapping refusals in `plan.py`) has tests and they pass, but a person has not read it as a rubric pass. The new request checks in `link_part.py` and `check_shape` in `plan.py` are part of what to read. |
-| Small style messages | REVIEW | Two small things remain. The comment block above `THIN_LINE` and the module docstring in `link_part.py` now carry one long line (the docstring line ending "the one line the ontology fixes. A domain carries no ICE,"). Earlier ruff default-settings messages (lambdas assigned to a name in `list-plans/scripts/check_list.py` and `core/tools/plan/test_plan.py`, an unused `textwrap` import in `test_link_part.py`) were accepted as P2 in the first review. The repository commits no Python lint config. |
+- PASS: Tests present. `core/tools/plan/test_plan.py` grew by 55 lines. Run now: 17 tests, OK (`python3 -m unittest test_plan`). `write_plan_file` self-test: 9 passed, 0 failed. `check_list.py` was updated for the card output.
+- PASS: Commits are clean. Conventional format throughout, each cites #983 or #717. Two `feat(plans)` commits for the code, the rest `chore(stm)` or `chore(plan)`.
+- PASS: No secrets. Scanned added lines for GitHub tokens, `sk-` keys, AWS keys and private-key headers: none. No home-folder path or person's name in added lines (#982).
+- REVIEW: Docs in step. The README of the plan tool and the template were updated, but the review of #983 found three places that were not (all still open on this branch):
+  - The product ontology says a plan's status is "active, done or dropped" and has no direction; the plan tool now rejects `active` (finding M-1, P2). `core/components/plays/shape-plan/SKILL.md` line 339 still says `status: active`, while the script beside it now writes `Not Started`.
+  - The template index row for `plan-view.md` still describes the old content (M-2, P3), and the template does not define "Paused" or the five plan statuses (M-3, P3).
+  - The `/list-plans` ICE still names only the old unknown-status failure; the new unknown plan status or direction has no failure, scenario or recovery row (H-1, P3), and its Context line still lists only the six node statuses (H-2, P4).
+- REVIEW: Nothing obviously broken. No leftover TODOs in the change. The component linter reports 36 errors and 1 warning on this branch (`.garura/project/issues/983/review/lint-components.json`), the same counts the #983 review recorded; they are older errors, not new ones from this change. The compiled `list-plans/SKILL.md` carries "changed by edit-play (#983, the cards)" in its provenance text; the harness rule says no edit notes in skill files, so confirm the compiler writes that text by rule (H-3, P4).
 
 ## Blocking issues
 
-None. The four REVIEW items need a reviewer's eye; none stops the raise.
+None that stop the raise. For the reviewer to settle first:
 
-## Readiness
+- M-1 (P2): the ontology and the `shape-plan` play text still say a plan's status is `active`, but the plan tool rejects it. Decide whether the ontology change (`/edit-ontology`) and the `shape-plan` text go in a named follow-up before this lands.
 
-- Ready: yes
-- Blocking count: 0
-- Review required: 4 (size, install record, data-safety paths, style messages)
-- Recommendation: re-raise the PR. Ask the reviewer to confirm the three review fixes first (exact Thin line and request checks, plain messages in the plan tool, three re-marked pages), then the empty `retired` list, then the size note.
+## Notes
 
-```yaml
-analysis:
-  branch: plan/717/base
-  base: main
-  commits: 34
-  changes: { files: 225, additions: 152785, deletions: 11259 }
-  suggested_title: "feat(plans): plan 717 lands on main — see every plan and one plan as a tree (#717)"
-  checklist:
-    scope:
-      matches_issue: PASS
-      no_scope_creep: PASS
-      reasonable_size: REVIEW
-      no_stray_artifacts: PASS
-    quality:
-      tests_present: PASS
-      commits_clean: PASS
-      no_secrets: PASS
-      docs_in_step: PASS
-      nothing_obviously_broken: PASS
-      install_record: REVIEW
-      data_safety_paths: REVIEW
-      style_messages: REVIEW
-  blocking_issues: []
-  ready: true
-  recommendation: "Raise PR"
-```
+- Working tree: `.garura/project/issues/717/context/resolved-rules.json` shows modified (only the missing newline at the end of the file). Nothing else is uncommitted.
+- The #983 PR body and self-review said `resolved-rules.json` was untracked; it is tracked (finding Q37, P3). Not repeated here.

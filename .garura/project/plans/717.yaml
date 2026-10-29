@@ -2,9 +2,10 @@
 # Kept by hand until manage-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 717
 title: People plan work toward a business intent, and pick it up across days and people
-status: active
+status: Paused  # set by the product owner, 2026-10-29: no plan runs on its own branch
+direction: 1
 started: '2026-10-22'
-branch: null  # plan/717/base merged into main on 2026-10-29 after #719 (view plans) landed; a new one is cut when the work starts again
+branch: null  # plan/717/base merged into main on 2026-10-29 after #719 (view plans) and #983 (the list as cards) landed; a new one is cut when the work starts again
 epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
@@ -53,7 +54,7 @@ tree:
     - issue: 983
       kind: story
       title: '/list-plans shows each plan as a card: direction, status, branch, waits on, and each epic with its progress'
-      status: Not Started  # filed 2026-10-29; design agreed in the issue
+      status: Done  # landed on plan/717/base with PR #984, 2026-10-29
   - issue: 720
     kind: feature
     title: 'Manage a plan: change the plan file and the tracker together'

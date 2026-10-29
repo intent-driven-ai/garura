@@ -1,296 +1,395 @@
-pr: 981
-issue: 717
-base: main
-generated_by: quality-auditor via check-pr-quality
-inputs:
-  diff: .garura/project/issues/717/review/pr.diff
-  changed_paths: 225
-  categories: .garura/project/issues/717/review/categories.yaml
-  severity_taxonomy: .garura/project/issues/717/context/memory/standards/rules/pr.md
+meta:
+  generated_at: '2026-10-29T16:50:58Z'
+  pr: 985
+  issue: 717
+  skill: check-pr-quality (scan_taxonomy.py)
+  diff_path: .garura/project/issues/717/review/pr.diff
+  taxonomy_path: .garura/project/issues/717/context/memory/standards/rules/pr.md
   standards_order:
   - .garura/project/issues/717/context/memory/standards/rules/pr.md
-  standards_note: No quality-standards (knowledge/quality) copy exists in short-term memory for this issue; the taxonomy copy is the only standards
-    source.
-scan:
-  script: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
-  exit: 0
-  errors: 0
+  quality_standards_copies: 'none: no tier held knowledge/quality for this issue'
+  categories_run:
+  - executable-code
+  - tests
+  - documentation
+  - issue-work-records
+  changed_paths_count: 70
+  scan_errors: 0
   scan_coverage: 1.0
-  raw_counts:
-    P1: 3
-    P2: 10
-    P3: 24
-    P4: 16
-  catchall_CODE_20: 57
-  note: 'Raw scanner output: P1=3 P2=10 P3=24 P4=16. The scanner only reaches core/tools/plan/** (plan.py, test_plan.py, README.md): everything
-    under core/components/** is classed garura-prose, .garura/product/** productos-model and .garura/project/** stm-evidence, and the taxonomy
-    gives those no code findings. 5 of the raw findings are text matches that are not defects and 37 are path rules that say a rule applies to
-    a file with nothing measured; both groups are listed below and left out of the counts.'
-  text_matches_not_counted:
-  - standard_id: DATA-18
-    severity: P1
-    file: core/tools/plan/test_plan.py
-    line: 26
-    evidence: password
-    why_not_counted: '''password'' is the title of a made-up story in a test fixture (''A person resets a lost password'')'
-  - standard_id: DATA-18
-    severity: P1
-    file: core/tools/plan/test_plan.py
-    line: 194
-    evidence: email
-    why_not_counted: '''user.email=t@t'' is a throwaway git identity for a temporary test repository'
-  - standard_id: DATA-18
-    severity: P1
-    file: core/tools/plan/test_plan.py
-    line: 196
-    evidence: email
-    why_not_counted: '''user.email=t@t'' is a throwaway git identity for a temporary test repository'
-  - standard_id: DATA-17
-    severity: P2
-    file: core/tools/plan/test_plan.py
-    line: 194
-    evidence: email
-    why_not_counted: same throwaway git identity
-  - standard_id: DATA-17
-    severity: P2
-    file: core/tools/plan/test_plan.py
-    line: 196
-    evidence: email
-    why_not_counted: same throwaway git identity
-  - standard_id: CODE-25
-    severity: P3
-    file: core/tools/plan/plan.py
-    line: 46
-    evidence: 'except '
-    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
-  - standard_id: CODE-25
-    severity: P3
-    file: core/tools/plan/plan.py
-    line: 73
-    evidence: 'except '
-    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
-  - standard_id: CODE-25
-    severity: P3
-    file: core/tools/plan/plan.py
-    line: 193
-    evidence: 'except '
-    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
-  - standard_id: CODE-25
-    severity: P3
-    file: core/tools/plan/plan.py
-    line: 270
-    evidence: 'except '
-    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/plan.py
-    line: 15
-    evidence: lock
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/plan.py
-    line: 19
-    evidence: lock
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/plan.py
-    line: 35
-    evidence: LOCK
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/plan.py
-    line: 48
-    evidence: LOCK
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/plan.py
-    line: 50
-    evidence: lock
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/test_plan.py
-    line: 44
-    evidence: Lock
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/test_plan.py
-    line: 71
-    evidence: lock
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/test_plan.py
-    line: 123
-    evidence: lock
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  - standard_id: BE-23
-    severity: P4
-    file: core/tools/plan/test_plan.py
-    line: 183
-    evidence: lock
-    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
-  path_rules_applicable_not_measured:
-    rows_per_file:
-      core/tools/plan/plan.py:
-      - ARCH-02(P2)
-      - CODE-03(P2)
-      - CODE-04(P2)
-      - CODE-14(P2)
-      - ARCH-03(P3)
-      - ARCH-08(P3)
-      - CODE-09(P3)
-      - CODE-10(P3)
-      - CODE-11(P3)
-      - CODE-12(P3)
-      - CODE-15(P3)
-      - CODE-17(P3)
-      - CODE-13(P4)
-      - CODE-19(P4)
-      core/tools/plan/test_plan.py:
-      - ARCH-02(P2)
-      - CODE-03(P2)
-      - CODE-04(P2)
-      - CODE-14(P2)
-      - ARCH-03(P3)
-      - ARCH-08(P3)
-      - CODE-09(P3)
-      - CODE-10(P3)
-      - CODE-11(P3)
-      - CODE-12(P3)
-      - CODE-15(P3)
-      - CODE-17(P3)
-      - CODE-13(P4)
-      - CODE-19(P4)
-      core/tools/plan/README.md:
-      - DOC-01(P3)
-      - DOC-09(P3)
-      - DOC-10(P3)
-      - DOC-11(P3)
-      - DOC-14(P4)
-      - DOC-15(P4)
-      - DOC-16(P4)
-    reason: 'ARCH-02/03/08, CODE-03/04/09-15/17/19, DOC-01/09/10/11/14-16 are path-only rows: they name a check (lint, format, cycles, complexity,
-      line count) that no committed tool runs here. No ruff or other language linter is committed, so the check is recorded ''no language linter
-      committed'', not a pass. Where this check measured something real (function size, complexity, README content) it is a numbered finding Q-01
-      to Q-08.'
+  scanner_raw:
+    P1: 1
+    P2: 8
+    P3: 20
+    P4: 7
+    catchall_CODE-20: 9
+  scanner_coverage_gap: 'scan_taxonomy.py classes every file under core/components/** as garura-prose, so no code
+    rule ran on check_list.py, write_plan_file.py or test_write_plan_file.py. And test_plan.py (core/tools/plan/)
+    was classed runtime-code, not tests, because its folder is not named test/tests, so no TEST-* row ran on it.
+    To cover the gap, the taxonomy''s grep rules were applied to the added lines of all five changed python files
+    by hand (one hit: DATA-18, dismissed) and the by-hand checks below were done.'
 runnable:
-  test_suites:
-  - name: plan tool
-    command: python3 -m unittest test_plan (from core/tools/plan)
-    result: PASS
-    detail: 15 tests, OK, none skipped
-  - name: link-model-part
-    command: python3 -m unittest test_link_part (from core/components/skills/link-model-part/scripts)
-    result: PASS
-    detail: 17 tests, OK
-  - name: shape-slice scripts
-    command: python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
-    result: PASS
-    detail: 129 passed, 0 failed
-  - name: install-garura
-    command: python3 core/components/plays/install-garura/scripts/test_install.py
-    result: PASS
-    detail: 75 tests, OK (124 s). One ResourceWarning at install.py:493 (an unclosed file); that line is not in this diff.
-  plan_file_status_check:
-    result: PASS
-    command: 'per plan file: parse YAML, check every node status against the six names, id equals file name; then plan.py --template core/components/memory/standards/templates/plan-view.md
-      --plans-dir .garura/project/plans --plan <id> show'
-    detail: '606, 717, 722, 734, 756, 767, 788: all parse, id equals file name, every node status is one of Not Started, In Progress, Now, Done,
-      Blocked, Dropped (nodes counted: 87, 23, 13, 44, 18, 2, 36); plan tool show exits 0 for each. The only other ''status'' key is each file''s
-      top-level ''status: active'' (the plan''s own state, not a node). Used the source template copy; the installed tool at .garura/core/tools/plan
-      has no template of its own.'
+  suites:
+  - name: plan tool suite
+    command: python3 -m unittest discover -s core/tools/plan -p "test_plan.py"
+    exit_code: 0
+    status: PASS
+    result: Ran 17 tests, OK
+    skipped_or_disabled_tests: 0
+  - name: write_plan_file check script
+    command: python3 core/components/plays/shape-plan/scripts/test_write_plan_file.py
+    exit_code: 0
+    status: PASS
+    result: 9 passed, 0 failed
   language_linter:
-    result: not run
-    detail: no language linter committed at the repository root (no ruff.toml, .ruff.toml, pyproject.toml); not a pass
-  syntax:
+    tool: ruff 0.15.20 (installed at ~/.local/bin/ruff; the category note says not installed, but it is); no config
+      committed, so default rules only. Informational, not a repo gate
+    command: ruff check --no-cache <5 changed python files>
+    result: '3 E731 (lambda assigned to a name): check_list.py:33, check_list.py:124, test_plan.py:219. None is
+      on an added line (git diff main...HEAD shows no added lambda), so they were there before. Extra pass with
+      F, E9, B rules: only B904 at plan.py:47 and plan.py:74, both outside the added lines.'
+    status: ran, nothing new from this PR
+  by_hand:
+  - check: 'data-safety: plan.py and check_list.py write no plan file'
     result: PASS
-    detail: all 22 changed .py files parse (ast).
-  config_maps:
+    evidence: 'grep for open(...,"w")/write: plan.py has none; check_list.py writes only its own --out check.json
+      (lines 136, 155). It reads plan files with open(p, encoding) only'
+  - check: write_plan_file.py new-file content
     result: PASS
-    detail: 'install-manifest.json: 58 listed components all exist in the checkout; kinds count agent 10, skill 27, play 19 equals counts; the
-      three added skill paths and .garura/core/tools/plan exist. Named change for the human: the ''retired'' list went from 26 entries to empty
-      (the install writes this list afresh each run, so an empty list means this reinstall retired nothing); the Phoenix memory version moved
-      from dfdafe6104e6 to d68154ae75e9.'
-  documentation:
-    result: PASS with finding Q-04
-    detail: README commands (list, show, graph, --template, --plans-dir, --plan, --repo) match plan.py's argument parser; unittest line matches
-      test_plan.py; /list-plans --graph exists in list-plans resolve_args.py; the installed tool folder holds README.md and plan.py without tests,
-      as the README says. No TODO text, no broken link.
-  memory_by_hand:
+    evidence: 'the only code change is the 4-line new-file template (status: Not Started, empty direction); test_write_plan_file.py
+      checks it and the second run is byte for byte equal; a record that is not ok exits 2 and writes nothing (both
+      asserted in the 9 checks)'
+  - check: no stray debug output, no TODO/FIXME in added lines
     result: PASS
-    detail: templates/_index.md line 21 lists plan-view.md; pipeline-next.md lines 75 and 76 give list-plans and show-plan, and both plays exist
-      under core/components/plays.
-  run_evidence_scan:
-    result: PASS with finding Q-08
-    detail: 'added lines of the issue folders searched for keys, tokens, private-key blocks, bearer strings and password assignments: none. The
-      only hits are the taxonomy text itself and earlier reviews quoting the words password and email.'
+    evidence: plan.py prints only the result (line 286) and errors to stderr (line 284); no TODO, FIXME, breakpoint
+      or pdb in added lines
+  - check: same files print the same way twice
+    result: PASS
+    evidence: listing() uses sorted keys and plan order; plan.py list ran on the seven committed plans, exit 0;
+      check_list.py same_twice is part of its check
+  - check: no skipped or disabled tests, no test that asserts nothing
+    result: PASS
+    evidence: no skip or expectedFailure in the added test lines; the new tests assert exact card lines and exit
+      codes
+  - check: README list description agrees with plan.py
+    result: PARTIAL
+    evidence: 'the list paragraph (README.md:10-12) matches the card printed. The status paragraph (README.md:21-22)
+      was not updated: see DOC-HAND-1'
+  - check: dead links, heading levels, spelling in README
+    result: PASS
+    evidence: no links; one H1; no leftover TODO
+  work_records_scan:
+    scope: the 54 files under .garura/project/issues/717 and 983 in changed_paths, added lines of pr.diff
+    home_folder_paths: 'none: no user home-folder prefix (macOS, Linux, Windows or temp-folder form) in any added
+      line, including the nested earlier-review pr.diff'
+    secrets_tokens: 'none: no key, token, password assignment, private key or bearer string in any added line; the
+      one regex hit is the word sk_live_ inside the taxonomy rule text in two memory copies (dismissed below)'
+    emails: none
+    parse_check: every .json and .yaml in the 717/983 work records parses (0 failures)
+    issue_scope: only issue folders 717 and 983 appear
+    gitignored_status_files: 'the session-stamp files under issue 983 status/ hold a home-folder path but are not
+      in this PR: .garura/.gitignore line 4 ignores **/status/ and they are not in the diff. Not a finding'
 findings:
-- id: Q-01
-  severity: P3
-  file: core/components/skills/link-model-part/scripts/link_part.py
-  line: 139
-  what: plan() is one function of 77 lines with about 43 branch points; it carries the whole decision of which model files change, in a script
-    that writes the product model. Hard to test branch by branch and to review.
-  basis: CODE-09 (P3, function complexity), measured with a syntax-tree count; the scanner did not fire it because core/components/** is classed
-    garura-prose
-- id: Q-02
-  severity: P3
-  file: core/components/plays/show-plan/scripts/check_tree.py
-  line: 72
-  what: 'check() is 68 lines with about 33 branch points: it runs every stop-condition check in one function.'
-  basis: CODE-09 (P3), measured; scanner prose guard (core/components/** = garura-prose)
-- id: Q-03
-  severity: P3
-  file: core/components/plays/list-plans/scripts/check_list.py
-  line: 53
-  what: 'check() is 73 lines with about 31 branch points: it runs every stop-condition check in one function.'
-  basis: CODE-09 (P3), measured; scanner prose guard (core/components/** = garura-prose)
-- id: Q-04
-  severity: P3
+- id: DOC-HAND-1
+  severity: P4
   file: core/tools/plan/README.md
-  line: 1
-  what: The README never says plan.py needs the PyYAML package (plan.py imports yaml) or which Python version runs it, and does not list exit
-    codes 0 and 1 (only exit 2 is named). A person setting the tool up on a bare machine finds neither.
-  basis: DOC-11 (P3, README setup instructions); content checked by hand against plan.py lines 1-30 and 36-37
-- id: Q-05
-  severity: P4
-  file: core/tools/plan/test_plan.py
-  line: 207
-  what: RepoPlansTest skips itself (self.skipTest) when the repository has no plans folder, and otherwise reads the repository's live plan files,
-    so the test result changes when someone edits a plan. It ran, not skipped, in this check.
-  basis: TEST-* family (skipped or disabled test); no matching taxonomy row is mechanical, assessor note
-- id: Q-06
-  severity: P4
-  file: core/components/plays/list-plans/scripts/session_stamp.py
-  line: 49
-  what: Two bare 'except Exception' blocks (lines 49 and 93) turn any failure into None or a default marker with no message, so a broken ledger
-    or marker file is silently treated as absent. The same file is copied to show-plan.
-  basis: CODE-25 (P3 as a grep row; held at P4 here because it is a stamp for evidence, not a data write); scanner prose guard
-- id: Q-07
-  severity: P4
-  file: core/components/plays/show-plan/scripts/session_stamp.py
-  line: 1
-  what: Four scripts are byte-for-byte copies across list-plans and show-plan (session_stamp.py, preflight.py, check_stop_condition.py), and safe_write.py
-    is a byte-for-byte copy in link-model-part and shape-slice. A fix to one copy must be made in all. This may be deliberate (installed plays
-    stay self-contained); noted, not judged wrong.
-  basis: 'Duplication; no mechanical taxonomy row. Checked with diff: identical'
-- id: Q-08
-  severity: P4
-  file: .garura/project/issues/719/review/lint-components.json
-  line: 1
-  what: Committed run records carry the author's local home path (~/...) and the author's first name. Seen in 717/context/resolved-rules.json,
-    719/context/pr-body.md, self-review.md, resolved-rules.json, templates/manifest-close-start-change.json, 719/review/lint-components.json (37
-    lines) and run-1/lint-components.json (37), and the model-update records. No secret, token or key was found in any added line of the issue
-    folders.
-  basis: run-evidence treatment (scan for secrets and personal references); no taxonomy row, assessor note
+  line: 21
+  what: 'The status paragraph still says only the six node statuses exist and that ''any other status'' is refused.
+    This PR adds a separate plan-level status set (Not Started, In Progress, Paused, Done, Dropped) and a direction
+    (1, 2, 3 or empty), and plan.py now refuses a plan file with another plan status or direction in list, show
+    and graph alike (load_plans, plan.py:81-84). The README names neither, so a reader cannot learn that an older
+    ''status: active'' plan file is now refused by every command.'
+  basis: 'by hand: category documentation check ''the README''s list description agrees with what plan.py does'';
+    plan.py:81-84; plan-view.md:116-117'
 counts:
   P1: 0
   P2: 0
-  P3: 4
-  P4: 4
+  P3: 0
+  P4: 1
+dismissed_scanner_hits:
+- standard_id: DATA-18
+  severity: P1
+  file: core/tools/plan/test_plan.py
+  line: 118
+  artifact_type: runtime-code
+  evidence: password
+  disposition: 'dismissed: the word ''password'' is in a test fixture string (a story title, ''A person resets a
+    lost password''); no personal data is stored or sent'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace), not a text match. Checked by hand: plan.py
+    imports only the standard library and yaml; test_plan.py imports plan one way. No cycle'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (lint message). No python linter config is committed; ruff
+    (default rules) ran on the changed files and found only 3 E731 (lambda assigned to a name), none on an added
+    line. See runnable.language_linter'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (format diff). No python formatter config is committed, so
+    there is no repo format to compare to'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace). Checked by hand: no import cycle in the changed
+    files'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace), not a text match. Checked by hand: plan.py
+    imports only the standard library and yaml; test_plan.py imports plan one way. No cycle'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (lint message). No python linter config is committed; ruff
+    (default rules) ran on the changed files and found only 3 E731 (lambda assigned to a name), none on an added
+    line. See runnable.language_linter'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (format diff). No python formatter config is committed, so
+    there is no repo format to compare to'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace). Checked by hand: no import cycle in the changed
+    files'
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (README present). The README exists and was updated for the
+    list change; the one gap found is recorded as DOC-HAND-1'
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule for README content; the README is a tool README with usage
+    lines. The one gap found is recorded as DOC-HAND-1'
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule for README content (setup); the README gives the command lines.
+    Nothing missing in the changed text'
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule for README setup text (env vars). The tool needs no env vars'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (line count). plan.py is 291 lines, test_plan.py is 240; no
+    god-file growth (plan.py is net smaller in functions removed vs added)'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule, no matching change: the diff adds no new module boundary
+    or layer crossing'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (complexity). ruff C901 at max 15 passes on plan.py and test_plan.py'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (function length). The longest changed function, listing(),
+    is about 40 lines'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (nesting depth). No nesting deeper than 3 in the added lines'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (file length). plan.py is 291 lines, test_plan.py is 240'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (score). Same evidence as CODE-09: ruff C901 at max 15 passes'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule; no change in the added lines to point at'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (line count). plan.py is 291 lines, test_plan.py is 240; no
+    god-file growth (plan.py is net smaller in functions removed vs added)'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule, no matching change: the diff adds no new module boundary
+    or layer crossing'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (complexity). ruff C901 at max 15 passes on plan.py and test_plan.py'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (function length). The longest changed function, listing(),
+    is about 40 lines'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (nesting depth). No nesting deeper than 3 in the added lines'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (file length). plan.py is 291 lines, test_plan.py is 240'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (score). Same evidence as CODE-09: ruff C901 at max 15 passes'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule; no change in the added lines to point at'
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (P4 README sections); the README is short on purpose'
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (P4 troubleshooting section); the README says a bad plan file
+    is refused with exit 2'
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (P4 architecture section); out of scope for a small tool README'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4, a style prompt); nothing in the added lines to point
+    at'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4); nothing in the added lines to point at'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4, a style prompt); nothing in the added lines to point
+    at'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4); nothing in the added lines to point at'
+dismissed_other:
+- what: sk_live in two memory copies (issue 983 context/memory/standards/rules/pr.md:136 and grounding-memory/standards/rules/pr.md:136)
+  disposition: 'dismissed: the text is the ARCH-07 rule row of the taxonomy itself, not a key'
+- what: '''~/.phoenix/...'' in 983 resolved-rules.json (lines 3-4), pr-body.md, self-review.md, quality-findings.yaml
+    and the earlier pr.diff'
+  disposition: 'dismissed: the allowed ~ form of a home-folder path (#982), not an absolute home path'
+- what: ruff E731 x3 and B904 x2
+  disposition: 'dismissed: not on lines this PR added'
+dismissed_counts:
+  scanner_hits: 36
+  other: 3
+  catchall_CODE-20: 9

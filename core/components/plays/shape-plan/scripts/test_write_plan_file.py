@@ -61,7 +61,7 @@ def main():
         plan = yaml.safe_load(read(p["plan_file"]))
         epic = plan["tree"][0]
         check("no plan file: it is made with id, title, status and tree", codes["plan"] == 0 and res["made"]
-              and plan["id"] == 340 and plan["status"] == "active"
+              and plan["id"] == 340 and plan["status"] == "Not Started" and plan.get("direction") is None
               and plan["title"] == "Patients book their own appointments online")
         check("one epic node for the slice, with one story node for each feature",
               epic["kind"] == "epic" and epic["represents"] == "sl-self-booking"

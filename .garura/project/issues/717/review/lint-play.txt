@@ -1,8 +1,4 @@
 == list-plans
 VERDICT: PASS (0 gap(s))
-== show-plan
-VERDICT: PASS (0 gap(s))
 == shape-plan
-VERDICT: PASS (0 gap(s))
-== shape-slice
 VERDICT: PASS (0 gap(s))

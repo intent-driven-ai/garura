@@ -1,0 +1,117 @@
+pr: 984
+issue: 983
+findings:
+- id: Q37
+  category: code-and-tests
+  severity: P3
+  file: .garura/project/issues/983/context/self-review.md
+  what: 'The self-review says resolved-rules.json is untracked and in no commit. It is tracked: commit 5652534c added it,
+    and it is in this PR. The same sentence is in pr-body.md line 39.'
+  basis: run-records check named in categories.yaml (PR body vs changed_paths); confirmed with git log and git ls-files
+  source: quality-findings.yaml
+- id: Q38
+  category: code-and-tests
+  severity: P4
+  file: core/components/plays/shape-plan/scripts/write_plan_file.py
+  what: The docstring line added here is 126 characters long, while the lines around it wrap near 100. Style only.
+  basis: CODE-04 (format); no formatter or line-length config is committed
+  source: quality-findings.yaml
+- id: H-1
+  category: harness
+  severity: P3
+  file: core/components/plays/list-plans/reference/ice.md
+  what: 'C6 was widened to stop the play on an unknown status, plan status or direction, and the SKILL.md SE-2 line and description
+    were widened to match. The chain from C6 down stayed old: failure F5 still reads ''a plan with an unknown status'', scenario
+    S4 and SCE-4 still say ''a status the template does not know'', and the recovery row F5 still reads ''exits 2 on a status
+    it does not know ... name the plan file and its status''. The plan tool does stop on a plan status or a direction it does
+    not know (plan.py), but no failure condition, scenario or recovery in the ICE names that case. The constraint is guaranteed
+    in code and prose yet has no matching failure, scenario or recovery entry for the two new cases. The same stale F5 row
+    is copied into SKILL.md (Recovery table) and SCE-4.'
+  basis: 'docs/standards/harness-standard.md principle 4 (base): the ICE is what the team agreed and the compiled play carries
+    it; a guarantee changed in the ICE must be changed through the whole ICE (constraint, failure, scenario, recovery) so
+    the part and the agreement do not drift unseen. Agreed design #983 adds Status and Direction values that a person sets,
+    which makes an unknown value reachable.'
+  source: design-findings-harness.yaml
+- id: H-2
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/reference/ice.md
+  what: 'The Context line still says the plan files have ''Six statuses: Not Started, In Progress, Now, Done, Blocked, Dropped''.
+    After this change a plan file holds two kinds of status: the plan''s own (Not Started, In Progress, Paused, Done, Dropped,
+    set by a person) and the six statuses of its nodes. The line names only the node statuses and does not say so, so a reader
+    of the ICE would take ''Paused'' for an unknown status. Paused is not in the Context at all.'
+  basis: 'Issue #983 ''Rules - Status'' (the plan''s five statuses: Not Started, In Progress, Paused, Done, Dropped); docs/standards/harness-standard.md
+    principle 4 (base): the ICE Context is part of what the compile is made from.'
+  source: design-findings-harness.yaml
+- id: H-3
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/SKILL.md
+  what: 'The ''Compiled From'' paragraph and the provenance row now carry ''changed by edit-play (#983, the cards)''. That
+    is an edit-history note inside a compiled skill file. Weak finding: the provenance row ''compiled_by'' is a field the
+    compiler emits and an edit-play run may be the source of this wording; the play should confirm whether edit-play writes
+    it by rule. If it does, this is not a violation.'
+  basis: 'CLAUDE.md, Play Pipeline Rules (base): ''Add no deviation notes or change logs to skill files.'''
+  source: design-findings-harness.yaml
+- id: M-1
+  category: memory
+  severity: P2
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The template makes a plan''s own Status one of Not Started, In Progress, Paused, Done, Dropped (list.plan_statuses)
+    and adds a plan Direction (1, 2, 3 or none). The committed Plan kind in the product ontology still says a plan''s Status
+    is "active, done or dropped" and has no Direction property. The diff does not change the ontology, so two committed standards
+    now disagree on what a plan''s status is. plan.py now rejects "active", which the ontology and the shape-plan play text
+    (core/components/plays/shape-plan/SKILL.md line 339: "status: active") still name. The agreed design (#983) does not list
+    an ontology change; the Plan kind has to be changed through /edit-ontology, in this change or a named follow-up.
+
+    '
+  basis: G2
+  source: design-findings-memory.yaml
+- id: M-2
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/templates/_index.md
+  what: 'The index row for plan-view.md was not updated and is now wrong: it says the template "holds the six statuses ...
+    and the layout of each view" and "the list of every plan". It does not say that the template now also holds the five plan
+    statuses, the direction marks and the card layout. The index is not in the PR''s changed paths.
+
+    '
+  basis: G1
+  source: design-findings-memory.yaml
+- id: M-3
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The section "The statuses" says "Every node of a plan has one of six statuses" and defines each by meaning. The card''s
+    plan Status is a second set of five, kept only as a name list in the list section and in list.plan_statuses. Four names
+    (Not Started, In Progress, Done, Dropped) are shared with the node set but "In Progress" there means "no one works on
+    it in an open change right now"; "Paused" is defined nowhere in the template. A reader cannot tell whether a plan''s In
+    Progress means the node meaning, and cannot tell what Paused means (ADR 060 gives it a branch rule only). Define the five
+    plan statuses and their meaning once, beside the node statuses.
+
+    '
+  basis: G4
+  source: design-findings-memory.yaml
+- id: M-4
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The Waits on rule says each needed plan is shown "with its title" and the agreed design says "never a bare number".
+    plan.py (listing, waits_item) falls back to the number alone when the needed plan has no file in the plans folder. The
+    template does not say what is shown then. State the fallback in the template, or say that a missing plan file is an error.
+
+    '
+  basis: G3
+  source: design-findings-memory.yaml
+- id: M-5
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The Progress row reads "done, open, and dropped when there are any" but does not say what is counted. plan.py counts
+    the nodes under the epic (the epic itself is not counted), "open" is every node that is neither Done nor Dropped (so Now
+    and Blocked count as open), and nodes outside the epics are left out. The old template said the same of "open" implicitly;
+    the new row should say it, because the template is the one place a person reads the rule.
+
+    '
+  basis: G3
+  source: design-findings-memory.yaml

@@ -1,0 +1,4 @@
+{
+  "files": [],
+  "note": "No memory-tool copy was needed. Principles were read from committed files on the base ref main with git show: core/components/memory/standards/rules/work-plan.md, core/components/memory/standards/templates/plan-view.md, core/components/memory/standards/schemas/product-os/ontology.md (version 13, kind Plan, Properties table), core/tools/plan/plan.py (main), core/components/plays/shape-plan/scripts/write_plan_file.py (main), docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, .garura/user-provided/managing-work.md (section 'A plan's branch: start, pause, start again'). The agreed design is the text of issue #983 (gh issue view 983, read only). plan-list-output.txt is the read-only output of: python3 core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md (exit 0, all seven plans printed). Not used as input: review/pr-950, review/run-1, review/run-2, issues/983/review."
+}
