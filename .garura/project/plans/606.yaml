@@ -142,6 +142,10 @@ tree:
       kind: issue
       title: '[TASK] chore: bring the #606 plan tree up to date after the 20–21 October work'
       status: dropped
+    - issue: 977
+      kind: story
+      title: The Learn loop finds where the product model has drifted from what was built, and fixes the model
+      status: next  # captured 2026-10-29, not shaped
   - issue: 653
     kind: feature
     title: 'Agents work only from memory: Phoenix memory, project memory and short-term memory, reached through one memory tool'
