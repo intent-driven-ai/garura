@@ -4,7 +4,7 @@ id: 717
 title: People plan work toward a business intent, and pick it up across days and people
 status: active
 started: '2026-10-22'
-branch: plan/717/base  # cut again from main by start-change for #719 on 2026-10-29
+branch: null  # plan/717/base merged into main on 2026-10-29 after #719 (view plans) landed; a new one is cut when the work starts again
 epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
