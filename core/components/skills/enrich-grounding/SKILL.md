@@ -1,9 +1,9 @@
 ---
 name: enrich-grounding
-description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on an intent page, update and fix mode change only the lines the request names (for example a real name to a persona). Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of an intent page must change.
+description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change.
 user-invocable: false
 model: opus
-allowed-tools: Read, Write
+allowed-tools: Read, Write, Bash
 ---
 
 # enrich-grounding
@@ -18,7 +18,7 @@ and every move of a page.
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix`; an intent page takes `update` or `fix` only |
+| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix`; an intent page takes `update` or `fix` only; a named-lines request (step 5) takes `update` or `fix` |
 | `pages` | yes | The pages to work on, each `{id, kind: domain|capability|feature|intent, doc}` — in a slice run, from `fills.json` `updates` with `page: true`, its new features under a capability that exists, and its `thin` list; for found work, from the request |
 | `product_base` | yes | The live model root. The pages are read and written in place under `{product_base}product-os/` |
 | `schemas_dir` | yes | The grounding templates (`domain.md`, `capability.md`, `feature.md`) and the content standard, copied into short-term memory by the agent through the memory tool |
@@ -26,7 +26,8 @@ and every move of a page.
 | `record` | in a slice run | The question record: the person's answers are facts |
 | `split` | in a slice run | `split.json`: each assumption is used as it is written |
 | `fills` | in a slice run | `fills.json`: the parent of each new feature, and the thin parts |
-| `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts); for an intent page, each line to change with its new words. In place of `record`, `split` and `fills` |
+| `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts). In place of `record`, `split` and `fills` |
+| `lines_request` | for named lines | `lines-request.json` (step 5): `by`, `source` (an approved design, or the person's own words) and `pages`, each `{page, changes}` — a change is `{old, new}` (`new: null` removes the line) or `{after, add}`; see the script's header |
 | `problems` | for `fix` | `slice-check.json` (or a script's refusal): each problem with the page it names |
 | `out` | yes | Where to write `grounding-report.json` |
 
@@ -56,11 +57,22 @@ and every move of a page.
    In an `ice.md`, Goal, Limit and Fails if go under `## Intent`, the Context line under
    `## Context`, and the Checked by line under `## Expectation`. Do not write the Thin line
    and do not set `metadata.thin`: the play's script writes the two thin marks.
-5. **An intent page (update or fix mode only).** Change only the lines the request names, to
-   the words it gives — for example a real person's name to a persona (`the product owner`).
-   Keep every other line, word for word. Never write a new intent page and never change what
-   the intent means: a new intent is /discover-intent's, and a change of meaning is the
-   person's.
+5. **Named lines, on any page (update or fix mode).** When the request names lines to change —
+   on a domain, capability, feature or intent page — change only those lines, to the words it
+   gives: for example a capability's ICE to an approved design, or a real person's name to a
+   persona (`the product owner`). Write each line to change, whole and as it is on the page, in
+   `lines-request.json` with the request's source, and run the script:
+
+   ```bash
+   python3 scripts/change_lines.py --request <working>/lines-request.json \
+       --product-base <product_base> --out <working>/lines-report.json
+   ```
+
+   Exit 0: every named line changed and every other line kept, word for word. Exit 2: nothing
+   was written; the error names the page and the line (not on the page, on it twice, named
+   twice, a Thin line, a path outside the model, or no source). The meaning comes from the
+   request's source, never from this skill: a new intent page is /discover-intent's, and a
+   change of meaning is the person's or an approved design's.
 6. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
    heading, a broken link, a thin ICE that lacks a line. Change only what the problem names.
    A problem in `slice.json` or `fills.json` is not this skill's: list it in `not_mine`.
@@ -79,6 +91,10 @@ The pages, written in place under `{product_base}product-os/`, and `grounding-re
  "fixed": [], "not_mine": []}
 ```
 
+A named-lines request (step 5) writes `lines-report.json` instead: `source`, and for each page
+each change (old and new, or after and add), its line counts before and after and the lines
+kept, and `changed` (every page written).
+
 Examples from different fields:
 - A clinic: the Booking capability's page had no Guiding rules section; the run adds it, with
   the person's rule that a slot is held for ten minutes, and keeps its old Scope text.
@@ -92,7 +108,8 @@ Examples from different fields:
 - In place: keep every section and line a page had; never remove or move a page.
 - Write per-node pages only. Never write `_spine.yaml`, the profile, a decision, the Thin
   line or `metadata.thin`; a play's scripts or `link-model-part` write them. On an intent
-  page, change only the lines the request names (step 5); never write a new intent page.
+  page, change only the lines the request names (step 5); never write a new intent page. A
+  named-lines request goes through `change_lines.py`, all or nothing.
 - A thin ICE has a Goal, a Limit, one Fails if line or more, a Context line and a Checked by
   line, each from the person's answers or the assumptions; nothing made up.
 - One new feature under a capability that exists never re-details the capability.
