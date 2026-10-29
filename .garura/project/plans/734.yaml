@@ -135,10 +135,7 @@ tree:
       kind: story
       title: 'Parallel build-loop: build independent DAG pieces concurrently with worktree isolation'
       status: next
-    - issue: 952
-      kind: story
-      title: Garura's way of working is defined as engine rules and settings, and user-provided is read only as evidence
-      status: next
+    # #952 moved out on 2026-10-29 to business intent #775 (guardrails), which has no plan yet.
   - issue: 511
     kind: feature
     title: Component quality and governance
