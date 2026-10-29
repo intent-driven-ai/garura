@@ -50,6 +50,10 @@ tree:
       kind: story
       title: 'See every plan as a graph: which plan is on which branch, compared to main'
       status: Done  # landed on plan/717/base with PR #980, 2026-10-29
+    - issue: 983
+      kind: story
+      title: '/list-plans shows each plan as a card: direction, status, branch, waits on, and each epic with its progress'
+      status: Not Started  # filed 2026-10-29; design agreed in the issue
   - issue: 720
     kind: feature
     title: 'Manage a plan: change the plan file and the tracker together'
