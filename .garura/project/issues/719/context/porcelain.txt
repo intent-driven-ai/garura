@@ -1,0 +1,15 @@
+ M .garura/project/issues/719/context/memory/manifest.json
+ M .garura/project/issues/719/context/porcelain.txt
+ M core/components/plays/shape-slice/scripts/safe_write.py
+ M core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+ M core/components/skills/link-model-part/scripts/link_part.py
+ M core/components/skills/link-model-part/scripts/safe_write.py
+ M core/components/skills/link-model-part/scripts/test_link_part.py
+ M core/tools/plan/plan.py
+ M core/tools/plan/test_plan.py
+?? .garura/project/issues/719/context/memory/grounding-harness/
+?? .garura/project/issues/719/context/memory/grounding-memory/
+?? .garura/project/issues/719/context/memory/knowledge/
+?? .garura/project/issues/719/context/memory/standards/rules/
+?? .garura/project/issues/719/context/templates/manifest-check-change.json
+?? .garura/project/issues/719/review/

@@ -1,0 +1,5 @@
+## Runnable checks (executed)
+core/tools/plan/test_plan: Ran 11 tests in 0.612s  OK 
+link-model-part/test_link_part: Ran 13 tests in 1.081s  OK 
+shape-plan/test_write_plan_file: 9 passed, 0 failed
+install-garura/test_install: Ran 75 tests in 133.890s  OK 

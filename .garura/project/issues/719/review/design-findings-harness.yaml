@@ -1,0 +1,174 @@
+# Layer 2 design-grounding, category: harness. PR #980 (plan/717/719-view-plans -> plan/717/base), issue 719.
+# Fresh run. Principles come only from committed sources: git show plan/717/base:<path>
+# (docs/standards, docs/adr, memory standards rules) and the memory tool (phoenix tier, version
+# dfdafe6104e6; copies in .garura/project/issues/719/context/memory/grounding-harness/, manifest refreshed).
+# Nothing here is grounded in text this diff adds or rewrites. specs/design.md and the run-1 files were not used.
+pr: 980
+base: plan/717/base
+issue: 719
+category: harness
+files_reviewed:
+  - core/components/plays/list-plans/SKILL.md
+  - core/components/plays/list-plans/reference/ice.md
+  - core/components/plays/list-plans/stop-condition.yaml
+  - core/components/plays/show-plan/SKILL.md
+  - core/components/plays/show-plan/reference/ice.md
+  - core/components/plays/show-plan/stop-condition.yaml
+  - core/components/skills/link-model-part/SKILL.md
+  - core/components/skills/enrich-grounding/SKILL.md
+  - core/components/agents/product-os-keeper.md
+
+principles:
+  - id: PR1
+    principle: "Plays orchestrate, agents gather context, skills do the work; mechanical work is a script, judgment is a model."
+    source: "plan/717/base:docs/standards/harness-standard.md (principles 2, 3; ADR 001, 005, 016, 025)"
+  - id: PR2
+    principle: "Every part is built from its intent: the compiled play records the fingerprint of its ICE; an intent change goes through the ICE source."
+    source: "plan/717/base:docs/standards/harness-standard.md (principle 4; ADR 027); CLAUDE.md Play Pipeline Rules"
+  - id: PR3
+    principle: "A play reads no memory; template-manager fetches templates through the memory tool into the run's short-term memory."
+    source: "plan/717/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (section 2, 9)"
+  - id: PR4
+    principle: "Installed parts name only installed files (.garura/core/tools/<name>/, installed _shared/), never core/ or docs/; a note of origin is deleted."
+    source: "plan/717/base:docs/standards/harness-standard.md (principle 11); plan/717/base:docs/adr/055-installed-parts-read-only-installed-files.md"
+  - id: PR5
+    principle: "Direct model write: the LLM writes only per-node grounding docs; every shared model file (spine, profile, decisions) is written solely by a play's deterministic keyed script. The one writer outside that is link-model-gaps' script, inside a loop only. 'Outside a loop, the play's keyed script is still the only writer of shared files.' A change to this is a decision (an ADR)."
+    source: "plan/717/base:core/components/memory/standards/rules/direct-model-write.md (rule 3, 'Inside a loop (ADR 044)', L-DMW-5); plan/717/base:docs/adr/026-direct-to-model-writes.md; plan/717/base:docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md; plan/717/base:docs/standards/harness-standard.md ('A change to the standard is a decision')"
+  - id: PR6
+    principle: "The product-os-keeper never writes a shared model file (the spine, the profile, an intent page) itself; its skills write only per-node docs in place."
+    source: "plan/717/base:core/components/agents/product-os-keeper.md (Boundaries / NEVER)"
+  - id: PR7
+    principle: "Only a person confirms or drops a business intent."
+    source: "plan/717/base:docs/adr/031-business-intent-and-ice.md; plan/717/base:core/components/memory/standards/rules/direct-model-write.md (declared exception, ADR 031)"
+  - id: PR8
+    principle: "Evidence recording is play-only, gated by the resolved evidence flag; the Standard Play Close is one shared block a play points to (anchor pair + its own values)."
+    source: "memory tool phoenix standards/rules/evidence-recording.md; plan/717/base:core/components/plays/_shared/play-close.md"
+  - id: PR9
+    principle: "One name, one meaning: verb first; plan plays use draft/show/update/list; skills use link/enrich."
+    source: "memory tool phoenix standards/rules/naming.md; plan/717/base:docs/standards/harness-standard.md (principle 10; ADR 046)"
+  - id: PR10
+    principle: "Position declaration: a play declares start|end|both|none; a 'none' play runs on whatever branch is already started and injects nothing."
+    source: "memory tool phoenix standards/rules/pipeline-position.md"
+  - id: PR11
+    principle: "Every user-invocable play is in the Next-line map (pipeline-next.md) or meta_exempt; the close renders the Next line from it."
+    source: "memory tool phoenix standards/rules/pipeline-next.md; plan/717/base:core/components/plays/_shared/play-close.md (Step C2)"
+
+conforms:
+  - "list-plans and show-plan: play orchestrates, template-manager (utility agent) loads the template, the plan tool and check scripts do the mechanical work, zero domain agents (PR1, PR3). Read-only, position none (PR10)."
+  - "Both SKILL.md files carry the exact Standard Play Close anchor pair and the same close shape as list-focus-issues on the base ref (PR8); the evidence flag is resolved by preflight.py (per-play, then global, then record)."
+  - "Both plays are compiled from reference/ice.md and the recorded fingerprint equals the file's sha256 (checked with shasum: c1bffdbb... list-plans, a643f24f... show-plan) (PR2)."
+  - "No installed file in the nine reviewed names core/components, core/tools or docs/; the plan tool is named by its installed place .garura/core/tools/plan/plan.py (PR4). The ICE Context points to an issue record, as shape-plan and shape-slice ICE sources already do on the base ref, so that is not a finding."
+  - "Names: list-plans, show-plan (plan-play verbs list/show), link-model-part (skill verb link; sibling of link-model-gaps) (PR9). link-model-part has the same front matter and sections as link-model-gaps (model sonnet, allowed-tools Read/Bash)."
+  - "Layer 1 for the nine files: lint-components reports no violation in them; lint_play passes every check on both plays when run against the PR's own pipeline-next.md (see F-HARNESS-03 for the one GAP in lint-play.txt)."
+
+findings:
+  - id: F-HARNESS-01
+    severity: P2
+    file: core/components/skills/link-model-part/SKILL.md
+    also: [core/components/agents/product-os-keeper.md]
+    what: >
+      link-model-part adds a new writer of the shared spine _spine.yaml (and the Thin line on pages):
+      a skill script run through the keeper "for a part found during work", with no play and no loop
+      around it. The keeper's NEVER rule is rewritten to say the spine is written "by link-model-part's
+      script for a part found during work (#979)". The committed rule allows exactly two writers of a
+      shared file: a play's keyed script, and link-model-gaps' script inside a loop only. This third
+      writer is outside both, so the scoped-write guard, the clean-tree entry check and the model-delta
+      commit (rules 4 and 7, L-DMW-3/4) have no play to run them. The skill's own checks (path
+      containment, all or nothing, a report of changed files) are good, but a skill cannot grant itself
+      the exception; neither an ADR nor direct-model-write.md is changed in this PR.
+    basis: "PR5. direct-model-write.md (base): 'Outside a loop, the play's keyed script is still the only writer of shared files'; L-DMW-5 names link-model-gaps as the single exception ('inside a loop only', ADR 044). ADR 044 shows the pattern: a new shared-file writer was authorised by an ADR that amends ADR 026. Harness standard: a change to the standard is a decision."
+    source: "plan/717/base:core/components/memory/standards/rules/direct-model-write.md; plan/717/base:docs/adr/026-direct-to-model-writes.md; plan/717/base:docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md; plan/717/base:docs/standards/harness-standard.md"
+    fix_hint: "Record the decision (an ADR amending ADR 026 and the rule, naming link-model-part as a writer and the play or run that owns the guard, clean-tree check and commit), or keep the write inside a play."
+
+  - id: F-HARNESS-02
+    severity: P3
+    file: core/components/skills/enrich-grounding/SKILL.md
+    also: [core/components/agents/product-os-keeper.md]
+    what: >
+      enrich-grounding (an LLM skill) now edits intent pages in place (new step 5, kind 'intent', modes
+      update/fix), and its old rule "never write an intent page" is rewritten. On the base ref the keeper
+      lists an intent page among the shared model files it must not write, and intent pages are written
+      by scripts after a person's word (author-business-intent drafts, a script writes). The skill limits
+      the edit to the lines the request names and forbids a change of meaning, which keeps ADR 031
+      intact, but it moves an intent page from 'shared, script-written' to 'LLM-writable' with no
+      decision record.
+    basis: "PR6 and PR5: keeper NEVER list names 'an intent page' as a shared model file; direct-model-write rule 3 says the LLM writes only per-node grounding docs. PR7: only a person confirms or drops a business intent (the skill's guard is the only protection)."
+    source: "plan/717/base:core/components/agents/product-os-keeper.md (Boundaries); plan/717/base:core/components/memory/standards/rules/direct-model-write.md; plan/717/base:docs/adr/031-business-intent-and-ice.md"
+    fix_hint: "Cover it in the same decision as F-HARNESS-01, and say who confirms the changed lines."
+
+  - id: F-HARNESS-03
+    severity: P2
+    file: core/components/plays/list-plans/SKILL.md
+    also: [core/components/plays/show-plan/SKILL.md]
+    what: >
+      Both plays load standards/templates/plan-view.md and standards/rules/pipeline-next.md through
+      template-manager, and halt (hard) when plan-view.md is missing. The memory tool, run across every
+      tier (short-term, garura, phoenix), finds no plan-view.md and no list-plans or show-plan row in
+      pipeline-next.md: both exist only in this branch's core/components/memory. Until a person promotes
+      them to Phoenix memory, the plays cannot run in any project that reads Phoenix memory, and the
+      Layer 1 GAP in lint-play.txt (next-command: no entry in pipeline-next.md, both plays) is caused by
+      that stale map. Run against the PR's own pipeline-next.md both plays pass all 12 checks.
+    basis: "PR3 and PR11: templates a play fills are memory, fetched by template-manager from the memory tiers (ADR 039 section 2, 9); the Next-line map is the one place the successor lives and the close renders from it. The delivery depends on a memory promotion that is deliberate and outside the work."
+    source: "plan/717/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md; memory tool phoenix standards/rules/pipeline-next.md; plan/717/base:core/components/plays/_shared/play-close.md"
+    fix_hint: "Promote plan-view.md and the two pipeline-next rows to Phoenix memory in the release order, before or with the merge; re-run lint-play against the promoted map."
+
+  - id: F-HARNESS-04
+    severity: P3
+    file: core/components/agents/product-os-keeper.md
+    also: [core/components/skills/link-model-part/SKILL.md]
+    what: >
+      The found-work flow is described as used "by any play or run that finds a part the model lacks"
+      (keeper description; routing row 'No discovery play run'; link-model-part description). No play in
+      the repository on the base ref or in this diff dispatches it. Play -> agent -> skill has no top:
+      the flow starts from an ad hoc 'run'. Nothing owns the order (page first, then link, one link run
+      after the page runs join), the approval of the model change, or the evidence of the run.
+    basis: "PR1: a play owns the order of steps and hands each agent a contract; agents and skills do not start work on their own. The keeper's own header lists the plays it serves; this adds an unnamed one."
+    source: "plan/717/base:docs/standards/harness-standard.md (principle 2); plan/717/base:docs/adr/001-three-layer-hierarchy.md"
+    fix_hint: "Name the play that dispatches this flow, or build it (a missing-skill-or-play is built, not worked around)."
+
+  - id: F-HARNESS-05
+    severity: P4
+    file: core/components/agents/product-os-keeper.md
+    what: >
+      The rewritten NEVER rule carries a note of origin with a person and a date: "(the product owner,
+      2026-10-29)", and the first sentence reads "Change the product model by hand ... but only through
+      a skill", which contradicts itself (by hand vs through a skill) and sits beside the unchanged
+      "Hand-write model YAML yourself" line. No agent or skill on the base ref carries a dated
+      attribution of this kind.
+    basis: "PR4: a note of origin in an installed part is deleted, not reworded; record why in the commit and the issue, not in the file."
+    source: "plan/717/base:docs/standards/harness-standard.md (principle 11); plan/717/base:docs/adr/055-installed-parts-read-only-installed-files.md (section 4); CLAUDE.md"
+    fix_hint: "Drop the attribution and the 'by hand' wording; say what the keeper may change and through which skill."
+
+  - id: F-HARNESS-06
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md
+    also: [core/components/plays/show-plan/SKILL.md]
+    what: >
+      Step 6 says "the close finds the templates Step 1 already loaded there", but Step 1 asks
+      template-manager for plan-view.md, delivery-report.md and pipeline-next.md only; the close also
+      needs evidence-file.md when evidence is recorded. The shared close's Step L loads it, so the run
+      works, but the sentence is inexact and could lead an editor to drop Step L.
+    basis: "PR8: the Standard Play Close's Step L is not optional and asks template-manager for evidence-file.md when C1 runs."
+    source: "plan/717/base:core/components/plays/_shared/play-close.md (Step L)"
+    fix_hint: "Say the close's Step L loads what Step 1 did not."
+
+  - id: F-HARNESS-07
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md
+    also: [core/components/plays/show-plan/SKILL.md]
+    what: >
+      The rule that lists which plays are 'none' as compiled today (pipeline-position.md) does not name
+      list-plans or show-plan, and this PR does not touch it. The plays' own declaration (position:
+      none) is right; the enumeration in the rule is now stale. Low weight.
+    basis: "PR10: the position rule carries the 'as compiled today' list."
+    source: "memory tool phoenix standards/rules/pipeline-position.md; plan/717/base:core/components/memory/standards/rules/pipeline-position.md"
+
+grounding_unavailable:
+  - "The phoenix copy of direct-model-write.md (version dfdafe6104e6) is older than the base ref's: it lacks the 'Inside a loop (ADR 044)' paragraph and the L-DMW-5 exception. F-HARNESS-01 cites the base-ref file (git show plan/717/base:...), which is committed and outside this branch."
+
+counts:
+  P1: 0
+  P2: 2
+  P3: 2
+  P4: 3
+  total: 7

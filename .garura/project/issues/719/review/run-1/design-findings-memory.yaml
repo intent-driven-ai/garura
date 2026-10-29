@@ -1,0 +1,167 @@
+# Layer 2 design-grounding, category: memory. PR #980 (base plan/717/base), issue 719.
+# Principles come only from committed sources: the base ref (git show plan/717/base:<path>) and
+# memory read through the memory tool (copies in context/memory/grounding-memory/, with manifest.json).
+# Nothing is grounded in content this diff adds. Note: the Phoenix-memory copy of
+# standards/rules/work-plan.md lags the base ref (it still says drive / manage-plan); where the two differ
+# the base-ref text is the one cited.
+# Severity: pr.md has no row for a memory-design finding (the scan does not emit these). The bucket
+# definitions are used: P3 minor (missing docs, naming, consistency), P4 nit.
+category: memory
+pr: 980
+issue: 719
+changed_files_in_category:
+  - core/components/memory/standards/rules/pipeline-next.md
+  - core/components/memory/standards/rules/work-plan.md
+  - core/components/memory/standards/templates/_index.md
+  - core/components/memory/standards/templates/plan-view.md
+
+principles_reconstructed:
+  - id: PR-1
+    principle: "An accepted ADR is never edited. A change to what it decided is a new ADR that supersedes or amends it, and the older one gains a forward pointer."
+    source: "core/components/memory/standards/templates/adr.md, lines 47-51 (git show plan/717/base:...)"
+  - id: PR-2
+    principle: "ADR 030 decided the plan's tree view: GOAL, DONE, NOW, NEXT, WAIT (on a human), every line in plain words with its issue number. Rule 19 of rules/work-plan.md is the single source that carries it."
+    source: "docs/adr/030-plan-mode.md, 'Work This Creates' item 7 and References (git show plan/717/base:...)"
+  - id: PR-3
+    principle: "A change to the Plan kind of the product model goes through the ontology (/edit-ontology), as ADR 060 did for the landing rule. The ontology's Plan section says: Tree = each work item 'with its tracker issue and its state'; Now = 'the work item being worked on' (one); Status = active, done or dropped."
+    source: "core/components/memory/standards/schemas/product-os/ontology.md, section Plan (about lines 561-612); docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, section 'The ontology's landing rule leaves the ontology in this change, through /edit-ontology' (git show plan/717/base:...)"
+  - id: PR-4
+    principle: "A file belongs in templates/ if it defines the shape of an output artifact; it does NOT belong there if it defines rules for artifact content (that is rules/) or is a YAML schema contract (schemas/). A template holds the shape only and points to the rules page. The eval format is the worked precedent: shape in templates/eval-slice.md and eval-story.feature.md, rules in rules/eval-format.md."
+    source: "standards/templates/_index.md 'When to Add Here' (Phoenix copy, tier phoenix, fingerprint in grounding-memory/manifest.json); standards/templates/work-plan.md line 7 ('This file holds the shape only ... rules, in standards/rules/work-plan.md'); standards/rules/eval-format.md line 3"
+  - id: PR-5
+    principle: "rules/work-plan.md is 'single source of the rules for work plans', the plan at {stm_base}{issue}/specs/plan.md; the glossary entry 'Work plan' says the same and lists what it is NOT. The plan file .garura/project/plans/<id>.yaml is a different thing, the ontology's Plan."
+    source: "git show plan/717/base:core/components/memory/standards/rules/work-plan.md lines 1-3, 'Where it lives'; core/grounding/glossary.md line 19; ontology.md Plan 'Lives at'"
+  - id: PR-6
+    principle: "Examples in shared templates and the ontology are several, across different domains, not one project's own data."
+    source: "standards/templates/approval-prompt.md line 30 ('several examples from different domains'); ontology.md Plan examples (Shop, Clinic, Bank)"
+  - id: PR-7
+    principle: "A play reads a template only through template-manager, which finds it through the memory tool (short-term, Garura, Phoenix) and reports template_missing when no tier holds it. It never invents one."
+    source: "core/components/agents/template-manager.md 'What You MUST NOT Do' and Core Principle (git show plan/717/base:...); .claude/rules/garura-memory.md"
+  - id: PR-8
+    principle: "ADR 051: a 'what next' view over the plan files is a new play built from its own ICE. This supports /show-plan and /list-plans as navigation plays with no successor (conformance, not a finding)."
+    source: "docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md section 3 (git show plan/717/base:...)"
+
+integrity_checks_by_hand:
+  - check: "Follows the shelf template where it applies"
+    result: "not applicable. knowledge/_TEMPLATE.md governs learnings under knowledge/**; no knowledge file changed. The four files are standards rules / templates / indexes. plan-view.md has no frontmatter, as its siblings (work-plan.md, eval-slice.md) have none."
+    cite: "grounding-memory/knowledge/_TEMPLATE.md; grounding-memory/standards/templates/work-plan.md, eval-slice.md"
+  - check: "evolve_when and [[...]] cross-references resolve"
+    result: "pass. No evolve_when and no [[...]] in the four changed files (grep of the diff hunks). Path references resolve: core/tools/plan/plan.py (added in this PR; installed as .garura/core/tools/plan/), .garura/project/plans/<id>.yaml, template-manager (agent exists), /list-plans and /show-plan (added in this PR), needs_plans (a key in base plans/717.yaml), --graph (list-plans)."
+    cite: "git diff plan/717/base...HEAD -- core/components/memory; git show plan/717/base:.garura/project/plans/717.yaml line 12"
+  - check: "frontmatter id consistent with the path"
+    result: "not applicable. None of the four files has a frontmatter id."
+    cite: "core/components/memory/standards/templates/plan-view.md line 1"
+  - check: "listed in the shelf _index"
+    result: "pass for plan-view.md: templates/_index.md row added, filename matches, Consumers column filled. See M-07 for the rules/_index.md row that was not touched."
+    cite: "core/components/memory/standards/templates/_index.md line 21"
+  - check: "Next-line map entries well-formed"
+    result: "pass. list-plans and show-plan are listed with command: null and a why in the same form as list-focus-issues; both are user-invocable plays so the map must list them (pipeline-next.md header)."
+    cite: "core/components/memory/standards/rules/pipeline-next.md lines 75-76 and header"
+  - check: "Template is internally consistent (legend order, marks, hidden line, list and graph lines against the Settings block)"
+    result: "pass. Status table order = legend order = statuses block order; the example tree/list/graph lines fit the tree.line, tree.hidden, list.detail and graph.line formats."
+    cite: "core/components/memory/standards/templates/plan-view.md"
+  - check: "Does the learning duplicate or contradict existing knowledge"
+    result: "contradiction found with ADR 030 item 7 and with the ontology Plan section (M-01, M-02)."
+    cite: "see findings"
+
+findings:
+  - id: M-01
+    severity: P3
+    file: core/components/memory/standards/rules/work-plan.md
+    what: "Rule 19 now says the tree has six statuses (Not Started, In Progress, Now, Done, Blocked, Dropped) and hides Done and Dropped. ADR 030, which this rules file implements, decided a tree of GOAL, DONE, NOW, NEXT, WAIT (on a human) and is still Accepted with no forward pointer. No ADR in the diff (docs/ is untouched) amends it. The old grouping 'WAIT (on the human)' has no counterpart: Blocked means 'cannot go on until something else is settled', not 'waiting on a person'. The rule and the accepted ADR now disagree."
+    basis:
+      principle: "PR-1 and PR-2: an accepted ADR is not edited; a change to its decision is a new ADR that amends it, with a forward pointer on the older one. The rule file is the single source of ADR 030's tree."
+      sources:
+        - "core/components/memory/standards/templates/adr.md lines 47-51 (base)"
+        - "docs/adr/030-plan-mode.md 'Work This Creates' item 7 (base); its status line already lists one amendment (ADR 032), so amendments are the practice"
+        - "docs/adr/060-... (base): a framework rule that lived only in a standard and an ICE was later recorded as an ADR"
+    suggested_fix: "A short ADR that amends ADR 030 item 7 (statuses and the marked tree), with the forward pointer on ADR 030; or a person's decision that this needs no ADR."
+
+  - id: M-02
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    what: "The template (and rule 19) introduce the status vocabulary of a plan's nodes and the 'no roll-up' rule ('an epic may be Done with stories open'). The ontology's Plan kind, the committed home for what a plan is, says only that the Tree holds each work item 'with ... its state', that Now is 'the work item being worked on' (one item), and that Status is active, done or dropped. The ontology is not in the changed paths. After this PR the six statuses exist only in a template and a rule, and 'Now' is singular in the ontology but a status that many nodes can hold in the template."
+    basis:
+      principle: "PR-3: the Plan kind's properties and rules are held by the ontology and changed through /edit-ontology, as ADR 060 did for the landing rule."
+      sources:
+        - "core/components/memory/standards/schemas/product-os/ontology.md, Plan section (base)"
+        - "docs/adr/060-... section 'The ontology's landing rule leaves the ontology in this change, through /edit-ontology' (base)"
+    suggested_fix: "Run /edit-ontology for the Plan kind (node statuses, Now plural, no roll-up), or record why the vocabulary lives only in the template."
+
+  - id: M-03
+    severity: P3
+    file: core/components/memory/standards/rules/work-plan.md
+    what: "The file is the single source of rules for the work plan at specs/plan.md (header, 'Where it lives', rules 5-18: items, 'now' in front matter, 'kind of done' decided/built/shipped, check_plan.py). Rule 19 now describes a different artifact: the tree of the plan files .garura/project/plans/<id>.yaml printed by /show-plan. One rules file now answers for two things that are both called a plan, with no sentence that tells them apart. A reader who follows the header to templates/work-plan.md finds no six statuses; one who follows rule 19 to plan-view.md finds no specs/plan.md. The glossary lists only the 'Work plan'."
+    basis:
+      principle: "PR-5: rules/work-plan.md is the single source for the work plan at specs/plan.md; the ontology's Plan (the yaml file) is a separate kind; naming clarity."
+      sources:
+        - "core/components/memory/standards/rules/work-plan.md lines 1-3 and 'Where it lives' (base)"
+        - "core/grounding/glossary.md line 19 (base)"
+        - "ontology.md Plan 'Lives at' (base)"
+    suggested_fix: "Say in rule 19 which artifact it shows (the plan file), or move the view rule to a rules page for the plan file."
+
+  - id: M-04
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    what: "A template holds the shape. This one also holds content rules that appear nowhere in rules/: 'no status is worked out from the nodes under it', 'a hidden node with a shown node under it is still printed', what each status means, and a settings block (shown: true/false per status) that decides behaviour of the plan tool. Rule 19 states only that Done and Dropped are hidden; the no-roll-up and print-the-hidden-parent rules live only in the template."
+    basis:
+      principle: "PR-4: templates/ is for the shape of an output; rules for artifact content belong in rules/; a template points to its rules page. Precedent: eval-slice.md / eval-story.feature.md (shape) with rules/eval-format.md (rules)."
+      sources:
+        - "standards/templates/_index.md 'When to Add Here' (Phoenix)"
+        - "standards/templates/work-plan.md line 7 (base)"
+        - "standards/rules/eval-format.md line 3"
+    suggested_fix: "Move the rules (statuses' meanings, no roll-up, hidden-parent rule) into rules/ (rule 19 or a new rules page); keep marks and line layouts in the template."
+
+  - id: M-05
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    what: "Rollout dependency: no memory tier holds this template today (memory tool find with --every-tier on **/templates/plan-view.md, issue 719: answered_by null, no matches). Both plays load it only through template-manager and halt on template_missing (list-plans SKILL.md SE-1 / REC3). The design says it 'reaches Phoenix memory by promotion'. Until a person promotes it, /list-plans and /show-plan cannot run from Garura memory or Phoenix memory. This is a gap, not a breach; named so the merge is not read as 'the plays work'."
+    basis:
+      principle: "PR-7: a play reads a template only through template-manager and the memory tool; a missing template halts the play; nothing may be made up."
+      sources:
+        - "core/components/agents/template-manager.md (base)"
+        - ".claude/rules/garura-memory.md"
+    suggested_fix: "Promote plan-view.md to Phoenix memory (reference-phoenix-memory-promotion) in step with the merge, and say so in the PR."
+
+  - id: M-06
+    severity: P4
+    file: core/components/memory/standards/templates/plan-view.md
+    what: "The examples are one project's live data: #717, #719, plan 722, 'plan/717/base 2 ahead', 'plan/788/base 4 ahead 3 behind', 'on main: #606, #722, #734, #756, #767'. This file is Phoenix (global) memory, and the data is already stale: base plans/717.yaml says its branch was merged and deleted on 2026-10-29 (branch: null), yet the graph example shows plan/717/base as a live branch."
+    basis:
+      principle: "PR-6: shared templates use several examples across different domains, not one project's own state."
+      sources:
+        - "standards/templates/approval-prompt.md line 30"
+        - "ontology.md Plan examples (Shop, Clinic, Bank)"
+        - "git show plan/717/base:.garura/project/plans/717.yaml lines 3-8"
+    suggested_fix: "Use two or three neutral examples (a shop, a clinic) with invented numbers."
+
+  - id: M-07
+    severity: P4
+    file: core/components/memory/standards/templates/_index.md
+    what: "Cross-links are one-way. The plan-view.md row names no rules page, whereas the work-plan.md row says 'Rules in rules/work-plan.md'. The rules/_index.md row for work-plan.md (not changed) still says 'how status is shown (a tree)' and 'Format in templates/work-plan.md', and does not point to plan-view.md, where rule 19 now sends the reader. The row also carries the issue number '(#719)'."
+    basis:
+      principle: "Index rows are the entry to a shelf; the work-plan template row is the committed form (shape file named, rules page named)."
+      sources:
+        - "standards/templates/_index.md work-plan.md row (base)"
+        - "standards/rules/_index.md work-plan.md row (Phoenix, line 50)"
+    suggested_fix: "Add 'Rules in rules/work-plan.md (rule 19)' to the plan-view row; add plan-view.md to the rules/_index row."
+
+  - id: M-08
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    what: "Internal-consistency note, not design-grounded (the six-status vocabulary is stated only in this branch's own text). The header (unchanged line 15) still says 'the plan (one plan for each business intent, with done / now / next)'; the same words are in docs/philosophy/garura-reference-implementation.md line 98 (base). 'next' is no longer a status; the new vocabulary is Not Started / In Progress / Now / Done. The Flow section does not mention /list-plans and /show-plan, only the map does."
+    basis:
+      principle: "Naming clarity: one vocabulary for plan status across the map that points people to the plan."
+      sources:
+        - "git show plan/717/base:core/components/memory/standards/rules/pipeline-next.md line 15"
+        - "docs/philosophy/garura-reference-implementation.md line 98 (base)"
+    suggested_fix: "Reword to 'with each item's status' in both places; add the two plays to the Learn-loop / navigation bullet."
+
+conformant_points:
+  - "pipeline-next.md: both new plays listed, command: null, in the same form as list-focus-issues; consistent with ADR 051 (a view over the plan files is a new play)."
+  - "templates/_index.md: plan-view.md is listed with its consumers; the template is a shape of an output artifact instantiated by two plays and the plan tool, which meets the 'belongs in templates/' test."
+  - "No knowledge-shelf file changed, so _DESIGN.md's conditional-learning, duplication and template tests do not apply; no entry duplicates an existing learning."
+  - "The severity taxonomy (pr.md) is untouched."
+
+grounding_unavailable: []
+counts: {P1: 0, P2: 0, P3: 5, P4: 3}

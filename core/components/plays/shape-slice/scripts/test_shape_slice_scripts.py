@@ -892,6 +892,17 @@ def test_safe_write(tmp):
         pass
     check("safe_write: a failed write keeps the old file and removes its temp file",
           read(path) == "second\n" and os.listdir(folder) == ["page.md"])
+    os.chmod(path, 0o644)
+    safe_write.atomic_write(path, "third\n")
+    check("safe_write: a rewritten file keeps its permissions",
+          (os.stat(path).st_mode & 0o777) == 0o644)
+    fresh = os.path.join(folder, "fresh.md")
+    safe_write.atomic_write(fresh, "new\n")
+    umask = os.umask(0)
+    os.umask(umask)
+    check("safe_write: a new file gets the usual permissions, not 0600",
+          (os.stat(fresh).st_mode & 0o777) == (0o666 & ~umask))
+    os.remove(fresh)
     calls = []
     for name in sorted(os.listdir(HERE)):
         if name.endswith(".py") and not name.startswith("test_") and name != "safe_write.py":

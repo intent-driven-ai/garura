@@ -1,5 +1,5 @@
 # Plan 734 — its ID is the business intent's issue number (ontology v5, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | dropped (closed as not planned or as a duplicate).
+# Kept by hand until update-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 734
 title: Garura publishes a standard for building agentic harnesses
 status: active  # more work to file under Epic #958 (the product owner, 2026-10-29)
@@ -14,188 +14,188 @@ tree:
 - issue: 958
   kind: epic
   title: Garura's harness standard is written, checked and applied to every name
-  status: next
+  status: Not Started
   children:
   - issue: 735
     kind: feature
     title: The harness standard, written down
-    status: done
+    status: Done
     children:
     - issue: 736
       kind: story
       title: 'Naming rules: verbs, run- for loops, no tool built-ins, two-word plays'
-      status: done
+      status: Done
     - issue: 737
       kind: story
       title: 'Harness principles and practices: why we build this way, and how'
-      status: done
+      status: Done
     - issue: 738
       kind: story
       title: One ADR that replaces ADR 006 and ADR 018
-      status: done
+      status: Done
   - issue: 739
     kind: feature
     title: The naming checks, built before any rename
-    status: done
+    status: Done
     children:
     - issue: 740
       kind: story
       title: The component linter fails any name that breaks the standard
-      status: done
+      status: Done
     - issue: 741
       kind: story
       title: A rename map, and a check that no old name is left
-      status: done
+      status: Done
       children:
       - issue: 936
         kind: chore
         title: The naming tools are tested on a name removed with no successor
-        status: next
+        status: Not Started
       - issue: 861
         kind: chore
         title: 'The three P3 findings left by the PR #858 review, round 2'
-        status: next
+        status: Not Started
   - issue: 742
     kind: feature
     title: Every name moved to the standard, one family at a time
-    status: done
+    status: Done
     children:
     - issue: 743
       kind: story
       title: Rename the harness plays and the loops
-      status: done
+      status: Done
     - issue: 744
       kind: story
       title: Rename the change, plan, knowledge and record plays
-      status: done
+      status: Done
       children:
       - issue: 923
         kind: bug
         title: Two knowledge plays write their done records under their old names, so the Discovery loop never finds them
-        status: done
+        status: Done
     - issue: 745
       kind: story
       title: Rename the lifecycle and lens plays
-      status: done
+      status: Done
       children:
       - issue: 924
         kind: bug
         title: The Discovery loop's pre-flight uses the plays' and the loop's old names, so it never reads the loop's own settings
-        status: done
+        status: Done
     - issue: 746
       kind: story
       title: Rename the skills
-      status: done
+      status: Done
   - issue: 747
     kind: feature
     title: Installs follow the renames
-    status: done
+    status: Done
     children:
     - issue: 748
       kind: story
       title: An install removes old names and lays the new ones
-      status: done
+      status: Done
       children:
       - issue: 772
         kind: bug
         title: '[BUG] The install keeps old play names in the project config, so the check-change gate is on'
-        status: next
+        status: Not Started
       - issue: 773
         kind: bug
         title: '[BUG] check-change looks for review playbooks in a folder no install creates'
-        status: done
+        status: Done
   - issue: 967
     kind: feature
     title: A team builds a harness from a written architecture, and reviews grade each finding against it
-    status: next
+    status: Not Started
     children:
     - issue: 933
       kind: story
       title: A team building a Phoenix harness has an architecture memory to build and review against
-      status: next
+      status: Not Started
     - issue: 934
       kind: story
       title: 'Findings and defects get one severity, P1 to P4, in three layers: industry, surface, architecture'
-      status: next
+      status: Not Started
   - issue: 973
     kind: feature
     title: Garura's docs and command pages stay in step with what ships
-    status: next
+    status: Not Started
     children:
     - issue: 529
       kind: bug
       title: Command cheat sheet drifts from the plays — wrong command names, no owned update path
-      status: next
+      status: Not Started
   - issue: 501
     kind: feature
     title: Self-contained play chains + parallel worktree autonomy (start-change head + CPRM tail)
-    status: next
+    status: Not Started
     children:
     - issue: 488
       kind: story
       title: 'Parallel build-loop: build independent DAG pieces concurrently with worktree isolation'
-      status: next
+      status: Not Started
     # #952 moved out on 2026-10-29 to business intent #775 (guardrails), which has no plan yet.
   - issue: 511
     kind: feature
     title: Component quality and governance
-    status: next
+    status: Not Started
     children:
     - issue: 507
       kind: chore
       title: Unit-test scoped_write_guard.py — 14 copies run unguarded
-      status: next
+      status: Not Started
     - issue: 508
       kind: chore
       title: Unit-test the L-DMW lint checks — the linter that guards 13 plays has no tests
-      status: next
+      status: Not Started
     - issue: 458
       kind: chore
       title: Align agent contract schemas with real play dispatch; deprecate orphan agents
-      status: next
+      status: Not Started
     - issue: 423
       kind: bug
       title: 'repo-orchestrator: skips its output-artifact writes and stops mid-batch'
-      status: next
+      status: Not Started
     - issue: 415
       kind: chore
       title: Reorganize core/components into the harness layout and stamp identity
-      status: next
+      status: Not Started
     - issue: 578
       kind: bug
       title: 'Components and docs still describe /next scripts that #533 deleted — rank-recommendations is orphaned'
-      status: next
+      status: Not Started
   - issue: 620
     kind: feature
     title: Tools become a first-class Garura component; work-item meanings move to work intelligence
-    status: next
+    status: Not Started
   - issue: 768
     kind: feature
     title: Guidance that Claude Code reads in this repo
-    status: next
+    status: Not Started
     children:
     - issue: 769
       kind: story
       title: CLAUDE.md says each rule once and right
-      status: next
+      status: Not Started
       children:
       - issue: 770
         kind: chore
         title: Merge the installer's memory rule into CLAUDE.md and drop the voice rule
-        status: next
+        status: Not Started
       - issue: 774
         kind: bug
         title: '[BUG] The long user-facing voice rule file is still in memory after CLAUDE.md dropped the rule'
-        status: next
+        status: Not Started
       - issue: 782
         kind: bug
         title: '[BUG] Every install writes CLAUDE.md.new again, even when CLAUDE.md already holds its rules'
-        status: next
+        status: Not Started
     - issue: 839
       kind: chore
       title: Review every Claude memory for this project, and set a guardrail on what it may learn
-      status: next
+      status: Not Started
   - issue: 856
     kind: feature
     title: 'Garura''s parts compose: a play runs the steps, an agent gathers context, a skill does the work, and no skill names a play or another skill'
-    status: next
+    status: Not Started

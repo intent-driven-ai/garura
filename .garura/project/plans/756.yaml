@@ -1,5 +1,5 @@
 # Plan 756 — its ID is the business intent's issue number (ontology v5, Plan).
-# Kept by hand until update-plan (#730) exists. Status: done | now | next | blocked | dropped (closed as not planned or as a duplicate).
+# Kept by hand until update-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 756
 title: The agent intent (ICE) is its own part of the product model
 status: active
@@ -15,76 +15,76 @@ tree:
 - issue: 959
   kind: epic
   title: Each agent intent (ICE) is its own part of the product model, written by plays
-  status: next
+  status: Not Started
   children:
   - issue: 757
     kind: feature
     title: The ICE is its own kind in the product model
-    status: done
+    status: Done
     children:
     - issue: 758
       kind: story
       title: 'The ICE kind: its own page, spine entry and three parts'
-      status: done
+      status: Done
     - issue: 759
       kind: story
       title: The linter checks each ICE's three parts and its two links
-      status: done
+      status: Done
       children:
       - issue: 804
         kind: chore
         title: 'chore: harden the ICE checks in the grounding linter (review notes from PR #786)'
-        status: next
+        status: Not Started
     - issue: 760
       kind: story
       title: The ready check reads each ICE node and answers ready, partly ready or not ready, with the gaps listed
-      status: done
+      status: Done
       children:
       - issue: 805
         kind: chore
         title: 'chore: the ready check says when needs were not checked (review notes from PR #789)'
-        status: next
+        status: Not Started
   - issue: 761
     kind: feature
     title: Plays write ICE nodes
-    status: next
+    status: Not Started
     children:
     - issue: 762
       kind: story
       title: /discover-capabilities and its skills write ICE nodes
-      status: next
+      status: Not Started
     - issue: 763
       kind: story
       title: The judges check plain English and the three parts
-      status: next
+      status: Not Started
   - issue: 764
     kind: feature
     title: Move Garura's own model to ICE nodes
-    status: next
+    status: Not Started
     children:
     - issue: 765
       kind: story
       title: Move each ICE section to its own ICE node, and lose nothing
-      status: next
+      status: Not Started
   - issue: 776
     kind: feature
     title: Change the product ontology through a play
-    status: done
+    status: Done
     children:
     - issue: 777
       kind: story
       title: A play changes the ontology and calls author-product-ontology
-      status: done
+      status: Done
       children:
       - issue: 778
         kind: bug
         title: '[BUG] The skill author-product-ontology is user-invocable'
-        status: done
+        status: Done
       - issue: 781
         kind: chore
         title: Tidy four review notes on the edit-ontology play and its skill
-        status: done
+        status: Done
     - issue: 785
       kind: issue
       title: 'chore: copy the fixed preflight.py into the edit-ontology play once plan #717 reaches plan #756'
-      status: done
+      status: Done

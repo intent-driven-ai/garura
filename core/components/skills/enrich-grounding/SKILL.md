@@ -1,6 +1,6 @@
 ---
 name: enrich-grounding
-description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice. Use when /shape-slice needs the pages of its parts written, raised to the current rules, given a thin ICE, or fixed.
+description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on an intent page, update and fix mode change only the lines the request names (for example a real name to a persona). Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of an intent page must change.
 user-invocable: false
 model: opus
 allowed-tools: Read, Write
@@ -18,14 +18,15 @@ and every move of a page.
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix` |
-| `pages` | yes | The pages to work on, each `{id, kind: domain|capability|feature, doc}` — from `fills.json` `updates` with `page: true`, its new features under a capability that exists, and its `thin` list |
+| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix`; an intent page takes `update` or `fix` only |
+| `pages` | yes | The pages to work on, each `{id, kind: domain|capability|feature|intent, doc}` — in a slice run, from `fills.json` `updates` with `page: true`, its new features under a capability that exists, and its `thin` list; for found work, from the request |
 | `product_base` | yes | The live model root. The pages are read and written in place under `{product_base}product-os/` |
 | `schemas_dir` | yes | The grounding templates (`domain.md`, `capability.md`, `feature.md`) and the content standard, copied into short-term memory by the agent through the memory tool |
-| `intent_page` | yes | The business intent the slice serves |
-| `record` | yes | The question record: the person's answers are facts |
-| `split` | yes | `split.json`: each assumption is used as it is written |
-| `fills` | yes | `fills.json`: the parent of each new feature, and the thin parts |
+| `intent_page` | in a slice run | The business intent the slice serves |
+| `record` | in a slice run | The question record: the person's answers are facts |
+| `split` | in a slice run | `split.json`: each assumption is used as it is written |
+| `fills` | in a slice run | `fills.json`: the parent of each new feature, and the thin parts |
+| `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts); for an intent page, each line to change with its new words. In place of `record`, `split` and `fills` |
 | `problems` | for `fix` | `slice-check.json` (or a script's refusal): each problem with the page it names |
 | `out` | yes | Where to write `grounding-report.json` |
 
@@ -55,10 +56,15 @@ and every move of a page.
    In an `ice.md`, Goal, Limit and Fails if go under `## Intent`, the Context line under
    `## Context`, and the Checked by line under `## Expectation`. Do not write the Thin line
    and do not set `metadata.thin`: the play's script writes the two thin marks.
-5. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
+5. **An intent page (update or fix mode only).** Change only the lines the request names, to
+   the words it gives — for example a real person's name to a persona (`the product owner`).
+   Keep every other line, word for word. Never write a new intent page and never change what
+   the intent means: a new intent is /discover-intent's, and a change of meaning is the
+   person's.
+6. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
    heading, a broken link, a thin ICE that lacks a line. Change only what the problem names.
    A problem in `slice.json` or `fills.json` is not this skill's: list it in `not_mine`.
-6. **Check the page against what it had.** Every section and line from step 1 is still on
+7. **Check the page against what it had.** Every section and line from step 1 is still on
    the page. When one is lost, put it back before you write the report.
 
 ## Output
@@ -84,8 +90,9 @@ Examples from different fields:
 ## Rules
 
 - In place: keep every section and line a page had; never remove or move a page.
-- Write per-node pages only. Never write `_spine.yaml`, the profile, a decision, an intent
-  page, the Thin line or `metadata.thin`; the play's scripts write them.
+- Write per-node pages only. Never write `_spine.yaml`, the profile, a decision, the Thin
+  line or `metadata.thin`; a play's scripts or `link-model-part` write them. On an intent
+  page, change only the lines the request names (step 5); never write a new intent page.
 - A thin ICE has a Goal, a Limit, one Fails if line or more, a Context line and a Checked by
   line, each from the person's answers or the assumptions; nothing made up.
 - One new feature under a capability that exists never re-details the capability.

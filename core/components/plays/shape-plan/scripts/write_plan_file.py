@@ -15,7 +15,7 @@ When the plan file is missing it is made: `id`, `title` (the business intent's t
   - each moved-out story's node is taken out of the tree.
 The file is changed line by line: every other node, line and comment stays as it is. With
 nothing to change, the file is not written and stays byte for byte the same. A new node's
-status is `next`.
+status is `Not Started`.
 
 A record that reads `ok: false` (the tracker failed part way) is still written: each issue it
 lists gets its node and its mark, so the next run finds it and makes no copy. The run then
@@ -140,7 +140,7 @@ def find(nodes, represents):
 def render(d, issue, kind, title, represents, kids=()):
     p = " " * d
     out = [f"{p}- issue: {scalar(issue)}", f"{p}  kind: {kind}", f"{p}  title: {scalar(title)}",
-           f"{p}  status: next", f"{p}  represents: {scalar(represents)}"]
+           f"{p}  status: Not Started", f"{p}  represents: {scalar(represents)}"]
     if kids:
         out.append(f"{p}  children:")
         for k in kids:
@@ -223,7 +223,7 @@ def main(argv=None):
         made = not os.path.isfile(args.plan_file)
         if made:
             lines = [f"# Plan {gather['plan_id']}. Its ID is the business intent's issue number.",
-                     "# Made by /shape-plan. Status: done | now | next | blocked | later.",
+                     "# Made by /shape-plan. Status: Not Started | In Progress | Now | Done | Blocked | Dropped.",
                      f"id: {scalar(int(gather['plan_id']))}",
                      f"title: {scalar(gather.get('intent_title') or 'Plan ' + str(gather['plan_id']))}",
                      "status: active", "tree: []"]

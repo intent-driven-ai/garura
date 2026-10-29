@@ -1,0 +1,92 @@
+# check-pr-quality, Layer 1, PR #980 (base plan/717/base), issue 719.
+# Categories: executable-code, tests, documentation, config-maps (from review/categories.yaml).
+# Inputs used: review/context.yaml, review/categories.yaml, review/pr.diff, review/runnable-checks.txt.
+# Nothing under review/run-1/ was read.
+meta:
+  skill: check-pr-quality (scan_taxonomy.py, exit 0, meta.errors none)
+  taxonomy: .garura/project/issues/719/context/memory/standards/rules/pr.md
+  scope_paths: 24 (the changed paths listed as evidence for the four categories; all 24 are in pr.diff)
+  scanner_raw_counts: {P1: 3, P2: 10, P3: 23, P4: 16}
+  scanner_catchall_CODE-20: 24
+  note: >
+    The scanner's raw hits were triaged. Path-only rows (ARCH-*, CODE-03/04/09-19, DOC-*) fire on
+    every matching file and carry no evidence of a defect; grep rows matched words inside test data
+    and normal words. Each dismissed hit is listed under scanner_hits_not_substantiated so the
+    caller can overrule. findings holds only hits backed by actual tool output or file content.
+
+runnable:
+  - {suite: core/tools/plan test_plan, result: pass, detail: "12 tests OK"}
+  - {suite: link-model-part test_link_part, result: pass, detail: "15 tests OK"}
+  - {suite: shape-plan test_write_plan_file, result: pass, detail: "9 passed, 0 failed"}
+  - {suite: shape-slice test_shape_slice_scripts, result: pass, detail: "129 passed, 0 failed"}
+  - {suite: install-garura test_install, result: pass, detail: "75 tests OK (121.8s)"}
+  - {check: python compile of the 22 changed .py files, result: pass, detail: "py_compile clean"}
+  - {check: ruff 'check --isolated' (defaults; the repo commits no python lint config), result: "4 messages", detail: "see findings QF-1..QF-4"}
+  - {check: black --check (no formatter config committed), result: not used as a finding, detail: "20 of 22 files differ from black's default style; the repository sets no formatter, so no standard is broken"}
+  - {check: ruff T201 (print) , result: not a finding, detail: "all print calls are the CLI output of scripts (JSON or stderr messages); none are stray debug output"}
+  - {check: config-maps path resolution, result: pass, detail: ".claude/skills/link-model-part, .claude/skills/list-plans, .claude/skills/show-plan, .garura/core/tools/plan all exist; all 56 'kinds' paths exist; counts (10 agents, 27 skills, 19 plays) match the 'kinds' map"}
+  - {check: documentation (core/tools/plan/README.md), result: pass, detail: "no TODO/FIXME; headings fine; commands and the test command match the code; references to /list-plans, /show-plan, /update-plan (#730), /shape-plan (#896) are named, not links"}
+
+findings:
+  - id: QF-1
+    severity: P2
+    file: core/components/plays/list-plans/scripts/check_list.py
+    line: 33
+    what: "ruff E731: a lambda is assigned to a name; use a def"
+    basis: CODE-03
+  - id: QF-2
+    severity: P2
+    file: core/components/plays/list-plans/scripts/check_list.py
+    line: 110
+    what: "ruff E731: a lambda is assigned to a name; use a def"
+    basis: CODE-03
+  - id: QF-3
+    severity: P2
+    file: core/components/skills/link-model-part/scripts/test_link_part.py
+    line: 8
+    what: "ruff F401: textwrap is imported but never used"
+    basis: CODE-03
+  - id: QF-4
+    severity: P2
+    file: core/tools/plan/test_plan.py
+    line: 165
+    what: "ruff E731: a lambda is assigned to a name (git = lambda ...); use a def"
+    basis: CODE-03
+  # QF-1..4 are P2 because the taxonomy fixes CODE-03 at P2. They are small style messages from
+  # ruff run with default settings; the repository commits no python lint config.
+
+scanner_hits_not_substantiated:
+  - basis: DATA-18
+    scanner_severity: P1
+    hits: ["core/tools/plan/test_plan.py:26 'password'", "core/tools/plan/test_plan.py:167 'email'", "core/tools/plan/test_plan.py:169 'email'"]
+    reason: "Line 26 is the title text of a test plan ('A person resets a lost password'). Lines 167 and 169 set a throw-away git author (user.email=t@t) for a temporary test repository. No personal data is stored or sent."
+  - basis: DATA-17
+    scanner_severity: P2
+    hits: ["core/tools/plan/test_plan.py:167", "core/tools/plan/test_plan.py:169"]
+    reason: "Same two git author lines as above."
+  - basis: CODE-25
+    scanner_severity: P3
+    hits: ["core/tools/plan/plan.py:44", "core/tools/plan/plan.py:71", "core/tools/plan/plan.py:247"]
+    reason: "Each catches a named error (OSError, yaml.YAMLError, BadInput) and turns it into a clear message and exit 2; none swallows an error."
+  - basis: BE-23
+    scanner_severity: P4
+    hits: ["core/tools/plan/plan.py:15,19,33,46,48", "core/tools/plan/test_plan.py:44,71,123,156"]
+    reason: "The word 'lock' matched inside 'BLOCK' (a regex name), 'block', 'Blocked' and the test title 'Lock the account'. No locking code."
+  - basis: "ARCH-02, ARCH-03, ARCH-08, CODE-03 (path half), CODE-04, CODE-09, CODE-10, CODE-11, CODE-12, CODE-13, CODE-14, CODE-15, CODE-17, CODE-19"
+    scanner_severity: "P2-P4"
+    hits: ["core/tools/plan/plan.py:1", "core/tools/plan/test_plan.py:1"]
+    reason: "Path-only rows: they fire on any .py file and need a tool result (lint message, cycle trace, complexity score) to be a defect. No such result exists: plan.py is 255 lines, test_plan.py 186, no import cycle, compiles clean. CODE-03 is substantiated only through the four ruff messages in findings."
+  - basis: "DOC-01, DOC-09, DOC-10, DOC-11, DOC-14, DOC-15, DOC-16"
+    scanner_severity: "P3-P4"
+    hits: ["core/tools/plan/README.md:1"]
+    reason: "Path-only rows on README.md. The README holds the usage, the commands, the exit codes, the statuses and the test command, so there is nothing to flag."
+
+coverage_gaps:
+  - "The taxonomy classifies everything under core/components/ as garura-prose, so the scanner applied only the CODE-20 catch-all count (17 python files: the list-plans, show-plan, shape-plan, shape-slice, link-model-part and install-garura scripts, and their tests). The mechanical rows (CODE-*, SEC-*, DATA-*) never ran on them. Only compile, ruff and the test suites covered them. Per the contract nothing else was added by judgment."
+  - "The category treatment asks for a hard review of the data-safety paths (link_part.py and both safe_write.py files, the two #979 fixes; plan.py refusal of missing fields, #719; install.py). That is a rubric review, not a taxonomy row. Their suites are green, but a person or a rubric pass should read those files."
+  - "No python linter or formatter is committed in the repository, so CODE-03 and CODE-04 have no project tool; ruff defaults were used for CODE-03, and black was not treated as a standard."
+
+for_human:
+  - "install-manifest.json: the whole 'retired' list (26 entries) is emptied and the counts rise (skills 26 to 27, plays 17 to 19). The added paths exist; whether dropping the retired list is intended is the human's call."
+
+counts: {P1: 0, P2: 4, P3: 0, P4: 0}

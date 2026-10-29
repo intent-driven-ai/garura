@@ -1,0 +1,262 @@
+pr: 980
+issue: 719
+findings:
+- id: QF-1
+  category: code-and-tests
+  severity: P2
+  file: core/components/plays/list-plans/scripts/check_list.py
+  what: 'ruff E731: a lambda is assigned to a name; use a def'
+  basis: CODE-03
+  source: quality-findings.yaml
+- id: QF-2
+  category: code-and-tests
+  severity: P2
+  file: core/components/plays/list-plans/scripts/check_list.py
+  what: 'ruff E731: a lambda is assigned to a name; use a def'
+  basis: CODE-03
+  source: quality-findings.yaml
+- id: QF-3
+  category: code-and-tests
+  severity: P2
+  file: core/components/skills/link-model-part/scripts/test_link_part.py
+  what: 'ruff F401: textwrap is imported but never used'
+  basis: CODE-03
+  source: quality-findings.yaml
+- id: QF-4
+  category: code-and-tests
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  what: 'ruff E731: a lambda is assigned to a name (git = lambda ...); use a def'
+  basis: CODE-03
+  source: quality-findings.yaml
+- id: F-HARNESS-01
+  category: harness
+  severity: P2
+  file: core/components/skills/link-model-part/SKILL.md
+  what: 'link-model-part adds a new writer of the shared spine _spine.yaml (and the Thin line on pages): a skill script run
+    through the keeper "for a part found during work", with no play and no loop around it. The keeper''s NEVER rule is rewritten
+    to say the spine is written "by link-model-part''s script for a part found during work (#979)". The committed rule allows
+    exactly two writers of a shared file: a play''s keyed script, and link-model-gaps'' script inside a loop only. This third
+    writer is outside both, so the scoped-write guard, the clean-tree entry check and the model-delta commit (rules 4 and
+    7, L-DMW-3/4) have no play to run them. The skill''s own checks (path containment, all or nothing, a report of changed
+    files) are good, but a skill cannot grant itself the exception; neither an ADR nor direct-model-write.md is changed in
+    this PR.
+
+    '
+  basis: 'PR5. direct-model-write.md (base): ''Outside a loop, the play''s keyed script is still the only writer of shared
+    files''; L-DMW-5 names link-model-gaps as the single exception (''inside a loop only'', ADR 044). ADR 044 shows the pattern:
+    a new shared-file writer was authorised by an ADR that amends ADR 026. Harness standard: a change to the standard is a
+    decision.'
+  source: design-findings-harness.yaml
+- id: F-HARNESS-02
+  category: harness
+  severity: P3
+  file: core/components/skills/enrich-grounding/SKILL.md
+  what: 'enrich-grounding (an LLM skill) now edits intent pages in place (new step 5, kind ''intent'', modes update/fix),
+    and its old rule "never write an intent page" is rewritten. On the base ref the keeper lists an intent page among the
+    shared model files it must not write, and intent pages are written by scripts after a person''s word (author-business-intent
+    drafts, a script writes). The skill limits the edit to the lines the request names and forbids a change of meaning, which
+    keeps ADR 031 intact, but it moves an intent page from ''shared, script-written'' to ''LLM-writable'' with no decision
+    record.
+
+    '
+  basis: 'PR6 and PR5: keeper NEVER list names ''an intent page'' as a shared model file; direct-model-write rule 3 says the
+    LLM writes only per-node grounding docs. PR7: only a person confirms or drops a business intent (the skill''s guard is
+    the only protection).'
+  source: design-findings-harness.yaml
+- id: F-HARNESS-03
+  category: harness
+  severity: P2
+  file: core/components/plays/list-plans/SKILL.md
+  what: 'Both plays load standards/templates/plan-view.md and standards/rules/pipeline-next.md through template-manager, and
+    halt (hard) when plan-view.md is missing. The memory tool, run across every tier (short-term, garura, phoenix), finds
+    no plan-view.md and no list-plans or show-plan row in pipeline-next.md: both exist only in this branch''s core/components/memory.
+    Until a person promotes them to Phoenix memory, the plays cannot run in any project that reads Phoenix memory, and the
+    Layer 1 GAP in lint-play.txt (next-command: no entry in pipeline-next.md, both plays) is caused by that stale map. Run
+    against the PR''s own pipeline-next.md both plays pass all 12 checks.
+
+    '
+  basis: 'PR3 and PR11: templates a play fills are memory, fetched by template-manager from the memory tiers (ADR 039 section
+    2, 9); the Next-line map is the one place the successor lives and the close renders from it. The delivery depends on a
+    memory promotion that is deliberate and outside the work.'
+  source: design-findings-harness.yaml
+- id: F-HARNESS-04
+  category: harness
+  severity: P3
+  file: core/components/agents/product-os-keeper.md
+  what: 'The found-work flow is described as used "by any play or run that finds a part the model lacks" (keeper description;
+    routing row ''No discovery play run''; link-model-part description). No play in the repository on the base ref or in this
+    diff dispatches it. Play -> agent -> skill has no top: the flow starts from an ad hoc ''run''. Nothing owns the order
+    (page first, then link, one link run after the page runs join), the approval of the model change, or the evidence of the
+    run.
+
+    '
+  basis: 'PR1: a play owns the order of steps and hands each agent a contract; agents and skills do not start work on their
+    own. The keeper''s own header lists the plays it serves; this adds an unnamed one.'
+  source: design-findings-harness.yaml
+- id: F-HARNESS-05
+  category: harness
+  severity: P4
+  file: core/components/agents/product-os-keeper.md
+  what: 'The rewritten NEVER rule carries a note of origin with a person and a date: "(the product owner, 2026-10-29)", and
+    the first sentence reads "Change the product model by hand ... but only through a skill", which contradicts itself (by
+    hand vs through a skill) and sits beside the unchanged "Hand-write model YAML yourself" line. No agent or skill on the
+    base ref carries a dated attribution of this kind.
+
+    '
+  basis: 'PR4: a note of origin in an installed part is deleted, not reworded; record why in the commit and the issue, not
+    in the file.'
+  source: design-findings-harness.yaml
+- id: F-HARNESS-06
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/SKILL.md
+  what: 'Step 6 says "the close finds the templates Step 1 already loaded there", but Step 1 asks template-manager for plan-view.md,
+    delivery-report.md and pipeline-next.md only; the close also needs evidence-file.md when evidence is recorded. The shared
+    close''s Step L loads it, so the run works, but the sentence is inexact and could lead an editor to drop Step L.
+
+    '
+  basis: 'PR8: the Standard Play Close''s Step L is not optional and asks template-manager for evidence-file.md when C1 runs.'
+  source: design-findings-harness.yaml
+- id: F-HARNESS-07
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/SKILL.md
+  what: 'The rule that lists which plays are ''none'' as compiled today (pipeline-position.md) does not name list-plans or
+    show-plan, and this PR does not touch it. The plays'' own declaration (position: none) is right; the enumeration in the
+    rule is now stale. Low weight.
+
+    '
+  basis: 'PR10: the position rule carries the ''as compiled today'' list.'
+  source: design-findings-harness.yaml
+- id: MEM-001
+  category: memory
+  severity: P2
+  file: core/components/memory/standards/rules/work-plan.md
+  what: 'Rule 19 replaces the status tree that ADR 030 decided (GOAL, DONE, NOW, NEXT, WAIT on a human; Done shown; item 7
+    of Work This Creates) with six statuses (Not Started, In Progress, Now, Done, Blocked, Dropped), a tree that hides Done
+    and Dropped, and a count line. The accepted ADR 030 is not amended or superseded: no file under docs/adr/ is in the diff,
+    and no later base ADR amends ADR 030 on the status view (ADR 032 amends §5 only). The rules file and the ADR now disagree,
+    and the rules file says ADR 030 is its authority.'
+  basis:
+    principle: 'PR-2 (an accepted ADR is never edited; a new ADR amends or supersedes it, with forward and back pointers)
+      and PR-1 (ADR 030 section 0 and item 7: the status tree is GOAL/DONE/NOW/NEXT/WAIT and shows what is decided, built
+      and left)'
+    source: plan/717/base:core/components/memory/standards/templates/adr.md (Rules); plan/717/base:docs/adr/030-plan-mode.md
+      (section 0, Work This Creates item 7); plan/717/base:docs/adr/032-drive-review-of-outcomes.md line 97 (the only later
+      amendment, §5 only)
+  source: design-findings-memory.yaml
+- id: MEM-002
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/work-plan.md
+  what: The work-plan rules govern the work plan at {stm_base}{issue}/specs/plan.md, whose own status is active, done or dropped
+    and whose items move to a Done list (rules 8, 9, 17, 18). Rule 19 now describes what /show-plan prints from the plan files
+    under .garura/project/plans/<id>.yaml, whose nodes carry the six statuses. The rule does not say which plan it means,
+    and the same file now holds two vocabularies for 'done'. A reader of the rules file cannot tell which plan rule 19 governs.
+  basis:
+    principle: 'PR-5 (the work-plan rules are scoped to specs/plan.md; the plan file is the ontology''s Plan kind) and naming
+      clarity: one word, one meaning'
+    source: plan/717/base:core/components/memory/standards/rules/work-plan.md (Where it lives, rules 8, 9, 17); plan/717/base:core/components/memory/standards/schemas/product-os/ontology.md
+      (Plan, Lives at and Status)
+  source: design-findings-memory.yaml
+- id: MEM-003
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/rules/work-plan.md ; core/components/memory/standards/templates/plan-view.md
+  what: 'The six statuses, their order and what the tree hides are stated in rule 19 and again in the template: the status
+    table, the legend example and the settings block (three places in the template). They already differ: rule 19 lists Done
+    before Blocked, the template says the order of its table is the legend order and puts Blocked before Done. There is also
+    no committed home for the node-state vocabulary: the ontology''s Plan Tree says only ''its state'', and the old vocabulary
+    (done, now, next, blocked, later, dropped) lived in plan-file headers and write_plan_file.py. The six statuses now live
+    only in a template and a rules line.'
+  basis:
+    principle: PR-3 (one home per fact so copies cannot drift) and PR-9 (a kind's vocabulary is defined in the ontology and
+      its log)
+    source: 'plan/717/base:core/components/memory/standards/templates/work-plan.md (Where it lives); plan/717/base:core/components/memory/standards/rules/_index.md
+      (When to Add Here: single source of truth, not a copy of prose); plan/717/base:core/components/memory/standards/schemas/product-os/ontology.md
+      (Plan: Tree, Log v9-v12)'
+  source: design-findings-memory.yaml
+- id: MEM-004
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The file is placed in templates/ but holds two things the templates index sends elsewhere: view rules (a status is
+    never worked out from the nodes under it; the tree hides Done and Dropped except under a shown node; a needed plan prints
+    after; the last line counts hidden nodes) and a typed settings contract that the plan tool parses and refuses to run without
+    (BadInput on a missing ''statuses'', ''tree'', ''list'' or ''graph'' key). The index says a rule for artifact content
+    goes in rules/ and a YAML schema contract in schemas/, and routes pr-findings.yaml to schemas/ for the same reason.'
+  basis:
+    principle: PR-4 (templates/ is the shape of an output; rules go in rules/; a typed contract goes in schemas/)
+    source: plan/717/base:core/components/memory/standards/templates/_index.md (When to Add Here; Scope Notes on pr-findings.yaml)
+  source: design-findings-memory.yaml
+- id: MEM-005
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The list view prints ''waits on plan 722'' and the graph prints ''on main: #606, #722, #734, #756, #767'': plan numbers
+    with no title. Rule 19 keeps its lead ''never bare numbers'' and ADR 030 section 0 says the status view is plain words,
+    never bare issue numbers, so a reader coming back after two days knows where things stand. The tree lines carry titles;
+    these two do not.'
+  basis:
+    principle: PR-1 (the status view is plain words, never bare issue numbers)
+    source: 'plan/717/base:docs/adr/030-plan-mode.md (section 0); plan/717/base:core/components/memory/standards/rules/work-plan.md
+      rule 19 (old text: ''Every line says in plain words what the item is, with its issue number beside it'')'
+  source: design-findings-memory.yaml
+- id: MEM-006
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-view.md
+  what: Rule 19 points to templates/plan-view.md, but the template does not point back to rule 19. The base work-plan template
+    names its rules file and says 'This file holds the shape only'; the new template has no such pointer and holds rules itself
+    (see MEM-004).
+  basis:
+    principle: PR-3 (template and rules file point at each other so the two cannot drift)
+    source: plan/717/base:core/components/memory/standards/templates/work-plan.md (opening paragraphs and Where it lives)
+  source: design-findings-memory.yaml
+- id: MEM-007
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/rules/pipeline-next.md
+  what: The two rows are right (command null, listed so the play is not a lint gap) but the map's prose is unchanged. Its
+    header says the person picks the next work from the plan or from /list-focus-issues, and 'The flow' lists /list-focus-issues
+    as the one navigation play. The new rows break the column alignment of the Navigation block (list-focus-issues is padded
+    to one column, the new keys to another).
+  basis:
+    principle: PR-6 (the map and its prose say what the plays are; ADR 051 makes the plan and /list-focus-issues the way to
+      pick work, and says a plan view is a new play listed when built)
+    source: plan/717/base:core/components/memory/standards/rules/pipeline-next.md (header, The flow, Navigation); plan/717/base:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md
+      (sections 2 and 3)
+  source: design-findings-memory.yaml
+- id: MEM-008
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-view.md
+  what: The template is in no memory tier the plays can read today (find across short-term, Garura and Phoenix memory returns
+    nothing), so /list-plans and /show-plan stop at their first step with 'template missing' until it is promoted to Phoenix
+    memory. The PR body (line 22) says so. Promotion is a person's deliberate step outside the work, so this is not a defect
+    of the PR; it is listed so the merge is not read as 'the plays work'. Phoenix memory also still holds older copies of
+    work-plan.md (drive wording) and ontology.md (no Plan kind).
+  basis:
+    principle: PR-7 (a play gets a template only through template-manager and the memory tool; moving a file to Garura or
+      Phoenix memory is a person's promotion)
+    source: plan/717/base:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (sections 1 and 2); plan/717/base:core/components/agents/template-manager.md
+  source: design-findings-memory.yaml
+- id: L1-list-plans-next-command
+  category: harness
+  severity: P3
+  file: core/components/plays/list-plans/SKILL.md
+  what: 'lint-play next-command: list-plans has no entry in the Next-line map copy from Phoenix memory; the entry is in this
+    PR''s pipeline-next.md and both plays pass against it'
+  basis: lint-play rule next-command (pipeline-next), run as .garura/core/tools/lint-play/lint_play.py with the template-manager
+    map
+  source: lint-play.txt
+- id: L1-show-plan-next-command
+  category: harness
+  severity: P3
+  file: core/components/plays/show-plan/SKILL.md
+  what: 'lint-play next-command: show-plan has no entry in the Next-line map copy from Phoenix memory; the entry is in this
+    PR''s pipeline-next.md and both plays pass against it'
+  basis: lint-play rule next-command (pipeline-next), run as .garura/core/tools/lint-play/lint_play.py with the template-manager
+    map
+  source: lint-play.txt

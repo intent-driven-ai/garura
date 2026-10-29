@@ -1,7 +1,7 @@
 # Feature: Rename the skills
 
 ## What it does
-every skill renamed to the skill verb list (to be agreed with Kapil), including the duplicates kb-search / search-kb and the manage-plan skill.
+every skill renamed to the skill verb list (to be agreed with the product owner), including the duplicates kb-search / search-kb and the manage-plan skill.
 
 ## Agent intent (ICE)
 - Goal: Skills follow the standard, with one meaning per verb.
