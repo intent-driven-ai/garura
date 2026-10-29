@@ -1,0 +1,395 @@
+meta:
+  generated_at: '2026-10-29T16:50:58Z'
+  pr: 985
+  issue: 717
+  skill: check-pr-quality (scan_taxonomy.py)
+  diff_path: .garura/project/issues/717/review/pr.diff
+  taxonomy_path: .garura/project/issues/717/context/memory/standards/rules/pr.md
+  standards_order:
+  - .garura/project/issues/717/context/memory/standards/rules/pr.md
+  quality_standards_copies: 'none: no tier held knowledge/quality for this issue'
+  categories_run:
+  - executable-code
+  - tests
+  - documentation
+  - issue-work-records
+  changed_paths_count: 70
+  scan_errors: 0
+  scan_coverage: 1.0
+  scanner_raw:
+    P1: 1
+    P2: 8
+    P3: 20
+    P4: 7
+    catchall_CODE-20: 9
+  scanner_coverage_gap: 'scan_taxonomy.py classes every file under core/components/** as garura-prose, so no code
+    rule ran on check_list.py, write_plan_file.py or test_write_plan_file.py. And test_plan.py (core/tools/plan/)
+    was classed runtime-code, not tests, because its folder is not named test/tests, so no TEST-* row ran on it.
+    To cover the gap, the taxonomy''s grep rules were applied to the added lines of all five changed python files
+    by hand (one hit: DATA-18, dismissed) and the by-hand checks below were done.'
+runnable:
+  suites:
+  - name: plan tool suite
+    command: python3 -m unittest discover -s core/tools/plan -p "test_plan.py"
+    exit_code: 0
+    status: PASS
+    result: Ran 17 tests, OK
+    skipped_or_disabled_tests: 0
+  - name: write_plan_file check script
+    command: python3 core/components/plays/shape-plan/scripts/test_write_plan_file.py
+    exit_code: 0
+    status: PASS
+    result: 9 passed, 0 failed
+  language_linter:
+    tool: ruff 0.15.20 (installed at ~/.local/bin/ruff; the category note says not installed, but it is); no config
+      committed, so default rules only. Informational, not a repo gate
+    command: ruff check --no-cache <5 changed python files>
+    result: '3 E731 (lambda assigned to a name): check_list.py:33, check_list.py:124, test_plan.py:219. None is
+      on an added line (git diff main...HEAD shows no added lambda), so they were there before. Extra pass with
+      F, E9, B rules: only B904 at plan.py:47 and plan.py:74, both outside the added lines.'
+    status: ran, nothing new from this PR
+  by_hand:
+  - check: 'data-safety: plan.py and check_list.py write no plan file'
+    result: PASS
+    evidence: 'grep for open(...,"w")/write: plan.py has none; check_list.py writes only its own --out check.json
+      (lines 136, 155). It reads plan files with open(p, encoding) only'
+  - check: write_plan_file.py new-file content
+    result: PASS
+    evidence: 'the only code change is the 4-line new-file template (status: Not Started, empty direction); test_write_plan_file.py
+      checks it and the second run is byte for byte equal; a record that is not ok exits 2 and writes nothing (both
+      asserted in the 9 checks)'
+  - check: no stray debug output, no TODO/FIXME in added lines
+    result: PASS
+    evidence: plan.py prints only the result (line 286) and errors to stderr (line 284); no TODO, FIXME, breakpoint
+      or pdb in added lines
+  - check: same files print the same way twice
+    result: PASS
+    evidence: listing() uses sorted keys and plan order; plan.py list ran on the seven committed plans, exit 0;
+      check_list.py same_twice is part of its check
+  - check: no skipped or disabled tests, no test that asserts nothing
+    result: PASS
+    evidence: no skip or expectedFailure in the added test lines; the new tests assert exact card lines and exit
+      codes
+  - check: README list description agrees with plan.py
+    result: PARTIAL
+    evidence: 'the list paragraph (README.md:10-12) matches the card printed. The status paragraph (README.md:21-22)
+      was not updated: see DOC-HAND-1'
+  - check: dead links, heading levels, spelling in README
+    result: PASS
+    evidence: no links; one H1; no leftover TODO
+  work_records_scan:
+    scope: the 54 files under .garura/project/issues/717 and 983 in changed_paths, added lines of pr.diff
+    home_folder_paths: 'none: no user home-folder prefix (macOS, Linux, Windows or temp-folder form) in any added
+      line, including the nested earlier-review pr.diff'
+    secrets_tokens: 'none: no key, token, password assignment, private key or bearer string in any added line; the
+      one regex hit is the word sk_live_ inside the taxonomy rule text in two memory copies (dismissed below)'
+    emails: none
+    parse_check: every .json and .yaml in the 717/983 work records parses (0 failures)
+    issue_scope: only issue folders 717 and 983 appear
+    gitignored_status_files: 'the session-stamp files under issue 983 status/ hold a home-folder path but are not
+      in this PR: .garura/.gitignore line 4 ignores **/status/ and they are not in the diff. Not a finding'
+findings:
+- id: DOC-HAND-1
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 21
+  what: 'The status paragraph still says only the six node statuses exist and that ''any other status'' is refused.
+    This PR adds a separate plan-level status set (Not Started, In Progress, Paused, Done, Dropped) and a direction
+    (1, 2, 3 or empty), and plan.py now refuses a plan file with another plan status or direction in list, show
+    and graph alike (load_plans, plan.py:81-84). The README names neither, so a reader cannot learn that an older
+    ''status: active'' plan file is now refused by every command.'
+  basis: 'by hand: category documentation check ''the README''s list description agrees with what plan.py does'';
+    plan.py:81-84; plan-view.md:116-117'
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1
+dismissed_scanner_hits:
+- standard_id: DATA-18
+  severity: P1
+  file: core/tools/plan/test_plan.py
+  line: 118
+  artifact_type: runtime-code
+  evidence: password
+  disposition: 'dismissed: the word ''password'' is in a test fixture string (a story title, ''A person resets a
+    lost password''); no personal data is stored or sent'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace), not a text match. Checked by hand: plan.py
+    imports only the standard library and yaml; test_plan.py imports plan one way. No cycle'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (lint message). No python linter config is committed; ruff
+    (default rules) ran on the changed files and found only 3 E731 (lambda assigned to a name), none on an added
+    line. See runnable.language_linter'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (format diff). No python formatter config is committed, so
+    there is no repo format to compare to'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace). Checked by hand: no import cycle in the changed
+    files'
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace), not a text match. Checked by hand: plan.py
+    imports only the standard library and yaml; test_plan.py imports plan one way. No cycle'
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (lint message). No python linter config is committed; ruff
+    (default rules) ran on the changed files and found only 3 E731 (lambda assigned to a name), none on an added
+    line. See runnable.language_linter'
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (format diff). No python formatter config is committed, so
+    there is no repo format to compare to'
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (cycle-trace). Checked by hand: no import cycle in the changed
+    files'
+- standard_id: DOC-01
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (README present). The README exists and was updated for the
+    list change; the one gap found is recorded as DOC-HAND-1'
+- standard_id: DOC-09
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule for README content; the README is a tool README with usage
+    lines. The one gap found is recorded as DOC-HAND-1'
+- standard_id: DOC-10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule for README content (setup); the README gives the command lines.
+    Nothing missing in the changed text'
+- standard_id: DOC-11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule for README setup text (env vars). The tool needs no env vars'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (line count). plan.py is 291 lines, test_plan.py is 240; no
+    god-file growth (plan.py is net smaller in functions removed vs added)'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule, no matching change: the diff adds no new module boundary
+    or layer crossing'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (complexity). ruff C901 at max 15 passes on plan.py and test_plan.py'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (function length). The longest changed function, listing(),
+    is about 40 lines'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (nesting depth). No nesting deeper than 3 in the added lines'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (file length). plan.py is 291 lines, test_plan.py is 240'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (score). Same evidence as CODE-09: ruff C901 at max 15 passes'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule; no change in the added lines to point at'
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (line count). plan.py is 291 lines, test_plan.py is 240; no
+    god-file growth (plan.py is net smaller in functions removed vs added)'
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule, no matching change: the diff adds no new module boundary
+    or layer crossing'
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (complexity). ruff C901 at max 15 passes on plan.py and test_plan.py'
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (function length). The longest changed function, listing(),
+    is about 40 lines'
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (nesting depth). No nesting deeper than 3 in the added lines'
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (file length). plan.py is 291 lines, test_plan.py is 240'
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (score). Same evidence as CODE-09: ruff C901 at max 15 passes'
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule; no change in the added lines to point at'
+- standard_id: DOC-14
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (P4 README sections); the README is short on purpose'
+- standard_id: DOC-15
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (P4 troubleshooting section); the README says a bad plan file
+    is refused with exit 2'
+- standard_id: DOC-16
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  artifact_type: docs-planning
+  evidence: core/tools/plan/README.md
+  disposition: 'dismissed: a file-path checklist rule (P4 architecture section); out of scope for a small tool README'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4, a style prompt); nothing in the added lines to point
+    at'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4); nothing in the added lines to point at'
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4, a style prompt); nothing in the added lines to point
+    at'
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  artifact_type: runtime-code
+  evidence: core/tools/plan/test_plan.py
+  disposition: 'dismissed: a file-path checklist rule (P4); nothing in the added lines to point at'
+dismissed_other:
+- what: sk_live in two memory copies (issue 983 context/memory/standards/rules/pr.md:136 and grounding-memory/standards/rules/pr.md:136)
+  disposition: 'dismissed: the text is the ARCH-07 rule row of the taxonomy itself, not a key'
+- what: '''~/.phoenix/...'' in 983 resolved-rules.json (lines 3-4), pr-body.md, self-review.md, quality-findings.yaml
+    and the earlier pr.diff'
+  disposition: 'dismissed: the allowed ~ form of a home-folder path (#982), not an absolute home path'
+- what: ruff E731 x3 and B904 x2
+  disposition: 'dismissed: not on lines this PR added'
+dismissed_counts:
+  scanner_hits: 36
+  other: 3
+  catchall_CODE-20: 9

@@ -1,0 +1,97 @@
+# Layer 2 design-grounding, category plan-records (the seven plan files under .garura/project/plans/).
+# PR #985 (plan/717/base -> main), issue 717. Base ref: main. No playbook covers this category.
+category: plan-records
+playbook: null
+grounding_status: partly available
+grounding_note: >
+  Committed sources on main define the plan file's shape (ontology v13, kind Plan), its branch rule
+  (ADR 060, managing-work.md) and the node statuses (work-plan.md rule 19, plan-view.md). No committed
+  source on main defines a plan-level status of Paused or a plan-level direction. The only source for
+  those is the issue text of #983 (the agreed design, 2026-10-29), which is an issue, not a committed file.
+  The branch's own plan-view.md and the plan files' own comments were not used as grounding.
+
+principles:
+  - id: PR-1
+    principle: "A plan's Status property holds one of: active, done, dropped."
+    source: "main:core/components/memory/standards/schemas/product-os/ontology.md, kind Plan, Properties table (row Status); also main:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md line 62 (plan 722 is `status: active`) and main:core/components/plays/shape-plan/scripts/write_plan_file.py (writes `status: active`)"
+  - id: PR-2
+    principle: "A plan that pauses has no branch: `branch: null`, and no detour target."
+    source: "main:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (decision; lines 56, 131); main:.garura/user-provided/managing-work.md, 'A plan's branch: start, pause, start again'"
+  - id: PR-3
+    principle: "Each tree node shows the status its plan file gives it; no status is worked out from the nodes under it. Node statuses are six: Not Started, In Progress, Now, Blocked, Done, Dropped."
+    source: "main:core/components/memory/standards/templates/plan-view.md (The statuses; The tree); main:core/components/memory/standards/rules/work-plan.md rule 19"
+  - id: PR-4
+    principle: "The plan file and the tracker always agree; the plan file's Tree shows each work item with its tracker issue and its state."
+    source: "main:core/components/memory/standards/schemas/product-os/ontology.md, kind Plan, Rules ('Its plan file and the tracker always agree')"
+  - id: PR-5
+    principle: "Agreed design for the cards: Status is set by a person in the plan file (Not Started, In Progress, Paused, Done, Dropped); Direction is set by a person (1, 2, 3, or none); today's values are every plan Paused, #717 direction 1, #788 direction 2, the rest none."
+    source: "issue #983 text, 'Design agreed with the product owner, 2026-10-29' (sections Rules and Today's values). Not a committed file; used as the agreed design only."
+
+checks_run:
+  - check: every plan file parses as YAML
+    result: pass
+    how: "python3 yaml.safe_load on the seven files"
+  - check: status and direction values are ones the plan tool accepts
+    result: pass
+    how: "python3 core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md, exit 0, all seven plans printed; output saved at .garura/project/issues/717/context/memory/grounding-plan-records/plan-list-output.txt. Read-only, wrote nothing. Statuses read: Paused x7. Directions read: 717=1, 788=2, others empty."
+  - check: the values agree with the agreed design's 'Today's values' (PR-5)
+    result: pass
+    how: "606 empty, 717=1, 722 empty, 734 empty, 756 empty, 767 empty, 788=2; all Paused"
+  - check: "story 983 Done agrees with the merge of PR #984 and the 717 branch note (PR-4)"
+    result: pass
+    how: "git log: d2923fd1 'Merge pull request #984 from intent-driven-ai/plan/717/983-list-view-cards' is on this branch; 717.yaml story 983 is Done with the comment 'landed on plan/717/base with PR #984'; the branch note names #983"
+  - check: "paused plans carry branch null (PR-2)"
+    result: pass
+    how: "all seven files read `branch: null`"
+  - check: no plan roll-up (PR-3)
+    result: pass
+    how: "717's epic 956 stays Not Started while stories under it are Done; no status was derived"
+
+findings:
+  - id: PLAN-1
+    severity: P2
+    file: ".garura/project/plans/606.yaml, 717.yaml, 722.yaml, 734.yaml, 756.yaml, 767.yaml, 788.yaml (line `status: Paused`)"
+    what: >
+      All seven plan files now carry the plan status `Paused`. The committed definition of a plan's Status
+      on main is active, done or dropped, and the ontology is not in this PR's changed paths, so the model
+      and the files disagree after the merge: a reader of the ontology cannot know `Paused` exists, and the
+      plan-level `Now` property ("while active") still depends on `active`. The tool that writes new plan
+      files on main wrote `status: active`; the PR changes that script to write `Not Started`, which is a
+      third value outside the ontology's three. The vocabulary is changed in files, tool and template, but
+      the ontology (the committed standard for the kind) is not changed in the same PR.
+    basis: "PR-1 (ontology v13, kind Plan, Status row; ADR 060 line 62). The new vocabulary appears only in issue #983's text (PR-5), which is not a committed source. Per the plan-records category rubric, Paused is new in this PR, so this is a gap in the committed vocabulary."
+    suggestion: "Change the ontology's Plan Status (and the Now row) through /edit-ontology to the agreed vocabulary, or record the decision in an ADR, before or with this PR."
+  - id: PLAN-2
+    severity: P3
+    file: ".garura/project/plans/606.yaml, 717.yaml, 722.yaml, 734.yaml, 756.yaml, 767.yaml, 788.yaml (new `direction:` key)"
+    what: >
+      A new top-level `direction` key (1, 2, 3 or empty) is added to every plan file. The ontology's Plan
+      Properties table on main has no Direction property, and the Plan kind's rules do not mention it. The
+      key is set by a person and the tool reads it; nothing committed on main says what it means or who may
+      set it. Its only definition is issue #983's text.
+    basis: "PR-5 against PR-1/PR-4: the ontology (main) is the committed definition of what a plan holds; Direction is not in it. Grounding unavailable on main for this key."
+    suggestion: "Add Direction to the Plan kind's properties when PLAN-1 is fixed."
+  - id: PLAN-3
+    severity: P3
+    file: ".garura/project/plans/606.yaml, 717.yaml, 722.yaml, 734.yaml, 756.yaml, 767.yaml, 788.yaml (header comment line 2, unchanged)"
+    what: >
+      The header comment in every file still says `Status: Not Started | In Progress (...) | Now (...) | Done | Blocked | Dropped`. Read next to `status: Paused` on a later line, it reads as the list of values for the file's `status:` key, and Paused is not in it. It is the node vocabulary only. The header says nothing about the plan-level Paused or about `direction`. Each file contradicts its own header.
+    basis: "PR-3 (work-plan.md rule 19 and plan-view.md: six node statuses) is correct for nodes; the header does not separate node status from plan status. The category's own by-hand check asked that the header list the vocabulary the file uses."
+    suggestion: "Reword the header in each file to say 'Node status: ...; plan status: ...; direction: ...', or drop the list and point to the plan-view template."
+  - id: PLAN-4
+    severity: P4
+    file: ".garura/project/plans/734.yaml (line 6)"
+    what: >
+      The reason that sat on the status line (`more work to file under Epic #958`) moved to a stand-alone comment line between `direction:` and `started:`. It no longer attaches to a key, and it explained why the plan was `active`; with `Paused` it reads as a stray note. The same-day product-owner wording is kept, so no information is lost.
+    basis: "PR-4 (the plan file stays readable as the record of where the work stands); nit only."
+    suggestion: "Put the note on the `epic:` line or under `status:`."
+
+notes:
+  - "The list output prints `Branch plan/717/base` for #717 although 717.yaml says `branch: null` (PR-2). plan.py falls back to the plan/<id>/base branch when git has it, and the review runs on that very branch. After the merge deletes the branch the card prints `main`, as the agreed design shows. Not a finding on the file."
+  - "The PR keeps the one-sided pause rule of ADR 060 intact: no plan keeps a branch, 717's own note says a new one is cut when the work starts again."
+  - "A playbook for this category is still missing (suggested id review/plan-records). Follow-up recorded in categories.yaml."
+counts:
+  P1: 0
+  P2: 1
+  P3: 2
+  P4: 1
