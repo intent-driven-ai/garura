@@ -141,6 +141,18 @@ class PlanToolTest(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertIn("'next'", err)
 
+    def test_a_plan_or_node_with_a_missing_field_is_refused_with_the_file_named(self):
+        with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
+            fh.write("id: 9\nstatus: active\ntree: []\n")
+        code, _, err = run("list", *self.base)
+        self.assertEqual(code, 2)
+        self.assertIn("9.yaml has no title", err)
+        with open(os.path.join(self.dir, "9.yaml"), "w", encoding="utf-8") as fh:
+            fh.write("id: 9\ntitle: x\ntree:\n- issue: 31\n  kind: epic\n  status: Done\n")
+        code, _, err = run("show", *self.base, "--plan", "9")
+        self.assertEqual(code, 2)
+        self.assertIn("has no title", err)
+
     def test_a_template_with_no_settings_block_is_refused(self):
         bad = os.path.join(self.dir, "bad.md")
         with open(bad, "w", encoding="utf-8") as fh:

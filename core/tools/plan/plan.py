@@ -16,8 +16,8 @@ fenced block that opens with ```yaml plan-view. A change to how a view looks is 
 never here.
 
 Output goes to stdout. Exit: 0 = printed, 1 = the plan asked for does not exist, 2 = bad input
-(a template with no settings block, a plan file that cannot be read, a status the template
-does not know).
+(a template with no settings block, a plan file that cannot be read, a plan with no title, a
+node with no issue, title or status, a status the template does not know).
 """
 
 import argparse
@@ -73,7 +73,12 @@ def load_plans(plans_dir, template):
         if not isinstance(plan, dict):
             raise BadInput(f"{path} is not a mapping")
         plan.setdefault("id", plan_id(path))
+        if not plan.get("title"):
+            raise BadInput(f"{path} has no title")
         for node in walk(plan.get("tree")):
+            missing = [k for k in ("issue", "title", "status") if not node.get(k)]
+            if missing:
+                raise BadInput(f"{path}: a node ({node.get('issue', 'no issue')}) has no {', '.join(missing)}")
             if node.get("status") not in template["by_name"]:
                 raise BadInput(f"{path}: #{node.get('issue')} has the status {node.get('status')!r}, "
                                f"which the template does not know")
