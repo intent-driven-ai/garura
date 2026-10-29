@@ -1,36 +1,40 @@
- M .garura/install-manifest.json
- M .garura/product/product-os/_spine.yaml
- M .garura/product/product-os/features/fn-628/feature.md
- M .garura/product/product-os/features/fn-729/feature.md
- M .garura/product/product-os/features/fn-806/feature.md
  M .garura/project/issues/717/context/memory/grounding-harness/manifest.json
- D .garura/project/issues/717/context/memory/grounding-harness/standards/rules/commits.md
- D .garura/project/issues/717/context/memory/grounding-harness/standards/rules/gate-config.md
- D .garura/project/issues/717/context/memory/grounding-harness/standards/rules/git.md
  M .garura/project/issues/717/context/memory/grounding-memory/manifest.json
  M .garura/project/issues/717/context/porcelain.txt
- M .garura/project/issues/717/review/context.yaml
- M .garura/project/issues/717/review/pr.diff
- M core/components/skills/link-model-part/scripts/link_part.py
- M core/components/skills/link-model-part/scripts/test_link_part.py
- M core/tools/plan/plan.py
- M core/tools/plan/test_plan.py
-?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/concurrent-fanout.md
-?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/direct-model-write.md
-?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/no-unbacked-recommendation.md
-?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/pipeline-next.md
-?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/surface-contract.md
-?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/user-facing-voice.md
-?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/work-plan.md
-?? .garura/project/issues/717/context/memory/grounding-memory/knowledge/
-?? .garura/project/issues/717/context/memory/grounding-memory/standards/rules/_index.md
-?? .garura/project/issues/717/context/memory/grounding-memory/standards/rules/direct-model-write.md
-?? .garura/project/issues/717/context/memory/grounding-memory/standards/rules/pipeline-next.md
-?? .garura/project/issues/717/context/memory/grounding-memory/standards/rules/work-plan.md
-?? .garura/project/issues/717/context/memory/grounding-memory/standards/schemas/
-?? .garura/project/issues/717/context/memory/grounding-memory/standards/templates/
-?? .garura/project/issues/717/context/remark-thin-report.json
-?? .garura/project/issues/717/context/remark-thin.json
+ M .garura/project/issues/717/context/resolved-rules.json
+ M .garura/project/issues/717/review/pr-950/layer1.yaml
+ M .garura/project/issues/717/review/pr-950/pr.diff
+ M .garura/project/issues/717/review/pr-950/round1/pr.diff
+R  .garura/project/issues/717/review/categories.yaml -> .garura/project/issues/717/review/run-1/categories.yaml
+R  .garura/project/issues/717/review/context.yaml -> .garura/project/issues/717/review/run-1/context.yaml
+R  .garura/project/issues/717/review/design-findings-harness.yaml -> .garura/project/issues/717/review/run-1/design-findings-harness.yaml
+RM .garura/project/issues/717/review/design-findings-memory.yaml -> .garura/project/issues/717/review/run-1/design-findings-memory.yaml
+R  .garura/project/issues/717/review/lint-play.txt -> .garura/project/issues/717/review/run-1/lint-play.txt
+RM .garura/project/issues/717/review/pr.diff -> .garura/project/issues/717/review/run-1/pr.diff
+RM .garura/project/issues/717/review/quality-findings.yaml -> .garura/project/issues/717/review/run-1/quality-findings.yaml
+ M .garura/project/issues/719/context/model-update/intent-report.json
+ M .garura/project/issues/719/context/model-update/intent-request.json
+ M .garura/project/issues/719/context/model-update/issue-628.md
+ M .garura/project/issues/719/context/model-update/issue-729.md
+ M .garura/project/issues/719/context/pr-body.md
+ M .garura/project/issues/719/context/resolved-rules.json
+ M .garura/project/issues/719/context/self-review.md
+ M .garura/project/issues/719/context/templates/manifest-close-start-change.json
+ M .garura/project/issues/719/review/lint-components.json
+ M .garura/project/issues/719/review/pr.diff
+ M .garura/project/issues/719/review/run-1/lint-components.json
+ M .garura/project/issues/719/review/run-1/pr.diff
+?? .garura/project/issues/717/context/home-path-defect.md
+?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/run-status.md
+?? .garura/project/issues/717/context/memory/grounding-harness/standards/rules/self-review.md
+?? .garura/project/issues/717/context/memory/grounding-memory/standards/templates/adr.md
+?? .garura/project/issues/717/context/memory/grounding-product-model/
+?? .garura/project/issues/717/review/categories.yaml
+?? .garura/project/issues/717/review/context.yaml
 ?? .garura/project/issues/717/review/design-findings-harness.yaml
 ?? .garura/project/issues/717/review/design-findings-memory.yaml
+?? .garura/project/issues/717/review/design-findings-product-model.yaml
+?? .garura/project/issues/717/review/lint-components.json
+?? .garura/project/issues/717/review/lint-play.txt
+?? .garura/project/issues/717/review/pr.diff
 ?? .garura/project/issues/717/review/quality-findings.yaml

@@ -1,865 +1,296 @@
 pr: 981
 issue: 717
-generated_at: '2026-10-29T14:10:07Z'
+base: main
+generated_by: quality-auditor via check-pr-quality
 inputs:
   diff: .garura/project/issues/717/review/pr.diff
+  changed_paths: 225
   categories: .garura/project/issues/717/review/categories.yaml
-  severity_taxonomy_path: .garura/project/issues/717/context/memory/standards/rules/pr.md
-  changed_paths: 190
+  severity_taxonomy: .garura/project/issues/717/context/memory/standards/rules/pr.md
+  standards_order:
+  - .garura/project/issues/717/context/memory/standards/rules/pr.md
+  standards_note: No quality-standards (knowledge/quality) copy exists in short-term memory for this issue; the taxonomy copy is the only standards
+    source.
 scan:
-  tool: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
+  script: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py
   exit: 0
   errors: 0
-  changed_paths_count: 190
   scan_coverage: 1.0
-  standards_relevant: 25
-  catchall_CODE_20: 51
   raw_counts:
     P1: 3
     P2: 10
-    P3: 23
+    P3: 24
     P4: 16
-  coverage_note: The taxonomy sorts core/components/** as garura-prose, so its keyword rules did not run on the 17 changed
-    Python scripts and 3 test files under core/components. Only core/tools/plan/** was scanned as runtime code. ruff and hand
-    reading covered the rest.
+  catchall_CODE_20: 57
+  note: 'Raw scanner output: P1=3 P2=10 P3=24 P4=16. The scanner only reaches core/tools/plan/** (plan.py, test_plan.py, README.md): everything
+    under core/components/** is classed garura-prose, .garura/product/** productos-model and .garura/project/** stm-evidence, and the taxonomy
+    gives those no code findings. 5 of the raw findings are text matches that are not defects and 37 are path rules that say a rule applies to
+    a file with nothing measured; both groups are listed below and left out of the counts.'
+  text_matches_not_counted:
+  - standard_id: DATA-18
+    severity: P1
+    file: core/tools/plan/test_plan.py
+    line: 26
+    evidence: password
+    why_not_counted: '''password'' is the title of a made-up story in a test fixture (''A person resets a lost password'')'
+  - standard_id: DATA-18
+    severity: P1
+    file: core/tools/plan/test_plan.py
+    line: 194
+    evidence: email
+    why_not_counted: '''user.email=t@t'' is a throwaway git identity for a temporary test repository'
+  - standard_id: DATA-18
+    severity: P1
+    file: core/tools/plan/test_plan.py
+    line: 196
+    evidence: email
+    why_not_counted: '''user.email=t@t'' is a throwaway git identity for a temporary test repository'
+  - standard_id: DATA-17
+    severity: P2
+    file: core/tools/plan/test_plan.py
+    line: 194
+    evidence: email
+    why_not_counted: same throwaway git identity
+  - standard_id: DATA-17
+    severity: P2
+    file: core/tools/plan/test_plan.py
+    line: 196
+    evidence: email
+    why_not_counted: same throwaway git identity
+  - standard_id: CODE-25
+    severity: P3
+    file: core/tools/plan/plan.py
+    line: 46
+    evidence: 'except '
+    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
+  - standard_id: CODE-25
+    severity: P3
+    file: core/tools/plan/plan.py
+    line: 73
+    evidence: 'except '
+    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
+  - standard_id: CODE-25
+    severity: P3
+    file: core/tools/plan/plan.py
+    line: 193
+    evidence: 'except '
+    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
+  - standard_id: CODE-25
+    severity: P3
+    file: core/tools/plan/plan.py
+    line: 270
+    evidence: 'except '
+    why_not_counted: narrow handlers (OSError / yaml error / timeout) that turn into a named error message, not a swallowed failure
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/plan.py
+    line: 15
+    evidence: lock
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/plan.py
+    line: 19
+    evidence: lock
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/plan.py
+    line: 35
+    evidence: LOCK
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/plan.py
+    line: 48
+    evidence: LOCK
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/plan.py
+    line: 50
+    evidence: lock
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/test_plan.py
+    line: 44
+    evidence: Lock
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/test_plan.py
+    line: 71
+    evidence: lock
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/test_plan.py
+    line: 123
+    evidence: lock
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  - standard_id: BE-23
+    severity: P4
+    file: core/tools/plan/test_plan.py
+    line: 183
+    evidence: lock
+    why_not_counted: the word 'lock' in comments, a template field or a test name; P4 nit rule, no concurrency code
+  path_rules_applicable_not_measured:
+    rows_per_file:
+      core/tools/plan/plan.py:
+      - ARCH-02(P2)
+      - CODE-03(P2)
+      - CODE-04(P2)
+      - CODE-14(P2)
+      - ARCH-03(P3)
+      - ARCH-08(P3)
+      - CODE-09(P3)
+      - CODE-10(P3)
+      - CODE-11(P3)
+      - CODE-12(P3)
+      - CODE-15(P3)
+      - CODE-17(P3)
+      - CODE-13(P4)
+      - CODE-19(P4)
+      core/tools/plan/test_plan.py:
+      - ARCH-02(P2)
+      - CODE-03(P2)
+      - CODE-04(P2)
+      - CODE-14(P2)
+      - ARCH-03(P3)
+      - ARCH-08(P3)
+      - CODE-09(P3)
+      - CODE-10(P3)
+      - CODE-11(P3)
+      - CODE-12(P3)
+      - CODE-15(P3)
+      - CODE-17(P3)
+      - CODE-13(P4)
+      - CODE-19(P4)
+      core/tools/plan/README.md:
+      - DOC-01(P3)
+      - DOC-09(P3)
+      - DOC-10(P3)
+      - DOC-11(P3)
+      - DOC-14(P4)
+      - DOC-15(P4)
+      - DOC-16(P4)
+    reason: 'ARCH-02/03/08, CODE-03/04/09-15/17/19, DOC-01/09/10/11/14-16 are path-only rows: they name a check (lint, format, cycles, complexity,
+      line count) that no committed tool runs here. No ruff or other language linter is committed, so the check is recorded ''no language linter
+      committed'', not a pass. Where this check measured something real (function size, complexity, README content) it is a numbered finding Q-01
+      to Q-08.'
 runnable:
-  unit_tests:
-  - suite: core/tools/plan/test_plan.py
-    command: python3 -m unittest discover -s core/tools/plan -p 'test_plan.py'
+  test_suites:
+  - name: plan tool
+    command: python3 -m unittest test_plan (from core/tools/plan)
     result: PASS
-    ran: 12
-    failed: 0
-    skipped: 0
-    note: RepoPlansTest ran against the live plan files (not skipped).
-  - suite: core/components/skills/link-model-part/scripts/test_link_part.py
-    command: python3 -m unittest discover -s core/components/skills/link-model-part/scripts -p 'test_link_part.py'
+    detail: 15 tests, OK, none skipped
+  - name: link-model-part
+    command: python3 -m unittest test_link_part (from core/components/skills/link-model-part/scripts)
     result: PASS
-    ran: 15
-    failed: 0
-    skipped: 0
-  - suite: core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
-    command: python3 -m unittest discover -s core/components/plays/shape-slice/scripts -p 'test_shape_slice_scripts.py'
-    result: NO TESTS RAN (exit 5) under the named command
-    ran: 0
-    note: 'Script-style suite. Run as python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py: 129 passed,
-      0 failed, exit 0. See finding QF-012.'
-  - suite: core/components/plays/install-garura/scripts/test_install.py
-    command: python3 -m unittest discover -s core/components/plays/install-garura/scripts -p 'test_install.py'
+    detail: 17 tests, OK
+  - name: shape-slice scripts
+    command: python3 core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
     result: PASS
-    ran: 75
-    failed: 0
-    skipped: 0
-    note: about 129 seconds
-  ruff:
-    version: 0.15.20
-    changed_py_files_checked: 18
-    test_files_checked: 4
-    errors: 4
-    detail: check_list.py:33 E731, check_list.py:110 E731, test_plan.py:165 E731, test_link_part.py:8 F401. All other changed
-      Python files are clean.
-  lint_components:
-    command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
-    exit: 1
-    errors: 36
-    warnings: 1
-    in_changed_paths: 0
-    note: 'All 37 are in files this PR does not change (there before): 22 missing-section, 8 missing-frontmatter-field, 6
-      missing-standard-play-close, 1 spelling-inconsistency. No finding.'
-  lint_play:
-  - play: list-plans
-    verdict: PASS
-    gaps: 0
-  - play: show-plan
-    verdict: PASS
-    gaps: 0
-  plan_tool:
-    list:
-      exit: 0
-    show:
-      606:
-        exit: 0
-      717:
-        exit: 0
-      722:
-        exit: 0
-      734:
-        exit: 0
-      756:
-        exit: 0
-      767:
-        exit: 0
-      788:
-        exit: 0
-  plan_files:
-    all_seven_parse: true
-    nodes_dropped: none; 915 moved from plan 717 to 606 (matches commit 4f4b9ac2), 979 added to plan 722
-    title_changed: '717: node 628 title reworded'
-    header_status_list_matches_six_words: true
+    detail: 129 passed, 0 failed
+  - name: install-garura
+    command: python3 core/components/plays/install-garura/scripts/test_install.py
+    result: PASS
+    detail: 75 tests, OK (124 s). One ResourceWarning at install.py:493 (an unclosed file); that line is not in this diff.
+  plan_file_status_check:
+    result: PASS
+    command: 'per plan file: parse YAML, check every node status against the six names, id equals file name; then plan.py --template core/components/memory/standards/templates/plan-view.md
+      --plans-dir .garura/project/plans --plan <id> show'
+    detail: '606, 717, 722, 734, 756, 767, 788: all parse, id equals file name, every node status is one of Not Started, In Progress, Now, Done,
+      Blocked, Dropped (nodes counted: 87, 23, 13, 44, 18, 2, 36); plan tool show exits 0 for each. The only other ''status'' key is each file''s
+      top-level ''status: active'' (the plan''s own state, not a node). Used the source template copy; the installed tool at .garura/core/tools/plan
+      has no template of its own.'
+  language_linter:
+    result: not run
+    detail: no language linter committed at the repository root (no ruff.toml, .ruff.toml, pyproject.toml); not a pass
+  syntax:
+    result: PASS
+    detail: all 22 changed .py files parse (ast).
   config_maps:
-    paths_exist:
-      .claude/skills/link-model-part: true
-      .claude/skills/list-plans: true
-      .claude/skills/show-plan: true
-      .garura/core/tools/plan: true
-    counts: skills 27, plays 19, agents 10 match the kinds map (27+19+10) and the component list (58 = 56 parts + .gitignore
-      + _shared)
-    new_kinds_entries: present for link-model-part, list-plans, show-plan
-    retired_list: emptied; it is the per-install record of parts removed by the last install, so empty is normal
-  run_records:
-    json_yaml_parsed: 82
-    unparseable: 2
-    secret_pattern_hits: 0
+    result: PASS
+    detail: 'install-manifest.json: 58 listed components all exist in the checkout; kinds count agent 10, skill 27, play 19 equals counts; the
+      three added skill paths and .garura/core/tools/plan exist. Named change for the human: the ''retired'' list went from 26 entries to empty
+      (the install writes this list afresh each run, so an empty list means this reinstall retired nothing); the Phoenix memory version moved
+      from dfdafe6104e6 to d68154ae75e9.'
+  documentation:
+    result: PASS with finding Q-04
+    detail: README commands (list, show, graph, --template, --plans-dir, --plan, --repo) match plan.py's argument parser; unittest line matches
+      test_plan.py; /list-plans --graph exists in list-plans resolve_args.py; the installed tool folder holds README.md and plan.py without tests,
+      as the README says. No TODO text, no broken link.
+  memory_by_hand:
+    result: PASS
+    detail: templates/_index.md line 21 lists plan-view.md; pipeline-next.md lines 75 and 76 give list-plans and show-plan, and both plays exist
+      under core/components/plays.
+  run_evidence_scan:
+    result: PASS with finding Q-08
+    detail: 'added lines of the issue folders searched for keys, tokens, private-key blocks, bearer strings and password assignments: none. The
+      only hits are the taxonomy text itself and earlier reviews quoting the words password and email.'
 findings:
-- id: QF-001
-  severity: P2
-  file: core/tools/plan/plan.py
-  line: 176
-  what: '''plan.py list'' and ''plan.py graph'' stop with a Python traceback (FileNotFoundError, exit 1) when git is not on
-    the PATH or --repo is not a folder. list calls git for every plan with no ''branch'' field (plan_branch line 171 -> ref_of
-    line 176). The module promises exit 0/1/2 (lines 18-20) and the check named ''no git on the machine'' fails. Reproduced
-    with PATH=/nonexistent and with --repo /nonexistent. No test covers it.'
-  basis: 'executable_code runnable check: error handling on git failures (pr.md P2: error-handling violations)'
-  source: check
-- id: QF-002
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 79
-  what: 'A plan file whose tree holds something other than a mapping (for example a plain string node) ends in AttributeError
-    traceback instead of the exit-2 message the module promises for bad input (reproduced: tree: [''just a string'']). walk()
-    line 89-92 and load_plans line 78-81 assume mappings.'
-  basis: 'executable_code runnable check: error handling on file failures'
-  source: check
-- id: QF-003
+- id: Q-01
   severity: P3
   file: core/components/skills/link-model-part/scripts/link_part.py
-  line: 148
-  what: 'A malformed request (a part that is a string, or a ''doc'' that is a number) ends in AttributeError traceback (exit
-    1) instead of ''refused, nothing written'' (exit 2) as the docstring lines 43-48 promise. Reproduced with {''parts'':[''fn-1'']}
-    and doc: 5. Nothing is written in these cases (the failure comes before the first write), so no data is lost. main() catches
-    only Refused, OSError, ValueError, JSONDecodeError, YAMLError (line 247).'
-  basis: 'executable_code runnable check: error handling; write path for the product model'
-  source: check
-- id: QF-004
-  severity: P4
-  file: core/components/skills/link-model-part/scripts/link_part.py
-  line: 221
-  what: 'write_all rolls back only on OSError, and the rollback itself (lines 222-226) is not guarded: a second failure while
-    putting a file back replaces the first error and leaves the spine and pages out of step. After the spine and pages are
-    written, the report write (line 260) is unguarded: if it fails the model is changed but the run ends in a traceback.'
-  basis: 'executable_code runnable check: data-safety and idempotency paths (link_part.py)'
-  source: check
-- id: QF-005
-  severity: P4
-  file: core/components/skills/link-model-part/scripts/safe_write.py
-  line: 24
-  what: _mode_for reads the umask by setting it to 0 and putting it back (lines 24-25). In a process with other threads this
-    opens a short window where new files get no umask. Same code in core/components/plays/shape-slice/scripts/safe_write.py
-    line 24. These scripts are single-threaded, so no harm today.
-  basis: 'executable_code runnable check: data-safety paths (safe_write.py, both copies)'
-  source: check
-- id: QF-006
-  severity: P2
-  file: core/components/plays/list-plans/scripts/check_list.py
-  line: 33
-  what: 'ruff E731: a lambda assigned to a name (also line 110, ''in_plan_order'').'
-  basis: CODE-03 (lint errors are P2); ruff 0.15.20 default rules
-  source: check
-- id: QF-007
-  severity: P2
-  file: core/components/plays/list-plans/scripts/check_list.py
-  line: 110
-  what: 'ruff E731: a lambda assigned to a name (''in_plan_order'').'
-  basis: CODE-03 (lint errors are P2); ruff 0.15.20 default rules
-  source: check
-- id: QF-008
-  severity: P2
-  file: core/tools/plan/test_plan.py
-  line: 165
-  what: 'ruff E731: a lambda assigned to a name (''git'' in the graph test).'
-  basis: CODE-03 (lint errors are P2); ruff 0.15.20 default rules
-  source: check
-- id: QF-009
-  severity: P2
-  file: core/components/skills/link-model-part/scripts/test_link_part.py
-  line: 8
-  what: 'ruff F401: ''textwrap'' imported but unused (fixable with ruff --fix).'
-  basis: CODE-03 (lint errors are P2); ruff 0.15.20 default rules
-  source: check
-- id: QF-010
+  line: 139
+  what: plan() is one function of 77 lines with about 43 branch points; it carries the whole decision of which model files change, in a script
+    that writes the product model. Hard to test branch by branch and to review.
+  basis: CODE-09 (P3, function complexity), measured with a syntax-tree count; the scanner did not fire it because core/components/** is classed
+    garura-prose
+- id: Q-02
   severity: P3
-  file: core/tools/plan/plan.py
-  line: 11
-  what: Docs say 'list' reads only the plan files and prints the same way every time (plan.py lines 11-12 and README.md lines
-    3-4), and that git is used for 'graph'. But 'list' also asks git for each plan's branch (plan_branch, lines 166-171),
-    so a list changes when a branch is made or removed, and it fails without git (see the line-176 finding). Either the text
-    or the code should change.
-  basis: 'docs runnable check: every claim the README and docstring make resolves against the code'
-  source: check
-- id: QF-011
-  severity: P4
+  file: core/components/plays/show-plan/scripts/check_tree.py
+  line: 72
+  what: 'check() is 68 lines with about 33 branch points: it runs every stop-condition check in one function.'
+  basis: CODE-09 (P3), measured; scanner prose guard (core/components/** = garura-prose)
+- id: Q-03
+  severity: P3
+  file: core/components/plays/list-plans/scripts/check_list.py
+  line: 53
+  what: 'check() is 73 lines with about 31 branch points: it runs every stop-condition check in one function.'
+  basis: CODE-09 (P3), measured; scanner prose guard (core/components/** = garura-prose)
+- id: Q-04
+  severity: P3
   file: core/tools/plan/README.md
-  line: 26
-  what: 'README says ''Tests: python3 -m unittest test_plan from this folder'', but an install lays the tool without its tests
-    (README line 22-23 says so; .garura/core/tools/plan holds only README.md and plan.py). In the installed copy the line
-    points at a file that is not there.'
-  basis: 'docs runnable check: every command and path resolves'
-  source: check
-- id: QF-012
-  severity: P3
-  file: core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
-  line: 950
-  what: 'The suite is a script with its own runner (main, line 950), not unittest cases. The command the categories name,
-    ''python3 -m unittest discover -s ... -p test_shape_slice_scripts.py'', finds 0 tests and exits 5 (NO TESTS RAN). Run
-    as a script it passes: 129 passed, 0 failed (including the 5 new safe_write checks). A pipeline that trusts unittest discover
-    would run none of these checks.'
-  basis: 'tests runnable check: run the suite; say when a suite was not run'
-  source: check
-- id: QF-013
+  line: 1
+  what: The README never says plan.py needs the PyYAML package (plan.py imports yaml) or which Python version runs it, and does not list exit
+    codes 0 and 1 (only exit 2 is named). A person setting the tool up on a bare machine finds neither.
+  basis: DOC-11 (P3, README setup instructions); content checked by hand against plan.py lines 1-30 and 36-37
+- id: Q-05
   severity: P4
-  file: core/components/plays/list-plans/scripts/check_list.py
-  line: 54
-  what: Checker exits through a bare SystemExit(2) with no message when the template has no plan-view block (line 54); files
-    opened without a close at lines 65-66 (and check_tree.py lines 82-83). The show-plan checker prints a message for the
-    same case.
-  basis: 'executable_code runnable check: error handling on file failures'
-  source: check
-- id: QF-014
-  severity: P3
-  file: .garura/project/issues/717/review/pr-950/layer1.yaml
-  line: 5
-  what: The file does not parse as YAML ('mapping values are not allowed here', line 5, column 12). Same for .garura/project/issues/717/review/pr-950/round1/layer1.yaml.
-    82 other changed .json/.yaml files parse. Only parsed; the contents were not used as input.
-  basis: 'run_records runnable check: every changed .yaml parses'
-  source: check
-- id: QF-015
+  file: core/tools/plan/test_plan.py
+  line: 207
+  what: RepoPlansTest skips itself (self.skipTest) when the repository has no plans folder, and otherwise reads the repository's live plan files,
+    so the test result changes when someone edits a plan. It ran, not skipped, in this check.
+  basis: TEST-* family (skipped or disabled test); no matching taxonomy row is mechanical, assessor note
+- id: Q-06
+  severity: P4
+  file: core/components/plays/list-plans/scripts/session_stamp.py
+  line: 49
+  what: Two bare 'except Exception' blocks (lines 49 and 93) turn any failure into None or a default marker with no message, so a broken ledger
+    or marker file is silently treated as absent. The same file is copied to show-plan.
+  basis: CODE-25 (P3 as a grep row; held at P4 here because it is a stamp for evidence, not a data write); scanner prose guard
+- id: Q-07
+  severity: P4
+  file: core/components/plays/show-plan/scripts/session_stamp.py
+  line: 1
+  what: Four scripts are byte-for-byte copies across list-plans and show-plan (session_stamp.py, preflight.py, check_stop_condition.py), and safe_write.py
+    is a byte-for-byte copy in link-model-part and shape-slice. A fix to one copy must be made in all. This may be deliberate (installed plays
+    stay self-contained); noted, not judged wrong.
+  basis: 'Duplication; no mechanical taxonomy row. Checked with diff: identical'
+- id: Q-08
   severity: P4
   file: .garura/project/issues/719/review/lint-components.json
   line: 1
-  what: 'Committed run records carry local home-folder paths with the owner''s user name (about 282 added lines hold /Users/kapilahuja/...:
-    both lint-components.json files in issue 719 review, resolved-rules.json of issues 717 and 719, manifest-close-start-change.json,
-    the issue-719 pr.diff copies, pr-body.md). No tokens, keys, email addresses or client names were found by pattern search
-    over the added lines of the diff.'
-  basis: 'run_records runnable check: no secrets, tokens, real names or client data in the records'
-  source: check
-- id: QF-016
-  severity: P4
-  file: .garura/project/plans/606.yaml
-  line: 2
-  what: 'The old status ''later'' (606: 2 nodes; 788: 3 nodes) now reads ''Not Started'' with no other marker, so ''parked
-    for later'' is no longer told apart from ''next up''. No node was dropped and no issue number changed (checked against
-    main for all 7 plan files: only 915 moved from plan 717 to 606, and 979 was added to plan 722). Also the header comment
-    names the future play ''update-plan (#730)'' in 606, 734, 756, 767, 788 but ''manage-plan (#730)'' in 717.yaml and 722.yaml
-    line 2.'
-  basis: 'plan_files runnable check: header status list; nodes kept; diff is status words and node updates only'
-  source: check
-- id: QF-017
-  severity: P1
-  file: core/tools/plan/test_plan.py
-  line: 26
-  what: Taxonomy P1 keyword rule matched (sensitive-data word) ('password')
-  basis: DATA-18
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''password'' is in a test fixture (a plan title about a lost password, or the ''user.email''
-    of a throwaway test repo). No personal data is stored or handled.'
-- id: QF-018
-  severity: P1
-  file: core/tools/plan/test_plan.py
-  line: 167
-  what: Taxonomy P1 keyword rule matched (sensitive-data word) ('email')
-  basis: DATA-18
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''email'' is in a test fixture (a plan title about a lost password, or the ''user.email''
-    of a throwaway test repo). No personal data is stored or handled.'
-- id: QF-019
-  severity: P1
-  file: core/tools/plan/test_plan.py
-  line: 169
-  what: Taxonomy P1 keyword rule matched (sensitive-data word) ('email')
-  basis: DATA-18
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''email'' is in a test fixture (a plan title about a lost password, or the ''user.email''
-    of a throwaway test repo). No personal data is stored or handled.'
-- id: QF-020
-  severity: P2
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: ARCH-02
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-021
-  severity: P2
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-03
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-022
-  severity: P2
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-04
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-023
-  severity: P2
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-14
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-024
-  severity: P2
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: ARCH-02
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-025
-  severity: P2
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-03
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-026
-  severity: P2
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-04
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-027
-  severity: P2
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-14
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-028
-  severity: P2
-  file: core/tools/plan/test_plan.py
-  line: 167
-  what: Taxonomy P2 keyword rule matched (personal-data word) ('email')
-  basis: DATA-17
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''email'' is in a test fixture (a plan title about a lost password, or the ''user.email''
-    of a throwaway test repo). No personal data is stored or handled.'
-- id: QF-029
-  severity: P2
-  file: core/tools/plan/test_plan.py
-  line: 169
-  what: Taxonomy P2 keyword rule matched (personal-data word) ('email')
-  basis: DATA-17
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''email'' is in a test fixture (a plan title about a lost password, or the ''user.email''
-    of a throwaway test repo). No personal data is stored or handled.'
-- id: QF-030
-  severity: P3
-  file: core/tools/plan/README.md
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: DOC-01
-  source: scan_taxonomy
-  artifact_type: docs-planning
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-031
-  severity: P3
-  file: core/tools/plan/README.md
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: DOC-09
-  source: scan_taxonomy
-  artifact_type: docs-planning
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-032
-  severity: P3
-  file: core/tools/plan/README.md
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: DOC-10
-  source: scan_taxonomy
-  artifact_type: docs-planning
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-033
-  severity: P3
-  file: core/tools/plan/README.md
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: DOC-11
-  source: scan_taxonomy
-  artifact_type: docs-planning
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-034
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: ARCH-03
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-035
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: ARCH-08
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-036
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-09
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-037
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-10
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-038
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-11
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-039
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-12
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-040
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-15
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-041
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-17
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-042
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 44
-  what: Taxonomy P3 keyword rule matched (catch/except) ('except ')
-  basis: CODE-25
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Reviewed: a narrow except (OSError, yaml.YAMLError or BadInput) that re-raises or returns a message. Not
-    a swallowed error.'
-- id: QF-043
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 71
-  what: Taxonomy P3 keyword rule matched (catch/except) ('except ')
-  basis: CODE-25
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Reviewed: a narrow except (OSError, yaml.YAMLError or BadInput) that re-raises or returns a message. Not
-    a swallowed error.'
-- id: QF-044
-  severity: P3
-  file: core/tools/plan/plan.py
-  line: 247
-  what: Taxonomy P3 keyword rule matched (catch/except) ('except ')
-  basis: CODE-25
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Reviewed: a narrow except (OSError, yaml.YAMLError or BadInput) that re-raises or returns a message. Not
-    a swallowed error.'
-- id: QF-045
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: ARCH-03
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-046
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: ARCH-08
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-047
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-09
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-048
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-10
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-049
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-11
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-050
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-12
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-051
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-15
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-052
-  severity: P3
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-17
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-053
-  severity: P4
-  file: core/tools/plan/README.md
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: DOC-14
-  source: scan_taxonomy
-  artifact_type: docs-planning
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-054
-  severity: P4
-  file: core/tools/plan/README.md
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: DOC-15
-  source: scan_taxonomy
-  artifact_type: docs-planning
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-055
-  severity: P4
-  file: core/tools/plan/README.md
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: DOC-16
-  source: scan_taxonomy
-  artifact_type: docs-planning
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-056
-  severity: P4
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-13
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-057
-  severity: P4
-  file: core/tools/plan/plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-19
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-058
-  severity: P4
-  file: core/tools/plan/plan.py
-  line: 15
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('lock')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-059
-  severity: P4
-  file: core/tools/plan/plan.py
-  line: 19
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('lock')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-060
-  severity: P4
-  file: core/tools/plan/plan.py
-  line: 33
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('LOCK')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-061
-  severity: P4
-  file: core/tools/plan/plan.py
-  line: 46
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('LOCK')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-062
-  severity: P4
-  file: core/tools/plan/plan.py
-  line: 48
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('lock')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-063
-  severity: P4
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-13
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-064
-  severity: P4
-  file: core/tools/plan/test_plan.py
-  line: 1
-  what: Taxonomy path rule matched this file
-  basis: CODE-19
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Path rule: fires on every file of this type and names no line. Answered where it can be: CODE-03/CODE-04
-    by the ruff run (see runnable.ruff); size and complexity rules were not measured by a tool here (no committed complexity
-    tool).'
-- id: QF-065
-  severity: P4
-  file: core/tools/plan/test_plan.py
-  line: 44
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('Lock')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-066
-  severity: P4
-  file: core/tools/plan/test_plan.py
-  line: 71
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('lock')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-067
-  severity: P4
-  file: core/tools/plan/test_plan.py
-  line: 123
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('lock')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
-- id: QF-068
-  severity: P4
-  file: core/tools/plan/test_plan.py
-  line: 156
-  what: Taxonomy P4 keyword rule matched (stampede|mutex|lock) ('lock')
-  basis: BE-23
-  source: scan_taxonomy
-  artifact_type: runtime-code
-  likely_noise: true
-  reviewer_note: 'Keyword match only: ''lock'' is inside the word ''block'' (the plan-view block), not a lock or mutex.'
+  what: Committed run records carry the author's local home path (~/...) and the author's first name. Seen in 717/context/resolved-rules.json,
+    719/context/pr-body.md, self-review.md, resolved-rules.json, templates/manifest-close-start-change.json, 719/review/lint-components.json (37
+    lines) and run-1/lint-components.json (37), and the model-update records. No secret, token or key was found in any added line of the issue
+    folders.
+  basis: run-evidence treatment (scan for secrets and personal references); no taxonomy row, assessor note
 counts:
-  P1: 3
-  P2: 15
-  P3: 28
-  P4: 22
-counts_actionable:
   P1: 0
-  P2: 5
-  P3: 5
-  P4: 6
-counts_note: 'counts = every row (scanner rows included). counts_actionable leaves out rows marked likely_noise (keyword hits
-  in test fixtures or in the word ''block'', and file-level path rules), each with a reviewer_note. The three scanner P1 rows
-  (DATA-18) are keyword noise; there is no real P1: no red suite, no secret, no data loss found.'
+  P2: 0
+  P3: 4
+  P4: 4

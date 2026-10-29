@@ -1,192 +1,145 @@
-# Layer 2 design-grounding: category "memory" (also covers the product-model pages), PR #981, issue 717.
-# Base ref: main. Every principle below comes from a committed source on main or from the memory tool
-# (copies in .garura/project/issues/717/context/memory/grounding-memory/). Nothing is grounded in text the diff adds.
+# Layer 2 design-grounding, category: memory. PR #981 (plan/717/base -> main), issue 717, final diff.
+# Grounded from committed sources only: the base ref (git show main:<path>), docs/adr/** on main, and
+# memory read through the memory tool. Never from content this diff adds or rewrites.
+# Inputs not used: review/run-1/, review/pr-950/, issues/719/review/.
 category: memory
 pr: 981
-issue: 717
 base: main
-severity_counts: {P1: 0, P2: 2, P3: 4, P4: 4}
+changed_artifacts:
+  - core/components/memory/standards/rules/pipeline-next.md      # +2 map entries
+  - core/components/memory/standards/rules/work-plan.md          # rule 19 rewritten
+  - core/components/memory/standards/templates/plan-view.md      # new
+  - core/components/memory/standards/templates/_index.md         # +1 row
+principles:
+  - id: PR-1
+    principle: "A work plan's status tree is the GOAL / DONE / NOW / NEXT / WAIT tree; every line says in plain words what the item is, with its issue number."
+    source: "git show main:docs/adr/030-plan-mode.md, 'Work This Creates' item 7; git show main:core/components/memory/standards/rules/work-plan.md rule 19 (prior text)"
+  - id: PR-2
+    principle: "An accepted decision record is never edited. A decision that changes part of it names it in `amends`, and the older record gets a forward pointer (`amended_by`)."
+    source: "memory tool: standards/templates/adr.md (core fields amends, amended_by); git show main:docs/adr/030-plan-mode.md header (Status line holds the forward pointers)"
+  - id: PR-3
+    principle: "work-plan.md is the single source of the rules for work plans, the plan kept at {stm_base}{issue}/specs/plan.md; its template gives status active|done|dropped and one `now` item."
+    source: "git show main:core/components/memory/standards/rules/work-plan.md (title, 'Where it lives', rule 8); git show main:core/components/memory/standards/templates/work-plan.md (front matter)"
+  - id: PR-4
+    principle: "The Plan kind is a file at .garura/project/plans/<id>.yaml; its Status is active, done or dropped; its Now is one work item; a node's state is named in the Tree property but its values are not defined."
+    source: "git show main:core/components/memory/standards/schemas/product-os/ontology.md, '### Plan' (Lives at, Properties table). The memory tool's Phoenix copy (d68154ae75e9) has no Plan kind, so main is the committed source here."
+  - id: PR-5
+    principle: "A template is the canonical output shape; consumers instantiate it instead of inlining their own shape."
+    source: "git show main:core/components/memory/standards/templates/_index.md, opening paragraph"
+  - id: PR-6
+    principle: "pipeline-next.md is the one place the Next-line map lives, and its prose describes where a person goes when a play has no successor."
+    source: "git show main:core/components/memory/standards/rules/pipeline-next.md (opening paragraphs, 'The flow'); git show main:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md ('a new play that reads the plan files')"
+  - id: PR-7
+    principle: "A change to a shelf follows the shelf's own shape: a file is listed in its index; cross-references resolve."
+    source: "memory tool: knowledge/review/memory.md (Treatment, Linter); standards/rules/_index.md and standards/templates/_index.md"
 
-grounding:
-  principles:
-    - id: G1
-      principle: "A plan's tree is the person's interface: it must tell a returning reader what is decided, built, shipped and still to do, and what waits on a human. ADR 030 section 0 and Work-This-Creates item 7 name the view GOAL, DONE, NOW, NEXT, WAIT (on a human)."
-      source: "git show main:docs/adr/030-plan-mode.md"
-    - id: G2
-      principle: "Work-plan rule 10: a finished item says whether it was only decided, built or shipped. Rule 8: 'Now' is one item. Rule header: skills and agents read these rules, they do not restate them."
-      source: "git show main:core/components/memory/standards/rules/work-plan.md (rules 8, 10, header); Phoenix copy of the base rule file differs on rule 19 only, see notes"
-    - id: G3
-      principle: "A decision that changes an accepted ADR's 'Work This Creates' item is recorded by a new ADR with an Amends line; accepted ADRs are never edited."
-      source: "git show main:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md (Amends: ADR 045, ADR 048 'Work This Creates' items); core/components/memory/standards/templates/_index.md row adr.md ('accepted ADRs never edited; forward pointers both ways')"
-    - id: G4
-      principle: "The ontology is the agreed vocabulary, changed through /edit-ontology with a Log entry. Plan kind: Tree = each work item 'with its tracker issue and its state'; Now = 'the work item being worked on' (one); Status = active, done or dropped; Plan lives at .garura/project/plans/<id>.yaml."
-      source: "git show main:core/components/memory/standards/schemas/product-os/ontology.md (Plan kind, Log v13); main plan 717.yaml header 'Status: done | now | next | blocked | dropped'"
-    - id: G5
-      principle: "The thin mark is kept in two places that agree: metadata.thin in the spine and one exact Thin line just before the ICE heading: 'Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.' A page marked thin without that line is drift; a slice's own pages with a problem make /shape-slice invalid."
-      source: "git show main:core/components/memory/standards/schemas/product-os/ontology.md (ICE kind rules); git show main:core/components/plays/shape-slice/scripts/slice_check.py (THIN_LINE, thin_problems, own-parts rule); .../shape-slice/scripts/persist_fills.py THIN_LINE"
-    - id: G6
-      principle: "Feature grounding heading contract: What it does, Inputs / Outputs, Rules & behavior, Acceptance criteria, Out of scope, then Sources, then Agent intent (ICE). The shared linter fails a page that lacks one."
-      source: "memory tool: standards/schemas/product-os/grounding/feature.md (grounding-memory copy); git show main:core/components/plays/shape-slice/scripts/lint_grounding.py CONTRACTS"
-    - id: G7
-      principle: "A feature takes its business intents and order of work from its parent capability; a story is built from the feature's ICE and its capability's ICE. A child must not contradict the parent's intent."
-      source: "git show main:core/components/memory/standards/schemas/product-os/ontology.md (Feature and Capability kinds, ICE rules)"
-    - id: G8
-      principle: "A file belongs in templates/ only if it defines the shape of an output artifact; rules for artifact content belong in rules/. rules/work-plan.md is the rules file for work plans (ADR 030, specs/plan.md); plans/<id>.yaml is a different file (ontology Plan kind)."
-      source: "git show main:core/components/memory/standards/templates/_index.md ('When to Add Here'); git show main:core/components/memory/standards/rules/work-plan.md (header, 'Where it lives')"
-    - id: G9
-      principle: "pipeline-next.md is the single source for the Next-line map: a play with no single successor has command null and prints no Next line; the person picks from the plan or /list-focus-issues. A 'what next' view, if needed, is a new play that reads the plan files."
-      source: "git show main:core/components/memory/standards/rules/pipeline-next.md; git show main:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md (sections 2 and 3)"
-    - id: G10
-      principle: "Model pages name roles, not real people. The ontology Log records the move ('personal names taken out ... #656') and writes 'with the product owner'; ADR 051 'Decided by: the product owner'."
-      source: "git show main:core/components/memory/standards/schemas/product-os/ontology.md (Log 2026-10-18, v5-v13); git show main:docs/adr/051-... header"
-    - id: G11
-      principle: "Content standard: a stranger reading the doc can say what it is, why, and where its edges are; links are real."
-      source: "memory tool: standards/schemas/product-os/grounding/_content-standard.md (grounding-memory copy)"
-  notes:
-    - "The Phoenix copies of standards/rules/work-plan.md, standards/rules/pipeline-next.md, standards/templates/_index.md and standards/templates/plan-view.md already carry this branch's text (promoted before the review). They are not independent grounding for those four files, so the base text was read with git show main:. The Phoenix ontology.md (v4, 205 lines) is older than main's v13 (856 lines); the principles above come from main's ontology, not from Phoenix."
-    - "docs/philosophy/idsd.md is named by work-plan.md as the source of 'plan = human interface, model = agent interface'; ADR 030 section 0 states the same and is used instead."
-    - "No committed source on main defines the six node statuses (Not Started, In Progress, Now, Done, Blocked, Dropped). Searched: docs/**, .garura/product/**, .garura/project/plans/**, core/components/memory/**, core/grounding/**. The only committed vocabulary is done | now | next | blocked | dropped (plan 717 header on main) and GOAL/DONE/NOW/NEXT/WAIT (ADR 030). See M-03."
-    - "Playbook gap: review/memory.md signals name core/components/memory/** only; .garura/product/product-os/** has no playbook signal. These pages were reviewed here as the second folder of Garura memory (.claude/rules/garura-memory.md)."
-    - "The rule that model pages use personas and not real names exists only in the owner's notes, not in a committed file. Not used as a basis; G10 rests on the ontology Log and ADR 051."
-
-integrity_checks:   # checked by hand, each with the evidence
-  passed:
-    - check: "templates/_index.md has a row for plan-view.md"
-      evidence: "core/components/memory/standards/templates/_index.md, new row after work-plan.md; file core/components/memory/standards/templates/plan-view.md exists"
-    - check: "rules/work-plan.md rule 19 -> templates/plan-view.md resolves"
-      evidence: "path core/components/memory/standards/templates/plan-view.md exists on the branch"
-    - check: "plan-view.md settings block is the block plan.py reads"
-      evidence: "core/tools/plan/plan.py line 33 BLOCK = ```yaml plan-view; the block parses (statuses, tree, list, graph); plan.py list, show --plan 717 and graph over .garura/project/plans exit 0 with the template"
-    - check: "pipeline-next.md rows for list-plans and show-plan are valid against the map's own format"
-      evidence: "yaml block parses, 30 rows, both rows { command: null, why: ... } like list-focus-issues, under # Navigation; plays core/components/plays/list-plans and show-plan exist; ADR 051 sections 2 and 3 agree"
-    - check: "_spine.yaml entries for fn-628, fn-729, fn-806 resolve"
-      evidence: "each doc: file exists; capability cap-719 and intent bi-717 exist; no duplicate feature id or issue number; fn-731 and fn-746 untouched in the spine"
-    - check: "persona rewrite is complete and in the committed style"
-      evidence: "git grep Kapil HEAD -- .garura/product returns nothing (10 lines on main); replacement 'the product owner' matches ontology Log and ADR 051"
-    - check: "frontmatter id, [[...]] links, shelf _TEMPLATE shape"
-      evidence: "not applicable: no knowledge/ shelf file changed; the changed files are rules, a template and an index"
-  failed_or_noted: [M-01, M-02, M-03, M-04, M-05, M-06, M-07, M-08, M-09, M-10]
-  linter_runs:
-    - "python3 -I core/components/plays/shape-slice/scripts/lint_grounding.py --root .garura/product/product-os --spine .garura/product/product-os/_spine.yaml: main 70 errors, branch 74 errors; the 4 new ones are all fn-806 (missing four required sections). fn-628, fn-729, fn-731, fn-746 fail the same way on main (pre-existing)."
-    - "slice_check.thin_problems over fn-628, fn-729, fn-806: three 'thin mark drift' problems (see M-02)."
+checks_by_hand:   # each cited; result pass or finding id
+  - check: "plan-view.md is listed in templates/_index.md"
+    result: pass
+    evidence: "core/components/memory/standards/templates/_index.md, new row 'plan-view.md' (after the work-plan.md row); consumers named: /list-plans, /show-plan, the plan tool"
+  - check: "pipeline-next.md entries list-plans and show-plan match plays that exist in the diff"
+    result: pass
+    evidence: "core/components/plays/list-plans/SKILL.md and core/components/plays/show-plan/SKILL.md exist (added); frontmatter name equals the map key; both position: none, user-invocable; the fenced yaml parses (30 entries); both rows have command null with a why, which the map's own rule allows for a play with no successor"
+  - check: "work-plan.md rule 19 cross-reference resolves"
+    result: pass
+    evidence: "`templates/plan-view.md` exists in the diff; `/show-plan` exists in the diff"
+  - check: "plan-view.md cross-references resolve"
+    result: pass
+    evidence: "core/tools/plan/plan.py exists (installed as .garura/core/tools/plan/plan.py); template-manager agent exists (core/components/agents/template-manager.md); .garura/project/plans/<id>.yaml is the Plan kind's Lives-at (PR-4)"
+  - check: "the ```yaml plan-view settings block is readable by the tool it names"
+    result: pass
+    evidence: "ran `python3 core/tools/plan/plan.py --template <plan-view.md> show --plan 717` and `list`: both printed from the block, legend and marks as the template's example shows"
+  - check: "rule 19's claims match plan-view.md"
+    result: pass
+    evidence: "six statuses and names equal; Done and Dropped hidden with a count on the last line (tree.hidden); marks and layout in the template"
+  - check: "_TEMPLATE.md (knowledge-file shape) and frontmatter id/evolve_when"
+    result: not_applicable
+    evidence: "no file under memory/knowledge/** changed; the four changed files are standards rules and templates, which carry no frontmatter"
+  - check: "duplication or contradiction with an existing rule or template"
+    result: findings
+    evidence: "see MEM-1, MEM-2, MEM-3, MEM-5"
+  - check: "ADR 051's allowance for a plan-reading view"
+    result: pass
+    evidence: "ADR 051 says a 'what next' view is a new play that reads the plan files; list-plans and show-plan read only plan files"
 
 findings:
-  - id: M-01
-    severity: P2
-    file: core/components/memory/standards/rules/work-plan.md
-    also: [core/components/memory/standards/templates/plan-view.md, .garura/product/product-os/features/fn-628/feature.md]
-    what: >
-      The rewritten rule 19 (and the plan-view template and fn-628 it points to) makes the plan tree hide every Done node
-      and show only a count on the last line, drops the old Fails-if "a done line does not say decided, built or shipped",
-      and replaces WAIT (on the human) with a plain Blocked ("cannot go on until something else is settled"). A reader coming
-      back after two days can no longer see what is decided or built or shipped, and cannot tell what waits on a person.
-      Rule 10 of the same file is unchanged and still says every finished item states its kind of done, so the rule file now
-      contradicts itself.
-    basis: >
-      ADR 030 section 0 (the test of a plan: a business user understands what is decided, what is built, what is still to do)
-      and Work-This-Creates item 7 (GOAL, DONE, NOW, NEXT, WAIT on a human); work-plan.md rule 10 on main.
-      Sources G1, G2.
-    suggested_fix: "Keep the Done kind (decided, built, shipped) visible or state why the tree may drop it, and keep a way to show 'waiting on a person'; or amend ADR 030 in a new ADR (see M-03)."
-
-  - id: M-02
-    severity: P2
-    file: .garura/product/product-os/features/fn-806/feature.md
-    also: [.garura/product/product-os/features/fn-628/feature.md, .garura/product/product-os/features/fn-729/feature.md, .garura/product/product-os/_spine.yaml]
-    what: >
-      The three feature pages carry the line "Thin: proposed by the #719 change (view plans) from the person's words; deepen
-      with `/discover-capabilities`." The committed line is fixed and exact. The committed check (slice_check.thin_problems)
-      reports "thin mark drift" for all three (spine says metadata.thin: true, but the exact Thin line is not just before
-      '## Agent intent (ICE)'). Under the own-parts rule a slice that uses any of these features is not valid until the line
-      is fixed. fn-628 and fn-729 were also re-marked thin although their ICE was person-written and unmarked on main, while
-      the ontology defines a thin ICE as one /shape-slice proposed from the person's answers. The wording comes from the
-      new link_part.py (core/components/skills/link-model-part/scripts/link_part.py line 81), so new thin pages will drift the same way.
-    basis: "Ontology ICE kind rules (thin mark in two places that agree, exact Thin line); slice_check.py THIN_LINE and the own-parts rule on main. Source G5."
-    suggested_fix: "Write the exact committed Thin line (or change the ontology and slice_check first, through /edit-ontology and an intent change); fix link_part.py to write the committed line; do not mark fn-628 and fn-729 thin unless their ICE is thin."
-
-  - id: M-03
+  - id: MEM-1
     severity: P3
     file: core/components/memory/standards/rules/work-plan.md
-    also: [core/components/memory/standards/schemas/product-os/ontology.md (not changed), .garura/project/plans/*.yaml]
+    line: 47
     what: >
-      The branch changes the plan-node status vocabulary (done | now | next | blocked | dropped becomes Not Started, In Progress,
-      Now, Blocked, Done, Dropped; "Now" may now be many nodes) and the tree view specified by ADR 030, but no decision record
-      and no ontology Log entry comes with it. The only places that define the six words are the new template and the
-      rule/feature text written for this change. The ontology Plan kind still says Now is "the work item being worked on" (one)
-      and gives no node vocabulary.
-    basis: "ADR 051 precedent: a change to another ADR's Work-This-Creates item is recorded by an ADR with Amends; accepted ADRs are not edited; ontology is the agreed vocabulary and changes through /edit-ontology with a Log entry. Sources G3, G4."
-    suggested_fix: "Record the status vocabulary and the tree view in a short ADR that amends ADR 030 item 7, and log the node statuses in the ontology's Plan kind (one Now per plan or many, stated)."
-
-  - id: M-04
-    severity: P3
-    file: .garura/product/product-os/features/fn-806/feature.md
-    what: >
-      The new page has only "What it does" and the ICE. The feature heading contract requires Inputs / Outputs, Rules & behavior,
-      Acceptance criteria and Out of scope. The shared linter goes from 70 errors on main to 74 on the branch; the 4 new ones are this page.
-      The same shape is already on main for other thin pages (fn-731, fn-628, fn-729, fn-746), so this adds one more instance of a known baseline, not a new kind.
-    basis: "Feature grounding heading contract and lint_grounding.py CONTRACTS on main. Source G6."
-    suggested_fix: "Fill the four sections, or have the contract say what a thin feature page must hold."
-
-  - id: M-05
-    severity: P3
-    file: .garura/product/product-os/features/fn-806/feature.md
-    also: [.garura/product/product-os/capabilities/cap-719/capability.md (not changed)]
-    what: >
-      fn-806 puts the graph under capability cap-719 and reads git (branches, commits ahead and behind). The capability's
-      intent says "show plans from the plan files alone", its Fails-if says the same files must print the same way twice, and
-      its one line names only "every plan, and any one plan as a tree". A graph that follows git changes when git changes with
-      the plan files untouched. The parent was not updated for the new feature.
-    basis: "Ontology Feature and Capability rules: a feature's intents and limits come from its parent capability, one ICE per capability, a story reads both. Source G7."
-    suggested_fix: "Widen cap-719's intent and Fails-if to say git is read for the graph, or move the graph under a capability that allows it."
-
-  - id: M-06
+      Rule 19 replaces the GOAL / DONE / NOW / NEXT / WAIT tree with a tree of six statuses that hides Done
+      and Dropped, and no decision record carries the change. ADR 030 item 7 is the committed source of the
+      old rule: its tree has a DONE group and a WAIT-on-a-human group. The diff changes no file under docs/adr/,
+      so ADR 030 has no `amended_by` pointer and no ADR names this change in `amends`. The rule file is the only
+      place that now disagrees with ADR 030.
+    basis: "PR-1 and PR-2: git show main:docs/adr/030-plan-mode.md (item 7; Status line); standards/templates/adr.md (amends, amended_by)"
+    suggested_fix: "Record the decision (an ADR that amends ADR 030 item 7, with the forward pointer on ADR 030), or show that it was recorded elsewhere."
+  - id: MEM-2
     severity: P3
     file: core/components/memory/standards/rules/work-plan.md
+    line: 47
     what: >
-      Rule 19 now describes what /show-plan prints from the plan files (.garura/project/plans/<id>.yaml), but this file is the
-      rules for the work plan written to specs/plan.md (header, 'Where it lives', template work-plan.md). Two different files
-      called "plan" now sit under one rule list, and the rule index row for the file still says "how status is shown (a tree)" with no mention of the plan tool.
-    basis: "work-plan.md header and 'Where it lives'; ontology Plan kind 'Lives at'. Source G8."
-    suggested_fix: "Say in rule 19 which plan it means, or move the tree rule to a rule file for the plan files."
-
-  - id: M-07
-    severity: P4
+      Rule 19 now describes the status view of the plan files (.garura/project/plans/<id>.yaml, read by
+      /show-plan), but the file it sits in is the rulebook for the work plan at {stm_base}{issue}/specs/plan.md.
+      The file's title, 'Where it lives' and its template (status active|done|dropped, one `now`) are unchanged
+      and still describe the other artifact. A reader of rules 1 to 18 meets "Every node has one of six statuses"
+      with no word on which plan it means or how it relates to the active|done|dropped status and the single
+      `now` of rules 8 and 17.
+    basis: "PR-3 and PR-4: git show main:.../rules/work-plan.md (title, 'Where it lives', rules 8 and 17); git show main:.../templates/work-plan.md (front matter); ontology '### Plan' (Lives at)"
+    suggested_fix: "Say in rule 19 which plan it shows (the plan file), or give the plan-file view its own rule and leave rule 19 for the work plan."
+  - id: MEM-3
+    severity: P3
     file: core/components/memory/standards/templates/plan-view.md
-    also: [core/components/memory/standards/rules/work-plan.md, .garura/product/product-os/features/fn-628/feature.md, .garura/product/product-os/features/fn-729/feature.md]
+    line: 19
     what: >
-      The six statuses and the "hide Done and Dropped, count them on the last line" rule are written in the template, in rule 19,
-      and in three feature pages, and the order differs (template and settings: Blocked before Done; rule 19 and fn-628: Done before Blocked).
-      The template also states behaviour rules, which belong in rules/.
-    basis: "work-plan.md header (read, do not restate); templates/_index.md 'When to Add Here' (rules for content belong in rules/). Source G2, G8."
-    suggested_fix: "Keep the list once (the template settings block) and point to it."
-
-  - id: M-08
+      The six node statuses (Not Started, In Progress, Now, Blocked, Done, Dropped) are defined only here, in the
+      branch's own new text. The committed Plan kind gives the plan one Status of active, done or dropped, one
+      `Now` item, and says a node has a 'state' without naming the values; ADR 051 speaks of done / now / next.
+      The template lets many nodes be Now at once ('someone works on it in an open change right now'), which the
+      ontology's single `Now` does not. No committed source anchors the vocabulary, so it cannot be checked against
+      anything outside this branch.
+    basis: "PR-4: git show main:.../ontology.md '### Plan' (Properties: Tree, Now, Status); git show main:docs/adr/051-... (done / now / next)"
+    suggested_fix: "Have the ontology's Plan kind (through /edit-ontology) or the decision record from MEM-1 carry the six statuses, so the template points to a committed definition."
+  - id: MEM-4
+    severity: P3
+    file: core/components/memory/standards/templates/plan-view.md
+    line: 76
+    what: >
+      The template says a change to a mark or a line is made in its settings block, never in the tool, and each
+      status has a `shown` setting. The tool does not honour that fully: core/tools/plan/plan.py counts a plan's
+      open nodes as every status except the literal names Done and Dropped (list view), and picks 'worked now' by
+      the literal names Now and In Progress. Setting `shown: true` on Done would change the tree and leave the
+      list's open count unchanged, so the two views would disagree.
+    basis: "PR-5: git show main:.../templates/_index.md (templates are the canonical shape; consumers do not inline their own); plan-view.md's own Settings sentence"
+    suggested_fix: "Make the list read `shown` from the block, or reword the Settings sentence to say which names the tool fixes."
+  - id: MEM-5
     severity: P4
     file: core/components/memory/standards/rules/pipeline-next.md
-    also: [core/components/memory/standards/rules/_index.md (not changed)]
+    line: 15
     what: >
-      The prose still says the plan shows "done / now / next" (lines 14-15), the Flow list names /list-focus-issues but not
-      /list-plans or /show-plan, and the work-plan.md row in rules/_index.md does not list the two new plays as consumers.
-      The two new map rows themselves are valid.
-    basis: "pipeline-next.md is the single source for the Next-line map and its prose; ADR 051 sections 2 and 3. Source G9."
-    suggested_fix: "Update the 'done / now / next' phrase to the new words and add the two plays to the Flow line and the index consumers."
-
-  - id: M-09
+      The prose still tells the person to pick the next piece of work 'from the plan (one plan for each business
+      intent, with done / now / next) or from /list-focus-issues'. The same file now maps two plays, /list-plans
+      and /show-plan, that show those plans, and the plan has six statuses. 'The flow' names /list-focus-issues
+      under the Learn loop bullet and says nothing of the two new plays. The text is stale beside the new rows.
+    basis: "PR-6: git show main:.../rules/pipeline-next.md (opening paragraphs, 'The flow'); ADR 051 (the plan is the work list)"
+  - id: MEM-6
     severity: P4
-    file: core/components/memory/standards/templates/plan-view.md
+    file: core/components/memory/standards/rules/pipeline-next.md
+    line: 75
     what: >
-      The opening says the plan tool prints each view "from the plan files alone ... no tracker read and no model call, so the
-      same files print the same way every time", but the graph section reads commits ahead of and behind main from git.
-      Its examples also name live items (plan 717, plan/788/base 4 ahead 3 behind, and #719 shown as Now although #719 is closed) that will go stale.
-    basis: "Content standard: a stranger can say what it is and where its edges are; fn-806 itself says 'from the plan files and git alone'. Source G11."
-    suggested_fix: "Say 'plan files, plus git for the graph'; mark the examples as invented."
+      The two new rows do not line up with the row above (`list-focus-issues:          {`). The yaml still parses,
+      so this is layout only.
+    basis: "PR-6: the neighbouring rows of the Navigation group in git show main:.../rules/pipeline-next.md"
 
-  - id: M-10
-    severity: P4
-    file: .garura/product/product-os/_spine.yaml
-    what: >
-      The spine metadata for fn-628, fn-729 and fn-806 holds the prose "the #719 change (view plans)" in created_by / updated_by.
-      On main every created_by is a play name (/shape-slice). `issue` and `deepen` are not in the spine schema either; they are already used on main, so only the new created_by value is new.
-    basis: "git show main:core/components/memory/standards/schemas/product-os/spine.yaml (metadata fields are strings; main entries all use a play name). Source G5 (spine)."
-    suggested_fix: "Name the writer the way the others do (a play or skill name)."
-
-unavailable_grounding: []
+grounding_notes:
+  - "The memory tool's Phoenix copies of rules/work-plan.md and templates/_index.md (version d68154ae75e9) already hold this branch's new rule 19 and plan-view row. They are not independent grounding for those two files. The prior version of each came from `git show main:`."
+  - "The Phoenix copy of ontology.md (d68154ae75e9) has no Plan kind; main's core/components copy does. The Plan-kind principle (PR-4) is grounded in main. Phoenix memory is behind the repository on this; no memory update was raised (a read gap, not a block)."
+  - "The 'knowledge shelf' tests of the playbook (_TEMPLATE.md, evolve_when, id/path) do not apply: no knowledge/** file changed."
+  - "Grounding copies refreshed in .garura/project/issues/717/context/memory/grounding-memory/ (adr.md added; manifest refreshed)."
+counts:
+  P1: 0
+  P2: 0
+  P3: 4
+  P4: 2
+  total: 6

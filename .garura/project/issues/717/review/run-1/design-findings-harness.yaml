@@ -1,0 +1,223 @@
+# Layer 2 design-grounding: category "harness" - PR #981 (plan/717/base -> main), issue 717.
+# Grounded only in committed sources: base ref `main` (git show main:<path>), docs/adr, the harness
+# standard, the glossary, and standards/rules read through the memory tool (Phoenix memory, version
+# d68154ae75e9; copies in context/memory/grounding-harness/, manifest beside them).
+# NOT used as grounding: anything this diff adds (plan-view.md, the new ice.md/SKILL.md prose, the
+# keeper's new rule text, the #719 design.md), and no earlier review file (pr-950/, issues/719/review/).
+pr: 981
+issue: 717
+base: main
+category: harness
+reviewed:
+  - core/components/plays/list-plans/{SKILL.md,reference/ice.md,stop-condition.yaml}
+  - core/components/plays/show-plan/{SKILL.md,reference/ice.md,stop-condition.yaml}
+  - core/components/skills/link-model-part/SKILL.md
+  - core/components/skills/enrich-grounding/SKILL.md
+  - core/components/agents/product-os-keeper.md
+layer1_input: "lint-play.txt: list-plans PASS (0 gaps), show-plan PASS (0 gaps). Not re-run here."
+
+principles:
+  - id: P-naming
+    says: "Plays are <verb>-<object>; every verb holds one meaning (play verbs: list = Plan, show many/one; skill verbs: link, enrich); a name is not a built-in command."
+    sources: ["standards/rules/naming.md (memory tool)", "main:core/components/memory/standards/rules/naming.yaml", "main:docs/adr/046-one-naming-standard-for-every-harness-part.md"]
+  - id: P-play-agent-skill-script
+    says: "A play owns the order of steps and hands agents a contract of paths; an agent gathers context and calls skills; mechanical work is a script, judgment a model."
+    sources: ["main:docs/standards/harness-standard.md principles 2 and 3", "main:docs/adr/001-three-layer-hierarchy.md", "main:docs/adr/016-agent-json-contract.md"]
+  - id: P-ice-source
+    says: "A play is compiled from its ICE; a change to what it guarantees is made in reference/ice.md and compiled again; the compiled file records the ICE fingerprint."
+    sources: ["main:docs/standards/harness-standard.md principle 4", "main:docs/adr/027-ice-model-pcam-design.md"]
+  - id: P-direct-model-write
+    says: "A model-writing play edits the live model in place. The LLM writes only per-node docs; every shared file (the spine, the profile, decisions) is written only by the play's deterministic keyed script. Containment is a scoped-write guard run once after all writes; the model tree is clean in and a delta is committed out."
+    sources: ["standards/rules/direct-model-write.md (memory tool), rules 3, 4, 7 and the keep check (check_kept)", "main:docs/adr/026-direct-to-model-writes.md"]
+  - id: P-shared-write-exceptions-are-recorded
+    says: "The only exceptions to 'a play's keyed script writes every shared model file' are recorded as amendments to ADR 026 (ADR 031 /intent by hand, ADR 043, ADR 044: the gap closer, only inside a loop). A change to a harness rule is a decision and goes through /record-decision."
+    sources: ["main:docs/adr/026-direct-to-model-writes.md (Status line)", "main:docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md", "main:docs/standards/harness-standard.md ('How the standard is kept')", "main:core/grounding/glossary.md line 17 (Loop: 'only inside a loop may the gap closer write shared model files (ADR 044)') and line 37 (Garura memory: 'written as work only by plays built to write the product model')"]
+  - id: P-signals-enter-via-plays
+    says: "Every signal enters Garura through a play; a play is the only sanctioned entry point to a workflow."
+    sources: ["main:core/grounding/glossary.md line 97 (Signals)", "main:docs/adr/023-three-execution-trinities.md", "main:docs/standards/harness-standard.md principle 2"]
+  - id: P-scoped-write-fanout
+    says: "Parallel writes to the live model are allowed only as a scoped-write fan-out: scopes declared before dispatch and checked distinct, no shared file in a sub-task, distinct output paths, no sibling dependency, a guard after the join, nothing committed before checks. A play's step declares it by name."
+    sources: ["standards/rules/concurrent-fanout.md (memory tool)", "main:docs/adr/026-direct-to-model-writes.md"]
+  - id: P-installed-paths
+    says: "An installed part points only to another installed file; the text a part needs goes in the part (or its reference/ folder); a note of origin is deleted."
+    sources: ["main:docs/standards/harness-standard.md principle 11", "main:docs/adr/055-installed-parts-read-only-installed-files.md"]
+  - id: P-standard-close
+    says: "Every play ends with the Standard Play Close; Step L loads evidence-file.md (when C1 runs), delivery-report.md and pipeline-next.md through template-manager; a position-none, no-issue play keeps its run files under a ${stm_base}_<name>/ folder and deletes its working folder at the end."
+    sources: ["main:core/components/plays/_shared/play-close.md", "standards/rules/evidence-recording.md (memory tool)", "main:docs/adr/020-advisory-play-self-clean.md", "main:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md (sections 8, 9)"]
+  - id: P-pipeline-next-and-position
+    says: "A user-invocable play is listed in the Next-line map; position none is declared in the frontmatter; the position rule lists the none plays."
+    sources: ["standards/rules/pipeline-next.md (memory tool)", "standards/rules/pipeline-position.md (memory tool)"]
+  - id: P-plan-is-a-plain-tree
+    says: "The plan is the human's interface: its status view is a plain tree, never bare issue numbers, so a reader returning after days knows where things stand. A plan's branch field is null while the plan is paused (on main)."
+    sources: ["main:docs/adr/030-plan-mode.md section 0", "main:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md", "main:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md section 3"]
+  - id: P-plan-kind
+    says: "A plan file holds the business intent's tree of work items 'each with its tracker issue and its state', a plan Status (active, done or dropped), and 'Needs plans'. The ontology names no node-state words."
+    sources: ["main:core/components/memory/standards/schemas/product-os/ontology.md, kind Plan (lines 560-602)"]
+
+conformance_ok:
+  - "Naming: list-plans (list = Plan, show many) and show-plan (show = Plan, show one) use play verbs of naming.yaml; link-model-part uses the skill verb link; none is a reserved built-in. [P-naming]"
+  - "ICE-source: list-plans and show-plan each carry reference/ice.md; the SKILL.md fingerprint equals sha256 of that file (checked: c1bffdbb... and a643f24f...); C/F/S/D/REC sets match; stop-condition.yaml D1-D4 equal the ICE Done means. No hand-edit of intent found. [P-ice-source]"
+  - "Wiring: both plays are orchestrators with one utility agent (template-manager, paths-only contract) and no domain agent; every mechanical step (mode, view, check, hash, stop-condition) is a script; no model call makes the view. [P-play-agent-skill-script]"
+  - "Close: both plays carry the Standard Play Close pointer to ../_shared/play-close.md, bake stop-condition.yaml, gate COMPLETED on it before the self-clean, keep run files under ${stm_base}_plans/ (same pattern as _adr/, _deploy/ on main), and delete only the working folder. [P-standard-close]"
+  - "Next-line map: list-plans and show-plan are listed with command null; position is none in both frontmatters. [P-pipeline-next-and-position]"
+  - "Plan view: show-plan prints a plain tree with mark, issue number and title on every line, never a bare number, and shows a paused plan's branch as main as ADR 060 sets. [P-plan-is-a-plain-tree]"
+  - "link-model-part itself is a mechanical skill (request in, report out) whose script is all-or-nothing, confined to product-os/ and lists every file it changed, which keeps the containment aim of ADR 026 at the script level. [P-direct-model-write]"
+  - "enrich-grounding keeps writing per-node pages only and still never writes _spine.yaml or the thin marks. [P-direct-model-write]"
+
+findings:
+  - id: H1
+    severity: P2
+    file: core/components/agents/product-os-keeper.md
+    also: [core/components/skills/link-model-part/SKILL.md, core/components/skills/enrich-grounding/SKILL.md]
+    what: >
+      The keeper's NEVER rule is rewritten so that the spine is also written "by link-model-part's
+      script for a part found during work (#979)", and the authority given is a dated remark
+      ("the product owner, 2026-10-29"), not a decision record. This is a new exception to the
+      containment split. The committed exceptions are only the play's keyed script, ADR 031 /intent,
+      and the gap closer inside a loop (ADR 044). The new writer runs outside any play or loop, so
+      none of the other parts of the contract has a home: no scoped-write guard run once over the
+      delta, no clean-tree-in assertion, no committed delta out. The branch adds no ADR, does not
+      amend ADR 026, and does not update direct-model-write.md or the glossary (lines 17 and 37),
+      which still say shared model files are written only by a play's keyed script, and by the gap
+      closer only in a loop. Mitigation noted: link_part.py is all-or-nothing, confined to
+      product-os/ and reports its changed files, so the damage is bounded; the gap is the missing
+      decision and the missing guard, not an unsafe script.
+    basis:
+      principle: [P-direct-model-write, P-shared-write-exceptions-are-recorded]
+      sources:
+        - "main:docs/adr/026-direct-to-model-writes.md (Decision, containment split; Status line lists each recorded exception)"
+        - "standards/rules/direct-model-write.md rules 3, 4, 7 (memory tool)"
+        - "main:docs/adr/044-the-shared-drive-run-owns-the-steps-between-plays.md"
+        - "main:core/grounding/glossary.md lines 17, 37"
+        - "main:docs/standards/harness-standard.md ('A change to the standard is a decision')"
+    fix_suggestion: "Record the decision (/record-decision) as an amendment to ADR 026, then update direct-model-write.md and the two glossary rows; say who runs the scoped-write guard and the commit for found work."
+
+  - id: H2
+    severity: P3
+    file: core/components/agents/product-os-keeper.md
+    what: >
+      The new Intent-to-Skill row and the two skill rows say the found-work path is used "by any play
+      or run that finds a part the model lacks" and end with "No discovery play run". No play owns
+      this flow. The three-layer rule has a play dispatch the agent; the glossary says every signal
+      enters through a play. A run with no play has no Task DAG, no Standard Play Close, no evidence
+      record and no stop condition for the model edit. The keeper therefore becomes an entry point
+      of its own.
+    basis:
+      principle: P-signals-enter-via-plays
+      sources:
+        - "main:core/grounding/glossary.md line 97 (Signals: 'All signals enter exclusively via plays')"
+        - "main:docs/standards/harness-standard.md principle 2 (a play owns the order of steps)"
+        - "main:docs/adr/001-three-layer-hierarchy.md"
+    fix_suggestion: "Name the play(s) that dispatch the keeper for found work and add that step to their ICE; or state in a decision that an agent may be asked directly and why."
+
+  - id: H3
+    severity: P3
+    file: core/components/agents/product-os-keeper.md
+    what: >
+      The row for found work tells the caller to run "one run per part, in parallel when there are
+      several (each writes only its own page)" and then one link-model-part run after they join. That
+      is a scoped-write fan-out, but none of its conditions is stated: no write scope declared and
+      checked distinct before dispatch, no scoped-write guard after the join, nothing said about not
+      committing before checks. The rule also expects the fan-out to be declared by name in the play
+      that runs it (lint_play checks that); with no play, nothing can declare or lint it.
+    basis:
+      principle: P-scoped-write-fanout
+      sources:
+        - "standards/rules/concurrent-fanout.md, 'The scoped-write fan-out' conditions 1 and 5, 'Declaring it in a play' (memory tool)"
+    fix_suggestion: "Drop the 'in parallel' wording until a play declares the fan-out, or put the five conditions in the play that dispatches it."
+
+  - id: H4
+    severity: P3
+    file: core/components/skills/enrich-grounding/SKILL.md
+    what: >
+      The skill now edits intent pages in update and fix mode (step 5: "change only the lines the
+      request names ... never change what the intent means"). Step 7 and the Rules still say "every
+      section and line from step 1 is still on the page ... put it back": read literally they undo
+      the edit step 5 makes. Nothing checks that the meaning is unchanged, and the in-place keep
+      check that direct-model-write requires of a play that grows another play's page (check_kept) is
+      not wired for this path. ADR 031 says only a person confirms or drops a business intent; a
+      wording change to a confirmed intent page by an LLM, with no check, rests on one sentence.
+    basis:
+      principle: P-direct-model-write
+      sources:
+        - "standards/rules/direct-model-write.md, 'check_kept' paragraph (memory tool)"
+        - "main:docs/adr/031-business-intent-and-ice.md section 1 (only a person confirms or drops a Business Intent)"
+    fix_suggestion: "Say in step 7 that the lines named by the request are the one change allowed; have the caller (or a script) check that only those lines differ."
+
+  - id: H5
+    severity: P3
+    file: core/components/plays/show-plan/reference/ice.md
+    also: [core/components/plays/list-plans/reference/ice.md, core/components/plays/show-plan/SKILL.md, core/components/plays/list-plans/SKILL.md]
+    what: >
+      Grounding unavailable. Both plays stop on "a status the template does not know" (C6/C8, F5/F7,
+      SCE-4), and the set of six words (Not Started, In Progress, Now, Done, Blocked, Dropped) exists
+      only in plan-view.md and in the ICE Context of the branch itself. In committed sources the
+      ontology's Plan kind gives a plan Status of active, done or dropped and says only that work
+      items carry "their state"; the base work-plan.md rule 19 uses GOAL, DONE, NOW, NEXT, WAIT; ADR
+      030 names "done" and "now". The vocabulary the two plays enforce cannot be traced to a committed
+      source outside this branch. (Whether the vocabulary itself is right is for the memory category's
+      grounding of work-plan.md and the template; here it matters because the plays' halting rule is
+      built on it.)
+    basis:
+      principle: P-plan-kind
+      sources:
+        - "main:core/components/memory/standards/schemas/product-os/ontology.md, kind Plan, Properties table"
+        - "main:docs/adr/030-plan-mode.md section 5 (small updates: marking an item done, moving 'now')"
+        - "standards/rules/work-plan.md rule 19 on the base ref (memory tool)"
+    fix_suggestion: "Carry the six words into the ontology's Plan kind (through /edit-ontology) or an ADR, so the plays rest on a committed source."
+
+  - id: H6
+    severity: P4
+    file: core/components/plays/list-plans/reference/ice.md
+    also: [core/components/plays/show-plan/reference/ice.md]
+    what: >
+      The Context section points to ".garura/project/issues/719/specs/design.md", an issue's
+      short-term file that an install does not copy. The harness standard says a pointer in an
+      installed file points to another installed file and the text a part needs goes in the part.
+      Precedent exists on main (shape-plan and shape-slice reference/ice.md point to issue decision
+      files) and the linter does not flag it, so this is a nit; it is also the branch's own design
+      note, so it must not be used as grounding.
+    basis:
+      principle: P-installed-paths
+      sources: ["main:docs/standards/harness-standard.md principle 11", "main:docs/adr/055-installed-parts-read-only-installed-files.md"]
+    fix_suggestion: "State the six statuses in the ICE Context itself and drop the file pointer."
+
+  - id: H7
+    severity: P4
+    file: core/components/plays/list-plans/SKILL.md
+    also: [core/components/plays/show-plan/SKILL.md]
+    what: >
+      Step 1 says it loads "the close's templates" for the run and Step 6 says "the close finds the
+      templates Step 1 already loaded". The list loaded (plan-view, delivery-report, pipeline-next)
+      leaves out evidence-file.md, which Step C1 fills and play-close.md Step L loads. Step L loads it
+      anyway, so nothing breaks; the sentence is untrue as written.
+    basis:
+      principle: P-standard-close
+      sources: ["main:core/components/plays/_shared/play-close.md, Step L"]
+    fix_suggestion: "Load only plan-view.md in Step 1 (as record-decision loads only its own template) and let Step L load the close's templates."
+
+  - id: H8
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-position.md   # NOT in this diff (stale on the base ref)
+    what: >
+      The position rule lists the position-none plays "as compiled today" (including
+      /list-focus-issues). The two new position-none plays are not added, and
+      docs/philosophy/garura-reference-implementation.md (line 129: the plan is the work list, and
+      /list-focus-issues lists the issues from the tracker) does not mention the new plan views.
+      ADR 051 shows the habit: when a play list changes, these pages change in the same change.
+    basis:
+      principle: P-pipeline-next-and-position
+      sources: ["standards/rules/pipeline-position.md, opening paragraph (memory tool)", "main:docs/adr/051-the-next-play-is-dropped-the-plan-is-the-work-list.md ('Affects')"]
+    fix_suggestion: "Add /list-plans and /show-plan to the none list and one line to the reference implementation page."
+
+grounding_gaps:
+  - "H5: the six node statuses have no committed source outside this branch (see finding)."
+  - "No committed source states which agent or play must run the scoped-write guard for found work (see H1, H3); the glossary and direct-model-write.md describe only plays and loops."
+  - "The plan tool (core/tools/plan/plan.py) and the plan-view template are not harness category; their design is for the executable_code and memory categories."
+
+counts:
+  P1: 0
+  P2: 1
+  P3: 4
+  P4: 3
+  total: 8
