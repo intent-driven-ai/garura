@@ -1,1 +1,1 @@
-check_exit=0
+{"command": "check_self_review.py --self-review .garura/project/issues/717/context/self-review.md", "exit": 0}
