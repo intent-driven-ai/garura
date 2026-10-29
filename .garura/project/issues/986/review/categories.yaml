@@ -1,0 +1,111 @@
+# Work categories present in PR #987 (plan/717/986-card-heading -> plan/717/base), issue 986.
+# Derived from the diff content; treatment copied from the playbooks in
+# .garura/project/issues/986/context/memory/knowledge/review/ (manifest.json beside them).
+categories:
+  - name: harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/list-plans/SKILL.md          # the compiled play: card layout wording
+      - core/components/plays/list-plans/reference/ice.md  # the play's ICE source
+    treatment:
+      reviewer: human (design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: "lint-components (source layout)"
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+        - name: "lint-play (changed play list-plans)"
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/list-plans/SKILL.md --next-map .garura/project/issues/986/context/templates/standards/rules/pipeline-next.md
+      runnable_checks:
+        - "Only a violation whose file is in changed_paths is a finding; count the rest as 'there before'."
+        - "Tool not installed -> record 'not installed'; tool crashes -> record 'did not run: <first error line>'. Neither is a pass."
+        - "ICE-source rule applies (this repo holds the plays' source): the SKILL.md wording change must trace to the ICE source edit in reference/ice.md, not a hand edit of the compiled file."
+      design_grounding: "Layer 2: reconstruct from base ref plan/717/base, docs/philosophy/**, docs/adr/**, standards/rules/** (via memory tool), glossary. Never from the branch's design.md or new prose."
+      rubric: "play->agent->skill->script wiring intact; intent change traces to ICE source; standards held."
+
+  - name: memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/templates/plan-view.md  # a template under memory/standards; also carries the yaml block plan.py reads
+    treatment:
+      reviewer: human (design) + tool (conformance)
+      layers: [1, 2]
+      linters:
+        - name: "memory integrity (GAP - no installed tool checks it yet)"
+          command: null
+      runnable_checks:
+        - "By hand, citing each check: the file follows its template shape; frontmatter id matches path; [[...]] and evolve_when cross-references resolve; it is listed in the shelf/templates index; the yaml plan-view block still parses and every key plan.py reads exists (list.head, direction_line, row, epic_rule; direction_width removed)."
+      design_grounding: "Layer 2: reconstruct what a template/standard is for from committed sources (knowledge/_DESIGN.md, _index.md, _TEMPLATE.md, relevant standards via the memory tool, the base-ref plan-view.md and ADRs on plan view), not from the branch's new text."
+      rubric: "fits the shelf's purpose, follows the template, resolves cross-references, no duplication or contradiction of existing knowledge."
+
+  - name: executable-code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/tools/plan/plan.py                                   # the plan tool (list card heading and icon line)
+      - core/components/plays/list-plans/scripts/check_list.py    # the play's stop-condition check script
+    treatment:
+      reviewer: the tool, against industry best practice
+      layers: [1]
+      linters:
+        - name: "ruff (language linter; installed at ~/.local/bin/ruff)"
+          command: ruff check core/tools/plan/plan.py core/components/plays/list-plans/scripts/check_list.py
+        - name: "check-pr-quality (pr.md taxonomy: SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*)"
+          command: "run the check-pr-quality skill on the diff with .garura/project/issues/986/context/memory/standards/rules/pr.md (the playbook gives no command line)"
+      runnable_checks:
+        - "Review hard any data-safety / idempotency paths (git, filesystem, external services); both scripts here only read plan files and print, so confirm that."
+        - "Rubric: error handling, function size, no stray debug output, no secrets, deterministic where it claims to be. Note the plan.py docstring line now runs very long."
+      design_grounding: "none (industry best practice + pr.md taxonomy)"
+
+  - name: tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/tools/plan/test_plan.py
+    treatment:
+      reviewer: the tool
+      layers: [1]
+      linters:
+        - name: ruff on the test code + check-pr-quality TEST-* rows
+          command: ruff check core/tools/plan/test_plan.py
+      runnable_checks:
+        - "RUN the suite; a red suite is a blocker: cd core/tools/plan && python3 -m unittest test_plan (command from core/tools/plan/README.md)"
+        - "Also run the play's own check script if it has a runnable form: core/components/plays/list-plans/scripts/check_list.py (stop-condition.yaml names how). If no runnable form exists, say so; do not treat 'not run' as passed."
+        - "Look for skipped/disabled tests and tests that assert nothing."
+      design_grounding: "none"
+
+  - name: issue-work-records
+    design_bearing: false
+    playbook: null
+    playbook_note: "playbook missing: no review/ playbook covers the per-issue short-term-memory records that plays write (run artifacts, self-review, PR body, design spec). Derived as a new category. A follow-up task to add a playbook is advised. The design spec (specs/design.md) is the branch's own statement of design, so it is NOT a grounding source for any other category."
+    evidence:
+      - .garura/project/issues/986/context/analysis.yaml
+      - .garura/project/issues/986/context/branch.json
+      - .garura/project/issues/986/context/check-self-review-exit.txt
+      - .garura/project/issues/986/context/commits.yaml
+      - .garura/project/issues/986/context/issue.json
+      - .garura/project/issues/986/context/plan.json
+      - .garura/project/issues/986/context/porcelain.txt
+      - .garura/project/issues/986/context/pr-body.md
+      - .garura/project/issues/986/context/pr.json
+      - .garura/project/issues/986/context/resolved-rules.json
+      - .garura/project/issues/986/context/self-review.md
+      - .garura/project/issues/986/context/target.json
+      - .garura/project/issues/986/context/work-description.txt
+      - .garura/project/issues/986/specs/design.md
+    treatment:
+      reviewer: the tool (no playbook)
+      layers: []
+      linters: []
+      runnable_checks:
+        - "By hand (no playbook): no absolute home-folder path in any record (#982: every path relative or ~). Checked now with grep for /Users/ and /home/ over context/ and specs/: none found."
+        - "By hand: records are the run's own evidence; do not treat their claims (self-review verdict, design.md) as grounding."
+      design_grounding: "none; not design-bearing"
+
+design_bearing_summary: [harness, memory]
+not_design_bearing: [executable-code, tests, issue-work-records]
+memory_copies:
+  review_shelf: .garura/project/issues/986/context/memory/knowledge/review/
+  severity_taxonomy: .garura/project/issues/986/context/memory/standards/rules/pr.md
+  manifest: .garura/project/issues/986/context/memory/manifest.json

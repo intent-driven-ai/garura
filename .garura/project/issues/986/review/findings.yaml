@@ -1,0 +1,72 @@
+pr: 987
+issue: 986
+findings:
+- id: F-1
+  category: code-and-tests
+  severity: P4
+  file: core/tools/plan/plan.py
+  what: The listing() docstring has a line of 152 characters because the new text was joined onto the old line; the rest of
+    the file keeps lines near 100 to 120. Wrap it onto two lines.
+  basis: 'Measured: awk length on plan.py gives 152 at line 197 (the only line over 120 in the file); the author''s own self-review.md
+    line 47 and pr-body.md line 69 name the same line and leave it unfixed. Maintainability, no standard row fires (CODE-17
+    and CODE-19 are path-only and cover names).'
+  source: quality-findings.yaml
+- id: H-1
+  category: harness
+  severity: P3
+  file: core/components/plays/list-plans/SKILL.md
+  what: The compiled description now says 'its number and business intent, its direction on the line under', but the ICE Intent
+    paragraph (reference/ice.md line 9) still reads 'with the plan's direction, its number and business intent'. The description
+    is the compiled form of the Intent, so the compiled file now states the layout in an order the ICE source does not. Only
+    scenario S6 was edited in the ICE; the Intent sentence was not.
+  basis: 'G1 and G3: a change to what the play prints is made in the ICE and the part recompiled; the two must not drift.
+    Base ref ice.md and SKILL.md matched on this sentence.'
+  source: design-findings-harness.yaml
+- id: H-2
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/reference/ice.md
+  what: 'SKILL.md ''Compiled From'' and the compiled_by row now cite #986, but the ICE ''Stories'' line (line 64) lists #729,
+    #806 and #983 only. The compiled file names a story the ICE source does not.'
+  basis: 'G1: the compiled part records what its ICE says; base ref SKILL.md and ice.md named the same stories.'
+  source: design-findings-harness.yaml
+- id: H-3
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/scripts/check_list.py
+  what: 'The check now also requires a blank line between the icon line (or heading) and the Status row, and rows at the left
+    edge. The ICE (S6, C10) and SE-7 say only ''the icon line, and the Status row''; the blank line and left-edge rules are
+    enforced by the script and written only in the template and the issue. A reader of the ICE cannot see what as_set: true
+    now proves.'
+  basis: 'G2 and G1: the eval is the ICE''s measure; what the check proves should be what the ICE promises (agreed layout
+    rules in issue #986).'
+  source: design-findings-harness.yaml
+- id: F-001
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The list example ends the second card (#722) after the Status row, with no ellipsis. The tool always prints Branch
+    and Waits on for every card (and the prose says Waits on is always shown), so the example reads as if a card could stop
+    after Status. The agreed layout in the issue marks the cut with "...".
+
+    '
+  basis: 'GitHub issue #986 body, ''The layout'' (second card ends "Status Paused" then "..."); base-ref plan-view.md ''Waits
+    on - always shown''. Observed: plan.py list prints Branch and Waits on for every plan.
+
+    '
+  source: design-findings-memory.yaml
+- id: F-002
+  category: memory
+  severity: P4
+  file: core/tools/plan/README.md
+  what: 'README line 10 still describes a card as "its direction (⏵, ⏵⏵, ⏵⏵⏵), number and title", which reads as the icon
+    coming first. The template now puts the number and title first and the icon on its own line below. The README is not in
+    the diff, so it was not updated with the template. This is outside the memory file itself; reported here because it restates
+    the template''s layout.
+
+    '
+  basis: 'GitHub issue #986 body, ''Rules'' (heading first, icon on its own line under it); the changed plan-view.md ''The
+    list'' section is the single place the layout is defined.
+
+    '
+  source: design-findings-memory.yaml

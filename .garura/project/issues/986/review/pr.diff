@@ -1,0 +1,616 @@
+diff --git a/.garura/project/issues/986/context/analysis.yaml b/.garura/project/issues/986/context/analysis.yaml
+new file mode 100644
+index 00000000..88232292
+--- /dev/null
++++ b/.garura/project/issues/986/context/analysis.yaml
+@@ -0,0 +1,31 @@
++---
++# assess-changes output (branch plan/717/986-card-heading, issue 986)
++needs_judgment: false
++
++change_groups:
++  - id: list-plans-direction-icon-line
++    issue: 986
++    commit_type: docs
++    scope: list-plans
++    subject: "say the direction icon sits on its own line under the heading"
++    files:
++      - core/components/plays/list-plans/reference/ice.md
++      - core/components/plays/list-plans/SKILL.md
++  - id: stm-986-run-artifacts
++    issue: 986
++    commit_type: chore
++    scope: stm
++    subject: "record the commit-change run artifacts"
++    files:
++      - .garura/project/issues/986/context/analysis.yaml
++      - .garura/project/issues/986/context/porcelain.txt
++      - .garura/project/issues/986/context/resolved-rules.json
++      - .garura/project/issues/986/context/self-review.md
++
++exclusions: []
++
++risks:
++  sensitive_files: []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
+diff --git a/.garura/project/issues/986/context/branch.json b/.garura/project/issues/986/context/branch.json
+new file mode 100644
+index 00000000..2f94f915
+--- /dev/null
++++ b/.garura/project/issues/986/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/717/986-card-heading",
++  "base_sha": "e2d5b7cefd9c34ee9ccb7878263fe34c77ad6eec",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/986/context/check-self-review-exit.txt b/.garura/project/issues/986/context/check-self-review-exit.txt
+new file mode 100644
+index 00000000..602a52b9
+--- /dev/null
++++ b/.garura/project/issues/986/context/check-self-review-exit.txt
+@@ -0,0 +1 @@
++check_exit=0
+diff --git a/.garura/project/issues/986/context/commits.yaml b/.garura/project/issues/986/context/commits.yaml
+new file mode 100644
+index 00000000..ba38932d
+--- /dev/null
++++ b/.garura/project/issues/986/context/commits.yaml
+@@ -0,0 +1,21 @@
++commits:
++  - sha: f2b7dba3
++    message: "docs(list-plans): say the direction icon sits on its own line under the heading (#986)"
++    files:
++      - core/components/plays/list-plans/reference/ice.md
++      - core/components/plays/list-plans/SKILL.md
++    branch: plan/717/986-card-heading
++  - sha: 8644eee2
++    message: "chore(stm): record the commit-change run artifacts (#986)"
++    files:
++      - .garura/project/issues/986/context/analysis.yaml
++      - .garura/project/issues/986/context/porcelain.txt
++      - .garura/project/issues/986/context/resolved-rules.json
++      - .garura/project/issues/986/context/self-review.md
++    branch: plan/717/986-card-heading
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/986/context/issue.json b/.garura/project/issues/986/context/issue.json
+new file mode 100644
+index 00000000..caad9d09
+--- /dev/null
++++ b/.garura/project/issues/986/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 986,
++  "title": "/list-plans card heading: the title at the left edge, the direction icon on its own line, the rows at the left edge",
++  "created": false
++}
+diff --git a/.garura/project/issues/986/context/plan.json b/.garura/project/issues/986/context/plan.json
+new file mode 100644
+index 00000000..a532abe6
+--- /dev/null
++++ b/.garura/project/issues/986/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "986",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/986-card-heading"
++}
+diff --git a/.garura/project/issues/986/context/porcelain.txt b/.garura/project/issues/986/context/porcelain.txt
+new file mode 100644
+index 00000000..8161c491
+--- /dev/null
++++ b/.garura/project/issues/986/context/porcelain.txt
+@@ -0,0 +1,5 @@
++ M .garura/project/issues/986/context/porcelain.txt
++ M core/components/plays/list-plans/SKILL.md
++ M core/components/plays/list-plans/reference/ice.md
++?? .garura/project/issues/986/context/resolved-rules.json
++?? .garura/project/issues/986/context/self-review.md
+diff --git a/.garura/project/issues/986/context/pr-body.md b/.garura/project/issues/986/context/pr-body.md
+new file mode 100644
+index 00000000..23adbbd1
+--- /dev/null
++++ b/.garura/project/issues/986/context/pr-body.md
+@@ -0,0 +1,75 @@
++## Summary
++
++In `/list-plans`, each card's heading now puts the plan's number and title at the left edge, with the direction icon on its own line underneath (no icon line when the plan has no direction); the rows start at the left edge too (#986, design agreed with the product owner on 2026-10-29):
++
++```
++#717  People plan work toward a business intent, and pick it up across days and people
++⏵
++
++Status         Paused
++Branch         main
++Waits on       #722 A product model can be managed, and grows as plans are built
++```
++
++- The plan-view template and the plan tool print the new heading; `/list-plans`' check finds each plan by its heading and proves the icon line and the Status row are what the plan file holds.
++- `/list-plans`' intent (S6) and its check (SE-7) were recompiled through `/edit-play` to say where the icon sits.
++
++The template is promoted to Phoenix memory, with a reinstall, once this reaches main.
++
++Closes #986.
++
++## Self-review
++
++# Self-review: #986 (the /list-plans card heading)
++
++Branch: plan/717/986-card-heading, landing on plan/717/base (reviewed as plan/717/base...HEAD).
++Rules: ~/.phoenix/core/memory/standards/rules/self-review.md (base file, no project override; see .garura/project/issues/986/context/resolved-rules.json).
++Design: .garura/project/issues/986/specs/design.md.
++Informational only. This is not the approve/reject gate.
++
++Verdict: ready to raise, with 0 blocking items, 1 non-blocking note and 1 minor tidy-up. The note from the last review (stale play wording) is answered.
++
++## What the change is
++
++7 commits, 16 files, +247 / -53 lines (checked with `git diff --shortstat plan/717/base...HEAD`).
++- 6 product files: the plan-view template, the plan tool, the tool's tests, the /list-plans check script, and the /list-plans play (SKILL.md and its ICE source reference/ice.md).
++- 10 run-record files under .garura/project/issues/986/ (context and the design).
++
++Commits: 1 feat (e4f34afa), 1 docs (f2b7dba3, the /edit-play recompile of /list-plans), and 5 chore(stm) run records (57935f68, 3daf3e61, a5bf4eb9, 8644eee2, b816b7f4). All are conventional and name #986.
++
++## Answer to the last review's note
++
++The last review found that the play still said the icon sits "before the plan's number" (ICE scenario S6) and that "each card's heading carries the direction icon" (SE-7). Both now say the icon is on the line under the heading, with no icon line when no direction is set (checked in `git diff plan/717/base...HEAD -- core/components/plays/list-plans`). The change went the right way: the ICE source (reference/ice.md) was edited and SKILL.md recompiled, not hand-edited for the intent change. The fingerprint recorded in SKILL.md (sha256:004240ca...) equals the sha256 of reference/ice.md today, so the compiled play matches its source. A search of the play, the tool and the template for the old wording ("before the plan", icon "or blanks") finds none left.
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | The design lists the plan-view template, the plan tool (heading and icon line), /list-plans' check and their tests. The play's description, SE-7 and S6 are the play restating the same layout, added on purpose by the follow-up edit. Every product file maps to the design. |
++| No scope creep | PASS | No change to the tree (/show-plan) or the graph (--graph): the `graph` branch of the check script is untouched, and the template's graph section is untouched. |
++| Reasonable size | PASS | 260 diff lines across the 6 product files; small enough to review in one sitting. |
++| No stray artifacts | PASS | No TODO, FIXME, debug print or commented-out code in the added product lines (grep of the added lines). `git status --short` is clean: nothing untracked or modified. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS | core/tools/plan/test_plan.py covers: heading at the left edge, icon line under it, blank line, rows at the left edge, and a new test that a plan with no direction has no icon line. Ran `python3 -m unittest test_plan` in core/tools/plan: 17 tests, OK. The check script's new card logic has no test of its own; it is exercised by the play's own run (SE-7). |
++| Commits are clean | PASS | Each commit is one concern and conventional, and each names #986. |
++| No secrets | PASS | Grep of the added lines for key, secret, token, password and private-key patterns: the only hits are the words "secrets" and "token" in this review file's own text and the word "resets" in a test line; no credential. |
++| Docs in step | PASS | The template (the format source), the play's description, SE-7, S6 and the tool's docstring all describe the new layout. |
++| Nothing obviously broken | PASS | `git merge-tree --write-tree plan/717/base HEAD` is clean (no conflicts). The tool and the check script agree on the new heading shape. The component linter reports 36 errors across core/components, none in list-plans, plan-view or tools/plan (they are not caused by this change). |
++
++## Notes
++
++1. The 5 chore(stm) commits and the files under .garura/project/issues/986/ are run records, not product change. Fine for this repo's flow; reviewers can skip that folder.
++
++## Tidy-up (minor)
++
++core/tools/plan/plan.py, the `listing` docstring (line 197): one line runs to 152 characters because the new text was joined onto the old line. Wrap it. Cosmetic only. Also in core/components/plays/list-plans/reference/ice.md, S6 now breaks after "the check record" and leaves a short line; cosmetic.
++
++## Readiness
++
++- Ready: yes
++- Blocking count: 0
++- Review required: 0 items need a person's sign-off before raise; the tidy-up is for the author's call.
+diff --git a/.garura/project/issues/986/context/pr.json b/.garura/project/issues/986/context/pr.json
+new file mode 100644
+index 00000000..7b21aeb1
+--- /dev/null
++++ b/.garura/project/issues/986/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 987,
++  "url": "https://github.com/intent-driven-ai/garura/pull/987",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/986/context/resolved-rules.json b/.garura/project/issues/986/context/resolved-rules.json
+new file mode 100644
+index 00000000..fc7b2ced
+--- /dev/null
++++ b/.garura/project/issues/986/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/986/context/self-review.md b/.garura/project/issues/986/context/self-review.md
+new file mode 100644
+index 00000000..e71c24c7
+--- /dev/null
++++ b/.garura/project/issues/986/context/self-review.md
+@@ -0,0 +1,53 @@
++# Self-review: #986 (the /list-plans card heading)
++
++Branch: plan/717/986-card-heading, landing on plan/717/base (reviewed as plan/717/base...HEAD).
++Rules: ~/.phoenix/core/memory/standards/rules/self-review.md (base file, no project override; see .garura/project/issues/986/context/resolved-rules.json).
++Design: .garura/project/issues/986/specs/design.md.
++Informational only. This is not the approve/reject gate.
++
++Verdict: ready to raise, with 0 blocking items, 1 non-blocking note and 1 minor tidy-up. The note from the last review (stale play wording) is answered.
++
++## What the change is
++
++7 commits, 16 files, +247 / -53 lines (checked with `git diff --shortstat plan/717/base...HEAD`).
++- 6 product files: the plan-view template, the plan tool, the tool's tests, the /list-plans check script, and the /list-plans play (SKILL.md and its ICE source reference/ice.md).
++- 10 run-record files under .garura/project/issues/986/ (context and the design).
++
++Commits: 1 feat (e4f34afa), 1 docs (f2b7dba3, the /edit-play recompile of /list-plans), and 5 chore(stm) run records (57935f68, 3daf3e61, a5bf4eb9, 8644eee2, b816b7f4). All are conventional and name #986.
++
++## Answer to the last review's note
++
++The last review found that the play still said the icon sits "before the plan's number" (ICE scenario S6) and that "each card's heading carries the direction icon" (SE-7). Both now say the icon is on the line under the heading, with no icon line when no direction is set (checked in `git diff plan/717/base...HEAD -- core/components/plays/list-plans`). The change went the right way: the ICE source (reference/ice.md) was edited and SKILL.md recompiled, not hand-edited for the intent change. The fingerprint recorded in SKILL.md (sha256:004240ca...) equals the sha256 of reference/ice.md today, so the compiled play matches its source. A search of the play, the tool and the template for the old wording ("before the plan", icon "or blanks") finds none left.
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | The design lists the plan-view template, the plan tool (heading and icon line), /list-plans' check and their tests. The play's description, SE-7 and S6 are the play restating the same layout, added on purpose by the follow-up edit. Every product file maps to the design. |
++| No scope creep | PASS | No change to the tree (/show-plan) or the graph (--graph): the `graph` branch of the check script is untouched, and the template's graph section is untouched. |
++| Reasonable size | PASS | 260 diff lines across the 6 product files; small enough to review in one sitting. |
++| No stray artifacts | PASS | No TODO, FIXME, debug print or commented-out code in the added product lines (grep of the added lines). `git status --short` is clean: nothing untracked or modified. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS | core/tools/plan/test_plan.py covers: heading at the left edge, icon line under it, blank line, rows at the left edge, and a new test that a plan with no direction has no icon line. Ran `python3 -m unittest test_plan` in core/tools/plan: 17 tests, OK. The check script's new card logic has no test of its own; it is exercised by the play's own run (SE-7). |
++| Commits are clean | PASS | Each commit is one concern and conventional, and each names #986. |
++| No secrets | PASS | Grep of the added lines for key, secret, token, password and private-key patterns: the only hits are the words "secrets" and "token" in this review file's own text and the word "resets" in a test line; no credential. |
++| Docs in step | PASS | The template (the format source), the play's description, SE-7, S6 and the tool's docstring all describe the new layout. |
++| Nothing obviously broken | PASS | `git merge-tree --write-tree plan/717/base HEAD` is clean (no conflicts). The tool and the check script agree on the new heading shape. The component linter reports 36 errors across core/components, none in list-plans, plan-view or tools/plan (they are not caused by this change). |
++
++## Notes
++
++1. The 5 chore(stm) commits and the files under .garura/project/issues/986/ are run records, not product change. Fine for this repo's flow; reviewers can skip that folder.
++
++## Tidy-up (minor)
++
++core/tools/plan/plan.py, the `listing` docstring (line 197): one line runs to 152 characters because the new text was joined onto the old line. Wrap it. Cosmetic only. Also in core/components/plays/list-plans/reference/ice.md, S6 now breaks after "the check record" and leaves a short line; cosmetic.
++
++## Readiness
++
++- Ready: yes
++- Blocking count: 0
++- Review required: 0 items need a person's sign-off before raise; the tidy-up is for the author's call.
+diff --git a/.garura/project/issues/986/context/target.json b/.garura/project/issues/986/context/target.json
+new file mode 100644
+index 00000000..cd69588c
+--- /dev/null
++++ b/.garura/project/issues/986/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/986-card-heading",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "986",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/986/context/work-description.txt b/.garura/project/issues/986/context/work-description.txt
+new file mode 100644
+index 00000000..e17e160f
+--- /dev/null
++++ b/.garura/project/issues/986/context/work-description.txt
+@@ -0,0 +1 @@
++#986 /list-plans card heading: the title at the left edge, the direction icon on its own line, the rows at the left edge. Design agreed with the product owner on 2026-10-29, in the issue text. Part of #719 (view plans), plan 717.
+diff --git a/.garura/project/issues/986/specs/design.md b/.garura/project/issues/986/specs/design.md
+new file mode 100644
+index 00000000..d4385fbc
+--- /dev/null
++++ b/.garura/project/issues/986/specs/design.md
+@@ -0,0 +1,42 @@
++> **Design agreed with the product owner, 2026-10-29 ("lock this in").** Serves business intent #717. Part of #719 (view plans), in plan 717. Follows #983.
++
++**Story:** in `/list-plans`, each card's heading puts the plan's number and title at the left edge, with the direction icon on its own line underneath; the rows start at the left edge too.
++
++## The layout
++
++```
++⏵ next · ⏵⏵ next in line · ⏵⏵⏵ later
++
++━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
++#717  People plan work toward a business intent, and pick it up across days and people
++⏵
++
++Status         Paused
++Branch         main
++Waits on       #722 A product model can be managed, and grows as plans are built
++
++Epic           ○ #956  A person builds, views and manages the plan of a business intent
++Progress       10 done · 10 open · 2 dropped
++
++━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
++#722  A product model can be managed, and grows as plans are built
++
++Status         Paused
++...
++```
++
++## Rules
++
++- The heading is the plan's number and title, at the left edge — no icon or padding before it.
++- The direction icon (⏵, ⏵⏵ or ⏵⏵⏵) is on its own line under the heading. A plan with no direction has no icon line.
++- A blank line, then the rows: Status, Branch, Waits on, and each epic with its Progress — all at the left edge.
++- Everything else from #983 stays: the legend, the rules between plans and between epics, Waits on always shown, Status and Direction as set by a person.
++
++## What it touches
++
++The plan-view template, the plan tool (the heading and the icon line), `/list-plans`' check (it finds each plan by its heading) and their tests.
++
++## Not in scope
++
++The tree (`/show-plan`) and the graph (`--graph`).
++
+diff --git a/core/components/memory/standards/templates/plan-view.md b/core/components/memory/standards/templates/plan-view.md
+index 29fb2404..665c2749 100644
+--- a/core/components/memory/standards/templates/plan-view.md
++++ b/core/components/memory/standards/templates/plan-view.md
+@@ -50,8 +50,9 @@ Every node of a plan has one of six statuses. The order below is the order of th
+ ## The list (`/list-plans`)
+ 
+ One card for each plan, in the order of the plan numbers. A legend of the direction icons comes
+-first. Each card opens with a heavy rule, then the plan's heading — its direction icon (or
+-blanks), its number and its business intent's title — then labeled rows:
++first. Each card opens with a heavy rule, then the plan's heading — its number and its business
++intent's title, at the left edge — then its direction icon on a line of its own (no line when the
++plan has no direction), then a blank line, then labeled rows at the left edge:
+ 
+ - **Status** — the plan's own status, as the plan file gives it (`status`): Not Started, In
+   Progress, Paused, Done or Dropped. Set by a person, never worked out from the work.
+@@ -63,20 +64,27 @@ is not shown — with its status mark, number and title, and a **Progress** row:
+ dropped when there are any. A dotted rule separates the epics of one plan.
+ 
+ **Direction** is set by a person in the plan file (`direction`: 1, 2, 3 or none) and shown as
+-⏵, ⏵⏵ or ⏵⏵⏵ before the plan's number. It is directional, not a ranking: several plans may
+-share a level.
++⏵, ⏵⏵ or ⏵⏵⏵ on the line under the plan's heading. It is directional, not a ranking: several
++plans may share a level. Never worked out from the work.
+ 
+ ```
+ ⏵ next · ⏵⏵ next in line · ⏵⏵⏵ later
+ 
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-⏵    #717  People plan work toward a business intent, and pick it up across days and people
+-  Status         Paused
+-  Branch         main
+-  Waits on       #722 A product model can be managed, and grows as plans are built
++#717  People plan work toward a business intent, and pick it up across days and people
++⏵
++
++Status         Paused
++Branch         main
++Waits on       #722 A product model can be managed, and grows as plans are built
++
++Epic           ○ #956  A person builds, views and manages the plan of a business intent
++Progress       10 done · 10 open · 2 dropped
++
++━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
++#722  A product model can be managed, and grows as plans are built
+ 
+-  Epic           ○ #956  A person builds, views and manages the plan of a business intent
+-  Progress       9 done · 10 open · 2 dropped
++Status         Paused
+ ```
+ 
+ ## The graph (`/list-plans --graph`)
+@@ -117,11 +125,11 @@ list:
+   directions: {1: "⏵", 2: "⏵⏵", 3: "⏵⏵⏵"}
+   direction_names: {1: next, 2: next in line, 3: later}
+   legend_join: " · "
+-  direction_width: 5
+   plan_rule: "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+-  epic_rule: "  ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"
+-  head: "{direction}#{plan}  {title}"
+-  row: "  {label}{value}"
++  epic_rule: "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"
++  head: "#{plan}  {title}"
++  direction_line: "{direction}"
++  row: "{label}{value}"
+   label_width: 15
+   labels: {status: Status, branch: Branch, waits: Waits on, epic: Epic, progress: Progress}
+   waits_item: "#{plan} {title}"
+diff --git a/core/components/plays/list-plans/SKILL.md b/core/components/plays/list-plans/SKILL.md
+index a7031524..5407885c 100644
+--- a/core/components/plays/list-plans/SKILL.md
++++ b/core/components/plays/list-plans/SKILL.md
+@@ -1,7 +1,7 @@
+ ---
+ name: list-plans
+ position: none
+-description: 'See every plan of the project at once, from the plan files alone — one card for each plan with its direction (⏵, ⏵⏵, ⏵⏵⏵), number and business intent, its Status, Branch and the plans it Waits on, then each of its epics with its Progress; the plan''s Status and Direction are what a person set in the plan file, never worked out; with --graph, each plan''s branch drawn against main with its commits ahead and behind, and the plans with no branch named as on main. Reads only the plan files (.garura/project/plans/) and, for the graph, git; never the tracker or the product model, and no model call makes the view: the plan tool prints it from the plan-view template, so the same files print the same way every time. Read only and position none: it writes no plan file, issue or branch, and runs on any branch. A plan file with a status, plan status or direction the template does not know stops the play with the file named. Use when someone asks "what plans are there", "where does every plan stand", "which plans are on a branch", or "how far is each plan from main".'
++description: 'See every plan of the project at once, from the plan files alone — one card for each plan with its number and business intent, its direction (⏵, ⏵⏵, ⏵⏵⏵) on the line under, its Status, Branch and the plans it Waits on, then each of its epics with its Progress; the plan''s Status and Direction are what a person set in the plan file, never worked out; with --graph, each plan''s branch drawn against main with its commits ahead and behind, and the plans with no branch named as on main. Reads only the plan files (.garura/project/plans/) and, for the graph, git; never the tracker or the product model, and no model call makes the view: the plan tool prints it from the plan-view template, so the same files print the same way every time. Read only and position none: it writes no plan file, issue or branch, and runs on any branch. A plan file with a status, plan status or direction the template does not know stops the play with the file named. Use when someone asks "what plans are there", "where does every plan stand", "which plans are on a branch", or "how far is each plan from main".'
+ user-invocable: true
+ ---
+ 
+@@ -15,7 +15,7 @@ that nothing changed.
+ ## Compiled From
+ 
+ This play was compiled from the list-plans ICE (`reference/ice.md`) by create-play (#719,
+-stories #729 and #806) and changed by edit-play (#983, the cards). Intent defines constraints
++stories #729 and #806) and changed by edit-play (#983, #986). Intent defines constraints
+ (C1–C10) and failure conditions (F1–F8); the expectation defines success scenarios (S1–S6), a Done means (D1–D4, baked to
+ `stop-condition.yaml`), and one recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with edit-play.
+@@ -143,9 +143,10 @@ an empty folder holds the template's no-plans line — C7), `in_order: true` (C3
+ **SE-4 (C2/F2):** `check.json` reads `unchanged: true` — every plan file hashes the same as
+ before the tool ran — and no tracker or branch verb was run in this play (the play's only
+ commands are the ones written above). A changed hash is a hard halt (REC2).
+-**SE-7 (C10/F8):** in `list` mode, `check.json` reads `as_set: true`: each card's heading
+-carries the direction icon of the plan file's `direction`, and its Status row reads the plan
+-file's `status` — nothing worked out from the work. On a GAP, apply REC8.
++**SE-7 (C10/F8):** in `list` mode, `check.json` reads `as_set: true`: under each card's
++heading, the line holds the direction icon of the plan file's `direction` (and there is no
++icon line when the file sets none), and the Status row reads the plan file's `status` —
++nothing worked out from the work. On a GAP, apply REC8.
+ **SE-5 (C1/F6):** for `graph`, `check.json` reads `graph_numbers_match: true`: every
+ ahead/behind number equals git's own count (`git rev-list --left-right --count`). On a GAP,
+ apply REC6.
+@@ -265,8 +266,8 @@ overwritten. There is no status marker.
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:7ede417926a9a4e143f207a04d3f85fee3210c57a8a230b4bb58fcf9b080f555 (of `reference/ice.md`) |
+-| compiled_by | create-play (#719; stories #729, #806); edit-play (#983, the cards) |
++| fingerprint | sha256:004240cafed7ab99d5b550b4077f0f99a6cfc0f6ff627bfbe38fb9d099dc2dd4 (of `reference/ice.md`) |
++| compiled_by | create-play (#719; stories #729, #806); edit-play (#983, #986) |
+ | pipeline_position | none |
+ | structural_constraints | C1 (the play's only reads are the plan tool over the plan files and git — no tracker or model path is opened anywhere); C4 (every line is printed by the plan tool from the template; the play presents it unchanged); C8 (the mode is `resolve_args.py`'s fixed choice); C10 (the plan tool reads Status and Direction from the plan file and has no code path that derives them) |
+ | workflow_structure | readiness-only (a view, no generation; no checkpoint) |
+diff --git a/core/components/plays/list-plans/reference/ice.md b/core/components/plays/list-plans/reference/ice.md
+index 6803a187..dacfda03 100644
+--- a/core/components/plays/list-plans/reference/ice.md
++++ b/core/components/plays/list-plans/reference/ice.md
+@@ -88,7 +88,8 @@ play reads them and nothing else, and prints them the same way every time.
+ 
+ - **S6 — product owner, the direction as set.** Given plans whose files hold a status and a
+   direction a person set, when `/list-plans` runs, then each card shows that direction's icon
+-  before the plan's number and that status on its Status row. *Measure:* the check record
++  on its own line under the plan's heading (no icon line when none is set) and that status on
++  its Status row. *Measure:* the check record
+   reads `as_set: true`.
+ 
+ ### Recovery
+diff --git a/core/components/plays/list-plans/scripts/check_list.py b/core/components/plays/list-plans/scripts/check_list.py
+index a7f0b3fd..e6afddcf 100644
+--- a/core/components/plays/list-plans/scripts/check_list.py
++++ b/core/components/plays/list-plans/scripts/check_list.py
+@@ -77,22 +77,28 @@ def check(a):
+     elif a.mode == "list":
+         li = t["list"]
+         icons = li["directions"]
+-        heads = [li["head"].format(direction=icons.get(direction, "").ljust(li["direction_width"]),
+-                                   plan=pid, title=title) for pid, title, direction in plans]
++        heads = [li["head"].format(plan=pid, title=title) for pid, title, _ in plans]
+         seen = [ln for ln in view if ln in heads]
+         rec["all_listed"] = sorted(seen) == sorted(heads) and len(seen) == len(heads)
+         rec["in_order"] = seen == heads
+-        listed = [ln for ln in view if re.match(r"^\S*\s*#\d+  ", ln)]
++        listed = [ln for ln in view if re.match(r"^#\d+  ", ln)]
+         rec["template_used"] = listed == seen and bool(view) and view[0].startswith(icons[1])
+-        # C10: each card's Status row and direction icon are what the plan file holds, as set
+-        status_rows = {}
++        # C10: under each heading, the direction line (only when the plan file sets one), a blank
++        # line, then the Status row — all exactly as the plan file holds them
++        def card(h, direction, status):
++            want = []
++            if direction in icons:
++                want.append(li["direction_line"].format(direction=icons[direction]))
++            want.append("")
++            want.append(li["row"].format(label=li["labels"]["status"].ljust(li["label_width"]),
++                                         value=status or "").rstrip())
++            return want
++        got = {}
+         for i, ln in enumerate(view):
+-            if ln in heads and i + 1 < len(view):
+-                status_rows[ln] = view[i + 1]
+-        want = {h: li["row"].format(label=li["labels"]["status"].ljust(li["label_width"]),
+-                                     value=st or "").rstrip()
+-                for h, st in zip(heads, statuses)}
+-        rec["as_set"] = all(status_rows.get(h) == w for h, w in want.items())
++            if ln in heads:
++                got[ln] = view[i + 1:i + 4]
++        want = {h: card(h, d, st) for h, (_, _, d), st in zip(heads, plans, statuses)}
++        rec["as_set"] = all(got.get(h, [])[:len(w)] == w for h, w in want.items())
+     else:
+         g = t["graph"]
+         pat = re.compile(r"^[├└]─ (\S+)  (\S+) ahead · (\S+) behind.*  #(\d+) ")
+diff --git a/core/tools/plan/plan.py b/core/tools/plan/plan.py
+index 16458cb5..69440152 100644
+--- a/core/tools/plan/plan.py
++++ b/core/tools/plan/plan.py
+@@ -193,14 +193,14 @@ def ref_of(branch, repo):
+ 
+ 
+ def listing(plans, template, plans_dir, repo):
+-    """One card for each plan: direction, number and title; Status, Branch, Waits on; then each
+-    epic with its Progress. Status and Direction are read from the plan file as a person set
++    """One card for each plan: number and title, the direction icon on its own line (none when the
++    plan has no direction); Status, Branch, Waits on; then each epic with its Progress. Status and Direction are read from the plan file as a person set
+     them, never worked out from the work."""
+     li = template["list"]
+     if not plans:
+         return [li["none"].format(dir=plans_dir)]
+     by_id = {str(p["id"]): p for p in plans}
+-    width, label_width = li["direction_width"], li["label_width"]
++    label_width = li["label_width"]
+     icons = li["directions"]
+     lines = [li["legend_join"].join(f"{icons[k]} {li['direction_names'][k]}" for k in sorted(icons)), ""]
+ 
+@@ -208,9 +208,11 @@ def row(key, value=""):
+         return li["row"].format(label=li["labels"][key].ljust(label_width), value=value).rstrip()
+ 
+     for plan in plans:
+-        direction = icons.get(plan.get("direction"), "")
+         lines.append(li["plan_rule"])
+-        lines.append(li["head"].format(direction=direction.ljust(width), plan=plan["id"], title=plan["title"]))
++        lines.append(li["head"].format(plan=plan["id"], title=plan["title"]))
++        if plan.get("direction") in icons:
++            lines.append(li["direction_line"].format(direction=icons[plan["direction"]]))
++        lines.append("")
+         lines.append(row("status", plan.get("status") or ""))
+         lines.append(row("branch", plan_branch(plan, repo) or "main"))
+         waits = li["waits_join"].join(
+diff --git a/core/tools/plan/test_plan.py b/core/tools/plan/test_plan.py
+index 895ea36f..7e4770c8 100644
+--- a/core/tools/plan/test_plan.py
++++ b/core/tools/plan/test_plan.py
+@@ -100,29 +100,31 @@ def test_list_names_every_plan_in_number_order_with_its_direction(self):
+         self.assertEqual(code, 0)
+         lines = out.splitlines()
+         self.assertEqual(lines[0], "⏵ next · ⏵⏵ next in line · ⏵⏵⏵ later")
+-        heads = [ln for ln in lines if re.match(r"^\S*\s*#\d+  ", ln)]
+-        self.assertEqual(heads, ["     #9  Invoices print on one page",
+-                                 "⏵    #10  People find a reset link in their mail",
+-                                 "⏵⏵   #20  Mail goes out through one service"])
++        heads = [ln for ln in lines if re.match(r"^#\d+  ", ln)]
++        self.assertEqual(heads, ["#9  Invoices print on one page",
++                                 "#10  People find a reset link in their mail",
++                                 "#20  Mail goes out through one service"])
+ 
+-    def test_a_card_shows_status_branch_waits_on_and_each_epic_with_its_progress(self):
++    def test_a_card_shows_its_direction_status_branch_waits_on_and_each_epic(self):
+         _, out, _ = run("list", *self.base)
+         lines = out.splitlines()
+-        at = lines.index("⏵    #10  People find a reset link in their mail")
++        at = lines.index("#10  People find a reset link in their mail")
+         self.assertEqual(lines[at - 1], "━" * 72)
+-        self.assertEqual(lines[at + 1:at + 7], [
+-            "  Status         Paused",
+-            "  Branch         main",
+-            "  Waits on       #20 Mail goes out through one service",
++        self.assertEqual(lines[at + 1:at + 9], [
++            "⏵",
+             "",
+-            "  Epic           ◐ #11  A person resets a lost password",
+-            "  Progress       2 done · 2 open · 1 dropped"])
++            "Status         Paused",
++            "Branch         main",
++            "Waits on       #20 Mail goes out through one service",
++            "",
++            "Epic           ◐ #11  A person resets a lost password",
++            "Progress       2 done · 2 open · 1 dropped"])
+ 
+-    def test_waits_on_is_always_shown_and_blank_when_none(self):
++    def test_a_plan_with_no_direction_has_no_icon_line(self):
+         _, out, _ = run("list", *self.base)
+         lines = out.splitlines()
+-        at = lines.index("     #9  Invoices print on one page")
+-        self.assertEqual(lines[at + 3], "  Waits on")
++        at = lines.index("#9  Invoices print on one page")
++        self.assertEqual(lines[at + 1:at + 5], ["", "Status         In Progress", "Branch         main", "Waits on"])
+ 
+     def test_a_plan_status_or_direction_the_template_does_not_know_is_refused(self):
+         for bad in ("status: active\n", "status: Paused\ndirection: 7\n"):
