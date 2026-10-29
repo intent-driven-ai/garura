@@ -742,13 +742,14 @@ class AnEmptyProject(unittest.TestCase):
         self.assertFalse(os.path.exists(self.path("core")))
         tools = self.path(".garura", "core", "tools")
         self.assertEqual(sorted(n for n in os.listdir(tools) if not n.startswith(".")),
-                         ["lint-components", "lint-play", "memory", "rebuild-eval"])
+                         ["lint-components", "lint-play", "memory", "plan", "rebuild-eval"])
         self.assertFalse(os.path.exists(os.path.join(tools, "naming")))  # source-only (decision 23)
         self.assertTrue(os.path.isfile(os.path.join(tools, "lint-components", "index.js")))
         self.assertTrue(os.path.isdir(os.path.join(tools, "lint-components", "node_modules", "js-yaml")))
         self.assertFalse(os.path.exists(os.path.join(tools, "lint-components", "test")))
         self.assertTrue(os.path.isfile(os.path.join(tools, "lint-play", "lint_play.py")))
         self.assertTrue(os.path.isfile(os.path.join(tools, "rebuild-eval", "run_eval.py")))
+        self.assertTrue(os.path.isfile(os.path.join(tools, "plan", "plan.py")))
         for d, _dirs, names in os.walk(tools):
             if "node_modules" in d or os.path.relpath(d, tools).split(os.sep)[0] == "memory":
                 continue  # the memory tool is laid and checked by memory_system.py
@@ -756,7 +757,7 @@ class AnEmptyProject(unittest.TestCase):
                 self.assertFalse(n.startswith("test_") or n.endswith(".test.js"), os.path.join(d, n))
             self.assertFalse({"__pycache__", ".ruff_cache"} & set(_dirs), d)
         self.assertEqual(sorted(record["tools"]), sorted(os.path.join(".garura", "core", "tools", n)
-                                                         for n in ("lint-components", "lint-play", "rebuild-eval")))
+                                                         for n in ("lint-components", "lint-play", "plan", "rebuild-eval")))
 
     def test_a_reinstall_removes_a_tool_that_left_the_source_and_uninstall_removes_them_all(self):
         self.install(self.target)

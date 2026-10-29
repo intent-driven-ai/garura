@@ -254,6 +254,9 @@ SCOPES = {
             # Its workers: business-intent-keeper + author-business-intent, prototype-reader +
             # walk-prototype; template-manager is kept.
             "discover-intent",
+            # list-plans and show-plan show Garura's own plans from its plan files (#719);
+            # their only worker is template-manager, already kept; the plan tool is laid for every scope.
+            "list-plans", "show-plan",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -272,6 +275,8 @@ SCOPES = {
             "author-slice-eval",
             # the skill discover-intent's prototype walk calls
             "walk-prototype",
+            # product-os-keeper puts a part found during work into the spine (#979)
+            "link-model-part",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",
