@@ -5,7 +5,7 @@ link_part.py — put a part's page into the product model's spine (link-model-pa
 The page skill (`enrich-grounding`) already wrote or changed each part's page. This script does
 the shared part no page skill does: the part's entry in the spine (`_spine.yaml`, the model's
 index of every part) and, for a thin capability or feature, the thin mark — `metadata.thin: true`
-on its entry and exactly one Thin line on its page, just before its ICE. A domain carries no ICE,
+on its entry and exactly one Thin line on its page, just before its ICE — the one line the ontology fixes. A domain carries no ICE,
 so it is never thin.
 
     python3 link_part.py --request <working>/link-request.json --product-base <product_base> \
@@ -77,8 +77,10 @@ class Refused(Exception):
     pass
 
 
-def thin_line(by):
-    return f"Thin: proposed by {by} from the person's words; deepen with `/discover-capabilities`."
+# The one Thin line the ontology fixes (ontology v11, ADR 052); /shape-slice's slice_check.py
+# reads exactly this text, so any other wording reads as drift.
+THIN_LINE = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
+             "`/discover-capabilities`.")
 
 
 def inside(root, rel):
@@ -135,10 +137,17 @@ def new_entry(kind, p, by):
 
 
 def plan(root, spine, request):
+    if not isinstance(request, dict):
+        raise Refused("the request is not a JSON object")
     by = request.get("by") or "a play"
     parts = request.get("parts")
     if parts is None:
-        parts = [dict(f, kind="feature") for f in request.get("features") or []]
+        features = request.get("features") or []
+        if not isinstance(features, list) or not all(isinstance(f, dict) for f in features):
+            raise Refused("`features` must be a list of objects")
+        parts = [dict(f, kind="feature") for f in features]
+    if not isinstance(parts, list) or not all(isinstance(p, dict) for p in parts):
+        raise Refused("`parts` must be a list of objects")
     new_spine = copy.deepcopy(spine)
     index = {kind: {e["id"]: e for e in new_spine.setdefault(key, [])} for kind, key in KINDS.items()}
     before = {kind: set(ids) for kind, ids in index.items()}
@@ -193,7 +202,7 @@ def plan(root, spine, request):
                 raise Refused(f"{pid}: its page {entry['doc']} is not on disk")
             with open(page, encoding="utf-8") as fh:
                 text = fh.read()
-            new_text = with_thin_line(text, thin_line(by))
+            new_text = with_thin_line(text, THIN_LINE)
             if new_text is None:
                 raise Refused(f"{pid}: its page has no ICE section to mark thin")
             entry.setdefault("metadata", {})["thin"] = True

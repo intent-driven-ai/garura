@@ -107,7 +107,8 @@ class LinkPartTest(unittest.TestCase):
         self.assertEqual(entry["issue"], 2)
         self.assertTrue(entry["metadata"]["thin"])
         page = self.read("features/fn-2/feature.md")
-        self.assertEqual(page.count("Thin: proposed by /test"), 1)
+        self.assertEqual(page.count("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
+                                    "`/discover-capabilities`."), 1)
         self.assertLess(page.index("Thin:"), page.index("## Agent intent (ICE)"))
         self.assertEqual(report["written"], ["fn-2"])
 
@@ -225,6 +226,26 @@ class LinkPartTest(unittest.TestCase):
         finally:
             safe_write.atomic_write = real
         self.assertEqual((self.read("_spine.yaml"), self.read("features/fn-2/feature.md")), before)
+
+    def test_the_thin_line_is_the_one_the_model_check_expects(self):
+        sys.path.insert(0, os.path.join(HERE, "..", "..", "..", "plays", "shape-slice", "scripts"))
+        import slice_check
+        import link_part
+        self.assertEqual(link_part.THIN_LINE, slice_check.THIN_LINE)
+
+    def test_a_malformed_request_is_refused_and_writes_nothing(self):
+        before = self.read("_spine.yaml")
+        req = os.path.join(self.base, "req.json")
+        out = os.path.join(self.base, "report.json")
+        for body in ([1, 2], {"parts": "fn-2"}, {"parts": ["fn-2"]}, {"features": [3]}):
+            with open(req, "w", encoding="utf-8") as fh:
+                json.dump(body, fh)
+            r = subprocess.run([sys.executable, SCRIPT, "--request", req, "--product-base", self.base,
+                                "--out", out], capture_output=True, text=True)
+            self.assertEqual(r.returncode, 2, body)
+            self.assertIn("refused, nothing written", r.stderr)
+            self.assertNotIn("Traceback", r.stderr)
+        self.assertEqual(self.read("_spine.yaml"), before)
 
     def assert_refused_parts(self, parts, words):
         before = self.read("_spine.yaml")
