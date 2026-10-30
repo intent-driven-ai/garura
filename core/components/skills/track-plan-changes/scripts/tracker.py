@@ -17,7 +17,9 @@ methods:
 Methods: get(number) -> issue dict, or None when the tracker has no such issue (any other failed
 read raises TrackerError, never None); close(number, reason); reopen(number);
 set_title(number, title); set_body(number, body); set_type(number, type); create(title, body,
-type, parent) -> number; attach(parent, child); detach(parent, child).
+type, parent) -> number; attach(parent, child); detach(parent, child); find_marked(text) -> the
+numbers of issues whose text holds that exact line (a create's marker), so a run again finds
+the issue an earlier run made.
 An issue dict: {number, title, type, labels, state, state_reason, body, parent, sub_issues}.
 No judgment is made here.
 """
@@ -124,6 +126,9 @@ class FileTracker:
         self._save()
         return number
 
+    def find_marked(self, text):
+        return [int(d["number"]) for d in self.data.get("issues", []) if text in (d.get("body") or "")]
+
     def attach(self, parent, child):
         p = self._need(parent)
         self._need(child)
@@ -160,7 +165,7 @@ class HostTracker:
         res = self.pa.dispatch("view-issue", {"issue_number": str(number)}, config_path=self.config)
         if res["exit_code"] != 0:
             why = (res["stderr"] or res["stdout"]).strip()
-            if "could not resolve to an issue" in why.lower() or "not found" in why.lower():
+            if "could not resolve to an issue" in why.lower():
                 return None  # the tracker has no such issue
             raise TrackerError(f"view-issue #{number} failed: {why}")
         if not res.get("tree_available", True):
@@ -203,6 +208,19 @@ class HostTracker:
         if not number.isdigit():
             raise TrackerError(f"create-issue-typed gave no issue number: {number!r}")
         return int(number)
+
+    def find_marked(self, text):
+        res = self._adapter("list-issues", {"query": f'"{text}" in:body', "state": "all", "limit": 10})
+        try:
+            hits = json.loads(res["stdout"] or "[]")
+        except ValueError:
+            raise TrackerError("list-issues gave no JSON")
+        found = []
+        for hit in hits:
+            issue = self.get(hit.get("number"))
+            if issue and text in issue["body"]:
+                found.append(issue["number"])
+        return found
 
     def attach(self, parent, child):
         self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})

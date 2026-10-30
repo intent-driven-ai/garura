@@ -26,13 +26,18 @@ makes each op of github-ops.json, in order:
 
 An `issue` or `parent` written "@e7" is the number op e7 made. The record is written after every
 write, so a run that stops part way names what was done; run again, it skips each op the record
-has and never makes an issue twice. An op whose result is already in the tracker (a close of a
+has. Each issue a create makes carries a marker line, "Made by /update-plan (list <12 hex>, op
+<id>).", and before a create the tracker is searched for it: an issue an earlier run made (the
+run died before its record was written, or the host gave no number back) is found and used, never
+made twice. The record is tied to the approved list (`list_sha`): a record from another list is
+refused, never skipped over. An op whose result is already in the tracker (a close of a
 closed issue with the same reason, a title that already reads so) is recorded as `already`.
 
 With --read, `apply` also reads those issues just before its first write (--before) and again
 after its last (--after), so the play can check that nothing else changed.
 
-Record: {"ok", "done": {"<id>": {"op", "issue", "result"}}, "failed": null | {"id", "error"}}.
+Record: {"ok", "list_sha", "done": {"<id>": {"op", "issue", "result", "how"}}, "failed": null |
+{"id", "error"}}; `how` is done, made, found (an earlier run made it) or already.
 Exit 0 every op done; 1 a write failed (the record names it); 2 refused or bad input.
 """
 
@@ -101,11 +106,27 @@ def resolve(value, done):
     return None if value is None else int(value)
 
 
-def run_op(tr, op, done):
+def marker(list_sha, op_id):
+    return f"Made by /update-plan (list {list_sha[:12]}, op {op_id})."
+
+
+def run_op(tr, op, done, list_sha):
     kind = op["op"]
     if kind == "create":
         parent = resolve(op.get("parent"), done)
-        return "made", tr.create(op["title"], op.get("body") or "", op["type"], parent)
+        mark = marker(list_sha, op["id"])
+        found = tr.find_marked(mark)
+        if found:
+            return "found", found[0]
+        body = (op.get("body") or "").rstrip("\n")
+        body = (body + "\n\n" if body else "") + mark + "\n"
+        try:
+            return "made", tr.create(op["title"], body, op["type"], parent)
+        except TrackerError:
+            found = tr.find_marked(mark)
+            if found:
+                return "found", found[0]
+            raise
     number = resolve(op["issue"], done)
     now = tr.get(number)
     if now is None:
@@ -156,9 +177,13 @@ def apply(args):
     ids = [o.get("id") for o in ops]
     if len(set(ids)) != len(ids) or None in ids:
         raise Refused("each op needs its own id")
-    rec = {"ok": False, "done": {}, "failed": None}
+    list_sha = approval["list_sha"]
+    rec = {"ok": False, "list_sha": list_sha, "done": {}, "failed": None}
     if os.path.isfile(args.out):
-        rec["done"] = read_json(args.out, "the record").get("done") or {}
+        old = read_json(args.out, "the record")
+        if old.get("list_sha") != list_sha:
+            raise Refused("the record there is from another list; move it aside, nothing is written")
+        rec["done"] = old.get("done") or {}
     tr = open_tracker(args.config, args.tracker_file)
     if args.read and args.before and not os.path.isfile(args.before):
         write_json(args.before, snapshot(tr, args.read))
@@ -166,13 +191,13 @@ def apply(args):
         if op["id"] in rec["done"]:
             continue
         try:
-            how, number = run_op(tr, op, rec["done"])
+            how, number = run_op(tr, op, rec["done"], list_sha)
         except TrackerError as e:
             rec["failed"] = {"id": op["id"], "error": str(e)}
             write_json(args.out, rec)
             return 1
-        rec["done"][op["id"]] = {"op": op["op"], "issue": number, "result": number if how == "made" else None,
-                                 "how": how}
+        rec["done"][op["id"]] = {"op": op["op"], "issue": number,
+                                 "result": number if how in ("made", "found") else None, "how": how}
         write_json(args.out, rec)
     rec["ok"] = True
     write_json(args.out, rec)

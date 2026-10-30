@@ -59,11 +59,14 @@ now. It has no judgment in it: the session worked out each write, and the person
 `snapshot.json` — `{"issues": {"<number>": {number, title, type, labels, state, state_reason,
 body, parent, sub_issues}}, "missing": [..]}`.
 
-`github-record.json` — `{"ok", "done": {"<op id>": {op, issue, result, how}}, "failed"}`; `result`
-is the number of an issue the op made; `how` is `done`, `made` or `already`.
+`github-record.json` — `{"ok", "list_sha", "done": {"<op id>": {op, issue, result, how}},
+"failed"}`; `result` is the number of an issue the op made; `how` is `done`, `made`, `found` (an
+earlier run made it: each new issue carries the line "Made by /update-plan (list <12 hex>, op
+<id>).", and a create first looks for it) or `already`. A record from another list is refused.
 
 ## Rules
 
 - Only the list the person approved, and only through the platform adapter's verbs.
-- Each write is recorded as soon as it is made; a run again never repeats one.
+- Each write is recorded as soon as it is made; a run again never repeats one, and a create
+  looks for its own marker first, so an issue is never made twice.
 - No labels are added, and nothing is deleted.

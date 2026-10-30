@@ -109,6 +109,24 @@ class TrackChangesTest(unittest.TestCase):
         self.assertEqual(len([i for i in self.load(self.tracker)["issues"] if i["title"] == "Undo"]), 1)
         self.assertEqual(self.issue(2)["title"], "New")
 
+    def test_a_run_that_died_before_its_record_never_makes_the_issue_twice(self):
+        ops = [{"id": "e1", "op": "create", "title": "Undo", "body": "b", "type": "Story", "parent": 1}]
+        self.assertEqual(self.apply(ops), 0)
+        os.remove(self.out)                                   # the record was never written
+        self.assertEqual(self.apply(ops), 0)
+        made = [i for i in self.load(self.tracker)["issues"] if i["title"] == "Undo"]
+        self.assertEqual(len(made), 1)
+        self.assertIn("Made by /update-plan", made[0]["body"])
+        self.assertEqual(self.load(self.out)["done"]["e1"]["how"], "found")
+
+    def test_a_record_from_another_list_is_refused(self):
+        self.assertEqual(self.apply([{"id": "e1", "op": "title", "issue": 2, "title": "New"}]), 0)
+        with open(self.changes, "a") as fh:
+            fh.write("# another list\n")
+        self.approve()
+        self.assertEqual(self.apply([{"id": "e1", "op": "title", "issue": 3, "title": "Other"}]), 2)
+        self.assertEqual(self.issue(3)["title"], "Drop me")
+
     def test_already_true_is_recorded_not_written(self):
         self.assertEqual(self.apply([{"id": "e1", "op": "close", "issue": 4, "reason": "completed"},
                                      {"id": "e2", "op": "title", "issue": 2, "title": "Old title"}]), 0)
