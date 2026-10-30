@@ -93,7 +93,7 @@ tree:
     - issue: 997
       kind: story
       title: 'The Thin line no longer names /shape-slice: /shape-slice, the model-linking skill and the thin pages move to the new wording'
-      status: Not Started  # filed 2026-10-30 from the #720 build: the scripts and pages follow ontology v14
+      status: Done  # built inside #720's change (PR #998, round 3 fixes), 2026-10-30: scripts, /shape-slice's C16, eleven pages re-marked
   - issue: 721
     kind: feature
     title: 'Start and land work against a plan: plan branches in start-change and merge-change'
