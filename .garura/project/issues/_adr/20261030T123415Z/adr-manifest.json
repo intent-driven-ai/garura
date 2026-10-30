@@ -1,0 +1,35 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261030T123415Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "026",
+      "file": "docs/adr/026-direct-to-model-writes.md",
+      "kind": "amended",
+      "part": "Decision, the write-then-review order and its \"Consequent mechanics\" line \"Checkpoint cancel means git restore of the model paths ... Approve means proceed; the writes are already on disk and reviewable\": for /update-plan, the model is written only after the person's plain \"approved\" for the whole list; \"rejected\" and \"abort\" write nothing in the model, so there is nothing to revert. A declared exception, like /discover-intent's (ADR 031) and /record-decision's (#632). The rest of ADR 026 stands: containment by the shared scoped-write guard, and \"Clean tree in, committed delta out\" (the model delta is committed at close, in the session's one commit on the plan's branch)."
+    },
+    {
+      "adr": "058",
+      "file": "docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md",
+      "kind": "amended",
+      "part": "Decision \u00a72, \"An edit the person approves may change a slice in progress\" \u2014 there the /shape-slice edit option is the only way a slice in progress changes: an /update-plan session the person approves may now also add a feature to a slice in progress (link-model-part, add_features only; no other part of the slice changes), and its confirm screen says the slice is in progress and names each epic past ready, with its status, as out of date, as \u00a73 asks of the edit brief. And its ICE impact's words \"no other play's ICE changes\": /update-plan's ICE changes (C11). \u00a71 (a shaping run never touches a slice in progress) and \u00a73 (the edit brief names the epic as out of date) stand."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "026-direct-to-model-writes.md",
+    "058-an-edit-the-person-approves-may-change-a-slice-in-progress.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

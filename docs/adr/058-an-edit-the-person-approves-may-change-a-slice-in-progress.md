@@ -1,6 +1,6 @@
 # ADR 058 — An Edit the Person Approves May Change a Slice in Progress, and Its Brief Names the Epic as Out of Date
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 062](062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md): Decision §2, "An edit the person approves may change a slice in progress" — there the /shape-slice edit option is the only way a slice in progress changes: an /update-plan session the person approves may now also add a feature to a slice in progress (link-model-part, add_features only; no other part of the slice changes), and its confirm screen says the slice is in progress and names each epic past ready, with its status, as out of date, as §3 asks of the edit brief. And its ICE impact's words "no other play's ICE changes": /update-plan's ICE changes (C11). §1 (a shaping run never touches a slice in progress) and §3 (the edit brief names the epic as out of date) stand.
 **Date:** 2026-10-27
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #908 (the edit option of `/shape-slice`, business intent #904) and the review of PR #911 into `plan/788/798-shape-eval`, plan #788

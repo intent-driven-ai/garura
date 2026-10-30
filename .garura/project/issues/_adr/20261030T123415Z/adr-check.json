@@ -1,0 +1,21 @@
+{
+  "task_id": "redraft-adr",
+  "draft": ".garura/project/issues/_adr/20261030T123415Z/adr-draft.md",
+  "lint": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261030T123415Z/adr-draft.md",
+    "valid": true,
+    "problems": []
+  },
+  "guard": {
+    "exit": 0,
+    "adr": ".garura/project/issues/_adr/20261030T123415Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "declared_check": "none",
+  "agrees": true,
+  "retries": 0,
+  "open_you_decide_items": 0
+}

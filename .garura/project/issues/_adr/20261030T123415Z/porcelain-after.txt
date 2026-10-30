@@ -1,0 +1,60 @@
+ M core/components/memory/standards/rules/direct-model-write.md
+ M core/components/memory/standards/schemas/product-os/spine.yaml
+ M core/components/memory/standards/templates/plan-update.md
+ M core/components/plays/create-play/references/test_check_ice_workable.py
+ M core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-plan/scripts/render_brief.py
+ M core/components/plays/shape-plan/scripts/test_find_work_items.py
+ M core/components/plays/shape-plan/scripts/test_render_brief.py
+ M core/components/plays/shape-plan/scripts/test_write_plan_file.py
+ M core/components/plays/shape-plan/scripts/test_write_work_items.py
+ M core/components/plays/shape-slice/scripts/persist_fills.py
+ M core/components/plays/shape-slice/scripts/slice_check.py
+ M core/components/plays/shape-slice/scripts/test_shape_slice_scripts.py
+ M core/components/plays/shape-slice/scripts/test_write_hidden_file.py
+ M core/components/plays/shape-slice/scripts/write_hidden_file.py
+ M core/components/plays/update-plan/scripts/check_entries.py
+ M core/components/plays/update-plan/scripts/place_feature.py
+ M core/components/plays/update-plan/scripts/record_answer.py
+ M core/components/plays/update-plan/scripts/render_screen.py
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+ M core/components/skills/_shared/asking-a-person.md
+ M core/components/skills/author-plan-changes/SKILL.md
+ M core/components/skills/enrich-grounding/scripts/test_change_lines.py
+ M core/components/skills/link-model-part/SKILL.md
+ M core/components/skills/link-model-part/scripts/link_part.py
+ M core/components/skills/link-model-part/scripts/test_link_part.py
+ M core/components/skills/track-plan-changes/SKILL.md
+ M core/components/skills/track-plan-changes/scripts/test_track_changes.py
+ M core/grounding/glossary.md
+ M core/tools/lint-components/lib/rules/structural.js
+ M core/tools/plan/README.md
+ M core/tools/plan/plan_branch.py
+ M core/tools/plan/test_plan_branch.py
+ M docs/adr/026-direct-to-model-writes.md
+ M docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
+ M docs/adr/_index.md
+?? .garura/project/issues/720/review/merge-gate.json
+?? .garura/project/issues/720/review/target.json
+?? .garura/project/issues/720/specs/fix-design-round-3.md
+?? .garura/project/issues/_adr/20261030T123415Z/adr-check.json
+?? .garura/project/issues/_adr/20261030T123415Z/adr-context.yaml
+?? .garura/project/issues/_adr/20261030T123415Z/adr-draft.md
+?? .garura/project/issues/_adr/20261030T123415Z/adr-manifest.json
+?? .garura/project/issues/_adr/20261030T123415Z/brief.md
+?? .garura/project/issues/_adr/20261030T123415Z/context/memory/manifest.json
+?? .garura/project/issues/_adr/20261030T123415Z/context/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/_adr/20261030T123415Z/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261030T123415Z/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261030T123415Z/decision.yaml
+?? .garura/project/issues/_adr/20261030T123415Z/hashes-before-preflight.json
+?? .garura/project/issues/_adr/20261030T123415Z/hashes-before.json
+?? .garura/project/issues/_adr/20261030T123415Z/porcelain-after.txt
+?? .garura/project/issues/_adr/20261030T123415Z/porcelain-before-preflight.txt
+?? .garura/project/issues/_adr/20261030T123415Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261030T123415Z/run.json
+?? .garura/project/issues/_adr/20261030T123415Z/start-change.json
+?? core/components/plays/update-plan/scripts/session_files.py
+?? core/tools/lint-components/test/dmw-declared-exception.test.js
+?? docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md
