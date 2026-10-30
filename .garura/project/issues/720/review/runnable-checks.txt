@@ -1,0 +1,21 @@
+== runnable checks (check-change Step 3, PR #998)
+-- core/components/plays/update-plan/scripts: python3 -m unittest test_update_plan_scripts
+Ran 19 tests in 0.617s
+
+OK
+-- core/components/skills/track-plan-changes/scripts: python3 -m unittest test_track_changes
+Ran 8 tests in 0.074s
+
+OK
+-- core/components/skills/link-model-part/scripts: python3 -m unittest test_link_part
+Ran 21 tests in 1.825s
+
+OK
+-- core/tools/plan: python3 -m unittest test_plan test_plan_branch
+Ran 29 tests in 8.965s
+
+OK
+-- create-play/references: python3 test_platform_adapter.py
+58 passed, 0 failed
+-- ruff ruff 0.15.20 (defaults) on the changed non-test python
+All checks passed!
