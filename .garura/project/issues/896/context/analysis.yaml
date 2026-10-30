@@ -1,0 +1,75 @@
+needs_judgment: false
+branch: plan/717/896-shape-plan-stops-on-existing-plan
+issue: 896
+
+change_groups:
+  - id: feat-shape-plan-existing-plan
+    issue: 896
+    commit_type: feat
+    scope: shape-plan
+    subject: "stop at pre-flight when the intent already has a plan and point to /update-plan"
+    confidence: high
+    files:
+      - core/components/plays/shape-plan/reference/ice.md
+      - core/components/plays/shape-plan/SKILL.md
+      - core/components/plays/shape-plan/scripts/check_plan_absent.py
+      - core/components/plays/shape-plan/scripts/test_check_plan_absent.py
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Intent change to the play (ICE source plus compiled SKILL.md) with its new pre-flight script and test."
+
+  - id: docs-product-model-fn-818
+    issue: 896
+    commit_type: docs
+    scope: product-model
+    subject: "update fn-818 ICE lines"
+    confidence: high
+    files:
+      - .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Product model page for the feature; its own group."
+
+  - id: chore-plan-717-done
+    issue: 896
+    commit_type: chore
+    scope: plan
+    subject: "mark #896 Done in plan 717"
+    confidence: high
+    files:
+      - .garura/project/plans/717.yaml
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "One status line: 896 Not Started to Done."
+
+  - id: chore-stm-896-run-records
+    issue: 896
+    commit_type: chore
+    scope: stm
+    subject: "record shape-plan existing-plan run artifacts"
+    confidence: high
+    files:
+      - .garura/project/issues/896/specs/design.md
+      - .garura/project/issues/896/context/fn-818-lines/change-report.json
+      - .garura/project/issues/896/context/fn-818-lines/lines-request.json
+      - .garura/project/issues/896/context/analysis.yaml
+      - .garura/project/issues/896/context/porcelain.txt
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational run records, not part of the feature."
+
+exclusions:
+  - path: ".garura/install-manifest.json"
+    reason: "Machine-written by the install; only the Phoenix memory version hash changed (f8e35c3bd9b6 to 118899951cd9). Belongs to no concern of #896. Flagged for the caller; left uncommitted."
+    blocking: false
+
+risks:
+  sensitive_files: []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "4 concerns, every changed file in exactly one group or in exclusions"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched; install-manifest.json is a generated file, not a secret"}
