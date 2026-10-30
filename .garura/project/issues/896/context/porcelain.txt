@@ -1,10 +1,2 @@
  M .garura/install-manifest.json
- M .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
- M .garura/project/plans/717.yaml
- M core/components/plays/shape-plan/SKILL.md
- M core/components/plays/shape-plan/reference/ice.md
-?? .garura/project/issues/896/context/fn-818-lines/
-?? .garura/project/issues/896/context/porcelain.txt
-?? .garura/project/issues/896/specs/
-?? core/components/plays/shape-plan/scripts/check_plan_absent.py
-?? core/components/plays/shape-plan/scripts/test_check_plan_absent.py
+ M .garura/project/issues/896/context/porcelain.txt
