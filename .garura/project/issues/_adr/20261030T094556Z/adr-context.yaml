@@ -1,0 +1,187 @@
+# Context for the ADR draft, gathered by adr-keeper (record-decision, Step 2, task draft-adr).
+shape: markdown
+number: "061"                       # adr.py number --dir docs/adr -> {"next": "061", "taken": 60}
+slug: a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first
+file_when_accepted: docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+title_suggestion: "A Plan's Branch Is Cut by the Play That Starts the Plan's Work, Main First, Through One Shared Script"
+status: proposed
+date: 2026-10-30
+level: framework
+node_ref: null
+decided_by: ""                      # left empty: filled by adr.py accept when a person accepts. The brief names the product owner (a role); name the role in prose in Context.
+decided_in: "#720 (manage a plan with /update-plan), plan 717, on `plan/717/720-update-plan`, PR #998 — the review's findings HF-1 and MEM-1 asked for this record"
+template_path: .garura/project/issues/_adr/20261030T094556Z/context/templates/standards/templates/adr.md
+draft_path: .garura/project/issues/_adr/20261030T094556Z/adr-draft.md
+
+supersedes: []
+
+amends:
+  - adr: "060"
+    file: docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+    part: >-
+      Decision §3 "When work on the plan starts again, a new branch is cut from main" — its
+      sentence "The next start-change for an issue in the plan finds no plan branch and cuts a new
+      `plan/<plan-id>/base` from the latest main": the play that starts the plan's work cuts it
+      (/update-plan now, start-change once #989 is built), through the plan tool's plan_branch.py,
+      main's plan file first. Its ICE impact's sentence "No product agent reads branches (line
+      598: managing a plan never touches branches or code)": managing a plan may now cut the
+      plan's branch; it still never merges a branch and never touches code. And, in "What this
+      changes", the line "start-change: C9, a plan's branch is cut from the latest main when work
+      on the plan starts": it stands until #989 is built, then start-change cuts through the same
+      script. §1, §2, §4 and §5 stand: the branch is still cut from main when work starts, merges
+      into main when the plan pauses, is held back only to keep main working, and there are no
+      detour plans.
+    pointer_for_the_play: >-
+      amended in part by ADR 061: §3's "The next start-change ... cuts a new plan/<plan-id>/base"
+      and its ICE impact's "managing a plan never touches branches" — the play that starts a
+      plan's work cuts its branch through plan_branch.py, main's plan file set to In Progress first
+
+overlap_candidates_from_script:      # adr.py overlaps --adr <brief> --dir docs/adr
+  - {adr: "060", score: 6.5, named_in_new: true}
+  - {adr: "029", score: 3.2, shared_paths: ["/start-change"]}
+  - {adr: "028", score: 2.85, shared_paths: ["/start-change"]}
+
+not_affected:
+  - adr: "028"
+    why: names the change chain (/start-change first) as a loop only; it says nothing on plan branches or who cuts them
+  - adr: "029"
+    why: a drive's one branch for its main issue (§ "A drive opens the change"); a drive's branch is not a plan's branch, and nothing here changes it
+  - adr: "030"
+    why: plan mode is a change's working plan on disk (start-change -> plan-change -> approve-change); it is not the Plan kind and says nothing on branches (ADR 060's own Context says the same)
+  - adr: "046"
+    why: naming only; it lists docs/standards/harness-standard.md under Affects as a new file. Principle 8 of that standard ("When work on a plan starts, the plan gets its own branch ... cut from main") still holds word for word — the cut is still from main — so neither ADR 046 nor the standard changes
+  - adr: "049"
+    why: one plan for each business intent, and where the eval and guide live; nothing on branches
+  - adr: "048"
+    why: the product model and the work as two layers; nothing on branches
+
+affects:
+  - path: core/tools/plan/plan_branch.py
+    what: "new in #720 (commits 314fb5ed, 5223135d); `go` stays, switches or — for a plan with no branch — sets main's plan file to `status: In Progress` and `branch: plan/<id>/base`, commits only that file on main, pushes main, cuts the branch from that commit and pushes it; a failed push of main takes the commit back (lines 193-197); a plan main marks Done or Dropped gets no branch (exit 2); `abort` reverts the cut commit on main and deletes the branch only when the branch holds nothing but that commit; `back` returns to the starting branch"
+  - path: core/tools/plan/README.md and core/tools/plan/test_plan_branch.py
+    what: the script's usage (lines 50-57) and its tests
+  - path: core/components/plays/update-plan/reference/ice.md
+    what: C2 (lines 20-24, the main-first cut is "the one write before approval"), C5 (abort undoes a cut), C7 (never merges a branch, never touches code), F2, F3, S3 (lines 111-114)
+  - path: core/components/plays/update-plan/SKILL.md
+    what: Step 3 "Get onto the plan's branch" (lines 139-151, SE-3) and Step 13 (back / abort, lines 350-362), pre-flight check for plan_branch.py (line 58)
+  - path: core/components/memory/standards/templates/plan-update.md
+    what: the cut_note screen (lines 100-101)
+  - path: core/components/memory/standards/schemas/product-os/ontology.md
+    what: version 14 (#720), the Plan kind — rule line 622 ("When the plan has no branch, it first sets main's plan file to In Progress with the branch named, commits that on main, and cuts the plan's branch from that commit. It cuts no other branch, never merges a branch, and never touches code"), line 623 (the cut is the one exception to "a person sets the status"), line 627 (main's copy names the branch), line 636 (States). Replaces v13's line 598 "managing a plan changes both together and never touches branches or code" (main's copy)
+  - path: core/components/plays/start-change/reference/ice.md
+    what: C9 (lines 31-36, "A plan's branch is created only when work on the plan starts — by the first start-change for an issue in it, cut from the latest main") and S5 (lines 95-99) — unchanged now; they follow when #989 is built
+  - path: core/components/plays/start-change/scripts/setup_branch.py
+    what: cuts and pushes `plan/<P>/base` itself today (lines 107-108), without plan_branch.py and without writing main's plan file — moves to plan_branch.py with #989
+  - path: .garura/project/plans/<id>.yaml
+    what: on main, `status` and `branch` are written by the cut (every other line kept byte for byte)
+  - path: docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+    what: gains a forward pointer after acceptance (the play writes it)
+
+unchanged_but_checked:
+  - docs/standards/harness-standard.md principle 8 (lines 86-95) — still true; it does not say which play cuts
+  - .garura/user-provided/managing-work.md section "A plan's branch: start, pause, start again" (lines 160-177) — still true ("cut from main"); it does not name the play or the main-first step
+
+ice_impact: >-
+  /update-plan's ICE (C2, C5, C7, F2, F3, S3) holds the cut, written in #720 on this branch: it
+  cuts a plan's branch, main first, as the one write before the person's approval, and an abort
+  undoes it. start-change's C9 and S5 do not change now; when #989 is built they change in
+  meaning: start-change cuts the plan's branch through plan_branch.py, and main's plan file reads
+  In Progress with the branch named. The ontology's Plan kind (v14, rule line 622) already says
+  managing a plan may cut its branch and still never merges a branch or touches code; line 623
+  makes the cut the one change to a plan's status a person did not type. No product agent's ICE
+  changes: no product agent reads branches. Read from the source ontology, because the memory
+  tool's copy (Phoenix memory, version 4) has no Plan kind.
+
+business_intent_check: none
+business_intent_check_why: >-
+  a framework rule about which play cuts a plan's branch; no page under
+  .garura/product/product-os/intents/ changes on this branch (git diff main...HEAD and git status
+  show none). Do not quote an intent's title or name an intent page id in the draft.
+
+related: ["ADR 060", "ADR 030", "ADR 046", "ADR 049", "#720", "#730", "#717", "#989", "#949", "#731", "PR #998", "PR #950"]
+
+memory:
+  - tier: phoenix
+    path: standards/schemas/product-os/ontology.md
+    version: f8e35c3bd9b6
+    fingerprint: sha256:c07cbc674d46f6748637293ad96c5ad6b7841e98b02caa95464ce74639523f3c
+    copy: .garura/project/issues/_adr/20261030T094556Z/context/memory/standards/schemas/product-os/ontology.md
+    note: version 4 (updated 2026-10-18); holds no Plan kind and no branch rule, so it cannot answer the ICE impact. The source file, which the decision changes, was read instead. No other tier holds the ontology (find --every-tier).
+
+for_the_accepter:
+  - point: Until #989 is built, start-change still cuts a plan's branch its own way, and that cut leaves main's plan file as it was
+    what_and_where: >-
+      start-change's intent, core/components/plays/start-change/reference/ice.md, C9 (lines 31-36)
+      and S5 (lines 95-99); its script core/components/plays/start-change/scripts/setup_branch.py
+      (lines 107-108 push `plan/<P>/base`); issue #989 (open, "start-change starts a plan on its
+      own: it cuts the plan's branch from main, with no story branch").
+    detail: >-
+      C9 still reads "A plan's branch is created only when work on the plan starts — by the first
+      start-change for an issue in it, cut from the latest main". Today setup_branch.py cuts
+      `plan/<P>/base` straight from main and does not call plan_branch.py. It writes nothing in
+      main's plan file, so the status stays what it was (for example Paused or Not Started) and
+      `branch` stays null. The ontology v14 (line 627) says main's copy names the branch. So
+      there are two ways to cut a plan's branch until #989: /update-plan's (main first, the file
+      names the branch) and start-change's (the file says nothing). C9's word "only" is also no
+      longer true: /update-plan cuts too.
+    why_it_matters: >-
+      A person who starts a plan's work with start-change sees, in /list-plans and /show-plan
+      (they read the plan files only), a plan with no branch and the old status while its branch
+      exists. A later /update-plan finds the branch in git and switches to it, so it does not fix
+      main's file either.
+    this_decision_does: >-
+      records that start-change will cut through plan_branch.py once #989 is built, and leaves
+      C9, S5 and setup_branch.py as they are now (the brief: "start-change's ICE C9 follows when
+      #989 is built").
+    you_decide: >-
+      whether C9 and setup_branch.py wait for #989 as the brief says, or C9's "only ... by the
+      first start-change" is reworded now (for example "by the first start-change or
+      /update-plan").
+  - point: "ADR 060's promise on the plan file's branch field is half kept — the cut writes the name, but nothing writes `branch: null` when a plan pauses"
+    what_and_where: >-
+      ADR 060, the point "Recorded on #730 — nothing writes a plan file's branch field yet" (lines
+      75-81); the comment on #730 of 2026-10-29 ("When a plan's branch lands on main (the plan
+      pauses), the field becomes null; when start-change cuts a new plan branch, it gets that
+      name"); core/tools/plan/plan_branch.py (lines 118-133 write the field); merge-change's
+      scripts and update-plan's scripts.
+    detail: >-
+      plan_branch.py now writes `branch: plan/<id>/base` on main when it cuts. No script writes
+      `branch: null` when a plan's branch lands on main: a search of core/tools/plan/,
+      core/components/plays/merge-change/scripts/ and core/components/plays/update-plan/scripts/
+      finds no such write, and update-plan's ICE has no step for it. #730 is open on GitHub,
+      while plan 717's file on this branch (its `updated:` line) lists #730 as Done.
+    why_it_matters: >-
+      After a pause, main's plan file still names a branch that was deleted, until a person edits
+      it by hand — the drift plan 788's file showed (ADR 060). The cut itself is safe: `go`
+      decides from git, not from the file, so a stale name does not stop it.
+    this_decision_does: nothing — it is about the cut, not the pause.
+    you_decide: "whether writing `branch: null` on a pause stays owed under #730, or becomes its own issue."
+  - point: Agents still cannot read the Plan kind through memory — Phoenix memory's ontology is version 4 (#949)
+    what_and_where: >-
+      Phoenix memory, standards/schemas/product-os/ontology.md (the only tier that holds it,
+      found with find --every-tier); the source core/components/memory/standards/schemas/product-os/ontology.md
+      is version 14; issue #949 (open).
+    detail: >-
+      the memory tool returns version 4 (updated 2026-10-18), with no Plan kind and no branch
+      rule. The source is version 14 (2026-10-30), whose Plan kind holds this cut (line 622) and
+      its status exception (line 623). #949 tracks Phoenix memory falling behind the source in 60
+      places.
+    why_it_matters: >-
+      agents read the ontology only through the memory tool, so none sees that managing a plan
+      may now cut its branch. This ADR's ICE impact was read from the source file, as a file the
+      decision changes, not from memory.
+    this_decision_does: nothing — the gap is outside this decision.
+    you_decide: nothing now; it is owed in #949.
+
+work_this_creates:
+  - "#989: start-change cuts a plan's branch through plan_branch.py, main first; then C9 and S5 of its ICE change through /edit-play"
+  - "After acceptance, the play writes ADR 060's forward pointer and rebuilds the ADR index"
+
+references:
+  - .garura/project/issues/_adr/20261030T094556Z/brief.md — the decision brief
+  - core/tools/plan/plan_branch.py (commits 314fb5ed, 5223135d)
+  - core/components/plays/update-plan/reference/ice.md, core/components/plays/update-plan/SKILL.md
+  - core/components/memory/standards/schemas/product-os/ontology.md, v14 (commit 604df9d5), Plan kind lines 583-636; v13 line 598 on main
+  - core/components/plays/start-change/reference/ice.md (C9, S5), core/components/plays/start-change/scripts/setup_branch.py
+  - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+  - "#720, #730, #949, #989, PR #998 (review findings HF-1 and MEM-1)"

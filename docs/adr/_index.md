@@ -66,3 +66,4 @@ may have no Status line.
 | [058](058-an-edit-the-person-approves-may-change-a-slice-in-progress.md) | An Edit the Person Approves May Change a Slice in Progress, and Its Brief Names the Epic as Out of Date | Accepted | 2026-10-27 |
 | [059](059-the-discovery-loops-knowledge-step-is-one-step-run-by-one-agent.md) | The Discovery Loop's Knowledge Step Is One Step Run by One Agent, the Three Knowledge Plays Are Removed, and the Memory That Taught Them Is Corrected | Accepted | 2026-10-28 |
 | [060](060-a-plans-branch-merges-into-main-when-the-plan-pauses.md) | A Plan's Branch Merges Into Main When the Plan Pauses, Even With Issues Still Open | Accepted | 2026-10-29 |
+| [061](061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md) | A Plan's Branch Is Cut by the Play That Starts the Plan's Work, Main First, Through One Shared Script | Accepted | 2026-10-30 |
