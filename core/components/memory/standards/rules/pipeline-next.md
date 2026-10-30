@@ -74,6 +74,7 @@ next:
   list-focus-issues:          { command: null,           why: "lists the issues worth attention — it has no successor" }
   list-plans:     { command: null,           why: "shows every plan — it has no successor" }
   show-plan:      { command: null,           why: "shows one plan — it has no successor" }
+  update-plan:    { command: null,           why: "the plan is updated on its own branch — it reaches main with the plan's other work" }
 
   # Change loop (git members)
   start-change:   { command: null,           why: "injected at a play's head; the opened play continues" }
