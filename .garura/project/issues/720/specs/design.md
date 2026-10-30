@@ -98,6 +98,17 @@ propose-change, check-change and merge-change, like all its other work.
 - **#931** — the model part: a new feature found mid-plan gets its thin page and joins its slice.
   Needs #979's thin-page path (plan 722).
 
+## Build order (planned 2026-10-30; not started)
+
+#720 is built as one feature; its stories go in this order:
+
+1. **#730 — the /update-plan session**, with **#917** (the findings left by the plan 788 landing review: two work-rules lines, and which item kinds a plan may hold). Nothing it needs is open. It builds the main-first branch step (main's plan file set, then the cut) once, as a shared script.
+2. **#931 — a new feature found mid-plan** joins the model, its slice and its epic inside the session. It builds on #730's session. The model skills it uses are landed (#979's thin page and spine entry, #993's named lines); /update-plan dispatches the model sub-agent itself, so #979's remaining shared play step is not needed first.
+
+Done in this feature already: #993 (the page skill changes named lines on any page), #994 (the title verb).
+
+Related, outside #720 (under #721, start and land work against a plan): #989 (start-change starts a plan on its own) reuses #730's branch step; #991 (/propose-change asks the plan's status and direction); #779 (start-change reads plan files from the checked-out branch).
+
 ## Related
 
 - #989 — start-change starts a plan on its own (main first, then the cut).
