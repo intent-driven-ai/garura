@@ -36,6 +36,7 @@ The product owner asked for the medium (P3) findings to be fixed too, with an ap
 - **`track-plan-changes`**: a fake-host test for finding an issue an earlier run made, and what to check after a crash.
 - **#997, the new Thin line**: `/shape-slice` rebuilt (C16), its scripts and `link-model-part` write the ontology v14 line and read any "Thin:" line; the eleven thin pages re-marked through `link-model-part`.
 - **Words**: the glossary's feature item; `/shape-plan` says Not Started, not "active".
+- **An install test** now reads the component linter's paths from the folder it ran in (round 2 made those paths relative; that test had not followed).
 
 ### How it was checked
 
