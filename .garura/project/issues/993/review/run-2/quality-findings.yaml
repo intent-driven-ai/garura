@@ -62,7 +62,7 @@ round_1_status:
 
 data_safety_probes:
   # Run on a throw-away copy of change_lines.py and safe_write.py in the scratchpad
-  # (/private/tmp/claude-503/-Users-kapilahuja-cto-builder-garura/bf56f49e-13e8-4782-9211-aea45169adfb/scratchpad/probe/);
+  # (<scratchpad>);
   # nothing in the repo was touched.
   - probe: failed page write (second page's folder read-only)
     result: PASS
