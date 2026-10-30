@@ -22,6 +22,8 @@ Closes #993. Closes #994. Plan: #717.
 - **H-1, H-2** — the skill's step 7 and in-place rule allow the lines a named-lines request changes; the agent writes the request, the skill only reads it.
 - **F1** — the branch step is named as the one write before approval, in #720's design, #720 and #730, and the cap-720 and fn-730 pages (through the fixed script, after a reinstall from this branch).
 
+- **Round 2, D1 and D2** — "nothing is written before approved" is scoped to GitHub, the model and plan files (the session's running list in short-term memory is not such a write), in #720's design, #720 and #730, and the cap-720 and fn-730 pages; the clause "not a change the person approves" is dropped.
+
 Left for a follow-up (small): H-3, QF-05…QF-07, F2…F5.
 
 ---
