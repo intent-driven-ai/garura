@@ -23,11 +23,12 @@ structure and link check, with the old-name guard inside it) and then checks the
     each field present and not empty; slice.id, feature_refs, vertical and intents equal to
     the spine entry's; surface.name equal to the vertical. A record with no persona_ref (no
     tester) is not valid;
-  - the thin marks of each part of this slice agree (ontology v11). A part is thin when
+  - the thin marks of each part of this slice agree (ontology v11, v14). A part is thin when
     `metadata.thin` is true on its spine entry (the `ices` entry, or the part's own entry) or
     the fills (--fills) list it in `thin`; a thin part must have the Thin line on its ICE page,
-    and a page with the Thin line must have `metadata.thin: true`. The Thin line is
-        Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+    and a page with the Thin line must have `metadata.thin: true`. The Thin line is any line
+    that starts "Thin:" (new pages get "Thin: proposed from the person's words; deepen with
+    `/discover-capabilities`.")
     just before `## Agent intent (ICE)` (or `## Intent` in an ice.md); and a thin ICE has
     Goal, Limit, Fails if, Context and Checked by (an ice.md: Goal, Limit and Fails if under
     Intent, and a line under Context and under Expectation).
@@ -64,8 +65,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SPINE_FIELDS = ["id", "slug", "feature_refs", "vertical", "intents", "record"]
 RECORD_SLICE = ["id", "slug", "name", "outcome", "feature_refs", "vertical", "intents"]
 RECORD_SURFACE = ["id", "name", "persona_ref", "user_action"]
-THIN_LINE = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-             "`/discover-capabilities`.")
+THIN_LINE = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."  # ontology v14
+# Any line that starts "Thin:" just before the ICE is the mark (ontology v14): a page written
+# with the line of v11 ("Thin: proposed by `/shape-slice` ...") is still thin.
+THIN_ANY = re.compile(r"^\s*Thin:")
 INLINE_ICE = "## Agent intent (ICE)"
 THIN_LABELS = ("Goal", "Limit", "Fails if", "Context", "Checked by")
 
@@ -233,7 +236,7 @@ def thin_problems(root, spine, parts, listed=()):
         at, body = section(text, heading)
         lines = text.splitlines()
         before = next((ln.strip() for ln in reversed(lines[:at]) if ln.strip()), "") if at else ""
-        line = before == THIN_LINE
+        line = bool(THIN_ANY.match(before))
         meta = bool((holder.get("metadata") or {}).get("thin"))
         if thin and not line:
             out.append(f"thin mark drift on {kind} '{eid}': it is marked thin "
@@ -242,7 +245,7 @@ def thin_problems(root, spine, parts, listed=()):
         elif line and not meta:
             out.append(f"thin mark drift on {kind} '{eid}': the Thin line is on '{holder['doc']}', "
                        "but its spine entry has no metadata.thin: true; set both or neither")
-        elif THIN_LINE in text and not line:
+        elif any(THIN_ANY.match(ln) for ln in lines) and not line:
             out.append(f"thin mark drift on {kind} '{eid}': metadata.thin is {meta}, and the Thin "
                        f"line {'is' if line else 'is not'} just before '{heading}' on "
                        f"'{holder['doc']}'; set both or neither")

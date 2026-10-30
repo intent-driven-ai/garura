@@ -1,6 +1,6 @@
 ---
 name: platform-adapter
-description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 24 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
+description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 25 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
 user-invocable: false
 model: haiku
 allowed-tools: Bash, Read
@@ -22,12 +22,12 @@ Receive from caller (agent):
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `verb` | Yes | One of the 24 supported verbs (see Verb Interface below) |
+| `verb` | Yes | One of the 25 supported verbs (see Verb Interface below) |
 | `args` | Yes | Map of named arguments for the verb (see per-verb reference) |
 
 ## Verb Interface
 
-The adapter exposes exactly 24 verbs:
+The adapter exposes exactly 25 verbs:
 
 | Verb | Purpose |
 |------|---------|
@@ -40,12 +40,13 @@ The adapter exposes exactly 24 verbs:
 | `add-reviewer` | Add a reviewer to a PR/MR |
 | `create-pr` | Create a pull/merge request |
 | `merge-pr` | Merge a pull/merge request |
-| `view-issue` | Read issue details, with its type, parent and sub-issues where the platform and gh version allow (see the version gate in `reference/github/verbs.md`) |
+| `view-issue` | Read issue details, with its close reason, its type, parent and sub-issues where the platform and gh version allow (see the version gate in `reference/github/verbs.md`) |
 | `create-issue` | Create a new issue |
 | `list-issues` | List/search issues |
 | `close-issue` | Close an issue |
 | `comment-issue` | Post a comment on an issue |
 | `edit-issue-title` | Change an issue's title |
+| `reopen-issue` | Reopen a closed issue |
 | `add-label` | Add labels to an issue or PR |
 | `attach-sub-issue` | Attach a child issue to a parent (GitHub only; GitLab falls back to related-link) |
 | `view-user` | Get the current authenticated user's login |
@@ -109,7 +110,7 @@ Apply the platform resolution steps above. Halt on pre-flight failure before exe
 
 ### Step 2: Look Up Verb
 
-Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, edit-issue-title, add-label, attach-sub-issue, view-user, update-comment, create-issue-typed, set-issue-type, edit-issue-body, remove-label, remove-sub-issue."`
+Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, edit-issue-title, reopen-issue, add-label, attach-sub-issue, view-user, update-comment, create-issue-typed, set-issue-type, edit-issue-body, remove-label, remove-sub-issue."`
 
 ### Step 3: Substitute Arguments
 
@@ -137,7 +138,7 @@ Return to caller:
 - NEVER fall back silently when a platform reference file is missing — halt with structured failure
 - ALWAYS perform the `which glab` pre-flight check before any operation when platform=gitlab
 - ALWAYS halt with the prescribed install hint text when `glab` is missing: `"glab CLI not found. Install via: brew install glab or https://gitlab.com/gitlab-org/cli"`
-- NEVER add verbs beyond the 24 defined above without a schema change
+- NEVER add verbs beyond the 25 defined above without a schema change
 
 ## Version
 

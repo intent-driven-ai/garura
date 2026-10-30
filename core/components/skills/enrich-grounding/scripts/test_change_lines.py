@@ -29,7 +29,7 @@ FEAT = """\
 ## What it does
 sends a reset link.
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 ## Agent intent (ICE)
 - Goal: The link reaches the person.
 - Limit: The link lasts one hour.
@@ -103,7 +103,7 @@ class ChangeLinesTest(unittest.TestCase):
         self.assertNotIn("Checked by", cap)
         self.assertIn("- Limit: Never sends twice.\n- Limit: Never to a stranger.\n", cap)
         self.assertIn("thirty minutes", self.read(self.feat))
-        self.assertIn("Thin: proposed by", self.read(self.feat))
+        self.assertIn("Thin: proposed from", self.read(self.feat))
         self.assertEqual(len(report["pages"]), 2)
 
     def assert_refused_and_unchanged(self, request, words):
@@ -141,8 +141,7 @@ class ChangeLinesTest(unittest.TestCase):
             "never the spine")
 
     def test_the_thin_line_is_never_written_or_removed(self):
-        thin = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-                "`/discover-capabilities`.")
+        thin = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
         self.assert_refused_and_unchanged(self.request([
             {"page": "features/fn-1/feature.md", "changes": [{"old": thin, "new": None}]}]),
             "Thin line")

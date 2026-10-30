@@ -1,0 +1,9 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/plays/update-plan/SKILL.md
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+ M core/components/skills/author-plan-changes/SKILL.md
+?? .garura/project/issues/720/review/code-evidence.md
+?? .garura/project/issues/720/review/merge-gate.json
+?? .garura/project/issues/720/review/target.json
+?? .garura/project/issues/_adr/20261030T094556Z/porcelain-before.txt
+?? core/components/plays/update-plan/scripts/place_feature.py

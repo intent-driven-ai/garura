@@ -1,0 +1,38 @@
+[0] cd core/components/plays/update-plan/scripts && python3 -m unittest test_update_plan_scripts :: OK
+[0] cd core/components/skills/track-plan-changes/scripts && python3 -m unittest test_track_changes :: OK
+[0] cd core/components/skills/link-model-part/scripts && python3 -m unittest test_link_part :: OK
+[0] cd core/components/skills/enrich-grounding/scripts && python3 -m unittest test_change_lines :: OK
+[0] cd core/tools/plan && python3 -m unittest test_plan test_plan_branch :: OK
+[0] cd core/components/plays/create-play/references && python3 test_platform_adapter.py :: 58 passed, 0 failed
+[0] cd core/components/plays/create-play/references && python3 test_check_ice_workable.py :: 46 passed, 0 failed
+[0] cd core/components/plays/shape-eval/scripts && python3 test_shape_eval_scripts.py :: 41 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_check_drafts.py :: 17 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_check_plan.py :: 7 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_check_tracker.py :: 11 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_find_work_items.py :: 12 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_gather_plan.py :: 22 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_record_approval.py :: 9 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_render_brief.py :: 11 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_write_plan_file.py :: 9 passed, 0 failed
+[0] cd core/components/plays/shape-plan/scripts && python3 test_write_work_items.py :: 21 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_edit_slice.py :: 37 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_find_serving_slice.py :: 21 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_grill_budget.py :: 19 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_persist_slice.py :: 119 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_render_brief.py :: 34 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_shape_slice_scripts.py :: 130 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_trace_check.py :: 5 passed, 0 failed
+[0] cd core/components/plays/shape-slice/scripts && python3 test_write_hidden_file.py :: 26 passed, 0 failed
+[0] cd core/tools/lint-components && node test/asking-a-person.test.js :: 23 passed, 0 failed
+[0] cd core/tools/lint-components && node test/dmw-declared-exception.test.js :: 3 passed, 0 failed
+[0] cd core/tools/lint-components && node test/installed-paths.test.js :: 27 passed, 0 failed
+[0] cd core/tools/lint-components && node test/memory-reading.test.js :: 12 passed, 0 failed
+[0] cd core/tools/lint-components && node test/naming.test.js :: 16 passed, 0 failed
+[0] cd core/tools/lint-components && node test/shared-scripts.test.js :: 13 passed, 0 failed
+[0] cd core/tools/lint-components && node test/skill-invocable.test.js :: 2 passed, 0 failed
+[0] cd core/components/plays/edit-ontology/scripts && python3 test_edit_ontology_scripts.py :: 11 passed, 0 failed
+== ruff (defaults) on the changed non-test .py files
+All checks passed!
+[ruff exit 0]
+[node --check exit 0]
+[0] cd core/components/plays/install-garura/scripts && python3 -m unittest test_install test_migrate_model :: OK (Ran 85 tests)

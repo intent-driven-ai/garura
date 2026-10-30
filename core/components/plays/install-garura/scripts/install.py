@@ -257,6 +257,10 @@ SCOPES = {
             # list-plans and show-plan show Garura's own plans from its plan files (#719);
             # their only worker is template-manager, already kept; the plan tool is laid for every scope.
             "list-plans", "show-plan",
+            # update-plan manages one of Garura's own plans in a session (#730, #931). Its workers:
+            # project-orchestrator + author-plan-changes, track-plan-changes; product-os-keeper +
+            # find-work-placement, enrich-grounding, link-model-part; template-manager is kept.
+            "update-plan",
         },
         # a harness repo builds loops but runs none: no product loop installs there
         "loops": set(),
@@ -277,6 +281,8 @@ SCOPES = {
             "walk-prototype",
             # product-os-keeper puts a part found during work into the spine (#979)
             "link-model-part",
+            # the skills update-plan's sub-agents call (#730)
+            "author-plan-changes", "track-plan-changes",
         },
         "agents": {
             "change-reviewer", "project-orchestrator",

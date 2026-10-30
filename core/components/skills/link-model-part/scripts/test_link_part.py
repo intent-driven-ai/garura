@@ -37,6 +37,14 @@ features:
   depends_on: []
   identified_by: ''
   issue: 1
+slices:
+- id: sl-1
+  slug: sl-1
+  feature_refs:
+  - fn-1
+  vertical: the mail screen
+  intents:
+  - bi-1
 """
 
 PAGE = """\
@@ -107,8 +115,7 @@ class LinkPartTest(unittest.TestCase):
         self.assertEqual(entry["issue"], 2)
         self.assertTrue(entry["metadata"]["thin"])
         page = self.read("features/fn-2/feature.md")
-        self.assertEqual(page.count("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-                                    "`/discover-capabilities`."), 1)
+        self.assertEqual(page.count("Thin: proposed from the person's words; deepen with `/discover-capabilities`."), 1)
         self.assertLess(page.index("Thin:"), page.index("## Agent intent (ICE)"))
         self.assertEqual(report["written"], ["fn-2"])
 
@@ -127,6 +134,16 @@ class LinkPartTest(unittest.TestCase):
         self.assertEqual(entry["one_line"], "Send one message, now")
         self.assertTrue(entry["metadata"]["thin"])
         self.assertEqual(self.read("features/fn-1/feature.md").count("Thin:"), 1)
+
+    def test_marking_again_replaces_the_old_thin_line_with_the_new_one(self):
+        old = "Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`."
+        self.write("features/fn-1/feature.md",
+                   PAGE.format(title="Send one message").replace("## Agent intent (ICE)", old + "\n\n## Agent intent (ICE)"))
+        r, _ = self.run_request([{"id": "fn-1", "mode": "update", "thin": True}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        page = self.read("features/fn-1/feature.md")
+        self.assertNotIn(old, page)
+        self.assertEqual(page.count("Thin: proposed from the person's words; deepen with `/discover-capabilities`."), 1)
 
     def assert_refused(self, features, words):
         before = self.read("_spine.yaml")
@@ -232,6 +249,37 @@ class LinkPartTest(unittest.TestCase):
         import slice_check
         import link_part
         self.assertEqual(link_part.THIN_LINE, slice_check.THIN_LINE)
+
+    def test_a_new_feature_joins_a_slice_in_the_same_request(self):
+        r, rep = self.run_request(parts=[dict(self.new_fn2(), kind="feature"),
+                                         {"id": "sl-1", "kind": "slice", "mode": "update", "add_features": ["fn-2"]}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        spine = yaml.safe_load(self.read("_spine.yaml"))
+        self.assertEqual(spine["slices"][0]["feature_refs"], ["fn-1", "fn-2"])
+        self.assertIn("# The spine — a comment that must stay.", self.read("_spine.yaml"))
+
+    def test_a_slice_feature_goes_after_the_one_named_and_never_twice(self):
+        self.run_request(parts=[dict(self.new_fn2(), kind="feature")])
+        r, _ = self.run_request(parts=[{"id": "sl-1", "kind": "slice", "mode": "update",
+                                        "add_features": ["fn-2", "fn-1"], "after": "fn-1"}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(yaml.safe_load(self.read("_spine.yaml"))["slices"][0]["feature_refs"], ["fn-1", "fn-2"])
+
+    def test_a_slice_is_never_made_here_and_its_features_must_exist(self):
+        before = self.read("_spine.yaml")
+        r, _ = self.run_request(parts=[{"id": "sl-2", "kind": "slice", "mode": "new"}])
+        self.assertEqual(r.returncode, 2)
+        r, _ = self.run_request(parts=[{"id": "sl-1", "kind": "slice", "mode": "update", "add_features": ["fn-9"]}])
+        self.assertEqual(r.returncode, 2)
+        self.assertEqual(self.read("_spine.yaml"), before)
+
+    def test_an_update_names_the_issue_once(self):
+        self.run_request(parts=[dict(self.new_fn2(), kind="feature", issue=None)])
+        r, _ = self.run_request(parts=[{"id": "fn-2", "kind": "feature", "mode": "update", "issue": 7}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(yaml.safe_load(self.read("_spine.yaml"))["features"][1]["issue"], 7)
+        r, _ = self.run_request(parts=[{"id": "fn-2", "kind": "feature", "mode": "update", "issue": 8}])
+        self.assertEqual(r.returncode, 2)
 
     def test_a_malformed_request_is_refused_and_writes_nothing(self):
         before = self.read("_spine.yaml")

@@ -1,0 +1,295 @@
+# design-findings-harness.yaml - check-change Step 3, Layer 2, category: harness, ROUND 6
+# PR #998 (feature #720, /update-plan), base plan/717/base.
+# Every principle is read from the base ref (git show plan/717/base:<path>) or from the memory copies in
+# .garura/project/issues/720/context/memory/grounding-harness/ (manifest.json beside them).
+# Reused, not copied again: the six rule copies' sha256 still equal the manifest fingerprints (checked again this round).
+# ADR 062 and the declared-exception paragraph in direct-model-write.md are added by this diff, so they are NOT grounding.
+# Round 6 changes since round 5 (commit 18bca086 only, HF-14 fix): update-plan SKILL.md Step 9 (story record shape, `<records>` empty when Step 8 was skipped), product-os-keeper.md
+# row 102, scripts plan_session.py (model_records shape checks), session_files.py (guard needs model-ops.json in shape), and the script tests.
+# Line numbers for a finding's file are lines of the new file (the PR head); for a basis, lines of the base-ref file.
+category: harness
+base_ref: plan/717/base
+round: 6
+severity_taxonomy: .garura/project/issues/720/context/memory/standards/rules/pr.md
+severity_note: >-
+  pr.md maps runtime-scan standard IDs to P1-P4; it has no row for garura-prose design rules, so standard_id is null
+  and the bucket is chosen from pr.md's bucket definitions (P2 major / structural, P3 minor, P4 nit).
+
+grounding:
+  principles:
+    - id: HS-2
+      says: "Plays orchestrate, agents gather context, skills do the work; the play hands each agent a contract of file paths."
+      source: "docs/standards/harness-standard.md (base) lines 33-40"
+    - id: HS-3
+      says: "A fixed sequence runs as a script the step calls; a model is used only where judgment is needed."
+      source: "docs/standards/harness-standard.md (base) lines 42-48"
+    - id: HS-4
+      says: "A play is compiled from its ICE; the compiled part records the ICE fingerprint."
+      source: "docs/standards/harness-standard.md (base) lines 50-58"
+    - id: HS-5
+      says: "Build the eval first; a check that never failed may check nothing."
+      source: "docs/standards/harness-standard.md (base) lines 60-66"
+    - id: HS-11
+      says: "Installed parts read and name only installed files."
+      source: "docs/standards/harness-standard.md (base) lines 115-137"
+    - id: KEEPER-1
+      says: "The keeper gathers context and passes it on; every choice, draft and decision is made by a named skill."
+      source: "core/components/agents/product-os-keeper.md (base) lines 49, 54-56"
+    - id: DMW
+      says: "A model-writing play runs the shared scoped-write guard once over the full delta, asserts a clean product-os tree at pre-flight, writes then reviews, commits its model delta as feat(model); exceptions are declared in the rule itself."
+      source: "core/components/memory/standards/rules/direct-model-write.md (base) lines 63-69, 82-103, 110-116, 134-146, 158-160, 228-232"
+    - id: ADR-058
+      says: "A shaping run never touches a slice in progress; an approved edit may change only the listed parts; a change to this is a recorded decision that amends the ADR."
+      source: "docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md (base) lines 14, 24-34"
+    - id: ASK
+      says: "Every question to a person shows Question, Answer, Why it matters and several Examples; each part that asks reads the shared rule, which a skill takes as an input with a floor when it is missing."
+      source: "core/components/skills/_shared/asking-a-person.md (base) lines 7-10, 18-35; core/components/skills/find-slice-gaps/SKILL.md (base) line 25"
+    - id: FWP
+      says: "find-work-placement takes `work` and `domains_dir` and returns a capability name from the knowledge shelves."
+      source: "core/components/skills/find-work-placement/SKILL.md (base) lines 12-20, 50-75; product-os-keeper.md (base) lines 64, 124"
+    - id: PO-MEM
+      says: "project-orchestrator lists, for every skill it holds, what it puts in short-term memory (or 'nothing from memory')."
+      source: "core/components/agents/project-orchestrator.md (base) lines 403-408"
+    - id: PLAYS-BASE
+      says: "A play's Compilation Metadata states its real script count."
+      source: "core/components/plays/show-plan/SKILL.md (base) line 273"
+  grounding_gaps:
+    - topic: "choices, not gates (a person is never stopped without a choice; every gate has a key that records what is owed)"
+      note: >-
+        No committed source on the base ref states it. Not used as a basis; no finding raised on the hard stop for
+        uncommitted work or on the new guard exit 2 stop. Grounding unavailable: it needs a committed record.
+  conformance_checked_and_held:
+    - "HF-14/HF-15 fix is a non-intent edit (HS-4; CLAUDE.md Play Pipeline Rules): reference/ice.md is unchanged since round 5 (git diff 39f52b8f..HEAD touches only SKILL.md, product-os-keeper.md, plan_session.py, session_files.py and the tests); its sha256 3133f72857f7...c433d00c equals the fingerprint at SKILL.md line 537. It changes what a path list holds and how two scripts refuse bad input; no constraint, failure condition, scenario or flow step is added. Direct edit was the right path. Counts: 17 scripts, 18 step evals, 7 scenario evals, 13 recovery rows unchanged. 44 script tests pass (python3 -m unittest in the scripts folder), including the new no-new-feature guard test, the missing-or-misshapen model-ops test and the misshapen-record test."
+    - "Installed parts (HS-11): no added line names core/components/, core/tools/ or Garura's docs/."
+    - "HF-12 fix is a non-intent edit (HS-4; CLAUDE.md Play Pipeline Rules): reference/ice.md is unchanged on this branch since round 4 (git log: last touched before 39f52b8f), its sha256 3133f728...c433d00c equals the fingerprint in SKILL.md line 543 (Compilation Metadata). ice.md holds no word on model-record, the story record or the guard's inputs (grep); F13 and its recovery row (human, 'the guard report names a path outside the session's parts') are untouched. The edit changes how two script outputs are joined and one stop on a missing record; it adds no constraint, failure condition, scenario or flow step. Direct edit to SKILL.md was the right path."
+    - "Step and eval counts: scripts row (line 545) still lists 17 names and the folder holds 17 non-test scripts; step_evals 18 (SE-1..SE-18), scenario_evals 7, recovery 13 unchanged. No script added or removed by the fix (plan_session.py gained a function)."
+    - "Scripts for a fixed sequence (HS-3): joining the two records, the allow list, and the refuse-on-missing-record rule are all in scripts (plan_session.model_records, session_files.guard); the play only passes paths. 40 script tests pass (python3 -m unittest, run in scripts folder), including the three new ones (guard reads both records, guard refuses a missing record and puts nothing back, two records read as one)."
+    - "Contract of file paths (HS-2): the Step 9 name-story dispatch now writes its own output (model-record-story.json) and the SKILL says why; the Step 8 record format adds 'each path relative to the repository root' and scoped_write_guard.py accepts repo-relative and product-os-relative forms (lines 42-48 of the guard), so the allow list works with either."
+    - "DMW (guard once, after the last model write, before commit): the guard still runs once in Step 11 over the union of both records, with --restore; a missing record when parts exist now refuses (exit 2) and puts nothing back, so a missing record no longer reads as 'nothing may change' (which would have reverted every new page)."
+    - "Installed parts (HS-11): no added line names core/components/, core/tools/ or Garura's docs/."
+    - "Agent-first and KEEPER-1, bucket parity, glossary, position and naming: unchanged since round 4 and still hold (no file of those changed)."
+
+findings:
+  - id: HF-1
+    severity: P2
+    status: fixed
+    standard_id: null
+    file: docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+    lines: "Decision 1-4; ADR 060 Status line (untouched since round 3)"
+    why: "Who cuts the plan's branch is a recorded decision (ADR 061, accepted, amends ADR 060 by name). Nothing since round 4 touches it or the play's Step 3 contract; it holds."
+    basis:
+      - "core/components/plays/start-change/reference/ice.md (base) lines 27, 31-33"
+      - "docs/adr/060 (base) line 78"
+    fix: "None owed on this PR. #989 closes the recorded interim."
+
+  - id: HF-2
+    severity: P2
+    status: fixed
+    standard_id: null
+    file: core/components/agents/product-os-keeper.md
+    lines: "101-102 (the two update-plan rows); core/components/plays/update-plan/SKILL.md 194-215, 292-307"
+    why: "Held, no regression. The keeper suggests a capability (routing result only) and lands (enrich-grounding then link-model-part); place_feature.py makes every placement choice. The round 5 edit does not touch who chooses or drafts."
+    basis:
+      - "product-os-keeper.md (base) lines 49, 54-56 (KEEPER-1)"
+      - "docs/standards/harness-standard.md (base) lines 33-48 (HS-2, HS-3)"
+    fix: "None owed."
+
+  - id: HF-3
+    severity: P3
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "347-377 (Step 11: the guard once, after the last model write, before the commit; exit 1 and now exit 2 stop for the person); 373-376 (SE-18); core/components/plays/update-plan/scripts/session_files.py 94-110"
+    why: >-
+      Held. The guard is the stamped canonical script, run once over the full delta with --restore and read by SE-18 before commit.json; the write-then-review order and
+      commit shape are declared as an exception in direct-model-write.md with ADR 062 as its decision (both added by this diff, so not grounding; whether it is
+      the right decision is the human's call at acceptance). The round 5 edit makes the guard safer (a missing record refuses instead of reading as empty). The
+      one gap round 4 raised on the guard step (HF-12) is fixed; the wording gap it raised (HF-14) is fixed in round 6.
+    basis:
+      - "direct-model-write.md (base) lines 63-69, 82-103, 110-116, 134-146, 228-232 (DMW)"
+    fix: "None owed on this finding."
+
+  - id: HF-4
+    severity: P3
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "194-201, 233-237, 245-248 (SE-17); core/components/plays/update-plan/scripts/place_feature.py 41-47, 119-124"
+    why: "Held. The confirm screen names the slice in progress and each epic past ready with its status as out of date; the decision is ADR 062 (amends ADR 058 Decision 2), added by this diff so not grounding, but it is the Amends route ADR 058 itself used. Unchanged since round 4."
+    basis:
+      - "docs/adr/058 (base) lines 24-26, 28-34 (ADR-058)"
+    fix: "None owed."
+
+  - id: HF-5
+    severity: P3
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "157-164 (Step 4 numbers script); 259-271 (Step 6 abort restore, SE-6); scripts/session_files.py 40-92"
+    why: "Held. Both fixed sequences are scripts that write a record. Unchanged since round 4."
+    basis:
+      - "docs/standards/harness-standard.md (base) lines 42-48 (HS-3)"
+    fix: "None owed."
+
+  - id: HF-6
+    severity: P3
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "277-290 (Step 7 verify.json written by record_answer.py; SE-7)"
+    why: "Held. verify.json is written by the gate script on pass and on fail. Unchanged since round 4."
+    basis:
+      - "docs/standards/harness-standard.md (base) lines 42-48, 60-66 (HS-3, HS-5)"
+    fix: "None owed."
+
+  - id: HF-7
+    severity: P3
+    status: fixed
+    standard_id: null
+    file: core/components/skills/author-plan-changes/SKILL.md
+    lines: "52-57, 69-77; core/components/plays/update-plan/scripts/place_feature.py 63-76, 96-135"
+    why: "Held. Questions carry the four parts and several examples from different domains. The smaller gap in how the skill gets the rule is HF-13 (still stands). Unchanged since round 4."
+    basis:
+      - "core/components/skills/_shared/asking-a-person.md (base) lines 7-10, 18-35 (ASK)"
+    fix: "None owed on this finding. See HF-13."
+
+  - id: HF-8
+    severity: P4
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "545-548 (Compilation Metadata scripts, step_evals, scenario_evals, recovery rows)"
+    why: "Held. Says 17 and lists 17 names; the folder holds 17 non-test scripts; SE-1..SE-18 is 18."
+    basis:
+      - "core/components/plays/show-plan/SKILL.md (base) line 273 (PLAYS-BASE)"
+    fix: "None owed."
+
+  - id: HF-9
+    severity: P4
+    status: stands
+    standard_id: null
+    file: core/components/agents/project-orchestrator.md
+    lines: "145-146 (two skills added to Available Skills); 407-410 ('What each skill needs from memory' table not extended)"
+    why: "Unchanged: author-plan-changes and track-plan-changes still have no row in the memory table."
+    basis:
+      - "core/components/agents/project-orchestrator.md (base) lines 403-408 (PO-MEM)"
+    fix: "Add the two rows ('nothing from memory')."
+
+  - id: HF-10
+    severity: P4
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "50 (Agent boundaries, product-os-keeper row)"
+    why: "Held. The row matches Step 5 and Step 8, and the ICE fingerprint matches the compiled file."
+    basis:
+      - "core/components/agents/product-os-keeper.md (base) lines 54-56 (KEEPER-1)"
+    fix: "None owed."
+
+  - id: HF-11
+    severity: P4
+    status: stands
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "212-215 (the suggest-capability contract: inputs draft, plan_id, product_base); scripts/place_feature.py 119-124, 139-145"
+    why: "Unchanged: the dispatch hands the keeper a draft, a plan id and the product base, not the skill's own inputs (`work`, `domains_dir`). A contract-clarity point, not a breach."
+    basis:
+      - "core/components/skills/find-work-placement/SKILL.md (base) lines 12-20"
+      - "core/components/agents/product-os-keeper.md (base) lines 64, 124"
+    fix: "Word the dispatch with the skill's `work` input, and say in the question that the suggestion is a guess from the knowledge shelves."
+
+  - id: HF-12
+    severity: P3
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "299-307 (Step 8 contract and record shape, paths relative to the repository root); 323-336 (Step 9 name-story writes model-record-story.json and never changes model-record.json); 351-377 (Step 11 guard and agreement read both records); 373-376 (SE-18 asserts model-record.json still names each Step 8 page); 378-383 (Step 12); core/components/plays/update-plan/scripts/plan_session.py 123-135 (model_records); session_files.py 94-110; commit_plan.py 51-52, 82; check_agreement.py 140"
+    why: >-
+      Round 4: the second keeper dispatch wrote the same output path as the first, so its record could replace the first and the guard (with --restore) would take the Step 8 page out
+      of the tree and the commit. Now each dispatch has its own output path, and one function (model_records) joins the records for the guard, the agreement check and
+      the commit: parts joined by feature, files with no repeat, a given path that is not on disk refused. The test the PR added exercises exactly the case (Step 8's record names the page, the story record only
+      the index; the page stays). SE-18 reads the proof. The edit is non-intent (ice.md unchanged, fingerprint matches). The wording gap in how the new `<records>` was defined (HF-14, fixed in round 6)
+      and the keeper row not matching the new file (HF-15, fixed in round 6).
+    basis:
+      - "docs/standards/harness-standard.md (base) lines 33-40 (HS-2): the play hands each agent a contract of file paths"
+      - "core/components/memory/standards/rules/direct-model-write.md (base) lines 63-69 (DMW)"
+    fix: "None owed on this finding."
+
+  - id: HF-13
+    severity: P4
+    status: stands
+    standard_id: null
+    file: core/components/skills/author-plan-changes/SKILL.md
+    lines: "17-26 (Input table has no asking_rule); 52 (Process step 4 reads _shared/asking-a-person.md by itself); core/components/plays/update-plan/SKILL.md 188-192"
+    why: "Unchanged: the skill tells itself to read the shared file, but no input names it and no floor is stated if the file is missing. The base's asking parts take it as an input."
+    basis:
+      - "core/components/skills/find-slice-gaps/SKILL.md (base) line 25"
+      - "core/components/skills/_shared/asking-a-person.md (base) lines 7-10 (ASK)"
+    fix: "Add `asking_rule` to the skill's Input table and to the Step 5 draft-entries contract, with the floor (question, answer, why, examples) when it is missing."
+
+  - id: HF-14
+    severity: P3
+    status: fixed
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "292-293 (Step 8 skip when model-ops.json has no parts); 328-336 (Step 9: the story record's shape, and `<records>` empty when Step 8 was skipped); 353-355, 366, 382 (the three commands that take <records>); scripts/plan_session.py 123-144; session_files.py 95-105; commit_plan.py 82; check_agreement.py 140"
+    why: >-
+      Round 5: `<records>` was defined to always carry `--model-record model-record.json`, a file Step 8 never writes when the session has no new feature, so Step 11's
+      guard, the agreement check and the commit would refuse on the common landing. Now lines 333-336 say `<records>` is empty when Step 8 was skipped (model-ops.json has
+      no parts) and otherwise names model-record.json, and the story record too when the story step ran. The scripts agree with the text: model_records returns empty for no path
+      (check_agreement and commit_plan pass `args.model_record` straight through, default []), the guard takes no record when parts is empty (new test
+      test_a_session_with_no_new_feature_passes_the_guard_with_no_record, passing), and still refuses a record that is missing or misshapen. The story step cannot run
+      without Step 8 (a new-feature op needs a part), so the empty-then-story case does not arise. The edit is non-intent (ice.md unchanged, fingerprint matches).
+    basis:
+      - "docs/standards/harness-standard.md (base) lines 33-40 (HS-2): the play hands a contract of file paths that exist"
+    fix: "None owed."
+
+  - id: HF-15
+    severity: P4
+    status: fixed
+    standard_id: null
+    file: core/components/agents/product-os-keeper.md
+    lines: "102 (the /update-plan 'land the new features' row); core/components/plays/update-plan/SKILL.md 323-331"
+    why: >-
+      Round 5: the row named model-record.json as the record and said nothing of the second run's own output. Now the row says each dispatch writes its record only to the
+      output path its contract names, never over another dispatch's record, and names both files (Step 8's model-record.json, the story step's model-record-story.json); Step 9
+      (lines 331-333) gives the story record's shape. A keeper that follows its row now writes to the contract's path. One wording nit remains, HF-17.
+    basis:
+      - "docs/standards/harness-standard.md (base) lines 33-40 (HS-2)"
+      - "core/components/agents/product-os-keeper.md (base) lines 49, 54-56 (KEEPER-1)"
+    fix: "None owed on this finding. See HF-17."
+
+  - id: HF-16
+    severity: P4
+    status: new
+    standard_id: null
+    file: core/components/plays/update-plan/SKILL.md
+    lines: "331 ('step cannot drop a file Step 8 wrote (HF-12)')"
+    principle: "An installed part carries no note of origin: a review finding's id means nothing to the person or the model that reads the installed play."
+    basis:
+      - "CLAUDE.md (base) Source of Truth: 'Notes of origin are deleted.'; Play Pipeline Rules: 'Add no deviation notes or change logs to skill files.'"
+      - "docs/standards/harness-standard.md (base) lines 115-137 (HS-11)"
+    why: "HF-12 is the id of a finding in this PR's own review. The compiled play names it in prose. It explains a reason the reader does not need, and it will point at nothing once the review folder is gone. It was added in the round 5 edit and kept in this one."
+    fix: "Delete '(HF-12)' from the sentence; the why stays in the commit message and the issue."
+
+  - id: HF-17
+    severity: P4
+    status: new
+    standard_id: null
+    file: core/components/agents/product-os-keeper.md
+    lines: "102 (the added clause sits in the first column, the request phrases; the Output column still lists only model-record.json and the second run without its own record)"
+    principle: "A table cell holds what its column is for: the first column lists what a caller says, the last what comes back."
+    basis:
+      - "core/components/agents/product-os-keeper.md (base) the table header and the rows 85-100: column 1 = request phrases, column 4 = what the skill returns"
+    why: "The rule 'each dispatch writes its record only to the output path its contract names' is an output rule but is written into the request column, after the parenthetical that names the play. The Output cell, where a reader looks for what is written, still names only model-record.json and says of the second run only that it names the issue."
+    fix: "Move the clause into the Output cell: model-record.json for Step 8's dispatch, model-record-story.json for the story dispatch, each dispatch its own file."
+
+round_5_status:
+  fixed: [HF-14, HF-15]
+  held_from_round_5: [HF-1, HF-2, HF-3, HF-4, HF-5, HF-6, HF-7, HF-8, HF-10, HF-12]
+  stands: [HF-9, HF-11, HF-13]
+  new: [HF-16, HF-17]
+summary:
+  total: 17
+  by_severity: { P1: 0, P2: 2, P3: 7, P4: 8 }
+  stand_or_new_by_severity: { P1: 0, P2: 0, P3: 0, P4: 5 }

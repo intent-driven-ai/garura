@@ -1,6 +1,6 @@
 # ADR 060 — A Plan's Branch Merges Into Main When the Plan Pauses, Even With Issues Still Open
 
-**Status:** Accepted
+**Status:** Accepted — amended in part by [ADR 061](061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md): Decision §3 "When work on the plan starts again, a new branch is cut from main" — its sentence "The next start-change for an issue in the plan finds no plan branch and cuts a new `plan/<plan-id>/base` from the latest main": the play that starts the plan's work cuts it (/update-plan now, start-change once #989 is built), through the plan tool's plan_branch.py, main's plan file first. Its ICE impact's sentence "No product agent reads branches (line 598: managing a plan never touches branches or code)": managing a plan may now cut the plan's branch; it still never merges a branch and never touches code. And, in "What this changes", the line "start-change: C9, a plan's branch is cut from the latest main when work on the plan starts": it stands until #989 is built, then start-change cuts through the same script. §1, §2, §4 and §5 stand: the branch is still cut from main when work starts, merges into main when the plan pauses, is held back only to keep main working, and there are no detour plans.
 **Date:** 2026-10-29
 **Level:** framework
 **Decided by:** Kapil Viren Ahuja · **Decided in:** #717 (plan 717, plans and the change plays), on `plan/717/base`, PR #950 — the review's finding H2 asked for this record

@@ -155,6 +155,14 @@ Change an issue's title:
 glab issue update {issue_number} --title "{title}"
 ```
 
+## reopen-issue
+
+Reopen a closed issue:
+
+```bash
+glab issue reopen {issue_number}
+```
+
 ## add-label
 
 Add labels to an issue or MR:

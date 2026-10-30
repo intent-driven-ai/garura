@@ -104,8 +104,9 @@ words changes only the parts they named, after they see each change and say yes.
   lines or their ids stays outside the evals folder.
 - C16 — When a part the slice needs has no ICE, the run proposes a thin ICE from the person's
   answers: in Intent, at least a goal, a limit and one "Fails if" line; in Context, one line; in
-  Expectation, one line. It marks it thin in two places that agree: the line "Thin: proposed by
-  `/shape-slice` from the person's answers; deepen with `/discover-capabilities`." just before
+  Expectation, one line. It marks it thin in two places that agree: the line "Thin: proposed from
+  the person's words; deepen with `/discover-capabilities`." (ontology v14; any line that starts
+  "Thin:" there is the mark, so a page with the older line is still thin) just before
   `## Intent` on `ice.md` (or, for an ICE kept inline in the part's page, just before
   `## Agent intent (ICE)`), and `metadata.thin: true` on the spine entry (the `ices` entry, or
   the part's own entry when the spine has no `ices` list). The brief tells the person, in plain

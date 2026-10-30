@@ -33,7 +33,7 @@ While working on a plan, a person finds a feature the plan did not know about an
 - The approved /update-plan session on plan 717, entry 3: "A person adds a new feature found while a plan is in progress, to the model, its slice and its epic"
 - Issue #931, the story that found it
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: After the person's plain "approved", the new feature is in the product model under its capability, with a thin ICE and both thin marks, linked to the business intent and to the issue that found it, in its slice and with its story under that slice's epic when the plan has one; and the plan file, GitHub and the model agree.

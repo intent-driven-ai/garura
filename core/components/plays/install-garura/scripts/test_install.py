@@ -807,7 +807,8 @@ class AnEmptyProject(unittest.TestCase):
         def errors(cwd, *args):
             run = subprocess.run(["node", *args], capture_output=True, text=True, cwd=cwd)
             self.assertIn(run.returncode, (0, 1), run.stderr)
-            return json.loads(run.stdout)["violations"]
+            # The linter reports paths relative to where it ran (#720), so resolve them from there.
+            return [dict(v, file=os.path.join(cwd, v["file"])) for v in json.loads(run.stdout)["violations"]]
 
         def key(v, base):
             rel = os.path.relpath(os.path.realpath(v["file"]), os.path.realpath(base)).split(os.sep)

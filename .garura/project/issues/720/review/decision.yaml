@@ -1,0 +1,11 @@
+decision: approve
+decided_by: human
+reviewer: Kapil Viren Ahuja
+reply: merge
+round: 6
+overrules:
+- id: QS-01
+  file: core/tools/plan/test_plan_branch.py
+  line: 43
+  why: the scanner's own false positive (DATA-18 on a test repo's throwaway git identity)
+harness_verdict: decision-harness-round-6.yaml (reject, on QS-01 only)

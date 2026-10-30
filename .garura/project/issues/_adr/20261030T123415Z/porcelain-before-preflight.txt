@@ -1,0 +1,25 @@
+ M core/components/memory/standards/templates/plan-update.md
+ M core/components/plays/shape-eval/scripts/test_shape_eval_scripts.py
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-plan/scripts/render_brief.py
+ M core/components/plays/shape-plan/scripts/test_find_work_items.py
+ M core/components/plays/shape-plan/scripts/test_render_brief.py
+ M core/components/plays/shape-plan/scripts/test_write_plan_file.py
+ M core/components/plays/shape-plan/scripts/test_write_work_items.py
+ M core/components/plays/update-plan/scripts/check_entries.py
+ M core/components/plays/update-plan/scripts/place_feature.py
+ M core/components/plays/update-plan/scripts/record_answer.py
+ M core/components/plays/update-plan/scripts/render_screen.py
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+ M core/components/skills/_shared/asking-a-person.md
+ M core/components/skills/author-plan-changes/SKILL.md
+ M core/components/skills/track-plan-changes/SKILL.md
+ M core/components/skills/track-plan-changes/scripts/test_track_changes.py
+ M core/grounding/glossary.md
+ M core/tools/plan/plan_branch.py
+ M core/tools/plan/test_plan_branch.py
+?? .garura/project/issues/720/review/merge-gate.json
+?? .garura/project/issues/720/review/target.json
+?? .garura/project/issues/720/specs/fix-design-round-3.md
+?? .garura/project/issues/_adr/20261030T123415Z/porcelain-before.txt
+?? core/components/plays/update-plan/scripts/session_files.py

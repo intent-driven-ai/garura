@@ -106,7 +106,7 @@ Slice: Self booking (sl-self-booking). Plan: 1 (business intent bi-1). Surface: 
 def project(tmp, features=(("fn-pick", 3), ("fn-remind", 4)), surface=None):
     plans = os.path.join(tmp, "plans")
     write(os.path.join(plans, "1.yaml"),
-          "id: 1\ntitle: Patients book their own visits\nstatus: active\ntree:\n"
+          "id: 1\ntitle: Patients book their own visits\nstatus: Not Started\ntree:\n"
           "- issue: 2\n  kind: epic\n  represents: sl-self-booking\n  title: Self booking\n")
     hidden = HIDDEN if surface is None else HIDDEN.replace("the booking command line", surface)
     write(os.path.join(plans, "1", "evals", "self-booking", "failure-and-recovery.md"), hidden)

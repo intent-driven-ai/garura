@@ -1,0 +1,300 @@
+shape: markdown
+number: '062'
+draft_path: .garura/project/issues/_adr/20261030T123415Z/adr-draft.md
+final_path_after_acceptance: docs/adr/062-update-plan-writes-the-model-only-after-approved-and-may-add-a-feature-to-a-slice-in-progress.md
+title_suggestion: /update-plan Writes the Product Model Only After "Approved", and May Add a Feature to
+  a Slice in Progress
+status: proposed
+date: 2026-10-30
+level: framework
+node_ref: ''
+decided_by: Kapil Viren Ahuja (product owner) — from the brief; the play fills the Decided by line at
+  acceptance
+decided_in: '#720 (manage a plan with /update-plan), plan #717, the review of PR #998 into plan/717/base
+  (findings HF-3 and HF-4)'
+supersedes: []
+amends:
+- adr: '026'
+  file: docs/adr/026-direct-to-model-writes.md
+  part: 'Decision, the write-then-review order and its "Consequent mechanics" line "Checkpoint cancel
+    means git restore of the model paths ... Approve means proceed; the writes are already on disk and
+    reviewable": for /update-plan, the model is written only after the person''s plain "approved" for
+    the whole list; "rejected" and "abort" write nothing in the model, so there is nothing to revert.
+    A declared exception, like /discover-intent''s (ADR 031) and /record-decision''s (#632). The rest
+    of ADR 026 stands: containment by the shared scoped-write guard, and "Clean tree in, committed delta
+    out" (the model delta is committed at close, in the session''s one commit on the plan''s branch).'
+  why: ADR 026 is the authority of direct-model-write.md (its line 8). ADR 031 amended ADR 026 for the
+    /discover-intent exception in the same way, so this exception is an amendment too.
+- adr: 058
+  file: docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
+  part: 'Decision §2, "An edit the person approves may change a slice in progress" — there the /shape-slice
+    edit option is the only way a slice in progress changes: an /update-plan session the person approves
+    may now also add a feature to a slice in progress (link-model-part, add_features only; no other part
+    of the slice changes), and its confirm screen says the slice is in progress and names each epic past
+    ready, with its status, as out of date, as §3 asks of the edit brief. And its ICE impact''s words
+    "no other play''s ICE changes": /update-plan''s ICE changes (C11). §1 (a shaping run never touches
+    a slice in progress) and §3 (the edit brief names the epic as out of date) stand.'
+not_affected:
+- adr: '061'
+  why: Read in full. It decides who cuts a plan's branch (the play that starts the work, through plan_branch.py,
+    main first) and what an abort undoes. It does not say in what order `go` checks uncommitted work against
+    "stay". This decision makes the uncommitted check run on every path, the plan's own branch included;
+    that adds a stop and changes no part of ADR 061's §1–§4. Related, not amended.
+- adr: '031'
+  why: Its exception for /discover-intent stands word for word; this decision adds a sibling exception
+    in the same rule. Related.
+- adr: '043'
+  why: It amends ADR 026's "Clean tree in, committed delta out" inside a loop only. /update-plan is never
+    run inside a loop (its SKILL.md has no loop contract). Not affected.
+- adr: '044'
+  why: Inside a loop only (link-model-gaps' apply_links.py). Not affected.
+- adr: '052'
+  why: 'Its rule "When the slice gains a feature, /shape-slice adds that feature''s entry" (line 31) still
+    holds: /update-plan never writes the evals folder and names the hidden-file entry as owed (its C11).
+    Not affected.'
+- adr: 059
+  why: Shares only play names (/discover-intent, /record-decision, /shape-slice); about the Discovery
+    loop's knowledge step. Not affected.
+- adr: '055'
+  why: Installed parts read installed files; shares only play names. Not affected.
+- adr: 048
+  why: The two layers and the slice definition; nothing on who changes a slice in progress or on model
+    writes. Not affected.
+- adr: 049
+  why: The order shape-slice, shape-plan, shape-eval; nothing on slices in progress. Not affected.
+- adr: '057'
+  why: The eval's form; not affected.
+affects:
+  changed:
+  - path: core/components/memory/standards/rules/direct-model-write.md
+    what: 'A third "Declared exception — /update-plan" paragraph after the /record-decision one (lines
+      134–146): writes after "approved", a reject or an abort writes nothing; the product-os tree is clean
+      at entry (plan_branch.py go stops on any uncommitted work, on every path); the shared scoped-write
+      guard runs once after the last model write and before the commit, with --restore; the model delta
+      is committed in the session''s one commit on the plan''s branch, not in a separate feat(model) commit
+      (step 7, lines 82–103, line 91, says each play commits `feat(model): ...`). And its lint anchor
+      L-DMW-4 (lines 230–232) gains a second ''Not a finding'' case: /update-plan, whose clean-tree check
+      is plan_branch.py go over the whole tree and whose model change rides in the session''s one commit
+      (the person''s answer at the checkpoint).'
+  - path: core/tools/lint-components/lib/rules/structural.js
+    what: 'L-DMW-4 (lines 250–264) skips /update-plan, as the rule''s ''Not a finding'' note says: no
+      ''git status --porcelain ... product-os'' text and no ''feat(model)'' commit asked of it. The checks
+      run only on a play that bundles scripts/scoped_write_guard.py (lines 189–199), which this decision
+      makes /update-plan do (the person''s answer at the checkpoint).'
+  - path: core/components/plays/update-plan/reference/ice.md
+    what: C2, F2 and S2 (uncommitted work stops the play on every branch, the plan's own branch included
+      — C2 today says "On another branch"); Context lines 88–89 (the order "stay, stop on uncommitted
+      work, switch"); C5/C7 and a failure condition with its recovery for the guard; C11 (a new feature
+      may join a slice in progress, and the confirm screen names each epic past ready as out of date)
+      and a failure condition for a screen that does not say so. Through /edit-play.
+  - path: core/components/plays/update-plan/SKILL.md
+    what: Step 3 (the branch step), Step 8 and Step 9's name-story dispatch (both write the model), a
+      guard run after the last model write and before Step 12, Step 12's commit (lines 329–347). Rebuilt
+      by /edit-play.
+  - path: core/components/plays/update-plan/scripts/scoped_write_guard.py
+    what: 'New: the shared guard, stamped from core/components/plays/create-play/references/scoped_write_guard.py
+      (not in the play''s scripts folder today).'
+  - path: core/components/plays/update-plan/scripts/place_feature.py
+    what: 'slice_in_progress (lines 16–18, 57, 108–112): the epics past ready of the chosen slice, with
+      issue and status. Its list IN_PROGRESS (line 57) copies find_serving_slice.py line 53. Uncommitted
+      on the branch today.'
+  - path: core/components/plays/update-plan/scripts/render_screen.py
+    what: The confirm screen's slice-in-progress note (lines 175–182). Uncommitted on the branch today.
+  - path: core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+    what: Tests for place_feature.py and render_screen.py; and a new test that fails when place_feature.IN_PROGRESS
+      (line 57) differs from the IN_PROGRESS list of core/components/plays/shape-slice/scripts/find_serving_slice.py
+      (line 53) (the person's answer at the checkpoint).
+  - path: core/components/memory/standards/templates/plan-update.md
+    what: The confirm screen text (lines 24–26, it already cites "ADR 058, ADR 062") and the slice_in_progress
+      line (line 118). Uncommitted on the branch today.
+  - path: core/tools/plan/plan_branch.py
+    what: 'go (lines 149–155): the uncommitted check runs before "stay" (uncommitted on the branch today);
+      with core/tools/plan/test_plan_branch.py. Its docstring (lines 16–18) is corrected in this change
+      to say the uncommitted check runs first, on every path, the plan''s own branch included (the person''s
+      answer at the checkpoint).'
+  - path: core/tools/plan/README.md
+    what: 'Lines 54–55 ("it stays there, stops on uncommitted work ...") are corrected in this change
+      to the new order: it stops on uncommitted work first, on every path, then stays, switches or cuts
+      (the person''s answer at the checkpoint).'
+  - path: core/components/skills/link-model-part/SKILL.md
+    what: 'Description line 3, "(#931 — a slice itself is shaped only by /shape-slice)": still true (adding
+      features is not shaping), but it should say that an approved /update-plan session may add a feature
+      to a slice in progress. Its script (link_part.py lines 42 and 168) adds features to any slice and
+      checks no epic status: not changed.'
+  - path: docs/adr/026-direct-to-model-writes.md
+    what: Forward pointer on its Status line, after acceptance (written by the play).
+  - path: docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
+    what: Forward pointer on its Status line, after acceptance (written by the play).
+  read_not_changed:
+  - path: core/components/plays/shape-slice/scripts/find_serving_slice.py
+    what: Line 53, the list of epic statuses that mean past ready (in_delivery, validated, fix_required,
+      delivered). Not changed; the new test in test_update_plan_scripts.py reads it and fails when /update-plan's
+      copy differs.
+  - path: core/components/plays/shape-slice/reference/ice.md
+    what: 'C7, C20, F7, F20: unchanged. A shaping run still never touches a slice in progress.'
+  - path: core/components/skills/author-slice/SKILL.md
+    what: 'Lines 100 and 188: unchanged (shape and reuse modes never change a slice in progress).'
+  - path: core/components/memory/standards/schemas/product-os/ontology.md
+    what: Version 14, the Plan kind (line 583) already says /update-plan changes the plan file, the tracker
+      and the product model together, on one approval; Slice kind line 461 (work started is shown by its
+      Epic). Unchanged.
+  - path: core/components/plays/shape-slice/scripts/persist_slice.py
+    what: Line 105 holds /shape-slice's own second copy of the same list (edit_slice.py line 57 imports
+      it from find_serving_slice.py instead). The new test does not read it.
+ice_impact: '/update-plan''s own ICE changes, through /edit-play: C2, F2 and S2 — uncommitted work stops
+  the play on every branch, the plan''s own branch included; C5/C7 — the model is written only after "approved"
+  (already so), and the shared scoped-write guard runs once after the last model write and before the
+  one commit, putting back any model path outside the session''s parts (a new guarantee, with its failure
+  condition and recovery); C11 — a new feature may join a slice in progress, and the confirm screen says
+  so and names each epic past ready, with its status, as out of date (with a failure condition when it
+  does not). /shape-slice''s ICE (C7, C20, F7, F20) and the author-slice skill do not change: a shaping
+  run still never touches a slice in progress, and its edit option still may. No capability or feature
+  ICE of the product changes, and the ICE kind does not change. Read from the play''s ICE source, a file
+  this decision changes: the memory tool''s copy of the ontology (Phoenix memory, version 4) has no Plan
+  or Slice kind; the source is version 14.'
+business_intent_check: none
+business_intent_check_why: A framework rule on how one play writes the product model and which slices
+  it may add a feature to. It does not change the Business Intent kind. No page under .garura/product/product-os/intents/
+  changes on this branch (git status and the diff against plan/717/base show none); link-model-part only
+  checks that an intent page exists (link_part.py line 238) and writes the intent id on the feature's
+  own spine entry.
+related:
+- ADR 026
+- ADR 031
+- ADR 052
+- ADR 058
+- ADR 061
+- '#720'
+- '#717'
+- '#730'
+- '#931'
+- '#949'
+- 'PR #998'
+for_the_accepter:
+- point: The component linter would fail /update-plan once it carries the guard, because its one commit
+    is not a feat(model) commit
+  what_and_where: The linter rule L-DMW-4 in core/tools/lint-components/lib/rules/structural.js (lines
+    250–264), and step 7 of direct-model-write.md (lines 82–103) and its lint anchor L-DMW-4 (lines 230–232).
+  detail: 'The L-DMW checks run only on a play that bundles scripts/scoped_write_guard.py (lines 189–199).
+    This decision makes /update-plan bundle it. Then L-DMW-4 asks for two texts in its SKILL.md: "git
+    status --porcelain ... product-os" and "feat(model)". /update-plan''s SKILL.md has neither today:
+    the clean check is done by plan_branch.py go over the whole tree, and the decision says the model
+    change is committed in the session''s one commit, not a separate feat(model) commit. L-DMW-4''s only
+    "Not a finding" case is a play run with a loop contract. L-DMW-3 and L-DMW-6 do not fire today (the
+    SKILL.md has no "Checkpoint" heading, no "approval-prompt" and no persist_*.py).'
+  why_it_matters: The rebuild of /update-plan through /edit-play, and the review's Layer 1 lint, would
+    report two errors on a play that follows this decision. Whoever runs the rebuild would be pushed to
+    add a feat(model) commit the decision says not to make.
+  this_decision_does: 'It declares the exception in the rule, and, on the person''s answer at the checkpoint,
+    names /update-plan in L-DMW-4''s ''Not a finding'' note in the rule (lines 230–232) and in structural.js
+    (lines 250–264), in this same change: its clean-tree check is plan_branch.py go over the whole tree,
+    and its model change rides in the session''s one commit.'
+  you_decide: nothing — you chose at the checkpoint to name /update-plan in L-DMW-4's 'Not a finding'
+    note in this change.
+- point: The guard must run after the second model write, not right after the model step
+  what_and_where: core/components/plays/update-plan/SKILL.md, Step 8 (lines 264–279) and Step 9 (lines
+    290–299).
+  detail: 'The session writes the model twice: Step 8 writes each new feature''s page, its spine entry
+    and its place in the slice; then, after the tracker step makes the story, Step 9 dispatches product-os-keeper
+    again to name the story on the feature''s spine entry (link-model-part, mode update, issue). The brief
+    says the guard runs "once after the model write and before the commit".'
+  why_it_matters: A guard placed right after Step 8 would not see Step 9's write; a model path written
+    there outside the session's parts would reach the commit unchecked.
+  this_decision_does: It says the guard runs once, after the last model write and before the one commit
+    (Step 12).
+  you_decide: nothing
+- point: The tool's own words still say "stay" comes before the uncommitted-work check
+  what_and_where: core/tools/plan/plan_branch.py, its docstring lines 16–18; core/tools/plan/README.md
+    lines 54–55; /update-plan's ICE, Context lines 88–89 and C2 line 21.
+  detail: 'The code of go (lines 149–155, uncommitted on this branch) now checks uncommitted work first
+    and only then stays on the plan''s branch. The docstring still reads "on the plan''s branch already:
+    it stays ...; else, when anything is uncommitted ...: it stops". The README reads "it stays there,
+    stops on uncommitted work ...". The ICE''s Context reads "stay, stop on uncommitted work, switch",
+    and C2 reads "On another branch with uncommitted work it stops".'
+  why_it_matters: 'A builder of #989 (start-change cuts a plan''s branch through plan_branch.py) reads
+    the README and the docstring and learns the old order; the ICE would let a rebuilt play stay on a
+    dirty plan branch.'
+  this_decision_does: It makes the check on every path the rule. On the person's answer at the checkpoint,
+    the docstring and the README are corrected in this same change, with the code; the ICE's C2 and Context
+    change with /edit-play.
+  you_decide: nothing — you chose at the checkpoint to correct the docstring and the README in this change.
+- point: /update-plan keeps its own copy of the list of epic statuses that mean "in progress"
+  what_and_where: core/components/plays/update-plan/scripts/place_feature.py line 57 and core/components/plays/shape-slice/scripts/find_serving_slice.py
+    line 53.
+  detail: Both hold IN_PROGRESS = ("in_delivery", "validated", "fix_required", "delivered"). The place_feature.py
+    line says "past ready (ADR 058)". Nothing ties the two copies together. A third copy is in core/components/plays/shape-slice/scripts/persist_slice.py
+    line 105, inside /shape-slice; edit_slice.py line 57 imports the list from find_serving_slice.py.
+  why_it_matters: If /shape-slice's list changes (a new epic status), /update-plan would still treat that
+    slice as not in progress and add a feature to it with no warning on the confirm screen — the silent
+    change this decision forbids.
+  this_decision_does: 'On the person''s answer at the checkpoint, a test in test_update_plan_scripts.py
+    ties /update-plan''s copy to find_serving_slice.py''s: it fails when the two lists differ. The list
+    does not move. The test does not read persist_slice.py''s copy, which is /shape-slice''s own.'
+  you_decide: nothing — you chose at the checkpoint to tie the two copies with a test in this change.
+- point: Agents will not see this exception through memory until the rule is promoted, and memory's copy
+    is already behind
+  what_and_where: Phoenix memory, standards/rules/direct-model-write.md (the only tier that holds it,
+    found with the memory tool's find --every-tier); its source core/components/memory/standards/rules/direct-model-write.md.
+  detail: 'The memory tool''s copy still names the old plays: line 117 "Declared exception — `/intent`
+    run by hand (ADR 031)" and line 123 "Declared exception — `/adr` run by hand (#632)"; the source names
+    /discover-intent and /record-decision. The memory copy of the ontology is version 4; the source is
+    version 14. #949 tracks Phoenix memory falling behind the source. The fix design (.garura/project/issues/720/specs/fix-design-round-3.md,
+    "Order") says the rule is promoted after the merge, on the product owner''s word.'
+  why_it_matters: Agents read rules only through the memory tool. Until promotion, an agent that checks
+    /update-plan against the rule reads write-then-review with no /update-plan exception, and may report
+    the session's order as a breach.
+  this_decision_does: Nothing — promotion is a person's act, outside this decision.
+  you_decide: Nothing now; the promotion is owed after the merge (#949).
+- point: The confirm screen already cites this record before it is accepted
+  what_and_where: core/components/memory/standards/templates/plan-update.md line 26 ("(ADR 058, ADR 062)"),
+    with place_feature.py and render_screen.py's slice-in-progress lines — all uncommitted on plan/717/720-update-plan.
+  detail: Part 2 of this decision is already built in the working tree. The template names "ADR 062",
+    the number this record takes.
+  why_it_matters: If this record is rejected, those lines name a record that does not exist and let /update-plan
+    add a feature to a slice in progress with no decision behind it.
+  this_decision_does: Nothing to those files.
+  you_decide: Nothing if you accept; on a reject, those lines are taken out before the change lands.
+work_this_creates:
+- '/edit-play /update-plan: C2, F2, S2, Context, C5/C7 and the guard''s failure condition, C11 and its
+  failure condition; stamp scoped_write_guard.py into its scripts; the guard step after the last model
+  write.'
+- 'direct-model-write.md: the /update-plan declared exception paragraph, and /update-plan named in L-DMW-4''s
+  ''Not a finding'' note — in this change.'
+- 'structural.js: L-DMW-4 skips /update-plan — in this change.'
+- 'plan_branch.py''s docstring and the plan tool''s README: the uncommitted-work check first, on every
+  path — in this change.'
+- 'test_update_plan_scripts.py: a test that fails when /update-plan''s list of in-progress epic statuses
+  differs from find_serving_slice.py''s — in this change.'
+- 'link-model-part SKILL.md: its line on who changes a slice (description).'
+- Promote direct-model-write.md to Phoenix memory after the merge, on the product owner's word (#949).
+- After acceptance, the play writes the forward pointers on ADR 026 and ADR 058 and rebuilds the ADR index.
+references:
+- .garura/project/issues/_adr/20261030T123415Z/brief.md — the decision brief
+- .garura/project/issues/720/specs/fix-design-round-3.md — the approved fix design, B5 and B6
+- core/components/memory/standards/rules/direct-model-write.md
+- core/components/plays/update-plan/reference/ice.md, core/components/plays/update-plan/SKILL.md
+- docs/adr/026-direct-to-model-writes.md, docs/adr/031-business-intent-and-ice.md, docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md,
+  docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+- '#720, #717, #931, PR #998 (review findings HF-3 and HF-4)'
+memory:
+  copied:
+  - tier: phoenix
+    path: standards/schemas/product-os/ontology.md
+    version: 4 (tool version f8e35c3bd9b6)
+    copy: .garura/project/issues/_adr/20261030T123415Z/context/memory/standards/schemas/product-os/ontology.md
+  note: The memory copy of the ontology (version 4) holds no Plan or Slice kind; the ICE impact was read
+    from /update-plan's ICE source and the source ontology version 14, files this decision changes or
+    reads.
+writing_rules: Plain words (ASD-STE100). Personas only (product owner, developer, builder); no real names,
+  except the Decided by line from the brief.
+task: redraft-adr
+change_at_checkpoint:
+  by: the product owner, 2026-10-30 ("fix")
+  what: 'Took the recommendation on each open point, in this same change: (1) L-DMW-4''s ''Not a finding''
+    note, in the rule and in structural.js, names /update-plan; (2) plan_branch.py''s docstring and the
+    plan tool''s README say the uncommitted-work check runs first, on every path; (3) a test ties /update-plan''s
+    list of in-progress epic statuses to /shape-slice''s.'
+  source: .garura/project/issues/_adr/20261030T123415Z/brief.md, section 'Change at the checkpoint'
+  state_in_tree: 'None of the three is in the working tree yet (read 2026-10-30): structural.js lines
+    250-264 and the rule lines 230-232 name only the loop case; plan_branch.py lines 16-18 and README.md
+    lines 54-55 still list ''stay'' first; test_update_plan_scripts.py has no test that reads find_serving_slice.py.'

@@ -66,7 +66,7 @@ def main():
 
     with tempfile.TemporaryDirectory() as tmp:
         root, p = make_model(tmp, features=("ft-pick", "ft-remind")), paths(tmp)
-        write(p["plan_file"], "id: 340\ntitle: x\nstatus: active\ntree:\n- issue: 10\n  kind: epic\n"
+        write(p["plan_file"], "id: 340\ntitle: x\nstatus: Not Started\ntree:\n- issue: 10\n  kind: epic\n"
               "  title: Self-booking\n  represents: sl-self-booking\n  children:\n  - issue: 11\n"
               "    kind: story\n    represents: ft-pick\n  - issue: 12\n    kind: story\n    represents: ft-remind\n")
         person = "A person wrote this.\n\nAnd this line too.\n"

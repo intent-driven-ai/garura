@@ -1,0 +1,483 @@
+meta:
+  generated_at: '2026-10-30T06:04:17Z'
+  diff_path: '.garura/project/issues/720/review/pr.diff'
+  taxonomy_path: '.garura/project/issues/720/context/memory/standards/rules/pr.md'
+  changed_paths_count: 78
+  scan_coverage: 1.0000
+  standards_relevant: 28
+  catchall:
+    CODE-20: 50
+findings:
+  - standard_id: 'DATA-18'
+    severity: P1
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 43
+    evidence: 'email'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'DATA-18'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-12'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 135
+    evidence: 'fetch'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-12'
+  - standard_id: 'BE-12'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 200
+    evidence: 'fetch'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-12'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'DATA-17'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 43
+    evidence: 'email'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'DATA-17'
+  - standard_id: 'DOC-01'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-01'
+  - standard_id: 'DOC-09'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-09'
+  - standard_id: 'DOC-10'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-10'
+  - standard_id: 'DOC-11'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-11'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'BE-13'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 63
+    evidence: 'retry'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-13'
+  - standard_id: 'CODE-27'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 63
+    evidence: 'retry'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-27'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 161
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 255
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 269
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 275
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 287
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'DOC-14'
+    severity: P4
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-14'
+  - standard_id: 'DOC-15'
+    severity: P4
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-15'
+  - standard_id: 'DOC-16'
+    severity: P4
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-16'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'BE-23'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 63
+    evidence: 'lock'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-23'
+  - standard_id: 'BE-23'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 66
+    evidence: 'lock'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-23'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+counts:
+  P1: 1
+  P2: 11
+  P3: 27
+  P4: 9
+# --- Added by quality-auditor after the scan (the scan above is byte-for-byte scan_taxonomy.py output) ---
+# The scan sees only 2 of the 27 changed .py files as runtime code: everything under core/components/**
+# is classified garura-prose, so no grep or code-path row can fire on the update-plan scripts, the
+# track-plan-changes scripts, link_part.py or the platform_adapter copies. The review/code rubric
+# (error handling, safe handling of destructive/irreversible operations, deterministic where it
+# claims to be) was applied by reading the five data-safety paths named in categories.yaml.
+# Severity here follows the P1-P4 bucket definitions in pr.md (P1 blocker: data loss, secrets,
+# injection; P2 major: error-handling and structural violations; P3 minor; P4 nit). These are not
+# taxonomy rows (pr.md has no row for them), so they sit in their own list, not in findings.
+scan_notes:
+  - finding: "BE-12 at core/tools/plan/plan_branch.py:135 and :200"
+    note: "'fetch' here is `git fetch`, not an HTTP call; no timeout-config question applies. Likely false positive."
+  - finding: "DATA-17 and DATA-18 at core/tools/plan/test_plan_branch.py:43"
+    note: "'email' is the throwaway git identity of a test repo (user.email test@example.com). No personal data. Likely false positive."
+  - finding: "CODE-03, CODE-04 (lint, format)"
+    note: "Path-only rows that ask for a lint/format run; ruff 0.15.20 with defaults ran clean on the changed non-test Python (runnable-checks.txt)."
+reviewed_findings:
+  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P2 (error-handling violation)"
+    severity: P2
+    file: core/tools/plan/plan_branch.py
+    function: go
+    line: 171
+    artifact_type: runtime-code
+    evidence: >-
+      The "uncommitted work" check skips every file under --ignore (the issue's short-term folder),
+      including files already staged. The cut then runs `git commit -m` with no path limit, so a
+      staged file under an ignored folder is committed to main and pushed. Reproduced in a scratch
+      repo: staged stm/note.md went into the "chore(plan): plan 5" commit on main. Fix: commit with
+      `-- <plan file>` (or fail on staged files), and the abort revert would then also undo only the plan file.
+  - basis: "review/code rubric: safe handling of destructive/irreversible operations, error handling; pr.md P2"
+    severity: P2
+    file: core/tools/plan/plan_branch.py
+    function: go
+    line: 175
+    artifact_type: runtime-code
+    evidence: >-
+      The cut is not all-or-nothing. After `git commit` on main, a rejected `git push main` raises
+      Stop. The Stop record has main_commit null and back_to null, so `abort` has no commit to
+      revert and `back` has no branch to return to. Reproduced with a remote whose pre-receive hook
+      rejects: the session stays on main, local main is one commit ahead of origin/main, and the
+      record says action=stop. The same happens for a malformed plan file (yaml.YAMLError is not
+      caught, so a traceback, the session left on main). The author-recorded design promise is that
+      `abort` undoes `go`; here it cannot. Fix: record main_commit before the push, reset the local
+      commit (or write the record) on failure, and return to the start branch in every failure path.
+  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P2 (a script that says it stages only X must stage only X)"
+    severity: P2
+    file: core/components/plays/update-plan/scripts/commit_plan.py
+    function: main
+    line: 89
+    artifact_type: garura-prose
+    evidence: >-
+      The docstring says it "stages only the plan file, the model files ... and the changed files in
+      the plan's own short-term folder". But the commit is `git commit -m` with no pathspec, and the
+      "nothing staged" test is `git diff --cached --quiet` over the whole index. Anything the person
+      already staged (any path) is committed and pushed with the plan commit. Fix: `git commit -m
+      <msg> -- <files>` and test `git diff --cached --quiet -- <files>`.
+  - basis: "review/code rubric: idempotency of external writes; pr.md P2 (error handling); BE-13 / CODE-27 (retry, fallback) are the nearest taxonomy rows"
+    severity: P2
+    file: core/components/skills/track-plan-changes/scripts/track_changes.py
+    function: run_op / apply
+    line: 104
+    artifact_type: garura-prose
+    evidence: >-
+      The docstring says a rerun "never makes an issue twice". That holds only when the record file
+      is written after the create. Two gaps: (1) tracker.HostTracker.create raises TrackerError when
+      create-issue-typed answers with a non-number, after the issue already exists on GitHub, so the
+      op is recorded as failed and a rerun creates a second issue; (2) a crash between the GitHub
+      write and write_json leaves no record of it. The create op has no look-up by title or marker
+      before it writes. The other ops (close, title, body, type, parent) check the live state first and are safe to rerun.
+  - basis: "review/code rubric: deterministic where it claims to be; pr.md P3"
+    severity: P3
+    file: core/components/skills/track-plan-changes/scripts/track_changes.py
+    function: apply
+    line: 166
+    artifact_type: garura-prose
+    evidence: >-
+      A rerun skips each op id found in the existing --out record, with no check that the record
+      belongs to this approved list. A stale github-record.json from an earlier session in the same
+      folder (ids e1, e2 ...) makes the new session skip its writes and report ok. The approval is
+      bound to the list by sha256, the record is not. Fix: store list_sha in the record and refuse on a mismatch.
+  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P3"
+    severity: P3
+    file: core/tools/plan/plan_branch.py
+    function: abort
+    line: 188
+    artifact_type: runtime-code
+    evidence: >-
+      `abort` trusts the record file: it deletes the branch named in rec["plan_branch"] here and on
+      the remote (`push --delete`) without checking it equals plan/<plan>/base. The extra-commits
+      guard (cut..ref) is the only protection. Also, `git revert` of the cut can conflict if a later
+      main commit touched the plan file; the half-done revert is left in place (no `revert --abort`),
+      and a rerun after a failed push would revert the already-reverted commit. Fix: validate the
+      branch name pattern, abort the revert on failure, and skip the revert when main already holds it.
+  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P3"
+    severity: P3
+    file: core/components/plays/update-plan/scripts/commit_plan.py
+    function: main
+    line: 80
+    artifact_type: garura-prose
+    evidence: >-
+      `files` from the model record are passed to `git add` as written; nothing checks they stay
+      inside the repo or the model folder. The records-dir list is parsed from `git status
+      --porcelain` without -z, so a renamed ("a -> b") or quoted (non-ASCII) path becomes a bad
+      pathspec and `git add` fails after the message is built (the run then stops with exit 2, nothing committed).
+  - basis: "review/code rubric: no stray debug output / error handling; pr.md P4"
+    severity: P4
+    file: core/components/skills/track-plan-changes/scripts/tracker.py
+    function: HostTracker.get
+    line: 163
+    artifact_type: garura-prose
+    evidence: >-
+      "not found" in any error text is read as "the tracker has no such issue". An unrelated failure
+      that contains those words (for example "repository not found") would be reported as a missing
+      issue instead of a tracker error. Safe by luck: later ops still raise on a missing issue.
+  - basis: "review/code rubric: no duplication; pr.md CODE-13 (P4, duplicate code)"
+    severity: P4
+    file: core/tools/plan/plan_branch.py
+    function: git
+    line: 62
+    artifact_type: runtime-code
+    evidence: >-
+      The same `git()` helper (retry while index.lock, 8 tries, 2 seconds) is copied in plan_branch.py and
+      commit_plan.py, and track-plan-changes/platform_adapter.py is a copy of the one kept in eight places.
+counts_reviewed:
+  P1: 0
+  P2: 4
+  P3: 3
+  P4: 2
+positive_checks:
+  - "write_plan_changes.py: writes only after reading the new text back as YAML and comparing it with the old plan plus the list; writes via temp file and os.replace; refuses when the tracker record shows a failure. No defect found."
+  - "track_changes.py apply: refuses unless approval.json says approved and list_sha matches the list now. Close, title, body, type and parent ops check live state first (safe to rerun)."
+  - "No secrets, no shell=True, no eval, no stray debug output in the changed Python. ruff clean; the five unit-test suites in runnable-checks.txt pass."

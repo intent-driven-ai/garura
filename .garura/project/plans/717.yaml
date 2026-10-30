@@ -10,7 +10,7 @@ epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-30'
+updated: '2026-10-30'  # #720 landed: #720, #730, #917, #931 Done; #997 filed
 tree:
 - issue: 956
   kind: epic
@@ -62,17 +62,17 @@ tree:
   - issue: 720
     kind: feature
     title: 'Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval'
-    status: In Progress
+    status: Done  # landed on plan/717/base with #720, 2026-10-30
     children:
     - issue: 730
       kind: story
       title: 'The /update-plan session: instructions, checks, one approval, one landing on the plan''s branch'
-      status: In Progress
+      status: Done  # landed on plan/717/base with #720, 2026-10-30
       children:
       - issue: 917
         kind: chore
         title: 'The findings left by the PR #916 review (the plan 788 landing)'
-        status: Not Started
+        status: Done  # landed on plan/717/base with #720, 2026-10-30
     - issue: 909
       kind: story
       title: '/shape-plan --edit: a person changes the plan file, an epic or a story that already exists'
@@ -80,7 +80,7 @@ tree:
     - issue: 931
       kind: story
       title: /update-plan adds a new feature found while a plan is in progress to the model, its slice and its epic
-      status: Not Started  # moved from #718 on 2026-10-29: not /shape-plan; build order 2 under #720, after #730
+      status: Done  # landed on plan/717/base with #720, 2026-10-30
       represents: fn-931
     - issue: 993
       kind: story
@@ -90,6 +90,10 @@ tree:
       kind: story
       title: 'The platform adapter changes an issue''s title: an edit-issue-title verb for GitHub and GitLab'
       status: Done  # landed on plan/717/base with PR #995 (with #993), 2026-10-30
+    - issue: 997
+      kind: story
+      title: 'The Thin line no longer names /shape-slice: /shape-slice, the model-linking skill and the thin pages move to the new wording'
+      status: Done  # built inside #720's change (PR #998, round 3 fixes), 2026-10-30: scripts, /shape-slice's C16, eleven pages re-marked
   - issue: 721
     kind: feature
     title: 'Start and land work against a plan: plan branches in start-change and merge-change'

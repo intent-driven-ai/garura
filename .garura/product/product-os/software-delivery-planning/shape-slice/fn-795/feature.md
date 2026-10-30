@@ -40,7 +40,7 @@
 - docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md, Decisions 1 and 5.
 - ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: After /shape-slice <intent>, the spine holds one slice that serves the business intent, with its features in build order, its one surface and its tester.

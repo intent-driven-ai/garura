@@ -1,0 +1,2 @@
+ M .garura/project/issues/720/context/memory/manifest.json
+ M .garura/project/issues/720/context/porcelain.txt

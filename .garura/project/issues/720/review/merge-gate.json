@@ -1,0 +1,12 @@
+{
+  "approved": true,
+  "mergeable": true,
+  "already_merged": false,
+  "checks_pass": true,
+  "pr_number": "998",
+  "pr_merged": false,
+  "branch_deleted": false,
+  "on_target": true,
+  "status": "merge_failed",
+  "error": "GraphQL: Head branch is out of date. Review and try the merge again. (mergePullRequest)\n"
+}
