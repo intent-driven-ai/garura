@@ -1,4 +1,10 @@
 commits:
+  - sha: 7f126b94
+    message: "chore(stm): update 2 files under .garura/project/issues/720/context (#720)"
+    files:
+      - .garura/project/issues/720/context/porcelain.txt
+      - .garura/project/issues/720/context/close-997.json
+    branch: plan/717/base
 excluded_files:
   []
 leftover_count: 0

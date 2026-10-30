@@ -1,10 +1,19 @@
 ---
 # analyze_changeset.py output (C8 fast path)
 # issue: 720
-needs_judgment: true
+needs_judgment: false
 
 change_groups:
-  []  # grouping left to the analyze agent (needs_judgment)
+  - id: group-1
+    issue: 720
+    concern: "single-directory chore change"
+    commit_type: chore
+    scope: stm
+    subject: "update 2 files under .garura/project/issues/720/context"
+    subject_source: script-draft  # orchestrator may reword in place
+    files:
+      - .garura/project/issues/720/context/porcelain.txt
+      - .garura/project/issues/720/context/close-997.json
 
 exclusions:
   []
@@ -14,5 +23,5 @@ risks:
     []
 
 eval_gates:
-  SE-1: {status: DEFERRED, evidence: "grouping delegated to analyze agent"}
+  SE-1: {status: PASS, evidence: "one script-classified group, one directory, one concern"}
   SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
