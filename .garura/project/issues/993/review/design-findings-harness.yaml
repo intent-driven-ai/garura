@@ -1,0 +1,91 @@
+# check-change Step 3, Layer 2 - design-grounding of the 'harness' category, PR #995 (into plan/717/base), round 3
+category: harness
+pr: "995"
+round: 3
+base: plan/717/base
+files_checked:
+  - core/components/agents/product-os-keeper.md
+  - core/components/skills/enrich-grounding/SKILL.md
+  - core/components/skills/platform-adapter/SKILL.md
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+
+# Round 3 check: did any harness file change since round 2?
+unchanged_since_round_2:
+  result: true
+  evidence:
+    - "git log: the last commit touching any of the five files is a501266d (enrich-grounding step 7 fix). Round 2's review ran after it (check-change run artifacts commit c50f0045 comes later)."
+    - "git diff a501266d HEAD over the agent file, the enrich-grounding SKILL.md and the platform-adapter folder is empty."
+    - "The per-file slice of this round's pr.diff and of run-2/pr.diff hash identically for all five files."
+  consequence: "No new look was owed. Round 2's grounding and findings are re-stated as they were."
+
+# Every principle is read from a source that exists on the base ref (checked with git cat-file on plan/717/base).
+# The #993 design (specs/design.md) and the branch's own new prose are NOT used as grounding.
+# Round 2's grounding (G1-G7) is reused unchanged; no new memory copies were needed.
+grounding:
+  - id: G1
+    principle: "Plays orchestrate, agents gather context and hand a contract of file paths, skills do the work and write an artifact to disk"
+    source: "plan/717/base:docs/standards/harness-standard.md, principle 2 (ADR 001, 005, 016)"
+  - id: G2
+    principle: "Mechanical work is a script, judgment is a model"
+    source: "plan/717/base:docs/standards/harness-standard.md, principle 3 (ADR 025)"
+  - id: G3
+    principle: "Model-writing is direct but contained: a script writes only inside the product model, refuses any path outside, and lists every file it changed"
+    source: "plan/717/base:docs/adr/026-direct-to-model-writes.md (as amended by ADR 044)"
+  - id: G4
+    principle: "A skill's own rules hold across its process: the base skill says keep every section and line a page had, and check the page against what it had (step 7)"
+    source: "plan/717/base:core/components/skills/enrich-grounding/SKILL.md (Process step 7, Rules 'In place')"
+  - id: G5
+    principle: "Changes to a plan go through the model sub-agent and the issue sub-agent and their skills, never by hand; a changed issue text is one more instruction"
+    source: "plan/717/base:.garura/project/issues/720/specs/design.md ('How it ends', 'Rules it keeps', story #730)"
+  - id: G6
+    principle: "The spine is written only by link-model-part and the play scripts; a page skill never writes it"
+    source: "plan/717/base:core/components/skills/link-model-part/SKILL.md and base enrich-grounding Rules"
+  - id: G7
+    principle: "A skill's Input table names the output path it is handed in `out`, and the skill writes its artifact there (precedent: link-model-part, one `out`, one report)"
+    source: "plan/717/base:core/components/skills/link-model-part/SKILL.md (Input `out`, Output) and plan/717/base:docs/standards/harness-standard.md principle 2"
+
+conformance_passes:
+  - "Mechanical page change is a script (change_lines.py); judgment (which lines, which words) stays with the agent's request and its named source: G2."
+  - "The script is scoped to .md pages inside product-os, refuses _spine.yaml and the Thin line, and lists every page it changed: G3."
+  - "The agent keeps the spine route: a changed one-line or intents still goes through link-model-part; the skill's Rules keep 'never write _spine.yaml': G6."
+  - "One owner of lines-request.json: the dispatching agent writes it, the skill never does (G1, G2); same pattern as link-model-part's request file."
+  - "Step 7 and the Rules 'In place' line exempt only the lines a named-lines request replaced or removed (lines-report.json names each) and still put back any other lost line: G4."
+  - "platform-adapter: edit-issue-title is read the same in the description, input table, verb heading, constraint and unknown-verb message; github and gitlab verbs.md each hold the section: G5."
+  - "allowed-tools gains Bash for the script call, as link-model-part does at the base ref."
+  - "No play SKILL.md changed, so the ICE-source rule has nothing to trace; skills and the agent have no ICE source."
+  - "lint-components (source layout): nothing reported on the five changed harness files (violations in the run sit in other files, there before)."
+
+findings:
+  - id: H-3
+    severity: P4
+    file: core/components/skills/enrich-grounding/SKILL.md
+    lines: "Input `out` (line 32); Output (named-lines paragraph, line 99); step 5 command (line 69)"
+    what: >
+      Standing from rounds 1 and 2, left on purpose as small. The `out` input still reads "Where to write
+      grounding-report.json". A named-lines request writes lines-report.json instead, and step 5 writes it to
+      `<working>/lines-report.json`, a path the Input table never hands over. The one `out` field the agent
+      passes is not described for that case.
+    basis:
+      principle: G7 (the contract names every output path, so the record of the run is on disk where the caller expects it)
+      source: "plan/717/base:core/components/skills/link-model-part/SKILL.md (`out` names the one report it writes); plan/717/base:docs/standards/harness-standard.md principle 2"
+    fix_hint: "Describe `out` as the report path for the mode (grounding-report.json, or lines-report.json for a named-lines request) and have step 5 pass `--out <out>`."
+
+  - id: H-4
+    severity: P4
+    file: core/components/skills/enrich-grounding/SKILL.md
+    lines: "Input `pages` (line 22) and `lines_request` (line 30); Process step 1"
+    what: >
+      Standing from round 2. A named-lines run has two lists of pages: the required `pages` input and the
+      `pages` inside lines-request.json. Step 1 is written for the page-writing modes and says nothing about a
+      named-lines run, whose script reads the request alone and needs no template. If the two lists differ, the
+      skill states no rule for which one counts.
+    basis:
+      principle: G4 (a skill's Input and Process hold together; one source for one fact) and G1 (the contract is explicit about what the agent hands over)
+      source: "plan/717/base:core/components/skills/enrich-grounding/SKILL.md (Input `pages`, Process steps 1 and 7); plan/717/base:docs/standards/harness-standard.md principle 2"
+    fix_hint: "Say in step 5 that for a named-lines request the pages are the request's own, `pages` and the template are not needed, and step 7 compares the pages the request names."
+
+severity_counts: {P1: 0, P2: 0, P3: 0, P4: 2}
+notes:
+  - "The #993 design was not used as grounding. Every basis above is on plan/717/base."
+  - "Issue tags such as (#993) in the agent row and the description follow the base pattern ((#979) is already there); they are not paths into the source, so principle 11 is not touched."
