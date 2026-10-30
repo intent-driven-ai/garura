@@ -160,6 +160,106 @@ class ChangeLinesTest(unittest.TestCase):
                          {"old": "- Goal: Mail reaches the person.", "new": "- Goal: B."}]}]),
             "named twice")
 
+    def test_a_failed_page_write_puts_every_written_page_back(self):
+        folder = os.path.dirname(self.feat)
+        os.chmod(folder, 0o500)  # the second page's folder takes no new file, so its write fails
+        try:
+            done, report = self.run_request(self.request([
+                {"page": "capabilities/cap-1/capability.md",
+                 "changes": [{"old": "- Goal: Mail reaches the person.", "new": "- Goal: New."}]},
+                {"page": "features/fn-1/feature.md",
+                 "changes": [{"old": "sends a reset link.", "new": "sends one reset link."}]}]))
+        finally:
+            os.chmod(folder, 0o700)
+        self.assertEqual(done.returncode, 2)
+        self.assertIn("every page put back", done.stderr)
+        self.assertIsNone(report)
+        self.assertEqual(self.read(self.cap), CAP)
+        self.assertEqual(self.read(self.feat), FEAT)
+
+    def test_a_failed_report_write_puts_every_page_back(self):
+        req = os.path.join(self.tmp.name, "request.json")
+        with open(req, "w", encoding="utf-8") as fh:
+            json.dump(self.request([{"page": "capabilities/cap-1/capability.md",
+                                     "changes": [{"old": "- Goal: Mail reaches the person.",
+                                                  "new": "- Goal: New."}]}]), fh)
+        locked = os.path.join(self.tmp.name, "locked")
+        os.makedirs(locked)
+        os.chmod(locked, 0o500)
+        try:
+            done = subprocess.run([sys.executable, SCRIPT, "--request", req, "--product-base", self.base,
+                                   "--out", os.path.join(locked, "report.json")],
+                                  capture_output=True, text=True)
+        finally:
+            os.chmod(locked, 0o700)
+        self.assertEqual(done.returncode, 2)
+        self.assertIn("every page put back", done.stderr)
+        self.assertEqual(self.read(self.cap), CAP)
+
+    def test_a_line_that_cannot_be_written_as_utf8_refuses_everything(self):
+        self.assert_refused_and_unchanged(self.request([
+            {"page": "capabilities/cap-1/capability.md",
+             "changes": [{"old": "- Goal: Mail reaches the person.", "new": "- Goal: New."}]},
+            {"page": "features/fn-1/feature.md",
+             "changes": [{"old": "sends a reset link.", "new": "sends \ud800 a link."}]}]),
+            "UTF-8")
+
+    def test_a_line_added_after_a_removed_line_is_refused(self):
+        self.assert_refused_and_unchanged(self.request([
+            {"page": "capabilities/cap-1/capability.md",
+             "changes": [{"old": "- Limit: Never sends twice.", "new": None},
+                         {"after": "- Limit: Never sends twice.", "add": "- Limit: New."}]}]),
+            "which is removed")
+
+    def test_an_absolute_path_and_a_link_out_of_the_model_are_refused(self):
+        self.assert_refused_and_unchanged(self.request([
+            {"page": self.cap, "changes": [{"old": "a", "new": "b"}]}]), "leaves the model folder")
+        outside = os.path.join(self.tmp.name, "outside.md")
+        with open(outside, "w", encoding="utf-8") as fh:
+            fh.write("a\n")
+        os.symlink(outside, os.path.join(self.root, "link.md"))
+        self.assert_refused_and_unchanged(self.request([
+            {"page": "link.md", "changes": [{"old": "a", "new": "b"}]}]), "leaves the model folder")
+
+    def test_each_line_keeps_its_own_line_ending(self):
+        crlf = CAP.replace("\n", "\r\n")
+        self.page("capabilities/cap-1/capability.md", crlf)
+        done, _ = self.run_request(self.request([
+            {"page": "capabilities/cap-1/capability.md",
+             "changes": [{"old": "- Goal: Mail reaches the person.", "new": "- Goal: New."},
+                         {"after": "- Limit: Never sends twice.", "add": "- Limit: Never to a stranger."}]}]))
+        self.assertEqual(done.returncode, 0, done.stderr)
+        with open(self.cap, encoding="utf-8", newline="") as fh:
+            text = fh.read()
+        self.assertEqual(text, crlf.replace("- Goal: Mail reaches the person.", "- Goal: New.")
+                         .replace("- Limit: Never sends twice.\r\n",
+                                  "- Limit: Never sends twice.\r\n- Limit: Never to a stranger.\r\n"))
+
+    def test_a_form_feed_inside_a_line_does_not_split_it(self):
+        self.page("capabilities/cap-1/capability.md", CAP + "a\x0cb\n")
+        done, _ = self.run_request(self.request([
+            {"page": "capabilities/cap-1/capability.md",
+             "changes": [{"old": "- Goal: Mail reaches the person.", "new": "- Goal: New."}]}]))
+        self.assertEqual(done.returncode, 0, done.stderr)
+        self.assertTrue(self.read(self.cap).endswith("a\x0cb\n"))
+
+    def test_running_an_add_twice_adds_the_line_once(self):
+        request = self.request([{"page": "capabilities/cap-1/capability.md",
+                                 "changes": [{"after": "- Limit: Never sends twice.",
+                                              "add": "- Limit: Never to a stranger."}]}])
+        first, _ = self.run_request(request)
+        second, report = self.run_request(request)
+        self.assertEqual((first.returncode, second.returncode), (0, 0), second.stderr)
+        self.assertEqual(self.read(self.cap).count("- Limit: Never to a stranger."), 1)
+        self.assertEqual(report["pages"][0]["lines_added"], 0)
+
+    def test_a_line_added_after_the_last_line(self):
+        self.page("capabilities/cap-1/capability.md", "# Capability: Send mail\nlast")
+        done, _ = self.run_request(self.request([
+            {"page": "capabilities/cap-1/capability.md", "changes": [{"after": "last", "add": "new"}]}]))
+        self.assertEqual(done.returncode, 0, done.stderr)
+        self.assertEqual(self.read(self.cap), "# Capability: Send mail\nlast\nnew")
+
     def test_a_page_given_at_the_top_level(self):
         done, _ = self.run_request({"by": "test", "source": "the person's words",
                                     "page": "features/fn-1/feature.md",
