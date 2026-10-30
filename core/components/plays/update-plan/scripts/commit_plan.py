@@ -2,7 +2,7 @@
 """commit_plan.py — one commit on the plan's branch, pushed (C7).
 
     python3 commit_plan.py --plan <id> --plan-branch plan/<id>/base --plan-file <plans>/<id>.yaml \
-        --changes <changes.yaml> [--model-record <model-record.json>] [--records-dir <stm>/<id>/] \
+        --changes <changes.yaml> [--model-record <model-record.json> ...] [--records-dir <stm>/<id>/] \
         [--repo R] [--remote origin] --out <commit.json>
 
 It refuses (exit 2, nothing committed) unless the branch checked out is the plan's branch. It
@@ -48,7 +48,8 @@ def main(argv=None):
     ap.add_argument("--plan", required=True)
     ap.add_argument("--plan-branch", required=True)
     ap.add_argument("--plan-file", required=True)
-    ap.add_argument("--model-record")
+    ap.add_argument("--model-record", action="append", default=[],
+                    help="a model record; give it once for each record of the landing")
     ap.add_argument("--records-dir")
     ap.add_argument("--repo", default=".")
     ap.add_argument("--remote", default="origin")
@@ -78,8 +79,7 @@ def main(argv=None):
             raise ps.Refused(f"on {on}, not on the plan's branch {args.plan_branch}; nothing is committed")
         root = os.path.realpath(args.repo)
         files = [args.plan_file]
-        if args.model_record and os.path.isfile(args.model_record):
-            files += ps.read_json(args.model_record, "the model record").get("files") or []
+        files += ps.model_records(args.model_record)["files"]
         for f in files:
             full = os.path.realpath(os.path.join(root, f))
             if os.path.isabs(f) or not full.startswith(root + os.sep):

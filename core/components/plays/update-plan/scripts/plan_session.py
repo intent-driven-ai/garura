@@ -120,6 +120,20 @@ def read_json(path, what):
         raise Refused(f"cannot read {what} ({path}): {e}")
 
 
+def model_records(paths):
+    """The model records of one landing read as one (HF-12): Step 8 writes model-record.json and
+    Step 9's story naming writes its own record, so neither replaces the other. Parts are joined
+    by feature (a later record's fields win), files are joined with no repeat. A path that is
+    given but not on disk is refused: a missing record is never read as an empty one."""
+    parts, files = {}, []
+    for path in paths or []:
+        rec = read_json(path, "the model record")
+        for p in rec.get("parts") or []:
+            parts.setdefault(p.get("feature"), {}).update(p)
+        files += [f for f in rec.get("files") or [] if f and f not in files]
+    return {"parts": list(parts.values()), "files": files}
+
+
 def load_list(path):
     if not os.path.isfile(path):
         return None

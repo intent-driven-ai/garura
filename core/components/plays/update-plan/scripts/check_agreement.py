@@ -4,7 +4,7 @@
     python3 check_agreement.py --changes <changes.yaml> --plan-before <plan-before.yaml> \
         --plan-file <plans>/<id>.yaml --snapshot-before <snapshot-before.json> \
         --snapshot-after <snapshot-after.json> --github-record <github-record.json> \
-        [--model-record <model-record.json>] [--spine <_spine.yaml>] \
+        [--model-record <model-record.json> ...] [--spine <_spine.yaml>] \
         [--evals-before <evals-before.json>] [--evals-after <evals-after.json>] \
         --out <agreement.json>
     python3 check_agreement.py hash-evals --plans-dir <plans> --out <evals.json>
@@ -137,7 +137,7 @@ def check(args):
     features = [e for e in changes.get("entries") or [] if e["op"] == "new-feature"]
     features_ok = True
     if features:
-        model = ps.read_json(args.model_record, "the model record") if args.model_record else {}
+        model = ps.model_records(args.model_record)
         spine = ps.yaml.safe_load(ps.read_text(args.spine)) if args.spine else {}
         by_id = {f.get("id"): f for f in (spine or {}).get("features") or []}
         for e in features:
@@ -178,7 +178,8 @@ def main(argv=None):
     for name in ("--changes", "--plan-before", "--plan-file", "--snapshot-before", "--snapshot-after",
                  "--github-record", "--out"):
         ap.add_argument(name, required=True)
-    for name in ("--model-record", "--spine", "--evals-before", "--evals-after"):
+    ap.add_argument("--model-record", action="append", default=[])
+    for name in ("--spine", "--evals-before", "--evals-after"):
         ap.add_argument(name)
     args = ap.parse_args(argv)
     try:

@@ -301,7 +301,7 @@ its `issue` — the story, or the number the tracker step makes, filled in after
       "outputs": { "record": "<working>/model-record.json" },
       "task_id": "land-model" }
 
-`model-record.json`: `{parts: [{feature, doc, linked}], files: [every model file written]}`.
+`model-record.json`: `{parts: [{feature, doc, linked}], files: [every model file written, each path relative to the repository root]}`.
 **SE-8 (F8, F10/C9, C11):** the model files were written by `enrich-grounding` and
 `link-model-part` (their reports are in the record), and no path under any plan's `evals/` is in
 `files`.
@@ -323,8 +323,14 @@ dispatch `product-os-keeper` once more to name it on the feature's model entry:
     { "task":    "name each new feature's story on its model entry (link-model-part, mode update, issue)",
       "inputs":  { "model_ops": "<working>/model-ops.json", "github_record": "<working>/github-record.json",
                    "product_base": "<product_base>" },
-      "outputs": { "record": "<working>/model-record.json" },
+      "outputs": { "record": "<working>/model-record-story.json" },
       "task_id": "name-story" }
+
+This dispatch writes its own record and never changes `model-record.json`; the guard, the
+agreement check and the commit read the two as one (`plan_session.model_records`), so the story
+step cannot drop a file Step 8 wrote (HF-12). `<records>` below is `--model-record
+<working>/model-record.json`, and also `--model-record <working>/model-record-story.json` when the
+story step ran.
 **SE-9 (F8/C9):** `github-record.json` reads `ok: true`, and every op of `github-ops.json` is in its
 `done`.
 
@@ -344,19 +350,20 @@ commit (ADR 062): any changed model path that is not a file of the model record,
 index, is put back.
 
 ```
-python3 scripts/session_files.py guard --model-record <working>/model-record.json \
+python3 scripts/session_files.py guard --model-ops <working>/model-ops.json <records> \
     --product-base <product_base> --out <working>/guard-report.json
 ```
 
 Exit 1: the guard put a path back; show each path, commit nothing, and stop for the person
-(REC13).
+(REC13). Exit 2: a model step was planned but its record is not there; nothing is put back and
+nothing is committed — stop for the person.
 
 ```
 python3 scripts/check_agreement.py hash-evals --plans-dir <plans> --out <working>/evals-after.json
 python3 scripts/check_agreement.py --changes <working>/changes.yaml --plan-before <working>/plan-before.yaml \
     --plan-file <plans>/<id>.yaml --snapshot-before <working>/snapshot-before.json \
     --snapshot-after <working>/snapshot-after.json --github-record <working>/github-record.json \
-    --model-record <working>/model-record.json --spine <product_base>product-os/_spine.yaml \
+    <records> --spine <product_base>product-os/_spine.yaml \
     --evals-before <working>/evals-before.json --evals-after <working>/evals-after.json \
     --out <working>/agreement.json
 ```
@@ -364,14 +371,15 @@ python3 scripts/check_agreement.py --changes <working>/changes.yaml --plan-befor
 Exit 1: show each problem; nothing is committed (REC5).
 **SE-11 (F5/C7):** `agreement.json` reads `ok: true`.
 **SE-18 (F13/C7):** `guard-report.json` exists before `commit.json` and lists no violation; every
-model file of `commit.json` is in the guard report's `allow`.
+model file of `commit.json` is in the guard report's `allow`, which holds every file of both model
+records; `model-record.json` still names each page Step 8 wrote after the story step ran.
 **SE-13 (F10/C11):** `agreement.json` reads `features_ok: true` and `evals_unchanged: true`.
 
 **Step 12 — One commit on the plan's branch** · Owner: play (script) · Depends on: Step 11
 
 ```
 python3 scripts/commit_plan.py --plan <id> --plan-branch plan/<id>/base --plan-file <plans>/<id>.yaml \
-    --changes <working>/changes.yaml --model-record <working>/model-record.json \
+    --changes <working>/changes.yaml <records> \
     --records-dir "${stm_base}<id>/" --out <working>/commit.json
 ```
 

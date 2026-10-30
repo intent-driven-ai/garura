@@ -612,15 +612,60 @@ class SessionFilesTest(Session):
         git("commit", "--quiet", "-m", "start")
         return repo, model
 
-    def run_guard(self, repo, files):
-        ps.write_json(self.p("model-record.json"), {"parts": [], "files": files})
+    def run_guard(self, repo, files, story_files=None, parts=None):
+        ps.write_json(self.p("model-ops.json"), {"parts": parts if parts is not None else []})
+        args = ["guard", "--model-ops", self.p("model-ops.json")]
+        if files is not None:
+            ps.write_json(self.p("model-record.json"), {"parts": [], "files": files})
+            args += ["--model-record", self.p("model-record.json")]
+        if story_files is not None:
+            ps.write_json(self.p("model-record-story.json"), {"parts": [], "files": story_files})
+            args += ["--model-record", self.p("model-record-story.json")]
         cwd = os.getcwd()
         os.chdir(repo)
         try:
-            return quiet(session_files.main, ["guard", "--model-record", self.p("model-record.json"),
-                                              "--product-base", "product/", "--out", self.p("guard.json")])
+            return quiet(session_files.main, args + ["--product-base", "product/", "--out", self.p("guard.json")])
         finally:
             os.chdir(cwd)
+
+    def test_the_guard_reads_both_records_so_the_second_never_drops_the_page(self):
+        # HF-12: Step 9's record names only the index; Step 8's names the page. Both are allowed.
+        repo, model = self.guard_repo()
+        os.makedirs(os.path.join(model, "features", "fn-undo"))
+        with open(os.path.join(model, "features", "fn-undo", "feature.md"), "w") as fh:
+            fh.write("new\n")
+        code = self.run_guard(repo, ["product/product-os/features/fn-undo/feature.md"],
+                              story_files=["product/product-os/_spine.yaml"], parts=[{"feature": "fn-undo"}])
+        self.assertEqual(code, 0)
+        self.assertTrue(os.path.isfile(os.path.join(model, "features", "fn-undo", "feature.md")))
+
+    def test_the_guard_refuses_a_missing_record_and_puts_nothing_back(self):
+        repo, model = self.guard_repo()
+        os.makedirs(os.path.join(model, "features", "fn-undo"))
+        with open(os.path.join(model, "features", "fn-undo", "feature.md"), "w") as fh:
+            fh.write("new\n")
+        self.assertEqual(self.run_guard(repo, None, parts=[{"feature": "fn-undo"}]), 2)
+        self.assertTrue(os.path.isfile(os.path.join(model, "features", "fn-undo", "feature.md")))
+        ps.write_json(self.p("gone.json"), {})
+        os.remove(self.p("gone.json"))
+        cwd = os.getcwd()
+        os.chdir(repo)
+        try:
+            code = quiet(session_files.main, ["guard", "--model-ops", self.p("model-ops.json"), "--model-record",
+                                              self.p("gone.json"), "--product-base", "product/",
+                                              "--out", self.p("guard.json")])
+        finally:
+            os.chdir(cwd)
+        self.assertEqual(code, 2)
+        self.assertTrue(os.path.isfile(os.path.join(model, "features", "fn-undo", "feature.md")))
+
+    def test_two_records_read_as_one(self):
+        a, b = self.p("a.json"), self.p("b.json")
+        ps.write_json(a, {"parts": [{"feature": "fn-x", "doc": "x.md", "linked": True}], "files": ["m/x.md", "m/s.yaml"]})
+        ps.write_json(b, {"parts": [{"feature": "fn-x", "issue": 100}], "files": ["m/s.yaml"]})
+        rec = ps.model_records([a, b])
+        self.assertEqual(rec["files"], ["m/x.md", "m/s.yaml"])
+        self.assertEqual(rec["parts"], [{"feature": "fn-x", "doc": "x.md", "linked": True, "issue": 100}])
 
     def test_the_guard_keeps_the_session_s_parts_and_puts_back_the_rest(self):
         repo, model = self.guard_repo()

@@ -3,8 +3,8 @@
 
     python3 session_files.py numbers --plan-file <plans>/<id>.yaml --out <numbers.json>
     python3 session_files.py restore --folder <stm_base><id>/ --repo . --out <restore.json>
-    python3 session_files.py guard --model-record <model-record.json> --product-base <product_base> \
-        --out <guard-report.json>
+    python3 session_files.py guard --model-ops <model-ops.json> --model-record <model-record.json> \
+        [--model-record <model-record-story.json>] --product-base <product_base> --out <guard-report.json>
 
 `numbers` writes every issue number of the plan file, the plan's own number first, then the tree
 in order, each once: {"plan": "<id>", "issues": [<id>, ...], "csv": "<id>,..."}. Step 4 hands `csv`
@@ -18,9 +18,11 @@ input (nothing changed).
 
 `guard` runs the shared scoped-write guard (`scoped_write_guard.py`, beside this script) once, after
 the last model write and before the commit (ADR 062): every model path that changed must be a file
-the model record names, or the model index (`_spine.yaml`); any other changed model path is put
-back (`--restore`). The guard writes the report; exit 0 when nothing was out of scope, 1 when it
-put something back (the landing stops for the person), 2 bad input.
+a model record names (Step 8's and Step 9's, read as one), or the model index (`_spine.yaml`); any
+other changed model path is put back (`--restore`). When `model-ops.json` has parts, a record must
+be given and on disk: a missing record is refused (exit 2) and nothing is put back, so a missing
+record never reads as "nothing may change". The guard writes the report; exit 0 when nothing was
+out of scope, 1 when it put something back (the landing stops for the person), 2 bad input.
 """
 
 import argparse
@@ -89,9 +91,12 @@ def restore(folder, repo):
     return {"folder": folder, "restored": tracked, "deleted": new, "clean": not (left_tracked or left_new)}
 
 
-def guard(model_record, product_base, out):
-    rec = ps.read_json(model_record, "the model record") if os.path.isfile(model_record) else {}
-    allow = ["product-os/_spine.yaml"] + [f for f in rec.get("files") or [] if f]
+def guard(model_ops, model_records, product_base, out):
+    ops = ps.read_json(model_ops, "model-ops.json") if os.path.isfile(model_ops) else {}
+    if (ops.get("parts") or []) and not model_records:
+        raise ps.Refused("model-ops.json has parts, but no model record was given; nothing is put back")
+    rec = ps.model_records(model_records)
+    allow = ["product-os/_spine.yaml"] + rec["files"]
     script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scoped_write_guard.py")
     cmd = [sys.executable, script, "--product-base", product_base, "--base-ref", "HEAD", "--restore",
            "--out", out]
@@ -114,13 +119,14 @@ def main(argv=None):
     r.add_argument("--repo", default=".")
     r.add_argument("--out", required=True)
     g = sub.add_parser("guard")
-    g.add_argument("--model-record", required=True)
+    g.add_argument("--model-ops", required=True)
+    g.add_argument("--model-record", action="append", default=[])
     g.add_argument("--product-base", required=True)
     g.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     try:
         if args.cmd == "guard":
-            report = guard(args.model_record, args.product_base, args.out)
+            report = guard(args.model_ops, args.model_record, args.product_base, args.out)
             return 1 if report.get("violations") else 0
         if args.cmd == "numbers":
             plan = ps.load_plan(args.plan_file)
