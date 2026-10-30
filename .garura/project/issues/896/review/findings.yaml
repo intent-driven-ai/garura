@@ -1,0 +1,168 @@
+pr: 1003
+issue: 896
+round: 1
+counts:
+  P1: 0
+  P2: 1
+  P3: 4
+  P4: 5
+layer1:
+  lint-components (installed, --layout source --target core/components): '37 problems, 0 in changed files (there before: 37)'
+  lint_play (installed) core/components/plays/shape-plan/SKILL.md --next-map <copy>: PASS, 0 gaps; next-command (pipeline-next)
+    PASS
+  ruff check_plan_absent.py test_check_plan_absent.py: All checks passed
+  shape-plan test suites (11): all green; test_check_plan_absent 5 passed
+  check-pr-quality (executable-code, tests): 0 findings (CODE-20 catch-all x2, no defect)
+  work-records: no playbook (review/work-records missing); not reviewed by a playbook
+findings:
+- id: HF-1
+  severity: P2
+  file: core/components/plays/shape-plan/reference/ice.md
+  line: 16
+  summary: 'The change removes what ADR 049 decided (a new slice shaped for an intent that already has a plan is added to
+    that plan, with its epic, by the plan play; the plan play runs right after /shape-slice) and records no ADR amendment.
+    The diff changes no file under docs/adr. The stop message now sends the person to /update-plan to "add an epic", but the
+    committed /update-plan ICE only places a new feature in a slice the plan already holds (C11), and ADR 062 names no play
+    that makes the epic and the stories of a second slice. Nothing committed on the base ref shows a play that does this job
+    after the change, so a second slice for an intent with a plan has no path to its epic, and /shape-eval ("run /shape-plan
+    first" when no epic stands for a slice) has nothing to read.
+
+    '
+  basis:
+    principle: P-DECISION + P-SHAPING-LOOP + P-UPDATE-PLAN-SCOPE
+    source: docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md Decision 1.2 and 2; docs/adr/062-... (pattern
+      of recording an amendment); core/components/plays/update-plan/reference/ice.md C11 (all on plan/717/base)
+  owner_note: The approved design (specs/design.md) states the decision; it is not an ADR and is not used as grounding. Needs
+    either an ADR amending ADR 049 Decision 2 that says which play handles a second slice, or the confirmed fact that /update-plan
+    makes that epic.
+  category: harness
+  source: design-findings-harness.yaml
+- id: HF-2
+  severity: P3
+  file: core/components/plays/shape-plan/SKILL.md
+  line: 85
+  summary: 'The plan-exists stop says "close HALTED" and also "nothing was opened or written" and "no file left behind" (C14,
+    F13, S9, SE-20, SCE-9). The Standard Play Close the play runs on any halt loads templates into short-term memory, writes
+    the stop-condition record and the session-stamp marker, and writes the evidence file (unless evidence.record is false).
+    The play does not say which close steps run on this stop, so "no file left behind" cannot hold if the close runs, and
+    a stop that skips the close breaks the close rule. The delivery report''s Next line for shape-plan also reads "make the
+    eval", which is the wrong pointer for this stop.
+
+    '
+  basis:
+    principle: P-CLOSE
+    source: core/components/plays/_shared/play-close.md Steps L, C0, C1, C2 (plan/717/base); standards/rules/evidence-recording.md
+      (memory tool)
+  category: harness
+  source: design-findings-harness.yaml
+- id: HF-3
+  severity: P3
+  file: core/components/plays/shape-plan/SKILL.md
+  line: 335
+  summary: 'Text left behind from the removed behaviour now says the opposite of C14. Step 6 says the plan file marks the
+    issues "and the next run finds them and makes no copy"; under C14 the next run on that intent stops at pre-flight. Step
+    2 still describes the `add-sections` action (line 219, SE-4 line 232) and the `move_out` list (SE-19 line 229, Step 5
+    brief line 302), and Step 6 still names `moved_out` (SE-12), though C4 and C12 are gone from the ICE. The compiled play
+    now promises more than its ICE guarantees. This is about wording that contradicts the ICE, not about handling interrupted
+    runs.
+
+    '
+  basis:
+    principle: P-ICE
+    source: 'docs/standards/harness-standard.md principle 4 (plan/717/base): the compiled part must say what its ICE says'
+  category: harness
+  source: design-findings-harness.yaml
+- id: HF-4
+  severity: P3
+  file: core/components/plays/shape-plan/SKILL.md
+  line: 25
+  summary: 'Neighbour pointers are not updated. /shape-slice''s close still ends "run /shape-plan <intent-issue> to make the
+    plan, the epic and the stories for this slice", and the Next-line map still routes shape-slice -> shape-plan with the
+    same reason. For the second slice of an intent that has a plan, that Next line now sends the person to a play that stops.
+    The map and /shape-slice are not in this change.
+
+    '
+  basis:
+    principle: P-NEXT + P-SHAPING-LOOP
+    source: standards/rules/pipeline-next.md shape-slice entry; core/components/plays/shape-slice/SKILL.md Next Steps (plan/717/base);
+      ADR 049 Decision 1.2
+  category: harness
+  source: design-findings-harness.yaml
+- id: HF-5
+  severity: P4
+  file: core/components/plays/shape-plan/SKILL.md
+  line: 562
+  summary: 'Compilation metadata is wrong: it says "6 autonomous / 6 human" recovery entries. The ICE gives 7 autonomous (REC1,
+    3, 4, 7, 8, 10, 11) and 5 human (REC2, 5, 9, 12, 13).
+
+    '
+  basis:
+    principle: P-ICE
+    source: 'docs/standards/harness-standard.md principle 4 (plan/717/base): the compiled part''s metadata records its ICE'
+  category: harness
+  source: design-findings-harness.yaml
+- id: HF-6
+  severity: P4
+  file: core/components/plays/shape-plan/SKILL.md
+  line: 494
+  summary: 'Step C2 artifacts line reads "each epic and story made, used,\nor used" (the words "given sections or moved out"
+    were cut and left a repeated "used"). Also the recovery table lists F13 before F12.
+
+    '
+  basis:
+    principle: P-ICE
+    source: docs/standards/harness-standard.md principle 4 (plan/717/base); compiled text must be clean output of its ICE
+  category: harness
+  source: design-findings-harness.yaml
+- id: MEM-1
+  severity: P3
+  file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  line: 24
+  summary: 'The page now says a slice that changes after the plan exists is handled by /update-plan and that /shape-plan never
+    runs on an existing plan. The committed ontology still says the opposite: the plan play adds a new slice and its epic
+    to the intent''s existing plan (Plan rules, Q30), and ''uses the one that exists'' for the epic. Page and ontology now
+    disagree, and this change does not touch the ontology.'
+  basis:
+    principle: A model page must agree with the ontology it is a kind of (G2, G3). The ontology sits on the base ref and is
+      the committed word.
+    source: phoenix memory standards/schemas/product-os/ontology.md, Plan rules (line 615) and Q30 (line 116)
+  suggestion: Name the gap (a follow-up for edit-ontology to say that /update-plan, not a second /shape-plan run, adds a later
+    slice to a plan that exists). The page line itself is consistent with /update-plan existing on the base ref.
+  category: memory
+  source: design-findings-memory.yaml
+- id: MEM-2
+  severity: P4
+  file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  line: 56
+  summary: 'The page''s ''Fails if'' line leaves out the second half of the play''s F13: the run also fails when it stops
+    without naming /update-plan. The page''s Goal and acceptance line do name it, so the check is covered, but the Fails-if
+    line is shorter than the ICE it must agree with.'
+  basis:
+    principle: The page's ICE section must keep the play's failure conditions whole (agreement with the play's ICE; G1 structure
+      kept).
+    source: compared with core/components/plays/shape-plan/reference/ice.md F13 on the branch; rule from phoenix memory standards/rules/direct-model-write.md
+  category: memory
+  source: design-findings-memory.yaml
+- id: MEM-3
+  severity: P4
+  file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  line: 33
+  summary: Out of scope does not list changing a plan that exists, now owned by /update-plan, although the change moved that
+    behavior out of this play. The Context line (58) also does not name /update-plan as an 'out' item, while the play's ICE
+    Context does.
+  basis:
+    principle: A feature page lists the neighbouring plays that own what it leaves out (as it does for /shape-slice and /shape-eval).
+    source: base-ref version of the same page, Out of scope section (git show plan/717/base:...fn-818/feature.md); G3
+  category: memory
+  source: design-findings-memory.yaml
+- id: MEM-4
+  severity: P4
+  file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  line: 4
+  summary: 'Left as it was before: ''Not built yet (#818)'' on lines 4 and 58, although the play and its pre-flight check
+    now exist. Not caused by this change; noted so the page is not left stale.'
+  basis:
+    principle: 'A page states what exists (Plan/feature honesty; the page''s own Sources keep #818 open).'
+    source: base-ref version of the page (the same text); core/components/plays/shape-plan/SKILL.md exists on plan/717/base
+  category: memory
+  source: design-findings-memory.yaml
