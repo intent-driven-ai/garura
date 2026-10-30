@@ -1,3 +1,35 @@
-R  .garura/project/issues/720/context/commit-change/analysis.yaml -> .garura/project/issues/720/context/analysis.yaml
-R  .garura/project/issues/720/context/commit-change/commits.yaml -> .garura/project/issues/720/context/commits.yaml
-R  .garura/project/issues/720/context/commit-change/porcelain.txt -> .garura/project/issues/720/context/porcelain.txt
+ M .garura/install-manifest.json
+ M .garura/project/issues/720/context/memory/manifest.json
+ M .garura/project/issues/720/context/porcelain.txt
+ M .garura/project/issues/720/review/lint-components.json
+ M core/components/plays/update-plan/scripts/commit_plan.py
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+ M core/components/skills/track-plan-changes/SKILL.md
+ M core/components/skills/track-plan-changes/scripts/test_track_changes.py
+ M core/components/skills/track-plan-changes/scripts/track_changes.py
+ M core/components/skills/track-plan-changes/scripts/tracker.py
+ M core/tools/lint-components/index.js
+ M core/tools/plan/plan_branch.py
+ M core/tools/plan/test_plan_branch.py
+?? .garura/project/issues/720/context/memory/grounding-harness/manifest.json
+?? .garura/project/issues/720/context/memory/grounding-harness/standards/rules/commits.md
+?? .garura/project/issues/720/context/memory/grounding-harness/standards/rules/direct-model-write.md
+?? .garura/project/issues/720/context/memory/grounding-harness/standards/rules/git.md
+?? .garura/project/issues/720/context/memory/grounding-harness/standards/rules/naming.md
+?? .garura/project/issues/720/context/memory/grounding-harness/standards/rules/pipeline-position.md
+?? .garura/project/issues/720/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+?? .garura/project/issues/720/context/memory/grounding-memory/knowledge/_DESIGN.md
+?? .garura/project/issues/720/context/memory/grounding-memory/manifest.json
+?? .garura/project/issues/720/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+?? .garura/project/issues/720/context/memory/grounding-memory/standards/templates/_index.md
+?? .garura/project/issues/720/context/memory/knowledge/review/_index.md
+?? .garura/project/issues/720/context/memory/knowledge/review/adrs.md
+?? .garura/project/issues/720/context/memory/knowledge/review/code.md
+?? .garura/project/issues/720/context/memory/knowledge/review/config-maps.md
+?? .garura/project/issues/720/context/memory/knowledge/review/docs.md
+?? .garura/project/issues/720/context/memory/knowledge/review/harness.md
+?? .garura/project/issues/720/context/memory/knowledge/review/memory.md
+?? .garura/project/issues/720/context/memory/knowledge/review/tests.md
+?? .garura/project/issues/720/context/memory/standards/rules/pr.md
+?? .garura/project/issues/720/context/templates/manifest-check-change.json
+?? .garura/project/issues/720/context/templates/standards/rules/pipeline-next.md

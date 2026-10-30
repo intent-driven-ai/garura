@@ -1,23 +1,96 @@
+---
+# assess-changes output (grouped by concern, judgment done)
+# issue: 720
 needs_judgment: false
+
 change_groups:
-- id: group-1
-  issue: 720
-  concern: single-directory chore change
-  commit_type: chore
-  scope: stm
-  subject: move this run's commit-change records into the play's working folder
-  subject_source: script-draft
-  files:
-  - .garura/project/issues/720/context/analysis.yaml
-  - .garura/project/issues/720/context/commits.yaml
-  - .garura/project/issues/720/context/porcelain.txt
-exclusions: []
+  - id: plan-branch-step-safety
+    issue: 720
+    commit_type: fix
+    scope: plan
+    subject: "a staged file always stops the branch step, the cut commits only the plan file, a failed push of main is taken back, and abort checks the branch it deletes"
+    files:
+      - core/tools/plan/plan_branch.py
+      - core/tools/plan/test_plan_branch.py
+
+  - id: update-plan-landing-commit
+    issue: 720
+    commit_type: fix
+    scope: update-plan
+    subject: "the landing commit takes only its own files and refuses paths outside the repository"
+    files:
+      - core/components/plays/update-plan/scripts/commit_plan.py
+      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+
+  - id: track-plan-changes-create-marker
+    issue: 720
+    commit_type: fix
+    scope: track-plan-changes
+    subject: "a create finds the issue an earlier run made by its marker, and the record is tied to the approved list"
+    files:
+      - core/components/skills/track-plan-changes/scripts/track_changes.py
+      - core/components/skills/track-plan-changes/scripts/tracker.py
+      - core/components/skills/track-plan-changes/scripts/test_track_changes.py
+      - core/components/skills/track-plan-changes/SKILL.md
+
+  - id: lint-components-relative-paths
+    issue: 720
+    commit_type: fix
+    scope: lint-components
+    subject: "report every path relative to where the linter ran"
+    files:
+      - core/tools/lint-components/index.js
+
+  - id: stm-scrub-lint-report-paths
+    issue: 720
+    commit_type: chore
+    scope: stm
+    subject: "scrub the absolute paths from the round 1 lint report"
+    files:
+      - .garura/project/issues/720/review/lint-components.json
+
+  - id: stm-round-1-review-copies
+    issue: 720
+    commit_type: chore
+    scope: stm
+    subject: "record the round 1 review's memory copies and the install manifest"
+    files:
+      - .garura/install-manifest.json
+      - .garura/project/issues/720/context/memory/manifest.json
+      - .garura/project/issues/720/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/commits.md
+      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/direct-model-write.md
+      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/git.md
+      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/naming.md
+      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/pipeline-position.md
+      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+      - .garura/project/issues/720/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/720/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/720/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+      - .garura/project/issues/720/context/memory/grounding-memory/standards/templates/_index.md
+      - .garura/project/issues/720/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/720/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/720/context/memory/knowledge/review/code.md
+      - .garura/project/issues/720/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/720/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/720/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/720/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/720/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/720/context/memory/standards/rules/pr.md
+      - .garura/project/issues/720/context/templates/manifest-check-change.json
+      - .garura/project/issues/720/context/templates/standards/rules/pipeline-next.md
+
+exclusions:
+  []
+
 risks:
   sensitive_files: []
+  warnings:
+    - path: ".garura/project/issues/720/context/memory/standards/rules/pr.md"
+      match: 'password\s*='
+      blocking: false
+      note: "pattern-carrier copy of the PR rules (it holds search patterns), not a secret"
+
 eval_gates:
-  SE-1:
-    status: PASS
-    evidence: one script-classified group, one directory, one concern
-  SE-5:
-    status: PASS
-    evidence: no sensitive patterns matched
+  SE-1: {status: PASS, evidence: "6 groups; every changed file in exactly one group, except this run's porcelain.txt and analysis.yaml (taken by the run-state commit)"}
+  SE-5: {status: PASS, evidence: "the one content match is a pattern-carrier copy in a standards artifact — non-blocking warning"}
