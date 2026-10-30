@@ -1,18 +1,18 @@
-== runnable checks (check-change round 2, PR #998)
+== runnable checks (check-change round 3, PR #998)
 -- core/components/plays/update-plan/scripts: python3 -m unittest test_update_plan_scripts
-Ran 21 tests in 1.071s
+Ran 24 tests in 0.875s
 
 OK
 -- core/components/skills/track-plan-changes/scripts: python3 -m unittest test_track_changes
-Ran 10 tests in 0.083s
+Ran 10 tests in 0.099s
 
 OK
 -- core/components/skills/link-model-part/scripts: python3 -m unittest test_link_part
-Ran 21 tests in 1.855s
+Ran 21 tests in 1.763s
 
 OK
 -- core/tools/plan: python3 -m unittest test_plan test_plan_branch
-Ran 33 tests in 13.782s
+Ran 33 tests in 15.077s
 
 OK
 -- create-play/references: python3 test_platform_adapter.py

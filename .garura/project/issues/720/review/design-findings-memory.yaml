@@ -1,4 +1,18 @@
-# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 2
+# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 3
+# Round 3: the four memory files are byte-for-byte the round 2 diff (diff against plan/717/base, index lines
+# removed, md5 compared per file). The round 3 commits add ADR 061 (and a forward pointer in ADR 060's Status
+# line), the plan tool's plan_branch.py, and change update-plan and track-plan-changes. No committed source named
+# below changed either (no change to spine.yaml, glossary, harness standard, start-change, shape-plan or
+# shape-slice in the diff). ADR 061 is added by this diff, so it is NOT grounding; it is judged only as the fix
+# that MEM-1 asked for.
+# Grounding copies in grounding-memory/ were reused: the three files still match their manifest version
+# (f8e35c3bd9b6) and fingerprint; nothing was copied again.
+# PR #998 (feature #720, /update-plan), base plan/717/base.
+# Grounding is read from the base ref, docs/adr (base), and memory copied through the memory tool into
+# .garura/project/issues/720/context/memory/grounding-memory/ (manifest.json beside it).
+# pr.md has no memory/ontology rows, so each severity is the bucket in pr.md "Severity buckets"
+# (P2 structural, P3 minor, P4 nit).
+category: memory, ROUND 2
 # Round 2: the four memory files are byte-for-byte the round 1 diff (diff of core/components/memory/standards
 # against plan/717/base is identical, md5 compared with index lines removed). The round 2 commits touch the plan tool,
 # update-plan, track-plan-changes and the linter, not memory. No committed source named below changed either
@@ -73,35 +87,33 @@ checks_passed:
 
 findings:
   - id: MEM-1
-    status: stands
+    status: fixed
     severity: P2
     file: core/components/memory/standards/schemas/product-os/ontology.md
     line: 622
     also_lines: [623, 596]
-    title: "The Plan kind now makes /update-plan cut the plan's branch and set main's plan file to In Progress; the committed branch rules and ADR 060 say the opposite, and no committed record covers the change"
+    title: "The Plan kind makes /update-plan cut the plan's branch; ADR 060 and start-change C9 said the opposite, and no record covered the change"
     principle_violated: G3
     basis: >-
-      start-change ICE C9 (base): a plan's branch "is created only when work on the plan starts - by the
-      first start-change". ADR 060 (base), ICE impact: "No product agent reads branches (line 598: managing
-      a plan never touches branches or code), so no product agent's ICE changes"; and "Work This Creates"
-      says the plan update only writes the branch field. Rule 622 (and 623's "the one exception") now says
-      /update-plan commits In Progress on main and "cuts the plan's branch from that commit"; the old
-      "never touches branches or code" is gone. ADR 060 (base) also says when a branch lands is a delivery
-      rule, not part of what a plan is.
+      Round 2 named one gap: no decision record says /update-plan may cut the plan's branch, while ADR 060
+      (base) says the next start-change cuts it and its ICE impact says managing a plan never touches branches.
     committed_source: >-
-      core/components/plays/start-change/reference/ice.md (base) C9; docs/adr/060-... (base);
-      docs/standards/harness-standard.md (base) principle 8
-    why_it_matters: >-
-      Two committed records say start-change cuts the branch and the product side never touches it. The
-      ontology is now the one place that says the opposite. A reader of start-change or ADR 060 gets a
-      different answer than a reader of the ontology.
-    fix: >-
-      Record the decision (a new ADR, or an amendment of ADR 060) and bring start-change C9 and the harness
-      standard in line, or take the branch-cutting rule out of the Plan kind. The ontology log line is the
-      only record today, and it is in the changed file.
-    note: >-
-      The change was made through /edit-ontology with the product owner's yes (that record sits in the
-      branch, so it is not used as grounding here).
+      docs/adr/060-... (base) Decision 3 and ICE impact; core/components/plays/start-change/reference/ice.md
+      (base) C9; docs/standards/harness-standard.md (base) principle 8
+    evidence_fixed: >-
+      docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md is in the diff with
+      Status Accepted, a named decider (the product owner) and a date. It carries an "Amends: ADR 060" line
+      naming exactly the two sentences that clashed (Decision 3's start-change sentence and the ICE impact's
+      "never touches branches or code"), and says the harness standard's principle 8 stays true (it names no
+      play for the cut; checked against the base file). ADR 060's Status line carries the forward pointer to
+      it, and docs/adr/_index.md has the 061 row. The adr lint (adr-lint.txt) is valid with no problems and
+      all 18 paths the ADR names exist. The ADR's cited ontology lines (622, 623, 627, 636) match the file.
+      The ontology log line and the Plan kind now rest on an accepted record. The gap MEM-1 named is closed.
+    residual: >-
+      ADR 061 itself records that start-change's C9 ("only ... by the first start-change") and S5 stay as they
+      are until #989 is built, and lists this in its "For the Person Who Accepts This" section as a decision
+      for the person. That is a recorded, owned divergence in the harness category, not an unrecorded one, so
+      it is not raised again here (the harness fan-out owns C9).
 
   - id: MEM-2
     status: stands
@@ -218,12 +230,12 @@ findings:
       Show the kind in the example (for example 'epic #956', 'feature #720') or pick a parent that is an epic.
 
 counts:
-  fixed: 0
-  stands: 7
+  fixed: 1      # MEM-1
+  stands: 6     # MEM-2, MEM-3, MEM-4, MEM-5, MEM-6, MEM-7
   new: 0
   P1: 0
-  P2: 1
+  P2: 0
   P3: 3
   P4: 3
-  total: 7   # stands + new
+  total: 6   # stands + new
 grounding_unavailable: []

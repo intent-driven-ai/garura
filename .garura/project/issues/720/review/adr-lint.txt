@@ -1,0 +1,4 @@
+  "valid": true,
+  "problems": []
+}
+18 paths named in ADR 061, none missing; index has the 061 row

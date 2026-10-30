@@ -1,38 +1,47 @@
 pr: 998
 issue: 720
-round: 2
+round: 3
 counts:
   P1: 1
-  P2: 18
-  P3: 49
-  P4: 22
+  P2: 15
+  P3: 50
+  P4: 25
+  none: 1
 scan_notes:
-- finding: BE-12 at core/tools/plan/plan_branch.py:146 and :232
-  note: '''fetch'' here is `git fetch`, not an HTTP call; no timeout-config question applies. False positive.'
+- finding: ARCH-02 and CODE-14 (P2, cycles) on core/tools/plan/plan_branch.py, core/tools/plan/test_plan_branch.py, core/tools/lint-components/index.js
+  note: 'Answered by the round 2 code evidence (the cycles row). Read again now: plan_branch.py imports only the standard
+    library and yaml (lines 41-49); test_plan_branch.py imports the standard library and plan_branch (lines 3-11); index.js
+    requires Node''s fs and path and its own lib/ modules (lines 4-13). No import cycle. The evidence still holds.'
+- finding: CODE-03 (P2, lint) on the same three files
+  note: Answered by the round 2 code evidence (the lint row), with the limit it names. ruff 0.15.20 with defaults is clean
+    on plan_branch.py, the update-plan scripts (place_feature.py included) and the track-plan-changes scripts; the runnable-checks
+    record of this round shows the same on every changed non-test Python file. `node --check` passes on index.js and its 6
+    tests pass. No eslint is committed or installed, so JavaScript was syntax-checked, not linted. The limit stands as the
+    evidence states it.
+- finding: CODE-04 (P2, format) on the same three files
+  note: 'Answered by the round 2 code evidence (the format row). Read again: `ruff format --check` also reports core/tools/plan/plan.py,
+    which is not in this diff, and the new place_feature.py as it does plan_branch.py and test_plan_branch.py; no formatter
+    configuration is committed. The new files match their neighbours. The evidence still holds. No eslint or prettier for
+    index.js, as above.'
+- finding: BE-12 (P2) at core/tools/plan/plan_branch.py:146 and :232
+  note: 'False positive, answered by the round 2 code evidence: `fetch` is `git fetch`, not an HTTP call. Lines read again;
+    same.'
 - finding: DATA-17 (P2) and DATA-18 (P1) at core/tools/plan/test_plan_branch.py:43
-  note: '''email'' is the throwaway git identity of a test repo (user.email test@example.com). No personal data and no encryption
-    question. False positive. This is the only P1 in the scan.'
+  note: 'False positive, answered by the round 2 code evidence: line 43 sets `user.email` to test@example.com in a throwaway
+    test repository. No personal data. This is the only P1 in the scan and it is not a defect.'
 - finding: BE-13 and CODE-27 at core/tools/plan/plan_branch.py:63; BE-23 at :63 and :66
-  note: '''retry'' and ''lock'' here are the wait for git''s own index.lock (8 tries, 2 seconds), bounded, with no service
-    call and no shared state; a retry-policy or lock-scope question does not apply. False positive.'
+  note: 'False positive, unchanged from round 2: the wait for git''s own index.lock, bounded at 8 tries of 2 seconds, with
+    no service call and no shared state.'
 - finding: CODE-25 at core/tools/plan/plan_branch.py:175, :179, :193, :294, :308, :314, :326
-  note: 'Read each handler. None is bare and none swallows an error: 175 and 179 re-raise as Stop with a message; 193 cleans
-    up and re-raises; 294, 308, 314 and 326 print the record with the error and return a non-zero exit. No finding.'
+  note: Unchanged from round 2. Each handler re-raises as Stop, cleans up and re-raises, or prints the error and returns a
+    non-zero exit. None swallows an error.
 - finding: CODE-22 at core/tools/lint-components/index.js:95 and :96
-  note: The rule asks about capitalised names. The scanner matches case-insensitively, so the lowercase `here` and `relative`
-    match `[A-Z][a-z]+`. False positive.
-- finding: CODE-03, CODE-04 (lint, format) on plan_branch.py, test_plan_branch.py and index.js
-  note: Path-only rows that ask for a lint or format run. ruff 0.15.20 with defaults ran clean on the changed non-test Python,
-    and `node --check` passes on index.js with the 6 tests of the linter green (runnable-checks.txt). No eslint or prettier
-    is committed or installed, so JavaScript has a syntax check and tests only; it was not linted or format-checked.
-- finding: ARCH-02, ARCH-03, ARCH-08, CODE-09..CODE-15, CODE-17..CODE-19, CODE-13, FE-08 (path-only) on the same three files
-  note: Path-only rows that ask for a human or tool judgment (cycles, complexity, naming, duplication, bundle size). They
-    are not defects by themselves. The one real instance found is the copied git() helper, reported as CODE-13 in reviewed_findings.
-    FE-08 (bundle size) does not apply to a Node command-line tool.
-fixed_from_round_1:
-  P2: 4
-  P3: 2
-  P4: 1
+  note: 'False positive, unchanged from round 2: the rule asks about capitalised names; the scanner matches case-insensitively,
+    so the lowercase words `here` and `relative` match.'
+- finding: The other path-only P3/P4 rows (ARCH-03, ARCH-08, CODE-09..CODE-12, CODE-15, CODE-17..CODE-19, FE-08, DOC-01, DOC-09..DOC-11)
+  note: Rows that ask for a human or tool judgment (complexity, naming, duplication, bundle size, docs). Not defects by themselves.
+    The one real instance found is the copied git() helper (reviewed_findings, still standing). FE-08 does not apply to a
+    Node command-line tool. The README of the plan tool (DOC rows) was not changed this round.
 findings:
 - id: QS-01
   category: executable-code/tests/docs (scan)
@@ -583,119 +592,131 @@ findings:
   severity: P3
   file: core/tools/plan/plan_branch.py
   line: 241
-  what: 'Most of round 1''s point is fixed: the branch name must be plan/<plan>/base (lines 226-227); a revert that clashes
-    is aborted (lines 243-246); a failed push of the revert is taken back (lines 248-251). The rest stands. After the revert
-    is pushed, a refused branch delete (line 253 or 255) raises from git() with check=True, so the session stays on main (back()
-    is not reached) and the record is unchan'
-  basis: 'round 1 P3: abort after a partial finish; review/code rubric: safe handling of destructive/irreversible operations'
+  what: 'Unchanged since round 2. After the revert is pushed (line 247), a refused delete of the branch (lines 253 and 255
+    use check=True) raises from git() before back() runs (line 257): main holds the revert, the remote still holds plan/<id>/base,
+    the session stays on main, and a second abort fails at the revert (line 243) with "clashes with later work". Fix: skip
+    the revert when main already holds a rev'
+  basis: 'round 2 P3: abort after a partial finish; safe handling of destructive/irreversible operations'
   source: quality-findings.yaml reviewed_findings
 - id: QR-09
   category: executable-code (data-safety read)
   severity: P4
   file: core/tools/plan/plan_branch.py
   line: 62
-  what: The same git() helper (retry while index.lock, 8 tries, 2 seconds) is still in plan_branch.py:62 and commit_plan.py:35,
-    and track-plan-changes/scripts/platform_adapter.py is still a copy of the one kept in eight places. The fixes did not
-    change this.
-  basis: 'round 1 P4: duplicated helper (CODE-13)'
+  what: 'Unchanged: the git() helper with the index.lock wait is still in plan_branch.py and commit_plan.py, and platform_adapter.py
+    is still one copy among many. This round''s commit did not touch it.'
+  basis: 'round 2 P4: duplicated helper (CODE-13)'
   source: quality-findings.yaml reviewed_findings
 - id: QR-10
   category: executable-code (data-safety read)
   severity: P3
   file: core/components/skills/track-plan-changes/scripts/tracker.py
   line: 212
-  what: 'The rerun safety of a create rests on the host''s issue search (`list-issues` with the marker as an in:body phrase,
-    10 results). No test runs this path: test_track_changes.py uses only the file stand-in, whose find_marked scans its own
-    data directly. I cannot show from the code that an issue made seconds earlier is already found by the host''s search,
-    so a rerun right after a crash may not find it a'
-  basis: 'review/code rubric: idempotency of external writes; deterministic where it claims to be'
+  what: 'Unchanged. The rerun guard rests on the host''s issue search (`list-issues` with the marker as an in:body phrase,
+    10 results), and no test calls HostTracker.find_marked (a search of test_track_changes.py for the name finds nothing).
+    A rerun right after a crash may not find an issue made seconds earlier. Fix: test it against a fake adapter and say in
+    the skill what the person does after a crash befo'
+  basis: 'round 2 P3: idempotency of external writes; deterministic where it claims to be'
   source: quality-findings.yaml reviewed_findings
 - id: QR-11
   category: executable-code (data-safety read)
   severity: P4
   file: core/tools/plan/plan_branch.py
   line: 183
-  what: 'The plan file is opened for writing (which empties it) before set_fields() has run, so a plan file with no `status:`
-    line is emptied first and put back only by the `git checkout -- path` in the stop handler (line 199). It is safe today
-    (I ran it: the file came back byte for byte), but it depends on that handler, and the handler catches only Stop: an OSError
-    on the write would leave main''s plan fil'
-  basis: 'review/code rubric: safe handling of destructive/irreversible operations'
+  what: 'Unchanged: the plan file is opened for writing (emptied) before set_fields() runs (lines 182-183). Safe today only
+    because the stop handler puts it back; an OSError on the write would not reach that handler. Fix: compute the new text
+    first.'
+  basis: 'round 2 P4: safe handling of destructive/irreversible operations'
   source: quality-findings.yaml reviewed_findings
 - id: QR-12
   category: executable-code (data-safety read)
   severity: P4
   file: core/tools/lint-components/index.js
   line: 95
-  what: The report drops only the working-folder prefix (`process.cwd() + path.sep`). Run from the repository root, as the
-    play does, the report is clean. Run from another folder with --target elsewhere, I got 37 absolute paths in the output,
-    each starting with the home folder. The comment says the aim is a report that can be committed without naming the machine;
-    that holds only from the root. Also the re
-  basis: 'review/code rubric: no machine path or user name'
+  what: 'Unchanged: only the working-folder prefix is dropped (lines 94-97), and by a replace anywhere in the string. Run
+    from the repository root the report is clean; from another folder with --target elsewhere it keeps the absolute paths.
+    Fix: strip the prefix at the start only, and say in the usage that the report is relative to the working folder.'
+  basis: 'round 2 P4: no machine path or user name'
   source: quality-findings.yaml reviewed_findings
 - id: QR-13
   category: executable-code (data-safety read)
   severity: P4
   file: core/components/plays/update-plan/scripts/commit_plan.py
   line: 83
-  what: The new check refuses every absolute path and every path that leaves the repository, and git add runs from the repository
-    root. The play says `model-record.json` holds "every model file written" (SKILL.md line 267) without saying the paths
-    are repository-relative, while link-model-part reports `changed` relative to the product base (link-model-part/SKILL.md
-    line 46). I did not run the real hand-of
-  basis: 'review/code rubric: deterministic contract between steps'
+  what: 'Unchanged: SKILL.md Step 8 (line 276) still says `files: [every model file written]` without saying repository-relative,
+    while link-model-part reports `changed` relative to the product base (its SKILL.md, Output). commit_plan.py refuses an
+    absolute path or one outside the root. Fix: state in SKILL.md that `files` is repository-relative.'
+  basis: 'round 2 P4: deterministic contract between steps'
   source: quality-findings.yaml reviewed_findings
-- id: HF-1
-  category: harness
-  severity: P2
-  file: .garura/project/issues/720/review/pr.diff (core/tools/plan/plan_branch.py, called from core/components/plays/update-plan/SKILL.md
-    Step 3)
-  line: plan_branch.py 28-34 (header), 163-205 (commits In Progress on main, pushes main, cuts and pushes plan/<id>/base);
-    SKILL.md 139-151. Round 2 only made the step safer (a failed push of main is taken back, the cut commits only the plan
-    file); it still writes to main and still cuts the branch.
-  what: /update-plan's first session on a plan with no branch writes straight to main (a commit and a push) and becomes a
-    second creator of plan/<id>/base, beside start-change. The branch step is declared in the play's own ICE (C2, F2, F3 'except
-    C2's branch step') and the branch-written ontology, but no ADR and no change to start-change C2/C9 or harness principle
-    8 comes with it (git diff base..head touc
-  basis: '["start-change/reference/ice.md (base) line 27: ''Work goes on a dedicated branch, never on main itself.''", "start-change/reference/ice.md
-    (base) lines 31-33: a plan''s branch ''is created only when work on the plan starts - by the first start-change''.", "docs/adr/060
-    (base) line 78: the plan update wr'
-  source: design-findings-harness.yaml
-- id: HF-2
-  category: harness
-  severity: P2
-  file: core/components/agents/product-os-keeper.md
-  line: '101 (new row in Intent to Skill Mapping); play side: core/components/plays/update-plan/SKILL.md 184-189'
-  what: Only the capability comes from a skill (find-work-placement). The slice choice (read the spine, pick the slice whose
-    intents hold the plan's intent), the new id fn-<slug>, the one_line and the five-part ice (goal, limit, fails_if, context,
-    checked_by) are written by the agent "from the person's words" into draft-entries.json, a file author-plan-changes produced.
-    No skill is named for them, and enr
-  basis: '["product-os-keeper.md (base) line 49: ''You never reshape, edit or add to what a skill wrote''.", "product-os-keeper.md
-    (base) lines 54-56: ''every choice, draft and decision is made by a named skill. When no skill does a piece of work, return
-    step_failure that names the missing skill; never do the wo'
-  source: design-findings-harness.yaml
+- id: QR-14
+  category: executable-code (data-safety read)
+  severity: P3
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 114
+  what: 'The play runs this script, and when a capability question is left, runs it again with --suggestion (SKILL.md Step
+    4, lines 190-203). Each run appends its questions to the draft''s `questions` (line 114, `draft.setdefault("questions",
+    []).extend(...)`) and never removes the earlier ones. I ran the two runs on a draft whose parent names no capability and
+    whose plan holds two slices: after the second '
+  basis: 'review/code rubric: deterministic where it claims to be; the draft a person sees must match what the script was
+    asked'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-15
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 109
+  what: 'The docstring says "Exit 0 written; 2 bad input" (line 21), but the handler (line 109) catches only Refused and YAMLError.
+    I ran it with a spine path that does not exist: it died with a FileNotFoundError traceback (read_text raises OSError,
+    line 102), exit 1, naming the full path. A spine file that holds a list, or a draft that holds a list, died with an AttributeError
+    (`.get` on a list), also exi'
+  basis: 'review/code rubric: failure is reported plainly, with the exit the script promises'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-16
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 57
+  what: 'When the entry names a capability that is not in the model, the script clears it and raises a question (lines 57-60),
+    but the parent-chain lookup (lines 61-65) then runs and fills the capability from the parent''s issue anyway. I ran it:
+    the entry ended with capability cap-45 while the question said "''cap-typo'' is not a capability in the model. Which capability
+    does it belong under?" without naming'
+  basis: 'review/code rubric: what the script does must match what it tells the person'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-17
+  category: executable-code (data-safety read)
+  severity: none
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 115
+  what: 'Checked and sound: the draft is read whole, changed in memory, and written once at the end through a temp file and
+    os.replace, so a failure in the middle leaves the old draft whole; the plan file and the spine are only read; no ICE is
+    drafted (line 87 drops any `ice` key); the feature id never collides with a feature the spine already holds (lines 79-84);
+    a plan with a repeated issue number does n'
+  basis: 'review/code rubric: data safety of the file the script rewrites'
+  source: quality-findings.yaml reviewed_findings
 - id: HF-3
   category: harness
   severity: P3
   file: core/components/plays/update-plan/SKILL.md
-  line: 54-66 (pre-flight), 255-270 (Step 8); core/tools/plan/plan_branch.py 137-152 (a session already on the plan's branch
-    returns before the uncommitted check)
-  what: 'update-plan bundles no scoped_write_guard.py, asserts no clean product-os tree (and not at all when the session starts
-    on the plan''s branch), writes the model only after the approval (the reverse of write-then-review, with no declared exception),
-    and commits the model files inside a chore(plan) commit. Its own checks (SE-8, the agreement check with evals_unchanged)
-    cover the evals folder, but the '
-  basis: '[''direct-model-write.md (base) lines 63-69: run the shared scoped-write guard once over the full delta; fails on
-    any path outside the declared scope.'', ''direct-model-write.md (base) lines 86-89 and 228-232 (L-DMW-3, L-DMW-4): assert
-    a clean product-os tree at pre-flight; bundle scoped_write_guard.py'
+  line: 54-66 (pre-flight), 255-270 (Step 8); core/tools/plan/plan_branch.py (a session already on the plan's branch returns
+    before the uncommitted check)
+  what: 'Unchanged in round 3: a search of the play''s SKILL.md, ICE and scripts finds no scoped-write guard, no clean product-os
+    tree check, and no change to direct-model-write.md (the diff touches no file under memory/standards/rules/ but pipeline-next.md).
+    The model is written only after the approval (the reverse of write-then-review, with no declared exception), and its files
+    are committed inside a chor'
+  basis: '[''direct-model-write.md (base) lines 63-69: run the shared scoped-write guard once over the full delta.'', ''direct-model-write.md
+    (base) lines 86-89 and 228-232 (L-DMW-3, L-DMW-4): assert a clean product-os tree at pre-flight; bundle scoped_write_guard.py.'',
+    ''direct-model-write.md (base) lines 90-97:'
   source: design-findings-harness.yaml
 - id: HF-4
   category: harness
   severity: P3
   file: core/components/plays/update-plan/SKILL.md
-  line: 184-189 (Step 5, place the new feature in a slice); 255-260 (Step 8, add_features); core/components/skills/link-model-part/SKILL.md
-    description and Input row (kind slice)
-  what: link-model-part's own text says "a slice itself is shaped only by /shape-slice", yet it now changes a slice's feature_refs
-    for /update-plan. Adding a feature is not among the edits ADR 058 allows, and the session shows no 'in progress' section
-    nor the out-of-date epic. The play names the slice and the evals as owed in the commit message only. Not covered by any
-    ADR.
+  line: 184-203 (Step 5); 255-260 (Step 8, add_features); core/components/plays/update-plan/scripts/place_feature.py 78-88
+    (the slice is chosen by intent only); core/components/skills/link-model-part/SKILL.md description
+  what: Unchanged in round 3. place_feature.py picks the slice by `intents` alone and reads no status; no grep hit for 'in
+    progress' slice or 'out of date' in the play, its ICE or its scripts. link-model-part's own text still says a slice is
+    shaped only by /shape-slice. Adding a feature to a slice's feature_refs is not an edit ADR 058 allows, and no ADR amends
+    058.
   basis: '[''docs/adr/058 (base) lines 24-26: a shaping run never touches a slice in progress.'', "docs/adr/058 (base) lines
     28-34: an approved edit may change only name, outcome, tester''s action, hidden-file lines and a one-line summary, and
     the brief must say the slice is in progress and name its epic as out '
@@ -704,69 +725,70 @@ findings:
   category: harness
   severity: P3
   file: core/components/plays/update-plan/SKILL.md
-  line: '154 (Step 4: the play collects the plan''s issue numbers); 229-234 (Step 6, abort: git checkout -- <folder> and delete
+  line: '154-156 (Step 4: the play collects the plan''s issue numbers); abort path of Step 6 (git checkout -- <folder>, delete
     new files, run by the play)'
-  what: Reading a plan file for its issue numbers and restoring a folder with git and rm are fixed, judgment-free sequences.
-    The abort restore is destructive (git checkout -- discards the folder's changes) and has no eval or record.
-  basis: '["docs/standards/harness-standard.md (base) lines 42-48 (principle 3): a fixed sequence ''runs as a script the step
-    calls''.", "The play''s own Role (new SKILL.md 29-31) says every fixed rule is a script - the two steps are the exceptions."]'
+  what: 'Unchanged: both steps are still prose the play runs. The abort restore is destructive and leaves no record the step
+    eval can read.'
+  basis: '["docs/standards/harness-standard.md (base) lines 42-48 (HS-3): a fixed sequence ''runs as a script the step calls''."]'
   source: design-findings-harness.yaml
 - id: HF-6
   category: harness
   severity: P3
   file: core/components/plays/update-plan/SKILL.md
-  line: '243-244 (Step 7: ''&& echo {"ok": true} > <working>/verify.json''); eval SE-7 at 252-253'
-  what: record_answer.py verify 'writes nothing' (its header, new file line 19). SE-7 asks that verify.json exists before
-    the records of the writes and that the list's hash matches answer.json - but verify.json is an echo, so its existence
-    shows only that the line ran. The real gate is the exit code of verify; the ordering evidence should be a file the script
-    writes.
-  basis: '[''docs/standards/harness-standard.md (base) lines 42-48 (principle 3): the record of a fixed step comes from the
-    script.'', "docs/standards/harness-standard.md (base) lines 60-66 (principle 5): ''A check that never failed may not check
-    anything at all.''"]'
+  line: 'Step 7: ''&& echo {"ok": true} > <working>/verify.json''; SE-7'
+  what: 'Unchanged: record_answer.py verify still writes nothing; verify.json is an echo, so SE-7 shows only that the line
+    ran.'
+  basis: '["docs/standards/harness-standard.md (base) lines 42-48 (HS-3), lines 60-66 (HS-5): ''A check that never failed
+    may not check anything at all.''"]'
   source: design-findings-harness.yaml
 - id: HF-7
   category: harness
   severity: P3
   file: core/components/skills/author-plan-changes/SKILL.md
-  line: 52-53 (Process step 4, 'Ask when unsure'); Examples 65-71
-  what: The skill says a question holds 'the item, the two readings, and an example answer' - one example, no 'why it matters',
-    no pointer to the shared file. /update-plan shows each question as written to a product owner (Step 5), so the format
-    reaches a person.
-  basis: '[''core/components/skills/_shared/asking-a-person.md (base) lines 7-10: each part that asks a person reads it (the
-    file lists the parts).'', ''core/components/skills/_shared/asking-a-person.md (base) lines 18-35: Question, Answer, Why
-    it matters, several Examples from different domains; read it back wi'
-  source: design-findings-harness.yaml
-- id: HF-8
-  category: harness
-  severity: P4
-  file: core/components/plays/update-plan/SKILL.md
-  line: '486 (Compilation Metadata: ''scripts | 13 (...)'')'
-  what: The row lists 14 names (preflight, session_stamp, check_stop_condition, plan_session, find_plan, check_entries, add_entries,
-    record_answer, render_screen, plan_ops, write_plan_changes, check_agreement, commit_plan, close_session) and the diff
-    adds 14 non-test scripts; it says 13. Generated metadata, so the compiler (create-play) is the place to fix.
-  basis: '[''core/components/plays/show-plan/SKILL.md (base) line 273: the base play lists 5 scripts and ships 5.'']'
+  line: Process step 4 'Ask when unsure'; Examples; and core/components/plays/update-plan/scripts/place_feature.py 63-77 (the
+    questions it adds to the draft)
+  what: 'Round 3 widens it. The skill is unchanged (no pointer to the shared file). place_feature.py now adds questions such
+    as "Which capability does ''<title>'' belong under? Its parent in the plan names none." and "Which slice does ''<title>''
+    join: a, b?"; Step 5 says to show each question as written, so these reach the product owner with no Why it matters and
+    no examples. check_entries.py passes the draft'
+  basis: '[''core/components/skills/_shared/asking-a-person.md (base) lines 7-10: each part that asks a person reads it.'',
+    ''core/components/skills/_shared/asking-a-person.md (base) lines 18-35: Question, Answer, Why it matters, several Examples
+    from different domains.'']'
   source: design-findings-harness.yaml
 - id: HF-9
   category: harness
   severity: P4
   file: core/components/agents/project-orchestrator.md
-  line: 145-146 (two skills added to Available Skills); the 'What each skill needs from memory' table (base 403-408) not extended
-  what: author-plan-changes and track-plan-changes need nothing from memory (the plan's files and the working files come from
-    the play), and the table should say so, as it does for track-issue.
-  basis: '["project-orchestrator.md (base) lines 403-408: the table names, for each skill, what comes from memory (track-issue:
-    ''nothing from memory'')."]'
+  line: 145-146 (two skills added to Available Skills); 'What each skill needs from memory' table not extended
+  what: 'Unchanged: the diff to project-orchestrator.md adds only the two skill rows and two intent rows.'
+  basis: '[''project-orchestrator.md (base) lines 403-408 (PO-MEM)'']'
   source: design-findings-harness.yaml
-- id: MEM-1
-  category: memory
-  severity: P2
-  file: core/components/memory/standards/schemas/product-os/ontology.md
-  line: 622
-  what: The Plan kind now makes /update-plan cut the plan's branch and set main's plan file to In Progress; the committed
-    branch rules and ADR 060 say the opposite, and no committed record covers the change
-  basis: 'start-change ICE C9 (base): a plan''s branch "is created only when work on the plan starts - by the first start-change".
-    ADR 060 (base), ICE impact: "No product agent reads branches (line 598: managing a plan never touches branches or code),
-    so no product agent''s ICE changes"; and "Work This Creates"'
-  source: design-findings-memory.yaml
+- id: HF-10
+  category: harness
+  severity: P4
+  file: core/components/plays/update-plan/SKILL.md
+  line: 47 (Agent boundaries table, product-os-keeper row)
+  what: The row reads "Place a new feature (its capability, the slice the plan holds) and draft its thin ICE; on approval
+    write its page ...". After the HF-2 fix the keeper only suggests a capability (Step 5) and lands (Step 8); place_feature.py
+    places and enrich-grounding writes the ICE at the landing. The stale row states the role HF-2 removed.
+  basis: '["docs/standards/harness-standard.md (base) lines 33-40 (HS-2): the play hands each agent a contract; the agent''s
+    role is what its steps give it.", ''core/components/agents/product-os-keeper.md (base) lines 54-56 (KEEPER-1): the keeper
+    drafts nothing itself.'']'
+  source: design-findings-harness.yaml
+- id: HF-11
+  category: harness
+  severity: P4
+  file: core/components/plays/update-plan/SKILL.md
+  line: Step 5, the 'suggest-capability' contract (inputs draft, plan_id, product_base); core/components/plays/update-plan/scripts/place_feature.py
+    99-103 (reads placements[0].capability)
+  what: 'The play hands the keeper a draft, a plan id and the product base. The keeper can turn the draft into `work` and
+    fetch the shelves, but the play''s contract does not say so. The suggestion the skill returns names a shelf capability;
+    place_feature.py prints it into the question as a hint for a spine capability, and place() rejects any capability not
+    in the spine, so a person who types the hint gets '
+  basis: '["core/components/skills/find-work-placement/SKILL.md (base) lines 12-20: inputs are `work` and `domains_dir` (the
+    shelves); output `capability` is a name on the shelf (for example ''Account Recovery'').", ''core/components/agents/product-os-keeper.md
+    (base) lines 64, 124: the keeper hands the domain s'
+  source: design-findings-harness.yaml
 - id: MEM-2
   category: memory
   severity: P3

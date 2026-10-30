@@ -1,0 +1,229 @@
+# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 2
+# Round 2: the four memory files are byte-for-byte the round 1 diff (diff of core/components/memory/standards
+# against plan/717/base is identical, md5 compared with index lines removed). The round 2 commits touch the plan tool,
+# update-plan, track-plan-changes and the linter, not memory. No committed source named below changed either
+# (no change to docs/, core/grounding, spine.yaml, start-change, shape-plan or shape-slice in the diff). Every
+# round 1 finding therefore stands under the same id; no new finding.
+# Grounding copies in grounding-memory/ were reused: the three files still match their manifest version
+# (f8e35c3bd9b6) and fingerprint; nothing was copied again.
+# PR #998 (feature #720, /update-plan), base plan/717/base (fa6f514c).
+# Grounding is read from the base ref, docs/adr, and memory copied through the memory tool into
+# .garura/project/issues/720/context/memory/grounding-memory/ (manifest.json beside it).
+# The branch's own new text is never used as a source. pr.md has no memory/ontology rows, so each
+# severity is the bucket in pr.md "Severity buckets" (P2 structural, P3 minor, P4 nit).
+category: memory
+base_ref: plan/717/base
+files_in_category:
+  - core/components/memory/standards/schemas/product-os/ontology.md
+  - core/components/memory/standards/templates/plan-update.md
+  - core/components/memory/standards/templates/_index.md
+  - core/components/memory/standards/rules/pipeline-next.md
+
+principles:
+  - id: G1
+    principle: >-
+      An ontology change bumps the version by one, sets the date, adds one log line, changes only the
+      kinds the need touches, names no real person, and a changed meaning is logged.
+    source: core/components/plays/edit-ontology/reference/ice.md (base) C1, C3, C4, C6, F3, F6, S3
+  - id: G2
+    principle: >-
+      The ontology follows the committed format: questions, kinds with properties/relationships/rules/
+      optional States/example, a log.
+    source: standards/templates/product-ontology.md (base copy, via memory tool, in the shared memory folder)
+  - id: G3
+    principle: >-
+      A plan's branch is cut when work on the plan starts, by the first start-change; it merges into main
+      when the plan pauses; managing a plan was recorded as never touching branches.
+    source: core/components/plays/start-change/reference/ice.md (base) C9; docs/standards/harness-standard.md (base) principle 8; docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (base) ICE impact and Context
+  - id: G4
+    principle: >-
+      The ontology fixes the Thin line, and the plays that write or read it use exactly that text.
+    source: ontology.md (base) v11 Thin line; core/components/memory/standards/schemas/product-os/spine.yaml (base) line 144; core/components/plays/shape-slice/scripts/slice_check.py (base) line 67
+  - id: G5
+    principle: >-
+      One word means one thing: the Feature kind is one thing a person can do inside a capability; the
+      old work type "Feature" is gone.
+    source: core/grounding/glossary.md (base) line 63 (Feature)
+  - id: G6
+    principle: >-
+      A template is a settings block read by a named consumer, listed with its consumers in
+      templates/_index.md, and the screens it holds are not worded in the play.
+    source: standards/templates/plan-view.md (base) and standards/templates/_index.md (base, memory copy grounding-memory/standards/templates/_index.md)
+  - id: G7
+    principle: >-
+      pipeline-next.md is the one map of successors; each play is listed once, under the loop or lane
+      it belongs to, and the flow prose names the loops.
+    source: core/components/memory/standards/rules/pipeline-next.md (base) lines 1-60 and map headings
+  - id: G8
+    principle: >-
+      A reply to a person leads with the outcome, not with a path, branch or commit.
+    source: standards/rules/user-facing-voice.md (memory copy grounding-memory/standards/rules/user-facing-voice.md) "The rule" and "Signals you've drifted"
+
+checks_passed:
+  - "Ontology check (author-product-ontology/scripts/check_ontology.py, run read-only on the branch file): valid true, 13 kinds, Q1-Q47 contiguous (base ends at Q40)."
+  - "Ontology change check (edit-ontology/scripts/check_ontology_change.py, before = base file, after = branch file): changed kinds Plan and ICE only, out_of_scope empty, version 13 to 14, date 2026-10-30, one new log line, names_found empty. (G1)"
+  - "Log line is appended after the v13 line, has the same shape, and names the changed meaning (status values 'was active, done or dropped'). (G1)"
+  - "Plan kind keeps the template order: Properties, Relationships, Rules, States (optional), Example. (G2)"
+  - "Q references resolve: Q41, Q42, Q44 named in Q-answers exist; every 'see Plan' points to the Plan kind. (G2)"
+  - "Examples use personas (shop owner, clinic manager, bank product owner) and no real names; name check clean. (G1)"
+  - "plan-update.md: fenced settings block 'plan-update' exists; the consumer (/update-plan) is named; render_screen.py loads it by that name; all 58 top-level keys are used by render_screen.py and it uses no key the block lacks. (G6)"
+  - "templates/_index.md lists plan-update.md with a description and its consumer. (G6)"
+  - "plan-update.md rule 'a chore does not sit under an epic' (line 66) agrees with ontology item-kind rule. Plan statuses agree with plan-view.md (base) plan_statuses."
+  - "pipeline-next.md row update-plan parses; lint-play on update-plan SKILL.md passes 'next-command (pipeline-next)'."
+
+findings:
+  - id: MEM-1
+    status: stands
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    line: 622
+    also_lines: [623, 596]
+    title: "The Plan kind now makes /update-plan cut the plan's branch and set main's plan file to In Progress; the committed branch rules and ADR 060 say the opposite, and no committed record covers the change"
+    principle_violated: G3
+    basis: >-
+      start-change ICE C9 (base): a plan's branch "is created only when work on the plan starts - by the
+      first start-change". ADR 060 (base), ICE impact: "No product agent reads branches (line 598: managing
+      a plan never touches branches or code), so no product agent's ICE changes"; and "Work This Creates"
+      says the plan update only writes the branch field. Rule 622 (and 623's "the one exception") now says
+      /update-plan commits In Progress on main and "cuts the plan's branch from that commit"; the old
+      "never touches branches or code" is gone. ADR 060 (base) also says when a branch lands is a delivery
+      rule, not part of what a plan is.
+    committed_source: >-
+      core/components/plays/start-change/reference/ice.md (base) C9; docs/adr/060-... (base);
+      docs/standards/harness-standard.md (base) principle 8
+    why_it_matters: >-
+      Two committed records say start-change cuts the branch and the product side never touches it. The
+      ontology is now the one place that says the opposite. A reader of start-change or ADR 060 gets a
+      different answer than a reader of the ontology.
+    fix: >-
+      Record the decision (a new ADR, or an amendment of ADR 060) and bring start-change C9 and the harness
+      standard in line, or take the branch-cutting rule out of the Plan kind. The ontology log line is the
+      only record today, and it is in the changed file.
+    note: >-
+      The change was made through /edit-ontology with the product owner's yes (that record sits in the
+      branch, so it is not used as grounding here).
+
+  - id: MEM-2
+    status: stands
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    line: 566
+    also_lines: [141, 168, 486, 522]
+    title: "The ontology fixes a new Thin line, but memory and the plays that write or read it still hold the old line"
+    principle_violated: G4
+    basis: >-
+      Base ontology v11 fixed one Thin line, "Thin: proposed by `/shape-slice` from the person's answers;
+      deepen with `/discover-capabilities`." Base spine.yaml line 144 repeats it; base slice_check.py line 67
+      says it "reads exactly this text, so any other wording reads as drift" (link_part.py line 85, in this
+      diff and unchanged on that point, says the same and still writes the old line, as do
+      persist_fills.py and write_hidden_file.py). v14 changes the fixed line to "Thin: proposed from the
+      person's words; deepen with `/discover-capabilities`." and says an old-line page "is still thin" and its
+      old words are drift for the Alignment loop. So /update-plan, which adds thin features through
+      link_part.py, will write what v14 calls the old line.
+    committed_source: >-
+      core/components/memory/standards/schemas/product-os/spine.yaml (base) line 144;
+      core/components/plays/shape-slice/scripts/slice_check.py (base) line 67; ontology.md (base) Thin line
+    fix: >-
+      Update spine.yaml line 144 (memory, in this category) in the same change, and either move the writers to
+      the new line or have the ontology keep the one text it already fixes. The writers are for the harness and
+      code graders.
+
+  - id: MEM-3
+    status: stands
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    line: 594
+    also_lines: [626, 892]
+    title: "Plan Status values changed (was active, done or dropped), but the ontology holds no drift note for the old value and a committed play still writes it"
+    principle_violated: G1
+    basis: >-
+      edit-ontology ICE C3/F3: an existing kind that changes meaning is logged, and the rest of the model must
+      still read the same words the same way. The log names the change; but rule 626 gives a drift note only
+      for the item kind `issue` and for items under other parents, not for `status: active`. Base shape-plan
+      SKILL.md line 339 still tells the play to write a plan file with `status: active`, and base
+      shape-eval's tests build plan files with `status: active`. Neither is in this diff.
+    committed_source: >-
+      core/components/plays/shape-plan/SKILL.md (base) line 339;
+      core/components/plays/edit-ontology/reference/ice.md (base) C3, F3
+    fix: >-
+      Add `active` to the drift note in rule 626 (read as In Progress, never changed unasked), or change the
+      writer in the same plan.
+
+  - id: MEM-4
+    status: stands
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    line: 625
+    also_lines: [21, 87]
+    title: "The Plan kind brings back the word 'feature' (item kind `feature`, tracker type Feature) while the glossary says that work type is gone"
+    principle_violated: G5
+    basis: >-
+      Base glossary line 63, Feature: "In the tracker a Story stands for it. Not the old work type 'Feature',
+      which is gone." v14 defines a "feature item" as "an issue of type Feature" and gives plan files an item
+      kind `feature`, next to the Feature kind. The ontology explains the difference at lines 21, 87 and 625,
+      but the glossary is not changed and still says the type is gone. The item kind value `feature` and the
+      kind Feature remain one word for two things.
+    committed_source: core/grounding/glossary.md (base) line 63
+    fix: >-
+      Update the glossary (Feature entry, and a "feature item" entry) in this change, or name the item kind
+      differently (a group, say) so the word keeps one meaning.
+
+  - id: MEM-5
+    status: stands
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    line: 77
+    title: "update-plan is listed under the 'Navigation' heading, and 'The flow' does not name it"
+    principle_violated: G7
+    basis: >-
+      The base map groups rows by loop or lane (line 73 '# Navigation' holds list-focus-issues, list-plans,
+      show-plan, which only show). update-plan changes a plan, so it is not navigation. The base 'The flow'
+      bullets (lines 26-31) name every other live play by loop; update-plan is in none, and its why-line
+      ("reaches main with the plan's other work") holds only once the plan pauses (ADR 060).
+    committed_source: core/components/memory/standards/rules/pipeline-next.md (base) lines 26-31, 73-77; docs/adr/060 (base)
+    fix: >-
+      Put the row under its own heading (for example '# Plan upkeep') and add one flow bullet.
+
+  - id: MEM-6
+    status: stands
+    severity: P4
+    file: core/components/memory/standards/templates/plan-update.md
+    line: 156
+    title: "The 'landed' screen opens with the branch and commit, not the outcome"
+    principle_violated: G8
+    basis: >-
+      user-facing-voice.md "Signals you've drifted": the opening names a path, class, function or line
+      number instead of the outcome. The screen reads "Landed on {plan_branch} (commit {commit}), pushed.",
+      then Model, GitHub, Plan, Check. The rule's scope note excludes templates for internal artifacts; this
+      one is shown to a person as it stands.
+    committed_source: standards/rules/user-facing-voice.md (memory copy, grounding-memory)
+    fix: >-
+      Lead with what changed for the person, and put the branch and commit on a later line.
+
+  - id: MEM-7
+    status: stands
+    severity: P4
+    file: core/components/memory/standards/templates/plan-update.md
+    line: 68
+    also_lines: [41, 51]
+    title: "The worked screen shows no item kinds, and row 5 reads as a feature item under a story-level item"
+    principle_violated: G2
+    basis: >-
+      Ontology item-kind rule (base Plan kind + the plan-view template, base): the example of a template is a
+      real, filled-in instance. Row 5 adds a new feature item "under #720", and #720 sits under #956 with a
+      story (#730) under it. The screen does not say what kind #720 is, so a reader cannot tell the example
+      keeps the rule 'a feature item sits under an epic'. Low confidence: the kinds may be set in the plan file.
+    committed_source: standards/templates/product-ontology.md (base copy) "Example"; standards/templates/plan-view.md (base)
+    fix: >-
+      Show the kind in the example (for example 'epic #956', 'feature #720') or pick a parent that is an epic.
+
+counts:
+  fixed: 0
+  stands: 7
+  new: 0
+  P1: 0
+  P2: 1
+  P3: 3
+  P4: 3
+  total: 7   # stands + new
+grounding_unavailable: []

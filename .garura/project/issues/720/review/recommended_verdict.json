@@ -6,9 +6,10 @@
   ],
   "counts": {
     "P1": 1,
-    "P2": 18,
-    "P3": 49,
-    "P4": 22
+    "P2": 15,
+    "P3": 50,
+    "P4": 25,
+    "NONE": 1
   },
   "confidence": null,
   "threshold": 0.5
