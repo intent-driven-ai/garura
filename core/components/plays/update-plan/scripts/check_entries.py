@@ -25,7 +25,9 @@ rules only:
 An issue the snapshot does not hold is listed in `unknown_issues`: the play has it read and runs
 the check again. No status or direction is ever added that the draft does not name (no roll-ups).
 
-Output: {"entries": [...], "questions": [...], "unknown_issues": [...]}.
+Output: {"entries": [...], "questions": [...], "unknown_issues": [...]}. `questions` holds the
+skill's questions and then place_feature.py's (`placement_questions`), each in the four parts of
+`_shared/asking-a-person.md`.
 Exit 0 written; 2 bad input (nothing written). No git, no network.
 """
 
@@ -279,7 +281,8 @@ def main(argv=None):
         out.append(e)
         unknown += [m for m in miss if m not in unknown]
     ps.write_json(args.out, {"instruction": draft.get("instruction"), "entries": out,
-                             "questions": draft.get("questions") or [], "unknown_issues": unknown})
+                             "questions": (draft.get("questions") or []) + (draft.get("placement_questions") or []),
+                             "unknown_issues": unknown})
     return 0
 
 

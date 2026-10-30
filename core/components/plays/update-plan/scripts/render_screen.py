@@ -8,7 +8,9 @@ Screens and what each reads from the working folder:
   found, not_found   plan.json
   stopped, on_branch branch.json (on_branch adds the cut note when the branch was cut)
   taken              changes.yaml and taken.json: one line for each entry just added
-  break, confirm     checked.json: the entries at --at (their place in it)
+  break, confirm     checked.json: the entries at --at (their place in it); confirm adds, for a new
+                     feature, the thin-ICE warning and its slice in progress with the epic out of date
+  question           checked.json: the questions at --at (all when --at is empty), in four parts
   list, empty        changes.yaml and --plan-file: the plan before and after the list (only the
                      touched items and the items above them), then what changed, one line each
   rejected           nothing (it asks what to change)
@@ -167,7 +169,34 @@ class Screens:
     def confirm(self, at):
         out = []
         for i, e in self.picked(at):
-            out.append(self.t["confirm"].format(row="\n".join(self.row(e, n=i)), why=e.get("big_why") or ""))
+            text = self.t["confirm"].format(row="\n".join(self.row(e, n=i)), why=e.get("big_why") or "")
+            if e["op"] == "new-feature":
+                notes = [self.t["thin_warning"]]
+                busy = e.get("slice_in_progress") or []
+                if busy:
+                    epics = self.t["epic_join"].join(self.t["epic_line"].format(epic=self.ref(b.get("epic"))
+                                                                                if str(b.get("epic")).isdigit()
+                                                                                else b.get("epic"),
+                                                                                status=b.get("status"))
+                                                     for b in busy)
+                    notes.append(self.t["slice_in_progress"].format(slice=e.get("slice"), epics=epics))
+                head, _, ask = text.rpartition("\n")
+                text = "\n".join([head] + notes + [ask])
+            out.append(text)
+        return "\n\n".join(out)
+
+    def question(self, at):
+        qs = self.rec("checked.json").get("questions") or []
+        picked = [qs[i - 1] for i in at if 0 < i <= len(qs)] if at else qs
+        out = []
+        for q in picked:
+            if not isinstance(q, dict):
+                q = {"question": str(q)}
+            examples = "\n".join(self.t["example_line"].format(example=x) for x in q.get("examples") or [])
+            out.append(self.t["question"].format(question=q.get("question") or "",
+                                                 answer=q.get("answer") or self.t["none"],
+                                                 why=q.get("why") or self.t["none"],
+                                                 examples=examples or self.t["example_line"].format(example=self.t["none"])))
         return "\n\n".join(out)
 
     def tree(self, plan, keep):
@@ -296,7 +325,7 @@ class Screens:
 
 
 SCREENS = {"found", "not_found", "stopped", "on_branch", "taken", "break", "confirm", "list", "empty",
-           "rejected", "aborted", "resume", "landed"}
+           "rejected", "aborted", "resume", "landed", "question"}
 
 
 def main(argv=None):

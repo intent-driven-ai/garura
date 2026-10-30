@@ -49,8 +49,12 @@ play's script does) and it writes nothing but its draft.
    children are done): there are no roll-ups.
 3. **Keep the person's words.** A new title, a new text and a description use the person's own
    words, in plain English, with personas, never a real name.
-4. **Ask when unsure.** Write each question in `questions`, standing alone: the item, the two
-   readings, and an example answer. Write no entry for a part you asked about.
+4. **Ask when unsure.** Read `_shared/asking-a-person.md` (laid beside the installed skills) and
+   write each question in `questions` in its four parts: `question` (the one thing the person
+   decides, naming the item), `answer` (the two readings you see, or the answer you propose, and
+   that it is proposed), `why` (what goes wrong if the answer is wrong) and `examples` (several,
+   from different domains). Read each back with no context; a stranger must be able to answer
+   it. Write no entry for a part you asked about.
 5. **Write `draft-entries.json`.** Check it parses, and that each entry has its fields.
 
 ## Output
@@ -60,6 +64,16 @@ play's script does) and it writes nothing but its draft.
  "entries": [{"op": "status", "issue": 730, "to": "Done"},
              {"op": "retitle", "issue": 931, "to": "Add a feature found mid-plan"}],
  "questions": []}
+```
+
+A question, when the words fit two readings:
+
+```json
+{"question": "Should 'drop the reminder' drop story #44 'Send a reminder', or only its chore #47 'Retry a failed SMS'?",
+ "answer": "Two readings: drop the story and the work under it, or drop the chore only.",
+ "why": "Dropping the story closes it on GitHub and takes it out of the plan; the chore alone leaves the story open.",
+ "examples": ["a clinic: drop the whole reminder story", "a shop: drop only the retry chore of the receipt story",
+              "a bank: drop the alert story and its chores"]}
 ```
 
 Examples from different fields:

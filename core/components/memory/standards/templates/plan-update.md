@@ -22,6 +22,10 @@ marks) from `template-manager`.
   ("do it anyway"), which is recorded.
 - **confirm** — a big change (drop an epic, move a feature between slices, any model change,
   close an item with open work under it) is shown and waits for a yes before it joins the list.
+  A new feature also says its ICE will be thin, and, when its slice is in progress, names the
+  slice's epic as out of date (ADR 058, ADR 062).
+- **question** — what no rule settles, asked in four parts: the question, the answer we have
+  (or that there is none yet), why it matters, and examples from different domains.
 - **list** — the whole list and the one question: approved or rejected.
 - **rejected** — nothing lands; the session goes on, and the play asks what to change.
 - **aborted** — the person said "abort": nothing was written, the list is dropped, a branch the
@@ -110,6 +114,17 @@ confirm: |-
   {row}
   This needs your yes first: {why}.
   Type yes to add it to the list, or tell me what to change.
+thin_warning: "  Its ICE will be thin: written from your words only. A thin ICE can cause problems later; /discover-capabilities can deepen it."
+slice_in_progress: "  Its slice {slice} is in progress: {epics} is out of date, because work already started from the old text."
+epic_line: "epic {epic} ({status})"
+epic_join: ", "
+question: |-
+  Question: {question}
+  Answer: {answer}
+  Why it matters: {why}
+  Examples:
+  {examples}
+example_line: "  - {example}"
 list_head: "Plan {plan} — serves #{plan}: {title}"
 before_head: "Before — Status {status} · Direction {direction}"
 after_head: "After — Status {status} · Direction {direction}"

@@ -3,7 +3,7 @@
 
     python3 record_answer.py record --reply "<the person's words>" --changes <changes.yaml> \
         --at <UTC time> --out <answer.json>
-    python3 record_answer.py verify --answer <answer.json> --changes <changes.yaml>
+    python3 record_answer.py verify --answer <answer.json> --changes <changes.yaml> --out <verify.json>
 
 `record` reads the reply by a fixed rule: only the word "approved" (any case, with or without a
 full stop) is `approved`; only "rejected" is `rejected` (nothing lands, and the session goes on:
@@ -16,7 +16,8 @@ every earlier answer is kept in `history`.
 
 `verify` is the gate before the landing's first write: exit 0 only when answer.json reads
 `approved` and the list still has the recorded sha256; exit 1 otherwise; 2 when a file cannot be
-read. Nothing is written by `verify`.
+read. It writes its own record, verify.json — {ok, decision, list_sha, answer_sha, why} — on a
+pass and on a fail, so an earlier pass never stays behind a later fail.
 """
 
 import argparse
@@ -50,6 +51,7 @@ def main(argv=None):
     v = sub.add_parser("verify")
     v.add_argument("--answer", required=True)
     v.add_argument("--changes", required=True)
+    v.add_argument("--out", required=True)
     args = ap.parse_args(argv)
     if args.cmd == "verify":
         try:
@@ -58,9 +60,14 @@ def main(argv=None):
         except (ps.Refused, OSError) as e:
             print(f"cannot verify: {e}", file=sys.stderr)
             return 2
-        if ans.get("decision") == "approved" and ans.get("list_sha") == sha:
+        ok = ans.get("decision") == "approved" and ans.get("list_sha") == sha
+        why = None if ok else ("the answer is not approved" if ans.get("decision") != "approved"
+                               else "the list changed after it was approved")
+        ps.write_json(args.out, {"ok": ok, "decision": ans.get("decision"), "list_sha": sha,
+                                 "answer_sha": ans.get("list_sha"), "why": why})
+        if ok:
             return 0
-        print("not approved for this list: nothing may be written", file=sys.stderr)
+        print(f"not approved for this list: {why}; nothing may be written", file=sys.stderr)
         return 1
     if not args.reply.strip():
         print("refused: an empty reply is not an answer", file=sys.stderr)

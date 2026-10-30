@@ -9,6 +9,7 @@ import unittest
 from contextlib import redirect_stderr
 
 import track_changes
+import tracker
 
 ISSUES = {"issues": [
     {"number": 1, "title": "Plan", "type": "Epic", "labels": [], "state": "OPEN", "body": "", "sub_issues": [2, 3]},
@@ -158,6 +159,51 @@ class TrackChangesTest(unittest.TestCase):
         self.assertEqual(sorted(snap["issues"]), ["1", "2"])
         self.assertEqual(snap["missing"], [99])
         self.assertEqual(snap["issues"]["2"]["parent"], 1)
+
+
+class FakeAdapter:
+    """platform_adapter.dispatch, answering list-issues and view-issue from fixed issues."""
+
+    def __init__(self, issues, hits):
+        self.issues, self.hits, self.calls = issues, hits, []
+
+    def dispatch(self, verb, args, config_path=None):
+        self.calls.append((verb, args))
+        if verb == "list-issues":
+            return {"exit_code": 0, "stdout": json.dumps([{"number": n} for n in self.hits]), "stderr": ""}
+        if verb == "view-issue":
+            n = int(args["issue_number"])
+            if n not in self.issues:
+                return {"exit_code": 1, "stdout": "", "stderr": "Could not resolve to an issue"}
+            return {"exit_code": 0, "stdout": json.dumps({"number": n, "title": "t", "body": self.issues[n],
+                                                          "state": "OPEN", "labels": []}), "stderr": ""}
+        return {"exit_code": 1, "stdout": "", "stderr": f"unexpected verb {verb}"}
+
+
+class FindMarkedTest(unittest.TestCase):
+    MARK = "Made by /update-plan (list abcdef123456, op 3-create)."
+
+    def host(self, issues, hits):
+        h = tracker.HostTracker.__new__(tracker.HostTracker)
+        h.pa, h.config = FakeAdapter(issues, hits), None
+        return h
+
+    def test_a_search_hit_counts_only_when_its_body_holds_the_marker(self):
+        h = self.host({7: "x\n" + self.MARK, 8: "mentions the list but not the marker", 9: self.MARK + " (copy)"},
+                      [7, 8, 9])
+        self.assertEqual(h.find_marked(self.MARK), [7, 9])
+        verb, args = h.pa.calls[0]
+        self.assertEqual((verb, args["query"], args["state"]), ("list-issues", f'"{self.MARK}" in:body', "all"))
+
+    def test_no_hit_finds_nothing_and_a_gone_issue_is_skipped(self):
+        self.assertEqual(self.host({}, []).find_marked(self.MARK), [])
+        self.assertEqual(self.host({}, [12]).find_marked(self.MARK), [])
+
+    def test_a_search_that_gives_no_json_is_an_error_not_nothing(self):
+        h = self.host({}, [])
+        h.pa.dispatch = lambda verb, args, config_path=None: {"exit_code": 0, "stdout": "oops", "stderr": ""}
+        with self.assertRaises(tracker.TrackerError):
+            h.find_marked(self.MARK)
 
 
 if __name__ == "__main__":

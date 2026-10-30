@@ -20,6 +20,7 @@ import plan_ops
 import plan_session as ps
 import record_answer
 import render_screen
+import session_files
 import write_plan_changes
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -209,7 +210,8 @@ class AnswerTest(Session):
         return ps.read_json(self.p("answer.json"), "answer")["decision"]
 
     def verify(self):
-        return quiet(record_answer.main, ["verify", "--answer", self.p("answer.json"), "--changes", self.changes])
+        return quiet(record_answer.main, ["verify", "--answer", self.p("answer.json"), "--changes", self.changes,
+                                          "--out", self.p("verify.json")])
 
     def test_only_a_plain_approved_lands(self):
         self.assertEqual(self.answer("Approved."), "approved")
@@ -226,6 +228,18 @@ class AnswerTest(Session):
         with open(self.changes, "a") as fh:
             fh.write("# later\n")
         self.assertEqual(self.verify(), 1)
+        rec = ps.read_json(self.p("verify.json"), "verify")
+        self.assertEqual((rec["ok"], rec["why"]), (False, "the list changed after it was approved"))
+
+    def test_verify_writes_its_own_record(self):
+        self.answer("approved")
+        self.assertEqual(self.verify(), 0)
+        rec = ps.read_json(self.p("verify.json"), "verify")
+        self.assertTrue(rec["ok"])
+        self.assertEqual(rec["list_sha"], ps.sha256_of(self.changes))
+        self.answer("rejected")
+        self.assertEqual(self.verify(), 1)                                  # the earlier pass does not stay
+        self.assertFalse(ps.read_json(self.p("verify.json"), "verify")["ok"])
 
 
 class LandingTest(Session):
@@ -454,13 +468,14 @@ class PlaceFeatureTest(Session):
              "features:\n- id: fn-undo-the-last-booking\n"
              "slices:\n- id: sl-a\n  intents: [bi-40]\n- id: sl-b\n  intents: [bi-99]\n")
 
-    def place(self, entry, spine=None):
+    def place(self, entry, spine=None, *extra, fresh=True):
         path = os.path.join(self.d, "spine.yaml")
         with open(path, "w") as fh:
             fh.write(spine or self.SPINE)
-        ps.write_json(self.p("draft-entries.json"), {"instruction": "x", "entries": [entry], "questions": []})
+        if fresh:
+            ps.write_json(self.p("draft-entries.json"), {"instruction": "x", "entries": [entry], "questions": []})
         self.assertEqual(quiet(place_feature.main, ["--draft", self.p("draft-entries.json"), "--plan-file", self.plan,
-                                                    "--spine", path, "--plan", "40"]), 0)
+                                                    "--spine", path, "--plan", "40", *extra]), 0)
         return ps.read_json(self.p("draft-entries.json"), "draft")
 
     def test_capability_slice_and_id_by_rule(self):
@@ -470,7 +485,7 @@ class PlaceFeatureTest(Session):
         self.assertEqual(e["feature"], "fn-undo-the-last-booking-2")          # the spine has the plain one
         self.assertEqual(e["one_line"], "Undo the last booking")
         self.assertNotIn("ice", e)
-        self.assertEqual(got["questions"], [])
+        self.assertEqual((got["questions"], got["placement_questions"], e["slice_in_progress"]), ([], [], []))
 
     def test_an_existing_story_keeps_its_number(self):
         e = self.place({"op": "new-feature", "issue": 44, "title": "Remind", "parent": 41})["entries"][0]
@@ -480,8 +495,158 @@ class PlaceFeatureTest(Session):
         spine = "capabilities: []\nslices:\n- id: sl-a\n  intents: [bi-40]\n- id: sl-c\n  intents: [bi-40]\n"
         got = self.place({"op": "new-feature", "issue": None, "title": "Undo", "parent": 45}, spine)
         self.assertIsNone(got["entries"][0]["capability"])
-        self.assertEqual(len(got["questions"]), 2)                          # which capability; which slice
-        self.assertIn("sl-a, sl-c", got["questions"][1])
+        qs = got["placement_questions"]
+        self.assertEqual(len(qs), 2)                                        # which capability; which slice
+        self.assertIn("sl-a, sl-c", qs[1]["answer"])
+        for q in qs:                                                        # the four parts of asking a person
+            self.assertTrue(q["question"] and q["answer"] and q["why"])
+            self.assertGreaterEqual(len(q["examples"]), 3)
+
+    def test_a_second_run_replaces_its_own_questions(self):
+        spine = "capabilities: []\nslices:\n- id: sl-a\n  intents: [bi-40]\n- id: sl-c\n  intents: [bi-40]\n"
+        self.place({"op": "new-feature", "issue": None, "title": "Undo", "parent": 45}, spine)
+        route = self.p("routing-result.json")
+        ps.write_json(route, {"routing_result": {"placements": [{"capability": "cap-41"}]}})
+        draft = ps.read_json(self.p("draft-entries.json"), "draft")
+        draft["questions"] = [{"question": "the skill's own", "answer": "a", "why": "b", "examples": []}]
+        ps.write_json(self.p("draft-entries.json"), draft)
+        got = self.place(None, spine, "--suggestion", route, fresh=False)
+        self.assertEqual(len(got["placement_questions"]), 2)                # not 4
+        self.assertIn("cap-41", got["placement_questions"][0]["answer"])
+        self.assertEqual(len(got["questions"]), 1)                          # the skill's own are kept
+
+    def test_a_slice_in_progress_is_named_with_its_epic(self):
+        spine = self.SPINE + ("epics:\n- id: ep-a\n  slice_ref: sl-a\n  status: in_delivery\n  issue_ref: '41'\n"
+                              "- id: ep-b\n  slice_ref: sl-b\n  status: delivered\n")
+        e = self.place({"op": "new-feature", "issue": None, "title": "Undo", "parent": 42}, spine)["entries"][0]
+        self.assertEqual(e["slice_in_progress"], [{"epic": "41", "status": "in_delivery"}])
+
+    def test_the_in_progress_statuses_match_shape_slice(self):
+        # ADR 062: one rule for "a slice in progress" in both plays. /shape-slice's script sits
+        # beside this play's folder, in the source and in an install alike.
+        import ast
+        other = os.path.join(HERE, "..", "..", "shape-slice", "scripts", "find_serving_slice.py")
+        if not os.path.isfile(other):
+            self.skipTest("/shape-slice is not beside this play")
+        with open(other, encoding="utf-8") as fh:
+            tree = ast.parse(fh.read())
+        theirs = next(ast.literal_eval(n.value) for n in tree.body if isinstance(n, ast.Assign)
+                      and any(getattr(t, "id", None) == "IN_PROGRESS" for t in n.targets))
+        self.assertEqual(tuple(place_feature.IN_PROGRESS), tuple(theirs))
+
+    def test_a_named_capability_the_model_lacks_is_asked_not_swapped_silently(self):
+        got = self.place({"op": "new-feature", "issue": None, "title": "Undo", "parent": 42, "capability": "cap-x"})
+        self.assertEqual(got["entries"][0]["capability"], "cap-41")
+        self.assertIn("cap-41", got["placement_questions"][0]["answer"])
+
+    def test_a_missing_model_index_stops_cleanly(self):
+        ps.write_json(self.p("draft-entries.json"), {"instruction": "x", "entries": [], "questions": []})
+        self.assertEqual(quiet(place_feature.main, ["--draft", self.p("draft-entries.json"), "--plan-file", self.plan,
+                                                    "--spine", os.path.join(self.d, "none.yaml"), "--plan", "40"]), 2)
+
+    def test_the_confirm_screen_warns_thin_and_names_the_slice_in_progress(self):
+        self.check([{"op": "new-feature", "issue": None, "title": "Undo the last booking", "parent": 41,
+                     "feature": "fn-undo", "capability": "cap-1", "slice": "sl-a",
+                     "slice_in_progress": [{"epic": "41", "status": "in_delivery"}]}])
+        text = self.screen("confirm", "1")
+        self.assertIn("thin", text)
+        self.assertIn("sl-a is in progress: epic #41 (in_delivery) is out of date", text)
+        self.assertTrue(text.rstrip().endswith("or tell me what to change."))
+
+    def test_the_question_screen_shows_four_parts(self):
+        ps.write_json(self.p("draft-entries.json"), {"instruction": "x", "entries": [],
+                                                     "placement_questions": [place_feature.ask("Q?", "A.", "W.")]})
+        quiet(check_entries.main, ["--draft", self.p("draft-entries.json"), "--plan-file", self.plan,
+                                   "--snapshot", self.snap, "--changes", self.changes,
+                                   "--view-template", VIEW, "--out", self.p("checked.json")])
+        text = self.screen("question")
+        for part in ("Question: Q?", "Answer: A.", "Why it matters: W.", "  - a clinic"):
+            self.assertIn(part, text)
+
+
+class SessionFilesTest(Session):
+    def test_numbers_lists_the_plan_then_its_tree_once(self):
+        self.assertEqual(quiet(session_files.main, ["numbers", "--plan-file", self.plan, "--out", self.p("n.json")]), 0)
+        self.assertEqual(ps.read_json(self.p("n.json"), "n"), {"plan": "40", "issues": [40, 41, 42, 43, 44, 45], "csv": "40,41,42,43,44,45"})
+
+    def test_restore_puts_the_folder_back_and_records_it(self):
+        repo = os.path.join(self.d, "repo")
+        os.makedirs(os.path.join(repo, "stm", "40"))
+        git = lambda *a: subprocess.run(["git", *a], cwd=repo, check=True, capture_output=True)  # noqa: E731
+        git("init", "--quiet", "-b", "plan/40/base")
+        git("config", "user.email", "test@example.com")
+        git("config", "user.name", "Test")
+        for name, text in (("stm/40/kept.md", "kept\n"), ("other.md", "other\n")):
+            with open(os.path.join(repo, name), "w") as fh:
+                fh.write(text)
+        git("add", ".")
+        git("commit", "--quiet", "-m", "start")
+        with open(os.path.join(repo, "stm", "40", "kept.md"), "w") as fh:
+            fh.write("changed by the session\n")
+        with open(os.path.join(repo, "stm", "40", "new.json"), "w") as fh:
+            fh.write("{}\n")
+        with open(os.path.join(repo, "other.md"), "w") as fh:
+            fh.write("someone else's work\n")
+        out = self.p("restore.json")
+        self.assertEqual(quiet(session_files.main, ["restore", "--folder", "stm/40/", "--repo", repo, "--out", out]), 0)
+        rec = ps.read_json(out, "restore")
+        self.assertEqual((rec["restored"], rec["deleted"], rec["clean"]), (["stm/40/kept.md"], ["stm/40/new.json"], True))
+        with open(os.path.join(repo, "stm", "40", "kept.md")) as fh:
+            self.assertEqual(fh.read(), "kept\n")
+        self.assertFalse(os.path.exists(os.path.join(repo, "stm", "40", "new.json")))
+        with open(os.path.join(repo, "other.md")) as fh:                    # outside the folder: untouched
+            self.assertEqual(fh.read(), "someone else's work\n")
+
+    def guard_repo(self):
+        repo = os.path.join(self.d, "grepo")
+        model = os.path.join(repo, "product", "product-os")
+        os.makedirs(os.path.join(model, "features"))
+        git = lambda *a: subprocess.run(["git", *a], cwd=repo, check=True, capture_output=True)  # noqa: E731
+        git("init", "--quiet", "-b", "plan/40/base")
+        git("config", "user.email", "test@example.com")
+        git("config", "user.name", "Test")
+        for rel, text in (("_spine.yaml", "features: []\n"), ("features/other.md", "other\n")):
+            with open(os.path.join(model, rel), "w") as fh:
+                fh.write(text)
+        git("add", ".")
+        git("commit", "--quiet", "-m", "start")
+        return repo, model
+
+    def run_guard(self, repo, files):
+        ps.write_json(self.p("model-record.json"), {"parts": [], "files": files})
+        cwd = os.getcwd()
+        os.chdir(repo)
+        try:
+            return quiet(session_files.main, ["guard", "--model-record", self.p("model-record.json"),
+                                              "--product-base", "product/", "--out", self.p("guard.json")])
+        finally:
+            os.chdir(cwd)
+
+    def test_the_guard_keeps_the_session_s_parts_and_puts_back_the_rest(self):
+        repo, model = self.guard_repo()
+        os.makedirs(os.path.join(model, "features", "fn-undo"))
+        for rel, text in (("features/fn-undo/feature.md", "new\n"), ("_spine.yaml", "features: [fn-undo]\n"),
+                          ("features/other.md", "changed by someone else\n")):
+            with open(os.path.join(model, rel), "w") as fh:
+                fh.write(text)
+        code = self.run_guard(repo, ["product/product-os/features/fn-undo/feature.md"])
+        self.assertEqual(code, 1)
+        rep = ps.read_json(self.p("guard.json"), "g")
+        self.assertEqual([v["path"] for v in rep["violations"]], ["product/product-os/features/other.md"])
+        with open(os.path.join(model, "features", "other.md")) as fh:
+            self.assertEqual(fh.read(), "other\n")                       # put back
+        self.assertTrue(os.path.isfile(os.path.join(model, "features", "fn-undo", "feature.md")))
+
+    def test_the_guard_passes_when_only_the_session_s_parts_changed(self):
+        repo, model = self.guard_repo()
+        with open(os.path.join(model, "_spine.yaml"), "w") as fh:
+            fh.write("features: [x]\n")
+        self.assertEqual(self.run_guard(repo, []), 0)
+
+    def test_restore_refuses_a_folder_outside_the_repository(self):
+        self.assertEqual(quiet(session_files.main, ["restore", "--folder", "../x", "--repo", self.d,
+                                                    "--out", self.p("r.json")]), 2)
+        self.assertFalse(os.path.exists(self.p("r.json")))
 
 
 if __name__ == "__main__":

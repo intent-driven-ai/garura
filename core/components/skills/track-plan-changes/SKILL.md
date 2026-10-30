@@ -51,6 +51,12 @@ now. It has no judgment in it: the session worked out each write, and the person
    it and keeps every write made before it — run the same command again once the cause is
    fixed, and it goes on from there. Exit 2: refused, nothing written (not approved, or the list
    changed after the approval).
+
+   After a crash in the middle of a create (the record does not show the op), the host's search
+   may not find an issue made seconds earlier. Before the run again, search the tracker for the
+   marker line "Made by /update-plan (list <12 hex>, op <id>)" of each create the record does
+   not show. When an issue holds it, the run again finds it; when the search does not show it
+   yet, wait a minute and search again, so no issue is made twice.
 3. Return the output path and the exit code. Never make a write the ops file does not name, and
    never write to the tracker any other way.
 

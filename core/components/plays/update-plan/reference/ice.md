@@ -18,9 +18,9 @@ Its statuses and its direction are what a person says they are, never worked out
 - C1 — The play finds the plan from its number, or from a description. A description's match is
   shown and the play waits for the person's yes. It never guesses a plan and never makes a new
   one.
-- C2 — The play works only on the plan's branch. On another branch with uncommitted work it
-  stops, names the files and changes nothing; the person cleans up. Otherwise it switches to the
-  plan's branch and goes back to the starting branch at the end. For a plan with no branch,
+- C2 — The play works only on the plan's branch. On any branch with uncommitted work — the
+  plan's own branch included — it stops, names the files and changes nothing; the person cleans
+  up. Otherwise it switches to the plan's branch and goes back to the starting branch at the end. For a plan with no branch,
   main's plan file is set to In Progress with the branch named, committed on main, and the branch
   is cut from that commit: the one write before approval.
 - C3 — Each instruction is turned into list entries and each entry is checked against the
@@ -35,24 +35,34 @@ Its statuses and its direction are what a person says they are, never worked out
   answered or followed, the list is shown again and the play asks again. "Rejected" lands
   nothing and the session goes on: the person changes the list until it is ready, and the play
   asks again. "Abort" ends the session with nothing written: the list is dropped,
-  any record the session wrote in the plan's own folder is put back as it was, a plan branch the
+  any record the session wrote in the plan's own folder is put back as it was (by a script that
+  records what it put back), a plan branch the
   session cut is undone (the branch is deleted and main's plan file is put back as it was, when
   nothing else has landed on that branch), and the session goes back where it started.
-- C6 — What lands is exactly the list the person saw when they approved it.
+- C6 — What lands is exactly the list the person saw when they approved it. The check that the
+  approval is for this very list leaves its own record before the first write.
 - C7 — On "approved": the model first, then the tracker, then the plan file (it keeps no
   history), then the check that the three agree and nothing else changed, then one commit on the
   plan's branch, pushed, whose message names the person's instructions, the overrides and what is
   owed (git keeps the history); then back to the starting branch. It runs no change play, never merges a branch and
-  never touches code.
+  never touches code. Writing the model only after "approved" is a declared exception to
+  write-then-review (ADR 062); its containment holds: after the last model write and before the
+  commit, the shared scoped-write guard puts back any model path outside the session's parts,
+  and then nothing is committed and the person is told.
 - C8 — A person sets every status and the plan's direction. Nothing is worked out from the work
   under an item: no roll-ups.
 - C9 — Tracker changes go through the issue sub-agent and its skills; model changes through the
   model sub-agent and its skills. No hand edits of either.
-- C10 — Every screen the person sees comes from the plan-update template.
+- C10 — Every screen the person sees comes from the plan-update template. A question to the
+  person is shown in the four parts of the shared asking rule (`_shared/asking-a-person.md`):
+  the question, the answer we have, why it matters, and examples from different domains.
 - C11 — A new feature found while the plan is in progress is placed under its capability, and in
   the slice the plan holds, with a thin ICE and both thin marks, linked to the business intent
   and to the issue that found it; its story goes under the slice's epic, with its line in the
-  epic's feature-to-story map. When the plan holds no slice, its story goes where the person
+  epic's feature-to-story map. Its confirm screen always warns that its ICE will be thin and can
+  be deepened with `/discover-capabilities`. It may join a slice in progress (its epic past
+  ready); then the confirm screen says so and names each such epic, with its status, as out of
+  date (ADR 058, as amended by ADR 062). When the plan holds no slice, its story goes where the person
   names and the slice is recorded as owed. The play never writes the evals folder; the
   hidden-file entry and the eval scenarios are named as owed.
 - C12 — The play ends by proving its Done means at close, never by its step list running out.
@@ -60,8 +70,9 @@ Its statuses and its direction are what a person says they are, never worked out
 ### Failure conditions
 
 - F1 — A plan is guessed, or a new plan is made.
-- F2 — The play switches away from a branch with uncommitted work, or writes on a branch other
-  than the plan's (beyond C2's main-first step).
+- F2 — The play switches away from a branch with uncommitted work, goes on over uncommitted
+  work on the plan's own branch, or writes on a branch other than the plan's (beyond C2's
+  main-first step).
 - F3 — A write reaches the tracker, the model or a plan file before a plain "approved", other
   than C2's branch step.
 - F4 — What lands differs from the list the person approved: more, less or changed.
@@ -73,9 +84,12 @@ Its statuses and its direction are what a person says they are, never worked out
 - F8 — A tracker or model write is made other than through the sub-agents' skills.
 - F9 — A screen is worded by the play instead of the template.
 - F10 — A new feature lands without its thin page, its model entry with both thin marks, or its
-  story; or the evals folder is written; or what is owed is not named.
+  story; or the evals folder is written; or what is owed is not named; or its confirm screen
+  lacks the thin warning, or does not name the epic of a slice in progress as out of date.
 - F11 — The close reports COMPLETED without the Done means held.
 - F12 — The session does not end on the branch the person started on.
+- F13 — A model path outside the session's parts is in the landing's commit, or the commit is
+  made when the scoped-write guard put a path back.
 
 ## Context
 
@@ -85,8 +99,8 @@ Its statuses and its direction are what a person says they are, never worked out
   Started, In Progress, Now, Blocked, Done, Dropped for an item; Not Started, In Progress,
   Paused, Done, Dropped for a plan) and directions (1, 2, 3 or none). The item kinds: epic,
   feature, story, spike, chore, bug.
-- The plan tool's plan-branch script (`.garura/core/tools/plan/plan_branch.py`): stay, stop on
-  uncommitted work, switch, or main first then the cut.
+- The plan tool's plan-branch script (`.garura/core/tools/plan/plan_branch.py`): stop on
+  uncommitted work (on every path), then stay, switch, or main first then the cut.
 - The tracker rules (ontology, managing-work): an epic and a story have types and no labels; a
   bug sits under the story that brought it in; a spike or chore under a story.
 - Skills: `author-plan-changes` and `track-plan-changes` (issue sub-agent); `enrich-grounding`
@@ -94,6 +108,13 @@ Its statuses and its direction are what a person says they are, never worked out
 - The principle that a person is never stopped without a choice, and an override is recorded
   (#992); a stop on uncommitted work is the person's to clean up (the product owner,
   2026-10-30).
+- ADR 062: the model is written only after "approved", a declared exception in the model-write
+  rule (`standards/rules/direct-model-write.md`), contained by the shared scoped-write guard
+  (`scoped_write_guard.py`, stamped beside the play's scripts); a new feature may join a slice
+  in progress, amending ADR 058. The fix design of the PR #998 review:
+  `.garura/project/issues/720/specs/fix-design-round-3.md`.
+- The shared rule for asking a person (`_shared/asking-a-person.md`); the play's own fixed file
+  steps (`session_files.py`: the plan's issue numbers, the abort restore, the guard).
 
 ## Expectation
 
@@ -104,8 +125,8 @@ Its statuses and its direction are what a person says they are, never worked out
   "approved", then the tracker and the plan file agree, and one commit is on the
   plan's branch. *Measure:* `session.json` reads `outcome: landed` and `ok: true`, and
   `agreement.json` reads `ok: true`.
-- **S2 — developer, uncommitted work.** Given a story branch with an uncommitted file, when the
-  person runs `/update-plan`, then the play stops, names the file and changes nothing.
+- **S2 — developer, uncommitted work.** Given a story branch, or the plan's own branch, with an
+  uncommitted file, when the person runs `/update-plan`, then the play stops, names the file and changes nothing.
   *Measure:* `branch.json` reads `action: stop` with the file named, and `session.json` reads
   `outcome: stopped` and `written: false`.
 - **S3 — lead, a plan with no branch.** Given a plan with no branch, when the person runs
@@ -145,6 +166,7 @@ Its statuses and its direction are what a person says they are, never worked out
 | F10 | a new feature's page, entry, thin marks or story is missing, the evals folder changed, or what is owed is not named | re-run the model or tracker step for that feature; put back the evals folder; name what is owed in the commit message | autonomous |
 | F11 | the close would report COMPLETED without the Done means held | surface the unmet clauses and close HALTED | autonomous |
 | F12 | the session ended on another branch | switch back to the starting branch; if that is stopped by uncommitted work, name it for the person | autonomous |
+| F13 | the guard report names a path outside the session's parts | the guard has put it back; commit nothing, name each path for the person, who decides | human |
 
 ### Done means
 
