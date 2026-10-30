@@ -115,8 +115,7 @@ class LinkPartTest(unittest.TestCase):
         self.assertEqual(entry["issue"], 2)
         self.assertTrue(entry["metadata"]["thin"])
         page = self.read("features/fn-2/feature.md")
-        self.assertEqual(page.count("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-                                    "`/discover-capabilities`."), 1)
+        self.assertEqual(page.count("Thin: proposed from the person's words; deepen with `/discover-capabilities`."), 1)
         self.assertLess(page.index("Thin:"), page.index("## Agent intent (ICE)"))
         self.assertEqual(report["written"], ["fn-2"])
 
@@ -135,6 +134,16 @@ class LinkPartTest(unittest.TestCase):
         self.assertEqual(entry["one_line"], "Send one message, now")
         self.assertTrue(entry["metadata"]["thin"])
         self.assertEqual(self.read("features/fn-1/feature.md").count("Thin:"), 1)
+
+    def test_marking_again_replaces_the_old_thin_line_with_the_new_one(self):
+        old = "Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`."
+        self.write("features/fn-1/feature.md",
+                   PAGE.format(title="Send one message").replace("## Agent intent (ICE)", old + "\n\n## Agent intent (ICE)"))
+        r, _ = self.run_request([{"id": "fn-1", "mode": "update", "thin": True}])
+        self.assertEqual(r.returncode, 0, r.stderr)
+        page = self.read("features/fn-1/feature.md")
+        self.assertNotIn(old, page)
+        self.assertEqual(page.count("Thin: proposed from the person's words; deepen with `/discover-capabilities`."), 1)
 
     def assert_refused(self, features, words):
         before = self.read("_spine.yaml")

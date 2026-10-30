@@ -86,7 +86,7 @@ FULL_ICE = """## Intent
 LIGHT_ICE = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n- **Scenario:** pays.\n"
 NO_CONTEXT = "## Intent\n\n- **Goal:** pay.\n\n## Expectation\n\n- **Scenario:** pays.\n"
 EMPTY_EXP = "## Intent\n\n- **Goal:** pay.\n\n## Context\n\n- **Read:** cart.\n\n## Expectation\n\n"
-THIN_LINE = "Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.\n\n"
+THIN_LINE = "Thin: proposed from the person's words; deepen with `/discover-capabilities`.\n\n"
 THIN_ICE = THIN_LINE + "## Intent\n\n- **Goal:** pay.\n- **Limit:** card only.\n- **Fails if:** a card is charged twice.\n\n## Context\n\n- **Persona:** shopper.\n\n## Expectation\n\n- **Done means:** the order is paid.\n"
 
 

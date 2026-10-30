@@ -103,8 +103,7 @@ KIND_KEY = {"domain": "domains", "capability": "capabilities", "feature": "featu
 PARENT = {"capability": ("domain", "domains"), "feature": ("capability", "capabilities")}
 HOLDING = {"capability": "capabilities", "feature": "features"}
 MARK = {"created_by": "/shape-slice", "deepen": True}
-THIN_LINE = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-             "`/discover-capabilities`.")
+THIN_LINE = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."  # ontology v14
 OLD_THIN = re.compile(r"^\s*(?:>\s*)?\**Thin(?: ICE)?\**\s*:", re.I)
 INLINE_ICE = "## Agent intent (ICE)"
 PAGE_ICE = "## Intent"

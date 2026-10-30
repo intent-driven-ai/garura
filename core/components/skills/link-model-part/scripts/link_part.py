@@ -80,10 +80,9 @@ class Refused(Exception):
     pass
 
 
-# The one Thin line the ontology fixes (ontology v11, ADR 052); /shape-slice's slice_check.py
-# reads exactly this text, so any other wording reads as drift.
-THIN_LINE = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-             "`/discover-capabilities`.")
+# The one Thin line the ontology fixes (ontology v14); any line that starts "Thin:" just before
+# the ICE counts as the mark, and marking a page again replaces an older line with this one.
+THIN_LINE = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
 
 
 def inside(root, rel):
