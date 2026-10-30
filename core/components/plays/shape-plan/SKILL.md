@@ -2,23 +2,24 @@
 name: shape-plan
 position: both
 argument-hint: "<business intent issue number>"
-description: 'Make the one plan of a business intent that /shape-slice has served with a slice, or bring it up to date — the second play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. It finds before it makes: an epic or a story that the plan file marks with represents is used and never made again, and a found story only gains the sections it lacks, keeping every line a person wrote. A feature that left the slice has its story moved out of the plan, and the story stays open in the tracker; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has one.'
+description: 'Make the one plan of a business intent that /shape-slice has served with a slice, once — the second play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. When the intent already has a plan file, it stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists. Within its one run it never makes an epic or a story twice; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has one.'
 user-invocable: true
 ---
 
 # shape-plan
 
 A person names a business intent that `/shape-slice` has served with a slice. /shape-plan
-makes the intent's **one plan**, or brings it up to date: the plan file
+makes the intent's **one plan**, once: the plan file
 (`.garura/project/plans/<intent-issue>.yaml`), one **epic** for each slice the plan holds, and
 one **story** for each feature of that slice. Each story is written from its feature's ICE and
 that feature's capability's ICE, and holds no failure condition and no recovery condition:
-those stay in the slice's hidden file, which `/shape-slice` wrote. A second run makes no
-copies. The eval play (#798) comes next, once it is built.
+those stay in the slice's hidden file, which `/shape-slice` wrote. When the intent already has a
+plan, the play stops at pre-flight and points to `/update-plan`, which changes a plan that
+exists. The eval play (#798) comes next, once it is built.
 
 The run reads the slices from the spine (the link "slice serves business intent"); it never
-picks, orders or tests a slice. It finds each epic and story that already stands for a slice or
-a feature before it makes one, by the plan file's `represents` marks, never by a title. It
+picks, orders or tests a slice. Within its one run it never makes an epic or a story twice,
+and it knows a work item by the plan file's `represents` marks, never by a title. It
 shows the product owner one brief with every tracker write and the plan-file change, and
 writes nothing before the typed yes.
 
@@ -29,8 +30,8 @@ check-change → merge-change lands it.
 ## Compiled From
 
 This play was compiled from the shape-plan ICE (`reference/ice.md`) by create-play. Intent
-defines constraints (C1–C13) and failure conditions (F1–F12); the expectation defines success
-scenarios (S1–S8), a Done means (D1–D5, baked to `stop-condition.yaml`), and one recovery entry
+defines constraints (C1–C3, C5–C11, C13–C14) and failure conditions (F1–F5, F7–F13); the
+expectation defines success scenarios (S1, S6–S9), a Done means (D1–D5, baked to `stop-condition.yaml`), and one recovery entry
 per failure condition. To modify this play, update `reference/ice.md` and recompile with
 edit-play.
 Do NOT edit this file manually — it is a compiled artifact.
@@ -42,7 +43,7 @@ reads no memory itself. The `product-os-keeper` agent gathers context and calls 
 `author-work-items`, which writes the words of each epic and story; the agent passes the
 skill's output on as it is and never writes content. `template-manager` hands out the approval
 prompt and the close templates. You run all mechanical work through bundled scripts: the
-gather and the clean ICE copies (`gather_plan.py`, which runs the ready check
+plan-exists check (`check_plan_absent.py`), the gather and the clean ICE copies (`gather_plan.py`, which runs the ready check
 `check_ice_workable.py`), the find (`find_work_items.py`), the draft check (`check_drafts.py`),
 the brief (`render_brief.py`), the checkpoint record and the write gate (`record_approval.py`),
 the tracker writes (`write_work_items.py`, through `platform_adapter.py`), the plan file
@@ -53,17 +54,16 @@ story by hand.
 
 **Forbidden:** a second plan for one intent (C1); picking, ordering or testing a slice, or
 leaving out a slice the spine links to the intent (C2); matching a work item by its title, or
-making an epic or a story that the plan file already marks (C3); deleting a story whose
-feature left the slice, or leaving it in the plan (C4); reading a "Fails if" line, or a story,
+making an epic or a story twice within the run (C3); reading a "Fails if" line, or a story,
 an epic or a plan file that holds a failure or recovery condition (C5); an epic title that
 says how the product is built, or a map that disagrees with the tree (C6); writing outside the
 plan file, the epics and the stories — the evals folder and the product model above all (C7);
 a tracker write before the typed yes, a write the brief did not show, or a checkpoint skipped
 by config (C8); a story built from an ICE that is not ready, or a skipped feature not named
 (C9); landing outside the change plays or on the wrong branch (C10); a real person's name, or
-text a person cannot follow (C11); rewriting or deleting a line a person wrote on a found story
-(C12); a label on an epic or a story, a wrong issue type, or a write while an epic holds work that
-is not its slice's (C13).
+text a person cannot follow (C11); a label on an epic or a story, a wrong issue type, or a write
+while an epic holds work that is not its slice's (C13); going on past pre-flight when the intent
+already has a plan file (C14).
 
 **Agent boundaries:**
 
@@ -82,11 +82,23 @@ injected sub-plays; everything else is a script.
 |-------|-----------|-------------------|
 | Resolve config, `stm_base`, `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
 | A business intent issue number was given (`/shape-plan <intent-issue>`, digits only); the plan's ID is that number | C1 | Hard halt — ask for the intent's issue number |
+| **The intent has no plan yet** — `check_plan_absent.py`: no `.garura/project/plans/<intent-issue>.yaml` in the checked-out tree or on main. Runs first, before start-change and before any read of the model | C14 | Stop (exit 3): show its message — the plan exists, and `/update-plan <intent-issue>` changes it — and close HALTED with `exit_reason: plan_exists`; nothing was opened or written |
 | The product model's spine exists (`<product_base>product-os/_spine.yaml`) | C2 | Hard halt — run `/shape-slice <intent-issue>` first |
 | **Clean model tree** — after Step 0: `git status --porcelain -- <product_base>product-os` is empty | C7 | Hard halt (REC7) |
 | **Clean plans tree** — after Step 0: `git status --porcelain -- .garura/project/plans` is empty, so the write guard sees only this run's change and a restore never takes back a person's own plan edits | C7, C8 | Hard halt (REC7) |
 
-Resolve the facts with the bundled resolver, not by inference:
+First the plan-exists check — before anything else:
+
+```
+python3 scripts/check_plan_absent.py --plans-dir .garura/project/plans --plan <intent-issue> \
+    --out "${stm_base}_plans/shape-plan/plan-absent.json"
+```
+
+Exit 3: show its `message` as it is, remove `${stm_base}_plans/shape-plan/` so nothing is left
+behind, and stop — no start-change, no model read, no write (C14). Exit 2: the number is not an
+intent issue; ask for it. Exit 0: go on; after Step 0, move `plan-absent.json` into `<working>`.
+
+Then resolve the facts with the bundled resolver, not by inference:
 
 ```
 git branch --show-current
@@ -156,6 +168,12 @@ clean plans tree (hard halt if dirty — REC7).
       "inputs":  { "title": "[TASK] shape-plan: make the plan for business intent #<intent-issue>" },
       "outputs": { "result": "<working>start-change.json" } }
 
+Step 0 runs only after the plan-exists check (pre-flight) read `exists: false`.
+**SE-20 (F13/C14):** `<working>plan-absent.json` reads `exists: false`, and start-change's record
+was made after it; on a stop, the check's printed record read `exists: true`, its message named
+`/update-plan <intent-issue>` and was shown, and the run made no change issue, no branch, no
+short-term folder and no tracker write, and left no file behind.
+
 ### Phase: Gather
 
 **Step 1 — Gather the slices and the clean ICE copies** · Owner: play (script) · Depends on: Step 0
@@ -199,8 +217,7 @@ python3 scripts/find_work_items.py --gather <working>gather.json --plan-file <pl
 It reads the plan file and, through the code-host adapter, the tracker; it writes nothing.
 An epic is `use` when a node of the tree has `represents: <slice id>`, else `make`; a story is
 `use`, `add-sections` (it lacks "Scope of work" or "Context guidance"), `make`, or `skip` (its
-feature is not ready). It never compares titles (C3). `move_out` lists each marked story whose
-feature is no longer in the slice (C4). Exit 1 lists a duplicate (two nodes stand for one
+feature is not ready). It never compares titles (C3). Exit 1 lists a duplicate (two nodes stand for one
 slice, or for one feature in one epic) or a marked issue the tracker does not have: show it to
 the person in plain words and stop (REC2); the run goes on only after the person fixes the
 plan file. `misplaced` lists each sub-issue of an epic that is not a story of its slice (nor a
@@ -214,8 +231,6 @@ when `misplaced` is not empty, `ok` reads false and there is no `tracker-record.
 **SE-4 (F2/C3):** `work-items.json` reads `ok: true`; its `duplicates` is empty; each `use` or
 `add-sections` item's issue is the `issue` of the plan-file node whose `represents` names that
 slice or feature; no item with a marked node is `make`.
-**SE-5 (F6/C4):** each node under an epic whose `represents` names a feature that is not in the
-slice is in that slice's `move_out`, and no feature of the slice is.
 
 ### Phase: Draft
 
@@ -313,16 +328,12 @@ and when the brief, `work-items.json` or `drafts.json` is no longer the file the
 type Epic, and each story as an issue of type Story with its epic as parent, each in one
 write and with no label (C13); it adds each story's "Written from" line (the two ICE pages)
 from `gather.json`; on a used item it sets the type when it is wrong
-and takes off its labels; on `add-sections` it appends only the missing sections and keeps
-every line of the body (C12); it writes the epic's "Feature-to-story map" (C6); for
-`move_out` it takes the story off the epic's sub-issues and the map, and leaves it open (C4).
+and takes off its labels; it writes the epic's "Feature-to-story map" (C6).
 Each write goes through the code-host adapter's verbs, and `tracker-record.json` is written
 after every write. Exit 1 means the tracker failed part way: the record reads `ok: false`,
 names the `failed` step and keeps every issue made before it. Still run Step 7, so the plan
 file marks those issues and the next run finds them and makes no copy; then show the record to
 the person and close HALTED (REC5).
-**SE-11 (F7/C12):** each `updated` story in `tracker-record.json` has `lines_kept: true`, and for
-each `add-sections` story every line of its body before the run is in its body now, in order.
 **SE-12 (F5/C8):** `tracker-record.json` `approval_at` equals `approval.json` `at`; the sha256 of
 `brief.md`, `work-items.json` and `drafts.json` still equals what `approval.json` recorded; each
 issue in `created`, `updated` and `moved_out` matches an item of `work-items.json` that
@@ -361,7 +372,7 @@ python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref H
 
 `check_plan.py` exit 1: a missing story node is REC1, a tree that disagrees with the map is
 REC4 — fix and run Steps 6–8 again. `check_tracker.py` exit 1: a label or a wrong type is
-REC11, a deleted or closed moved-out story is REC6. The guard's allowed set is C7's: the one
+REC11. The guard's allowed set is C7's: the one
 plan file. Exit 1: re-run it with `--restore` to undo each write outside the set (REC7), then
 run Steps 7–8 again. The run writes nothing in the evals folder and nothing in the product
 model, so it makes no `feat(model)` commit.
@@ -372,8 +383,6 @@ skipped feature is in `skipped`.
 **SE-15 (F11/C13):** `tracker-check.json` reads `ok: true`: each issue of the record exists, each
 epic has type Epic and each story type Story, none has a label, and each epic's sub-issues
 are its stories.
-**SE-16 (F6/C4):** each story in `tracker-record.json` `moved_out` is open in the tracker, is not
-a sub-issue of its epic, and is in neither the plan file's tree nor the epic's map.
 **SE-17 (F7/C7):** `guard-report.json` reads `ok: true` — no path in the product model and no
 path under `.garura/project/plans/` other than `<plan-file>` changed (the evals folder is
 untouched).
@@ -422,18 +431,6 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
   features, `plan-write.json` reads `made: true`, `plan-check.json` and `tracker-check.json`
   read `ok: true`, `tracker-record.json` `created` holds one epic and three stories, the epic's
   map names the three stories, and `drafts-check.json` reads `ok: true`.
-- **SCE-2 (S2 — product owner, second run):** `tracker-record.json` `created` is empty,
-  `plan-write.json` reads `changed: false`, and the plan file's `shasum -a 256` equals
-  `plan-before.txt`.
-- **SCE-3 (S3 — product owner, items made by hand):** `tracker-record.json` `created` is empty;
-  each `add-sections` story is in `updated` with only `section added` changes and
-  `lines_kept: true`; `tracker-check.json` reads `ok: true`.
-- **SCE-4 (S4 — product owner, the slice changed):** `tracker-record.json` `moved_out` names the
-  story of the feature that left, `check_tracker.py` finds it open, `created` holds one story
-  for the feature that came in, and `plan-check.json` reads `ok: true`.
-- **SCE-5 (S5 — product owner, a second slice):** there is one plan file for the intent; its
-  tree has two epic nodes, one for each slice, and `tracker-record.json` `epics` names two
-  epics.
 - **SCE-6 (S6 — product owner, stop):** `approval.json` reads `decision: stop`, there is no
   `tracker-record.json`, `stop-check.txt` is empty, and `plan-after-stop.txt` equals
   `plan-before.txt`.
@@ -443,6 +440,10 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
 - **SCE-8 (S8 — product owner, misplaced work):** `work-items.json` lists each item that is not a
   story of the epic's slice in `misplaced` with its title, there is no `tracker-record.json`, and
   the plan file's `shasum -a 256` equals `plan-before.txt`.
+- **SCE-9 (S9 — product owner, a plan that exists):** the check's printed record reads
+  `exists: true` and its message names `/update-plan <intent-issue>`; there is no start-change
+  record, no change branch, no tracker write and no file left behind, and the plan file is as it
+  was.
 
 ### Phase: Evidence & Close
 
@@ -481,17 +482,17 @@ record `evidence skipped (record=false)` in the report's pointer line. Otherwise
 `evidence-file.md` slots (play `shape-plan`, run_id `shape-plan-${ts}`, issue, the intent
 issue, started_at/completed_at, status per C0, exit_reason; artifacts produced: `gather.json`,
 `work-items.json`, `drafts.json`, `drafts-check.json`, `brief.md`, `approval.json`,
-`tracker-record.json` with the epics and stories made, used and moved out, `plan-write.json`
+`plan-absent.json`, `tracker-record.json` with the epics and stories made and used, `plan-write.json`
 and the plan file's path, `plan-check.json`, `tracker-check.json`, `guard-report.json`, the
 plan commit sha, and the skill the agent contract named; step and scenario eval results
-SE-1…SE-18 / SCE-1…SCE-7; the checkpoint answers in the person's words; the session identity
+SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-20 / SCE-1, SCE-6…SCE-9; the checkpoint answers in the person's words; the session identity
 stamp fields from $session_stamp (#463); and stop_condition per C0) and write to
 `$evidence_dest`. Do NOT hand-author the body.
 
 **Step C2 — Render delivery report.** Fill the `delivery-report.md` slots and output the
 report: `## shape-plan Delivered — #${issue}`, the Run Summary table, the Pipeline Steps table
 from the task DAG, the Artifacts Produced table (the plan file, each epic and story made, used,
-given sections or moved out, each skipped feature with its reason, the PR), and the **Next**
+or used, each skipped feature with its reason, the PR), and the **Next**
 line from the Next-line map (`$next_map`, from `template-manager`), per `play-close.md`; omit it
 when the map's command is null. Next Steps: the eval play (#798) reads the epic, its map and
 its stories once it is built. End with a pointer to `$evidence_dest`. Always emitted; never
@@ -506,13 +507,10 @@ gated.
 | Scenario | Persona | Eval |
 |----------|---------|------|
 | S1 — first plan | product owner | SCE-1 |
-| S2 — second run | product owner | SCE-2 |
-| S3 — items made by hand | product owner | SCE-3 |
-| S4 — the slice changed | product owner | SCE-4 |
-| S5 — a second slice | product owner | SCE-5 |
 | S6 — stop at the checkpoint | product owner | SCE-6 |
 | S7 — an ICE not ready | product owner | SCE-7 |
 | S8 — misplaced work | product owner | SCE-8 |
+| S9 — a plan that exists | product owner | SCE-9 |
 
 ## Recovery
 
@@ -523,12 +521,12 @@ gated.
 | F3 | a story, the epic or the plan file holds a failure condition or a recovery condition | take the line out and draft the story or the epic again from the two clean ICE copies | autonomous |
 | F4 | the plan file's tree and the epic's feature-to-story map disagree | write the plan file's tree and the epic's map again from the run's record, so they agree | autonomous |
 | F5 | a tracker write happened before the yes, a write the person did not see in the brief happened, or a stop left a tracker write or a plan-file change behind | undo each tracker write the record lists and put back the plan file as it was (`scoped_write_guard.py --restore`); show the brief again | human |
-| F6 | a story for a feature that left the slice was deleted, or stays in the plan | open the deleted story again, or take it out of the plan's tree and the epic's map, so it stays in the tracker and out of the plan | human |
-| F7 | the run wrote outside the plan file, the epics and the stories (the evals folder, the product model, or any other file), or a found story lost a line a person wrote | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`), or put back the person's line on the found story | autonomous |
+| F7 | the run wrote outside the plan file, the epics and the stories (the evals folder, the product model, or any other file) | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`) | autonomous |
 | F8 | a story was built from an ICE that is not ready, or a skipped part is not named in the brief | take back the story built from the part that is not ready, skip the part, and name it in the brief | autonomous |
 | F9 | the change landed outside the change plays, or on the wrong branch | land the change through the change plays, on the branch the target script gives | human |
 | F10 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
 | F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story | take the label off, and set the issue type to Epic on an epic and to Story on a story | autonomous |
+| F13 | the intent already had a plan file and the run went on past pre-flight (opened a change, read the model, wrote anything), or stopped without naming /update-plan | stop the run, undo what it opened or wrote after pre-flight (the change branch and short-term folder, any tracker write), and show that the plan exists and `/update-plan <id>` changes it | human |
 | F12 | an epic holds a sub-issue that is not a story of its slice, and the run wrote to the tracker or did not name it | stop before any tracker write and name each misplaced item with its title; a person files it in its own place and takes it off the epic, then runs the play again | human |
 
 ## Pause and Resume
@@ -538,16 +536,17 @@ the status marker, skip completed steps, reset an in-progress step to pending, a
 Nothing reaches the tracker before Step 6, so a resume before it needs no undo. A resume after
 Step 6 started reads `tracker-record.json` first. It is written after every tracker write, so
 it lists every issue made. Run Step 7 from it before anything else, so the plan file marks
-those issues; when the record reads `ok: false`, a new run then starts at Step 1 and finds them
-(Step 2 sees them as `use`), so no issue is made twice.
+those issues, then go on in the same run. A run that stopped part way is finished by continuing
+it, or by removing what it made and starting again; a new /shape-plan run on an intent whose
+plan file exists stops at pre-flight (C14).
 A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 
 ## Compilation Metadata
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:06f818c93e6a994dff829caf4e8345fae903eecca6f491d569c400a252e780de (of `reference/ice.md`) |
-| compiled_by | create-play (#818) |
+| fingerprint | sha256:1bd5350cf7d9815047f7593e788d324d0e55bca7ee20307033c3e75e630d05ce (of `reference/ice.md`) |
+| compiled_by | create-play (#818); edit-play (#896) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |
 | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
@@ -556,8 +555,8 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
 | skills_used | author-work-items (built for this play) |
 | skills_missing | none |
 | tracker_verbs | view-issue, create-issue-typed (type and parent in one call), set-issue-type, edit-issue-body, remove-label, attach-sub-issue, remove-sub-issue — all through platform_adapter.py |
-| scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from create-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
-| tests | test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py |
-| step_evals | 19 (SE-1…SE-19) |
-| scenario_evals | 8 (SCE-1…SCE-8) |
-| recovery_entries | 12 (one per failure condition; 7 autonomous / 5 human) |
+| scripts | check_plan_absent.py (the plan-exists check), preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from create-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
+| tests | test_check_plan_absent.py, test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py |
+| step_evals | 17 (SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-20) |
+| scenario_evals | 5 (SCE-1, SCE-6…SCE-9) |
+| recovery_entries | 12 (one per failure condition; 6 autonomous / 6 human) |
