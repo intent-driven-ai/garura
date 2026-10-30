@@ -77,6 +77,10 @@ tree:
         kind: chore
         title: 'The findings left by the PR #916 review (the plan 788 landing)'
         status: Done  # landed on plan/717/base with #720, 2026-10-30
+      - issue: 1001
+        kind: bug
+        title: /update-plan leaves its template copies and its session start marker behind after every session
+        status: Not Started
     - issue: 909
       kind: story
       title: '/shape-plan --edit: a person changes the plan file, an epic or a story that already exists'
