@@ -84,11 +84,11 @@ tree:
     - issue: 993
       kind: story
       title: The model's page skill changes the lines a request names on any model page, not only on intent pages
-      status: Not Started  # filed 2026-10-30: cap-720 and fn-730 need it to take the approved #720 design
+      status: Done  # landed on plan/717/base with PR #995, 2026-10-30
     - issue: 994
       kind: story
       title: 'The platform adapter changes an issue''s title: an edit-issue-title verb for GitHub and GitLab'
-      status: Not Started  # filed 2026-10-30; built in the same change as #993
+      status: Done  # landed on plan/717/base with PR #995 (with #993), 2026-10-30
   - issue: 721
     kind: feature
     title: 'Start and land work against a plan: plan branches in start-change and merge-change'
