@@ -19,9 +19,10 @@ input (nothing changed).
 `guard` runs the shared scoped-write guard (`scoped_write_guard.py`, beside this script) once, after
 the last model write and before the commit (ADR 062): every model path that changed must be a file
 a model record names (Step 8's and Step 9's, read as one), or the model index (`_spine.yaml`); any
-other changed model path is put back (`--restore`). When `model-ops.json` has parts, a record must
-be given and on disk: a missing record is refused (exit 2) and nothing is put back, so a missing
-record never reads as "nothing may change". The guard writes the report; exit 0 when nothing was
+other changed model path is put back (`--restore`). `model-ops.json` must be there and in shape
+(Step 7 always writes it); when it has parts, a record must be given and on disk. A missing or
+misshapen file is refused (exit 2) and nothing is put back, so a missing record never reads as
+"nothing may change". The guard writes the report; exit 0 when nothing was
 out of scope, 1 when it put something back (the landing stops for the person), 2 bad input.
 """
 
@@ -92,7 +93,9 @@ def restore(folder, repo):
 
 
 def guard(model_ops, model_records, product_base, out):
-    ops = ps.read_json(model_ops, "model-ops.json") if os.path.isfile(model_ops) else {}
+    ops = ps.read_json(model_ops, "model-ops.json")  # Step 7 always writes it; missing is refused
+    if not isinstance(ops, dict) or not isinstance(ops.get("parts") or [], list):
+        raise ps.Refused(f"{model_ops} is not a model-ops record ({{parts: [...]}})")
     if (ops.get("parts") or []) and not model_records:
         raise ps.Refused("model-ops.json has parts, but no model record was given; nothing is put back")
     rec = ps.model_records(model_records)

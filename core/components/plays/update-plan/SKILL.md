@@ -328,9 +328,11 @@ dispatch `product-os-keeper` once more to name it on the feature's model entry:
 
 This dispatch writes its own record and never changes `model-record.json`; the guard, the
 agreement check and the commit read the two as one (`plan_session.model_records`), so the story
-step cannot drop a file Step 8 wrote (HF-12). `<records>` below is `--model-record
-<working>/model-record.json`, and also `--model-record <working>/model-record-story.json` when the
-story step ran.
+step cannot drop a file Step 8 wrote (HF-12). The story record has the same shape as
+`model-record.json`: `{parts: [{feature, issue}], files: [the model files it changed, each relative
+to the repository root]}`. `<records>` below is empty when Step 8 was skipped (`model-ops.json`
+has no parts); otherwise `--model-record <working>/model-record.json`, and also `--model-record
+<working>/model-record-story.json` when the story step ran.
 **SE-9 (F8/C9):** `github-record.json` reads `ok: true`, and every op of `github-ops.json` is in its
 `done`.
 

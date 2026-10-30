@@ -128,9 +128,18 @@ def model_records(paths):
     parts, files = {}, []
     for path in paths or []:
         rec = read_json(path, "the model record")
+        if not isinstance(rec, dict) or not isinstance(rec.get("parts") or [], list) \
+                or not isinstance(rec.get("files") or [], list):
+            raise Refused(f"{path} is not a model record ({{parts: [...], files: [...]}})")
         for p in rec.get("parts") or []:
+            if not isinstance(p, dict):
+                raise Refused(f"{path}: a part is not an object")
             parts.setdefault(p.get("feature"), {}).update(p)
-        files += [f for f in rec.get("files") or [] if f and f not in files]
+        for f in rec.get("files") or []:
+            if not isinstance(f, str):
+                raise Refused(f"{path}: a file is not a path")
+            if f and f not in files:
+                files.append(f)
     return {"parts": list(parts.values()), "files": files}
 
 

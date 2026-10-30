@@ -411,6 +411,31 @@ class LandingTest(Session):
         staged = subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=repo, capture_output=True, text=True).stdout
         self.assertEqual(staged.strip(), "other.txt")
 
+    def test_the_commit_takes_both_records_and_refuses_a_missing_one(self):
+        repo = os.path.join(self.d, "git4")
+        os.makedirs(os.path.join(repo, "plans"))
+        os.makedirs(os.path.join(repo, "m"))
+        shutil.copy(self.plan, os.path.join(repo, "plans", "40.yaml"))
+        for args in (["init", "--quiet", "-b", "plan/40/base"], ["config", "user.name", "T"],
+                     ["config", "user.email", "t@example.com"], ["add", "."], ["commit", "--quiet", "-m", "start"]):
+            subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True)
+        for name, text in (("plans/40.yaml", "# changed\n"), ("m/page.md", "page\n"), ("m/spine.yaml", "s: 1\n")):
+            with open(os.path.join(repo, name), "a") as fh:
+                fh.write(text)
+        ps.write_json(self.p("r1.json"), {"parts": [{"feature": "fn-x"}], "files": ["m/page.md", "m/spine.yaml"]})
+        ps.write_json(self.p("r2.json"), {"parts": [{"feature": "fn-x", "issue": 9}], "files": ["m/spine.yaml"]})
+        base = ["--plan", "40", "--plan-branch", "plan/40/base", "--plan-file", "plans/40.yaml",
+                "--changes", self.changes, "--repo", repo, "--out", self.p("commit.json")]
+        self.assertEqual(quiet(commit_plan.main, base + ["--model-record", self.p("r1.json"),
+                                                          "--model-record", self.p("missing.json")]), 2)
+        self.assertEqual(subprocess.run(["git", "rev-list", "--count", "HEAD"], cwd=repo, capture_output=True,
+                                        text=True).stdout.strip(), "1")            # nothing committed
+        self.assertEqual(quiet(commit_plan.main, base + ["--model-record", self.p("r1.json"),
+                                                          "--model-record", self.p("r2.json")]), 0)
+        shown = subprocess.run(["git", "show", "--name-only", "--format=", "HEAD"], cwd=repo,
+                               capture_output=True, text=True).stdout.split()
+        self.assertEqual(sorted(shown), ["m/page.md", "m/spine.yaml", "plans/40.yaml"])
+
     def test_a_model_file_outside_the_repository_is_refused(self):
         repo = os.path.join(self.d, "git3")
         os.makedirs(repo)
@@ -457,6 +482,9 @@ class NewFeatureTest(Session):
                 "--spine", spine, "--out", self.p("agreement.json")]
         self.assertEqual(quiet(check_agreement.main, args), 0)
         self.assertTrue(ps.read_json(self.p("agreement.json"), "a")["features_ok"])
+        # the story step's record read with the model step's: the feature is still whole
+        ps.write_json(self.p("model-record-story.json"), {"parts": [{"feature": "fn-undo", "issue": 100}], "files": []})
+        self.assertEqual(quiet(check_agreement.main, args + ["--model-record", self.p("model-record-story.json")]), 0)
         with open(spine, "w") as fh:
             fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n  issue: 100\n")
         self.assertEqual(quiet(check_agreement.main, args), 1)
@@ -658,6 +686,32 @@ class SessionFilesTest(Session):
             os.chdir(cwd)
         self.assertEqual(code, 2)
         self.assertTrue(os.path.isfile(os.path.join(model, "features", "fn-undo", "feature.md")))
+
+    def test_a_session_with_no_new_feature_passes_the_guard_with_no_record(self):
+        # HF-14: Step 8 skipped, so no record is given; nothing in the model may change, and nothing did.
+        repo, model = self.guard_repo()
+        self.assertEqual(self.run_guard(repo, None, parts=[]), 0)
+
+    def test_the_guard_refuses_a_missing_or_misshapen_model_ops(self):
+        repo, model = self.guard_repo()
+        cwd = os.getcwd()
+        os.chdir(repo)
+        try:
+            gone = quiet(session_files.main, ["guard", "--model-ops", self.p("no-ops.json"),
+                                              "--product-base", "product/", "--out", self.p("guard.json")])
+            ps.write_json(self.p("bad-ops.json"), ["not", "a", "record"])
+            bad = quiet(session_files.main, ["guard", "--model-ops", self.p("bad-ops.json"),
+                                             "--product-base", "product/", "--out", self.p("guard.json")])
+        finally:
+            os.chdir(cwd)
+        self.assertEqual((gone, bad), (2, 2))
+
+    def test_a_misshapen_record_is_refused_not_a_traceback(self):
+        bad = self.p("bad.json")
+        for value in ([], {"parts": "x"}, {"parts": [], "files": [3]}):
+            ps.write_json(bad, value)
+            with self.assertRaises(ps.Refused):
+                ps.model_records([bad])
 
     def test_two_records_read_as_one(self):
         a, b = self.p("a.json"), self.p("b.json")
