@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/product-ontology.md",
+      "version": "f8e35c3bd9b6",
+      "fingerprint": "sha256:1111bcf7fe95b056dffebcd30e5691082d9035bd9ffc76277a9283cac70277cf",
+      "copy": ".garura/project/issues/720/context/memory/standards/templates/product-ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/plan-view.md",
+      "version": "f8e35c3bd9b6",
+      "fingerprint": "sha256:51c7dae267cbfac7561536d5483199ff31cf961968773fca26fe36e7c00097d3",
+      "copy": ".garura/project/issues/720/context/memory/standards/templates/plan-view.md"
+    }
+  ]
+}
