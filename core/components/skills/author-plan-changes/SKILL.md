@@ -39,7 +39,7 @@ play's script does) and it writes nothing but its draft.
    | `retitle` | renames an item | `issue`, `to` (the new title) |
    | `text` | changes what an item's text says | `issue`, `body` (the whole new text: every line of the old text kept except the lines the person changed), `summary` (one line: what changed) |
    | `kind` | says an item is another kind | `issue`, `to` |
-   | `new-feature` | names a feature the plan did not know about | `issue` (null, or the story that exists for it), `title`, `parent` (where the person wants its story), `description` (the person's words about what a person can do) |
+   | `new-feature` | names a feature the plan did not know about | `issue` (null, or the story that exists for it), `title`, `parent` (where the person wants its story), `description` (the person's words about what a person can do), and `capability` only when the person names it (the play's script places the rest) |
    | `plan-status` | sets the plan's own status | `to` (Not Started, In Progress, Paused, Done, Dropped) |
    | `plan-direction` | sets the plan's direction | `to` (1, 2, 3, or null for none) |
 

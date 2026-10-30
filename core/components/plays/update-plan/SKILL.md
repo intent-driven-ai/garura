@@ -181,17 +181,26 @@ words are an instruction: write them to `<working>/instruction.txt` and dispatch
       "outputs": { "draft": "<working>/draft-entries.json" },
       "task_id": "draft-entries" }
 
-When the draft holds a `new-feature` entry, dispatch `product-os-keeper` to place it before the
-check — the capability it belongs under (the `find-work-placement` skill, from the model through
-the memory tool), the slice the plan holds that it fits (a slice in the spine whose `intents` hold
-`bi-<id>`; none is a fine answer), a feature id, its one-line and a thin ICE (goal, limit, fails
-if, context, checked by) from the person's words. It writes these fields into the entry; it writes
-nothing in the model:
+When the draft holds a `new-feature` entry, place it by fixed rules before the check — the
+capability the person named, else the one that shares an issue number with the item's parent (or
+an item above it); the slice the plan holds when exactly one serves `bi-<id>`, none when none
+does; a feature id; the person's title as its one-line. What no rule settles becomes a question
+for the person. No ICE is drafted in the session: the page skill writes the thin ICE at the landing
+(Step 8), from the person's words.
 
-    { "task":    "place the new feature of this draft and draft its thin ICE; write nothing in the model",
+```
+python3 scripts/place_feature.py --draft <working>/draft-entries.json --plan-file <plans>/<id>.yaml \
+    --spine <product_base>product-os/_spine.yaml --plan <id>
+```
+
+When it leaves a question about the capability, dispatch `product-os-keeper` for a suggestion (the
+`find-work-placement` skill; it writes only the routing result), run the script again with
+`--suggestion <working>/routing-result.json`, and show the question with the suggestion:
+
+    { "task":    "suggest a capability for this new feature (find-work-placement); write nothing in the model",
       "inputs":  { "draft": "<working>/draft-entries.json", "plan_id": "<id>", "product_base": "<product_base>" },
-      "outputs": { "draft": "<working>/draft-entries.json" },
-      "task_id": "place-feature" }
+      "outputs": { "route": "<working>/routing-result.json" },
+      "task_id": "suggest-capability" }
 
 Then check it:
 
@@ -254,8 +263,8 @@ and `plan-write.json`, and the list's sha256 equals `answer.json`'s `list_sha`.
 
 **Step 8 — Land: the model** · Owner: `product-os-keeper` · Depends on: Step 7
 *Skip when `model-ops.json` has no parts.* For each part: the page skill (`enrich-grounding`,
-new-feature and thin modes) writes the feature's page under its capability with the thin ICE the
-entry holds; then `link-model-part` adds its model entry (`mode: new`, thin, its intent `bi-<id>`,
+new-feature and thin modes) writes the feature's page under its capability, and its thin ICE from
+the person's words (the part's title and description), nothing made up; then `link-model-part` adds its model entry (`mode: new`, thin, its intent `bi-<id>`,
 its `issue` — the story, or the number the tracker step makes, filled in after Step 9 with
 `mode: update` — and `identified_by`) and, when the entry names a slice, the slice's `add_features`.
 
@@ -479,11 +488,11 @@ check: the person decides.
 | position_exception | model-writing session play — writes the model, GitHub and the plan file on the plan's own branch after one "approved" and commits them as one commit there (C7); the plan's branch reaches main later through the change plays, with the plan's other work (#720 design) |
 | workflow_structure | A (full checkpoint: one approval gates every write) with a repeating session step |
 | stop_condition | stop-condition.yaml (D1–D3), gate live at Step C0 — evaluated before the self-clean |
-| domain_agents | 1 (product-os-keeper — a new feature only) |
+| domain_agents | 1 (product-os-keeper — a new feature only: a capability suggestion, and the landing) |
 | utility_agents | 2 (template-manager, project-orchestrator) |
 | skills_reused | author-plan-changes, track-plan-changes, find-work-placement, enrich-grounding, link-model-part |
 | tools | the plan tool's plan-branch script (`.garura/core/tools/plan/plan_branch.py`) |
-| scripts | 13 (preflight.py, session_stamp.py, check_stop_condition.py, plan_session.py, find_plan.py, check_entries.py, add_entries.py, record_answer.py, render_screen.py, plan_ops.py, write_plan_changes.py, check_agreement.py, commit_plan.py, close_session.py) |
+| scripts | 15 (preflight.py, session_stamp.py, check_stop_condition.py, plan_session.py, find_plan.py, check_entries.py, add_entries.py, record_answer.py, render_screen.py, plan_ops.py, write_plan_changes.py, check_agreement.py, commit_plan.py, close_session.py, place_feature.py) |
 | step_evals | 16 (SE-1…SE-16) |
 | scenario_evals | 7 (SCE-1…SCE-7) |
 | recovery_entries | 12 (one per failure condition; 7 autonomous / 5 human) |

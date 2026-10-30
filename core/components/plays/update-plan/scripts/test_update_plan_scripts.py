@@ -15,6 +15,7 @@ import check_entries
 import close_session
 import commit_plan
 import find_plan
+import place_feature
 import plan_ops
 import plan_session as ps
 import record_answer
@@ -446,6 +447,41 @@ class NewFeatureTest(Session):
             fh.write("features:\n- id: fn-undo\n  doc: features/fn-undo/feature.md\n  issue: 100\n")
         self.assertEqual(quiet(check_agreement.main, args), 1)
         self.assertFalse(ps.read_json(self.p("agreement.json"), "a")["features_ok"])
+
+
+class PlaceFeatureTest(Session):
+    SPINE = ("capabilities:\n- id: cap-41\n  issue: 41\n- id: cap-other\n  issue: 7\n"
+             "features:\n- id: fn-undo-the-last-booking\n"
+             "slices:\n- id: sl-a\n  intents: [bi-40]\n- id: sl-b\n  intents: [bi-99]\n")
+
+    def place(self, entry, spine=None):
+        path = os.path.join(self.d, "spine.yaml")
+        with open(path, "w") as fh:
+            fh.write(spine or self.SPINE)
+        ps.write_json(self.p("draft-entries.json"), {"instruction": "x", "entries": [entry], "questions": []})
+        self.assertEqual(quiet(place_feature.main, ["--draft", self.p("draft-entries.json"), "--plan-file", self.plan,
+                                                    "--spine", path, "--plan", "40"]), 0)
+        return ps.read_json(self.p("draft-entries.json"), "draft")
+
+    def test_capability_slice_and_id_by_rule(self):
+        got = self.place({"op": "new-feature", "issue": None, "title": "Undo the last booking", "parent": 42})
+        e = got["entries"][0]
+        self.assertEqual((e["capability"], e["slice"]), ("cap-41", "sl-a"))   # #42 sits under #41
+        self.assertEqual(e["feature"], "fn-undo-the-last-booking-2")          # the spine has the plain one
+        self.assertEqual(e["one_line"], "Undo the last booking")
+        self.assertNotIn("ice", e)
+        self.assertEqual(got["questions"], [])
+
+    def test_an_existing_story_keeps_its_number(self):
+        e = self.place({"op": "new-feature", "issue": 44, "title": "Remind", "parent": 41})["entries"][0]
+        self.assertEqual(e["feature"], "fn-44")
+
+    def test_what_no_rule_settles_becomes_a_question(self):
+        spine = "capabilities: []\nslices:\n- id: sl-a\n  intents: [bi-40]\n- id: sl-c\n  intents: [bi-40]\n"
+        got = self.place({"op": "new-feature", "issue": None, "title": "Undo", "parent": 45}, spine)
+        self.assertIsNone(got["entries"][0]["capability"])
+        self.assertEqual(len(got["questions"]), 2)                          # which capability; which slice
+        self.assertIn("sl-a, sl-c", got["questions"][1])
 
 
 if __name__ == "__main__":
