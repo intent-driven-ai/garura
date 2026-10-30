@@ -1,61 +1,19 @@
 commits:
-  - sha: 5223135d
-    message: "fix(plan): a staged file always stops the branch step, the cut commits only the plan file, a failed push of main is taken back, and abort checks the branch it deletes (#720)"
+  - sha: 2b87f690
+    message: "fix(update-plan): a new feature is placed by a script and the placement skill; the model sub-agent drafts nothing itself (#720)"
     files:
-      - core/tools/plan/plan_branch.py
-      - core/tools/plan/test_plan_branch.py
-    branch: plan/717/720-update-plan
-  - sha: 9d359317
-    message: "fix(update-plan): the landing commit takes only its own files and refuses paths outside the repository (#720)"
-    files:
-      - core/components/plays/update-plan/scripts/commit_plan.py
+      - core/components/plays/update-plan/scripts/place_feature.py
+      - core/components/plays/update-plan/SKILL.md
       - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+      - core/components/agents/product-os-keeper.md
+      - core/components/skills/author-plan-changes/SKILL.md
     branch: plan/717/720-update-plan
-  - sha: 06b30b9b
-    message: "fix(track-plan-changes): a create finds the issue an earlier run made by its marker, and the record is tied to the approved list (#720)"
+  - sha: b33adf4e
+    message: "chore(stm): record the round 2 code evidence and the merge gate (#720)"
     files:
-      - core/components/skills/track-plan-changes/scripts/track_changes.py
-      - core/components/skills/track-plan-changes/scripts/tracker.py
-      - core/components/skills/track-plan-changes/scripts/test_track_changes.py
-      - core/components/skills/track-plan-changes/SKILL.md
-    branch: plan/717/720-update-plan
-  - sha: 5a3af4e8
-    message: "fix(lint-components): report every path relative to where the linter ran (#720)"
-    files:
-      - core/tools/lint-components/index.js
-    branch: plan/717/720-update-plan
-  - sha: 18f1ad00
-    message: "chore(stm): scrub the absolute paths from the round 1 lint report (#720)"
-    files:
-      - .garura/project/issues/720/review/lint-components.json
-    branch: plan/717/720-update-plan
-  - sha: 794d128e
-    message: "chore(stm): record the round 1 review's memory copies and the install manifest (#720)"
-    files:
-      - .garura/install-manifest.json
-      - .garura/project/issues/720/context/memory/manifest.json
-      - .garura/project/issues/720/context/memory/grounding-harness/manifest.json
-      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/commits.md
-      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/direct-model-write.md
-      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/git.md
-      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/naming.md
-      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/pipeline-position.md
-      - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/user-facing-voice.md
-      - .garura/project/issues/720/context/memory/grounding-memory/knowledge/_DESIGN.md
-      - .garura/project/issues/720/context/memory/grounding-memory/manifest.json
-      - .garura/project/issues/720/context/memory/grounding-memory/standards/rules/user-facing-voice.md
-      - .garura/project/issues/720/context/memory/grounding-memory/standards/templates/_index.md
-      - .garura/project/issues/720/context/memory/knowledge/review/_index.md
-      - .garura/project/issues/720/context/memory/knowledge/review/adrs.md
-      - .garura/project/issues/720/context/memory/knowledge/review/code.md
-      - .garura/project/issues/720/context/memory/knowledge/review/config-maps.md
-      - .garura/project/issues/720/context/memory/knowledge/review/docs.md
-      - .garura/project/issues/720/context/memory/knowledge/review/harness.md
-      - .garura/project/issues/720/context/memory/knowledge/review/memory.md
-      - .garura/project/issues/720/context/memory/knowledge/review/tests.md
-      - .garura/project/issues/720/context/memory/standards/rules/pr.md
-      - .garura/project/issues/720/context/templates/manifest-check-change.json
-      - .garura/project/issues/720/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/720/review/code-evidence.md
+      - .garura/project/issues/720/review/merge-gate.json
+      - .garura/project/issues/720/review/target.json
     branch: plan/717/720-update-plan
 excluded_files:
   []
