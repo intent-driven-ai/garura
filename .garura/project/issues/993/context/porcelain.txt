@@ -1,23 +1,10 @@
- M .garura/product/product-os/_spine.yaml
  M .garura/product/product-os/capabilities/cap-720/capability.md
  M .garura/product/product-os/features/fn-730/feature.md
- M .garura/project/plans/717.yaml
+ M .garura/project/issues/720/specs/design.md
+ M .garura/project/issues/993/context/porcelain.txt
  M core/components/agents/product-os-keeper.md
- M core/components/plays/check-change/scripts/platform_adapter.py
- M core/components/plays/create-play/references/platform_adapter.py
- M core/components/plays/create-play/references/test_platform_adapter.py
- M core/components/plays/merge-change/scripts/platform_adapter.py
- M core/components/plays/propose-change/scripts/platform_adapter.py
- M core/components/plays/shape-eval/scripts/platform_adapter.py
- M core/components/plays/shape-plan/scripts/platform_adapter.py
- M core/components/plays/shape-slice/scripts/platform_adapter.py
- M core/components/plays/shape-slice/scripts/safe_write.py
  M core/components/skills/enrich-grounding/SKILL.md
- M core/components/skills/link-model-part/scripts/safe_write.py
- M core/components/skills/platform-adapter/SKILL.md
- M core/components/skills/platform-adapter/reference/github/verbs.md
- M core/components/skills/platform-adapter/reference/gitlab/verbs.md
-?? .garura/project/issues/993/context/model-lines/
-?? .garura/project/issues/993/context/porcelain.txt
-?? .garura/project/issues/993/specs/
-?? core/components/skills/enrich-grounding/scripts/
+ M core/components/skills/enrich-grounding/scripts/change_lines.py
+ M core/components/skills/enrich-grounding/scripts/test_change_lines.py
+?? .garura/project/issues/993/context/model-lines/lines-report-f1.json
+?? .garura/project/issues/993/context/model-lines/lines-request-f1.json

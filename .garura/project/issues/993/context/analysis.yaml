@@ -1,71 +1,68 @@
 ---
-# assess-changes output (judgment done). Branch plan/717/993-page-skill-named-lines; issue 993 also carries #994.
+# assess-changes output (grouped by concern; judgment done)
 needs_judgment: false
+branch: plan/717/993-page-skill-named-lines
+issue: 993
 
 change_groups:
-  - id: page-skill-named-lines
+  - id: fix-change-lines-script
     issue: 993
-    commit_type: feat
+    commit_type: fix
     scope: enrich-grounding
-    subject: "let the page skill change the named lines of any model page"
+    subject: "make named-lines writes all or nothing and keep each line's own ending"
+    confidence: high
     files:
-      - core/components/skills/enrich-grounding/SKILL.md
       - core/components/skills/enrich-grounding/scripts/change_lines.py
       - core/components/skills/enrich-grounding/scripts/test_change_lines.py
-      - core/components/skills/enrich-grounding/scripts/safe_write.py
-      - core/components/plays/shape-slice/scripts/safe_write.py
-      - core/components/skills/link-model-part/scripts/safe_write.py
-      - core/components/agents/product-os-keeper.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "All or nothing on any failed write (page or report); each line keeps its own line ending; a line that cannot be written as UTF-8 is refused; an add-after rerun adds nothing (review findings QF-01..QF-04)."
 
-  - id: platform-adapter-edit-issue-title
+  - id: fix-named-lines-rule
     issue: 993
-    commit_type: feat
-    scope: platform-adapter
-    subject: "add the edit-issue-title verb (#994)"
+    commit_type: fix
+    scope: enrich-grounding
+    subject: "let step 7 and the in-place rule allow the lines a named-lines request changes"
+    confidence: high
     files:
-      - core/components/skills/platform-adapter/SKILL.md
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
-      - core/components/plays/check-change/scripts/platform_adapter.py
-      - core/components/plays/create-play/references/platform_adapter.py
-      - core/components/plays/create-play/references/test_platform_adapter.py
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/shape-eval/scripts/platform_adapter.py
-      - core/components/plays/shape-plan/scripts/platform_adapter.py
-      - core/components/plays/shape-slice/scripts/platform_adapter.py
+      - core/components/skills/enrich-grounding/SKILL.md
+      - core/components/agents/product-os-keeper.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "The agent writes the request; the skill only reads it (review findings H-1, H-2). Non-intent surface edit to compiled SKILL.md."
 
-  - id: model-720-730-design
+  - id: docs-branch-step-before-approval
     issue: 993
     commit_type: docs
     scope: product-model
-    subject: "bring capability 720 and feature 730 to the approved #720 design"
+    subject: "name the branch step as the one write before approval"
+    confidence: high
     files:
-      - .garura/product/product-os/_spine.yaml
       - .garura/product/product-os/capabilities/cap-720/capability.md
       - .garura/product/product-os/features/fn-730/feature.md
+      - .garura/project/issues/720/specs/design.md
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Review finding F1 of PR #995: Limit and Fails-if lines of cap-720 and fn-730, and the design, now agree on the single write allowed before approval."
 
-  - id: plan-717-titles
-    issue: 993
-    commit_type: chore
-    scope: plan
-    subject: "update plan 717 with the new titles of #720 and #730 and add #994"
-    files:
-      - .garura/project/plans/717.yaml
-
-  - id: stm-993-record
+  - id: chore-stm-evidence
     issue: 993
     commit_type: chore
     scope: stm
-    subject: "record the design and model-line evidence"
+    subject: "record the review-fix run evidence"
+    confidence: high
     files:
-      - .garura/project/issues/993/specs/design.md
-      - .garura/project/issues/993/context/analysis.yaml
       - .garura/project/issues/993/context/porcelain.txt
-      - .garura/project/issues/993/context/model-lines/lines-report.json
-      - .garura/project/issues/993/context/model-lines/lines-request.json
-      - .garura/project/issues/993/context/model-lines/link-report.json
-      - .garura/project/issues/993/context/model-lines/link-request.json
+      - .garura/project/issues/993/context/model-lines/lines-request-f1.json
+      - .garura/project/issues/993/context/model-lines/lines-report-f1.json
+      - .garura/project/issues/993/context/analysis.yaml
+    risks:
+      sensitive_files: []
+      breaking_changes: []
+    notes: "Operational STM artifacts, kept apart from the feature groups."
 
 exclusions:
   []
@@ -73,10 +70,7 @@ exclusions:
 risks:
   sensitive_files:
     []
-  breaking_changes: []
-  ambiguous_types: []
-  hotfix_branch: false
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "5 groups; 29 scanned files, each in exactly one group; no exclusions"}
-  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in diff or new files"}
+  SE-1: {status: PASS, evidence: "4 groups; all 11 changed files in exactly one group; issue 993 in every group"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
