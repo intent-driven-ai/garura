@@ -1,38 +1,29 @@
 ---
-# assess-changes output (issue 720, branch plan/717/720-update-plan)
 needs_judgment: false
 
 change_groups:
-  - id: update-plan-story-naming-record
+  - id: update-plan-model-record-guard
     issue: 720
     commit_type: fix
     scope: update-plan
-    subject: "read the story-naming model record and the main model record as one, and refuse a missing record"
+    subject: "pass no model record when no model step ran, say each model dispatch writes only to its own output, and refuse a missing or misshapen model-ops file or record in the guard"
     files:
       - core/components/plays/update-plan/SKILL.md
-      - core/components/plays/update-plan/scripts/check_agreement.py
-      - core/components/plays/update-plan/scripts/commit_plan.py
       - core/components/plays/update-plan/scripts/plan_session.py
       - core/components/plays/update-plan/scripts/session_files.py
       - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+      - core/components/agents/product-os-keeper.md
   - id: stm-run-records
     issue: 720
     commit_type: chore
     scope: stm
-    subject: "record check-change run artifacts"
+    subject: "record update-plan run artifacts"
     files:
       - .garura/project/issues/720/context/analysis.yaml
+      - .garura/project/issues/720/context/memory/manifest.json
       - .garura/project/issues/720/context/porcelain.txt
-      - .garura/project/issues/720/context/templates/manifest-check-change.json
 
 exclusions: []
 
 risks:
   sensitive_files: []
-  breaking_changes: []
-  ambiguous_types: []
-  hotfix_branch: false
-
-eval_gates:
-  SE-1: {status: PASS, evidence: "every changed file from the scan is in exactly one group; 9 files, 2 groups"}
-  SE-5: {status: PASS, evidence: "no sensitive filename or diff content patterns matched"}
