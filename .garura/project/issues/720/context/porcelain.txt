@@ -1,5 +1,8 @@
- M .garura/project/issues/720/context/check-self-review-exit.txt
  M .garura/project/issues/720/context/porcelain.txt
- M .garura/project/issues/720/context/pr-body.md
- M .garura/project/issues/720/context/self-review.md
- M core/components/plays/install-garura/scripts/test_install.py
+ M .garura/project/issues/720/context/templates/manifest-check-change.json
+ M core/components/plays/update-plan/SKILL.md
+ M core/components/plays/update-plan/scripts/check_agreement.py
+ M core/components/plays/update-plan/scripts/commit_plan.py
+ M core/components/plays/update-plan/scripts/plan_session.py
+ M core/components/plays/update-plan/scripts/session_files.py
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py

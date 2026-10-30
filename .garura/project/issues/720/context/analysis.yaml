@@ -1,26 +1,38 @@
+---
+# assess-changes output (issue 720, branch plan/717/720-update-plan)
 needs_judgment: false
+
 change_groups:
-  - id: test-install-linter-paths
+  - id: update-plan-story-naming-record
     issue: 720
-    commit_type: test
-    scope: install-garura
-    subject: "resolve component linter paths from the folder it ran in"
+    commit_type: fix
+    scope: update-plan
+    subject: "read the story-naming model record and the main model record as one, and refuse a missing record"
     files:
-      - core/components/plays/install-garura/scripts/test_install.py
-  - id: stm-propose-change-run
+      - core/components/plays/update-plan/SKILL.md
+      - core/components/plays/update-plan/scripts/check_agreement.py
+      - core/components/plays/update-plan/scripts/commit_plan.py
+      - core/components/plays/update-plan/scripts/plan_session.py
+      - core/components/plays/update-plan/scripts/session_files.py
+      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+  - id: stm-run-records
     issue: 720
     commit_type: chore
     scope: stm
-    subject: "record propose-change run artifacts"
+    subject: "record check-change run artifacts"
     files:
       - .garura/project/issues/720/context/analysis.yaml
-      - .garura/project/issues/720/context/check-self-review-exit.txt
       - .garura/project/issues/720/context/porcelain.txt
-      - .garura/project/issues/720/context/pr-body.md
-      - .garura/project/issues/720/context/self-review.md
+      - .garura/project/issues/720/context/templates/manifest-check-change.json
+
 exclusions: []
+
 risks:
   sensitive_files: []
   breaking_changes: []
   ambiguous_types: []
   hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every changed file from the scan is in exactly one group; 9 files, 2 groups"}
+  SE-5: {status: PASS, evidence: "no sensitive filename or diff content patterns matched"}
