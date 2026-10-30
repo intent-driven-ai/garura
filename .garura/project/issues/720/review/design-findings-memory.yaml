@@ -1,18 +1,17 @@
-# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 4
+# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 5
 # PR #998 (feature #720, /update-plan), base plan/717/base.
-# What changed in the memory category since round 3 (diff against plan/717/base, index lines removed, per file
-# compared with the round 3 pr.diff): ontology.md, templates/_index.md and pipeline-next.md are byte-identical to
-# round 3. spine.yaml (Thin-mark comment, lines 142-148) and direct-model-write.md (a declared exception for
-# /update-plan and an L-DMW-4 carve-out) are new in the category this round. plan-update.md gained the confirm
-# line for a new feature (thin warning, slice in progress) and the question screen (14 more settings keys).
-# Grounding is read from the base ref, docs/adr (base) and memory copied through the memory tool into
-# .garura/project/issues/720/context/memory/grounding-memory/ (manifest.json beside it). The three copies there
-# were reused: each still matches its manifest fingerprint and version f8e35c3bd9b6; nothing was copied again.
-# The branch's own new text (ADR 061, ADR 062, the ADR 026 pointer, the glossary lines, ontology v14, the new
-# direct-model-write paragraphs) is never used as a source. pr.md has no memory/ontology rows, so each severity is
-# the bucket in pr.md "Severity buckets" (P2 structural, P3 minor, P4 nit).
+# What changed in the memory category since round 4: nothing. Each of the six memory files (ontology.md, spine.yaml,
+# direct-model-write.md, plan-update.md, templates/_index.md, pipeline-next.md), the glossary and the ADR files
+# (026, 058, 060, 061, 062, _index) has the same diff block in this round's pr.diff as in run-4/pr.diff (compared
+# per file, index lines removed). Round 5 only adds the HF-12 fix in the update-plan play and its scripts, which
+# the harness and code categories own.
+# Grounding: the three copies in grounding-memory (templates/_index.md, rules/user-facing-voice.md,
+# knowledge/_DESIGN.md) still match their manifest fingerprints (full-file read through the memory tool, Phoenix
+# version f8e35c3bd9b6), so they were reused and nothing was copied again. Base-ref and docs/adr (base) sources are
+# read with git show. The branch's own new text is never a source. pr.md has no memory rows, so each severity is the
+# bucket in pr.md "Severity buckets" (P2 structural, P3 minor, P4 nit).
 category: memory
-round: 4
+round: 5
 base_ref: plan/717/base
 files_in_category:
   - core/components/memory/standards/schemas/product-os/ontology.md
@@ -79,8 +78,8 @@ findings:
     file: core/components/memory/standards/schemas/product-os/ontology.md
     lines: [596, 622, 623]
     why: >-
-      Round 3 closed it (ADR 061 recorded that /update-plan may cut the plan's branch, main first, and amended ADR
-      060). Nothing in this round reopens it: the ontology Plan kind is byte-identical to round 3 and no
+      Closed in round 3 (ADR 061 recorded that /update-plan may cut the plan's branch, main first, and amended ADR
+      060). Nothing in rounds 4 or 5 reopens it: the ontology Plan kind is byte-identical to round 3 and no
       committed source it rests on changed.
     basis: >-
       docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (base) Decision 3 and ICE impact;
@@ -147,9 +146,9 @@ findings:
     status: stands
     severity: P4
     file: core/components/memory/standards/rules/pipeline-next.md
-    lines: [77]
+    lines: [73, 77]
     why: >-
-      Unchanged since round 3. update-plan sits under the "# Navigation" heading (line 73, with list-focus-issues,
+      Unchanged since rounds 3 and 4. update-plan sits under the "# Navigation" heading (line 73, with list-focus-issues,
       list-plans and show-plan, which only show), but it changes a plan. The "The flow" bullets (lines 20-31) name
       every other live play by loop, and none names update-plan. Its why-line ("it reaches main with the plan's
       other work") holds only once the plan pauses (ADR 060).
@@ -164,7 +163,7 @@ findings:
     file: core/components/memory/standards/templates/plan-update.md
     lines: [171, 172]
     why: >-
-      Unchanged since round 3 (the line moved from 156 to 171-172 as the file grew). The "landed" screen opens
+      Unchanged since rounds 3 and 4 (the line moved from 156 to 171-172 as the file grew). The "landed" screen opens
       "Landed on {plan_branch} (commit {commit}), pushed." It leads with a branch and a commit, not with what
       changed for the person. The screen is shown to a person as it stands, so it is not an internal artifact.
     basis: standards/rules/user-facing-voice.md (memory copy, grounding-memory) "Signals you've drifted"
@@ -174,9 +173,9 @@ findings:
     status: stands
     severity: P4
     file: core/components/memory/standards/templates/plan-update.md
-    lines: [47, 60, 65, 71, 72]
+    lines: [46, 47, 56, 57, 71, 72]
     why: >-
-      Unchanged (moved from lines 41-68). The worked screen shows no item kinds. Row 4 puts a new chore under
+      Unchanged since round 4 (the screen is at lines 46-72). The worked screen shows no item kinds. Row 4 (line 71) puts a new chore under
       #956 and row 5 a new feature under #720, and the screen never says what kind #956 or #720 is, so a reader
       cannot check the example against the ontology item-kind rule (a chore sits under a story; a story sits
       under an epic or a feature item). Low confidence: the kinds may be in the plan file.
@@ -185,13 +184,13 @@ findings:
     fix: Show the kind in the example (for example "epic #956", "feature item #720").
 
   - id: MEM-8
-    status: new
+    status: stands
     severity: P4
     file: core/components/memory/standards/rules/direct-model-write.md
-    lines: [152, 153, 154]
+    lines: [152, 153, 154, 243]
     why: >-
       The new exception says "uncommitted work anywhere stops the session when it gets onto the plan's branch",
-      and the L-DMW-4 carve-out (line 240-243) says the clean check "covers the whole tree". The play and the
+      and the L-DMW-4 carve-out (lines 240-244) says the clean check "covers the whole tree". The play and the
       tool do not do that: plan_branch.py go is run with --ignore "${stm_base}_plans/" (SKILL.md line 146), and
       SE-3 says "nothing uncommitted outside the session's own folder" (SKILL.md line 151). The product-os tree,
       which the base L-DMW-4 requires clean, is covered, so the guarantee holds, but the rule overstates it, and a
@@ -204,9 +203,9 @@ findings:
       covers the product-os tree and the rest of the repository except that folder.
 
 counts:
-  fixed: 4      # MEM-1, MEM-2, MEM-3, MEM-4
-  stands: 3     # MEM-5, MEM-6, MEM-7
-  new: 1        # MEM-8
+  fixed: 4      # MEM-1, MEM-2, MEM-3, MEM-4 (carried, still fixed)
+  stands: 4     # MEM-5, MEM-6, MEM-7, MEM-8
+  new: 0
   P1: 0
   P2: 0
   P3: 0

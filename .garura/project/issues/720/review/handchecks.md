@@ -39,3 +39,7 @@ Each check names what was read and what it showed. The commands' outputs are in
   `author-plan-changes` and `track-plan-changes`; each resolves to a folder under
   `core/components` (plays/update-plan, skills/author-plan-changes, skills/track-plan-changes).
   The install suite (75 tests) is in `runnable-checks.txt`.
+
+## Round 5
+
+No decision record, memory file, doc or install-list file changed since round 4 (the diff since round 4 is the HF-12 fix in update-plan and run records), so the round 4 hand checks above still hold. The update-plan SKILL.md edit is non-intent: reference/ice.md is unchanged and its sha256 (3133f728…) is the fingerprint in the compiled play.

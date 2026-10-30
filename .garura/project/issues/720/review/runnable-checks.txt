@@ -34,6 +34,5 @@
 == ruff (defaults) on the changed non-test .py files
 All checks passed!
 [ruff exit 0]
-== node --check
 [node --check exit 0]
 [0] cd core/components/plays/install-garura/scripts && python3 -m unittest test_install test_migrate_model :: OK (Ran 85 tests)

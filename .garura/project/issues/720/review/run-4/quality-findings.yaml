@@ -1,0 +1,1173 @@
+meta:
+  generated_at: '2026-10-30T13:16:26Z'
+  diff_path: '.garura/project/issues/720/review/pr.diff'
+  taxonomy_path: '.garura/project/issues/720/context/memory/standards/rules/pr.md'
+  changed_paths_count: 233
+  scan_coverage: 1.0000
+  standards_relevant: 40
+  catchall:
+    CODE-20: 91
+findings:
+  - standard_id: 'DATA-18'
+    severity: P1
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 43
+    evidence: 'email'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'DATA-18'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'BE-12'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 150
+    evidence: 'fetch'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-12'
+  - standard_id: 'BE-12'
+    severity: P2
+    file: 'core/tools/plan/plan_branch.py'
+    line: 236
+    evidence: 'fetch'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-12'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
+  - standard_id: 'DATA-17'
+    severity: P2
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 43
+    evidence: 'email'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'DATA-17'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'FE-08'
+  - standard_id: 'TEST-02'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-02'
+  - standard_id: 'TEST-03'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-03'
+  - standard_id: 'TEST-06'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-06'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 10
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 10
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 27
+    evidence: 'console.log'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'OPS-10'
+    severity: P3
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 27
+    evidence: 'console.log(`'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'OPS-10'
+  - standard_id: 'DOC-01'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-01'
+  - standard_id: 'DOC-09'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-09'
+  - standard_id: 'DOC-10'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-10'
+  - standard_id: 'DOC-11'
+    severity: P3
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-11'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'BE-13'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 67
+    evidence: 'retry'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-13'
+  - standard_id: 'CODE-27'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 67
+    evidence: 'retry'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-27'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 179
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 183
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 197
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'OPS-09'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 278
+    evidence: 'log.'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'OPS-09'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 318
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 332
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 338
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 350
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 95
+    evidence: 'const here ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 96
+    evidence: 'const relative ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/lib/rules/structural.js'
+    line: 1
+    evidence: 'core/tools/lint-components/lib/rules/structural.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'TEST-05'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-05'
+  - standard_id: 'TEST-07'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-07'
+  - standard_id: 'TEST-08'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-08'
+  - standard_id: 'TEST-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 1
+    evidence: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'TEST-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 4
+    evidence: 'const assert ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 5
+    evidence: 'const fs ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 6
+    evidence: 'const os ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 7
+    evidence: 'const path ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 9
+    evidence: 'let passed ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 12
+    evidence: 'const dir ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 15
+    evidence: 'const file ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/test/dmw-declared-exception.test.js'
+    line: 19
+    evidence: 'const plain ='
+    artifact_type: 'tests'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'DOC-14'
+    severity: P4
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-14'
+  - standard_id: 'DOC-15'
+    severity: P4
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-15'
+  - standard_id: 'DOC-16'
+    severity: P4
+    file: 'core/tools/plan/README.md'
+    line: 1
+    evidence: 'core/tools/plan/README.md'
+    artifact_type: 'docs-planning'
+    taxonomy_rule_id: 'DOC-16'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'BE-23'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 67
+    evidence: 'lock'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-23'
+  - standard_id: 'BE-23'
+    severity: P4
+    file: 'core/tools/plan/plan_branch.py'
+    line: 70
+    evidence: 'lock'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'BE-23'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/plan/test_plan_branch.py'
+    line: 1
+    evidence: 'core/tools/plan/test_plan_branch.py'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+counts:
+  P1: 1
+  P2: 23
+  P3: 67
+  P4: 29
+scan_notes:
+  - finding: "ARCH-02, CODE-03, CODE-04, CODE-14 (P2) and the path-only P3/P4 rows on core/tools/plan/plan_branch.py, core/tools/plan/test_plan_branch.py, core/tools/lint-components/index.js, and now core/tools/lint-components/lib/rules/structural.js and core/tools/lint-components/test/dmw-declared-exception.test.js"
+    note: "Path rules that ask for a tool or a person to judge cycles, lint, format, complexity, naming and duplication. Not defects by themselves. Read this round: plan_branch.py imports the standard library and yaml only; the new Node test requires Node's own modules and ../lib/rules/structural; no cycle. ruff (default rules) is clean on every changed non-test Python file of the list given for this round; two findings in changed test folders (an unused import in test_link_part.py, a lambda assignment in test_plan.py) were already there before this round's commits. `node` runs the new test (3 pass); no eslint is committed, so JavaScript is run, not linted."
+  - finding: "BE-12 (P2) at core/tools/plan/plan_branch.py:150 and :236"
+    note: "False positive, same as rounds 2 and 3: `fetch` is `git fetch`, not an HTTP call."
+  - finding: "DATA-17 (P2) and DATA-18 (P1) at core/tools/plan/test_plan_branch.py:43"
+    note: "False positive, same as rounds 2 and 3: line 43 sets user.email to test@example.com in a throwaway test repository. No personal data. The one P1 of the scan is not a defect."
+  - finding: "BE-13 and CODE-27 at core/tools/plan/plan_branch.py:67; BE-23 at :67 and :70"
+    note: "False positive, same as round 3: the wait for git's own index.lock, 8 tries of 2 seconds, no service call, no shared state."
+  - finding: "CODE-25 at core/tools/plan/plan_branch.py:179, :183, :197, :318, :332, :338, :350"
+    note: "Each handler re-raises as Stop, restores the plan file and re-raises, or prints the error and returns a non-zero exit. None swallows an error. The new abort branch (lines 247-272) uses check=False only to read a return code and acts on it."
+  - finding: "OPS-09 at core/tools/plan/plan_branch.py:278 and OPS-09/OPS-10 at core/tools/lint-components/test/dmw-declared-exception.test.js:10 and :27"
+    note: "False positives. Line 278 is a variable named `log` that holds the output of git log. The test lines are the [PASS] report lines of a plain Node test, the same as the other tests in that folder."
+  - finding: "CODE-22 at core/tools/lint-components/index.js:95 and :96, and in the new test"
+    note: "False positive: the rule asks about capitalised names; the scanner matches case-insensitively."
+  - finding: "TEST-02, TEST-03, TEST-05..TEST-08, TEST-22 on core/tools/lint-components/test/dmw-declared-exception.test.js"
+    note: "Path-only rows for a judgment on tests. Read: the test has three assertions that pin the exception to /update-plan and show another play still fails twice; it makes its own temporary folders and does not clean them up (a small leak in the operating system's temp folder)."
+  - finding: "DOC rows on core/tools/plan/README.md"
+    note: "The README changed this round (5 lines added, 3 removed) to describe the uncommitted check on every path and the second abort; it matches the code read. No new documentation gap found."
+  - finding: "The update-plan scripts, the track-plan-changes scripts, link_part.py and the shape-slice scripts are classified garura-prose by the scan, so no grep row fires on them"
+    note: "They were read by hand for this round (reviewed_findings below), and run: plan tool 35 tests, update-plan 37, track-plan-changes 13, link-model-part 22, shape-slice scripts (five test files) all pass, linter exception test 3 pass."
+reviewed_findings:
+  # --- Round 3's reviewed findings, read against the code now ---
+  - id: R3-01
+    status: fixed
+    basis: "round 2 (fixed in round 2): safe handling of destructive/irreversible operations"
+    severity: P2
+    file: core/tools/plan/plan_branch.py
+    function: uncommitted
+    line: 100
+    artifact_type: runtime-code
+    evidence: >-
+      Still fixed and now stronger. A staged path counts anywhere (line 100, `staged = code[0] not in " ?"`; line 102,
+      `if staged or not ignored`), the cut commit takes the plan file only (`commit ... -- path`, line 191), and the
+      uncommitted check now runs before the stay path too (lines 150-152), so a session on the plan's own branch with
+      loose work stops (exit 3) in place of carrying that work into the commit. New test
+      test_uncommitted_work_stops_it_on_the_plan_branch_too covers it; the plan suite (35 tests) passes.
+  - id: R3-02
+    status: fixed
+    basis: "round 2 (fixed in round 2): the cut is not all-or-nothing"
+    severity: P2
+    file: core/tools/plan/plan_branch.py
+    function: go
+    line: 196
+    artifact_type: runtime-code
+    evidence: >-
+      Still fixed. A stop after the commit takes it back (`reset --soft HEAD~1` line 200, then `restore --staged
+      --worktree` line 201); a stop before it restores the file (line 203); then it returns to the starting branch
+      (line 204). The code of this path is unchanged by this round's commits; the rejected-push and unreadable-plan
+      tests pass.
+  - id: R3-03
+    status: fixed
+    basis: "round 2 (fixed in round 2): a script that says it stages only X must stage only X"
+    severity: P2
+    file: core/components/plays/update-plan/scripts/commit_plan.py
+    function: main
+    line: 99
+    artifact_type: garura-prose
+    evidence: "Still fixed. The file is unchanged by this round's commits (git shows no difference); the staged test and the commit take the named files only (line 105, `commit ... -- *files`)."
+  - id: R3-04
+    status: fixed
+    basis: "round 2 (fixed in round 2): idempotency of external writes"
+    severity: P2
+    file: core/components/skills/track-plan-changes/scripts/track_changes.py
+    function: run_op
+    line: 113
+    artifact_type: garura-prose
+    evidence: "Still fixed in the code (unchanged this round): a create looks for its marker first and again after a failed create. The part that rests on the host search is R3-10 below, which is fixed this round."
+  - id: R3-05
+    status: fixed
+    basis: "round 2 (fixed in round 2): the record is not tied to the approved list"
+    severity: P3
+    file: core/components/skills/track-plan-changes/scripts/track_changes.py
+    function: apply
+    line: 180
+    artifact_type: garura-prose
+    evidence: "Still fixed (file unchanged this round): the record carries list_sha and a record from another list is refused with nothing written."
+  - id: R3-06
+    status: fixed
+    basis: "round 3 stands (P3): abort after a partial finish; safe handling of destructive/irreversible operations"
+    severity: P3
+    file: core/tools/plan/plan_branch.py
+    function: abort
+    line: 247
+    artifact_type: runtime-code
+    evidence: >-
+      Fixed. The delete steps no longer raise from git(): both use check=False and collect what was refused
+      (lines 260-265); when anything was refused it returns to the starting branch (line 267) and stops with exit 2,
+      naming the revert commit and saying to run abort again (lines 266-269). A second abort finds main's revert of
+      the cut (`reverted_already`, lines 275-282, matching "This reverts commit <cut>" in the log after the cut), skips
+      the revert (lines 247-249) and only deletes. Checked by reading: the first-abort stops that come before the
+      push still take the revert back (lines 251-259); the second abort still checks that the branch holds nothing
+      beyond the cut (lines 237-241) before it deletes. The new test test_a_second_abort_finishes_after_a_refused_delete
+      refuses only the remote delete with a hook, runs abort twice and checks no second revert, the branch gone, main's
+      plan file back, and the session back on its starting branch; it passes.
+  - id: R3-07
+    status: fixed
+    basis: "round 2 (fixed in round 2): files from the model record are not checked; porcelain parsed without -z"
+    severity: P3
+    file: core/components/plays/update-plan/scripts/commit_plan.py
+    function: main
+    line: 79
+    artifact_type: garura-prose
+    evidence: "Still fixed (file unchanged this round): each file must be relative and inside the repository (line 85); the listing uses -z."
+  - id: R3-08
+    status: fixed
+    basis: "round 2 (fixed in round 2): 'not found' read as 'no such issue'"
+    severity: P4
+    file: core/components/skills/track-plan-changes/scripts/tracker.py
+    function: HostTracker.get
+    line: 168
+    artifact_type: garura-prose
+    evidence: "Still fixed (file unchanged this round): only 'could not resolve to an issue' reads as absent; any other failure raises TrackerError."
+  - id: R3-09
+    status: stands
+    basis: "round 2 P4: duplicated helper (CODE-13)"
+    severity: P4
+    file: core/tools/plan/plan_branch.py
+    function: git
+    line: 66
+    artifact_type: runtime-code
+    evidence: "Unchanged: the git() helper with the index.lock wait is in plan_branch.py (line 66) and in commit_plan.py (line 35), and session_files.py runs git in a third way (subprocess.run, lines 56, 80 and 100 of session_files.py). Nothing in this round removed a copy."
+  - id: R3-10
+    status: fixed
+    basis: "round 3 stands (P3): idempotency of external writes; deterministic where it claims to be"
+    severity: P3
+    file: core/components/skills/track-plan-changes/scripts/tracker.py
+    function: HostTracker.find_marked
+    line: 212
+    artifact_type: garura-prose
+    evidence: >-
+      Fixed in the two ways round 3 asked. test_track_changes.py now tests HostTracker.find_marked against a fake
+      adapter (class FindMarkedTest): a hit counts only when its body holds the marker, a gone issue is skipped, a
+      search that gives no JSON is an error and not "nothing found", and the search call is pinned (query, state
+      "all"). SKILL.md step 2 now says what the person does after a crash in a create: search the tracker for the marker
+      line of each create the record does not show, and wait and search again if it is not there yet. The 13 tests
+      of the skill pass. The host's search itself may still lag; the skill now says so and names the manual step.
+  - id: R3-11
+    status: stands
+    basis: "round 2 P4: safe handling of destructive/irreversible operations"
+    severity: P4
+    file: core/tools/plan/plan_branch.py
+    function: go
+    line: 187
+    artifact_type: runtime-code
+    evidence: "Unchanged: the plan file is opened for writing (emptied) on line 187 before set_fields() runs on line 188. Safe today because the stop handler puts the file back (line 203, `checkout -- path`); an OSError on the write would not be a Stop and would not reach it. Fix: compute the new text first, then open."
+  - id: R3-12
+    status: stands
+    basis: "round 2 P4: no machine path or user name"
+    severity: P4
+    file: core/tools/lint-components/index.js
+    function: main
+    line: 95
+    artifact_type: runtime-code
+    evidence: "Unchanged (file not in this round's commits): only the working-folder prefix is dropped, by a replace anywhere in the string (`text.split(here).join('')`, line 96). Run from the repository root the report is clean; from another folder with --target elsewhere it keeps absolute paths. Fix: strip the prefix at the start only, and say in the usage that paths are relative to the working folder."
+  - id: R3-13
+    status: stands
+    basis: "round 2 P4: deterministic contract between steps"
+    severity: P4
+    file: core/components/plays/update-plan/SKILL.md
+    function: Step 8 (model-record.json)
+    line: 304
+    artifact_type: garura-prose
+    evidence: >-
+      Unchanged: line 304 still says `files: [every model file written]` without saying repository-relative. This now
+      matters in two places that read it differently: the scoped-write guard accepts a path in three forms
+      (repository-relative, product-base-relative, product-os-relative; session_files.py guard, scoped_write_guard.py
+      variants), while commit_plan.py (line 85) wants repository-relative. A product-base-relative list would pass the
+      guard and then fail at the commit step. No data is lost (the commit step refuses, and nothing is committed). Fix: state in
+      SKILL.md that `files` is repository-relative, and have link-model-part report it that way.
+  - id: R3-14
+    status: fixed
+    basis: "round 3 new (P3): the draft a person sees must match what the script was asked"
+    severity: P3
+    file: core/components/plays/update-plan/scripts/place_feature.py
+    function: main
+    line: 152
+    artifact_type: garura-prose
+    evidence: >-
+      Fixed. The script now owns a field, `placement_questions`, and sets it to what this run asked
+      (`draft["placement_questions"] = asked`, line 152), so a second run replaces the first run's questions and never
+      repeats them; `check_entries.py` joins the skill's `questions` and these (line 284), and SKILL.md Step 5 shows
+      both. Checked by running: a draft run twice with --suggestion holds 2 questions, not 4, and the second carries
+      the suggestion. test_update_plan_scripts.py asserts `len(placement_questions) == 2  # not 4` after two runs.
+  - id: R3-15
+    status: stands
+    basis: "round 3 new (P4): failure is reported plainly, with the exit the script promises"
+    severity: P4
+    file: core/components/plays/update-plan/scripts/place_feature.py
+    function: main
+    line: 134
+    artifact_type: garura-prose
+    evidence: >-
+      Half fixed. A spine path that does not exist is now refused in plain words with exit 2 (lines 136-137). A draft
+      that holds a JSON list, or a spine file that holds a non-empty list or a string, still dies with an
+      AttributeError traceback and exit 1 (`.get` on a list, line 138 onward; I ran both: `[]` for the draft gives
+      exit 1, a spine of `capabilities: x` gives `'str' object has no attribute 'get'`). The draft is untouched in each case (written last, through a
+      temp file), so no data is lost; the docstring promises exit 2 for bad input. Fix: refuse a draft or spine that
+      is not an object, and a spine whose capabilities, slices, epics or features are not lists, with the same plain `refused:` message and
+      exit 2; add a test for each.
+  - id: R3-16
+    status: fixed
+    basis: "round 3 new (P4): what the script does must match what it tells the person"
+    severity: P4
+    file: core/components/plays/update-plan/scripts/place_feature.py
+    function: place
+    line: 83
+    artifact_type: garura-prose
+    evidence: "Fixed. When the named capability is not in the model and the parent chain fills one, the question now says so: `answer` reads \"'cap-typo' is not a capability in the model. Its parent in the plan points to cap-45.\" (lines 83-88). I ran it: the entry ends with cap-45 and the question names it. Covered by a test (cap-41 asserted in the answer)."
+  - id: R3-17
+    status: noted
+    basis: "round 3 noted: data safety of the file the script rewrites"
+    severity: none
+    file: core/components/plays/update-plan/scripts/place_feature.py
+    function: main
+    line: 153
+    artifact_type: garura-prose
+    evidence: "Still sound: the draft is read whole, changed in memory and written once, atomically; the plan file and the spine are only read; no ICE is drafted (`entry.pop(\"ice\", None)`, line 121); the new slice_in_progress field is read from the spine's epics (fields slice_ref, status, issue_ref exist in the spine schema, spine.yaml epics) and uses the same status list as find_serving_slice.py (line 53)."
+  # --- New this round ---
+  - id: N4-01
+    status: new
+    basis: "review/code rubric: a check that cannot see its own exception; a declared exception names what it replaces"
+    severity: P4
+    file: core/tools/lint-components/lib/rules/structural.js
+    function: checkDmwAnchors
+    line: 195
+    artifact_type: runtime-code
+    evidence: >-
+      The exception to L-DMW-4 is a fixed set of play folder names (`DMW4_DECLARED_EXCEPTIONS = new Set(['update-plan'])`,
+      line 195; used on lines 256, 257 and 264). direct-model-write.md says the play declares its exception, but the
+      linter does not read any declaration from the play: it turns both L-DMW-4 checks off for any folder named
+      update-plan and checks nothing in their place. If /update-plan stopped checking the whole tree (plan_branch.py go)
+      or stopped committing the model with the plan file, no lint rule would notice. The test pins the name and that
+      another play still fails; it does not pin what the exception is traded for. Fix: have the play carry a short
+      machine-readable declaration the linter reads, and instead of switching the check off, require the two things
+      the rule file says replace it (the plan_branch.py go call; the commit_plan.py call).
+  - id: N4-02
+    status: new
+    basis: "review/code rubric: data safety of a script that deletes; a missing input is not an empty input"
+    severity: P4
+    file: core/components/plays/update-plan/scripts/session_files.py
+    function: guard
+    line: 93
+    artifact_type: garura-prose
+    evidence: >-
+      `rec = ps.read_json(model_record, ...) if os.path.isfile(model_record) else {}` (line 93): a model record that is
+      missing reads as a record that names no file, so the allow list is the model index alone and the guard, run
+      with --restore, puts back every other changed model path and deletes every new one. Step 8's SE-8 check reads the
+      record first, so the play stops before the guard when the record is missing; the path is reachable only if that check
+      is skipped. The pages deleted would be the session's own approved output (rerun makes them again); but it is a
+      silent default on a script that removes files. I ran nothing against the real tree; this is read from the code.
+      Fix: refuse (exit 2, nothing changed) when the record file is missing or has no `files` key, as the other session
+      scripts do for their inputs.
+  - id: N4-03
+    status: new
+    basis: "review/code rubric: one definition of a mark across scripts"
+    severity: P4
+    file: core/components/plays/shape-slice/scripts/write_hidden_file.py
+    function: ice_of
+    line: 165
+    artifact_type: garura-prose
+    evidence: >-
+      The Thin mark is now "any line that starts `Thin:`" (THIN_ANY, case-sensitive) in slice_check.py (line 71) and
+      write_hidden_file.py (line 88), and "any line that starts Thin, Thin ICE or **Thin ICE**, case-insensitive, with or
+      without a `>`" (OLD_THIN) in link_part.py (line 74) and persist_fills.py. In write_hidden_file.py (line 165) a `Thin:`
+      line anywhere in the page, not only just before the ICE, makes the part thin, which changes what the hidden file
+      says for it; slice_check.py asks for the line just before the ICE. link_part.py, when it marks a page, removes
+      every line that matches its wider pattern, wherever it is in the page. Today the pages are the scripts' own, so the
+      difference shows only on a hand-written line that starts with "Thin:". Fix: one shared pattern, and the same place
+      (just before the ICE heading) in all four scripts.
+  - id: N4-04
+    status: noted
+    basis: "review/code rubric: data safety of the plan tool and the session files"
+    severity: none
+    file: core/components/plays/update-plan/scripts/session_files.py
+    function: restore
+    line: 75
+    artifact_type: garura-prose
+    evidence: >-
+      Checked and sound: the folder must be inside the repository (line 77 refuses an absolute path or `..`); it
+      restores tracked files from HEAD (staged and worktree) and deletes only new files under that folder (git's
+      ignored files are left alone), then reads git again and reports `clean`. I ran it in a throwaway repository with
+      a changed file, a staged new file and an untracked file: all three came back to the state at HEAD, exit 0. It
+      cannot take away work from before the session, because Step 3 stops on uncommitted work outside the session's
+      own folder, and the folder it restores is not that ignored folder (`_plans/`).
+  - id: N4-05
+    status: noted
+    basis: "review/code rubric: data safety of the guard and the approval gate"
+    severity: none
+    file: core/components/plays/update-plan/scripts/record_answer.py
+    function: main
+    line: 63
+    artifact_type: garura-prose
+    evidence: "Checked and sound: verify now writes verify.json on a pass and on a fail, so a pass never stays behind a later fail (lines 63-68); its exit codes are unchanged (0 only when approved for this exact list). render_screen.py: the new `question` and `confirm` additions read only the record files and the template; every template key they use exists in plan-update.md (thin_warning, epic_line, epic_join, question, example_line, none). check_entries.py: only joins the two question lists. scoped_write_guard.py (update-plan copy) is the same file as the shape-slice copy (diff shows no difference). tracker.py and track_changes.py are unchanged."
+  - id: N4-06
+    status: noted
+    basis: "review/code rubric: the plan tool's changed paths"
+    severity: none
+    file: core/tools/plan/plan_branch.py
+    function: go / abort
+    line: 150
+    artifact_type: runtime-code
+    evidence: "Checked: the go order is fetch, uncommitted check, stay, switch, cut; the stop record names the files; abort checks uncommitted work first on both the cut and the non-cut path. The `reverted_already` match uses the full commit id of the cut (rec main_commit is `rev-parse HEAD`), so a similar short id in another message cannot match. One edge left: if someone reverts the revert on main before the second abort, it still sees the first revert and skips; the branch is then deleted while main's plan file reads In Progress again. That needs a person to revert by hand in between; noted, not a finding."
+counts_reviewed:
+  # Still open after this read (the stands and the new findings)
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 8
+fixed_from_round_3:
+  P3: 3
+  P4: 1
+partly_fixed_from_round_3:
+  P4: 1
+positive_checks:
+  - "Suites run this round, all pass: plan tool 35, update-plan 37, track-plan-changes 13, link-model-part 22, shape-slice scripts (shape-slice, hidden file, persist slice, brief, edit slice: 130, 26, 119, 34, 37 checks), linter exception test 3. ruff is clean on every changed non-test script; the two ruff findings are in test files this round did not touch for those lines."
+  - "No secrets, no shell=True, no eval, no stray debug output in the changed Python. Subprocess calls use argument lists."
+  - "The round 3 P3s (abort after a partial finish, find_marked untested, the same question shown twice) are fixed with tests."

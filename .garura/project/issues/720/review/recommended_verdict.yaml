@@ -6,7 +6,6 @@ counts:
   P1: 1
   P2: 23
   P3: 68
-  P4: 44
-  NONE: 4
+  P4: 46
 confidence: null
 threshold: 0.5
