@@ -1,6 +1,6 @@
 ---
 name: link-model-part
-description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced or its intents added; a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin). Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
+description: Put a domain, capability or feature into the product model's spine — the model's index of every part — after its page is written, for a part found during other work (#979). A new part gets its spine entry (its parent, intents, one-line, page, issue, status proposed, marked to be deepened); an existing one gets its one-line replaced, its intents added or its issue named; a slice that exists gets features added to it, at its end or after a named feature (#931 — a slice itself is shaped only by /shape-slice); a thin capability or feature gets the thin mark in both places that must agree, metadata.thin on its entry and one Thin line on its page just before its ICE (a domain carries no ICE, so it is never thin). Its script does all of it mechanically and all or nothing — an id already there, a parent not in the spine, a page not on disk or outside its folder, an intent with no page, or a path that leaves the model refuses the whole request and writes nothing; the spine keeps its comments and layout. It never writes a page's words; the page skill (enrich-grounding) writes those first. Used through product-os-keeper by any play or run that finds a part the model lacks, without running a discovery play.
 user-invocable: false
 model: sonnet
 allowed-tools: Read, Bash
@@ -18,7 +18,7 @@ capability and a feature; an intent has no spine entry of its own (the parts nam
 
 | Field | Required | Meaning |
 |-------|----------|---------|
-| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature, mode: new|update, ...}` — see the script's header for the fields of each mode. |
+| `request` | yes | `link-request.json`: `by` (the play or run that asks) and `parts`, each `{id, kind: domain|capability|feature|slice, mode: new|update, ...}` (a slice: `update` only, with `add_features` and an optional `after`) — see the script's header for the fields of each mode. |
 | `product_base` | yes | The project's product base; the model is under `<product_base>product-os/`. |
 | `out` | yes | Where to write `link-report.json`. |
 
