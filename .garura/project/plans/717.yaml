@@ -10,7 +10,7 @@ epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-30'  # #720 landed: #720, #730, #917, #931 Done; #997 filed
+updated: '2026-10-30'
 tree:
 - issue: 956
   kind: epic
@@ -59,6 +59,10 @@ tree:
       kind: story
       title: '/list-plans card heading: the title at the left edge, the direction icon on its own line, the rows at the left edge'
       status: Done  # landed on plan/717/base with PR #987, 2026-10-29
+    - issue: 1000
+      kind: story
+      title: Show the plan of the current branch when /show-plan is given no number
+      status: Not Started
   - issue: 720
     kind: feature
     title: 'Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval'
