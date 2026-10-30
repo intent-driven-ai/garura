@@ -80,11 +80,22 @@ def current_branch(repo):
 
 
 def uncommitted(repo, ignore):
-    out = git(["status", "--porcelain", "--untracked-files=all"], repo).stdout
-    files = []
-    for line in out.splitlines():
-        path = line[3:].split(" -> ")[-1].strip('"')
-        if not any(path == p.rstrip("/") or path.startswith(p.rstrip("/") + "/") for p in ignore):
+    """Every uncommitted path outside the --ignore folders, and every staged path anywhere:
+    a staged file would ride into the next commit, so no folder excuses it."""
+    out = git(["status", "--porcelain", "-z", "--untracked-files=all"], repo).stdout
+    entries = out.split("\0")
+    files, i = [], 0
+    while i < len(entries):
+        entry = entries[i]
+        i += 1
+        if len(entry) < 4:
+            continue
+        code, path = entry[:2], entry[3:]
+        if code[0] in "RC":
+            i += 1  # the rename's old path follows; the new one is what counts
+        staged = code[0] not in " ?"
+        ignored = any(path == p.rstrip("/") or path.startswith(p.rstrip("/") + "/") for p in ignore)
+        if staged or not ignored:
             files.append(path)
     return files
 
@@ -149,34 +160,53 @@ def go(args):
             git(["checkout", "--quiet", "-b", plan_branch, "--track", f"{args.remote}/{plan_branch}"], repo)
         rec["action"] = "switch"
         return rec
-    # The plan has no branch: main's plan file first, then the cut.
+    # The plan has no branch: main's plan file first, then the cut. Until main is pushed,
+    # any stop puts main back as it was and returns to the starting branch.
     path = os.path.join(args.plans_dir, f"{plan}.yaml")
-    if start != args.main:
-        git(["checkout", "--quiet", args.main], repo)
-    pull(args.main, args.remote, repo)
-    full = os.path.join(repo, path)
+    committed = False
     try:
-        with open(full, encoding="utf-8", newline="") as fh:
-            text = fh.read()
-    except OSError:
+        if start != args.main:
+            git(["checkout", "--quiet", args.main], repo)
+        pull(args.main, args.remote, repo)
+        full = os.path.join(repo, path)
+        try:
+            with open(full, encoding="utf-8", newline="") as fh:
+                text = fh.read()
+        except OSError:
+            raise Stop(f"no plan {plan} on {args.main}: {path} is missing")
+        try:
+            status = (yaml.safe_load(text) or {}).get("status")
+        except yaml.YAMLError as e:
+            raise Stop(f"the plan file {path} on {args.main} cannot be read: {str(e).splitlines()[0]}")
+        if status in CLOSED:
+            raise Stop(f"plan {plan} is {status} on {args.main}; a person sets its status before work starts again")
+        with open(full, "w", encoding="utf-8", newline="") as fh:
+            fh.write(set_fields(text, plan_branch))
+        git(["add", "--", path], repo)
+        # Only the plan file goes into this commit, whatever else is staged.
+        git(["commit", "--quiet", "-m",
+             f"chore(plan): plan {plan} — In Progress on {plan_branch} (#{plan})", "--", path], repo)
+        committed = True
+        rec["main_commit"] = git(["rev-parse", "HEAD"], repo).stdout.strip()
+        if remote:
+            git(["push", "--quiet", args.remote, args.main], repo)
+    except Stop:
+        if committed:
+            # The push of main failed: take the local commit back, keep the file as it was.
+            git(["reset", "--quiet", "--soft", "HEAD~1"], repo, check=False)
+            git(["restore", "--quiet", "--staged", "--worktree", "--", path], repo, check=False)
+        else:
+            git(["checkout", "--quiet", "--", path], repo, check=False)
         back(repo, start)
-        raise Stop(f"no plan {plan} on {args.main}: {path} is missing")
-    status = (yaml.safe_load(text) or {}).get("status")
-    if status in CLOSED:
-        back(repo, start)
-        raise Stop(f"plan {plan} is {status} on {args.main}; a person sets its status before work starts again")
-    with open(full, "w", encoding="utf-8", newline="") as fh:
-        fh.write(set_fields(text, plan_branch))
-    git(["add", path], repo)
-    git(["commit", "--quiet", "-m",
-         f"chore(plan): plan {plan} — In Progress on {plan_branch} (#{plan})"], repo)
-    rec["main_commit"] = git(["rev-parse", "HEAD"], repo).stdout.strip()
-    if remote:
-        git(["push", "--quiet", args.remote, args.main], repo)
+        raise
     git(["checkout", "--quiet", "-b", plan_branch], repo)
-    if remote:
-        git(["push", "--quiet", "-u", args.remote, plan_branch], repo)
     rec["action"] = "cut"
+    if remote:
+        pushed = git(["push", "--quiet", "-u", args.remote, plan_branch], repo, check=False)
+        if pushed.returncode != 0:
+            # Main says In Progress and the branch is cut here, but not on the remote. The
+            # record keeps the cut, so `abort` can undo it, and names what is missing.
+            rec["error"] = f"{plan_branch} is cut here but not pushed: {(pushed.stderr or '').strip()}"
     return rec
 
 
@@ -193,6 +223,8 @@ def abort(args, rec):
         raise Stop(f"{current_branch(repo)} has uncommitted work; commit or clean it first", 3, files)
     out = {"action": "abort", "plan": rec.get("plan"), "plan_branch": branch, "back_to": start,
            "reverted": None, "deleted": False}
+    if branch != f"plan/{rec.get('plan')}/base":
+        raise Stop(f"the record names {branch!r}, not plan/{rec.get('plan')}/base; nothing is undone")
     if rec.get("action") == "cut":
         cut = rec.get("main_commit")
         remote = has_remote(args.remote, repo)
@@ -206,10 +238,17 @@ def abort(args, rec):
         if current_branch(repo) != args.main:
             git(["checkout", "--quiet", args.main], repo)
         pull(args.main, args.remote, repo)
-        git(["revert", "--no-edit", cut], repo)
+        if git(["merge-base", "--is-ancestor", cut, "HEAD"], repo, check=False).returncode != 0:
+            raise Stop(f"{args.main} does not hold the cut {cut[:7]}; nothing is undone")
+        if git(["revert", "--no-edit", cut], repo, check=False).returncode != 0:
+            git(["revert", "--abort"], repo, check=False)
+            back(repo, start)
+            raise Stop(f"reverting {cut[:7]} on {args.main} clashes with later work; nothing is undone")
         out["reverted"] = git(["rev-parse", "HEAD"], repo).stdout.strip()
-        if remote:
-            git(["push", "--quiet", args.remote, args.main], repo)
+        if remote and git(["push", "--quiet", args.remote, args.main], repo, check=False).returncode != 0:
+            git(["reset", "--quiet", "--keep", "HEAD~1"], repo, check=False)
+            back(repo, start)
+            raise Stop(f"the push of {args.main} failed; the revert is taken back and nothing is undone")
         if has_ref(branch, repo):
             git(["branch", "--quiet", "-D", branch], repo)
         if remote and has_ref(f"{args.remote}/{branch}", repo):

@@ -173,6 +173,47 @@ class PlanBranchTest(unittest.TestCase):
         self.assertEqual(self.branch(), "main")
         self.assertTrue(plan_branch.has_ref("plan/50/base", self.repo))
 
+    def test_a_staged_file_stops_it_even_in_an_ignored_folder(self):
+        os.makedirs(os.path.join(self.repo, "work"))
+        self.write("work/notes.txt", "draft\n")
+        sh(["git", "add", "work/notes.txt"], self.repo)
+        code, rec = self.go("--ignore", "work/")
+        self.assertEqual((code, rec["action"], rec["files"]), (3, "stop", ["work/notes.txt"]))
+
+    def test_a_rejected_push_of_main_puts_everything_back(self):
+        hook = os.path.join(self.remote, "hooks", "pre-receive")
+        with open(hook, "w") as fh:
+            fh.write("#!/bin/sh\nexit 1\n")
+        os.chmod(hook, 0o755)
+        sh(["git", "checkout", "--quiet", "-b", "feature/9-x"], self.repo)
+        head = out(["git", "rev-parse", "main"], self.repo)
+        code, rec = self.go()
+        self.assertEqual((code, rec["action"]), (2, "stop"))
+        self.assertIn("push", rec["error"])
+        self.assertEqual(self.branch(), "feature/9-x")
+        self.assertEqual(out(["git", "rev-parse", "main"], self.repo), head)
+        self.assertEqual(out(["git", "status", "--porcelain"], self.repo), "")
+        self.assertFalse(plan_branch.has_ref("plan/50/base", self.repo))
+
+    def test_a_plan_file_that_cannot_be_read_stops_cleanly(self):
+        self.write("plans/50.yaml", "id: 50\nstatus: [unclosed\n")
+        sh(["git", "commit", "--quiet", "-am", "broken"], self.repo)
+        sh(["git", "checkout", "--quiet", "-b", "feature/9-x"], self.repo)
+        code, rec = self.go()
+        self.assertEqual((code, rec["action"]), (2, "stop"))
+        self.assertIn("cannot be read", rec["error"])
+        self.assertEqual(self.branch(), "feature/9-x")
+
+    def test_abort_refuses_a_branch_that_is_not_the_plan_s(self):
+        self.go()
+        with open(self.rec) as fh:
+            rec = json.load(fh)
+        rec["plan_branch"] = "main"
+        with open(self.rec, "w") as fh:
+            json.dump(rec, fh)
+        self.assertEqual(self.abort(), 2)
+        self.assertTrue(plan_branch.has_ref("main", self.repo))
+
     def test_back_stops_on_uncommitted_work(self):
         sh(["git", "checkout", "--quiet", "-b", "feature/9-x"], self.repo)
         self.go()
