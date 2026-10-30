@@ -1,112 +1,128 @@
-# check-change Step 3, Layer 2 - category: product-model - PR #995 (plan/717/993-page-skill-named-lines -> plan/717/base)
-# Grounded only from committed sources. Nothing the branch adds was used as a source.
+# check-change Step 3, Layer 2 - category: product-model - PR #995 (plan/717/993-page-skill-named-lines -> plan/717/base), round 2
+# Grounded only from committed or outside sources. Nothing the branch adds was used as a source.
 pr: "995"
 category: product-model
+round: 2
 base: plan/717/base
-base_sha: de25878440e8b6547d6295add5a48f62ade8cb7b
 playbook: null   # playbook missing for this category (assessor already noted); treatment taken from categories.yaml
 memory_manifest: .garura/project/issues/993/context/memory/grounding-product-model/manifest.json
 
 grounding:
   - id: G1
-    principle: "The approved #720 design is the stated source of the change. cap-720 and fn-730 must say what it says: nothing written before a plain 'approved'; works on the plan's own branch; cuts a branch only when the plan has none (main's plan file first); agreement of plan file, GitHub and model; nothing beyond the approved list changes."
-    source: "git show plan/717/base:.garura/project/issues/720/specs/design.md (committed on the base by commit c004b9ed, 'plan 717 - #720 design approved'; it is not among this branch's additions)"
+    principle: "The approved #720 design is the stated source of the pages: nothing written before a plain 'approved'; works on the plan's own branch; a branch is cut only when the plan has none, with main's plan file set first; agreement of plan file, GitHub and model; nothing beyond the approved list changes."
+    source: "git show plan/717/base:.garura/project/issues/720/specs/design.md (base commit c004b9ed). The base copy has NO pre-approval exception paragraph; the branch adds it, so the exception is grounded in G2 (the issue texts), not in the branch's design.md."
   - id: G2
-    principle: "The tracker issue texts of #720 and #730 hold the same ICE and the same one-line title that the pages and spine must carry (read only)."
-    source: "GitHub issues #720 and #730 (read only, titles and bodies)"
+    principle: "The issue texts of #720 and #730 (updated 2026-10-30, outside the branch) hold the ICE and the one-line title that the pages and spine must carry; both name the branch step as the one exception."
+    source: "GitHub issues #720 and #730, titles and bodies (read only)"
   - id: G3
-    principle: "The one-line in the spine and the titles in the plan file agree with the issue titles."
-    source: "plan/717/base:.garura/project/plans/717.yaml (base titles) against the issue titles; GitHub issues #720, #730, #994"
+    principle: "Spine one_line and the plan-file titles agree with the issue titles."
+    source: "plan/717/base:.garura/project/plans/717.yaml and base _spine.yaml against the issue titles"
   - id: G4
-    principle: "Capability page (directional stage): headings 'Directional intent' then 'Agent intent (ICE)' last; ICE lines start with Goal/Limit/Fails if/Context/Checked by/Quality need, at least one Goal, each line at least five words. Feature page: heading contract What it does / Inputs-Outputs / Rules & behavior / Acceptance criteria / Out of scope, then ICE last. Content bar: self-explaining (the why), discrete points, depth grows with tree depth."
-    source: "base-ref core/components/memory/standards/schemas/product-os/grounding/capability.md, grounding/feature.md, grounding/_content-standard.md (and the same files read through the memory tool, --issue 993, copied under grounding-product-model/)"
+    principle: "Capability page: 'Directional intent' then 'Agent intent (ICE)' last; ICE lines start with Goal/Limit/Fails if/Checked by; each at least five words. Feature page: What it does, Inputs/Outputs, Rules & behavior, Acceptance criteria, Out of scope, ICE last. Content bar: self-explaining, discrete points, depth grows down the tree."
+    source: "memory_dir copies (read through the memory tool) of standards/schemas/product-os/grounding/capability.md, feature.md, _content-standard.md; same files on plan/717/base"
   - id: G5
-    principle: "Spine entry shape: one_line is a descriptor; metadata may hold updated_by (free text); the spine is the structured map and a play-owned script changes shared files."
-    source: "memory tool: standards/schemas/product-os/spine.yaml (copied); base-ref _spine.yaml precedent: fn-729 and fn-628 carry metadata.updated_by as a change name"
+    principle: "Spine entry: one_line is a descriptor; metadata.updated_by is free text; a play-owned script changes shared files."
+    source: "memory_dir copy of standards/schemas/product-os/spine.yaml; base _spine.yaml precedent (fn-729, fn-628 carry metadata.updated_by)"
   - id: G6
-    principle: "Model pages are written for a business reader in plain words, personas not real names."
-    source: "base-ref core/components/memory/standards/schemas/product-os/ontology.md ('written for a business reader, in plain words'); the model-page rule in the product owner's saved instructions"
+    principle: "The product ICE is its own node in the ontology; Garura's own model has not moved yet (#765 not built)."
+    source: "plan/717/base:core/components/memory/standards/schemas/product-os/ontology.md (version 13); plan/717/base:docs/adr/047-the-ice-is-its-own-node.md; ADR 052. The memory-tool copy of the ontology is version 4 (stale), so the base-ref file is used."
   - id: G7
-    principle: "The product ICE is its own node (ice.md, three parts Intent/Context/Expectation) in the current ontology; Garura's own model has not moved yet (#765 not built)."
-    source: "git show plan/717/base:core/components/memory/standards/schemas/product-os/ontology.md (version 13, kind ICE and its 'Built / Not built yet' line); docs/adr/047-the-ice-is-its-own-node.md; docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md. Note: the Phoenix memory copy of the ontology the tool returned is version 4 (stale next to the repo's version 13), so G7 rests on the base-ref file, not the memory-tool copy."
-  - id: G8
-    principle: "The model changes only through a sub-agent and its skills; model writes go to the live model, a keyed script owns shared files such as the spine."
-    source: "memory tool: standards/rules/direct-model-write.md (copied); issue #993 text. Whether the change was made that way is a process fact, not visible in the diff content; the run records (model-lines/*.json) are the work-records category's."
+    principle: "Every memory write, including a working list, goes to the issue's short-term memory; the model changes only through its sub-agent and skills."
+    source: "memory_dir copy of standards/rules/direct-model-write.md; project memory rules (short-term memory is where all writes go)"
+
+resolved_from_round_1:
+  - id: F1 (round 1, P3)
+    status: resolved
+    check: "Limit and Fails if lines of cap-720 and fn-730 are character-for-character the ICE lines of issue #720 and #730 (8 of 8 lines, checked by script against the issue bodies as they stand now). Both now name the branch step (main's plan file set to In Progress with the branch named, then the cut) as the one write before approval. Every other page line and every other spine entry is kept: the page diff touches only the H1, the first body paragraph and the four ICE lines; the spine diff touches only the one_line and a new metadata.updated_by on each of the two entries; spine one_line and plan titles equal the issue titles. #720's design names the same step ('The one write before approval', and the Limit bullet)."
+    note: "The design.md paragraph is a branch addition, so it was not used as grounding; the issue texts (outside the branch) carry the same wording and ground the check."
 
 checks_passed:
-  - "cap-720 capability.md: the four ICE lines (Goal, Limit, Fails if, Checked by) are character-for-character the ICE in issue #720 and match the #720 design (checked by script, 4 of 4 lines)."
-  - "fn-730 feature.md: the four ICE lines are character-for-character the ICE in issue #730 (4 of 4); 'What it does' carries the #730 text (only the 'Functionality:' lead-in is dropped and '#909 is folded in here' is shortened to '#909 folded in')."
-  - "Only the lines the issue #993 names changed on the two pages: the H1, the directional intent / what it does, and the four ICE lines on each. The Agent intent heading, the headings, and the blank-line layout are untouched (git diff, six hunks of -4/+4 style)."
-  - "Spine: with one_line and metadata removed from the two entries, the whole spine equals the base spine (parsed and compared). The only changes are cap-720 and fn-730 one_line, and a new metadata.updated_by on each. The doc pointers and issue links are unchanged and resolve to real pages."
-  - "Spine one_line for #720 and #730 equals the issue titles and the plan 717 titles exactly (parsed and compared, folded YAML string included). The new #994 plan entry title equals the #994 issue title."
-  - "_spine.yaml parses as YAML; both pages exist at the doc paths."
-  - "No real name, no home path, no organisation name in any added line of the four product-model files and the plan file (grep)."
-  - "lint_grounding.py (discover-capabilities copy) on cap-720: ok, 0 errors, 0 warnings, same as base. Whole-model run: 74 errors / 8 warnings with the branch; the fn-730 and cap-720 lines are the same as on the base (see F4)."
-  - "No design content comes from the branch's own specs/design.md; the one design cited (#720) is on the base ref."
+  - "cap-720 and fn-730 ICE: Goal, Limit, Fails if, Checked by equal the issue texts (8 of 8)."
+  - "Pages: only the H1, the directional intent / what it does and the four ICE lines changed; headings and layout untouched."
+  - "Spine: with one_line and metadata removed from the two entries it equals the base spine; one_line equals the issue titles and plan 717 titles (new #994 plan entry equals the #994 issue title)."
+  - "No real name or home path in any added line of the four product-model files and the plan file (grep)."
+  - "design.md edit: the Limit bullet ('Nothing is written before a plain approved, except the branch step above') agrees with the new paragraph and with the issue texts; the 'Nothing is written to GitHub, the model or the plan file during the session' line stays true because the branch step is stated as the one exception right after it."
 
 findings:
   - id: F1
-    severity: P3
+    severity: P4
     file: .garura/product/product-os/capabilities/cap-720/capability.md
-    also_in: ".garura/product/product-os/features/fn-730/feature.md"
-    what: "The Limit of both pages says 'Nothing is written before a plain approved', and cap-720 'Fails if' says 'a plan is changed anywhere but on its own branch'. Yet both pages also let the play cut a missing plan branch first, and that step (main's plan file set to In Progress with the branch named, committed on main, then the cut) happens when the session starts, before any approval and on main. The sentence is absolute, and the exception is not tied to it. A builder or the compare check reading the Limit literally gets a rule the play must break to start a branch-less plan."
+    what: "Left over from round 1's F1, now small. The exception sits in the first Limit sentence and in the first 'Fails if' clause only. The next Limit sentence ('It changes a plan only on the plan's own branch') and the last Fails-if clause ('a plan is changed anywhere but on its own branch') have no exception, yet the branch step writes main's plan file on main. A literal reader of the check could call the allowed step a failure. The words equal the issue #720 text and the design says main's copy 'may be behind, and that is all', so this is a gap in the source, not the page."
     basis:
-      principle: "A Limit is a line that must not be crossed and must not contradict the play's own described behaviour (ICE contract: Limit; Fails if)."
+      principle: "A Limit and its Fails-if must not contradict the play's own described step."
       sources:
-        - "plan/717/base:.garura/project/issues/720/specs/design.md - 'Which copy of a plan counts' and 'How it starts' put the main-first commit and the cut at the start; 'The session' says nothing is written to GitHub, the model or the plan file during the session; the design is itself loose on the main-first write."
-        - "plan/717/base:core/components/memory/standards/schemas/product-os/grounding/capability.md - the ICE section is the short fixed form an agent works from."
-    note: "The pages are faithful to the approved design and to the issue texts of #720 and #730 (same wording), so the gap sits in the source. Fix belongs at the source: say that the one pre-approval write is the main-first plan-file commit and the cut, in the design, the two issues and the two pages together. Not a block for this change: it is the approved wording."
+        - "plan/717/base:.garura/project/issues/720/specs/design.md - 'Which copy of a plan counts' (main-first plan file write, then the cut) beside 'The plan's branch is the only place a plan changes'"
+        - "GitHub issue #720, Limit and Fails if (read only)"
+    note: "Not a block. If fixed, fix in #720's text and the page together."
 
   - id: F2
     severity: P4
     file: .garura/product/product-os/capabilities/cap-720/capability.md
-    what: "The new 'Directional intent' is one long run-on sentence of about 90 words with a colon list, and it says what the capability does but not why it matters. The capability template asks for what it is about, its rough scope and why it matters, and the content bar asks for discrete, self-explaining points. The base text was short and also gave no 'why', so this is not new, but the rewrite did not close it."
+    what: "Still stands. The new 'Directional intent' is one long sentence of about 90 words with a colon list; it says what the capability does but not why it matters. The base text also lacked the why, so this is not new."
     basis:
-      principle: "Content bar 1 (self-explaining, with the why) and 2 (discrete, not narrative); capability template 'Directional intent'."
+      principle: "Content bar: self-explaining with the why; discrete points; capability template 'Directional intent'."
       sources:
-        - "memory tool: standards/schemas/product-os/grounding/_content-standard.md and grounding/capability.md (copied); same files on plan/717/base"
-    note: "Wording is the issue #720 body, so the change did what was asked. Suggest the next edit of this line adds one sentence of why (plans drift when the file, the tracker and the model change apart)."
+        - "memory_dir copies of grounding/_content-standard.md and grounding/capability.md"
 
   - id: F3
     severity: P4
     file: .garura/product/product-os/features/fn-730/feature.md
-    what: "The page title uses a dash ('The /update-plan session - instructions, checks, one approval, one landing on the plan's branch') while the spine one_line, the plan 717 title and the #730 issue title use a colon. On base the page title was identical to the one_line; now it differs by one character. The check 'spine one_line matches the page title' therefore reads as a near miss. The capability page is fine (its title is the part of the one_line before the colon, as on base)."
+    what: "Still stands. The page title uses a dash after 'The /update-plan session' while the spine one_line, the plan 717 title and the #730 issue title use a colon. On base the page title equalled the one_line."
     basis:
-      principle: "Spine one_line and the page title name the same thing in the same words; links and titles in the model agree with the tracker titles."
+      principle: "The page title and the spine one_line name the same thing in the same words; titles agree with the tracker."
       sources:
-        - "plan/717/base: .garura/product/product-os/features/fn-730/feature.md (H1 equal to the spine one_line) against .garura/product/product-os/_spine.yaml"
+        - "plan/717/base: fn-730 feature.md H1 against _spine.yaml one_line"
         - "GitHub issue #730 title (read only)"
 
   - id: F4
     severity: P4
     file: .garura/product/product-os/features/fn-730/feature.md
-    what: "There before, not changed by this PR: the feature page holds only 'What it does' and the ICE. It lacks the required feature sections (Inputs / Outputs, Rules & behavior, Acceptance criteria, Out of scope), so lint_grounding.py gives 4 errors on it, the same 4 on the base file. It is also leaner than its capability page (depth gradient), and its spine entry has no thin mark (fn-729 and fn-628 carry thin: true). The PR did not make this worse."
+    what: "Still stands, there before this PR: the page holds only 'What it does' and the ICE; the required feature sections are missing (same lint errors as on base) and it carries no thin mark. The PR did not make it worse; out of scope for #993 (named lines only)."
     basis:
       principle: "A feature is the most detailed level, never leaner than its parent; the heading contract; a thin page carries the thin mark (ADR 052)."
       sources:
-        - "plan/717/base: core/components/memory/standards/schemas/product-os/grounding/feature.md and grounding/_content-standard.md"
-        - "plan/717/base: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md"
-    note: "Out of scope for #993 (it changes named lines only, by design). Belongs to #931 / the thin-page path. Listed so it is not mistaken for something this PR introduced."
+        - "plan/717/base: grounding/feature.md, grounding/_content-standard.md, docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md"
 
   - id: F5
     severity: P4
     file: .garura/product/product-os/capabilities/cap-720/capability.md
     also_in: ".garura/product/product-os/features/fn-730/feature.md"
-    what: "There before, not changed by this PR: both pages keep the ICE inline as an 'Agent intent (ICE)' section with the old labels (Goal, Limit, Fails if, Checked by). The ontology on the base (version 13) and ADR 047 make the ICE its own page with three parts. The PR follows the model as it stands (Garura's own model has not moved, #765 not built), so it conforms to the as-built state. The ICE lines it rewrites will have to move again in #765."
+    what: "Still stands, there before this PR: both pages keep the ICE inline with the old labels. The ontology (v13) and ADR 047 make the ICE its own page; the PR follows the model as built (#765 not built), so it conforms today. These lines will move again in #765."
     basis:
-      principle: "The product ICE is its own node (ontology v13, kind ICE; ADR 047); until the move, pages keep the inline section (ontology v13 'Not built yet' line)."
+      principle: "The product ICE is its own node; until the move pages keep the inline section."
       sources:
-        - "plan/717/base: core/components/memory/standards/schemas/product-os/ontology.md (version 13)"
-        - "plan/717/base: docs/adr/047-the-ice-is-its-own-node.md"
+        - "plan/717/base: ontology.md (version 13), docs/adr/047-the-ice-is-its-own-node.md"
+
+  - id: F6
+    severity: P4
+    file: .garura/product/product-os/capabilities/cap-720/capability.md
+    also_in: ".garura/product/product-os/features/fn-730/feature.md"
+    what: "New in round 2 reading. The Limit says 'Nothing is written before a plain approved', but the same pages (directional intent and #730's step 3) have the play keep a running list in the plan's short-term memory during the session, which is a write. The design scopes its line to 'GitHub, the model or the plan file'; the pages' Limit is wider. Short-term memory writes are allowed by the memory rules, so the intent is clear; the wording is loose."
+    basis:
+      principle: "A Limit should say what it forbids; the working list is a memory write the rules always allow."
+      sources:
+        - "plan/717/base:.garura/project/issues/720/specs/design.md ('Nothing is written to GitHub, the model or the plan file during the session'; 'the list stays in short-term memory')"
+        - "memory_dir copy of standards/rules/direct-model-write.md; project memory rules (all writes go to short-term memory)"
+    note: "Same wording as the issue texts. Not a block."
+
+  - id: F7
+    severity: P4
+    file: .garura/project/issues/720/specs/design.md
+    what: "The new paragraph ends with '(Found by the review of PR #995, finding F1, 2026-10-30.)'. That is a note of origin inside a design that is the source of the model pages. The way the repo keeps such history is the commit message and the issue, not the document."
+    basis:
+      principle: "History of an edit goes in the commit and the issue, not in the file; notes of origin are removed."
+      sources:
+        - "project rules: CLAUDE.md, Play Pipeline Rules and 'Installed parts' paragraph (notes of origin deleted; no change logs in generated files); product owner's saved rule that direct-edit history goes in the commit and issue"
 
 summary:
   P1: 0
   P2: 0
-  P3: 1
-  P4: 4
-  total: 5
-  verdict: "The two pages and the two spine one-lines say what the approved #720 design and the #720/#730 issue texts say; every other line, and every other spine entry, is kept. One P3 (an absolute 'Nothing is written before approved' next to the pre-approval cut of a missing plan branch, a gap in the source), four P4 notes. Nothing blocks the change."
+  P3: 0
+  P4: 7
+  total: 7
+  verdict: "The round 1 fix holds: the pages' Limit and Fails if lines equal the #720 and #730 issue texts, which name the branch step as the one write before approval, and every other line and spine entry is kept. Round 1's P3 is gone; F1 is its small remainder. Seven P4 notes (F1-F7), none blocks."
 grounding_gaps:
-  - "Playbook for the product-model category is missing; no installed tool checks the product model beyond lint_grounding.py (shape only)."
-  - "The memory-tool (Phoenix) copy of the ontology is version 4; the base-ref copy is version 13. The base-ref copy was used where they differ."
-  - "G8 (changed through product-os-keeper and the page skill, never by hand) cannot be shown by the diff content alone; the model-lines run records belong to the work-records category."
+  - "Playbook for the product-model category is missing; only lint_grounding.py checks shape."
+  - "The memory-tool copy of the ontology is version 4; the base-ref copy is version 13 and was used where they differ."
+  - "The branch step exception is not on the base-ref #720 design; it is grounded in the issue texts of 2026-10-30 (outside the branch)."
+  - "Whether the model lines were changed through the sub-agent and skill is a process fact for the work-records category, not visible in the diff."

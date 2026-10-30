@@ -1,40 +1,41 @@
-# check-change Step 3, Layer 1 - standards linter for PR #995 (plan/717/993-page-skill-named-lines -> plan/717/base)
-# Categories covered: executable-code, tests, work-records (the standards-driven ones).
+# check-change Step 3, Layer 1 - standards linter for PR #995 (plan/717/993-page-skill-named-lines -> plan/717/base), round 2
+# Categories covered: executable-code, tests, memory-copies, work-records (the standards-driven ones).
 # Taxonomy copy: .garura/project/issues/993/context/memory/standards/rules/pr.md
 pr: "995"
+round: 2
 base: plan/717/base
 diff: .garura/project/issues/993/review/pr.diff
-categories_run: [executable-code, tests, work-records]
+categories_run: [executable-code, tests, memory-copies, work-records]
 
 scanner:
-  tool: check-pr-quality (scan_taxonomy.py), run on all 40 changed paths
+  tool: check-pr-quality (scan_taxonomy.py), run on all 79 changed paths
   exit_code: 0
   counts: {P1: 0, P2: 0, P3: 0, P4: 0}
-  catchall_CODE-20: 21
+  catchall_CODE-20: 28
   errors: 0
+  scan_coverage: 1.0
   note: >
     Zero scanner findings is expected, not a clean bill. Every script in this PR sits under
     core/components/**, which the taxonomy classifies as garura-prose, so the grep rules and the
     code-only path rules are ineligible on it; every work record sits under .garura/project/**,
     classified stm-evidence, which gets no finding by rule (#851). The findings below come from
     the hand review the caller asked for (data-safety weight) and were checked by running the
-    scripts. They are not tied to a taxonomy row (the table has no row for atomic writes or
-    rollback), so severity is read from the pr.md bucket definitions: P1 blocker, P2 major,
-    P3 minor, P4 nit.
+    scripts. They are not tied to a taxonomy row (the table has no row for atomic writes,
+    rollback or line endings), so severity is read from the pr.md bucket definitions.
 
 suites:
   - name: change_lines tests
     command: python3 -m unittest discover -s core/components/skills/enrich-grounding/scripts -p "test_change_lines.py"
     result: PASS
-    evidence: "Ran 10 tests, OK"
+    evidence: "Ran 19 tests, OK (10 in round 1)"
   - name: platform adapter tests
     command: python3 core/components/plays/create-play/references/test_platform_adapter.py
     result: PASS
-    evidence: "55 passed, 0 failed (includes the new edit-issue-title argv checks for gh and glab, and VERBS == 24)"
+    evidence: "55 passed, 0 failed"
   - name: language linter
-    command: ruff check (default rules) on the changed scripts and tests
+    command: ruff check (default rules) on enrich-grounding/scripts, the three safe_write.py and the create-play platform_adapter files
     result: PASS
-    evidence: "All checks passed. The repository commits no ruff, flake8 or pyproject config, so this run used ruff defaults and is informational."
+    evidence: "All checks passed. The repository commits no ruff config, so this run used ruff defaults and is informational."
 
 identity_checks:
   platform_adapter_py:
@@ -47,117 +48,92 @@ identity_checks:
     evidence: "md5 ab8272bc06dc24d330dbc6734c7110a6 on all three (plays/shape-slice/scripts, skills/enrich-grounding/scripts, skills/link-model-part/scripts)"
   safe_write_claim_no_other_replace_or_mkstemp:
     result: PASS
-    evidence: "grep of os.replace and mkstemp across skills/link-model-part, skills/enrich-grounding and plays/shape-slice finds them only in the three safe_write.py files (plus a shape-slice test that asserts it)"
+    evidence: "os.replace / mkstemp appear in the three safe_write.py files only, among the scripts the docstring names (the other hits in core/components are other plays' own files and tests)"
+  memory_copies_match_manifests:
+    result: PASS
+    evidence: "18 copies (9 in memory/manifest.json, 8 in grounding-product-model/manifest.json, 1 in templates/manifest-check-change.json); each file's sha256 equals its manifest fingerprint; none missing. The 22 memory and template paths in the diff are these 18 copies plus the 4 manifests. grounding-harness/manifest.json lists no copies."
+
+round_1_status:
+  - {id: QF-01, was: P2, now: fixed, evidence: "probes below: a failed second-page write, a failed report write (--out a folder; --out in a read-only folder) and a lone surrogate (in new, add, old and source) each exit 2 with every page back as it was and no .tmp left; a restore that itself fails (patched, p3 write and p2 restore both failed) restores p1, names p2 as not put back, exit 2"}
+  - {id: QF-02, was: P3, now: fixed, evidence: "CRLF page: only the named lines change, added line takes the anchor's CRLF; mixed CRLF/LF/lone-CR page keeps each ending; form feed, vertical tab, NEL and U+2028 inside a line no longer split it; a last line with no ending is kept; BOM kept; mode 0640 kept"}
+  - {id: QF-03, was: P3, now: fixed in the main case, residual below (QF-03 stays at P4), evidence: "running the same {after, add} twice: second run exit 0, line added once, lines_added 0"}
+  - {id: QF-04, was: P3, now: fixed in the main, residual below (QF-12), evidence: "suite grew from 10 to 19 tests; it now covers a failed page write, a failed report write, a lone surrogate, add-after-removed, absolute path and symlink, CRLF, form feed, rerun of add, add after the last line, top-level page"}
+  - {id: QF-07, was: P4, now: fixed in substance, evidence: "the dead '_spine.yaml' branch and the doubled condition are gone; plan_page is about 45 lines and main about 45; not re-reported"}
 
 data_safety_probes:
-  # Run on a throw-away copy of a model folder in the scratchpad; nothing in the repo was touched.
-  - probe: path containment ("../outside.md", "../product-os-evil/p.md", symlink page pointing outside the folder)
+  # Run on a throw-away copy of change_lines.py and safe_write.py in the scratchpad
+  # (/private/tmp/claude-503/-Users-kapilahuja-cto-builder-garura/bf56f49e-13e8-4782-9211-aea45169adfb/scratchpad/probe/);
+  # nothing in the repo was touched.
+  - probe: failed page write (second page's folder read-only)
     result: PASS
-    evidence: "all three refused with 'leaves the model folder', exit 2, nothing written; the outside file was unchanged"
-  - probe: refusal writes nothing (line missing, line twice, line named twice, spine, Thin line, no source)
+    evidence: "exit 2, 'a write failed, every page put back'; page 1 identical to before, page 2 unchanged, no report, no .tmp left"
+  - probe: failed report write (--out is a folder; --out in a read-only folder)
     result: PASS
-    evidence: "covered by the suite, each exit 2 with pages and report absent or unchanged"
-  - probe: write stops part way after the first page was written
+    evidence: "both exit 2, 'every page put back'; both pages identical to before"
+  - probe: a restore that fails after a write fails (patched atomic_write)
+    result: PASS
+    evidence: "exit 2; p1 restored, p2 left changed and named as 'could not be put back', p3 unchanged"
+  - probe: lone surrogate in new, add, old, and in source
+    result: PASS
+    evidence: "new/add: refused 'cannot be written as UTF-8', old: 'not on the page', source: refused with the codec message; all exit 2, nothing written"
+  - probe: CRLF page, mixed endings, no final newline
+    result: PASS
+    evidence: "every untouched line byte for byte; added lines take the anchor's ending; an anchor with no ending gets one and the new last line has none"
+  - probe: form feed, vertical tab, NEL, U+2028 inside untouched lines
+    result: PASS
+    evidence: "page identical to before except the named line; a line holding a form feed can itself be named"
+  - probe: rerun of {after, add}
+    result: PASS
+    evidence: "second run exit 0, page unchanged, lines_added 0"
+  - probe: same add listed twice in one request
     result: FAIL
-    evidence: "see QF-01"
-  - probe: lines the request does not name stay word for word
+    evidence: "line added twice (see QF-03)"
+  - probe: add whose text equals the old text of the replaced or removed line right below its anchor
     result: FAIL
-    evidence: "see QF-02"
-  - probe: the same request run twice
-    result: PARTIAL
-    evidence: "old/new refuses the second time (safe); after/add adds the line a second time (QF-03)"
+    evidence: "see QF-08"
+  - probe: symlinked page pointing outside, symlinked folder pointing outside, absolute path, '..' path, sibling folder 'product-os-evil'
+    result: PASS
+    evidence: "all refused 'leaves the model folder', exit 2, outside files unchanged"
+  - probe: symlink page pointing at another page inside the folder
+    result: PASS
+    evidence: "target page written, the link itself left a link"
+  - probe: same page named twice by two spellings (a/p1.md and a/./p1.md)
+    result: PASS
+    evidence: "refused 'a page is named twice'"
+  - probe: malformed requests (list, str pages, int page entry, str changes, non-dict change, int old/page, NUL in path, directory as page, empty pages, bad JSON, missing request)
+    result: PASS
+    evidence: "all exit 2 with a plain message, no traceback"
+  - probe: non-UTF-8 page; page with BOM
+    result: PASS
+    evidence: "non-UTF-8 refused exit 2; BOM page changed and BOM kept"
 
 work_records:
   json_parse:
     result: PASS
-    evidence: "every .json among the 19 work-record paths parses; _spine.yaml and 717.yaml also parse"
-  plan_statuses:
+    evidence: "all 19 .json files in the diff parse"
+  yaml_parse:
     result: PASS
-    evidence: "every status in .garura/project/plans/717.yaml is one of Not Started, In Progress, Done, Dropped (none outside the allowed set); the new #994 entry is Not Started"
+    evidence: "every .yaml/.yml file in the diff parses, including _spine.yaml and plans/717.yaml"
   home_path_and_real_name:
     result: PASS
-    evidence: "grep of every added line in pr.diff for a home-folder path, the owner's names and e-mail shapes finds nothing; model pages say 'the product owner'"
-  plan_titles_match_spine_one_lines:
-    result: PASS
-    evidence: "#720 and #730: the plan title equals the spine one_line character for character. Other spine/plan pairs that differ (#718, #728, #806, #673) are not in this PR's diff: there before."
+    evidence: "grep of every added line of pr.diff for /Users/, /home/, C:\\Users, the owner's names and e-mail finds none. The only home-style hits are '~/.phoenix/core/memory/...' written with a tilde in self-review.md and resolved-rules.json (allowed form)."
   claude_attribution_lines:
     result: PASS
-    evidence: "no 'Generated with' or 'Co-Authored-By' line in any added line of the diff"
+    evidence: "the one 'Generated with' / 'Co-Authored-By' hit is the round 1 report quoting the pattern it checked for, not an attribution line"
 
 findings:
-  - id: QF-01
-    severity: P2
-    file: core/components/skills/enrich-grounding/scripts/change_lines.py
-    line: "161-173"
-    standard_id: null
-    what: >
-      The all-or-nothing promise has holes. Only OSError is caught in the write loop, so any other
-      failure on page 2 leaves page 1 already changed with a traceback and exit 1 (the module says
-      exit 0 or 2 and 'any failure ... writes nothing'). Run: a request whose second page carries a
-      lone surrogate (valid in JSON, passes text_line) raised UnicodeEncodeError; the first page
-      stayed changed, not put back. Two sibling holes: the final report write (line 173) is outside
-      the try, so a failing --out path leaves every page changed with no report (run: --out was a
-      folder; pages changed, IsADirectoryError, exit 1); and the put-back loop (lines 167-168) is
-      itself unguarded, so one failed restore stops the loop and leaves the later pages changed.
-    basis: >
-      Data-safety weight for this file; PR-severity bucket P2 (partial write state on a model page,
-      narrow trigger, recoverable from git). The module docstring (lines 31-34) and the SKILL.md
-      promise exit 0 or 2 and no partial change. Not P1: no silent loss, the run exits non-zero.
-    suggested_fix: >
-      Encode every after_text to utf-8 in the planning pass (so a bad character refuses before any
-      write); catch Exception, not only OSError, around the write loop; put the report write inside
-      the same guard (or write it first to a temp name); guard each restore and keep going.
-    disposition: confirmed
-
-  - id: QF-02
-    severity: P3
-    file: core/components/skills/enrich-grounding/scripts/change_lines.py
-    line: "94, 129"
-    standard_id: null
-    what: >
-      'Keeps every other line word for word' is not true for some pages. The page is read with
-      universal newlines and split with str.splitlines(), then joined with "\n". Run: a page with CRLF
-      endings came back entirely LF (every untouched line changed); a line holding U+2028 was split
-      in two; a line holding a form feed was split, which also made an unrelated 'old' line look
-      like it was on the page twice (a false refusal). The put-back after a failed write is not
-      byte-exact for the same reason. text_line rejects "\n" but not "\r", so a new line holding
-      "\r" would be written and read back as two lines.
-    basis: >
-      Rubric: deterministic where it claims to be, safe destructive operations. P3: model pages are
-      LF markdown today, so the trigger is rare; the guarantee is the script's headline promise.
-    suggested_fix: >
-      Read with newline='' and split on "\n" only (keep the line endings), reject any control or
-      line-separator character in old, new, after and add.
-    disposition: confirmed
-
   - id: QF-03
-    severity: P3
+    severity: P4
     file: core/components/skills/enrich-grounding/scripts/change_lines.py
-    line: "110-115"
+    line: "113-118, 153-156"
     standard_id: null
     what: >
-      An {after, add} change is not idempotent. Run: the same request sent twice put the added line
-      on the page twice. {old, new} is safe (the second run refuses because 'old' is gone), so a
-      retried run after a lost report adds duplicates only for additions. The same request listing
-      one add twice also adds it twice; nothing refuses.
-    basis: "Rubric: idempotency on destructive/write paths (called out in the category). P3: caller can avoid it; no data is lost."
-    suggested_fix: "Refuse an add whose text is already the line directly below the anchor, and refuse a repeated identical add."
-    disposition: confirmed
-
-  - id: QF-04
-    severity: P3
-    file: core/components/skills/enrich-grounding/scripts/test_change_lines.py
-    line: "78-168"
-    standard_id: null
-    what: >
-      The ten tests pass and assert real outcomes, but the branches the script advertises as its
-      safety net have no test: the put-back when a write fails part way (change_lines.py 166-170, the
-      branch QF-01 shows is incomplete), the refusal 'a line is added after a line that is removed'
-      (118-120), an absolute path and a symlinked page, a CRLF page, and a second run of an
-      {after, add} change. test_a_line_on_the_page_twice_is_refused does not assert the page stayed
-      unchanged. A passing suite says nothing about the rollback.
-    basis: "pr.md TEST-* intent (new behaviour is covered, tests assert the outcome); no TEST row's match rule fires on this path, so this is a review-rubric finding. P3: highlights, does not block."
-    suggested_fix: "Add a test that makes the second page's write fail and asserts the first page is back as it was; add the missing refusals."
+      Round 1's QF-03 stands only in part. A rerun of the same request is now safe. Still open:
+      one request that lists the same {after, add} twice adds the line twice (run: A / B request with
+      two identical adds put the line on the page two times). The idempotence check looks only at the
+      lines already on the page, not at the other adds of the same request.
+    basis: "Rubric: idempotency on write paths. Down from P3 to P4: the retry case is fixed; this needs a request with a repeated entry, which the agent writes."
+    suggested_fix: "Refuse a repeated identical {after, add} in read_changes, as a line named twice is refused."
     disposition: confirmed
 
   - id: QF-05
@@ -166,11 +142,11 @@ findings:
     line: "21-44 (same text in all three copies)"
     standard_id: null
     what: >
-      atomic_write does not fsync the temp file before os.replace, so the 'old file whole or new one
-      whole' promise holds for a process that stops but not for a power cut (the new name can point
-      at an empty file). _mode_for reads the umask by setting it to 0 and back, which is not safe if
-      another thread runs. Owner and group of the replaced file are not kept. The module says it
-      keeps 'the permissions' only, so none of this contradicts it.
+      Stands as in round 1. atomic_write does not fsync the temp file before os.replace, so 'old file
+      whole or new one whole' holds for a stopped process but not for a power cut. _mode_for reads the
+      umask by setting it to 0 and back, which is not safe if another thread runs. Owner and group of
+      the replaced file are not kept. The module says it keeps 'the permissions' only, so none of it
+      contradicts the text.
     basis: "Rubric: safe destructive operations; P4 nit: the files are git-tracked and the claim is about permissions only."
     disposition: confirmed
 
@@ -180,24 +156,83 @@ findings:
     line: null
     standard_id: null
     what: >
-      Seven platform_adapter.py copies and three safe_write.py copies are kept equal by hand. They
-      are byte-identical now (md5 checked), but no test or linter in core/tools compares them, so the
-      next one-copy edit would drift silently. create-play stamps platform_adapter.py from
-      references/ at build time; safe_write.py has no such stamp.
+      Stands as in round 1. Seven platform_adapter.py copies and three safe_write.py copies are kept
+      equal by hand. Byte-identical now (md5 checked), but no test or linter in core/tools compares
+      them, so the next one-copy edit would drift silently.
     basis: "Category treatment: 'check they stay identical'. P4: identical today; a guard is a nice-to-have."
     disposition: confirmed
 
-  - id: QF-07
+  - id: QF-08
     severity: P4
     file: core/components/skills/enrich-grounding/scripts/change_lines.py
-    line: "80-133, 85"
+    line: "153-156"
     standard_id: null
     what: >
-      plan_page is about 55 lines with a branch chain that does planning, validation and rendering in
-      one function; the 'basename == _spine.yaml' test on line 85 can never be true after the
-      '.md' test on the same line, so it is dead code. The ' "name" and set(change) <= {...} and "new"
-      in change' condition on line 99 reads as a double check of the same thing.
-    basis: "Rubric: function size. Matches the intent of CODE-10 (P3) but no row fires; set to P4 as style."
+      The 'already there, do not add again' test compares the add with the OLD text of the line just
+      below the anchor, even when that line is replaced or removed in the same request. Run: page
+      A / B / C with {old B, new Z} and {after A, add B} came out A / Z / C; the requested B was not
+      added, the exit was 0 and the report still lists the change. A requested line is dropped without
+      a word. Needs a request where the added text equals a line that the same request replaces.
+    basis: "Rubric: deterministic where it claims to be; a silent skip against 'changes exactly the lines the request names'. P4: contrived trigger, nothing lost from the page."
+    suggested_fix: "Compare against the lines as they will be after the replace and remove (the new text), or refuse the combination."
+    disposition: confirmed
+
+  - id: QF-09
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/safe_write.py
+    line: "37"
+    standard_id: null
+    what: >
+      The temp file is opened in text mode with the default newline handling (os.fdopen(fd, "w",
+      encoding="utf-8")). On Windows every "\n" is written as "\r\n", so a CRLF page that
+      change_lines.py keeps byte for byte would come out with "\r\r\n". On macOS and Linux (where this
+      was run) nothing changes, so the line-ending promise holds there only. Same text in all three
+      copies.
+    basis: "Python's open() newline rules; rubric: deterministic where it claims to be. P4: the project runs on macOS and Linux today; not run on Windows."
+    suggested_fix: "Open with newline='' in atomic_write (all three copies together)."
+    disposition: confirmed
+
+  - id: QF-10
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/change_lines.py
+    line: "82-87"
+    standard_id: null
+    what: >
+      text_line rejects "\n" and "\r" but takes other control and line-separator characters in a new
+      or added line: run, a new line holding NUL, form feed and U+2028 was written to the page. The
+      script reads back consistently, but a reader that splits with Python's str.splitlines() would
+      see two lines, and a NUL in a markdown page is never wanted.
+    basis: "Round 1 suggested rejecting control and line-separator characters (QF-02); only CR/LF were taken. Rubric: safe input handling. P4: the writer is an agent; no loss."
+    suggested_fix: "Refuse any character in the Unicode categories Cc (except tab) and Zl/Zp in old, new, after and add."
+    disposition: confirmed
+
+  - id: QF-11
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/change_lines.py
+    line: "221"
+    standard_id: null
+    what: >
+      The write loop catches Exception, not BaseException. A Ctrl-C or SIGTERM while the second of
+      several pages is being written leaves the first page changed and not put back, against the
+      header's 'any failure puts every page back'. (Not run; read from the code. Each single page is
+      still whole because atomic_write removes its temp file on BaseException.)
+    basis: "Rubric: safe destructive operations. P4: needs a signal in a window of milliseconds; recoverable from git."
+    suggested_fix: "Catch BaseException around the loop, put back, then re-raise."
+    disposition: confirmed
+
+  - id: QF-12
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/test_change_lines.py
+    line: "119-153"
+    standard_id: null
+    what: >
+      Two gaps left in a much better suite. (1) The two write-failure tests make the write fail with
+      chmod 0o500; a process running as root (many CI containers) can still write, so both tests would
+      fail there for a reason that is not a bug. (2) No test for a restore that fails and is named
+      ('could not be put back'), for the same add listed twice (QF-03), or for an add equal to a
+      replaced line (QF-08).
+    basis: "pr.md TEST-* intent (tests cover the branches that carry the promise, are stable where they run). No TEST row's match rule fires on this path. P4."
+    suggested_fix: "Make the write fail by patching safe_write.atomic_write in-process instead of by file mode; add the three missing cases."
     disposition: confirmed
 
 dismissed:
@@ -205,24 +240,36 @@ dismissed:
     severity: P4
     file: core/components/plays/*/scripts/platform_adapter.py
     what: "Possible hits considered by hand: argv lists for gh and glab (injection), os.environ/secret words (SEC-19, SEC-23)."
-    basis: "edit-issue-title builds the title as one argv element (no shell), and the new test asserts a title with $(x) and quotes stays literal. No secret, token or environment read among the added lines."
+    basis: "edit-issue-title builds the title as one argv element (no shell); the new test asserts a title with $(x) and quotes stays literal. No secret, token or environment read among the added lines."
     disposition: "dismissed: no injection or secret; the added gh/glab commands pass the title as a single argument"
   - id: PRINT-STDERR
     severity: P4
     file: core/components/skills/enrich-grounding/scripts/change_lines.py
-    line: "159, 169"
-    what: "Two print() calls matched the debug-output pattern (OPS-09 style)."
-    basis: "Both write the refusal message to stderr, which is the script's documented way to say why it exited 2; not stray debug."
+    line: "212, 224, 227"
+    what: "print() calls matched the debug-output pattern (OPS-09 style)."
+    basis: "All three write the refusal or failure message to stderr, the script's documented way to say why it exited 2; not stray debug."
     disposition: "dismissed: intended error output to stderr"
+  - id: HOME-TILDE
+    severity: P4
+    file: .garura/project/issues/993/context/{self-review.md, resolved-rules.json}
+    what: "Home-style path hits '~/.phoenix/core/memory/standards/rules/self-review.md'."
+    basis: "Written with a tilde, which is the allowed form; not an absolute home path and no name."
+    disposition: "dismissed: tilde path, not a home folder or a name"
+  - id: ATTRIBUTION-TEXT
+    severity: P4
+    file: .garura/project/issues/993/review/run-1/quality-findings.yaml
+    what: "The words 'Generated with' and 'Co-Authored-By' appear in an added line."
+    basis: "The round 1 report quotes the pattern it searched for; it is not an attribution line."
+    disposition: "dismissed: a record naming the check, not an attribution"
 
 counts:
   P1: 0
-  P2: 1
-  P3: 3
-  P4: 3
-dismissed_count: 2
+  P2: 0
+  P3: 0
+  P4: 8
+dismissed_count: 4
 
 notes:
   - "Not run: lint-components and lint-play (they belong to the harness category, a different layer)."
-  - "Observed, not a finding: the #993 and #994 plan entries are still Not Started while their PR is open; closing them is for the last commit before merge."
-  - "Observed, not a finding (product-model category): the fn-730 page heading uses an em dash where its spine one_line uses a colon."
+  - "Round 1's QF-01, QF-02 and QF-07 are fixed, QF-03 and QF-04 fixed in the main case with a small residual (QF-03, QF-12); QF-05 and QF-06 stand unchanged."
+  - "The uncommitted state of review/ (categories.yaml, context.yaml, lint-components.json, pr.diff, design-findings-design-spec.yaml) belongs to round 2 of check-change; nothing was edited by this run except this file."
