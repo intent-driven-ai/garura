@@ -1,0 +1,3 @@
+R  .garura/project/issues/720/context/commit-change/analysis.yaml -> .garura/project/issues/720/context/analysis.yaml
+R  .garura/project/issues/720/context/commit-change/commits.yaml -> .garura/project/issues/720/context/commits.yaml
+R  .garura/project/issues/720/context/commit-change/porcelain.txt -> .garura/project/issues/720/context/porcelain.txt

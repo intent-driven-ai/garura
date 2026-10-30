@@ -1,0 +1,23 @@
+needs_judgment: false
+change_groups:
+- id: group-1
+  issue: 720
+  concern: single-directory chore change
+  commit_type: chore
+  scope: stm
+  subject: move this run's commit-change records into the play's working folder
+  subject_source: script-draft
+  files:
+  - .garura/project/issues/720/context/analysis.yaml
+  - .garura/project/issues/720/context/commits.yaml
+  - .garura/project/issues/720/context/porcelain.txt
+exclusions: []
+risks:
+  sensitive_files: []
+eval_gates:
+  SE-1:
+    status: PASS
+    evidence: one script-classified group, one directory, one concern
+  SE-5:
+    status: PASS
+    evidence: no sensitive patterns matched
