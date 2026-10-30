@@ -214,6 +214,31 @@ class PlanBranchTest(unittest.TestCase):
         self.assertEqual(self.abort(), 2)
         self.assertTrue(plan_branch.has_ref("main", self.repo))
 
+    def test_uncommitted_work_stops_it_on_the_plan_branch_too(self):
+        self.go()
+        self.write("notes.txt", "draft\n")
+        code, rec = self.go()
+        self.assertEqual((code, rec["action"], rec["files"]), (3, "stop", ["notes.txt"]))
+        self.assertEqual(self.branch(), "plan/50/base")
+
+    def test_a_second_abort_finishes_after_a_refused_delete(self):
+        sh(["git", "checkout", "--quiet", "-b", "feature/9-x"], self.repo)
+        self.go()
+        hook = os.path.join(self.remote, "hooks", "pre-receive")
+        with open(hook, "w") as fh:  # the host refuses only the branch delete
+            fh.write("#!/bin/sh\nwhile read old new ref; do\n"
+                     "  case \"$new\" in 0000000000000000000000000000000000000000) exit 1;; esac\ndone\n")
+        os.chmod(hook, 0o755)
+        self.assertEqual(self.abort(), 2)
+        self.assertEqual(self.branch(), "feature/9-x")                     # back where it started
+        main_after_first = out(["git", "rev-parse", "origin/main"], self.repo)
+        os.remove(hook)
+        self.assertEqual(self.abort(), 0)
+        self.assertEqual(out(["git", "rev-parse", "origin/main"], self.repo), main_after_first)  # no second revert
+        self.assertFalse(plan_branch.has_ref("origin/plan/50/base", self.repo))
+        self.assertEqual(out(["git", "show", "origin/main:plans/50.yaml"], self.repo), PLAN.rstrip("\n"))
+        self.assertEqual(self.branch(), "feature/9-x")
+
     def test_back_stops_on_uncommitted_work(self):
         sh(["git", "checkout", "--quiet", "-b", "feature/9-x"], self.repo)
         self.go()

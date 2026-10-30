@@ -12,10 +12,12 @@ moves a session onto the plan's branch, and back again at the end:
     python3 plan_branch.py abort --record <record.json> [--repo R] [--remote origin] [--main main]
                                  [--ignore PREFIX ...]
 
-`go`:
-  - on the plan's branch already: it stays (and takes the remote's new commits, fast-forward only);
-  - else, when anything is uncommitted (a changed, staged or new file outside the --ignore
-    folders): it stops, names the files and changes nothing (exit 3). The person cleans up;
+`go`, on every path, the plan's own branch included (ADR 062):
+  - when anything is uncommitted (a changed, staged or new file outside the --ignore folders; a
+    staged file always counts): it stops, names the files and changes nothing (exit 3). The
+    person cleans up;
+  - else, on the plan's branch already: it stays (and takes the remote's new commits, fast-forward
+    only);
   - else, when the plan's branch exists (here or on the remote): it switches to it;
   - else (the plan has no branch): it switches to main, takes the remote's new commits, sets main's
     plan file to `status: In Progress` and `branch: plan/<id>/base` (every other line stays as it
@@ -30,8 +32,10 @@ branch. Uncommitted work outside the --ignore folders stops it (exit 3).
 `abort` undoes what `go` did, then goes back. When `go` cut the plan's branch, it checks that
 the branch holds nothing but main's commit (here and on the remote) — else it stops and names
 the commits (exit 3) — then reverts that commit on main (main's plan file is back as it was),
-pushes main, and deletes the branch here and on the remote. When `go` stayed or switched, the
-plan's branch is left as it is. Uncommitted work outside the --ignore folders stops it (exit 3).
+pushes main, and deletes the branch here and on the remote. Every stop goes back to the starting
+branch. When a delete is refused after the revert is pushed, it stops and says so; run abort again
+and it finds main's revert of the cut, skips the revert and only deletes. When `go` stayed or
+switched, the plan's branch is left as it is. Uncommitted work outside the --ignore folders stops it (exit 3).
 
 The record: {action: stay|switch|cut|stop|back|abort, plan, plan_branch, start_branch, back_to,
 main_commit, files, error}. Exit 0 done; 2 bad input or a git step failed (the error is named);
@@ -144,13 +148,13 @@ def go(args):
     remote = has_remote(args.remote, repo)
     if remote:
         git(["fetch", "--quiet", args.remote], repo)
+    files = uncommitted(repo, args.ignore)
+    if files:
+        raise Stop(f"{start} has uncommitted work; commit or clean it, then run again", 3, files)
     if start == plan_branch:
         pull(plan_branch, args.remote, repo)
         rec["action"] = "stay"
         return rec
-    files = uncommitted(repo, args.ignore)
-    if files:
-        raise Stop(f"{start} has uncommitted work; commit or clean it, then run again", 3, files)
     rec["back_to"] = start
     if has_ref(plan_branch, repo) or (remote and has_ref(f"{args.remote}/{plan_branch}", repo)):
         if has_ref(plan_branch, repo):
@@ -240,22 +244,42 @@ def abort(args, rec):
         pull(args.main, args.remote, repo)
         if git(["merge-base", "--is-ancestor", cut, "HEAD"], repo, check=False).returncode != 0:
             raise Stop(f"{args.main} does not hold the cut {cut[:7]}; nothing is undone")
-        if git(["revert", "--no-edit", cut], repo, check=False).returncode != 0:
-            git(["revert", "--abort"], repo, check=False)
-            back(repo, start)
-            raise Stop(f"reverting {cut[:7]} on {args.main} clashes with later work; nothing is undone")
-        out["reverted"] = git(["rev-parse", "HEAD"], repo).stdout.strip()
-        if remote and git(["push", "--quiet", args.remote, args.main], repo, check=False).returncode != 0:
-            git(["reset", "--quiet", "--keep", "HEAD~1"], repo, check=False)
-            back(repo, start)
-            raise Stop(f"the push of {args.main} failed; the revert is taken back and nothing is undone")
-        if has_ref(branch, repo):
-            git(["branch", "--quiet", "-D", branch], repo)
+        done = reverted_already(cut, repo)
+        if done:  # an earlier abort reverted the cut and stopped before the delete
+            out["reverted"] = done
+        else:
+            if git(["revert", "--no-edit", cut], repo, check=False).returncode != 0:
+                git(["revert", "--abort"], repo, check=False)
+                back(repo, start)
+                raise Stop(f"reverting {cut[:7]} on {args.main} clashes with later work; nothing is undone")
+            out["reverted"] = git(["rev-parse", "HEAD"], repo).stdout.strip()
+            if remote and git(["push", "--quiet", args.remote, args.main], repo, check=False).returncode != 0:
+                git(["reset", "--quiet", "--keep", "HEAD~1"], repo, check=False)
+                back(repo, start)
+                raise Stop(f"the push of {args.main} failed; the revert is taken back and nothing is undone")
+        refused = []
+        if has_ref(branch, repo) and git(["branch", "--quiet", "-D", branch], repo, check=False).returncode != 0:
+            refused.append(branch)
         if remote and has_ref(f"{args.remote}/{branch}", repo):
-            git(["push", "--quiet", args.remote, "--delete", branch], repo)
+            if git(["push", "--quiet", args.remote, "--delete", branch], repo, check=False).returncode != 0:
+                refused.append(f"{args.remote}/{branch}")
+        if refused:
+            back(repo, start)
+            raise Stop(f"main's plan file is put back (commit {out['reverted'][:7]}), but deleting "
+                       f"{' and '.join(refused)} was refused; run abort again to finish", 2)
         out["deleted"] = True
     back(repo, start)
     return out
+
+
+def reverted_already(cut, repo):
+    """The commit on HEAD's history after the cut that reverts it, when one is there."""
+    log = git(["log", "--format=%H%x00%B%x01", f"{cut}..HEAD"], repo, check=False).stdout
+    for row in log.split("\x01"):
+        sha, _, body = row.strip().partition("\x00")
+        if sha and f"This reverts commit {cut}" in body:
+            return sha
+    return None
 
 
 def write(path, rec):

@@ -51,11 +51,13 @@ touches it and offers the right kind or parent, and never changes it unasked.
     python3 plan_branch.py back  --record <record.json> [--ignore <folder>]
     python3 plan_branch.py abort --record <record.json> [--ignore <folder>]
 
-The one way a play gets onto a plan's branch: it stays there, stops on uncommitted work (naming
-the files), switches, or — for a plan with no branch — sets main's plan file to In Progress with
+The one way a play gets onto a plan's branch. First, on every path (the plan's own branch
+included), uncommitted work stops it and names the files (ADR 062). Then it stays on the plan's
+branch, switches to it, or — for a plan with no branch — sets main's plan file to In Progress with
 the branch named, commits that on main, and cuts the branch from it. `back` returns to the branch
 the session started on. `abort` undoes a branch the session cut (deletes it, and reverts main's
-plan file commit) when nothing else has landed on it, then goes back. Used by `/update-plan` (#730), and by `start-change` once #989 is built.
+plan file commit) when nothing else has landed on it, then goes back; a second `abort` finishes
+one that stopped after the revert (a refused delete). Used by `/update-plan` (#730), and by `start-change` once #989 is built.
 
 An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
 users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`.
