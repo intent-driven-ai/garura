@@ -1,12 +1,20 @@
 commits:
-  - sha: 885eb4a8
-    message: "chore(stm): record propose-change run artifacts (#720)"
+  - sha: 39f52b8f
+    message: "fix(update-plan): read the story-naming model record and the main model record as one, and refuse a missing record (#720)"
+    files:
+      - core/components/plays/update-plan/SKILL.md
+      - core/components/plays/update-plan/scripts/check_agreement.py
+      - core/components/plays/update-plan/scripts/commit_plan.py
+      - core/components/plays/update-plan/scripts/plan_session.py
+      - core/components/plays/update-plan/scripts/session_files.py
+      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+    branch: plan/717/720-update-plan
+  - sha: 62d69461
+    message: "chore(stm): record check-change run artifacts (#720)"
     files:
       - .garura/project/issues/720/context/analysis.yaml
-      - .garura/project/issues/720/context/check-self-review-exit.txt
       - .garura/project/issues/720/context/porcelain.txt
-      - .garura/project/issues/720/context/pr-body.md
-      - .garura/project/issues/720/context/self-review.md
+      - .garura/project/issues/720/context/templates/manifest-check-change.json
     branch: plan/717/720-update-plan
 excluded_files:
   []
