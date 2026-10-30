@@ -192,6 +192,8 @@ function checkAgent(component) {
  * fails the plays that have not yet been migrated. This is the converge-and-lint layer the
  * contract describes, mirroring the Standard Play Close anchors.
  */
+const DMW4_DECLARED_EXCEPTIONS = new Set(['update-plan']);
+
 function checkDmwAnchors(component, body) {
   const violations = [];
   const playDir = path.dirname(component.file);
@@ -248,14 +250,18 @@ function checkDmwAnchors(component, body) {
   }
 
   // L-DMW-4: clean product-os tree asserted at pre-flight AND a model-delta commit at close.
-  if (!/git status --porcelain[^\n]*product-os/.test(body)) {
+  // Not a finding for a declared exception (direct-model-write.md): /update-plan checks the
+  // whole tree when it gets onto the plan's branch (plan_branch.py go) and commits its model
+  // change in the session's one commit, with the plan file (ADR 062).
+  const dmw4Exception = DMW4_DECLARED_EXCEPTIONS.has(path.basename(playDir));
+  if (!dmw4Exception && !/git status --porcelain[^\n]*product-os/.test(body)) {
     push(
       'structural/dmw-no-clean-tree-assert',
       'L-DMW-4: direct-model-write play must assert a clean product-os tree at pre-flight ' +
         '(git status --porcelain -- <product_base>product-os). See direct-model-write.md step 7.'
     );
   }
-  if (!/feat\(model\)/.test(body)) {
+  if (!dmw4Exception && !/feat\(model\)/.test(body)) {
     push(
       'structural/dmw-no-model-commit',
       'L-DMW-4: direct-model-write play must commit its own model delta at close ' +
@@ -679,4 +685,4 @@ function check(components) {
   return violations;
 }
 
-module.exports = { check, checkSkill };
+module.exports = { check, checkSkill, checkDmwAnchors };

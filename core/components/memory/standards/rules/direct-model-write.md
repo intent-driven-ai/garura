@@ -145,6 +145,16 @@ outside the product model (`docs/adr/`), its containment check is its own `check
 over the whole repository, not the shared scoped-write guard; run by hand it starts from a clean
 record tree (`docs/adr/` and `product-os/`).
 
+**Declared exception — `/update-plan` (ADR 062).** A session lands nothing before the person
+types the plain word "approved" for the whole list, so `/update-plan` writes the model only after
+that word, and only the parts the list names (a new feature's page, its spine entry, its place in
+a slice). A "rejected" or an "abort" writes nothing in the model, so there is nothing to revert.
+Its containment still holds: uncommitted work anywhere stops the session when it gets onto the
+plan's branch (`plan_branch.py go`, on every path, the plan's own branch included), and the
+shared scoped-write guard runs once, after the last model write and before the commit, and puts
+back any model path outside the session's parts. The model change is committed in the session's
+one commit on the plan's branch, with the plan file, not in a separate `feat(model)` commit.
+
 ## The shared scoped-write guard
 
 Canonical script: `create-play/references/scoped_write_guard.py`, stamped into each
@@ -229,7 +239,9 @@ pattern cannot survive a rebuild or a hand edit:
   checkpoint step does not run the guard before the gate and a restore on cancel.
 - L-DMW-4: the play does not assert a clean product-os tree at pre-flight, or has no
   model-delta commit at close. Not a finding: the play skips both only when it runs with a
-  loop contract — the loop checks the tree and commits the round (ADR 043).
+  loop contract — the loop checks the tree and commits the round (ADR 043); and `/update-plan`,
+  whose clean check covers the whole tree and whose model change rides in the session's one
+  commit (ADR 062).
 - L-DMW-5: the play's enrichment/build skill is described as writing a shared model file
   (`_spine.yaml`, `profile.yaml`, `decisions/`) — shared files are written only by the
   play's deterministic keyed script. Not a finding: `link-model-gaps`' script
