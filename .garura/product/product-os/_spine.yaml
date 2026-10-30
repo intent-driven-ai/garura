@@ -582,6 +582,24 @@ features:
     deepen: true
     thin: true
     updated_by: /show-plan and /list-plans change (#719)
+- id: fn-931
+  slug: fn-931
+  capability: cap-720
+  intents:
+  - bi-717
+  status: proposed
+  one_line: A person names a feature found while a plan is in progress, and on approval
+    it joins the product model, its slice and its epic together with the plan file
+    and GitHub.
+  doc: features/fn-931/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  issue: 931
+  metadata:
+    created_by: '/update-plan (plan 717, the approved session''s new feature, #931)'
+    deepen: true
+    thin: true
 profile:
   state: set
   nfr:

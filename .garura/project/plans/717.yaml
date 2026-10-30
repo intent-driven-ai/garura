@@ -10,7 +10,7 @@ epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-29'  # plan started again
+updated: '2026-10-30'
 tree:
 - issue: 956
   kind: epic
@@ -62,12 +62,12 @@ tree:
   - issue: 720
     kind: feature
     title: 'Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval'
-    status: Not Started
+    status: In Progress
     children:
     - issue: 730
       kind: story
       title: 'The /update-plan session: instructions, checks, one approval, one landing on the plan''s branch'
-      status: Not Started  # build order 1 under #720 (with #917), planned 2026-10-30
+      status: In Progress
       children:
       - issue: 917
         kind: chore
@@ -81,6 +81,7 @@ tree:
       kind: story
       title: /update-plan adds a new feature found while a plan is in progress to the model, its slice and its epic
       status: Not Started  # moved from #718 on 2026-10-29: not /shape-plan; build order 2 under #720, after #730
+      represents: fn-931
     - issue: 993
       kind: story
       title: The model's page skill changes the lines a request names on any model page, not only on intent pages
