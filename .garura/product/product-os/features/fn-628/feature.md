@@ -3,7 +3,7 @@
 ## What it does
 Print one plan as a tree from its plan file: one node per line, each line a status mark, the issue ID and the title; the legend first, with the marks of Not Started, In Progress, Now and Blocked; Done and Dropped nodes hidden and counted on the last line; each plan it needs (needs_plans) printed after it. The marks and the layout come from the plan-view template.
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: a reader coming back after two days knows where a plan stands from the tree alone.
