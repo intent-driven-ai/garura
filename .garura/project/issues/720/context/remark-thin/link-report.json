@@ -1,0 +1,44 @@
+{
+  "written": [],
+  "updated": [
+    "cap-718",
+    "cap-shape-slice",
+    "cap-shape-eval",
+    "fn-729",
+    "fn-628",
+    "fn-795",
+    "fn-818",
+    "fn-798",
+    "fn-898",
+    "fn-806",
+    "fn-931"
+  ],
+  "thin": [
+    "cap-718",
+    "cap-shape-slice",
+    "cap-shape-eval",
+    "fn-729",
+    "fn-628",
+    "fn-795",
+    "fn-818",
+    "fn-798",
+    "fn-898",
+    "fn-806",
+    "fn-931"
+  ],
+  "changed": [
+    "product-os/_spine.yaml",
+    "product-os/software-delivery-planning/cap-718/capability.md",
+    "product-os/software-delivery-planning/shape-slice/capability.md",
+    "product-os/software-delivery-planning/shape-eval/capability.md",
+    "product-os/features/fn-729/feature.md",
+    "product-os/features/fn-628/feature.md",
+    "product-os/software-delivery-planning/shape-slice/fn-795/feature.md",
+    "product-os/software-delivery-planning/cap-718/fn-818/feature.md",
+    "product-os/software-delivery-planning/shape-eval/fn-798/feature.md",
+    "product-os/software-delivery-planning/shape-eval/fn-898/feature.md",
+    "product-os/features/fn-806/feature.md",
+    "product-os/features/fn-931/feature.md"
+  ],
+  "layout_kept": true
+}

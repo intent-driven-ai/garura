@@ -1,0 +1,71 @@
+{
+  "by": "product-os-keeper (#997 inside #720: re-mark thin parts with the ontology v14 Thin line)",
+  "parts": [
+    {
+      "id": "cap-718",
+      "kind": "capability",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "cap-shape-slice",
+      "kind": "capability",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "cap-shape-eval",
+      "kind": "capability",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-729",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-628",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-795",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-818",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-798",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-898",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-806",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    },
+    {
+      "id": "fn-931",
+      "kind": "feature",
+      "mode": "update",
+      "thin": true
+    }
+  ]
+}
