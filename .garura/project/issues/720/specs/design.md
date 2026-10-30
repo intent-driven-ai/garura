@@ -57,6 +57,11 @@ Small changes get one line. Big ones are shown and confirmed before they join th
 epic, moving a feature between slices, a model change, closing an item with open work under it.
 Nothing is written to GitHub, the model or the plan file during the session.
 
+**The one write before approval.** When the plan has no branch, getting onto it (above) sets main's
+plan file to In Progress with the branch named, commits that on main, and cuts the branch. That is
+bookkeeping that makes the plan's branch exist, not a change the person approves; it is the only
+write before "approved". (Found by the review of PR #995, finding F1, 2026-10-30.)
+
 ## How it ends: approve or reject
 
 - The play shows the whole list and asks: approved or rejected.
@@ -80,7 +85,8 @@ propose-change, check-change and merge-change, like all its other work.
 
 - A person sets every Status and Direction; nothing is worked out, and there are no roll-ups (an
   epic can be closed with open stories).
-- It never cuts a branch except as above, never merges one, and never touches code.
+- Nothing is written before a plain "approved", except the branch step above for a plan with no
+  branch. It never cuts a branch except as above, never merges one, and never touches code.
 - Changes go through sub-agents and skills; no hand edits of the model or the issues.
 - It writes down which item kinds a plan may hold (#917, point 3).
 
