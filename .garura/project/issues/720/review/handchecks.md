@@ -43,3 +43,7 @@ Each check names what was read and what it showed. The commands' outputs are in
 ## Round 5
 
 No decision record, memory file, doc or install-list file changed since round 4 (the diff since round 4 is the HF-12 fix in update-plan and run records), so the round 4 hand checks above still hold. The update-plan SKILL.md edit is non-intent: reference/ice.md is unchanged and its sha256 (3133f728…) is the fingerprint in the compiled play.
+
+## Round 6
+
+Since round 5 only the HF-14 fix changed (update-plan SKILL.md, plan_session.py, session_files.py, tests, product-os-keeper.md); no decision record, memory file, doc or install-list file changed, so the hand checks above still hold. reference/ice.md is unchanged; its sha256 is the compiled fingerprint.

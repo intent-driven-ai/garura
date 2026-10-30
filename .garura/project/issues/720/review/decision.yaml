@@ -1,7 +1,7 @@
 decision: reject
 decided_by: harness
 gate: skipped by config (gates.plays.check-change)
-round: 5
+round: 6
 reason: 1 P1 (blocker) finding(s)
 citing:
 - id: QS-01
@@ -12,5 +12,5 @@ citing:
 counts:
   P1: 1
   P2: 23
-  P3: 68
-  P4: 46
+  P3: 67
+  P4: 47

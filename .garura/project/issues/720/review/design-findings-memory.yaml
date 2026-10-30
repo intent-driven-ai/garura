@@ -1,4 +1,16 @@
-# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 5
+# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 6
+# PR #998 (feature #720, /update-plan), base plan/717/base.
+# What changed in the memory category since round 5: nothing. Each of the six memory files (ontology.md, spine.yaml,
+# direct-model-write.md, plan-update.md, templates/_index.md, pipeline-next.md), the glossary and the ADR files
+# (026, 058, 060, 061, 062, _index) has the same diff block in this round's pr.diff as in run-5/pr.diff (compared
+# per file by script, index lines removed: all 13 SAME). Round 6 only changes update-plan's play and scripts and the
+# product-os-keeper agent, which the harness and code categories own.
+# Grounding: the three copies in grounding-memory (templates/_index.md, rules/user-facing-voice.md,
+# knowledge/_DESIGN.md) match their manifest fingerprints (sha256 recomputed this round), so they were reused and
+# nothing was copied again. Base-ref and docs/adr (base) sources are read with git show. The branch's own new text
+# is never a source. pr.md has no memory rows, so each severity is the bucket in pr.md "Severity buckets"
+# (P2 structural, P3 minor, P4 nit).
+category: memory, ROUND 5
 # PR #998 (feature #720, /update-plan), base plan/717/base.
 # What changed in the memory category since round 4: nothing. Each of the six memory files (ontology.md, spine.yaml,
 # direct-model-write.md, plan-update.md, templates/_index.md, pipeline-next.md), the glossary and the ADR files
@@ -11,7 +23,7 @@
 # read with git show. The branch's own new text is never a source. pr.md has no memory rows, so each severity is the
 # bucket in pr.md "Severity buckets" (P2 structural, P3 minor, P4 nit).
 category: memory
-round: 5
+round: 6
 base_ref: plan/717/base
 files_in_category:
   - core/components/memory/standards/schemas/product-os/ontology.md
@@ -64,7 +76,7 @@ principles:
     source: core/components/memory/standards/rules/direct-model-write.md (base) lines 82-108, 134-146 (the two declared exceptions, /discover-intent per ADR 031 and /record-decision), 230-232 (L-DMW-4); docs/adr/026-direct-to-model-writes.md (base) Decision, "Clean tree in, committed delta out"
 
 checks_passed:
-  - "Ontology and ontology change check: the file is byte-identical to round 3, where check_ontology.py gave valid true and check_ontology_change.py gave kinds Plan and ICE only, version 13 to 14, one log line, no names. The v14 log line (line 892) now names the Thin-line change and the status change. (G1)"
+  - "Ontology and ontology change check: the file is byte-identical to round 3 (and to round 5), where check_ontology.py gave valid true and check_ontology_change.py gave kinds Plan and ICE only, version 13 to 14, one log line, no names. The v14 log line (line 892) now names the Thin-line change and the status change. (G1)"
   - "plan-update.md settings block 'plan-update': 64 keys; every key is read by render_screen.py (self.t[...]) and the renderer reads no key the block lacks (checked by script this round). The new question screen has the four parts Question, Answer, Why it matters, Examples of the base asking-a-person file. The thin_warning agrees with the ontology line 522 (a thin ICE can cause problems later; /discover-capabilities can deepen it). (G6)"
   - "templates/_index.md lists plan-update.md with its consumer. (G6)"
   - "spine.yaml comment lines 142-148 agree with ontology v14 (the Thin line, any line that starts 'Thin:', the old line still thin) and say check_ice_workable.py reads the mark and never counts lines; check_ice_workable.py (three copies) reads any line that starts 'Thin:'. (G4)"
@@ -79,7 +91,7 @@ findings:
     lines: [596, 622, 623]
     why: >-
       Closed in round 3 (ADR 061 recorded that /update-plan may cut the plan's branch, main first, and amended ADR
-      060). Nothing in rounds 4 or 5 reopens it: the ontology Plan kind is byte-identical to round 3 and no
+      060). Nothing in rounds 4 to 6 reopens it: the ontology Plan kind is byte-identical to round 3 (and to round 5) and no
       committed source it rests on changed.
     basis: >-
       docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (base) Decision 3 and ICE impact;
@@ -148,7 +160,7 @@ findings:
     file: core/components/memory/standards/rules/pipeline-next.md
     lines: [73, 77]
     why: >-
-      Unchanged since rounds 3 and 4. update-plan sits under the "# Navigation" heading (line 73, with list-focus-issues,
+      Unchanged since rounds 3 to 5. update-plan sits under the "# Navigation" heading (line 73, with list-focus-issues,
       list-plans and show-plan, which only show), but it changes a plan. The "The flow" bullets (lines 20-31) name
       every other live play by loop, and none names update-plan. Its why-line ("it reaches main with the plan's
       other work") holds only once the plan pauses (ADR 060).
@@ -163,7 +175,7 @@ findings:
     file: core/components/memory/standards/templates/plan-update.md
     lines: [171, 172]
     why: >-
-      Unchanged since rounds 3 and 4 (the line moved from 156 to 171-172 as the file grew). The "landed" screen opens
+      Unchanged since rounds 3 to 5 (the line moved from 156 to 171-172 as the file grew). The "landed" screen opens
       "Landed on {plan_branch} (commit {commit}), pushed." It leads with a branch and a commit, not with what
       changed for the person. The screen is shown to a person as it stands, so it is not an internal artifact.
     basis: standards/rules/user-facing-voice.md (memory copy, grounding-memory) "Signals you've drifted"
@@ -175,7 +187,7 @@ findings:
     file: core/components/memory/standards/templates/plan-update.md
     lines: [46, 47, 56, 57, 71, 72]
     why: >-
-      Unchanged since round 4 (the screen is at lines 46-72). The worked screen shows no item kinds. Row 4 (line 71) puts a new chore under
+      Unchanged since round 4, still so in round 6 (the screen is at lines 46-72). The worked screen shows no item kinds. Row 4 (line 71) puts a new chore under
       #956 and row 5 a new feature under #720, and the screen never says what kind #956 or #720 is, so a reader
       cannot check the example against the ontology item-kind rule (a chore sits under a story; a story sits
       under an epic or a feature item). Low confidence: the kinds may be in the plan file.
@@ -192,7 +204,7 @@ findings:
       The new exception says "uncommitted work anywhere stops the session when it gets onto the plan's branch",
       and the L-DMW-4 carve-out (lines 240-244) says the clean check "covers the whole tree". The play and the
       tool do not do that: plan_branch.py go is run with --ignore "${stm_base}_plans/" (SKILL.md line 146), and
-      SE-3 says "nothing uncommitted outside the session's own folder" (SKILL.md line 151). The product-os tree,
+      SE-3 says "nothing uncommitted outside the session's own folder" (SKILL.md line 152). The product-os tree,
       which the base L-DMW-4 requires clean, is covered, so the guarantee holds, but the rule overstates it, and a
       rule that a linter and a rebuild read should say what is checked.
     basis: >-
