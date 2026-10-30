@@ -1,41 +1,24 @@
 commits:
-  - sha: 6f5e1a5e
-    message: "feat(platform-adapter): add the edit-issue-title verb (#993)"
+  - sha: a501266d
+    message: "fix(enrich-grounding): let step 7 and the in-place rule allow the lines a named-lines request changes (#993)"
     files:
-      - core/components/skills/platform-adapter/SKILL.md
-      - core/components/skills/platform-adapter/reference/github/verbs.md
-      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
-      - core/components/plays/check-change/scripts/platform_adapter.py
-      - core/components/plays/create-play/references/platform_adapter.py
-      - core/components/plays/create-play/references/test_platform_adapter.py
-      - core/components/plays/merge-change/scripts/platform_adapter.py
-      - core/components/plays/propose-change/scripts/platform_adapter.py
-      - core/components/plays/shape-eval/scripts/platform_adapter.py
-      - core/components/plays/shape-plan/scripts/platform_adapter.py
-      - core/components/plays/shape-slice/scripts/platform_adapter.py
+      - core/components/skills/enrich-grounding/SKILL.md
+      - core/components/agents/product-os-keeper.md
     branch: plan/717/993-page-skill-named-lines
-  - sha: 60f50c55
-    message: "docs(product-model): bring capability 720 and feature 730 to the approved #720 design (#993)"
+  - sha: 263bba56
+    message: "docs(product-model): name the branch step as the one write before approval (#993)"
     files:
-      - .garura/product/product-os/_spine.yaml
       - .garura/product/product-os/capabilities/cap-720/capability.md
       - .garura/product/product-os/features/fn-730/feature.md
+      - .garura/project/issues/720/specs/design.md
     branch: plan/717/993-page-skill-named-lines
-  - sha: 36fb429d
-    message: "chore(plan): update plan 717 with the new titles of #720 and #730 and add #994 (#993)"
+  - sha: 499e9798
+    message: "chore(stm): record the review-fix run evidence (#993)"
     files:
-      - .garura/project/plans/717.yaml
-    branch: plan/717/993-page-skill-named-lines
-  - sha: b6107dee
-    message: "chore(stm): record the design and model-line evidence (#993)"
-    files:
-      - .garura/project/issues/993/specs/design.md
-      - .garura/project/issues/993/context/analysis.yaml
       - .garura/project/issues/993/context/porcelain.txt
-      - .garura/project/issues/993/context/model-lines/lines-report.json
-      - .garura/project/issues/993/context/model-lines/lines-request.json
-      - .garura/project/issues/993/context/model-lines/link-report.json
-      - .garura/project/issues/993/context/model-lines/link-request.json
+      - .garura/project/issues/993/context/model-lines/lines-request-f1.json
+      - .garura/project/issues/993/context/model-lines/lines-report-f1.json
+      - .garura/project/issues/993/context/analysis.yaml
     branch: plan/717/993-page-skill-named-lines
 excluded_files:
   []
