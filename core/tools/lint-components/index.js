@@ -90,8 +90,12 @@ async function main() {
     infos: violations.filter((v) => v.severity === 'info').length,
   };
 
-  // Step 6: Report
-  reporter.report({ violations, summary, layout: args.layout, notes }, args.output);
+  // Step 6: Report, with every path relative to where the linter ran: a report is often
+  // committed as a review record, and an absolute path names the machine and its user.
+  const here = process.cwd() + path.sep;
+  const relative = (text) => (typeof text === 'string' ? text.split(here).join('') : text);
+  violations = violations.map((v) => ({ ...v, file: relative(v.file), message: relative(v.message) }));
+  reporter.report({ violations, summary, layout: args.layout, notes: notes.map(relative) }, args.output);
 
   // Step 7: Exit code
   process.exit(summary.errors > 0 ? 1 : 0);
