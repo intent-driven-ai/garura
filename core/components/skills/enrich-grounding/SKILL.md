@@ -27,7 +27,7 @@ and every move of a page.
 | `split` | in a slice run | `split.json`: each assumption is used as it is written |
 | `fills` | in a slice run | `fills.json`: the parent of each new feature, and the thin parts |
 | `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts). In place of `record`, `split` and `fills` |
-| `lines_request` | for named lines | `lines-request.json` (step 5): `by`, `source` (an approved design, or the person's own words) and `pages`, each `{page, changes}` — a change is `{old, new}` (`new: null` removes the line) or `{after, add}`; see the script's header |
+| `lines_request` | for named lines | `lines-request.json` (step 5), written by the agent that dispatches this skill, never by the skill: `by`, `source` (an approved design, or the person's own words) and `pages`, each `{page, changes}` — a change is `{old, new}` (`new: null` removes the line) or `{after, add}`; see the script's header |
 | `problems` | for `fix` | `slice-check.json` (or a script's refusal): each problem with the page it names |
 | `out` | yes | Where to write `grounding-report.json` |
 
@@ -60,24 +60,29 @@ and every move of a page.
 5. **Named lines, on any page (update or fix mode).** When the request names lines to change —
    on a domain, capability, feature or intent page — change only those lines, to the words it
    gives: for example a capability's ICE to an approved design, or a real person's name to a
-   persona (`the product owner`). Write each line to change, whole and as it is on the page, in
-   `lines-request.json` with the request's source, and run the script:
+   persona (`the product owner`). The agent wrote each line to change, whole and as it is on the
+   page, in `lines-request.json` with the request's source, and handed you its path
+   (`lines_request`); you do not write or change it. Run the script on it:
 
    ```bash
-   python3 scripts/change_lines.py --request <working>/lines-request.json \
+   python3 scripts/change_lines.py --request <lines_request> \
        --product-base <product_base> --out <working>/lines-report.json
    ```
 
-   Exit 0: every named line changed and every other line kept, word for word. Exit 2: nothing
-   was written; the error names the page and the line (not on the page, on it twice, named
-   twice, a Thin line, a path outside the model, or no source). The meaning comes from the
+   Exit 0: every named line changed and every other line kept, word for word, with its own line
+   ending. Exit 2: nothing was written, or every page already written was put back; the error
+   names the page and the line (not on the page, on it twice, named twice, a Thin line, a path
+   outside the model, a line that cannot be written, or no source). Return the error to the
+   agent, which corrects the request; never work around it. The meaning comes from the
    request's source, never from this skill: a new intent page is /discover-intent's, and a
    change of meaning is the person's or an approved design's.
 6. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
    heading, a broken link, a thin ICE that lacks a line. Change only what the problem names.
    A problem in `slice.json` or `fills.json` is not this skill's: list it in `not_mine`.
 7. **Check the page against what it had.** Every section and line from step 1 is still on
-   the page. When one is lost, put it back before you write the report.
+   the page, except the lines a named-lines request (step 5) replaced or removed — its
+   `lines-report.json` names each one. When any other line is lost, put it back before you
+   write the report.
 
 ## Output
 
@@ -105,7 +110,8 @@ Examples from different fields:
 
 ## Rules
 
-- In place: keep every section and line a page had; never remove or move a page.
+- In place: keep every section and line a page had, except the lines a named-lines request
+  names (step 5); never remove or move a page.
 - Write per-node pages only. Never write `_spine.yaml`, the profile, a decision, the Thin
   line or `metadata.thin`; a play's scripts or `link-model-part` write them. On an intent
   page, change only the lines the request names (step 5); never write a new intent page. A
