@@ -16,7 +16,7 @@ FULL = "Represents: ft-pick\n\n## Scope of work\n\nGoals:\n- x\n\n## Context gui
 PLAN = """# A plan kept by hand.
 id: 340
 title: Patients book their own appointments online
-status: active
+status: Not Started
 tree:
 - issue: 10
   kind: epic

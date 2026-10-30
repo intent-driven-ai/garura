@@ -336,7 +336,7 @@ python3 scripts/write_plan_file.py --plan-file <plan-file> --gather <working>gat
 ```
 
 It also takes a record that reads `ok: false`, and marks each issue it lists. It makes the
-plan file when it is missing (`id`, `title`, `status: active`, `tree`), or
+plan file when it is missing (`id`, `title`, `status: Not Started`, an empty `direction`, `tree`), or
 updates it: one epic node for each slice (`represents: <slice id>`) with one story node for
 each feature of its map (`represents: <feature id>`), and moved-out story nodes taken out. It
 changes the file line by line and keeps every other node, line and comment; with nothing to

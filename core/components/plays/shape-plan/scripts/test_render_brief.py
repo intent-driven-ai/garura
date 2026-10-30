@@ -43,7 +43,7 @@ def main():
         check("the brief says yes, change or stop", "**yes**" in text and "**change: <what>**" in text and "**stop**" in text)
         check("the brief holds no failure words", "fails if" not in text.lower())
 
-        write(p["plan_file"], "id: 340\ntitle: x\nstatus: active\ntree:\n- issue: 10\n  kind: epic\n"
+        write(p["plan_file"], "id: 340\ntitle: x\nstatus: Not Started\ntree:\n- issue: 10\n  kind: epic\n"
               "  title: Self-booking\n  represents: sl-self-booking\n  children:\n  - issue: 11\n"
               "    represents: ft-pick\n  - issue: 13\n    represents: ft-cancel\n")
         empty_tracker(p, [
