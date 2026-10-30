@@ -1,29 +1,18 @@
 ---
-needs_judgment: false
+# analyze_changeset.py output (C8 fast path)
+# issue: 720
+needs_judgment: true
 
 change_groups:
-  - id: update-plan-model-record-guard
-    issue: 720
-    commit_type: fix
-    scope: update-plan
-    subject: "pass no model record when no model step ran, say each model dispatch writes only to its own output, and refuse a missing or misshapen model-ops file or record in the guard"
-    files:
-      - core/components/plays/update-plan/SKILL.md
-      - core/components/plays/update-plan/scripts/plan_session.py
-      - core/components/plays/update-plan/scripts/session_files.py
-      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
-      - core/components/agents/product-os-keeper.md
-  - id: stm-run-records
-    issue: 720
-    commit_type: chore
-    scope: stm
-    subject: "record update-plan run artifacts"
-    files:
-      - .garura/project/issues/720/context/analysis.yaml
-      - .garura/project/issues/720/context/memory/manifest.json
-      - .garura/project/issues/720/context/porcelain.txt
+  []  # grouping left to the analyze agent (needs_judgment)
 
-exclusions: []
+exclusions:
+  []
 
 risks:
-  sensitive_files: []
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: DEFERRED, evidence: "grouping delegated to analyze agent"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

@@ -1,7 +1,2 @@
  M .garura/project/issues/720/context/memory/manifest.json
  M .garura/project/issues/720/context/porcelain.txt
- M core/components/agents/product-os-keeper.md
- M core/components/plays/update-plan/SKILL.md
- M core/components/plays/update-plan/scripts/plan_session.py
- M core/components/plays/update-plan/scripts/session_files.py
- M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
