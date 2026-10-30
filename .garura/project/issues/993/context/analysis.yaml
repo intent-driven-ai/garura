@@ -1,68 +1,29 @@
 ---
-# assess-changes output (grouped by concern; judgment done)
+# analyze_changeset.py output (C8 fast path), grouped by assess-changes
+# issue: 993
 needs_judgment: false
-branch: plan/717/993-page-skill-named-lines
-issue: 993
 
 change_groups:
-  - id: fix-change-lines-script
-    issue: 993
-    commit_type: fix
-    scope: enrich-grounding
-    subject: "make named-lines writes all or nothing and keep each line's own ending"
-    confidence: high
-    files:
-      - core/components/skills/enrich-grounding/scripts/change_lines.py
-      - core/components/skills/enrich-grounding/scripts/test_change_lines.py
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "All or nothing on any failed write (page or report); each line keeps its own line ending; a line that cannot be written as UTF-8 is refused; an add-after rerun adds nothing (review findings QF-01..QF-04)."
-
-  - id: fix-named-lines-rule
-    issue: 993
-    commit_type: fix
-    scope: enrich-grounding
-    subject: "let step 7 and the in-place rule allow the lines a named-lines request changes"
-    confidence: high
-    files:
-      - core/components/skills/enrich-grounding/SKILL.md
-      - core/components/agents/product-os-keeper.md
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "The agent writes the request; the skill only reads it (review findings H-1, H-2). Non-intent surface edit to compiled SKILL.md."
-
-  - id: docs-branch-step-before-approval
+  - id: approval-scope-wording
     issue: 993
     commit_type: docs
     scope: product-model
-    subject: "name the branch step as the one write before approval"
-    confidence: high
+    subject: scope "nothing is written before approved" to GitHub, the model and plan files
     files:
       - .garura/product/product-os/capabilities/cap-720/capability.md
       - .garura/product/product-os/features/fn-730/feature.md
       - .garura/project/issues/720/specs/design.md
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "Review finding F1 of PR #995: Limit and Fails-if lines of cap-720 and fn-730, and the design, now agree on the single write allowed before approval."
-
-  - id: chore-stm-evidence
+  - id: record-run-artifacts
     issue: 993
     commit_type: chore
     scope: stm
-    subject: "record the review-fix run evidence"
-    confidence: high
+    subject: record the review-fix run artifacts
     files:
       - .garura/project/issues/993/context/porcelain.txt
-      - .garura/project/issues/993/context/model-lines/lines-request-f1.json
-      - .garura/project/issues/993/context/model-lines/lines-report-f1.json
       - .garura/project/issues/993/context/analysis.yaml
-    risks:
-      sensitive_files: []
-      breaking_changes: []
-    notes: "Operational STM artifacts, kept apart from the feature groups."
+      - .garura/project/issues/993/context/model-lines/lines-report-d1.json
+      - .garura/project/issues/993/context/model-lines/lines-request-d1.json
+      - .garura/project/issues/993/context/memory/grounding-design-spec/manifest.json
 
 exclusions:
   []
@@ -72,5 +33,5 @@ risks:
     []
 
 eval_gates:
-  SE-1: {status: PASS, evidence: "4 groups; all 11 changed files in exactly one group; issue 993 in every group"}
+  SE-1: {status: PASS, evidence: "every changed file is in exactly one group; issue 993 in both groups"}
   SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

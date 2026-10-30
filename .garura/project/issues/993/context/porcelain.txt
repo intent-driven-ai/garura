@@ -2,9 +2,6 @@
  M .garura/product/product-os/features/fn-730/feature.md
  M .garura/project/issues/720/specs/design.md
  M .garura/project/issues/993/context/porcelain.txt
- M core/components/agents/product-os-keeper.md
- M core/components/skills/enrich-grounding/SKILL.md
- M core/components/skills/enrich-grounding/scripts/change_lines.py
- M core/components/skills/enrich-grounding/scripts/test_change_lines.py
-?? .garura/project/issues/993/context/model-lines/lines-report-f1.json
-?? .garura/project/issues/993/context/model-lines/lines-request-f1.json
+?? .garura/project/issues/993/context/memory/grounding-design-spec/
+?? .garura/project/issues/993/context/model-lines/lines-report-d1.json
+?? .garura/project/issues/993/context/model-lines/lines-request-d1.json
