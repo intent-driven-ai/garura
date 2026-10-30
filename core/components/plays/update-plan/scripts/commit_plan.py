@@ -6,7 +6,8 @@
         [--repo R] [--remote origin] --out <commit.json>
 
 It refuses (exit 2, nothing committed) unless the branch checked out is the plan's branch. It
-stages only the plan file, the model files the model record names (`files`) and, with
+stages and commits only the plan file, the model files the model record names (`files`; each
+must be a path inside the repository) and, with
 --records-dir, the changed files in the plan's own short-term folder (the decision records the
 session's sub-agents wrote there, such as citations.jsonl), and commits them as one commit,
 pushed. The plan file keeps no history; this commit is the record. Its message:
@@ -75,18 +76,33 @@ def main(argv=None):
         on = git(["branch", "--show-current"], args.repo).stdout.strip()
         if on != args.plan_branch:
             raise ps.Refused(f"on {on}, not on the plan's branch {args.plan_branch}; nothing is committed")
+        root = os.path.realpath(args.repo)
         files = [args.plan_file]
         if args.model_record and os.path.isfile(args.model_record):
             files += ps.read_json(args.model_record, "the model record").get("files") or []
+        for f in files:
+            full = os.path.realpath(os.path.join(root, f))
+            if os.path.isabs(f) or not full.startswith(root + os.sep):
+                raise ps.Refused(f"{f} is not a path inside the repository; nothing is committed")
         if args.records_dir:
-            out = git(["status", "--porcelain", "--untracked-files=all", "--", args.records_dir], args.repo).stdout
-            files += [ln[3:].strip('"') for ln in out.splitlines() if ln.strip()]
+            out = git(["status", "--porcelain", "-z", "--untracked-files=all", "--", args.records_dir],
+                      args.repo).stdout
+            entries, i = out.split("\0"), 0
+            while i < len(entries):
+                entry = entries[i]
+                i += 1
+                if len(entry) < 4:
+                    continue
+                if entry[0] in "RC":
+                    i += 1
+                files.append(entry[3:])
         git(["add", "--", *files], args.repo)
-        if git(["diff", "--cached", "--quiet"], args.repo, check=False).returncode == 0:
+        if git(["diff", "--cached", "--quiet", "--", *files], args.repo, check=False).returncode == 0:
             rec.update(ok=True, files=[])
             ps.write_json(args.out, rec)
             return 0
-        git(["commit", "--quiet", "-m", rec["message"]], args.repo)
+        # Only the named files go into the commit, whatever else a person had staged.
+        git(["commit", "--quiet", "-m", rec["message"], "--", *files], args.repo)
         rec["commit"] = git(["rev-parse", "HEAD"], args.repo).stdout.strip()
         rec["files"] = files
         remotes = git(["remote"], args.repo).stdout.split()

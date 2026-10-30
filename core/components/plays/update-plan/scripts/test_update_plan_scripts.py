@@ -375,6 +375,38 @@ class LandingTest(Session):
         self.assertIn("Override: #100: a chore does not sit under an epic", msg)
         self.assertIn("Owed: a slice for 'Undo' (/shape-slice)", msg)
 
+    def test_the_commit_takes_only_its_own_files(self):
+        repo = os.path.join(self.d, "git2")
+        os.makedirs(os.path.join(repo, "plans"))
+        shutil.copy(self.plan, os.path.join(repo, "plans", "40.yaml"))
+        for args in (["init", "--quiet", "-b", "plan/40/base"], ["config", "user.name", "T"],
+                     ["config", "user.email", "t@example.com"], ["add", "."], ["commit", "--quiet", "-m", "start"]):
+            subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True)
+        with open(os.path.join(repo, "plans", "40.yaml"), "a") as fh:
+            fh.write("# changed\n")
+        with open(os.path.join(repo, "other.txt"), "w") as fh:
+            fh.write("staged by a person\n")
+        subprocess.run(["git", "add", "other.txt"], cwd=repo, check=True)
+        code = quiet(commit_plan.main, ["--plan", "40", "--plan-branch", "plan/40/base", "--plan-file", "plans/40.yaml",
+                                        "--changes", self.changes, "--repo", repo, "--out", self.p("commit.json")])
+        self.assertEqual(code, 0)
+        shown = subprocess.run(["git", "show", "--name-only", "--format=", "HEAD"], cwd=repo,
+                               capture_output=True, text=True).stdout.split()
+        self.assertEqual(shown, ["plans/40.yaml"])
+        staged = subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=repo, capture_output=True, text=True).stdout
+        self.assertEqual(staged.strip(), "other.txt")
+
+    def test_a_model_file_outside_the_repository_is_refused(self):
+        repo = os.path.join(self.d, "git3")
+        os.makedirs(repo)
+        for args in (["init", "--quiet", "-b", "plan/40/base"],):
+            subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True)
+        ps.write_json(self.p("model-record.json"), {"parts": [], "files": ["../outside.md"]})
+        code = quiet(commit_plan.main, ["--plan", "40", "--plan-branch", "plan/40/base", "--plan-file", "plans/40.yaml",
+                                        "--changes", self.changes, "--model-record", self.p("model-record.json"),
+                                        "--repo", repo, "--out", self.p("commit.json")])
+        self.assertEqual(code, 2)
+
 
 class NewFeatureTest(Session):
     def test_a_new_feature_lands_whole_or_is_named(self):
