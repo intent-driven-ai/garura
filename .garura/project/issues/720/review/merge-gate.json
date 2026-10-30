@@ -4,9 +4,14 @@
   "already_merged": false,
   "checks_pass": true,
   "pr_number": "998",
-  "pr_merged": false,
-  "branch_deleted": false,
+  "pr_merged": true,
+  "branch_deleted": true,
   "on_target": true,
-  "status": "merge_failed",
-  "error": "GraphQL: Head branch is out of date. Review and try the merge again. (mergePullRequest)\n"
+  "issues_closed": [
+    "720"
+  ],
+  "status": "merged",
+  "on_base": true,
+  "merge_sha": "770ec579",
+  "note": "merged on the second try; the script's sync stopped (local plan/717/base was behind), so the switch, pull, records commit and branch delete were finished by hand; GitHub deleted the remote branch"
 }
