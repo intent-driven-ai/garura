@@ -1,7 +1,10 @@
-# design-findings-harness.yaml - check-change Step 3, Layer 2, category: harness
+# design-findings-harness.yaml - check-change Step 3, Layer 2, category: harness, ROUND 2
 # PR #998 (feature #720, /update-plan), base plan/717/base (fa6f514c).
 # Every principle below is read from the base ref (git show origin/plan/717/base:<path>) or from the
 # memory copies in .garura/project/issues/720/context/memory/grounding-harness/ (manifest.json beside them).
+# Round 1's six rule copies were reused: each copy's sha256 still equals the manifest and the source version (f8e35c3bd9b6) is unchanged; nothing was copied again.
+# Round 2 changes to the harness files: only skills/track-plan-changes/SKILL.md (a create finds its own marker; the record names its list). The
+# update-plan play, its ICE, the agents and the other skills are unchanged since round 1, so their findings are judged against the same text.
 # Nothing here is grounded in a file the diff adds or rewrites. Line numbers for a finding's file are
 # lines of the new file (the PR head); line numbers for a basis are lines of the base-ref file.
 category: harness
@@ -72,10 +75,11 @@ grounding:
 findings:
   - id: HF-1
     severity: P2
+    status: stands
     standard_id: null
     file: .garura/project/issues/720/review/pr.diff (core/tools/plan/plan_branch.py, called from core/components/plays/update-plan/SKILL.md Step 3)
     paths: ["core/tools/plan/plan_branch.py", "core/components/plays/update-plan/SKILL.md"]
-    lines: "plan_branch.py 20-23, 168-178 (commits In Progress on main, pushes main, cuts and pushes plan/<id>/base); SKILL.md 139-151"
+    lines: "plan_branch.py 28-34 (header), 163-205 (commits In Progress on main, pushes main, cuts and pushes plan/<id>/base); SKILL.md 139-151. Round 2 only made the step safer (a failed push of main is taken back, the cut commits only the plan file); it still writes to main and still cuts the branch."
     principle: "The play commits and pushes on main and creates the plan's branch itself; the committed rules give main to no play and the cut of a plan's branch to start-change."
     basis:
       - "start-change/reference/ice.md (base) line 27: 'Work goes on a dedicated branch, never on main itself.'"
@@ -89,12 +93,13 @@ findings:
       play's own ICE (C2, F2, F3 'except C2's branch step') and the branch-written ontology, but no ADR and no
       change to start-change C2/C9 or harness principle 8 comes with it (git diff base..head touches nothing
       under docs/). The standard says a change to it is a decision recorded as an ADR (harness-standard line
-      168-169). plan_branch.py's own header (line 38) says start-change will adopt it "once #989 is built":
+      168-169). plan_branch.py's own header (line 38, the last lines of the module text) says start-change will adopt it "once #989 is built":
       the duplicate is known and open.
     fix: "Record the decision as an ADR (and amend start-change C2/C9 and principle 8), or let start-change cut the branch and have /update-plan only go onto it."
 
   - id: HF-2
     severity: P2
+    status: stands
     standard_id: null
     file: core/components/agents/product-os-keeper.md
     lines: "101 (new row in Intent to Skill Mapping); play side: core/components/plays/update-plan/SKILL.md 184-189"
@@ -114,9 +119,10 @@ findings:
 
   - id: HF-3
     severity: P3
+    status: stands
     standard_id: null
     file: core/components/plays/update-plan/SKILL.md
-    lines: "54-66 (pre-flight), 255-270 (Step 8); core/tools/plan/plan_branch.py 136-146 (a session already on the plan's branch returns before any uncommitted check)"
+    lines: "54-66 (pre-flight), 255-270 (Step 8); core/tools/plan/plan_branch.py 137-152 (a session already on the plan's branch returns before the uncommitted check)"
     principle: "The play writes the product model (a new feature's page, its spine entry, both thin marks, the slice's feature list) but does not follow the model-writing contract and is not a declared exception."
     basis:
       - "direct-model-write.md (base) lines 63-69: run the shared scoped-write guard once over the full delta; fails on any path outside the declared scope."
@@ -134,6 +140,7 @@ findings:
 
   - id: HF-4
     severity: P3
+    status: stands
     standard_id: null
     file: core/components/plays/update-plan/SKILL.md
     lines: "184-189 (Step 5, place the new feature in a slice); 255-260 (Step 8, add_features); core/components/skills/link-model-part/SKILL.md description and Input row (kind slice)"
@@ -149,6 +156,7 @@ findings:
 
   - id: HF-5
     severity: P3
+    status: stands
     standard_id: null
     file: core/components/plays/update-plan/SKILL.md
     lines: "154 (Step 4: the play collects the plan's issue numbers); 229-234 (Step 6, abort: git checkout -- <folder> and delete new files, run by the play)"
@@ -163,6 +171,7 @@ findings:
 
   - id: HF-6
     severity: P3
+    status: stands
     standard_id: null
     file: core/components/plays/update-plan/SKILL.md
     lines: "243-244 (Step 7: '&& echo {\"ok\": true} > <working>/verify.json'); eval SE-7 at 252-253"
@@ -178,6 +187,7 @@ findings:
 
   - id: HF-7
     severity: P3
+    status: stands
     standard_id: null
     file: core/components/skills/author-plan-changes/SKILL.md
     lines: "52-53 (Process step 4, 'Ask when unsure'); Examples 65-71"
@@ -192,6 +202,7 @@ findings:
 
   - id: HF-8
     severity: P4
+    status: stands
     standard_id: null
     file: core/components/plays/update-plan/SKILL.md
     lines: "486 (Compilation Metadata: 'scripts | 13 (...)')"
@@ -203,6 +214,7 @@ findings:
 
   - id: HF-9
     severity: P4
+    status: stands
     standard_id: null
     file: core/components/agents/project-orchestrator.md
     lines: "145-146 (two skills added to Available Skills); the 'What each skill needs from memory' table (base 403-408) not extended"
@@ -212,6 +224,14 @@ findings:
     why: "author-plan-changes and track-plan-changes need nothing from memory (the plan's files and the working files come from the play), and the table should say so, as it does for track-issue."
     fix: "Add the two rows ('nothing from memory')."
 
+round_1_status:
+  fixed: []
+  stands: [HF-1, HF-2, HF-3, HF-4, HF-5, HF-6, HF-7, HF-8, HF-9]
+  new: []
+round_2_conformance_checked:
+  - "track-plan-changes/SKILL.md (changed): the marker line in each new issue and the list hash in the record are mechanical script work, as HS-3 asks; the skill still writes only through the platform adapter's verbs; no new violation."
+  - "commit_plan.py, plan_branch.py (changed): hardening of the same steps; they add no new place where a script does judgment, and no new write outside the ones HF-1 and HF-3 already name."
 summary:
   total: 9
   by_severity: { P1: 0, P2: 2, P3: 5, P4: 2 }
+  stand_or_new_by_severity: { P1: 0, P2: 2, P3: 5, P4: 2 }

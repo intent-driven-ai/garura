@@ -1,12 +1,12 @@
 meta:
-  generated_at: '2026-10-30T06:04:17Z'
+  generated_at: '2026-10-30T06:26:37Z'
   diff_path: '.garura/project/issues/720/review/pr.diff'
   taxonomy_path: '.garura/project/issues/720/context/memory/standards/rules/pr.md'
-  changed_paths_count: 78
+  changed_paths_count: 116
   scan_coverage: 1.0000
-  standards_relevant: 28
+  standards_relevant: 31
   catchall:
-    CODE-20: 50
+    CODE-20: 51
 findings:
   - standard_id: 'DATA-18'
     severity: P1
@@ -15,6 +15,34 @@ findings:
     evidence: 'email'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'DATA-18'
+  - standard_id: 'ARCH-02'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-02'
+  - standard_id: 'CODE-03'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-03'
+  - standard_id: 'CODE-04'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-04'
+  - standard_id: 'CODE-14'
+    severity: P2
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-14'
   - standard_id: 'ARCH-02'
     severity: P2
     file: 'core/tools/plan/plan_branch.py'
@@ -46,14 +74,14 @@ findings:
   - standard_id: 'BE-12'
     severity: P2
     file: 'core/tools/plan/plan_branch.py'
-    line: 135
+    line: 146
     evidence: 'fetch'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-12'
   - standard_id: 'BE-12'
     severity: P2
     file: 'core/tools/plan/plan_branch.py'
-    line: 200
+    line: 232
     evidence: 'fetch'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'BE-12'
@@ -92,6 +120,76 @@ findings:
     evidence: 'email'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'DATA-17'
+  - standard_id: 'ARCH-03'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-03'
+  - standard_id: 'ARCH-08'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'ARCH-08'
+  - standard_id: 'CODE-09'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-09'
+  - standard_id: 'CODE-10'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-10'
+  - standard_id: 'CODE-11'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-11'
+  - standard_id: 'CODE-12'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-12'
+  - standard_id: 'CODE-15'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-15'
+  - standard_id: 'CODE-17'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-18'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-18'
+  - standard_id: 'FE-08'
+    severity: P3
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'FE-08'
   - standard_id: 'DOC-01'
     severity: P3
     file: 'core/tools/plan/README.md'
@@ -193,35 +291,49 @@ findings:
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/plan/plan_branch.py'
-    line: 161
+    line: 175
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/plan/plan_branch.py'
-    line: 255
+    line: 179
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/plan/plan_branch.py'
-    line: 269
+    line: 193
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/plan/plan_branch.py'
-    line: 275
+    line: 294
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
   - standard_id: 'CODE-25'
     severity: P3
     file: 'core/tools/plan/plan_branch.py'
-    line: 287
+    line: 308
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 314
+    evidence: 'except '
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-25'
+  - standard_id: 'CODE-25'
+    severity: P3
+    file: 'core/tools/plan/plan_branch.py'
+    line: 326
     evidence: 'except '
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-25'
@@ -281,6 +393,34 @@ findings:
     evidence: 'core/tools/plan/test_plan_branch.py'
     artifact_type: 'runtime-code'
     taxonomy_rule_id: 'CODE-17'
+  - standard_id: 'CODE-13'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-13'
+  - standard_id: 'CODE-19'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 1
+    evidence: 'core/tools/lint-components/index.js'
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-19'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 95
+    evidence: 'const here ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
+  - standard_id: 'CODE-22'
+    severity: P4
+    file: 'core/tools/lint-components/index.js'
+    line: 96
+    evidence: 'const relative ='
+    artifact_type: 'runtime-code'
+    taxonomy_rule_id: 'CODE-22'
   - standard_id: 'DOC-14'
     severity: P4
     file: 'core/tools/plan/README.md'
@@ -346,138 +486,215 @@ findings:
     taxonomy_rule_id: 'CODE-19'
 counts:
   P1: 1
-  P2: 11
-  P3: 27
-  P4: 9
-# --- Added by quality-auditor after the scan (the scan above is byte-for-byte scan_taxonomy.py output) ---
-# The scan sees only 2 of the 27 changed .py files as runtime code: everything under core/components/**
-# is classified garura-prose, so no grep or code-path row can fire on the update-plan scripts, the
-# track-plan-changes scripts, link_part.py or the platform_adapter copies. The review/code rubric
-# (error handling, safe handling of destructive/irreversible operations, deterministic where it
-# claims to be) was applied by reading the five data-safety paths named in categories.yaml.
-# Severity here follows the P1-P4 bucket definitions in pr.md (P1 blocker: data loss, secrets,
-# injection; P2 major: error-handling and structural violations; P3 minor; P4 nit). These are not
-# taxonomy rows (pr.md has no row for them), so they sit in their own list, not in findings.
+  P2: 15
+  P3: 39
+  P4: 13
+# --- Added by quality-auditor after the scan (round 2). The scan above is byte-for-byte scan_taxonomy.py output ---
+# Same limit as round 1: the scan sees only core/tools/** as runtime code (plan_branch.py, test_plan_branch.py
+# and now lint-components/index.js). Everything under core/components/** is garura-prose, so no grep or
+# code-path row fires on the update-plan scripts, the track-plan-changes scripts or link_part.py. The
+# review/code rubric was applied by reading the five data-safety paths again, as round 1 did, and by
+# running two small checks in a throwaway repo outside the project (a plan file with no status line; an
+# abort whose remote refuses the branch delete).
+# What is new in the scan against round 1: lint-components/index.js is in the diff now, so the path-only
+# rows (ARCH-02, ARCH-03, ARCH-08, CODE-03, CODE-04, CODE-09..CODE-15, CODE-17..CODE-19, FE-08) fire on it
+# as they do on the two plan files, and CODE-22 fires twice on it. Nothing else in the scan changed except
+# line numbers (plan_branch.py grew by about 60 lines).
 scan_notes:
-  - finding: "BE-12 at core/tools/plan/plan_branch.py:135 and :200"
-    note: "'fetch' here is `git fetch`, not an HTTP call; no timeout-config question applies. Likely false positive."
-  - finding: "DATA-17 and DATA-18 at core/tools/plan/test_plan_branch.py:43"
-    note: "'email' is the throwaway git identity of a test repo (user.email test@example.com). No personal data. Likely false positive."
-  - finding: "CODE-03, CODE-04 (lint, format)"
-    note: "Path-only rows that ask for a lint/format run; ruff 0.15.20 with defaults ran clean on the changed non-test Python (runnable-checks.txt)."
+  - finding: "BE-12 at core/tools/plan/plan_branch.py:146 and :232"
+    note: "'fetch' here is `git fetch`, not an HTTP call; no timeout-config question applies. False positive."
+  - finding: "DATA-17 (P2) and DATA-18 (P1) at core/tools/plan/test_plan_branch.py:43"
+    note: "'email' is the throwaway git identity of a test repo (user.email test@example.com). No personal data and no encryption question. False positive. This is the only P1 in the scan."
+  - finding: "BE-13 and CODE-27 at core/tools/plan/plan_branch.py:63; BE-23 at :63 and :66"
+    note: "'retry' and 'lock' here are the wait for git's own index.lock (8 tries, 2 seconds), bounded, with no service call and no shared state; a retry-policy or lock-scope question does not apply. False positive."
+  - finding: "CODE-25 at core/tools/plan/plan_branch.py:175, :179, :193, :294, :308, :314, :326"
+    note: "Read each handler. None is bare and none swallows an error: 175 and 179 re-raise as Stop with a message; 193 cleans up and re-raises; 294, 308, 314 and 326 print the record with the error and return a non-zero exit. No finding."
+  - finding: "CODE-22 at core/tools/lint-components/index.js:95 and :96"
+    note: "The rule asks about capitalised names. The scanner matches case-insensitively, so the lowercase `here` and `relative` match `[A-Z][a-z]+`. False positive."
+  - finding: "CODE-03, CODE-04 (lint, format) on plan_branch.py, test_plan_branch.py and index.js"
+    note: "Path-only rows that ask for a lint or format run. ruff 0.15.20 with defaults ran clean on the changed non-test Python, and `node --check` passes on index.js with the 6 tests of the linter green (runnable-checks.txt). No eslint or prettier is committed or installed, so JavaScript has a syntax check and tests only; it was not linted or format-checked."
+  - finding: "ARCH-02, ARCH-03, ARCH-08, CODE-09..CODE-15, CODE-17..CODE-19, CODE-13, FE-08 (path-only) on the same three files"
+    note: "Path-only rows that ask for a human or tool judgment (cycles, complexity, naming, duplication, bundle size). They are not defects by themselves. The one real instance found is the copied git() helper, reported as CODE-13 in reviewed_findings. FE-08 (bundle size) does not apply to a Node command-line tool."
 reviewed_findings:
-  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P2 (error-handling violation)"
+  - status: fixed
+    basis: "round 1 P2: safe handling of destructive/irreversible operations"
+    severity: P2
+    file: core/tools/plan/plan_branch.py
+    function: go / uncommitted
+    line: 83
+    artifact_type: runtime-code
+    evidence: >-
+      uncommitted() now counts a staged path anywhere, whatever --ignore says (line 96 `staged = code[0] not in " ?"`,
+      line 98 `if staged or not ignored`), so a staged file stops go with exit 3 before any commit. The cut commit
+      is also limited to the plan file (lines 187-188, `commit ... -- path`). Test:
+      test_a_staged_file_stops_it_even_in_an_ignored_folder. The core/tools/plan suite (33 tests) passes.
+  - status: fixed
+    basis: "round 1 P2: the cut is not all-or-nothing; abort cannot undo go"
     severity: P2
     file: core/tools/plan/plan_branch.py
     function: go
-    line: 171
+    line: 193
     artifact_type: runtime-code
     evidence: >-
-      The "uncommitted work" check skips every file under --ignore (the issue's short-term folder),
-      including files already staged. The cut then runs `git commit -m` with no path limit, so a
-      staged file under an ignored folder is committed to main and pushed. Reproduced in a scratch
-      repo: staged stm/note.md went into the "chore(plan): plan 5" commit on main. Fix: commit with
-      `-- <plan file>` (or fail on staged files), and the abort revert would then also undo only the plan file.
-  - basis: "review/code rubric: safe handling of destructive/irreversible operations, error handling; pr.md P2"
-    severity: P2
-    file: core/tools/plan/plan_branch.py
-    function: go
-    line: 175
-    artifact_type: runtime-code
-    evidence: >-
-      The cut is not all-or-nothing. After `git commit` on main, a rejected `git push main` raises
-      Stop. The Stop record has main_commit null and back_to null, so `abort` has no commit to
-      revert and `back` has no branch to return to. Reproduced with a remote whose pre-receive hook
-      rejects: the session stays on main, local main is one commit ahead of origin/main, and the
-      record says action=stop. The same happens for a malformed plan file (yaml.YAMLError is not
-      caught, so a traceback, the session left on main). The author-recorded design promise is that
-      `abort` undoes `go`; here it cannot. Fix: record main_commit before the push, reset the local
-      commit (or write the record) on failure, and return to the start branch in every failure path.
-  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P2 (a script that says it stages only X must stage only X)"
+      A stop after the commit now takes the commit back (`reset --soft HEAD~1`, then `restore --staged --worktree`,
+      lines 194-197) and returns to the starting branch (line 200); a stop before the commit restores the file
+      (line 199). A plan file that is not valid YAML is caught and named (lines 177-180). Tests:
+      test_a_rejected_push_of_main_puts_everything_back (a pre-receive hook rejects; main, status and branch are
+      as before) and test_a_plan_file_that_cannot_be_read_stops_cleanly. I also ran a plan file with no `status:`
+      line: it stopped with exit 2, the plan file was restored byte for byte, and the session stayed on its branch.
+  - status: fixed
+    basis: "round 1 P2: a script that says it stages only X must stage only X"
     severity: P2
     file: core/components/plays/update-plan/scripts/commit_plan.py
     function: main
-    line: 89
+    line: 99
     artifact_type: garura-prose
     evidence: >-
-      The docstring says it "stages only the plan file, the model files ... and the changed files in
-      the plan's own short-term folder". But the commit is `git commit -m` with no pathspec, and the
-      "nothing staged" test is `git diff --cached --quiet` over the whole index. Anything the person
-      already staged (any path) is committed and pushed with the plan commit. Fix: `git commit -m
-      <msg> -- <files>` and test `git diff --cached --quiet -- <files>`.
-  - basis: "review/code rubric: idempotency of external writes; pr.md P2 (error handling); BE-13 / CODE-27 (retry, fallback) are the nearest taxonomy rows"
+      The staged test and the commit are both limited to the named files: `git diff --cached --quiet -- *files`
+      (line 100) and `git commit ... -- *files` (line 105). Test: test_the_commit_takes_only_its_own_files
+      (a file a person staged stays staged and out of the commit). The 21 tests of the update-plan scripts pass.
+  - status: fixed
+    basis: "round 1 P2: idempotency of external writes"
     severity: P2
     file: core/components/skills/track-plan-changes/scripts/track_changes.py
-    function: run_op / apply
-    line: 104
+    function: run_op
+    line: 113
     artifact_type: garura-prose
     evidence: >-
-      The docstring says a rerun "never makes an issue twice". That holds only when the record file
-      is written after the create. Two gaps: (1) tracker.HostTracker.create raises TrackerError when
-      create-issue-typed answers with a non-number, after the issue already exists on GitHub, so the
-      op is recorded as failed and a rerun creates a second issue; (2) a crash between the GitHub
-      write and write_json leaves no record of it. The create op has no look-up by title or marker
-      before it writes. The other ops (close, title, body, type, parent) check the live state first and are safe to rerun.
-  - basis: "review/code rubric: deterministic where it claims to be; pr.md P3"
+      A create now writes a marker line into the issue text (line 117, 121-122) and looks for it first (line 118);
+      when the create itself raises, it looks once more before it fails (lines 123-129). The create is one call
+      that also sets the parent (create-issue-typed in platform_adapter.py, one GraphQL createIssue with the parent
+      id), so a found issue already has its parent. Test:
+      test_a_run_that_died_before_its_record_never_makes_the_issue_twice. The gap that is left is the new
+      finding on find_marked below.
+  - status: fixed
+    basis: "round 1 P3: the record is not tied to the approved list"
     severity: P3
     file: core/components/skills/track-plan-changes/scripts/track_changes.py
     function: apply
-    line: 166
+    line: 180
     artifact_type: garura-prose
     evidence: >-
-      A rerun skips each op id found in the existing --out record, with no check that the record
-      belongs to this approved list. A stale github-record.json from an earlier session in the same
-      folder (ids e1, e2 ...) makes the new session skip its writes and report ok. The approval is
-      bound to the list by sha256, the record is not. Fix: store list_sha in the record and refuse on a mismatch.
-  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P3"
+      The record carries `list_sha` (line 181) and a record from another list is refused with exit 2 and nothing
+      written (lines 182-185). Test: test_a_record_from_another_list_is_refused.
+  - status: stands
+    basis: "round 1 P3: abort after a partial finish; review/code rubric: safe handling of destructive/irreversible operations"
     severity: P3
     file: core/tools/plan/plan_branch.py
     function: abort
-    line: 188
+    line: 241
     artifact_type: runtime-code
     evidence: >-
-      `abort` trusts the record file: it deletes the branch named in rec["plan_branch"] here and on
-      the remote (`push --delete`) without checking it equals plan/<plan>/base. The extra-commits
-      guard (cut..ref) is the only protection. Also, `git revert` of the cut can conflict if a later
-      main commit touched the plan file; the half-done revert is left in place (no `revert --abort`),
-      and a rerun after a failed push would revert the already-reverted commit. Fix: validate the
-      branch name pattern, abort the revert on failure, and skip the revert when main already holds it.
-  - basis: "review/code rubric: safe handling of destructive/irreversible operations; pr.md P3"
+      Most of round 1's point is fixed: the branch name must be plan/<plan>/base (lines 226-227); a revert that
+      clashes is aborted (lines 243-246); a failed push of the revert is taken back (lines 248-251). The rest
+      stands. After the revert is pushed, a refused branch delete (line 253 or 255) raises from git() with
+      check=True, so the session stays on main (back() is not reached) and the record is unchanged. I
+      reproduced it in a throwaway repo with a remote that refuses deletes: main holds the revert, the remote
+      still holds plan/<id>/base, and a second `abort` stops with exit 2 and the message "clashes with later
+      work", because `git revert` of a commit that is already reverted fails (lines 241-246 only prove the cut is
+      an ancestor). The person has to delete the branch by hand. Fix: skip the revert when main already holds a
+      revert of the cut, and return to the start branch on every stop after the revert.
+  - status: fixed
+    basis: "round 1 P3: files from the model record are not checked; porcelain parsed without -z"
     severity: P3
     file: core/components/plays/update-plan/scripts/commit_plan.py
     function: main
-    line: 80
+    line: 79
     artifact_type: garura-prose
     evidence: >-
-      `files` from the model record are passed to `git add` as written; nothing checks they stay
-      inside the repo or the model folder. The records-dir list is parsed from `git status
-      --porcelain` without -z, so a renamed ("a -> b") or quoted (non-ASCII) path becomes a bad
-      pathspec and `git add` fails after the message is built (the run then stops with exit 2, nothing committed).
-  - basis: "review/code rubric: no stray debug output / error handling; pr.md P4"
+      Each listed file must be relative and resolve inside the repository (lines 79-86); the records-dir listing
+      uses `status --porcelain -z` and skips the old path of a rename or copy (lines 88-98). Test:
+      test_a_model_file_outside_the_repository_is_refused.
+  - status: fixed
+    basis: "round 1 P4: 'not found' read as 'no such issue'"
     severity: P4
     file: core/components/skills/track-plan-changes/scripts/tracker.py
     function: HostTracker.get
-    line: 163
+    line: 168
     artifact_type: garura-prose
     evidence: >-
-      "not found" in any error text is read as "the tracker has no such issue". An unrelated failure
-      that contains those words (for example "repository not found") would be reported as a missing
-      issue instead of a tracker error. Safe by luck: later ops still raise on a missing issue.
-  - basis: "review/code rubric: no duplication; pr.md CODE-13 (P4, duplicate code)"
+      The test is now only "could not resolve to an issue" (line 168); any other failure raises TrackerError.
+  - status: stands
+    basis: "round 1 P4: duplicated helper (CODE-13)"
     severity: P4
     file: core/tools/plan/plan_branch.py
     function: git
     line: 62
     artifact_type: runtime-code
     evidence: >-
-      The same `git()` helper (retry while index.lock, 8 tries, 2 seconds) is copied in plan_branch.py and
-      commit_plan.py, and track-plan-changes/platform_adapter.py is a copy of the one kept in eight places.
+      The same git() helper (retry while index.lock, 8 tries, 2 seconds) is still in plan_branch.py:62 and
+      commit_plan.py:35, and track-plan-changes/scripts/platform_adapter.py is still a copy of the one kept
+      in eight places. The fixes did not change this.
+  - status: new
+    basis: "review/code rubric: idempotency of external writes; deterministic where it claims to be"
+    severity: P3
+    file: core/components/skills/track-plan-changes/scripts/tracker.py
+    function: HostTracker.find_marked
+    line: 212
+    artifact_type: garura-prose
+    evidence: >-
+      The rerun safety of a create rests on the host's issue search (`list-issues` with the marker as an
+      in:body phrase, 10 results). No test runs this path: test_track_changes.py uses only the file stand-in,
+      whose find_marked scans its own data directly. I cannot show from the code that an issue made seconds
+      earlier is already found by the host's search, so a rerun right after a crash may not find it and may
+      make the issue twice. The search is the only guard left for the case where the record was never written.
+      Fix: test HostTracker.find_marked against a fake adapter, and say in the skill what the person does when a
+      create is rerun at once after a crash (look in the tracker before the rerun).
+  - status: new
+    basis: "review/code rubric: safe handling of destructive/irreversible operations"
+    severity: P4
+    file: core/tools/plan/plan_branch.py
+    function: go
+    line: 183
+    artifact_type: runtime-code
+    evidence: >-
+      The plan file is opened for writing (which empties it) before set_fields() has run, so a plan file with no
+      `status:` line is emptied first and put back only by the `git checkout -- path` in the stop handler (line
+      199). It is safe today (I ran it: the file came back byte for byte), but it depends on that handler, and
+      the handler catches only Stop: an OSError on the write would leave main's plan file changed. Fix: compute
+      the new text before opening the file.
+  - status: new
+    basis: "review/code rubric: no machine path or user name"
+    severity: P4
+    file: core/tools/lint-components/index.js
+    function: main
+    line: 95
+    artifact_type: runtime-code
+    evidence: >-
+      The report drops only the working-folder prefix (`process.cwd() + path.sep`). Run from the repository root,
+      as the play does, the report is clean. Run from another folder with --target elsewhere, I got 37
+      absolute paths in the output, each starting with the home folder. The comment says the aim is a report that
+      can be committed without naming the machine; that holds only from the root. Also the replace is applied
+      anywhere inside a string, not only at its start. Fix: strip the prefix only at the start of a path, and say
+      in the usage text that the report is relative to the working folder only.
+  - status: new
+    basis: "review/code rubric: deterministic contract between steps"
+    severity: P4
+    file: core/components/plays/update-plan/scripts/commit_plan.py
+    function: main
+    line: 83
+    artifact_type: garura-prose
+    evidence: >-
+      The new check refuses every absolute path and every path that leaves the repository, and git add runs
+      from the repository root. The play says `model-record.json` holds "every model file written" (SKILL.md
+      line 267) without saying the paths are repository-relative, while link-model-part reports `changed`
+      relative to the product base (link-model-part/SKILL.md line 46). I did not run the real hand-off, so I
+      do not know which form the keeper writes. If it passes the product-base form, git add fails on a path
+      that does not exist from the root and the commit step refuses every time. Fix: state in SKILL.md that
+      `files` is repository-relative.
 counts_reviewed:
+  # Still open after this read (the stands and the new findings)
   P1: 0
+  P2: 0
+  P3: 2
+  P4: 4
+fixed_from_round_1:
   P2: 4
-  P3: 3
-  P4: 2
+  P3: 2
+  P4: 1
 positive_checks:
-  - "write_plan_changes.py: writes only after reading the new text back as YAML and comparing it with the old plan plus the list; writes via temp file and os.replace; refuses when the tracker record shows a failure. No defect found."
-  - "track_changes.py apply: refuses unless approval.json says approved and list_sha matches the list now. Close, title, body, type and parent ops check live state first (safe to rerun)."
-  - "No secrets, no shell=True, no eval, no stray debug output in the changed Python. ruff clean; the five unit-test suites in runnable-checks.txt pass."
+  - "plan_branch.py: a staged file stops go, back and abort anywhere; the cut commits only the plan file; a failed push of main is taken back and the session returns to its branch; abort refuses a branch that is not plan/<plan>/base, aborts a clashing revert, and takes back a revert whose push failed. The core/tools/plan suite (33 tests) passes."
+  - "commit_plan.py: the commit and the 'nothing staged' test are limited to the named files; paths outside the repository are refused; the records-dir listing is parsed with -z."
+  - "track_changes.py: refuses without a matching approval; a record from another list is refused; a create finds its own marker before it writes and again after a failed create; close, title, body, type and parent check the live state first. tracker.py: create is one call that sets the parent, so a found issue has its parent."
+  - "write_plan_changes.py was not changed by the fixes and was not read again."
+  - "No secrets, no shell=True, no eval, no stray debug output in the changed Python. ruff clean; the five test suites and the 6 linter tests in runnable-checks.txt pass."

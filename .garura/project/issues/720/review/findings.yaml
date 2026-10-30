@@ -1,25 +1,42 @@
 pr: 998
 issue: 720
-round: 1
+round: 2
 counts:
   P1: 1
   P2: 18
-  P3: 38
-  P4: 16
+  P3: 49
+  P4: 22
 scan_notes:
-- finding: BE-12 at core/tools/plan/plan_branch.py:135 and :200
-  note: '''fetch'' here is `git fetch`, not an HTTP call; no timeout-config question applies. Likely false positive.'
-- finding: DATA-17 and DATA-18 at core/tools/plan/test_plan_branch.py:43
-  note: '''email'' is the throwaway git identity of a test repo (user.email test@example.com). No personal data. Likely false
-    positive.'
-- finding: CODE-03, CODE-04 (lint, format)
-  note: Path-only rows that ask for a lint/format run; ruff 0.15.20 with defaults ran clean on the changed non-test Python
-    (runnable-checks.txt).
+- finding: BE-12 at core/tools/plan/plan_branch.py:146 and :232
+  note: '''fetch'' here is `git fetch`, not an HTTP call; no timeout-config question applies. False positive.'
+- finding: DATA-17 (P2) and DATA-18 (P1) at core/tools/plan/test_plan_branch.py:43
+  note: '''email'' is the throwaway git identity of a test repo (user.email test@example.com). No personal data and no encryption
+    question. False positive. This is the only P1 in the scan.'
+- finding: BE-13 and CODE-27 at core/tools/plan/plan_branch.py:63; BE-23 at :63 and :66
+  note: '''retry'' and ''lock'' here are the wait for git''s own index.lock (8 tries, 2 seconds), bounded, with no service
+    call and no shared state; a retry-policy or lock-scope question does not apply. False positive.'
+- finding: CODE-25 at core/tools/plan/plan_branch.py:175, :179, :193, :294, :308, :314, :326
+  note: 'Read each handler. None is bare and none swallows an error: 175 and 179 re-raise as Stop with a message; 193 cleans
+    up and re-raises; 294, 308, 314 and 326 print the record with the error and return a non-zero exit. No finding.'
+- finding: CODE-22 at core/tools/lint-components/index.js:95 and :96
+  note: The rule asks about capitalised names. The scanner matches case-insensitively, so the lowercase `here` and `relative`
+    match `[A-Z][a-z]+`. False positive.
+- finding: CODE-03, CODE-04 (lint, format) on plan_branch.py, test_plan_branch.py and index.js
+  note: Path-only rows that ask for a lint or format run. ruff 0.15.20 with defaults ran clean on the changed non-test Python,
+    and `node --check` passes on index.js with the 6 tests of the linter green (runnable-checks.txt). No eslint or prettier
+    is committed or installed, so JavaScript has a syntax check and tests only; it was not linted or format-checked.
+- finding: ARCH-02, ARCH-03, ARCH-08, CODE-09..CODE-15, CODE-17..CODE-19, CODE-13, FE-08 (path-only) on the same three files
+  note: Path-only rows that ask for a human or tool judgment (cycles, complexity, naming, duplication, bundle size). They
+    are not defects by themselves. The one real instance found is the copied git() helper, reported as CODE-13 in reviewed_findings.
+    FE-08 (bundle size) does not apply to a Node command-line tool.
+fixed_from_round_1:
+  P2: 4
+  P3: 2
+  P4: 1
 findings:
 - id: QS-01
   category: executable-code/tests/docs (scan)
   severity: P1
-  standard_id: DATA-18
   file: core/tools/plan/test_plan_branch.py
   line: 43
   what: email
@@ -28,531 +45,612 @@ findings:
 - id: QS-02
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: ARCH-02
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard ARCH-02 (ARCH-02)
   source: quality-findings.yaml findings
 - id: QS-03
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: CODE-03
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-03 (CODE-03)
   source: quality-findings.yaml findings
 - id: QS-04
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: CODE-04
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-04 (CODE-04)
   source: quality-findings.yaml findings
 - id: QS-05
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: CODE-14
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-14 (CODE-14)
   source: quality-findings.yaml findings
 - id: QS-06
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: BE-12
   file: core/tools/plan/plan_branch.py
-  line: 135
-  what: fetch
-  basis: standard BE-12 (BE-12)
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard ARCH-02 (ARCH-02)
   source: quality-findings.yaml findings
 - id: QS-07
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: BE-12
   file: core/tools/plan/plan_branch.py
-  line: 200
-  what: fetch
-  basis: standard BE-12 (BE-12)
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-03 (CODE-03)
   source: quality-findings.yaml findings
 - id: QS-08
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: ARCH-02
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-04 (CODE-04)
+  source: quality-findings.yaml findings
+- id: QS-09
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-14 (CODE-14)
+  source: quality-findings.yaml findings
+- id: QS-10
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 146
+  what: fetch
+  basis: standard BE-12 (BE-12)
+  source: quality-findings.yaml findings
+- id: QS-11
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 232
+  what: fetch
+  basis: standard BE-12 (BE-12)
+  source: quality-findings.yaml findings
+- id: QS-12
+  category: executable-code/tests/docs (scan)
+  severity: P2
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard ARCH-02 (ARCH-02)
   source: quality-findings.yaml findings
-- id: QS-09
+- id: QS-13
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: CODE-03
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-03 (CODE-03)
   source: quality-findings.yaml findings
-- id: QS-10
+- id: QS-14
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: CODE-04
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-04 (CODE-04)
   source: quality-findings.yaml findings
-- id: QS-11
+- id: QS-15
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: CODE-14
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-14 (CODE-14)
   source: quality-findings.yaml findings
-- id: QS-12
+- id: QS-16
   category: executable-code/tests/docs (scan)
   severity: P2
-  standard_id: DATA-17
   file: core/tools/plan/test_plan_branch.py
   line: 43
   what: email
   basis: standard DATA-17 (DATA-17)
   source: quality-findings.yaml findings
-- id: QS-13
-  category: executable-code/tests/docs (scan)
-  severity: P3
-  standard_id: DOC-01
-  file: core/tools/plan/README.md
-  line: 1
-  what: core/tools/plan/README.md
-  basis: standard DOC-01 (DOC-01)
-  source: quality-findings.yaml findings
-- id: QS-14
-  category: executable-code/tests/docs (scan)
-  severity: P3
-  standard_id: DOC-09
-  file: core/tools/plan/README.md
-  line: 1
-  what: core/tools/plan/README.md
-  basis: standard DOC-09 (DOC-09)
-  source: quality-findings.yaml findings
-- id: QS-15
-  category: executable-code/tests/docs (scan)
-  severity: P3
-  standard_id: DOC-10
-  file: core/tools/plan/README.md
-  line: 1
-  what: core/tools/plan/README.md
-  basis: standard DOC-10 (DOC-10)
-  source: quality-findings.yaml findings
-- id: QS-16
-  category: executable-code/tests/docs (scan)
-  severity: P3
-  standard_id: DOC-11
-  file: core/tools/plan/README.md
-  line: 1
-  what: core/tools/plan/README.md
-  basis: standard DOC-11 (DOC-11)
-  source: quality-findings.yaml findings
 - id: QS-17
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: ARCH-03
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard ARCH-03 (ARCH-03)
   source: quality-findings.yaml findings
 - id: QS-18
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: ARCH-08
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard ARCH-08 (ARCH-08)
   source: quality-findings.yaml findings
 - id: QS-19
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-09
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-09 (CODE-09)
   source: quality-findings.yaml findings
 - id: QS-20
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-10
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-10 (CODE-10)
   source: quality-findings.yaml findings
 - id: QS-21
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-11
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-11 (CODE-11)
   source: quality-findings.yaml findings
 - id: QS-22
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-12
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-12 (CODE-12)
   source: quality-findings.yaml findings
 - id: QS-23
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-15
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-15 (CODE-15)
   source: quality-findings.yaml findings
 - id: QS-24
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-17
-  file: core/tools/plan/plan_branch.py
+  file: core/tools/lint-components/index.js
   line: 1
-  what: core/tools/plan/plan_branch.py
+  what: core/tools/lint-components/index.js
   basis: standard CODE-17 (CODE-17)
   source: quality-findings.yaml findings
 - id: QS-25
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: BE-13
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-18 (CODE-18)
+  source: quality-findings.yaml findings
+- id: QS-26
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard FE-08 (FE-08)
+  source: quality-findings.yaml findings
+- id: QS-27
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-01 (DOC-01)
+  source: quality-findings.yaml findings
+- id: QS-28
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-09 (DOC-09)
+  source: quality-findings.yaml findings
+- id: QS-29
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-10 (DOC-10)
+  source: quality-findings.yaml findings
+- id: QS-30
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-11 (DOC-11)
+  source: quality-findings.yaml findings
+- id: QS-31
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard ARCH-03 (ARCH-03)
+  source: quality-findings.yaml findings
+- id: QS-32
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard ARCH-08 (ARCH-08)
+  source: quality-findings.yaml findings
+- id: QS-33
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-09 (CODE-09)
+  source: quality-findings.yaml findings
+- id: QS-34
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-10 (CODE-10)
+  source: quality-findings.yaml findings
+- id: QS-35
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-11 (CODE-11)
+  source: quality-findings.yaml findings
+- id: QS-36
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-12 (CODE-12)
+  source: quality-findings.yaml findings
+- id: QS-37
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-15 (CODE-15)
+  source: quality-findings.yaml findings
+- id: QS-38
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-17 (CODE-17)
+  source: quality-findings.yaml findings
+- id: QS-39
+  category: executable-code/tests/docs (scan)
+  severity: P3
   file: core/tools/plan/plan_branch.py
   line: 63
   what: retry
   basis: standard BE-13 (BE-13)
   source: quality-findings.yaml findings
-- id: QS-26
+- id: QS-40
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-27
   file: core/tools/plan/plan_branch.py
   line: 63
   what: retry
   basis: standard CODE-27 (CODE-27)
   source: quality-findings.yaml findings
-- id: QS-27
+- id: QS-41
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-25
   file: core/tools/plan/plan_branch.py
-  line: 161
+  line: 175
   what: 'except '
   basis: standard CODE-25 (CODE-25)
   source: quality-findings.yaml findings
-- id: QS-28
+- id: QS-42
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-25
   file: core/tools/plan/plan_branch.py
-  line: 255
+  line: 179
   what: 'except '
   basis: standard CODE-25 (CODE-25)
   source: quality-findings.yaml findings
-- id: QS-29
+- id: QS-43
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-25
   file: core/tools/plan/plan_branch.py
-  line: 269
+  line: 193
   what: 'except '
   basis: standard CODE-25 (CODE-25)
   source: quality-findings.yaml findings
-- id: QS-30
+- id: QS-44
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-25
   file: core/tools/plan/plan_branch.py
-  line: 275
+  line: 294
   what: 'except '
   basis: standard CODE-25 (CODE-25)
   source: quality-findings.yaml findings
-- id: QS-31
+- id: QS-45
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-25
   file: core/tools/plan/plan_branch.py
-  line: 287
+  line: 308
   what: 'except '
   basis: standard CODE-25 (CODE-25)
   source: quality-findings.yaml findings
-- id: QS-32
+- id: QS-46
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: ARCH-03
+  file: core/tools/plan/plan_branch.py
+  line: 314
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-47
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 326
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-48
+  category: executable-code/tests/docs (scan)
+  severity: P3
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard ARCH-03 (ARCH-03)
   source: quality-findings.yaml findings
-- id: QS-33
+- id: QS-49
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: ARCH-08
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard ARCH-08 (ARCH-08)
   source: quality-findings.yaml findings
-- id: QS-34
+- id: QS-50
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-09
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-09 (CODE-09)
   source: quality-findings.yaml findings
-- id: QS-35
+- id: QS-51
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-10
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-10 (CODE-10)
   source: quality-findings.yaml findings
-- id: QS-36
+- id: QS-52
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-11
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-11 (CODE-11)
   source: quality-findings.yaml findings
-- id: QS-37
+- id: QS-53
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-12
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-12 (CODE-12)
   source: quality-findings.yaml findings
-- id: QS-38
+- id: QS-54
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-15
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-15 (CODE-15)
   source: quality-findings.yaml findings
-- id: QS-39
+- id: QS-55
   category: executable-code/tests/docs (scan)
   severity: P3
-  standard_id: CODE-17
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-17 (CODE-17)
   source: quality-findings.yaml findings
-- id: QS-40
+- id: QS-56
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: DOC-14
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-13 (CODE-13)
+  source: quality-findings.yaml findings
+- id: QS-57
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-19 (CODE-19)
+  source: quality-findings.yaml findings
+- id: QS-58
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 95
+  what: const here =
+  basis: standard CODE-22 (CODE-22)
+  source: quality-findings.yaml findings
+- id: QS-59
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 96
+  what: const relative =
+  basis: standard CODE-22 (CODE-22)
+  source: quality-findings.yaml findings
+- id: QS-60
+  category: executable-code/tests/docs (scan)
+  severity: P4
   file: core/tools/plan/README.md
   line: 1
   what: core/tools/plan/README.md
   basis: standard DOC-14 (DOC-14)
   source: quality-findings.yaml findings
-- id: QS-41
+- id: QS-61
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: DOC-15
   file: core/tools/plan/README.md
   line: 1
   what: core/tools/plan/README.md
   basis: standard DOC-15 (DOC-15)
   source: quality-findings.yaml findings
-- id: QS-42
+- id: QS-62
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: DOC-16
   file: core/tools/plan/README.md
   line: 1
   what: core/tools/plan/README.md
   basis: standard DOC-16 (DOC-16)
   source: quality-findings.yaml findings
-- id: QS-43
+- id: QS-63
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: CODE-13
   file: core/tools/plan/plan_branch.py
   line: 1
   what: core/tools/plan/plan_branch.py
   basis: standard CODE-13 (CODE-13)
   source: quality-findings.yaml findings
-- id: QS-44
+- id: QS-64
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: CODE-19
   file: core/tools/plan/plan_branch.py
   line: 1
   what: core/tools/plan/plan_branch.py
   basis: standard CODE-19 (CODE-19)
   source: quality-findings.yaml findings
-- id: QS-45
+- id: QS-65
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: BE-23
   file: core/tools/plan/plan_branch.py
   line: 63
   what: lock
   basis: standard BE-23 (BE-23)
   source: quality-findings.yaml findings
-- id: QS-46
+- id: QS-66
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: BE-23
   file: core/tools/plan/plan_branch.py
   line: 66
   what: lock
   basis: standard BE-23 (BE-23)
   source: quality-findings.yaml findings
-- id: QS-47
+- id: QS-67
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: CODE-13
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-13 (CODE-13)
   source: quality-findings.yaml findings
-- id: QS-48
+- id: QS-68
   category: executable-code/tests/docs (scan)
   severity: P4
-  standard_id: CODE-19
   file: core/tools/plan/test_plan_branch.py
   line: 1
   what: core/tools/plan/test_plan_branch.py
   basis: standard CODE-19 (CODE-19)
   source: quality-findings.yaml findings
-- id: QR-01
-  category: executable-code (data-safety read)
-  severity: P2
-  file: core/tools/plan/plan_branch.py
-  line: 171
-  what: 'The "uncommitted work" check skips every file under --ignore (the issue''s short-term folder), including files already
-    staged. The cut then runs `git commit -m` with no path limit, so a staged file under an ignored folder is committed to
-    main and pushed. Reproduced in a scratch repo: staged stm/note.md went into the "chore(plan): plan 5" commit on main.
-    Fix: commit with `-- <plan file>` (or fail on'
-  basis: 'review/code rubric: safe handling of destructive/irreversible operations; pr.md P2 (error-handling violation)'
-  source: quality-findings.yaml reviewed_findings
-- id: QR-02
-  category: executable-code (data-safety read)
-  severity: P2
-  file: core/tools/plan/plan_branch.py
-  line: 175
-  what: 'The cut is not all-or-nothing. After `git commit` on main, a rejected `git push main` raises Stop. The Stop record
-    has main_commit null and back_to null, so `abort` has no commit to revert and `back` has no branch to return to. Reproduced
-    with a remote whose pre-receive hook rejects: the session stays on main, local main is one commit ahead of origin/main,
-    and the record says action=stop. The same'
-  basis: 'review/code rubric: safe handling of destructive/irreversible operations, error handling; pr.md P2'
-  source: quality-findings.yaml reviewed_findings
-- id: QR-03
-  category: executable-code (data-safety read)
-  severity: P2
-  file: core/components/plays/update-plan/scripts/commit_plan.py
-  line: 89
-  what: 'The docstring says it "stages only the plan file, the model files ... and the changed files in the plan''s own short-term
-    folder". But the commit is `git commit -m` with no pathspec, and the "nothing staged" test is `git diff --cached --quiet`
-    over the whole index. Anything the person already staged (any path) is committed and pushed with the plan commit. Fix:
-    `git commit -m <msg> -- <files>` and t'
-  basis: 'review/code rubric: safe handling of destructive/irreversible operations; pr.md P2 (a script that says it stages
-    only X must stage only X)'
-  source: quality-findings.yaml reviewed_findings
-- id: QR-04
-  category: executable-code (data-safety read)
-  severity: P2
-  file: core/components/skills/track-plan-changes/scripts/track_changes.py
-  line: 104
-  what: 'The docstring says a rerun "never makes an issue twice". That holds only when the record file is written after the
-    create. Two gaps: (1) tracker.HostTracker.create raises TrackerError when create-issue-typed answers with a non-number,
-    after the issue already exists on GitHub, so the op is recorded as failed and a rerun creates a second issue; (2) a crash
-    between the GitHub write and write_json lea'
-  basis: 'review/code rubric: idempotency of external writes; pr.md P2 (error handling); BE-13 / CODE-27 (retry, fallback)
-    are the nearest taxonomy rows'
-  source: quality-findings.yaml reviewed_findings
-- id: QR-05
-  category: executable-code (data-safety read)
-  severity: P3
-  file: core/components/skills/track-plan-changes/scripts/track_changes.py
-  line: 166
-  what: 'A rerun skips each op id found in the existing --out record, with no check that the record belongs to this approved
-    list. A stale github-record.json from an earlier session in the same folder (ids e1, e2 ...) makes the new session skip
-    its writes and report ok. The approval is bound to the list by sha256, the record is not. Fix: store list_sha in the record
-    and refuse on a mismatch.'
-  basis: 'review/code rubric: deterministic where it claims to be; pr.md P3'
-  source: quality-findings.yaml reviewed_findings
 - id: QR-06
   category: executable-code (data-safety read)
   severity: P3
   file: core/tools/plan/plan_branch.py
-  line: 188
-  what: '`abort` trusts the record file: it deletes the branch named in rec["plan_branch"] here and on the remote (`push --delete`)
-    without checking it equals plan/<plan>/base. The extra-commits guard (cut..ref) is the only protection. Also, `git revert`
-    of the cut can conflict if a later main commit touched the plan file; the half-done revert is left in place (no `revert
-    --abort`), and a rerun after a fai'
-  basis: 'review/code rubric: safe handling of destructive/irreversible operations; pr.md P3'
-  source: quality-findings.yaml reviewed_findings
-- id: QR-07
-  category: executable-code (data-safety read)
-  severity: P3
-  file: core/components/plays/update-plan/scripts/commit_plan.py
-  line: 80
-  what: '`files` from the model record are passed to `git add` as written; nothing checks they stay inside the repo or the
-    model folder. The records-dir list is parsed from `git status --porcelain` without -z, so a renamed ("a -> b") or quoted
-    (non-ASCII) path becomes a bad pathspec and `git add` fails after the message is built (the run then stops with exit 2,
-    nothing committed).'
-  basis: 'review/code rubric: safe handling of destructive/irreversible operations; pr.md P3'
-  source: quality-findings.yaml reviewed_findings
-- id: QR-08
-  category: executable-code (data-safety read)
-  severity: P4
-  file: core/components/skills/track-plan-changes/scripts/tracker.py
-  line: 163
-  what: '"not found" in any error text is read as "the tracker has no such issue". An unrelated failure that contains those
-    words (for example "repository not found") would be reported as a missing issue instead of a tracker error. Safe by luck:
-    later ops still raise on a missing issue.'
-  basis: 'review/code rubric: no stray debug output / error handling; pr.md P4'
+  line: 241
+  what: 'Most of round 1''s point is fixed: the branch name must be plan/<plan>/base (lines 226-227); a revert that clashes
+    is aborted (lines 243-246); a failed push of the revert is taken back (lines 248-251). The rest stands. After the revert
+    is pushed, a refused branch delete (line 253 or 255) raises from git() with check=True, so the session stays on main (back()
+    is not reached) and the record is unchan'
+  basis: 'round 1 P3: abort after a partial finish; review/code rubric: safe handling of destructive/irreversible operations'
   source: quality-findings.yaml reviewed_findings
 - id: QR-09
   category: executable-code (data-safety read)
   severity: P4
   file: core/tools/plan/plan_branch.py
   line: 62
-  what: The same `git()` helper (retry while index.lock, 8 tries, 2 seconds) is copied in plan_branch.py and commit_plan.py,
-    and track-plan-changes/platform_adapter.py is a copy of the one kept in eight places.
-  basis: 'review/code rubric: no duplication; pr.md CODE-13 (P4, duplicate code)'
+  what: The same git() helper (retry while index.lock, 8 tries, 2 seconds) is still in plan_branch.py:62 and commit_plan.py:35,
+    and track-plan-changes/scripts/platform_adapter.py is still a copy of the one kept in eight places. The fixes did not
+    change this.
+  basis: 'round 1 P4: duplicated helper (CODE-13)'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-10
+  category: executable-code (data-safety read)
+  severity: P3
+  file: core/components/skills/track-plan-changes/scripts/tracker.py
+  line: 212
+  what: 'The rerun safety of a create rests on the host''s issue search (`list-issues` with the marker as an in:body phrase,
+    10 results). No test runs this path: test_track_changes.py uses only the file stand-in, whose find_marked scans its own
+    data directly. I cannot show from the code that an issue made seconds earlier is already found by the host''s search,
+    so a rerun right after a crash may not find it a'
+  basis: 'review/code rubric: idempotency of external writes; deterministic where it claims to be'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-11
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 183
+  what: 'The plan file is opened for writing (which empties it) before set_fields() has run, so a plan file with no `status:`
+    line is emptied first and put back only by the `git checkout -- path` in the stop handler (line 199). It is safe today
+    (I ran it: the file came back byte for byte), but it depends on that handler, and the handler catches only Stop: an OSError
+    on the write would leave main''s plan fil'
+  basis: 'review/code rubric: safe handling of destructive/irreversible operations'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-12
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 95
+  what: The report drops only the working-folder prefix (`process.cwd() + path.sep`). Run from the repository root, as the
+    play does, the report is clean. Run from another folder with --target elsewhere, I got 37 absolute paths in the output,
+    each starting with the home folder. The comment says the aim is a report that can be committed without naming the machine;
+    that holds only from the root. Also the re
+  basis: 'review/code rubric: no machine path or user name'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-13
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/components/plays/update-plan/scripts/commit_plan.py
+  line: 83
+  what: The new check refuses every absolute path and every path that leaves the repository, and git add runs from the repository
+    root. The play says `model-record.json` holds "every model file written" (SKILL.md line 267) without saying the paths
+    are repository-relative, while link-model-part reports `changed` relative to the product base (link-model-part/SKILL.md
+    line 46). I did not run the real hand-of
+  basis: 'review/code rubric: deterministic contract between steps'
   source: quality-findings.yaml reviewed_findings
 - id: HF-1
   category: harness
   severity: P2
   file: .garura/project/issues/720/review/pr.diff (core/tools/plan/plan_branch.py, called from core/components/plays/update-plan/SKILL.md
     Step 3)
-  line: plan_branch.py 20-23, 168-178 (commits In Progress on main, pushes main, cuts and pushes plan/<id>/base); SKILL.md
-    139-151
+  line: plan_branch.py 28-34 (header), 163-205 (commits In Progress on main, pushes main, cuts and pushes plan/<id>/base);
+    SKILL.md 139-151. Round 2 only made the step safer (a failed push of main is taken back, the cut commits only the plan
+    file); it still writes to main and still cuts the branch.
   what: /update-plan's first session on a plan with no branch writes straight to main (a commit and a push) and becomes a
     second creator of plan/<id>/base, beside start-change. The branch step is declared in the play's own ICE (C2, F2, F3 'except
     C2's branch step') and the branch-written ontology, but no ADR and no change to start-change C2/C9 or harness principle
@@ -578,8 +676,8 @@ findings:
   category: harness
   severity: P3
   file: core/components/plays/update-plan/SKILL.md
-  line: 54-66 (pre-flight), 255-270 (Step 8); core/tools/plan/plan_branch.py 136-146 (a session already on the plan's branch
-    returns before any uncommitted check)
+  line: 54-66 (pre-flight), 255-270 (Step 8); core/tools/plan/plan_branch.py 137-152 (a session already on the plan's branch
+    returns before the uncommitted check)
   what: 'update-plan bundles no scoped_write_guard.py, asserts no clean product-os tree (and not at all when the session starts
     on the plan''s branch), writes the model only after the approval (the reverse of write-then-review, with no declared exception),
     and commits the model files inside a chore(plan) commit. Its own checks (SE-8, the agreement check with evals_unchanged)
