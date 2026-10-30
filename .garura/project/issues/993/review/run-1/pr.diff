@@ -1,0 +1,1756 @@
+diff --git a/.garura/product/product-os/_spine.yaml b/.garura/product/product-os/_spine.yaml
+index 5d2e5d7fe..63ea99830 100644
+--- a/.garura/product/product-os/_spine.yaml
++++ b/.garura/product/product-os/_spine.yaml
+@@ -90,11 +90,14 @@ capabilities:
+   - bi-717
+   status: proposed
+   detail: directional
+-  one_line: 'Manage a plan: change the plan file and the tracker together'
++  one_line: 'Manage a plan with /update-plan: change the plan file, GitHub and the
++    product model together, on one approval'
+   doc: capabilities/cap-720/capability.md
+   depends_on: []
+   identified_by: ''
+   issue: 720
++  metadata:
++    updated_by: 'the #720 design, through #993''s change'
+ - id: cap-735
+   slug: cap-735
+   domain: ''
+@@ -335,11 +338,14 @@ features:
+   intents:
+   - bi-717
+   status: proposed
+-  one_line: Update, edit or delete a plan file, and connect it to its issues
++  one_line: 'The /update-plan session: instructions, checks, one approval, one landing
++    on the plan''s branch'
+   doc: features/fn-730/feature.md
+   depends_on: []
+   identified_by: ''
+   issue: 730
++  metadata:
++    updated_by: 'the #720 design, through #993''s change'
+ - id: fn-736
+   slug: fn-736
+   capability: cap-735
+diff --git a/.garura/product/product-os/capabilities/cap-720/capability.md b/.garura/product/product-os/capabilities/cap-720/capability.md
+index e483dc4a6..080e72e7c 100644
+--- a/.garura/product/product-os/capabilities/cap-720/capability.md
++++ b/.garura/product/product-os/capabilities/cap-720/capability.md
+@@ -1,10 +1,10 @@
+-# Capability: Manage a plan
++# Capability: Manage a plan with /update-plan
+ 
+ ## Directional intent
+-update, edit and delete plans, and keep the plan file and its tracker issues in step. Orchestration only.
++a working session on one plan: a person gives instructions in their own words, the play checks each one against the product model, the rules for GitHub and how an epic holds its work, keeps a running list, and on a plain "approved" lands every change at once in the plan file, GitHub and the product model, on the plan's own branch. Orchestration only.
+ 
+ ## Agent intent (ICE)
+-- Goal: After any change, the plan file and the tracker agree.
+-- Limit: It never cuts or merges a branch and never changes code — that is the implementation plays' work.
+-- Fails if: a change lands in the plan file and not in the tracker, or the other way round.
+-- Checked by: a compare of the plan file with the tracker finds no difference after each change.
++- Goal: After the person approves, the plan file, GitHub and the product model agree, and nothing beyond the approved list has changed.
++- Limit: Nothing is written before a plain "approved". It changes a plan only on the plan's own branch; it cuts a branch only when the plan has none (main's plan file first, then the cut), never merges one, and never changes code.
++- Fails if: a write happens before approval; a change lands in one of the three and not the others; a change the person did not approve lands; a plan is changed anywhere but on its own branch.
++- Checked by: after landing, a compare of the plan file, GitHub and the model finds no difference, and a compare against the approved list finds nothing extra.
+diff --git a/.garura/product/product-os/features/fn-730/feature.md b/.garura/product/product-os/features/fn-730/feature.md
+index 20ea325ee..34d0102e7 100644
+--- a/.garura/product/product-os/features/fn-730/feature.md
++++ b/.garura/product/product-os/features/fn-730/feature.md
+@@ -1,10 +1,10 @@
+-# Feature: Update, edit or delete a plan file, and connect it to its issues
++# Feature: The /update-plan session — instructions, checks, one approval, one landing on the plan's branch
+ 
+ ## What it does
+-add, move, drop or finish a node, or delete a plan — in the plan file and in the tracker (create, re-parent, close) together. Work can go on in the plan file; the sync brings the tracker up to date.
++a person opens a session on one plan with `/update-plan <id>` or a description, gives instructions in their own words, and approves; the play lands the changes in the plan file and GitHub together, on the plan's own branch. Changing an epic's or a story's text is one more instruction (#909 folded in).
+ 
+ ## Agent intent (ICE)
+-- Goal: Any change to a plan reaches both the plan file and the tracker.
+-- Limit: Never touches branches or code.
+-- Fails if: the tracker is left behind, or a dropped node stays open.
+-- Checked by: a test edits a plan three ways and the compare finds no difference.
++- Goal: Every instruction the person approved reaches the plan file and GitHub, in one landing on the plan's branch, and they agree afterwards.
++- Limit: Nothing is written before a plain "approved". It never merges a branch and never changes code; it cuts the plan's branch only when the plan has none, with main's plan file set first.
++- Fails if: a write happens before approval; GitHub is left behind or ahead of the plan file; a dropped item stays open; anything changes that the person did not approve; it switches away from a branch with uncommitted work.
++- Checked by: a test session with several instructions (add, move, drop, finish, change a story's text, set Status and Direction), approved once; the compare of the plan file with GitHub finds no difference, and nothing outside the list changed.
+diff --git a/.garura/project/issues/993/context/analysis.yaml b/.garura/project/issues/993/context/analysis.yaml
+new file mode 100644
+index 000000000..c718cc36a
+--- /dev/null
++++ b/.garura/project/issues/993/context/analysis.yaml
+@@ -0,0 +1,82 @@
++---
++# assess-changes output (judgment done). Branch plan/717/993-page-skill-named-lines; issue 993 also carries #994.
++needs_judgment: false
++
++change_groups:
++  - id: page-skill-named-lines
++    issue: 993
++    commit_type: feat
++    scope: enrich-grounding
++    subject: "let the page skill change the named lines of any model page"
++    files:
++      - core/components/skills/enrich-grounding/SKILL.md
++      - core/components/skills/enrich-grounding/scripts/change_lines.py
++      - core/components/skills/enrich-grounding/scripts/test_change_lines.py
++      - core/components/skills/enrich-grounding/scripts/safe_write.py
++      - core/components/plays/shape-slice/scripts/safe_write.py
++      - core/components/skills/link-model-part/scripts/safe_write.py
++      - core/components/agents/product-os-keeper.md
++
++  - id: platform-adapter-edit-issue-title
++    issue: 993
++    commit_type: feat
++    scope: platform-adapter
++    subject: "add the edit-issue-title verb (#994)"
++    files:
++      - core/components/skills/platform-adapter/SKILL.md
++      - core/components/skills/platform-adapter/reference/github/verbs.md
++      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
++      - core/components/plays/check-change/scripts/platform_adapter.py
++      - core/components/plays/create-play/references/platform_adapter.py
++      - core/components/plays/create-play/references/test_platform_adapter.py
++      - core/components/plays/merge-change/scripts/platform_adapter.py
++      - core/components/plays/propose-change/scripts/platform_adapter.py
++      - core/components/plays/shape-eval/scripts/platform_adapter.py
++      - core/components/plays/shape-plan/scripts/platform_adapter.py
++      - core/components/plays/shape-slice/scripts/platform_adapter.py
++
++  - id: model-720-730-design
++    issue: 993
++    commit_type: docs
++    scope: product-model
++    subject: "bring capability 720 and feature 730 to the approved #720 design"
++    files:
++      - .garura/product/product-os/_spine.yaml
++      - .garura/product/product-os/capabilities/cap-720/capability.md
++      - .garura/product/product-os/features/fn-730/feature.md
++
++  - id: plan-717-titles
++    issue: 993
++    commit_type: chore
++    scope: plan
++    subject: "update plan 717 with the new titles of #720 and #730 and add #994"
++    files:
++      - .garura/project/plans/717.yaml
++
++  - id: stm-993-record
++    issue: 993
++    commit_type: chore
++    scope: stm
++    subject: "record the design and model-line evidence"
++    files:
++      - .garura/project/issues/993/specs/design.md
++      - .garura/project/issues/993/context/analysis.yaml
++      - .garura/project/issues/993/context/porcelain.txt
++      - .garura/project/issues/993/context/model-lines/lines-report.json
++      - .garura/project/issues/993/context/model-lines/lines-request.json
++      - .garura/project/issues/993/context/model-lines/link-report.json
++      - .garura/project/issues/993/context/model-lines/link-request.json
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "5 groups; 29 scanned files, each in exactly one group; no exclusions"}
++  SE-5: {status: PASS, evidence: "no sensitive filename or content patterns matched in diff or new files"}
+diff --git a/.garura/project/issues/993/context/branch.json b/.garura/project/issues/993/context/branch.json
+new file mode 100644
+index 000000000..c81576bd8
+--- /dev/null
++++ b/.garura/project/issues/993/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/717/993-page-skill-named-lines",
++  "base_sha": "de25878440e8b6547d6295add5a48f62ade8cb7b",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/993/context/check-self-review-exit.txt b/.garura/project/issues/993/context/check-self-review-exit.txt
+new file mode 100644
+index 000000000..0e406b52b
+--- /dev/null
++++ b/.garura/project/issues/993/context/check-self-review-exit.txt
+@@ -0,0 +1 @@
++{"command": "check_self_review.py --self-review .garura/project/issues/993/context/self-review.md", "exit": 0}
+diff --git a/.garura/project/issues/993/context/commits.yaml b/.garura/project/issues/993/context/commits.yaml
+new file mode 100644
+index 000000000..37f860e4a
+--- /dev/null
++++ b/.garura/project/issues/993/context/commits.yaml
+@@ -0,0 +1,45 @@
++commits:
++  - sha: 6f5e1a5e
++    message: "feat(platform-adapter): add the edit-issue-title verb (#993)"
++    files:
++      - core/components/skills/platform-adapter/SKILL.md
++      - core/components/skills/platform-adapter/reference/github/verbs.md
++      - core/components/skills/platform-adapter/reference/gitlab/verbs.md
++      - core/components/plays/check-change/scripts/platform_adapter.py
++      - core/components/plays/create-play/references/platform_adapter.py
++      - core/components/plays/create-play/references/test_platform_adapter.py
++      - core/components/plays/merge-change/scripts/platform_adapter.py
++      - core/components/plays/propose-change/scripts/platform_adapter.py
++      - core/components/plays/shape-eval/scripts/platform_adapter.py
++      - core/components/plays/shape-plan/scripts/platform_adapter.py
++      - core/components/plays/shape-slice/scripts/platform_adapter.py
++    branch: plan/717/993-page-skill-named-lines
++  - sha: 60f50c55
++    message: "docs(product-model): bring capability 720 and feature 730 to the approved #720 design (#993)"
++    files:
++      - .garura/product/product-os/_spine.yaml
++      - .garura/product/product-os/capabilities/cap-720/capability.md
++      - .garura/product/product-os/features/fn-730/feature.md
++    branch: plan/717/993-page-skill-named-lines
++  - sha: 36fb429d
++    message: "chore(plan): update plan 717 with the new titles of #720 and #730 and add #994 (#993)"
++    files:
++      - .garura/project/plans/717.yaml
++    branch: plan/717/993-page-skill-named-lines
++  - sha: b6107dee
++    message: "chore(stm): record the design and model-line evidence (#993)"
++    files:
++      - .garura/project/issues/993/specs/design.md
++      - .garura/project/issues/993/context/analysis.yaml
++      - .garura/project/issues/993/context/porcelain.txt
++      - .garura/project/issues/993/context/model-lines/lines-report.json
++      - .garura/project/issues/993/context/model-lines/lines-request.json
++      - .garura/project/issues/993/context/model-lines/link-report.json
++      - .garura/project/issues/993/context/model-lines/link-request.json
++    branch: plan/717/993-page-skill-named-lines
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/993/context/issue.json b/.garura/project/issues/993/context/issue.json
+new file mode 100644
+index 000000000..696ec5825
+--- /dev/null
++++ b/.garura/project/issues/993/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 993,
++  "title": "The model's page skill changes the lines a request names on any model page, not only on intent pages",
++  "created": false
++}
+diff --git a/.garura/project/issues/993/context/model-lines/lines-report.json b/.garura/project/issues/993/context/model-lines/lines-report.json
+new file mode 100644
+index 000000000..b8fa9a3b3
+--- /dev/null
++++ b/.garura/project/issues/993/context/model-lines/lines-report.json
+@@ -0,0 +1,74 @@
++{
++  "by": "the #720 design, through #993's change",
++  "source": "the approved design of #720 (the product owner, 2026-10-30), .garura/project/issues/720/specs/design.md",
++  "pages": [
++    {
++      "page": "capabilities/cap-720/capability.md",
++      "changes": [
++        {
++          "old": "# Capability: Manage a plan",
++          "new": "# Capability: Manage a plan with /update-plan"
++        },
++        {
++          "old": "update, edit and delete plans, and keep the plan file and its tracker issues in step. Orchestration only.",
++          "new": "a working session on one plan: a person gives instructions in their own words, the play checks each one against the product model, the rules for GitHub and how an epic holds its work, keeps a running list, and on a plain \"approved\" lands every change at once in the plan file, GitHub and the product model, on the plan's own branch. Orchestration only."
++        },
++        {
++          "old": "- Goal: After any change, the plan file and the tracker agree.",
++          "new": "- Goal: After the person approves, the plan file, GitHub and the product model agree, and nothing beyond the approved list has changed."
++        },
++        {
++          "old": "- Limit: It never cuts or merges a branch and never changes code — that is the implementation plays' work.",
++          "new": "- Limit: Nothing is written before a plain \"approved\". It changes a plan only on the plan's own branch; it cuts a branch only when the plan has none (main's plan file first, then the cut), never merges one, and never changes code."
++        },
++        {
++          "old": "- Fails if: a change lands in the plan file and not in the tracker, or the other way round.",
++          "new": "- Fails if: a write happens before approval; a change lands in one of the three and not the others; a change the person did not approve lands; a plan is changed anywhere but on its own branch."
++        },
++        {
++          "old": "- Checked by: a compare of the plan file with the tracker finds no difference after each change.",
++          "new": "- Checked by: after landing, a compare of the plan file, GitHub and the model finds no difference, and a compare against the approved list finds nothing extra."
++        }
++      ],
++      "lines_before": 10,
++      "lines_after": 10,
++      "lines_kept": 4
++    },
++    {
++      "page": "features/fn-730/feature.md",
++      "changes": [
++        {
++          "old": "# Feature: Update, edit or delete a plan file, and connect it to its issues",
++          "new": "# Feature: The /update-plan session — instructions, checks, one approval, one landing on the plan's branch"
++        },
++        {
++          "old": "add, move, drop or finish a node, or delete a plan — in the plan file and in the tracker (create, re-parent, close) together. Work can go on in the plan file; the sync brings the tracker up to date.",
++          "new": "a person opens a session on one plan with `/update-plan <id>` or a description, gives instructions in their own words, and approves; the play lands the changes in the plan file and GitHub together, on the plan's own branch. Changing an epic's or a story's text is one more instruction (#909 folded in)."
++        },
++        {
++          "old": "- Goal: Any change to a plan reaches both the plan file and the tracker.",
++          "new": "- Goal: Every instruction the person approved reaches the plan file and GitHub, in one landing on the plan's branch, and they agree afterwards."
++        },
++        {
++          "old": "- Limit: Never touches branches or code.",
++          "new": "- Limit: Nothing is written before a plain \"approved\". It never merges a branch and never changes code; it cuts the plan's branch only when the plan has none, with main's plan file set first."
++        },
++        {
++          "old": "- Fails if: the tracker is left behind, or a dropped node stays open.",
++          "new": "- Fails if: a write happens before approval; GitHub is left behind or ahead of the plan file; a dropped item stays open; anything changes that the person did not approve; it switches away from a branch with uncommitted work."
++        },
++        {
++          "old": "- Checked by: a test edits a plan three ways and the compare finds no difference.",
++          "new": "- Checked by: a test session with several instructions (add, move, drop, finish, change a story's text, set Status and Direction), approved once; the compare of the plan file with GitHub finds no difference, and nothing outside the list changed."
++        }
++      ],
++      "lines_before": 10,
++      "lines_after": 10,
++      "lines_kept": 4
++    }
++  ],
++  "changed": [
++    "capabilities/cap-720/capability.md",
++    "features/fn-730/feature.md"
++  ]
++}
+diff --git a/.garura/project/issues/993/context/model-lines/lines-request.json b/.garura/project/issues/993/context/model-lines/lines-request.json
+new file mode 100644
+index 000000000..160c80b1d
+--- /dev/null
++++ b/.garura/project/issues/993/context/model-lines/lines-request.json
+@@ -0,0 +1,36 @@
++{
++  "by": "the #720 design, through #993's change",
++  "source": "the approved design of #720 (the product owner, 2026-10-30), .garura/project/issues/720/specs/design.md",
++  "pages": [
++    {"page": "capabilities/cap-720/capability.md",
++     "changes": [
++       {"old": "# Capability: Manage a plan",
++        "new": "# Capability: Manage a plan with /update-plan"},
++       {"old": "update, edit and delete plans, and keep the plan file and its tracker issues in step. Orchestration only.",
++        "new": "a working session on one plan: a person gives instructions in their own words, the play checks each one against the product model, the rules for GitHub and how an epic holds its work, keeps a running list, and on a plain \"approved\" lands every change at once in the plan file, GitHub and the product model, on the plan's own branch. Orchestration only."},
++       {"old": "- Goal: After any change, the plan file and the tracker agree.",
++        "new": "- Goal: After the person approves, the plan file, GitHub and the product model agree, and nothing beyond the approved list has changed."},
++       {"old": "- Limit: It never cuts or merges a branch and never changes code — that is the implementation plays' work.",
++        "new": "- Limit: Nothing is written before a plain \"approved\". It changes a plan only on the plan's own branch; it cuts a branch only when the plan has none (main's plan file first, then the cut), never merges one, and never changes code."},
++       {"old": "- Fails if: a change lands in the plan file and not in the tracker, or the other way round.",
++        "new": "- Fails if: a write happens before approval; a change lands in one of the three and not the others; a change the person did not approve lands; a plan is changed anywhere but on its own branch."},
++       {"old": "- Checked by: a compare of the plan file with the tracker finds no difference after each change.",
++        "new": "- Checked by: after landing, a compare of the plan file, GitHub and the model finds no difference, and a compare against the approved list finds nothing extra."}
++     ]},
++    {"page": "features/fn-730/feature.md",
++     "changes": [
++       {"old": "# Feature: Update, edit or delete a plan file, and connect it to its issues",
++        "new": "# Feature: The /update-plan session — instructions, checks, one approval, one landing on the plan's branch"},
++       {"old": "add, move, drop or finish a node, or delete a plan — in the plan file and in the tracker (create, re-parent, close) together. Work can go on in the plan file; the sync brings the tracker up to date.",
++        "new": "a person opens a session on one plan with `/update-plan <id>` or a description, gives instructions in their own words, and approves; the play lands the changes in the plan file and GitHub together, on the plan's own branch. Changing an epic's or a story's text is one more instruction (#909 folded in)."},
++       {"old": "- Goal: Any change to a plan reaches both the plan file and the tracker.",
++        "new": "- Goal: Every instruction the person approved reaches the plan file and GitHub, in one landing on the plan's branch, and they agree afterwards."},
++       {"old": "- Limit: Never touches branches or code.",
++        "new": "- Limit: Nothing is written before a plain \"approved\". It never merges a branch and never changes code; it cuts the plan's branch only when the plan has none, with main's plan file set first."},
++       {"old": "- Fails if: the tracker is left behind, or a dropped node stays open.",
++        "new": "- Fails if: a write happens before approval; GitHub is left behind or ahead of the plan file; a dropped item stays open; anything changes that the person did not approve; it switches away from a branch with uncommitted work."},
++       {"old": "- Checked by: a test edits a plan three ways and the compare finds no difference.",
++        "new": "- Checked by: a test session with several instructions (add, move, drop, finish, change a story's text, set Status and Direction), approved once; the compare of the plan file with GitHub finds no difference, and nothing outside the list changed."}
++     ]}
++  ]
++}
+diff --git a/.garura/project/issues/993/context/model-lines/link-report.json b/.garura/project/issues/993/context/model-lines/link-report.json
+new file mode 100644
+index 000000000..2fbf9f5b1
+--- /dev/null
++++ b/.garura/project/issues/993/context/model-lines/link-report.json
+@@ -0,0 +1,12 @@
++{
++  "written": [],
++  "updated": [
++    "cap-720",
++    "fn-730"
++  ],
++  "thin": [],
++  "changed": [
++    "product-os/_spine.yaml"
++  ],
++  "layout_kept": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/993/context/model-lines/link-request.json b/.garura/project/issues/993/context/model-lines/link-request.json
+new file mode 100644
+index 000000000..7ede3617f
+--- /dev/null
++++ b/.garura/project/issues/993/context/model-lines/link-request.json
+@@ -0,0 +1,17 @@
++{
++  "by": "the #720 design, through #993's change",
++  "parts": [
++    {
++      "id": "cap-720",
++      "kind": "capability",
++      "mode": "update",
++      "one_line": "Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval"
++    },
++    {
++      "id": "fn-730",
++      "kind": "feature",
++      "mode": "update",
++      "one_line": "The /update-plan session: instructions, checks, one approval, one landing on the plan's branch"
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/993/context/plan.json b/.garura/project/issues/993/context/plan.json
+new file mode 100644
+index 000000000..4fd460c00
+--- /dev/null
++++ b/.garura/project/issues/993/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "993",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/993-page-skill-named-lines"
++}
+diff --git a/.garura/project/issues/993/context/porcelain.txt b/.garura/project/issues/993/context/porcelain.txt
+new file mode 100644
+index 000000000..87903e4a0
+--- /dev/null
++++ b/.garura/project/issues/993/context/porcelain.txt
+@@ -0,0 +1,23 @@
++ M .garura/product/product-os/_spine.yaml
++ M .garura/product/product-os/capabilities/cap-720/capability.md
++ M .garura/product/product-os/features/fn-730/feature.md
++ M .garura/project/plans/717.yaml
++ M core/components/agents/product-os-keeper.md
++ M core/components/plays/check-change/scripts/platform_adapter.py
++ M core/components/plays/create-play/references/platform_adapter.py
++ M core/components/plays/create-play/references/test_platform_adapter.py
++ M core/components/plays/merge-change/scripts/platform_adapter.py
++ M core/components/plays/propose-change/scripts/platform_adapter.py
++ M core/components/plays/shape-eval/scripts/platform_adapter.py
++ M core/components/plays/shape-plan/scripts/platform_adapter.py
++ M core/components/plays/shape-slice/scripts/platform_adapter.py
++ M core/components/plays/shape-slice/scripts/safe_write.py
++ M core/components/skills/enrich-grounding/SKILL.md
++ M core/components/skills/link-model-part/scripts/safe_write.py
++ M core/components/skills/platform-adapter/SKILL.md
++ M core/components/skills/platform-adapter/reference/github/verbs.md
++ M core/components/skills/platform-adapter/reference/gitlab/verbs.md
++?? .garura/project/issues/993/context/model-lines/
++?? .garura/project/issues/993/context/porcelain.txt
++?? .garura/project/issues/993/specs/
++?? core/components/skills/enrich-grounding/scripts/
+diff --git a/.garura/project/issues/993/context/pr-body.md b/.garura/project/issues/993/context/pr-body.md
+new file mode 100644
+index 000000000..572bc79b0
+--- /dev/null
++++ b/.garura/project/issues/993/context/pr-body.md
+@@ -0,0 +1,67 @@
++## Summary
++
++Two stories of #720 (manage a plan), in one change onto `plan/717/base`:
++
++- **#993 — the page skill changes the named lines of any model page.** `enrich-grounding` gets `scripts/change_lines.py`: a request names each line, whole, with its new words (or a line to add after another, or one to remove) and its source (an approved design, or the person's words). It changes exactly those lines on a domain, capability, feature or intent page and keeps every other line; it refuses the whole request and writes nothing when a line is not on its page, is on it twice, is named twice, is a Thin line, leaves the model, or the request names no source. `product-os-keeper` routes "change these lines" on any page to it. 10 tests.
++- **#994 — the platform adapter changes an issue's title.** A 24th verb, `edit-issue-title` (GitHub `gh issue edit --title`, GitLab `glab issue update --title`), in the adapter's instructions, both reference pages and the 7 identical script copies; tests 55/55. Used live already: #720 and #730 were retitled through it.
++
++Used in this change, through the installed skills after a reinstall from this branch (the product owner asked for it):
++- cap-720 and fn-730 pages and their spine one-lines now say what the approved #720 design says (`.garura/project/issues/720/specs/design.md`) — 6 lines each, every other line kept.
++- Plan 717's file carries the new titles of #720 and #730 and adds #994.
++
++Design: `.garura/project/issues/993/specs/design.md` (approved 2026-10-30).
++
++Closes #993. Closes #994. Plan: #717.
++
++---
++
++<details><summary>Self-review</summary>
++
++# Self-review: #993 and #994 (plan 717)
++
++Branch `plan/717/993-page-skill-named-lines` against `plan/717/base` (`git diff origin/plan/717/base...HEAD`, 34 files, 7 commits).
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (base file, no project override; resolved in `.garura/project/issues/993/context/resolved-rules.json`).
++Designs: `.garura/project/issues/993/specs/design.md`, `.garura/project/issues/720/specs/design.md`.
++
++This is an informational checklist. It is not the approve/reject gate.
++
++Verdict: ready to raise. No blocking findings.
++
++## Runnable checks
++
++- `python3 -m unittest discover -s core/components/skills/enrich-grounding/scripts -p "test_change_lines.py"`: 10 tests, OK.
++- `python3 core/components/plays/create-play/references/test_platform_adapter.py`: 55 passed, 0 failed (includes the new `edit-issue-title` argv checks for GitHub and GitLab, and the verb count of 24).
++- `node core/tools/lint-components/index.js --target core/components` from the repo root: 36 errors and 1 warning in the whole tree, none in a file this change touches (the same errors are on the base).
++- Copies agree: the 7 `platform_adapter.py` files (6 play scripts and the `create-play` reference) have the same checksum; the 3 `safe_write.py` files (`shape-slice`, `link-model-part`, `enrich-grounding`) have the same checksum.
++
++## Scope checks
++
++- [PASS] Matches the issue. The change carries the two stories it says it carries.
++  - #993: `enrich-grounding/scripts/change_lines.py` and its tests, the SKILL.md step 5 and description, the `product-os-keeper` route, and the third `safe_write.py` copy (plus the docstring in the two others that name who uses it).
++  - #994: the `edit-issue-title` verb in the adapter SKILL.md (24 verbs, in 3 places), both `verbs.md`, the 7 identical `platform_adapter.py` copies and `test_platform_adapter.py`.
++  - The model pages of cap-720 and fn-730 and their spine one-lines, brought to the approved #720 design through the skill and `link-model-part` (see `.garura/project/issues/993/context/model-lines/`), plan 717's file (new titles, #994 added), and #993's records.
++- [PASS] No scope creep in code. The design's "Not in this change" list is respected: no issue titles edited by hand, no `/update-plan` itself. The new verb is the gap that list named, filed and built as #994.
++- [REVIEW] Two small extras beyond the written design list, both consistent with it. The H1 headings of cap-720 and fn-730 changed too (to match the plan's new titles), and `metadata.updated_by` was added to the two spine entries. The first is in `lines-report.json`; the second is the spine's existing convention (#719 uses it).
++- [PASS] Reasonable size. About 920 lines added, but roughly 330 are one hand-written script and its tests, 40 are the 7 mechanical adapter copies, and about 380 are #993's records. The hand-written core is small and the two stories are separate concerns that can be read one after the other.
++- [PASS] No stray artifacts. No debug prints or commented-out code in the scripts. The records under `.garura/project/issues/993/` are the repo's usual `chore(stm)` evidence.
++- [REVIEW] `.garura/project/issues/993/context/resolved-rules.json` is untracked at the time of this review. It is this run's own record of the rules file; it should go in the evidence commit with the rest of #993's records.
++
++## Quality checks
++
++- [PASS] Tests present. `change_lines.py` has tests for: one line changed with all others kept, several lines on two pages with add-after and remove, a page given at the top level, and refusals for a line not on the page, a line on it twice, a line named twice, a path outside the model, the spine, a Thin line and a request with no source (each checks that nothing was written). The adapter verb has argv tests for both platforms and the verb count.
++- [REVIEW] Small test gaps in `change_lines.py` (suggestions, not required):
++  - The roll-back path (a write fails part way, earlier pages are put back) has no test.
++  - A page with Windows line endings or other unusual line separators would be rewritten with plain `\n` for every line, not only the named ones, because it reads with `splitlines()` and writes with `"\n"`. Product-model pages are plain `\n` today, so this is not a live risk.
++  - There is no test for an `after` line whose own line is removed in the same request (the code refuses it).
++- [REVIEW] The adapter verbs are tested by their argv only; no live `gh issue edit` or `glab issue update` call was run (read-only review; a live call is an external write). The commands match the CLIs' documented flags.
++- [REVIEW] Commits are conventional, each a coherent concern, and each carries an issue reference. The `edit-issue-title` commit (6f5e1a5e) and the plan commit reference #993, though the verb is #994's story. The PR description should name both stories so #994 closes with it.
++- [PASS] No secrets. The diff has no tokens, keys or credentials. No absolute home-folder path and no real person's name appears in added lines; the model pages say "the product owner".
++- [PASS] Docs in step. `enrich-grounding` SKILL.md (description, inputs, step 5, output, rules), the `product-os-keeper` table (the skill row and a new routing row) and the adapter SKILL.md and both `verbs.md` are all updated in the same change; no leftover "23 verbs" text remains outside the ADRs.
++- [PASS] Nothing obviously broken. The skill gained `Bash` in `allowed-tools`, which its script step needs. The script checks every page and line before the first write, refuses the whole request on any problem, and never touches `_spine.yaml` or the Thin line. cap-720 and fn-730 text matches the approved #720 design (Goal, Limit, Fails if, Checked by, and the directional intent or "What it does").
++- [PASS] Source-of-truth rule. Every change is in `core/components/` or the project's own model and records; no deployed `.claude/` copy was edited. `enrich-grounding` is a skill, so a direct edit of its SKILL.md is the right path (no ICE recompile).
++
++## Summary
++
++No findings that stop the raise. Five items are marked REVIEW for the reviewer's eye, none required: the two small extras on the model pages, the untracked rules record, the test gaps, and the PR text naming both stories.
++
++</details>
+diff --git a/.garura/project/issues/993/context/pr.json b/.garura/project/issues/993/context/pr.json
+new file mode 100644
+index 000000000..9e8f574f8
+--- /dev/null
++++ b/.garura/project/issues/993/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 995,
++  "url": "https://github.com/intent-driven-ai/garura/pull/995",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/993/context/resolved-rules.json b/.garura/project/issues/993/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/993/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/993/context/self-review.md b/.garura/project/issues/993/context/self-review.md
+new file mode 100644
+index 000000000..7a76a0a5d
+--- /dev/null
++++ b/.garura/project/issues/993/context/self-review.md
+@@ -0,0 +1,46 @@
++# Self-review: #993 and #994 (plan 717)
++
++Branch `plan/717/993-page-skill-named-lines` against `plan/717/base` (`git diff origin/plan/717/base...HEAD`, 34 files, 7 commits).
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (base file, no project override; resolved in `.garura/project/issues/993/context/resolved-rules.json`).
++Designs: `.garura/project/issues/993/specs/design.md`, `.garura/project/issues/720/specs/design.md`.
++
++This is an informational checklist. It is not the approve/reject gate.
++
++Verdict: ready to raise. No blocking findings.
++
++## Runnable checks
++
++- `python3 -m unittest discover -s core/components/skills/enrich-grounding/scripts -p "test_change_lines.py"`: 10 tests, OK.
++- `python3 core/components/plays/create-play/references/test_platform_adapter.py`: 55 passed, 0 failed (includes the new `edit-issue-title` argv checks for GitHub and GitLab, and the verb count of 24).
++- `node core/tools/lint-components/index.js --target core/components` from the repo root: 36 errors and 1 warning in the whole tree, none in a file this change touches (the same errors are on the base).
++- Copies agree: the 7 `platform_adapter.py` files (6 play scripts and the `create-play` reference) have the same checksum; the 3 `safe_write.py` files (`shape-slice`, `link-model-part`, `enrich-grounding`) have the same checksum.
++
++## Scope checks
++
++- [PASS] Matches the issue. The change carries the two stories it says it carries.
++  - #993: `enrich-grounding/scripts/change_lines.py` and its tests, the SKILL.md step 5 and description, the `product-os-keeper` route, and the third `safe_write.py` copy (plus the docstring in the two others that name who uses it).
++  - #994: the `edit-issue-title` verb in the adapter SKILL.md (24 verbs, in 3 places), both `verbs.md`, the 7 identical `platform_adapter.py` copies and `test_platform_adapter.py`.
++  - The model pages of cap-720 and fn-730 and their spine one-lines, brought to the approved #720 design through the skill and `link-model-part` (see `.garura/project/issues/993/context/model-lines/`), plan 717's file (new titles, #994 added), and #993's records.
++- [PASS] No scope creep in code. The design's "Not in this change" list is respected: no issue titles edited by hand, no `/update-plan` itself. The new verb is the gap that list named, filed and built as #994.
++- [REVIEW] Two small extras beyond the written design list, both consistent with it. The H1 headings of cap-720 and fn-730 changed too (to match the plan's new titles), and `metadata.updated_by` was added to the two spine entries. The first is in `lines-report.json`; the second is the spine's existing convention (#719 uses it).
++- [PASS] Reasonable size. About 920 lines added, but roughly 330 are one hand-written script and its tests, 40 are the 7 mechanical adapter copies, and about 380 are #993's records. The hand-written core is small and the two stories are separate concerns that can be read one after the other.
++- [PASS] No stray artifacts. No debug prints or commented-out code in the scripts. The records under `.garura/project/issues/993/` are the repo's usual `chore(stm)` evidence.
++- [REVIEW] `.garura/project/issues/993/context/resolved-rules.json` is untracked at the time of this review. It is this run's own record of the rules file; it should go in the evidence commit with the rest of #993's records.
++
++## Quality checks
++
++- [PASS] Tests present. `change_lines.py` has tests for: one line changed with all others kept, several lines on two pages with add-after and remove, a page given at the top level, and refusals for a line not on the page, a line on it twice, a line named twice, a path outside the model, the spine, a Thin line and a request with no source (each checks that nothing was written). The adapter verb has argv tests for both platforms and the verb count.
++- [REVIEW] Small test gaps in `change_lines.py` (suggestions, not required):
++  - The roll-back path (a write fails part way, earlier pages are put back) has no test.
++  - A page with Windows line endings or other unusual line separators would be rewritten with plain `\n` for every line, not only the named ones, because it reads with `splitlines()` and writes with `"\n"`. Product-model pages are plain `\n` today, so this is not a live risk.
++  - There is no test for an `after` line whose own line is removed in the same request (the code refuses it).
++- [REVIEW] The adapter verbs are tested by their argv only; no live `gh issue edit` or `glab issue update` call was run (read-only review; a live call is an external write). The commands match the CLIs' documented flags.
++- [REVIEW] Commits are conventional, each a coherent concern, and each carries an issue reference. The `edit-issue-title` commit (6f5e1a5e) and the plan commit reference #993, though the verb is #994's story. The PR description should name both stories so #994 closes with it.
++- [PASS] No secrets. The diff has no tokens, keys or credentials. No absolute home-folder path and no real person's name appears in added lines; the model pages say "the product owner".
++- [PASS] Docs in step. `enrich-grounding` SKILL.md (description, inputs, step 5, output, rules), the `product-os-keeper` table (the skill row and a new routing row) and the adapter SKILL.md and both `verbs.md` are all updated in the same change; no leftover "23 verbs" text remains outside the ADRs.
++- [PASS] Nothing obviously broken. The skill gained `Bash` in `allowed-tools`, which its script step needs. The script checks every page and line before the first write, refuses the whole request on any problem, and never touches `_spine.yaml` or the Thin line. cap-720 and fn-730 text matches the approved #720 design (Goal, Limit, Fails if, Checked by, and the directional intent or "What it does").
++- [PASS] Source-of-truth rule. Every change is in `core/components/` or the project's own model and records; no deployed `.claude/` copy was edited. `enrich-grounding` is a skill, so a direct edit of its SKILL.md is the right path (no ICE recompile).
++
++## Summary
++
++No findings that stop the raise. Five items are marked REVIEW for the reviewer's eye, none required: the two small extras on the model pages, the untracked rules record, the test gaps, and the PR text naming both stories.
+diff --git a/.garura/project/issues/993/context/target.json b/.garura/project/issues/993/context/target.json
+new file mode 100644
+index 000000000..e26105cf4
+--- /dev/null
++++ b/.garura/project/issues/993/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/993-page-skill-named-lines",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "993",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/993/context/work-description.txt b/.garura/project/issues/993/context/work-description.txt
+new file mode 100644
+index 000000000..123ea4614
+--- /dev/null
++++ b/.garura/project/issues/993/context/work-description.txt
+@@ -0,0 +1,23 @@
++The model's page skill changes the lines a request names on any model page, not only on intent pages
++
++## What a person can do
++
++A play or a person asks the model sub-agent (product-os-keeper) to change named lines on any page of the product model — a domain, capability, feature or intent page — and the page skill (`enrich-grounding`) changes exactly those lines to the words given, keeping every other line word for word. Today it can do that only on an intent page; on a domain, capability or feature page it can only add, so a changed intent (ICE) cannot reach the model without a hand edit.
++
++## Why now
++
++The approved design of #720 (manage a plan, 2026-10-30) changes what #720 and #730 promise. Their model pages (cap-720, fn-730) must change four lines each: the product model joins the plan file and GitHub as what must agree; nothing is written before a plain "approved"; it works on the plan's own branch; it may cut that branch when the plan has none. No skill can change those lines today, and the model is changed only through a sub-agent and its skills (the product owner: "model sub-agent can change anything using skill. no direct changes. skills are needed to act."). `/update-plan` (#730, #931) needs the same ability for a session that changes a feature's text.
++
++## Done means
++
++- In update or fix mode, the page skill changes exactly the lines the request names, on a domain, capability, feature or intent page, and every other line stays word for word.
++- A request line that does not match a line on the page is refused and named; nothing on that page is written.
++- The report lists each changed line, old and new.
++- product-os-keeper routes a "change these lines" request on any page to the page skill.
++- cap-720 and fn-730 carry the approved design's intent, changed through product-os-keeper and the page skill, never by hand.
++
++## Notes
++
++- `enrich-grounding` is a skill, not a play: its change is a direct edit to its SKILL.md, landed through the change plays.
++- Design: `.garura/project/issues/720/specs/design.md`; this story's own design goes in its issue folder.
++- Story of #720 (manage a plan), in plan 717.
+diff --git a/.garura/project/issues/993/specs/design.md b/.garura/project/issues/993/specs/design.md
+new file mode 100644
+index 000000000..25f62ce02
+--- /dev/null
++++ b/.garura/project/issues/993/specs/design.md
+@@ -0,0 +1,52 @@
++# Design — #993 The page skill changes named lines on any model page
++
++Plan 717, story of #720 (manage a plan). Waiting for the product owner's approval.
++
++## What changes for a person
++
++A play or a person asks the model sub-agent to change some lines on a model page — a domain,
++capability, feature or intent page — and gives the new words. Exactly those lines change; every
++other line stays word for word. Today that works only on an intent page.
++
++## Surface
++
++The request the model sub-agent hands the page skill (`enrich-grounding`, update or fix mode):
++
++```json
++{"page": "capabilities/cap-720/capability.md",
++ "source": "the approved design of #720, .garura/project/issues/720/specs/design.md",
++ "changes": [{"old": "- Goal: After any change, the plan file and the tracker agree.",
++              "new": "- Goal: After the person approves, the plan file, GitHub and the product model agree, and nothing beyond the approved list has changed."}]}
++```
++
++- `old` is a whole line as it is on the page; `new` is the line that replaces it. A change may add
++  a line after another (`"after": "<line>"`) or remove one (`"new": null`).
++- `source` names where the change comes from: an approved design, or the person's own words. The
++  skill does not decide what the part means; the request does.
++
++## Tech
++
++- A new script in the skill, `scripts/change_lines.py`, does the change mechanically:
++  - checks every path stays inside the product model;
++  - checks every `old` line is on its page exactly once — else it refuses the whole request, names
++    the line, and writes nothing;
++  - writes every page through the model's `safe_write.py` (a page is whole or unchanged);
++  - writes `lines-report.json`: each page, each change old and new, and the count of lines kept.
++- The skill's step 5 (today: intent pages only) becomes "any page, update or fix mode", and calls
++  the script. Its rules keep: never write `_spine.yaml`, the Thin line or `metadata.thin`; never
++  write a new intent page.
++- `product-os-keeper` routes "change these lines" on any page to the skill (today its route names
++  intent pages only).
++- Tests for the script: change one line, several lines on two pages, add after, remove; refuse a
++  line not on the page, a line on it twice, a path outside the model; nothing written on a refusal.
++- `enrich-grounding` is a skill, not a play: a direct edit to its SKILL.md, no ICE recompile.
++
++## Then, in this change
++
++Through `product-os-keeper` and the skill (never by hand): cap-720's directional intent and its
++four ICE lines, and fn-730's "What it does" and its four ICE lines, to the approved #720 design.
++
++## Not in this change
++
++- Titles of GitHub issues (no skill can edit a title today; the #775 rename has the same gap).
++- `/update-plan` itself (#730).
+diff --git a/.garura/project/plans/717.yaml b/.garura/project/plans/717.yaml
+index 5746a59ad..d261a7ce9 100644
+--- a/.garura/project/plans/717.yaml
++++ b/.garura/project/plans/717.yaml
+@@ -61,12 +61,12 @@ tree:
+       status: Done  # landed on plan/717/base with PR #987, 2026-10-29
+   - issue: 720
+     kind: feature
+-    title: 'Manage a plan: change the plan file and the tracker together'
++    title: 'Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval'
+     status: Not Started
+     children:
+     - issue: 730
+       kind: story
+-      title: Update, edit or delete a plan file, and connect it to its issues
++      title: 'The /update-plan session: instructions, checks, one approval, one landing on the plan''s branch'
+       status: Not Started
+       children:
+       - issue: 917
+@@ -85,6 +85,10 @@ tree:
+       kind: story
+       title: The model's page skill changes the lines a request names on any model page, not only on intent pages
+       status: Not Started  # filed 2026-10-30: cap-720 and fn-730 need it to take the approved #720 design
++    - issue: 994
++      kind: story
++      title: 'The platform adapter changes an issue''s title: an edit-issue-title verb for GitHub and GitLab'
++      status: Not Started  # filed 2026-10-30; built in the same change as #993
+   - issue: 721
+     kind: feature
+     title: 'Start and land work against a plan: plan branches in start-change and merge-change'
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index 178202697..ab1d7b3f0 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -70,7 +70,7 @@ the missing skill; never do the work yourself.
+ | `author-business-intent` | Draft a business intent page from what a person shared: title, outcome, why, asked by (a persona), proof it is met, must not, in plain words and personas only. For /shape-slice, one-intent mode: the issue's plain statement in, one intent out as `intent-draft.json`. Draft only, never the product model. | /shape-slice (when the model has no page for the intent) |
+ | `find-slice-gaps` | List each thing a slice needs that neither the model nor memory answers, and write each as one question by the rule for asking a person (id, topic, question, why, examples from several domains, blocking, assume, settled with its basis); never the surface or the tester. Rewrite mode rewrites only the questions the play's script refuses. Writes `questions.json`. | /shape-slice |
+ | `author-slice` | Choose the slice: the one surface and its tester (a persona), the features from any capability in build order, what is left out, and the needs list (`fills.json`: new parts, updates, thin parts); `no-slice.json` when no surface can be tested end to end. Reuse mode writes `reuse.json` (pull in, push out); fix mode fixes `slice.json` or `fills.json`; edit mode turns a person's edit words into `edit-list.json` (each change's record, part, old and new text, and the records made out of date). Never writes the model. | /shape-slice |
+-| `enrich-grounding` | Write on the pages of the model's parts, in place, keeping every section and line: bring a domain, capability or feature page up to the current rules, write one new feature under a capability that exists, write a thin ICE (Goal, Limit, Fails if, Context, Checked by), change the named lines of an intent page, fix the pages the model check names. Never writes `_spine.yaml` or the thin marks. | /shape-slice; a part found during work (#979), before `link-model-part` |
++| `enrich-grounding` | Write on the pages of the model's parts, in place, keeping every section and line: bring a domain, capability or feature page up to the current rules, write one new feature under a capability that exists, write a thin ICE (Goal, Limit, Fails if, Context, Checked by), change the named lines of any page — domain, capability, feature or intent — through its `change_lines.py` (all or nothing; #993), fix the pages the model check names. Never writes `_spine.yaml` or the thin marks. | /shape-slice; a part found during work (#979), before `link-model-part`; named lines of any page (#993) |
+ | `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, issue, status proposed), an existing one's one-line or intents, and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding` |
+ | `author-slice-brief` | Write the opening of the early brief or the confirmation brief: two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person (or the play's floor). The play's script builds the rest of the brief. | /shape-slice |
+ | `author-failure-recovery` | Draft, for each feature of a slice, its hidden-file entry: one recovery for each "Fails if" line of the feature's ICE and its capability's ICE (when, way back, who fixes: "the builder can fix this alone" or "a person must decide"), by `standards/rules/expectation-generation.md`; say when one of the two ICE is thin. Draft only — the play's script checks and writes the hidden file. | /shape-slice |
+@@ -97,7 +97,8 @@ the missing skill; never do the work yourself.
+ | "enrich the ICE", "deepen this capability", "rich ICE", "fill context + NFR needs" | "Enrich the Checkout capability's ICE" | `enrich-capability-ice` | Generative draft of the rich ICE + the implied levels the profile roll-up consumes |
+ | "find the gaps in the model", "what is not linked", "what is still missing" | "Find the model's gaps after this round" | `find-model-gaps` | Candidates by script, judgment by the skill → `gaps.json` |
+ | "close the gaps", "link these nodes", "merge the duplicates" | "Apply the agreed links from gaps.json" | `link-model-gaps` | Mechanical, from `gaps.json` → `close-report.json` |
+-| "a part was found during work", "add this feature / capability / domain to the model", "give it a thin page", "update its page", "change these lines of an intent page" | "Add the plan graph as a thin feature under view plans"; "Name the product owner, not a person, on the intent page" | `enrich-grounding` (mode `new-feature` or `update`, then `thin`; an intent page in `update` mode), then `link-model-part` for domains, capabilities and features | The page first, then its spine entry and thin mark; one run per part, in parallel when there are several (each writes only its own page); one `link-model-part` run for all of them after they join. An intent page needs no spine entry. No discovery play run |
++| "a part was found during work", "add this feature / capability / domain to the model", "give it a thin page", "update its page" | "Add the plan graph as a thin feature under view plans" | `enrich-grounding` (mode `new-feature` or `update`, then `thin`), then `link-model-part` for domains, capabilities and features | The page first, then its spine entry and thin mark; one run per part, in parallel when there are several (each writes only its own page); one `link-model-part` run for all of them after they join. No discovery play run |
++| "change these lines of a page", "bring this page to the approved design", "name a persona, not a person" | "Change cap-720's ICE to the approved #720 design"; "Name the product owner, not a person, on the intent page" | `enrich-grounding` (mode `update` or `fix`, a named-lines request: every line to change, whole, with its new words and the request's source) | `lines-report.json`: each page, each line old and new; every other line kept word for word; all or nothing. A page needs no spine entry for this; a changed one-line or intents still goes through `link-model-part` |
+ | "change the product ontology", "add a kind", "change a kind, link or rule" | "Run the `kinds` stage for the ICE kind" | `author-product-ontology` | One stage per dispatch from /edit-ontology; the product owner agrees each stage at the play's checkpoint |
+ 
+ ## Memory Reading Protocol
+diff --git a/core/components/plays/check-change/scripts/platform_adapter.py b/core/components/plays/check-change/scripts/platform_adapter.py
+index e1b546910..933c9807b 100644
+--- a/core/components/plays/check-change/scripts/platform_adapter.py
++++ b/core/components/plays/check-change/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
+         return [argv]
+     if verb == "comment-issue":
+         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
++    if verb == "edit-issue-title":
++        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "add-label":
+         if a.get("pr_number"):
+             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
+@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
+                  "--search", a.get("query", ""), "--output", "json"]]
+     if verb == "close-issue":
+         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
++    if verb == "edit-issue-title":
++        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "comment-issue":
+         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
+     if verb == "add-label":
+@@ -258,7 +262,7 @@ def _glab(verb, args, repo):
+ VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
++         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
+ 
+ # create-issue-typed: the repository's id and issue types, then one createIssue call that
+ # sets the title, body, issue type and parent together.
+@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/create-play/references/platform_adapter.py b/core/components/plays/create-play/references/platform_adapter.py
+index e1b546910..933c9807b 100644
+--- a/core/components/plays/create-play/references/platform_adapter.py
++++ b/core/components/plays/create-play/references/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
+         return [argv]
+     if verb == "comment-issue":
+         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
++    if verb == "edit-issue-title":
++        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "add-label":
+         if a.get("pr_number"):
+             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
+@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
+                  "--search", a.get("query", ""), "--output", "json"]]
+     if verb == "close-issue":
+         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
++    if verb == "edit-issue-title":
++        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "comment-issue":
+         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
+     if verb == "add-label":
+@@ -258,7 +262,7 @@ def _glab(verb, args, repo):
+ VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
++         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
+ 
+ # create-issue-typed: the repository's id and issue types, then one createIssue call that
+ # sets the title, body, issue type and parent together.
+@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/create-play/references/test_platform_adapter.py b/core/components/plays/create-play/references/test_platform_adapter.py
+index 6e5328fd4..fca7bc178 100644
+--- a/core/components/plays/create-play/references/test_platform_adapter.py
++++ b/core/components/plays/create-play/references/test_platform_adapter.py
+@@ -65,6 +65,9 @@ def test_github_argv():
+     check("merge-pr argv",
+           pa._gh("merge-pr", {"pr_number": "489"}, repo)
+           == [["gh", "pr", "merge", "489", "--merge"]])
++    check("edit-issue-title argv keeps the title as one literal argument",
++          pa._gh("edit-issue-title", {"issue_number": 7, "title": 'A $(x) "q"'}, repo)
++          == [["gh", "issue", "edit", "7", "--title", 'A $(x) "q"']])
+     check("comment-pr keeps body as ONE argv element (injection-safe)",
+           pa._gh("comment-pr", {"pr_number": 1, "body": 'a "$(rm -rf /)" b'}, repo)[0]
+           == ["gh", "pr", "comment", "1", "--body", 'a "$(rm -rf /)" b'])
+@@ -152,6 +155,9 @@ def test_gitlab_argv():
+     check("view-pr → glab mr view",
+           pa._glab("view-pr", {"pr_number": 7}, repo)
+           == [["glab", "mr", "view", "7", "--output", "json"]])
++    check("edit-issue-title → glab issue update --title",
++          pa._glab("edit-issue-title", {"issue_number": 7, "title": "T"}, repo)
++          == [["glab", "issue", "update", "7", "--title", "T"]])
+     check("request-changes → two commands (draft + note)",
+           len(pa._glab("request-changes", {"pr_number": 7, "body": "b"}, repo)) == 2)
+     check("close-issue has no --reason (gap)",
+@@ -165,7 +171,7 @@ def test_unknown_verb():
+         check("unknown verb raises", False)
+     except KeyError:
+         check("unknown verb raises", True)
+-    check("VERBS has exactly 23", len(pa.VERBS) == 23)
++    check("VERBS has exactly 24", len(pa.VERBS) == 24)
+ 
+ 
+ def _fake(replies):
+diff --git a/core/components/plays/merge-change/scripts/platform_adapter.py b/core/components/plays/merge-change/scripts/platform_adapter.py
+index e1b546910..933c9807b 100644
+--- a/core/components/plays/merge-change/scripts/platform_adapter.py
++++ b/core/components/plays/merge-change/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
+         return [argv]
+     if verb == "comment-issue":
+         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
++    if verb == "edit-issue-title":
++        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "add-label":
+         if a.get("pr_number"):
+             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
+@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
+                  "--search", a.get("query", ""), "--output", "json"]]
+     if verb == "close-issue":
+         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
++    if verb == "edit-issue-title":
++        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "comment-issue":
+         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
+     if verb == "add-label":
+@@ -258,7 +262,7 @@ def _glab(verb, args, repo):
+ VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
++         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
+ 
+ # create-issue-typed: the repository's id and issue types, then one createIssue call that
+ # sets the title, body, issue type and parent together.
+@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/propose-change/scripts/platform_adapter.py b/core/components/plays/propose-change/scripts/platform_adapter.py
+index e1b546910..933c9807b 100644
+--- a/core/components/plays/propose-change/scripts/platform_adapter.py
++++ b/core/components/plays/propose-change/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
+         return [argv]
+     if verb == "comment-issue":
+         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
++    if verb == "edit-issue-title":
++        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "add-label":
+         if a.get("pr_number"):
+             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
+@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
+                  "--search", a.get("query", ""), "--output", "json"]]
+     if verb == "close-issue":
+         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
++    if verb == "edit-issue-title":
++        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "comment-issue":
+         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
+     if verb == "add-label":
+@@ -258,7 +262,7 @@ def _glab(verb, args, repo):
+ VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
++         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
+ 
+ # create-issue-typed: the repository's id and issue types, then one createIssue call that
+ # sets the title, body, issue type and parent together.
+@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/shape-eval/scripts/platform_adapter.py b/core/components/plays/shape-eval/scripts/platform_adapter.py
+index e1b546910..933c9807b 100644
+--- a/core/components/plays/shape-eval/scripts/platform_adapter.py
++++ b/core/components/plays/shape-eval/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
+         return [argv]
+     if verb == "comment-issue":
+         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
++    if verb == "edit-issue-title":
++        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "add-label":
+         if a.get("pr_number"):
+             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
+@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
+                  "--search", a.get("query", ""), "--output", "json"]]
+     if verb == "close-issue":
+         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
++    if verb == "edit-issue-title":
++        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "comment-issue":
+         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
+     if verb == "add-label":
+@@ -258,7 +262,7 @@ def _glab(verb, args, repo):
+ VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
++         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
+ 
+ # create-issue-typed: the repository's id and issue types, then one createIssue call that
+ # sets the title, body, issue type and parent together.
+@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/shape-plan/scripts/platform_adapter.py b/core/components/plays/shape-plan/scripts/platform_adapter.py
+index e1b546910..933c9807b 100644
+--- a/core/components/plays/shape-plan/scripts/platform_adapter.py
++++ b/core/components/plays/shape-plan/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
+         return [argv]
+     if verb == "comment-issue":
+         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
++    if verb == "edit-issue-title":
++        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "add-label":
+         if a.get("pr_number"):
+             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
+@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
+                  "--search", a.get("query", ""), "--output", "json"]]
+     if verb == "close-issue":
+         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
++    if verb == "edit-issue-title":
++        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "comment-issue":
+         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
+     if verb == "add-label":
+@@ -258,7 +262,7 @@ def _glab(verb, args, repo):
+ VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
++         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
+ 
+ # create-issue-typed: the repository's id and issue types, then one createIssue call that
+ # sets the title, body, issue type and parent together.
+@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/shape-slice/scripts/platform_adapter.py b/core/components/plays/shape-slice/scripts/platform_adapter.py
+index e1b546910..933c9807b 100644
+--- a/core/components/plays/shape-slice/scripts/platform_adapter.py
++++ b/core/components/plays/shape-slice/scripts/platform_adapter.py
+@@ -4,7 +4,7 @@
+ 
+ The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
+ execute; that boot + context re-read is the chain-time cost #484 removes. This module
+-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
++is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
+ `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
+ returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
+ a script, per the tool-first rule and ADR 025.
+@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
+         return [argv]
+     if verb == "comment-issue":
+         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
++    if verb == "edit-issue-title":
++        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "add-label":
+         if a.get("pr_number"):
+             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
+@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
+                  "--search", a.get("query", ""), "--output", "json"]]
+     if verb == "close-issue":
+         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
++    if verb == "edit-issue-title":
++        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
+     if verb == "comment-issue":
+         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
+     if verb == "add-label":
+@@ -258,7 +262,7 @@ def _glab(verb, args, repo):
+ VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
+          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
+          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
+-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
++         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
+ 
+ # create-issue-typed: the repository's id and issue types, then one createIssue call that
+ # sets the title, body, issue type and parent together.
+@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
+ 
+ 
+ def main(argv=None):
+-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
++    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
+     ap.add_argument("--verb", required=True)
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+     ap.add_argument("--platform", default=None)
+diff --git a/core/components/plays/shape-slice/scripts/safe_write.py b/core/components/plays/shape-slice/scripts/safe_write.py
+index 1c4296b4c..195bc134c 100644
+--- a/core/components/plays/shape-slice/scripts/safe_write.py
++++ b/core/components/plays/shape-slice/scripts/safe_write.py
+@@ -8,8 +8,9 @@
+ permissions the process would give any new file (0666 less its umask).
+ 
+ /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
+-write_intent_page.py, and link-model-part's link_part.py, write their output files and pages
+-through it. No other script of theirs calls os.replace or tempfile.mkstemp.
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
++their output files and pages through it. No other script of theirs calls os.replace or
++tempfile.mkstemp.
+ """
+ 
+ import os
+diff --git a/core/components/skills/enrich-grounding/SKILL.md b/core/components/skills/enrich-grounding/SKILL.md
+index 75182d6e8..6098817cc 100644
+--- a/core/components/skills/enrich-grounding/SKILL.md
++++ b/core/components/skills/enrich-grounding/SKILL.md
+@@ -1,9 +1,9 @@
+ ---
+ name: enrich-grounding
+-description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on an intent page, update and fix mode change only the lines the request names (for example a real name to a persona). Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of an intent page must change.
++description: Write on the pages of the product-model parts a slice needs, for /shape-slice, from the person's answers and the assumptions, keeping every section and line a page had — bring each domain, capability or feature page the slice moves or uses up to the current grounding rules, in place; write one new feature page under a capability that exists, without re-detailing the capability; thin-ICE mode writes the minimum ICE (Goal, Limit, Fails if, Context, Checked by) for a part that has none; fix mode fixes the problems the model check finds in those pages; on any page — domain, capability, feature or intent — update and fix mode can instead change only the lines a request names, to the words it gives (for example a capability's ICE to an approved design, or a real name to a persona), through its change_lines.py script, all or nothing. Writes per-node pages only; it never writes _spine.yaml, the Thin line or any shared file. Generative artifact production for /shape-slice, and for a part found during other work (#979), through product-os-keeper, before link-model-part. Use when the pages of the model's parts need to be written, raised to the current rules, given a thin ICE, or fixed, or when named lines of a page must change.
+ user-invocable: false
+ model: opus
+-allowed-tools: Read, Write
++allowed-tools: Read, Write, Bash
+ ---
+ 
+ # enrich-grounding
+@@ -18,7 +18,7 @@ and every move of a page.
+ 
+ | Field | Required | Meaning |
+ |-------|----------|---------|
+-| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix`; an intent page takes `update` or `fix` only |
++| `mode` | no | `update` (the default), `new-feature`, `thin` or `fix`; an intent page takes `update` or `fix` only; a named-lines request (step 5) takes `update` or `fix` |
+ | `pages` | yes | The pages to work on, each `{id, kind: domain|capability|feature|intent, doc}` — in a slice run, from `fills.json` `updates` with `page: true`, its new features under a capability that exists, and its `thin` list; for found work, from the request |
+ | `product_base` | yes | The live model root. The pages are read and written in place under `{product_base}product-os/` |
+ | `schemas_dir` | yes | The grounding templates (`domain.md`, `capability.md`, `feature.md`) and the content standard, copied into short-term memory by the agent through the memory tool |
+@@ -26,7 +26,8 @@ and every move of a page.
+ | `record` | in a slice run | The question record: the person's answers are facts |
+ | `split` | in a slice run | `split.json`: each assumption is used as it is written |
+ | `fills` | in a slice run | `fills.json`: the parent of each new feature, and the thin parts |
+-| `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts); for an intent page, each line to change with its new words. In place of `record`, `split` and `fills` |
++| `request` | for found work | What the person asked for, and the sources to write from (the design, the issue texts). In place of `record`, `split` and `fills` |
++| `lines_request` | for named lines | `lines-request.json` (step 5): `by`, `source` (an approved design, or the person's own words) and `pages`, each `{page, changes}` — a change is `{old, new}` (`new: null` removes the line) or `{after, add}`; see the script's header |
+ | `problems` | for `fix` | `slice-check.json` (or a script's refusal): each problem with the page it names |
+ | `out` | yes | Where to write `grounding-report.json` |
+ 
+@@ -56,11 +57,22 @@ and every move of a page.
+    In an `ice.md`, Goal, Limit and Fails if go under `## Intent`, the Context line under
+    `## Context`, and the Checked by line under `## Expectation`. Do not write the Thin line
+    and do not set `metadata.thin`: the play's script writes the two thin marks.
+-5. **An intent page (update or fix mode only).** Change only the lines the request names, to
+-   the words it gives — for example a real person's name to a persona (`the product owner`).
+-   Keep every other line, word for word. Never write a new intent page and never change what
+-   the intent means: a new intent is /discover-intent's, and a change of meaning is the
+-   person's.
++5. **Named lines, on any page (update or fix mode).** When the request names lines to change —
++   on a domain, capability, feature or intent page — change only those lines, to the words it
++   gives: for example a capability's ICE to an approved design, or a real person's name to a
++   persona (`the product owner`). Write each line to change, whole and as it is on the page, in
++   `lines-request.json` with the request's source, and run the script:
++
++   ```bash
++   python3 scripts/change_lines.py --request <working>/lines-request.json \
++       --product-base <product_base> --out <working>/lines-report.json
++   ```
++
++   Exit 0: every named line changed and every other line kept, word for word. Exit 2: nothing
++   was written; the error names the page and the line (not on the page, on it twice, named
++   twice, a Thin line, a path outside the model, or no source). The meaning comes from the
++   request's source, never from this skill: a new intent page is /discover-intent's, and a
++   change of meaning is the person's or an approved design's.
+ 6. **Fix mode.** Fix each problem that names one of the pages: a missing section, an old
+    heading, a broken link, a thin ICE that lacks a line. Change only what the problem names.
+    A problem in `slice.json` or `fills.json` is not this skill's: list it in `not_mine`.
+@@ -79,6 +91,10 @@ The pages, written in place under `{product_base}product-os/`, and `grounding-re
+  "fixed": [], "not_mine": []}
+ ```
+ 
++A named-lines request (step 5) writes `lines-report.json` instead: `source`, and for each page
++each change (old and new, or after and add), its line counts before and after and the lines
++kept, and `changed` (every page written).
++
+ Examples from different fields:
+ - A clinic: the Booking capability's page had no Guiding rules section; the run adds it, with
+   the person's rule that a slot is held for ten minutes, and keeps its old Scope text.
+@@ -92,7 +108,8 @@ Examples from different fields:
+ - In place: keep every section and line a page had; never remove or move a page.
+ - Write per-node pages only. Never write `_spine.yaml`, the profile, a decision, the Thin
+   line or `metadata.thin`; a play's scripts or `link-model-part` write them. On an intent
+-  page, change only the lines the request names (step 5); never write a new intent page.
++  page, change only the lines the request names (step 5); never write a new intent page. A
++  named-lines request goes through `change_lines.py`, all or nothing.
+ - A thin ICE has a Goal, a Limit, one Fails if line or more, a Context line and a Checked by
+   line, each from the person's answers or the assumptions; nothing made up.
+ - One new feature under a capability that exists never re-details the capability.
+diff --git a/core/components/skills/enrich-grounding/scripts/change_lines.py b/core/components/skills/enrich-grounding/scripts/change_lines.py
+new file mode 100644
+index 000000000..237720e85
+--- /dev/null
++++ b/core/components/skills/enrich-grounding/scripts/change_lines.py
+@@ -0,0 +1,178 @@
++#!/usr/bin/env python3
++"""
++change_lines.py — change the lines a request names on product-model pages (enrich-grounding, #993).
++
++A play or a person asks the model sub-agent (product-os-keeper) to change some lines of a page —
++a domain, capability, feature or intent page — and gives the new words. This script changes
++exactly those lines and keeps every other line word for word. It decides nothing about what a
++part means: the request names its source (an approved design, or the person's own words).
++
++    python3 change_lines.py --request <working>/lines-request.json --product-base <product_base> \
++        --out <working>/lines-report.json
++
++lines-request.json:
++    {"by": "<the play or run that asks>",
++     "source": "<an approved design, or the person's own words>",
++     "pages": [
++       {"page": "capabilities/cap-720/capability.md",
++        "changes": [
++          {"old": "- Goal: ...", "new": "- Goal: ..."},
++          {"old": "- Checked by: ...", "new": null},
++          {"after": "- Limit: ...", "add": "- Fails if: ..."}]}]}
++
++A single page may also be given as top-level `page` and `changes`.
++
++- `old` is a whole line as it is on the page (trailing spaces aside); `new` replaces it, and
++  `new: null` removes it. `after` is a whole line on the page; `add` is put on the line below it.
++- Every named line must be on its page exactly once, and no line may be named twice. A change
++  never writes or removes the Thin line: the thin mark is link-model-part's.
++- A page is a `.md` file inside `<product_base>product-os/` that exists; never `_spine.yaml`.
++
++Every check runs before the first write; any failure refuses the whole request (exit 2) and
++writes nothing. When a write itself fails part way, every page already written is put back as
++it was (exit 2). Every page is written through safe_write.atomic_write. Reads and writes files
++on disk only; no git, no network. Exit 0 written, 2 refused or bad input.
++"""
++
++import argparse
++import json
++import os
++import re
++import sys
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import safe_write  # noqa: E402  (stamped beside this script)
++
++OLD_THIN = re.compile(r"^\s*(?:>\s*)?\**Thin(?: ICE)?\**\s*:", re.I)
++
++
++class Refused(Exception):
++    pass
++
++
++def inside(root, rel):
++    if not isinstance(rel, str) or not rel or os.path.isabs(rel) or ".." in rel.split("/"):
++        raise Refused(f"the path {rel!r} leaves the model folder")
++    full = os.path.realpath(os.path.join(root, rel))
++    if not full.startswith(os.path.realpath(root) + os.sep):
++        raise Refused(f"the path {rel!r} leaves the model folder")
++    return full
++
++
++def text_line(value, what, page):
++    if not isinstance(value, str) or "\n" in value or not value.strip():
++        raise Refused(f"{page}: {what} must be one non-empty line, got {value!r}")
++    if OLD_THIN.match(value):
++        raise Refused(f"{page}: {what} is a Thin line; the thin mark is link-model-part's")
++    return value.rstrip()
++
++
++def find_one(lines, wanted, page):
++    hits = [i for i, ln in enumerate(lines) if ln.rstrip() == wanted]
++    if not hits:
++        raise Refused(f"{page}: the line {wanted!r} is not on the page")
++    if len(hits) > 1:
++        raise Refused(f"{page}: the line {wanted!r} is on the page {len(hits)} times")
++    return hits[0]
++
++
++def plan_page(root, entry):
++    if not isinstance(entry, dict):
++        raise Refused(f"a page entry must be a mapping, got {entry!r}")
++    rel = entry.get("page")
++    full = inside(root, rel)
++    if not rel.endswith(".md") or os.path.basename(rel) == "_spine.yaml":
++        raise Refused(f"{rel}: only a page (.md) can be changed, never the spine")
++    if not os.path.isfile(full):
++        raise Refused(f"{rel}: the page is not on disk")
++    changes = entry.get("changes")
++    if not isinstance(changes, list) or not changes:
++        raise Refused(f"{rel}: no changes named")
++    with open(full, encoding="utf-8") as fh:
++        before = fh.read()
++    lines = before.splitlines()
++    replace, insert, named, report = {}, {}, set(), []
++    for change in changes:
++        if not isinstance(change, dict):
++            raise Refused(f"{rel}: a change must be a mapping, got {change!r}")
++        if "old" in change and set(change) <= {"old", "new"} and "new" in change:
++            old = text_line(change["old"], "old", rel)
++            new = change["new"]
++            if new is not None:
++                new = text_line(new, "new", rel)
++            at = find_one(lines, old, rel)
++            if at in named:
++                raise Refused(f"{rel}: the line {old!r} is named twice")
++            named.add(at)
++            replace[at] = new
++            report.append({"old": old, "new": new})
++        elif set(change) == {"after", "add"}:
++            after = text_line(change["after"], "after", rel)
++            add = text_line(change["add"], "add", rel)
++            at = find_one(lines, after, rel)
++            insert.setdefault(at, []).append(add)
++            report.append({"after": after, "add": add})
++        else:
++            raise Refused(f"{rel}: a change is {{old, new}} or {{after, add}}, got {sorted(change)}")
++    for at in insert:
++        if at in replace and replace[at] is None:
++            raise Refused(f"{rel}: a line is added after {lines[at]!r}, which is removed")
++    out = []
++    for i, ln in enumerate(lines):
++        if i in replace:
++            if replace[i] is not None:
++                out.append(replace[i])
++        else:
++            out.append(ln)
++        out.extend(insert.get(i, []))
++    after_text = "\n".join(out) + ("\n" if before.endswith("\n") else "")
++    kept = len(lines) - len(replace)
++    return full, rel, before, after_text, {"page": rel, "changes": report,
++                                           "lines_before": len(lines), "lines_after": len(out),
++                                           "lines_kept": kept}
++
++
++def main():
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--request", required=True)
++    ap.add_argument("--product-base", required=True)
++    ap.add_argument("--out", required=True)
++    a = ap.parse_args()
++    root = os.path.join(a.product_base, "product-os")
++    try:
++        with open(a.request, encoding="utf-8") as fh:
++            request = json.load(fh)
++        if not isinstance(request, dict):
++            raise Refused("the request must be a mapping")
++        if not isinstance(request.get("source"), str) or not request["source"].strip():
++            raise Refused("the request names no source (an approved design, or the person's words)")
++        pages = request.get("pages")
++        if pages is None and "page" in request:
++            pages = [{"page": request["page"], "changes": request.get("changes")}]
++        if not isinstance(pages, list) or not pages:
++            raise Refused("the request names no page")
++        planned = [plan_page(root, p) for p in pages]
++        if len({p[0] for p in planned}) != len(planned):
++            raise Refused("a page is named twice; put all its changes in one entry")
++    except (Refused, OSError, ValueError) as err:
++        print(f"change_lines: refused — {err}", file=sys.stderr)
++        return 2
++    written = []
++    try:
++        for full, _rel, before, after_text, _r in planned:
++            safe_write.atomic_write(full, after_text)
++            written.append((full, before))
++    except OSError as err:
++        for full, before in written:
++            safe_write.atomic_write(full, before)
++        print(f"change_lines: a write failed, every page put back — {err}", file=sys.stderr)
++        return 2
++    report = {"by": request.get("by"), "source": request["source"],
++              "pages": [p[4] for p in planned], "changed": [p[1] for p in planned]}
++    safe_write.atomic_write(a.out, json.dumps(report, indent=2, ensure_ascii=False) + "\n")
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/skills/enrich-grounding/scripts/safe_write.py b/core/components/skills/enrich-grounding/scripts/safe_write.py
+new file mode 100644
+index 000000000..195bc134c
+--- /dev/null
++++ b/core/components/skills/enrich-grounding/scripts/safe_write.py
+@@ -0,0 +1,44 @@
++#!/usr/bin/env python3
++"""safe_write.py — the one way a script that writes the product model writes a file.
++
++`atomic_write(path, text)` writes the text through a temp file in the same folder, then moves it
++into place with os.replace. A run that stops half way never leaves half a file: the old file is
++there whole, or the new one is. The folder is made when it is missing. A temp file that was not
++moved into place is removed. The file keeps the permissions it had; a new file gets the
++permissions the process would give any new file (0666 less its umask).
++
++/shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
++their output files and pages through it. No other script of theirs calls os.replace or
++tempfile.mkstemp.
++"""
++
++import os
++import stat
++import tempfile
++
++
++def _mode_for(path):
++    """The permissions the file at `path` has, or those a new file would get."""
++    if os.path.exists(path):
++        return stat.S_IMODE(os.stat(path).st_mode)
++    umask = os.umask(0)
++    os.umask(umask)
++    return 0o666 & ~umask
++
++
++def atomic_write(path, text):
++    """Write `text` to `path` through a temp file in the same folder, then os.replace it."""
++    folder = os.path.dirname(os.path.abspath(path))
++    os.makedirs(folder, exist_ok=True)
++    mode = _mode_for(path)
++    fd, tmp = tempfile.mkstemp(prefix=".garura-write-", suffix=".tmp", dir=folder)
++    try:
++        with os.fdopen(fd, "w", encoding="utf-8") as fh:
++            fh.write(text)
++        os.chmod(tmp, mode)
++        os.replace(tmp, path)
++    except BaseException:
++        if os.path.exists(tmp):
++            os.remove(tmp)
++        raise
+diff --git a/core/components/skills/enrich-grounding/scripts/test_change_lines.py b/core/components/skills/enrich-grounding/scripts/test_change_lines.py
+new file mode 100644
+index 000000000..7789386e4
+--- /dev/null
++++ b/core/components/skills/enrich-grounding/scripts/test_change_lines.py
+@@ -0,0 +1,172 @@
++"""Tests for change_lines.py (#993): the named lines of a model page change, every other line stays."""
++
++import json
++import os
++import subprocess
++import sys
++import tempfile
++import unittest
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++SCRIPT = os.path.join(HERE, "change_lines.py")
++
++CAP = """\
++# Capability: Send mail
++
++## Directional intent
++send mail to people.
++
++## Agent intent (ICE)
++- Goal: Mail reaches the person.
++- Limit: Never sends twice.
++- Fails if: a mail is lost.
++- Checked by: a test sends one mail.
++"""
++
++FEAT = """\
++# Feature: Send a reset link
++
++## What it does
++sends a reset link.
++
++Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
++## Agent intent (ICE)
++- Goal: The link reaches the person.
++- Limit: The link lasts one hour.
++"""
++
++
++class ChangeLinesTest(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        self.base = self.tmp.name + "/"
++        self.root = os.path.join(self.base, "product-os")
++        self.cap = self.page("capabilities/cap-1/capability.md", CAP)
++        self.feat = self.page("features/fn-1/feature.md", FEAT)
++        self.page("_spine.yaml", "capabilities: []\n")
++
++    def tearDown(self):
++        self.tmp.cleanup()
++
++    def page(self, rel, text):
++        full = os.path.join(self.root, rel)
++        os.makedirs(os.path.dirname(full), exist_ok=True)
++        with open(full, "w", encoding="utf-8") as fh:
++            fh.write(text)
++        return full
++
++    def read(self, full):
++        with open(full, encoding="utf-8") as fh:
++            return fh.read()
++
++    def run_request(self, request):
++        req = os.path.join(self.tmp.name, "request.json")
++        out = os.path.join(self.tmp.name, "report.json")
++        with open(req, "w", encoding="utf-8") as fh:
++            json.dump(request, fh)
++        done = subprocess.run([sys.executable, SCRIPT, "--request", req, "--product-base", self.base,
++                               "--out", out], capture_output=True, text=True)
++        report = None
++        if os.path.exists(out):
++            with open(out, encoding="utf-8") as fh:
++                report = json.load(fh)
++        return done, report
++
++    def request(self, pages, source="the approved design of #1"):
++        return {"by": "test", "source": source, "pages": pages}
++
++    def test_one_line_changes_and_every_other_line_stays(self):
++        done, report = self.run_request(self.request([
++            {"page": "capabilities/cap-1/capability.md",
++             "changes": [{"old": "- Goal: Mail reaches the person.",
++                          "new": "- Goal: Mail reaches the person, once."}]}]))
++        self.assertEqual(done.returncode, 0, done.stderr)
++        self.assertEqual(self.read(self.cap), CAP.replace("- Goal: Mail reaches the person.",
++                                                          "- Goal: Mail reaches the person, once."))
++        page = report["pages"][0]
++        self.assertEqual(page["lines_kept"], page["lines_before"] - 1)
++        self.assertEqual(report["changed"], ["capabilities/cap-1/capability.md"])
++        self.assertEqual(report["source"], "the approved design of #1")
++
++    def test_several_lines_on_two_pages_with_add_and_remove(self):
++        done, report = self.run_request(self.request([
++            {"page": "capabilities/cap-1/capability.md",
++             "changes": [{"old": "send mail to people.", "new": "send mail to people, and log it."},
++                         {"old": "- Checked by: a test sends one mail.", "new": None},
++                         {"after": "- Limit: Never sends twice.", "add": "- Limit: Never to a stranger."}]},
++            {"page": "features/fn-1/feature.md",
++             "changes": [{"old": "- Limit: The link lasts one hour.",
++                          "new": "- Limit: The link lasts thirty minutes."}]}]))
++        self.assertEqual(done.returncode, 0, done.stderr)
++        cap = self.read(self.cap)
++        self.assertIn("send mail to people, and log it.\n", cap)
++        self.assertNotIn("Checked by", cap)
++        self.assertIn("- Limit: Never sends twice.\n- Limit: Never to a stranger.\n", cap)
++        self.assertIn("thirty minutes", self.read(self.feat))
++        self.assertIn("Thin: proposed by", self.read(self.feat))
++        self.assertEqual(len(report["pages"]), 2)
++
++    def assert_refused_and_unchanged(self, request, words):
++        done, report = self.run_request(request)
++        self.assertEqual(done.returncode, 2)
++        self.assertIn(words, done.stderr)
++        self.assertIsNone(report)
++        self.assertEqual(self.read(self.cap), CAP)
++        self.assertEqual(self.read(self.feat), FEAT)
++
++    def test_a_line_not_on_the_page_refuses_everything(self):
++        self.assert_refused_and_unchanged(self.request([
++            {"page": "features/fn-1/feature.md",
++             "changes": [{"old": "- Limit: The link lasts one hour.", "new": "- Limit: Two hours."}]},
++            {"page": "capabilities/cap-1/capability.md",
++             "changes": [{"old": "- Goal: Something else.", "new": "- Goal: New."}]}]),
++            "is not on the page")
++
++    def test_a_line_on_the_page_twice_is_refused(self):
++        self.page("capabilities/cap-1/capability.md", CAP + "- Goal: Mail reaches the person.\n")
++        done, _ = self.run_request(self.request([
++            {"page": "capabilities/cap-1/capability.md",
++             "changes": [{"old": "- Goal: Mail reaches the person.", "new": "- Goal: New."}]}]))
++        self.assertEqual(done.returncode, 2)
++        self.assertIn("2 times", done.stderr)
++
++    def test_a_path_outside_the_model_is_refused(self):
++        self.assert_refused_and_unchanged(self.request([
++            {"page": "../outside.md", "changes": [{"old": "a", "new": "b"}]}]),
++            "leaves the model folder")
++
++    def test_the_spine_is_never_changed(self):
++        self.assert_refused_and_unchanged(self.request([
++            {"page": "_spine.yaml", "changes": [{"old": "capabilities: []", "new": "capabilities: [x]"}]}]),
++            "never the spine")
++
++    def test_the_thin_line_is_never_written_or_removed(self):
++        thin = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
++                "`/discover-capabilities`.")
++        self.assert_refused_and_unchanged(self.request([
++            {"page": "features/fn-1/feature.md", "changes": [{"old": thin, "new": None}]}]),
++            "Thin line")
++
++    def test_a_request_with_no_source_is_refused(self):
++        self.assert_refused_and_unchanged(self.request([
++            {"page": "capabilities/cap-1/capability.md",
++             "changes": [{"old": "- Goal: Mail reaches the person.", "new": "- Goal: New."}]}],
++            source=""), "no source")
++
++    def test_a_line_named_twice_is_refused(self):
++        self.assert_refused_and_unchanged(self.request([
++            {"page": "capabilities/cap-1/capability.md",
++             "changes": [{"old": "- Goal: Mail reaches the person.", "new": "- Goal: A."},
++                         {"old": "- Goal: Mail reaches the person.", "new": "- Goal: B."}]}]),
++            "named twice")
++
++    def test_a_page_given_at_the_top_level(self):
++        done, _ = self.run_request({"by": "test", "source": "the person's words",
++                                    "page": "features/fn-1/feature.md",
++                                    "changes": [{"old": "sends a reset link.", "new": "sends one reset link."}]})
++        self.assertEqual(done.returncode, 0, done.stderr)
++        self.assertIn("sends one reset link.", self.read(self.feat))
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/core/components/skills/link-model-part/scripts/safe_write.py b/core/components/skills/link-model-part/scripts/safe_write.py
+index 1c4296b4c..195bc134c 100644
+--- a/core/components/skills/link-model-part/scripts/safe_write.py
++++ b/core/components/skills/link-model-part/scripts/safe_write.py
+@@ -8,8 +8,9 @@
+ permissions the process would give any new file (0666 less its umask).
+ 
+ /shape-slice's persist_fills.py, persist_slice.py, write_hidden_file.py, render_brief.py and
+-write_intent_page.py, and link-model-part's link_part.py, write their output files and pages
+-through it. No other script of theirs calls os.replace or tempfile.mkstemp.
++write_intent_page.py, link-model-part's link_part.py and enrich-grounding's change_lines.py write
++their output files and pages through it. No other script of theirs calls os.replace or
++tempfile.mkstemp.
+ """
+ 
+ import os
+diff --git a/core/components/skills/platform-adapter/SKILL.md b/core/components/skills/platform-adapter/SKILL.md
+index 4b0954392..1b165f029 100644
+--- a/core/components/skills/platform-adapter/SKILL.md
++++ b/core/components/skills/platform-adapter/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: platform-adapter
+-description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 23 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
++description: Stable verb interface for code-host operations. Resolves the active platform from config and dispatches to the correct CLI (gh for GitHub, glab for GitLab). Exposes exactly 24 verbs — callers pass a verb name and arguments; the adapter handles platform selection and command execution.
+ user-invocable: false
+ model: haiku
+ allowed-tools: Bash, Read
+@@ -22,12 +22,12 @@ Receive from caller (agent):
+ 
+ | Field | Required | Description |
+ |-------|----------|-------------|
+-| `verb` | Yes | One of the 23 supported verbs (see Verb Interface below) |
++| `verb` | Yes | One of the 24 supported verbs (see Verb Interface below) |
+ | `args` | Yes | Map of named arguments for the verb (see per-verb reference) |
+ 
+ ## Verb Interface
+ 
+-The adapter exposes exactly 23 verbs:
++The adapter exposes exactly 24 verbs:
+ 
+ | Verb | Purpose |
+ |------|---------|
+@@ -45,6 +45,7 @@ The adapter exposes exactly 23 verbs:
+ | `list-issues` | List/search issues |
+ | `close-issue` | Close an issue |
+ | `comment-issue` | Post a comment on an issue |
++| `edit-issue-title` | Change an issue's title |
+ | `add-label` | Add labels to an issue or PR |
+ | `attach-sub-issue` | Attach a child issue to a parent (GitHub only; GitLab falls back to related-link) |
+ | `view-user` | Get the current authenticated user's login |
+@@ -108,7 +109,7 @@ Apply the platform resolution steps above. Halt on pre-flight failure before exe
+ 
+ ### Step 2: Look Up Verb
+ 
+-Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, add-label, attach-sub-issue, view-user, update-comment, create-issue-typed, set-issue-type, edit-issue-body, remove-label, remove-sub-issue."`
++Find the section in `reference/{platform}/verbs.md` whose heading matches the requested `verb`. If no matching section is found, halt with: `"Unknown verb: {verb}. Supported verbs: view-pr, diff-pr, pr-files, compare-diff, comment-pr, request-changes, add-reviewer, create-pr, merge-pr, view-issue, create-issue, list-issues, close-issue, comment-issue, edit-issue-title, add-label, attach-sub-issue, view-user, update-comment, create-issue-typed, set-issue-type, edit-issue-body, remove-label, remove-sub-issue."`
+ 
+ ### Step 3: Substitute Arguments
+ 
+@@ -136,7 +137,7 @@ Return to caller:
+ - NEVER fall back silently when a platform reference file is missing — halt with structured failure
+ - ALWAYS perform the `which glab` pre-flight check before any operation when platform=gitlab
+ - ALWAYS halt with the prescribed install hint text when `glab` is missing: `"glab CLI not found. Install via: brew install glab or https://gitlab.com/gitlab-org/cli"`
+-- NEVER add verbs beyond the 23 defined above without a schema change
++- NEVER add verbs beyond the 24 defined above without a schema change
+ 
+ ## Version
+ 
+diff --git a/core/components/skills/platform-adapter/reference/github/verbs.md b/core/components/skills/platform-adapter/reference/github/verbs.md
+index 06b409058..e2561d80b 100644
+--- a/core/components/skills/platform-adapter/reference/github/verbs.md
++++ b/core/components/skills/platform-adapter/reference/github/verbs.md
+@@ -146,6 +146,14 @@ Post a comment on an issue:
+ gh issue comment {issue_number} --body "{body}"
+ ```
+ 
++## edit-issue-title
++
++Change an issue's title:
++
++```bash
++gh issue edit {issue_number} --title "{title}"
++```
++
+ ## add-label
+ 
+ Add labels to an issue or PR:
+diff --git a/core/components/skills/platform-adapter/reference/gitlab/verbs.md b/core/components/skills/platform-adapter/reference/gitlab/verbs.md
+index 81eb2a0c0..aa7b1eb00 100644
+--- a/core/components/skills/platform-adapter/reference/gitlab/verbs.md
++++ b/core/components/skills/platform-adapter/reference/gitlab/verbs.md
+@@ -147,6 +147,14 @@ Post a comment (note) on an issue:
+ glab issue note {issue_number} --message "{body}"
+ ```
+ 
++## edit-issue-title
++
++Change an issue's title:
++
++```bash
++glab issue update {issue_number} --title "{title}"
++```
++
+ ## add-label
+ 
+ Add labels to an issue or MR:

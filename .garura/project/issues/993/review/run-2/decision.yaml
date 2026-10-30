@@ -1,0 +1,8 @@
+decision: approve
+decided_by: harness
+gate: skipped by config (gates.plays.check-change)
+reason: no P1 findings; confidence acceptable
+citing: []
+counts:
+  P4: 18
+  P3: 2

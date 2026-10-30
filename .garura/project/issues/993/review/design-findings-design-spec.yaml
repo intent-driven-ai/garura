@@ -1,0 +1,44 @@
+category: design-spec
+round: 3
+pr: 995
+grounded_from:
+  base_ref: plan/717/base
+  grounding_available: true
+  principles:
+    - id: G1
+      principle: "The approved design says what is written, and where, in its own words. In the base text the no-write rule is scoped: 'Nothing is written to GitHub, the model or the plan file during the session.' The session starts after the play is on the plan's branch."
+      source: "git show plan/717/base:.garura/project/issues/720/specs/design.md, sections 'The session' and 'How it starts'"
+    - id: G2
+      principle: "The base design already requires the main-first cut: whenever a plan's branch is cut (and /update-plan on a plan with no branch is named), main's plan file is set to In Progress with the branch named, committed on main, and the branch is cut from that commit. The base design also keeps a running list in the plan's short-term memory, and 'Rejected' leaves the list in short-term memory."
+      source: "git show plan/717/base:.garura/project/issues/720/specs/design.md, sections 'Which copy of a plan counts', 'How it starts', 'The session', 'How it ends'"
+    - id: G3
+      principle: "The design header records its own approval and rounds, so an amendment and its reason belong in the design's record, where the next reader will look. A changed approved piece needs a person's approval; here the owner's instruction of 2026-10-30 to fix all moderate and medium findings covers an edit that only names what the base already required."
+      source: "git show plan/717/base:.garura/project/issues/720/specs/design.md, first lines; docs/adr/033; docs/adr/060"
+checked_edit:
+  file: .garura/project/issues/720/specs/design.md
+  hunks:
+    - "added paragraph 'The one write before approval' after the session's no-write sentence"
+    - "constraint 'It never cuts a branch except as above...' now prefixed with a scoped no-write sentence"
+round_2_follow_up:
+  D1:
+    status: resolved
+    check: "The paragraph and the constraint both say 'GitHub, the model or a plan file', name the branch step for a plan with no branch as the only exception, and the paragraph says the running list in short-term memory is not such a write. This matches the base scope and the base running list. The wording is 'before approved' where the base says 'during the session'; the only write that falls in the gap (the main-first cut in 'How it starts') is the very step the exception names, so nothing is contradicted."
+  D2:
+    status: resolved
+    check: "The clause 'not a change the person approves' is gone. The three steps now named (main's plan file to In Progress with the branch named, commit on main, cut the branch) are the steps the base text already requires in 'Which copy of a plan counts' and 'How it starts'. The edit only names what the base already required, so it needs no new approval beyond the owner's instruction."
+findings:
+  - id: D3
+    severity: P4
+    file: .garura/project/issues/720/specs/design.md
+    what: "Stands from round 2. The added paragraph ends with a note of origin, '(Found by the review of PR #995, finding F1, 2026-10-30.)'. F1 lives in a review run record and the PR, not where a later reader of the design will look, and the design's header still records only the one approval and the two rounds. A short line in the header (an amendment date and the reason) would keep the history in the design; the origin note could then go. The commit subjects carry no body that gives the reason either."
+    basis: "G3: git show plan/717/base:.garura/project/issues/720/specs/design.md (the header records approval and rounds, so amendments belong there); docs/adr/060 (decision changes carry the reason in the record itself)."
+confirmed_conforming:
+  - "Both hunks are scoped to GitHub, the model and plan files and agree with the base 'The session', 'How it starts' and 'How it ends'. Source: base design."
+  - "The exception is limited to a plan with no branch, matching 'on main: it switches to the plan's branch; when the plan has none, it cuts one as above'. Source: base design."
+  - "Only the two hunks changed in the design file against the base ref; the working tree matches HEAD."
+  - "No real name and no absolute home path in the added text."
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1

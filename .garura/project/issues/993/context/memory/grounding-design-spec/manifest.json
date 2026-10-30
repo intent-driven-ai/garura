@@ -1,0 +1,6 @@
+{
+  "category": "design-spec",
+  "issue": 993,
+  "files": [],
+  "note": "No extra memory copies were needed. The principles rest on committed files read from the base ref with git: the #720 design at plan/717/base (.garura/project/issues/720/specs/design.md), docs/adr/030, 033 and 060, and .garura/user-provided/managing-work.md. The shared severity taxonomy (standards/rules/pr.md) was read in place from the Step 2 copy."
+}

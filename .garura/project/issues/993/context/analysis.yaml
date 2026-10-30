@@ -1,0 +1,37 @@
+---
+# analyze_changeset.py output (C8 fast path), grouped by assess-changes
+# issue: 993
+needs_judgment: false
+
+change_groups:
+  - id: approval-scope-wording
+    issue: 993
+    commit_type: docs
+    scope: product-model
+    subject: scope "nothing is written before approved" to GitHub, the model and plan files
+    files:
+      - .garura/product/product-os/capabilities/cap-720/capability.md
+      - .garura/product/product-os/features/fn-730/feature.md
+      - .garura/project/issues/720/specs/design.md
+  - id: record-run-artifacts
+    issue: 993
+    commit_type: chore
+    scope: stm
+    subject: record the review-fix run artifacts
+    files:
+      - .garura/project/issues/993/context/porcelain.txt
+      - .garura/project/issues/993/context/analysis.yaml
+      - .garura/project/issues/993/context/model-lines/lines-report-d1.json
+      - .garura/project/issues/993/context/model-lines/lines-request-d1.json
+      - .garura/project/issues/993/context/memory/grounding-design-spec/manifest.json
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    []
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every changed file is in exactly one group; issue 993 in both groups"}
+  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}

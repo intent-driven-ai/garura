@@ -212,7 +212,7 @@ evals:
     status: PASS
     evidence: |
       Command: ls -la ~/.claude/skills/platform-adapter/SKILL.md
-      Output: -rw-r--r-- 1 kapilahuja staff 5425 May 27 15:46 ~/.claude/skills/platform-adapter/SKILL.md
+      Output: -rw-r--r-- 1 <user> staff 5425 May 27 15:46 ~/.claude/skills/platform-adapter/SKILL.md
       File present at deployed path after orchestrator ran /sync-claude (T14).
     notes: Re-checked after orchestrator's /sync-claude task (T14) completed.
 

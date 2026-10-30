@@ -90,11 +90,14 @@ capabilities:
   - bi-717
   status: proposed
   detail: directional
-  one_line: 'Manage a plan: change the plan file and the tracker together'
+  one_line: 'Manage a plan with /update-plan: change the plan file, GitHub and the
+    product model together, on one approval'
   doc: capabilities/cap-720/capability.md
   depends_on: []
   identified_by: ''
   issue: 720
+  metadata:
+    updated_by: 'the #720 design, through #993''s change'
 - id: cap-735
   slug: cap-735
   domain: ''
@@ -335,11 +338,14 @@ features:
   intents:
   - bi-717
   status: proposed
-  one_line: Update, edit or delete a plan file, and connect it to its issues
+  one_line: 'The /update-plan session: instructions, checks, one approval, one landing
+    on the plan''s branch'
   doc: features/fn-730/feature.md
   depends_on: []
   identified_by: ''
   issue: 730
+  metadata:
+    updated_by: 'the #720 design, through #993''s change'
 - id: fn-736
   slug: fn-736
   capability: cap-735

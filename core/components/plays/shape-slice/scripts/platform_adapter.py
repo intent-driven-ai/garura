@@ -4,7 +4,7 @@ platform_adapter.py — the code-host adapter as a SCRIPT LIBRARY (#484).
 
 The `platform-adapter` skill was pure prose an agent (repo-orchestrator) booted to
 execute; that boot + context re-read is the chain-time cost #484 removes. This module
-is the same verb interface as a bundled script (23 verbs): it resolves the active platform from
+is the same verb interface as a bundled script (24 verbs): it resolves the active platform from
 `.garura/core/config.yaml` and dispatches each verb to `gh` (GitHub) or `glab` (GitLab),
 returning the raw CLI output. Zero judgment — a fixed command per verb — so it belongs in
 a script, per the tool-first rule and ADR 025.
@@ -163,6 +163,8 @@ def _gh(verb, args, repo):
         return [argv]
     if verb == "comment-issue":
         return [["gh", "issue", "comment", str(a["issue_number"]), "--body", a["body"]]]
+    if verb == "edit-issue-title":
+        return [["gh", "issue", "edit", str(a["issue_number"]), "--title", a["title"]]]
     if verb == "add-label":
         if a.get("pr_number"):
             return [["gh", "pr", "edit", str(a["pr_number"]), "--add-label", a["labels"]]]
@@ -234,6 +236,8 @@ def _glab(verb, args, repo):
                  "--search", a.get("query", ""), "--output", "json"]]
     if verb == "close-issue":
         return [["glab", "issue", "close", str(a["issue_number"])]]  # no --reason
+    if verb == "edit-issue-title":
+        return [["glab", "issue", "update", str(a["issue_number"]), "--title", a["title"]]]
     if verb == "comment-issue":
         return [["glab", "issue", "note", str(a["issue_number"]), "--message", a["body"]]]
     if verb == "add-label":
@@ -258,7 +262,7 @@ GITHUB_ONLY_VERBS = {"create-issue-typed", "set-issue-type", "edit-issue-body",
 VERBS = {"view-pr", "diff-pr", "pr-files", "compare-diff", "comment-pr", "request-changes",
          "add-reviewer", "create-pr", "merge-pr", "view-issue", "create-issue", "list-issues",
          "close-issue", "comment-issue", "add-label", "attach-sub-issue",
-         "view-user", "update-comment"} | GITHUB_ONLY_VERBS
+         "view-user", "update-comment", "edit-issue-title"} | GITHUB_ONLY_VERBS
 
 # create-issue-typed: the repository's id and issue types, then one createIssue call that
 # sets the title, body, issue type and parent together.
@@ -396,7 +400,7 @@ def dispatch(verb, args, config_path=".garura/core/config.yaml", platform=None):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Code-host adapter (23 verbs).")
+    ap = argparse.ArgumentParser(description="Code-host adapter (24 verbs).")
     ap.add_argument("--verb", required=True)
     ap.add_argument("--config", default=".garura/core/config.yaml")
     ap.add_argument("--platform", default=None)

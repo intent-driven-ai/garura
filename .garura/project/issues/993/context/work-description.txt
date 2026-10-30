@@ -1,0 +1,23 @@
+The model's page skill changes the lines a request names on any model page, not only on intent pages
+
+## What a person can do
+
+A play or a person asks the model sub-agent (product-os-keeper) to change named lines on any page of the product model — a domain, capability, feature or intent page — and the page skill (`enrich-grounding`) changes exactly those lines to the words given, keeping every other line word for word. Today it can do that only on an intent page; on a domain, capability or feature page it can only add, so a changed intent (ICE) cannot reach the model without a hand edit.
+
+## Why now
+
+The approved design of #720 (manage a plan, 2026-10-30) changes what #720 and #730 promise. Their model pages (cap-720, fn-730) must change four lines each: the product model joins the plan file and GitHub as what must agree; nothing is written before a plain "approved"; it works on the plan's own branch; it may cut that branch when the plan has none. No skill can change those lines today, and the model is changed only through a sub-agent and its skills (the product owner: "model sub-agent can change anything using skill. no direct changes. skills are needed to act."). `/update-plan` (#730, #931) needs the same ability for a session that changes a feature's text.
+
+## Done means
+
+- In update or fix mode, the page skill changes exactly the lines the request names, on a domain, capability, feature or intent page, and every other line stays word for word.
+- A request line that does not match a line on the page is refused and named; nothing on that page is written.
+- The report lists each changed line, old and new.
+- product-os-keeper routes a "change these lines" request on any page to the page skill.
+- cap-720 and fn-730 carry the approved design's intent, changed through product-os-keeper and the page skill, never by hand.
+
+## Notes
+
+- `enrich-grounding` is a skill, not a play: its change is a direct edit to its SKILL.md, landed through the change plays.
+- Design: `.garura/project/issues/720/specs/design.md`; this story's own design goes in its issue folder.
+- Story of #720 (manage a plan), in plan 717.

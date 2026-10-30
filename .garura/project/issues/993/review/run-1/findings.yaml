@@ -1,0 +1,230 @@
+pr: 995
+issue: 993
+findings:
+- id: QF-01
+  category: code-and-tests
+  severity: P2
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: 'The all-or-nothing promise has holes. Only OSError is caught in the write loop, so any other failure on page 2 leaves
+    page 1 already changed with a traceback and exit 1 (the module says exit 0 or 2 and ''any failure ... writes nothing'').
+    Run: a request whose second page carries a lone surrogate (valid in JSON, passes text_line) raised UnicodeEncodeError;
+    the first page stayed changed, not put back. Two sibling holes: the final report write (line 173) is outside the try,
+    so a failing --out path leaves every page changed with no report (run: --out was a folder; pages changed, IsADirectoryError,
+    exit 1); and the put-back loop (lines 167-168) is itself unguarded, so one failed restore stops the loop and leaves the
+    later pages changed.
+
+    '
+  basis: 'Data-safety weight for this file; PR-severity bucket P2 (partial write state on a model page, narrow trigger, recoverable
+    from git). The module docstring (lines 31-34) and the SKILL.md promise exit 0 or 2 and no partial change. Not P1: no silent
+    loss, the run exits non-zero.
+
+    '
+  source: quality-findings.yaml
+- id: QF-02
+  category: code-and-tests
+  severity: P3
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: '''Keeps every other line word for word'' is not true for some pages. The page is read with universal newlines and
+    split with str.splitlines(), then joined with "\n". Run: a page with CRLF endings came back entirely LF (every untouched
+    line changed); a line holding U+2028 was split in two; a line holding a form feed was split, which also made an unrelated
+    ''old'' line look like it was on the page twice (a false refusal). The put-back after a failed write is not byte-exact
+    for the same reason. text_line rejects "\n" but not "\r", so a new line holding "\r" would be written and read back as
+    two lines.
+
+    '
+  basis: 'Rubric: deterministic where it claims to be, safe destructive operations. P3: model pages are LF markdown today,
+    so the trigger is rare; the guarantee is the script''s headline promise.
+
+    '
+  source: quality-findings.yaml
+- id: QF-03
+  category: code-and-tests
+  severity: P3
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: 'An {after, add} change is not idempotent. Run: the same request sent twice put the added line on the page twice.
+    {old, new} is safe (the second run refuses because ''old'' is gone), so a retried run after a lost report adds duplicates
+    only for additions. The same request listing one add twice also adds it twice; nothing refuses.
+
+    '
+  basis: 'Rubric: idempotency on destructive/write paths (called out in the category). P3: caller can avoid it; no data is
+    lost.'
+  source: quality-findings.yaml
+- id: QF-04
+  category: code-and-tests
+  severity: P3
+  file: core/components/skills/enrich-grounding/scripts/test_change_lines.py
+  what: 'The ten tests pass and assert real outcomes, but the branches the script advertises as its safety net have no test:
+    the put-back when a write fails part way (change_lines.py 166-170, the branch QF-01 shows is incomplete), the refusal
+    ''a line is added after a line that is removed'' (118-120), an absolute path and a symlinked page, a CRLF page, and a
+    second run of an {after, add} change. test_a_line_on_the_page_twice_is_refused does not assert the page stayed unchanged.
+    A passing suite says nothing about the rollback.
+
+    '
+  basis: 'pr.md TEST-* intent (new behaviour is covered, tests assert the outcome); no TEST row''s match rule fires on this
+    path, so this is a review-rubric finding. P3: highlights, does not block.'
+  source: quality-findings.yaml
+- id: QF-05
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/safe_write.py
+  what: 'atomic_write does not fsync the temp file before os.replace, so the ''old file whole or new one whole'' promise holds
+    for a process that stops but not for a power cut (the new name can point at an empty file). _mode_for reads the umask
+    by setting it to 0 and back, which is not safe if another thread runs. Owner and group of the replaced file are not kept.
+    The module says it keeps ''the permissions'' only, so none of this contradicts it.
+
+    '
+  basis: 'Rubric: safe destructive operations; P4 nit: the files are git-tracked and the claim is about permissions only.'
+  source: quality-findings.yaml
+- id: QF-06
+  category: code-and-tests
+  severity: P4
+  file: core/components/plays/create-play/references/platform_adapter.py
+  what: 'Seven platform_adapter.py copies and three safe_write.py copies are kept equal by hand. They are byte-identical now
+    (md5 checked), but no test or linter in core/tools compares them, so the next one-copy edit would drift silently. create-play
+    stamps platform_adapter.py from references/ at build time; safe_write.py has no such stamp.
+
+    '
+  basis: 'Category treatment: ''check they stay identical''. P4: identical today; a guard is a nice-to-have.'
+  source: quality-findings.yaml
+- id: QF-07
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: 'plan_page is about 55 lines with a branch chain that does planning, validation and rendering in one function; the
+    ''basename == _spine.yaml'' test on line 85 can never be true after the ''.md'' test on the same line, so it is dead code.
+    The '' "name" and set(change) <= {...} and "new" in change'' condition on line 99 reads as a double check of the same
+    thing.
+
+    '
+  basis: 'Rubric: function size. Matches the intent of CODE-10 (P3) but no row fires; set to P4 as style.'
+  source: quality-findings.yaml
+- id: H-1
+  category: harness
+  severity: P3
+  file: core/components/skills/enrich-grounding/SKILL.md
+  what: 'The new named-lines step lets a request replace a line or remove it (`new: null`) on any page, but the skill keeps
+    its older, stricter rules unchanged beside it: step 7 says every section and line from step 1 must still be on the page
+    and be put back if lost, and Rules say never remove a line. A run that follows the whole skill is told both to remove
+    a line and to put it back. The base skill only had a small intent-page case for this; the PR widens it to every page and
+    adds removal without saying that step 7 and the Rules do not apply to a named-lines request.
+
+    '
+  basis:
+    principle: G4 (a skill's own rules must hold together across its process; the skill is the contract the agent calls)
+    source: 'plan/717/base:core/components/skills/enrich-grounding/SKILL.md, Process step 7 and Rules ''In place: keep every
+      section and line''; plan/717/base:docs/standards/harness-standard.md principle 2'
+  source: design-findings-harness.yaml
+- id: H-2
+  category: harness
+  severity: P3
+  file: core/components/skills/enrich-grounding/SKILL.md
+  what: 'Two statements about who makes lines-request.json disagree. The Input table lists `lines_request` as a field handed
+    to the skill, but step 5 tells the skill to write each line into lines-request.json itself and then run the script. In
+    this harness the agent gathers context and hands the skill file paths, and the product-os-keeper row describes the request
+    as already holding "every line to change, whole, with its new words and the request''s source". If the skill writes its
+    own request, the agent''s contract does not carry the data; if the agent writes it, step 5 is wrong.
+
+    '
+  basis:
+    principle: G1 (an agent hands the skill a contract of file paths; context is crafted onto files by the agent, the skill
+      does the work)
+    source: plan/717/base:docs/standards/harness-standard.md principle 2; plan/717/base:docs/adr/016-agent-json-contract.md
+  source: design-findings-harness.yaml
+- id: H-3
+  category: harness
+  severity: P4
+  file: core/components/skills/enrich-grounding/SKILL.md
+  what: 'The `out` input still says it is where `grounding-report.json` is written, while a named-lines request writes `lines-report.json`
+    (the script''s `--out`). The Output section says "instead" but the one `out` field the agent passes is not described for
+    that case, so the agent cannot tell which file name to give.
+
+    '
+  basis:
+    principle: G1 (the contract names every output path, so the record of the run is on disk where the play expects it)
+    source: plan/717/base:docs/standards/harness-standard.md principle 2
+  source: design-findings-harness.yaml
+- id: F1
+  category: product-model
+  severity: P3
+  file: .garura/product/product-os/capabilities/cap-720/capability.md
+  what: The Limit of both pages says 'Nothing is written before a plain approved', and cap-720 'Fails if' says 'a plan is
+    changed anywhere but on its own branch'. Yet both pages also let the play cut a missing plan branch first, and that step
+    (main's plan file set to In Progress with the branch named, committed on main, then the cut) happens when the session
+    starts, before any approval and on main. The sentence is absolute, and the exception is not tied to it. A builder or the
+    compare check reading the Limit literally gets a rule the play must break to start a branch-less plan.
+  basis:
+    principle: 'A Limit is a line that must not be crossed and must not contradict the play''s own described behaviour (ICE
+      contract: Limit; Fails if).'
+    sources:
+    - plan/717/base:.garura/project/issues/720/specs/design.md - 'Which copy of a plan counts' and 'How it starts' put the
+      main-first commit and the cut at the start; 'The session' says nothing is written to GitHub, the model or the plan file
+      during the session; the design is itself loose on the main-first write.
+    - plan/717/base:core/components/memory/standards/schemas/product-os/grounding/capability.md - the ICE section is the short
+      fixed form an agent works from.
+  source: design-findings-product-model.yaml
+- id: F2
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/capabilities/cap-720/capability.md
+  what: The new 'Directional intent' is one long run-on sentence of about 90 words with a colon list, and it says what the
+    capability does but not why it matters. The capability template asks for what it is about, its rough scope and why it
+    matters, and the content bar asks for discrete, self-explaining points. The base text was short and also gave no 'why',
+    so this is not new, but the rewrite did not close it.
+  basis:
+    principle: Content bar 1 (self-explaining, with the why) and 2 (discrete, not narrative); capability template 'Directional
+      intent'.
+    sources:
+    - 'memory tool: standards/schemas/product-os/grounding/_content-standard.md and grounding/capability.md (copied); same
+      files on plan/717/base'
+  source: design-findings-product-model.yaml
+- id: F3
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/features/fn-730/feature.md
+  what: 'The page title uses a dash (''The /update-plan session - instructions, checks, one approval, one landing on the plan''s
+    branch'') while the spine one_line, the plan 717 title and the #730 issue title use a colon. On base the page title was
+    identical to the one_line; now it differs by one character. The check ''spine one_line matches the page title'' therefore
+    reads as a near miss. The capability page is fine (its title is the part of the one_line before the colon, as on base).'
+  basis:
+    principle: Spine one_line and the page title name the same thing in the same words; links and titles in the model agree
+      with the tracker titles.
+    sources:
+    - 'plan/717/base: .garura/product/product-os/features/fn-730/feature.md (H1 equal to the spine one_line) against .garura/product/product-os/_spine.yaml'
+    - 'GitHub issue #730 title (read only)'
+  source: design-findings-product-model.yaml
+- id: F4
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/features/fn-730/feature.md
+  what: 'There before, not changed by this PR: the feature page holds only ''What it does'' and the ICE. It lacks the required
+    feature sections (Inputs / Outputs, Rules & behavior, Acceptance criteria, Out of scope), so lint_grounding.py gives 4
+    errors on it, the same 4 on the base file. It is also leaner than its capability page (depth gradient), and its spine
+    entry has no thin mark (fn-729 and fn-628 carry thin: true). The PR did not make this worse.'
+  basis:
+    principle: A feature is the most detailed level, never leaner than its parent; the heading contract; a thin page carries
+      the thin mark (ADR 052).
+    sources:
+    - 'plan/717/base: core/components/memory/standards/schemas/product-os/grounding/feature.md and grounding/_content-standard.md'
+    - 'plan/717/base: docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+  source: design-findings-product-model.yaml
+- id: F5
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/capabilities/cap-720/capability.md
+  what: 'There before, not changed by this PR: both pages keep the ICE inline as an ''Agent intent (ICE)'' section with the
+    old labels (Goal, Limit, Fails if, Checked by). The ontology on the base (version 13) and ADR 047 make the ICE its own
+    page with three parts. The PR follows the model as it stands (Garura''s own model has not moved, #765 not built), so it
+    conforms to the as-built state. The ICE lines it rewrites will have to move again in #765.'
+  basis:
+    principle: The product ICE is its own node (ontology v13, kind ICE; ADR 047); until the move, pages keep the inline section
+      (ontology v13 'Not built yet' line).
+    sources:
+    - 'plan/717/base: core/components/memory/standards/schemas/product-os/ontology.md (version 13)'
+    - 'plan/717/base: docs/adr/047-the-ice-is-its-own-node.md'
+  source: design-findings-product-model.yaml
+there_before:
+  lint-components: 37 violations, none in changed_paths
+layer1:
+  lint-play: not applicable — no play SKILL.md changed
+  test_change_lines: 10 OK
+  test_platform_adapter: 55 passed, 0 failed
