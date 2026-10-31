@@ -24,27 +24,34 @@ left and what is moving; finished work is a count, not a wall of lines.
   nodes under it (no roll-ups).
 - C4 — Not Started, In Progress, Now and Blocked are shown. Done and Dropped are hidden and
   counted on the last line of the plan. A hidden node with a shown node under it is still
-  printed, so the shown node keeps its place.
+  printed, so the shown node keeps its place. A shown node whose children are all Done or
+  Dropped prints those children too, one level down, so a person sees what was finished under
+  it and can decide on it; they are not counted as hidden.
 - C5 — Each plan the plan needs is printed after it, on the same screen.
 - C6 — Every mark and every line comes from the plan-view template. The play never makes up a
   layout of its own.
 - C7 — The same plan file prints the same tree every time.
-- C8 — When no plan has the number asked for, the play says so plainly. A plan file with a
-  status the template does not know stops the play with the file named.
+- C8 — The plan is the number the person typed; with no number, it is the plan the current
+  branch belongs to, read from the branch name (`plan/<id>/base` or `plan/<id>/<issue>-<slug>`),
+  and the tree is the same as `/show-plan <id>` prints. A typed number always wins. A branch that
+  belongs to no plan stops the play with a plain message and no tree (#1000). When no plan has
+  the number, the play says so plainly. A plan file with a status the template does not know
+  stops the play with the file named.
 - C9 — The play ends by proving its Done means at close, never by its step list running out.
 
 ### Failure conditions
 
-- F1 — A Done or Dropped node is shown when no shown node sits under it, or the count of
-  hidden nodes is wrong or missing.
+- F1 — A Done or Dropped node is shown when no shown node sits under it and its parent has
+  an open child or is itself hidden; the children of a shown node that are all Done or Dropped
+  are not printed, or are counted as hidden; or the count of hidden nodes is wrong or missing.
 - F2 — A line has no title or no issue number.
 - F3 — A plan the plan needs is left out.
 - F4 — The play writes a plan file, an issue or a branch.
 - F5 — The tree comes from the tracker, from a model call, or from a layout that is not the
   template's.
 - F6 — Two runs on the same plan file print differently.
-- F7 — A plan that does not exist, or a plan with an unknown status, gets a guessed tree
-  instead of a plain message or a stop.
+- F7 — A plan that does not exist, a plan with an unknown status, or a branch that belongs to
+  no plan, gets a guessed tree instead of a plain message or a stop.
 - F8 — The close reports COMPLETED without the Done means held.
 
 ## Context
@@ -83,18 +90,29 @@ left and what is moving; finished work is a count, not a wall of lines.
   runs, then two prints are the same, the plan files are unchanged and every line follows the
   template. *Measure:* the check record reads `same_twice: true`, `unchanged: true` and
   `lines_ok: true`.
+- **S6 — product owner, a feature whose stories are all finished.** Given an open feature
+  whose stories are all Done or Dropped, when `/show-plan` runs, then the feature is printed
+  with each of those stories under it, as mark, number and title, and they are not in the
+  hidden count. *Measure:* the check record reads `lines_ok: true` and `hidden_ok: true` for a
+  plan with such a feature.
+- **S7 — product owner, no number on a plan's branch.** Given a person on `plan/<id>/base` or
+  on an issue's branch in plan `<id>`, when `/show-plan` runs with no number, then the tree of
+  plan `<id>` is printed, the same as `/show-plan <id>`; on a branch in no plan, a plain message
+  and no tree. *Measure:* `plan.json` reads `plan: <id>` and `from: branch`, and the check record
+  reads `tree_ok: true`; on a branch in no plan, `plan.json` reads `plan: null` with the error,
+  and no view exists.
 
 ### Recovery
 
 | For | Trigger | Direction | Handoff |
 |-----|---------|-----------|---------|
-| F1 | the check finds a hidden node shown, or a wrong or missing count line | re-run the plan tool and check again; if it still fails, report the node and close HALTED | autonomous |
+| F1 | the check finds a hidden node shown, the finished children of an open parent left out or counted, or a wrong or missing count line | re-run the plan tool and check again; if it still fails, report the node and close HALTED | autonomous |
 | F2 | the check finds a line with no title or no number | re-run the plan tool and check again; if the plan file has a node with no title, name it for a person | human |
 | F3 | a needed plan is missing from the view | re-run the plan tool and check again; if the needed plan's file is missing, the tree says so with the template's no-plan line | autonomous |
 | F4 | a plan file's hash changed during the run, or a write to the tracker or a branch was made | stop, report what changed, and leave it for a person; read only is never repaired by a retry | human |
 | F5 | a line of the view does not match the template's layout | load the template again through template-manager and re-run the plan tool with it | autonomous |
 | F6 | the two prints differ | re-run both prints; if they still differ, report the difference and close HALTED | autonomous |
-| F7 | a missing plan or an unknown status got a tree | show the template's no-plan line, or stop and name the file and its status; never a guessed tree | autonomous |
+| F7 | a missing plan, an unknown status or a branch in no plan got a tree | show the template's no-plan line, or stop and name the file and its status, or the branch; never a guessed tree | autonomous |
 | F8 | the close would report COMPLETED without the Done means held | surface the unmet clauses and re-run the step that makes the missing record, or close HALTED | autonomous |
 
 ### Done means

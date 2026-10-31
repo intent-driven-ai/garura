@@ -1,0 +1,7 @@
+ M .garura/project/issues/1005/context/porcelain.txt
+ M core/components/plays/show-plan/scripts/check_tree.py
+ M core/tools/plan/plan.py
+ M core/tools/plan/test_plan.py
+?? .garura/project/issues/1005/context/memory/
+?? .garura/project/issues/1005/context/templates/
+?? .garura/project/issues/1005/review/

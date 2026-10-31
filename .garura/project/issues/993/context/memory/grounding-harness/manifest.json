@@ -1,0 +1,4 @@
+{
+  "files": [],
+  "note": "No extra memory copies were needed for the harness category. The principles rest on committed files read from the base ref with git (docs/standards/harness-standard.md, docs/adr/005, 016, 026, 033, 047, and the #720 design at plan/717/base:.garura/project/issues/720/specs/design.md). The shared copies from Step 2 (review/harness playbook and the pr.md taxonomy) were read in place."
+}

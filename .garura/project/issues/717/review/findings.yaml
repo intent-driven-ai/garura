@@ -1,108 +1,255 @@
-pr: 988
+pr: 1017
 issue: 717
+counts:
+  P1: 0
+  P2: 7
+  P3: 12
+  P4: 4
 findings:
-- id: Q1
-  category: code-and-tests
+- id: Q-10
   severity: P2
-  file: core/components/plays/list-plans/scripts/check_list.py
-  what: The changed check logic (the new card() helper and the as_set comparison of the direction line, blank line and Status
-    row, and the narrowed heading match) has no test. No test file in this diff or in core/ imports check_list.py. The play's
-    own run exercises it, and it passed on the real plans, but no test would catch a wrong card being accepted or a right
-    card being refused.
-  basis: TEST-01 (new code without a test, P2 in pr.md); scanner did not fire it (garura-prose classification), confirmed
-    by hand
-  source: quality-findings.yaml
-- id: Q2
-  category: code-and-tests
-  severity: P4
-  file: core/tools/plan/plan.py
-  what: Line 197, inside the listing() docstring, is 152 characters. The edit joined two sentences without re-wrapping, so
-    the docstring wraps at about 100 columns on its first line and then runs far past it. Every other line in the three python
-    files is under 140.
-  basis: pr.md bucket P4 (style only); nearest scanner row CODE-04 (format), which is a path-only rule and fires on every
-    .py file
-  source: quality-findings.yaml
-- id: Q3
-  category: code-and-tests
-  severity: P4
-  file: core/components/plays/list-plans/scripts/check_list.py
-  what: The new inner function card(h, direction, status) never uses its first argument h; the caller passes a heading it
-    does not need.
-  basis: pr.md bucket P4 (style only); nearest scanner row CODE-17 (identifier), a path-only rule
-  source: quality-findings.yaml
-- id: H1
-  category: harness
-  severity: P3
-  file: core/components/plays/list-plans/reference/ice.md
-  what: 'The Intent paragraph (line 9) still says each card shows "the plan''s direction, its number and business intent",
-    in that order. This PR moves the direction to its own line under the heading (S6 now says so, and the SKILL.md description
-    says "number and business intent, its direction ... on the line under"). The ICE intent statement was not brought in line
-    with its own scenario, so the source the play is compiled from now states the old order while S6 states the new one.
+  file: core/tools/{plan/{plan,plan_branch,plan_status,test_plan,test_plan_branch,test_plan_status}.py,lint-components/{index.js,lib/rules/shared-scripts.js,lib/rules/structural.js,test/dmw-declared-exception.test.js}}:1
+  line: null
+  summary: null
+  basis: 'path rules: run lint/format/cycle check on these 10 files. ruff found nothing new on the .py files; no JS linter
+    is installed (repo has none), so the JS files are ''not checked'', not ''passed''.'
+  category: executable-code
+- id: Q-3
+  severity: P2
+  file: core/tools/plan/plan_branch.py:67
+  line: null
+  summary: null
+  basis: os.environ copied with GIT_TERMINAL_PROMPT=0 for git calls
+  category: executable-code
+- id: Q-4
+  severity: P2
+  file: core/tools/plan/plan_branch.py:167
+  line: null
+  summary: null
+  basis: git fetch call; TIME_LIMIT 120 s applies to every git call (line 65)
+  category: executable-code
+- id: Q-5
+  severity: P2
+  file: core/tools/plan/plan_branch.py:276
+  line: null
+  summary: null
+  basis: same as Q-4
+  category: executable-code
+- id: L1
+  severity: P2
+  file: core/components/plays/start-change/stop-condition-plan.yaml (whole file); core/components/plays/start-change/SKILL.md:32,339,399,494;
+    core/components/plays/start-change/reference/ice.md:195-205
+  line: null
+  summary: 'Still lands unfixed (recorded as N1, P2, in .garura/project/issues/989/review/design-findings-harness.yaml, approved
+    with it open). The ICE''s Done means holds D1 to D8, but the play bakes them into two hand-made manifests: D1 to D4 in
+    stop-condition.yaml and D5 to D8 in stop-condition-plan.yaml. The compiler writes one stop-condition.yaml whose content.done
+    is the whole clause list. The next /edit-play of start-change therefore writes all eight into stop-condition.yaml; every
+    ordinary change start must then prove plan-branch.json and plan-start-check.json, which a change never makes, and closes
+    HALTED. lint-play passes today (''Done means baked'' checks only stop-condition.yaml), so nothing warns.
 
     '
-  basis:
-    principle: 'G1: the ICE is what the team agreed and the compiled part must not drift from it. The compiled description
-      (SKILL.md) and the ICE intent statement now say different things about the card.'
-    source: docs/standards/harness-standard.md principle 4 (base ref); base ice.md line 9 (git show main:core/components/plays/list-plans/reference/ice.md)
-      shows the intent text this PR left unchanged
-  source: design-findings-harness.yaml
-- id: H2
+  basis: 'G1: what is baked to a play is emitted by the compiler from its ICE, so a rebuild reproduces it.'
   category: harness
-  severity: P4
-  file: core/components/plays/list-plans/reference/ice.md
-  what: 'The Context line that lists the stories the play was compiled from (line 64: #729, #806, #983) does not name #986,
-    while SKILL.md Compiled From and the compiled_by row now cite #986. The two provenance lists disagree.
+- id: L2
+  severity: P2
+  file: core/components/plays/merge-change/scripts/merge_pr.py:114,132-133 (master copy core/components/plays/create-play/references/merge_pr.py:114,132);
+    core/components/plays/merge-change/reference/ice.md:63
+  line: null
+  summary: 'Still lands unfixed (recorded as HC1, P2, in .garura/project/issues/1000/review/design-findings-harness.yaml;
+    story 1007 recorded it as out of scope by the product owner, .garura/project/issues/1007/review/design-findings-harness.yaml
+    line 80). merge-change still closes ''the capability'' once every issue under it is closed (C9). A plan has no capability:
+    the top node of a plan''s tree is the Epic (plan 717''s tree top is epic 956), so the script closes the plan''s Epic when
+    its items are closed, and leaves the plan item for that Epic not marked Done. An Epic stays open when its work is done
+    and new stories can join it. The plan lands with both the landed rule (an item follows its own issue, nothing rolls up)
+    and this roll-up in the same play.
 
     '
-  basis:
-    principle: 'G1: the compiled part and its ICE agree on where the play came from (the #983 change added its story to both).'
-    source: 'docs/standards/harness-standard.md principle 4 (base ref); base ice.md Context lines, which name #983 in the
-      same list'
-  source: design-findings-harness.yaml
-- id: H3
+  basis: 'G3: an Epic stays open when its stories are done and knows no capability.'
   category: harness
-  severity: P4
-  file: core/components/plays/list-plans/reference/ice.md
-  what: 'Scenario S6 now breaks after "the check record" and leaves a short line ("*Measure:* the check record" then "reads
-    `as_set: true`."). The author''s own self-review called it cosmetic. Style only.
-
-    '
-  basis:
-    principle: Plain wrapping of ICE prose (style only, no committed rule is violated)
-    source: 'P4 bucket of the PR severity taxonomy (standards/rules/pr.md, short-term copy): style-only nits are surfaced
-      in evidence only'
-  source: design-findings-harness.yaml
-- id: MEM-1
-  category: memory
-  severity: P4
-  file: core/components/memory/standards/templates/plan-view.md
-  what: 'The example in ''The list'' shows a second card (#722) that ends after the Status row. It has no Branch row, no Waits
-    on row, and no Epic/Progress rows. The prose above it says Branch and Waits on are always shown (Waits on blank when none),
-    and the tool prints them for every plan (observed output for plan 722: Status, Branch, Waits on, Epic, Progress). A reader
-    copying the example would think a plan with nothing to wait on drops those rows. The first card is complete; only the
-    second is cut short, with nothing (such as an ellipsis) saying so.'
-  basis: 'Principle: the template''s example must show the shape its own rules and the tool print, because the template is
-    the ''what should this look like?'' reference. Sources: main:core/components/memory/standards/templates/plan-view.md (''Waits
-    on — always shown ... blank when none''; Branch shown, ''main'' when none); standards/templates/_index.md, Phoenix memory
-    copy (''It answers what should this look like?''). No pr.md row fires for this; classed P4 (nit: illustration only, no
-    effect on the tool, which reads the settings block, not the example).'
-  source: design-findings-memory.yaml
-- id: PLAN-1
+- id: PR-1
+  severity: P2
+  file: .garura/project/plans/717.yaml
+  line: 75-78 (#730), 80-83 (#917), 96-99 (#931)
+  summary: 'Three items are marked Done in the plan but their own GitHub issues are still OPEN: #730 (story, line 75-78),
+    #917 (chore, line 80-83), #931 (story, line 96-99). The PR body counts them in ''31 items are Done''. Progress shown by
+    /list-plans (30 done, 0 open) therefore overstates what the tracker holds. Their comments say ''landed on plan/717/base
+    with #720'', so the likely fix is to close the three issues (a person''s call), not to change the plan.'
+  basis: The plan's Tree shows each item with its tracker state and the plan file and the tracker always agree.
   category: plan-records
-  severity: P4
-  file: .garura/project/plans/717.yaml (line 8, comment on `branch`)
-  what: 'The comment says plan/717/base "merged into main on 2026-10-29 after #719, #983 and #986 landed". This diff adds
-    #986 to that sentence, but the branch has not merged: PR #988, the PR under review, is the merge, and the branch still
-    exists. The sentence is true only after PR #988 lands. The sentence was already on main before this PR (main''s file names
-    #719 and #983 with the same wording), and the value `branch: null` is what ADR 060 says a pausing plan reads, so the value
-    is right; only the dated claim in the comment runs ahead of the merge.
+- id: Q-11
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py:130
+  line: null
+  summary: null
+  basis: is_deleted term
+  category: executable-code
+- id: Q-6
+  severity: P3
+  file: core/tools/plan/plan_branch.py:78
+  line: null
+  summary: null
+  basis: the word 'retry' in added lines
+  category: executable-code
+- id: Q-7
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js:10
+  line: null
+  summary: null
+  basis: console.log in the test (also line 27); plan_branch.py:320 'log.'
+  category: executable-code
+- id: Q-8
+  severity: P3
+  file: core/tools/lint-components/test/dmw-declared-exception.test.js:1
+  line: null
+  summary: null
+  basis: path rules on the one changed .test.js
+  category: executable-code
+- id: Q-9
+  severity: P3
+  file: core/tools/plan/README.md:1
+  line: null
+  summary: null
+  basis: path rules on the changed tool README
+  category: executable-code
+- id: L3
+  severity: P3
+  file: core/components/plays/start-change/reference/ice.md:39-40 (C10); core/components/loops/_shared/loop-run.md:61; core/components/loops/complete-discovery/SKILL.md:125
+  line: null
+  summary: 'Still lands unfixed (recorded as N3, P3, in .garura/project/issues/989/review/design-findings-harness.yaml). start-change
+    now hard-halts when nothing is typed, and C10 says a loop ''passes the issue number (or a description), as it does today''.
+    The loop files (not in the diff) say only ''Run start-change as a sub-play ... one issue, one branch'' and ''Run R2 of
+    the shared run''; no committed text says what is handed over. The Discovery loop is the loop people run, so the first
+    step of it is the one that would stop if the hand-over is empty. Not proven to break; the claim in C10 has no backing
+    text.
 
     '
-  basis: 'PR-3: ADR 060 records this exact drift as a known risk of keeping the field by hand until #730 (''Plan 717''s `null`
-    is true only once PR #950 merges''). No rule forbids writing the value ahead of the merge, so this is a nit, not a violation.'
-  source: design-findings-plan-records.yaml
-there_before:
-  lint-components: 37 violations, none in changed_paths
-layer1:
-  lint-play list-plans: PASS (0 gaps), next-command check ran
-  test_plan: 17 OK
+  basis: 'G4: people run loops; a guarantee that changes for a caller is stated in the caller''s own file.'
+  category: harness
+- id: L4
+  severity: P3
+  file: core/components/plays/start-change/SKILL.md:90
+  line: null
+  summary: 'Still lands unfixed (recorded as N4, P3, in .garura/project/issues/989/review/design-findings-harness.yaml). The
+    person''s typed words go inside double quotes on a shell line: resolve_args.py --args="<the play''s arguments>". A description
+    with a backtick, a double quote or $(...) is changed by the shell before the script reads it, so the change read is not
+    the change typed.
+
+    '
+  basis: 'G2: a script step gives the same answer every time and must not depend on how text is quoted.'
+  category: harness
+- id: MEM-1
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: null
+  summary: 'v14 ''catches up'' the Plan kind but leaves six statements that a slice shaped later for an intent that already
+    has a plan is added to that plan by the plan play (/shape-plan). The same PR changes pipeline-next.md to say the opposite:
+    /shape-plan stops when the intent has a plan and a later slice joins through /update-plan. The ontology''s Plan kind and
+    Q30 now contradict the Next-line map, and a reader of the ontology is sent to the wrong play.'
+  basis: 'A memory standard must not contradict its sibling standards; the ontology states ''what must always be true'' and
+    its Log entry for a version has to cover every statement the change makes untrue (review/memory rubric: avoid contradicting
+    existing knowledge).'
+  category: memory
+- id: PR-2
+  severity: P3
+  file: .garura/project/plans/717.yaml
+  line: 8, 14
+  summary: 'The plan lands with branch: plan/717/base and epic #956 closed. Under the base rule the plan''s branch is deleted
+    when it merges and the file says branch: null; until something writes null, /list-plans shows Branch plan/717/base and
+    /list-plans --graph draws a branch that no longer exists. Nothing in the file or the PR says who sets it to null after
+    the merge.'
+  basis: 'A plan''s branch merges into main when the plan pauses, is deleted, and the plan file says branch: null.'
+  category: plan-records
+- id: PR-3
+  severity: P3
+  file: .garura/project/plans/717.yaml
+  line: 15-19
+  summary: 'Epic #956 is marked Done and its GitHub issue was closed as completed on 2026-10-31 (closedAt 17:11:51Z). The
+    base ontology says an epic stays open and is not closed when its stories are done. The plan matches GitHub, so the file
+    is consistent; the closure itself departs from the base Epic rule. Only the branch''s own ontology v14/v15 text (''an
+    epic ... can be closed with open stories'') allows it, and that is not usable as grounding. A person should confirm the
+    closure is wanted, or reopen #956 and mark it In Progress.'
+  basis: 'An epic stays open: it is not closed when its stories are done.'
+  category: plan-records
+- id: PM-1
+  severity: P3
+  file: .garura/product/product-os/capabilities/cap-720/capability.md:4-9; .garura/product/product-os/features/fn-730/feature.md:4-9;
+    .garura/product/product-os/_spine.yaml:88-102,345-358
+  line: null
+  summary: 'cap-720 and fn-730 now say the /update-plan session writes the product model, cuts the plan''s branch and sets
+    Status and Direction. fn-931 (new) builds on the same. The committed ontology says managing a plan changes the plan file
+    and the tracker only and ''never touches branches or code'', and has no Direction. The new wording is backed only by ontology
+    v14 and ADR 061/062/063, which this branch adds. Grounding unavailable: the model pages are ahead of the committed design
+    and agree with it only if the branch''s own ontology lands with them (it does, in this PR).'
+  basis: 'Plan rule: managing a plan changes the plan file and the tracker together and never touches branches or code (ONT13).
+    A model page is measured against the design decided before the branch, not against the design the branch adds.'
+  category: product-model
+- id: PM-2
+  severity: P3
+  file: .garura/product/product-os/features/fn-931/feature.md:36; software-delivery-planning/cap-718/capability.md:18; shape-slice/capability.md:15;
+    shape-eval/capability.md:18; features/fn-628/feature.md:6; features/fn-729/feature.md:6; features/fn-806/feature.md:6;
+    shape-slice/fn-795/feature.md:43; cap-718/fn-818/feature.md:46; shape-eval/fn-798/feature.md:38; shape-eval/fn-898/feature.md:43
+  line: null
+  summary: 'Ten existing Thin lines were rewritten, and the new fn-931 carries the same line: ''Thin: proposed from the person''s
+    words; ...''. The committed ontology fixes the line as ''Thin: proposed by /shape-slice from the person''s answers; ...''
+    and names /shape-slice as the only play that proposes a thin ICE, so fn-931 (proposed by /update-plan) has no lawful thin
+    form on the base ref. The spine''s updated_by notes say ''ontology v14 Thin line'', which is the branch''s own revision.
+    Marks agree in both places on every page, so no drift; the gap is only the base-ref text.'
+  basis: 'ICE thin mark: the exact Thin line and /shape-slice as its proposer (ONT13).'
+  category: product-model
+- id: PR-4
+  severity: P4
+  file: .garura/project/plans/717.yaml
+  line: '6'
+  summary: 'direction: 1 (''next'') stays on a plan whose status is Done, so /list-plans prints the ''next'' icon under a
+    finished plan. Direction is the person''s, so this is not wrong, only stale.'
+  basis: Direction says what is next; it is set by a person and shown as the file gives it.
+  category: plan-records
+- id: PR-5
+  severity: P4
+  file: .garura/project/plans/717.yaml
+  line: '20, 37, 70, 113, 160 (kind: feature); 152 (kind: issue)'
+  summary: The tree holds nodes of kind 'feature' (issue type Feature) between the epic and its stories, and one node of kind
+    'issue' (#791). Neither is a tree kind in the base ontology (epic, story, spike, chore, bug). Both are already in main's
+    copy of this file, so the landing does not add them; the ontology's v14 on the branch names the 'feature item', which
+    is not usable as grounding. The plan tool does not validate kind, so nothing fails.
+  basis: A tree holds epic, story, spike, chore and bug; a Feature is never an issue.
+  category: plan-records
+- id: PM-3
+  severity: P4
+  file: .garura/product/product-os/features/fn-931/feature.md (path); .garura/product/product-os/_spine.yaml:604-624
+  line: null
+  summary: fn-931 names cap-720 as its capability but its page sits in the holding folder features/fn-931/, not under its
+    capability's folder. The five other cap-720 and cap-721 features (fn-730 and the rest) sit the same way, so it matches
+    its neighbours; it is an old gap repeated, not a new kind of gap.
+  basis: Feature lives under its capability's folder, or the holding folder only until it names a capability (ONT13).
+  category: product-model
+- id: PM-4
+  severity: P4
+  file: .garura/product/product-os/_spine.yaml:102,358,605-623
+  line: null
+  summary: 'Who changed the model cannot be told from the spine. cap-720 and fn-730 say updated_by ''the #720 design, through
+    #993''s change'' (no keeper or play named); fn-931 says created_by ''/update-plan (plan 717 ...)'', a play this PR adds.
+    Other entries name product-os-keeper. The category''s check ''the changes came from the model plays, not hand edits''
+    can only be read from this free text.'
+  basis: The model is changed by a model play and shared files by its keyed script (DMW).
+  category: product-model
+dismissed:
+- id: Q-1
+  severity: P1
+  file: core/tools/plan/test_plan_branch.py:43
+  line: null
+  summary: null
+  basis: grep 'email' matched; the line is git config user.email = test@example.com in a throw-away test repo. Mechanical
+    hit; no personal data stored or logged. Reviewer to confirm it is a false positive and dispose.
+  category: executable-code
+  dismissed: 'test fixture: user.email = test@example.com in a throwaway git repo (reserved example domain); no personal data;
+    same hit dismissed in PR #1016''s round-1 review'
+- id: Q-2
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py:43
+  line: null
+  summary: null
+  basis: same match as Q-1
+  category: executable-code
+  dismissed: 'test fixture: user.email = test@example.com in a throwaway git repo (reserved example domain); no personal data;
+    same hit dismissed in PR #1016''s round-1 review'

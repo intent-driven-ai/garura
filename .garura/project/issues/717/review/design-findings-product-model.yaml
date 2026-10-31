@@ -1,0 +1,62 @@
+# Layer 2 design-grounding, category product-model, PR #1017 (plan 717 -> main).
+# Scope: the 16 changed files under .garura/product/product-os (no playbook exists: review/product-model is missing).
+category: product-model
+pr: 1017
+base: origin/main
+grounding:
+  sources:
+    - id: ONT13
+      source: "git show origin/main:core/components/memory/standards/schemas/product-os/ontology.md (v13, updated 2026-10-29)"
+      principles:
+        - "Feature: exactly one parent capability; lives under its capability's folder, or holding folder features/<id>/ until it names one (Kinds > Feature, Lives at / Rules)"
+        - "ICE thin mark: kept in two places that agree - the Thin line before the ICE and thin: true in the spine entry's metadata; the line reads 'Thin: proposed by /shape-slice from the person's answers; ...' and a thin ICE is proposed by /shape-slice (Kinds > ICE, Lives at / Rules)"
+        - "Plan: 'managing a plan changes [the plan file and the tracker] together and never touches branches or code' (Kinds > Plan, Rules)"
+        - "Business Intent: stages are proposed, confirmed, met, dropped; only a person confirms or drops one (Kinds > Business Intent, States / Rules)"
+        - "Log 2026-10-18 (#656): personal names kept out of the ontology; the model speaks of personas and roles"
+    - id: SPINE2
+      source: "git show origin/main:core/components/memory/standards/schemas/product-os/spine.yaml (schema v2): every entry names a doc that exists; a named parent that does not exist is an error"
+    - id: DMW
+      source: "memory tool, phoenix tier, standards/rules/direct-model-write.md (copy in memory_dir): the model is changed by a model play; shared files (the spine) by its keyed script"
+    - id: ADR060
+      source: "git show origin/main:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (accepted 2026-10-29)"
+  gaps:
+    - "ADR 061, 062, 063, 064 and ontology v14/v15 are added by this branch (not on origin/main). They are not used as grounding."
+    - "Phoenix memory now holds ontology v15, the same revision this branch lands (stamp: version 15, 2026-10-31). It was copied into memory_dir for completeness but no principle above rests on it; every principle rests on origin/main v13."
+    - "No review playbook for the product model (playbook missing, review/product-model)."
+  memory_dir: .garura/project/issues/717/context/memory/grounding-product-model/
+  memory_manifest: .garura/project/issues/717/context/memory/grounding-product-model/manifest.json
+checks_run:
+  - {check: "every spine entry's doc exists (46 entries: 1 domain, 12 capabilities, 33 features)", result: pass}
+  - {check: "every page under product-os is in the spine (no orphan capability.md / feature.md / domain.md)", result: pass}
+  - {check: "ids unique; every feature names an existing capability; every capability's domain, depends_on and identified_by resolve; every intents ref has an intents/<id>.md page", result: pass}
+  - {check: "thin marks agree: 11 entries with metadata.thin: true (cap-718, cap-shape-slice, cap-shape-eval, fn-729, fn-628, fn-795, fn-818, fn-798, fn-898, fn-806, fn-931) each have exactly one Thin line; no page has a Thin line without the metadata mark", result: pass}
+  - {check: "no real person's name on any model page or added line (grep of all of product-os and of every added line)", result: pass}
+  - {check: "no business intent page is closed; the 5 intent pages (bi-717, 722, 734, 756, 788) read 'confirmed'; none of them is in the diff", result: pass}
+  - {check: "fn-673 and cap-721 (a plan lands on main when it pauses) agree with ADR 060 on origin/main", result: pass}
+findings:
+  - id: PM-1
+    severity: P3
+    file: ".garura/product/product-os/capabilities/cap-720/capability.md:4-9; .garura/product/product-os/features/fn-730/feature.md:4-9; .garura/product/product-os/_spine.yaml:88-102,345-358"
+    what: "cap-720 and fn-730 now say the /update-plan session writes the product model, cuts the plan's branch and sets Status and Direction. fn-931 (new) builds on the same. The committed ontology says managing a plan changes the plan file and the tracker only and 'never touches branches or code', and has no Direction. The new wording is backed only by ontology v14 and ADR 061/062/063, which this branch adds. Grounding unavailable: the model pages are ahead of the committed design and agree with it only if the branch's own ontology lands with them (it does, in this PR)."
+    principle: "Plan rule: managing a plan changes the plan file and the tracker together and never touches branches or code (ONT13). A model page is measured against the design decided before the branch, not against the design the branch adds."
+    source: ONT13
+    action: "Accept only with the ontology v14 and ADR 061-063 landing in the same PR (they are in this diff). No change needed to the model pages."
+  - id: PM-2
+    severity: P3
+    file: ".garura/product/product-os/features/fn-931/feature.md:36; software-delivery-planning/cap-718/capability.md:18; shape-slice/capability.md:15; shape-eval/capability.md:18; features/fn-628/feature.md:6; features/fn-729/feature.md:6; features/fn-806/feature.md:6; shape-slice/fn-795/feature.md:43; cap-718/fn-818/feature.md:46; shape-eval/fn-798/feature.md:38; shape-eval/fn-898/feature.md:43"
+    what: "Ten existing Thin lines were rewritten, and the new fn-931 carries the same line: 'Thin: proposed from the person's words; ...'. The committed ontology fixes the line as 'Thin: proposed by /shape-slice from the person's answers; ...' and names /shape-slice as the only play that proposes a thin ICE, so fn-931 (proposed by /update-plan) has no lawful thin form on the base ref. The spine's updated_by notes say 'ontology v14 Thin line', which is the branch's own revision. Marks agree in both places on every page, so no drift; the gap is only the base-ref text."
+    principle: "ICE thin mark: the exact Thin line and /shape-slice as its proposer (ONT13)."
+    source: ONT13
+    action: "None if v14 lands with this PR (it does). Pages written with the old line stay thin under v14, so the ten rewrites were not required."
+  - id: PM-3
+    severity: P4
+    file: ".garura/product/product-os/features/fn-931/feature.md (path); .garura/product/product-os/_spine.yaml:604-624"
+    what: "fn-931 names cap-720 as its capability but its page sits in the holding folder features/fn-931/, not under its capability's folder. The five other cap-720 and cap-721 features (fn-730 and the rest) sit the same way, so it matches its neighbours; it is an old gap repeated, not a new kind of gap."
+    principle: "Feature lives under its capability's folder, or the holding folder only until it names a capability (ONT13)."
+    source: ONT13
+  - id: PM-4
+    severity: P4
+    file: ".garura/product/product-os/_spine.yaml:102,358,605-623"
+    what: "Who changed the model cannot be told from the spine. cap-720 and fn-730 say updated_by 'the #720 design, through #993's change' (no keeper or play named); fn-931 says created_by '/update-plan (plan 717 ...)', a play this PR adds. Other entries name product-os-keeper. The category's check 'the changes came from the model plays, not hand edits' can only be read from this free text."
+    principle: "The model is changed by a model play and shared files by its keyed script (DMW)."
+    source: DMW

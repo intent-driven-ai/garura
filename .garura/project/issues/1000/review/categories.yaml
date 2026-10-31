@@ -1,0 +1,199 @@
+# Work categories present in the diff of PR #1013 (issue 1000, base plan/717/base).
+# Derived from the diff content. Treatment is copied from the playbooks in short-term memory
+# (.garura/project/issues/1000/context/memory/knowledge/review/). Design-grounding on the
+# base ref only; nothing the branch adds is grounding. The approved design
+# (.garura/project/issues/1000/specs/design.md) is the scope of the review, never grounding.
+categories:
+  - name: Harness
+    design_bearing: true
+    playbook: review/harness
+    evidence:
+      - core/components/plays/show-plan/SKILL.md
+      - core/components/plays/show-plan/reference/ice.md
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/merge-change/reference/ice.md
+      - core/components/plays/start-change/SKILL.md
+    note: >
+      Three plays change. /show-plan with no number reads the plan from the branch name (C8, F7, S7,
+      SCE-7; ICE source and SKILL.md both change, #1000). /merge-change checks that the capability
+      closes when every child is Done or Dropped (SE-9, SCE-5, S5; ICE source and SKILL.md change,
+      #951). /start-change takes the plan files' folder from the pre-flight fact plans_base instead
+      of reading config itself (SKILL.md only, no ICE source change). The repository holds the plays'
+      source, so the ICE-source rule applies: each SKILL.md intent change (constraints, failures,
+      scenarios, description) must trace to its reference/ice.md change, and the recorded
+      fingerprints must match. start-change changes its SKILL.md alone, so the reviewer judges by
+      hand whether that edit is a non-intent change (wiring only) or an intent change that needed the
+      ICE source. Ground against the base-ref ADRs (ADR 060 and the plan-branch ADRs), philosophy,
+      harness standard and standards, not against the new design.md.
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          scope: only a violation whose file is in changed_paths is a finding; count the rest as "there before"
+        - name: lint-play, show-plan
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/show-plan/SKILL.md --next-map .garura/project/issues/1000/context/templates/standards/rules/pipeline-next.md
+        - name: lint-play, merge-change
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/merge-change/SKILL.md --next-map .garura/project/issues/1000/context/templates/standards/rules/pipeline-next.md
+        - name: lint-play, start-change
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/start-change/SKILL.md --next-map .garura/project/issues/1000/context/templates/standards/rules/pipeline-next.md
+      runnable_checks:
+        - "A tool that is not installed is recorded 'not installed'; a crash is recorded 'did not run: <first error line>'. Neither is a pass."
+        - "ICE-source rule by hand: each SKILL.md intent change traces to its reference/ice.md change (show-plan and merge-change); for start-change, say whether the SKILL.md-only edit is non-intent."
+      design_grounding: >
+        Layer 2 required. Principles from docs/philosophy/**, docs/adr/** (on plan/717/base), the standards
+        under memory/standards/rules/** (play-close, evidence-recording, user-facing-voice), the glossary
+        and the harness standard, read through the memory tool or git show of the base ref.
+
+  - name: Memory
+    design_bearing: true
+    playbook: review/memory
+    evidence:
+      - core/components/memory/standards/rules/git.md
+      - core/components/memory/standards/rules/pipeline-position.md
+    note: >
+      Two standards rule pages (#951). git.md gains the plan/<plan-id>/base and plan/<plan-id>/<issue>-<slug>
+      branch patterns and counts plan/* as a standard branch. pipeline-position.md says start-change cuts an
+      issue in a plan under its plan's branch. Agents read these pages, so a wrong line spreads. Ground
+      from git show plan/717/base:<path> for the prior page, knowledge/_DESIGN.md, _index.md and
+      _TEMPLATE.md and the base-ref ADRs (ADR 060 and the plan-branch ADRs), never the new page text.
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - name: memory integrity (known gap)
+          command: null
+          gap: "No installed tool checks memory integrity. The reviewer reads the changed pages and cites each check."
+      runnable_checks:
+        - "By hand, citing each: each page keeps its structure and frontmatter id consistent with its path; links and cross-references resolve; the pages are listed where their index lists them; a new row does not duplicate or contradict an existing row."
+      design_grounding: >
+        Layer 2 required. Reconstruct what the shelf is for and how a page is shaped from knowledge/_DESIGN.md,
+        _index.md, _TEMPLATE.md and the standards, read through the memory tool or git show of the base ref.
+        Never from the changed page.
+
+  - name: Executable code
+    design_bearing: false
+    playbook: review/code
+    evidence:
+      - core/components/plays/show-plan/scripts/resolve_args.py
+      - core/components/plays/propose-change/scripts/submit_pr.py
+      - core/components/plays/create-play/references/submit_pr.py
+      - core/components/plays/create-play/references/preflight.py
+      - "core/components/plays/*/scripts/preflight.py (30 stamped copies: build-epic, check-change, commit-change, discover-capabilities, discover-domains, discover-intent, edit-ontology, learn-outcomes, list-focus-issues, list-plans, merge-change, propose-change, record-decision, refactor-code, release-epic, release-increment, shape-agentic-lens, shape-architecture-lens, shape-eval, shape-marketing-lens, shape-measure-lens, shape-plan, shape-quality-lens, shape-run-lens, shape-slice, shape-ux-lens, show-plan, start-change, update-plan, validate-epic)"
+    note: >
+      resolve_args.py now reads the plan number from the branch name when none is typed (#1000). The
+      pre-flight resolver gains one fact, plans_base (plans.base-path), in the create-play reference copy
+      and in 30 stamped copies (#951). submit_pr.py (two copies) now sets on_target to null, not false or a
+      guess, when the PR's number could not be looked up (#951). Weigh the on_target change hard: the done
+      check reads None as not met, so a caller that tests the value for truth must not treat null as passed.
+      The preflight copies are stamped from the create-play reference, so they must match it apart from the
+      play stamp. The submit_pr.py pair must match.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool, against industry best practice
+      linters:
+        - name: language linter (python)
+          command: ruff check core/components/plays/show-plan/scripts/resolve_args.py core/components/plays/propose-change/scripts/submit_pr.py core/components/plays/create-play/references/submit_pr.py core/components/plays/create-play/references/preflight.py
+          note: "Whatever the repo commits; record 'not installed' if ruff is absent. ruff is installed on this machine."
+        - name: check-pr-quality
+          command: check-pr-quality against the diff with the standards/rules/pr.md taxonomy (SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-* rows)
+      runnable_checks:
+        - "Rubric by hand: error handling, function size, no stray debug output, no secrets, deterministic where it claims to be; for submit_pr.py, null versus false in on_target and every reader of it."
+        - "Parity check: diff core/components/plays/propose-change/scripts/submit_pr.py core/components/plays/create-play/references/submit_pr.py; diff each of the 30 stamped preflight.py copies against core/components/plays/create-play/references/preflight.py (only the stamped play value may differ)."
+        - "Shared-script rule: node .garura/core/tools/lint-components/index.js --layout source --target core/components (the shared-scripts rule must report no mismatch for preflight.py and submit_pr.py)."
+      design_grounding: "No."
+
+  - name: Tests
+    design_bearing: false
+    playbook: review/tests
+    evidence:
+      - core/components/plays/show-plan/scripts/test_resolve_args.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+      - core/components/plays/create-play/references/test_submit_pr.py
+    note: >
+      test_resolve_args.py covers the branch-name lookup (#1000). test_submit_pr.py (39 new lines) covers
+      on_target with and without a PR number (#951). test_resolve_plan.py gains four lines. Run all three.
+    treatment:
+      layers: [layer-1-linters, run-the-suite]
+      reviewer: the tool
+      linters:
+        - name: test best practice + pr.md TEST-* rows
+          command: check-pr-quality against the diff with the standards/rules/pr.md taxonomy (TEST-* rows); no skipped or disabled tests, no test that asserts nothing
+      runnable_checks:
+        - name: resolve_args tests
+          command: python3 -m unittest discover -s core/components/plays/show-plan/scripts -p "test_resolve_args.py"
+        - name: submit_pr tests
+          command: python3 -m unittest discover -s core/components/plays/create-play/references -p "test_submit_pr.py"
+        - name: resolve_plan tests
+          command: python3 -m unittest discover -s core/components/plays/create-play/references -p "test_resolve_plan.py"
+        - rule: "A red suite is a blocker. A suite that cannot be run is reported as 'not run', never as passed."
+      design_grounding: "No."
+
+  - name: Documentation
+    design_bearing: false
+    playbook: review/docs
+    evidence:
+      - docs/standards/harness-standard.md
+    note: >
+      One sentence is added to the plan-branch principle of the harness standard: the plans a plan needs
+      (needs_plans) do not hold it off main (ADR 060, decision 4). It is human-facing prose under docs/, so
+      the docs playbook governs and no design-grounding runs. The sentence names an ADR and a decision
+      number, so the reviewer checks that claim against ADR 060 on the base ref by hand. The harness standard
+      is also an input to Layer 2 of the Harness category; read its base-ref copy for that, never this edit.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool; the human opts out unless they choose to read it
+      linters:
+        - name: prose checks (known gap)
+          command: null
+          gap: "No committed prose linter in the repo. The tool checks spelling, grammar, links, heading order, leftover TODOs and terminology directly and cites each."
+      runnable_checks:
+        - "By hand: the cited ADR (docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, on plan/717/base) exists and its decision 4 says what the sentence says; no dead link; terms match the glossary."
+      design_grounding: "No."
+
+  - name: Work records (short-term memory run artifacts)
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers run records. Create a follow-up to add one (a category for the issue folder's context and spec files)."
+    evidence:
+      - .garura/project/issues/1000/context/** (analysis, branch, check-self-review-exit, commits, issue, plan, porcelain, pr-body, pr, resolved-rules, self-review, target, work-description)
+      - .garura/project/issues/1000/specs/design.md
+    note: >
+      Evidence of how the work was done, written by plays. Not behaviour, not design under review.
+      specs/design.md states this change's own design: it is the scope of the review and is never
+      grounding for another category.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool
+      linters: []
+      runnable_checks:
+        - "By hand, cheap: the files parse (JSON/YAML valid), none holds a secret, a token or a personal reference (no absolute home path), and none points to a path that is absent."
+      design_grounding: "No."
+
+  - name: Plan file
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers plan files (.garura/project/plans/*.yaml). Create a follow-up to add one."
+    evidence:
+      - .garura/project/plans/717.yaml
+    note: >
+      Two lines: the items for #1000 and #951 move from Not Started to Done. The plan file and the
+      tracker must agree (ontology Plan rule on the base ref).
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool; the human reads the named change
+      linters:
+        - name: plan tool read of the file
+          command: python3 .garura/core/tools/plan/plan.py (read the file back; it must parse and keep its layout)
+          note: "Record 'did not run' if the command form differs; not a pass."
+      runnable_checks:
+        - "By hand: only those two items' status lines changed, no other line, no roll-up to a parent."
+      design_grounding: "No."
+
+notes:
+  - "Two categories have no playbook (Work records, Plan file); a follow-up task should record the missing playbooks."
+  - "Design-bearing: Harness and Memory. Both have playbooks. No product-model page is in this diff."
+  - "Documentation (docs/standards/harness-standard.md) is judged non-design-bearing by its playbook; it is a one-sentence citation of ADR 060, checked by hand. Raise it to design-bearing only if the sentence adds a rule not in the ADR."
+  - "start-change/SKILL.md changes with no change to its reference/ice.md: the reviewer decides by hand whether that is a non-intent edit."
+  - "The old Codex install is stopped (#863); installed layout checks are not used because the repository holds core/components."

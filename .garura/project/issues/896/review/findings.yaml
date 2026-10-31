@@ -1,0 +1,56 @@
+pr: 1003
+issue: 896
+round: 2
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 1
+layer1:
+  lint-components (installed, source layout): '37 problems, 0 in changed files (there before: 37)'
+  lint_play shape-plan, shape-slice (--next-map copy): PASS, 0 gaps each; next-command PASS
+  ruff check_plan_absent.py + test: All checks passed
+  shape-plan test suites: all green
+  adr.py lint ADR 063: valid, 0 problems
+  check-pr-quality: 0 findings
+round1_resolved: HF-1..HF-6 and MEM-2..MEM-4 resolved; MEM-1 recorded outside this change
+findings:
+- id: NF-1
+  severity: P3
+  file: core/components/plays/shape-plan/SKILL.md
+  line: 85
+  summary: 'The round-1 fix for HF-2 settles the plan-exists stop as "No Standard Play Close runs" (lines 85 and 98: no close,
+    no task list, nothing opened). The shared close (play-close.md) says Step L is not optional whenever C1 or C2 runs, that
+    C2 "is always emitted - it is the user''s surface", and sets the only skip cases (a sub-play, a loop); it has no exemption
+    for a pre-flight stop. The ICE (C14, S9, F13, REC13) says "no file is left behind" but is silent on the close, so the
+    choice to skip the evidence file and the delivery report lives only in the compiled file, and the play''s Step 11 still
+    says "A stop ... closes HALTED". The contradiction round 1 found is gone, but the play now opts out of the shared close
+    with no basis in the ICE or in play-close.md.
+
+    '
+  basis:
+    principle: P-CLOSE + P-ICE
+    source: core/components/plays/_shared/play-close.md (Step L, Step C2, Cross-cutting rules, Sub-plays and loops) and docs/standards/harness-standard.md
+      principle 4 (both on plan/717/base)
+  owner_note: 'Either add the exemption to the ICE (C14/S9: the stop is reported by the check''s message, with no close) and
+    recompile, or keep the close and let the stop write only the evidence-recording record the shared close defines.'
+  category: harness
+- id: MEM-5
+  severity: P4
+  file: .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+  line: 20
+  summary: The Rules line (20) and the acceptance line (28) say the play stops 'before it opens a change or writes anything'.
+    The play's C14 and S9 also say 'before any read of the model'. The Fails-if line (57) and nothing else carries the read.
+    A short gap, not a contradiction.
+  basis:
+    principle: The page's rules and acceptance must keep the play's pre-flight guarantee whole (page agrees with the play's
+      ICE).
+    source: shape-plan/reference/ice.md C14 and S9 on the branch, rule from G1 (phoenix memory direct-model-write.md)
+  category: memory
+outside_scope_recorded:
+- 'shape-plan/SKILL.md lines 219-232, 280, 305, 344 and ice.md C13/F12/S8: add-sections, move_out, moved_out and the misplaced
+  stop are still written as live behaviour, beside the new note (line 219-222) that this play does not reach them.'
+- 'shape-eval/SKILL.md lines 187-188: ''no epic node: run /shape-plan first'' sends the person to a play that stops when the
+  plan already exists (a second slice).'
+- pipeline-next.md line 22 reads 'a later slice joins the plan through /update-plan', which the ontology (Plan rules, Q30)
+  still says the plan play does; this is the MEM-1 ontology gap, recorded elsewhere.

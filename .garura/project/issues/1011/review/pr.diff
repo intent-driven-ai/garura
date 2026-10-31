@@ -1,0 +1,422 @@
+diff --git a/.garura/product/product-os/capabilities/cap-721/capability.md b/.garura/product/product-os/capabilities/cap-721/capability.md
+index 9e9efcb16..af866cb45 100644
+--- a/.garura/product/product-os/capabilities/cap-721/capability.md
++++ b/.garura/product/product-os/capabilities/cap-721/capability.md
+@@ -1,10 +1,10 @@
+ # Capability: Start and land work against a plan
+ 
+ ## Directional intent
+-the implementation plays know about plans. start-change cuts a plan's branch and each issue's branch from it; merge-change lands an issue on its plan branch, and a plan on main only when it is done.
++the implementation plays know about plans. start-change cuts a plan's branch and each issue's branch from it; merge-change lands an issue on its plan branch, and a plan on main whenever it pauses and its review approves it.
+ 
+ ## Agent intent (ICE)
+-- Goal: All of a plan's work collects on its plan branch, and reaches main only when the plan is done.
++- Goal: All of a plan's work collects on its plan branch, and reaches main whenever the plan pauses and its review approves it.
+ - Limit: No change to how a change outside any plan (a one-off fix) starts or lands.
+-- Fails if: an issue in a plan merges straight into main, or a plan lands on main with an open issue, or before a plan it needs.
+-- Checked by: a test plan with two issues: both land on the plan branch; the plan is refused on main while one is open, and lands when both are closed.
++- Fails if: an issue in a plan merges straight into main, or a plan's branch is held off main for its open issues or for a plan it needs.
++- Checked by: a test plan with two issues: both land on the plan branch; with one still open, the plan's branch lands on main once its review approves it, and that issue stays open.
+diff --git a/.garura/project/issues/1011/context/analysis.yaml b/.garura/project/issues/1011/context/analysis.yaml
+new file mode 100644
+index 000000000..473e3ff1a
+--- /dev/null
++++ b/.garura/project/issues/1011/context/analysis.yaml
+@@ -0,0 +1,44 @@
++---
++# assess-changes output (grouped by concern)
++# issue: 1011
++needs_judgment: false
++
++change_groups:
++  - id: cap-721-landing-rule
++    issue: 1011
++    commit_type: fix
++    scope: model
++    subject: "state ADR 060 landing rule on the #721 capability page"
++    files:
++      - .garura/product/product-os/capabilities/cap-721/capability.md
++  - id: plan-717-1011-done
++    issue: 1011
++    commit_type: chore
++    scope: plan
++    subject: "mark #1011 done in plan 717"
++    files:
++      - .garura/project/plans/717.yaml
++  - id: stm-1011-context
++    issue: 1011
++    commit_type: chore
++    scope: stm
++    subject: "record commit-change context for #1011"
++    files:
++      - .garura/project/issues/1011/context/analysis.yaml
++      - .garura/project/issues/1011/context/lines-request-cap-721.json
++      - .garura/project/issues/1011/context/model-cap-721.json
++      - .garura/project/issues/1011/context/porcelain.txt
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "3 groups; every scanned file in exactly one group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/1011/context/branch.json b/.garura/project/issues/1011/context/branch.json
+new file mode 100644
+index 000000000..3c3afc9ec
+--- /dev/null
++++ b/.garura/project/issues/1011/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "plan/717/1011-cap-721-landing-rule",
++  "base_sha": "c0e3bcffa461c1a3834234edf678066ba39f7a32",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1011/context/check-self-review-exit.txt b/.garura/project/issues/1011/context/check-self-review-exit.txt
+new file mode 100644
+index 000000000..573541ac9
+--- /dev/null
++++ b/.garura/project/issues/1011/context/check-self-review-exit.txt
+@@ -0,0 +1 @@
++0
+diff --git a/.garura/project/issues/1011/context/commits.yaml b/.garura/project/issues/1011/context/commits.yaml
+new file mode 100644
+index 000000000..2821df1ee
+--- /dev/null
++++ b/.garura/project/issues/1011/context/commits.yaml
+@@ -0,0 +1,25 @@
++commits:
++  - sha: 6c42183b
++    message: "fix(model): state ADR 060 landing rule on the #721 capability page (#1011)"
++    files:
++      - .garura/product/product-os/capabilities/cap-721/capability.md
++    branch: plan/717/1011-cap-721-landing-rule
++  - sha: c1573995
++    message: "chore(plan): mark #1011 done in plan 717 (#1011)"
++    files:
++      - .garura/project/plans/717.yaml
++    branch: plan/717/1011-cap-721-landing-rule
++  - sha: 38afd0d8
++    message: "chore(stm): record commit-change context for #1011 (#1011)"
++    files:
++      - .garura/project/issues/1011/context/analysis.yaml
++      - .garura/project/issues/1011/context/lines-request-cap-721.json
++      - .garura/project/issues/1011/context/model-cap-721.json
++      - .garura/project/issues/1011/context/porcelain.txt
++    branch: plan/717/1011-cap-721-landing-rule
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1011/context/issue.json b/.garura/project/issues/1011/context/issue.json
+new file mode 100644
+index 000000000..7fc651fdf
+--- /dev/null
++++ b/.garura/project/issues/1011/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 1011,
++  "title": "Bring the landing rule on the page of the #721 capability in line with ADR 060",
++  "created": false
++}
+diff --git a/.garura/project/issues/1011/context/lines-request-cap-721.json b/.garura/project/issues/1011/context/lines-request-cap-721.json
+new file mode 100644
+index 000000000..5f074320c
+--- /dev/null
++++ b/.garura/project/issues/1011/context/lines-request-cap-721.json
+@@ -0,0 +1,27 @@
++{
++  "by": "product-os-keeper (issue 1011, cap-721 landing rule)",
++  "source": "ADR 060 (docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, Decision sections 2-4), approved by the product owner for issue 1011; as already applied to features/fn-673/feature.md",
++  "pages": [
++    {
++      "page": "capabilities/cap-721/capability.md",
++      "changes": [
++        {
++          "old": "the implementation plays know about plans. start-change cuts a plan's branch and each issue's branch from it; merge-change lands an issue on its plan branch, and a plan on main only when it is done.",
++          "new": "the implementation plays know about plans. start-change cuts a plan's branch and each issue's branch from it; merge-change lands an issue on its plan branch, and a plan on main whenever it pauses and its review approves it."
++        },
++        {
++          "old": "- Goal: All of a plan's work collects on its plan branch, and reaches main only when the plan is done.",
++          "new": "- Goal: All of a plan's work collects on its plan branch, and reaches main whenever the plan pauses and its review approves it."
++        },
++        {
++          "old": "- Fails if: an issue in a plan merges straight into main, or a plan lands on main with an open issue, or before a plan it needs.",
++          "new": "- Fails if: an issue in a plan merges straight into main, or a plan's branch is held off main for its open issues or for a plan it needs."
++        },
++        {
++          "old": "- Checked by: a test plan with two issues: both land on the plan branch; the plan is refused on main while one is open, and lands when both are closed.",
++          "new": "- Checked by: a test plan with two issues: both land on the plan branch; with one still open, the plan's branch lands on main once its review approves it, and that issue stays open."
++        }
++      ]
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1011/context/model-cap-721.json b/.garura/project/issues/1011/context/model-cap-721.json
+new file mode 100644
+index 000000000..2dd796e08
+--- /dev/null
++++ b/.garura/project/issues/1011/context/model-cap-721.json
+@@ -0,0 +1,34 @@
++{
++  "by": "product-os-keeper (issue 1011, cap-721 landing rule)",
++  "source": "ADR 060 (docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, Decision sections 2-4), approved by the product owner for issue 1011; as already applied to features/fn-673/feature.md",
++  "pages": [
++    {
++      "page": "capabilities/cap-721/capability.md",
++      "changes": [
++        {
++          "old": "the implementation plays know about plans. start-change cuts a plan's branch and each issue's branch from it; merge-change lands an issue on its plan branch, and a plan on main only when it is done.",
++          "new": "the implementation plays know about plans. start-change cuts a plan's branch and each issue's branch from it; merge-change lands an issue on its plan branch, and a plan on main whenever it pauses and its review approves it."
++        },
++        {
++          "old": "- Goal: All of a plan's work collects on its plan branch, and reaches main only when the plan is done.",
++          "new": "- Goal: All of a plan's work collects on its plan branch, and reaches main whenever the plan pauses and its review approves it."
++        },
++        {
++          "old": "- Fails if: an issue in a plan merges straight into main, or a plan lands on main with an open issue, or before a plan it needs.",
++          "new": "- Fails if: an issue in a plan merges straight into main, or a plan's branch is held off main for its open issues or for a plan it needs."
++        },
++        {
++          "old": "- Checked by: a test plan with two issues: both land on the plan branch; the plan is refused on main while one is open, and lands when both are closed.",
++          "new": "- Checked by: a test plan with two issues: both land on the plan branch; with one still open, the plan's branch lands on main once its review approves it, and that issue stays open."
++        }
++      ],
++      "lines_before": 10,
++      "lines_after": 10,
++      "lines_added": 0,
++      "lines_kept": 6
++    }
++  ],
++  "changed": [
++    "capabilities/cap-721/capability.md"
++  ]
++}
+diff --git a/.garura/project/issues/1011/context/plan.json b/.garura/project/issues/1011/context/plan.json
+new file mode 100644
+index 000000000..f5c34392b
+--- /dev/null
++++ b/.garura/project/issues/1011/context/plan.json
+@@ -0,0 +1,13 @@
++{
++  "issue": "1011",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/1011-cap-721-landing-rule",
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": [
++      "plan/717/base"
++    ]
++  }
++}
+diff --git a/.garura/project/issues/1011/context/porcelain.txt b/.garura/project/issues/1011/context/porcelain.txt
+new file mode 100644
+index 000000000..3e3e44be9
+--- /dev/null
++++ b/.garura/project/issues/1011/context/porcelain.txt
+@@ -0,0 +1,5 @@
++ M .garura/product/product-os/capabilities/cap-721/capability.md
++ M .garura/project/plans/717.yaml
++?? .garura/project/issues/1011/context/lines-request-cap-721.json
++?? .garura/project/issues/1011/context/model-cap-721.json
++?? .garura/project/issues/1011/context/porcelain.txt
+diff --git a/.garura/project/issues/1011/context/pr-body.md b/.garura/project/issues/1011/context/pr-body.md
+new file mode 100644
+index 000000000..0d375e2ec
+--- /dev/null
++++ b/.garura/project/issues/1011/context/pr-body.md
+@@ -0,0 +1,52 @@
++## What this changes
++
++Closes #1011.
++
++The page of the capability #721 (start and land work against a plan) still said a plan reaches main "only when the plan is done". ADR 060 says a plan's branch lands on main whenever the plan pauses and its review approves it, even with issues of the plan still open. This changes the four lines that stated the old rule, through the model sub-agent and the page skill's named-line change, the same way the #673 page was changed in PR #1010:
++
++- the direction line;
++- the Goal;
++- "Fails if": a plan's branch held off main for its open issues, or for a plan it needs;
++- "Checked by": with one issue still open, the plan's branch lands on main once its review approves it, and that issue stays open.
++
++Nothing else on the page or in the model changes. Plan 717 marks #1011 Done.
++
++## Self-review
++
++# Self-review: #1011 (bring the #721 capability page in line with ADR 060)
++
++Branch: plan/717/1011-cap-721-landing-rule, checked against plan/717/base.
++Rules used: the base self-review rules (standards/rules/self-review.md in Phoenix memory; no project override). Recorded in resolved-rules.json.
++Method: the assess-pr skill, run on the branch diff. This review is advice. It is not the approve or reject gate.
++
++## What the change is
++
++Four lines of the #721 capability page now state the landing rule of ADR 060: an issue lands on its plan's branch, and the plan's branch lands on main whenever the plan pauses and its review approves it, even with issues still open. Plan 717 marks #1011 Done. The rest of the diff is run records for this issue.
++
++## Scope checks
++
++- Matches the issue: PASS. The four lines changed (the direction line, the Goal, "Fails if", "Checked by") are the four the approved design names, word for word.
++- No scope creep: PASS. Outside the page, the plan file and the issue's own run folder, no file changed. The plan file changed in one line only (#1011 Not Started to Done), which the design asks for.
++- Reasonable size: PASS. 4 lines changed on the page, 1 in the plan file. The other files are small run records.
++- No stray artifacts: PASS. No scratch files or commented-out text. One run record (resolved-rules.json) is not yet committed; it belongs to this run and goes in with the run records.
++
++## Does the page agree with the sources
++
++- Agrees with ADR 060: PASS. The ADR decides that a plan's branch merges into main when the plan pauses, with issues still open. The page now says the same. The old wording ("only when it is done", "open issue holds it off main") is gone; a search of the page finds no trace of it.
++- Agrees with the #673 feature page: PASS. The Goal, "Fails if" and "Checked by" lines say the same thing as the #673 page: no hold-back for open issues or for a plan it needs, and an open issue stays open after the landing.
++- Nothing else on the page changed: PASS. The Limit line and the heading are as before.
++
++## Quality checks
++
++- Tests present: not needed. The change is a model page with no behavior of its own. Its "Checked by" line describes the test plan.
++- Commits are clean: PASS. Five commits, all in conventional format and all naming #1011. Each is one concern: the page, the plan file, or run records.
++- No secrets: PASS. The diff holds no credentials, tokens or keys.
++- No absolute home paths: PASS. None in the added lines.
++- Docs in step: PASS. ADR 060 and the #673 page are the sources and need no edit. No other page of the capability states the old rule.
++- Nothing obviously broken: PASS. A trial merge of the branch into plan/717/base finds no conflict.
++
++## Readiness
++
++- Ready: yes.
++- No blocking issues.
++- Review required: a person should read the four changed lines once against ADR 060, because the page is the model's word on the rule.
+diff --git a/.garura/project/issues/1011/context/pr.json b/.garura/project/issues/1011/context/pr.json
+new file mode 100644
+index 000000000..2e55f1b3b
+--- /dev/null
++++ b/.garura/project/issues/1011/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 1012,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1012",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1011/context/resolved-rules.json b/.garura/project/issues/1011/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1011/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1011/context/self-review.md b/.garura/project/issues/1011/context/self-review.md
+new file mode 100644
+index 000000000..0b7bb35c1
+--- /dev/null
++++ b/.garura/project/issues/1011/context/self-review.md
+@@ -0,0 +1,37 @@
++# Self-review: #1011 (bring the #721 capability page in line with ADR 060)
++
++Branch: plan/717/1011-cap-721-landing-rule, checked against plan/717/base.
++Rules used: the base self-review rules (standards/rules/self-review.md in Phoenix memory; no project override). Recorded in resolved-rules.json.
++Method: the assess-pr skill, run on the branch diff. This review is advice. It is not the approve or reject gate.
++
++## What the change is
++
++Four lines of the #721 capability page now state the landing rule of ADR 060: an issue lands on its plan's branch, and the plan's branch lands on main whenever the plan pauses and its review approves it, even with issues still open. Plan 717 marks #1011 Done. The rest of the diff is run records for this issue.
++
++## Scope checks
++
++- Matches the issue: PASS. The four lines changed (the direction line, the Goal, "Fails if", "Checked by") are the four the approved design names, word for word.
++- No scope creep: PASS. Outside the page, the plan file and the issue's own run folder, no file changed. The plan file changed in one line only (#1011 Not Started to Done), which the design asks for.
++- Reasonable size: PASS. 4 lines changed on the page, 1 in the plan file. The other files are small run records.
++- No stray artifacts: PASS. No scratch files or commented-out text. One run record (resolved-rules.json) is not yet committed; it belongs to this run and goes in with the run records.
++
++## Does the page agree with the sources
++
++- Agrees with ADR 060: PASS. The ADR decides that a plan's branch merges into main when the plan pauses, with issues still open. The page now says the same. The old wording ("only when it is done", "open issue holds it off main") is gone; a search of the page finds no trace of it.
++- Agrees with the #673 feature page: PASS. The Goal, "Fails if" and "Checked by" lines say the same thing as the #673 page: no hold-back for open issues or for a plan it needs, and an open issue stays open after the landing.
++- Nothing else on the page changed: PASS. The Limit line and the heading are as before.
++
++## Quality checks
++
++- Tests present: not needed. The change is a model page with no behavior of its own. Its "Checked by" line describes the test plan.
++- Commits are clean: PASS. Five commits, all in conventional format and all naming #1011. Each is one concern: the page, the plan file, or run records.
++- No secrets: PASS. The diff holds no credentials, tokens or keys.
++- No absolute home paths: PASS. None in the added lines.
++- Docs in step: PASS. ADR 060 and the #673 page are the sources and need no edit. No other page of the capability states the old rule.
++- Nothing obviously broken: PASS. A trial merge of the branch into plan/717/base finds no conflict.
++
++## Readiness
++
++- Ready: yes.
++- No blocking issues.
++- Review required: a person should read the four changed lines once against ADR 060, because the page is the model's word on the rule.
+diff --git a/.garura/project/issues/1011/context/target.json b/.garura/project/issues/1011/context/target.json
+new file mode 100644
+index 000000000..849c45e44
+--- /dev/null
++++ b/.garura/project/issues/1011/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/1011-cap-721-landing-rule",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "1011",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/1011/context/work-description.txt b/.garura/project/issues/1011/context/work-description.txt
+new file mode 100644
+index 000000000..9a2af2baf
+--- /dev/null
++++ b/.garura/project/issues/1011/context/work-description.txt
+@@ -0,0 +1 @@
++#1011: bring the landing rule on the page of the #721 capability (start and land work against a plan) in line with ADR 060, the same way as the #673 page: the direction line, Goal, Fails if and Checked by, through the model sub-agent.
+diff --git a/.garura/project/issues/1011/specs/design.md b/.garura/project/issues/1011/specs/design.md
+new file mode 100644
+index 000000000..df5d78cc0
+--- /dev/null
++++ b/.garura/project/issues/1011/specs/design.md
+@@ -0,0 +1,17 @@
++# Design: #1011 (approved by the product owner, 2026-10-31: "yes fix 721 the same way")
++
++The page of the capability #721 (start and land work against a plan) states the old landing rule
++in four lines. Change them, through product-os-keeper and enrich-grounding (named lines), to
++ADR 060's rule, the same way the #673 page was changed in PR #1010:
++
++- line 4 (direction): merge-change lands an issue on its plan branch, and a plan on main whenever
++  it pauses and its review approves it.
++- line 7 (Goal): a plan's work collects on its plan branch, and reaches main whenever the plan
++  pauses and its review approves it.
++- line 9 (Fails if): an issue in a plan merges straight into main, or a plan's branch is held off
++  main for its open issues or for a plan it needs.
++- line 10 (Checked by): a test plan with two issues: both land on the plan branch; with one still
++  open, the plan's branch lands on main once its review approves it, and that issue stays open.
++
++Nothing else changes. The landing: commit, propose, check, reinstall, merge on the product
++owner's word; #1011 Done in plan 717 inside the change.
+diff --git a/.garura/project/plans/717.yaml b/.garura/project/plans/717.yaml
+index 5ba961ce5..1ad181665 100644
+--- a/.garura/project/plans/717.yaml
++++ b/.garura/project/plans/717.yaml
+@@ -140,7 +140,7 @@ tree:
+       - issue: 1011
+         kind: chore
+         title: 'Bring the landing rule on the page of the #721 capability in line with ADR 060'
+-        status: Not Started
++        status: Done
+     - issue: 989
+       kind: story
+       title: 'start-change starts a plan on its own: it cuts the plan''s branch from main, with no story branch'

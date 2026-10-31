@@ -1,0 +1,68 @@
+---
+# assess-changes output (round 2, grouping judgment done)
+# issue: 989
+needs_judgment: false
+
+change_groups:
+  - id: drop-plan-land
+    issue: 991
+    commit_type: revert
+    scope: plan-land
+    subject: "take the plan-land work out of this change"
+    files:
+      - core/components/plays/propose-change/SKILL.md
+      - core/components/plays/propose-change/reference/ice.md
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/merge-change/reference/ice.md
+      - core/tools/plan/plan_land.py
+      - core/tools/plan/test_plan_land.py
+
+  - id: start-change-round-2-fixes
+    issue: 989
+    commit_type: fix
+    scope: start-change
+    subject: "cut a plan branch with nothing to commit on main, and start an issue in a Done or Dropped plan off main"
+    files:
+      - core/tools/plan/plan_branch.py
+      - core/tools/plan/test_plan_branch.py
+      - core/tools/plan/README.md
+      - core/components/plays/create-play/references/resolve_plan.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+      - core/components/plays/create-play/references/test_setup_branch.py
+      - core/components/plays/start-change/scripts/resolve_plan.py
+      - core/components/plays/start-change/scripts/check_plan_start.py
+      - core/components/plays/start-change/scripts/test_start_change.py
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/start-change/reference/ice.md
+
+  - id: design-round-2
+    issue: 989
+    commit_type: docs
+    scope: design
+    subject: "record the dropped plan-land work and the round 2 fixes in the design"
+    files:
+      - .garura/project/issues/989/specs/design.md
+
+exclusions:
+  - path: ".garura/project/issues/989/context/porcelain.txt"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+  - path: ".garura/project/issues/989/context/analysis.yaml"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+  - path: ".garura/project/issues/989/context/templates/manifest-check-change.json"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+  - path: ".garura/project/issues/989/context/memory/"
+    reason: "run state, committed by the executor's final group"
+    blocking: false
+
+risks:
+  sensitive_files:
+    - path: ".garura/project/issues/989/context/memory/standards/rules/pr.md"
+      match: 'password\s*=' # copied severity taxonomy; lists secret patterns on purpose, so non-blocking
+      blocking: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "3 groups by concern; every changed file from the porcelain is in exactly one group or in exclusions"}
+  SE-5: {status: PASS, evidence: "the one content match is in a copied standards/prose artifact, listed non-blocking"}

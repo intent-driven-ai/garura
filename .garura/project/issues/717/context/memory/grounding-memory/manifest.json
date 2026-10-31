@@ -2,34 +2,6 @@
   "files": [
     {
       "tier": "phoenix",
-      "path": "standards/rules/git.md",
-      "version": "dfdafe6104e6",
-      "fingerprint": "sha256:8c55bc630d1897177716bc097dc303f2f315e6aea641e49bf36aeeac048e2f82",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/git.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/schemas/product-os/_index.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:d7a79a6cb2dbd6caf8ce8e4078b718e4c38c09fcd087b087c95c024123c79b22",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/_index.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/schemas/product-os/ontology.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:c07cbc674d46f6748637293ad96c5ad6b7841e98b02caa95464ce74639523f3c",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/ontology.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/schemas/product-os/spine.yaml",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:79e2822a72995ffb3cc3b6f034cdbe385032793936f95310a3b1640e15aa0255",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/spine.yaml"
-    },
-    {
-      "tier": "phoenix",
       "path": "standards/schemas/product-os/grounding/_content-standard.md",
       "version": "d68154ae75e9",
       "fingerprint": "sha256:a87ad8b9c992bb6524ea5f995693615241d5368b49df75eb0c9851b924b4025d",
@@ -48,27 +20,6 @@
       "version": "d68154ae75e9",
       "fingerprint": "sha256:8056d0c66a9ef96f306504087fa19aafaa16989e160c424cc497b2b073d3cd20",
       "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/grounding/feature.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/rules/pipeline-next.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:62dc217d7193fafd1e27a697e3d577c2945b709579fb260be6229fd46a65c11f",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/pipeline-next.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/rules/_index.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:bc30f763d43e43918b53f8ebb80307fc3081f1a3b0695b110b8fce04cb2ed8ac",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/_index.md"
-    },
-    {
-      "tier": "phoenix",
-      "path": "standards/rules/direct-model-write.md",
-      "version": "d68154ae75e9",
-      "fingerprint": "sha256:1b30d6433cf9be8662a3339e6f5d5e5ca2e990cd4bc69ea29bbd6778c6c063e6",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/direct-model-write.md"
     },
     {
       "tier": "phoenix",
@@ -100,38 +51,59 @@
     },
     {
       "tier": "phoenix",
-      "path": "standards/rules/work-plan.md",
+      "path": "standards/templates/work-plan.md",
       "version": "de02add33862",
+      "fingerprint": "sha256:1bee2838dc5f571f17e54e60d8569c68d442fb164aefa730f775082570bc2ce0",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/work-plan.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/work-plan.md",
+      "version": "c14f515d910f",
       "fingerprint": "sha256:8cec138764534e90ed4b66f0ff4779073dd3405187d4eb4b8c89bad29b7558fb",
       "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/work-plan.md"
     },
     {
       "tier": "phoenix",
       "path": "standards/rules/user-facing-voice.md",
-      "version": "de02add33862",
+      "version": "c14f515d910f",
       "fingerprint": "sha256:d69413055bf2d212f74bc070daabe0195793987e148d8a5816f9b604d03b9e56",
       "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/user-facing-voice.md"
     },
     {
       "tier": "phoenix",
-      "path": "standards/templates/_index.md",
-      "version": "de02add33862",
-      "fingerprint": "sha256:4a39ac371d347053bbe21e0a93018c78d369c2ea6ae0990b66f23a6e9b57fa2c",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/_index.md"
+      "path": "standards/rules/naming.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:ec29d71122d6d667cd8f686678487b7cf4c3958f27621fb482c89d7bece36d78",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/naming.md"
     },
     {
       "tier": "phoenix",
-      "path": "standards/templates/plan-view.md",
-      "version": "de02add33862",
-      "fingerprint": "sha256:5e7b4d651931af25ed767058adbc5e3e7d625b76022ebe28fa0a6920d6f81dda",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/plan-view.md"
+      "path": "standards/rules/evidence-recording.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:c9e06c897e8fbcd0d04465e8f92a0a7c77f9eab1290684433d926811a5b883a9",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/rules/evidence-recording.md"
     },
     {
       "tier": "phoenix",
-      "path": "standards/templates/work-plan.md",
-      "version": "de02add33862",
-      "fingerprint": "sha256:1bee2838dc5f571f17e54e60d8569c68d442fb164aefa730f775082570bc2ce0",
-      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/work-plan.md"
+      "path": "standards/templates/product-ontology.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:1111bcf7fe95b056dffebcd30e5691082d9035bd9ffc76277a9283cac70277cf",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/templates/product-ontology.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/schemas/product-os/_index.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:d7a79a6cb2dbd6caf8ce8e4078b718e4c38c09fcd087b087c95c024123c79b22",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/schemas/product-os/_index.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/_index.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:f007ce02ee092000ca6183a7de6fe33bc25c403c4f6166b0f0d7c1700483fc27",
+      "copy": ".garura/project/issues/717/context/memory/grounding-memory/standards/_index.md"
     }
   ]
 }

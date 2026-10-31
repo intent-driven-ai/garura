@@ -35,7 +35,7 @@
 - ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
 - GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: After /shape-eval <intent>, the slice's evals folder holds one eval that checks from the outside, on the slice's surface, each goal and expectation of the stories, and that no failure condition in the hidden file happens.

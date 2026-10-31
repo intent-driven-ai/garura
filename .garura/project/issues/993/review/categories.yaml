@@ -1,0 +1,186 @@
+# check-change Step 2 - categories present in PR #995 (plan/717/993-page-skill-named-lines -> plan/717/base), round 3
+# Derived from the diff's content (97 changed paths, each in exactly one category).
+# Treatments are taken from the short-term playbook copies in
+# .garura/project/issues/993/context/memory/knowledge/review/ (manifest.json beside them).
+# Round 3: the nine shared copies were checked again: each file's sha256 equals its manifest fingerprint and the memory tool still answers the same version (39a55c3a2d0e), so no re-copy.
+pr: "995"
+round: 3
+base: plan/717/base
+changed_paths_total: 97
+playbook_copies: .garura/project/issues/993/context/memory/knowledge/review/
+severity_taxonomy: .garura/project/issues/993/context/memory/standards/rules/pr.md
+categories:
+
+  - name: harness
+    playbook: review/harness
+    design_bearing: true
+    path_count: 5
+    evidence:
+      - "core/components/agents/product-os-keeper.md - agent definition; skill table and routing row gain the named-lines route for enrich-grounding (any page)"
+      - "core/components/skills/enrich-grounding/SKILL.md - skill definition; update/fix mode takes a named-lines request on any page, step 5 runs change_lines.py, steps 7 and the in-place rule allow the lines the request names (unchanged since round 2)"
+      - "core/components/skills/platform-adapter/SKILL.md - skill definition; new edit-issue-title verb"
+      - "core/components/skills/platform-adapter/reference/github/verbs.md - skill reference; edit-issue-title for GitHub"
+      - "core/components/skills/platform-adapter/reference/gitlab/verbs.md - skill reference; edit-issue-title for GitLab"
+    treatment:
+      layers: [1, 2]
+      linters:
+        - name: lint-components (source layout)
+          command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+          scope: "only a violation whose file is in the PR's changed paths is a finding; count the rest as 'there before'"
+        - name: lint-play
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/<play>/SKILL.md --next-map .garura/project/issues/993/context/templates/standards/rules/pipeline-next.md"
+          scope: "for each changed play. No play SKILL.md is among the changed paths (only scripts and references under plays/), so no lint_play run applies; record not applicable"
+      runnable_checks:
+        - "the lint-components command above (tool not installed -> record 'not installed'; crash -> 'did not run: <first error line>'; neither is a pass); lint-play recorded not applicable"
+        - "ICE-source rule: the repository holds the plays' source, so the rule applies. No play SKILL.md changed, so there is no compiled play to trace; skills and the agent have no ICE source to trace"
+      design_grounding:
+        required: true
+        grounded_from: "committed sources only: docs/philosophy/**, docs/adr/**, memory/standards/rules/** (user-facing-voice, play-close, evidence-recording), the glossary, docs/standards/harness-standard.md, and the base-ref version of each changed file (git show plan/717/base:<path>). Never the branch's own new prose, including specs/design.md of #993 and the diff's version of the #720 design"
+        principles_to_test: "agent-first delegation, JSON contracts over files, play orchestrates / skills produce / scripts do mechanical work, ICE-source discipline, agents craft context and skills do the work (the agent writes lines-request.json; the skill never writes it)"
+
+  - name: executable-code
+    playbook: review/code
+    design_bearing: false
+    path_count: 11
+    evidence:
+      - "core/components/skills/enrich-grounding/scripts/change_lines.py - new script (233 lines now, 178 in round 1): the named-lines page change, all or nothing"
+      - "core/components/skills/enrich-grounding/scripts/safe_write.py - new script (44 lines): safe file write"
+      - "core/components/skills/link-model-part/scripts/safe_write.py - changed safe-write script"
+      - "core/components/plays/shape-slice/scripts/safe_write.py - changed safe-write script (docstring names change_lines.py as a caller)"
+      - "platform_adapter.py, same change in seven copies: plays/check-change/scripts, plays/create-play/references, plays/merge-change/scripts, plays/propose-change/scripts, plays/shape-eval/scripts, plays/shape-plan/scripts, plays/shape-slice/scripts"
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (quality-auditor)
+          command: "check-pr-quality against the diff with the short-term pr.md copy; rows SEC-*, CODE-*, ARCH-*, BE-*, PERF-*, DATA-*"
+        - name: language linter
+          command: "whatever the repository commits (ruff or similar); if none is committed, record 'not installed'"
+      runnable_checks:
+        - "extra weight on data-safety and idempotency: change_lines.py and the three safe_write.py files write to model pages and files (all-or-nothing, restore of pages already written, atomic replace, partial-failure behaviour, line endings kept)"
+        - "rubric: error handling, function size, no stray debug output, no secrets, safe destructive operations, deterministic where it claims to be"
+        - "the seven platform_adapter.py copies are one change: check they stay identical to each other; the three safe_write.py copies are one file in three places: check they stay identical"
+      design_grounding:
+        required: false
+        note: "standard is industry best practice plus the pr.md taxonomy, not a Garura-internal design"
+
+  - name: tests
+    playbook: review/tests
+    design_bearing: false
+    path_count: 2
+    evidence:
+      - "core/components/skills/enrich-grounding/scripts/test_change_lines.py - new test file (272 lines now, 172 in round 1) for change_lines.py"
+      - "core/components/plays/create-play/references/test_platform_adapter.py - changed test for the platform adapter"
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (quality-auditor)
+          command: "check-pr-quality against the diff; pr.md TEST-* rows (clear assertions, no skipped/disabled tests, no test that asserts nothing)"
+      runnable_checks:
+        - name: change_lines tests
+          command: 'python3 -m unittest discover -s core/components/skills/enrich-grounding/scripts -p "test_change_lines.py"'
+          rule: "run, do not just read; a red suite is a blocker finding"
+        - name: platform adapter tests
+          command: "python3 core/components/plays/create-play/references/test_platform_adapter.py"
+          rule: "run, do not just read; a red suite is a blocker finding. Never treat 'not run' as 'passed'"
+      design_grounding:
+        required: false
+
+  - name: product-model
+    playbook: null
+    playbook_missing: true
+    note: "playbook missing. The product model pages (spine, capability page, feature page) are not memory shelves (no _TEMPLATE.md shape) and not harness code: they state the intent and ICE (Goal, Limit, Fails if, Checked by) of parts of the product. review/memory is the nearest playbook but its rubric (shelf template, _index listing) does not fit. A follow-up task to write a product-model review playbook is owed; the task tool is not reachable from this run, so the caller should file it. The treatment below is the assessor's proposal."
+    design_bearing: true
+    path_count: 3
+    evidence:
+      - ".garura/product/product-os/_spine.yaml - model index; cap-720 and fn-730 one-lines rewritten, metadata.updated_by added to both"
+      - ".garura/product/product-os/capabilities/cap-720/capability.md - capability page; title, directional intent and all four ICE lines rewritten (Limit and Fails if now carry the branch-step exception)"
+      - ".garura/product/product-os/features/fn-730/feature.md - feature page; title, what-it-does and all four ICE lines rewritten (same exception)"
+    treatment:
+      layers: [1, 2]
+      linters: []
+      linters_note: "no installed tool checks the product model (gap). The reviewer does the checks by hand and cites each"
+      runnable_checks:
+        - "by hand: _spine.yaml still parses as YAML; each changed entry's doc path resolves to a real page; the four ICE lines (Goal, Limit, Fails if, Checked by) are present on both pages; the spine one_line matches each page's title"
+        - "by hand: spine one_line titles for #720 and #730 match the titles in .garura/project/plans/717.yaml"
+        - "by hand: model pages name personas, not real names"
+      design_grounding:
+        required: true
+        grounded_from: "committed sources only: the base-ref version of each page (git show plan/717/base:<path>), docs/adr/** (product model and ontology decisions), core/grounding/glossary.md, and the model standards read through the memory tool (already copied under grounding-product-model/). The approved #720 design as it stands at plan/717/base (git show plan/717/base:.garura/project/issues/720/specs/design.md) is the stated source of the change and is committed and usable; the diff's version of that file is NOT grounding (it changed in this diff, see design-spec). The new page text is the thing under review and is never its own grounding"
+        principles_to_test: "ICE shape (Goal, Limit, Fails if, Checked by), plain-English personas-only model pages, orchestration-only capability limits, the change matches what the base-ref #720 design approved and nothing more (the branch-step exception is not in the base-ref design)"
+
+  - name: design-spec
+    playbook: null
+    playbook_missing: true
+    note: "playbook missing. A person-approved design file for a play, kept in the issue's specs folder. It is not a decision record (docs/adr), not documentation, and not this branch's own work record: it is the source other changes are measured against, and in this diff it was edited after its approval. review/adrs is the nearest playbook (decisions are grounded from the base ref and later edits are suspect) but does not name specs. A follow-up task to write a design-spec review playbook is owed; the task tool is not reachable from this run, so the caller should file it. The treatment below is the assessor's proposal."
+    design_bearing: true
+    path_count: 1
+    evidence:
+      - ".garura/project/issues/720/specs/design.md - the approved #720 design ('Approved by the product owner on 2026-10-30'). The diff adds a paragraph 'The one write before approval' (the branch step; cites 'the review of PR #995, finding F1') and loosens the constraint 'It never cuts a branch except as above' to 'Nothing is written before a plain approved, except the branch step'. A change to what the play may do, made after the approval"
+    treatment:
+      layers: [1, 2]
+      linters: []
+      linters_note: "no installed tool checks a design spec (gap). By hand only"
+      runnable_checks:
+        - "by hand: the file still reads whole (headings intact, no broken sentence); the added text names no real person and no absolute home path"
+        - "by hand: the edit is only the two hunks shown (the added paragraph and the changed constraint); nothing else moved"
+      design_grounding:
+        required: true
+        grounded_from: "the base-ref version only: git show plan/717/base:.garura/project/issues/720/specs/design.md, plus docs/adr/** and the glossary. The diff's version of this file is the thing under review and is not grounding, and neither is any text on this branch that quotes it (cap-720, fn-730, #993's specs/design.md, product-os-keeper.md)"
+        principles_to_test: "a design a person approved changes only with the person's approval, not by a review finding alone; the edit does not widen what the approved design allowed (base-ref: nothing is written to GitHub, the model or the plan file during the session, and no branch is cut except as the design states); the edit is consistent with the base-ref sections it sits beside ('Which copy of a plan counts', 'How it ends')"
+
+  - name: memory-copies
+    playbook: null
+    playbook_missing: true
+    note: "playbook missing. Short-term copies the memory tool and the template-manager laid in this issue's folder: the review shelf, the PR severity taxonomy, the product-model standards the grounding read, and the Next-line map. They are copies, not authored work, and no seeded playbook covers a copy. Only a hand check applies. A follow-up playbook is owed only if copies keep showing up in diffs; the caller may decide."
+    design_bearing: false
+    path_count: 23
+    evidence:
+      - ".garura/project/issues/993/context/memory/knowledge/review/{_index, adrs, code, config-maps, docs, harness, memory, tests}.md - the review shelf (8)"
+      - ".garura/project/issues/993/context/memory/manifest.json and standards/rules/pr.md - shared manifest and severity taxonomy (2)"
+      - ".garura/project/issues/993/context/memory/{grounding-harness, grounding-design-spec}/manifest.json - grounding manifests with no copies (2; grounding-design-spec is new since round 2)"
+      - ".garura/project/issues/993/context/memory/grounding-product-model/{manifest.json, standards/rules/direct-model-write.md, standards/schemas/product-os/{_index.md, ice.yaml, ontology.md, spine.yaml, grounding/_content-standard.md, grounding/capability.md, grounding/feature.md}} - grounding copies (9)"
+      - ".garura/project/issues/993/context/templates/{manifest-check-change.json, standards/rules/pipeline-next.md} - template-manager copies (2)"
+    treatment:
+      layers: [1]
+      linters: []
+      linters_note: "no linter; objective hand checks only"
+      runnable_checks:
+        - "by hand (done in this run for the 17 copies listed in the manifests; the two empty grounding manifests list none): each copy's sha256 equals its manifest fingerprint; all matched. The nine shared copies also match the memory tool's current answer (fingerprint and version)"
+        - "by hand: every .json file parses; no absolute home-folder path and no real name in the added text"
+      design_grounding:
+        required: false
+
+  - name: work-records
+    playbook: null
+    playbook_missing: true
+    note: "playbook missing. Plan file, this issue's run records, PR body, self-review, its own design spec, and the earlier review rounds' outputs are records of the work, not docs, ADRs, harness, memory or code. A follow-up task to write a work-records review playbook is owed; the task tool is not reachable from this run, so the caller should file it. The treatment below is the assessor's proposal."
+    design_bearing: false
+    path_count: 52
+    evidence:
+      - ".garura/project/plans/717.yaml - plan file; #720 and #730 titles changed, #994 story added"
+      - ".garura/project/issues/993/specs/design.md - the branch's own design (waiting for approval). It is the branch's own prose, so it is never a grounding source for any other category"
+      - ".garura/project/issues/993/context/{analysis.yaml, branch.json, check-self-review-exit.txt, commits.yaml, issue.json, plan.json, porcelain.txt, pr-body.md, pr.json, resolved-rules.json, self-review.md, target.json, work-description.txt} - run records (13). commits.yaml is new since round 2 as a committed file: hand-repaired at the product owner's request because a quoted commit subject broke commit-change's own record (bug filed under #510)"
+      - ".garura/project/issues/993/context/model-lines/{lines-report.json, lines-report-f1.json, lines-report-d1.json, lines-request.json, lines-request-f1.json, lines-request-d1.json, link-report.json, link-request.json} - model-line run records, now including the d1 fix-round pair (8)"
+      - ".garura/project/issues/993/review/{categories.yaml, context.yaml, decision-comment.md, decision.yaml, design-findings-design-spec.yaml, design-findings-harness.yaml, design-findings-product-model.yaml, findings.yaml, lint-components.json, lint-play.txt, posted.json, pr.diff, quality-findings.yaml, recommended_verdict.json, recommended_verdict.yaml} - review outputs as committed at the branch head, i.e. round 2's (15). On disk the round-2 files now sit under review/run-2/; review/context.yaml, review/pr.diff and this categories.yaml are round 3's"
+      - ".garura/project/issues/993/review/run-1/{categories.yaml, context.yaml, decision-comment.md, decision.yaml, design-findings-harness.yaml, design-findings-product-model.yaml, findings.yaml, lint-components.json, lint-play.txt, posted.json, pr.diff, quality-findings.yaml, recommended_verdict.json, recommended_verdict.yaml} - round 1's review outputs (14)"
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (quality-auditor)
+          command: "check-pr-quality against the diff with the short-term pr.md copy, for the hygiene rows that apply to records"
+      runnable_checks:
+        - "by hand: every .json file parses (including the model-lines records); 717.yaml and commits.yaml parse (commits.yaml parsed as YAML in this run); plan statuses are one of Not Started, In Progress, Now, Done, Blocked, Dropped"
+        - "by hand: commits.yaml names the two commits it lists with their real subjects and the branch, and its flags (leftover_count, tree_clean, pushed, run_state_committed) match the porcelain record"
+        - "by hand: no absolute home-folder path and no real name in any record (a home path is written with ~). A scan of the added lines of this round's pr.diff found one hit: review/quality-findings.yaml (round 2's committed output) holds a scratchpad path under /private/tmp that contains the machine user's name, in a comment and in an evidence line. The caller should weigh it; it was not written by this run"
+        - "by hand: the plan tree's titles and the new #994 entry agree with the spine one-lines (also cross-checked under product-model)"
+        - "optional: python3 .garura/core/tools/plan/plan.py list --template <plan-view.md> reads 717.yaml without error (needs the plan-view template from template-manager)"
+      design_grounding:
+        required: false
+
+notes:
+  - "No category is empty; none from the seeded catalog was forced onto the diff. Absent from this diff: decision-records (adrs), documentation (docs), config-maps."
+  - "Round 3 versus round 2: 97 paths against 79. The code, tests, harness and product-model paths and counts are the same (11, 2, 5, 3). Added since round 2: the grounding-design-spec manifest (memory-copies 22 to 23), commits.yaml, the d1 model-line pair, round 2's own review outputs (15) and round 1's now under run-1 (14), which move work-records from 35 to 52. Content changes since round 2: the scoped wording of the branch step in the #720 design file, and the cap-720 and fn-730 pages (round 2 findings D1 and D2)."
+  - "The #720 design file is its own category (design-spec), not a work record: it is the source the product-model category is measured against, and this diff edits it. For grounding, its base-ref version (plan/717/base:.garura/project/issues/720/specs/design.md) is committed and usable; the diff's version is not."
+  - "Playbook choice for scripts: review/code.md names the python scripts inside plays and skills as executable code, so platform_adapter.py, safe_write.py and change_lines.py are executable-code, not harness. SKILL.md, the agent and verbs.md are harness."
+  - "Four categories have no playbook: product-model, design-spec, memory-copies, work-records. Their treatments are the assessor's proposal, marked so. A follow-up task for each missing playbook is owed; the task tool was not reachable from this run, so the caller should file them."
+  - "Design-bearing categories for Layer 2 fan-out: harness, product-model, design-spec."

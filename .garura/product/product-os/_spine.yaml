@@ -71,6 +71,8 @@ capabilities:
   issue: 718
   metadata:
     thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 - id: cap-719
   slug: cap-719
   domain: ''
@@ -90,11 +92,14 @@ capabilities:
   - bi-717
   status: proposed
   detail: directional
-  one_line: 'Manage a plan: change the plan file and the tracker together'
+  one_line: 'Manage a plan with /update-plan: change the plan file, GitHub and the
+    product model together, on one approval'
   doc: capabilities/cap-720/capability.md
   depends_on: []
   identified_by: ''
   issue: 720
+  metadata:
+    updated_by: 'the #720 design, through #993''s change'
 - id: cap-735
   slug: cap-735
   domain: ''
@@ -159,6 +164,8 @@ capabilities:
     created_by: /shape-slice
     deepen: true
     thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 - id: cap-shape-eval
   slug: shape-eval
   domain: dom-software-delivery-planning
@@ -174,6 +181,8 @@ capabilities:
     created_by: /shape-slice
     deepen: true
     thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 - id: cap-initialize
   slug: initialize
   domain: dom-software-delivery-planning
@@ -272,12 +281,14 @@ features:
   intents:
   - bi-717
   status: proposed
-  one_line: merge-change lands an issue on its plan branch, and a plan on main only
-    when it is done
+  one_line: merge-change lands an issue on its plan branch, and a plan on main whenever
+    it pauses
   doc: features/fn-673/feature.md
   depends_on: []
   identified_by: ''
   issue: 673
+  metadata:
+    updated_by: 'product-os-keeper (#779, review finding DM-1 of PR #1010)'
 - id: fn-727
   slug: fn-727
   capability: cap-718
@@ -313,7 +324,8 @@ features:
   identified_by: ''
   issue: 729
   metadata:
-    updated_by: /show-plan and /list-plans change (#719)
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
     thin: true
 - id: fn-628
   slug: fn-628
@@ -327,7 +339,8 @@ features:
   identified_by: ''
   issue: 628
   metadata:
-    updated_by: /show-plan and /list-plans change (#719)
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
     thin: true
 - id: fn-730
   slug: fn-730
@@ -335,11 +348,14 @@ features:
   intents:
   - bi-717
   status: proposed
-  one_line: Update, edit or delete a plan file, and connect it to its issues
+  one_line: 'The /update-plan session: instructions, checks, one approval, one landing
+    on the plan''s branch'
   doc: features/fn-730/feature.md
   depends_on: []
   identified_by: ''
   issue: 730
+  metadata:
+    updated_by: 'the #720 design, through #993''s change'
 - id: fn-736
   slug: fn-736
   capability: cap-735
@@ -468,6 +484,8 @@ features:
     created_by: /shape-slice
     deepen: true
     thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 - id: fn-818
   slug: fn-818
   capability: cap-718
@@ -481,6 +499,8 @@ features:
     created_by: /shape-slice
     deepen: true
     thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 - id: fn-798
   slug: fn-798
   capability: cap-shape-eval
@@ -494,6 +514,8 @@ features:
     created_by: /shape-slice
     deepen: true
     thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 - id: fn-setup-questions
   slug: fn-setup-questions
   capability: cap-initialize
@@ -558,6 +580,8 @@ features:
     created_by: /shape-slice
     deepen: true
     thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 - id: fn-806
   slug: fn-806
   capability: cap-719
@@ -575,7 +599,28 @@ features:
     created_by: 'the #719 change (view plans)'
     deepen: true
     thin: true
-    updated_by: /show-plan and /list-plans change (#719)
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
+- id: fn-931
+  slug: fn-931
+  capability: cap-720
+  intents:
+  - bi-717
+  status: proposed
+  one_line: A person names a feature found while a plan is in progress, and on approval
+    it joins the product model, its slice and its epic together with the plan file
+    and GitHub.
+  doc: features/fn-931/feature.md
+  depends_on: []
+  identified_by: ''
+  decisions: []
+  issue: 931
+  metadata:
+    created_by: '/update-plan (plan 717, the approved session''s new feature, #931)'
+    deepen: true
+    thin: true
+    updated_by: 'product-os-keeper (#997 inside #720: re-mark thin parts with the
+      ontology v14 Thin line)'
 profile:
   state: set
   nfr:

@@ -1,0 +1,271 @@
+pr: 995
+issue: 993
+round: 2
+findings:
+- id: QF-03
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: 'Round 1''s QF-03 stands only in part. A rerun of the same request is now safe. Still open: one request that lists
+    the same {after, add} twice adds the line twice (run: A / B request with two identical adds put the line on the page two
+    times). The idempotence check looks only at the lines already on the page, not at the other adds of the same request.
+
+    '
+  basis: 'Rubric: idempotency on write paths. Down from P3 to P4: the retry case is fixed; this needs a request with a repeated
+    entry, which the agent writes.'
+  source: quality-findings.yaml
+- id: QF-05
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/safe_write.py
+  what: 'Stands as in round 1. atomic_write does not fsync the temp file before os.replace, so ''old file whole or new one
+    whole'' holds for a stopped process but not for a power cut. _mode_for reads the umask by setting it to 0 and back, which
+    is not safe if another thread runs. Owner and group of the replaced file are not kept. The module says it keeps ''the
+    permissions'' only, so none of it contradicts the text.
+
+    '
+  basis: 'Rubric: safe destructive operations; P4 nit: the files are git-tracked and the claim is about permissions only.'
+  source: quality-findings.yaml
+- id: QF-06
+  category: code-and-tests
+  severity: P4
+  file: core/components/plays/create-play/references/platform_adapter.py
+  what: 'Stands as in round 1. Seven platform_adapter.py copies and three safe_write.py copies are kept equal by hand. Byte-identical
+    now (md5 checked), but no test or linter in core/tools compares them, so the next one-copy edit would drift silently.
+
+    '
+  basis: 'Category treatment: ''check they stay identical''. P4: identical today; a guard is a nice-to-have.'
+  source: quality-findings.yaml
+- id: QF-08
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: 'The ''already there, do not add again'' test compares the add with the OLD text of the line just below the anchor,
+    even when that line is replaced or removed in the same request. Run: page A / B / C with {old B, new Z} and {after A,
+    add B} came out A / Z / C; the requested B was not added, the exit was 0 and the report still lists the change. A requested
+    line is dropped without a word. Needs a request where the added text equals a line that the same request replaces.
+
+    '
+  basis: 'Rubric: deterministic where it claims to be; a silent skip against ''changes exactly the lines the request names''.
+    P4: contrived trigger, nothing lost from the page.'
+  source: quality-findings.yaml
+- id: QF-09
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/safe_write.py
+  what: 'The temp file is opened in text mode with the default newline handling (os.fdopen(fd, "w", encoding="utf-8")). On
+    Windows every "\n" is written as "\r\n", so a CRLF page that change_lines.py keeps byte for byte would come out with "\r\r\n".
+    On macOS and Linux (where this was run) nothing changes, so the line-ending promise holds there only. Same text in all
+    three copies.
+
+    '
+  basis: 'Python''s open() newline rules; rubric: deterministic where it claims to be. P4: the project runs on macOS and Linux
+    today; not run on Windows.'
+  source: quality-findings.yaml
+- id: QF-10
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: 'text_line rejects "\n" and "\r" but takes other control and line-separator characters in a new or added line: run,
+    a new line holding NUL, form feed and U+2028 was written to the page. The script reads back consistently, but a reader
+    that splits with Python''s str.splitlines() would see two lines, and a NUL in a markdown page is never wanted.
+
+    '
+  basis: 'Round 1 suggested rejecting control and line-separator characters (QF-02); only CR/LF were taken. Rubric: safe input
+    handling. P4: the writer is an agent; no loss.'
+  source: quality-findings.yaml
+- id: QF-11
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/change_lines.py
+  what: 'The write loop catches Exception, not BaseException. A Ctrl-C or SIGTERM while the second of several pages is being
+    written leaves the first page changed and not put back, against the header''s ''any failure puts every page back''. (Not
+    run; read from the code. Each single page is still whole because atomic_write removes its temp file on BaseException.)
+
+    '
+  basis: 'Rubric: safe destructive operations. P4: needs a signal in a window of milliseconds; recoverable from git.'
+  source: quality-findings.yaml
+- id: QF-12
+  category: code-and-tests
+  severity: P4
+  file: core/components/skills/enrich-grounding/scripts/test_change_lines.py
+  what: 'Two gaps left in a much better suite. (1) The two write-failure tests make the write fail with chmod 0o500; a process
+    running as root (many CI containers) can still write, so both tests would fail there for a reason that is not a bug. (2)
+    No test for a restore that fails and is named (''could not be put back''), for the same add listed twice (QF-03), or for
+    an add equal to a replaced line (QF-08).
+
+    '
+  basis: pr.md TEST-* intent (tests cover the branches that carry the promise, are stable where they run). No TEST row's match
+    rule fires on this path. P4.
+  source: quality-findings.yaml
+- id: H-3
+  category: harness
+  severity: P4
+  file: core/components/skills/enrich-grounding/SKILL.md
+  what: 'Round 1''s finding stands. The `out` input still reads "Where to write grounding-report.json". A named-lines request
+    writes lines-report.json instead, and step 5 writes it to `<working>/lines-report.json`, a path the Input table never
+    hands over. The one `out` field the agent passes is not described for that case, so the agent cannot tell which file name
+    to give or where the report belongs.
+
+    '
+  basis:
+    principle: G7 (the contract names every output path, so the record of the run is on disk where the caller expects it)
+    source: plan/717/base:core/components/skills/link-model-part/SKILL.md (`out` names the one report it writes); plan/717/base:docs/standards/harness-standard.md
+      principle 2
+  source: design-findings-harness.yaml
+- id: H-4
+  category: harness
+  severity: P4
+  file: core/components/skills/enrich-grounding/SKILL.md
+  what: 'A named-lines run has two lists of pages: the required `pages` input and the `pages` inside lines-request.json. Step
+    1 (read the page and its template, list every section and line) is written for the page-writing modes and says nothing
+    about a named-lines run, whose script reads the request alone and needs no template. If the two lists differ, the skill
+    has no stated rule for which one counts.
+
+    '
+  basis:
+    principle: G4 (a skill's Input and Process hold together; one source for one fact) and G1 (the contract is explicit about
+      what the agent hands over)
+    source: plan/717/base:core/components/skills/enrich-grounding/SKILL.md (Input `pages`, Process steps 1 and 7); plan/717/base:docs/standards/harness-standard.md
+      principle 2
+  source: design-findings-harness.yaml
+- id: F1
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/capabilities/cap-720/capability.md
+  what: 'Left over from round 1''s F1, now small. The exception sits in the first Limit sentence and in the first ''Fails
+    if'' clause only. The next Limit sentence (''It changes a plan only on the plan''s own branch'') and the last Fails-if
+    clause (''a plan is changed anywhere but on its own branch'') have no exception, yet the branch step writes main''s plan
+    file on main. A literal reader of the check could call the allowed step a failure. The words equal the issue #720 text
+    and the design says main''s copy ''may be behind, and that is all'', so this is a gap in the source, not the page.'
+  basis:
+    principle: A Limit and its Fails-if must not contradict the play's own described step.
+    sources:
+    - plan/717/base:.garura/project/issues/720/specs/design.md - 'Which copy of a plan counts' (main-first plan file write,
+      then the cut) beside 'The plan's branch is the only place a plan changes'
+    - 'GitHub issue #720, Limit and Fails if (read only)'
+  source: design-findings-product-model.yaml
+- id: F2
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/capabilities/cap-720/capability.md
+  what: Still stands. The new 'Directional intent' is one long sentence of about 90 words with a colon list; it says what
+    the capability does but not why it matters. The base text also lacked the why, so this is not new.
+  basis:
+    principle: 'Content bar: self-explaining with the why; discrete points; capability template ''Directional intent''.'
+    sources:
+    - memory_dir copies of grounding/_content-standard.md and grounding/capability.md
+  source: design-findings-product-model.yaml
+- id: F3
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/features/fn-730/feature.md
+  what: 'Still stands. The page title uses a dash after ''The /update-plan session'' while the spine one_line, the plan 717
+    title and the #730 issue title use a colon. On base the page title equalled the one_line.'
+  basis:
+    principle: The page title and the spine one_line name the same thing in the same words; titles agree with the tracker.
+    sources:
+    - 'plan/717/base: fn-730 feature.md H1 against _spine.yaml one_line'
+    - 'GitHub issue #730 title (read only)'
+  source: design-findings-product-model.yaml
+- id: F4
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/features/fn-730/feature.md
+  what: 'Still stands, there before this PR: the page holds only ''What it does'' and the ICE; the required feature sections
+    are missing (same lint errors as on base) and it carries no thin mark. The PR did not make it worse; out of scope for
+    #993 (named lines only).'
+  basis:
+    principle: A feature is the most detailed level, never leaner than its parent; the heading contract; a thin page carries
+      the thin mark (ADR 052).
+    sources:
+    - 'plan/717/base: grounding/feature.md, grounding/_content-standard.md, docs/adr/052-shape-slice-writes-the-hidden-file-and-proposes-a-thin-ice.md'
+  source: design-findings-product-model.yaml
+- id: F5
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/capabilities/cap-720/capability.md
+  what: 'Still stands, there before this PR: both pages keep the ICE inline with the old labels. The ontology (v13) and ADR
+    047 make the ICE its own page; the PR follows the model as built (#765 not built), so it conforms today. These lines will
+    move again in #765.'
+  basis:
+    principle: The product ICE is its own node; until the move pages keep the inline section.
+    sources:
+    - 'plan/717/base: ontology.md (version 13), docs/adr/047-the-ice-is-its-own-node.md'
+  source: design-findings-product-model.yaml
+- id: F6
+  category: product-model
+  severity: P4
+  file: .garura/product/product-os/capabilities/cap-720/capability.md
+  what: 'New in round 2 reading. The Limit says ''Nothing is written before a plain approved'', but the same pages (directional
+    intent and #730''s step 3) have the play keep a running list in the plan''s short-term memory during the session, which
+    is a write. The design scopes its line to ''GitHub, the model or the plan file''; the pages'' Limit is wider. Short-term
+    memory writes are allowed by the memory rules, so the intent is clear; the wording is loose.'
+  basis:
+    principle: A Limit should say what it forbids; the working list is a memory write the rules always allow.
+    sources:
+    - plan/717/base:.garura/project/issues/720/specs/design.md ('Nothing is written to GitHub, the model or the plan file
+      during the session'; 'the list stays in short-term memory')
+    - memory_dir copy of standards/rules/direct-model-write.md; project memory rules (all writes go to short-term memory)
+  source: design-findings-product-model.yaml
+- id: F7
+  category: product-model
+  severity: P4
+  file: .garura/project/issues/720/specs/design.md
+  what: 'The new paragraph ends with ''(Found by the review of PR #995, finding F1, 2026-10-30.)''. That is a note of origin
+    inside a design that is the source of the model pages. The way the repo keeps such history is the commit message and the
+    issue, not the document.'
+  basis:
+    principle: History of an edit goes in the commit and the issue, not in the file; notes of origin are removed.
+    sources:
+    - 'project rules: CLAUDE.md, Play Pipeline Rules and ''Installed parts'' paragraph (notes of origin deleted; no change
+      logs in generated files); product owner''s saved rule that direct-edit history goes in the commit and issue'
+  source: design-findings-product-model.yaml
+- id: D1
+  category: design-spec
+  severity: P3
+  file: .garura/project/issues/720/specs/design.md
+  what: 'The rewritten constraint and the new paragraph make an unscoped claim: ''Nothing is written before a plain "approved"''
+    and the branch step is ''the only write before "approved"''. The base rule was scoped to GitHub, the model and the plan
+    file during the session. Read as written, the new claim is false against the base design itself: the play writes a running
+    list in the plan''s short-term memory for every instruction, and ''Rejected'' leaves that list there. The edit was made
+    to remove a contradiction that the base scope did not have (the main-first cut happens in ''How it starts'', before the
+    session), and it adds a different one. Suggested wording: keep the base scope (''Nothing is written to GitHub, the model
+    or the plan file during the session; the branch step in How it starts is the only write before it, and the running list
+    is the design of the update, not a landing'').'
+  basis: 'G1 and G2: git show plan/717/base:.garura/project/issues/720/specs/design.md, sections ''The session'' (scope of
+    the no-write rule; running list in short-term memory) and ''How it ends'' (''Rejected ends the session with nothing written;
+    the list stays in short-term memory'').'
+  source: design-findings-design-spec.yaml
+- id: D2
+  category: design-spec
+  severity: P3
+  file: .garura/project/issues/720/specs/design.md
+  what: 'The added paragraph states a decision the base design does not state: the main commit is ''bookkeeping ... not a
+    change the person approves''. The base design is silent on whether the person approves that commit; it only has the person
+    confirm the plan match. This is a small addition to an approved design, made by a review finding, and the design file
+    carries no record that the owner approved this text: its header still reads ''Approved by the product owner on 2026-10-30
+    ("720 approved")''. The only record of the owner''s choice is a blanket instruction (''fix all moderate and medium'')
+    in the PR body, which is not a committed source on the base ref and does not name this sentence. Ask the owner to confirm
+    the sentence, or drop the ''not a change the person approves'' clause so the edit only names the step.'
+  basis: 'G3: git show plan/717/base:.garura/project/issues/720/specs/design.md (approval header; ''How it starts'' has only
+    the plan-match confirmation); docs/adr/033 (a changed approved piece is approved again by a person).'
+  source: design-findings-design-spec.yaml
+- id: D3
+  category: design-spec
+  severity: P4
+  file: .garura/project/issues/720/specs/design.md
+  what: 'The reason for the edit is a parenthetical pointing at a review finding (''Found by the review of PR #995, finding
+    F1, 2026-10-30''). F1 lives in a review run record and the PR, not in a place a later reader of the design will find;
+    the commit message has a subject and no body that gives the reason. A short line in the design''s header (''Amended 2026-10-30:
+    the branch step named, at the owner''s request'') would keep the approval history in the design, and the commit body should
+    say why.'
+  basis: 'G3: git show plan/717/base:.garura/project/issues/720/specs/design.md (the header records its own approval and rounds,
+    so amendments belong there too); docs/adr/060 (decision changes carry the person''s words and reason in the record itself).'
+  source: design-findings-design-spec.yaml
+there_before:
+  lint-components: 37 violations, none in changed_paths
+layer1:
+  lint-play: not applicable — no play SKILL.md changed
+  test_change_lines: 19 OK
+  test_platform_adapter: 55 passed, 0 failed

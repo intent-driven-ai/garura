@@ -465,8 +465,7 @@ def test_slice_check(tmp):
 
 
 
-THIN = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-        "`/discover-capabilities`.")
+THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
 ICE = ("## Agent intent (ICE)\n- Goal: a patient books a free visit with no phone call.\n"
        "- Limit: never book a slot that a doctor has closed for the day.\n"
        "- Fails if: a slot is booked twice by two patients at once.\n"
@@ -683,6 +682,12 @@ def test_slice_check_v11(tmp):
     write(os.path.join(root, "care", "booking", "fn-new", "feature.md"), feature_page("New one", thin=True))
     code, _, _ = run("slice_check.py", *args)
     check("slice check: both thin marks, with the minimum lines, read valid", code == 0)
+    old_line = "Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`."
+    write(os.path.join(root, "care", "booking", "fn-new", "feature.md"),
+          feature_page("New one", thin=True).replace(THIN, old_line))
+    code, _, _ = run("slice_check.py", *args)
+    check("slice check: a page with the old Thin line of v11 still reads thin (ontology v14)", code == 0)
+    write(os.path.join(root, "care", "booking", "fn-new", "feature.md"), feature_page("New one", thin=True))
     write(spine, sp)
     code, _, _ = run("slice_check.py", *args)
     rep = json.loads(read(out_path))

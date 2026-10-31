@@ -1,0 +1,853 @@
+pr: 998
+issue: 720
+round: 3
+counts:
+  P1: 1
+  P2: 15
+  P3: 50
+  P4: 25
+  none: 1
+scan_notes:
+- finding: ARCH-02 and CODE-14 (P2, cycles) on core/tools/plan/plan_branch.py, core/tools/plan/test_plan_branch.py, core/tools/lint-components/index.js
+  note: 'Answered by the round 2 code evidence (the cycles row). Read again now: plan_branch.py imports only the standard
+    library and yaml (lines 41-49); test_plan_branch.py imports the standard library and plan_branch (lines 3-11); index.js
+    requires Node''s fs and path and its own lib/ modules (lines 4-13). No import cycle. The evidence still holds.'
+- finding: CODE-03 (P2, lint) on the same three files
+  note: Answered by the round 2 code evidence (the lint row), with the limit it names. ruff 0.15.20 with defaults is clean
+    on plan_branch.py, the update-plan scripts (place_feature.py included) and the track-plan-changes scripts; the runnable-checks
+    record of this round shows the same on every changed non-test Python file. `node --check` passes on index.js and its 6
+    tests pass. No eslint is committed or installed, so JavaScript was syntax-checked, not linted. The limit stands as the
+    evidence states it.
+- finding: CODE-04 (P2, format) on the same three files
+  note: 'Answered by the round 2 code evidence (the format row). Read again: `ruff format --check` also reports core/tools/plan/plan.py,
+    which is not in this diff, and the new place_feature.py as it does plan_branch.py and test_plan_branch.py; no formatter
+    configuration is committed. The new files match their neighbours. The evidence still holds. No eslint or prettier for
+    index.js, as above.'
+- finding: BE-12 (P2) at core/tools/plan/plan_branch.py:146 and :232
+  note: 'False positive, answered by the round 2 code evidence: `fetch` is `git fetch`, not an HTTP call. Lines read again;
+    same.'
+- finding: DATA-17 (P2) and DATA-18 (P1) at core/tools/plan/test_plan_branch.py:43
+  note: 'False positive, answered by the round 2 code evidence: line 43 sets `user.email` to test@example.com in a throwaway
+    test repository. No personal data. This is the only P1 in the scan and it is not a defect.'
+- finding: BE-13 and CODE-27 at core/tools/plan/plan_branch.py:63; BE-23 at :63 and :66
+  note: 'False positive, unchanged from round 2: the wait for git''s own index.lock, bounded at 8 tries of 2 seconds, with
+    no service call and no shared state.'
+- finding: CODE-25 at core/tools/plan/plan_branch.py:175, :179, :193, :294, :308, :314, :326
+  note: Unchanged from round 2. Each handler re-raises as Stop, cleans up and re-raises, or prints the error and returns a
+    non-zero exit. None swallows an error.
+- finding: CODE-22 at core/tools/lint-components/index.js:95 and :96
+  note: 'False positive, unchanged from round 2: the rule asks about capitalised names; the scanner matches case-insensitively,
+    so the lowercase words `here` and `relative` match.'
+- finding: The other path-only P3/P4 rows (ARCH-03, ARCH-08, CODE-09..CODE-12, CODE-15, CODE-17..CODE-19, FE-08, DOC-01, DOC-09..DOC-11)
+  note: Rows that ask for a human or tool judgment (complexity, naming, duplication, bundle size, docs). Not defects by themselves.
+    The one real instance found is the copied git() helper (reviewed_findings, still standing). FE-08 does not apply to a
+    Node command-line tool. The README of the plan tool (DOC rows) was not changed this round.
+findings:
+- id: QS-01
+  category: executable-code/tests/docs (scan)
+  severity: P1
+  file: core/tools/plan/test_plan_branch.py
+  line: 43
+  what: email
+  basis: standard DATA-18 (DATA-18)
+  source: quality-findings.yaml findings
+- id: QS-02
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard ARCH-02 (ARCH-02)
+  source: quality-findings.yaml findings
+- id: QS-03
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-03 (CODE-03)
+  source: quality-findings.yaml findings
+- id: QS-04
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-04 (CODE-04)
+  source: quality-findings.yaml findings
+- id: QS-05
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-14 (CODE-14)
+  source: quality-findings.yaml findings
+- id: QS-06
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard ARCH-02 (ARCH-02)
+  source: quality-findings.yaml findings
+- id: QS-07
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-03 (CODE-03)
+  source: quality-findings.yaml findings
+- id: QS-08
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-04 (CODE-04)
+  source: quality-findings.yaml findings
+- id: QS-09
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-14 (CODE-14)
+  source: quality-findings.yaml findings
+- id: QS-10
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 146
+  what: fetch
+  basis: standard BE-12 (BE-12)
+  source: quality-findings.yaml findings
+- id: QS-11
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/plan_branch.py
+  line: 232
+  what: fetch
+  basis: standard BE-12 (BE-12)
+  source: quality-findings.yaml findings
+- id: QS-12
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard ARCH-02 (ARCH-02)
+  source: quality-findings.yaml findings
+- id: QS-13
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-03 (CODE-03)
+  source: quality-findings.yaml findings
+- id: QS-14
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-04 (CODE-04)
+  source: quality-findings.yaml findings
+- id: QS-15
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-14 (CODE-14)
+  source: quality-findings.yaml findings
+- id: QS-16
+  category: executable-code/tests/docs (scan)
+  severity: P2
+  file: core/tools/plan/test_plan_branch.py
+  line: 43
+  what: email
+  basis: standard DATA-17 (DATA-17)
+  source: quality-findings.yaml findings
+- id: QS-17
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard ARCH-03 (ARCH-03)
+  source: quality-findings.yaml findings
+- id: QS-18
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard ARCH-08 (ARCH-08)
+  source: quality-findings.yaml findings
+- id: QS-19
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-09 (CODE-09)
+  source: quality-findings.yaml findings
+- id: QS-20
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-10 (CODE-10)
+  source: quality-findings.yaml findings
+- id: QS-21
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-11 (CODE-11)
+  source: quality-findings.yaml findings
+- id: QS-22
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-12 (CODE-12)
+  source: quality-findings.yaml findings
+- id: QS-23
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-15 (CODE-15)
+  source: quality-findings.yaml findings
+- id: QS-24
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-17 (CODE-17)
+  source: quality-findings.yaml findings
+- id: QS-25
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-18 (CODE-18)
+  source: quality-findings.yaml findings
+- id: QS-26
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard FE-08 (FE-08)
+  source: quality-findings.yaml findings
+- id: QS-27
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-01 (DOC-01)
+  source: quality-findings.yaml findings
+- id: QS-28
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-09 (DOC-09)
+  source: quality-findings.yaml findings
+- id: QS-29
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-10 (DOC-10)
+  source: quality-findings.yaml findings
+- id: QS-30
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-11 (DOC-11)
+  source: quality-findings.yaml findings
+- id: QS-31
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard ARCH-03 (ARCH-03)
+  source: quality-findings.yaml findings
+- id: QS-32
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard ARCH-08 (ARCH-08)
+  source: quality-findings.yaml findings
+- id: QS-33
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-09 (CODE-09)
+  source: quality-findings.yaml findings
+- id: QS-34
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-10 (CODE-10)
+  source: quality-findings.yaml findings
+- id: QS-35
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-11 (CODE-11)
+  source: quality-findings.yaml findings
+- id: QS-36
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-12 (CODE-12)
+  source: quality-findings.yaml findings
+- id: QS-37
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-15 (CODE-15)
+  source: quality-findings.yaml findings
+- id: QS-38
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-17 (CODE-17)
+  source: quality-findings.yaml findings
+- id: QS-39
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 63
+  what: retry
+  basis: standard BE-13 (BE-13)
+  source: quality-findings.yaml findings
+- id: QS-40
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 63
+  what: retry
+  basis: standard CODE-27 (CODE-27)
+  source: quality-findings.yaml findings
+- id: QS-41
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 175
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-42
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 179
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-43
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 193
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-44
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 294
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-45
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 308
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-46
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 314
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-47
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 326
+  what: 'except '
+  basis: standard CODE-25 (CODE-25)
+  source: quality-findings.yaml findings
+- id: QS-48
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard ARCH-03 (ARCH-03)
+  source: quality-findings.yaml findings
+- id: QS-49
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard ARCH-08 (ARCH-08)
+  source: quality-findings.yaml findings
+- id: QS-50
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-09 (CODE-09)
+  source: quality-findings.yaml findings
+- id: QS-51
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-10 (CODE-10)
+  source: quality-findings.yaml findings
+- id: QS-52
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-11 (CODE-11)
+  source: quality-findings.yaml findings
+- id: QS-53
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-12 (CODE-12)
+  source: quality-findings.yaml findings
+- id: QS-54
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-15 (CODE-15)
+  source: quality-findings.yaml findings
+- id: QS-55
+  category: executable-code/tests/docs (scan)
+  severity: P3
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-17 (CODE-17)
+  source: quality-findings.yaml findings
+- id: QS-56
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-13 (CODE-13)
+  source: quality-findings.yaml findings
+- id: QS-57
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 1
+  what: core/tools/lint-components/index.js
+  basis: standard CODE-19 (CODE-19)
+  source: quality-findings.yaml findings
+- id: QS-58
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 95
+  what: const here =
+  basis: standard CODE-22 (CODE-22)
+  source: quality-findings.yaml findings
+- id: QS-59
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 96
+  what: const relative =
+  basis: standard CODE-22 (CODE-22)
+  source: quality-findings.yaml findings
+- id: QS-60
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-14 (DOC-14)
+  source: quality-findings.yaml findings
+- id: QS-61
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-15 (DOC-15)
+  source: quality-findings.yaml findings
+- id: QS-62
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  what: core/tools/plan/README.md
+  basis: standard DOC-16 (DOC-16)
+  source: quality-findings.yaml findings
+- id: QS-63
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-13 (CODE-13)
+  source: quality-findings.yaml findings
+- id: QS-64
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 1
+  what: core/tools/plan/plan_branch.py
+  basis: standard CODE-19 (CODE-19)
+  source: quality-findings.yaml findings
+- id: QS-65
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 63
+  what: lock
+  basis: standard BE-23 (BE-23)
+  source: quality-findings.yaml findings
+- id: QS-66
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 66
+  what: lock
+  basis: standard BE-23 (BE-23)
+  source: quality-findings.yaml findings
+- id: QS-67
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-13 (CODE-13)
+  source: quality-findings.yaml findings
+- id: QS-68
+  category: executable-code/tests/docs (scan)
+  severity: P4
+  file: core/tools/plan/test_plan_branch.py
+  line: 1
+  what: core/tools/plan/test_plan_branch.py
+  basis: standard CODE-19 (CODE-19)
+  source: quality-findings.yaml findings
+- id: QR-06
+  category: executable-code (data-safety read)
+  severity: P3
+  file: core/tools/plan/plan_branch.py
+  line: 241
+  what: 'Unchanged since round 2. After the revert is pushed (line 247), a refused delete of the branch (lines 253 and 255
+    use check=True) raises from git() before back() runs (line 257): main holds the revert, the remote still holds plan/<id>/base,
+    the session stays on main, and a second abort fails at the revert (line 243) with "clashes with later work". Fix: skip
+    the revert when main already holds a rev'
+  basis: 'round 2 P3: abort after a partial finish; safe handling of destructive/irreversible operations'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-09
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 62
+  what: 'Unchanged: the git() helper with the index.lock wait is still in plan_branch.py and commit_plan.py, and platform_adapter.py
+    is still one copy among many. This round''s commit did not touch it.'
+  basis: 'round 2 P4: duplicated helper (CODE-13)'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-10
+  category: executable-code (data-safety read)
+  severity: P3
+  file: core/components/skills/track-plan-changes/scripts/tracker.py
+  line: 212
+  what: 'Unchanged. The rerun guard rests on the host''s issue search (`list-issues` with the marker as an in:body phrase,
+    10 results), and no test calls HostTracker.find_marked (a search of test_track_changes.py for the name finds nothing).
+    A rerun right after a crash may not find an issue made seconds earlier. Fix: test it against a fake adapter and say in
+    the skill what the person does after a crash befo'
+  basis: 'round 2 P3: idempotency of external writes; deterministic where it claims to be'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-11
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/tools/plan/plan_branch.py
+  line: 183
+  what: 'Unchanged: the plan file is opened for writing (emptied) before set_fields() runs (lines 182-183). Safe today only
+    because the stop handler puts it back; an OSError on the write would not reach that handler. Fix: compute the new text
+    first.'
+  basis: 'round 2 P4: safe handling of destructive/irreversible operations'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-12
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/tools/lint-components/index.js
+  line: 95
+  what: 'Unchanged: only the working-folder prefix is dropped (lines 94-97), and by a replace anywhere in the string. Run
+    from the repository root the report is clean; from another folder with --target elsewhere it keeps the absolute paths.
+    Fix: strip the prefix at the start only, and say in the usage that the report is relative to the working folder.'
+  basis: 'round 2 P4: no machine path or user name'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-13
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/components/plays/update-plan/scripts/commit_plan.py
+  line: 83
+  what: 'Unchanged: SKILL.md Step 8 (line 276) still says `files: [every model file written]` without saying repository-relative,
+    while link-model-part reports `changed` relative to the product base (its SKILL.md, Output). commit_plan.py refuses an
+    absolute path or one outside the root. Fix: state in SKILL.md that `files` is repository-relative.'
+  basis: 'round 2 P4: deterministic contract between steps'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-14
+  category: executable-code (data-safety read)
+  severity: P3
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 114
+  what: 'The play runs this script, and when a capability question is left, runs it again with --suggestion (SKILL.md Step
+    4, lines 190-203). Each run appends its questions to the draft''s `questions` (line 114, `draft.setdefault("questions",
+    []).extend(...)`) and never removes the earlier ones. I ran the two runs on a draft whose parent names no capability and
+    whose plan holds two slices: after the second '
+  basis: 'review/code rubric: deterministic where it claims to be; the draft a person sees must match what the script was
+    asked'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-15
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 109
+  what: 'The docstring says "Exit 0 written; 2 bad input" (line 21), but the handler (line 109) catches only Refused and YAMLError.
+    I ran it with a spine path that does not exist: it died with a FileNotFoundError traceback (read_text raises OSError,
+    line 102), exit 1, naming the full path. A spine file that holds a list, or a draft that holds a list, died with an AttributeError
+    (`.get` on a list), also exi'
+  basis: 'review/code rubric: failure is reported plainly, with the exit the script promises'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-16
+  category: executable-code (data-safety read)
+  severity: P4
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 57
+  what: 'When the entry names a capability that is not in the model, the script clears it and raises a question (lines 57-60),
+    but the parent-chain lookup (lines 61-65) then runs and fills the capability from the parent''s issue anyway. I ran it:
+    the entry ended with capability cap-45 while the question said "''cap-typo'' is not a capability in the model. Which capability
+    does it belong under?" without naming'
+  basis: 'review/code rubric: what the script does must match what it tells the person'
+  source: quality-findings.yaml reviewed_findings
+- id: QR-17
+  category: executable-code (data-safety read)
+  severity: none
+  file: core/components/plays/update-plan/scripts/place_feature.py
+  line: 115
+  what: 'Checked and sound: the draft is read whole, changed in memory, and written once at the end through a temp file and
+    os.replace, so a failure in the middle leaves the old draft whole; the plan file and the spine are only read; no ICE is
+    drafted (line 87 drops any `ice` key); the feature id never collides with a feature the spine already holds (lines 79-84);
+    a plan with a repeated issue number does n'
+  basis: 'review/code rubric: data safety of the file the script rewrites'
+  source: quality-findings.yaml reviewed_findings
+- id: HF-3
+  category: harness
+  severity: P3
+  file: core/components/plays/update-plan/SKILL.md
+  line: 54-66 (pre-flight), 255-270 (Step 8); core/tools/plan/plan_branch.py (a session already on the plan's branch returns
+    before the uncommitted check)
+  what: 'Unchanged in round 3: a search of the play''s SKILL.md, ICE and scripts finds no scoped-write guard, no clean product-os
+    tree check, and no change to direct-model-write.md (the diff touches no file under memory/standards/rules/ but pipeline-next.md).
+    The model is written only after the approval (the reverse of write-then-review, with no declared exception), and its files
+    are committed inside a chor'
+  basis: '[''direct-model-write.md (base) lines 63-69: run the shared scoped-write guard once over the full delta.'', ''direct-model-write.md
+    (base) lines 86-89 and 228-232 (L-DMW-3, L-DMW-4): assert a clean product-os tree at pre-flight; bundle scoped_write_guard.py.'',
+    ''direct-model-write.md (base) lines 90-97:'
+  source: design-findings-harness.yaml
+- id: HF-4
+  category: harness
+  severity: P3
+  file: core/components/plays/update-plan/SKILL.md
+  line: 184-203 (Step 5); 255-260 (Step 8, add_features); core/components/plays/update-plan/scripts/place_feature.py 78-88
+    (the slice is chosen by intent only); core/components/skills/link-model-part/SKILL.md description
+  what: Unchanged in round 3. place_feature.py picks the slice by `intents` alone and reads no status; no grep hit for 'in
+    progress' slice or 'out of date' in the play, its ICE or its scripts. link-model-part's own text still says a slice is
+    shaped only by /shape-slice. Adding a feature to a slice's feature_refs is not an edit ADR 058 allows, and no ADR amends
+    058.
+  basis: '[''docs/adr/058 (base) lines 24-26: a shaping run never touches a slice in progress.'', "docs/adr/058 (base) lines
+    28-34: an approved edit may change only name, outcome, tester''s action, hidden-file lines and a one-line summary, and
+    the brief must say the slice is in progress and name its epic as out '
+  source: design-findings-harness.yaml
+- id: HF-5
+  category: harness
+  severity: P3
+  file: core/components/plays/update-plan/SKILL.md
+  line: '154-156 (Step 4: the play collects the plan''s issue numbers); abort path of Step 6 (git checkout -- <folder>, delete
+    new files, run by the play)'
+  what: 'Unchanged: both steps are still prose the play runs. The abort restore is destructive and leaves no record the step
+    eval can read.'
+  basis: '["docs/standards/harness-standard.md (base) lines 42-48 (HS-3): a fixed sequence ''runs as a script the step calls''."]'
+  source: design-findings-harness.yaml
+- id: HF-6
+  category: harness
+  severity: P3
+  file: core/components/plays/update-plan/SKILL.md
+  line: 'Step 7: ''&& echo {"ok": true} > <working>/verify.json''; SE-7'
+  what: 'Unchanged: record_answer.py verify still writes nothing; verify.json is an echo, so SE-7 shows only that the line
+    ran.'
+  basis: '["docs/standards/harness-standard.md (base) lines 42-48 (HS-3), lines 60-66 (HS-5): ''A check that never failed
+    may not check anything at all.''"]'
+  source: design-findings-harness.yaml
+- id: HF-7
+  category: harness
+  severity: P3
+  file: core/components/skills/author-plan-changes/SKILL.md
+  line: Process step 4 'Ask when unsure'; Examples; and core/components/plays/update-plan/scripts/place_feature.py 63-77 (the
+    questions it adds to the draft)
+  what: 'Round 3 widens it. The skill is unchanged (no pointer to the shared file). place_feature.py now adds questions such
+    as "Which capability does ''<title>'' belong under? Its parent in the plan names none." and "Which slice does ''<title>''
+    join: a, b?"; Step 5 says to show each question as written, so these reach the product owner with no Why it matters and
+    no examples. check_entries.py passes the draft'
+  basis: '[''core/components/skills/_shared/asking-a-person.md (base) lines 7-10: each part that asks a person reads it.'',
+    ''core/components/skills/_shared/asking-a-person.md (base) lines 18-35: Question, Answer, Why it matters, several Examples
+    from different domains.'']'
+  source: design-findings-harness.yaml
+- id: HF-9
+  category: harness
+  severity: P4
+  file: core/components/agents/project-orchestrator.md
+  line: 145-146 (two skills added to Available Skills); 'What each skill needs from memory' table not extended
+  what: 'Unchanged: the diff to project-orchestrator.md adds only the two skill rows and two intent rows.'
+  basis: '[''project-orchestrator.md (base) lines 403-408 (PO-MEM)'']'
+  source: design-findings-harness.yaml
+- id: HF-10
+  category: harness
+  severity: P4
+  file: core/components/plays/update-plan/SKILL.md
+  line: 47 (Agent boundaries table, product-os-keeper row)
+  what: The row reads "Place a new feature (its capability, the slice the plan holds) and draft its thin ICE; on approval
+    write its page ...". After the HF-2 fix the keeper only suggests a capability (Step 5) and lands (Step 8); place_feature.py
+    places and enrich-grounding writes the ICE at the landing. The stale row states the role HF-2 removed.
+  basis: '["docs/standards/harness-standard.md (base) lines 33-40 (HS-2): the play hands each agent a contract; the agent''s
+    role is what its steps give it.", ''core/components/agents/product-os-keeper.md (base) lines 54-56 (KEEPER-1): the keeper
+    drafts nothing itself.'']'
+  source: design-findings-harness.yaml
+- id: HF-11
+  category: harness
+  severity: P4
+  file: core/components/plays/update-plan/SKILL.md
+  line: Step 5, the 'suggest-capability' contract (inputs draft, plan_id, product_base); core/components/plays/update-plan/scripts/place_feature.py
+    99-103 (reads placements[0].capability)
+  what: 'The play hands the keeper a draft, a plan id and the product base. The keeper can turn the draft into `work` and
+    fetch the shelves, but the play''s contract does not say so. The suggestion the skill returns names a shelf capability;
+    place_feature.py prints it into the question as a hint for a spine capability, and place() rejects any capability not
+    in the spine, so a person who types the hint gets '
+  basis: '["core/components/skills/find-work-placement/SKILL.md (base) lines 12-20: inputs are `work` and `domains_dir` (the
+    shelves); output `capability` is a name on the shelf (for example ''Account Recovery'').", ''core/components/agents/product-os-keeper.md
+    (base) lines 64, 124: the keeper hands the domain s'
+  source: design-findings-harness.yaml
+- id: MEM-2
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 566
+  what: The ontology fixes a new Thin line, but memory and the plays that write or read it still hold the old line
+  basis: 'Base ontology v11 fixed one Thin line, "Thin: proposed by `/shape-slice` from the person''s answers; deepen with
+    `/discover-capabilities`." Base spine.yaml line 144 repeats it; base slice_check.py line 67 says it "reads exactly this
+    text, so any other wording reads as drift" (link_part.py line 85, in'
+  source: design-findings-memory.yaml
+- id: MEM-3
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 594
+  what: Plan Status values changed (was active, done or dropped), but the ontology holds no drift note for the old value and
+    a committed play still writes it
+  basis: 'edit-ontology ICE C3/F3: an existing kind that changes meaning is logged, and the rest of the model must still read
+    the same words the same way. The log names the change; but rule 626 gives a drift note only for the item kind `issue`
+    and for items under other parents, not for `status: active`. Base '
+  source: design-findings-memory.yaml
+- id: MEM-4
+  category: memory
+  severity: P3
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 625
+  what: The Plan kind brings back the word 'feature' (item kind `feature`, tracker type Feature) while the glossary says that
+    work type is gone
+  basis: 'Base glossary line 63, Feature: "In the tracker a Story stands for it. Not the old work type ''Feature'', which
+    is gone." v14 defines a "feature item" as "an issue of type Feature" and gives plan files an item kind `feature`, next
+    to the Feature kind. The ontology explains the difference at lines 21, '
+  source: design-findings-memory.yaml
+- id: MEM-5
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/rules/pipeline-next.md
+  line: 77
+  what: update-plan is listed under the 'Navigation' heading, and 'The flow' does not name it
+  basis: The base map groups rows by loop or lane (line 73 '# Navigation' holds list-focus-issues, list-plans, show-plan,
+    which only show). update-plan changes a plan, so it is not navigation. The base 'The flow' bullets (lines 26-31) name
+    every other live play by loop; update-plan is in none, and its why-li
+  source: design-findings-memory.yaml
+- id: MEM-6
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-update.md
+  line: 156
+  what: The 'landed' screen opens with the branch and commit, not the outcome
+  basis: 'user-facing-voice.md "Signals you''ve drifted": the opening names a path, class, function or line number instead
+    of the outcome. The screen reads "Landed on {plan_branch} (commit {commit}), pushed.", then Model, GitHub, Plan, Check.
+    The rule''s scope note excludes templates for internal artifacts; thi'
+  source: design-findings-memory.yaml
+- id: MEM-7
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-update.md
+  line: 68
+  what: The worked screen shows no item kinds, and row 5 reads as a feature item under a story-level item
+  basis: 'Ontology item-kind rule (base Plan kind + the plan-view template, base): the example of a template is a real, filled-in
+    instance. Row 5 adds a new feature item "under #720", and #720 sits under #956 with a story (#730) under it. The screen
+    does not say what kind #720 is, so a reader cannot tell the '
+  source: design-findings-memory.yaml

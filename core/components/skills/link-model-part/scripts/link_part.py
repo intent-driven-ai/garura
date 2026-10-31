@@ -37,8 +37,11 @@ link-request.json:
   The entry gets status proposed (and detail directional for a domain or capability), its
   empty lists, and metadata {created_by, deepen: true, thin when thin}.
 - mode `update`: the id must be in the spine under its kind. `one_line` replaces its one-line,
-  `add_intents` are added to its intents, `thin: true` sets the thin mark, and
-  metadata.updated_by is set. Every other field is kept.
+  `add_intents` are added to its intents, `issue` names its issue when it names none yet, `thin:
+  true` sets the thin mark, and metadata.updated_by is set. Every other field is kept.
+- kind `slice`, mode `update` only (a slice is shaped by /shape-slice): `add_features` are added
+  to its `feature_refs`, in their order, at the end or right after the feature named by `after`;
+  a feature already there is not added twice, and each must be in the spine (#931).
 
 Every check runs before the first write; any failure refuses the whole request (exit 2) and
 writes nothing. When a write itself fails part way, every file already written is put back as
@@ -63,7 +66,7 @@ import model_names  # noqa: E402  (stamped beside this script)
 import safe_write  # noqa: E402  (stamped beside this script)
 import spine_text  # noqa: E402  (stamped beside this script)
 
-KINDS = {"domain": "domains", "capability": "capabilities", "feature": "features"}
+KINDS = {"domain": "domains", "capability": "capabilities", "feature": "features", "slice": "slices"}
 PARENT = {"capability": "domain", "feature": "capability"}
 HOLDING = {"capability": "capabilities", "feature": "features"}
 PAGE = {"domain": "domain.md", "capability": "capability.md", "feature": "feature.md"}
@@ -77,10 +80,9 @@ class Refused(Exception):
     pass
 
 
-# The one Thin line the ontology fixes (ontology v11, ADR 052); /shape-slice's slice_check.py
-# reads exactly this text, so any other wording reads as drift.
-THIN_LINE = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-             "`/discover-capabilities`.")
+# The one Thin line the ontology fixes (ontology v14); any line that starts "Thin:" just before
+# the ICE counts as the mark, and marking a page again replaces an older line with this one.
+THIN_LINE = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
 
 
 def inside(root, rel):
@@ -156,11 +158,30 @@ def plan(root, spine, request):
     for p in parts:
         pid, kind, mode = p.get("id"), p.get("kind"), p.get("mode")
         if not pid or kind not in KINDS or mode not in ("new", "update"):
-            raise Refused(f"each part needs an id, a kind (domain, capability or feature) and a mode "
-                          f"(new or update): {p!r}")
+            raise Refused(f"each part needs an id, a kind (domain, capability, feature or slice) and a "
+                          f"mode (new or update): {p!r}")
         if pid in seen:
             raise Refused(f"{pid} is given twice")
         seen.add(pid)
+        if kind == "slice":
+            if mode != "update" or p.get("thin"):
+                raise Refused(f"{pid}: a slice is only updated here (add_features); /shape-slice shapes a slice")
+            if pid not in before["slice"]:
+                raise Refused(f"{pid} is not in the spine as a slice")
+            entry = index["slice"][pid]
+            refs = entry.setdefault("feature_refs", [])
+            after = p.get("after")
+            if after is not None and after not in refs:
+                raise Refused(f"{pid}: {after} is not one of its features")
+            at = refs.index(after) + 1 if after is not None else len(refs)
+            for fid in p.get("add_features") or []:
+                if fid not in index["feature"]:
+                    raise Refused(f"{pid}: the feature {fid} is not in the spine")
+                if fid not in refs:
+                    refs.insert(at, fid)
+                    at += 1
+            report["updated"].append(pid)
+            continue
         if p.get("thin") and kind == "domain":
             raise Refused(f"{pid}: a domain carries no ICE, so it cannot be thin")
         if mode == "new":
@@ -190,6 +211,10 @@ def plan(root, spine, request):
             entry = index[kind][pid]
             if "one_line" in p:
                 entry["one_line"] = p["one_line"]
+            if p.get("issue") is not None and kind != "domain":
+                if entry.get("issue") not in (None, "", p["issue"]):
+                    raise Refused(f"{pid} already names issue {entry['issue']}")
+                entry["issue"] = p["issue"]
             for i in p.get("add_intents") or []:
                 if i not in entry.setdefault("intents", []):
                     entry["intents"].append(i)

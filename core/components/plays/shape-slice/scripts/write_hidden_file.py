@@ -82,8 +82,10 @@ from safe_write import atomic_write  # noqa: E402
 
 FILE = "failure-and-recovery.md"
 WHO = ("the builder can fix this alone", "a person must decide")
-THIN_LINE = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-             "`/discover-capabilities`.")
+THIN_LINE = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."  # ontology v14
+# Any line that starts "Thin:" just before the ICE is the mark (ontology v14): a page written
+# with the line of v11 ("Thin: proposed by `/shape-slice` ...") is still thin.
+THIN_ANY = re.compile(r"^\s*Thin:")
 FAILS_IF = re.compile(r"^\s*[-*]\s+Fails if:\s*(?P<text>\S.*?)\s*$")
 HEAD = re.compile(r"^## (?P<feature>[^:\s]+): (?P<name>.*?)\s*$")
 FLINE = re.compile(r"^- (?P<id>F\d+) \(from the (?P<from>feature|capability) ICE\): (?P<text>.*?)\s*$")
@@ -160,7 +162,7 @@ def ice_of(root, spine, part):
         return None, False
     path = os.path.join(root, holder["doc"])
     text = _read(path) if os.path.isfile(path) else ""
-    thin = bool((holder.get("metadata") or {}).get("thin")) or THIN_LINE in text
+    thin = bool((holder.get("metadata") or {}).get("thin")) or any(THIN_ANY.match(x) for x in text.splitlines())
     lines = [m.group("text") for m in (FAILS_IF.match(x) for x in section(text, heading)) if m]
     return lines, thin
 

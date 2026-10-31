@@ -1,44 +1,55 @@
-# Layer 2 design-grounding: category "memory", PR #988 (plan/717/base -> main).
-# One changed file: core/components/memory/standards/templates/plan-view.md (a standards template).
-# Every principle below comes from the base ref (main) or from Phoenix memory read through the
-# memory tool (copies in context/memory/grounding-memory/, manifest beside them). Nothing is
-# grounded in text the branch adds.
-pr: 988
+# Layer 2 design-grounding: category "memory", PR #1017 (plan/717/base -> main).
+# 10 changed files under core/components/memory (git diff origin/main...origin/plan/717/base).
+# Grounding comes from origin/main (git show) and from memory-tool copies in
+# .garura/project/issues/717/context/memory/grounding-memory/ (manifest beside them).
+# Nothing is grounded in text the branch adds. ADRs 061-064 are branch-only: cited as the
+# branch's own decisions, never as grounding.
+pr: 1017
 category: memory
 base: main
 
 grounding:
-  - principle: "A change to a mark or a line is made in the settings block, never in the tool. The tool prints the view from the block, so the block and the tool must agree key for key."
-    source: "main:core/components/memory/standards/templates/plan-view.md (the Settings section: 'The plan tool reads this block. A change to a mark or a line is made here, never in the tool.')"
-  - principle: "The list card has Status, Branch and Waits on rows, always shown (Waits on blank when none), then each epic with its Progress row; a dotted rule separates epics."
-    source: "main:core/components/memory/standards/templates/plan-view.md (The list section)"
-  - principle: "A template answers 'what should this look like?' and is listed in the templates index with its consumers."
-    source: "standards/templates/_index.md, Phoenix memory copy (When to Add Here; the plan-view.md row), same as the file on main"
-  - principle: "The marks and the layout of the plan views live in templates/plan-view.md, and the statuses are the six named in the work-plan rules."
-    source: "standards/rules/work-plan.md rule 19, Phoenix memory copy (same text on main)"
-  - principle: "Plain words for a business reader; a plan view must be understood by a person coming back after two days."
-    source: "standards/rules/work-plan.md ('Who the plan is for', rule 19) and standards/rules/user-facing-voice.md, Phoenix memory copies"
-  - principle: "Knowledge-shelf shape (_TEMPLATE.md, shelf _index) applies to knowledge learnings, not to standards templates. plan-view.md is a template, so the shelf template and the frontmatter-id check do not apply; main's version has none either."
-    source: "knowledge/_DESIGN.md and knowledge/_TEMPLATE.md, Phoenix memory copies; main:core/components/memory/standards/templates/plan-view.md (no frontmatter on the base ref)"
+  - principle: "Memory is read only through the memory tool; a play gets a template or rule only through template-manager, which loads it through the tool into short-term memory. Plays name no memory path."
+    source: "main:docs/adr/039-memory-writes-go-to-short-term-memory-plays-read-no-memory.md section 8; main:.claude/rules/garura-memory.md; main:docs/adr/035-agents-work-only-from-memory.md"
+  - principle: "The canonical product ontology is the agreed map of the kinds and 'what must always be true'. Its version is bumped when a kind is added, changed or removed, and each change is recorded in its Log. check_ontology.py must pass."
+    source: "main:core/components/memory/standards/templates/product-ontology.md (front matter 'version ... bumped when a kind is added, changed or removed'; the '## Log' section); main:core/components/skills/author-product-ontology/scripts/check_ontology.py"
+  - principle: "A model-writing play edits the live model after one write-guard run; a play that writes first and asks later, or asks first and writes after, is a declared exception in direct-model-write.md. The tree is clean at entry; a rejected or aborted run leaves nothing to revert."
+    source: "main:core/components/memory/standards/rules/direct-model-write.md ('What every model-writing play does' 4 and 7; the two 'Declared exception' paragraphs); main:docs/adr/026-direct-to-model-writes.md"
+  - principle: "A template is listed in standards/templates/_index.md with its consumers; a rule change that alters a listed description updates the index row. A settings block is read by one script, and a change to how a screen reads is made in the block, never in the script."
+    source: "main:core/components/memory/standards/templates/_index.md and main:core/components/memory/standards/templates/plan-view.md (Settings); Phoenix copy of standards/_index.md (grounding-memory)"
+  - principle: "Branch naming and plan branches: the plan's work is on plan/<id>/base and merges into main when the plan pauses. Plan Status vocabulary Not Started/In Progress/Paused/Done/Dropped and Direction 1/2/3/none are already in plan-view.md on main."
+    source: "main:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md; main:core/components/memory/standards/templates/plan-view.md; main:CLAUDE.md (Work Tracking: plan/<id>/base, plan/<id>/<issue>-<slug>)"
+  - principle: "Screens addressed to a person lead in product language; branch names, file paths and ids go in the appendix part."
+    source: "user-facing-voice.md, Phoenix copy (grounding-memory), identical to main:core/components/memory/standards/rules/user-facing-voice.md"
+  - principle: "Review/memory rubric: a changed memory file fits its shelf's purpose, resolves its cross-references, and does not duplicate or contradict existing knowledge."
+    source: "knowledge/review/memory.md, memory-tool copy (context/memory/knowledge/review/)"
+
+grounding_notes:
+  - "Phoenix memory (version c14f515d910f) already holds the BRANCH text of the ten changed files (plan-update.md exists there; ontology.md says version 15). Those copies are not pre-branch grounding, so they were deleted from grounding-memory. For the ten changed files the base is main, read with git show origin/main:<path>."
+  - "templates/product-ontology.md: the Phoenix copy differs from main (skill name, the Layer / In the tracker lines). Main's version was used for the Log and version rule."
 
 checks_passed:
-  - "Shape and id: plan-view.md has no frontmatter on main and none on the branch; nothing to match. Cited: main:core/components/memory/standards/templates/plan-view.md."
-  - "Cross-references: no [[...]] or evolve_when in the file. The one path it names (.garura/core/tools/plan/plan.py) is unchanged from main."
-  - "Index: standards/templates/_index.md (Phoenix copy, identical on main) lists plan-view.md, and its description (six statuses, layout of each view, a settings block the plan tool reads) is still true after the change. The index is not in this diff and needs no edit."
-  - "Settings vs readers: the keys the code reads are present in the block. plan.py (listing) reads directions, direction_names, legend_join, plan_rule, head, direction_line, row, labels, label_width, waits_item, waits_join, epic, progress, dropped, none, epic_rule. check_list.py reads head, direction_line, row, labels, label_width, directions, none. Neither reads direction_width. A search of HEAD outside .garura finds no remaining direction_width. On main it was read by plan.py and check_list.py; both were changed in this same PR, so removing it breaks nothing."
-  - "Read-only view: python3 core/tools/plan/plan.py list on the branch prints the heading, then the direction line (when set), a blank line, then Status, Branch, Waits on, Epic, Progress, as the new prose says. Output was only read; nothing was written."
-  - "Contradiction with other committed text: none. work-plan.md rule 19 covers the tree only, and the list/direction text appears in no other committed standard, ADR or philosophy page on main (searched docs/adr, core/grounding and core/components/memory on main for plan-view, direction and list-plans)."
+  - "Cross-reference and index: templates/_index.md lists plan-update.md with consumer /update-plan; rules/_index.md git.md row names the plan/ branches. The other changed rules were already listed. No [[...]] or evolve_when links in the ten files."
+  - "Templates reach plays only through template-manager: plan-update.md says the play gets its copy from template-manager (ADR 039 section 8). update-plan/SKILL.md lists template-manager loading standards/templates/plan-update.md and plan-view.md, and render_screen.py takes the template as an argument. All 71 keys in the plan-update settings block are used by render_screen.py. No added line in the ten files names a memory path or core/tools."
+  - "Ontology recording: ontology.md moves 13 -> 15 with a Log entry for each version (v14 2026-10-30, v15 2026-10-31); v14 lists the Q41-Q47 additions and the Q1/Q4/Q7/Q20/Q22/Q23/Q38 changes and they match the diff. check_ontology.py returns valid:true on the branch file (and on main's)."
+  - "No client or personal reference: the added lines hold no client, person, employer, e-mail or machine-path text. Issue numbers in plan-update.md are Garura's own work items."
+  - "direct-model-write.md: the /update-plan exception follows the pattern of the two existing declared exceptions (approval first, nothing to revert, containment kept, guard run once before the commit). plan_branch.py go and scoped_write_guard.py exist on the branch. The L-DMW-4 carve-out is worded as the loop-contract carve-out is."
+  - "git.md, pipeline-position.md and CLAUDE.md on main agree on plan/<id>/base and plan/<id>/<issue>-<slug>, cut from the plan's branch. spine.yaml's Thin comment matches check_ice_workable.py (any line starting 'Thin:' before the ICE counts) and the ontology's ICE rules."
+  - "plan-view.md new tree rule matches core/tools/plan/plan.py finished_children(); no contradiction with the base rule that Done and Dropped are hidden."
 
 findings:
   - id: MEM-1
-    severity: P4
-    file: core/components/memory/standards/templates/plan-view.md
-    what: "The example in 'The list' shows a second card (#722) that ends after the Status row. It has no Branch row, no Waits on row, and no Epic/Progress rows. The prose above it says Branch and Waits on are always shown (Waits on blank when none), and the tool prints them for every plan (observed output for plan 722: Status, Branch, Waits on, Epic, Progress). A reader copying the example would think a plan with nothing to wait on drops those rows. The first card is complete; only the second is cut short, with nothing (such as an ellipsis) saying so."
-    basis: "Principle: the template's example must show the shape its own rules and the tool print, because the template is the 'what should this look like?' reference. Sources: main:core/components/memory/standards/templates/plan-view.md ('Waits on — always shown ... blank when none'; Branch shown, 'main' when none); standards/templates/_index.md, Phoenix memory copy ('It answers what should this look like?'). No pr.md row fires for this; classed P4 (nit: illustration only, no effect on the tool, which reads the settings block, not the example)."
-    suggested_fix: "Show the second card in full (Status, Branch main, Waits on blank, Epic, Progress) or end it with an ellipsis line."
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: "116-117 (Q30), 427 (Epic: 'made when the plan play adds the slice to a plan'), 583 (Plan 'What it is'), 615 (Plan rule), 640 and 642 (Shop and Clinic examples) - line numbers in the branch file"
+    what: "v14 'catches up' the Plan kind but leaves six statements that a slice shaped later for an intent that already has a plan is added to that plan by the plan play (/shape-plan). The same PR changes pipeline-next.md to say the opposite: /shape-plan stops when the intent has a plan and a later slice joins through /update-plan. The ontology's Plan kind and Q30 now contradict the Next-line map, and a reader of the ontology is sent to the wrong play."
+    principle: "A memory standard must not contradict its sibling standards; the ontology states 'what must always be true' and its Log entry for a version has to cover every statement the change makes untrue (review/memory rubric: avoid contradicting existing knowledge)."
+    sources: "memory-tool copy knowledge/review/memory.md (rubric); main:core/components/memory/standards/templates/product-ontology.md (purpose and Log). The contradicting text is the branch's own pipeline-next.md (lines 22 and 58 in the diff) and the branch ADR 063, cited as the other half of the conflict, not as grounding."
+    suggested_fix: "Reword Q30, the Epic tracker line, the Plan 'What it is' and rule 'A business intent has one plan', and the Shop and Clinic examples: the plan play makes the plan once; a later slice joins it through /update-plan. Add it to the v14 (or a v16) Log entry."
 
-counts: {P1: 0, P2: 0, P3: 0, P4: 1}
+counts: {P1: 0, P2: 0, P3: 1, P4: 0}
 notes:
-  - "The branch's own new prose (card heading at the left edge, icon on its own line) was checked against the settings block, the tool and the base-ref rules above, not used as a source. Where the base ref is silent on the new layout (direction icon on its own line), no committed source states a contrary rule, so no finding is raised."
-  - "The Phoenix copy of plan-view.md (version de02add33862) matches main except a final newline; the design-intent text is the base text, not the branch's."
-  - "No playbook gap for this category: review/memory exists. The tool's blank lines are fixed in the code, not in the settings block; that pattern is already on main (blank before the first epic, between cards) so it is not raised."
+  - "Considered and not raised: plan-update.md screens 'landed', 'stopped' and 'cut_note' open with a branch name and a commit id before the outcome lines. The user-facing-voice rule lists paths, classes, functions and line numbers, not branches, so no committed source calls this a break. Left to the owner's judgement (P4 at most)."
+  - "Considered and not raised: the direct-model-write.md 'Authority' line does not list ADR 062; the two earlier declared exceptions are not in it either, so the file's own pattern is followed."
+  - "Considered and not raised: work-plan.md and templates/work-plan.md (unchanged) still say status active|done|dropped, but they govern the STM specs/plan.md of ADR 030, a different artifact from .garura/project/plans/<id>.yaml; main's plan-view.md already used the five-status plan vocabulary before this branch."
+  - "Playbook: review/memory exists; no playbook gap for this category. Linters: none installed (known gap); checks done by reading the changed files and by running check_ontology.py (read-only)."

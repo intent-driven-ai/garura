@@ -1,0 +1,91 @@
+# quality-findings.yaml — /check-change step 3, Layer 1, PR #1016 (issue 989, also closes #991), base plan/717/base
+# Categories covered: executable-code, tests, documentation (the standards-driven ones).
+# Taxonomy: .garura/project/issues/989/context/memory/standards/rules/pr.md (short-term copy)
+# Scanner: .claude/skills/check-pr-quality/scripts/scan_taxonomy.py on review/pr.diff with the 34 changed paths.
+# Quality standards (knowledge/quality) were not in short-term memory, so size/complexity thresholds are
+# not taken from the KB; ruff's default limits are used only as a proxy and are named where used.
+meta:
+  pr: 1016
+  scanner_totals: {P1: 1, P2: 22, P3: 42, P4: 12, CODE-20_catchall: 18, errors: 0, scan_coverage: 1.0}
+  scanner_note: >
+    The scanner reads core/components/** as garura-prose (no grep rules, no code path rules), so the
+    scripts under core/components/plays/*/scripts/ get no scanner hits; they were covered by ruff and the
+    unittest suite instead. The scanner fires only on core/tools/plan/*.py (runtime-code) and its README.
+    Most path-only rows (CODE-03/04/14, ARCH-02/03/08, CODE-09..13/15/17/19, DOC-*) fire on every matching
+    file at line 1 by design; each was resolved below against a measurement.
+runnable_checks:
+  ruff_check:
+    command: "ruff check <9 changed .py files>"
+    version: "ruff 0.15.20, default rules (the repo commits no ruff config)"
+    result: pass
+    evidence: "All checks passed!"
+  ruff_format_check:
+    result: "not a finding"
+    evidence: >
+      5 of the 5 changed non-test scripts would be reformatted, but so would the unchanged neighbours
+      (plan.py, plan_status.py, preflight.py, resolve_plan.py). The repo commits no formatter config, so
+      CODE-04 has no standard to hold the diff to.
+  unittest_start_change:
+    command: "cd core/components/plays/start-change/scripts && python3 -m unittest test_start_change"
+    result: pass
+    evidence: "Ran 12 tests, OK"
+  unittest_plan_tool:
+    command: "cd core/tools/plan && python3 -m unittest test_plan test_plan_branch test_plan_status test_plan_land"
+    result: pass
+    evidence: "Ran 57 tests, OK"
+  readme_flags:
+    result: pass
+    evidence: >
+      Every flag in core/tools/plan/README.md exists. plan_branch.py go: --plan --plans-dir --ignore --out
+      (plan_branch.py:328-334); back/abort: --record --ignore (336-344). plan_land.py ready: --plan --status
+      --direction --template --plans-dir --ignore --out (175-185); check: --record --out (187,191);
+      landed: --check --out (193,197). The README does not list --repo/--remote/--main/--date; they exist
+      and have defaults. The README test command matches the four modules.
+  other:
+    - "create-play/references/setup_branch.py is byte-identical to start-change/scripts/setup_branch.py (cmp)."
+    - "No skipped or disabled tests in the changed test files (grep skip/expectedFailure: none)."
+    - "No import cycle: plan_land imports plan and plan_branch; neither imports plan_land."
+    - "No TODO/FIXME in the changed scripts or the README. print() calls are the JSON/stderr interface of the CLIs."
+findings:
+  - id: Q-01
+    severity: P3
+    standard_id: CODE-09
+    file: core/tools/plan/plan_branch.py
+    line: 155
+    category: executable-code
+    basis: "CODE-09 (P3, complexity-score). go(): cyclomatic complexity 16 (ruff C901 limit 10). It was 15 at plan/717/base; this PR adds the stale-copy branch (line 168). Borderline, grew by one."
+    evidence: "ruff check --select C901: plan_branch.py:155 `go` is too complex (16 > 10); base copy: 15 > 10"
+  - id: Q-02
+    severity: P3
+    standard_id: CODE-10
+    file: core/tools/plan/plan_branch.py
+    line: 155
+    category: executable-code
+    basis: "CODE-10 (P3, line-count). go() is 76 lines (PLR0915: 64 statements > 50), the longest function in the PR's code. The new drop_stale() was split out, which keeps the growth small."
+    evidence: "ast: go 155-230 = 76 lines; ruff PLR0915 at plan_branch.py:155"
+counts: {P1: 0, P2: 0, P3: 2, P4: 0}
+dismissed_scanner_hits:
+  # Scanner rows that fired but, read against the code, are not defects. Listed so nothing is silently dropped.
+  - {standard_id: DATA-18, severity: P1, file: core/tools/plan/test_plan_land.py, line: 49, reason: "`user.email` is a git config value for a throwaway test repo (test@example.com); no PII."}
+  - {standard_id: DATA-17, severity: P2, file: core/tools/plan/test_plan_land.py, line: 49, reason: "Same line: git config fixture."}
+  - {standard_id: SEC-23, severity: P2, file: core/tools/plan/plan_branch.py, line: 65, reason: "os.environ is copied to add GIT_TERMINAL_PROMPT=0; no secret or config value is read."}
+  - {standard_id: BE-12, severity: P2, files: ["core/tools/plan/plan_branch.py:164", "core/tools/plan/plan_land.py:101", "core/tools/plan/plan_land.py:140", "core/tools/plan/plan_land.py:159"], reason: "`git fetch` through git(), which sets timeout=TIME_LIMIT (120 s) and GIT_TERMINAL_PROMPT=0 (plan_branch.py:76-83). Not an HTTP client; the timeout the rule asks for is present."}
+  - {standard_id: BE-13, severity: P3, file: core/tools/plan/plan_branch.py, line: 76, reason: "The existing index.lock retry (8 attempts, 2 s); bounded, unchanged behaviour."}
+  - {standard_id: CODE-27, severity: P3, file: core/tools/plan/plan_branch.py, line: 76, reason: "Same retry loop."}
+  - {standard_id: BE-23, severity: P4, file: core/tools/plan/plan_branch.py, line: 76, reason: "'lock' is the git index.lock string, not a cache."}
+  - {standard_id: CODE-25, severity: P3, files: ["core/tools/plan/plan_branch.py:82", "core/tools/plan/plan_land.py:205", "core/tools/plan/plan_land.py:219"], reason: "Each except names its exception and handles it (timeout becomes a stop code 124; Stop/BadInput become a written error record; read errors go to stderr with exit 2). None swallows silently."}
+  - {standard_id: DATA-07, severity: P3, file: core/tools/plan/test_plan_branch.py, line: 130, reason: "'is_deleted' is inside a test method name (..._stale_copy_on_main_is_deleted_...), not a soft-delete column."}
+  - {standard_id: "CODE-03", severity: P2, files: ["plan_branch.py", "plan_land.py", "test_plan_branch.py", "test_plan_land.py"], reason: "Lint rule needs a lint message; ruff check passes with none."}
+  - {standard_id: "CODE-04", severity: P2, files: ["plan_branch.py", "plan_land.py", "test_plan_branch.py", "test_plan_land.py"], reason: "No committed formatter config; unchanged neighbours are equally unformatted (see ruff_format_check)."}
+  - {standard_id: "ARCH-02 / CODE-14", severity: P2, files: ["plan_branch.py", "plan_land.py", "test_plan_branch.py", "test_plan_land.py"], reason: "Need a cycle trace; none exists."}
+  - {standard_id: "ARCH-03 / CODE-12", severity: P3, files: ["the four core/tools/plan .py files"], reason: "Largest file is plan_branch.py at 390 lines (test_plan_branch.py 293); no breach of a stated limit (no KB threshold was available)."}
+  - {standard_id: "CODE-09 / CODE-10 / CODE-11 / CODE-15", severity: P3, files: ["plan_land.py", "test_plan_branch.py", "test_plan_land.py"], reason: "plan_land.py has no function over complexity 10 or 50 statements (longest: main 55 lines). Tests: no breach. (plan_branch.py go is Q-01/Q-02.) Pre-existing: plan_branch.abort (17) and main (52 statements), setup_branch.main (16; it was 18 at base, so this PR lowered it) are not touched for the worse by this PR."}
+  - {standard_id: "ARCH-08 / CODE-13 / CODE-17 / CODE-19", severity: "P3/P4", files: ["the four core/tools/plan .py files"], reason: "Path-only rows with no measurable breach found (names are clear, one module per concern)."}
+  - {standard_id: "DOC-01 / DOC-09 / DOC-10 / DOC-11 / DOC-14 / DOC-15 / DOC-16", severity: "P3/P4", file: core/tools/plan/README.md, reason: "These rows describe a project README (install, usage, setup, troubleshooting, architecture). This is a single tool's README: it has purpose, commands and flags for each subcommand, and its test command. Nothing missing for its kind."}
+notes:
+  # Observations that no taxonomy row can carry (the skill rejects findings without a row). For the human layers.
+  - "plan_land.py:90-125 (ready): after `git merge --no-commit` succeeds, a failure in `git checkout HEAD -- <plan file>` or `git commit` raises Stop (exit 2) without `git merge --abort`, so the branch is left mid-merge. The clash path (lines 117-120) does abort. A re-run then stops on uncommitted work. Not covered by a test."
+  - "plan_land.py:68-87 (set_fields): if the plan file has no top-level `updated:` line, none is added and nothing says so, though the README says `ready` writes `updated:`. `branch:` and `direction:` are inserted when missing. No test for the missing-`updated:` case."
+  - "plan_branch.py:76-83 (git timeout): no test drives the TimeoutExpired branch (returncode 124)."
+  - "Tests cover: stale copy deleted and cut fresh, stale copy with commits kept (test_plan_branch.py); ready/check/landed including clash, wrong branch, dirty tree, bad Status/Direction (test_plan_land.py); resolve_args, check_plan_start and the plan start through setup_branch (test_start_change.py). The `start == plan_branch` checkout inside drop_stale (plan_branch.py:243-244) has no direct test."
+  - "core/tools/plan/README.md lines 60-62: the sentence added at line 60 runs on one over-long line and then wraps ragged; style only."

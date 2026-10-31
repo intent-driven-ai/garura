@@ -1,0 +1,28 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261031T051608Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "049",
+      "file": "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+      "kind": "amended",
+      "part": "Decision \u00a71.2, the words \"(or uses the one that exists)\"; and Decision \u00a72, the sentence \"When a new slice is shaped for an intent that has a plan, the plan play adds the slice and its epic to that plan.\" The rest of \u00a71.2 and \u00a72 stand."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "049-a-slice-is-shaped-then-planned-then-given-its-eval.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

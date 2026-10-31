@@ -1,0 +1,108 @@
+# Work categories present in the diff for PR #1006 (issue 1005). Derived from the diff content.
+# Treatments are taken from the playbook copies in short-term memory (knowledge/review/*.md).
+categories:
+  - name: Harness
+    playbook: review/harness
+    design_bearing: true
+    evidence:
+      - core/components/plays/show-plan/SKILL.md          # compiled play: description, recovery table
+      - core/components/plays/show-plan/reference/ice.md  # the play's ICE source: C4, F1, new S6 (an intent change)
+    treatment:
+      layers: [layer-1, layer-2]
+      linters:
+        - name: lint-components (source layout)
+          command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+          note: only a violation whose file is in changed_paths is a finding; count the rest as "there before"
+        - name: lint-play
+          command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/show-plan/SKILL.md --next-map .garura/project/issues/1005/context/templates/standards/rules/pipeline-next.md
+      runnable_checks:
+        - the ICE-source rule: the intent change (C4, F1, S6) must trace to reference/ice.md and the compiled SKILL.md must match it (the repo holds the plays' source, so the rule applies)
+        - play->agent->skill->script wiring stays intact
+      design_grounding: >
+        Layer 2 applies. Reconstruct principles from committed sources on the base ref
+        (docs/philosophy, docs/adr, standards under memory/standards/rules, glossary), never from
+        the branch's own prose (specs/design.md is added by this branch and is not grounding).
+
+  - name: Memory
+    playbook: review/memory
+    design_bearing: true
+    evidence:
+      - core/components/memory/standards/templates/plan-view.md  # a standards template: the hiding line changes
+    treatment:
+      layers: [layer-1, layer-2]
+      linters:
+        - name: memory integrity (gap)
+          command: null
+          note: no installed tool checks memory integrity; the reviewer does the checks by hand and cites each
+      runnable_checks:
+        - by hand: structure of the template, cross-references resolve, frontmatter and index consistent
+        - by hand: the new hiding line agrees with plan.py and check_tree.py (a consistency check, not grounding)
+      design_grounding: >
+        Layer 2 applies. Ground from committed memory design (knowledge/_DESIGN.md, _index.md,
+        _TEMPLATE.md, the standards the template belongs to) read on the base ref or through the
+        memory tool, not from the branch's new text.
+
+  - name: Executable code
+    playbook: review/code
+    design_bearing: false
+    evidence:
+      - core/tools/plan/plan.py                                # the plan tool: prints the tree with the new rule
+      - core/components/plays/show-plan/scripts/check_tree.py  # the play's check script: re-derives the tree
+    treatment:
+      layers: [layer-1]
+      linters:
+        - name: check-pr-quality (pr.md taxonomy)
+          command: run the check-pr-quality skill against the diff; severity table is .garura/project/issues/1005/context/memory/standards/rules/pr.md
+        - name: language linter
+          command: null
+          note: no Python linter config (ruff or other) is committed in this repo; record "not installed", not a pass
+      runnable_checks:
+        - review data-safety and idempotency hard: the tool and the check must print the same tree twice
+        - error handling, no stray debug output, no secrets, deterministic where it claims to be
+
+  - name: Tests
+    playbook: review/tests
+    design_bearing: false
+    evidence:
+      - core/tools/plan/test_plan.py
+      - core/components/plays/show-plan/scripts/test_check_tree.py
+    treatment:
+      layers: [layer-1]
+      linters:
+        - name: check-pr-quality TEST-* rows
+          command: run the check-pr-quality skill; TEST-* rows from the pr.md taxonomy
+      runnable_checks:
+        - run the suites (a red suite is a blocker; say so explicitly if one cannot run)
+        - "python3 -m unittest discover -s core/tools/plan -p 'test_plan.py'"
+        - "python3 -m unittest discover -s core/components/plays/show-plan/scripts -p 'test_check_tree.py'"
+        - by hand: no skipped or disabled tests, no test that asserts nothing
+
+  - name: Run records (issue short-term memory)
+    playbook: null
+    playbook_missing: >
+      playbook missing. No review playbook covers a play run's own records (analysis, branch,
+      commits, issue, plan, pr, self-review, resolved-rules, target, work-description files, and the
+      approved design). They are the run's output, not product work, and are not design-bearing
+      here. A playbook should be written for this kind of change.
+    design_bearing: false
+    evidence:
+      - .garura/project/issues/1005/context/analysis.yaml
+      - .garura/project/issues/1005/context/branch.json
+      - .garura/project/issues/1005/context/check-self-review-exit.txt
+      - .garura/project/issues/1005/context/commits.yaml
+      - .garura/project/issues/1005/context/issue.json
+      - .garura/project/issues/1005/context/plan.json
+      - .garura/project/issues/1005/context/porcelain.txt
+      - .garura/project/issues/1005/context/pr-body.md
+      - .garura/project/issues/1005/context/pr.json
+      - .garura/project/issues/1005/context/resolved-rules.json
+      - .garura/project/issues/1005/context/self-review.md
+      - .garura/project/issues/1005/context/target.json
+      - .garura/project/issues/1005/context/work-description.txt
+      - .garura/project/issues/1005/specs/design.md
+    treatment:
+      layers: []
+      linters: []
+      runnable_checks:
+        - by hand: no secrets and no stray artifacts in the records (check-pr-quality SEC rows cover added lines)
+        - note: specs/design.md is the branch's own design record; it is context for the review, never grounding for Layer 2

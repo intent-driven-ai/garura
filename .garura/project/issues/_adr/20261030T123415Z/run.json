@@ -1,0 +1,11 @@
+{
+ "in_loop": false,
+ "loop_run_id": null,
+ "branch": "plan/717/720-update-plan",
+ "issue": 720,
+ "scope_baseline": {
+  "retaken_before_apply": true,
+  "why": "Other work of #720's same change went on in this branch while the draft was written and redrafted (the round 3 fixes: scripts, tests, templates, the rule, the linter). The scope check is re-based just before Step 4, so it proves that applying the record wrote only the record, its pointers and the index.",
+  "first_baseline": "porcelain-before-preflight.txt"
+ }
+}

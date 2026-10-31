@@ -1,0 +1,11 @@
+{
+  ".garura/project/issues/720/review/code-evidence.md": "d0ae8a092d16a2e767078df51b848c577610a84dbb9072ccc88b1c1423bee1e6",
+  ".garura/project/issues/720/review/merge-gate.json": "09d79073ba11dab983d9d7ff41bace56ca7e36995f89b0b883f009546aa039a7",
+  ".garura/project/issues/720/review/target.json": "e303582ed88b02f70fdd73fef269b7b1a91013634b57413d8d8d2b1482c7eba7",
+  ".garura/project/issues/_adr/20261030T094556Z/porcelain-before.txt": "5453150fe9a9cb9785f02b0af5dca289676eb2ea2a7e526ab200c1664b53fb5f",
+  "core/components/agents/product-os-keeper.md": "f5d760de49dd67c39ec02a89642e243ac16b77bcca63b4b229f912fa725db36d",
+  "core/components/plays/update-plan/SKILL.md": "ff85dd67f4771968fd7eab9aeaaf8be5fa719cf518e5214316523a1c1535a84e",
+  "core/components/plays/update-plan/scripts/place_feature.py": "072208afa1940f3afa17559d74dc3b281c22c6cd0fad9d254f793bbf91420a6c",
+  "core/components/plays/update-plan/scripts/test_update_plan_scripts.py": "3309a824f3edcb5049ad8e9e71e0c0848fca9144d1f5875de74bf858f0b21d99",
+  "core/components/skills/author-plan-changes/SKILL.md": "f9b33ed8c672c1bdbd560f0b7244c6debaf4e88b607827597d7edae6a56fcbe1"
+}

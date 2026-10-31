@@ -1,0 +1,6 @@
+decision: reject
+decided_by: harness
+gate: "gate skipped by config (gates.plays.check-change)"
+reason: "1 P1 (blocker) finding(s)"
+blocking: [R-01]
+counts: {P1: 1, P2: 4, P3: 7, P4: 2}

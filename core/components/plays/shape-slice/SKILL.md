@@ -507,8 +507,9 @@ proposed, detail directional, `metadata.deepen: true`); fills each existing part
 one-line replaced when the update gives one from the person's change, listed in `one_lines`
 with the old and new text; every other field kept); refuses a page outside its folder; moves a capability that gets its domain, and its
 features, out of the holding folder and fixes every link to them; sets `metadata.thin: true`
-and the one Thin line, just before the ICE section, for each part in `thin` (an old-form thin
-line is replaced); and puts each new domain and capability on the intent page's Touches list
+and the one Thin line ("Thin: proposed from the person's words; deepen with
+`/discover-capabilities`.", ontology v14), just before the ICE section, for each part in `thin`
+(an older thin line is replaced); and puts each new domain and capability on the intent page's Touches list
 ("— adds"), each filled one not listed yet ("— changes"). Its result names `written`,
 `updated`, `moved`, `thin`, and the paths the guard needs: `allow`, `modify_only` and
 `remove_only`. `persist_slice.py` writes the spine `slices` entry with exactly six fields —
@@ -599,7 +600,8 @@ link check, with the old-name guard), checks that the slice lists the intent, ch
 spine slice's entry (the six fields) and record (slice.yaml v2, with a persona_ref), and
 checks that the thin marks of each part of the slice agree: a part marked thin (its spine
 metadata, or `fills.json` `thin`) must have the Thin line on its ICE page, and a page with
-the Thin line must have `metadata.thin: true`. Any problem in the slice's own
+the Thin line must have `metadata.thin: true` (any line that starts "Thin:" just before the ICE
+section is the Thin line, so a page with the older line still reads thin). Any problem in the slice's own
 pages (its features, their capabilities and their domains) fails it, also one the baseline
 had; a new problem anywhere fails it; an older problem elsewhere is in `older_problems`.
 Exit 1 (REC11): dispatch the agent to have each problem fixed by the skill that wrote what the
@@ -1079,7 +1081,8 @@ deepened, the thin ICE, the hidden file, the intent page when this run wrote it,
 of questions with no proposed answer, the PR), and the **Next** line from the Next-line map
 (`$next_map`, from `template-manager`), per `play-close.md`; omit it when the map's command
 is null. Next Steps: run `/shape-plan <intent-issue>` to make the plan, the epic and the stories
-for this slice. End with a
+for this slice; when the intent already has a plan, run `/update-plan <intent-issue>` to add this
+slice's epic and stories to it. End with a
 pointer to `$evidence_dest`. Always emitted; never gated.
 
 ```bash
@@ -1143,7 +1146,7 @@ check reads ok, so a resume after X4 can still put every record back.
 
 | Field | Value |
 |-------|-------|
-| fingerprint | sha256:108b2a8dc4375f71da791ce2a44d44f14813a4e7dff8b43ea66af93e57702059 (of `reference/ice.md`) |
+| fingerprint | sha256:b551dab40893d6adcbcd330b384a3e0f3bdfc59b7311a9018b7cdf0dd2694f9b (of `reference/ice.md`) |
 | compiled_by | create-play (#795); edit-play (#842, #908, #798) — the one brief, the hidden file, the thin ICE, fills of existing parts in their folders, the own-pages model check, the live-decision trace check, the slice-in-use and slice-in-progress rules, and the agent that only gathers context while a named skill does each piece of work (C19); the edit path, which changes only what the person named, after their yes, with a history line (C20); a re-run's change to a kept slice's text, with a history line and its epic named as out of date (C7) |
 | pipeline_position | both (start-change head; commit → propose → review → merge close) |
 | workflow_structure | A (an early ask only for a gap no one but the person can answer; one brief at one pinned typed checkpoint; write-then-review; stop-condition gated close) |

@@ -9,7 +9,7 @@ invent one.
 
 ## First: Garura is built the way it tells others to build
 
-Since 2026-10-22 Garura's own work follows the product model Garura offers (ontology v7,
+Since 2026-10-22 Garura's own work follows the product model Garura offers (the ontology,
 `core/components/memory/standards/schemas/product-os/ontology.md`; Kapil: "going forward, our approach
 to building Garura will also change"). There is one plane, not two:
 
@@ -183,8 +183,8 @@ the issue's own folder, `.garura/project/issues/<issue>/evidence/eval/`, that te
 issue's "Done when" asks.
 
 1. Run it before the build. It must fail. Commit it first.
-2. The agents that build never read the issue's folder. They build from the issue and its
-   decisions, not from the check.
+2. The agents that build never read the issue's `evidence/eval/` folder. They build from the
+   issue and its decisions, not from the check.
 3. Run it after the build. It must pass. If a check tested the wrong thing, fix the check in
    its own commit and say why. Never weaken a check to let bad work pass.
 

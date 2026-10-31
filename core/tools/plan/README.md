@@ -21,7 +21,61 @@ gets the template from `template-manager` and passes the copy's path with `--tem
 The six statuses of a plan's node are Not Started, In Progress, Now, Done, Blocked and Dropped.
 A plan file with any other status is refused (exit 2), so an old file is never shown wrongly.
 
-An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
-users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`.
+## The plan file
 
-Tests: `python3 -m unittest test_plan` from this folder.
+A plan file holds, at the top: `id` (the business intent's issue number), `title`, `status`
+(Not Started, In Progress, Paused, Done or Dropped — set by a person), `direction` (1, 2, 3 or
+none — set by a person), `branch` (`plan/<id>/base` while its work is in progress), `started`,
+`updated`, `epic`, `identified_by`, `needs_plans` and `tree`. It keeps no history: each
+`/update-plan` landing is one commit whose message names what was asked, the overrides and what
+is owed.
+
+Each node of the tree has `issue`, `kind`, `title` and `status`, and may have `represents` (the
+slice or feature it stands for) and `children`. A plan may hold six kinds of item, each under one
+kind of parent (#917):
+
+| Kind | Sits under |
+|------|------------|
+| `epic` | the plan itself (the top of the tree) |
+| `feature` | an epic |
+| `story` | an epic or a feature |
+| `spike`, `chore`, `bug` | a story |
+
+Older plan files also use the kind `issue`, and have some items under another parent (a bug under
+a feature). The tools still print them; `/update-plan` names such an item when an instruction
+touches it and offers the right kind or parent, and never changes it unasked.
+
+## Getting onto a plan's branch
+
+    python3 plan_branch.py go   --plan <id> [--plans-dir D] [--ignore <folder>] --out <record.json>
+    python3 plan_branch.py back  --record <record.json> [--ignore <folder>]
+    python3 plan_branch.py abort --record <record.json> [--ignore <folder>]
+
+The one way a play gets onto a plan's branch. First, on every path (the plan's own branch
+included), uncommitted work stops it and names the files (ADR 062). Then it stays on the plan's
+branch, switches to it, or — for a plan with no branch — sets main's plan file to In Progress with
+the branch named, commits that on main, and cuts the branch from it. `back` returns to the branch
+the session started on. `abort` undoes a branch the session cut (deletes it, and reverts main's
+plan file commit) when nothing else has landed on it, then goes back; a second `abort` finishes
+one that stopped after the revert (a refused delete). A copy of the plan's branch that is gone
+on the remote is deleted and cut fresh only when every commit on it is on main; otherwise it stops
+and names the commits (#953). When main's plan file already reads In Progress on the branch, there
+is nothing to commit on main and the branch is cut from main's tip. Used by `/update-plan` (#730),
+and by `start-change` (#989): `/start-change plan <id>`, and the first story of a plan with no
+branch.
+
+## Setting an item's status from its own issue
+
+    python3 plan_status.py --plans-dir D --plan <id> --issue <n> --status Done|Dropped [--date D] [--out <record.json>]
+
+An item's status follows its own issue: closed as completed is Done, closed as not planned is
+Dropped (#1007). It changes that item's `status:` line and the file's `updated:` line, and keeps
+every other line, comment and order. Nothing rolls up: the item's parent is never changed. An
+item already at that status is left as it is. Used by `merge-change` when it closes an issue that
+landed on its plan's branch.
+
+An install lays the tool in the project's `.garura/core/tools/plan/`, without its tests. Later
+users: `/update-plan` (#730), `/shape-plan`'s stop when a plan exists (#896), `start-change`
+(#989).
+
+Tests: `python3 -m unittest test_plan test_plan_branch test_plan_status` from this folder.

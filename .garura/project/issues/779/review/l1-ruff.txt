@@ -1,0 +1,56 @@
+E702 Multiple statements on one line (semicolon)
+  --> core/components/plays/create-play/references/test_merge_plan.py:79:49
+   |
+77 |         subprocess.run(["git", "init", "-q", "--bare", "-b", "main", origin])
+78 |         subprocess.run(["git", "clone", "-q", origin, work], capture_output=True)
+79 |         git(work, "config", "user.email", "t@t"); git(work, "config", "user.name", "t")
+   |                                                 ^
+80 |         git(work, "checkout", "-q", "-b", "main")
+81 |         open(os.path.join(work, "a"), "w").write("a"); git(work, "add", "a"); git(work, "commit", "-q", "-m", "a")
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> core/components/plays/create-play/references/test_merge_plan.py:81:54
+   |
+79 |         git(work, "config", "user.email", "t@t"); git(work, "config", "user.name", "t")
+80 |         git(work, "checkout", "-q", "-b", "main")
+81 |         open(os.path.join(work, "a"), "w").write("a"); git(work, "add", "a"); git(work, "commit", "-q", "-m", "a")
+   |                                                      ^
+82 |         git(work, "push", "-q", "-u", "origin", "main")
+83 |         git(work, "push", "-q", "origin", "main:plan/717/base")
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> core/components/plays/create-play/references/test_merge_plan.py:81:77
+   |
+79 |         git(work, "config", "user.email", "t@t"); git(work, "config", "user.name", "t")
+80 |         git(work, "checkout", "-q", "-b", "main")
+81 |         open(os.path.join(work, "a"), "w").write("a"); git(work, "add", "a"); git(work, "commit", "-q", "-m", "a")
+   |                                                                             ^
+82 |         git(work, "push", "-q", "-u", "origin", "main")
+83 |         git(work, "push", "-q", "origin", "main:plan/717/base")
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> core/components/plays/create-play/references/test_merge_plan.py:86:43
+   |
+84 |         git(work, "checkout", "-q", "-b", "plan/717/673-x")
+85 |         git(work, "push", "-q", "-u", "origin", "plan/717/673-x")
+86 |         plans = os.path.join(tmp, "plans"); os.makedirs(plans)
+   |                                           ^
+87 |         yaml.safe_dump({"id": 717, "tree": [{"issue": 721, "kind": "capability", "children": [
+88 |             {"issue": 731, "kind": "functionality"}, {"issue": 673, "kind": "functionality"}]}]},
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> core/components/plays/create-play/references/test_merge_plan.py:91:26
+   |
+89 |                        open(os.path.join(plans, "717.yaml"), "w"))
+90 |         gate = os.path.join(tmp, "gate.json")
+91 |         cwd = os.getcwd(); os.chdir(work)
+   |                          ^
+92 |         try:
+93 |             json.dump({"approved": True, "mergeable": True, "pr_number": 9}, open(gate, "w"))
+   |
+
+Found 5 errors.

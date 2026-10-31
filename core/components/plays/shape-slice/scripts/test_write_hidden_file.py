@@ -14,8 +14,7 @@ import yaml
 HERE = os.path.dirname(os.path.abspath(__file__))
 PASSED = 0
 FAILED = 0
-THIN = ("Thin: proposed by `/shape-slice` from the person's answers; deepen with "
-        "`/discover-capabilities`.")
+THIN = "Thin: proposed from the person's words; deepen with `/discover-capabilities`."
 
 
 def check(name, cond):

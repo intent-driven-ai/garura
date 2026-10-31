@@ -1,0 +1,1 @@
+#1007: an item's status in the plan file follows its own GitHub issue — closed as completed means Done, closed as not planned means Dropped; no roll-ups. merge-change sets the item Done when it closes the issue; /update-plan lists items closed on GitHub at session start. Under #721, plan 717. Design approved by the product owner 2026-10-31.

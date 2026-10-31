@@ -54,10 +54,19 @@ def expected(plan, t):
     def visible(n):
         return shown[n["status"]] or any(visible(c) for c in n.get("children") or [])
 
+    def printed(nodes, keep_all=False):
+        # A shown node whose children are all Done or Dropped prints them too, one level (#1005).
+        for n in nodes or []:
+            if keep_all or visible(n):
+                yield n
+                kids = n.get("children") or []
+                yield from printed(kids, shown[n["status"]] and kids and not any(shown[c["status"]] for c in kids))
+
+    on_tree = {id(n) for n in printed(plan.get("tree"))}
     lines, absent, counts = [], [], {}
     for n in walk(plan.get("tree")):
         line = t["tree"]["line"].format(mark=marks[n["status"]], issue=n["issue"], title=n["title"])
-        if visible(n):
+        if id(n) in on_tree:
             lines.append(line)
         else:
             absent.append(str(n["issue"]))

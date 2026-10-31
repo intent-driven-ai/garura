@@ -1,0 +1,3 @@
+Feature #720 (manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval), built as one change on one branch.
+In order: #730 (the /update-plan session: instructions, checks, one approval, one landing on the plan's branch), with #917 (the findings left by the PR #916 review); then #931 (/update-plan adds a new feature found while a plan is in progress to the model, its slice and its epic).
+The stories get no branches of their own. The design is shown to the product owner and approved before any build.

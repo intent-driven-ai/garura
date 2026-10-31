@@ -1,0 +1,72 @@
+---
+# assess-changes output (round for the PR #1009 review fixes)
+# issue: 1001
+needs_judgment: false
+
+change_groups:
+  - id: update-plan-close-order
+    issue: 1001
+    commit_type: fix
+    scope: update-plan
+    subject: "fix the play close order and agent table"
+    files:
+      - core/components/plays/update-plan/SKILL.md
+  - id: feature-ice-story-draft-guard
+    issue: 1002
+    commit_type: fix
+    scope: update-plan
+    subject: "refuse --body without --story-draft in feature_ice"
+    files:
+      - core/components/plays/update-plan/scripts/feature_ice.py
+      - core/components/plays/update-plan/scripts/test_feature_ice.py
+      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+  - id: plan-skill-texts-and-template
+    issue: 1002
+    commit_type: fix
+    scope: plan-skills
+    subject: "name the model screen and the story file in the plan skills and template"
+    files:
+      - core/components/skills/author-plan-changes/SKILL.md
+      - core/components/skills/author-work-items/SKILL.md
+      - core/components/memory/standards/templates/plan-update.md
+  - id: review-run-records
+    issue: 1001
+    commit_type: chore
+    scope: stm
+    subject: "record the review run artifacts"
+    files:
+      - .garura/project/issues/1001/context/analysis.yaml
+      - .garura/project/issues/1001/context/porcelain.txt
+      - .garura/project/issues/1001/review/findings.yaml
+      - .garura/project/issues/1001/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/1001/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/1001/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/1001/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/1001/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/code.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/1001/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/1001/context/memory/manifest.json
+      - .garura/project/issues/1001/context/memory/standards/rules/pr.md
+      - .garura/project/issues/1001/context/templates/manifest-check-change.json
+      - .garura/project/issues/1001/context/templates/standards/rules/pipeline-next.md
+
+exclusions:
+  []
+
+risks:
+  sensitive_files: []
+  warnings:
+    - path: ".garura/project/issues/1001/context/memory/standards/rules/pr.md"
+      match: 'password\s*=' # pattern-carrier copy of the severity taxonomy, not a secret — non-blocking
+      blocking: false
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every scanned file is in exactly one group"}
+  SE-5: {status: PASS, evidence: "the one content match is a prose pattern-carrier copy, not a secret"}

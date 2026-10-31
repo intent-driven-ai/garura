@@ -1,0 +1,38 @@
+{
+  "by": "product-os-keeper (fn-818-lines-r2, #896)",
+  "source": "PR #1003 review round 1, findings MEM-2, MEM-3, MEM-4; fixes approved by the product owner 2026-10-31 (\"yes go ahead\")",
+  "pages": [
+    {
+      "page": "software-delivery-planning/cap-718/fn-818/feature.md",
+      "changes": [
+        {
+          "old": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Not built yet (#818).",
+          "new": "/shape-plan <intent> runs after /shape-slice, on its own. It reads the slice that serves the intent and the ICE of each feature and its capability, once. It writes the intent's one plan file, one epic for the slice, and one story for each feature. It never writes a failure or recovery condition: the slice's hidden file is /shape-slice's (decision 6 of #844). Built (#818)."
+        },
+        {
+          "old": "- GitHub #818 (open): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it.",
+          "new": "- GitHub #818 (closed): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it."
+        },
+        {
+          "old": "- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything.",
+          "new": "- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything, or stops without naming /update-plan."
+        },
+        {
+          "after": "- The checks that no build is given the evals folder and that flag a build session that read it (fn-898).",
+          "add": "- A change to a plan that exists, a later slice's epic and stories included. /update-plan makes it (fn-730)."
+        },
+        {
+          "old": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval and the build. Not built yet (#818).",
+          "new": "- Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval, the build, and a change to a plan that exists (/update-plan). Built (#818)."
+        }
+      ],
+      "lines_before": 59,
+      "lines_after": 60,
+      "lines_added": 1,
+      "lines_kept": 55
+    }
+  ],
+  "changed": [
+    "software-delivery-planning/cap-718/fn-818/feature.md"
+  ]
+}

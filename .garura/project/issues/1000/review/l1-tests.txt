@@ -1,0 +1,7 @@
+OK
+test_resolve_plan.py: 23 passed, 0 failed
+test_submit_pr.py: 3 passed, 0 failed
+test_merge_plan.py: 10 passed, 0 failed
+test_merge_scripts.py: 15 passed, 0 failed
+test_setup_branch.py: 13 passed, 0 failed
+preflight copies differing: 0

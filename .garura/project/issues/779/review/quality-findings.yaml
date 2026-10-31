@@ -1,0 +1,235 @@
+meta:
+  generated_at: '2026-10-31T12:05:00Z'
+  diff_path: .garura/project/issues/779/review/pr.diff
+  taxonomy_path: .garura/project/issues/779/context/memory/standards/rules/pr.md
+  changed_paths_count: 7
+  scope: Executable code and Tests categories of categories.yaml (7 paths)
+  scan_coverage: 1.0
+  standards_relevant: 16
+  catchall:
+    CODE-20: 7
+  scan: scan_taxonomy.py over the 7 code and test paths and the PR diff; exit 0, 0 rule-compile errors, 0 findings (all 7 paths are classified garura-prose, see scan_limits)
+  counts:
+    P1: 0
+    P2: 5
+    P3: 13
+    P4: 3
+  defects_found: 5
+  tools_run:
+  - name: unit tests
+    command: python3 -m unittest discover -s core/components/plays/create-play/references (three test files)
+    result: 18, 12 and 10 passed, 0 failed (review/l1-tests.txt)
+  - name: ruff
+    command: ruff check on the 4 scripts and the 3 test files
+    result: scripts and test_resolve_plan.py clean. 5 E702 in test_merge_plan.py (review/l1-ruff.txt) and 7 E702 in test_setup_branch.py, both there before this change (7 on plan/717/base too; none on an added line).
+  - name: 'parity: resolve_plan.py'
+    command: diff start-change/scripts/resolve_plan.py against create-play/references/resolve_plan.py
+    result: identical
+  - name: 'parity: setup_branch.py'
+    command: diff start-change/scripts/setup_branch.py against create-play/references/setup_branch.py
+    result: identical. No other play carries a copy of either script (git ls-files finds only these 4 files).
+  - name: shared-scripts rule
+    command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+    result: both names are in the rule's list; the run in review/l1-lint-components.txt holds no shared-scripts mismatch for these two files
+  - name: added-line grep
+    command: grep of the added lines in the 7 paths for secrets, localhost, yaml.load, shell=True, eval, home paths, TODO/FIXME, skip, expectedFailure
+    result: no hit; no print( added (the one print is the script's JSON output to stdout); no test skipped or disabled
+  - name: hand run, resolve_plan.py reads
+    command: scratch repo with a plan on origin/main; edited the checkout copy to invalid YAML; ran with a relative plans-dir, an absolute plans-dir, a plans-dir given from a sub-folder, and a missing folder
+    result: the checkout copy is never read in git mode (invalid YAML on disk had no effect). An absolute path, a call from a sub-folder, and a missing folder all return plan_id null with exit 0 (finding Q17).
+  - name: hand run, setup_branch.py delete
+    command: scratch repos. (a) plan branch with one local-plus-pushed commit, deleted on origin from the same clone. (b) the same, deleted from another clone, never merged.
+    result: (a) kept, exit 1, names the commit. (b) deleted and cut fresh, exit 0; the commit is then in no branch here or on origin (finding Q18).
+  scan_limits:
+  - Python under core/components is classified garura-prose by the taxonomy (first-match table), so grep rules are ineligible there and no path rule fired for the 7 files. The 16 checklist rows below are path-level items and the Python files were read by hand (rows tagged reviewer-reading).
+  - The test files sit beside the scripts, not in a tests/ folder, so no TEST-* row fired; they were read by hand. No skip, no expectedFailure, every check asserts. Gaps are named under Q17 and Q18.
+findings:
+- id: Q01
+  severity: P2
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. The 4 scripts import only the standard library and yaml; no cycle.
+  basis: ARCH-02
+  artifact_type: garura-prose
+- id: Q02
+  severity: P2
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. ruff reports nothing on the 4 scripts or on test_resolve_plan.py. The E702 hits in test_setup_branch.py (7) and test_merge_plan.py (5) were there before; none is on an added line.
+  basis: CODE-03
+  artifact_type: garura-prose
+- id: Q03
+  severity: P2
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Format check. No formatter config is committed; the change follows the files' existing style.
+  basis: CODE-04
+  artifact_type: garura-prose
+- id: Q04
+  severity: P2
+  file: core/components/plays/start-change/scripts/resolve_plan.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. resolve_plan.py adds subprocess; no new module of the repo is imported.
+  basis: CODE-14
+  artifact_type: garura-prose
+- id: Q05
+  severity: P3
+  file: core/components/plays/start-change/scripts/resolve_plan.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. resolve_plan.py grows by 108 lines of change to about 160; setup_branch.py by 54 to about 190. Each keeps one job.
+  basis: ARCH-03
+  artifact_type: garura-prose
+- id: Q06
+  severity: P3
+  file: core/components/plays/start-change/scripts/resolve_plan.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Module-structure check. Read-from-git helpers (_git, plans_at, plans_on_disk, holds) are split from resolve and main; the split is clear.
+  basis: ARCH-08
+  artifact_type: garura-prose
+- id: Q07
+  severity: P3
+  file: core/components/plays/start-change/scripts/resolve_plan.py
+  line: 113
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. resolve_from_git has 3 branches, resolve has a loop and 2 conditions; both are below any reasonable limit.
+  basis: CODE-09
+  artifact_type: garura-prose
+- id: Q08
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 85
+  kind: reviewer-reading
+  defect: true
+  summary: main() is 101 lines, up from about 90. The new stale-copy branch (lookup, safety check, delete) is added inside the already long plan-branch block rather than as a helper. Borderline, not wrong.
+  basis: CODE-10
+  artifact_type: garura-prose
+- id: Q09
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 111
+  kind: path-level-checklist
+  defect: false
+  summary: Nesting check. The deepest new path is 3 levels (plan branch, stale copy, unsafe); acceptable.
+  basis: CODE-11
+  artifact_type: garura-prose
+- id: Q10
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. setup_branch.py stays under 200 lines.
+  basis: CODE-12
+  artifact_type: garura-prose
+- id: Q11
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 85
+  kind: path-level-checklist
+  defect: false
+  summary: Cognitive-complexity check. main() is the only function with real branching; the new part adds 3 conditions and 2 exits, each commented.
+  basis: CODE-15
+  artifact_type: garura-prose
+- id: Q12
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. _on_origin, _is_ancestor, _safe_to_delete, _push, plans_at, plans_on_disk, holds say what they do.
+  basis: CODE-17
+  artifact_type: garura-prose
+- id: Q13
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 65
+  kind: path-level-checklist
+  defect: false
+  summary: Data-safety read of _safe_to_delete. A local plan branch is deleted only when it is an ancestor of origin/<base> or of git's last-known copy of origin's plan branch. A stale origin/<base> or a pruned last-known copy only makes the check stricter, never looser. A failed lookup (ls-remote not 0) exits 1 before any delete.
+  basis: CODE-25
+  artifact_type: garura-prose
+- id: Q14
+  severity: P4
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Style check. Docstring and comments follow the files' style; no debug output.
+  basis: CODE-13
+  artifact_type: garura-prose
+- id: Q15
+  severity: P4
+  file: core/components/plays/start-change/scripts/resolve_plan.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. Local names (p, rc, pid) are short but scoped to a few lines.
+  basis: CODE-19
+  artifact_type: garura-prose
+- id: Q16
+  severity: P3
+  file: core/components/plays/create-play/references/setup_branch.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Copy parity. This copy and the start-change copy are byte-identical, for both scripts. No other play carries a copy.
+  basis: ARCH-08
+  artifact_type: garura-prose
+- id: Q17
+  severity: P3
+  file: core/components/plays/start-change/scripts/resolve_plan.py
+  line: 75
+  kind: reviewer-reading
+  defect: true
+  summary: In git mode a plans folder that git cannot list at the ref is silently treated as "no plans" (ls-tree return code ignored). A plans-dir given as an absolute path, or run from a sub-folder, or a typo, returns plan_id null with exit 0, so an issue in a plan gets a feature/ branch outside its plan. The play always passes the relative config value from the repo root, so no live path hits it today; no test covers it. Should be exit 2, like a missing --ref.
+  basis: CODE-25
+  artifact_type: garura-prose
+- id: Q18
+  severity: P3
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 69
+  kind: reviewer-reading
+  defect: true
+  summary: Data-safety edge. If a plan branch was pushed, then deleted on origin from another clone without being merged into main, git still holds the last-known copy; the local copy is an ancestor of it, so it counts as safe and is deleted. The new plan branch's push then moves that last-known copy, and the commits are in no branch here or on origin (reproduced in a scratch repo). It matches the design's written rule ("or was on origin's plan branch"), so this is a design edge for Layer 2, not a code slip. A delete on the same clone removes the last-known copy and is kept and reported correctly.
+  basis: CODE-25
+  artifact_type: garura-prose
+- id: Q19
+  severity: P2
+  file: core/components/plays/start-change/scripts/resolve_plan.py
+  line: 114
+  kind: reviewer-reading
+  defect: true
+  summary: No timeout and no GIT_TERMINAL_PROMPT=0 on the network git calls (git fetch here; git ls-remote at setup_branch.py:55 and the push at line 77). A server that stalls or asks for a login on a terminal can hang the play. Plays run without a terminal, so a login prompt fails fast; a stalled server would still hang. The category note asks for "no network call that hangs".
+  basis: BE-12
+  artifact_type: garura-prose
+- id: Q20
+  severity: P4
+  file: core/components/plays/start-change/scripts/setup_branch.py
+  line: 129
+  kind: reviewer-reading
+  defect: true
+  summary: The result of git branch -D is not checked. If it fails (the plan branch is checked out in another worktree), the script goes on to the resume path with the stale copy, merges main into it and pushes it. No commit is lost (the safety check had passed), but the stale branch is re-created on origin instead of a fresh cut.
+  basis: CODE-25
+  artifact_type: garura-prose
+- id: Q21
+  severity: P3
+  file: core/components/plays/create-play/references/test_setup_branch.py
+  line: 85
+  kind: reviewer-reading
+  defect: false
+  summary: 'Tests read by hand. The four new setup_branch cases cover merged-stale, unpushed-stale, pushed-then-deleted-elsewhere and unreachable origin, each asserts branch state. test_resolve_plan.py covers the checkout-not-read case, the plan''s own branch, no network and a missing ref. Not covered, and tied to Q17 and Q18 above: an absolute or mistyped plans-dir, and an unmerged branch deleted from another clone.'
+  basis: TEST-03
+  artifact_type: garura-prose

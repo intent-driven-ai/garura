@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "changed": [
+    ".garura/project/issues/_adr/20261031T051608Z/adr-manifest.json",
+    ".garura/project/issues/_adr/20261031T051608Z/hashes-before.json",
+    ".garura/project/issues/_adr/20261031T051608Z/porcelain-after.txt",
+    ".garura/project/issues/_adr/20261031T051608Z/run.json",
+    ".garura/project/issues/_adr/20261031T051608Z/target.txt",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+    "docs/adr/_index.md"
+  ],
+  "violations": [],
+  "allowed": [
+    "docs/adr/063-shape-plan-makes-the-plan-once-and-update-plan-changes-a-plan-that-exists.md",
+    "docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md",
+    "docs/adr/_index.md",
+    ".garura/project/issues/*"
+  ]
+}

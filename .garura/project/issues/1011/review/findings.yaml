@@ -1,0 +1,23 @@
+pr: 1012
+issue: 1011
+round: 1
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1
+findings:
+- id: DF-1
+  severity: P4
+  file: .garura/product/product-os/capabilities/cap-721/capability.md
+  line: 4
+  summary: 'The unchanged half of the direction line, ''start-change cuts a plan''s branch'', is only half true under ADR
+    061: the play that starts the plan''s work cuts it (/update-plan today; start-change once #989 is built).'
+  principle: G7
+  source: plan/717/base:docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md, Amends (ADR 060
+    Decision 3 sentence)
+  note: 'Pre-existing text on the base ref, outside the four-line landing-rule scope, and true again once #989 is built. Not
+    caused by this change. Suggest record it, do not hold the PR.'
+  why_not_higher: The change did not touch that clause; the bucket for wording that is slightly behind another record is Nit.
+  category: Product model page
+layer1: 'l1-checks.txt (by hand: four lines, one plan line, records parse, no home paths)'

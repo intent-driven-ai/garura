@@ -1,0 +1,20 @@
+{
+  "draft": ".garura/project/issues/_adr/20261030T094556Z/adr-draft.md",
+  "number": "061",
+  "lint": {"exit": 0, "valid": true, "problems": []},
+  "guard": {"exit": 0, "declared": "none", "touches_an_intent": [], "verdict": "no person's business intent changes", "intents_dir": ".garura/product/product-os/intents", "agrees_with_context": true},
+  "overlaps": {
+    "run_on": "the draft, --top 30",
+    "judged": {
+      "060": "amended in part — §3's start-change sentence, its ICE impact's line-598 sentence, and the 'What this changes' start-change line; §1, §2, §4, §5 stand",
+      "048": "not affected — shares only the ontology and managing-work paths; nothing on branches",
+      "049": "not affected — one plan per intent and its folders; nothing on branches",
+      "029": "not affected — a drive's branch is not a plan's branch",
+      "046": "not affected — naming only; harness principle 8 still holds word for word",
+      "030": "not affected — plan mode is a change's working plan, not the Plan kind",
+      "028": "not affected — names start-change only as the first change play",
+      "others": "053, 055, 031, 059, 035, 056, 039, 043, 052, 033, 047, 038, 045, 058, 044, 019 share only generic paths (SKILL.md, the ontology, the harness standard, managing-work); a search of docs/adr for a plan's branch finds only ADR 060 (ADR 022 and 028 match on 'cuts the epic', not a branch)"
+    }
+  },
+  "retries": 0
+}

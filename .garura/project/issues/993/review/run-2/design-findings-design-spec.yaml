@@ -1,0 +1,53 @@
+category: design-spec
+round: 2
+pr: 995
+grounded_from:
+  base_ref: plan/717/base
+  grounding_available: true
+  principles:
+    - id: G1
+      principle: "The approved design says what is written, and where, in its own words. In the base text the no-write rule is scoped: 'Nothing is written to GitHub, the model or the plan file during the session.' The session starts after the play is on the plan's branch."
+      source: "git show plan/717/base:.garura/project/issues/720/specs/design.md, sections 'The session' and 'How it starts'"
+    - id: G2
+      principle: "The base design already requires the main-first cut: whenever a plan's branch is cut (and /update-plan on a plan with no branch is named), main's plan file is set to In Progress with the branch named, committed on main, and the branch is cut from that commit. 'How it starts' says 'it cuts one as above'. The base design also keeps a running list in the plan's short-term memory during the session, and 'Rejected' leaves the list in short-term memory."
+      source: "git show plan/717/base:.garura/project/issues/720/specs/design.md, sections 'Which copy of a plan counts', 'How it starts', 'The session', 'How it ends'"
+    - id: G3
+      principle: "The design is the person's approved decision ('Approved by the product owner on 2026-10-30'). A change to an approved decision is the person's, and is recorded with its reason where the next reader will look."
+      source: "git show plan/717/base:.garura/project/issues/720/specs/design.md, first lines; docs/adr/033 (agents work from approved pieces and a changed approved piece needs approval again); docs/adr/060 (a decision change is recorded with the person's words and the reason)"
+    - id: G4
+      principle: "A change to a plan's design stays inside the branch rule the plan work already keeps: a plan's branch is cut from main at the start, and main is bookkeeping only."
+      source: ".garura/user-provided/managing-work.md at plan/717/base, section 'A plan's branch: start, pause, start again'; docs/adr/060"
+checked_edit:
+  file: .garura/project/issues/720/specs/design.md
+  hunks:
+    - "added paragraph 'The one write before approval' after 'Nothing is written to GitHub, the model or the plan file during the session.'"
+    - "constraint 'It never cuts a branch except as above, never merges one, and never touches code.' is now prefixed with 'Nothing is written before a plain \"approved\", except the branch step above for a plan with no branch.'"
+answers_to_questions:
+  only_names_or_widens: "The set of actions is not widened. The three steps the new paragraph lists (main's plan file to In Progress with the branch named, commit on main, cut the branch) are the steps the base text already requires in 'Which copy of a plan counts' and 'How it starts'. The wording is wider than the base, though: it turns a scoped rule (GitHub, model, plan file, during the session) into an unscoped one, see D1. It also adds one new claim the base does not make: the main commit is 'not a change the person approves', see D2."
+  recorded_with_reason: "Partly. The reason (review of PR #995, finding F1, 2026-10-30) is in the added paragraph and the PR body names the owner's words. The commit message has a subject only. The design's own header still reads as one approval on 2026-10-30 and does not record that the owner approved this text, see D2 and D3."
+findings:
+  - id: D1
+    severity: P3
+    file: .garura/project/issues/720/specs/design.md
+    what: "The rewritten constraint and the new paragraph make an unscoped claim: 'Nothing is written before a plain \"approved\"' and the branch step is 'the only write before \"approved\"'. The base rule was scoped to GitHub, the model and the plan file during the session. Read as written, the new claim is false against the base design itself: the play writes a running list in the plan's short-term memory for every instruction, and 'Rejected' leaves that list there. The edit was made to remove a contradiction that the base scope did not have (the main-first cut happens in 'How it starts', before the session), and it adds a different one. Suggested wording: keep the base scope ('Nothing is written to GitHub, the model or the plan file during the session; the branch step in How it starts is the only write before it, and the running list is the design of the update, not a landing')."
+    basis: "G1 and G2: git show plan/717/base:.garura/project/issues/720/specs/design.md, sections 'The session' (scope of the no-write rule; running list in short-term memory) and 'How it ends' ('Rejected ends the session with nothing written; the list stays in short-term memory')."
+  - id: D2
+    severity: P3
+    file: .garura/project/issues/720/specs/design.md
+    what: "The added paragraph states a decision the base design does not state: the main commit is 'bookkeeping ... not a change the person approves'. The base design is silent on whether the person approves that commit; it only has the person confirm the plan match. This is a small addition to an approved design, made by a review finding, and the design file carries no record that the owner approved this text: its header still reads 'Approved by the product owner on 2026-10-30 (\"720 approved\")'. The only record of the owner's choice is a blanket instruction ('fix all moderate and medium') in the PR body, which is not a committed source on the base ref and does not name this sentence. Ask the owner to confirm the sentence, or drop the 'not a change the person approves' clause so the edit only names the step."
+    basis: "G3: git show plan/717/base:.garura/project/issues/720/specs/design.md (approval header; 'How it starts' has only the plan-match confirmation); docs/adr/033 (a changed approved piece is approved again by a person)."
+  - id: D3
+    severity: P4
+    file: .garura/project/issues/720/specs/design.md
+    what: "The reason for the edit is a parenthetical pointing at a review finding ('Found by the review of PR #995, finding F1, 2026-10-30'). F1 lives in a review run record and the PR, not in a place a later reader of the design will find; the commit message has a subject and no body that gives the reason. A short line in the design's header ('Amended 2026-10-30: the branch step named, at the owner's request') would keep the approval history in the design, and the commit body should say why."
+    basis: "G3: git show plan/717/base:.garura/project/issues/720/specs/design.md (the header records its own approval and rounds, so amendments belong there too); docs/adr/060 (decision changes carry the person's words and reason in the record itself)."
+confirmed_conforming:
+  - "The three steps of the branch step match 'Which copy of a plan counts' (In Progress with the branch named, committed on main, branch cut from that commit). Source: base design."
+  - "The exception is limited to a plan with no branch, which matches 'on main: it switches to the plan's branch; when the plan has none, it cuts one as above'. Source: base design, 'How it starts'."
+  - "The edit moved only the two hunks; no other line of the design changed (git diff plan/717/base...HEAD on the file)."
+  - "No real name and no absolute home path in the added text."
+counts:
+  P1: 0
+  P2: 0
+  P3: 2
+  P4: 1

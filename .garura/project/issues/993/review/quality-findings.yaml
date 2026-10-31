@@ -1,0 +1,197 @@
+# check-change Step 3, Layer 1 - standards linter for PR #995 (plan/717/993-page-skill-named-lines -> plan/717/base), round 3
+# Categories covered: executable-code, tests, memory-copies, work-records (the standards-driven ones).
+# Taxonomy copy: .garura/project/issues/993/context/memory/standards/rules/pr.md
+pr: "995"
+round: 3
+base: plan/717/base
+diff: .garura/project/issues/993/review/pr.diff
+categories_run: [executable-code, tests, memory-copies, work-records]
+
+scanner:
+  tool: check-pr-quality (scan_taxonomy.py), run on all 101 changed paths of plan/717/base...HEAD
+  exit_code: 0
+  counts: {P1: 0, P2: 0, P3: 0, P4: 0}
+  catchall_CODE-20: 28
+  errors: 0
+  scan_coverage: 1.0
+  note: >
+    Zero scanner findings is expected, not a clean bill: the scripts sit under core/components/**
+    (garura-prose, so grep rules are ineligible) and the work records sit under .garura/project/**
+    (stm-evidence, no finding by rule, #851). The scanner was run on the diff cut from the branch
+    head (the review's own pr.diff is a moving file that contains itself). The nine findings below are
+    the standing hand-review findings of round 2; they were not re-derived from the scanner.
+
+code_unchanged_since_round_2:
+  result: PASS
+  evidence: >
+    Round 2's review was committed in c50f0045. `git diff c50f0045 HEAD -- core` is empty and
+    `git status --short -- core` is empty: no script, test, skill, agent or reference under core/
+    differs from what round 2 read. The last commit to the scripts and tests is 6facc63a. The
+    seven platform_adapter.py copies still share md5 9580068257036de7128ba5b9c14128f3 and the three
+    safe_write.py copies md5 ab8272bc06dc24d330dbc6734c7110a6 (same as round 2).
+
+suites:
+  - name: change_lines tests
+    command: python3 -m unittest discover -s core/components/skills/enrich-grounding/scripts -p "test_change_lines.py"
+    result: PASS
+    evidence: "Ran 19 tests, OK (same count as round 2)"
+  - name: platform adapter tests
+    command: python3 core/components/plays/create-play/references/test_platform_adapter.py
+    result: PASS
+    evidence: "55 passed, 0 failed (same as round 2)"
+  - name: language linter
+    command: ruff check (default rules) on enrich-grounding/scripts, the two other safe_write.py and the create-play platform_adapter and its test
+    result: PASS
+    evidence: "All checks passed. The repository commits no ruff config, so this run used ruff defaults and is informational."
+
+new_since_round_2_checks:
+  commits_yaml_parses_and_subject_reads_back:
+    result: PASS
+    evidence: >
+      .garura/project/issues/993/context/commits.yaml parses as YAML (a dict with 2 commits; keys
+      commits, excluded_files, leftover_count, tree_clean, pushed, run_state_committed). The two
+      commit SHAs (2a5e5de4, 3c18fd73) exist, and the `message` of each equals the real commit
+      subject (`git log -1 --format=%s`) character for character, including the escaped quotes in
+      2a5e5de4: docs(product-model): scope "nothing is written before approved" to GitHub, the model
+      and plan files (#993). Both come back True.
+  verification_report_393_user_placeholder:
+    result: PASS
+    evidence: >
+      .garura/project/issues/393/evidence/enhance/verification-report.yaml line 215 now reads
+      `-rw-r--r-- 1 <user> staff 5425 May 27 15:46 ~/.claude/skills/platform-adapter/SKILL.md`.
+      The change from round 2 is that one line only (the user name -> <user>); the file parses.
+  no_user_name_or_scratch_path_in_added_lines:
+    result: PASS
+    evidence: >
+      Searched every added line of both the review's pr.diff (23k lines, including the copies of
+      older diffs it contains) and a fresh `git diff plan/717/base...HEAD` for the owner's user name, <dashed-home-path>,
+      /Users/, <scratch-dir>/, /private/tmp, /home/, C:\Users, the owner's first, middle and last names, @<employer>, @gmail.
+      No line holds a user name, e-mail, home path or scratch path. The only hits are words that
+      quote a pattern: round 2's check line "grep ... for /Users/, /home/, C:\\Users" (a pattern
+      list), the BE-08 taxonomy regex with `/users/[^/]+/...`, and this round's categories.yaml
+      sentence that names "/private/tmp" without a path after it. The word "scratchpad" appears as
+      prose or as the `<scratchpad>` placeholder only. The untracked and modified review files
+      (lint-components.json, lint-play.txt, categories.yaml, context.yaml) hold none either; the
+      lint-components.json paths are written with ~. The 4 session-stamp files under
+      issues/993/status/ do hold a user name but sit under a gitignored folder and are not in the diff.
+  json_parse_and_yaml_parse:
+    result: PASS
+    evidence: "commits.yaml and verification-report.yaml parse; the other work records are unchanged since round 2 apart from the run-2 move and the d1 run files (not re-parsed one by one beyond the two named)"
+
+findings:
+  - id: QF-03
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/change_lines.py
+    line: "113-118, 153-156"
+    standard_id: null
+    what: "Stands as in round 2. One request that lists the same {after, add} twice adds the line twice; the idempotence check looks only at lines already on the page."
+    basis: "Rubric: idempotency on write paths. P4: the retry case is fixed; this needs a repeated entry in one request."
+    suggested_fix: "Refuse a repeated identical {after, add} in read_changes, as a line named twice is refused."
+    disposition: confirmed (unchanged, code unchanged)
+
+  - id: QF-05
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/safe_write.py
+    line: "21-44 (same text in all three copies)"
+    standard_id: null
+    what: "Stands. atomic_write does not fsync the temp file before os.replace (a stopped process is safe, a power cut is not); _mode_for reads the umask by setting it to 0 and back (not thread safe); owner and group of the replaced file are not kept. The module claims only the permissions."
+    basis: "Rubric: safe destructive operations. P4: the files are git-tracked and the claim is about permissions only."
+    disposition: confirmed (unchanged)
+
+  - id: QF-06
+    severity: P4
+    file: core/components/plays/create-play/references/platform_adapter.py
+    line: null
+    standard_id: null
+    what: "Stands. Seven platform_adapter.py copies and three safe_write.py copies are kept equal by hand. Byte-identical today (md5 re-checked this round) but no test or linter in core/tools compares them."
+    basis: "Category treatment: check they stay identical. P4: identical today; a guard is a nice-to-have."
+    disposition: confirmed (unchanged)
+
+  - id: QF-08
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/change_lines.py
+    line: "153-156"
+    standard_id: null
+    what: "Stands. The 'already there' test compares the add with the OLD text of the line below the anchor even when the same request replaces or removes that line: page A/B/C with {old B, new Z} and {after A, add B} gives A/Z/C, the requested B is dropped, exit 0."
+    basis: "Rubric: deterministic where it claims to be. P4: contrived trigger, nothing lost from the page."
+    suggested_fix: "Compare against the lines as they will be after the replace and remove, or refuse the combination."
+    disposition: confirmed (unchanged)
+
+  - id: QF-09
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/safe_write.py
+    line: "37"
+    standard_id: null
+    what: "Stands. The temp file is opened in text mode with default newline handling, so on Windows each \\n becomes \\r\\n and a kept CRLF page would come out with \\r\\r\\n. Fine on macOS and Linux. Same text in all three copies."
+    basis: "Python open() newline rules. P4: the project runs on macOS and Linux today; not run on Windows."
+    suggested_fix: "Open with newline='' in atomic_write (all three copies together)."
+    disposition: confirmed (unchanged)
+
+  - id: QF-10
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/change_lines.py
+    line: "82-87"
+    standard_id: null
+    what: "Stands. text_line rejects \\n and \\r only; NUL, form feed and U+2028 in a new or added line are written. A reader using str.splitlines() would see two lines."
+    basis: "Rubric: safe input handling. P4: the writer is an agent; no loss."
+    suggested_fix: "Refuse characters in categories Cc (except tab) and Zl/Zp in old, new, after and add."
+    disposition: confirmed (unchanged)
+
+  - id: QF-11
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/change_lines.py
+    line: "221"
+    standard_id: null
+    what: "Stands. The write loop catches Exception, not BaseException: Ctrl-C or SIGTERM between page writes leaves the earlier pages changed, against the header's 'any failure puts every page back'. Read from the code, not run."
+    basis: "Rubric: safe destructive operations. P4: needs a signal in a window of milliseconds; recoverable from git."
+    suggested_fix: "Catch BaseException around the loop, put back, then re-raise."
+    disposition: confirmed (unchanged)
+
+  - id: QF-12
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/test_change_lines.py
+    line: "119-153"
+    standard_id: null
+    what: "Stands. The two write-failure tests fail the write with chmod 0o500, which a root process still writes through, so they would fail in a root CI container for a reason that is not a bug. No test for a restore that fails and is named, for the same add listed twice (QF-03), or for an add equal to a replaced line (QF-08)."
+    basis: "pr.md TEST-* intent (stable where they run, cover the branches that carry the promise). No TEST row fires on this path. P4."
+    suggested_fix: "Fail the write by patching safe_write.atomic_write in-process; add the three missing cases."
+    disposition: confirmed (unchanged)
+
+dismissed:
+  - id: SCAN-NONE
+    severity: P4
+    file: core/components/plays/*/scripts/platform_adapter.py
+    what: "argv lists for gh and glab (injection); os.environ and secret words (SEC-19, SEC-23)."
+    basis: "edit-issue-title passes the title as one argv element (no shell); the test asserts a title with $(x) and quotes stays literal. No secret or environment read among the added lines."
+    disposition: "dismissed: no injection or secret"
+  - id: PRINT-STDERR
+    severity: P4
+    file: core/components/skills/enrich-grounding/scripts/change_lines.py
+    line: "212, 224, 227"
+    what: "print() calls matched the debug-output pattern."
+    basis: "All three write the refusal or failure message to stderr, the script's documented way to say why it exited 2."
+    disposition: "dismissed: intended error output"
+  - id: HOME-TILDE
+    severity: P4
+    file: .garura/project/issues/993/context/{self-review.md, resolved-rules.json}
+    what: "Home-style hits '~/.phoenix/core/memory/...'."
+    basis: "Written with a tilde, the allowed form."
+    disposition: "dismissed: tilde path"
+  - id: PATTERN-QUOTES
+    severity: P4
+    file: .garura/project/issues/993/review/{run-1,run-2}/quality-findings.yaml, review/categories.yaml, memory/standards/rules/pr.md
+    what: "Lines quoting the patterns /Users/, /home/, /private/tmp, the BE-08 regex, and the words 'Generated with' / 'Co-Authored-By'."
+    basis: "Each is a record naming the check or a taxonomy regex, not a path, name or attribution line."
+    disposition: "dismissed: the pattern, not a hit"
+
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 8
+dismissed_count: 4
+
+notes:
+  - "Not run: lint-components and lint-play (harness category, a different layer)."
+  - "Code and tests are byte-for-byte what round 2 read; the eight P4s are re-stated, none new, none fixed."
+  - "Nothing was edited by this run except this file."

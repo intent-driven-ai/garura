@@ -1,0 +1,17 @@
+meta:
+  generated_at: '2026-10-31T08:03:28Z'
+  diff_path: '.garura/project/issues/896/review/pr.diff'
+  taxonomy_path: '.garura/project/issues/896/context/memory/standards/rules/pr.md'
+  changed_paths_count: 2
+  scan_coverage: 1.0000
+  standards_relevant: 0
+  note: 'Both changed code files sit under core/components/**, which the taxonomy classifies as garura-prose (first match wins). Grep rules are ineligible on prose types; path rules for code globs are dropped (not docs-targeting). Only the CODE-20 catch-all counts.'
+  catchall:
+    CODE-20: 2
+findings:
+  []
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 0

@@ -1,4 +1,19 @@
 {
-  "files": [],
-  "note": "No memory-tool copy was needed beyond a lookup of standards/rules/work-plan.md (phoenix tier, version de02add33862, read with the memory tool; the same text as the base-ref file). Principles were read from committed files on the base ref main with git show: core/components/memory/standards/rules/work-plan.md, core/components/memory/standards/templates/plan-view.md, core/components/memory/standards/schemas/product-os/ontology.md (version 13, kind Plan), core/components/plays/shape-plan/scripts/write_plan_file.py, core/tools/plan/plan.py, docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, .garura/user-provided/managing-work.md. plan-list-output.txt is the read-only output of: python3 core/tools/plan/plan.py list --template core/components/memory/standards/templates/plan-view.md --plans-dir .garura/project/plans (exit 0). Merge fact for story 986: gh pr view 987 (state MERGED, mergedAt 2026-10-29T17:17:59Z, base plan/717/base). Not used as input: review/run-1, run-2, run-3, review/pr-950, issues/986/review, or any diff-added prose."
+  "files": [
+    {
+      "tier": "phoenix",
+      "path": "standards/templates/plan-view.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:272c8dbb15ca456a55b5396935ddd990617d5a8eac6c9161ceb76a0bff3105a1",
+      "copy": ".garura/project/issues/717/context/memory/grounding-plan-records/standards/templates/plan-view.md"
+    },
+    {
+      "tier": "phoenix",
+      "path": "standards/rules/work-plan.md",
+      "version": "c14f515d910f",
+      "fingerprint": "sha256:8cec138764534e90ed4b66f0ff4779073dd3405187d4eb4b8c89bad29b7558fb",
+      "copy": ".garura/project/issues/717/context/memory/grounding-plan-records/standards/rules/work-plan.md"
+    }
+  ],
+  "note": "Copied through the memory tool (phoenix tier, version c14f515d910f): the plan-view template and work-plan rules. The Phoenix copy of the ontology is far behind the source (find returns only the old copy), so the Plan and Epic kinds were read with git show origin/main:core/components/memory/standards/schemas/product-os/ontology.md (lines 560-604, 612-650), docs/adr/060 and .garura/user-provided/managing-work.md also from origin/main. ADRs 061-064 are NOT on origin/main (git show fails): used for nothing but to say what the branch decided. plan-list-output.txt is the read-only output of plan.py list (exit 0). Issue states read with gh issue view (read only)."
 }

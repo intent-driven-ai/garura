@@ -1,0 +1,108 @@
+pr: 988
+issue: 717
+findings:
+- id: Q1
+  category: code-and-tests
+  severity: P2
+  file: core/components/plays/list-plans/scripts/check_list.py
+  what: The changed check logic (the new card() helper and the as_set comparison of the direction line, blank line and Status
+    row, and the narrowed heading match) has no test. No test file in this diff or in core/ imports check_list.py. The play's
+    own run exercises it, and it passed on the real plans, but no test would catch a wrong card being accepted or a right
+    card being refused.
+  basis: TEST-01 (new code without a test, P2 in pr.md); scanner did not fire it (garura-prose classification), confirmed
+    by hand
+  source: quality-findings.yaml
+- id: Q2
+  category: code-and-tests
+  severity: P4
+  file: core/tools/plan/plan.py
+  what: Line 197, inside the listing() docstring, is 152 characters. The edit joined two sentences without re-wrapping, so
+    the docstring wraps at about 100 columns on its first line and then runs far past it. Every other line in the three python
+    files is under 140.
+  basis: pr.md bucket P4 (style only); nearest scanner row CODE-04 (format), which is a path-only rule and fires on every
+    .py file
+  source: quality-findings.yaml
+- id: Q3
+  category: code-and-tests
+  severity: P4
+  file: core/components/plays/list-plans/scripts/check_list.py
+  what: The new inner function card(h, direction, status) never uses its first argument h; the caller passes a heading it
+    does not need.
+  basis: pr.md bucket P4 (style only); nearest scanner row CODE-17 (identifier), a path-only rule
+  source: quality-findings.yaml
+- id: H1
+  category: harness
+  severity: P3
+  file: core/components/plays/list-plans/reference/ice.md
+  what: 'The Intent paragraph (line 9) still says each card shows "the plan''s direction, its number and business intent",
+    in that order. This PR moves the direction to its own line under the heading (S6 now says so, and the SKILL.md description
+    says "number and business intent, its direction ... on the line under"). The ICE intent statement was not brought in line
+    with its own scenario, so the source the play is compiled from now states the old order while S6 states the new one.
+
+    '
+  basis:
+    principle: 'G1: the ICE is what the team agreed and the compiled part must not drift from it. The compiled description
+      (SKILL.md) and the ICE intent statement now say different things about the card.'
+    source: docs/standards/harness-standard.md principle 4 (base ref); base ice.md line 9 (git show main:core/components/plays/list-plans/reference/ice.md)
+      shows the intent text this PR left unchanged
+  source: design-findings-harness.yaml
+- id: H2
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/reference/ice.md
+  what: 'The Context line that lists the stories the play was compiled from (line 64: #729, #806, #983) does not name #986,
+    while SKILL.md Compiled From and the compiled_by row now cite #986. The two provenance lists disagree.
+
+    '
+  basis:
+    principle: 'G1: the compiled part and its ICE agree on where the play came from (the #983 change added its story to both).'
+    source: 'docs/standards/harness-standard.md principle 4 (base ref); base ice.md Context lines, which name #983 in the
+      same list'
+  source: design-findings-harness.yaml
+- id: H3
+  category: harness
+  severity: P4
+  file: core/components/plays/list-plans/reference/ice.md
+  what: 'Scenario S6 now breaks after "the check record" and leaves a short line ("*Measure:* the check record" then "reads
+    `as_set: true`."). The author''s own self-review called it cosmetic. Style only.
+
+    '
+  basis:
+    principle: Plain wrapping of ICE prose (style only, no committed rule is violated)
+    source: 'P4 bucket of the PR severity taxonomy (standards/rules/pr.md, short-term copy): style-only nits are surfaced
+      in evidence only'
+  source: design-findings-harness.yaml
+- id: MEM-1
+  category: memory
+  severity: P4
+  file: core/components/memory/standards/templates/plan-view.md
+  what: 'The example in ''The list'' shows a second card (#722) that ends after the Status row. It has no Branch row, no Waits
+    on row, and no Epic/Progress rows. The prose above it says Branch and Waits on are always shown (Waits on blank when none),
+    and the tool prints them for every plan (observed output for plan 722: Status, Branch, Waits on, Epic, Progress). A reader
+    copying the example would think a plan with nothing to wait on drops those rows. The first card is complete; only the
+    second is cut short, with nothing (such as an ellipsis) saying so.'
+  basis: 'Principle: the template''s example must show the shape its own rules and the tool print, because the template is
+    the ''what should this look like?'' reference. Sources: main:core/components/memory/standards/templates/plan-view.md (''Waits
+    on — always shown ... blank when none''; Branch shown, ''main'' when none); standards/templates/_index.md, Phoenix memory
+    copy (''It answers what should this look like?''). No pr.md row fires for this; classed P4 (nit: illustration only, no
+    effect on the tool, which reads the settings block, not the example).'
+  source: design-findings-memory.yaml
+- id: PLAN-1
+  category: plan-records
+  severity: P4
+  file: .garura/project/plans/717.yaml (line 8, comment on `branch`)
+  what: 'The comment says plan/717/base "merged into main on 2026-10-29 after #719, #983 and #986 landed". This diff adds
+    #986 to that sentence, but the branch has not merged: PR #988, the PR under review, is the merge, and the branch still
+    exists. The sentence is true only after PR #988 lands. The sentence was already on main before this PR (main''s file names
+    #719 and #983 with the same wording), and the value `branch: null` is what ADR 060 says a pausing plan reads, so the value
+    is right; only the dated claim in the comment runs ahead of the merge.
+
+    '
+  basis: 'PR-3: ADR 060 records this exact drift as a known risk of keeping the field by hand until #730 (''Plan 717''s `null`
+    is true only once PR #950 merges''). No rule forbids writing the value ahead of the merge, so this is a nit, not a violation.'
+  source: design-findings-plan-records.yaml
+there_before:
+  lint-components: 37 violations, none in changed_paths
+layer1:
+  lint-play list-plans: PASS (0 gaps), next-command check ran
+  test_plan: 17 OK

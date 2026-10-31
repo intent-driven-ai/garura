@@ -1,9 +1,7 @@
 decision: approve
 decided_by: harness
-gate: skipped by config (gates.plays.check-change)
-reason: no P1 findings; confidence acceptable
-citing: []
-counts:
-  P2: 1
-  P4: 6
-  P3: 1
+gate: "gate skipped by config (gates.plays.check-change)"
+reason: "no P1 findings; confidence acceptable"
+blocking: []
+counts: {P1: 0, P2: 7, P3: 12, P4: 4}
+dismissed: [Q-1, Q-2]

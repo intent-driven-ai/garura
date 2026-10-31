@@ -87,7 +87,7 @@ gh pr merge {pr_number}
 Fetch issue details (JSON):
 
 ```bash
-gh issue view {issue_number} --json number,title,labels,state,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary
+gh issue view {issue_number} --json number,title,labels,state,stateReason,body,url,closedAt,issueType,parent,subIssues,subIssuesSummary
 ```
 
 Note: close date is in the `closedAt` field. The last four fields are the issue's place in the work tree: `issueType` (its type, e.g. Feature, Story), `parent` (the parent issue, or null), `subIssues` (its child issues, each with number, title and state) and `subIssuesSummary` (counts: total, completed, percent completed).
@@ -144,6 +144,22 @@ Post a comment on an issue:
 
 ```bash
 gh issue comment {issue_number} --body "{body}"
+```
+
+## edit-issue-title
+
+Change an issue's title:
+
+```bash
+gh issue edit {issue_number} --title "{title}"
+```
+
+## reopen-issue
+
+Reopen a closed issue:
+
+```bash
+gh issue reopen {issue_number}
 ```
 
 ## add-label

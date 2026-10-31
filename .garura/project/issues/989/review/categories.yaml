@@ -1,0 +1,107 @@
+# Round 2, PR #1016, issue 989 only (#991 removed). Base: plan/717/base.
+# Derived from the diff content. Shelf + severity taxonomy copied fresh from Phoenix memory
+# (version c14f515d910f) into context/memory/ with manifest.json.
+# Note: the reference "next_map" copy is context/templates/standards/rules/pipeline-next.md.
+categories:
+  - name: harness
+    what: "start-change play: compiled SKILL.md, its ICE source, and the baked stop conditions"
+    evidence:
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/start-change/reference/ice.md
+      - core/components/plays/start-change/stop-condition.yaml
+      - core/components/plays/start-change/stop-condition-plan.yaml
+    playbook: review/harness
+    design_bearing: true
+    treatment:
+      layers: [1, 2]
+      linters:
+        - name: lint-components (source layout)
+          command: "node .garura/core/tools/lint-components/index.js --layout source --target core/components"
+          note: "only violations in changed paths are findings; count the rest as 'there before'"
+        - name: lint_play (start-change, the only changed play)
+          command: "python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/start-change/SKILL.md --next-map .garura/project/issues/989/context/templates/standards/rules/pipeline-next.md"
+      runnable_checks:
+        - "ICE-source rule: repo holds plays' source, so the intent change in SKILL.md must trace to reference/ice.md (do by hand: compare the two; the ice fingerprint is checked by lint_play)"
+        - "Layer 2: ground harness principles from base-ref / docs/philosophy / docs/adr / standards (gate-config, pipeline-position, plan-view already in context/memory/grounding-harness/ from round 1) - never from the branch's own prose"
+  - name: executable-code
+    what: "python scripts: new plan-start scripts, plan-branch tool, and the create-play copies of resolve_plan/setup_branch"
+    evidence:
+      - core/components/plays/start-change/scripts/check_plan_start.py
+      - core/components/plays/start-change/scripts/resolve_args.py
+      - core/components/plays/start-change/scripts/resolve_plan.py
+      - core/components/plays/start-change/scripts/setup_branch.py
+      - core/components/plays/create-play/references/resolve_plan.py
+      - core/components/plays/create-play/references/setup_branch.py
+      - core/tools/plan/plan_branch.py
+    playbook: review/code
+    design_bearing: false
+    treatment:
+      layers: [1]
+      linters:
+        - name: language linter (no ruff/flake8 config committed in repo; ruff is installed on the machine)
+          command: "ruff check <the 7 changed .py files above>"
+          note: "if the repo commits no config, report default-rules results as advisory"
+        - name: check-pr-quality (pr.md SEC/CODE/ARCH/BE/PERF/DATA rows)
+          command: "python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy .garura/project/issues/989/context/memory/standards/rules/pr.md --diff .garura/project/issues/989/review/pr.diff --paths <changed-paths file> --out <output>"
+      runnable_checks:
+        - "Hard read of data-safety paths: setup_branch.py and plan_branch.py touch git (branch cut, delete, push); check idempotency, no destructive step on a dirty tree, errors surfaced"
+        - "Note: start-change/scripts/{resolve_plan,setup_branch}.py are byte-identical to the create-play/references copies (cmp verified) - one defect would show twice"
+  - name: tests
+    what: "automated tests for the changed scripts"
+    evidence:
+      - core/components/plays/start-change/scripts/test_start_change.py
+      - core/tools/plan/test_plan_branch.py
+      - core/components/plays/create-play/references/test_setup_branch.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+    playbook: review/tests
+    design_bearing: false
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality TEST-* rows (same command as executable-code); plus read for assertions that assert nothing / skipped tests
+      runnable_checks:
+        - name: start-change scripts test (unittest style; covers check_plan_start.py, resolve_args.py, and setup_branch.py via plan_branch.py)
+          command: "python3 core/components/plays/start-change/scripts/test_start_change.py"
+          read: "unittest: 'Ran N tests ... OK'"
+        - name: plan_branch test (unittest style; covers core/tools/plan/plan_branch.py)
+          command: "cd core/tools/plan && python3 test_plan_branch.py"
+          read: "unittest: 'Ran N tests ... OK'"
+        - name: create-play reference test for setup_branch.py (SCRIPT-STYLE, not unittest)
+          command: "cd core/components/plays/create-play/references && python3 test_setup_branch.py"
+          read: "the 'N passed, M failed' line; M must be 0"
+        - name: create-play reference test for resolve_plan.py (SCRIPT-STYLE, not unittest)
+          command: "cd core/components/plays/create-play/references && python3 test_resolve_plan.py"
+          read: "the 'N passed, M failed' line; M must be 0"
+        - "A red run is a blocker. No test file covers start-change/scripts/check_stop_condition.py or the two stop-condition YAMLs directly: record 'not covered' (not 'passed'); stop-condition-plan.yaml is exercised only through check_plan_start.py output fields"
+  - name: documentation
+    what: "tool README"
+    evidence:
+      - core/tools/plan/README.md
+    playbook: review/docs
+    design_bearing: false
+    treatment:
+      layers: [1]
+      linters:
+        - name: "prose checks done by the tool (no committed prose linter - gap per playbook): spelling, dead links, heading hierarchy, leftover TODOs, terminology; check README matches plan_branch.py behaviour"
+      runnable_checks:
+        - "check-pr-quality docs rows (same command as above)"
+  - name: stm-run-records
+    what: "issue 989's working folder: context, spec/design, round-1 review artifacts, memory copies, run manifests. Not Garura memory, not product docs - records of earlier runs and the branch's own design write-up"
+    evidence:
+      - .garura/project/issues/989/context/**
+      - .garura/project/issues/989/review/**
+      - .garura/project/issues/989/specs/design.md
+    playbook: null
+    playbook_note: "playbook missing - no review/ playbook covers STM run records. Do not force-fit to docs or memory. Treat as: generated evidence, review for secrets/stray data only via check-pr-quality (stm-evidence artifact type in pr.md); specs/design.md is the branch's own prose and must NOT be used as grounding for the harness category"
+    design_bearing: false
+    treatment:
+      layers: [1]
+      linters:
+        - name: check-pr-quality (artifact type stm-evidence), same command as executable-code
+      runnable_checks: []
+design_bearing_categories: [harness]
+notes:
+  - "Only 'harness' is design-bearing; ground it once (design-findings-harness.yaml)."
+  - "Two scripts changed in a pair (start-change/scripts and create-play/references): the tests that cover the create-play copies run against the create-play copies; test_start_change.py runs against the start-change ones."
+  - "Other tests in core/tools/plan (test_plan.py, test_plan_status.py) cover unchanged scripts: not required."
+  - "No config-map, memory (Garura KB), or ADR files changed. The copies under context/memory/ are STM copies of shelf files, counted in stm-run-records."

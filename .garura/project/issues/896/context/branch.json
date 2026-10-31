@@ -1,0 +1,8 @@
+{
+  "branch_name": "plan/717/896-shape-plan-stops-on-existing-plan",
+  "base_sha": "30434de4cc9cd37e24b59724fe18d4640d9ea598",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/717/base",
+  "plan_branch_created": false
+}

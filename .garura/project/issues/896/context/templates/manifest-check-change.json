@@ -1,0 +1,15 @@
+{
+  "templates": [
+    {
+      "name": "standards/rules/pipeline-next.md",
+      "copy": ".garura/project/issues/896/context/templates/standards/rules/pipeline-next.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/rules/pipeline-next.md",
+        "version": "118899951cd9",
+        "fingerprint": "sha256:652fea75971336ad71880231196c588282815619365a410e76d1281537b9c31c"
+      }
+    }
+  ],
+  "missing": []
+}

@@ -1,0 +1,105 @@
+# Layer 2 design-grounding: category "Memory" (key as named in categories.yaml), PR #1013, issue 1000.
+# Base ref: plan/717/base. Every principle below comes from a source that exists on the base ref or in
+# memory read through the memory tool (issue 1000). Nothing is grounded in text the diff adds. The approved
+# design (.garura/project/issues/1000/specs/design.md) is the scope of the review, never grounding.
+category: Memory
+changed_artifacts:
+  - core/components/memory/standards/rules/git.md
+  - core/components/memory/standards/rules/pipeline-position.md
+extra_check:
+  - docs/standards/harness-standard.md (principle 8, one sentence), checked by hand against ADR 060 decision 4
+
+memory_copies:
+  manifest: .garura/project/issues/1000/context/memory/grounding-memory/manifest.json
+  files:
+    - "phoenix: knowledge/_DESIGN.md, knowledge/_index.md, knowledge/_TEMPLATE.md"
+    - "phoenix: standards/rules/git.md, standards/rules/pipeline-position.md (the prior page, for comparison)"
+  note: "Phoenix memory's git.md holds no plan/ rows yet (the design promotes the pages before the merge). That is the owed promotion, not a finding."
+
+principles:
+  - id: PR-1
+    text: "A plan has its own branch plan/<plan-id>/base. An issue in the plan is cut from it as plan/<plan-id>/<issue>-<slug> and lands back on it. An issue in no plan works on feature/<issue>-<slug>, cut from an up-to-date main."
+    source: "start-change reference/ice.md C2 and S5/S6, read with git show plan/717/base:core/components/plays/start-change/reference/ice.md; docs/standards/harness-standard.md principle 8 on the base ref"
+  - id: PR-2
+    text: "A plan's branch merges into main when the plan pauses, even with issues still open. The only reason to hold it off main is that it would break main. Plan order (needs_plans) does not hold it off main."
+    source: "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md decisions 1 to 4 (base ref); amended in part by ADR 061, which does not touch these points"
+  - id: PR-3
+    text: "The play that starts a plan's work cuts the plan's branch, main first; start-change still cuts it until #989 is built."
+    source: "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md decision 1 (base ref); start-change reference/ice.md C9 (base ref)"
+  - id: PR-4
+    text: "A rules page is a standards page that agents read; each page must say what the committed decisions say, be listed in its index, and not contradict or duplicate another page."
+    source: "knowledge/review/memory.md playbook (short-term copy of the review shelf); standards/rules/_index.md on the base ref lists git.md (consumers repo-orchestrator, cut-branch, start-change) and pipeline-position.md"
+  - id: PR-5
+    text: "A change to the harness standard is a decision: it goes through /record-decision as an ADR, and each principle names the decision record it comes from."
+    source: "docs/standards/harness-standard.md intro and the last bullet of the maintenance section (base ref)"
+
+layer1_by_hand:
+  - check: "Each page keeps its structure; frontmatter id matches the path"
+    result: "pass. Neither rules page has frontmatter on the base ref; the diff adds none. git.md keeps its table (Pattern, Purpose, Example) and sections."
+  - check: "Links and cross-references resolve"
+    result: "pass. The diff adds no link."
+  - check: "The pages are listed where the index lists them"
+    result: "pass. Both are in standards/rules/_index.md on the base ref. The git.md description there is now incomplete (see F-3)."
+  - check: "A new row does not duplicate or contradict an existing row"
+    result: "pass. The two plan rows and the reworded feature/* row do not overlap any other pattern; plan/* joins the standard-branch gate (all gates apply), which fits ADR 060 decision 4 (check-change and the merge checks decide, no relaxed gate)."
+
+conformance:
+  git.md:
+    - "Row plan/<plan-id>/base: 'the plan's work collects here, and it lands on main whenever the plan pauses' matches PR-2 (ADR 060 decisions 1, 2). Conforms."
+    - "Row plan/<plan-id>/<issue>-<slug>: 'cut from its plan's branch, lands back on it' matches PR-1. Conforms."
+    - "Row feature/*: 'an issue in no plan (feature/<issue>-<slug>, cut from main)' matches PR-1. Conforms (example column, see F-2)."
+    - "Standard Branches now include plan/*: matches PR-2 (no weaker or stronger gate is committed anywhere for plan branches). Conforms."
+  pipeline-position.md:
+    - "start now cuts the issue's branch under its plan's branch (plan/<plan-id>/<issue>-<slug> off plan/<plan-id>/base) for an issue in a plan, else off fresh main: matches PR-1 and start-change C2. The old 'always off fresh main' is gone. Conforms. It does not claim who cuts the plan's own branch, so PR-3 is not contradicted."
+
+harness_standard_principle_8:
+  checked_against: "ADR 060 decision 4 'Only breaking main holds a plan's branch back' on plan/717/base"
+  added_sentence: "the plans a plan needs (needs_plans) do not hold it off main either (ADR 060, decision 4)"
+  result: "pass"
+  basis:
+    - "ADR 060 decision 4 says the plan's branch is never kept off main because the plan is not done, the only reason is that it would break main, and 'Plan order (needs_plans) no longer holds a plan off main'. The new sentence says the same, with the same field name and the right citation."
+    - "ADR 060's Affects line names principle 8 and its Why line, so this wording was already owed by the accepted ADR; PR-5 is met because the decision was recorded in ADR 060 (on the base ref), not made in this edit."
+    - "The sentence keeps the rest of principle 8 intact (the break-main reason, the one-off fix from main, #731 and #673, the Why line)."
+    - "needs_plans is a real plan-file field (plan/717/base:.garura/project/plans/717.yaml line 11)."
+
+findings:
+  - id: F-1
+    severity: P3
+    file: core/components/skills/cut-branch/reference/branching.md
+    changed_in_diff: false
+    principle: PR-4
+    problem: "This file is a word-for-word copy of the old git.md branch table and quality-gate list, and cut-branch/SKILL.md (line 98) says 'Load branching conventions from: reference/branching.md'. The rules index lists cut-branch as a consumer of git.md. After this change git.md names the plan branch shapes and plan/* as a standard branch; this copy does not, so two pages now say different things about the same branch patterns."
+    committed_source: "standards/rules/_index.md on plan/717/base (git.md row, consumers include cut-branch); core/components/skills/cut-branch/SKILL.md line 98 and reference/branching.md on plan/717/base"
+    basis: "Severity P3 by the PR severity taxonomy bucket 'P3 Minor ... missing docs, ... naming' (standards/rules/pr.md, short-term copy). No Standard ID row covers a stale duplicate of a rules page, so this is a review-layer finding, not a scan row. Held at P3, not P2: start-change C8 and F8 on the base ref already take the cut-branch dispatch out of the start path, so the stale copy is read only by a caller that still uses the skill."
+    suggestion: "Either update that copy to match git.md, or file an issue to retire the copy and point the skill at git.md (stay on scope: record, do not widen this change)."
+  - id: F-2
+    severity: P4
+    file: core/components/memory/standards/rules/git.md
+    changed_in_diff: true
+    principle: PR-4
+    problem: "The feature/* row now says an issue in no plan is feature/<issue>-<slug>, but its Example cell still reads feature/user-auth, which has no issue number. The page's own best practice 3 says to include the ticket ID."
+    committed_source: "git.md on plan/717/base (Naming Best Practices item 3); start-change reference/ice.md C2 (base ref)"
+    basis: "Severity P4 by the taxonomy bucket 'P4 Nit ... style-only' (standards/rules/pr.md): an example that does not show the shape the row names."
+  - id: F-3
+    severity: P4
+    file: core/components/memory/standards/rules/_index.md
+    changed_in_diff: false
+    principle: PR-4
+    problem: "The index describes git.md as 'Branch naming conventions (feature/, fix/, hotfix/, etc.)'. The page now also holds the plan branch shapes. The 'etc.' keeps it true, but it does not tell a reader the plan shapes are there."
+    committed_source: "standards/rules/_index.md on plan/717/base (git.md row)"
+    basis: "Severity P4 by the taxonomy bucket 'P4 Nit' (standards/rules/pr.md): a description that is short, not wrong."
+  - id: F-4
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-position.md
+    changed_in_diff: true
+    principle: PR-4
+    problem: "The start bullet puts the plan rule inside one parenthetical list, between two dashes, with 'for an issue in a plan' after the branch shape. The reader has to unpack three nested clauses to learn the rule."
+    committed_source: "pipeline-position.md on plan/717/base (the prior start bullet was one short clause); the approved design asks for plain words (scope only, not grounding)"
+    basis: "Severity P4 by the taxonomy bucket 'P4 Nit ... style-only' (standards/rules/pr.md): readability only, the meaning is right."
+
+counts:
+  P1: 0
+  P2: 0
+  P3: 1
+  P4: 3
+grounding_unavailable: []

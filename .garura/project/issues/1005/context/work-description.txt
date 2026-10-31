@@ -1,0 +1,1 @@
+#1005: /show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done. Under #719 (view plans), plan 717. Design approved by the product owner 2026-10-31.

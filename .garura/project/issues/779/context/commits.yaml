@@ -1,0 +1,65 @@
+commits:
+  - sha: 1e9ee1c9
+    message: "fix(start-change): delete a stale plan branch only when every commit is on main, stop on a failed delete, never prompt on origin calls, and record the stale delete in branch.json (#953)"
+    files:
+      - core/components/plays/create-play/references/setup_branch.py
+      - core/components/plays/create-play/references/test_setup_branch.py
+      - core/components/plays/start-change/scripts/setup_branch.py
+    branch: plan/717/779-plan-lookup-and-safe-delete
+  - sha: 879ab5dd
+    message: "fix(start-change): read the plans folder from the repo root when absolute or from a sub-folder, reject a folder outside the repo, and time out the fetch without prompting (#779)"
+    files:
+      - core/components/plays/create-play/references/resolve_plan.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+      - core/components/plays/start-change/scripts/resolve_plan.py
+    branch: plan/717/779-plan-lookup-and-safe-delete
+  - sha: 13636af9
+    message: "fix(start-change): narrow the stale branch delete rule and add a failing check for stale_plan_branch and source.fetched with recovery handed to a person (#953)"
+    files:
+      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/start-change/reference/ice.md
+    branch: plan/717/779-plan-lookup-and-safe-delete
+  - sha: 34247d9d
+    message: "docs(merge-change): describe that records land on the branch the change landed on (#953)"
+    files:
+      - core/components/plays/create-play/references/merge_pr.py
+      - core/components/plays/merge-change/scripts/merge_pr.py
+    branch: plan/717/779-plan-lookup-and-safe-delete
+  - sha: c6e02626
+    message: "fix(model): put the fn-673 one-line after its page title (#953)"
+    files:
+      - .garura/product/product-os/_spine.yaml
+    branch: plan/717/779-plan-lookup-and-safe-delete
+  - sha: f3e5d319
+    message: "chore(stm): record the review findings, design, porcelain, analysis, link request and context copies for the PR review fixes (#779)"
+    files:
+      - .garura/project/issues/779/context/analysis.yaml
+      - .garura/project/issues/779/context/porcelain.txt
+      - .garura/project/issues/779/review/findings.yaml
+      - .garura/project/issues/779/specs/design.md
+      - .garura/project/issues/779/context/link-request-fn-673.json
+      - .garura/project/issues/779/context/memory/grounding-harness/manifest.json
+      - .garura/project/issues/779/context/memory/grounding-harness/standards/rules/evidence-recording.md
+      - .garura/project/issues/779/context/memory/grounding-model/manifest.json
+      - .garura/project/issues/779/context/memory/grounding-model/product/product-os/features/fn-673/feature.md
+      - .garura/project/issues/779/context/memory/grounding-model/standards/schemas/product-os/ontology.md
+      - .garura/project/issues/779/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/779/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/779/context/memory/knowledge/review/code.md
+      - .garura/project/issues/779/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/779/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/779/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/779/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/779/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/779/context/memory/manifest.json
+      - .garura/project/issues/779/context/memory/standards/rules/pr.md
+      - .garura/project/issues/779/context/model-fn-673-spine.json
+      - .garura/project/issues/779/context/templates/manifest-check-change.json
+      - .garura/project/issues/779/context/templates/standards/rules/pipeline-next.md
+    branch: plan/717/779-plan-lookup-and-safe-delete
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

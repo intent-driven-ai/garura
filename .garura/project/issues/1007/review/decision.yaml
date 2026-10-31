@@ -1,0 +1,5 @@
+decision: approve
+decided_by: harness
+gate: "off (gates.plays.check-change)"
+round: 1
+recommended: "recommended_verdict.yaml (approve; open: 0 P1; the P2/P3 rows are path-level checklist rows, plus 2 small ontology wording notes)"

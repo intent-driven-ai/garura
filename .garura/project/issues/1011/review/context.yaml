@@ -1,0 +1,31 @@
+{
+  "pr_number": "1012",
+  "base": "plan/717/base",
+  "changed_paths": [
+    ".garura/product/product-os/capabilities/cap-721/capability.md",
+    ".garura/project/issues/1011/context/analysis.yaml",
+    ".garura/project/issues/1011/context/branch.json",
+    ".garura/project/issues/1011/context/check-self-review-exit.txt",
+    ".garura/project/issues/1011/context/commits.yaml",
+    ".garura/project/issues/1011/context/issue.json",
+    ".garura/project/issues/1011/context/lines-request-cap-721.json",
+    ".garura/project/issues/1011/context/model-cap-721.json",
+    ".garura/project/issues/1011/context/plan.json",
+    ".garura/project/issues/1011/context/porcelain.txt",
+    ".garura/project/issues/1011/context/pr-body.md",
+    ".garura/project/issues/1011/context/pr.json",
+    ".garura/project/issues/1011/context/resolved-rules.json",
+    ".garura/project/issues/1011/context/self-review.md",
+    ".garura/project/issues/1011/context/target.json",
+    ".garura/project/issues/1011/context/work-description.txt",
+    ".garura/project/issues/1011/specs/design.md",
+    ".garura/project/plans/717.yaml"
+  ],
+  "changed_files_reported": 18,
+  "diff_source": "diff-pr",
+  "standards_order": [
+    "kb",
+    "ltm",
+    "stm"
+  ]
+}

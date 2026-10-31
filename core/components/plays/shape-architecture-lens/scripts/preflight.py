@@ -9,7 +9,8 @@ evidence flag, extract the issue from the branch, and report the changeset state
 
 Harness-led split:
   - This script computes FACTS (config tokens, evidence_record, branch, issue,
-    on_default_branch, changes_present, worktree, platform).
+    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
+    plan files, plans.base-path, default .garura/project/plans/; #951).
   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
     which differs per play (commit-change halts when there are NO changes;
     propose-change halts when the tree is NOT clean — same fact, opposite action).
@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
         "evidence_record": bool(evidence_record),
         "platform": _get(cfg, "platform"),
         "worktree": bool(_get(cfg, play, "worktree", default=False)),
+        "plans_base": _get(cfg, "plans", "base-path") or ".garura/project/plans/",
         "branch": branch,
         "issue": issue,
         "on_default_branch": on_default,

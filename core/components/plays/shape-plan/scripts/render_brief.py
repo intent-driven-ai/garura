@@ -126,7 +126,7 @@ def render(gather, items, drafts):
     if items.get("plan_file_exists"):
         lines.append(f"- Update `{path}`. Every other node and line stays as it is.")
     else:
-        lines.append(f"- Make `{path}` (id {plan_id}, status active, and its tree).")
+        lines.append(f"- Make `{path}` (id {plan_id}, status Not Started, and its tree).")
     lines += [f"- Add {a}." for a in adds] + [f"- Take out {r}." for r in removes]
     if not adds and not removes:
         lines.append("- No node changes. The file stays as it is.")

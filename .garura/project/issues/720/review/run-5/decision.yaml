@@ -1,0 +1,16 @@
+decision: reject
+decided_by: harness
+gate: skipped by config (gates.plays.check-change)
+round: 5
+reason: 1 P1 (blocker) finding(s)
+citing:
+- id: QS-01
+  file: core/tools/plan/test_plan_branch.py
+  line: 43
+  what: email
+  basis: standard DATA-18 (DATA-18)
+counts:
+  P1: 1
+  P2: 23
+  P3: 68
+  P4: 46

@@ -40,7 +40,7 @@ When agents build a slice, the build is given the business intent through the sl
 - Garura memory, standards/rules/builder-isolation.md: "the builder cannot teach to a test it cannot see".
 - Garura memory, standards/templates/evidence-file.md, lines 34-38: each play run's evidence names its session id and the session's ledger file with start and end offsets.
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: No build play, build skill, build agent or context sub-agent it starts is given the eval, the hidden file or the plan's evals folder; a build is given the business intent through the slice's stories.

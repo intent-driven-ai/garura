@@ -1,0 +1,194 @@
+# design-findings-harness.yaml - /check-change round 2, step 3, Layer 2, category: harness (PR #1016, issue 989 only; #991 was taken out)
+# Grounded only in committed sources on the base ref plan/717/base (86385d4158bd), the memory tool's copies in
+# context/memory/grounding-harness/ (manifest.json there; loop-contract.md added this round), and committed files
+# the diff does not touch (core/components/loops/_shared/loop-run.md, create-play/SKILL.md, _shared/play-close.md).
+# Nothing is grounded in specs/design.md or in the new ICE text. Severity: P1-P4 of the pr.md copy
+# (context/memory/standards/rules/pr.md): P2 structural/major, P3 minor, P4 nit.
+pr: 1016
+category: harness
+round: 2
+base: plan/717/base
+grounding:
+  - id: G1
+    principle: "Mechanical work is a script, judgment is a model (harness principle 3); plays orchestrate, agents gather context, skills do the work (principle 2)"
+    source: "docs/standards/harness-standard.md @ plan/717/base, principles 2 and 3"
+  - id: G2
+    principle: "Installed parts name only installed paths, never core/components or core/tools; memory is read only through the memory tool (principle 11)"
+    source: "docs/standards/harness-standard.md @ plan/717/base, principle 11; CLAUDE.md @ plan/717/base 'Source of Truth'; ADR 055"
+  - id: G3
+    principle: "Every intent change traces to the play's ICE; the compiled file records the ICE fingerprint (principle 4). A hand edit to a generated file is clobbered by the next rebuild unless the compiler reproduces it (durability rule); new shared scaffolding is one file the plays point to, emitted by the compiler"
+    source: "docs/standards/harness-standard.md @ plan/717/base, principle 4 (ADR 027); CLAUDE.md @ plan/717/base 'Play Pipeline Rules' (durability rule)"
+  - id: G4
+    principle: "A plan's branch is cut by the play that starts the plan's work, main's plan file first, through the one shared script plan_branch.py; setting In Progress there is the person's act"
+    source: "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md @ plan/717/base, Decision 1-4 and 'Work This Creates' (#989)"
+  - id: G5
+    principle: "A plan gets its branch when its work starts; a one-off fix outside any plan branches from main"
+    source: "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md @ plan/717/base, Decision 1; docs/standards/harness-standard.md @ plan/717/base, principle 8"
+  - id: G6
+    principle: "Plan rules: a person sets Status; the one non-typed status change is the branch cut; a bug found after a plan is done sits under its story, no new plan is made, and the done plan is not reopened"
+    source: "core/components/memory/standards/schemas/product-os/ontology.md @ plan/717/base, Plan kind ('Rules' bullets and 'States'). The memory tool's copy is version 4 with no Plan kind (ADR 061, ADR 060 'Later, in #949'), so the base-ref source file was read from git."
+  - id: G7
+    principle: "The compiler writes ONE <play>/stop-condition.yaml whose content.done is the ICE's Done-means clause list, unchanged; the Standard Play Close checks 'the play's manifest' (the baked stop-condition.yaml)"
+    source: "core/components/plays/create-play/SKILL.md @ plan/717/base line 345 'Add the stop condition (#464)'; core/components/plays/_shared/play-close.md @ plan/717/base lines 72 and 78"
+  - id: G8
+    principle: "A loop opens its change by running start-change as a sub-play; injected start-change opens any 'start'/'both' play; neither is told to hand start-change an input"
+    source: "core/components/loops/_shared/loop-run.md @ plan/717/base Step R2 (line 61); core/components/loops/complete-discovery/SKILL.md @ plan/717/base Step 1 (lines 124-125); standards/rules/pipeline-position.md and standards/rules/loop-contract.md (memory tool, phoenix; copies in context/memory/grounding-harness/)"
+  - id: G9
+    principle: "The run's short-term folder for a run with no issue is the play's own working base under ${stm_base} (for example ${stm_base}_realize/<play>/)"
+    source: "core/components/plays/_shared/play-close.md @ plan/717/base lines 50-51"
+  - id: G10
+    principle: "Choices, not gates"
+    source: "GROUNDING UNAVAILABLE. No committed file on plan/717/base states it. No finding rests on it. Observation only: every new hard stop in start-change prints the one line saying what to do next."
+round_1_status:
+  - id: H1
+    status: no longer applies
+    note: "was merge-change's plan-file hold (#991). core/components/plays/merge-change is not in the diff."
+  - id: H2
+    status: fixed
+    note: >
+      An issue in a plan that main marks Done or Dropped now starts as feature/<issue>-<slug> off main, the closed plan
+      is named in plan.json (closed_plan), and its branch is never cut. This matches ADR 060 Decision 1 / principle 8
+      (a one-off fix branches from main) and the ontology (the Done plan is not reopened). Traced: ICE C9 lines 56-58,
+      S13 lines 178-182, SKILL Step 4 SE-10 lines 244-254, resolve_plan.py lines 116-138, and plan_branch.py still
+      refuses a closed plan (line 204). One loose end is new finding N2 (no failure condition names it).
+  - id: H3
+    status: no longer applies
+    note: "was propose-change's Step 0 question (#991). propose-change is not in the diff."
+  - id: H4
+    status: not fixed (carried as N3)
+    note: >
+      The ICE now says in C10 (line 39-40) that a loop or a play that opens its change through start-change 'passes the
+      issue number (or a description), as it does today'. The committed callers do not say so: loop-run.md R2 (line 61)
+      reads 'Run start-change as a sub-play: one issue, one branch for the whole loop', complete-discovery Step 1 says
+      'Run R2', and the pipeline-position rule says 'resolve or create the issue'. None names an argument. Neither file
+      is in the diff.
+  - id: H5
+    status: no longer applies
+    note: "was propose-change's plan_land.py ready step (#991). Not in the diff."
+  - id: H6
+    status: fixed
+    note: "SKILL.md lines 463-475: the Recovery table is one block, F1-F11, no blank line; the scenario table (445-459) is closed too."
+  - id: H7
+    status: fixed, with a small leftover (N6)
+    note: >
+      The Plan path now has its own working folder (line 298), its own session-stamp start (302-306), and explicit close
+      values in the close block's comment (396-399): evidence_base, slug, marker, stop-condition manifest and base. Step C2
+      (lines 432-435) gives the plan path its own title and Next Steps. Left over: N6.
+  - id: H8
+    status: no longer applies
+    note: >
+      Parts (1) and (2) were about propose-change / plan_land.py (#991), gone. Part (3), that ADR 061 still says start-change
+      cuts its own way until #989, is not a gap: ADR 061 says that text changes in meaning 'when #989 is built' (Decision
+      'Work This Creates', Negative / Risks). It is the plan the ADR recorded. New wording in N7 (P4).
+  - id: H9
+    status: no longer applies
+    note: "was propose-change's template dispatch and pinned Step 0 (#991). Not in the diff."
+  - id: H10
+    status: fixed
+    note: >
+      The 'git branch -a' redirect is gone: the branch snapshot is check_plan_start.py --save-branches (SKILL line 313;
+      script lines 36-38, 94-97). What remains inline is one 'test -f' on the plan tool (line 93). The harness standard
+      leaves 'live environment reads' (git repo present, gh available) to the orchestrator (SKILL lines 84-85), so this is
+      the same kind of read, not a finding.
+passed_checks:
+  - "Fingerprint: sha256 of core/components/plays/start-change/reference/ice.md is 4e7a227766b93330ab01e1c10e3d5be4c5a8bd0dbcda2e345267395b9d4692cb (shasum -a 256), equal to SKILL.md line 490."
+  - "ICE and SKILL agree 1:1 on counts and text: C1-C11, F1-F11, S1-S13, D1-D8, REC1-REC11 (8 autonomous / 3 human), SE-1..SE-12, SCE-1..SCE-13; scripts listed (9 + the test) equal the files in scripts/. lint_play.py: PASS (0 gaps), including 'recovery 1:1', 'stop condition', 'fingerprint' and 'next-command'. lint-components (source layout): nothing on start-change. The D1-D4 text in stop-condition.yaml and D5-D8 in stop-condition-plan.yaml match the ICE word for word (the linter reads only the first file; compared by hand)."
+  - "Installed paths only: SKILL.md, the scripts and both YAML files name .garura/core/tools/plan/... or scripts/...; no core/components, core/tools or docs/ path (principle 11). The cuts of the plan's branch are the plan tool's plan_branch.py (SKILL 233, 314); setup_branch.py in start-change/scripts and in create-play/references are byte-identical (cmp), as are resolve_plan.py."
+  - "Mechanical work is in scripts: resolve_args.py, check_plan_start.py, resolve_plan.py, setup_branch.py, plan_branch.py. The only agent is project-orchestrator for issue judgment; a plan's start dispatches no agent (principles 2 and 3)."
+  - "Main first through the shared script (ADR 061): the story path (setup_branch.py _cut_plan -> plan_branch.py go) and the plan path (plan_branch.py go) both use it; plan_branch.py sets main's plan file to In Progress with the branch named, commits and pushes main, then cuts (lines 186-238); a failed push puts main back. The ontology's single non-typed status change is that cut."
+  - "A closed plan's branch is never cut: for an issue, resolve_plan.py turns a Done/Dropped plan into an issue in no plan (S13); for 'plan <id>', resolve_args.py stops (line 75-76) and plan_branch.py go refuses (line 204)."
+  - "Nothing typed starts nothing: resolve_args.py read('') returns mode none with the one line (lines 47-50); the branch name never names the change; preflight's 'issue' is declared not to (SKILL 84-85). Tests: test_start_change.py 12 OK, test_plan_branch.py 22 OK."
+findings:
+  - id: N1
+    severity: P2
+    file: "core/components/plays/start-change/stop-condition-plan.yaml (whole file); SKILL.md lines 32, 494; reference/ice.md lines 195-205"
+    what_is_wrong: >
+      The Done-means clauses are split across two hand-made manifests: D1-D4 in stop-condition.yaml and D5-D8 in a second
+      file, stop-condition-plan.yaml. The compiler does not make a second file. Its rule is: write ONE stop-condition.yaml
+      whose content.done is the ICE's clause list unchanged (create-play, 'Add the stop condition'). The next /edit-play
+      of start-change reads an ICE whose Done means holds D1-D8 and writes all eight into stop-condition.yaml. Then every
+      ordinary change (an issue start) must prove plan-branch.json and plan-start-check.json, which a change never makes,
+      so it closes HALTED. The second file is left standing and unused, or removed. The linter does not notice: it checks
+      only stop-condition.yaml, and it passes today. It works today only because nobody has recompiled.
+    principle: "G3 and G7: what is baked to a play is emitted by the compiler from the ICE, so a rebuild reproduces it; the Standard Play Close checks the play's one manifest"
+    source_ref: "CLAUDE.md @ plan/717/base 'Play Pipeline Rules' (durability rule); core/components/plays/create-play/SKILL.md @ plan/717/base line 345; core/components/plays/_shared/play-close.md @ plan/717/base lines 72, 78"
+    fix_direction: >
+      Either keep one manifest and make the ICE's Done means say which clauses belong to which path in a way the compiler
+      and check_stop_condition.py both read (for example a 'path' tag on each clause), or teach create-play (and its
+      linter rule) to write and check a second manifest, then recompile. Until then, record the gap where a rebuild will
+      meet it.
+  - id: N2
+    severity: P3
+    file: "core/components/plays/start-change/reference/ice.md lines 56-58 (C9), 103-107 (F9), 232-238 (REC9); SKILL.md line 244 (SE-10) and line 473 (F9 row)"
+    what_is_wrong: >
+      The new guarantee 'a closed plan's branch is never cut; an issue in a Done or Dropped plan starts off main' (C9, S13)
+      has a scenario and a step eval (SE-10, tagged F9) but no failure condition names it. F9 lists a branch outside the
+      plan, a cut without main first, and a stale local branch. F11 covers a closed plan only for 'plan <id>'. So an issue
+      in a closed plan that is cut under the plan's branch (or a plan branch made for it) fails no F, has no recovery
+      line, and lint_play passes because SE-10 carries an F9 label. The ICE and the SKILL agree 1:1 on counts, but this
+      guarantee has no recovery.
+    principle: "G3 (the compiled play carries one recovery per failure condition; the ICE is what was agreed)"
+    source_ref: "docs/standards/harness-standard.md @ plan/717/base, principle 4"
+    fix_direction: "Add the case to F9 and REC9 (or a new F), recompile."
+  - id: N3
+    severity: P3
+    file: "core/components/plays/start-change/reference/ice.md lines 34-40 (C10), 169-172 (S11); SKILL.md lines 66, 87-102. Callers not in the diff: core/components/loops/_shared/loop-run.md line 61, core/components/loops/complete-discovery/SKILL.md lines 124-125"
+    what_is_wrong: >
+      (Carried from H4, not fixed.) A hard halt on nothing typed now stops any call that gives start-change no argument.
+      The ICE says loops and injected plays 'pass the issue number (or a description), as it does today'. The committed
+      callers show no such hand-over: loop-run R2 says only 'Run start-change as a sub-play: one issue, one branch for the
+      whole loop', complete-discovery Step 1 says 'Run R2 of the shared run', the pipeline-position rule says 'resolve or
+      create the issue', and the loop contract lists no start-change input. Before this PR a call with no argument did not
+      stop. I could not prove a loop breaks (the argument may travel in the dispatch, which no file shows), but the claim
+      in C10 is not backed by any committed text, and the first step of the loop people run most is the one that would stop.
+    principle: "G8 (callers of start-change are written by their own files; a guarantee that changes for callers is stated there), and harness principle 1 (people run loops)"
+    source_ref: "core/components/loops/_shared/loop-run.md @ plan/717/base line 61; loop-contract.md and pipeline-position.md (memory tool copies); docs/standards/harness-standard.md principle 1"
+    fix_direction: "Say in loop-run R2 and the pipeline-position rule what is handed to start-change (the loop's typed words or issue), or run complete-discovery once to prove it; drop 'as it does today' from C10 if it is not true."
+  - id: N4
+    severity: P3
+    file: "core/components/plays/start-change/SKILL.md lines 87-91"
+    what_is_wrong: >
+      The person's typed words are put straight inside double quotes on a shell line:
+      resolve_args.py --args="<the play's arguments>". A description with a backtick (a file or function name in code
+      quotes, common in an issue description) runs as a command and is replaced by its output; a double quote ends the
+      string early; '$(...)' and '$VAR' expand. The typed change is then not the change the script reads, and a command
+      the person never meant may run. Before this PR a description was written to a file by the orchestrator, not
+      inlined in a command.
+    principle: "G1 (a mechanical step gives the same answer every time; a script step must not depend on how the text is quoted)"
+    source_ref: "docs/standards/harness-standard.md @ plan/717/base, principle 3 ('a script gives the same answer every time')"
+    fix_direction: "Write the typed words to a file (or pass them on stdin) and give resolve_args.py the file, like work-description.txt."
+  - id: N5
+    severity: P4
+    file: "core/components/plays/start-change/SKILL.md lines 153-156; scripts/resolve_args.py lines 101-104"
+    what_is_wrong: >
+      For mode issue the SKILL says '<working>/work-description.txt holds the issue's title and the typed note', and Step 1
+      hands that path to project-orchestrator. resolve_args.py writes the file only for mode description, and no step
+      writes it for mode issue. Step 5 moves it only 'when a description was typed'. So the contract names a file that
+      does not exist at the time of dispatch.
+    principle: "G1 and G3 (every file a step names has a writer; the SKILL says what the ICE agreed)"
+    source_ref: "docs/standards/harness-standard.md @ plan/717/base, principles 2 and 3"
+    fix_direction: "Have resolve_args.py write the note (and no title) for mode issue, or drop the sentence."
+  - id: N6
+    severity: P4
+    file: "core/components/plays/start-change/SKILL.md lines 421-424 (Step C1) and 386-387 (SE-7)"
+    what_is_wrong: >
+      The evidence slots are still the change path's: 'artifacts produced: issue.json, branch.json, the STM workspace',
+      'N/A - no commit step', 'run artifacts are committed on the feature branch'. A plan's start makes
+      plan-branch.json, plan-start-check.json and args.json and commits nothing. The close block's comment now gives the
+      plan path its paths and title (so H7 is fixed), but the artifact list a plan run's evidence prints is wrong.
+    principle: "G9 (a run with no issue uses the play's own base and its own values)"
+    source_ref: "core/components/plays/_shared/play-close.md @ plan/717/base lines 50-51"
+    fix_direction: "Name the plan path's artifacts in Step C1 and scope SE-7's commit clause to the change path."
+  - id: N7
+    severity: P4
+    file: "core/components/plays/start-change/SKILL.md lines 205-213; scripts/resolve_plan.py line 26 and create-play/references/resolve_plan.py line 26 (docstring); reference/ice.md lines 34-40 and 50-68"
+    what_is_wrong: >
+      Small drift. (a) Step 4 lists resolve_plan's record as { plan_id, plan_branch, issue_branch, source } and never
+      mentions closed_plan, which SE-10 then checks; the docstring's 'Prints { ... }' also leaves it out. (b) Two new
+      rules in the play (the change is what is typed, never the branch name; a closed plan's issue goes off main) have no
+      decision record. ADR 061 covers the plan cut and 'a plan starts on its own' (#989), and ADR 060 / the ontology cover
+      the closed-plan rule in spirit, so I rate it a nit, but C10 changes what every caller can rely on and is recorded
+      only in the ICE.
+    principle: "G3 and G5"
+    source_ref: "docs/adr/061-... 'Work This Creates'; docs/adr/060-... Decision 1 @ plan/717/base"
+    fix_direction: "Add closed_plan to the record text; note C10 in a short ADR or in ADR 061's follow-up when #989 closes."

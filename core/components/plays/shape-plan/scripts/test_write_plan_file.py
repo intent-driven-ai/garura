@@ -19,7 +19,7 @@ HAND = """# Plan 340 — kept by hand.
 # A note a person wrote.
 id: 340
 title: Patients book their own appointments online
-status: active
+status: Not Started
 branch: plan/340/base
 tree:
 - issue: 5
@@ -107,7 +107,7 @@ def main():
 
     with tempfile.TemporaryDirectory() as tmp:
         root, p = make_model(tmp, features=("ft-pick",)), paths(tmp)
-        hand = "id: 340\ntitle: x\nstatus: active\ntree:\n  - issue: 10\n    kind: epic\n    represents: sl-self-booking\n"
+        hand = "id: 340\ntitle: x\nstatus: Not Started\ntree:\n  - issue: 10\n    kind: epic\n    represents: sl-self-booking\n"
         write(p["plan_file"], hand)
         empty_tracker(p, [{"number": 10, "title": "Self-booking", "type": "Feature", "body": ""}])
         codes = flow(root, p)

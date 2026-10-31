@@ -1,0 +1,215 @@
+# design-findings-memory.yaml - check-change Step 3, Layer 2, category: memory, ROUND 4
+# PR #998 (feature #720, /update-plan), base plan/717/base.
+# What changed in the memory category since round 3 (diff against plan/717/base, index lines removed, per file
+# compared with the round 3 pr.diff): ontology.md, templates/_index.md and pipeline-next.md are byte-identical to
+# round 3. spine.yaml (Thin-mark comment, lines 142-148) and direct-model-write.md (a declared exception for
+# /update-plan and an L-DMW-4 carve-out) are new in the category this round. plan-update.md gained the confirm
+# line for a new feature (thin warning, slice in progress) and the question screen (14 more settings keys).
+# Grounding is read from the base ref, docs/adr (base) and memory copied through the memory tool into
+# .garura/project/issues/720/context/memory/grounding-memory/ (manifest.json beside it). The three copies there
+# were reused: each still matches its manifest fingerprint and version f8e35c3bd9b6; nothing was copied again.
+# The branch's own new text (ADR 061, ADR 062, the ADR 026 pointer, the glossary lines, ontology v14, the new
+# direct-model-write paragraphs) is never used as a source. pr.md has no memory/ontology rows, so each severity is
+# the bucket in pr.md "Severity buckets" (P2 structural, P3 minor, P4 nit).
+category: memory
+round: 4
+base_ref: plan/717/base
+files_in_category:
+  - core/components/memory/standards/schemas/product-os/ontology.md
+  - core/components/memory/standards/schemas/product-os/spine.yaml
+  - core/components/memory/standards/rules/direct-model-write.md
+  - core/components/memory/standards/templates/plan-update.md
+  - core/components/memory/standards/templates/_index.md
+  - core/components/memory/standards/rules/pipeline-next.md
+
+principles:
+  - id: G1
+    principle: >-
+      An ontology change bumps the version by one, sets the date, adds one log line, changes only the kinds the
+      need touches, names no real person, and a changed meaning is logged.
+    source: core/components/plays/edit-ontology/reference/ice.md (base) C1, C3, C4, C6, F3, F6, S3
+  - id: G2
+    principle: >-
+      The ontology follows the committed format: questions, kinds with properties/relationships/rules/optional
+      States/example, a log. A template's worked example is a real, filled-in instance.
+    source: standards/templates/product-ontology.md (base copy, shared memory folder); standards/templates/plan-view.md (base)
+  - id: G3
+    principle: >-
+      A plan's branch is cut when work on the plan starts and merges into main when the plan pauses.
+    source: core/components/plays/start-change/reference/ice.md (base) C9; docs/standards/harness-standard.md (base) principle 8; docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (base)
+  - id: G4
+    principle: >-
+      The ontology fixes the Thin line, and the plays that write or read it use exactly that text.
+    source: ontology.md (base) v11 Thin line; core/components/memory/standards/schemas/product-os/spine.yaml (base) line 144; core/components/plays/shape-slice/scripts/slice_check.py (base) line 67
+  - id: G5
+    principle: One word means one thing; the old work type "Feature" is gone from the glossary's Feature entry.
+    source: core/grounding/glossary.md (base) line 63 (Feature)
+  - id: G6
+    principle: >-
+      A template is a settings block read by a named consumer, listed with its consumers in templates/_index.md;
+      the screens it holds are not worded in the play; a question is shown in four parts.
+    source: standards/templates/plan-view.md (base); standards/templates/_index.md (base, memory copy); core/components/skills/_shared/asking-a-person.md (base) "Each question"
+  - id: G7
+    principle: >-
+      pipeline-next.md is the one map of successors; each play is listed once, under the loop or lane it belongs
+      to, and the flow prose names the loops.
+    source: core/components/memory/standards/rules/pipeline-next.md (base) lines 20-31 and map headings
+  - id: G8
+    principle: A reply to a person leads with the outcome, not with a path, branch or commit.
+    source: standards/rules/user-facing-voice.md (memory copy, grounding-memory) "The rule" and "Signals you've drifted"
+  - id: G9
+    principle: >-
+      A play that does not write-then-checkpoint is a declared exception in the rule, with the reason (a typed
+      word a file cannot carry), what a reject does (nothing written, nothing to revert), and how containment
+      still holds. A model delta is committed once and the model tree is clean on entry.
+    source: core/components/memory/standards/rules/direct-model-write.md (base) lines 82-108, 134-146 (the two declared exceptions, /discover-intent per ADR 031 and /record-decision), 230-232 (L-DMW-4); docs/adr/026-direct-to-model-writes.md (base) Decision, "Clean tree in, committed delta out"
+
+checks_passed:
+  - "Ontology and ontology change check: the file is byte-identical to round 3, where check_ontology.py gave valid true and check_ontology_change.py gave kinds Plan and ICE only, version 13 to 14, one log line, no names. The v14 log line (line 892) now names the Thin-line change and the status change. (G1)"
+  - "plan-update.md settings block 'plan-update': 64 keys; every key is read by render_screen.py (self.t[...]) and the renderer reads no key the block lacks (checked by script this round). The new question screen has the four parts Question, Answer, Why it matters, Examples of the base asking-a-person file. The thin_warning agrees with the ontology line 522 (a thin ICE can cause problems later; /discover-capabilities can deepen it). (G6)"
+  - "templates/_index.md lists plan-update.md with its consumer. (G6)"
+  - "spine.yaml comment lines 142-148 agree with ontology v14 (the Thin line, any line that starts 'Thin:', the old line still thin) and say check_ice_workable.py reads the mark and never counts lines; check_ice_workable.py (three copies) reads any line that starts 'Thin:'. (G4)"
+  - "direct-model-write.md exception (line 148): it follows the shape of the two base exceptions (a typed word, a reject or abort writes nothing so there is nothing to revert, containment still holds through the shared guard run once after the last model write). The play's SKILL.md Step 9/10 runs the guard once after the last model write and before the commit (SKILL.md line 342). The L-DMW-4 carve-out follows the base pattern of naming the play that is not a finding (loop contract, link-model-gaps in L-DMW-5). (G9)"
+  - "pipeline-next.md row update-plan parses; lint-play on update-plan SKILL.md passes next-command (pipeline-next) (round 3 run; the file is unchanged)."
+
+findings:
+  - id: MEM-1
+    status: fixed
+    severity: P2
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: [596, 622, 623]
+    why: >-
+      Round 3 closed it (ADR 061 recorded that /update-plan may cut the plan's branch, main first, and amended ADR
+      060). Nothing in this round reopens it: the ontology Plan kind is byte-identical to round 3 and no
+      committed source it rests on changed.
+    basis: >-
+      docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (base) Decision 3 and ICE impact;
+      core/components/plays/start-change/reference/ice.md (base) C9
+    fix: none
+    evidence: >-
+      Rule at ontology.md line 622 ("When the plan has no branch, it first sets main's plan file to In Progress
+      with the branch named, commits that on main, and cuts the plan's branch from that commit") is unchanged
+      since round 3. C9 of start-change stays until #989 is built; ADR 061 records that divergence and the
+      harness category owns it.
+
+  - id: MEM-2
+    status: fixed
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/spine.yaml
+    lines: [142, 148]
+    why: >-
+      Round 3 said the ontology fixed a new Thin line while spine.yaml and the writers still held the old one.
+      This round the spine comment (lines 142-148) states the new line and that any line starting "Thin:" counts
+      (a v11 page is still thin), and every writer holds the new text: slice_check.py line 68, persist_fills.py
+      line 106, write_hidden_file.py line 85 and link_part.py line 85 all read
+      "Thin: proposed from the person's words; deepen with `/discover-capabilities`.", and the three
+      check_ice_workable.py copies read any line that starts "Thin:". link_part.py and slice_check.py are tested
+      to agree (test_link_part.py line 251). The only place left that holds the old words is the ontology log of
+      v11 (a log line, correct) and a code comment naming the v11 line.
+    basis: >-
+      core/components/memory/standards/schemas/product-os/spine.yaml (base) line 144;
+      core/components/plays/shape-slice/scripts/slice_check.py (base) line 67 ("reads exactly this text")
+    fix: none
+
+  - id: MEM-3
+    status: fixed
+    severity: P3
+    file: core/components/memory/standards/schemas/product-os/ontology.md
+    lines: [594, 892]
+    why: >-
+      Round 3 asked for a drift note for the old Status value "active", or a change of the writer. The writer is
+      changed: shape-plan/SKILL.md line 339 now reads "status: Not Started, an empty direction"; write_plan_file.py
+      writes "status: Not Started" (lines 143, 229) and "direction:"; render_brief.py and the shape-plan tests say
+      the same. plan-view.md (base) plan_statuses (line 124) is the same five values. No plan file in
+      .garura/project/plans holds "status: active" (searched), so no page is left that needs a drift note. The
+      v14 log line (892) names the change.
+    basis: >-
+      core/components/plays/shape-plan/SKILL.md (base) line 339;
+      core/components/plays/edit-ontology/reference/ice.md (base) C3, F3
+    fix: none
+
+  - id: MEM-4
+    status: fixed
+    severity: P3
+    file: core/grounding/glossary.md
+    lines: [63, 64]
+    why: >-
+      Round 3 found that the ontology brought back the word "feature" (item kind `feature`, tracker type
+      Feature) while the glossary said the type is gone. The glossary Feature entry (line 63) now says "Not the
+      tracker's issue type Feature: in a plan, an issue of that type is a feature item (below), never this
+      kind", and a Feature item entry (line 64) names it as the plan's own word and not the Feature kind, in
+      agreement with ontology lines 21, 87 and 625. The word keeps two named meanings with a glossary entry for
+      each. (The glossary is read by the harness category; the fix is cited here because MEM-4 was raised in this one.)
+    basis: core/grounding/glossary.md (base) line 63
+    fix: none
+
+  - id: MEM-5
+    status: stands
+    severity: P4
+    file: core/components/memory/standards/rules/pipeline-next.md
+    lines: [77]
+    why: >-
+      Unchanged since round 3. update-plan sits under the "# Navigation" heading (line 73, with list-focus-issues,
+      list-plans and show-plan, which only show), but it changes a plan. The "The flow" bullets (lines 20-31) name
+      every other live play by loop, and none names update-plan. Its why-line ("it reaches main with the plan's
+      other work") holds only once the plan pauses (ADR 060).
+    basis: >-
+      core/components/memory/standards/rules/pipeline-next.md (base) lines 20-31 and 73-77;
+      docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md (base)
+    fix: Put the row under its own heading (for example "# Plan upkeep") and add one flow bullet.
+
+  - id: MEM-6
+    status: stands
+    severity: P4
+    file: core/components/memory/standards/templates/plan-update.md
+    lines: [171, 172]
+    why: >-
+      Unchanged since round 3 (the line moved from 156 to 171-172 as the file grew). The "landed" screen opens
+      "Landed on {plan_branch} (commit {commit}), pushed." It leads with a branch and a commit, not with what
+      changed for the person. The screen is shown to a person as it stands, so it is not an internal artifact.
+    basis: standards/rules/user-facing-voice.md (memory copy, grounding-memory) "Signals you've drifted"
+    fix: Lead with the outcome (what changed in the model, GitHub and the plan), and put the branch and commit on a later line.
+
+  - id: MEM-7
+    status: stands
+    severity: P4
+    file: core/components/memory/standards/templates/plan-update.md
+    lines: [47, 60, 65, 71, 72]
+    why: >-
+      Unchanged (moved from lines 41-68). The worked screen shows no item kinds. Row 4 puts a new chore under
+      #956 and row 5 a new feature under #720, and the screen never says what kind #956 or #720 is, so a reader
+      cannot check the example against the ontology item-kind rule (a chore sits under a story; a story sits
+      under an epic or a feature item). Low confidence: the kinds may be in the plan file.
+    basis: >-
+      standards/templates/product-ontology.md (base copy) "Example"; standards/templates/plan-view.md (base)
+    fix: Show the kind in the example (for example "epic #956", "feature item #720").
+
+  - id: MEM-8
+    status: new
+    severity: P4
+    file: core/components/memory/standards/rules/direct-model-write.md
+    lines: [152, 153, 154]
+    why: >-
+      The new exception says "uncommitted work anywhere stops the session when it gets onto the plan's branch",
+      and the L-DMW-4 carve-out (line 240-243) says the clean check "covers the whole tree". The play and the
+      tool do not do that: plan_branch.py go is run with --ignore "${stm_base}_plans/" (SKILL.md line 146), and
+      SE-3 says "nothing uncommitted outside the session's own folder" (SKILL.md line 151). The product-os tree,
+      which the base L-DMW-4 requires clean, is covered, so the guarantee holds, but the rule overstates it, and a
+      rule that a linter and a rebuild read should say what is checked.
+    basis: >-
+      core/components/memory/standards/rules/direct-model-write.md (base) lines 86-89 (step 7, entry: assert the
+      product-os tree is clean) and 230-232 (L-DMW-4)
+    fix: >-
+      Say "uncommitted work anywhere outside the session's own folder", and in the carve-out say the clean check
+      covers the product-os tree and the rest of the repository except that folder.
+
+counts:
+  fixed: 4      # MEM-1, MEM-2, MEM-3, MEM-4
+  stands: 3     # MEM-5, MEM-6, MEM-7
+  new: 1        # MEM-8
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 4         # open: MEM-5, MEM-6, MEM-7, MEM-8
+  total_open: 4
+grounding_unavailable: []

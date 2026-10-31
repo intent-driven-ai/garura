@@ -1,0 +1,121 @@
+---
+# assess-changes output: grouped by concern (judgment done), round for the PR #1013 review fixes
+needs_judgment: false
+
+change_groups:
+  - id: revert-merge-change-capability-close
+    issue: 951
+    commit_type: revert
+    scope: merge-change
+    subject: "take the capability-close check back out of merge-change"
+    files:
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/merge-change/reference/ice.md
+  - id: submit-pr-on-target-unknown
+    issue: 951
+    commit_type: fix
+    scope: propose-change
+    subject: "on_target is unknown also when the host lookup fails"
+    files:
+      - core/components/plays/create-play/references/submit_pr.py
+      - core/components/plays/create-play/references/test_submit_pr.py
+      - core/components/plays/propose-change/scripts/submit_pr.py
+  - id: preflight-empty-plans-base
+    issue: 951
+    commit_type: fix
+    scope: preflight
+    subject: "an empty plans base-path falls back to the default"
+    files:
+      - core/components/plays/build-epic/scripts/preflight.py
+      - core/components/plays/check-change/scripts/preflight.py
+      - core/components/plays/commit-change/scripts/preflight.py
+      - core/components/plays/create-play/references/preflight.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+      - core/components/plays/discover-capabilities/scripts/preflight.py
+      - core/components/plays/discover-domains/scripts/preflight.py
+      - core/components/plays/discover-intent/scripts/preflight.py
+      - core/components/plays/edit-ontology/scripts/preflight.py
+      - core/components/plays/learn-outcomes/scripts/preflight.py
+      - core/components/plays/list-focus-issues/scripts/preflight.py
+      - core/components/plays/list-plans/scripts/preflight.py
+      - core/components/plays/merge-change/scripts/preflight.py
+      - core/components/plays/propose-change/scripts/preflight.py
+      - core/components/plays/record-decision/scripts/preflight.py
+      - core/components/plays/refactor-code/scripts/preflight.py
+      - core/components/plays/release-epic/scripts/preflight.py
+      - core/components/plays/release-increment/scripts/preflight.py
+      - core/components/plays/shape-agentic-lens/scripts/preflight.py
+      - core/components/plays/shape-architecture-lens/scripts/preflight.py
+      - core/components/plays/shape-eval/scripts/preflight.py
+      - core/components/plays/shape-marketing-lens/scripts/preflight.py
+      - core/components/plays/shape-measure-lens/scripts/preflight.py
+      - core/components/plays/shape-plan/scripts/preflight.py
+      - core/components/plays/shape-quality-lens/scripts/preflight.py
+      - core/components/plays/shape-run-lens/scripts/preflight.py
+      - core/components/plays/shape-slice/scripts/preflight.py
+      - core/components/plays/shape-ux-lens/scripts/preflight.py
+      - core/components/plays/show-plan/scripts/preflight.py
+      - core/components/plays/start-change/scripts/preflight.py
+      - core/components/plays/update-plan/scripts/preflight.py
+      - core/components/plays/validate-epic/scripts/preflight.py
+  - id: show-plan-ascii-digits
+    issue: 1000
+    commit_type: fix
+    scope: show-plan
+    subject: "only ASCII digits read as a plan number"
+    files:
+      - core/components/plays/show-plan/scripts/resolve_args.py
+  - id: memory-plan-branches
+    issue: 951
+    commit_type: docs
+    scope: memory
+    subject: "add plan branches to the branch table, its copy and the index, with a plainer start line"
+    files:
+      - core/components/memory/standards/rules/_index.md
+      - core/components/memory/standards/rules/git.md
+      - core/components/memory/standards/rules/pipeline-position.md
+      - core/components/skills/cut-branch/reference/branching.md
+  - id: stm-issue-1000
+    issue: 1000
+    commit_type: chore
+    scope: stm
+    subject: "record the run files for issue 1000"
+    files:
+      - .garura/project/issues/1000/context/analysis.yaml
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/1000/context/memory/grounding-memory/standards/rules/git.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/standards/rules/pipeline-position.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/code.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/1000/context/memory/manifest.json
+      - .garura/project/issues/1000/context/memory/standards/rules/pr.md
+      - .garura/project/issues/1000/context/porcelain.txt
+      - .garura/project/issues/1000/context/templates/manifest-check-change.json
+      - .garura/project/issues/1000/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1000/review/findings.yaml
+      - .garura/project/issues/1000/specs/design.md
+
+exclusions:
+  []
+
+risks:
+  sensitive_files:
+    - path: ".garura/project/issues/1000/context/memory/standards/rules/pr.md"
+      match: 'password\s*=' # pattern-carrier copy of the severity taxonomy in a standards artifact, not a secret - warning, not a block
+      blocking: false
+  breaking_changes: []
+  ambiguous_types: []
+  hotfix_branch: false
+
+eval_gates:
+  SE-1: {status: PASS, evidence: "every scanned file is in exactly one of 6 groups"}
+  SE-5: {status: PASS, evidence: "content match is in a prose standards artifact only - non-blocking warning surfaced"}

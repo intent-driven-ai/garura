@@ -1,0 +1,38 @@
+{
+  "by": "product-os-keeper (issue 779, finding MEM-1 of #953)",
+  "source": "ADR 060 (docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md), Decision sections 2-4, approved by the product owner",
+  "pages": [
+    {
+      "page": "features/fn-673/feature.md",
+      "changes": [
+        {
+          "old": "# Feature: merge-change lands an issue on its plan branch, and a plan on main only when it is done",
+          "new": "# Feature: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses"
+        },
+        {
+          "old": "An issue in a plan merges into its plan's branch. A plan's branch merges into main only when every issue in the plan is closed, and only after every plan it needs has landed or been merged into it.",
+          "new": "An issue in a plan merges into its plan's branch. When the plan pauses, its branch merges into main once its review approves it, even with issues of the plan still open; those issues stay open and stay in the plan. Plan order does not hold a plan off main. When work on the plan starts again, a new branch is cut from main."
+        },
+        {
+          "old": "- Goal: main gets a plan's work only when the plan is done.",
+          "new": "- Goal: main gets a plan's work whenever the plan pauses and its review approves it."
+        },
+        {
+          "old": "- Fails if: a plan branch merges into main with an open issue, or before a plan it needs.",
+          "new": "- Fails if: a plan's branch is held off main for its open issues or for a plan it needs, or an issue in a plan lands on main instead of its plan's branch."
+        },
+        {
+          "old": "- Checked by: a test plan with one open issue is refused on main; with all closed it lands.",
+          "new": "- Checked by: a test plan with one open issue lands on main once its review approves it, and that issue stays open."
+        }
+      ],
+      "lines_before": 10,
+      "lines_after": 10,
+      "lines_added": 0,
+      "lines_kept": 5
+    }
+  ],
+  "changed": [
+    "features/fn-673/feature.md"
+  ]
+}

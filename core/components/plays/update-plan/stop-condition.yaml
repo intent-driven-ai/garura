@@ -1,0 +1,16 @@
+# update-plan stop condition — baked from reference/ice.md "### Done means" (#464).
+# Evaluated by scripts/check_stop_condition.py at Step C0 of the Standard Play Close —
+# BEFORE the self-clean of a landed session; the verdict's durable copy is the evidence record.
+# Paths are relative to the session's working folder (${stm_base}_plans/update-plan/<id>/).
+schema: { name: stop-condition }
+content:
+  done:
+    - id: D1
+      says: "the plan was found and the person answered"
+      check: { type: artifact_exists, path: "answer.json" }
+    - id: D2
+      says: "the session closed as it should: landed and agreeing, or nothing written"
+      check: { type: field_equals, file: "session.json", field: "ok", equals: true }
+    - id: D3
+      says: "the session ended on the starting branch"
+      check: { type: field_equals, file: "session.json", field: "back", equals: true }

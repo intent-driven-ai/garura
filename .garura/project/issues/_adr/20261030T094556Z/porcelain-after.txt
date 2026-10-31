@@ -1,0 +1,26 @@
+ M core/components/agents/product-os-keeper.md
+ M core/components/plays/update-plan/SKILL.md
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+ M core/components/skills/author-plan-changes/SKILL.md
+ M docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+ M docs/adr/_index.md
+?? .garura/project/issues/720/review/code-evidence.md
+?? .garura/project/issues/720/review/merge-gate.json
+?? .garura/project/issues/720/review/target.json
+?? .garura/project/issues/_adr/20261030T094556Z/adr-check.json
+?? .garura/project/issues/_adr/20261030T094556Z/adr-context.yaml
+?? .garura/project/issues/_adr/20261030T094556Z/adr-draft.md
+?? .garura/project/issues/_adr/20261030T094556Z/adr-manifest.json
+?? .garura/project/issues/_adr/20261030T094556Z/brief.md
+?? .garura/project/issues/_adr/20261030T094556Z/context/memory/manifest.json
+?? .garura/project/issues/_adr/20261030T094556Z/context/memory/standards/schemas/product-os/ontology.md
+?? .garura/project/issues/_adr/20261030T094556Z/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261030T094556Z/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261030T094556Z/decision.yaml
+?? .garura/project/issues/_adr/20261030T094556Z/hashes-before.json
+?? .garura/project/issues/_adr/20261030T094556Z/porcelain-after.txt
+?? .garura/project/issues/_adr/20261030T094556Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261030T094556Z/run.json
+?? .garura/project/issues/_adr/20261030T094556Z/start-change.json
+?? core/components/plays/update-plan/scripts/place_feature.py
+?? docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md

@@ -1,0 +1,23 @@
+{
+  "approved": true,
+  "mergeable": true,
+  "already_merged": false,
+  "checks_pass": true,
+  "pr_number": "1012",
+  "pr_merged": true,
+  "branch_deleted": true,
+  "on_target": true,
+  "issues_closed": [
+    "1011"
+  ],
+  "plan_marked": {
+    "plan": "717",
+    "issue": 1011,
+    "from": "Done",
+    "to": "Done",
+    "changed": false
+  },
+  "status": "merged",
+  "on_base": true,
+  "merge_sha": null
+}

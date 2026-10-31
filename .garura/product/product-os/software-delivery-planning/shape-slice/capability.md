@@ -12,7 +12,7 @@ Shape the one slice that shows a business intent is served. A slice is an ordere
 - User Story Mapping: Discover the Whole Story, Build the Right Product (O'Reilly, 2014, https://www.oreilly.com/library/view/user-story-mapping/9781491904893/): slicing out a minimum release.
 - GitHub #795 (closed).
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: A business intent has one slice that one person can test end to end on one surface, with its features in build order.

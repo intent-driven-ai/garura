@@ -1,0 +1,87 @@
+{
+  "category": "Harness",
+  "scope": "an item's status follows its own issue, no roll-ups (merge-change, /update-plan, plan_status.py)",
+  "grounding": [
+    {"principle": "A compiled play must not drift from its ICE; the fingerprint records the ICE", "source": "plan/717/base:docs/standards/harness-standard.md, principle 4 (ADR 027)"},
+    {"principle": "Build the eval first; each guarantee has a measure", "source": "plan/717/base:docs/standards/harness-standard.md, principle 5"},
+    {"principle": "Installed parts run and name only installed files", "source": "plan/717/base:docs/standards/harness-standard.md, principle 11 (ADR 055)"},
+    {"principle": "Mechanical work is a script", "source": "plan/717/base:docs/standards/harness-standard.md, principle 3"},
+    {"principle": "Nothing lands in /update-plan before a plain 'approved'", "source": "plan/717/base:docs/adr/062 Decision 1; Plan kind of the ontology on the base ref"},
+    {"principle": "Dropped means closed as not planned or as a duplicate", "source": "plan/717/base:.garura/project/plans/717.yaml header, line 2"},
+    {"principle": "Severity buckets P1-P4", "source": "short-term copy of standards/rules/pr.md"}
+  ],
+  "checks_passed": [
+    "Fingerprints match: sha256 of merge-change/reference/ice.md is 8da40c03... and of update-plan/reference/ice.md is cad7f657..., both as recorded in the compiled SKILL.md files",
+    "Each SKILL.md intent change traces to an ICE change: merge-change C9, F9, S5; update-plan C8, F7, F14, S8; eval counts and tables updated (SE-19, SCE-8; SE-9, SCE-5 amended)",
+    "Installed-paths: merge_pr.py and the merge-change SKILL name only .garura/core/tools/plan/plan_status.py; update-plan scripts import only their own folder; lint-components reports nothing for the changed paths; both lint_play runs PASS",
+    "No roll-up in the code: plan_status.py changes one item's status line; closed_on_github.py reads each item's own issue only; the tests assert the parent is left as it is",
+    "Update-plan entries still land only on 'approved': closed_on_github.py writes only draft-closed.json in the working folder; entries go through check_entries and add_entries like any other and land in the one approved commit",
+    "The two merge_pr.py copies (merge-change/scripts and create-play/references) are byte-identical"
+  ],
+  "findings": [
+    {
+      "id": "H1",
+      "severity": "P3",
+      "file": "core/components/plays/update-plan/scripts/closed_on_github.py",
+      "line": 38,
+      "summary": "A close reason other than COMPLETED or NOT_PLANNED (a duplicate, or no reason) falls back to 'completed', so the item is proposed as Done. check_entries then adds a 'close-completed' write for the issue, so approving the list would re-close a duplicate as completed on GitHub. The item should be proposed as Dropped, or left off the list and named for the person.",
+      "basis": "The plan file header on plan/717/base defines Dropped as 'closed as not planned or as a duplicate'. ICE C8 of update-plan says an item whose issue is closed 'as completed, or as not planned' goes on the list, so the ICE names two reasons and the code guesses a third."
+    },
+    {
+      "id": "H2",
+      "severity": "P3",
+      "file": "core/components/plays/merge-change/scripts/merge_pr.py",
+      "line": 77,
+      "summary": "The plan file is staged into the records commit whenever the plan arguments are given, not only when the item was marked Done. On the wrong_target and merge_failed paths (and on a re-run that marked nothing) any uncommitted edit already in the plan file is committed and pushed with the run records. ICE C9 says only that item changes.",
+      "basis": "ICE C9 (merge-change): 'only that item changes'. ADR 062 / the Plan kind of the ontology on the base ref: the plan file changes only through the plan's own landings, each with its message. Stage the plan file only when gate.plan_marked.changed is true."
+    },
+    {
+      "id": "H3",
+      "severity": "P3",
+      "file": "core/components/plays/merge-change/reference/ice.md",
+      "line": 157,
+      "summary": "REC9's trigger was not extended, but the compiled F9 row in SKILL.md (line 301) now reads '... or its plan item is still open'. The compiled recovery row no longer matches the ICE it is compiled from (ICE F9 says 'its item in the plan file is left open'; REC9's trigger omits it). lint_play passes because it checks one recovery per failure, not the wording.",
+      "basis": "Harness standard principle 4: the compiled part is built from its ICE and the two must not drift apart. Update REC9's trigger in the ICE and recompile."
+    },
+    {
+      "id": "H4",
+      "severity": "P3",
+      "file": "core/components/plays/update-plan/reference/ice.md",
+      "line": 158,
+      "summary": "S8 says that on 'approved' the plan file reads the item Done, but its measure (and SCE-8 in SKILL.md, line 460) checks only draft-closed.json and changes.yaml. No eval proves the landing (the plan file reads Done, the parent unchanged, the entry carried the instruction 'closed on GitHub' into the commit). SE-19 and SCE-8 stop at the list.",
+      "basis": "Harness standard principle 5: each guarantee has a check that proves it; a scenario clause without a measure is unproven. The existing S1-S3 measures read the plan file after the landing."
+    },
+    {
+      "id": "H5",
+      "severity": "P4",
+      "file": "core/components/plays/merge-change/scripts/merge_pr.py",
+      "line": 128,
+      "summary": "When the plan tool fails or is not installed, plan_marked becomes {'error': ...}, the script exits 0 and the stop condition (D1-D4) still reads held, so the run closes COMPLETED with the item still open. Only SE-9 at the evidence step would show it. The SKILL does not say that plan_marked.error is to be reported, unlike records_pushed ('visibly reported, never silent'). This is the state of every project until the owed reinstall.",
+      "basis": "merge-change ICE C6 sets the precedent ('never silent') for bookkeeping after the merge; harness standard principle 6 (nothing is blocked) is why the merge itself should not fail, so the fix is a visible report line in Step 3, not a hard stop."
+    },
+    {
+      "id": "H6",
+      "severity": "P4",
+      "file": "core/components/plays/merge-change/reference/ice.md",
+      "line": 28,
+      "summary": "C6 still lists the records commit as 'merge-gate.json, the review dir', while C9 and Step 3 now say the plan file rides in the same commit. The ICE names the commit's content in two places that differ.",
+      "basis": "Harness standard principle 4 (one intent, no drift); ADR 012 evidence self-commit named in C6."
+    },
+    {
+      "id": "H7",
+      "severity": "P4",
+      "file": "core/components/plays/update-plan/SKILL.md",
+      "line": 34,
+      "summary": "The Forbidden list and the F7 recovery row (line 540) still say a status 'no instruction named' is forbidden, with no word for the 'closed on GitHub' entries, while ICE F7 now carries the exception. The two readings agree only because SE-5 treats 'closed on GitHub' as an instruction.",
+      "basis": "Harness standard principle 4; ICE F7 of update-plan (changed in this branch) against the recovery table row, which the ICE leaves unchanged."
+    }
+  ],
+  "outside_scope": [
+    "The GitHub capability roll-up in merge-change (a capability is closed once every issue under it is closed) is recorded out of scope by the product owner.",
+    "The installed tool folder .garura/core/tools/plan has no plan_status.py until a reinstall; owed on the product owner's word, not counted as a finding.",
+    "ADR 064, ontology v15 and the design were read as the approved decision and not graded.",
+    "plan_status.py rewrites the whole status line, so a trailing comment on that line is dropped; the docstring says comments are left as they are.",
+    "test_merge_pr.py covers _mark_done only; _commit_records staging of the plan file and the main() paths have no test.",
+    "The plan file for 717 shows story 1007 as Done in this PR, set ahead of the merge that the new rule says sets it."
+  ]
+}

@@ -1,0 +1,7 @@
+ M .garura/product/product-os/capabilities/cap-720/capability.md
+ M .garura/product/product-os/features/fn-730/feature.md
+ M .garura/project/issues/720/specs/design.md
+ M .garura/project/issues/993/context/porcelain.txt
+?? .garura/project/issues/993/context/memory/grounding-design-spec/
+?? .garura/project/issues/993/context/model-lines/lines-report-d1.json
+?? .garura/project/issues/993/context/model-lines/lines-request-d1.json

@@ -1,0 +1,77 @@
+# Work categories present in the diff of PR #1012 (issue 1011, base plan/717/base).
+# Derived from the diff content. Treatment is copied from the playbooks in short-term memory
+# (.garura/project/issues/1011/context/memory/knowledge/review/) where one exists. Design-grounding
+# on the base ref only; nothing the branch adds is grounding. The approved design
+# (.garura/project/issues/1011/specs/design.md) is the scope of the review, never grounding.
+categories:
+  - name: Product model page
+    design_bearing: true
+    playbook: null
+    playbook_missing: "No playbook covers product-model pages (.garura/product/product-os/**). Create a follow-up to add one. The reviewer treats it like Memory (the design is read by agents), checking against the base ref."
+    evidence:
+      - .garura/product/product-os/capabilities/cap-721/capability.md
+    note: >
+      The capability page for #721 (start and land work against a plan) changes four lines: the
+      directional intent, the Goal, the Fails-if and the Checked-by. The old rule (a plan lands on main
+      only when it is done, refused while an issue is open) becomes the rule ADR 060 states (a plan lands
+      on main whenever it pauses and its review approves it; open issues stay open). The page holds an
+      Agent intent (Goal, Limit, Fails if, Checked by), so it carries design. Ground from the base-ref
+      copy of the page, ADR 060 and the other ADRs on the base ref, the ontology, the base-ref plan 717
+      file, and the merge-change ICE on the base ref; never from the new page text or design.md.
+    treatment:
+      layers: [layer-1-linters, layer-2-design-grounding]
+      reviewer: human (the design) + tool (conformance)
+      linters:
+        - name: product model integrity (known gap)
+          command: null
+          gap: "No playbook and no installed tool for product-model pages. The reviewer reads the changed page and cites each check."
+      runnable_checks:
+        - "By hand: the page keeps its shape (title, Directional intent, Agent intent ICE with Goal, Limit, Fails if, Checked by); only the four named lines changed; the four lines agree with each other and with ADR 060 and the merge-change ICE on the base ref; the Limit line is unchanged; no name of a real person."
+      design_grounding: >
+        Layer 2 required. Ground from git show plan/717/base:<path> for the prior page, ADR 060, the
+        ontology and other ADRs on the base ref, and the plan 717 file on the base ref. The new page text
+        and design.md are never grounding.
+
+  - name: Work records (short-term memory run artifacts)
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers run records. Create a follow-up to add one (a category for the issue folder's context and spec files)."
+    evidence:
+      - ".garura/project/issues/1011/context/** (analysis, branch, check-self-review-exit, commits, issue, lines-request-cap-721, model-cap-721, plan, porcelain, pr-body, pr, resolved-rules, self-review, target, work-description)"
+      - .garura/project/issues/1011/specs/design.md
+    note: >
+      Evidence of how the work was done, written by plays. Not behaviour, not design under review.
+      specs/design.md states this change's own design: it is the scope of the review and is never
+      grounding for another category.
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool
+      linters: []
+      runnable_checks:
+        - "By hand, cheap: the files parse (JSON/YAML valid), none holds a secret, a token or a personal reference (no absolute home path), and none points to a path that is absent."
+      design_grounding: "No."
+
+  - name: Plan file
+    design_bearing: false
+    playbook: null
+    playbook_missing: "No playbook covers plan files (.garura/project/plans/*.yaml). Create a follow-up to add one."
+    evidence:
+      - .garura/project/plans/717.yaml
+    note: >
+      One line: the item for #1011 moves from Not Started to Done. The plan file and the tracker must
+      agree (ontology Plan rule on the base ref).
+    treatment:
+      layers: [layer-1-linters]
+      reviewer: the tool; the human reads the named change
+      linters:
+        - name: plan tool read of the file
+          command: python3 .garura/core/tools/plan/plan.py (read the file back; it must parse and keep its layout)
+          note: "Record 'did not run' if the command form differs; not a pass."
+      runnable_checks:
+        - "By hand: only the status line of #1011 changed, no other line, no roll-up to a parent."
+      design_grounding: "No."
+
+notes:
+  - "All three categories have no playbook (Product model page, Work records, Plan file); a follow-up task should record the missing playbooks."
+  - "Design-bearing: Product model page only. Harness, Memory, Executable code, Tests, Documentation, Decision records and Config maps are absent (no changed path falls under them)."
+  - "The shelf and the PR severity taxonomy are copied to .garura/project/issues/1011/context/memory/ (manifest.json beside them)."

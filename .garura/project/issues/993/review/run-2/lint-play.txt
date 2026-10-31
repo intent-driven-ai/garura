@@ -1,0 +1,1 @@
+lint-play: not applicable (no play SKILL.md in changed_paths)

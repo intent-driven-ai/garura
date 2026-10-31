@@ -1,0 +1,8 @@
+ M .garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+ M .garura/project/issues/896/context/porcelain.txt
+ M core/components/memory/standards/rules/pipeline-next.md
+ M core/components/plays/shape-plan/SKILL.md
+ M core/components/plays/shape-slice/SKILL.md
+?? .garura/project/issues/896/context/fn-818-lines-r2/
+?? .garura/project/issues/896/context/memory/
+?? .garura/project/issues/896/context/templates/

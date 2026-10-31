@@ -1,0 +1,1141 @@
+diff --git a/.garura/install-manifest.json b/.garura/install-manifest.json
+index dcd28dfac..758a9a498 100644
+--- a/.garura/install-manifest.json
++++ b/.garura/install-manifest.json
+@@ -161,7 +161,7 @@
+         "messages": [
+           "Short-term memory: reached.",
+           "Garura memory: reached.",
+-          "Phoenix memory: on this machine, at version f8e35c3bd9b6."
++          "Phoenix memory: on this machine, at version 118899951cd9."
+         ]
+       }
+     },
+diff --git a/.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md b/.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+index ff789019d..e10d5fe6a 100644
+--- a/.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
++++ b/.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md
+@@ -17,15 +17,15 @@
+ - The play runs after /shape-slice, on its own, and needs the slice to exist.
+ - Each story carries the goal, the limits, the expectations and the Context guidance from its feature's ICE and its capability's ICE.
+ - The play never writes a failure or recovery condition. The slice's hidden file belongs to /shape-slice (decision 6).
+-- A second run finds the plan, the epic and the stories that exist, and makes no copies.
++- When the intent already has a plan file, the play stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists (#896).
+ - Nothing goes to the tracker before the product owner's yes.
+ - The story is not the build's whole brief. The builder reads the story and the context that its context sub-agent collects from the story's Context guidance.
+ - A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either. So the build is given the intent, never the eval (fn-898).
+-- Thin: what the play does when the slice changes after a plan exists is not set yet.
++- A slice that changes after the plan exists is handled by /update-plan, not by a second run of /shape-plan (#896).
+ 
+ ## Acceptance criteria
+ - Given a slice with three features, when the product owner runs /shape-plan and types yes, then one plan file, one epic and three stories exist.
+-- Given a plan that exists, when the play runs again, then it makes no second epic and no second story for one feature.
++- Given a plan that exists, when the product owner runs /shape-plan, then the play stops before it opens a change or writes anything, and names /update-plan.
+ - Given the stories and the plan file, when a person reads them, then none holds a failure or recovery condition.
+ - Given no yes from the product owner, when the play stops, then nothing is in the tracker.
+ - Given a slice with three features, when the product owner runs /shape-plan and types yes, then the epic holds the feature-to-story map: one line for each feature, with the story that delivers it.
+@@ -37,7 +37,7 @@
+ - The checks that no build is given the evals folder and that flag a build session that read it (fn-898).
+ 
+ ## Sources
+-- GitHub #818 (open): the plan play.
++- GitHub #818 (open): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it.
+ - docs/adr/049-a-slice-is-shaped-then-planned-then-given-its-eval.md, Decisions 1.2, 2 and 4.
+ - GitHub #898 (open): the build is given the business intent, never the eval, and a check flags each build session that read the evals folder.
+ - ADR 057 (docs/adr/057-a-slices-eval-is-plain-text-gherkin-that-runs-with-no-agent.md), its Context and section 7: the product owner dropped encryption and #828 on 2026-10-26. The eval stays in the repo in plain text. The build is given the business intent through the stories, never the eval.
+@@ -46,14 +46,14 @@ Thin: proposed from the person's words; deepen with `/discover-capabilities`.
+ 
+ ## Agent intent (ICE)
+ - Goal: After /shape-plan <intent>, the intent's one plan file (.garura/project/plans/<intent>.yaml), one epic for the slice and one story for each feature of the slice exist.
+-- Goal: A second run finds the plan, the epic and the stories that exist, and makes no copies.
++- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story.
+ - Limit: Write only the plan file, the epic and the stories. Never a failure condition, a recovery condition, the hidden file's failure or recovery lines, or the eval.
+ - Limit: Each story holds the goal, the limits, the expectations and the Context guidance from its feature's ICE and that feature's capability's ICE.
+ - Limit: Nothing goes to the tracker before the product owner's yes.
+ - Limit: A story never names the eval, the hidden file or the plan's evals folder. Its Context guidance does not name them either.
+ - Fails if: a feature of the slice has no story.
+ - Fails if: a story or the plan file holds a failure condition or a recovery condition.
+-- Fails if: a second run makes a second epic for the slice or a second story for one feature.
++- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything.
+ - Fails if: a story, or its Context guidance, names the eval, the hidden file or the plan's evals folder.
+ - Context: serves the product owner, who runs and tracks the plan, and the build play, which reads the stories and the context that its context sub-agent collects from their Context guidance; reads the slice from the spine and the ICE of each feature and its capability; writes .garura/project/plans/ and the tracker; out are the slice, the hidden file, the eval and the build. Not built yet (#818).
+ - Checked by: the product owner runs /shape-plan 788 in Claude Code after /shape-slice and finds the plan file, one epic and one story for each feature, with no failure line in any story.
+diff --git a/.garura/project/issues/896/context/analysis.yaml b/.garura/project/issues/896/context/analysis.yaml
+new file mode 100644
+index 000000000..8b5769586
+--- /dev/null
++++ b/.garura/project/issues/896/context/analysis.yaml
+@@ -0,0 +1,27 @@
++---
++needs_judgment: false
++
++change_groups:
++  - id: install-manifest-reinstall
++    issue: 896
++    commit_type: chore
++    scope: install
++    subject: "record the harness reinstall with the /shape-plan plan-exists check"
++    files:
++      - .garura/install-manifest.json
++  - id: stm-run-records
++    issue: 896
++    commit_type: chore
++    scope: stm
++    subject: "record the run artifacts"
++    files:
++      - .garura/project/issues/896/context/analysis.yaml
++      - .garura/project/issues/896/context/porcelain.txt
++
++exclusions: []
++
++risks:
++  sensitive_files: []
++  breaking_changes: []
++  ambiguous_types: []
++  hotfix_branch: false
+diff --git a/.garura/project/issues/896/context/branch.json b/.garura/project/issues/896/context/branch.json
+new file mode 100644
+index 000000000..c23e232a4
+--- /dev/null
++++ b/.garura/project/issues/896/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/717/896-shape-plan-stops-on-existing-plan",
++  "base_sha": "30434de4cc9cd37e24b59724fe18d4640d9ea598",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/896/context/check-self-review-exit.txt b/.garura/project/issues/896/context/check-self-review-exit.txt
+new file mode 100644
+index 000000000..ca916d098
+--- /dev/null
++++ b/.garura/project/issues/896/context/check-self-review-exit.txt
+@@ -0,0 +1 @@
++exit 0
+diff --git a/.garura/project/issues/896/context/commits.yaml b/.garura/project/issues/896/context/commits.yaml
+new file mode 100644
+index 000000000..bfdbb331f
+--- /dev/null
++++ b/.garura/project/issues/896/context/commits.yaml
+@@ -0,0 +1,18 @@
++commits:
++  - sha: e558413e
++    message: "chore(install): record the harness reinstall with the /shape-plan plan-exists check (#896)"
++    files:
++      - .garura/install-manifest.json
++    branch: plan/717/896-shape-plan-stops-on-existing-plan
++  - sha: 19a36469
++    message: "chore(stm): record the run artifacts (#896)"
++    files:
++      - .garura/project/issues/896/context/analysis.yaml
++      - .garura/project/issues/896/context/porcelain.txt
++    branch: plan/717/896-shape-plan-stops-on-existing-plan
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/896/context/fn-818-lines/change-report.json b/.garura/project/issues/896/context/fn-818-lines/change-report.json
+new file mode 100644
+index 000000000..6c36904d2
+--- /dev/null
++++ b/.garura/project/issues/896/context/fn-818-lines/change-report.json
+@@ -0,0 +1,42 @@
++{
++  "by": "product-os-keeper (fn-818-lines, #896)",
++  "source": "Approved design .garura/project/issues/896/specs/design.md (approved by the product owner, 2026-10-30), How step 4",
++  "pages": [
++    {
++      "page": "software-delivery-planning/cap-718/fn-818/feature.md",
++      "changes": [
++        {
++          "old": "- A second run finds the plan, the epic and the stories that exist, and makes no copies.",
++          "new": "- When the intent already has a plan file, the play stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists (#896)."
++        },
++        {
++          "old": "- Thin: what the play does when the slice changes after a plan exists is not set yet.",
++          "new": "- A slice that changes after the plan exists is handled by /update-plan, not by a second run of /shape-plan (#896)."
++        },
++        {
++          "old": "- Given a plan that exists, when the play runs again, then it makes no second epic and no second story for one feature.",
++          "new": "- Given a plan that exists, when the product owner runs /shape-plan, then the play stops before it opens a change or writes anything, and names /update-plan."
++        },
++        {
++          "old": "- Goal: A second run finds the plan, the epic and the stories that exist, and makes no copies.",
++          "new": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story."
++        },
++        {
++          "old": "- Fails if: a second run makes a second epic for the slice or a second story for one feature.",
++          "new": "- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything."
++        },
++        {
++          "old": "- GitHub #818 (open): the plan play.",
++          "new": "- GitHub #818 (open): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it."
++        }
++      ],
++      "lines_before": 59,
++      "lines_after": 59,
++      "lines_added": 0,
++      "lines_kept": 53
++    }
++  ],
++  "changed": [
++    "software-delivery-planning/cap-718/fn-818/feature.md"
++  ]
++}
+diff --git a/.garura/project/issues/896/context/fn-818-lines/lines-request.json b/.garura/project/issues/896/context/fn-818-lines/lines-request.json
+new file mode 100644
+index 000000000..a06a3b742
+--- /dev/null
++++ b/.garura/project/issues/896/context/fn-818-lines/lines-request.json
+@@ -0,0 +1,18 @@
++{"by": "product-os-keeper (fn-818-lines, #896)",
++ "source": "Approved design .garura/project/issues/896/specs/design.md (approved by the product owner, 2026-10-30), How step 4",
++ "pages": [
++  {"page": "software-delivery-planning/cap-718/fn-818/feature.md",
++   "changes": [
++    {"old": "- A second run finds the plan, the epic and the stories that exist, and makes no copies.",
++     "new": "- When the intent already has a plan file, the play stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists (#896)."},
++    {"old": "- Thin: what the play does when the slice changes after a plan exists is not set yet.",
++     "new": "- A slice that changes after the plan exists is handled by /update-plan, not by a second run of /shape-plan (#896)."},
++    {"old": "- Given a plan that exists, when the play runs again, then it makes no second epic and no second story for one feature.",
++     "new": "- Given a plan that exists, when the product owner runs /shape-plan, then the play stops before it opens a change or writes anything, and names /update-plan."},
++    {"old": "- Goal: A second run finds the plan, the epic and the stories that exist, and makes no copies.",
++     "new": "- Goal: When the intent already has a plan, /shape-plan stops at pre-flight and points to /update-plan; it makes no second plan, epic or story."},
++    {"old": "- Fails if: a second run makes a second epic for the slice or a second story for one feature.",
++     "new": "- Fails if: the intent already has a plan file and the run opens a change, reads the model or writes anything."},
++    {"old": "- GitHub #818 (open): the plan play.",
++     "new": "- GitHub #818 (open): the plan play. GitHub #896: /shape-plan stops when the intent already has a plan, and /update-plan changes it."}
++   ]}]}
+diff --git a/.garura/project/issues/896/context/issue.json b/.garura/project/issues/896/context/issue.json
+new file mode 100644
+index 000000000..181044e3f
+--- /dev/null
++++ b/.garura/project/issues/896/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 896,
++  "title": "/shape-plan stops when the business intent already has a plan, and does not run again",
++  "created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/896/context/plan.json b/.garura/project/issues/896/context/plan.json
+new file mode 100644
+index 000000000..f94085b52
+--- /dev/null
++++ b/.garura/project/issues/896/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "896",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/896-shape-plan-stops-on-existing-plan"
++}
+diff --git a/.garura/project/issues/896/context/porcelain.txt b/.garura/project/issues/896/context/porcelain.txt
+new file mode 100644
+index 000000000..9309be7c2
+--- /dev/null
++++ b/.garura/project/issues/896/context/porcelain.txt
+@@ -0,0 +1,2 @@
++ M .garura/install-manifest.json
++ M .garura/project/issues/896/context/porcelain.txt
+diff --git a/.garura/project/issues/896/context/pr-body.md b/.garura/project/issues/896/context/pr-body.md
+new file mode 100644
+index 000000000..8893ecb8c
+--- /dev/null
++++ b/.garura/project/issues/896/context/pr-body.md
+@@ -0,0 +1,107 @@
++## Story #896 — /shape-plan stops when the business intent already has a plan
++
++Closes #896. Plan 717, under #718 (build a plan from a business intent).
++
++### What a person gets
++
++`/shape-plan <id>` makes an intent's plan once. When the intent already has a plan file — in the checked-out tree or on main — the play stops at pre-flight, before it opens a change, reads the model or writes anything, and says: "Plan <id> already exists for #<id>. /shape-plan makes a plan once. To change it (add an epic, a story, a feature, or a status), run /update-plan <id>." With no plan file, the first run works as before.
++
++### What is in it
++
++- **The check**: `core/components/plays/shape-plan/scripts/check_plan_absent.py` (exit 0 no plan, 3 a plan exists, 2 bad input), with 5 tests. On a stop it leaves no file behind.
++- **/shape-plan's ICE, rebuilt through /edit-play**: new C14 (the pre-flight check), F13, S9 and REC13; the promises that only an existing plan could meet are removed (C4, C12, F6, S2–S5, REC6; C1 and C3 narrowed to one plan and one run); the Context names /update-plan as the play that changes a plan that exists. The compiled play follows; the play linter passes with no gap.
++- **The product model**: fn-818's ICE (/shape-plan's feature) — "a second run makes no copies" becomes "when the plan exists, the play stops and points to /update-plan", and its open line on a slice that changes after a plan exists is settled. Changed through the model sub-agent and the page skill's named-line change.
++- **Plan 717** marks #896 Done; the install record follows the reinstall.
++
++### How it was checked
++
++All 10 /shape-plan test files pass (124 checks). The play linter passes. The component linter finds nothing in /shape-plan. Run live on this repo: plans 717 and 788 stop with the pointer to /update-plan; a number with no plan goes on.
++
++The scripts' code that brought an existing plan up to date is left in place and is no longer reached; taking it out is a later clean-up.
++
++### Self-review
++
++# Self-review: #896 (/shape-plan stops when the business intent already has a plan)
++
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (base, no project override; resolution in `.garura/project/issues/896/context/resolved-rules.json`).
++Branch: `plan/717/896-shape-plan-stops-on-existing-plan`. Diff: `origin/plan/717/base...HEAD`. Pattern: plan-story branch under plan 717.
++Size: 9 commits, 17 files, +400 / -107.
++
++Informational only. This is not the approve/reject gate (that is check-change).
++
++## Suggested PR title
++
++```
++feat(shape-plan): stop at pre-flight when the intent already has a plan and point to /update-plan (#896)
++```
++
++## Context detected
++
++| Group | Files |
++|-------|-------|
++| Play source (SKILL.md, ICE) | `core/components/plays/shape-plan/SKILL.md`, `core/components/plays/shape-plan/reference/ice.md` |
++| Code and tests | `core/components/plays/shape-plan/scripts/check_plan_absent.py`, `core/components/plays/shape-plan/scripts/test_check_plan_absent.py` |
++| Product model | `.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md` |
++| Plan | `.garura/project/plans/717.yaml` |
++| Install record | `.garura/install-manifest.json` |
++| Short-term memory (STM) evidence | `.garura/project/issues/896/context/*`, `.garura/project/issues/896/specs/design.md` |
++
++Commit types: feat 1, docs 1, chore 7. Every subject carries `(#896)`.
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | Each part maps to the approved design (`.garura/project/issues/896/specs/design.md`): the check script and tests, the ICE changes (C14, F13, S9, REC13 added; C4, C12, F6, S2 to S5, REC6 dropped; C1 and C3 narrowed), the compiled SKILL.md, fn-818's ICE lines, plan 717 marking #896 Done, the install record. |
++| No scope creep | PASS | No file outside the play, its model feature, the plan, the install record and the issue's own STM folder. The scripts that bring an existing plan up to date were left in place on purpose (design, step 3). |
++| Reasonable size | PASS | 17 files, +400 / -107. About 45 of the lines are the new script and about 75 its tests. The rest is one play's ICE and compiled text. Reviewable in one sitting. |
++| No stray artifacts | PASS | No debug prints beyond the script's intended output, no commented-out blocks, no TODOs in the diff. The untracked `.garura/project/issues/896/context/resolved-rules.json` is this review's own record and is not part of the diff. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS | `test_check_plan_absent.py` has 5 cases (no plan: go on; plan in checkout and on main: stop; plan on main only; plan in checkout only; non-digit ID refused). Run result: 5 passed, 0 failed. |
++| Commits are clean | PASS | All 9 subjects are conventional (`feat`, `docs`, `chore`) and reference #896. Each commit is one concern: play, model lines, plan, install record, STM records. |
++| No secrets | PASS | No credentials, tokens or keys in the diff. No absolute user paths added. |
++| Docs in step | PASS | The play's description, constraints, scenarios and recovery, and fn-818's ICE and acceptance lines all say the play stops and points to /update-plan. The sources line names #896. |
++| Nothing obviously broken | REVIEW | See the two notes below. |
++
++## Notes for the reviewer
++
++1. Lint: `node core/tools/lint-components/index.js --target core/components` from the repo root reports 36 errors and 1 warning. None name `shape-plan`. They come from other parts of the tree, and none is caused by this change.
++2. Dead text left on purpose: `core/components/plays/shape-plan/SKILL.md` still describes the "find before make" and `add-sections` handling (around the work-items step and SE-4). With the plan-exists stop, that path is no longer reached in a normal run. The design (step 3) leaves its removal for a later clean-up. Worth a follow-up issue so the play text and the scripts do not drift.
++3. The installed copy under `.claude/skills/` is not tracked; the install record (`.garura/install-manifest.json`) shows only the Phoenix memory version change. No deployed file was edited by hand.
++
++## Blocking issues
++
++None.
++
++## Readiness
++
++- Ready: yes
++- Blocking count: 0
++- Review required: 1 (note 2, the left-over text, for a person to confirm as intended)
++- Recommendation: raise the PR against `plan/717/base`.
++
++```yaml
++analysis:
++  branch: plan/717/896-shape-plan-stops-on-existing-plan
++  base: plan/717/base
++  suggested_title: "feat(shape-plan): stop at pre-flight when the intent already has a plan and point to /update-plan (#896)"
++  context:
++    file_patterns_matched: [code, tests, documentation, product-model, plan, stm-evidence]
++    commit_types: [feat, docs, chore]
++  checklist:
++    must_have:
++      - {item: "Matches the issue", status: PASS}
++      - {item: "No scope creep", status: PASS}
++      - {item: "Tests present", status: PASS, evidence: "5 passed, 0 failed"}
++      - {item: "No secrets", status: PASS}
++      - {item: "Commits are clean", status: PASS}
++    nice_to_have:
++      - {item: "Docs in step", status: PASS}
++      - {item: "Dead update-in-place text removed", status: REVIEW, evidence: "left on purpose per design step 3"}
++  blocking_issues: []
++  ready: true
++```
+diff --git a/.garura/project/issues/896/context/pr.json b/.garura/project/issues/896/context/pr.json
+new file mode 100644
+index 000000000..0db48ce43
+--- /dev/null
++++ b/.garura/project/issues/896/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 1003,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1003",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/896/context/resolved-rules.json b/.garura/project/issues/896/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/896/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/896/context/self-review.md b/.garura/project/issues/896/context/self-review.md
+new file mode 100644
+index 000000000..eb12474a1
+--- /dev/null
++++ b/.garura/project/issues/896/context/self-review.md
+@@ -0,0 +1,84 @@
++# Self-review: #896 (/shape-plan stops when the business intent already has a plan)
++
++Rules: `~/.phoenix/core/memory/standards/rules/self-review.md` (base, no project override; resolution in `.garura/project/issues/896/context/resolved-rules.json`).
++Branch: `plan/717/896-shape-plan-stops-on-existing-plan`. Diff: `origin/plan/717/base...HEAD`. Pattern: plan-story branch under plan 717.
++Size: 9 commits, 17 files, +400 / -107.
++
++Informational only. This is not the approve/reject gate (that is check-change).
++
++## Suggested PR title
++
++```
++feat(shape-plan): stop at pre-flight when the intent already has a plan and point to /update-plan (#896)
++```
++
++## Context detected
++
++| Group | Files |
++|-------|-------|
++| Play source (SKILL.md, ICE) | `core/components/plays/shape-plan/SKILL.md`, `core/components/plays/shape-plan/reference/ice.md` |
++| Code and tests | `core/components/plays/shape-plan/scripts/check_plan_absent.py`, `core/components/plays/shape-plan/scripts/test_check_plan_absent.py` |
++| Product model | `.garura/product/product-os/software-delivery-planning/cap-718/fn-818/feature.md` |
++| Plan | `.garura/project/plans/717.yaml` |
++| Install record | `.garura/install-manifest.json` |
++| Short-term memory (STM) evidence | `.garura/project/issues/896/context/*`, `.garura/project/issues/896/specs/design.md` |
++
++Commit types: feat 1, docs 1, chore 7. Every subject carries `(#896)`.
++
++## Scope checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Matches the issue | PASS | Each part maps to the approved design (`.garura/project/issues/896/specs/design.md`): the check script and tests, the ICE changes (C14, F13, S9, REC13 added; C4, C12, F6, S2 to S5, REC6 dropped; C1 and C3 narrowed), the compiled SKILL.md, fn-818's ICE lines, plan 717 marking #896 Done, the install record. |
++| No scope creep | PASS | No file outside the play, its model feature, the plan, the install record and the issue's own STM folder. The scripts that bring an existing plan up to date were left in place on purpose (design, step 3). |
++| Reasonable size | PASS | 17 files, +400 / -107. About 45 of the lines are the new script and about 75 its tests. The rest is one play's ICE and compiled text. Reviewable in one sitting. |
++| No stray artifacts | PASS | No debug prints beyond the script's intended output, no commented-out blocks, no TODOs in the diff. The untracked `.garura/project/issues/896/context/resolved-rules.json` is this review's own record and is not part of the diff. |
++
++## Quality checks
++
++| Check | Status | Evidence |
++|-------|--------|----------|
++| Tests present | PASS | `test_check_plan_absent.py` has 5 cases (no plan: go on; plan in checkout and on main: stop; plan on main only; plan in checkout only; non-digit ID refused). Run result: 5 passed, 0 failed. |
++| Commits are clean | PASS | All 9 subjects are conventional (`feat`, `docs`, `chore`) and reference #896. Each commit is one concern: play, model lines, plan, install record, STM records. |
++| No secrets | PASS | No credentials, tokens or keys in the diff. No absolute user paths added. |
++| Docs in step | PASS | The play's description, constraints, scenarios and recovery, and fn-818's ICE and acceptance lines all say the play stops and points to /update-plan. The sources line names #896. |
++| Nothing obviously broken | REVIEW | See the two notes below. |
++
++## Notes for the reviewer
++
++1. Lint: `node core/tools/lint-components/index.js --target core/components` from the repo root reports 36 errors and 1 warning. None name `shape-plan`. They come from other parts of the tree, and none is caused by this change.
++2. Dead text left on purpose: `core/components/plays/shape-plan/SKILL.md` still describes the "find before make" and `add-sections` handling (around the work-items step and SE-4). With the plan-exists stop, that path is no longer reached in a normal run. The design (step 3) leaves its removal for a later clean-up. Worth a follow-up issue so the play text and the scripts do not drift.
++3. The installed copy under `.claude/skills/` is not tracked; the install record (`.garura/install-manifest.json`) shows only the Phoenix memory version change. No deployed file was edited by hand.
++
++## Blocking issues
++
++None.
++
++## Readiness
++
++- Ready: yes
++- Blocking count: 0
++- Review required: 1 (note 2, the left-over text, for a person to confirm as intended)
++- Recommendation: raise the PR against `plan/717/base`.
++
++```yaml
++analysis:
++  branch: plan/717/896-shape-plan-stops-on-existing-plan
++  base: plan/717/base
++  suggested_title: "feat(shape-plan): stop at pre-flight when the intent already has a plan and point to /update-plan (#896)"
++  context:
++    file_patterns_matched: [code, tests, documentation, product-model, plan, stm-evidence]
++    commit_types: [feat, docs, chore]
++  checklist:
++    must_have:
++      - {item: "Matches the issue", status: PASS}
++      - {item: "No scope creep", status: PASS}
++      - {item: "Tests present", status: PASS, evidence: "5 passed, 0 failed"}
++      - {item: "No secrets", status: PASS}
++      - {item: "Commits are clean", status: PASS}
++    nice_to_have:
++      - {item: "Docs in step", status: PASS}
++      - {item: "Dead update-in-place text removed", status: REVIEW, evidence: "left on purpose per design step 3"}
++  blocking_issues: []
++  ready: true
++```
+diff --git a/.garura/project/issues/896/context/target.json b/.garura/project/issues/896/context/target.json
+new file mode 100644
+index 000000000..ec41c88a0
+--- /dev/null
++++ b/.garura/project/issues/896/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/896-shape-plan-stops-on-existing-plan",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "896",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/896/context/work-description.txt b/.garura/project/issues/896/context/work-description.txt
+new file mode 100644
+index 000000000..00f7637ff
+--- /dev/null
++++ b/.garura/project/issues/896/context/work-description.txt
+@@ -0,0 +1,2 @@
++#896 — /shape-plan stops when the business intent already has a plan, and does not run again.
++Approved design (2026-10-30): a pre-flight check stops /shape-plan when the intent's plan file exists, writes nothing, and points to /update-plan; /shape-plan's ICE drops the "bring a plan up to date" promises; fn-818's ICE in the product model follows before propose-change.
+diff --git a/.garura/project/issues/896/specs/design.md b/.garura/project/issues/896/specs/design.md
+new file mode 100644
+index 000000000..b32dd7bef
+--- /dev/null
++++ b/.garura/project/issues/896/specs/design.md
+@@ -0,0 +1,30 @@
++# #896 — /shape-plan stops when the business intent already has a plan
++
++Approved by the product owner, 2026-10-30 ("approve").
++
++## What changes
++
++- A pre-flight check: when the intent's plan file (`.garura/project/plans/<id>.yaml`) is there —
++  in the checked-out tree or on main — /shape-plan stops before anything else (before
++  start-change, before it reads the model, before any write) and says:
++  "Plan <id> already exists for #<id>. /shape-plan makes a plan once. To change it (add an epic,
++  a story, a feature, or a status), run /update-plan <id>."
++- This is a pre-flight check, not a gate: the play that changes an existing plan is /update-plan.
++- With no plan file, /shape-plan runs as today.
++
++## How
++
++1. A script, `check_plan_absent.py`, does the check (exit 0 no plan, 3 a plan exists, 2 bad
++   input), with tests.
++2. /shape-plan's ICE through /edit-play: a new constraint (C14), failure condition, scenario and
++   recovery for the check; the promises that only an existing plan can meet are removed — C1's
++   "a new slice shaped for the same intent joins the same plan", C3 narrowed to the first run,
++   C4, C12, F6, S2, S3, S4, S5, REC6; the Context line on update-plan updated.
++3. The scripts' code that brings an existing plan up to date stays for now; it is no longer
++   reached. Taking it out is a later clean-up.
++4. fn-818's ICE in the product model (/shape-plan's feature) follows after the build and before
++   propose-change, through the model sub-agent and the page skill's named-line change: "a second
++   run finds the plan … and makes no copies" becomes "when the plan exists, the play stops and
++   points to /update-plan", and its open line on a slice that changes after a plan exists is
++   settled.
++5. The change lands on plan 717's branch through commit, propose, check and merge.
+diff --git a/.garura/project/plans/717.yaml b/.garura/project/plans/717.yaml
+index 1596cc5f8..7beee1487 100644
+--- a/.garura/project/plans/717.yaml
++++ b/.garura/project/plans/717.yaml
+@@ -33,7 +33,7 @@ tree:
+     - issue: 896
+       kind: story
+       title: /shape-plan stops when the business intent already has a plan, and does not run again
+-      status: Not Started
++      status: Done  # /shape-plan stops when the intent already has a plan (#896), 2026-10-30
+   - issue: 719
+     kind: feature
+     title: 'View plans: see every plan, and any one plan as a tree'
+diff --git a/core/components/plays/shape-plan/SKILL.md b/core/components/plays/shape-plan/SKILL.md
+index 89310e4e4..fbc40d8d7 100644
+--- a/core/components/plays/shape-plan/SKILL.md
++++ b/core/components/plays/shape-plan/SKILL.md
+@@ -2,23 +2,24 @@
+ name: shape-plan
+ position: both
+ argument-hint: "<business intent issue number>"
+-description: 'Make the one plan of a business intent that /shape-slice has served with a slice, or bring it up to date — the second play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. It finds before it makes: an epic or a story that the plan file marks with represents is used and never made again, and a found story only gains the sections it lacks, keeping every line a person wrote. A feature that left the slice has its story moved out of the plan, and the story stays open in the tracker; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has one.'
++description: 'Make the one plan of a business intent that /shape-slice has served with a slice, once — the second play of the shaping loop (ADR 049: /shape-slice, then /shape-plan, then /shape-eval). Run as /shape-plan <intent-issue> (for example /shape-plan 788). It holds every slice the spine links to the intent, and for each slice it makes one epic (an issue of type Epic, no label) and one story for each feature (an issue of type Story, no label, a sub-issue of the epic), each story written from its feature''s ICE and that feature''s capability''s ICE: its scope of work (goals, limits, expectations) and its Context guidance, with no failure condition and no recovery condition. When the intent already has a plan file, it stops at pre-flight, before it opens a change or writes anything, and points to /update-plan, which changes a plan that exists. Within its one run it never makes an epic or a story twice; a feature whose ICE is not ready is skipped and named. The epic holds the feature-to-story map, which always agrees with the plan file''s tree. Nothing reaches the tracker and the plan file is not written before the product owner types yes at one pinned checkpoint, after a brief that shows every write. Writes only the plan file, the epics and the stories; nothing in the evals folder or the product model. Position both: it opens its own change and lands it through commit-change, propose-change, check-change and merge-change, on the plan''s branch when the intent has one.'
+ user-invocable: true
+ ---
+ 
+ # shape-plan
+ 
+ A person names a business intent that `/shape-slice` has served with a slice. /shape-plan
+-makes the intent's **one plan**, or brings it up to date: the plan file
++makes the intent's **one plan**, once: the plan file
+ (`.garura/project/plans/<intent-issue>.yaml`), one **epic** for each slice the plan holds, and
+ one **story** for each feature of that slice. Each story is written from its feature's ICE and
+ that feature's capability's ICE, and holds no failure condition and no recovery condition:
+-those stay in the slice's hidden file, which `/shape-slice` wrote. A second run makes no
+-copies. The eval play (#798) comes next, once it is built.
++those stay in the slice's hidden file, which `/shape-slice` wrote. When the intent already has a
++plan, the play stops at pre-flight and points to `/update-plan`, which changes a plan that
++exists. The eval play (#798) comes next, once it is built.
+ 
+ The run reads the slices from the spine (the link "slice serves business intent"); it never
+-picks, orders or tests a slice. It finds each epic and story that already stands for a slice or
+-a feature before it makes one, by the plan file's `represents` marks, never by a title. It
++picks, orders or tests a slice. Within its one run it never makes an epic or a story twice,
++and it knows a work item by the plan file's `represents` marks, never by a title. It
+ shows the product owner one brief with every tracker write and the plan-file change, and
+ writes nothing before the typed yes.
+ 
+@@ -29,8 +30,8 @@ check-change → merge-change lands it.
+ ## Compiled From
+ 
+ This play was compiled from the shape-plan ICE (`reference/ice.md`) by create-play. Intent
+-defines constraints (C1–C13) and failure conditions (F1–F12); the expectation defines success
+-scenarios (S1–S8), a Done means (D1–D5, baked to `stop-condition.yaml`), and one recovery entry
++defines constraints (C1–C3, C5–C11, C13–C14) and failure conditions (F1–F5, F7–F13); the
++expectation defines success scenarios (S1, S6–S9), a Done means (D1–D5, baked to `stop-condition.yaml`), and one recovery entry
+ per failure condition. To modify this play, update `reference/ice.md` and recompile with
+ edit-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -42,7 +43,7 @@ reads no memory itself. The `product-os-keeper` agent gathers context and calls
+ `author-work-items`, which writes the words of each epic and story; the agent passes the
+ skill's output on as it is and never writes content. `template-manager` hands out the approval
+ prompt and the close templates. You run all mechanical work through bundled scripts: the
+-gather and the clean ICE copies (`gather_plan.py`, which runs the ready check
++plan-exists check (`check_plan_absent.py`), the gather and the clean ICE copies (`gather_plan.py`, which runs the ready check
+ `check_ice_workable.py`), the find (`find_work_items.py`), the draft check (`check_drafts.py`),
+ the brief (`render_brief.py`), the checkpoint record and the write gate (`record_approval.py`),
+ the tracker writes (`write_work_items.py`, through `platform_adapter.py`), the plan file
+@@ -53,17 +54,16 @@ story by hand.
+ 
+ **Forbidden:** a second plan for one intent (C1); picking, ordering or testing a slice, or
+ leaving out a slice the spine links to the intent (C2); matching a work item by its title, or
+-making an epic or a story that the plan file already marks (C3); deleting a story whose
+-feature left the slice, or leaving it in the plan (C4); reading a "Fails if" line, or a story,
++making an epic or a story twice within the run (C3); reading a "Fails if" line, or a story,
+ an epic or a plan file that holds a failure or recovery condition (C5); an epic title that
+ says how the product is built, or a map that disagrees with the tree (C6); writing outside the
+ plan file, the epics and the stories — the evals folder and the product model above all (C7);
+ a tracker write before the typed yes, a write the brief did not show, or a checkpoint skipped
+ by config (C8); a story built from an ICE that is not ready, or a skipped feature not named
+ (C9); landing outside the change plays or on the wrong branch (C10); a real person's name, or
+-text a person cannot follow (C11); rewriting or deleting a line a person wrote on a found story
+-(C12); a label on an epic or a story, a wrong issue type, or a write while an epic holds work that
+-is not its slice's (C13).
++text a person cannot follow (C11); a label on an epic or a story, a wrong issue type, or a write
++while an epic holds work that is not its slice's (C13); going on past pre-flight when the intent
++already has a plan file (C14).
+ 
+ **Agent boundaries:**
+ 
+@@ -82,11 +82,23 @@ injected sub-plays; everything else is a script.
+ |-------|-----------|-------------------|
+ | Resolve config, `stm_base`, `product_base` (`.garura/core/config.yaml`) | — | Hard halt |
+ | A business intent issue number was given (`/shape-plan <intent-issue>`, digits only); the plan's ID is that number | C1 | Hard halt — ask for the intent's issue number |
++| **The intent has no plan yet** — `check_plan_absent.py`: no `.garura/project/plans/<intent-issue>.yaml` in the checked-out tree or on main. Runs first, before start-change and before any read of the model | C14 | Stop (exit 3): show its message — the plan exists, and `/update-plan <intent-issue>` changes it — and close HALTED with `exit_reason: plan_exists`; nothing was opened or written |
+ | The product model's spine exists (`<product_base>product-os/_spine.yaml`) | C2 | Hard halt — run `/shape-slice <intent-issue>` first |
+ | **Clean model tree** — after Step 0: `git status --porcelain -- <product_base>product-os` is empty | C7 | Hard halt (REC7) |
+ | **Clean plans tree** — after Step 0: `git status --porcelain -- .garura/project/plans` is empty, so the write guard sees only this run's change and a restore never takes back a person's own plan edits | C7, C8 | Hard halt (REC7) |
+ 
+-Resolve the facts with the bundled resolver, not by inference:
++First the plan-exists check — before anything else:
++
++```
++python3 scripts/check_plan_absent.py --plans-dir .garura/project/plans --plan <intent-issue> \
++    --out "${stm_base}_plans/shape-plan/plan-absent.json"
++```
++
++Exit 3: show its `message` as it is, remove `${stm_base}_plans/shape-plan/` so nothing is left
++behind, and stop — no start-change, no model read, no write (C14). Exit 2: the number is not an
++intent issue; ask for it. Exit 0: go on; after Step 0, move `plan-absent.json` into `<working>`.
++
++Then resolve the facts with the bundled resolver, not by inference:
+ 
+ ```
+ git branch --show-current
+@@ -156,6 +168,12 @@ clean plans tree (hard halt if dirty — REC7).
+       "inputs":  { "title": "[TASK] shape-plan: make the plan for business intent #<intent-issue>" },
+       "outputs": { "result": "<working>start-change.json" } }
+ 
++Step 0 runs only after the plan-exists check (pre-flight) read `exists: false`.
++**SE-20 (F13/C14):** `<working>plan-absent.json` reads `exists: false`, and start-change's record
++was made after it; on a stop, the check's printed record read `exists: true`, its message named
++`/update-plan <intent-issue>` and was shown, and the run made no change issue, no branch, no
++short-term folder and no tracker write, and left no file behind.
++
+ ### Phase: Gather
+ 
+ **Step 1 — Gather the slices and the clean ICE copies** · Owner: play (script) · Depends on: Step 0
+@@ -199,8 +217,7 @@ python3 scripts/find_work_items.py --gather <working>gather.json --plan-file <pl
+ It reads the plan file and, through the code-host adapter, the tracker; it writes nothing.
+ An epic is `use` when a node of the tree has `represents: <slice id>`, else `make`; a story is
+ `use`, `add-sections` (it lacks "Scope of work" or "Context guidance"), `make`, or `skip` (its
+-feature is not ready). It never compares titles (C3). `move_out` lists each marked story whose
+-feature is no longer in the slice (C4). Exit 1 lists a duplicate (two nodes stand for one
++feature is not ready). It never compares titles (C3). Exit 1 lists a duplicate (two nodes stand for one
+ slice, or for one feature in one epic) or a marked issue the tracker does not have: show it to
+ the person in plain words and stop (REC2); the run goes on only after the person fixes the
+ plan file. `misplaced` lists each sub-issue of an epic that is not a story of its slice (nor a
+@@ -214,8 +231,6 @@ when `misplaced` is not empty, `ok` reads false and there is no `tracker-record.
+ **SE-4 (F2/C3):** `work-items.json` reads `ok: true`; its `duplicates` is empty; each `use` or
+ `add-sections` item's issue is the `issue` of the plan-file node whose `represents` names that
+ slice or feature; no item with a marked node is `make`.
+-**SE-5 (F6/C4):** each node under an epic whose `represents` names a feature that is not in the
+-slice is in that slice's `move_out`, and no feature of the slice is.
+ 
+ ### Phase: Draft
+ 
+@@ -313,16 +328,12 @@ and when the brief, `work-items.json` or `drafts.json` is no longer the file the
+ type Epic, and each story as an issue of type Story with its epic as parent, each in one
+ write and with no label (C13); it adds each story's "Written from" line (the two ICE pages)
+ from `gather.json`; on a used item it sets the type when it is wrong
+-and takes off its labels; on `add-sections` it appends only the missing sections and keeps
+-every line of the body (C12); it writes the epic's "Feature-to-story map" (C6); for
+-`move_out` it takes the story off the epic's sub-issues and the map, and leaves it open (C4).
++and takes off its labels; it writes the epic's "Feature-to-story map" (C6).
+ Each write goes through the code-host adapter's verbs, and `tracker-record.json` is written
+ after every write. Exit 1 means the tracker failed part way: the record reads `ok: false`,
+ names the `failed` step and keeps every issue made before it. Still run Step 7, so the plan
+ file marks those issues and the next run finds them and makes no copy; then show the record to
+ the person and close HALTED (REC5).
+-**SE-11 (F7/C12):** each `updated` story in `tracker-record.json` has `lines_kept: true`, and for
+-each `add-sections` story every line of its body before the run is in its body now, in order.
+ **SE-12 (F5/C8):** `tracker-record.json` `approval_at` equals `approval.json` `at`; the sha256 of
+ `brief.md`, `work-items.json` and `drafts.json` still equals what `approval.json` recorded; each
+ issue in `created`, `updated` and `moved_out` matches an item of `work-items.json` that
+@@ -361,7 +372,7 @@ python3 scripts/scoped_write_guard.py --product-base <product_base> --base-ref H
+ 
+ `check_plan.py` exit 1: a missing story node is REC1, a tree that disagrees with the map is
+ REC4 — fix and run Steps 6–8 again. `check_tracker.py` exit 1: a label or a wrong type is
+-REC11, a deleted or closed moved-out story is REC6. The guard's allowed set is C7's: the one
++REC11. The guard's allowed set is C7's: the one
+ plan file. Exit 1: re-run it with `--restore` to undo each write outside the set (REC7), then
+ run Steps 7–8 again. The run writes nothing in the evals folder and nothing in the product
+ model, so it makes no `feat(model)` commit.
+@@ -372,8 +383,6 @@ skipped feature is in `skipped`.
+ **SE-15 (F11/C13):** `tracker-check.json` reads `ok: true`: each issue of the record exists, each
+ epic has type Epic and each story type Story, none has a label, and each epic's sub-issues
+ are its stories.
+-**SE-16 (F6/C4):** each story in `tracker-record.json` `moved_out` is open in the tracker, is not
+-a sub-issue of its epic, and is in neither the plan file's tree nor the epic's map.
+ **SE-17 (F7/C7):** `guard-report.json` reads `ok: true` — no path in the product model and no
+ path under `.garura/project/plans/` other than `<plan-file>` changed (the evals folder is
+ untouched).
+@@ -422,18 +431,6 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
+   features, `plan-write.json` reads `made: true`, `plan-check.json` and `tracker-check.json`
+   read `ok: true`, `tracker-record.json` `created` holds one epic and three stories, the epic's
+   map names the three stories, and `drafts-check.json` reads `ok: true`.
+-- **SCE-2 (S2 — product owner, second run):** `tracker-record.json` `created` is empty,
+-  `plan-write.json` reads `changed: false`, and the plan file's `shasum -a 256` equals
+-  `plan-before.txt`.
+-- **SCE-3 (S3 — product owner, items made by hand):** `tracker-record.json` `created` is empty;
+-  each `add-sections` story is in `updated` with only `section added` changes and
+-  `lines_kept: true`; `tracker-check.json` reads `ok: true`.
+-- **SCE-4 (S4 — product owner, the slice changed):** `tracker-record.json` `moved_out` names the
+-  story of the feature that left, `check_tracker.py` finds it open, `created` holds one story
+-  for the feature that came in, and `plan-check.json` reads `ok: true`.
+-- **SCE-5 (S5 — product owner, a second slice):** there is one plan file for the intent; its
+-  tree has two epic nodes, one for each slice, and `tracker-record.json` `epics` names two
+-  epics.
+ - **SCE-6 (S6 — product owner, stop):** `approval.json` reads `decision: stop`, there is no
+   `tracker-record.json`, `stop-check.txt` is empty, and `plan-after-stop.txt` equals
+   `plan-before.txt`.
+@@ -443,6 +440,10 @@ intent has a plan (else main), and `merge-change.json` reports it merged.
+ - **SCE-8 (S8 — product owner, misplaced work):** `work-items.json` lists each item that is not a
+   story of the epic's slice in `misplaced` with its title, there is no `tracker-record.json`, and
+   the plan file's `shasum -a 256` equals `plan-before.txt`.
++- **SCE-9 (S9 — product owner, a plan that exists):** the check's printed record reads
++  `exists: true` and its message names `/update-plan <intent-issue>`; there is no start-change
++  record, no change branch, no tracker write and no file left behind, and the plan file is as it
++  was.
+ 
+ ### Phase: Evidence & Close
+ 
+@@ -481,17 +482,17 @@ record `evidence skipped (record=false)` in the report's pointer line. Otherwise
+ `evidence-file.md` slots (play `shape-plan`, run_id `shape-plan-${ts}`, issue, the intent
+ issue, started_at/completed_at, status per C0, exit_reason; artifacts produced: `gather.json`,
+ `work-items.json`, `drafts.json`, `drafts-check.json`, `brief.md`, `approval.json`,
+-`tracker-record.json` with the epics and stories made, used and moved out, `plan-write.json`
++`plan-absent.json`, `tracker-record.json` with the epics and stories made and used, `plan-write.json`
+ and the plan file's path, `plan-check.json`, `tracker-check.json`, `guard-report.json`, the
+ plan commit sha, and the skill the agent contract named; step and scenario eval results
+-SE-1…SE-18 / SCE-1…SCE-7; the checkpoint answers in the person's words; the session identity
++SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-20 / SCE-1, SCE-6…SCE-9; the checkpoint answers in the person's words; the session identity
+ stamp fields from $session_stamp (#463); and stop_condition per C0) and write to
+ `$evidence_dest`. Do NOT hand-author the body.
+ 
+ **Step C2 — Render delivery report.** Fill the `delivery-report.md` slots and output the
+ report: `## shape-plan Delivered — #${issue}`, the Run Summary table, the Pipeline Steps table
+ from the task DAG, the Artifacts Produced table (the plan file, each epic and story made, used,
+-given sections or moved out, each skipped feature with its reason, the PR), and the **Next**
++or used, each skipped feature with its reason, the PR), and the **Next**
+ line from the Next-line map (`$next_map`, from `template-manager`), per `play-close.md`; omit it
+ when the map's command is null. Next Steps: the eval play (#798) reads the epic, its map and
+ its stories once it is built. End with a pointer to `$evidence_dest`. Always emitted; never
+@@ -506,13 +507,10 @@ gated.
+ | Scenario | Persona | Eval |
+ |----------|---------|------|
+ | S1 — first plan | product owner | SCE-1 |
+-| S2 — second run | product owner | SCE-2 |
+-| S3 — items made by hand | product owner | SCE-3 |
+-| S4 — the slice changed | product owner | SCE-4 |
+-| S5 — a second slice | product owner | SCE-5 |
+ | S6 — stop at the checkpoint | product owner | SCE-6 |
+ | S7 — an ICE not ready | product owner | SCE-7 |
+ | S8 — misplaced work | product owner | SCE-8 |
++| S9 — a plan that exists | product owner | SCE-9 |
+ 
+ ## Recovery
+ 
+@@ -523,12 +521,12 @@ gated.
+ | F3 | a story, the epic or the plan file holds a failure condition or a recovery condition | take the line out and draft the story or the epic again from the two clean ICE copies | autonomous |
+ | F4 | the plan file's tree and the epic's feature-to-story map disagree | write the plan file's tree and the epic's map again from the run's record, so they agree | autonomous |
+ | F5 | a tracker write happened before the yes, a write the person did not see in the brief happened, or a stop left a tracker write or a plan-file change behind | undo each tracker write the record lists and put back the plan file as it was (`scoped_write_guard.py --restore`); show the brief again | human |
+-| F6 | a story for a feature that left the slice was deleted, or stays in the plan | open the deleted story again, or take it out of the plan's tree and the epic's map, so it stays in the tracker and out of the plan | human |
+-| F7 | the run wrote outside the plan file, the epics and the stories (the evals folder, the product model, or any other file), or a found story lost a line a person wrote | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`), or put back the person's line on the found story | autonomous |
++| F7 | the run wrote outside the plan file, the epics and the stories (the evals folder, the product model, or any other file) | undo the write outside the allowed set (`scoped_write_guard.py --also-tree .garura/project/plans --restore`) | autonomous |
+ | F8 | a story was built from an ICE that is not ready, or a skipped part is not named in the brief | take back the story built from the part that is not ready, skip the part, and name it in the brief | autonomous |
+ | F9 | the change landed outside the change plays, or on the wrong branch | land the change through the change plays, on the branch the target script gives | human |
+ | F10 | a page names a real person, or a person cannot follow it | rewrite with personas and plain words | autonomous |
+ | F11 | an epic or a story carries a label, or an epic's issue type is not Epic, or a story's is not Story | take the label off, and set the issue type to Epic on an epic and to Story on a story | autonomous |
++| F13 | the intent already had a plan file and the run went on past pre-flight (opened a change, read the model, wrote anything), or stopped without naming /update-plan | stop the run, undo what it opened or wrote after pre-flight (the change branch and short-term folder, any tracker write), and show that the plan exists and `/update-plan <id>` changes it | human |
+ | F12 | an epic holds a sub-issue that is not a story of its slice, and the run wrote to the tracker or did not name it | stop before any tracker write and name each misplaced item with its title; a person files it in its own place and takes it off the epic, then runs the play again | human |
+ 
+ ## Pause and Resume
+@@ -538,16 +536,17 @@ the status marker, skip completed steps, reset an in-progress step to pending, a
+ Nothing reaches the tracker before Step 6, so a resume before it needs no undo. A resume after
+ Step 6 started reads `tracker-record.json` first. It is written after every tracker write, so
+ it lists every issue made. Run Step 7 from it before anything else, so the plan file marks
+-those issues; when the record reads `ok: false`, a new run then starts at Step 1 and finds them
+-(Step 2 sees them as `use`), so no issue is made twice.
++those issues, then go on in the same run. A run that stopped part way is finished by continuing
++it, or by removing what it made and starting again; a new /shape-plan run on an intent whose
++plan file exists stops at pre-flight (C14).
+ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
+ 
+ ## Compilation Metadata
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:06f818c93e6a994dff829caf4e8345fae903eecca6f491d569c400a252e780de (of `reference/ice.md`) |
+-| compiled_by | create-play (#818) |
++| fingerprint | sha256:1bd5350cf7d9815047f7593e788d324d0e55bca7ee20307033c3e75e630d05ce (of `reference/ice.md`) |
++| compiled_by | create-play (#818); edit-play (#896) |
+ | pipeline_position | both (start-change head; commit → propose → review → merge close) |
+ | workflow_structure | A (find before make; one brief at one pinned one-way-door checkpoint; nothing written before the yes; stop-condition gated close) |
+ | stop_condition | stop-condition.yaml (D1–D5), gate live at Step C0 |
+@@ -556,8 +555,8 @@ A run that closed HALTED at a stop has nothing to resume: it wrote nothing.
+ | skills_used | author-work-items (built for this play) |
+ | skills_missing | none |
+ | tracker_verbs | view-issue, create-issue-typed (type and parent in one call), set-issue-type, edit-issue-body, remove-label, attach-sub-issue, remove-sub-issue — all through platform_adapter.py |
+-| scripts | preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from create-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
+-| tests | test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py |
+-| step_evals | 19 (SE-1…SE-19) |
+-| scenario_evals | 8 (SCE-1…SCE-8) |
+-| recovery_entries | 12 (one per failure condition; 7 autonomous / 5 human) |
++| scripts | check_plan_absent.py (the plan-exists check), preflight.py, session_stamp.py, check_stop_condition.py, platform_adapter.py, check_ice_workable.py, scoped_write_guard.py, model_names.py (copied unchanged from create-play references; model_names.py is what check_ice_workable.py imports); plan_common.py, gather_plan.py, find_work_items.py, check_drafts.py, render_brief.py, record_approval.py, write_work_items.py, write_plan_file.py, check_plan.py, check_tracker.py (this play) |
++| tests | test_check_plan_absent.py, test_support.py, test_gather_plan.py, test_find_work_items.py, test_check_drafts.py, test_render_brief.py, test_record_approval.py, test_write_work_items.py, test_write_plan_file.py, test_check_plan.py, test_check_tracker.py |
++| step_evals | 17 (SE-1…SE-4, SE-6…SE-10, SE-12…SE-15, SE-17…SE-20) |
++| scenario_evals | 5 (SCE-1, SCE-6…SCE-9) |
++| recovery_entries | 12 (one per failure condition; 6 autonomous / 6 human) |
+diff --git a/core/components/plays/shape-plan/reference/ice.md b/core/components/plays/shape-plan/reference/ice.md
+index 5c67878cc..c2308bfb7 100644
+--- a/core/components/plays/shape-plan/reference/ice.md
++++ b/core/components/plays/shape-plan/reference/ice.md
+@@ -6,26 +6,22 @@ edit-play; never hand-edit the compiled SKILL.md.
+ ## Intent
+ 
+ A person names a business intent that `/shape-slice` has served with a slice. /shape-plan makes
+-the intent's one plan, or brings it up to date: the plan file, one epic for each slice the plan
+-holds, and one story for each feature of that slice. Each story is written from its feature's
+-ICE and that feature's capability's ICE, and holds no failure condition and no recovery
+-condition. A second run makes no copies.
++the intent's one plan, once: the plan file, one epic for each slice the plan holds, and one
++story for each feature of that slice. Each story is written from its feature's ICE and that
++feature's capability's ICE, and holds no failure condition and no recovery condition. When the
++intent already has a plan, /shape-plan does not run: /update-plan changes a plan that exists.
+ 
+ ### Constraints
+ 
+-- C1 — One plan for each business intent. The plan's ID is the intent's issue number. A new
+-  slice shaped for the same intent joins the same plan; no second plan is made.
++- C1 — One plan for each business intent. The plan's ID is the intent's issue number; no second
++  plan is made.
+ - C2 — The plan holds every slice that serves the intent, read from the spine's link "slice
+   serves business intent". The play never picks, ranks or tests a slice: the person chose it at
+   `/shape-slice`.
+-- C3 — The play finds before it makes. An epic that already stands for a slice, or a story that
+-  already stands for a feature, is used and never made again: one epic for each slice, and one
+-  story for each feature in each epic. A work item stands for a slice or a feature when the plan
+-  file marks it so (`represents: <slice id>` on the epic, `represents: <feature id>` on the
+-  story); the play never matches a work item by its title.
+-- C4 — When a feature leaves the slice after its story exists, the story moves out of the plan
+-  (out of the plan file's tree and the epic's map) and stays in the tracker; it is never deleted.
+-  A feature that comes into the slice gets one story.
++- C3 — Within its one run, the play never makes an epic or a story twice: one epic for each
++  slice, and one story for each feature in each epic. A work item stands for a slice or a
++  feature when the plan file marks it so (`represents: <slice id>` on the epic,
++  `represents: <feature id>` on the story); the play never matches a work item by its title.
+ - C5 — Each story holds its scope of work (the goals, the limits and the expectations) and its
+   Context guidance (the four Context lines: what to read, what never to read, the persona, what
+   is in and what is out), in its own words, written from every line of its feature's ICE and its
+@@ -47,9 +43,6 @@ condition. A second run makes no copies.
+   propose-change, check-change and merge-change, on the plan's branch when the intent has one.
+ - C11 — Plain words (ASD-STE100) and personas in the brief, the epic, the stories and the plan
+   file; no real person's name.
+-- C12 — On a story it finds, the play adds the "Scope of work" and the "Context guidance"
+-  sections when they are missing, and keeps every line a person wrote; it never rewrites or
+-  deletes a person's text.
+ - C13 — An epic and a story are marked in the tracker by the issue type field, with no label:
+   an epic is an issue of type Epic, and a story is an issue of type Story. An epic stands for its
+   slice: its sub-issues are the stories of its slice, and the work under a story hangs from that
+@@ -57,6 +50,12 @@ condition. A second run makes no copies.
+   and writes nothing until a person files it in its own place (its own story, bug or chore, which
+   `/shape-slice` and `/shape-plan` place when they run) (#879).
+ 
++- C14 — When the intent already has a plan file (`<plans>/<id>.yaml`, in the checked-out tree or
++  on main), the play stops at pre-flight, before start-change and before any read of the model
++  or any write, and says the plan exists and that /update-plan changes it. This is a
++  pre-flight check: the play that changes an existing plan is
++  /update-plan.
++
+ ### Failure conditions
+ 
+ - F1 — A feature of a slice the plan holds has no story, or a story in the plan stands for no
+@@ -67,9 +66,8 @@ condition. A second run makes no copies.
+ - F4 — The plan file's tree and the epic's feature-to-story map disagree.
+ - F5 — A tracker write happened before the product owner's yes, a write the person did not see
+   in the brief happened, or a stop left a tracker write or a plan-file change behind.
+-- F6 — A story for a feature that left the slice was deleted, or stays in the plan.
+ - F7 — The run wrote outside the plan file, the epic and the stories (the evals folder, the
+-  product model, or any other file), or a found story lost a line a person wrote.
++  product model, or any other file).
+ - F8 — A story was built from an ICE that is not ready, or a skipped part is not named in the
+   brief.
+ - F9 — The change landed outside the change plays, or on the wrong branch.
+@@ -78,6 +76,8 @@ condition. A second run makes no copies.
+   issue type is not Story.
+ - F12 — An epic holds a sub-issue that is not a story of its slice, and the run wrote to the
+   tracker, or did not name that item with its title.
++- F13 — The intent already had a plan file, and the run went on past pre-flight: it opened a
++  change, read the model, or wrote anything; or it stopped without naming /update-plan.
+ 
+ ## Context
+ 
+@@ -89,9 +89,9 @@ condition. A second run makes no copies.
+   business intent; how the ICE reaches the story and the hidden file), ADR 052 (/shape-slice
+   writes the hidden file), ADR 047 (the ICE and its ready check).
+ - The plan files: `.garura/project/plans/<id>.yaml` (id, title, status, branch, tree of work
+-  items, each with its issue, kind, title, status, `represents` and children). Plans are kept by
+-  hand until update-plan (#730) exists; the play writes only its slice, epic and story nodes and
+-  keeps every other node as it is.
++  items, each with its issue, kind, title, status, `represents` and children). /shape-plan makes
++  a plan file once; `/update-plan` (#720, #730) changes a plan that exists — a new epic, story,
++  feature, bug or status — in one session the product owner approves.
+ - The rules: `managing-work.md` ("Type lives in the type field", "No labels, for now"; an Epic
+   is filed as type Epic),
+   `standards/rules/expectation-generation.md`, `_shared/asking-a-person.md`.
+@@ -114,22 +114,6 @@ condition. A second run makes no copies.
+   and three stories exist, one for each feature, and the epic's map names the three stories.
+   Measure: the plan check reads ok, the epic is in the tracker with type Epic and the three
+   stories with type Story, none with a label, and no story holds a "Fails if" line of its two ICE.
+-- S2 — (product owner, second run) Given a plan made by an earlier run and no change to the slice,
+-  when the product owner runs /shape-plan again and types yes, then no new issue is made.
+-  Measure: the run's record lists no created issue, and the plan file is byte for byte as it was.
+-- S3 — (product owner, items made by hand) Given a plan file that marks a hand-made epic and its
+-  stories with `represents`, when the product owner runs /shape-plan and types yes, then the play
+-  uses them. Measure: no new issue is made; each marked story gains only the missing sections;
+-  every line a person wrote is still on it.
+-- S4 — (product owner, the slice changed) Given a plan whose slice lost one feature and gained
+-  another, when the product owner runs /shape-plan and types yes, then the story of the feature
+-  that left is out of the plan file's tree and the epic's map and is still open in the tracker,
+-  and the feature that came in has one new story and one new map line. Measure: the plan check
+-  reads ok and the moved-out issue's state is open.
+-- S5 — (product owner, a second slice) Given an intent whose plan holds one slice and a second
+-  slice shaped for it, when the product owner runs /shape-plan and types yes, then the same plan
+-  file gains the second slice and its epic. Measure: there is one plan file for the intent, with
+-  two slice nodes, each with its own epic.
+ - S6 — (product owner, stop) Given any plan, when the product owner types stop at the checkpoint,
+   then nothing reaches the tracker. Measure: the run's record lists no tracker write, and the plan
+   file and the tree are as they were at the run's start.
+@@ -143,6 +127,12 @@ condition. A second run makes no copies.
+   before any tracker write. Measure: `work-items.json` lists each item in `misplaced` with its
+   title, there is no `tracker-record.json`, and the plan file is as it was.
+ 
++- S9 — (product owner, a plan that exists) Given an intent that already has a plan file, when the
++  product owner runs /shape-plan, then the play stops at pre-flight and points to /update-plan.
++  Measure: the check's record reads `exists: true` and its message names `/update-plan <id>`;
++  no change issue, no branch, no short-term folder and no tracker write was made, no file is left
++  behind, and the plan file is as it was.
++
+ ### Done means
+ 
+ - D1 — the plan check reads ok: each feature of each slice the plan holds has exactly one story
+@@ -171,10 +161,7 @@ condition. A second run makes no copies.
+   agree. Handoff: autonomous.
+ - REC5 (F5) — undo each tracker write the record lists and put back the plan file as it was;
+   show the brief again. Handoff: human.
+-- REC6 (F6) — open the deleted story again, or take it out of the plan's tree and the epic's map,
+-  so it stays in the tracker and out of the plan. Handoff: human.
+-- REC7 (F7) — undo the write outside the allowed set, or put back the person's line on the found
+-  story. Handoff: autonomous.
++- REC7 (F7) — undo the write outside the allowed set. Handoff: autonomous.
+ - REC8 (F8) — take back the story built from the part that is not ready, skip the part, and name
+   it in the brief. Handoff: autonomous.
+ - REC9 (F9) — land the change through the change plays, on the branch the target script gives.
+@@ -185,3 +172,6 @@ condition. A second run makes no copies.
+ - REC12 (F12) — stop before any tracker write and name each misplaced item with its title; a
+   person files it in its own place and takes it off the epic, then runs the play again.
+   Handoff: human.
++- REC13 (F13) — stop the run, undo whatever it opened or wrote after pre-flight (the change
++  issue's branch and short-term folder, any tracker write), and show the product owner that the
++  plan exists and that `/update-plan <id>` changes it. Handoff: human.
+diff --git a/core/components/plays/shape-plan/scripts/check_plan_absent.py b/core/components/plays/shape-plan/scripts/check_plan_absent.py
+new file mode 100644
+index 000000000..48630feba
+--- /dev/null
++++ b/core/components/plays/shape-plan/scripts/check_plan_absent.py
+@@ -0,0 +1,70 @@
++#!/usr/bin/env python3
++"""
++check_plan_absent.py — the pre-flight check that a business intent has no plan yet (#896, C14).
++
++/shape-plan makes an intent's one plan, once. When the intent already has a plan file, the play
++stops before anything else — before start-change, before it reads the model, before any write —
++and points to /update-plan, which changes a plan that exists.
++
++    python3 check_plan_absent.py --plans-dir <plans> --plan <intent-issue> [--repo .] [--main main] \
++        [--out <record.json>]
++
++The plan file is `<plans>/<id>.yaml`. It counts as there when it is in the checked-out tree, or on
++the main branch (a plan's file is kept on main, and the person may be on another branch). The
++record: {plan, path, exists, where: [checkout|main], message}. Exit 0 no plan (go on); 3 a plan
++exists (stop, nothing written); 2 bad input. With no --out the record is printed only.
++"""
++
++import argparse
++import json
++import os
++import re
++import subprocess
++import sys
++
++
++def on_ref(path, ref, repo):
++    res = subprocess.run(["git", "cat-file", "-e", f"{ref}:{path}"], cwd=repo, capture_output=True, text=True)
++    return res.returncode == 0
++
++
++def check(plans_dir, plan, repo=".", main="main"):
++    if not re.fullmatch(r"\d+", str(plan or "")):
++        raise ValueError(f"the plan's ID is the business intent's issue number, digits only (got {plan!r})")
++    path = os.path.join(plans_dir, f"{plan}.yaml").replace(os.sep, "/")
++    where = []
++    if os.path.isfile(os.path.join(repo, path)):
++        where.append("checkout")
++    if on_ref(path, main, repo):
++        where.append(main)
++    rec = {"plan": str(plan), "path": path, "exists": bool(where), "where": where, "message": None}
++    if where:
++        rec["message"] = (f"Plan {plan} already exists for #{plan}. /shape-plan makes a plan once. "
++                          f"To change it (add an epic, a story, a feature, or a status), run /update-plan {plan}.")
++    return rec
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="stop /shape-plan when the intent already has a plan")
++    ap.add_argument("--plans-dir", required=True)
++    ap.add_argument("--plan", required=True)
++    ap.add_argument("--repo", default=".")
++    ap.add_argument("--main", default="main")
++    ap.add_argument("--out")
++    args = ap.parse_args(argv)
++    try:
++        rec = check(args.plans_dir, args.plan, args.repo, args.main)
++    except ValueError as e:
++        print(f"refused: {e}", file=sys.stderr)
++        return 2
++    text = json.dumps(rec, indent=2)
++    if args.out:
++        os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
++        with open(args.out, "w", encoding="utf-8") as fh:
++            fh.write(text + "\n")
++    print(text)
++    return 3 if rec["exists"] else 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/shape-plan/scripts/test_check_plan_absent.py b/core/components/plays/shape-plan/scripts/test_check_plan_absent.py
+new file mode 100644
+index 000000000..1d49381c3
+--- /dev/null
++++ b/core/components/plays/shape-plan/scripts/test_check_plan_absent.py
+@@ -0,0 +1,75 @@
++#!/usr/bin/env python3
++"""test_check_plan_absent.py — check_plan_absent.py: /shape-plan stops when the intent already has a plan (#896, C14).
++
++    python3 test_check_plan_absent.py
++"""
++import json
++import os
++import subprocess
++import sys
++import tempfile
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++from test_support import check, finish, run  # noqa: E402
++
++
++def git(repo, *args):
++    subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True, text=True)
++
++
++def repo_with(tmp, plan_on_main=False):
++    repo = os.path.join(tmp, "repo")
++    os.makedirs(os.path.join(repo, "plans"))
++    git(repo, "init", "--quiet", "-b", "main")
++    git(repo, "config", "user.name", "Test")
++    git(repo, "config", "user.email", "test@example.com")
++    with open(os.path.join(repo, "README"), "w") as fh:
++        fh.write("x\n")
++    if plan_on_main:
++        with open(os.path.join(repo, "plans", "788.yaml"), "w") as fh:
++            fh.write("id: 788\ntitle: x\nstatus: In Progress\ntree: []\n")
++    git(repo, "add", ".")
++    git(repo, "commit", "--quiet", "-m", "start")
++    return repo
++
++
++def absent(repo, plan="788"):
++    out = os.path.join(repo, "..", "rec.json")
++    code, _, _ = run("check_plan_absent.py", "--plans-dir", "plans", "--plan", plan, "--repo", repo, "--out", out)
++    rec = json.load(open(out)) if os.path.isfile(out) else None
++    return code, rec
++
++
++def main():
++    print("check_plan_absent.py")
++    with tempfile.TemporaryDirectory() as tmp:
++        repo = repo_with(tmp)
++        code, rec = absent(repo)
++        check("no plan file anywhere: go on (exit 0)", code == 0 and rec["exists"] is False and rec["message"] is None)
++    with tempfile.TemporaryDirectory() as tmp:
++        repo = repo_with(tmp, plan_on_main=True)
++        code, rec = absent(repo)
++        check("a plan file on main and in the checkout: stop (exit 3) and name /update-plan",
++              code == 3 and rec["where"] == ["checkout", "main"] and "/update-plan 788" in rec["message"])
++    with tempfile.TemporaryDirectory() as tmp:
++        repo = repo_with(tmp, plan_on_main=True)
++        git(repo, "checkout", "--quiet", "-b", "feature/1-x", "HEAD~0")
++        os.remove(os.path.join(repo, "plans", "788.yaml"))
++        git(repo, "commit", "--quiet", "-am", "a branch without the plan file")
++        code, rec = absent(repo)
++        check("on a branch without the file, the plan on main still stops it",
++              code == 3 and rec["where"] == ["main"])
++    with tempfile.TemporaryDirectory() as tmp:
++        repo = repo_with(tmp)
++        with open(os.path.join(repo, "plans", "788.yaml"), "w") as fh:
++            fh.write("id: 788\n")
++        code, rec = absent(repo)
++        check("a plan file only in the checkout still stops it", code == 3 and rec["where"] == ["checkout"])
++        code, rec = absent(repo, plan="7x8")
++        check("a plan ID that is not digits is refused (exit 2), nothing written", code == 2)
++    return finish()
++
++
++if __name__ == "__main__":
++    sys.exit(main())

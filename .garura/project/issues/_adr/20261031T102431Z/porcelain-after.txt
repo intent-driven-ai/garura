@@ -1,0 +1,31 @@
+ M core/components/plays/create-play/references/merge_pr.py
+ M core/components/plays/merge-change/SKILL.md
+ M core/components/plays/merge-change/reference/ice.md
+ M core/components/plays/merge-change/scripts/merge_pr.py
+ M core/components/plays/update-plan/SKILL.md
+ M core/components/plays/update-plan/reference/ice.md
+ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+ M core/tools/plan/README.md
+ M docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+ M docs/adr/_index.md
+?? .garura/project/issues/_adr/20261031T102431Z/adr-check.json
+?? .garura/project/issues/_adr/20261031T102431Z/adr-context.yaml
+?? .garura/project/issues/_adr/20261031T102431Z/adr-draft.md
+?? .garura/project/issues/_adr/20261031T102431Z/adr-manifest.json
+?? .garura/project/issues/_adr/20261031T102431Z/brief.md
+?? .garura/project/issues/_adr/20261031T102431Z/context/templates/manifest-record-decision.json
+?? .garura/project/issues/_adr/20261031T102431Z/context/templates/standards/templates/adr.md
+?? .garura/project/issues/_adr/20261031T102431Z/decision.yaml
+?? .garura/project/issues/_adr/20261031T102431Z/hashes-before-preflight.json
+?? .garura/project/issues/_adr/20261031T102431Z/hashes-before.json
+?? .garura/project/issues/_adr/20261031T102431Z/porcelain-after.txt
+?? .garura/project/issues/_adr/20261031T102431Z/porcelain-before-preflight.txt
+?? .garura/project/issues/_adr/20261031T102431Z/porcelain-before.txt
+?? .garura/project/issues/_adr/20261031T102431Z/run.json
+?? .garura/project/issues/_adr/20261031T102431Z/start-change.json
+?? .garura/project/issues/_adr/20261031T102431Z/target.txt
+?? core/components/plays/merge-change/scripts/test_merge_pr.py
+?? core/components/plays/update-plan/scripts/closed_on_github.py
+?? core/tools/plan/plan_status.py
+?? core/tools/plan/test_plan_status.py
+?? docs/adr/064-an-items-status-in-a-plan-follows-its-own-issue-with-no-roll-ups.md

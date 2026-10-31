@@ -2,7 +2,7 @@
 # Kept by hand until manage-plan (#730) exists. Status: Not Started | In Progress (started; no one on it in an open change) | Now (worked in an open change) | Done | Blocked | Dropped (closed as not planned or as a duplicate).
 id: 717
 title: People plan work toward a business intent, and pick it up across days and people
-status: In Progress  # set by the product owner, 2026-10-29: plan work started again; the story is picked next
+status: Done
 direction: 1
 started: '2026-10-22'
 branch: plan/717/base  # cut from main on 2026-10-29 when the plan's work started again; each story's branch is cut from it when its work starts
@@ -10,17 +10,17 @@ epic: 956  # this plan's Epic, a sub-issue of business intent #717
 identified_by: []
 needs_plans:
 - 722
-updated: '2026-10-29'  # plan started again
+updated: '2026-10-31'
 tree:
 - issue: 956
   kind: epic
   title: A person builds, views and manages the plan of a business intent
-  status: Not Started
+  status: Done
   children:
   - issue: 718
     kind: feature
     title: 'Build a plan: a tree with an issue for every node, from a business intent'
-    status: Not Started
+    status: Done
     children:
     - issue: 727
       kind: story
@@ -33,7 +33,7 @@ tree:
     - issue: 896
       kind: story
       title: /shape-plan stops when the business intent already has a plan, and does not run again
-      status: Not Started
+      status: Done  # /shape-plan stops when the intent already has a plan (#896), 2026-10-30
   - issue: 719
     kind: feature
     title: 'View plans: see every plan, and any one plan as a tree'
@@ -59,28 +59,57 @@ tree:
       kind: story
       title: '/list-plans card heading: the title at the left edge, the direction icon on its own line, the rows at the left edge'
       status: Done  # landed on plan/717/base with PR #987, 2026-10-29
+    - issue: 1000
+      kind: story
+      title: Show the plan of the current branch when /show-plan is given no number
+      status: Done
+    - issue: 1005
+      kind: story
+      title: /show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done
+      status: Done
   - issue: 720
     kind: feature
-    title: 'Manage a plan: change the plan file and the tracker together'
-    status: Not Started
+    title: 'Manage a plan with /update-plan: change the plan file, GitHub and the product model together, on one approval'
+    status: Done  # landed on plan/717/base with #720, 2026-10-30
     children:
     - issue: 730
       kind: story
-      title: Update, edit or delete a plan file, and connect it to its issues
-      status: Not Started
+      title: 'The /update-plan session: instructions, checks, one approval, one landing on the plan''s branch'
+      status: Done  # landed on plan/717/base with #720, 2026-10-30
       children:
       - issue: 917
         kind: chore
         title: 'The findings left by the PR #916 review (the plan 788 landing)'
-        status: Not Started
+        status: Done  # landed on plan/717/base with #720, 2026-10-30
+      - issue: 1001
+        kind: bug
+        title: /update-plan leaves its template copies and its session start marker behind after every session
+        status: Done
+      - issue: 1002
+        kind: bug
+        title: An /update-plan session cannot reach the product model, so a story added for a feature is not drafted from the feature's ICE
+        status: Done
     - issue: 909
       kind: story
       title: '/shape-plan --edit: a person changes the plan file, an epic or a story that already exists'
-      status: Not Started
+      status: Dropped  # 2026-10-30: folded into #730 by the approved #720 design; closed as not planned
     - issue: 931
       kind: story
       title: /update-plan adds a new feature found while a plan is in progress to the model, its slice and its epic
-      status: Not Started  # moved from #718 on 2026-10-29: not /shape-plan
+      status: Done  # landed on plan/717/base with #720, 2026-10-30
+      represents: fn-931
+    - issue: 993
+      kind: story
+      title: The model's page skill changes the lines a request names on any model page, not only on intent pages
+      status: Done  # landed on plan/717/base with PR #995, 2026-10-30
+    - issue: 994
+      kind: story
+      title: 'The platform adapter changes an issue''s title: an edit-issue-title verb for GitHub and GitLab'
+      status: Done  # landed on plan/717/base with PR #995 (with #993), 2026-10-30
+    - issue: 997
+      kind: story
+      title: 'The Thin line no longer names /shape-slice: /shape-slice, the model-linking skill and the thin pages move to the new wording'
+      status: Done  # built inside #720's change (PR #998, round 3 fixes), 2026-10-30: scripts, /shape-slice's C16, eleven pages re-marked
   - issue: 721
     kind: feature
     title: 'Start and land work against a plan: plan branches in start-change and merge-change'
@@ -94,11 +123,11 @@ tree:
       - issue: 779
         kind: bug
         title: '[BUG] start-change reads plan files from the checked-out branch, so a new issue looks like it is in no plan'
-        status: Not Started
+        status: Done
       - issue: 953
         kind: chore
         title: 'The findings left by round 2 of the PR #950 review: an unsafe delete of a stale plan branch, and four wording fixes'
-        status: Not Started
+        status: Done
     - issue: 673
       kind: story
       title: merge-change lands an issue on its plan branch, and a plan on main whenever it pauses
@@ -107,15 +136,27 @@ tree:
       - issue: 951
         kind: chore
         title: 'The five small findings of the PR #950 review: plan folder from pre-flight, one always-true target check, capability-close check, plan order, two rule pages'
-        status: Not Started
+        status: Done
+      - issue: 1011
+        kind: chore
+        title: 'Bring the landing rule on the page of the #721 capability in line with ADR 060'
+        status: Done
     - issue: 989
       kind: story
       title: 'start-change starts a plan on its own: it cuts the plan''s branch from main, with no story branch'
-      status: Not Started  # filed 2026-10-29, after plan 717 was started by hand with plain git
+      status: Done
+    - issue: 991
+      kind: story
+      title: /propose-change asks the plan's Status and Direction when a plan's branch is proposed for main, and the branch's plan file replaces main's
+      status: Dropped
     - issue: 791
       kind: issue
       title: The plan file names the plan a detour returns to; start-change cuts from it and merge-change lands back on it
       status: Dropped
+    - issue: 1007
+      kind: story
+      title: 'An item''s status in the plan file follows its own GitHub issue: merge-change sets it Done, and /update-plan lists items closed on GitHub'
+      status: Done
   - issue: 965
     kind: feature
     title: A plan's work lands on main with evidence that all of it was reviewed

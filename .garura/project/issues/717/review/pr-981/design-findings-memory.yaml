@@ -1,0 +1,44 @@
+# Layer 2 design-grounding: category "memory", PR #988 (plan/717/base -> main).
+# One changed file: core/components/memory/standards/templates/plan-view.md (a standards template).
+# Every principle below comes from the base ref (main) or from Phoenix memory read through the
+# memory tool (copies in context/memory/grounding-memory/, manifest beside them). Nothing is
+# grounded in text the branch adds.
+pr: 988
+category: memory
+base: main
+
+grounding:
+  - principle: "A change to a mark or a line is made in the settings block, never in the tool. The tool prints the view from the block, so the block and the tool must agree key for key."
+    source: "main:core/components/memory/standards/templates/plan-view.md (the Settings section: 'The plan tool reads this block. A change to a mark or a line is made here, never in the tool.')"
+  - principle: "The list card has Status, Branch and Waits on rows, always shown (Waits on blank when none), then each epic with its Progress row; a dotted rule separates epics."
+    source: "main:core/components/memory/standards/templates/plan-view.md (The list section)"
+  - principle: "A template answers 'what should this look like?' and is listed in the templates index with its consumers."
+    source: "standards/templates/_index.md, Phoenix memory copy (When to Add Here; the plan-view.md row), same as the file on main"
+  - principle: "The marks and the layout of the plan views live in templates/plan-view.md, and the statuses are the six named in the work-plan rules."
+    source: "standards/rules/work-plan.md rule 19, Phoenix memory copy (same text on main)"
+  - principle: "Plain words for a business reader; a plan view must be understood by a person coming back after two days."
+    source: "standards/rules/work-plan.md ('Who the plan is for', rule 19) and standards/rules/user-facing-voice.md, Phoenix memory copies"
+  - principle: "Knowledge-shelf shape (_TEMPLATE.md, shelf _index) applies to knowledge learnings, not to standards templates. plan-view.md is a template, so the shelf template and the frontmatter-id check do not apply; main's version has none either."
+    source: "knowledge/_DESIGN.md and knowledge/_TEMPLATE.md, Phoenix memory copies; main:core/components/memory/standards/templates/plan-view.md (no frontmatter on the base ref)"
+
+checks_passed:
+  - "Shape and id: plan-view.md has no frontmatter on main and none on the branch; nothing to match. Cited: main:core/components/memory/standards/templates/plan-view.md."
+  - "Cross-references: no [[...]] or evolve_when in the file. The one path it names (.garura/core/tools/plan/plan.py) is unchanged from main."
+  - "Index: standards/templates/_index.md (Phoenix copy, identical on main) lists plan-view.md, and its description (six statuses, layout of each view, a settings block the plan tool reads) is still true after the change. The index is not in this diff and needs no edit."
+  - "Settings vs readers: the keys the code reads are present in the block. plan.py (listing) reads directions, direction_names, legend_join, plan_rule, head, direction_line, row, labels, label_width, waits_item, waits_join, epic, progress, dropped, none, epic_rule. check_list.py reads head, direction_line, row, labels, label_width, directions, none. Neither reads direction_width. A search of HEAD outside .garura finds no remaining direction_width. On main it was read by plan.py and check_list.py; both were changed in this same PR, so removing it breaks nothing."
+  - "Read-only view: python3 core/tools/plan/plan.py list on the branch prints the heading, then the direction line (when set), a blank line, then Status, Branch, Waits on, Epic, Progress, as the new prose says. Output was only read; nothing was written."
+  - "Contradiction with other committed text: none. work-plan.md rule 19 covers the tree only, and the list/direction text appears in no other committed standard, ADR or philosophy page on main (searched docs/adr, core/grounding and core/components/memory on main for plan-view, direction and list-plans)."
+
+findings:
+  - id: MEM-1
+    severity: P4
+    file: core/components/memory/standards/templates/plan-view.md
+    what: "The example in 'The list' shows a second card (#722) that ends after the Status row. It has no Branch row, no Waits on row, and no Epic/Progress rows. The prose above it says Branch and Waits on are always shown (Waits on blank when none), and the tool prints them for every plan (observed output for plan 722: Status, Branch, Waits on, Epic, Progress). A reader copying the example would think a plan with nothing to wait on drops those rows. The first card is complete; only the second is cut short, with nothing (such as an ellipsis) saying so."
+    basis: "Principle: the template's example must show the shape its own rules and the tool print, because the template is the 'what should this look like?' reference. Sources: main:core/components/memory/standards/templates/plan-view.md ('Waits on — always shown ... blank when none'; Branch shown, 'main' when none); standards/templates/_index.md, Phoenix memory copy ('It answers what should this look like?'). No pr.md row fires for this; classed P4 (nit: illustration only, no effect on the tool, which reads the settings block, not the example)."
+    suggested_fix: "Show the second card in full (Status, Branch main, Waits on blank, Epic, Progress) or end it with an ellipsis line."
+
+counts: {P1: 0, P2: 0, P3: 0, P4: 1}
+notes:
+  - "The branch's own new prose (card heading at the left edge, icon on its own line) was checked against the settings block, the tool and the base-ref rules above, not used as a source. Where the base ref is silent on the new layout (direction icon on its own line), no committed source states a contrary rule, so no finding is raised."
+  - "The Phoenix copy of plan-view.md (version de02add33862) matches main except a final newline; the design-intent text is the base text, not the branch's."
+  - "No playbook gap for this category: review/memory exists. The tool's blank lines are fixed in the code, not in the settings block; that pattern is already on main (blank before the first epic, between cards) so it is not raised."

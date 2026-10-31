@@ -1,0 +1,3 @@
+{"by": "product-os-keeper (#779, review finding DM-1 of PR #1010)",
+ "parts": [{"id": "fn-673", "kind": "feature", "mode": "update",
+            "one_line": "merge-change lands an issue on its plan branch, and a plan on main whenever it pauses"}]}

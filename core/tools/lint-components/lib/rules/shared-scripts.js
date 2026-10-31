@@ -9,7 +9,9 @@ const path = require('path');
 
 const SHARED_SCRIPTS = ['lint_grounding.py', 'model_names.py',
   // the plan-aware change scripts and the branch-name issue reader (#731, #673)
-  'preflight.py', 'resolve_plan.py', 'resolve_target.py', 'setup_branch.py', 'submit_pr.py', 'merge_pr.py'];
+  'preflight.py', 'resolve_plan.py', 'resolve_target.py', 'setup_branch.py', 'submit_pr.py', 'merge_pr.py',
+  // the ICE helpers /shape-plan and /update-plan share (#1002)
+  'plan_common.py', 'check_ice_workable.py'];
 
 // Every <targetDir>/{plays,skills}/<name>/scripts/<script> that exists.
 function copiesOf(targetDir, script) {

@@ -3,9 +3,11 @@
 Canonical contract for how a model-writing play changes the product model. It is the
 single source of truth for all thirteen model-writing plays (vision, understand, shape,
 grill, measure, roadmap, arch, ux, quality, agentic, run, marketing, learn) and for the
-`/play-editor` compiler, so a hand edit and a recompile converge on the same shape.
+`/edit-play` compiler, so a hand edit and a recompile converge on the same shape.
 
-Authority: ADR 026. This rule is the mechanical expression of that decision.
+Authority: ADR 026, amended by ADR 043 (inside a loop, the loop commits the round) and
+ADR 044 (inside a loop, the gap closer's script also writes shared files). This rule is the
+mechanical expression of those decisions.
 
 ## The rule in one line
 
@@ -27,7 +29,7 @@ git diff and the end-sequence PR.
 
 3. **The LLM writes only per-node doc files; a keyed script owns every shared file.**
    This is the containment split, and it is mandatory. The enrichment/build skill (the
-   LLM) writes ONLY per-node grounding docs — `capability.md`, `functionality.md`, and
+   LLM) writes ONLY per-node grounding docs — `capability.md`, `feature.md`, and
    the like — each its own file, straight to the live tree. It does **not** write any
    shared model file. Every mutation of a shared file — the spine `_spine.yaml` (including
    its `profile` block) and the `decisions/` — is performed by the play's deterministic keyed
@@ -38,6 +40,16 @@ git diff and the end-sequence PR.
    scoped guard (step 4) is sufficient: the LLM's blast radius is confined to separate
    doc files, and node-level containment inside the shared spine/profile is preserved by
    the keyed script — not by the guard.
+
+   **Inside a loop (ADR 044).** One more writer: `link-model-gaps`' script
+   (`apply_links.py`) may write the spine and the Touches list on intent pages, and move
+   holding-folder pages under their parent. Its key is the agreed `gaps.json`: it makes only
+   the links and merges named there — connect, attribute, merge (ADR 043 §4); a merge removes
+   the dropped node of an agreed duplicate after moving its intents and children to the kept
+   one — and changes no other node. It writes only inside `<product_base>product-os/`, refuses any path outside,
+   and lists every file it changed; the loop commits that delta with the round, so the
+   review sees it. Outside a loop, the play's keyed script is still the only writer of
+   shared files.
 
    Migration consequence: this is not a path re-point. Any enrich/build skill that today
    writes a draft `_spine.yaml` delta must stop writing the spine and instead emit that
@@ -90,6 +102,11 @@ git diff and the end-sequence PR.
    what remains uncommitted (STM evidence, ADRs), not the model deltas the plays already
    committed.
 
+   **Inside a loop (ADR 043).** The loop, not each play, commits: its plays may run side
+   by side in a round, so a play does not make this persist commit, and the loop commits
+   the round once, after its gap skills have run (`commit_run_files.py`). The entry check
+   applies to the loop: the model tree is clean when the loop starts each round.
+
 ## Order of operations (write-then-review)
 
 The order is load-bearing, not incidental — it is the content of ADR 026 (write-then-review
@@ -114,27 +131,37 @@ auto-approve out-of-box moves as low-impact — a safety regression. Writing bef
 and gating the COMMIT (not the disk write) keeps every guarantee: nothing out-of-box is
 *committed* without approval, and cancel reverts the uncommitted writes.
 
-**Declared exception — `/intent` run by hand (ADR 031).** A business intent becomes confirmed
-only on the person's typed confirmation, which a written file cannot carry, so `/intent` run by
+**Declared exception — `/discover-intent` run by hand (ADR 031).** A business intent becomes confirmed
+only on the person's typed confirmation, which a written file cannot carry, so `/discover-intent` run by
 hand confirms first and writes after; a cancel writes nothing, so there is nothing to revert.
-Inside a drive it writes the intents as `proposed` with no checkpoint, and the drive's end
+Inside a loop it writes the intents as `proposed` with no checkpoint, and the loop's end
 review confirms them. Its writes still run through the scoped-write guard.
 
-**Declared exception — `/adr` run by hand (#632).** A decision record becomes accepted only on
-the person's typed word, so `/adr` run by hand checks everything and asks first, then writes —
-a reject writes nothing, so there is nothing to revert. Inside a drive it writes the record as
-`proposed` with no checkpoint, and the drive's end review accepts it. Because it also writes
+**Declared exception — `/record-decision` run by hand (#632).** A decision record becomes accepted only on
+the person's typed word, so `/record-decision` run by hand checks everything and asks first, then writes —
+a reject writes nothing, so there is nothing to revert. Inside a loop it writes the record as
+`proposed` with no checkpoint, and the loop's end review accepts it. Because it also writes
 outside the product model (`docs/adr/`), its containment check is its own `check_adr_scope.py`
 over the whole repository, not the shared scoped-write guard; run by hand it starts from a clean
 record tree (`docs/adr/` and `product-os/`).
 
+**Declared exception — `/update-plan` (ADR 062).** A session lands nothing before the person
+types the plain word "approved" for the whole list, so `/update-plan` writes the model only after
+that word, and only the parts the list names (a new feature's page, its spine entry, its place in
+a slice). A "rejected" or an "abort" writes nothing in the model, so there is nothing to revert.
+Its containment still holds: uncommitted work anywhere stops the session when it gets onto the
+plan's branch (`plan_branch.py go`, on every path, the plan's own branch included), and the
+shared scoped-write guard runs once, after the last model write and before the commit, and puts
+back any model path outside the session's parts. The model change is committed in the session's
+one commit on the plan's branch, with the plan file, not in a separate `feat(model)` commit.
+
 ## The shared scoped-write guard
 
-Canonical script: `play-creator/references/scoped_write_guard.py`, stamped into each
+Canonical script: `create-play/references/scoped_write_guard.py`, stamped into each
 model-writing play's `scripts/` (same convention as `preflight.py`, `session_stamp.py`,
-`classify_change.py`). `/play-creator` emits it so direct edits and rebuilds converge.
+`classify_change.py`). `/create-play` emits it so direct edits and rebuilds converge.
 
-Interface (ratified by the /understand reference implementation, issue #498):
+Interface (ratified by the /discover-capabilities reference implementation, issue #498):
 
 ```
 python3 scripts/scoped_write_guard.py \
@@ -201,7 +228,7 @@ learned against no longer map), which is a one-time note, not per-play work.
 
 ## Lint anchors (converge-and-lint)
 
-`lint-components` fails a model-writing play when any of these hold, so a stale draft
+`core/tools/lint-components` fails a model-writing play when any of these hold, so a stale draft
 pattern cannot survive a rebuild or a hand edit:
 
 - L-DMW-1: the play's `SKILL.md` or scripts reference a `draft/product-os`,
@@ -211,10 +238,14 @@ pattern cannot survive a rebuild or a hand edit:
 - L-DMW-3: the play has a checkpoint but bundles no `scoped_write_guard.py`, or its
   checkpoint step does not run the guard before the gate and a restore on cancel.
 - L-DMW-4: the play does not assert a clean product-os tree at pre-flight, or has no
-  model-delta commit at close.
+  model-delta commit at close. Not a finding: the play skips both only when it runs with a
+  loop contract — the loop checks the tree and commits the round (ADR 043); and `/update-plan`,
+  whose clean check covers the whole tree and whose model change rides in the session's one
+  commit (ADR 062).
 - L-DMW-5: the play's enrichment/build skill is described as writing a shared model file
   (`_spine.yaml`, `profile.yaml`, `decisions/`) — shared files are written only by the
-  play's deterministic keyed script.
+  play's deterministic keyed script. Not a finding: `link-model-gaps`' script
+  `apply_links.py`, which writes them inside a loop only (ADR 044).
 - L-DMW-6: the play's keyed persist step does not precede its checkpoint step (write-then-
   review order violated — persist must run before the gate so the shape and the human see
   the full delta).
@@ -224,5 +255,5 @@ pattern cannot survive a rebuild or a hand edit:
 Removing the draft alters the write path, the containment guarantee, and the
 checkpoint's cancel semantics — all things a play *decides or guarantees*. Per the play
 pipeline boundary rule this is an intent change: edit each play's `reference/ice.md` and
-recompile with `/play-editor`. The shared close/guard scaffolding (this rule, the guard
+recompile with `/edit-play`. The shared close/guard scaffolding (this rule, the guard
 script) is the converge-and-lint layer beneath that, mirroring `_shared/play-close.md` (beside the plays).

@@ -147,6 +147,22 @@ Post a comment (note) on an issue:
 glab issue note {issue_number} --message "{body}"
 ```
 
+## edit-issue-title
+
+Change an issue's title:
+
+```bash
+glab issue update {issue_number} --title "{title}"
+```
+
+## reopen-issue
+
+Reopen a closed issue:
+
+```bash
+glab issue reopen {issue_number}
+```
+
 ## add-label
 
 Add labels to an issue or MR:

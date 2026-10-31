@@ -1,0 +1,51 @@
+== docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+{
+  "adr": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+  "valid": true,
+  "problems": []
+}
+exit 0
+== docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md
+{
+  "adr": "docs/adr/062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md",
+  "valid": true,
+  "problems": []
+}
+exit 0
+== docs/adr/026-direct-to-model-writes.md
+{
+  "adr": "docs/adr/026-direct-to-model-writes.md",
+  "valid": false,
+  "problems": [
+    "missing header line **Level:**",
+    "missing header line **Decided in:**",
+    "missing header line **Affects:**",
+    "missing header line **ICE impact:**",
+    "missing header line **Business intent check:**",
+    "an accepted ADR names who accepted it (**Decided by:**)",
+    "missing section ## Alternatives Considered"
+  ]
+}
+exit 2
+== docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md
+{
+  "adr": "docs/adr/058-an-edit-the-person-approves-may-change-a-slice-in-progress.md",
+  "valid": true,
+  "problems": []
+}
+exit 0
+== docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+{
+  "adr": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+  "valid": true,
+  "problems": []
+}
+exit 0
+== index
+rows 62 files 60 row without file ['SUPERSEDED-003-guardian-approval.md', 'SUPERSEDED-007-skill-local-references.md'] file without row []
+061 rows 1
+062 rows 1
+== pointers (Status lines)
+**Status:** Accepted — amended in part by [ADR 031](031-business-intent-and-ice.md): `/intent` run by hand confirms before it writes (a declared exception to wr
+**Status:** Accepted — amended in part by [ADR 062](062-update-plan-writes-the-product-model-only-after-approved-and-may-add-a-feature-to-a-slice.md): Decision 
+**Status:** Accepted — amended in part by [ADR 061](061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md): Decision §3 "When work on the pla

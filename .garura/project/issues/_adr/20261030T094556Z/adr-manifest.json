@@ -1,0 +1,28 @@
+{
+  "decided": true,
+  "lint_ok": true,
+  "linked": true,
+  "target": "docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md",
+  "shape": "markdown",
+  "guard": {
+    "adr": ".garura/project/issues/_adr/20261030T094556Z/adr-draft.md",
+    "declared": "none",
+    "touches_an_intent": [],
+    "verdict": "no person's business intent changes"
+  },
+  "olders": [
+    {
+      "adr": "060",
+      "file": "docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md",
+      "kind": "amended",
+      "part": "Decision \u00a73 \"When work on the plan starts again, a new branch is cut from main\" \u2014 its sentence \"The next start-change for an issue in the plan finds no plan branch and cuts a new `plan/<plan-id>/base` from the latest main\": the play that starts the plan's work cuts it (/update-plan now, start-change once #989 is built), through the plan tool's plan_branch.py, main's plan file first. Its ICE impact's sentence \"No product agent reads branches (line 598: managing a plan never touches branches or code)\": managing a plan may now cut the plan's branch; it still never merges a branch and never touches code. And, in \"What this changes\", the line \"start-change: C9, a plan's branch is cut from the latest main when work on the plan starts\": it stands until #989 is built, then start-change cuts through the same script. \u00a71, \u00a72, \u00a74 and \u00a75 stand: the branch is still cut from main when work starts, merges into main when the plan pauses, is held back only to keep main working, and there are no detour plans."
+    }
+  ],
+  "status": "accepted",
+  "accepted_by": "Kapil Viren Ahuja",
+  "pointers_written": [
+    "060-a-plans-branch-merges-into-main-when-the-plan-pauses.md"
+  ],
+  "pointers_missing": [],
+  "index_ok": true
+}

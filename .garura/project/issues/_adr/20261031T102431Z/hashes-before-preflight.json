@@ -1,0 +1,15 @@
+{
+  ".garura/project/issues/_adr/20261031T102431Z/porcelain-before.txt": "28c652ae40684d3800521a88b37aede21bf7d2a3981bfc08368042928a6286be",
+  "core/components/plays/create-play/references/merge_pr.py": "ff27afc53fb486c82ea7facf4bede348ac1c2f5484a6991e36c4afd8ed5dfa3c",
+  "core/components/plays/merge-change/SKILL.md": "0664f5fd3fc535e4dcd14f3e092b5193386c280862af374e80095c0f3e26df22",
+  "core/components/plays/merge-change/reference/ice.md": "8da40c0324424d9d250e290eef640d4f025d984059076d789b59ad846120de74",
+  "core/components/plays/merge-change/scripts/merge_pr.py": "ff27afc53fb486c82ea7facf4bede348ac1c2f5484a6991e36c4afd8ed5dfa3c",
+  "core/components/plays/merge-change/scripts/test_merge_pr.py": "ac4411eb094898cca96f8efa45392c5320aa011ad455614a02885d5348b7cd8f",
+  "core/components/plays/update-plan/SKILL.md": "92552ad7a303ba88366ffd2e3f673686be66fa4d87e66958646e76d029a67aff",
+  "core/components/plays/update-plan/reference/ice.md": "cad7f6571ba81236fc73d589c5497a11d00c84590ce13d91c0df8801b011982f",
+  "core/components/plays/update-plan/scripts/closed_on_github.py": "8511f54d23f45f63e8199d4a184aa52c84f927487778fe8441ac5739f0713fc8",
+  "core/components/plays/update-plan/scripts/test_update_plan_scripts.py": "5a265ce05f91015d84012fc7916ab0e03d247b9e137b3e92f2edaf0f94e37693",
+  "core/tools/plan/README.md": "0db823746dbdac78d619a78f86516302a74b57ddf7b538dcbee92e362288fae0",
+  "core/tools/plan/plan_status.py": "a44b5120b12d881c47cd2c5de828ee4cdb11ca97d38972326839d37744055236",
+  "core/tools/plan/test_plan_status.py": "38336089a147e5b072c4a156e10fa50835b86e70d495b7b8d2f8c3a8b6dde11e"
+}

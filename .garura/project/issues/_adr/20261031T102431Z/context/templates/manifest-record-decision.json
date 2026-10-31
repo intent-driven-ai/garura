@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "outputs": {
+    "manifest": ".garura/project/issues/_adr/20261031T102431Z/context/templates/manifest-record-decision.json"
+  },
+  "templates": [
+    {
+      "name": "standards/templates/adr.md",
+      "copy": ".garura/project/issues/_adr/20261031T102431Z/context/templates/standards/templates/adr.md",
+      "source": {
+        "tier": "phoenix",
+        "path": "standards/templates/adr.md",
+        "version": "bebccefc0d4c",
+        "fingerprint": "sha256:eeb9faca459b881d4d533b7499b0b3841a21c14b90ee0262f4325c1b6521b872"
+      }
+    }
+  ],
+  "missing": [],
+  "task_id": "load-adr-template",
+  "error": null
+}

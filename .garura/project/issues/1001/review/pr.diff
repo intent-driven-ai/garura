@@ -1,0 +1,3391 @@
+diff --git a/.garura/project/issues/1001/context/analysis.yaml b/.garura/project/issues/1001/context/analysis.yaml
+new file mode 100644
+index 000000000..779149ecd
+--- /dev/null
++++ b/.garura/project/issues/1001/context/analysis.yaml
+@@ -0,0 +1,98 @@
++---
++# analyze_changeset.py output (C8 fast path), grouped by the analyze agent
++# issue: 1001
++needs_judgment: false
++branch: plan/717/1001-update-plan-session-folder-and-model
++issue: 1001
++
++change_groups:
++  - id: fix-update-plan-session-folder
++    issue: 1001
++    commit_type: fix
++    scope: update-plan
++    subject: "keep one session folder and clear it when the session ends"
++    confidence: high
++    files:
++      - core/components/plays/update-plan/scripts/session_files.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "#1001 - adopt moves the start folder into the session; clear leaves nothing behind. Its tests sit in test_update_plan_scripts.py, committed once in the product model group."
++
++  - id: feat-update-plan-model-reach
++    issue: 1002
++    commit_type: feat
++    scope: update-plan
++    subject: "let a session reach the product model through feature_ice and shared scripts, with tests"
++    confidence: high
++    files:
++      - core/components/plays/update-plan/scripts/feature_ice.py
++      - core/components/plays/update-plan/scripts/test_feature_ice.py
++      - core/components/plays/update-plan/scripts/plan_common.py
++      - core/components/plays/update-plan/scripts/check_ice_workable.py
++      - core/components/plays/update-plan/scripts/model_names.py
++      - core/components/plays/create-play/references/plan_common.py
++      - core/tools/lint-components/lib/rules/shared-scripts.js
++      - core/components/plays/update-plan/scripts/render_screen.py
++      - core/components/plays/update-plan/scripts/write_plan_changes.py
++      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "#1002 - plan_common.py, check_ice_workable.py and model_names.py are stamped copies of shared scripts; create-play/references/plan_common.py is the main copy and shared-scripts.js lists them. test_update_plan_scripts.py holds tests for both #1001 (session clear/adopt) and #1002 (model reach); placed here once, after the #1001 commit."
++
++  - id: feat-update-plan-model-wiring
++    issue: 1002
++    commit_type: feat
++    scope: update-plan
++    subject: "teach the plan skills, agent and template about the product model"
++    confidence: high
++    files:
++      - core/components/skills/author-plan-changes/SKILL.md
++      - core/components/skills/author-work-items/SKILL.md
++      - core/components/agents/product-os-keeper.md
++      - core/components/memory/standards/templates/plan-update.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "#1002 - skills, agent and template wiring for the model reach."
++
++  - id: fix-update-plan-ice
++    issue: 1001
++    commit_type: fix
++    scope: update-plan
++    subject: "record the session folder and model reach in the play's ICE and recompile"
++    confidence: high
++    files:
++      - core/components/plays/update-plan/reference/ice.md
++      - core/components/plays/update-plan/SKILL.md
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "The play's ICE and compiled SKILL.md cover both #1001 and #1002; one group, issue 1001."
++
++  - id: chore-plan-717-marks
++    issue: 1001
++    commit_type: chore
++    scope: plan
++    subject: "mark #1001 and #1002 done in plan 717"
++    confidence: high
++    files:
++      - .garura/project/plans/717.yaml
++    risks:
++      sensitive_files: []
++      breaking_changes: []
++    notes: "Plan file marks both bugs Done."
++
++exclusions:
++  - path: ".garura/project/issues/1001/context/commit-change/"
++    reason: "the commit-change run's own working files; recorded by the play's evidence step, not committed here"
++    blocking: false
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "19 paths in the scan: 18 files in five groups, 1 (the run's own folder) in exclusions; none in two places"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/1001/context/branch.json b/.garura/project/issues/1001/context/branch.json
+new file mode 100644
+index 000000000..940c4f82a
+--- /dev/null
++++ b/.garura/project/issues/1001/context/branch.json
+@@ -0,0 +1,8 @@
++{
++  "branch_name": "plan/717/1001-update-plan-session-folder-and-model",
++  "base_sha": "0bb64332a06073b46a263ed78df1cc521d986c86",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": false
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1001/context/check-self-review-exit.txt b/.garura/project/issues/1001/context/check-self-review-exit.txt
+new file mode 100644
+index 000000000..573541ac9
+--- /dev/null
++++ b/.garura/project/issues/1001/context/check-self-review-exit.txt
+@@ -0,0 +1 @@
++0
+diff --git a/.garura/project/issues/1001/context/commits.yaml b/.garura/project/issues/1001/context/commits.yaml
+new file mode 100644
+index 000000000..458514fec
+--- /dev/null
++++ b/.garura/project/issues/1001/context/commits.yaml
+@@ -0,0 +1,46 @@
++commits:
++  - sha: b38c691c
++    message: "fix(update-plan): keep one session folder and clear it when the session ends (#1001)"
++    files:
++      - core/components/plays/update-plan/scripts/session_files.py
++    branch: plan/717/1001-update-plan-session-folder-and-model
++  - sha: 6b164b15
++    message: "feat(update-plan): let a session reach the product model through feature_ice and shared scripts, with tests (#1002)"
++    files:
++      - core/components/plays/update-plan/scripts/feature_ice.py
++      - core/components/plays/update-plan/scripts/test_feature_ice.py
++      - core/components/plays/update-plan/scripts/plan_common.py
++      - core/components/plays/update-plan/scripts/check_ice_workable.py
++      - core/components/plays/update-plan/scripts/model_names.py
++      - core/components/plays/create-play/references/plan_common.py
++      - core/tools/lint-components/lib/rules/shared-scripts.js
++      - core/components/plays/update-plan/scripts/render_screen.py
++      - core/components/plays/update-plan/scripts/write_plan_changes.py
++      - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
++    branch: plan/717/1001-update-plan-session-folder-and-model
++  - sha: e5d3b836
++    message: "feat(update-plan): teach the plan skills, agent and template about the product model (#1002)"
++    files:
++      - core/components/skills/author-plan-changes/SKILL.md
++      - core/components/skills/author-work-items/SKILL.md
++      - core/components/agents/product-os-keeper.md
++      - core/components/memory/standards/templates/plan-update.md
++    branch: plan/717/1001-update-plan-session-folder-and-model
++  - sha: ca15accf
++    message: "fix(update-plan): record the session folder and model reach in the play's ICE and recompile (#1001)"
++    files:
++      - core/components/plays/update-plan/reference/ice.md
++      - core/components/plays/update-plan/SKILL.md
++    branch: plan/717/1001-update-plan-session-folder-and-model
++  - sha: c2c8238d
++    message: "chore(plan): mark #1001 and #1002 done in plan 717 (#1001)"
++    files:
++      - .garura/project/plans/717.yaml
++    branch: plan/717/1001-update-plan-session-folder-and-model
++excluded_files:
++  - path: ".garura/project/issues/1001/context/commit-change/"
++    reason: "the commit-change run's own working files; recorded by the play's evidence step, not committed here"
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1001/context/issue.json b/.garura/project/issues/1001/context/issue.json
+new file mode 100644
+index 000000000..722262aaa
+--- /dev/null
++++ b/.garura/project/issues/1001/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 1001,
++  "title": "/update-plan leaves its template copies and its session start marker behind after every session",
++  "created": false
++}
+diff --git a/.garura/project/issues/1001/context/plan.json b/.garura/project/issues/1001/context/plan.json
+new file mode 100644
+index 000000000..d2aed6716
+--- /dev/null
++++ b/.garura/project/issues/1001/context/plan.json
+@@ -0,0 +1,6 @@
++{
++  "issue": "1001",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/1001-update-plan-session-folder-and-model"
++}
+diff --git a/.garura/project/issues/1001/context/porcelain.txt b/.garura/project/issues/1001/context/porcelain.txt
+new file mode 100644
+index 000000000..2c5de4d7c
+--- /dev/null
++++ b/.garura/project/issues/1001/context/porcelain.txt
+@@ -0,0 +1,19 @@
++ M .garura/project/plans/717.yaml
++ M core/components/agents/product-os-keeper.md
++ M core/components/memory/standards/templates/plan-update.md
++ M core/components/plays/update-plan/SKILL.md
++ M core/components/plays/update-plan/reference/ice.md
++ M core/components/plays/update-plan/scripts/render_screen.py
++ M core/components/plays/update-plan/scripts/session_files.py
++ M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
++ M core/components/plays/update-plan/scripts/write_plan_changes.py
++ M core/components/skills/author-plan-changes/SKILL.md
++ M core/components/skills/author-work-items/SKILL.md
++ M core/tools/lint-components/lib/rules/shared-scripts.js
++?? .garura/project/issues/1001/context/commit-change/
++?? core/components/plays/create-play/references/plan_common.py
++?? core/components/plays/update-plan/scripts/check_ice_workable.py
++?? core/components/plays/update-plan/scripts/feature_ice.py
++?? core/components/plays/update-plan/scripts/model_names.py
++?? core/components/plays/update-plan/scripts/plan_common.py
++?? core/components/plays/update-plan/scripts/test_feature_ice.py
+diff --git a/.garura/project/issues/1001/context/pr-body.md b/.garura/project/issues/1001/context/pr-body.md
+new file mode 100644
+index 000000000..b43c0529d
+--- /dev/null
++++ b/.garura/project/issues/1001/context/pr-body.md
+@@ -0,0 +1,106 @@
++## What this changes
++
++Closes #1001, closes #1002.
++
++Two bugs in /update-plan (story #730, the play that changes a plan in a working session), fixed together under plan 717.
++
++- **#1001 (a session leaves its files behind).** Everything a session makes now goes into one session folder from the start: the template copies, the start marker and the found plan. Once the plan is known, the session moves them into the plan's own session folder. The close removes that folder after a landing, an abort, a stop on uncommitted work, or when no plan is found. A landing that stopped part way keeps its folder, so the next session can carry on.
++- **#1002 (a session can't reach the product model).** When the person's words name a feature, the session finds it in the model and makes clean copies of the feature's ICE and its capability's ICE, with no "Fails if" lines. A new story for that feature is then drafted from those copies by author-work-items (story mode, through product-os-keeper). A check refuses any "Fails if" text, and the plan file records which feature the story represents. Other cases:
++  - "Which feature is this story?" gets a plain answer from the model, with no list entry.
++  - A feature with no ready ICE gets a story in the person's words, and the list says so.
++  - A name that matches no feature, or more than one, becomes a question, never a guess.
++
++The play was recompiled through edit-play: new constraints C13 and C14, failure conditions F15 and F16, and scenarios S9–S11. The ICE helpers /shape-plan already uses (plan_common.py, check_ice_workable.py) are now shared stamped copies, and the linter's shared-scripts list names them.
++
++Out of scope, recorded: a story added this way doesn't yet get its line in the epic's feature-to-story map.
++
++## Self-review
++
++# Self-review: #1001 and #1002 (one change)
++
++Branch: plan/717/1001-update-plan-session-folder-and-model
++Compared with: plan/717/base (the PR base)
++Rules used: ~/.phoenix/core/memory/standards/rules/self-review.md (the base rules, no project override)
++Design: .garura/project/issues/1001/specs/design.md (approved 2026-10-31)
++
++This review is a checklist for the reader. It does not approve or reject the change.
++
++## What the change does, in plain words
++
++#1001 (an /update-plan session leaves files behind): the session now keeps everything it makes
++in one session folder from the very start. When the plan is known, the folder moves under the
++plan's number. At the close the folder is removed after a landing, an abort, a stop on
++uncommitted work, or when no plan was found. A landing that stopped part way keeps its folder so
++the next session can carry on.
++
++#1002 (a session cannot reach the product model): when the person's words name a feature, the
++session now finds it, makes clean copies of its ICE and its capability's ICE with no "Fails if"
++lines, and has the story writer draft the story from them. A check refuses any story text with
++a "Fails if" line. The added item records `represents`. "Find this story in the model" gets a
++plain answer and no list entry. A feature with no ready ICE gets a story in the person's words,
++and the list says so.
++
++## Scope checks
++
++- Matches the issue: pass. All 26 changed files serve the two bugs: the session-folder scripts
++  and play text (#1001), the feature lookup, the story writer mode, the list screens and the
++  plan-file write (#1002), and the play's ICE and recompiled play for both.
++- No scope creep: pass. The only files outside the two bugs are the plan 717 upkeep (the two
++  items marked Done, as the plan rules ask) and the run records under the issue's own folder.
++- Reasonable size: pass, with a note. About 2,700 lines added, but roughly 1,470 of that are new
++  stamped copies of two shared scripts (plan_common.py in two new places, check_ice_workable.py
++  in one). The hand-written part is about 1,200 lines, split into clear pieces (scripts, tests,
++  play text, ICE).
++- No stray artifacts: pass. No debug prints (the print calls are the scripts' JSON output), no
++  commented-out blocks, no compiled Python files committed. The run records under
++  .garura/project/issues/1001/context/ are the normal record of the change plays.
++- Known and recorded, not a finding: a story added this way gets no line in the epic's
++  feature-to-story map (design, "Out of scope").
++
++## Quality checks
++
++- Tests present: pass. 64 tests in the play's scripts folder ran and all passed. New tests cover
++  the session folder (adopt, clear after a landing, clear after no plan, keep after a part-way
++  landing), the feature lookup, the "no guessing" question, the clean copy with no "Fails if"
++  lines, the refused story, the model screen, the "says where the text comes from" note, and
++  `represents` on the plan file.
++- Stamped copies in step: pass. The two shared scripts are byte-for-byte equal in every place
++  they live (three copies of one, four of the other; checked by comparing checksums), and the lint rule's shared-scripts list now names
++  them.
++- Lint of the components: pass for this change. The lint run reports 36 errors, but none is in a
++  file this change touches (they are in check-quality, create-loop, create-play, edit-loop,
++  edit-play, install-garura and others). Not caused by this change.
++- Commits are clean: pass. Eight commits, each in the conventional form, each naming #1001 or
++  #1002, each one concern (fix, feat, chore).
++- No secrets: pass. A scan of the diff found no keys, tokens or passwords, and no absolute home
++  paths in the source files.
++- Docs in step: pass. The play's ICE, its compiled play text, the two skills, the agent's
++  routing table and the screen template were all updated together, and the play's header counts
++  (constraints, failure conditions, scenarios, steps, scripts) match the new totals.
++- No merge conflicts: pass. A trial merge against plan/717/base gives a clean result.
++- Nothing obviously broken: pass, with the notes below.
++
++## Notes for the reviewer (none stops the raise)
++
++1. One story for each feature is checked only on the new-feature path. A new feature checks
++   that its feature does not already have a story under the same epic. The new path for an
++   existing feature (an "add" entry that carries `feature`) has no such check, so a second
++   story for the same feature under one epic would not be refused. Small, and the person sees
++   the list before "approved". Worth a follow-up issue.
++2. For an "add" entry that points at a story issue that already exists, the item records
++   `represents` in the plan file, but the issue's own text does not get the "Represents:" line
++   (only a newly created story gets it). The final agreement check does not look at
++   `represents` for this path either, so the plan file and the tracker could differ on it.
++   Small; the common case (a new story) is complete.
++3. The "Fails if" check runs when the story body is checked (feature_ice.py body). It reads the
++   ICE pages only when it is given the model folder; the play text passes it, but the script
++   alone would quietly skip the page-based part of the check if called without it. The check on
++   the clean copy still holds. Worth making the model folder required later.
++4. The self-clean step (Step 16) sits above the Standard Play Close block in the play text but
++   says it runs as the close's last action. It reads correctly, but a reader could take the
++   order the wrong way round.
++
++## Result
++
++Findings that stop the raise: none.
++Checklist: scope 4 of 4 pass, quality 8 of 8 pass, 4 notes for the reviewer.
+diff --git a/.garura/project/issues/1001/context/pr.json b/.garura/project/issues/1001/context/pr.json
+new file mode 100644
+index 000000000..630cb17ff
+--- /dev/null
++++ b/.garura/project/issues/1001/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 1009,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1009",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1001/context/resolved-rules.json b/.garura/project/issues/1001/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1001/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1001/context/self-review.md b/.garura/project/issues/1001/context/self-review.md
+new file mode 100644
+index 000000000..e6e215db0
+--- /dev/null
++++ b/.garura/project/issues/1001/context/self-review.md
+@@ -0,0 +1,88 @@
++# Self-review: #1001 and #1002 (one change)
++
++Branch: plan/717/1001-update-plan-session-folder-and-model
++Compared with: plan/717/base (the PR base)
++Rules used: ~/.phoenix/core/memory/standards/rules/self-review.md (the base rules, no project override)
++Design: .garura/project/issues/1001/specs/design.md (approved 2026-10-31)
++
++This review is a checklist for the reader. It does not approve or reject the change.
++
++## What the change does, in plain words
++
++#1001 (an /update-plan session leaves files behind): the session now keeps everything it makes
++in one session folder from the very start. When the plan is known, the folder moves under the
++plan's number. At the close the folder is removed after a landing, an abort, a stop on
++uncommitted work, or when no plan was found. A landing that stopped part way keeps its folder so
++the next session can carry on.
++
++#1002 (a session cannot reach the product model): when the person's words name a feature, the
++session now finds it, makes clean copies of its ICE and its capability's ICE with no "Fails if"
++lines, and has the story writer draft the story from them. A check refuses any story text with
++a "Fails if" line. The added item records `represents`. "Find this story in the model" gets a
++plain answer and no list entry. A feature with no ready ICE gets a story in the person's words,
++and the list says so.
++
++## Scope checks
++
++- Matches the issue: pass. All 26 changed files serve the two bugs: the session-folder scripts
++  and play text (#1001), the feature lookup, the story writer mode, the list screens and the
++  plan-file write (#1002), and the play's ICE and recompiled play for both.
++- No scope creep: pass. The only files outside the two bugs are the plan 717 upkeep (the two
++  items marked Done, as the plan rules ask) and the run records under the issue's own folder.
++- Reasonable size: pass, with a note. About 2,700 lines added, but roughly 1,470 of that are new
++  stamped copies of two shared scripts (plan_common.py in two new places, check_ice_workable.py
++  in one). The hand-written part is about 1,200 lines, split into clear pieces (scripts, tests,
++  play text, ICE).
++- No stray artifacts: pass. No debug prints (the print calls are the scripts' JSON output), no
++  commented-out blocks, no compiled Python files committed. The run records under
++  .garura/project/issues/1001/context/ are the normal record of the change plays.
++- Known and recorded, not a finding: a story added this way gets no line in the epic's
++  feature-to-story map (design, "Out of scope").
++
++## Quality checks
++
++- Tests present: pass. 64 tests in the play's scripts folder ran and all passed. New tests cover
++  the session folder (adopt, clear after a landing, clear after no plan, keep after a part-way
++  landing), the feature lookup, the "no guessing" question, the clean copy with no "Fails if"
++  lines, the refused story, the model screen, the "says where the text comes from" note, and
++  `represents` on the plan file.
++- Stamped copies in step: pass. The two shared scripts are byte-for-byte equal in every place
++  they live (three copies of one, four of the other; checked by comparing checksums), and the lint rule's shared-scripts list now names
++  them.
++- Lint of the components: pass for this change. The lint run reports 36 errors, but none is in a
++  file this change touches (they are in check-quality, create-loop, create-play, edit-loop,
++  edit-play, install-garura and others). Not caused by this change.
++- Commits are clean: pass. Eight commits, each in the conventional form, each naming #1001 or
++  #1002, each one concern (fix, feat, chore).
++- No secrets: pass. A scan of the diff found no keys, tokens or passwords, and no absolute home
++  paths in the source files.
++- Docs in step: pass. The play's ICE, its compiled play text, the two skills, the agent's
++  routing table and the screen template were all updated together, and the play's header counts
++  (constraints, failure conditions, scenarios, steps, scripts) match the new totals.
++- No merge conflicts: pass. A trial merge against plan/717/base gives a clean result.
++- Nothing obviously broken: pass, with the notes below.
++
++## Notes for the reviewer (none stops the raise)
++
++1. One story for each feature is checked only on the new-feature path. A new feature checks
++   that its feature does not already have a story under the same epic. The new path for an
++   existing feature (an "add" entry that carries `feature`) has no such check, so a second
++   story for the same feature under one epic would not be refused. Small, and the person sees
++   the list before "approved". Worth a follow-up issue.
++2. For an "add" entry that points at a story issue that already exists, the item records
++   `represents` in the plan file, but the issue's own text does not get the "Represents:" line
++   (only a newly created story gets it). The final agreement check does not look at
++   `represents` for this path either, so the plan file and the tracker could differ on it.
++   Small; the common case (a new story) is complete.
++3. The "Fails if" check runs when the story body is checked (feature_ice.py body). It reads the
++   ICE pages only when it is given the model folder; the play text passes it, but the script
++   alone would quietly skip the page-based part of the check if called without it. The check on
++   the clean copy still holds. Worth making the model folder required later.
++4. The self-clean step (Step 16) sits above the Standard Play Close block in the play text but
++   says it runs as the close's last action. It reads correctly, but a reader could take the
++   order the wrong way round.
++
++## Result
++
++Findings that stop the raise: none.
++Checklist: scope 4 of 4 pass, quality 8 of 8 pass, 4 notes for the reviewer.
+diff --git a/.garura/project/issues/1001/context/target.json b/.garura/project/issues/1001/context/target.json
+new file mode 100644
+index 000000000..7c2578d71
+--- /dev/null
++++ b/.garura/project/issues/1001/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/1001-update-plan-session-folder-and-model",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "1001",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/1001/context/work-description.txt b/.garura/project/issues/1001/context/work-description.txt
+new file mode 100644
+index 000000000..ef96ebdf7
+--- /dev/null
++++ b/.garura/project/issues/1001/context/work-description.txt
+@@ -0,0 +1 @@
++#1001 and #1002, one change on plan 717 (both bugs under story #730, /update-plan). #1001: the session leaves its template copies and start marker behind — everything goes into one session folder that the close removes. #1002: the session cannot reach the product model — when the words name a feature, its story is drafted from the feature's ICE and its capability's ICE, as /shape-plan does. Design approved by the product owner 2026-10-31.
+diff --git a/.garura/project/issues/1001/specs/design.md b/.garura/project/issues/1001/specs/design.md
+new file mode 100644
+index 000000000..c056baadb
+--- /dev/null
++++ b/.garura/project/issues/1001/specs/design.md
+@@ -0,0 +1,35 @@
++# #1001 + #1002 — /update-plan: leaves nothing behind, and reaches the product model
++
++Approved by the product owner, 2026-10-31 ("approved"). One change under plan 717; both bugs sit
++under story #730 (the /update-plan session).
++
++## #1001 — the session leaves files behind
++
++Everything the session makes goes into one session folder from the start (templates, start
++marker, plan record). Once the plan is known, the folder takes the plan's number. The close
++removes it when the session landed, was aborted, stopped on uncommitted work, or found no plan.
++The templates stay the session's own copies (the screens do not change mid-session). A landing
++that stopped part way keeps its folder: that is what lets the next session carry on.
++
++## #1002 — the session cannot reach the product model
++
++When the person's words name a feature (by id or name — "add the story for feature X under #721"),
++the session finds it in the model, makes clean copies of the feature's ICE and its capability's
++ICE with no "Fails if" lines, and /shape-plan's story writer (author-work-items, a one-story mode)
++drafts the story's scope of work and Context guidance from them. The check refuses any story text
++with a "Fails if" line. "Find this story in the model" gets a plain answer (the feature and its
++ICE page), no list entry. A feature with no ICE: the story uses the person's words and the list
++says the feature has no ICE. Nothing is written before "approved".
++
++## How
++
++- Scripts with tests: the session folder (#1001); the feature lookup and clean copies (#1002),
++  using /shape-plan's ICE helpers stamped beside it (plan_common.py, check_ice_workable.py, kept
++  identical to their main copies by the shared-scripts rule).
++- author-plan-changes names a feature; product-os-keeper gets the route to look it up and copy
++  its ICE; author-work-items gets a one-story mode.
++- /update-plan's ICE and play rebuilt through /edit-play.
++
++## Out of scope (recorded)
++
++A story added this way does not get its line in the epic's feature-to-story map.
+diff --git a/.garura/project/plans/717.yaml b/.garura/project/plans/717.yaml
+index 8f03ca770..8d029c8dc 100644
+--- a/.garura/project/plans/717.yaml
++++ b/.garura/project/plans/717.yaml
+@@ -84,11 +84,11 @@ tree:
+       - issue: 1001
+         kind: bug
+         title: /update-plan leaves its template copies and its session start marker behind after every session
+-        status: Not Started
++        status: Done
+       - issue: 1002
+         kind: bug
+         title: An /update-plan session cannot reach the product model, so a story added for a feature is not drafted from the feature's ICE
+-        status: Not Started
++        status: Done
+     - issue: 909
+       kind: story
+       title: '/shape-plan --edit: a person changes the plan file, an epic or a story that already exists'
+diff --git a/core/components/agents/product-os-keeper.md b/core/components/agents/product-os-keeper.md
+index 76d276345..ef75d05b9 100644
+--- a/core/components/agents/product-os-keeper.md
++++ b/core/components/agents/product-os-keeper.md
+@@ -74,7 +74,7 @@ the missing skill; never do the work yourself.
+ | `link-model-part` | Put a domain, capability or feature into the spine after its page is written: a new part's entry (its parent, intents, one-line, page, issue, status proposed), an existing one's one-line, intents or issue, and the thin mark in both places for a capability or feature (`metadata.thin` and one Thin line on the page); add features to a slice that exists (#931). All or nothing; writes only inside the product model; `link-report.json` lists every file it changed. | a part found during work (#979), after `enrich-grounding`; `/update-plan`'s new feature (#931) |
+ | `author-slice-brief` | Write the opening of the early brief or the confirmation brief: two or three plain sentences that say what the person decides and what happens with the reply, by the rule for asking a person (or the play's floor). The play's script builds the rest of the brief. | /shape-slice |
+ | `author-failure-recovery` | Draft, for each feature of a slice, its hidden-file entry: one recovery for each "Fails if" line of the feature's ICE and its capability's ICE (when, way back, who fixes: "the builder can fix this alone" or "a person must decide"), by `standards/rules/expectation-generation.md`; say when one of the two ICE is thin. Draft only — the play's script checks and writes the hidden file. | /shape-slice |
+-| `author-work-items` | Write, for each slice of a plan, the epic's title (what a person can see the product do) and one story for each ready feature: its title, its scope of work (goals, limits, expectations) and its Context guidance, from `skill-input.json` and the clean copies of the two ICE that the play's script wrote, which name no ICE page. Never opens an ICE page and never writes a failure or recovery condition. Writes `drafts.json`; the play's scripts check it and write the tracker after the product owner's yes. | /shape-plan |
++| `author-work-items` | Write, for each slice of a plan, the epic's title (what a person can see the product do) and one story for each ready feature: its title, its scope of work (goals, limits, expectations) and its Context guidance, from `skill-input.json` and the clean copies of the two ICE that the play's script wrote, which name no ICE page. Never opens an ICE page and never writes a failure or recovery condition. Writes `drafts.json`; the play's scripts check it and write the tracker after the product owner's yes. | /shape-plan; /update-plan (story mode, #1002) |
+ | `propose-answers` | For each question only the person can confirm, draft our proposed answer from the model, memory or a person's earlier answer, with its basis `{kind, ref}`; where nothing backs an answer, leave it empty — never a default. The play's script copies the proposals into the questions. | /shape-slice |
+ | `author-product-ontology` | Run one stage of the product ontology change for /edit-ontology — `scope` (the questions), `kinds` (reuse, terms, kinds), `links` (properties, links, rules) or `write` (the example, the ontology itself, and its check) — reading the earlier stages' drafts and writing only this stage's draft (or, at `write`, the ontology). Plays run it; no person does (#778). | /edit-ontology |
+ 
+@@ -100,6 +100,7 @@ the missing skill; never do the work yourself.
+ | "a part was found during work", "add this feature / capability / domain to the model", "give it a thin page", "update its page" | "Add the plan graph as a thin feature under view plans" | `enrich-grounding` (mode `new-feature` or `update`, then `thin`), then `link-model-part` for domains, capabilities and features | The page first, then its spine entry and thin mark; one run per part, in parallel when there are several (each writes only its own page); one `link-model-part` run for all of them after they join. No discovery play run |
+ | "suggest a capability for a new feature of a plan session" (`/update-plan`, when its placement script names none) | "We found a new feature in plan 717: a person can undo the last update" | `find-work-placement` | `routing-result.json` only. The play's `place_feature.py` places the feature by fixed rules (capability, slice, id, one-line); the person decides what no rule settles. Nothing is written in the model before the person approves the session |
+ | "land the new features of an approved plan session" (`/update-plan`, `model-ops.json`); each dispatch writes its record only to the output path its contract names, never over another dispatch's record (Step 8's `model-record.json`, the story step's `model-record-story.json`) | "Write the approved new feature of plan 717" | `enrich-grounding` (mode `new-feature`, then `thin`, from the part's title and description — the person's words, nothing made up), then one `link-model-part` run: the feature `new` and thin (its intent, its `identified_by`, its story's issue when known) and, when the part names a slice, the slice `update` with `add_features` | `model-record.json`: `{parts: [{feature, doc, linked}], files: [every model file written]}`. When the story is made after this step, a second `link-model-part` run names its `issue` (`mode: update`) |
++| "draft the story for a feature a plan session named" (`/update-plan`, #1002) | "Draft the story for fn-818 that the person added under #721" | `author-work-items` (story mode) | The play's `feature_ice.py copy` has written the clean copy and `story-input.json`; hand the skill only those, and pass its `story-draft.json` on as it is. Never open an ICE page and never write the model, the plan file or the tracker |
+ | "change these lines of a page", "bring this page to the approved design", "name a persona, not a person" | "Change cap-720's ICE to the approved #720 design"; "Name the product owner, not a person, on the intent page" | `enrich-grounding` (mode `update` or `fix`, with a named-lines request you write to `lines-request.json` and hand it as `lines_request`: every line to change, whole and as it is on the page, with its new words and the request's source; when the script refuses, correct the request) | `lines-report.json`: each page, each line old and new; every other line kept word for word; all or nothing. A page needs no spine entry for this; a changed one-line or intents still goes through `link-model-part` |
+ | "change the product ontology", "add a kind", "change a kind, link or rule" | "Run the `kinds` stage for the ICE kind" | `author-product-ontology` | One stage per dispatch from /edit-ontology; the product owner agrees each stage at the play's checkpoint |
+ 
+diff --git a/core/components/memory/standards/templates/plan-update.md b/core/components/memory/standards/templates/plan-update.md
+index eb81c7958..cea545bab 100644
+--- a/core/components/memory/standards/templates/plan-update.md
++++ b/core/components/memory/standards/templates/plan-update.md
+@@ -115,6 +115,13 @@ confirm: |-
+   This needs your yes first: {why}.
+   Type yes to add it to the list, or tell me what to change.
+ thin_warning: "  Its ICE will be thin: written from your words only. A thin ICE can cause problems later; /discover-capabilities can deepen it."
++from_ice_note: "drafted from {feature}'s ICE and its capability's ICE"
++no_ice_note: "{feature} has no ready ICE ({reason}): the story uses your words"
++model_found: "#{story} is the story of {feature}: {one_line}\n  Its ICE: {pages}"
++model_feature: "{feature}: {one_line}\n  Its ICE: {pages}"
++model_not_found: "No feature in the model matches {ref}."
++model_many: "More than one feature matches {ref}: {matches}. Name one."
++model_join: "; "
+ slice_in_progress: "  Its slice {slice} is in progress: {epics} is out of date, because work already started from the old text."
+ epic_line: "epic {epic} ({status})"
+ epic_join: ", "
+diff --git a/core/components/plays/create-play/references/plan_common.py b/core/components/plays/create-play/references/plan_common.py
+new file mode 100644
+index 000000000..6f302bdf8
+--- /dev/null
++++ b/core/components/plays/create-play/references/plan_common.py
+@@ -0,0 +1,574 @@
++#!/usr/bin/env python3
++"""plan_common.py — the parts the /shape-plan scripts share.
++
++Not run on its own. The scripts beside it import it for four jobs:
++
++  - Safe writes. `atomic_write` and `write_json` write through a temp file in the same folder,
++    then move it into place with os.replace. A run that stops half way never leaves half a
++    file.
++  - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
++    `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
++    the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
++    `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
++    under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
++  - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
++    recovery phrases (`forbidden_in`).
++  - The tracker. `open_tracker` gives a file tracker (`--tracker-file <json>`, for tests and
++    dry runs) or the code host, reached only through platform_adapter.py. Both have the same
++    methods: get, create (title, body, type and parent in one write), set_type, set_body,
++    remove_labels, add_sub, remove_sub, save.
++  - The hash of a file (`sha256_of`), so a yes stays tied to the files the person saw.
++
++The file tracker is a JSON file {"issues": [{"number", "title", "type", "labels": [],
++"state", "body", "sub_issues": [numbers]}]}. A new issue takes the next free number. Like a
++real tracker, it keeps each write at once: the file is written after every write. A test can
++make one write fail: `"fail_at_write": <n>` in the file makes the n-th write of the run fail,
++with nothing changed by it.
++
++The code host is reached through the adapter's verbs only: view-issue, create-issue-typed,
++set-issue-type, edit-issue-body, remove-label, attach-sub-issue and remove-sub-issue. No
++judgment is made here.
++"""
++
++import hashlib
++
++import json
++import os
++import re
++import tempfile
++
++try:
++    import yaml
++except ImportError:  # the scripts say so in plain words
++    yaml = None
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++RECOVERY_PHRASES = ("the builder can fix this alone", "a person must decide")
++EPIC_TYPE, STORY_TYPE = "Epic", "Story"
++
++
++class Refused(Exception):
++    """A refusal or bad input: the script writes nothing and exits 2."""
++
++
++class TrackerError(Exception):
++    """The tracker did not do what it was asked."""
++
++
++# ---- files ------------------------------------------------------------------------------
++
++def atomic_write(path, text):
++    """Write `text` to `path` through a temp file in the same folder, then os.replace it."""
++    folder = os.path.dirname(os.path.abspath(path))
++    os.makedirs(folder, exist_ok=True)
++    fd, tmp = tempfile.mkstemp(prefix=".shape-plan-", suffix=".tmp", dir=folder)
++    try:
++        with os.fdopen(fd, "w", encoding="utf-8") as fh:
++            fh.write(text)
++        os.replace(tmp, path)
++    except BaseException:
++        if os.path.exists(tmp):
++            os.remove(tmp)
++        raise
++
++
++def sha256_of(path):
++    """The sha256 of a file's bytes, or None when it cannot be read."""
++    try:
++        with open(path, "rb") as fh:
++            return hashlib.sha256(fh.read()).hexdigest()
++    except OSError:
++        return None
++
++
++def write_json(path, obj):
++    atomic_write(path, json.dumps(obj, indent=2, ensure_ascii=False) + "\n")
++
++
++def read_text(path):
++    with open(path, encoding="utf-8") as fh:
++        return fh.read()
++
++
++def read_json(path, what):
++    try:
++        return json.loads(read_text(path))
++    except (OSError, json.JSONDecodeError) as exc:
++        raise Refused(f"cannot read {what} at {path}: {exc}")
++
++
++def read_yaml(path, what):
++    if yaml is None:
++        raise Refused("PyYAML is needed (pip install pyyaml)")
++    try:
++        return yaml.safe_load(read_text(path))
++    except (OSError, yaml.YAMLError) as exc:
++        raise Refused(f"cannot read {what} at {path}: {exc}")
++
++
++# ---- text -------------------------------------------------------------------------------
++
++def norm(text):
++    """Text for matching: case, spacing and a closing full stop do not count."""
++    return " ".join(str(text).split()).rstrip(".").lower()
++
++
++def forbidden_in(text, fails_lines=()):
++    """What in `text` must never reach an epic, a story or a plan file, as plain reasons."""
++    found = []
++    low = norm(text)
++    if "fails if" in low:
++        found.append('it holds the words "Fails if"')
++    for phrase in RECOVERY_PHRASES:
++        if phrase in low:
++            found.append(f'it holds the recovery phrase "{phrase}"')
++    for line in fails_lines:
++        n = norm(line)
++        if len(n.split()) >= 2 and n in low:
++            found.append(f'it holds a failure line of its ICE: "{line}"')
++    return found
++
++
++def all_text(value):
++    """Every string inside a JSON value, joined, so one check reads all of it."""
++    if isinstance(value, str):
++        return value
++    if isinstance(value, dict):
++        return "\n".join(all_text(v) for v in value.values())
++    if isinstance(value, list):
++        return "\n".join(all_text(v) for v in value)
++    return ""
++
++
++# ---- the ICE of a part ------------------------------------------------------------------
++
++FAILS_BULLET = re.compile(r"^(?P<lead>\s*)[-*]\s+(?:\*\*)?Fails if:?(?:\*\*)?:?\s*(?P<text>.*?)\s*$",
++                          re.IGNORECASE)
++NEW_ITEM = re.compile(r"^\s*(?:[-*+]\s|\d+[.)]\s|#|\*\*|>|```)")
++FAILS_HEAD = re.compile(r"^\s*(?:#+\s*|\*\*)Fails if\b", re.IGNORECASE)
++HEADING = re.compile(r"^(#+)\s")
++ICE_PARTS = ("## Intent", "## Context", "## Expectation")
++
++
++def entry(spine, key, eid):
++    return next((e for e in spine.get(key) or [] if isinstance(e, dict) and e.get("id") == eid), None)
++
++
++def _section(lines, heading):
++    at = next((i for i, ln in enumerate(lines) if ln.strip() == heading), None)
++    if at is None:
++        return None
++    end = next((i for i in range(at + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
++    return lines[at + 1:end]
++
++
++def ice_page(spine, part):
++    """The page (relative to the model folder) that holds the part's ICE, or None."""
++    if part is None:
++        return None
++    if "ices" in spine:
++        ice = next((i for i in spine.get("ices") or [] if isinstance(i, dict)
++                    and i.get("for") == part.get("id")), None)
++        return ice.get("doc") if ice else None
++    return part.get("doc")
++
++
++def ice_lines(root, spine, part):
++    """The lines of the part's ICE (a list, maybe empty), or None when its page is missing."""
++    rel = ice_page(spine, part)
++    if not rel:
++        return None
++    path = os.path.join(root, rel)
++    if not os.path.isfile(path):
++        return None
++    lines = read_text(path).splitlines()
++    if "ices" in spine:
++        out = []
++        for head in ICE_PARTS:
++            body = _section(lines, head)
++            if body is not None:
++                out.append(head)
++                out.extend(body)
++        return out
++    body = _section(lines, "## Agent intent (ICE)")
++    return body if body is not None else []
++
++
++def _split(lines):
++    """(kept lines, blocks): each block is the lines of one "Fails if" line, label or heading,
++    with every line under it — deeper lines, nested bullets, wrapped text."""
++    kept, blocks, cur = [], [], None
++    for ln in lines or []:
++        indent = len(ln) - len(ln.lstrip())
++        if cur is not None:
++            kind, depth, seen_blank = cur["kind"], cur["depth"], cur["blank"]
++            if not ln.strip():
++                cur["blank"] = True
++                continue
++            if kind == "heading":
++                hm = HEADING.match(ln.lstrip())
++                if not (hm and len(hm.group(1)) <= depth):
++                    cur["lines"].append(ln)
++                    continue
++            elif indent > depth:
++                cur["lines"].append(ln)
++                continue
++            elif kind == "label" and not seen_blank and ln.lstrip().startswith(("- ", "* ", "+ ")):
++                cur["lines"].append(ln)
++                continue
++            elif not seen_blank and not NEW_ITEM.match(ln):
++                cur["lines"].append(ln)  # wrapped text that goes on from the line above
++                continue
++            blocks.append(cur["lines"])
++            cur = None
++        if FAILS_BULLET.match(ln):
++            cur = {"kind": "bullet", "depth": indent, "blank": False, "lines": [ln]}
++            continue
++        if FAILS_HEAD.match(ln):
++            hm = HEADING.match(ln.lstrip())
++            cur = {"kind": "heading" if hm else "label", "depth": len(hm.group(1)) if hm else indent,
++                   "blank": False, "lines": [ln]}
++            continue
++        if "fails if" in ln.lower():
++            blocks.append([ln])
++            continue
++        kept.append(ln)
++    if cur is not None:
++        blocks.append(cur["lines"])
++    return kept, blocks
++
++
++def _text_of(line):
++    m = FAILS_BULLET.match(line)
++    if m:
++        return m.group("text")
++    text = re.sub(r"^\s*(?:[-*+]\s+|\d+[.)]\s+|#+\s*)", "", line).strip()
++    return re.sub(r"^(?:\*\*)?Fails if:?(?:\*\*)?:?\s*", "", text, flags=re.IGNORECASE).strip()
++
++
++def fails_if_texts(lines):
++    """The text of every line of every "Fails if" block, children included."""
++    return [t for block in _split(lines)[1] for t in (_text_of(ln) for ln in block) if t]
++
++
++def without_fails_if(lines):
++    """The lines with every "Fails if" block taken out: the line, label or heading and every
++    line under it. Any other line that still names the words is taken out too."""
++    return _split(lines)[0]
++
++
++def page_title(root, rel, prefix):
++    path = os.path.join(root, rel or "")
++    if rel and os.path.isfile(path):
++        for ln in read_text(path).splitlines():
++            if ln.startswith("# "):
++                head = ln[2:].strip()
++                return head[len(prefix):].strip() if head.startswith(prefix) else head
++    return None
++
++
++# ---- the approval -----------------------------------------------------------------------
++
++def approval_is_yes(path):
++    """(ok, decision, reason): ok only when the file reads decision yes with a typed reply."""
++    try:
++        rec = json.loads(read_text(path))
++    except (OSError, json.JSONDecodeError):
++        return False, None, "no approval is recorded"
++    decision = rec.get("decision") if isinstance(rec, dict) else None
++    reply = rec.get("reply") if isinstance(rec, dict) else None
++    if decision != "yes":
++        return False, decision, f"the decision is {decision!r}, not yes"
++    if not isinstance(reply, str) or not reply.strip():
++        return False, decision, "the reply is empty"
++    return True, decision, "the person typed yes"
++
++
++def approval_matches(path, work_items, drafts):
++    """(ok, reason): ok only when the brief, work-items.json and drafts.json are still the
++    files the person saw when they typed their answer (their sha256 is the one recorded)."""
++    try:
++        files = json.loads(read_text(path)).get("files") or {}
++    except (OSError, json.JSONDecodeError, AttributeError):
++        return False, "no approval is recorded"
++    want = {"brief": (files.get("brief") or {}).get("path"), "work_items": work_items, "drafts": drafts}
++    for key, file_path in want.items():
++        seen = (files.get(key) or {}).get("sha256")
++        if not seen:
++            return False, f"the approval does not record which {key.replace('_', '-')} the person saw"
++        if not file_path or sha256_of(file_path) != seen:
++            return False, (f"{key.replace('_', '-')} ({file_path}) is not the file the person saw; "
++                           "show the brief again")
++    return True, "the files are the ones the person saw"
++
++
++# ---- the tracker ------------------------------------------------------------------------
++
++def _issue(raw):
++    return {"number": int(raw["number"]), "title": raw.get("title") or "",
++            "type": raw.get("type"), "labels": list(raw.get("labels") or []),
++            "state": (raw.get("state") or "open").lower(), "body": raw.get("body") or "",
++            "sub_issues": [int(n) for n in raw.get("sub_issues") or []]}
++
++
++class FileTracker:
++    """A tracker kept in a JSON file. Like a real tracker, each write is kept at once."""
++
++    def __init__(self, path):
++        self.path = path
++        data = read_json(path, "the tracker file")
++        if not isinstance(data, dict) or not isinstance(data.get("issues"), list):
++            raise Refused('the tracker file must be {"issues": [...]}')
++        self.fail_at = data.get("fail_at_write")
++        self.writes = 0
++        self.issues = {}
++        for raw in data["issues"]:
++            if not isinstance(raw, dict) or "number" not in raw:
++                raise Refused("each issue in the tracker file needs a number")
++            self.issues[int(raw["number"])] = _issue(raw)
++
++    def get(self, number):
++        it = self.issues.get(int(number)) if number is not None else None
++        return json.loads(json.dumps(it)) if it else None
++
++    def _must(self, number):
++        it = self.issues.get(int(number))
++        if it is None:
++            raise TrackerError(f"the tracker has no issue #{number}")
++        return it
++
++    def _write(self, what):
++        self.writes += 1
++        if self.fail_at is not None and self.writes == int(self.fail_at):
++            raise TrackerError(f"the tracker did not take write {self.writes} ({what})")
++
++    def _keep(self):
++        data = {"issues": [self.issues[n] for n in sorted(self.issues)]}
++        if self.fail_at is not None:
++            data["fail_at_write"] = self.fail_at
++        write_json(self.path, data)
++
++    def create(self, title, body, type_, parent=None):
++        self._write("make an issue")
++        if parent is not None:
++            self._must(parent)
++        number = max(self.issues, default=0) + 1
++        self.issues[number] = _issue({"number": number, "title": title, "type": type_,
++                                      "labels": [], "state": "open", "body": body})
++        if parent is not None:
++            self.issues[int(parent)]["sub_issues"].append(number)
++        self._keep()
++        return number
++
++    def set_type(self, number, type_):
++        self._write("set the type")
++        self._must(number)["type"] = type_
++        self._keep()
++
++    def set_body(self, number, body):
++        self._write("change the body")
++        self._must(number)["body"] = body
++        self._keep()
++
++    def remove_labels(self, number, labels):
++        self._write("take off labels")
++        it = self._must(number)
++        it["labels"] = [lb for lb in it["labels"] if lb not in labels]
++        self._keep()
++
++    def add_sub(self, parent, child):
++        self._write("add a sub-issue")
++        self._must(child)
++        subs = self._must(parent)["sub_issues"]
++        if int(child) not in subs:
++            subs.append(int(child))
++        self._keep()
++
++    def remove_sub(self, parent, child):
++        self._write("take off a sub-issue")
++        it = self._must(parent)
++        it["sub_issues"] = [n for n in it["sub_issues"] if n != int(child)]
++        self._keep()
++
++    def save(self):
++        return None
++
++
++class HostTracker:
++    """The code host, reached only through platform_adapter.py's verbs."""
++
++    def __init__(self, config):
++        import sys
++        sys.path.insert(0, HERE)
++        import platform_adapter as pa  # noqa: E402  (copied beside this script)
++        self.pa, self.config = pa, config
++
++    def _adapter(self, verb, args):
++        res = self.pa.dispatch(verb, args, config_path=self.config)
++        if res["exit_code"] != 0:
++            raise TrackerError(f"{verb} failed: {res['stderr'].strip() or res['stdout'].strip()}")
++        return res
++
++    def get(self, number):
++        if number is None:
++            return None
++        try:
++            res = self._adapter("view-issue", {"issue_number": str(number)})
++        except TrackerError:
++            return None
++        if not res.get("tree_available"):
++            raise Refused("the tracker cannot show the issue type and sub-issues "
++                          "(on GitHub, gh 2.94.0 or later is needed)")
++        raw = json.loads(res["stdout"])
++        subs = raw.get("subIssues") or []
++        if isinstance(subs, dict):
++            subs = subs.get("nodes") or []
++        itype = raw.get("issueType") or {}
++        return _issue({"number": raw["number"], "title": raw.get("title"),
++                       "type": itype.get("name") if isinstance(itype, dict) else itype,
++                       "labels": [lb.get("name") for lb in raw.get("labels") or []],
++                       "state": raw.get("state"), "body": raw.get("body"),
++                       "sub_issues": [s.get("number") for s in subs if isinstance(s, dict)]})
++
++    def create(self, title, body, type_, parent=None):
++        args = {"title": title, "body": body, "issue_type": type_}
++        if parent is not None:
++            args["parent_number"] = str(parent)
++        res = self._adapter("create-issue-typed", args)
++        number = res["stdout"].strip()
++        if not number.isdigit():
++            raise TrackerError(f"create-issue-typed gave no issue number: {number!r}")
++        return int(number)
++
++    def set_type(self, number, type_):
++        self._adapter("set-issue-type", {"issue_number": str(number), "issue_type": type_})
++
++    def set_body(self, number, body):
++        self._adapter("edit-issue-body", {"issue_number": str(number), "body": body})
++
++    def remove_labels(self, number, labels):
++        for label in labels:
++            self._adapter("remove-label", {"issue_number": str(number), "label": label})
++
++    def add_sub(self, parent, child):
++        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
++
++    def remove_sub(self, parent, child):
++        self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
++
++    def save(self):
++        return None
++
++
++def open_tracker(tracker_file=None, config=".garura/core/config.yaml"):
++    return FileTracker(tracker_file) if tracker_file else HostTracker(config)
++
++
++# ---- issue bodies -----------------------------------------------------------------------
++
++def has_heading(body, name):
++    return re.search(rf"(?im)^#{{1,6}}\s*{re.escape(name)}\s*$", body or "") is not None
++
++
++def has_line(body, line):
++    return any(ln.strip() == line for ln in (body or "").splitlines())
++
++
++def lines_kept(old, new):
++    """True when every line of `old` is in `new`, in the same order."""
++    it = iter((new or "").splitlines())
++    return all(any(ln == x for x in it) for ln in (old or "").splitlines())
++
++
++# ---- the plan file's tree ---------------------------------------------------------------
++
++def load_plan(path):
++    """The plan file as a mapping, or None when there is no plan file."""
++    if not os.path.isfile(path):
++        return None
++    plan = read_yaml(path, "the plan file")
++    if not isinstance(plan, dict):
++        raise Refused("the plan file must be a YAML mapping")
++    return plan
++
++
++def walk(nodes):
++    """Every node of a tree, at any depth."""
++    for node in nodes or []:
++        if isinstance(node, dict):
++            yield node
++            yield from walk(node.get("children"))
++
++
++def marked(nodes, represents):
++    """The nodes, at any depth, whose `represents` is the given id."""
++    return [n for n in walk(nodes) if str(n.get("represents") or "") == str(represents)]
++
++
++def children(node):
++    return [c for c in node.get("children") or [] if isinstance(c, dict)]
++
++
++# ---- the epic's feature-to-story map ----------------------------------------------------
++
++MAP_HEADING = "Feature-to-story map"
++MAP_LINE = re.compile(r"^\s*[-*]\s+(?P<feature>\S+)\s+→\s+#(?P<issue>\d+)\s*$")
++
++
++def _map_span(lines):
++    """(start, end) of the map section's lines (heading included), or None."""
++    at = next((i for i, ln in enumerate(lines)
++               if re.match(rf"^(#{{1,6}})\s*{re.escape(MAP_HEADING)}\s*$", ln, re.IGNORECASE)), None)
++    if at is None:
++        return None
++    level = len(re.match(r"^(#+)", lines[at]).group(1))
++    end = next((i for i in range(at + 1, len(lines))
++                if re.match(r"^(#+)\s", lines[i]) and len(re.match(r"^(#+)", lines[i]).group(1)) <= level),
++               len(lines))
++    return at, end
++
++
++def read_map(body):
++    """{feature: issue} from the epic's map section, or None when it has no map section."""
++    lines = (body or "").splitlines()
++    span = _map_span(lines)
++    if span is None:
++        return None
++    out = {}
++    for ln in lines[span[0] + 1:span[1]]:
++        m = MAP_LINE.match(ln)
++        if m:
++            out[m.group("feature")] = int(m.group("issue"))
++    return out
++
++
++def map_lines(pairs):
++    """The map section's text: the heading, then one line "<feature> → #<story>" each."""
++    return [f"## {MAP_HEADING}", ""] + [f"- {f} → #{n}" for f, n in pairs]
++
++
++def with_map(body, pairs):
++    """The body with its map section written again; every other line stays where it is."""
++    lines = (body or "").splitlines()
++    new = map_lines(pairs)
++    span = _map_span(lines)
++    if span is None:
++        while lines and not lines[-1].strip():
++            lines.pop()
++        lines = lines + ([""] if lines else []) + new
++    else:
++        tail = lines[span[1]:]
++        lines = lines[:span[0]] + new + ([""] if tail else []) + tail
++    return "\n".join(lines).rstrip() + "\n"
++
++
++def map_pairs(slice_items, made=None):
++    """[(feature, story issue)] in the slice's order: each feature that has a story, made in
++    this run (`made`: {feature: issue}) or there before. A moved-out story is not in it."""
++    made = made or {}
++    out = []
++    for st in slice_items.get("stories") or []:
++        issue = made.get(st.get("feature")) or st.get("issue")
++        if issue is not None:
++            out.append((st.get("feature"), int(issue)))
++    return out
+diff --git a/core/components/plays/update-plan/SKILL.md b/core/components/plays/update-plan/SKILL.md
+index acd95bff2..e2c6fc24a 100644
+--- a/core/components/plays/update-plan/SKILL.md
++++ b/core/components/plays/update-plan/SKILL.md
+@@ -16,8 +16,8 @@ on the plan's own branch, and a check proves they agree and nothing else changed
+ 
+ This play was compiled from the update-plan ICE (`reference/ice.md`) by create-play (#730, with
+ #931's model part; feature #720, plan 717), and recompiled by edit-play for the PR #998 review
+-(ADR 062). Intent defines constraints (C1–C12) and failure
+-conditions (F1–F14); the expectation defines success scenarios (S1–S8), a Done means (D1–D3,
++(ADR 062). Intent defines constraints (C1–C14) and failure
++conditions (F1–F16); the expectation defines success scenarios (S1–S11), a Done means (D1–D3,
+ baked to `stop-condition.yaml`), and one recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with edit-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -68,14 +68,15 @@ python3 scripts/preflight.py --play update-plan --config .garura/core/config.yam
+ test -f .garura/core/tools/plan/plan_branch.py || { echo "the plan tool is not installed — halt"; exit 1; }
+ ```
+ 
+-`<plans>` is `plans.base-path` from config, else `.garura/project/plans/`. The working folder is
+-`<working> = ${stm_base}_plans/update-plan/<id>/`, once the plan is known; until then
+-`${stm_base}_plans/update-plan/_find/`. Right after, record the session identity stamp's start
+-marker (#463 — soft-fail, never a halt):
++`<plans>` is `plans.base-path` from config, else `.garura/project/plans/`. Everything the session
++makes lives in one session folder (C13): `<start> = ${stm_base}_plans/update-plan/_start/` until the
++plan is known, then `<working> = ${stm_base}_plans/update-plan/<id>/` (Step 2 moves `<start>` into
++it). `<session>` names whichever of the two the session is in. Right after, record the session
++identity stamp's start marker in `<start>` (#463 — soft-fail, never a halt):
+ 
+ ```
+ python3 scripts/session_stamp.py --phase start \
+-    --marker "${stm_base}_plans/update-plan/session-stamp-update-plan.json" \
++    --marker "<start>/session-stamp-update-plan.json" \
+     --cwd "$(pwd)" --branch "$(git branch --show-current)"
+ ```
+ 
+@@ -116,26 +117,31 @@ session skips T7–T12 (marked skipped) and goes to T13; a session stopped on un
+       "inputs":  { "issue": null,
+                    "templates": ["standards/templates/plan-update.md", "standards/templates/plan-view.md",
+                                  "standards/templates/delivery-report.md", "standards/rules/pipeline-next.md"] },
+-      "outputs": { "out_dir":  "${stm_base}_plans/update-plan/templates/",
+-                   "manifest": "${stm_base}_plans/update-plan/templates/manifest-update-plan.json" },
++      "outputs": { "out_dir":  "<start>/templates/",
++                   "manifest": "<start>/templates/manifest-update-plan.json" },
+       "task_id": "load-templates" }
+ 
+-`<update>` and `<view>` are the copies of `plan-update.md` and `plan-view.md` there. Every
+-`render_screen.py` call below passes `--template <update> --view-template <view> --work <working>`.
++`<update>` and `<view>` are the copies of `plan-update.md` and `plan-view.md` in
++`<session>/templates/` — the session's own copies, so the screens do not change mid-session. Every
++`render_screen.py` call below passes `--template <update> --view-template <view> --work <session>`.
+ **SE-1 (F9/C10):** the manifest names both templates with a source tier; a `template_missing` for
+ either is a hard halt — the play never words a screen of its own.
+ 
+ **Step 2 — Find the plan** · Owner: play (script) · Depends on: Step 1
+ 
+ ```
+-python3 scripts/find_plan.py find --args="<the play's arguments>" --plans-dir <plans> --out <working>/plan.json
++python3 scripts/find_plan.py find --args="<the play's arguments>" --plans-dir <plans> --out <start>/plan.json
+ ```
+ 
+ Exit 1: render `not_found`, show it, and stop (close HALTED, `exit_reason: no_plan`). Exit 0 with
+ `by: number`: go on. Exit 0 with `by: description`: render `found` and wait for the person's typed
+-answer. A yes runs `find_plan.py confirm --out <working>/plan.json`; any other plan number starts
+-Step 2 again with it; anything else stops. Move `plan.json` into `${stm_base}_plans/update-plan/<id>/`
+-once the plan is known.
++answer. A yes runs `find_plan.py confirm --out <start>/plan.json`; any other plan number starts
++Step 2 again with it; anything else stops. Once the plan is known, move the start folder into the
++plan's session folder (C13); an earlier session's list there is kept:
++
++```
++python3 scripts/session_files.py adopt --start <start> --work <working> --out <working>/adopt.json
++```
+ **SE-2 (F1/C1):** `plan.json` reads `confirmed: true` before any later record exists, and its
+ `plan` is a plan file in `<plans>`; no plan file was made.
+ 
+@@ -209,6 +215,63 @@ words are an instruction: write them to `<working>/instruction.txt` and dispatch
+       "outputs": { "draft": "<working>/draft-entries.json" },
+       "task_id": "draft-entries" }
+ 
++**The product model (C14, #1002).** `<model>` is `<product_base>product-os`. For each ask in the
++draft's `model_lookups` ("find #N in the model"), look it up and collect the answer, then render
++`model` and show it; a lookup makes no list entry:
++
++```
++python3 scripts/feature_ice.py find --root <model> --spine <model>/_spine.yaml --plans-dir <plans> \
++    (--story <n> | --ref "<their words>") --out <working>/found.json --collect <working>/model-found.json
++```
++
++For each `add` entry at index `<i>` that carries a `feature_ref`, find the feature and name it on
++the entry; words that fit no feature, or more than one, become a question in its four parts
++(nothing is guessed):
++
++```
++python3 scripts/feature_ice.py find --root <model> --spine <model>/_spine.yaml --ref "<feature_ref>" \
++    --out <working>/found-<i>.json
++python3 scripts/feature_ice.py mark --draft <working>/draft-entries.json --at <i> --found <working>/found-<i>.json
++```
++
++(Render the lookup answer with `render_screen.py --screen model --out <working>/screens/model-<n>.txt`.)
++
++When it was found, make the clean copy of its two ICE (no "Fails if" line); a feature whose ICE is
++not ready keeps the person's words and the entry says why:
++
++```
++python3 scripts/feature_ice.py copy --root <model> --spine <model>/_spine.yaml --intents-dir <model>/intents \
++    --feature <feature> --working <working> --out <working>/feature-ice-<i>.json
++python3 scripts/feature_ice.py mark --draft <working>/draft-entries.json --at <i> --record <working>/feature-ice-<i>.json
++```
++
++When it is ready, the story writer drafts the story from the clean copy, through the model
++sub-agent:
++
++    { "task":    "draft the story for this feature (author-work-items, story mode); write nothing in the model",
++      "inputs":  { "skill_input": "<working>/story-input.json", "clean_ice": "<working>/ice/",
++                   "problems": "<the body check's problems, on a fix>" },
++      "outputs": { "drafts": "<working>/story-draft-<i>.json" },
++      "task_id": "draft-story" }
++
++Then check it and write its body in /shape-plan's layout; exit 1 sends the problems back to the
++contract above (fix mode) and checks again:
++
++```
++python3 scripts/feature_ice.py body --draft <working>/story-draft-<i>.json --record <working>/feature-ice-<i>.json \
++    --plan <id> --root <model> --out <working>/story-body-<i>.md
++python3 scripts/feature_ice.py mark --draft <working>/draft-entries.json --at <i> \
++    --body <working>/story-body-<i>.md --story-draft <working>/story-draft-<i>.json
++```
++
++The entry now reads `feature`, and `from_ice: true` (or `no_ice` with its reason); the list shows
++which under its row, and its item records `represents: <feature>` when it lands.
++**SE-20 (F16/C14):** for each `add` entry with `feature`, `found-<i>.json` reads `found: true` and
++names it; each with `from_ice` has `feature_ice.py body` exit 0 on its draft and its `body` is that
++file; each `feature_ref` that `found-<i>.json` did not settle became a question and the entry has no
++`feature`; `changes.yaml` holds no entry for a `model_lookups` ask, and each ask is in
++`model-found.json` with a saved `screens/model-<n>.txt`.
++
+ When the draft holds a `new-feature` entry, place it by fixed rules before the check — the
+ capability the person named, else the one that shares an issue number with the item's parent (or
+ an item above it); the slice the plan holds when exactly one serves `bi-<id>`, none when none
+@@ -461,6 +524,14 @@ python3 scripts/close_session.py --work <working> --out <working>/session.json
+   with `to: Done` and no other item (its parent is not in it), `changes.yaml` holds it under
+   the instruction "closed on GitHub", and after "approved" `plan-write.json` and
+   `agreement.json` read `ok: true` with the item Done in the plan file.
++- **SCE-9 (S9 — product owner, nothing left behind):** the `clear` record lists the session's
++  folder and its start folder as removed and `left` names no file of this session (or `kept`
++  names a landing that stopped part way).
++- **SCE-10 (S10 — product owner, a story for a feature in the model):** the entry reads
++  `feature: X` and `from_ice: true`, `feature_ice.py body` exited 0 on its draft, and after
++  "approved" the plan file's new item reads `represents: X`.
++- **SCE-11 (S11 — product owner, find a story in the model):** `model-found.json` holds the
++  feature and its pages, `screens/model-<n>.txt` is saved, and `changes.yaml` gained no entry.
+ 
+ ### Phase: Evidence & Close
+ 
+@@ -471,6 +542,19 @@ Run the Standard Play Close. `/update-plan` has no issue of its own: its run's s
+ should; D3 it ended on the starting branch) reads **held** before the run closes COMPLETED; it is
+ evaluated before the self-clean below.
+ 
++**Step 16 — Self-clean (C13)** · Owner: play (script) · Depends on: Step 15 (run as the close's last action, after C1 and C2 below). The last action: remove the session's folder and its start folder,
++so nothing of the session is left. Pass `--keep` only for a landing that stopped part way
++(`answer.json` reads `approved` and `commit.json` does not read `ok: true`): its records let the
++next session carry on.
++
++```bash
++python3 scripts/session_files.py clear --start <start> --work <working> [--keep]
++```
++
++**SE-21 (F15/C13):** the `clear` record lists `<start>` and (unless `--keep`) `<working>` as removed,
++and its `left` names no file of this session; with `--keep`, `kept` names `<working>` and
++`answer.json` there reads `approved` with no `commit.json` reading `ok: true`.
++
+ ```bash
+ # --- Standard Play Close (shared; see ../_shared/play-close.md) ---
+ # Run the close in ../_shared/play-close.md. Its Step L loads the templates through
+@@ -480,15 +564,14 @@ evaluated before the self-clean below.
+ #     evidence_base="${stm_base}_plans/evidence/update-plan/" ; slug="plan ${id}"
+ # Session identity stamp (#463) — close phase; start phase ran at pre-flight
+ session_stamp=$(python3 scripts/session_stamp.py --phase close \
+-    --marker "${stm_base}_plans/update-plan/session-stamp-update-plan.json")
++    --marker "<session>/session-stamp-update-plan.json")
+ # Stop-condition gate (#464) — Step C0: evaluate the Done means BEFORE the self-clean.
+ python3 scripts/check_stop_condition.py \
+     --manifest "<play-dir>/stop-condition.yaml" \
+-    --base "<working>/" \
+-    --out "<working>/stop-condition-update-plan.yaml"
++    --base "<session>/" \
++    --out "<session>/stop-condition-update-plan.yaml"
+ sc_exit=$?   # 0 held · 1 unmet · 2 error
+-# Self-clean, landed sessions only: the list has landed and its commit holds the record.
+-# An aborted session's <working> folder is deleted too: its list is dropped.
++# Self-clean (C13), the last thing the session does — after C1 and C2 below.
+ ```
+ 
+ **Step C0 — bind the verdict.** `sc_exit == 0` (held) permits `status: COMPLETED`. Anything else
+@@ -500,16 +583,15 @@ the unmet clauses named. An unevaluable verdict is never a pass.
+ `evidence skipped (record=false)` in the report. Otherwise fill the `evidence-file.md` slots (play
+ `update-plan`, run_id `update-plan-${ts}`, status per C0; artifacts: plan.json, branch.json,
+ changes.yaml, answer.json, github-record.json, model-record.json, plan-write.json, agreement.json,
+-commit.json, session.json, the stop-condition verdict; step and scenario eval results SE-1…SE-19 /
+-SCE-1…SCE-8; checkpoint decisions: the person's answers; the session identity stamp fields from
++commit.json, session.json, the stop-condition verdict; step and scenario eval results SE-1…SE-21 /
++SCE-1…SCE-11; checkpoint decisions: the person's answers; the session identity stamp fields from
+ $session_stamp) and write to `$evidence_dest`. Do NOT hand-author the body.
+ 
+ **Step C2 — Render delivery report.** Resolve this play in the Next-line map and emit the **Next**
+ line only when it names a command. Fill the `delivery-report.md` slots and output:
+ `## update-plan Delivered — plan ${id}`, the Run Summary table (outcome, entries, overrides, owed),
+ the Pipeline Steps table from the task DAG, the Artifacts Produced table (the commit, the issues
+-written, the model files), and a pointer to `$evidence_dest`. Always emitted; never gated. Then,
+-for a landed or aborted session, delete `<working>`.
++written, the model files), and a pointer to `$evidence_dest`. Always emitted; never gated.
+ 
+ ```bash
+ # --- end Standard Play Close ---
+@@ -527,6 +609,9 @@ for a landed or aborted session, delete `<working>`.
+ | S6 — a new feature in a plan with no slice | product owner | SCE-6 |
+ | S7 — a plan found by description | anyone | SCE-7 |
+ | S8 — an issue closed on GitHub | product owner | SCE-8 |
++| S9 — nothing left behind | product owner | SCE-9 |
++| S10 — a story for a feature in the model | product owner | SCE-10 |
++| S11 — find a story in the model | product owner | SCE-11 |
+ 
+ ## Recovery
+ 
+@@ -546,6 +631,8 @@ for a landed or aborted session, delete `<working>`.
+ | F12 | the session ended on another branch | switch back to the starting branch; if that is stopped by uncommitted work, name it for the person | autonomous |
+ | F13 | the guard report names a path outside the session's parts | the guard has put it back; commit nothing, name each path for the person, who decides | human |
+ | F14 | an item closed on GitHub is open in the plan file and not on the list, or a status was set from the items under it | run `closed_on_github.py` again and take its entries into the list; take out any entry no item's own issue or instruction named | autonomous |
++| F15 | a session's file is left after the close | run `session_files.py clear` for the session's folder and its start folder; keep only a landing that stopped part way | autonomous |
++| F16 | a story for a feature with a ready ICE is not drafted from it, holds a "Fails if" line, a feature is guessed, or a lookup made an entry | run `feature_ice.py` find, copy and body again and send its problems to the story writer; turn a guessed feature into a question; take a lookup's entry out of the list | autonomous |
+ 
+ ## Pause and Resume
+ 
+@@ -559,8 +646,8 @@ check: the person decides.
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:d30adb48f0a6daf290abf6627d6ca3480a62ce1f63c07c3abbf1a1539967fadd (of `reference/ice.md`) |
+-| compiled_by | create-play (#730, with #931; feature #720); edit-play (PR #998 review, ADR 062; #1007 closed on GitHub) |
++| fingerprint | sha256:93a2357c773177200f97775974c13f36df0a39cff8866babbcc2a8321c58858e (of `reference/ice.md`) |
++| compiled_by | create-play (#730, with #931; feature #720); edit-play (PR #998 review, ADR 062; #1007 closed on GitHub; #1001 one session folder; #1002 the product model) |
+ | pipeline_position | none |
+ | position_exception | model-writing session play — writes the model, GitHub and the plan file on the plan's own branch after one "approved" and commits them as one commit there (C7); the plan's branch reaches main later through the change plays, with the plan's other work (#720 design) |
+ | workflow_structure | A (full checkpoint: one approval gates every write) with a repeating session step |
+@@ -569,7 +656,7 @@ check: the person decides.
+ | utility_agents | 2 (template-manager, project-orchestrator) |
+ | skills_reused | author-plan-changes, track-plan-changes, find-work-placement, enrich-grounding, link-model-part |
+ | tools | the plan tool's plan-branch script (`.garura/core/tools/plan/plan_branch.py`) |
+-| scripts | 18 (closed_on_github.py, preflight.py, session_stamp.py, check_stop_condition.py, plan_session.py, find_plan.py, check_entries.py, add_entries.py, record_answer.py, render_screen.py, plan_ops.py, write_plan_changes.py, check_agreement.py, commit_plan.py, close_session.py, place_feature.py, session_files.py, scoped_write_guard.py — stamped from create-play) |
+-| step_evals | 19 (SE-1…SE-19) |
+-| scenario_evals | 8 (SCE-1…SCE-8) |
+-| recovery_entries | 14 (one per failure condition; 8 autonomous / 6 human) |
++| scripts | 22 (feature_ice.py, plan_common.py, check_ice_workable.py, model_names.py, closed_on_github.py, preflight.py, session_stamp.py, check_stop_condition.py, plan_session.py, find_plan.py, check_entries.py, add_entries.py, record_answer.py, render_screen.py, plan_ops.py, write_plan_changes.py, check_agreement.py, commit_plan.py, close_session.py, place_feature.py, session_files.py, scoped_write_guard.py — stamped from create-play) |
++| step_evals | 21 (SE-1…SE-21) |
++| scenario_evals | 11 (SCE-1…SCE-11) |
++| recovery_entries | 16 (one per failure condition; 10 autonomous / 6 human) |
+diff --git a/core/components/plays/update-plan/reference/ice.md b/core/components/plays/update-plan/reference/ice.md
+index 24e721999..40fededfb 100644
+--- a/core/components/plays/update-plan/reference/ice.md
++++ b/core/components/plays/update-plan/reference/ice.md
+@@ -69,6 +69,19 @@ Its statuses and its direction are what a person says they are, never worked out
+   names and the slice is recorded as owed. The play never writes the evals folder; the
+   hidden-file entry and the eval scenarios are named as owed.
+ - C12 — The play ends by proving its Done means at close, never by its step list running out.
++- C13 — Everything the session makes (its template copies, its start marker, its records) lives
++  in one session folder. The close removes it when the session landed, was aborted, stopped on
++  uncommitted work, or found no plan; nothing of the session is left in the repository. A
++  landing that stopped part way keeps its folder, so the next session can carry on (#1001).
++- C14 — When the person's words name a feature of the product model (by its id, its short name or
++  its page title), the session finds it there. A new story added for it is drafted from the
++  feature's ICE and its capability's ICE — its scope of work and its Context guidance, never a
++  "Fails if" line — by the same story writer /shape-plan uses, checked the same way, and its item
++  records the feature it represents. A name that fits no feature, or more than one, becomes a
++  question; nothing is guessed. A feature with no ready ICE gets a story in the person's words,
++  and the list says so. "Find this story (or feature) in the model" is answered from the model,
++  with no list entry. Nothing reaches the plan file, the tracker or the model before "approved"
++  (C5) (#1002).
+ 
+ ### Failure conditions
+ 
+@@ -87,6 +100,11 @@ Its statuses and its direction are what a person says they are, never worked out
+   whose own issue is closed on GitHub.
+ - F14 — At the start of a session, an item whose own issue is closed on GitHub is still open in
+   the plan file and is not on the list; or an item's status is set from the items under it.
++- F15 — After the close, a file of the session is left under the sessions' folder, other than the
++  folder of a landing that stopped part way.
++- F16 — A story added for a feature whose ICE is ready is not drafted from its ICE, or its text
++  holds a "Fails if" line, or a feature is guessed for words that fit none or more than one, or a
++  lookup in the model makes a list entry.
+ - F8 — A tracker or model write is made other than through the sub-agents' skills.
+ - F9 — A screen is worded by the play instead of the template.
+ - F10 — A new feature lands without its thin page, its model entry with both thin marks, or its
+@@ -120,7 +138,14 @@ Its statuses and its direction are what a person says they are, never worked out
+   in progress, amending ADR 058. The fix design of the PR #998 review:
+   `.garura/project/issues/720/specs/fix-design-round-3.md`.
+ - The shared rule for asking a person (`_shared/asking-a-person.md`); the play's own fixed file
+-  steps (`session_files.py`: the plan's issue numbers, the abort restore, the guard).
++  steps (`session_files.py`: the plan's issue numbers, the abort restore, the guard, and the
++  session folder's adopt and clear, #1001).
++- The product model (#1002): `feature_ice.py` finds a feature (by id, short name, page title, or
++  as the feature a story represents), makes the clean copy of its two ICE, checks the drafted
++  story and writes its body in /shape-plan's layout; it uses /shape-plan's ICE helpers
++  (`plan_common.py`, `check_ice_workable.py`), stamped beside it and kept identical by the
++  shared-scripts rule. The story is drafted by `author-work-items` in story mode, through the
++  model sub-agent. The design: `.garura/project/issues/1001/specs/design.md`.
+ 
+ ## Expectation
+ 
+@@ -162,6 +187,21 @@ Its statuses and its direction are what a person says they are, never worked out
+   and no other item, `changes.yaml` holds it under the instruction "closed on GitHub", and after
+   "approved" `plan-write.json` and `agreement.json` read `ok: true` with the item Done in the
+   plan file.
++- **S9 — product owner, nothing left behind.** Given any session — landed, aborted, stopped on
++  uncommitted work, or with no plan found — when it closes, then git shows nothing new under the
++  sessions' folder. *Measure:* the `clear` record lists the session's folder and its start
++  folder as removed and `left` is empty (or names only other sessions' folders); a landing that
++  stopped part way keeps its folder (`kept`).
++- **S10 — product owner, a story for a feature in the model.** Given a feature with a ready ICE,
++  when the person says "add the story for feature X under #N", then the list holds one new story
++  under #N whose text is drafted from the feature's ICE and its capability's ICE, with no
++  "Fails if" line, and on "approved" its item records `represents: X`. *Measure:* the entry reads
++  `feature: X` and `from_ice: true`, `feature_ice.py body` exited 0, and the plan file's new item
++  reads `represents: X`.
++- **S11 — product owner, find a story in the model.** Given a story whose feature is in the
++  model, when the person says "find #N in the model", then the session names the feature and its
++  ICE pages and adds nothing to the list. *Measure:* `model-found.json` holds the feature and its
++  pages, the `model` screen is saved, and `changes.yaml` is unchanged.
+ 
+ ### Recovery
+ 
+@@ -181,6 +221,8 @@ Its statuses and its direction are what a person says they are, never worked out
+ | F12 | the session ended on another branch | switch back to the starting branch; if that is stopped by uncommitted work, name it for the person | autonomous |
+ | F13 | the guard report names a path outside the session's parts | the guard has put it back; commit nothing, name each path for the person, who decides | human |
+ | F14 | an item closed on GitHub is open in the plan file and not on the list, or a status was set from the items under it | run `closed_on_github.py` again and take its entries into the list; take out any entry no item's own issue or instruction named | autonomous |
++| F15 | a session's file is left after the close | run `session_files.py clear` for the session's folder and its start folder; keep only a landing that stopped part way | autonomous |
++| F16 | a story for a feature with a ready ICE is not drafted from it, holds a "Fails if" line, a feature is guessed, or a lookup made an entry | run `feature_ice.py` find, copy and body again and send its problems to the story writer; turn a guessed feature into a question; take a lookup's entry out of the list | autonomous |
+ 
+ ### Done means
+ 
+diff --git a/core/components/plays/update-plan/scripts/check_ice_workable.py b/core/components/plays/update-plan/scripts/check_ice_workable.py
+new file mode 100644
+index 000000000..ecb18ef44
+--- /dev/null
++++ b/core/components/plays/update-plan/scripts/check_ice_workable.py
+@@ -0,0 +1,326 @@
++#!/usr/bin/env python3
++"""check_ice_workable.py — may a play work on this ICE? (ontology v6, #760; v5, #724)
++
++Ontology v6 (ADR 047 §6, #760): when the spine has an `ices` list, the check reads each ICE
++node — its `ices` entry and its ice.md — and gives one of three answers, computed each run
++and never stored. "Its capability" is the capability itself, or a feature's parent.
++  - ready: its capability serves a confirmed business intent, every capability it needs is
++    done, and the ICE has all three parts (Intent, Context, Expectation). Work starts.
++  - partly_ready: as ready, with gaps that do not stop work — no domain, no identified_by, or
++    the thin mark (gap "thin ICE", ontology v11). Work starts; the gaps are listed.
++  - not_ready: a part is missing or empty, no confirmed business intent reaches it, a needed
++    capability is not done, a feature has no parent, or a part has no ICE. Work stops.
++A feature's own `intents` and `depends_on` are not read (v6: it finds its business
++intents through its parent and never needs anything). Ontology v11 (#846): the check does not
++count lines or judge richness; it reads only the thin mark — the Thin line at the top of the
++ICE page and `thin: true` in its spine entry's metadata. When only one of the two is there, the
++gap names the drift. The ICE's own approval is not a condition (§8).
++Each answer keeps `workable` (true unless not_ready) for older callers. A spine with no
++`ices` list keeps the v5 rule below, written in the same three answers.
++
++The v5 rule (#724):
++
++An ICE lives inline in its capability's or feature's grounding doc; the node's spine
++entry names, in `intents`, the business intents it is built from. The ICE is WORKABLE only
++when at least one of those intents is confirmed — its page under `product-os/intents/<id>.md`
++reads `**Stage:** confirmed`, or `met` (a met intent was confirmed first and its proof now
++holds; work that keeps it met is still wanted). An ICE with no intent, or only proposed or
++dropped ones, is kept as written but no play plans, breaks down or builds from it.
++
++Ontology v5 (#724): a missing domain no longer blocks. A capability is ready when it serves
++a confirmed business intent and nothing it needs is open; a feature is ready when it
++names a capability that is ready (its own confirmed intent, or its capability's) and nothing
++it needs is open. A capability with no domain gets a warning, never a block. "Needs" is the
++spine's `depends_on` list (capabilities or features). Whether a need is still open
++comes from `--done`: a file listing the ids of done nodes (YAML or JSON list). Without it,
++needs are listed but not judged. Writing is never blocked; this check stops work, not writes.
++
++    python3 check_ice_workable.py --spine <product-os>/_spine.yaml \
++        --intents-dir <product-os>/intents [--node <capability or feature id>] \
++        [--done <done-ids.yaml>] [--out <path.json>]
++
++Without --node it reports every capability and feature (v6: every ICE, and every part
++with none), with counts of each answer. --node takes an ICE id or its part's id: exit 0 when
++ready or partly ready, 1 when not ready, 2 when the node is unknown or an input is unreadable. No git, no network, no LLM.
++"""
++import argparse
++import json
++import os
++import re
++import sys
++
++import yaml
++
++WORKABLE_STAGES = {"confirmed", "met"}
++STAGE = re.compile(r"^\*\*Stage:\*\*\s*([a-z]+)", re.MULTILINE | re.IGNORECASE)
++
++sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
++import model_names  # noqa: E402  (stamped beside this script)
++
++
++def stage_of(intents_dir, iid):
++    """The intent's stage from its page, or None when the page does not exist."""
++    path = os.path.join(intents_dir, f"{iid}.md")
++    if not os.path.isfile(path):
++        return None
++    with open(path, encoding="utf-8") as fh:
++        m = STAGE.search(fh.read())
++    return m.group(1).lower() if m else "unknown"
++
++
++def domain_warning(cap, spine):
++    """v5: a missing domain is a warning, never a block. Returns the warning or ''."""
++    domains = {d.get("id") for d in spine.get("domains") or [] if isinstance(d, dict)}
++    if not cap.get("domain"):
++        return f"capability `{cap.get('id')}` has no domain yet"
++    if cap.get("domain") not in domains:
++        return f"domain `{cap.get('domain')}` is not in the spine"
++    return ""
++
++
++def intent_state(entry, intents_dir):
++    named = [str(i) for i in (entry.get("intents") or []) if str(i).strip()]
++    stages = {i: stage_of(intents_dir, i) for i in named}
++    confirmed = [i for i, st in stages.items() if st in WORKABLE_STAGES]
++    return stages, confirmed
++
++
++def open_needs(entry, done):
++    """The needs not yet done, or None when no done list was given."""
++    needs = [str(n) for n in (entry.get("depends_on") or []) if str(n).strip()]
++    if done is None:
++        return needs, None
++    return needs, [n for n in needs if n not in done]
++
++
++def assess(entry, kind, intents_dir, spine=None, done=None):
++    spine = spine or {}
++    caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
++    stages, confirmed = intent_state(entry, intents_dir)
++    reasons, warnings = [], []
++    needs, still_open = open_needs(entry, done)
++    cap_ok = True
++    if kind == "capability":
++        cap = entry
++        has_intent = bool(confirmed)
++    else:
++        cap_ok = False
++        cap = caps.get(entry.get("capability")) if entry.get("capability") else None
++        cap_report = assess(cap, "capability", intents_dir, spine, done) if cap else None
++        _, cap_confirmed = intent_state(cap, intents_dir) if cap else ({}, [])
++        has_intent = bool(confirmed or cap_confirmed)
++        if not entry.get("capability"):
++            reasons.append("no capability yet")
++        elif cap is None:
++            reasons.append(f"its capability `{entry.get('capability')}` is not in the spine")
++        elif not cap_report["workable"]:
++            reasons.append(f"its capability `{cap.get('id')}` is not ready")
++        else:
++            cap_ok = True
++    if has_intent:
++        reasons.insert(0, f"built from confirmed business intent(s): {', '.join(confirmed) or 'through its capability'}")
++    elif not stages:
++        reasons.append("built from no business intent")
++    else:
++        reasons.append("no confirmed business intent (" + ", ".join(
++            f"{i}: {st or 'missing'}" for i, st in stages.items()) + ")")
++    if still_open:
++        reasons.append("blocked: needs " + ", ".join(still_open))
++    if cap is not None:
++        w = domain_warning(cap, spine)
++        if w:
++            warnings.append(w)
++    workable = has_intent and cap_ok and not still_open
++    return {"id": entry.get("id"), "kind": kind, "intents": stages, "needs": needs,
++            "needs_open": still_open, "blocked": bool(still_open) if still_open is not None else None,
++            "warnings": warnings, "workable": workable,
++            "reason": "; ".join(reasons) + ("" if workable else " — kept, not ready")}
++
++
++def check(spine, intents_dir, done=None):
++    nodes = []
++    for section, kind in (("capabilities", "capability"), ("features", "feature")):
++        for entry in spine.get(section) or []:
++            if isinstance(entry, dict):
++                nodes.append(assess(entry, kind, intents_dir, spine, done))
++    return nodes
++
++
++# ---- Ontology v6 (ADR 047 §6, #760): the ready check reads each ICE node ----------------
++
++ICE_PARTS = {"Intent": ("Goal", "Limit", "Fails if"),
++             "Context": ("Read", "Never read", "Persona", "Scope"),
++             "Expectation": ("Scenario", "Done means", "Quality need")}
++LINE = re.compile(r"^\s*[-*]\s*\*\*([^*:]+?):?\*\*:?\s*(.*)$")
++
++
++def read_parts(path):
++    """{part: {line label: text}} for the three ICE sections of an ice.md, or None if unreadable."""
++    try:
++        with open(path, encoding="utf-8") as fh:
++            text = fh.read()
++    except OSError:
++        return None
++    parts, cur, in_fence = {}, None, False
++    for raw in text.splitlines():
++        if raw.strip().startswith("```"):
++            in_fence = not in_fence
++            continue
++        if in_fence:
++            continue
++        if raw.startswith("## "):
++            head = raw[3:].strip()
++            cur = head if head in ICE_PARTS else None
++            if cur:
++                parts.setdefault(cur, {"_text": []})
++            continue
++        if cur and raw.strip():
++            parts[cur]["_text"].append(raw)
++            m = LINE.match(raw)
++            if m and m.group(2).strip():
++                parts[cur][m.group(1).strip()] = m.group(2).strip()
++    return parts
++
++
++def thin_line(path):
++    """True when the ICE page opens, before `## Intent`, with the Thin line (ontology v11)."""
++    try:
++        with open(path, encoding="utf-8") as fh:
++            text = fh.read()
++    except OSError:
++        return False
++    head = text.split("## Intent", 1)[0]
++    return any(ln.strip().startswith("Thin:") for ln in head.splitlines())
++
++
++def thin_gaps(ice, path):
++    """(thin, gaps) from the thin mark: the page's Thin line and the spine's `thin: true`."""
++    on_spine = (ice.get("metadata") or {}).get("thin") is True
++    on_page = thin_line(path)
++    gaps = ["thin ICE"] if (on_spine or on_page) else []
++    if on_page and not on_spine:
++        gaps.append("thin mark drift: the page has the Thin line, the spine entry has no `thin: true`")
++    elif on_spine and not on_page:
++        gaps.append("thin mark drift: the spine entry has `thin: true`, the page has no Thin line")
++    return bool(gaps), gaps
++
++
++def assess_ice(ice, part, kind, spine, root, intents_dir, done):
++    """One ICE (or a part with none) → ready | partly_ready | not_ready, with stops and gaps."""
++    caps = {c.get("id"): c for c in spine.get("capabilities") or [] if isinstance(c, dict)}
++    stops, gaps, thin = [], [], False
++    if ice is None:
++        stops.append(f"{kind} `{part.get('id')}` has no ICE")
++    else:
++        page_path = os.path.join(root, ice.get("doc") or "")
++        parts = read_parts(page_path)
++        if parts is None:
++            stops.append(f"its ICE page `{ice.get('doc')}` cannot be read")
++        else:
++            for p in ICE_PARTS:
++                if p not in parts:
++                    stops.append(f"the ICE has no {p}")
++                elif not parts[p]["_text"]:
++                    stops.append(f"the ICE's {p} is empty")
++            thin, thin_gap = thin_gaps(ice, page_path)
++            gaps.extend(thin_gap)
++    # its capability: the part itself, or a feature's parent
++    if kind == "capability":
++        cap = part
++    else:
++        cap = caps.get(part.get("capability")) if part.get("capability") else None
++        if not part.get("capability"):
++            stops.append("the feature has no parent capability yet")
++        elif cap is None:
++            stops.append(f"its capability `{part.get('capability')}` is not in the spine")
++    stages, confirmed, needs, still_open = {}, [], [], None
++    if cap is not None:
++        stages, confirmed = intent_state(cap, intents_dir)
++        if not confirmed:
++            stops.append("no confirmed business intent reaches it" + (
++                " (" + ", ".join(f"{i}: {st or 'missing'}" for i, st in stages.items()) + ")" if stages else ""))
++        cap_needs = [n for n in (cap.get("depends_on") or []) if str(n) in caps]
++        needs, still_open = open_needs({"depends_on": cap_needs}, done)
++        if still_open:
++            stops.append("a capability it needs is not done: " + ", ".join(still_open))
++        w = domain_warning(cap, spine)
++        if w:
++            gaps.append(w)
++        if not cap.get("identified_by"):
++            gaps.append(f"capability `{cap.get('id')}` has no identified by")
++    answer = "not_ready" if stops else ("partly_ready" if gaps else "ready")
++    return {"id": ice.get("id") if ice else None, "for": part.get("id"), "for_kind": kind, "answer": answer,
++            "stops": stops, "gaps": gaps, "intents": stages, "needs": needs, "needs_open": still_open,
++            "thin": thin, "workable": answer != "not_ready"}
++
++
++def check_ices(spine, root, intents_dir, done=None):
++    by_part = {}
++    for ice in spine.get("ices") or []:
++        if isinstance(ice, dict) and ice.get("for"):
++            by_part.setdefault(ice["for"], ice)
++    out = []
++    for section, kind in (("capabilities", "capability"), ("features", "feature")):
++        for part in spine.get(section) or []:
++            if isinstance(part, dict):
++                out.append(assess_ice(by_part.get(part.get("id")), part, kind, spine, root, intents_dir, done))
++    return out
++
++
++def v5_answer(node):
++    """A spine with no `ices` list keeps the v5 rule, written in the three answers."""
++    answer = "not_ready" if not node["workable"] else ("partly_ready" if node["warnings"] else "ready")
++    return dict(node, answer=answer, **{"for": node["id"], "for_kind": node["kind"],
++                                        "stops": [] if node["workable"] else [node["reason"]],
++                                        "gaps": node["warnings"]})
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--spine", required=True)
++    ap.add_argument("--intents-dir", required=True)
++    ap.add_argument("--node")
++    ap.add_argument("--done")
++    ap.add_argument("--out")
++    args = ap.parse_args(argv)
++    try:
++        with open(args.spine, encoding="utf-8") as fh:
++            spine = yaml.safe_load(fh) or {}
++        model_names.check_spine(spine, args.spine)
++        if not isinstance(spine, dict):
++            raise ValueError("the spine is not a mapping")
++    except (OSError, ValueError, yaml.YAMLError) as exc:
++        print(json.dumps({"error": f"cannot read the spine: {exc}"}))
++        return 2
++    done = None
++    if args.done:
++        try:
++            with open(args.done, encoding="utf-8") as fh:
++                done = {str(x) for x in (yaml.safe_load(fh) or [])}
++        except (OSError, yaml.YAMLError, TypeError) as exc:
++            print(json.dumps({"error": f"cannot read the done list: {exc}"}))
++            return 2
++    if spine.get("ices") is not None:
++        root = os.path.dirname(os.path.abspath(args.spine))
++        nodes = check_ices(spine, root, args.intents_dir, done)
++    else:
++        nodes = [v5_answer(n) for n in check(spine, args.intents_dir, done)]
++    if args.node:
++        match = [n for n in nodes if args.node in (n["id"], n["for"])]
++        report = match[0] if match else {"error": f"no ICE, capability or feature `{args.node}`"}
++    else:
++        counts = {a: sum(n["answer"] == a for n in nodes) for a in ("ready", "partly_ready", "not_ready")}
++        report = {"nodes": nodes, "counts": counts, "workable": sum(n["workable"] for n in nodes),
++                  "not_workable": sum(not n["workable"] for n in nodes)}
++    out = json.dumps(report, indent=2)
++    print(out)
++    if args.out:
++        with open(args.out, "w", encoding="utf-8") as fh:
++            fh.write(out + "\n")
++    if args.node:
++        return 2 if "error" in report else (0 if report["workable"] else 1)
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/update-plan/scripts/feature_ice.py b/core/components/plays/update-plan/scripts/feature_ice.py
+new file mode 100644
+index 000000000..570ad6430
+--- /dev/null
++++ b/core/components/plays/update-plan/scripts/feature_ice.py
+@@ -0,0 +1,305 @@
++#!/usr/bin/env python3
++"""
++feature_ice.py — reach the product model from an /update-plan session (#1002).
++
++    python3 feature_ice.py find --root <model dir> --spine <spine> (--ref <id|slug|title> | --story <n>) \
++        [--plans-dir <plans>] --out <found.json> [--collect <model-found.json>]
++    python3 feature_ice.py copy --root <model dir> --spine <spine> --intents-dir <intents> \
++        --feature <id> --working <working> --out <feature-ice.json>
++    python3 feature_ice.py body --draft <story-draft.json> --record <feature-ice.json> --plan <id> \
++        --out <story-body.md>
++    python3 feature_ice.py mark --draft <draft-entries.json> --at <i> (--found <found.json> |
++        --record <feature-ice.json> | --body <story-body.md> --story-draft <story-draft.json>)
++
++`find` looks a feature up in the model index: by its id, its slug or its page title (`--ref`),
++or as the feature whose story is issue n (`--story`): the feature that names that issue in the
++model index, or the one a plan file's item for issue n `represents`. It writes {found, feature, one_line,
++capability, ice_pages: [feature page, capability page], story}. `found: false` when nothing
++matches, and `matches` when a name fits more than one feature (the person names one).
++`--collect` also adds the record to a running list ({found: [...]}) that the `model` screen shows.
++
++`copy` runs the ICE ready check (check_ice_workable.py, beside this script) on the feature's ICE
++and its capability's ICE. When both are ready it writes one clean copy, `<working>/ice/<id>.md`,
++holding both ICE with every "Fails if" block taken out (plan_common.py, shared with /shape-plan),
++and `<working>/story-input.json` for the story writer (author-work-items, story mode): {mode:
++"story", feature: {id, one_line, clean_ice}}. It names no ICE page. The record: {feature, ready,
++reason, clean_ice, ice_pages}. A feature whose ICE is not ready gets no copy: the story then
++takes the person's words, and the list says why.
++
++`body` checks the story the writer drafted, the same way /shape-plan checks its drafts (a title,
++the three parts of the scope of work, the four Context lines, and no line of a "Fails if" block,
++the words "Fails if" or a recovery phrase), and writes the issue's body in /shape-plan's layout.
++Exit 0 written; 1 the draft breaks a rule (problems printed, nothing written); 2 bad input.
++
++`mark` writes a step's result onto entry i of the session's draft (draft-entries.json): `--found`
++names the feature on the entry (`feature`), or, when no feature or more than one matches, takes
++`feature_ref` off the entry and adds a question in its four parts, so nothing is guessed;
++`--record` of a feature whose ICE is not ready sets `no_ice` (the reason; the story keeps the
++person's words); `--body` with the writer's draft sets the entry's `body` to the checked story
++body, its title (unless the person gave one) and `from_ice: true`.
++"""
++
++import argparse
++import json
++import os
++import subprocess
++import sys
++
++sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
++import plan_common as pc  # noqa: E402
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++GUIDANCE = ("read", "never_read", "persona", "in_out")
++SCOPE = ("goals", "limits", "expectations")
++
++
++def load_spine(path):
++    spine = pc.read_yaml(path, "the spine")
++    if not isinstance(spine, dict):
++        raise pc.Refused("the spine must be a YAML mapping")
++    return spine
++
++
++def pages_of(spine, f):
++    cap = pc.entry(spine, "capabilities", f.get("capability")) if f.get("capability") else None
++    return cap, [p for p in (pc.ice_page(spine, f), pc.ice_page(spine, cap)) if p]
++
++
++def represented_by(plans_dir, story):
++    """The feature ids that plan items for issue `story` represent."""
++    out = []
++    if not plans_dir or not os.path.isdir(plans_dir):
++        return out
++    for name in sorted(os.listdir(plans_dir)):
++        if not name.endswith(".yaml"):
++            continue
++        try:
++            plan = pc.read_yaml(os.path.join(plans_dir, name), "a plan file")
++        except pc.Refused:
++            continue
++        stack = list((plan or {}).get("tree") or []) if isinstance(plan, dict) else []
++        while stack:
++            n = stack.pop()
++            if isinstance(n, dict):
++                if str(n.get("issue")) == str(story) and n.get("represents"):
++                    out.append(n["represents"])
++                stack += n.get("children") or []
++    return out
++
++
++def find(root, spine, ref=None, story=None, plans_dir=None):
++    features = [f for f in spine.get("features") or [] if isinstance(f, dict)]
++    if story is not None:
++        hits = [f for f in features if str(f.get("issue")) == str(story)]
++        if not hits:
++            ids = set(represented_by(plans_dir, story))
++            hits = [f for f in features if f.get("id") in ids]
++    else:
++        want = str(ref).strip().lower()
++        hits = [f for f in features if want in (str(f.get("id")).lower(), str(f.get("slug")).lower())]
++        if not hits:
++            hits = [f for f in features
++                    if (pc.page_title(root, f.get("doc"), "Feature:") or "").strip().lower() == want]
++    if len(hits) != 1:
++        return {"found": False, "ref": ref, "story": story,
++                "matches": [f.get("id") for f in hits]}
++    f = hits[0]
++    cap, pages = pages_of(spine, f)
++    return {"found": True, "feature": f.get("id"), "one_line": f.get("one_line"),
++            "capability": f.get("capability"), "ice_pages": pages, "story": f.get("issue")}
++
++
++def ready_check(spine_path, intents_dir, node):
++    p = subprocess.run([sys.executable, os.path.join(HERE, "check_ice_workable.py"), "--spine", spine_path,
++                        "--intents-dir", intents_dir, "--node", node], capture_output=True, text=True)
++    if p.returncode == 0:
++        return True, ""
++    try:
++        report = json.loads(p.stdout) if p.stdout.strip() else {}
++    except json.JSONDecodeError:
++        report = {}
++    stops = report.get("stops") or [report.get("reason") or p.stderr.strip() or "not ready"]
++    return False, "; ".join(str(s) for s in stops)
++
++
++def copy(root, spine_path, intents_dir, fid, working):
++    spine = load_spine(spine_path)
++    f = pc.entry(spine, "features", fid)
++    if f is None:
++        raise pc.Refused(f"no feature {fid} in the spine")
++    cap, pages = pages_of(spine, f)
++    rec = {"feature": fid, "ready": False, "reason": "", "clean_ice": None, "ice_pages": pages}
++    reasons, parts = [], []
++    for label, part in (("feature", f), ("capability", cap)):
++        if part is None:
++            reasons.append(f"the {label} is not in the spine")
++            continue
++        ok, why = ready_check(spine_path, intents_dir, part["id"])
++        if not ok:
++            reasons.append(f"the {label} ICE ({part['id']}) is not ready: {why}")
++        lines = pc.ice_lines(root, spine, part)
++        if not lines:
++            reasons.append(f"the {label} ({part['id']}) has no ICE")
++        parts.append((label.capitalize(), part["id"], lines or []))
++    clean = os.path.join(working, "ice", f"{fid}.md")
++    if reasons:
++        rec["reason"] = "; ".join(reasons)
++        if os.path.exists(clean):
++            os.remove(clean)
++        return rec
++    os.makedirs(os.path.dirname(clean), exist_ok=True)
++    out = [f"# The two ICE of {fid}", "",
++           "Written by feature_ice.py for /update-plan. The failure lines are taken out.", ""]
++    for label, pid, lines in parts:
++        out += [f"## {label} ICE — {pid}", ""]
++        for ln in pc.without_fails_if(lines):
++            out.append("#" + ln if ln.startswith("#") else ln)
++        out.append("")
++    with open(clean, "w", encoding="utf-8") as fh:
++        fh.write("\n".join(out).rstrip() + "\n")
++    rec.update(ready=True, clean_ice=clean)
++    pc.write_json(os.path.join(working, "story-input.json"),
++                  {"mode": "story", "feature": {"id": fid, "one_line": f.get("one_line"), "clean_ice": clean}})
++    return rec
++
++
++def filled(value):
++    if isinstance(value, str):
++        return bool(value.strip())
++    return isinstance(value, list) and bool(value) and all(isinstance(v, str) and v.strip() for v in value)
++
++
++def check_story(story, ice_pages, root):
++    problems = []
++    if not filled(story.get("title")):
++        problems.append("the story has no title")
++    scope = story.get("scope_of_work") or {}
++    problems += [f"the scope of work has no {k}" for k in SCOPE if not filled(scope.get(k))]
++    guide = story.get("context_guidance") or {}
++    problems += [f"the Context guidance has no '{k}' line" for k in GUIDANCE if not filled(guide.get(k))]
++    fails = []
++    for rel in ice_pages or []:
++        path = os.path.join(root, rel) if root else rel
++        if os.path.isfile(path):
++            fails += pc.fails_if_texts(pc.read_text(path).splitlines())
++    problems += [f"the story text: {r}" for r in pc.forbidden_in(pc.all_text(story), fails)]
++    return problems
++
++
++def body(story, fid, plan_id, pages):
++    scope, guide = story.get("scope_of_work") or {}, story.get("context_guidance") or {}
++    lines = [f"Represents: {fid}", f"Plan: {plan_id}", "", "## Scope of work", "", "Goals:"]
++    lines += [f"- {g}" for g in scope.get("goals") or []]
++    lines += ["", "Limits:"] + [f"- {x}" for x in scope.get("limits") or []]
++    lines += ["", "Expectations:"] + [f"- {x}" for x in scope.get("expectations") or []]
++    lines += ["", "## Context guidance", "", f"- Read: {guide.get('read', '')}",
++              f"- Never read: {guide.get('never_read', '')}", f"- Persona: {guide.get('persona', '')}",
++              f"- In and out: {guide.get('in_out', '')}", "", "Written from: " + "; ".join(pages)]
++    return "\n".join(lines) + "\n"
++
++
++def mark(draft_path, at, found=None, record=None, body_path=None, story_draft=None):
++    with open(draft_path, encoding="utf-8") as fh:
++        draft = json.load(fh)
++    entries = draft.get("entries") or []
++    if not 0 <= at < len(entries):
++        raise pc.Refused(f"the draft has no entry {at}")
++    e = entries[at]
++    if found is not None:
++        if found.get("found"):
++            e["feature"] = found["feature"]
++        else:
++            ref = e.pop("feature_ref", None)
++            many = found.get("matches") or []
++            draft.setdefault("questions", []).append({
++                "question": (f"Which feature did you mean by '{ref}'?" if many
++                             else f"No feature in the model matches '{ref}'. Which feature is it?"),
++                "answer": (f"One of {', '.join(many)}." if many
++                           else "None found; give its id (fn-...) or the title of its page."),
++                "why": "The story is drafted from that feature's ICE; a wrong feature gives a wrong story.",
++                "examples": ["fn-818", "the feature's page title, for example 'Pick a free slot'"]})
++    if record is not None and not record.get("ready"):
++        e["no_ice"] = record.get("reason") or "the feature has no ready ICE"
++    if body_path is not None:
++        with open(body_path, encoding="utf-8") as fh:
++            e["body"] = fh.read()
++        with open(story_draft, encoding="utf-8") as fh:
++            story = (json.load(fh).get("stories") or [{}])[0]
++        if not e.get("title"):
++            e["title"] = story.get("title")
++        e["from_ice"] = True
++        e.pop("no_ice", None)
++    pc.write_json(draft_path, draft)
++    return e
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser(description="reach the product model from an /update-plan session")
++    sub = ap.add_subparsers(dest="cmd", required=True)
++    f = sub.add_parser("find")
++    f.add_argument("--root", required=True)
++    f.add_argument("--spine", required=True)
++    g = f.add_mutually_exclusive_group(required=True)
++    g.add_argument("--ref")
++    g.add_argument("--story")
++    f.add_argument("--plans-dir")
++    f.add_argument("--out", required=True)
++    f.add_argument("--collect")
++    c = sub.add_parser("copy")
++    for a in ("--root", "--spine", "--intents-dir", "--feature", "--working", "--out"):
++        c.add_argument(a, required=True)
++    b = sub.add_parser("body")
++    for a in ("--draft", "--record", "--plan", "--out"):
++        b.add_argument(a, required=True)
++    b.add_argument("--root", default="")
++    m = sub.add_parser("mark")
++    m.add_argument("--draft", required=True)
++    m.add_argument("--at", type=int, required=True)
++    m.add_argument("--found")
++    m.add_argument("--record")
++    m.add_argument("--body")
++    m.add_argument("--story-draft")
++    args = ap.parse_args(argv)
++    try:
++        if args.cmd == "mark":
++            def read(p):
++                with open(p, encoding="utf-8") as fh:
++                    return json.load(fh)
++            e = mark(args.draft, args.at, read(args.found) if args.found else None,
++                     read(args.record) if args.record else None, args.body, args.story_draft)
++            print(json.dumps({k: e.get(k) for k in ("feature", "from_ice", "no_ice", "title")}))
++            return 0
++        if args.cmd == "find":
++            rec = find(args.root, load_spine(args.spine), args.ref, args.story, args.plans_dir)
++            pc.write_json(args.out, rec)
++            if args.collect:
++                got = {"found": []}
++                if os.path.isfile(args.collect):
++                    with open(args.collect, encoding="utf-8") as fh:
++                        got = json.load(fh)
++                got.setdefault("found", []).append(rec)
++                pc.write_json(args.collect, got)
++            return 0
++        if args.cmd == "copy":
++            pc.write_json(args.out, copy(args.root, args.spine, args.intents_dir, args.feature, args.working))
++            return 0
++        with open(args.draft, encoding="utf-8") as fh:
++            draft = json.load(fh)
++        with open(args.record, encoding="utf-8") as fh:
++            rec = json.load(fh)
++        story = (draft.get("stories") or [{}])[0]
++        problems = check_story(story, rec.get("ice_pages"), args.root)
++        if problems:
++            print(json.dumps({"ok": False, "problems": problems}, indent=2))
++            return 1
++        with open(args.out, "w", encoding="utf-8") as fh:
++            fh.write(body(story, rec["feature"], args.plan, rec.get("ice_pages") or []))
++        print(json.dumps({"ok": True, "problems": [], "title": story.get("title")}))
++        return 0
++    except (pc.Refused, OSError, ValueError) as e:
++        print(f"refused: {e}", file=sys.stderr)
++        return 2
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/update-plan/scripts/model_names.py b/core/components/plays/update-plan/scripts/model_names.py
+new file mode 100644
+index 000000000..d16bcb173
+--- /dev/null
++++ b/core/components/plays/update-plan/scripts/model_names.py
+@@ -0,0 +1,117 @@
++#!/usr/bin/env python3
++"""
++model_names.py — stop on a product model written before the feature rename (#807).
++
++Issue #807 renamed the model's "functionality" to "feature". A script that reads an old
++model with the new names finds no features and goes on as if the model were empty. This
++guard makes that loud: on any old key it prints a plain message naming the key, the file
++and the script that moves the model (migrate_model.py), and exits with code 2.
++
++Old names it stops on:
++  functionalities:          (spine list, or a slice record's slice.functionalities)
++  functionality_refs        (an epic's list of feature references)
++  functionality_ref         (a slice record's feature reference)
++  for_kind: functionality   (an ICE entry)
++
++Old page names it stops on (in the product-os folder):
++  functionality.md          (a feature's page, now feature.md)
++  functionalities/          (a folder of feature pages, now features/)
++
++Use, right after the YAML is parsed:
++    check_spine(spine, path)     # a _spine.yaml
++    check_slice(record, path)    # a slice record
++    check_model(data, path)      # any other model YAML
++    check_pages(model_dir)       # the product-os folder, before reading its pages
++
++SHARED script: every copy matches the others byte for byte (the component linter checks this). Standard library only.
++"""
++
++import os
++import sys
++
++OLD_KEYS = {
++    "functionalities": "features",
++    "functionality_refs": "feature_refs",
++    "functionality_ref": "feature_ref",
++}
++
++OLD_PAGES = {"functionality.md": "feature.md"}
++OLD_FOLDERS = {"functionalities": "features"}
++
++UPGRADE_STEP = (
++    "To upgrade the model to the new names, a person runs the script that moves it:\n"
++    "  python3 <install-garura>/scripts/migrate_model.py --target <project>"
++)
++
++
++def _stop(path, where, old, new):
++    sys.stderr.write(
++        f"{path}: this product model uses the old name '{old}' (at {where}); "
++        f"since #807 it is '{new}'.\n"
++        f"Reading it with the new names would see no features, so this script stops here.\n"
++        f"{UPGRADE_STEP}\n"
++    )
++    sys.exit(2)
++
++
++def _find_old(data, where):
++    """Return (where, old, new) for the first old name in data, or None."""
++    if isinstance(data, dict):
++        for key, value in data.items():
++            here = f"{where}.{key}" if where else str(key)
++            if key in OLD_KEYS:
++                return here, key, OLD_KEYS[key]
++            if key == "for_kind" and value == "functionality":
++                return here, "for_kind: functionality", "for_kind: feature"
++            found = _find_old(value, here)
++            if found:
++                return found
++    elif isinstance(data, list):
++        for i, item in enumerate(data):
++            found = _find_old(item, f"{where}[{i}]")
++            if found:
++                return found
++    return None
++
++
++def check_model(data, path):
++    """Stop (exit 2) if any old name appears anywhere in this parsed YAML."""
++    found = _find_old(data, "")
++    if found:
++        _stop(path, *found)
++    return data
++
++
++def check_spine(spine, path):
++    """Stop (exit 2) if a parsed _spine.yaml still uses an old name."""
++    return check_model(spine, path)
++
++
++def check_slice(record, path):
++    """Stop (exit 2) if a parsed slice record still uses an old name."""
++    return check_model(record, path)
++
++
++def check_pages(model_dir):
++    """Stop (exit 2) if the product-os folder still has a page or folder with an old name."""
++    if not os.path.isdir(model_dir):
++        return model_dir
++    for here, dirs, files in os.walk(model_dir):
++        dirs.sort()
++        for name in dirs:
++            if name in OLD_FOLDERS:
++                _stop_page(os.path.join(here, name), "folder", name + "/", OLD_FOLDERS[name] + "/")
++        for name in sorted(files):
++            if name in OLD_PAGES:
++                _stop_page(os.path.join(here, name), "page", name, OLD_PAGES[name])
++    return model_dir
++
++
++def _stop_page(path, what, old, new):
++    sys.stderr.write(
++        f"{path}: this product model has a {what} with the old name '{old}'; "
++        f"since #807 it is '{new}'.\n"
++        f"Reading it with the new names would miss these features, so this script stops here.\n"
++        f"{UPGRADE_STEP}\n"
++    )
++    sys.exit(2)
+diff --git a/core/components/plays/update-plan/scripts/plan_common.py b/core/components/plays/update-plan/scripts/plan_common.py
+new file mode 100644
+index 000000000..6f302bdf8
+--- /dev/null
++++ b/core/components/plays/update-plan/scripts/plan_common.py
+@@ -0,0 +1,574 @@
++#!/usr/bin/env python3
++"""plan_common.py — the parts the /shape-plan scripts share.
++
++Not run on its own. The scripts beside it import it for four jobs:
++
++  - Safe writes. `atomic_write` and `write_json` write through a temp file in the same folder,
++    then move it into place with os.replace. A run that stops half way never leaves half a
++    file.
++  - The ICE text of a part. `ice_lines` reads the ICE of a feature or a capability: the inline
++    `## Agent intent (ICE)` section of the part's page, or, when the spine has an `ices` list,
++    the `## Intent`, `## Context` and `## Expectation` sections of the part's ice.md.
++    `fails_if_texts` lists every line of each "Fails if" block (the line itself and every line
++    under it: nested bullets, wrapped text) and `without_fails_if` takes each block out.
++  - The words that must never reach an epic, a story or a plan file: "Fails if" and the two
++    recovery phrases (`forbidden_in`).
++  - The tracker. `open_tracker` gives a file tracker (`--tracker-file <json>`, for tests and
++    dry runs) or the code host, reached only through platform_adapter.py. Both have the same
++    methods: get, create (title, body, type and parent in one write), set_type, set_body,
++    remove_labels, add_sub, remove_sub, save.
++  - The hash of a file (`sha256_of`), so a yes stays tied to the files the person saw.
++
++The file tracker is a JSON file {"issues": [{"number", "title", "type", "labels": [],
++"state", "body", "sub_issues": [numbers]}]}. A new issue takes the next free number. Like a
++real tracker, it keeps each write at once: the file is written after every write. A test can
++make one write fail: `"fail_at_write": <n>` in the file makes the n-th write of the run fail,
++with nothing changed by it.
++
++The code host is reached through the adapter's verbs only: view-issue, create-issue-typed,
++set-issue-type, edit-issue-body, remove-label, attach-sub-issue and remove-sub-issue. No
++judgment is made here.
++"""
++
++import hashlib
++
++import json
++import os
++import re
++import tempfile
++
++try:
++    import yaml
++except ImportError:  # the scripts say so in plain words
++    yaml = None
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++RECOVERY_PHRASES = ("the builder can fix this alone", "a person must decide")
++EPIC_TYPE, STORY_TYPE = "Epic", "Story"
++
++
++class Refused(Exception):
++    """A refusal or bad input: the script writes nothing and exits 2."""
++
++
++class TrackerError(Exception):
++    """The tracker did not do what it was asked."""
++
++
++# ---- files ------------------------------------------------------------------------------
++
++def atomic_write(path, text):
++    """Write `text` to `path` through a temp file in the same folder, then os.replace it."""
++    folder = os.path.dirname(os.path.abspath(path))
++    os.makedirs(folder, exist_ok=True)
++    fd, tmp = tempfile.mkstemp(prefix=".shape-plan-", suffix=".tmp", dir=folder)
++    try:
++        with os.fdopen(fd, "w", encoding="utf-8") as fh:
++            fh.write(text)
++        os.replace(tmp, path)
++    except BaseException:
++        if os.path.exists(tmp):
++            os.remove(tmp)
++        raise
++
++
++def sha256_of(path):
++    """The sha256 of a file's bytes, or None when it cannot be read."""
++    try:
++        with open(path, "rb") as fh:
++            return hashlib.sha256(fh.read()).hexdigest()
++    except OSError:
++        return None
++
++
++def write_json(path, obj):
++    atomic_write(path, json.dumps(obj, indent=2, ensure_ascii=False) + "\n")
++
++
++def read_text(path):
++    with open(path, encoding="utf-8") as fh:
++        return fh.read()
++
++
++def read_json(path, what):
++    try:
++        return json.loads(read_text(path))
++    except (OSError, json.JSONDecodeError) as exc:
++        raise Refused(f"cannot read {what} at {path}: {exc}")
++
++
++def read_yaml(path, what):
++    if yaml is None:
++        raise Refused("PyYAML is needed (pip install pyyaml)")
++    try:
++        return yaml.safe_load(read_text(path))
++    except (OSError, yaml.YAMLError) as exc:
++        raise Refused(f"cannot read {what} at {path}: {exc}")
++
++
++# ---- text -------------------------------------------------------------------------------
++
++def norm(text):
++    """Text for matching: case, spacing and a closing full stop do not count."""
++    return " ".join(str(text).split()).rstrip(".").lower()
++
++
++def forbidden_in(text, fails_lines=()):
++    """What in `text` must never reach an epic, a story or a plan file, as plain reasons."""
++    found = []
++    low = norm(text)
++    if "fails if" in low:
++        found.append('it holds the words "Fails if"')
++    for phrase in RECOVERY_PHRASES:
++        if phrase in low:
++            found.append(f'it holds the recovery phrase "{phrase}"')
++    for line in fails_lines:
++        n = norm(line)
++        if len(n.split()) >= 2 and n in low:
++            found.append(f'it holds a failure line of its ICE: "{line}"')
++    return found
++
++
++def all_text(value):
++    """Every string inside a JSON value, joined, so one check reads all of it."""
++    if isinstance(value, str):
++        return value
++    if isinstance(value, dict):
++        return "\n".join(all_text(v) for v in value.values())
++    if isinstance(value, list):
++        return "\n".join(all_text(v) for v in value)
++    return ""
++
++
++# ---- the ICE of a part ------------------------------------------------------------------
++
++FAILS_BULLET = re.compile(r"^(?P<lead>\s*)[-*]\s+(?:\*\*)?Fails if:?(?:\*\*)?:?\s*(?P<text>.*?)\s*$",
++                          re.IGNORECASE)
++NEW_ITEM = re.compile(r"^\s*(?:[-*+]\s|\d+[.)]\s|#|\*\*|>|```)")
++FAILS_HEAD = re.compile(r"^\s*(?:#+\s*|\*\*)Fails if\b", re.IGNORECASE)
++HEADING = re.compile(r"^(#+)\s")
++ICE_PARTS = ("## Intent", "## Context", "## Expectation")
++
++
++def entry(spine, key, eid):
++    return next((e for e in spine.get(key) or [] if isinstance(e, dict) and e.get("id") == eid), None)
++
++
++def _section(lines, heading):
++    at = next((i for i, ln in enumerate(lines) if ln.strip() == heading), None)
++    if at is None:
++        return None
++    end = next((i for i in range(at + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
++    return lines[at + 1:end]
++
++
++def ice_page(spine, part):
++    """The page (relative to the model folder) that holds the part's ICE, or None."""
++    if part is None:
++        return None
++    if "ices" in spine:
++        ice = next((i for i in spine.get("ices") or [] if isinstance(i, dict)
++                    and i.get("for") == part.get("id")), None)
++        return ice.get("doc") if ice else None
++    return part.get("doc")
++
++
++def ice_lines(root, spine, part):
++    """The lines of the part's ICE (a list, maybe empty), or None when its page is missing."""
++    rel = ice_page(spine, part)
++    if not rel:
++        return None
++    path = os.path.join(root, rel)
++    if not os.path.isfile(path):
++        return None
++    lines = read_text(path).splitlines()
++    if "ices" in spine:
++        out = []
++        for head in ICE_PARTS:
++            body = _section(lines, head)
++            if body is not None:
++                out.append(head)
++                out.extend(body)
++        return out
++    body = _section(lines, "## Agent intent (ICE)")
++    return body if body is not None else []
++
++
++def _split(lines):
++    """(kept lines, blocks): each block is the lines of one "Fails if" line, label or heading,
++    with every line under it — deeper lines, nested bullets, wrapped text."""
++    kept, blocks, cur = [], [], None
++    for ln in lines or []:
++        indent = len(ln) - len(ln.lstrip())
++        if cur is not None:
++            kind, depth, seen_blank = cur["kind"], cur["depth"], cur["blank"]
++            if not ln.strip():
++                cur["blank"] = True
++                continue
++            if kind == "heading":
++                hm = HEADING.match(ln.lstrip())
++                if not (hm and len(hm.group(1)) <= depth):
++                    cur["lines"].append(ln)
++                    continue
++            elif indent > depth:
++                cur["lines"].append(ln)
++                continue
++            elif kind == "label" and not seen_blank and ln.lstrip().startswith(("- ", "* ", "+ ")):
++                cur["lines"].append(ln)
++                continue
++            elif not seen_blank and not NEW_ITEM.match(ln):
++                cur["lines"].append(ln)  # wrapped text that goes on from the line above
++                continue
++            blocks.append(cur["lines"])
++            cur = None
++        if FAILS_BULLET.match(ln):
++            cur = {"kind": "bullet", "depth": indent, "blank": False, "lines": [ln]}
++            continue
++        if FAILS_HEAD.match(ln):
++            hm = HEADING.match(ln.lstrip())
++            cur = {"kind": "heading" if hm else "label", "depth": len(hm.group(1)) if hm else indent,
++                   "blank": False, "lines": [ln]}
++            continue
++        if "fails if" in ln.lower():
++            blocks.append([ln])
++            continue
++        kept.append(ln)
++    if cur is not None:
++        blocks.append(cur["lines"])
++    return kept, blocks
++
++
++def _text_of(line):
++    m = FAILS_BULLET.match(line)
++    if m:
++        return m.group("text")
++    text = re.sub(r"^\s*(?:[-*+]\s+|\d+[.)]\s+|#+\s*)", "", line).strip()
++    return re.sub(r"^(?:\*\*)?Fails if:?(?:\*\*)?:?\s*", "", text, flags=re.IGNORECASE).strip()
++
++
++def fails_if_texts(lines):
++    """The text of every line of every "Fails if" block, children included."""
++    return [t for block in _split(lines)[1] for t in (_text_of(ln) for ln in block) if t]
++
++
++def without_fails_if(lines):
++    """The lines with every "Fails if" block taken out: the line, label or heading and every
++    line under it. Any other line that still names the words is taken out too."""
++    return _split(lines)[0]
++
++
++def page_title(root, rel, prefix):
++    path = os.path.join(root, rel or "")
++    if rel and os.path.isfile(path):
++        for ln in read_text(path).splitlines():
++            if ln.startswith("# "):
++                head = ln[2:].strip()
++                return head[len(prefix):].strip() if head.startswith(prefix) else head
++    return None
++
++
++# ---- the approval -----------------------------------------------------------------------
++
++def approval_is_yes(path):
++    """(ok, decision, reason): ok only when the file reads decision yes with a typed reply."""
++    try:
++        rec = json.loads(read_text(path))
++    except (OSError, json.JSONDecodeError):
++        return False, None, "no approval is recorded"
++    decision = rec.get("decision") if isinstance(rec, dict) else None
++    reply = rec.get("reply") if isinstance(rec, dict) else None
++    if decision != "yes":
++        return False, decision, f"the decision is {decision!r}, not yes"
++    if not isinstance(reply, str) or not reply.strip():
++        return False, decision, "the reply is empty"
++    return True, decision, "the person typed yes"
++
++
++def approval_matches(path, work_items, drafts):
++    """(ok, reason): ok only when the brief, work-items.json and drafts.json are still the
++    files the person saw when they typed their answer (their sha256 is the one recorded)."""
++    try:
++        files = json.loads(read_text(path)).get("files") or {}
++    except (OSError, json.JSONDecodeError, AttributeError):
++        return False, "no approval is recorded"
++    want = {"brief": (files.get("brief") or {}).get("path"), "work_items": work_items, "drafts": drafts}
++    for key, file_path in want.items():
++        seen = (files.get(key) or {}).get("sha256")
++        if not seen:
++            return False, f"the approval does not record which {key.replace('_', '-')} the person saw"
++        if not file_path or sha256_of(file_path) != seen:
++            return False, (f"{key.replace('_', '-')} ({file_path}) is not the file the person saw; "
++                           "show the brief again")
++    return True, "the files are the ones the person saw"
++
++
++# ---- the tracker ------------------------------------------------------------------------
++
++def _issue(raw):
++    return {"number": int(raw["number"]), "title": raw.get("title") or "",
++            "type": raw.get("type"), "labels": list(raw.get("labels") or []),
++            "state": (raw.get("state") or "open").lower(), "body": raw.get("body") or "",
++            "sub_issues": [int(n) for n in raw.get("sub_issues") or []]}
++
++
++class FileTracker:
++    """A tracker kept in a JSON file. Like a real tracker, each write is kept at once."""
++
++    def __init__(self, path):
++        self.path = path
++        data = read_json(path, "the tracker file")
++        if not isinstance(data, dict) or not isinstance(data.get("issues"), list):
++            raise Refused('the tracker file must be {"issues": [...]}')
++        self.fail_at = data.get("fail_at_write")
++        self.writes = 0
++        self.issues = {}
++        for raw in data["issues"]:
++            if not isinstance(raw, dict) or "number" not in raw:
++                raise Refused("each issue in the tracker file needs a number")
++            self.issues[int(raw["number"])] = _issue(raw)
++
++    def get(self, number):
++        it = self.issues.get(int(number)) if number is not None else None
++        return json.loads(json.dumps(it)) if it else None
++
++    def _must(self, number):
++        it = self.issues.get(int(number))
++        if it is None:
++            raise TrackerError(f"the tracker has no issue #{number}")
++        return it
++
++    def _write(self, what):
++        self.writes += 1
++        if self.fail_at is not None and self.writes == int(self.fail_at):
++            raise TrackerError(f"the tracker did not take write {self.writes} ({what})")
++
++    def _keep(self):
++        data = {"issues": [self.issues[n] for n in sorted(self.issues)]}
++        if self.fail_at is not None:
++            data["fail_at_write"] = self.fail_at
++        write_json(self.path, data)
++
++    def create(self, title, body, type_, parent=None):
++        self._write("make an issue")
++        if parent is not None:
++            self._must(parent)
++        number = max(self.issues, default=0) + 1
++        self.issues[number] = _issue({"number": number, "title": title, "type": type_,
++                                      "labels": [], "state": "open", "body": body})
++        if parent is not None:
++            self.issues[int(parent)]["sub_issues"].append(number)
++        self._keep()
++        return number
++
++    def set_type(self, number, type_):
++        self._write("set the type")
++        self._must(number)["type"] = type_
++        self._keep()
++
++    def set_body(self, number, body):
++        self._write("change the body")
++        self._must(number)["body"] = body
++        self._keep()
++
++    def remove_labels(self, number, labels):
++        self._write("take off labels")
++        it = self._must(number)
++        it["labels"] = [lb for lb in it["labels"] if lb not in labels]
++        self._keep()
++
++    def add_sub(self, parent, child):
++        self._write("add a sub-issue")
++        self._must(child)
++        subs = self._must(parent)["sub_issues"]
++        if int(child) not in subs:
++            subs.append(int(child))
++        self._keep()
++
++    def remove_sub(self, parent, child):
++        self._write("take off a sub-issue")
++        it = self._must(parent)
++        it["sub_issues"] = [n for n in it["sub_issues"] if n != int(child)]
++        self._keep()
++
++    def save(self):
++        return None
++
++
++class HostTracker:
++    """The code host, reached only through platform_adapter.py's verbs."""
++
++    def __init__(self, config):
++        import sys
++        sys.path.insert(0, HERE)
++        import platform_adapter as pa  # noqa: E402  (copied beside this script)
++        self.pa, self.config = pa, config
++
++    def _adapter(self, verb, args):
++        res = self.pa.dispatch(verb, args, config_path=self.config)
++        if res["exit_code"] != 0:
++            raise TrackerError(f"{verb} failed: {res['stderr'].strip() or res['stdout'].strip()}")
++        return res
++
++    def get(self, number):
++        if number is None:
++            return None
++        try:
++            res = self._adapter("view-issue", {"issue_number": str(number)})
++        except TrackerError:
++            return None
++        if not res.get("tree_available"):
++            raise Refused("the tracker cannot show the issue type and sub-issues "
++                          "(on GitHub, gh 2.94.0 or later is needed)")
++        raw = json.loads(res["stdout"])
++        subs = raw.get("subIssues") or []
++        if isinstance(subs, dict):
++            subs = subs.get("nodes") or []
++        itype = raw.get("issueType") or {}
++        return _issue({"number": raw["number"], "title": raw.get("title"),
++                       "type": itype.get("name") if isinstance(itype, dict) else itype,
++                       "labels": [lb.get("name") for lb in raw.get("labels") or []],
++                       "state": raw.get("state"), "body": raw.get("body"),
++                       "sub_issues": [s.get("number") for s in subs if isinstance(s, dict)]})
++
++    def create(self, title, body, type_, parent=None):
++        args = {"title": title, "body": body, "issue_type": type_}
++        if parent is not None:
++            args["parent_number"] = str(parent)
++        res = self._adapter("create-issue-typed", args)
++        number = res["stdout"].strip()
++        if not number.isdigit():
++            raise TrackerError(f"create-issue-typed gave no issue number: {number!r}")
++        return int(number)
++
++    def set_type(self, number, type_):
++        self._adapter("set-issue-type", {"issue_number": str(number), "issue_type": type_})
++
++    def set_body(self, number, body):
++        self._adapter("edit-issue-body", {"issue_number": str(number), "body": body})
++
++    def remove_labels(self, number, labels):
++        for label in labels:
++            self._adapter("remove-label", {"issue_number": str(number), "label": label})
++
++    def add_sub(self, parent, child):
++        self._adapter("attach-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
++
++    def remove_sub(self, parent, child):
++        self._adapter("remove-sub-issue", {"parent_number": str(parent), "child_number": str(child)})
++
++    def save(self):
++        return None
++
++
++def open_tracker(tracker_file=None, config=".garura/core/config.yaml"):
++    return FileTracker(tracker_file) if tracker_file else HostTracker(config)
++
++
++# ---- issue bodies -----------------------------------------------------------------------
++
++def has_heading(body, name):
++    return re.search(rf"(?im)^#{{1,6}}\s*{re.escape(name)}\s*$", body or "") is not None
++
++
++def has_line(body, line):
++    return any(ln.strip() == line for ln in (body or "").splitlines())
++
++
++def lines_kept(old, new):
++    """True when every line of `old` is in `new`, in the same order."""
++    it = iter((new or "").splitlines())
++    return all(any(ln == x for x in it) for ln in (old or "").splitlines())
++
++
++# ---- the plan file's tree ---------------------------------------------------------------
++
++def load_plan(path):
++    """The plan file as a mapping, or None when there is no plan file."""
++    if not os.path.isfile(path):
++        return None
++    plan = read_yaml(path, "the plan file")
++    if not isinstance(plan, dict):
++        raise Refused("the plan file must be a YAML mapping")
++    return plan
++
++
++def walk(nodes):
++    """Every node of a tree, at any depth."""
++    for node in nodes or []:
++        if isinstance(node, dict):
++            yield node
++            yield from walk(node.get("children"))
++
++
++def marked(nodes, represents):
++    """The nodes, at any depth, whose `represents` is the given id."""
++    return [n for n in walk(nodes) if str(n.get("represents") or "") == str(represents)]
++
++
++def children(node):
++    return [c for c in node.get("children") or [] if isinstance(c, dict)]
++
++
++# ---- the epic's feature-to-story map ----------------------------------------------------
++
++MAP_HEADING = "Feature-to-story map"
++MAP_LINE = re.compile(r"^\s*[-*]\s+(?P<feature>\S+)\s+→\s+#(?P<issue>\d+)\s*$")
++
++
++def _map_span(lines):
++    """(start, end) of the map section's lines (heading included), or None."""
++    at = next((i for i, ln in enumerate(lines)
++               if re.match(rf"^(#{{1,6}})\s*{re.escape(MAP_HEADING)}\s*$", ln, re.IGNORECASE)), None)
++    if at is None:
++        return None
++    level = len(re.match(r"^(#+)", lines[at]).group(1))
++    end = next((i for i in range(at + 1, len(lines))
++                if re.match(r"^(#+)\s", lines[i]) and len(re.match(r"^(#+)", lines[i]).group(1)) <= level),
++               len(lines))
++    return at, end
++
++
++def read_map(body):
++    """{feature: issue} from the epic's map section, or None when it has no map section."""
++    lines = (body or "").splitlines()
++    span = _map_span(lines)
++    if span is None:
++        return None
++    out = {}
++    for ln in lines[span[0] + 1:span[1]]:
++        m = MAP_LINE.match(ln)
++        if m:
++            out[m.group("feature")] = int(m.group("issue"))
++    return out
++
++
++def map_lines(pairs):
++    """The map section's text: the heading, then one line "<feature> → #<story>" each."""
++    return [f"## {MAP_HEADING}", ""] + [f"- {f} → #{n}" for f, n in pairs]
++
++
++def with_map(body, pairs):
++    """The body with its map section written again; every other line stays where it is."""
++    lines = (body or "").splitlines()
++    new = map_lines(pairs)
++    span = _map_span(lines)
++    if span is None:
++        while lines and not lines[-1].strip():
++            lines.pop()
++        lines = lines + ([""] if lines else []) + new
++    else:
++        tail = lines[span[1]:]
++        lines = lines[:span[0]] + new + ([""] if tail else []) + tail
++    return "\n".join(lines).rstrip() + "\n"
++
++
++def map_pairs(slice_items, made=None):
++    """[(feature, story issue)] in the slice's order: each feature that has a story, made in
++    this run (`made`: {feature: issue}) or there before. A moved-out story is not in it."""
++    made = made or {}
++    out = []
++    for st in slice_items.get("stories") or []:
++        issue = made.get(st.get("feature")) or st.get("issue")
++        if issue is not None:
++            out.append((st.get("feature"), int(issue)))
++    return out
+diff --git a/core/components/plays/update-plan/scripts/render_screen.py b/core/components/plays/update-plan/scripts/render_screen.py
+index 17988f913..d96c35ed2 100644
+--- a/core/components/plays/update-plan/scripts/render_screen.py
++++ b/core/components/plays/update-plan/scripts/render_screen.py
+@@ -85,6 +85,12 @@ def row(self, e, n=None):
+                                       title=title, what=self.what(e), where=self.where(e)).rstrip()]
+         if e.get("override"):
+             lines.append(self.t["under_line"].format(kind="override", text=e["override"]))
++        if e.get("from_ice"):
++            lines.append(self.t["under_line"].format(kind="model", text=self.t["from_ice_note"].format(
++                feature=e.get("feature", ""))))
++        if e.get("no_ice"):
++            lines.append(self.t["under_line"].format(kind="model", text=self.t["no_ice_note"].format(
++                feature=e.get("feature", ""), reason=e["no_ice"])))
+         if e["op"] == "new-feature":
+             for owed in ps.owed_of({"entries": [e]}):
+                 lines.append(self.t["under_line"].format(kind="owed", text=owed))
+@@ -324,8 +330,25 @@ def landed(self, _):
+                                        check=check, owed=owed_text, back=back)
+ 
+ 
++    def model(self, _):
++        """The answer to a lookup in the product model (#1002): model-found.json, one record per ask."""
++        out = []
++        for r in self.rec("model-found.json").get("found") or []:
++            ref = r.get("ref") or (f"#{r['story']}" if r.get("story") else "")
++            if r.get("found"):
++                pages = self.t["model_join"].join(r.get("ice_pages") or [])
++                key = "model_found" if r.get("story") else "model_feature"
++                out.append(self.t[key].format(story=r.get("story") or "", feature=r["feature"],
++                                              one_line=r.get("one_line") or "", pages=pages))
++            elif r.get("matches"):
++                out.append(self.t["model_many"].format(ref=ref, matches=self.t["model_join"].join(r["matches"])))
++            else:
++                out.append(self.t["model_not_found"].format(ref=ref))
++        return "\n".join(out)
++
++
+ SCREENS = {"found", "not_found", "stopped", "on_branch", "taken", "break", "confirm", "list", "empty",
+-           "rejected", "aborted", "resume", "landed", "question"}
++           "rejected", "aborted", "resume", "landed", "question", "model"}
+ 
+ 
+ def main(argv=None):
+diff --git a/core/components/plays/update-plan/scripts/session_files.py b/core/components/plays/update-plan/scripts/session_files.py
+index db0836235..95ccb9b53 100644
+--- a/core/components/plays/update-plan/scripts/session_files.py
++++ b/core/components/plays/update-plan/scripts/session_files.py
+@@ -5,6 +5,8 @@
+     python3 session_files.py restore --folder <stm_base><id>/ --repo . --out <restore.json>
+     python3 session_files.py guard --model-ops <model-ops.json> --model-record <model-record.json> \
+         [--model-record <model-record-story.json>] --product-base <product_base> --out <guard-report.json>
++    python3 session_files.py adopt --start <start folder> --work <working> --out <adopt.json>
++    python3 session_files.py clear --start <start folder> --work <working> [--keep]
+ 
+ `numbers` writes every issue number of the plan file, the plan's own number first, then the tree
+ in order, each once: {"plan": "<id>", "issues": [<id>, ...], "csv": "<id>,..."}. Step 4 hands `csv`
+@@ -24,10 +26,23 @@
+ misshapen file is refused (exit 2) and nothing is put back, so a missing record never reads as
+ "nothing may change". The guard writes the report; exit 0 when nothing was
+ out of scope, 1 when it put something back (the landing stops for the person), 2 bad input.
++
++`adopt` and `clear` keep the session's own files in one folder (#1001). Everything the session
++makes before the plan is known (the template copies, the start marker, plan.json) is in the start
++folder; `adopt` moves it into the plan's session folder (`<working>`) once the plan is known,
++replacing the session's own files of an earlier session there and keeping that session's list
++(changes.yaml and its old copies), then removes the start folder. `clear` runs at the close: it
++removes the start folder and `<working>`, and then the parent folder when nothing else is in it.
++`--keep` keeps `<working>` (a landing that stopped part way: its records let the next session carry
++on). `adopt` writes {"moved": [...], "left": [...]} to --out; `clear` prints {"removed": [...],
++"kept": [...], "left": [...]} and writes no file, since it would be left behind (`left` names what
++is still under the parent folder). Exit 0; 2 bad input.
+ """
+ 
+ import argparse
++import json
+ import os
++import shutil
+ import subprocess
+ import sys
+ 
+@@ -111,6 +126,41 @@ def guard(model_ops, model_records, product_base, out):
+     return ps.read_json(out, "guard-report.json")
+ 
+ 
++def adopt(start, work):
++    if not os.path.isdir(start):
++        raise ps.Refused(f"no start folder {start}")
++    os.makedirs(work, exist_ok=True)
++    moved = []
++    for name in sorted(os.listdir(start)):
++        src, dst = os.path.join(start, name), os.path.join(work, name)
++        if os.path.isdir(dst):
++            shutil.rmtree(dst)
++        elif os.path.exists(dst):
++            os.remove(dst)
++        shutil.move(src, dst)
++        moved.append(name)
++    os.rmdir(start)
++    return {"moved": moved, "left": sorted(os.listdir(work))}
++
++
++def clear(start, work, keep):
++    removed, kept = [], []
++    for folder in (start, work):
++        if not folder or not os.path.isdir(folder):
++            continue
++        if keep and folder == work:
++            kept.append(folder)
++            continue
++        shutil.rmtree(folder)
++        removed.append(folder)
++    parent = os.path.dirname(os.path.normpath(work or start))
++    left = sorted(os.listdir(parent)) if os.path.isdir(parent) else []
++    if os.path.isdir(parent) and not left:
++        os.rmdir(parent)
++        removed.append(parent)
++    return {"removed": removed, "kept": kept, "left": left}
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser(description="the fixed file steps of an /update-plan session")
+     sub = ap.add_subparsers(dest="cmd", required=True)
+@@ -126,8 +176,22 @@ def main(argv=None):
+     g.add_argument("--model-record", action="append", default=[])
+     g.add_argument("--product-base", required=True)
+     g.add_argument("--out", required=True)
++    a = sub.add_parser("adopt")
++    a.add_argument("--start", required=True)
++    a.add_argument("--work", required=True)
++    a.add_argument("--out", required=True)
++    c = sub.add_parser("clear")
++    c.add_argument("--start", required=True)
++    c.add_argument("--work", default=None)
++    c.add_argument("--keep", action="store_true")
+     args = ap.parse_args(argv)
+     try:
++        if args.cmd == "adopt":
++            ps.write_json(args.out, adopt(args.start, args.work))
++            return 0
++        if args.cmd == "clear":
++            print(json.dumps(clear(args.start, args.work, args.keep), indent=2))
++            return 0
+         if args.cmd == "guard":
+             report = guard(args.model_ops, args.model_record, args.product_base, args.out)
+             return 1 if report.get("violations") else 0
+diff --git a/core/components/plays/update-plan/scripts/test_feature_ice.py b/core/components/plays/update-plan/scripts/test_feature_ice.py
+new file mode 100644
+index 000000000..98487d9de
+--- /dev/null
++++ b/core/components/plays/update-plan/scripts/test_feature_ice.py
+@@ -0,0 +1,210 @@
++"""Tests for feature_ice.py (#1002): an /update-plan session reaches the product model."""
++
++import io
++import json
++import os
++import sys
++import tempfile
++import textwrap
++import unittest
++from contextlib import redirect_stderr, redirect_stdout
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import feature_ice  # noqa: E402
++
++REPO = os.path.abspath(os.path.join(HERE, "..", "..", "..", "..", ".."))
++MODEL = os.path.join(REPO, ".garura", "product", "product-os")
++
++SPINE = """\
++    domains: []
++    capabilities:
++    - id: cap-1
++      one_line: Book visits online
++      doc: clinic/cap-1/capability.md
++    features:
++    - id: fn-1
++      slug: pick-a-slot
++      capability: cap-1
++      one_line: A patient picks a free slot.
++      doc: clinic/cap-1/fn-1/feature.md
++    - id: fn-2
++      slug: send-a-reminder
++      capability: cap-1
++      issue: 44
++      one_line: A reminder goes out the day before.
++      doc: clinic/cap-1/fn-2/feature.md
++    slices: []
++    """
++
++PAGE = """\
++    # Feature: Pick a free slot
++
++    ## Agent intent (ICE)
++    - Goal: A patient picks a free slot.
++    - Fails if: a slot is booked twice.
++    """
++
++PLAN = """\
++    id: 40
++    title: Patients book their own visits online
++    status: In Progress
++    tree:
++    - issue: 41
++      kind: epic
++      title: Self-booking
++      status: In Progress
++      children:
++      - issue: 42
++        kind: story
++        title: Pick a free slot
++        status: Now
++        represents: fn-1
++    """
++
++STORY = {"title": "A patient picks a free slot",
++         "scope_of_work": {"goals": ["A patient picks a free slot."], "limits": ["Only open slots."],
++                           "expectations": ["The slot shows on the confirmation page."]},
++         "context_guidance": {"read": "the opening hours", "never_read": "health records",
++                              "persona": "the patient", "in_out": "in: open slots; out: moving a booking"}}
++
++
++def run(*args):
++    out, err = io.StringIO(), io.StringIO()
++    with redirect_stdout(out), redirect_stderr(err):
++        code = feature_ice.main(list(args))
++    return code, out.getvalue(), err.getvalue()
++
++
++class FeatureIceTest(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        self.d = self.tmp.name
++        self.root = os.path.join(self.d, "model")
++        os.makedirs(os.path.join(self.root, "clinic", "cap-1", "fn-1"))
++        os.makedirs(os.path.join(self.d, "plans"))
++        for rel, text in (("_spine.yaml", SPINE), ("clinic/cap-1/fn-1/feature.md", PAGE)):
++            with open(os.path.join(self.root, rel), "w", encoding="utf-8") as fh:
++                fh.write(textwrap.dedent(text))
++        with open(os.path.join(self.d, "plans", "40.yaml"), "w", encoding="utf-8") as fh:
++            fh.write(textwrap.dedent(PLAN))
++        self.spine = os.path.join(self.root, "_spine.yaml")
++
++    def tearDown(self):
++        self.tmp.cleanup()
++
++    def found(self, *how):
++        out = os.path.join(self.d, "found.json")
++        code, _, _ = run("find", "--root", self.root, "--spine", self.spine, *how,
++                         "--plans-dir", os.path.join(self.d, "plans"), "--out", out)
++        self.assertEqual(code, 0)
++        with open(out) as fh:
++            return json.load(fh)
++
++    def test_find_by_id_slug_or_page_title(self):
++        for how in (("--ref", "fn-1"), ("--ref", "pick-a-slot"), ("--ref", "Pick a free slot")):
++            rec = self.found(*how)
++            self.assertTrue(rec["found"], how)
++            self.assertEqual(rec["feature"], "fn-1")
++            self.assertEqual(rec["ice_pages"], ["clinic/cap-1/fn-1/feature.md", "clinic/cap-1/capability.md"])
++
++    def test_find_a_story_through_the_model_index_or_a_plan_file(self):
++        self.assertEqual(self.found("--story", "44")["feature"], "fn-2")
++        self.assertEqual(self.found("--story", "42")["feature"], "fn-1")
++        self.assertFalse(self.found("--story", "99")["found"])
++
++    def test_mark_names_the_feature_or_asks_and_never_guesses(self):
++        draft = os.path.join(self.d, "draft.json")
++        with open(draft, "w") as fh:
++            json.dump({"entries": [{"op": "add", "kind": "story", "feature_ref": "slot"}]}, fh)
++        feature_ice.mark(draft, 0, found={"found": False, "matches": ["fn-1", "fn-9"]})
++        with open(draft) as fh:
++            d = json.load(fh)
++        self.assertNotIn("feature_ref", d["entries"][0])
++        self.assertNotIn("feature", d["entries"][0])
++        self.assertEqual(sorted(d["questions"][0]), ["answer", "examples", "question", "why"])
++        feature_ice.mark(draft, 0, found={"found": True, "feature": "fn-1"},
++                         record={"ready": False, "reason": "the feature has no ICE"})
++        with open(draft) as fh:
++            e = json.load(fh)["entries"][0]
++        self.assertEqual((e["feature"], e["no_ice"]), ("fn-1", "the feature has no ICE"))
++
++    def test_mark_puts_the_checked_story_on_the_entry(self):
++        draft, story, body = (os.path.join(self.d, n) for n in ("draft.json", "story.json", "body.md"))
++        with open(draft, "w") as fh:
++            json.dump({"entries": [{"op": "add", "kind": "story", "feature": "fn-1", "no_ice": "x"}]}, fh)
++        with open(story, "w") as fh:
++            json.dump({"stories": [STORY]}, fh)
++        with open(body, "w") as fh:
++            fh.write("Represents: fn-1\n")
++        e = feature_ice.mark(draft, 0, body_path=body, story_draft=story)
++        self.assertEqual((e["title"], e["body"], e["from_ice"]), (STORY["title"], "Represents: fn-1\n", True))
++        self.assertNotIn("no_ice", e)
++
++    def test_find_collects_each_answer_for_the_model_screen(self):
++        collect = os.path.join(self.d, "model-found.json")
++        for how in (("--ref", "fn-1"), ("--story", "99")):
++            run("find", "--root", self.root, "--spine", self.spine, *how, "--out", os.path.join(self.d, "f.json"),
++                "--collect", collect)
++        with open(collect) as fh:
++            self.assertEqual([r["found"] for r in json.load(fh)["found"]], [True, False])
++
++    def test_a_feature_with_no_ice_gets_no_copy_and_says_why(self):
++        work = os.path.join(self.d, "work")
++        out = os.path.join(self.d, "rec.json")
++        code, _, _ = run("copy", "--root", self.root, "--spine", self.spine, "--intents-dir",
++                         os.path.join(self.root, "intents"), "--feature", "fn-2", "--working", work, "--out", out)
++        self.assertEqual(code, 0)
++        with open(out) as fh:
++            rec = json.load(fh)
++        self.assertFalse(rec["ready"])
++        self.assertIn("no ICE", rec["reason"])
++        self.assertFalse(os.path.exists(os.path.join(work, "story-input.json")))
++
++    @unittest.skipUnless(os.path.isfile(os.path.join(MODEL, "_spine.yaml")), "no product model here")
++    def test_a_ready_feature_gets_a_clean_copy_with_no_failure_lines(self):
++        work = os.path.join(self.d, "work")
++        out = os.path.join(self.d, "rec.json")
++        code, _, _ = run("copy", "--root", MODEL, "--spine", os.path.join(MODEL, "_spine.yaml"), "--intents-dir",
++                         os.path.join(MODEL, "intents"), "--feature", "fn-818", "--working", work, "--out", out)
++        self.assertEqual(code, 0)
++        with open(out) as fh:
++            rec = json.load(fh)
++        self.assertTrue(rec["ready"], rec["reason"])
++        with open(rec["clean_ice"]) as fh:
++            self.assertNotIn("fails if", fh.read().lower())
++        with open(os.path.join(work, "story-input.json")) as fh:
++            self.assertEqual(json.load(fh)["mode"], "story")
++
++    def body(self, story):
++        draft, rec = os.path.join(self.d, "draft.json"), os.path.join(self.d, "rec.json")
++        with open(draft, "w") as fh:
++            json.dump({"stories": [story]}, fh)
++        with open(rec, "w") as fh:
++            json.dump({"feature": "fn-1", "ice_pages": ["clinic/cap-1/fn-1/feature.md"]}, fh)
++        out = os.path.join(self.d, "body.md")
++        code, stdout, _ = run("body", "--draft", draft, "--record", rec, "--plan", "40", "--root", self.root,
++                              "--out", out)
++        return code, stdout, out
++
++    def test_a_good_story_gets_shape_plan_s_layout(self):
++        code, _, out = self.body(STORY)
++        self.assertEqual(code, 0)
++        with open(out) as fh:
++            text = fh.read()
++        self.assertTrue(text.startswith("Represents: fn-1\nPlan: 40\n"))
++        self.assertIn("## Scope of work", text)
++        self.assertIn("- Persona: the patient", text)
++        self.assertIn("Written from: clinic/cap-1/fn-1/feature.md", text)
++
++    def test_a_story_with_a_failure_line_is_refused_and_nothing_is_written(self):
++        bad = json.loads(json.dumps(STORY))
++        bad["scope_of_work"]["limits"].append("A slot is booked twice.")
++        code, stdout, out = self.body(bad)
++        self.assertEqual(code, 1)
++        self.assertIn("story text", stdout)
++        self.assertFalse(os.path.exists(out))
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/core/components/plays/update-plan/scripts/test_update_plan_scripts.py b/core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+index 5f9404e44..9c0ff3f5a 100644
+--- a/core/components/plays/update-plan/scripts/test_update_plan_scripts.py
++++ b/core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+@@ -743,12 +743,93 @@ def test_the_guard_passes_when_only_the_session_s_parts_changed(self):
+             fh.write("features: [x]\n")
+         self.assertEqual(self.run_guard(repo, []), 0)
+ 
++    def session_tree(self):
++        root = os.path.join(self.d, "_plans", "update-plan")
++        start, work = os.path.join(root, "_start"), os.path.join(root, "40")
++        os.makedirs(os.path.join(start, "templates"))
++        for name in ("templates/plan-update.md", "session-stamp-update-plan.json", "plan.json"):
++            with open(os.path.join(start, name), "w") as fh:
++                fh.write("new")
++        return root, start, work
++
++    def test_adopt_moves_the_start_folder_into_the_session_and_keeps_an_earlier_list(self):
++        root, start, work = self.session_tree()
++        os.makedirs(os.path.join(work, "templates"))
++        for name, text in (("changes.yaml", "earlier list"), ("templates/plan-update.md", "old"),
++                           ("plan.json", "old")):
++            with open(os.path.join(work, name), "w") as fh:
++                fh.write(text)
++        code = quiet(session_files.main, ["adopt", "--start", start, "--work", work, "--out", self.p("adopt.json")])
++        self.assertEqual(code, 0)
++        self.assertFalse(os.path.exists(start))
++        with open(os.path.join(work, "changes.yaml")) as fh:
++            self.assertEqual(fh.read(), "earlier list")
++        with open(os.path.join(work, "templates", "plan-update.md")) as fh:
++            self.assertEqual(fh.read(), "new")
++        self.assertEqual(sorted(ps.read_json(self.p("adopt.json"), "a")["moved"]),
++                         ["plan.json", "session-stamp-update-plan.json", "templates"])
++
++    def test_clear_leaves_nothing_behind_after_a_session(self):
++        root, start, work = self.session_tree()
++        quiet(session_files.main, ["adopt", "--start", start, "--work", work, "--out", os.path.join(self.d, "a.json")])
++        quiet(session_files.main, ["clear", "--start", start, "--work", work])
++        self.assertFalse(os.path.exists(root))
++
++    def test_clear_after_no_plan_removes_the_start_folder(self):
++        root, start, work = self.session_tree()
++        quiet(session_files.main, ["clear", "--start", start, "--work", work])
++        self.assertFalse(os.path.exists(root))
++
++    def test_clear_keeps_a_landing_that_stopped_part_way(self):
++        root, start, work = self.session_tree()
++        quiet(session_files.main, ["adopt", "--start", start, "--work", work, "--out", os.path.join(self.d, "a.json")])
++        quiet(session_files.main, ["clear", "--start", start, "--work", work, "--keep"])
++        self.assertTrue(os.path.isfile(os.path.join(work, "plan.json")))
++        self.assertFalse(os.path.exists(start))
++
+     def test_restore_refuses_a_folder_outside_the_repository(self):
+         self.assertEqual(quiet(session_files.main, ["restore", "--folder", "../x", "--repo", self.d,
+                                                     "--out", self.p("r.json")]), 2)
+         self.assertFalse(os.path.exists(self.p("r.json")))
+ 
+ 
++class ModelReachTest(Session):
++    """#1002: a story drafted from a feature's ICE, and the answer to a lookup."""
++
++    def test_the_list_says_where_a_story_s_text_comes_from(self):
++        quiet(add_entries.main, ["start", "--changes", self.changes, "--plan", "40", "--title", "t",
++                                 "--plan-branch", "plan/40/base", "--at", "2026-10-30T10:00:00Z"])
++        checked = self.check([{"op": "add", "kind": "story", "issue": None, "title": "Pick a slot fast",
++                               "parent": 41, "feature": "fn-1", "from_ice": True, "body": "Represents: fn-1"},
++                              {"op": "add", "kind": "story", "issue": None, "title": "Send a text",
++                               "parent": 41, "feature": "fn-2", "no_ice": "the feature has no ICE"}])
++        self.assertEqual(checked["questions"], [])
++        self.take()
++        screen = self.screen("taken")
++        self.assertIn("drafted from fn-1's ICE and its capability's ICE", screen)
++        self.assertIn("fn-2 has no ready ICE (the feature has no ICE): the story uses your words", screen)
++
++    def test_the_model_screen_answers_a_lookup(self):
++        ps.write_json(self.p("model-found.json"), {"found": [
++            {"found": True, "story": 42, "feature": "fn-1", "one_line": "A patient picks a slot.",
++             "ice_pages": ["a/fn-1/feature.md", "a/capability.md"]},
++            {"found": False, "ref": "slot", "matches": ["fn-1", "fn-9"]}]})
++        screen = self.screen("model")
++        self.assertIn("#42 is the story of fn-1: A patient picks a slot.", screen)
++        self.assertIn("Its ICE: a/fn-1/feature.md; a/capability.md", screen)
++        self.assertIn("More than one feature matches slot: fn-1; fn-9. Name one.", screen)
++
++    def test_an_added_story_for_a_feature_records_what_it_represents(self):
++        changes = {"plan": "40", "entries": [{"n": 1, "op": "add", "kind": "story", "issue": None,
++                                              "title": "Pick a slot fast", "parent": 41, "feature": "fn-1"}]}
++        with open(self.plan) as fh:
++            lines = fh.read().splitlines()
++        write_plan_changes.apply_lines(lines, changes, {1: 77})
++        text = "\n".join(lines)
++        self.assertIn("- issue: 77", text)
++        self.assertIn("represents: fn-1", text)
++
++
+ class ClosedOnGitHubTest(Session):
+     """#1007: an item's status follows its own issue; nothing rolls up."""
+ 
+diff --git a/core/components/plays/update-plan/scripts/write_plan_changes.py b/core/components/plays/update-plan/scripts/write_plan_changes.py
+index cda083594..956939d87 100644
+--- a/core/components/plays/update-plan/scripts/write_plan_changes.py
++++ b/core/components/plays/update-plan/scripts/write_plan_changes.py
+@@ -214,7 +214,7 @@ def children_of(issue):
+                 continue
+             node = {"issue": issue, "kind": e.get("kind") or "story", "title": e.get("title"),
+                     "status": "Not Started"}
+-            if op == "new-feature":
++            if op == "new-feature" or e.get("feature"):
+                 node["represents"] = e["feature"]
+             children_of(parent).append(node)
+         elif op == "move":
+@@ -253,7 +253,7 @@ def apply_lines(lines, changes, numbers):
+                 if str(parent_issue_of(lines, issue)) != str(parent):
+                     move_block(lines, issue, parent)
+                 continue
+-            rep = e["feature"] if op == "new-feature" else None
++            rep = e["feature"] if op == "new-feature" or e.get("feature") else None
+             insert_under(lines, parent, lambda d, i=issue, k=(e.get("kind") or "story"), t=e.get("title"), r=rep:
+                          render(d, i, k, t, represents=r))
+         elif op == "move":
+diff --git a/core/components/skills/author-plan-changes/SKILL.md b/core/components/skills/author-plan-changes/SKILL.md
+index 88af5f64d..4d87578b6 100644
+--- a/core/components/skills/author-plan-changes/SKILL.md
++++ b/core/components/skills/author-plan-changes/SKILL.md
+@@ -34,7 +34,7 @@ play's script does) and it writes nothing but its draft.
+    | op | When the person… | Fields |
+    |----|------------------|--------|
+    | `status` | says an item is done, dropped, started, being worked on now, blocked, or not started | `issue`, `to` (Not Started, In Progress, Now, Blocked, Done, Dropped) |
+-   | `add` | puts an issue into the plan, or asks for a new one | `issue` (null for a new one), `kind` (epic, feature, story, spike, chore, bug), `parent`; for a new one also `title` and `body` |
++   | `add` | puts an issue into the plan, or asks for a new one | `issue` (null for a new one), `kind` (epic, feature, story, spike, chore, bug), `parent`; for a new one also `title` and `body`; for a new story the person ties to a feature of the product model ("add the story for feature X"), also `feature_ref`: the feature as the person named it (its id, its short name or its page title), and `body` in their words — the play finds the feature and drafts the story from its ICE when it has one |
+    | `move` | puts an item under another parent | `issue`, `to` (the new parent) |
+    | `retitle` | renames an item | `issue`, `to` (the new title) |
+    | `text` | changes what an item's text says | `issue`, `body` (the whole new text: every line of the old text kept except the lines the person changed), `summary` (one line: what changed) |
+@@ -43,6 +43,10 @@ play's script does) and it writes nothing but its draft.
+    | `plan-status` | sets the plan's own status | `to` (Not Started, In Progress, Paused, Done, Dropped) |
+    | `plan-direction` | sets the plan's direction | `to` (1, 2, 3, or null for none) |
+ 
++   When the person asks where an item sits in the product model ("find this story in the model",
++   "which feature is #931"), write no entry: add `{"story": <n>}` (or `{"ref": "<their words>"}`
++   for a feature) to `model_lookups`; the play answers from the model.
++
+    Give only the new value; the play's script reads the old one from the plan file and the
+    tracker. "Finish #730 and its chores" is one `status` entry for each item. A change the person
+    did not ask for is never added, even when it looks owed (a parent closed because its
+diff --git a/core/components/skills/author-work-items/SKILL.md b/core/components/skills/author-work-items/SKILL.md
+index e2c0f0fc9..e67173999 100644
+--- a/core/components/skills/author-work-items/SKILL.md
++++ b/core/components/skills/author-work-items/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: author-work-items
+-description: Write, for each slice of a business intent's plan, the epic's title (what a person can see the product do, not how it is built) and one story for each ready feature — its title, its scope of work (goals, limits, expectations) and its Context guidance (what to read, what never to read, the persona, what is in and what is out) — in its own words, from skill-input.json and the clean copies of the feature's ICE and its capability's ICE that the play's gather_plan.py wrote — the only files it reads; neither names an ICE page. It never opens an ICE page, never writes a failure or recovery condition, and writes plain words with personas. Fix mode rewrites only the parts the play's check_drafts.py names; change mode drafts again with the product owner's change. Writes drafts.json only; the play's scripts check it, show it in the brief and write the tracker after the product owner's yes. Generative artifact production for /shape-plan. Use when /shape-plan needs the epic and stories of a plan drafted, fixed or drafted again.
++description: Write, for each slice of a business intent's plan, the epic's title (what a person can see the product do, not how it is built) and one story for each ready feature — its title, its scope of work (goals, limits, expectations) and its Context guidance (what to read, what never to read, the persona, what is in and what is out) — in its own words, from skill-input.json and the clean copies of the feature's ICE and its capability's ICE that the play's gather_plan.py wrote — the only files it reads; neither names an ICE page. It never opens an ICE page, never writes a failure or recovery condition, and writes plain words with personas. Fix mode rewrites only the parts the play's check_drafts.py names; change mode drafts again with the product owner's change. Writes drafts.json only; the play's scripts check it, show it in the brief and write the tracker after the product owner's yes. Generative artifact production for /shape-plan, and, in story mode, for /update-plan (one story for a feature named in a session, #1002). Use when /shape-plan needs the epic and stories of a plan drafted, fixed or drafted again, or /update-plan needs one story drafted from a feature's ICE.
+ user-invocable: false
+ model: opus
+ allowed-tools: Read, Write
+@@ -60,6 +60,14 @@ judgment: the words.
+    draft as it is.
+ 6. **Change mode.** Draft again what the product owner's change names, and keep the rest.
+ 
++## Story mode (/update-plan, #1002)
++
++When `skill_input` reads `"mode": "story"`, it holds one feature (`id`, `one_line`, `clean_ice`)
++and no slice: an /update-plan session adds one story for a feature the person named. Write that
++one story only, by step 3 and step 4 above, from the one clean copy — no epic. The output is
++`{"stories": [{"feature", "title", "scope_of_work", "context_guidance"}]}`; the play's
++`feature_ice.py body` checks it the way `check_drafts.py` checks a slice's stories.
++
+ ## Output
+ 
+ `drafts.json`:
+diff --git a/core/tools/lint-components/lib/rules/shared-scripts.js b/core/tools/lint-components/lib/rules/shared-scripts.js
+index a921dbb7c..8ccfb2cad 100644
+--- a/core/tools/lint-components/lib/rules/shared-scripts.js
++++ b/core/tools/lint-components/lib/rules/shared-scripts.js
+@@ -9,7 +9,9 @@ const path = require('path');
+ 
+ const SHARED_SCRIPTS = ['lint_grounding.py', 'model_names.py',
+   // the plan-aware change scripts and the branch-name issue reader (#731, #673)
+-  'preflight.py', 'resolve_plan.py', 'resolve_target.py', 'setup_branch.py', 'submit_pr.py', 'merge_pr.py'];
++  'preflight.py', 'resolve_plan.py', 'resolve_target.py', 'setup_branch.py', 'submit_pr.py', 'merge_pr.py',
++  // the ICE helpers /shape-plan and /update-plan share (#1002)
++  'plan_common.py', 'check_ice_workable.py'];
+ 
+ // Every <targetDir>/{plays,skills}/<name>/scripts/<script> that exists.
+ function copiesOf(targetDir, script) {

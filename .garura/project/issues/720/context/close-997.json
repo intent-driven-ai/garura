@@ -1,0 +1,18 @@
+{
+  "task_id": "close-997",
+  "action": "close",
+  "issue": {
+    "number": 997,
+    "title": "The Thin line no longer names /shape-slice: /shape-slice, the model-linking skill and the thin pages move to the new wording",
+    "state": "closed",
+    "state_reason": "completed",
+    "closed": true,
+    "closed_at": "2026-10-30T14:28:54Z",
+    "url": "https://github.com/intent-driven-ai/garura/issues/997",
+    "parent_issue": 720,
+    "type": "Story",
+    "type_hint": null
+  },
+  "comment_posted": true,
+  "state_before": "open"
+}

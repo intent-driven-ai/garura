@@ -119,22 +119,38 @@ def visible(node, template):
     return shown(node, template) or any(visible(c, template) for c in node.get("children") or [])
 
 
-def tree_lines(nodes, template, prefix=""):
+def finished_children(node, template):
+    """A shown node whose children are all Done or Dropped prints them too, so a person can decide on it (#1005)."""
+    children = node.get("children") or []
+    return shown(node, template) and children and not any(shown(c, template) for c in children)
+
+
+def tree_lines(nodes, template, prefix="", keep_all=False):
     lines = []
-    keep = [n for n in nodes or [] if visible(n, template)]
+    keep = [n for n in nodes or [] if keep_all or visible(n, template)]
     for i, node in enumerate(keep):
         last = i == len(keep) - 1
         mark = template["by_name"][node["status"]]["mark"]
         text = template["tree"]["line"].format(mark=mark, issue=node["issue"], title=node["title"])
         lines.append(prefix + ("└─ " if last else "├─ ") + text)
-        lines += tree_lines(node.get("children"), template, prefix + ("   " if last else "│  "))
+        child_prefix = prefix + ("   " if last else "│  ")
+        lines += tree_lines(node.get("children"), template, child_prefix, finished_children(node, template))
     return lines
 
 
+def printed(nodes, template, keep_all=False):
+    """Every node the tree prints, by the same rules as tree_lines."""
+    for node in nodes or []:
+        if keep_all or visible(node, template):
+            yield node
+            yield from printed(node.get("children"), template, finished_children(node, template))
+
+
 def hidden_counts(nodes, template):
+    seen = {id(n) for n in printed(nodes, template)}
     counts = {}
     for node in walk(nodes):
-        if not visible(node, template):
+        if id(node) not in seen:
             counts[node["status"]] = counts.get(node["status"], 0) + 1
     return counts
 

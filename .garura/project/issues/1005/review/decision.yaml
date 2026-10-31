@@ -1,0 +1,5 @@
+decision: approve
+decided_by: harness
+gate: off (gates.plays.check-change)
+round: 1
+recommended: recommended_verdict.yaml (approve; open findings 0 P1, 8 P2 path-level rows, 16 P3 path-level rows, 6 P4)

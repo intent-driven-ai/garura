@@ -1,0 +1,384 @@
+# categories.yaml - check-change Step 2 (assess), round 3, PR #998 (feature #720, /update-plan), base plan/717/base
+# Derived from this diff's content (154 files). Rounds 1 and 2 were not presumed.
+# Treatments come from the playbook copies in
+# .garura/project/issues/720/context/memory/knowledge/review/ (manifest.json beside them);
+# each copy was checked against its source through the memory tool and still matches its
+# fingerprint (9 files, version f8e35c3bd9b6, nothing copied again).
+task: assess the work categories present in the diff
+base_ref: plan/717/base
+changed_files: 154
+categories:
+- id: decision-records
+  what: 'Architecture decision records: the new ADR 061 (a plan''s branch is cut by the play that starts
+    the plan''s work, main first), the forward pointer added to ADR 060''s Status line, and the new row
+    in the ADR index. Judged by content: each has the decision-record shape (Status, Date, Context, Decision,
+    Consequences) or is the index of such records.'
+  evidence:
+  - docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md
+  - docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md
+  - docs/adr/_index.md
+  playbook: review/adrs
+  layers:
+  - 1
+  design_grounding_required: false
+  treatment:
+    reviewer: human, line by line (the human judges whether the decision is right); the tool surfaces
+      the structural checklist
+    linters:
+    - name: ADR structural check (known gap - no ADR linter in the repository; a manual checklist the
+        play performs and cites)
+      command: null
+    runnable_checks:
+    - 'By hand, citing each: ADR 061 has the required sections (Status, Date, Context, Decision, Consequences)
+      and its Status value is one the index already uses (Accepted).'
+    - 'By hand: ADR 061 is numbered after 060 with no gap, and docs/adr/_index.md links it with the same
+      title, status and date as the ADR itself.'
+    - 'By hand: the link added to ADR 060''s Status line resolves to the real file of ADR 061; the markdown
+      of both files is well-formed; the Status line of ADR 060 still starts with an allowed value (Accepted).'
+    - 'By hand: the paths ADR 061 names under Affects exist on the branch (plan_branch.py, its README
+      and test, update-plan ice.md and SKILL.md, plan-update.md, the ontology, start-change ice.md and
+      setup_branch.py).'
+    - Design-grounding does not apply to a decision record (the decision is the design); the substance
+      is the human call. The ADR run folder under .garura/project/issues/_adr is a run record, not a decision
+      record (see run-records).
+- id: harness
+  what: The /update-plan play (SKILL.md, ICE source, stop condition), the two new skills (author-plan-changes,
+    track-plan-changes), edits to the link-model-part and platform-adapter skills with the adapter's GitHub
+    and GitLab verb references, and two agents (product-os-keeper, project-orchestrator). These are the
+    system's behaviour, written as Markdown and YAML.
+  evidence:
+  - core/components/agents/product-os-keeper.md
+  - core/components/agents/project-orchestrator.md
+  - core/components/plays/update-plan/SKILL.md
+  - core/components/plays/update-plan/reference/ice.md
+  - core/components/plays/update-plan/stop-condition.yaml
+  - core/components/skills/author-plan-changes/SKILL.md
+  - core/components/skills/link-model-part/SKILL.md
+  - core/components/skills/platform-adapter/SKILL.md
+  - core/components/skills/platform-adapter/reference/github/verbs.md
+  - core/components/skills/platform-adapter/reference/gitlab/verbs.md
+  - core/components/skills/track-plan-changes/SKILL.md
+  playbook: review/harness
+  layers:
+  - 1
+  - 2
+  design_grounding_required: true
+  treatment:
+    reviewer: human (the design) + tool (conformance)
+    linters:
+    - name: lint-components (source layout; the repository holds Garura source)
+      command: node .garura/core/tools/lint-components/index.js --layout source --target core/components
+    - name: lint-play (one changed play, update-plan)
+      command: python3 .garura/core/tools/lint-play/lint_play.py core/components/plays/update-plan/SKILL.md
+        --next-map .garura/project/issues/720/context/templates/standards/rules/pipeline-next.md
+    runnable_checks:
+    - Only a violation whose file is in changed_paths is a finding; count the other violations and record
+      the count as "there before".
+    - 'When a tool is not installed record "not installed"; when it crashes record "did not run: <first
+      error line>". Neither is a pass.'
+    - 'ICE-source rule applies (the repository holds the plays source): the intent of update-plan must
+      trace to core/components/plays/update-plan/reference/ice.md, not to a hand edit of SKILL.md. Check
+      the SKILL.md intent fingerprint against the ICE source.'
+    layer_2: 'Reconstruct the harness principles from committed sources only (docs/philosophy/**, docs/adr/**
+      as they stand on the base ref plan/717/base, the glossary, standards/rules/** read through the memory
+      tool, and the base-ref versions of the edited agents and skills via git show plan/717/base:<path>).
+      Never ground in the branch''s new prose: ADR 061, the pointer added to ADR 060, the build design
+      spec and the working records are all added or rewritten by this diff, so none can be grounding.
+      Check agent-first delegation, JSON contracts, play orchestrates / skills produce / scripts do mechanical
+      work (place_feature.py placement is a script plus the placement skill; the model sub-agent drafts
+      nothing itself), ICE-source discipline.'
+- id: memory
+  what: 'Memory changes: the product-model ontology schema (reworded and restructured), a new template
+    (plan-update.md) with its line in the templates index, and a new pipeline-next.md row for update-plan.
+    The copies of memory under the issue''s short-term folder are not in this category (see run-records).'
+  evidence:
+  - core/components/memory/standards/rules/pipeline-next.md
+  - core/components/memory/standards/schemas/product-os/ontology.md
+  - core/components/memory/standards/templates/_index.md
+  - core/components/memory/standards/templates/plan-update.md
+  playbook: review/memory
+  layers:
+  - 1
+  - 2
+  design_grounding_required: true
+  treatment:
+    reviewer: human (the design) + tool (conformance)
+    linters:
+    - name: memory integrity (known gap - no installed tool)
+      command: null
+      note: Playbook gap; the play does the objective checks by hand and cites each.
+    runnable_checks:
+    - 'By hand, citing each: shelf and template shape (plan-update.md follows the templates category shape);
+      frontmatter id matches the path where a file has one; [[...]] and evolve_when references resolve
+      to real files; the new file is listed in its _index (templates/_index.md lists plan-update.md -
+      confirm).'
+    - 'By hand: the new pipeline-next.md row for update-plan parses in the Next-line map (the lint-play
+      run against update-plan SKILL.md with --next-map covers it).'
+    - 'By hand: the ontology change does not duplicate or contradict existing knowledge.'
+    layer_2: Reconstruct what the knowledge base and the ontology are for from committed sources (the
+      base-ref ontology.md via git show plan/717/base, templates/_index.md and other base-ref standards,
+      base-ref ADRs on the product model, the glossary), never from the branch's new text. ADR 061 is
+      new on this branch, so it is not grounding for the ontology's Plan kind. Check conformance, including
+      the severity taxonomy staying mechanical.
+- id: executable-code
+  what: 'Python and JavaScript that runs: the /update-plan scripts (new since round 2: place_feature.py,
+    which places a new feature in the plan), the track-plan-changes skill scripts, the plan_branch tool,
+    link_part.py, the install.py skill and play lists, one platform_adapter.py change repeated across
+    eight places, and the component linter''s report change in lint-components/index.js.'
+  evidence:
+  - core/components/plays/check-change/scripts/platform_adapter.py
+  - core/components/plays/create-play/references/platform_adapter.py
+  - core/components/plays/install-garura/scripts/install.py
+  - core/components/plays/merge-change/scripts/platform_adapter.py
+  - core/components/plays/propose-change/scripts/platform_adapter.py
+  - core/components/plays/shape-eval/scripts/platform_adapter.py
+  - core/components/plays/shape-plan/scripts/platform_adapter.py
+  - core/components/plays/shape-slice/scripts/platform_adapter.py
+  - core/components/plays/update-plan/scripts/add_entries.py
+  - core/components/plays/update-plan/scripts/check_agreement.py
+  - core/components/plays/update-plan/scripts/check_entries.py
+  - core/components/plays/update-plan/scripts/check_stop_condition.py
+  - core/components/plays/update-plan/scripts/close_session.py
+  - core/components/plays/update-plan/scripts/commit_plan.py
+  - core/components/plays/update-plan/scripts/find_plan.py
+  - core/components/plays/update-plan/scripts/place_feature.py
+  - core/components/plays/update-plan/scripts/plan_ops.py
+  - core/components/plays/update-plan/scripts/plan_session.py
+  - core/components/plays/update-plan/scripts/preflight.py
+  - core/components/plays/update-plan/scripts/record_answer.py
+  - core/components/plays/update-plan/scripts/render_screen.py
+  - core/components/plays/update-plan/scripts/session_stamp.py
+  - core/components/plays/update-plan/scripts/write_plan_changes.py
+  - core/components/skills/link-model-part/scripts/link_part.py
+  - core/components/skills/track-plan-changes/scripts/platform_adapter.py
+  - core/components/skills/track-plan-changes/scripts/track_changes.py
+  - core/components/skills/track-plan-changes/scripts/tracker.py
+  - core/tools/lint-components/index.js
+  - core/tools/plan/plan_branch.py
+  playbook: review/code
+  layers:
+  - 1
+  design_grounding_required: false
+  treatment:
+    reviewer: the tool, against industry best practice
+    linters:
+    - name: language linter, Python (the repository commits no ruff config; ruff runs with its defaults
+        on the changed non-test .py files)
+      command: ruff check <the changed non-test .py files listed in evidence>
+      note: If ruff is not installed record "not installed" (not a pass).
+    - name: language linter, JavaScript (no eslint is committed or installed; the objective check is the
+        syntax check)
+      command: node --check core/tools/lint-components/index.js
+      note: Record "not installed" for eslint; the syntax check is the only mechanical JavaScript check.
+    - name: check-pr-quality (run by quality-auditor; pr.md taxonomy rows SEC-*, CODE-*, ARCH-*, BE-*,
+        PERF-*, DATA-*)
+      command: python3 .claude/skills/check-pr-quality/scripts/scan_taxonomy.py --taxonomy .garura/project/issues/720/context/memory/standards/rules/pr.md
+        --diff .garura/project/issues/720/review/pr.diff --paths <changed-paths file> --out <quality-findings.yaml>
+    runnable_checks:
+    - 'Review the data-safety and idempotency paths hard: plan_branch.py (branch cut, commit on main,
+      push, revert of main plan commit, abort deleting a branch), commit_plan.py (git commit of the plan
+      files), write_plan_changes.py and place_feature.py (writes to the plan), track_changes.py and tracker.py
+      (GitHub writes) touch git, the filesystem and an external service.'
+    - 'Rubric: error handling, function size, no stray debug output, no secrets, no machine path or user
+      name, safe handling of destructive or irreversible operations, deterministic where it claims to
+      be.'
+- id: tests
+  what: Automated tests for the new scripts (including place_feature.py, covered by the update-plan scripts
+    test), the plan-branch tool, and the changed link_part.py and platform_adapter.py.
+  evidence:
+  - core/components/plays/create-play/references/test_platform_adapter.py
+  - core/components/plays/update-plan/scripts/test_update_plan_scripts.py
+  - core/components/skills/link-model-part/scripts/test_link_part.py
+  - core/components/skills/track-plan-changes/scripts/test_track_changes.py
+  - core/tools/plan/test_plan_branch.py
+  playbook: review/tests
+  layers:
+  - 1
+  design_grounding_required: false
+  treatment:
+    reviewer: the tool
+    linters:
+    - name: best-practice check on test code plus the pr.md TEST-* rows via check-pr-quality (clear assertions,
+        no skipped or disabled tests, no test that asserts nothing)
+      command: same scan_taxonomy.py call as executable-code (the taxonomy classifies these paths as tests)
+    runnable_checks:
+    - 'Run, do not just read. A red suite is a blocker. Run each from the folder named:'
+    - cd core/components/plays/update-plan/scripts && python3 -m unittest test_update_plan_scripts
+    - cd core/components/skills/track-plan-changes/scripts && python3 -m unittest test_track_changes
+    - cd core/components/skills/link-model-part/scripts && python3 -m unittest test_link_part
+    - cd core/tools/plan && python3 -m unittest test_plan test_plan_branch
+    - cd core/components/plays/create-play/references && python3 -m unittest test_platform_adapter
+    - If a suite cannot be run, say so explicitly; never treat "not run" as "passed".
+- id: documentation
+  what: 'Human-facing prose that is not a decision record, harness file or memory file: the plan tool''s
+    README (plan file format, the branch commands) and the contributor guide on managing work.'
+  evidence:
+  - .garura/user-provided/managing-work.md
+  - core/tools/plan/README.md
+  playbook: review/docs
+  layers:
+  - 1
+  design_grounding_required: false
+  treatment:
+    reviewer: the tool
+    linters:
+    - name: prose checks (known gap - no committed prose linter); the tool performs them directly and
+        cites each
+      command: null
+    runnable_checks:
+    - 'By hand, citing each: spelling and grammar; dead links and referenced paths exist (plan_branch.py,
+      test_plan_branch.py, the ontology path, issue numbers); heading hierarchy; leftover TODOs; terminology
+      consistency within the file; completeness (the README commands match the real arguments of plan_branch.py).'
+- id: config-maps
+  what: 'The install record that lists, by path, every skill and play the install lays. Judged by content:
+    a generated file whose job is to point at paths, so the pointer check applies.'
+  evidence:
+  - .garura/install-manifest.json
+  playbook: review/config-maps
+  layers:
+  - 1
+  design_grounding_required: false
+  treatment:
+    reviewer: human, by name; the tool surfaces the named changes and broken pointers
+    linters:
+    - name: path-existence check (known gap - no committed config-map linter)
+      command: null
+    runnable_checks:
+    - 'By hand, citing each: every path the file adds (the author-plan-changes, track-plan-changes and
+      update-plan entries) resolves to a real source under core/components, or is explained (the .claude
+      folder is gitignored and installed, so it may be absent in a clean checkout); the counts in the
+      file match the entries it lists.'
+- id: plan-record
+  what: 'The plan file of business intent #717: its tree, statuses and per-item comments (work tracking
+    data read by the plan tool and written by /update-plan).'
+  evidence:
+  - .garura/project/plans/717.yaml
+  playbook: null
+  note: 'Playbook missing: no review playbook covers plan files (work-tracking data). A follow-up is owed:
+    write review/plan-records. It is not forced into docs or config-maps. No treatment is taken from a
+    playbook, so none is listed.'
+  layers: []
+  design_grounding_required: false
+- id: run-records
+  what: 'Committed short-term records of the runs behind this change: issue #720''s own folder (build
+    run files, ontology drafts and checks, the build design spec, the PR body and self-review, the copies
+    of memory the runs made, the Next-line map copy, and the records of review rounds 1 and 2 and the
+    current round) and, new since round 2, the record-decision run folder under .garura/project/issues/_adr
+    (brief, draft, checks, guard report, hashes, porcelain, the ontology and ADR template copies). They
+    are bookkeeping and working notes of the change, not shipped behaviour. A copy of memory is a copy,
+    not an authored change to memory, and the ADR run folder is not a decision record.'
+  evidence:
+  - .garura/project/issues/720/context/analysis.yaml
+  - .garura/project/issues/720/context/branch.json
+  - .garura/project/issues/720/context/check-self-review-exit.txt
+  - .garura/project/issues/720/context/citations.jsonl
+  - .garura/project/issues/720/context/commits.yaml
+  - .garura/project/issues/720/context/edit-ontology/change-check.json
+  - .garura/project/issues/720/context/edit-ontology/decisions.json
+  - .garura/project/issues/720/context/edit-ontology/draft-kinds.md
+  - .garura/project/issues/720/context/edit-ontology/draft-links.md
+  - .garura/project/issues/720/context/edit-ontology/draft-questions.md
+  - .garura/project/issues/720/context/edit-ontology/need.md
+  - .garura/project/issues/720/context/edit-ontology/ontology-before.md
+  - .garura/project/issues/720/context/edit-ontology/ontology-check.json
+  - .garura/project/issues/720/context/edit-ontology/start-change.json
+  - .garura/project/issues/720/context/issue.json
+  - .garura/project/issues/720/context/memory/grounding-harness/manifest.json
+  - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/commits.md
+  - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/direct-model-write.md
+  - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/git.md
+  - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/naming.md
+  - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/pipeline-position.md
+  - .garura/project/issues/720/context/memory/grounding-harness/standards/rules/user-facing-voice.md
+  - .garura/project/issues/720/context/memory/grounding-memory/knowledge/_DESIGN.md
+  - .garura/project/issues/720/context/memory/grounding-memory/manifest.json
+  - .garura/project/issues/720/context/memory/grounding-memory/standards/rules/user-facing-voice.md
+  - .garura/project/issues/720/context/memory/grounding-memory/standards/templates/_index.md
+  - .garura/project/issues/720/context/memory/knowledge/review/_index.md
+  - .garura/project/issues/720/context/memory/knowledge/review/adrs.md
+  - .garura/project/issues/720/context/memory/knowledge/review/code.md
+  - .garura/project/issues/720/context/memory/knowledge/review/config-maps.md
+  - .garura/project/issues/720/context/memory/knowledge/review/docs.md
+  - .garura/project/issues/720/context/memory/knowledge/review/harness.md
+  - .garura/project/issues/720/context/memory/knowledge/review/memory.md
+  - .garura/project/issues/720/context/memory/knowledge/review/tests.md
+  - .garura/project/issues/720/context/memory/manifest.json
+  - .garura/project/issues/720/context/memory/standards/rules/pr.md
+  - .garura/project/issues/720/context/memory/standards/templates/plan-view.md
+  - .garura/project/issues/720/context/memory/standards/templates/product-ontology.md
+  - .garura/project/issues/720/context/plan.json
+  - .garura/project/issues/720/context/porcelain.txt
+  - .garura/project/issues/720/context/pr-body.md
+  - .garura/project/issues/720/context/pr.json
+  - .garura/project/issues/720/context/resolved-rules.json
+  - .garura/project/issues/720/context/self-review.md
+  - .garura/project/issues/720/context/target.json
+  - .garura/project/issues/720/context/templates/manifest-check-change.json
+  - .garura/project/issues/720/context/templates/standards/rules/pipeline-next.md
+  - .garura/project/issues/720/context/work-description.txt
+  - .garura/project/issues/720/review/categories.yaml
+  - .garura/project/issues/720/review/code-evidence.md
+  - .garura/project/issues/720/review/context.yaml
+  - .garura/project/issues/720/review/decision-comment.md
+  - .garura/project/issues/720/review/decision.yaml
+  - .garura/project/issues/720/review/design-findings-harness.yaml
+  - .garura/project/issues/720/review/design-findings-memory.yaml
+  - .garura/project/issues/720/review/findings.yaml
+  - .garura/project/issues/720/review/lint-components.json
+  - .garura/project/issues/720/review/lint-play.txt
+  - .garura/project/issues/720/review/merge-gate.json
+  - .garura/project/issues/720/review/posted.json
+  - .garura/project/issues/720/review/pr.diff
+  - .garura/project/issues/720/review/quality-findings.yaml
+  - .garura/project/issues/720/review/recommended_verdict.json
+  - .garura/project/issues/720/review/recommended_verdict.yaml
+  - .garura/project/issues/720/review/run-1/categories.yaml
+  - .garura/project/issues/720/review/run-1/context.yaml
+  - .garura/project/issues/720/review/run-1/decision-comment.md
+  - .garura/project/issues/720/review/run-1/decision.yaml
+  - .garura/project/issues/720/review/run-1/design-findings-harness.yaml
+  - .garura/project/issues/720/review/run-1/design-findings-memory.yaml
+  - .garura/project/issues/720/review/run-1/findings.yaml
+  - .garura/project/issues/720/review/run-1/lint-components.json
+  - .garura/project/issues/720/review/run-1/lint-play.txt
+  - .garura/project/issues/720/review/run-1/posted.json
+  - .garura/project/issues/720/review/run-1/pr.diff
+  - .garura/project/issues/720/review/run-1/quality-findings.yaml
+  - .garura/project/issues/720/review/run-1/recommended_verdict.json
+  - .garura/project/issues/720/review/run-1/recommended_verdict.yaml
+  - .garura/project/issues/720/review/run-1/runnable-checks.txt
+  - .garura/project/issues/720/review/runnable-checks.txt
+  - .garura/project/issues/720/review/target.json
+  - .garura/project/issues/720/specs/build-design.md
+  - .garura/project/issues/_adr/20261030T094556Z/adr-check.json
+  - .garura/project/issues/_adr/20261030T094556Z/adr-context.yaml
+  - .garura/project/issues/_adr/20261030T094556Z/adr-draft.md
+  - .garura/project/issues/_adr/20261030T094556Z/adr-manifest.json
+  - .garura/project/issues/_adr/20261030T094556Z/brief.md
+  - .garura/project/issues/_adr/20261030T094556Z/context/memory/manifest.json
+  - .garura/project/issues/_adr/20261030T094556Z/context/memory/standards/schemas/product-os/ontology.md
+  - .garura/project/issues/_adr/20261030T094556Z/context/templates/manifest-record-decision.json
+  - .garura/project/issues/_adr/20261030T094556Z/context/templates/standards/templates/adr.md
+  - .garura/project/issues/_adr/20261030T094556Z/decision.yaml
+  - .garura/project/issues/_adr/20261030T094556Z/guard-report.json
+  - .garura/project/issues/_adr/20261030T094556Z/hashes-before.json
+  - .garura/project/issues/_adr/20261030T094556Z/porcelain-after.txt
+  - .garura/project/issues/_adr/20261030T094556Z/porcelain-before.txt
+  - .garura/project/issues/_adr/20261030T094556Z/run.json
+  - .garura/project/issues/_adr/20261030T094556Z/start-change.json
+  playbook: null
+  note: 'Playbook missing: no review playbook covers short-term-memory run records. Follow-up owed: write
+    review/run-records. No treatment listed. The build design spec, the ADR draft and brief, and the earlier
+    review rounds'' records are the branch''s own notes, so they can never be grounding for any category.'
+  layers: []
+  design_grounding_required: false
+design_bearing_categories:
+- harness
+- memory
+scope_check:
+  files_in_diff: 154
+  files_categorised: 154
+  files_uncategorised: 0
+  note: A file belongs to one category; the platform_adapter.py copies and install.py are executable-code
+    even though they sit in plays, ADR 061 and the ADR 060 pointer are decision records (not harness or
+    documentation), and memory copies under the issue and ADR run folders are run records.

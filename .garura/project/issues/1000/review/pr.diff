@@ -1,0 +1,1765 @@
+diff --git a/.garura/project/issues/1000/context/analysis.yaml b/.garura/project/issues/1000/context/analysis.yaml
+new file mode 100644
+index 000000000..9c8821436
+--- /dev/null
++++ b/.garura/project/issues/1000/context/analysis.yaml
+@@ -0,0 +1,112 @@
++---
++# assess-changes output: grouped by concern (judgment done)
++needs_judgment: false
++
++change_groups:
++  - id: show-plan-reads-branch
++    issue: 1000
++    commit_type: feat
++    scope: show-plan
++    subject: "/show-plan with no number reads the plan from the branch"
++    files:
++      - core/components/plays/show-plan/SKILL.md
++      - core/components/plays/show-plan/reference/ice.md
++      - core/components/plays/show-plan/scripts/resolve_args.py
++      - core/components/plays/show-plan/scripts/test_resolve_args.py
++  - id: preflight-reports-plans-base
++    issue: 951
++    commit_type: fix
++    scope: preflight
++    subject: "the pre-flight script reports plans_base"
++    files:
++      - core/components/plays/build-epic/scripts/preflight.py
++      - core/components/plays/check-change/scripts/preflight.py
++      - core/components/plays/commit-change/scripts/preflight.py
++      - core/components/plays/create-play/references/preflight.py
++      - core/components/plays/create-play/references/test_resolve_plan.py
++      - core/components/plays/discover-capabilities/scripts/preflight.py
++      - core/components/plays/discover-domains/scripts/preflight.py
++      - core/components/plays/discover-intent/scripts/preflight.py
++      - core/components/plays/edit-ontology/scripts/preflight.py
++      - core/components/plays/learn-outcomes/scripts/preflight.py
++      - core/components/plays/list-focus-issues/scripts/preflight.py
++      - core/components/plays/list-plans/scripts/preflight.py
++      - core/components/plays/merge-change/scripts/preflight.py
++      - core/components/plays/propose-change/scripts/preflight.py
++      - core/components/plays/record-decision/scripts/preflight.py
++      - core/components/plays/refactor-code/scripts/preflight.py
++      - core/components/plays/release-epic/scripts/preflight.py
++      - core/components/plays/release-increment/scripts/preflight.py
++      - core/components/plays/shape-agentic-lens/scripts/preflight.py
++      - core/components/plays/shape-architecture-lens/scripts/preflight.py
++      - core/components/plays/shape-eval/scripts/preflight.py
++      - core/components/plays/shape-marketing-lens/scripts/preflight.py
++      - core/components/plays/shape-measure-lens/scripts/preflight.py
++      - core/components/plays/shape-plan/scripts/preflight.py
++      - core/components/plays/shape-quality-lens/scripts/preflight.py
++      - core/components/plays/shape-run-lens/scripts/preflight.py
++      - core/components/plays/shape-slice/scripts/preflight.py
++      - core/components/plays/shape-ux-lens/scripts/preflight.py
++      - core/components/plays/show-plan/scripts/preflight.py
++      - core/components/plays/start-change/scripts/preflight.py
++      - core/components/plays/update-plan/scripts/preflight.py
++      - core/components/plays/validate-epic/scripts/preflight.py
++  - id: start-change-plan-folder
++    issue: 951
++    commit_type: fix
++    scope: start-change
++    subject: "start-change reads the plan folder from pre-flight"
++    files:
++      - core/components/plays/start-change/SKILL.md
++  - id: propose-change-on-target-unknown
++    issue: 951
++    commit_type: fix
++    scope: propose-change
++    subject: "on_target is unknown when the PR number cannot be looked up"
++    files:
++      - core/components/plays/create-play/references/submit_pr.py
++      - core/components/plays/propose-change/scripts/submit_pr.py
++      - core/components/plays/create-play/references/test_submit_pr.py
++  - id: merge-change-capability-close
++    issue: 951
++    commit_type: fix
++    scope: merge-change
++    subject: "the capability close is checked"
++    files:
++      - core/components/plays/merge-change/SKILL.md
++      - core/components/plays/merge-change/reference/ice.md
++  - id: standards-plan-order-branches
++    issue: 951
++    commit_type: docs
++    scope: standards
++    subject: "record plan order and plan branches in the standards"
++    files:
++      - core/components/memory/standards/rules/git.md
++      - core/components/memory/standards/rules/pipeline-position.md
++      - docs/standards/harness-standard.md
++  - id: plan-717-done
++    issue: 1000
++    commit_type: chore
++    scope: plan
++    subject: "mark #1000 and #951 Done in plan 717"
++    files:
++      - .garura/project/plans/717.yaml
++  - id: stm-run-records
++    issue: 1000
++    commit_type: chore
++    scope: stm
++    subject: "record the run files for issue 1000"
++    files:
++      - .garura/project/issues/1000/context/analysis.yaml
++      - .garura/project/issues/1000/context/porcelain.txt
++
++exclusions:
++  []
++
++risks:
++  sensitive_files:
++    []
++
++eval_gates:
++  SE-1: {status: PASS, evidence: "every scanned file is in exactly one group"}
++  SE-5: {status: PASS, evidence: "no sensitive patterns matched"}
+diff --git a/.garura/project/issues/1000/context/branch.json b/.garura/project/issues/1000/context/branch.json
+new file mode 100644
+index 000000000..a543ada1c
+--- /dev/null
++++ b/.garura/project/issues/1000/context/branch.json
+@@ -0,0 +1,9 @@
++{
++  "branch_name": "plan/717/1000-show-plan-branch-and-pr950-findings",
++  "base_sha": "757c62a34cbdd04ade1a9c5aa5e4b0870def7d04",
++  "on_default_branch": false,
++  "worktree_path": null,
++  "plan_branch": "plan/717/base",
++  "plan_branch_created": false,
++  "stale_plan_branch": null
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1000/context/check-self-review-exit.txt b/.garura/project/issues/1000/context/check-self-review-exit.txt
+new file mode 100644
+index 000000000..573541ac9
+--- /dev/null
++++ b/.garura/project/issues/1000/context/check-self-review-exit.txt
+@@ -0,0 +1 @@
++0
+diff --git a/.garura/project/issues/1000/context/commits.yaml b/.garura/project/issues/1000/context/commits.yaml
+new file mode 100644
+index 000000000..f73eff5d7
+--- /dev/null
++++ b/.garura/project/issues/1000/context/commits.yaml
+@@ -0,0 +1,79 @@
++commits:
++  - sha: 666744a1
++    message: "fix(preflight): the pre-flight script reports plans_base (#951)"
++    files:
++      - core/components/plays/build-epic/scripts/preflight.py
++      - core/components/plays/check-change/scripts/preflight.py
++      - core/components/plays/commit-change/scripts/preflight.py
++      - core/components/plays/create-play/references/preflight.py
++      - core/components/plays/create-play/references/test_resolve_plan.py
++      - core/components/plays/discover-capabilities/scripts/preflight.py
++      - core/components/plays/discover-domains/scripts/preflight.py
++      - core/components/plays/discover-intent/scripts/preflight.py
++      - core/components/plays/edit-ontology/scripts/preflight.py
++      - core/components/plays/learn-outcomes/scripts/preflight.py
++      - core/components/plays/list-focus-issues/scripts/preflight.py
++      - core/components/plays/list-plans/scripts/preflight.py
++      - core/components/plays/merge-change/scripts/preflight.py
++      - core/components/plays/propose-change/scripts/preflight.py
++      - core/components/plays/record-decision/scripts/preflight.py
++      - core/components/plays/refactor-code/scripts/preflight.py
++      - core/components/plays/release-epic/scripts/preflight.py
++      - core/components/plays/release-increment/scripts/preflight.py
++      - core/components/plays/shape-agentic-lens/scripts/preflight.py
++      - core/components/plays/shape-architecture-lens/scripts/preflight.py
++      - core/components/plays/shape-eval/scripts/preflight.py
++      - core/components/plays/shape-marketing-lens/scripts/preflight.py
++      - core/components/plays/shape-measure-lens/scripts/preflight.py
++      - core/components/plays/shape-plan/scripts/preflight.py
++      - core/components/plays/shape-quality-lens/scripts/preflight.py
++      - core/components/plays/shape-run-lens/scripts/preflight.py
++      - core/components/plays/shape-slice/scripts/preflight.py
++      - core/components/plays/shape-ux-lens/scripts/preflight.py
++      - core/components/plays/show-plan/scripts/preflight.py
++      - core/components/plays/start-change/scripts/preflight.py
++      - core/components/plays/update-plan/scripts/preflight.py
++      - core/components/plays/validate-epic/scripts/preflight.py
++    branch: plan/717/1000-show-plan-branch-and-pr950-findings
++  - sha: 117eb409
++    message: "fix(start-change): start-change reads the plan folder from pre-flight (#951)"
++    files:
++      - core/components/plays/start-change/SKILL.md
++    branch: plan/717/1000-show-plan-branch-and-pr950-findings
++  - sha: 17e38cdb
++    message: "fix(propose-change): on_target is unknown when the PR number cannot be looked up (#951)"
++    files:
++      - core/components/plays/create-play/references/submit_pr.py
++      - core/components/plays/propose-change/scripts/submit_pr.py
++      - core/components/plays/create-play/references/test_submit_pr.py
++    branch: plan/717/1000-show-plan-branch-and-pr950-findings
++  - sha: 0c77281b
++    message: "fix(merge-change): the capability close is checked (#951)"
++    files:
++      - core/components/plays/merge-change/SKILL.md
++      - core/components/plays/merge-change/reference/ice.md
++    branch: plan/717/1000-show-plan-branch-and-pr950-findings
++  - sha: 74cfc7d6
++    message: "docs(standards): record plan order and plan branches in the standards (#951)"
++    files:
++      - core/components/memory/standards/rules/git.md
++      - core/components/memory/standards/rules/pipeline-position.md
++      - docs/standards/harness-standard.md
++    branch: plan/717/1000-show-plan-branch-and-pr950-findings
++  - sha: b512cb15
++    message: "chore(plan): mark #1000 and #951 Done in plan 717 (#1000)"
++    files:
++      - .garura/project/plans/717.yaml
++    branch: plan/717/1000-show-plan-branch-and-pr950-findings
++  - sha: d74c8ab8
++    message: "chore(stm): record the run files for issue 1000 (#1000)"
++    files:
++      - .garura/project/issues/1000/context/analysis.yaml
++      - .garura/project/issues/1000/context/porcelain.txt
++    branch: plan/717/1000-show-plan-branch-and-pr950-findings
++excluded_files:
++  []
++leftover_count: 0
++tree_clean: true
++pushed: false
++run_state_committed: true
+diff --git a/.garura/project/issues/1000/context/issue.json b/.garura/project/issues/1000/context/issue.json
+new file mode 100644
+index 000000000..59d2e76ef
+--- /dev/null
++++ b/.garura/project/issues/1000/context/issue.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "issue_number": 1000,
++  "title": "Show the plan of the current branch when /show-plan is given no number",
++  "created": false
++}
+diff --git a/.garura/project/issues/1000/context/plan.json b/.garura/project/issues/1000/context/plan.json
+new file mode 100644
+index 000000000..a7ca2500f
+--- /dev/null
++++ b/.garura/project/issues/1000/context/plan.json
+@@ -0,0 +1,13 @@
++{
++  "issue": "1000",
++  "plan_id": "717",
++  "plan_branch": "plan/717/base",
++  "issue_branch": "plan/717/1000-show-plan-branch-and-pr950-findings",
++  "source": {
++    "ref": "origin/main",
++    "fetched": true,
++    "plan_branches_read": [
++      "plan/717/base"
++    ]
++  }
++}
+diff --git a/.garura/project/issues/1000/context/porcelain.txt b/.garura/project/issues/1000/context/porcelain.txt
+new file mode 100644
+index 000000000..5927a5c0d
+--- /dev/null
++++ b/.garura/project/issues/1000/context/porcelain.txt
+@@ -0,0 +1,47 @@
++ M .garura/project/plans/717.yaml
++ M core/components/memory/standards/rules/git.md
++ M core/components/memory/standards/rules/pipeline-position.md
++ M core/components/plays/build-epic/scripts/preflight.py
++ M core/components/plays/check-change/scripts/preflight.py
++ M core/components/plays/commit-change/scripts/preflight.py
++ M core/components/plays/create-play/references/preflight.py
++ M core/components/plays/create-play/references/submit_pr.py
++ M core/components/plays/create-play/references/test_resolve_plan.py
++ M core/components/plays/discover-capabilities/scripts/preflight.py
++ M core/components/plays/discover-domains/scripts/preflight.py
++ M core/components/plays/discover-intent/scripts/preflight.py
++ M core/components/plays/edit-ontology/scripts/preflight.py
++ M core/components/plays/learn-outcomes/scripts/preflight.py
++ M core/components/plays/list-focus-issues/scripts/preflight.py
++ M core/components/plays/list-plans/scripts/preflight.py
++ M core/components/plays/merge-change/SKILL.md
++ M core/components/plays/merge-change/reference/ice.md
++ M core/components/plays/merge-change/scripts/preflight.py
++ M core/components/plays/propose-change/scripts/preflight.py
++ M core/components/plays/propose-change/scripts/submit_pr.py
++ M core/components/plays/record-decision/scripts/preflight.py
++ M core/components/plays/refactor-code/scripts/preflight.py
++ M core/components/plays/release-epic/scripts/preflight.py
++ M core/components/plays/release-increment/scripts/preflight.py
++ M core/components/plays/shape-agentic-lens/scripts/preflight.py
++ M core/components/plays/shape-architecture-lens/scripts/preflight.py
++ M core/components/plays/shape-eval/scripts/preflight.py
++ M core/components/plays/shape-marketing-lens/scripts/preflight.py
++ M core/components/plays/shape-measure-lens/scripts/preflight.py
++ M core/components/plays/shape-plan/scripts/preflight.py
++ M core/components/plays/shape-quality-lens/scripts/preflight.py
++ M core/components/plays/shape-run-lens/scripts/preflight.py
++ M core/components/plays/shape-slice/scripts/preflight.py
++ M core/components/plays/shape-ux-lens/scripts/preflight.py
++ M core/components/plays/show-plan/SKILL.md
++ M core/components/plays/show-plan/reference/ice.md
++ M core/components/plays/show-plan/scripts/preflight.py
++ M core/components/plays/show-plan/scripts/resolve_args.py
++ M core/components/plays/start-change/SKILL.md
++ M core/components/plays/start-change/scripts/preflight.py
++ M core/components/plays/update-plan/scripts/preflight.py
++ M core/components/plays/validate-epic/scripts/preflight.py
++ M docs/standards/harness-standard.md
++?? .garura/project/issues/1000/context/porcelain.txt
++?? core/components/plays/create-play/references/test_submit_pr.py
++?? core/components/plays/show-plan/scripts/test_resolve_args.py
+diff --git a/.garura/project/issues/1000/context/pr-body.md b/.garura/project/issues/1000/context/pr-body.md
+new file mode 100644
+index 000000000..735620dcb
+--- /dev/null
++++ b/.garura/project/issues/1000/context/pr-body.md
+@@ -0,0 +1,59 @@
++## What this changes
++
++Closes #1000, closes #951.
++
++Two items under plan 717, fixed together.
++
++- **#1000 (show the plan of the current branch when /show-plan is given no number).** With no number, /show-plan reads the plan from the branch name (`plan/<id>/base`, or an issue's branch `plan/<id>/<issue>-<slug>`) and prints the same tree as `/show-plan <id>`. On a branch in no plan it stops with a plain message and no tree. A typed number always wins. show-plan's rule C8, its failure F7 and a new scenario S7 changed through edit-play.
++- **#951 (the five small findings of round 1 of the PR #950 review).**
++  1. The shared pre-flight script reports `plans_base` (the plan files' folder, default `.garura/project/plans/`); start-change reads it from there instead of the model reading the setting. All 30 copies of the script are restamped from the main copy.
++  2. propose-change: when a PR opens but its number cannot be looked up, "the PR points where its branch lands" is left unknown, so the done check fails instead of passing on a comparison of a value with itself.
++  3. merge-change: the check for an issue in a plan and its scenario now also check the capability close the play promises.
++  4. The harness standard's plan rule now says the plans a plan needs do not hold it off main (ADR 060, decision 4).
++  5. Two memory rule pages describe plan branches: git.md's branch table and pipeline-position.md's start-change line. They are promoted to Phoenix memory before the merge.
++
++Out of scope: /update-plan, /show-plan and /list-plans still read the plan folder setting themselves (the finding named start-change only); #989 and #991 stay their own work.
++
++## Self-review
++
++# Self-review: #1000 (with #951), branch plan/717/1000-show-plan-branch-and-pr950-findings
++
++Rules used: the base self-review rules (resolved in `.garura/project/issues/1000/context/resolved-rules.json`, no project override).
++Compared against: `plan/717/base`. Design: `.garura/project/issues/1000/specs/design.md`.
++This is an information list for the reviewer. It does not approve or reject the change.
++
++Summary: 54 files changed, 613 lines added, 85 removed, in 10 commits. Every finding below is clear. Nothing stops the raise.
++
++## Scope checks
++
++- [PASS] Matches the issue. The change does what the design says and nothing more.
++  - #1000: `/show-plan` with no number reads the plan from the branch name (`resolve_args.py`, its test, ICE C8, F7 and the new scenario S7, play recompiled).
++  - #951 finding 1: the pre-flight script reports `plans_base`, and start-change reads it from there.
++  - #951 finding 2: `submit_pr.py` leaves `on_target` unknown when the PR number cannot be looked up.
++  - #951 finding 3: merge-change SE-9 and scenario S5 also check the capability close (ICE changed, play recompiled).
++  - #951 finding 4: harness standard, principle 8, names plan order (ADR 060, decision 4).
++  - #951 finding 5: `git.md` and `pipeline-position.md` describe plan branches.
++- [PASS] No scope creep. The out-of-scope items stayed out: update-plan, show-plan and list-plans still read `plans.base-path` themselves, and #989 and #991 are not touched.
++- [PASS] Reasonable size. 54 files looks large, but 30 of them are the same one-line pre-flight change stamped into each play that carries a copy. The real change is about 24 files.
++- [PASS] No stray artifacts. No debug prints or commented-out code. The `.garura/project/issues/1000/` files are the run records the process commits on purpose. Plan 717 marks #1000 and #951 Done inside the change, as the design asks.
++
++## Quality checks
++
++- [PASS] Tests present.
++  - `test_resolve_args.py` (new): a typed number wins, a plan branch and an issue branch in a plan both read the plan, a branch in no plan stops plainly, two numbers or a word is an error.
++  - `test_submit_pr.py` (new): on target, off target, and number unknown.
++  - `test_resolve_plan.py`: two new checks for `plans_base`, with a setting and with the default.
++- [PASS] Tests pass. Show-plan scripts (`test_resolve_args`, `test_check_tree`): 7 tests, OK. `test_resolve_plan.py`: 23 passed, 0 failed. `test_submit_pr.py`: 3 passed, 0 failed.
++- [PASS] Copies agree. All 30 `preflight.py` copies are byte-identical to the one in `create-play/references`. The two `submit_pr.py` copies are identical.
++- [PASS] Compiled plays follow their source. The show-plan and merge-change changes are made in the ICE (`reference/ice.md`) first and the `SKILL.md` was recompiled from it (new fingerprints and compiled-by lines). The start-change `SKILL.md` edit is a wording change that follows the new pre-flight fact.
++- [PASS] Commits are clean. Conventional format, one concern each, each names #1000 or #951.
++- [PASS] No secrets. Nothing like a key or token in the diff.
++- [PASS] Docs in step. ICE, play prose, harness standard and the two rule pages all agree with the new behaviour.
++- [PASS] Lint. The component linter reports 36 errors and 1 warning, all in files this change does not touch (check-quality, edit-play, edit-loop, create-play, create-loop, install-garura and others). The changed files add none.
++
++## Notes for the reviewer (small, none holds the raise)
++
++- Owed before the merge: `git.md` and `pipeline-position.md` are memory files and must be promoted to Phoenix memory first, as the design says. The raise does not depend on it.
++- The docstring at the top of `submit_pr.py` still reads "on_target is true when the PR's base on the host equals it". It could also say it is null when the number is unknown. The function's own docstring says so.
++- The SE-6 line in the show-plan `SKILL.md` is long. Readable, only untidy.
++- Untracked `resolved-rules.json` in the issue's context folder is the record of which rules file this review used.
+diff --git a/.garura/project/issues/1000/context/pr.json b/.garura/project/issues/1000/context/pr.json
+new file mode 100644
+index 000000000..f2ede65e8
+--- /dev/null
++++ b/.garura/project/issues/1000/context/pr.json
+@@ -0,0 +1,7 @@
++{
++  "number": 1013,
++  "url": "https://github.com/intent-driven-ai/garura/pull/1013",
++  "state": "OPEN",
++  "base": "plan/717/base",
++  "on_target": true
++}
+\ No newline at end of file
+diff --git a/.garura/project/issues/1000/context/resolved-rules.json b/.garura/project/issues/1000/context/resolved-rules.json
+new file mode 100644
+index 000000000..7e1dab07c
+--- /dev/null
++++ b/.garura/project/issues/1000/context/resolved-rules.json
+@@ -0,0 +1,6 @@
++{
++  "resolved": true,
++  "path": "~/.phoenix/core/memory/standards/rules/self-review.md",
++  "source": "~/.phoenix/core/memory/standards/rules",
++  "is_override": false
++}
+diff --git a/.garura/project/issues/1000/context/self-review.md b/.garura/project/issues/1000/context/self-review.md
+new file mode 100644
+index 000000000..bc7f6b478
+--- /dev/null
++++ b/.garura/project/issues/1000/context/self-review.md
+@@ -0,0 +1,41 @@
++# Self-review: #1000 (with #951), branch plan/717/1000-show-plan-branch-and-pr950-findings
++
++Rules used: the base self-review rules (resolved in `.garura/project/issues/1000/context/resolved-rules.json`, no project override).
++Compared against: `plan/717/base`. Design: `.garura/project/issues/1000/specs/design.md`.
++This is an information list for the reviewer. It does not approve or reject the change.
++
++Summary: 54 files changed, 613 lines added, 85 removed, in 10 commits. Every finding below is clear. Nothing stops the raise.
++
++## Scope checks
++
++- [PASS] Matches the issue. The change does what the design says and nothing more.
++  - #1000: `/show-plan` with no number reads the plan from the branch name (`resolve_args.py`, its test, ICE C8, F7 and the new scenario S7, play recompiled).
++  - #951 finding 1: the pre-flight script reports `plans_base`, and start-change reads it from there.
++  - #951 finding 2: `submit_pr.py` leaves `on_target` unknown when the PR number cannot be looked up.
++  - #951 finding 3: merge-change SE-9 and scenario S5 also check the capability close (ICE changed, play recompiled).
++  - #951 finding 4: harness standard, principle 8, names plan order (ADR 060, decision 4).
++  - #951 finding 5: `git.md` and `pipeline-position.md` describe plan branches.
++- [PASS] No scope creep. The out-of-scope items stayed out: update-plan, show-plan and list-plans still read `plans.base-path` themselves, and #989 and #991 are not touched.
++- [PASS] Reasonable size. 54 files looks large, but 30 of them are the same one-line pre-flight change stamped into each play that carries a copy. The real change is about 24 files.
++- [PASS] No stray artifacts. No debug prints or commented-out code. The `.garura/project/issues/1000/` files are the run records the process commits on purpose. Plan 717 marks #1000 and #951 Done inside the change, as the design asks.
++
++## Quality checks
++
++- [PASS] Tests present.
++  - `test_resolve_args.py` (new): a typed number wins, a plan branch and an issue branch in a plan both read the plan, a branch in no plan stops plainly, two numbers or a word is an error.
++  - `test_submit_pr.py` (new): on target, off target, and number unknown.
++  - `test_resolve_plan.py`: two new checks for `plans_base`, with a setting and with the default.
++- [PASS] Tests pass. Show-plan scripts (`test_resolve_args`, `test_check_tree`): 7 tests, OK. `test_resolve_plan.py`: 23 passed, 0 failed. `test_submit_pr.py`: 3 passed, 0 failed.
++- [PASS] Copies agree. All 30 `preflight.py` copies are byte-identical to the one in `create-play/references`. The two `submit_pr.py` copies are identical.
++- [PASS] Compiled plays follow their source. The show-plan and merge-change changes are made in the ICE (`reference/ice.md`) first and the `SKILL.md` was recompiled from it (new fingerprints and compiled-by lines). The start-change `SKILL.md` edit is a wording change that follows the new pre-flight fact.
++- [PASS] Commits are clean. Conventional format, one concern each, each names #1000 or #951.
++- [PASS] No secrets. Nothing like a key or token in the diff.
++- [PASS] Docs in step. ICE, play prose, harness standard and the two rule pages all agree with the new behaviour.
++- [PASS] Lint. The component linter reports 36 errors and 1 warning, all in files this change does not touch (check-quality, edit-play, edit-loop, create-play, create-loop, install-garura and others). The changed files add none.
++
++## Notes for the reviewer (small, none holds the raise)
++
++- Owed before the merge: `git.md` and `pipeline-position.md` are memory files and must be promoted to Phoenix memory first, as the design says. The raise does not depend on it.
++- The docstring at the top of `submit_pr.py` still reads "on_target is true when the PR's base on the host equals it". It could also say it is null when the number is unknown. The function's own docstring says so.
++- The SE-6 line in the show-plan `SKILL.md` is long. Readable, only untidy.
++- Untracked `resolved-rules.json` in the issue's context folder is the record of which rules file this review used.
+diff --git a/.garura/project/issues/1000/context/target.json b/.garura/project/issues/1000/context/target.json
+new file mode 100644
+index 000000000..891ea9f6e
+--- /dev/null
++++ b/.garura/project/issues/1000/context/target.json
+@@ -0,0 +1,7 @@
++{
++  "branch": "plan/717/1000-show-plan-branch-and-pr950-findings",
++  "kind": "issue-in-plan",
++  "plan_id": "717",
++  "issue": "1000",
++  "base": "plan/717/base"
++}
+diff --git a/.garura/project/issues/1000/context/work-description.txt b/.garura/project/issues/1000/context/work-description.txt
+new file mode 100644
+index 000000000..14b413331
+--- /dev/null
++++ b/.garura/project/issues/1000/context/work-description.txt
+@@ -0,0 +1,3 @@
++Fix #1000 and #951 together under plan 717.
++#1000: /show-plan with no number reads the plan from the branch name (plan/<id>/...); on a branch outside any plan it stops with a plain message; a typed number wins.
++#951: the five small findings of round 1 of the PR #950 review: plans_base from the pre-flight script (start-change), submit_pr's always-true on_target on the no-number path, merge-change's checks of the capability close, plan order in the harness standard, and the git.md / pipeline-position.md rule pages (promoted to Phoenix memory).
+diff --git a/.garura/project/issues/1000/specs/design.md b/.garura/project/issues/1000/specs/design.md
+new file mode 100644
+index 000000000..9c7e3d0d8
+--- /dev/null
++++ b/.garura/project/issues/1000/specs/design.md
+@@ -0,0 +1,37 @@
++# Design: #1000 + #951 (approved by the product owner, 2026-10-31)
++
++One change under plan 717, on `plan/717/1000-show-plan-branch-and-pr950-findings`. The merge closes both.
++
++## #1000 — /show-plan with no number
++
++- No number given: the plan number is read from the branch name (`plan/<id>/base` or
++  `plan/<id>/<issue>-<slug>`); the tree is printed exactly as `/show-plan <id>` prints it.
++- A branch that belongs to no plan (main, feature/...): the play stops with a plain message
++  ("this branch belongs to no plan; give a plan number"); no tree, nothing changed.
++- A typed number wins, whatever the branch.
++- In show-plan's resolve_args.py (the branch passed in), with tests; show-plan ICE C8 and a new
++  scenario, through /edit-play.
++
++## #951 — the five small findings of round 1 of the PR #950 review
++
++1. The pre-flight script reports `plans_base` (plans.base-path, default .garura/project/plans/);
++   start-change reads it from there. The script is shared by 30 plays: every copy is restamped.
++2. submit_pr.py: when the PR opens but its number cannot be looked up, `on_target` is left
++   unknown (null), so the done check fails instead of passing blind. With a test.
++3. merge-change: SE-9 and scenario S5 also check the capability close (the capability is in
++   issues_closed when every issue under it is closed). ICE change, through /edit-play.
++4. The harness standard's principle 8 gains one sentence: the plans a plan needs do not hold it
++   off main (ADR 060, decision 4).
++5. Memory rule pages: git.md's branch table gains the plan branch shapes; pipeline-position.md
++   no longer says start-change always cuts off fresh main. Promoted to Phoenix memory before the
++   merge.
++
++## Out of scope
++
++update-plan, show-plan and list-plans also read plans.base-path themselves (finding 1 names
++start-change only). #989 and #991 stay their own work.
++
++## Landing
++
++commit, propose, check; reinstall and promote before the merge; merge on the product owner's word;
++#1000 and #951 Done in plan 717 inside the change.
+diff --git a/.garura/project/plans/717.yaml b/.garura/project/plans/717.yaml
+index 1ad181665..5fb00b0ca 100644
+--- a/.garura/project/plans/717.yaml
++++ b/.garura/project/plans/717.yaml
+@@ -62,7 +62,7 @@ tree:
+     - issue: 1000
+       kind: story
+       title: Show the plan of the current branch when /show-plan is given no number
+-      status: Not Started
++      status: Done
+     - issue: 1005
+       kind: story
+       title: /show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done
+@@ -136,7 +136,7 @@ tree:
+       - issue: 951
+         kind: chore
+         title: 'The five small findings of the PR #950 review: plan folder from pre-flight, one always-true target check, capability-close check, plan order, two rule pages'
+-        status: Not Started
++        status: Done
+       - issue: 1011
+         kind: chore
+         title: 'Bring the landing rule on the page of the #721 capability in line with ADR 060'
+diff --git a/core/components/memory/standards/rules/git.md b/core/components/memory/standards/rules/git.md
+index c7b9b0f3a..e009d950a 100644
+--- a/core/components/memory/standards/rules/git.md
++++ b/core/components/memory/standards/rules/git.md
+@@ -6,7 +6,9 @@ Standard patterns for branch names and their implications.
+ 
+ | Pattern | Purpose | Example |
+ |---------|---------|---------|
+-| `feature/*` | New feature | `feature/user-auth` |
++| `plan/<plan-id>/base` | A plan's own branch: the plan's work collects here, and it lands on main whenever the plan pauses | `plan/717/base` |
++| `plan/<plan-id>/<issue>-<slug>` | An issue in a plan: cut from its plan's branch, lands back on it | `plan/717/779-plan-lookup` |
++| `feature/*` | New feature, or an issue in no plan (`feature/<issue>-<slug>`, cut from main) | `feature/user-auth` |
+ | `fix/*` | Bug fixes | `fix/login-redirect` |
+ | `hotfix/*` | Urgent production fixes | `hotfix/security-patch` |
+ | `release/*` | Release preparation | `release/v2.1.0` |
+@@ -20,7 +22,7 @@ Standard patterns for branch names and their implications.
+ 
+ Branch patterns affect quality gate priorities:
+ 
+-### Standard Branches (`feature/*`, `fix/*`)
++### Standard Branches (`feature/*`, `fix/*`, `plan/*`)
+ - All quality gates apply normally
+ 
+ ### Hotfix Branches (`hotfix/*`, `emergency/*`)
+diff --git a/core/components/memory/standards/rules/pipeline-position.md b/core/components/memory/standards/rules/pipeline-position.md
+index 475aa89fe..5ed6fc1b1 100644
+--- a/core/components/memory/standards/rules/pipeline-position.md
++++ b/core/components/memory/standards/rules/pipeline-position.md
+@@ -28,8 +28,9 @@ position: start | end | both | none
+ - **none** (default) — standalone play; nothing is injected. Strategic/model-building
+   plays and one-off utilities use this.
+ - **start** — the play opens a pipeline. create-play injects **start-change** as the
+-  play's first step (resolve/create the issue, cut the branch off fresh main, optional
+-  worktree, init STM).
++  play's first step (resolve/create the issue, cut its branch — under its plan's branch,
++  `plan/<plan-id>/<issue>-<slug>` off `plan/<plan-id>/base`, for an issue in a plan, else off
++  fresh main — optional worktree, init STM).
+ - **end** — the play closes a pipeline. create-play injects the **end sequence** as the
+   play's closing steps, in order: **commit-change → propose-change → check-change →
+   merge-change**, placed after the play's own work and before the Standard Play Close.
+diff --git a/core/components/plays/build-epic/scripts/preflight.py b/core/components/plays/build-epic/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/build-epic/scripts/preflight.py
++++ b/core/components/plays/build-epic/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/check-change/scripts/preflight.py b/core/components/plays/check-change/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/check-change/scripts/preflight.py
++++ b/core/components/plays/check-change/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/commit-change/scripts/preflight.py b/core/components/plays/commit-change/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/commit-change/scripts/preflight.py
++++ b/core/components/plays/commit-change/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/create-play/references/preflight.py b/core/components/plays/create-play/references/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/create-play/references/preflight.py
++++ b/core/components/plays/create-play/references/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/create-play/references/submit_pr.py b/core/components/plays/create-play/references/submit_pr.py
+index 39a3a5dfc..dfcf9beaf 100644
+--- a/core/components/plays/create-play/references/submit_pr.py
++++ b/core/components/plays/create-play/references/submit_pr.py
+@@ -59,6 +59,15 @@ def _pr_record(config, pr_number, base):
+     return rec
+ 
+ 
++def on_target(rec, base):
++    """True or False when the host's record of the PR names its base; None when the PR's number
++    could not be looked up, so the base in the record is only the one asked for and proves
++    nothing (#951). The done check reads None as not met."""
++    if not rec.get("number"):
++        return None
++    return rec.get("base") == base
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser()
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+@@ -104,7 +113,7 @@ def main(argv=None):
+             "base": ns.base}
+ 
+     # The PR must point where its branch lands (#673): main, or its plan branch.
+-    rec["on_target"] = rec.get("base") == ns.base
++    rec["on_target"] = on_target(rec, ns.base)
+     with open(ns.out, "w", encoding="utf-8") as fh:
+         json.dump(rec, fh, indent=2)
+     print(json.dumps(rec, indent=2))
+diff --git a/core/components/plays/create-play/references/test_resolve_plan.py b/core/components/plays/create-play/references/test_resolve_plan.py
+index cd0b58c96..7c423accd 100644
+--- a/core/components/plays/create-play/references/test_resolve_plan.py
++++ b/core/components/plays/create-play/references/test_resolve_plan.py
+@@ -129,6 +129,10 @@ def main():
+                          ("plan/717/base", "717"), ("fix/42-typo", "42"), ("main", None)):
+         got = preflight.resolve(cfg, "start-change", branch, "")["issue"]
+         check(f"pre-flight reads issue {want} from {branch}", got == want)
++    check("pre-flight reports the plan files' folder from the settings",
++          preflight.resolve({"plans": {"base-path": "work/plans/"}}, "start-change", "main", "")["plans_base"] == "work/plans/")
++    check("pre-flight reports the default plan folder when the setting is missing",
++          preflight.resolve({}, "start-change", "main", "")["plans_base"] == ".garura/project/plans/")
+     import resolve_target as rt
+     check("pre-flight and the landing script read the same issue from a plan's own branch",
+           preflight.resolve(cfg, "commit-change", "plan/717/base", "")["issue"] == rt.classify("plan/717/base")["issue"])
+diff --git a/core/components/plays/create-play/references/test_submit_pr.py b/core/components/plays/create-play/references/test_submit_pr.py
+new file mode 100644
+index 000000000..8bc825a37
+--- /dev/null
++++ b/core/components/plays/create-play/references/test_submit_pr.py
+@@ -0,0 +1,39 @@
++#!/usr/bin/env python3
++"""test_submit_pr.py — the PR's "points where its branch lands" check (#673, #951).
++
++    python3 test_submit_pr.py
++"""
++import os
++import sys
++
++HERE = os.path.dirname(os.path.abspath(__file__))
++sys.path.insert(0, HERE)
++import submit_pr  # noqa: E402
++
++PASSED = 0
++FAILED = 0
++
++
++def check(name, cond):
++    global PASSED, FAILED
++    if cond:
++        PASSED += 1
++        print(f"  [PASS] {name}")
++    else:
++        FAILED += 1
++        print(f"  [FAIL] {name}")
++
++
++def main():
++    check("a PR the host shows on the asked base is on target",
++          submit_pr.on_target({"number": 9, "base": "plan/717/base"}, "plan/717/base") is True)
++    check("a PR the host shows on another base is not on target",
++          submit_pr.on_target({"number": 9, "base": "main"}, "plan/717/base") is False)
++    check("a PR whose number could not be looked up is unknown, not on target by default",
++          submit_pr.on_target({"number": None, "base": "plan/717/base"}, "plan/717/base") is None)
++    print(f"\n{PASSED} passed, {FAILED} failed")
++    sys.exit(1 if FAILED else 0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/core/components/plays/discover-capabilities/scripts/preflight.py b/core/components/plays/discover-capabilities/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/discover-capabilities/scripts/preflight.py
++++ b/core/components/plays/discover-capabilities/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/discover-domains/scripts/preflight.py b/core/components/plays/discover-domains/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/discover-domains/scripts/preflight.py
++++ b/core/components/plays/discover-domains/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/discover-intent/scripts/preflight.py b/core/components/plays/discover-intent/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/discover-intent/scripts/preflight.py
++++ b/core/components/plays/discover-intent/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/edit-ontology/scripts/preflight.py b/core/components/plays/edit-ontology/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/edit-ontology/scripts/preflight.py
++++ b/core/components/plays/edit-ontology/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/learn-outcomes/scripts/preflight.py b/core/components/plays/learn-outcomes/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/learn-outcomes/scripts/preflight.py
++++ b/core/components/plays/learn-outcomes/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/list-focus-issues/scripts/preflight.py b/core/components/plays/list-focus-issues/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/list-focus-issues/scripts/preflight.py
++++ b/core/components/plays/list-focus-issues/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/list-plans/scripts/preflight.py b/core/components/plays/list-plans/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/list-plans/scripts/preflight.py
++++ b/core/components/plays/list-plans/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/merge-change/SKILL.md b/core/components/plays/merge-change/SKILL.md
+index eb1a0ec65..83c2e2a52 100644
+--- a/core/components/plays/merge-change/SKILL.md
++++ b/core/components/plays/merge-change/SKILL.md
+@@ -183,7 +183,8 @@ with its origin copy.
+ **SE-9 (F9/C9):** `target.json` was written by `resolve_target.py` before the merge;
+ `merge-gate.json.on_target` is true; for an issue in a plan, the issue is in
+ `merge-gate.json.issues_closed` and `merge-gate.json.plan_marked.to` reads Done (the item's
+-parent unchanged); a plan's branch with open issues was not held off main
++parent unchanged); when every child of the issue's capability in the plan file is now Done or
++Dropped, the capability is in `issues_closed` too (C9); a plan's branch with open issues was not held off main
+ for them — when the machine wall held and the human approved, it was merged.
+ **SE-4 (F3/C3):** the feature branch no longer exists locally or on remote.
+ **SE-5 (F5/C5):** when the PR was already merged at pre-flight, no second merge was
+@@ -216,7 +217,8 @@ git/gh work; the play's agent count is zero.
+   (`target.json.base`); the stop-condition verdict reads held.
+ - **SCE-5 (S5 — developer, issue in a plan):** the PR merged into `plan/<P>/base`;
+   `merge-gate.json` reads `on_target: true`, lists the issue in `issues_closed` and reads
+-  `plan_marked.to: Done`; the plan file reads the item Done; the current branch is
++  `plan_marked.to: Done`; when every issue under the issue's capability is now closed, the
++  capability is in `issues_closed` too; the plan file reads the item Done; the current branch is
+   `plan/<P>/base`; the issue's branch is gone.
+ - **SCE-6 (S6 — developer, plan paused in progress):** `target.json` reads `kind: plan` and
+   `base: main`; `merge-gate.json` reads `on_target: true`, `pr_merged: true` and
+@@ -313,8 +315,8 @@ pending, and continue. A re-run on an already-merged PR is a clean no-op (C5, F5
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:fa0f30167747872ebdc6f53252ec2387b2c536d637fbc81a1a8aecb6de8bf3a3 (of `reference/ice.md`) |
+-| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on) |
++| fingerprint | sha256:3a8d0e579345d8b1988cf6f1c3da096ad7d63df2204b333d6a5a675a9f91be1a (of `reference/ice.md`) |
++| compiled_by | edit-play (#466 Batch A; #467 Batch C; #484 scripted-chain; #673 plan targets; plans land on main while in progress; #1007 plan item follows its issue; #953 run records on the branch the change landed on; #951 the capability close is checked) |
+ | pipeline_position | end |
+ | workflow_structure | B (fast execution flow, single-pass; stop-condition gated close) |
+ | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 |
+diff --git a/core/components/plays/merge-change/reference/ice.md b/core/components/plays/merge-change/reference/ice.md
+index 2db09b503..adeb73280 100644
+--- a/core/components/plays/merge-change/reference/ice.md
++++ b/core/components/plays/merge-change/reference/ice.md
+@@ -112,8 +112,9 @@ play.
+   `plan/P/base`, when it runs, then the PR merges into `plan/P/base`, the checkout ends on
+   updated `plan/P/base`, the issue's branch is deleted, and the issue is closed. Measure:
+   merge-gate.json reads `on_target: true`, lists the issue in `issues_closed` and reads
+-  `plan_marked.to: Done`; the plan file on `plan/P/base` reads the item Done and its parent
+-  unchanged; the current branch is `plan/P/base`.
++  `plan_marked.to: Done`; when every issue under the issue's capability is now closed, the
++  capability is in `issues_closed` too (C9, #951); the plan file on `plan/P/base` reads the item
++  Done and its parent unchanged; the current branch is `plan/P/base`.
+ - S6 — (developer, plan paused in progress) Given an approved, mergeable PR from
+   `plan/P/base` into main while issues in P are still open, when it runs and the human
+   approves, then the plan's work lands on main, its branch is deleted, and its open issues
+diff --git a/core/components/plays/merge-change/scripts/preflight.py b/core/components/plays/merge-change/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/merge-change/scripts/preflight.py
++++ b/core/components/plays/merge-change/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/propose-change/scripts/preflight.py b/core/components/plays/propose-change/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/propose-change/scripts/preflight.py
++++ b/core/components/plays/propose-change/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/propose-change/scripts/submit_pr.py b/core/components/plays/propose-change/scripts/submit_pr.py
+index 39a3a5dfc..dfcf9beaf 100644
+--- a/core/components/plays/propose-change/scripts/submit_pr.py
++++ b/core/components/plays/propose-change/scripts/submit_pr.py
+@@ -59,6 +59,15 @@ def _pr_record(config, pr_number, base):
+     return rec
+ 
+ 
++def on_target(rec, base):
++    """True or False when the host's record of the PR names its base; None when the PR's number
++    could not be looked up, so the base in the record is only the one asked for and proves
++    nothing (#951). The done check reads None as not met."""
++    if not rec.get("number"):
++        return None
++    return rec.get("base") == base
++
++
+ def main(argv=None):
+     ap = argparse.ArgumentParser()
+     ap.add_argument("--config", default=".garura/core/config.yaml")
+@@ -104,7 +113,7 @@ def main(argv=None):
+             "base": ns.base}
+ 
+     # The PR must point where its branch lands (#673): main, or its plan branch.
+-    rec["on_target"] = rec.get("base") == ns.base
++    rec["on_target"] = on_target(rec, ns.base)
+     with open(ns.out, "w", encoding="utf-8") as fh:
+         json.dump(rec, fh, indent=2)
+     print(json.dumps(rec, indent=2))
+diff --git a/core/components/plays/record-decision/scripts/preflight.py b/core/components/plays/record-decision/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/record-decision/scripts/preflight.py
++++ b/core/components/plays/record-decision/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/refactor-code/scripts/preflight.py b/core/components/plays/refactor-code/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/refactor-code/scripts/preflight.py
++++ b/core/components/plays/refactor-code/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/release-epic/scripts/preflight.py b/core/components/plays/release-epic/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/release-epic/scripts/preflight.py
++++ b/core/components/plays/release-epic/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/release-increment/scripts/preflight.py b/core/components/plays/release-increment/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/release-increment/scripts/preflight.py
++++ b/core/components/plays/release-increment/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-agentic-lens/scripts/preflight.py b/core/components/plays/shape-agentic-lens/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-agentic-lens/scripts/preflight.py
++++ b/core/components/plays/shape-agentic-lens/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-architecture-lens/scripts/preflight.py b/core/components/plays/shape-architecture-lens/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-architecture-lens/scripts/preflight.py
++++ b/core/components/plays/shape-architecture-lens/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-eval/scripts/preflight.py b/core/components/plays/shape-eval/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-eval/scripts/preflight.py
++++ b/core/components/plays/shape-eval/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-marketing-lens/scripts/preflight.py b/core/components/plays/shape-marketing-lens/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-marketing-lens/scripts/preflight.py
++++ b/core/components/plays/shape-marketing-lens/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-measure-lens/scripts/preflight.py b/core/components/plays/shape-measure-lens/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-measure-lens/scripts/preflight.py
++++ b/core/components/plays/shape-measure-lens/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-plan/scripts/preflight.py b/core/components/plays/shape-plan/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-plan/scripts/preflight.py
++++ b/core/components/plays/shape-plan/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-quality-lens/scripts/preflight.py b/core/components/plays/shape-quality-lens/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-quality-lens/scripts/preflight.py
++++ b/core/components/plays/shape-quality-lens/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-run-lens/scripts/preflight.py b/core/components/plays/shape-run-lens/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-run-lens/scripts/preflight.py
++++ b/core/components/plays/shape-run-lens/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-slice/scripts/preflight.py b/core/components/plays/shape-slice/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-slice/scripts/preflight.py
++++ b/core/components/plays/shape-slice/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/shape-ux-lens/scripts/preflight.py b/core/components/plays/shape-ux-lens/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/shape-ux-lens/scripts/preflight.py
++++ b/core/components/plays/shape-ux-lens/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/show-plan/SKILL.md b/core/components/plays/show-plan/SKILL.md
+index 105d0d1db..83d960120 100644
+--- a/core/components/plays/show-plan/SKILL.md
++++ b/core/components/plays/show-plan/SKILL.md
+@@ -1,7 +1,7 @@
+ ---
+ name: show-plan
+ position: none
+-description: 'See one plan as a tree, from its plan file alone, and know where it stands after two days away — /show-plan <id>, where the ID is the business intent''s issue number. One node per line, its status mark, issue number and title; the work that is Not Started, In Progress, Now or Blocked is shown, Done and Dropped are hidden and counted on the last line (a hidden node with a shown node under it is still printed, so it keeps its place; an open node whose children are all Done or Dropped prints them, one level down, so a person can decide on it), and each plan it needs is printed after it. Reads only the plan files (.garura/project/plans/); never the tracker or the product model, and no model call makes the tree: the plan tool prints it from the plan-view template, so the same file prints the same tree every time. Read only and position none: it writes nothing and runs on any branch. A number no plan has gets a plain message; a plan file with a status the template does not know stops the play with the file named. Use when someone asks "where does plan 717 stand", "show me the plan", "what is left in this plan", or "what is being worked on in this plan".'
++description: 'See one plan as a tree, from its plan file alone, and know where it stands after two days away — /show-plan <id>, where the ID is the business intent''s issue number, or /show-plan with no number on a plan''s branch (plan/<id>/…), which shows that plan; on a branch in no plan it says so plainly. One node per line, its status mark, issue number and title; the work that is Not Started, In Progress, Now or Blocked is shown, Done and Dropped are hidden and counted on the last line (a hidden node with a shown node under it is still printed, so it keeps its place; an open node whose children are all Done or Dropped prints them, one level down, so a person can decide on it), and each plan it needs is printed after it. Reads only the plan files (.garura/project/plans/); never the tracker or the product model, and no model call makes the tree: the plan tool prints it from the plan-view template, so the same file prints the same tree every time. Read only and position none: it writes nothing and runs on any branch. A number no plan has gets a plain message; a plan file with a status the template does not know stops the play with the file named. Use when someone asks "where does plan 717 stand", "show me the plan", "what is left in this plan", or "what is being worked on in this plan".'
+ user-invocable: true
+ ---
+ 
+@@ -15,8 +15,8 @@ twice, with nothing changed.
+ ## Compiled From
+ 
+ This play was compiled from the show-plan ICE (`reference/ice.md`) by create-play (#719, story
+-#628), and recompiled by edit-play (#1005). Intent defines constraints (C1–C9) and failure conditions (F1–F8); the expectation
+-defines success scenarios (S1–S6), a Done means (D1–D4, baked to `stop-condition.yaml`), and one
++#628), and recompiled by edit-play (#1005, #1000). Intent defines constraints (C1–C9) and failure conditions (F1–F8); the expectation
++defines success scenarios (S1–S7), a Done means (D1–D4, baked to `stop-condition.yaml`), and one
+ recovery entry per failure condition.
+ To modify this play, update `reference/ice.md` and recompile with edit-play.
+ Do NOT edit this file manually — it is a compiled artifact.
+@@ -49,13 +49,14 @@ tool stopped (C8/F7).
+ | Check | Constraint | Action on Failure |
+ |-------|-----------|-------------------|
+ | Resolve config (`.garura/core/config.yaml`) via `scripts/preflight.py` | — | Hard halt |
+-| One plan number, via `scripts/resolve_args.py` | C8 | **Hard halt** — print its `error` line; never guess a plan |
++| One plan: the number typed, else the current branch's plan, via `scripts/resolve_args.py` | C8 | **Hard halt** — print its `error` line; never guess a plan |
+ | The plan tool is installed (`.garura/core/tools/plan/plan.py`) | C1 / C6 | Hard halt — without it there is no deterministic tree |
+ 
+ ```
+ python3 scripts/preflight.py --play show-plan --config .garura/core/config.yaml \
+     --branch "$(git branch --show-current)"
+-python3 scripts/resolve_args.py --args="<the play's arguments>" --out <working>/plan.json
++python3 scripts/resolve_args.py --args="<the play's arguments>" \
++    --branch "$(git branch --show-current)" --out <working>/plan.json
+ test -f .garura/core/tools/plan/plan.py || { echo "the plan tool is not installed — halt"; exit 1; }
+ ```
+ 
+@@ -147,7 +148,8 @@ apply REC3.
+ **SE-5 (C2/C7, F4/F6):** `check.json` reads `same_twice: true` (F6) and `unchanged: true` —
+ every plan file hashes the same as before the tool ran — and no tracker or branch verb was run
+ in this play (F4). A changed hash is a hard halt (REC4).
+-**SE-6 (C1/C8, F7):** for a number no plan has, `check.json` reads `no_plan_plain: true` and
++**SE-6 (C1/C8, F7):** `plan.json` reads `from: args` when a number was typed and `from: branch`
++when none was, and then its `plan` is the number in the branch name; for a number no plan has, `check.json` reads `no_plan_plain: true` and
+ no node line is in `view.txt`; for a plan that exists, `check.json` reads `tree_ok: true`. On a
+ GAP, apply REC7.
+ 
+@@ -168,6 +170,9 @@ before it naming the plan. Never re-word, sort, trim or add to a line of it (C3/
+   `no_plan_plain: true`.
+ - **SCE-5 (S5 — auditor, nothing changed and nothing drifted):** `check.json` reads
+   `same_twice: true`, `unchanged: true` and `lines_ok: true` (or `no_plan_plain: true`).
++- **SCE-7 (S7 — product owner, no number on a plan's branch):** `plan.json` reads `plan: <id>`
++  and `from: branch` for a branch `plan/<id>/…`, and `check.json` reads `tree_ok: true`; on a
++  branch in no plan, `plan.json` reads `plan: null` with its error and no `view.txt` exists.
+ - **SCE-6 (S6 — product owner, a feature whose stories are all finished):** for an open node
+   whose children are all Done or Dropped, `check.json` reads `lines_ok: true` and
+   `hidden_ok: true` — each child is printed under it and is not in the hidden count.
+@@ -210,7 +215,7 @@ per-play `evidence.plays.show-plan`; first match wins, absent ⇒ record). When
+ record `evidence skipped (record=false)` in the report. Otherwise fill the `evidence-file.md`
+ slots (play `show-plan`, run_id `show-plan-${ts}`, status per C0; artifacts: the plan number,
+ the template manifest, the view, the check record, the stop-condition verdict; step and
+-scenario eval results SE-1…SE-7 / SCE-1…SCE-6; checkpoint decisions: none; the session
++scenario eval results SE-1…SE-7 / SCE-1…SCE-7; checkpoint decisions: none; the session
+ identity stamp fields from $session_stamp) and write to `$evidence_dest`. Do NOT hand-author
+ the body.
+ 
+@@ -242,6 +247,7 @@ rm -rf "<working>"            # <working> = ${stm_base}_plans/show-plan/
+ | S4 — a wrong number | anyone | SCE-4 |
+ | S5 — nothing changed and nothing drifted | auditor | SCE-5 |
+ | S6 — a feature whose stories are all finished | product owner | SCE-6 |
++| S7 — no number on a plan's branch | product owner | SCE-7 |
+ 
+ ## Recovery
+ 
+@@ -253,7 +259,7 @@ rm -rf "<working>"            # <working> = ${stm_base}_plans/show-plan/
+ | F4 | a plan file's hash changed during the run, or a write to the tracker or a branch was made | stop, report what changed, and leave it for a person; read only is never repaired by a retry | human |
+ | F5 | a line of the view does not match the template's layout | load the template again through template-manager and re-run the plan tool with it | autonomous |
+ | F6 | the two prints differ | re-run both prints; if they still differ, report the difference and close HALTED | autonomous |
+-| F7 | a missing plan or an unknown status got a tree | show the template's no-plan line, or stop and name the file and its status; never a guessed tree | autonomous |
++| F7 | a missing plan, an unknown status or a branch in no plan got a tree | show the template's no-plan line, or stop and name the file and its status, or the branch; never a guessed tree | autonomous |
+ | F8 | the close would report COMPLETED without the Done means held | surface the unmet clauses and re-run the step that makes the missing record, or close HALTED | autonomous |
+ 
+ ## Pause and Resume
+@@ -266,16 +272,16 @@ overwritten. There is no status marker.
+ 
+ | Field | Value |
+ |-------|-------|
+-| fingerprint | sha256:d78c5fff14203999654808de007aa62ef3a3aaf1792e35c4893f82c85decef91 (of `reference/ice.md`) |
+-| compiled_by | create-play (#719; story #628); edit-play (#1005) |
++| fingerprint | sha256:789fdc5ee521c9e46aa872ef242fbd4cad364e95a3d3430d22bbfaaae9a77222 (of `reference/ice.md`) |
++| compiled_by | create-play (#719; story #628); edit-play (#1005; #1000) |
+ | pipeline_position | none |
+-| structural_constraints | C1 (the play's only read is the plan tool over the plan files — no tracker or model path is opened anywhere); C3/C6 (every line is printed by the plan tool from the template; the play presents it unchanged); C8 (the plan number is `resolve_args.py`'s fixed rule) |
++| structural_constraints | C1 (the play's only read is the plan tool over the plan files — no tracker or model path is opened anywhere); C3/C6 (every line is printed by the plan tool from the template; the play presents it unchanged); C8 (the plan number is `resolve_args.py`'s fixed rule: the number typed, else the branch's plan) |
+ | workflow_structure | readiness-only (a view, no generation; no checkpoint) |
+ | stop_condition | stop-condition.yaml (D1–D4), gate live at Step C0 — evaluated BEFORE the Step 7 self-clean |
+ | domain_agents | 0 |
+ | utility_agents | 1 (template-manager) |
+ | tools | the plan tool (`.garura/core/tools/plan/plan.py`) |
+-| scripts | 5 (preflight.py, resolve_args.py, check_tree.py, check_stop_condition.py, session_stamp.py) |
++| scripts | 5 (preflight.py, resolve_args.py, check_tree.py, check_stop_condition.py, session_stamp.py) + test_resolve_args.py |
+ | step_evals | 7 (SE-1…SE-7; F1→SE-3, F2→SE-3, F3→SE-4, F4→SE-5, F5→SE-1+SE-3, F6→SE-5, F7→SE-2+SE-6, F8→SE-7) |
+-| scenario_evals | 6 (SCE-1…SCE-6) |
++| scenario_evals | 7 (SCE-1…SCE-7) |
+ | recovery_entries | 8 (one per failure condition; 6 autonomous / 2 human) |
+diff --git a/core/components/plays/show-plan/reference/ice.md b/core/components/plays/show-plan/reference/ice.md
+index 2ec0d9bca..0a0ff6b31 100644
+--- a/core/components/plays/show-plan/reference/ice.md
++++ b/core/components/plays/show-plan/reference/ice.md
+@@ -31,8 +31,12 @@ left and what is moving; finished work is a count, not a wall of lines.
+ - C6 — Every mark and every line comes from the plan-view template. The play never makes up a
+   layout of its own.
+ - C7 — The same plan file prints the same tree every time.
+-- C8 — When no plan has the number asked for, the play says so plainly. A plan file with a
+-  status the template does not know stops the play with the file named.
++- C8 — The plan is the number the person typed; with no number, it is the plan the current
++  branch belongs to, read from the branch name (`plan/<id>/base` or `plan/<id>/<issue>-<slug>`),
++  and the tree is the same as `/show-plan <id>` prints. A typed number always wins. A branch that
++  belongs to no plan stops the play with a plain message and no tree (#1000). When no plan has
++  the number, the play says so plainly. A plan file with a status the template does not know
++  stops the play with the file named.
+ - C9 — The play ends by proving its Done means at close, never by its step list running out.
+ 
+ ### Failure conditions
+@@ -46,8 +50,8 @@ left and what is moving; finished work is a count, not a wall of lines.
+ - F5 — The tree comes from the tracker, from a model call, or from a layout that is not the
+   template's.
+ - F6 — Two runs on the same plan file print differently.
+-- F7 — A plan that does not exist, or a plan with an unknown status, gets a guessed tree
+-  instead of a plain message or a stop.
++- F7 — A plan that does not exist, a plan with an unknown status, or a branch that belongs to
++  no plan, gets a guessed tree instead of a plain message or a stop.
+ - F8 — The close reports COMPLETED without the Done means held.
+ 
+ ## Context
+@@ -91,6 +95,12 @@ left and what is moving; finished work is a count, not a wall of lines.
+   with each of those stories under it, as mark, number and title, and they are not in the
+   hidden count. *Measure:* the check record reads `lines_ok: true` and `hidden_ok: true` for a
+   plan with such a feature.
++- **S7 — product owner, no number on a plan's branch.** Given a person on `plan/<id>/base` or
++  on an issue's branch in plan `<id>`, when `/show-plan` runs with no number, then the tree of
++  plan `<id>` is printed, the same as `/show-plan <id>`; on a branch in no plan, a plain message
++  and no tree. *Measure:* `plan.json` reads `plan: <id>` and `from: branch`, and the check record
++  reads `tree_ok: true`; on a branch in no plan, `plan.json` reads `plan: null` with the error,
++  and no view exists.
+ 
+ ### Recovery
+ 
+@@ -102,7 +112,7 @@ left and what is moving; finished work is a count, not a wall of lines.
+ | F4 | a plan file's hash changed during the run, or a write to the tracker or a branch was made | stop, report what changed, and leave it for a person; read only is never repaired by a retry | human |
+ | F5 | a line of the view does not match the template's layout | load the template again through template-manager and re-run the plan tool with it | autonomous |
+ | F6 | the two prints differ | re-run both prints; if they still differ, report the difference and close HALTED | autonomous |
+-| F7 | a missing plan or an unknown status got a tree | show the template's no-plan line, or stop and name the file and its status; never a guessed tree | autonomous |
++| F7 | a missing plan, an unknown status or a branch in no plan got a tree | show the template's no-plan line, or stop and name the file and its status, or the branch; never a guessed tree | autonomous |
+ | F8 | the close would report COMPLETED without the Done means held | surface the unmet clauses and re-run the step that makes the missing record, or close HALTED | autonomous |
+ 
+ ### Done means
+diff --git a/core/components/plays/show-plan/scripts/preflight.py b/core/components/plays/show-plan/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/show-plan/scripts/preflight.py
++++ b/core/components/plays/show-plan/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/show-plan/scripts/resolve_args.py b/core/components/plays/show-plan/scripts/resolve_args.py
+index 2dd4c1bda..5eed3cda7 100644
+--- a/core/components/plays/show-plan/scripts/resolve_args.py
++++ b/core/components/plays/show-plan/scripts/resolve_args.py
+@@ -1,28 +1,54 @@
+ #!/usr/bin/env python3
+ """
+ resolve_args.py — /show-plan's plan number: one argument, the plan's ID (its business
+-intent's issue number).
++intent's issue number), or, with no argument, the plan of the branch the person is on (#1000).
+ 
+-    python3 resolve_args.py --args "<the play's arguments>" --out <working>/plan.json
++    python3 resolve_args.py --args "<the play's arguments>" [--branch "<current branch>"] \
++        --out <working>/plan.json
+ 
+-Writes {plan: "<id>" | null, error: null | "<message>"}. Exit 0 = resolved, 2 = no argument,
+-more than one, or one that is not a number: the play halts and prints the error; a plan is
+-never guessed.
++A typed number always wins. With no argument, the number is read from the branch name: a plan's
++own branch is `plan/<id>/base` and an issue's branch in it is `plan/<id>/<issue>-<slug>`. A
++branch that belongs to no plan (main, feature/...) gets a plain message.
++
++Writes {plan: "<id>" | null, from: "args" | "branch" | null, error: null | "<message>"}. Exit 0 =
++resolved, 2 = no plan: more than one argument, one that is not a number, or no argument on a
++branch that belongs to no plan. The play halts and prints the error; a plan is never guessed.
+ """
+ import argparse
+ import json
++import re
+ import sys
+ 
+-ap = argparse.ArgumentParser()
+-ap.add_argument("--args", default="")
+-ap.add_argument("--out", required=True)
+-a = ap.parse_args()
+-words = a.args.replace("#", "").split()
+-if len(words) == 1 and words[0].isdigit():
+-    rec = {"plan": words[0], "error": None}
+-else:
+-    rec = {"plan": None, "error": f"give one plan number, for example /show-plan 717 (got {a.args!r})"}
+-with open(a.out, "w", encoding="utf-8") as fh:
+-    json.dump(rec, fh)
+-print(json.dumps(rec))
+-sys.exit(0 if rec["plan"] else 2)
++PLAN_BRANCH = re.compile(r"^plan/(\d+)/.+")
++
++
++def resolve(args, branch):
++    words = (args or "").replace("#", "").split()
++    if len(words) == 1 and words[0].isdigit():
++        return {"plan": words[0], "from": "args", "error": None}
++    if words:
++        return {"plan": None, "from": None,
++                "error": f"give one plan number, for example /show-plan 717 (got {args!r})"}
++    m = PLAN_BRANCH.match(branch or "")
++    if m:
++        return {"plan": m.group(1), "from": "branch", "error": None}
++    return {"plan": None, "from": None,
++            "error": f"this branch ({branch or 'none'}) belongs to no plan; give a plan number, "
++                     f"for example /show-plan 717"}
++
++
++def main(argv=None):
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--args", default="")
++    ap.add_argument("--branch", default="")
++    ap.add_argument("--out", required=True)
++    a = ap.parse_args(argv)
++    rec = resolve(a.args, a.branch)
++    with open(a.out, "w", encoding="utf-8") as fh:
++        json.dump(rec, fh)
++    print(json.dumps(rec))
++    return 0 if rec["plan"] else 2
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/core/components/plays/show-plan/scripts/test_resolve_args.py b/core/components/plays/show-plan/scripts/test_resolve_args.py
+new file mode 100644
+index 000000000..c147b7858
+--- /dev/null
++++ b/core/components/plays/show-plan/scripts/test_resolve_args.py
+@@ -0,0 +1,50 @@
++"""Tests for resolve_args.py: /show-plan's plan number, typed or read from the branch (#1000)."""
++
++import io
++import json
++import os
++import sys
++import tempfile
++import unittest
++from contextlib import redirect_stdout
++
++sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
++import resolve_args  # noqa: E402
++
++
++def run(args, branch):
++    with tempfile.TemporaryDirectory() as d:
++        out = os.path.join(d, "plan.json")
++        with redirect_stdout(io.StringIO()):
++            code = resolve_args.main(["--args", args, "--branch", branch, "--out", out])
++        with open(out) as fh:
++            return code, json.load(fh)
++
++
++class ResolveArgsTest(unittest.TestCase):
++    def test_a_typed_number_wins_whatever_the_branch(self):
++        for branch in ("main", "plan/722/base", ""):
++            self.assertEqual(run("717", branch), (0, {"plan": "717", "from": "args", "error": None}))
++        self.assertEqual(run("#717", "main")[1]["plan"], "717")
++
++    def test_no_number_on_a_plan_s_own_branch_reads_the_plan(self):
++        self.assertEqual(run("", "plan/717/base"), (0, {"plan": "717", "from": "branch", "error": None}))
++
++    def test_no_number_on_an_issue_s_branch_in_a_plan_reads_the_plan(self):
++        self.assertEqual(run("", "plan/717/720-update-plan")[1]["plan"], "717")
++
++    def test_no_number_on_a_branch_in_no_plan_stops_plainly(self):
++        for branch in ("main", "feature/12-fix", "plan/x/base", "plan/717", ""):
++            code, rec = run("", branch)
++            self.assertEqual((code, rec["plan"]), (2, None), branch)
++            self.assertIn("belongs to no plan", rec["error"])
++
++    def test_two_numbers_or_a_word_is_an_error_not_a_guess(self):
++        for args in ("717 722", "plan", "seven"):
++            code, rec = run(args, "plan/717/base")
++            self.assertEqual((code, rec["plan"]), (2, None), args)
++            self.assertIn("give one plan number", rec["error"])
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/core/components/plays/start-change/SKILL.md b/core/components/plays/start-change/SKILL.md
+index a03d80edd..b3d3e0a05 100644
+--- a/core/components/plays/start-change/SKILL.md
++++ b/core/components/plays/start-change/SKILL.md
+@@ -55,7 +55,7 @@ agent (C8). This play uses **zero domain agents**.
+ | Git repository present | C2 | Hard halt |
+ | Platform CLI available (`gh`) | C1 | Hard halt |
+ | Read `start-change.worktree` flag (default `false`) | C3 | — |
+-| Read `plans.base-path` (default `.garura/project/plans/`); a plan is read from git at the latest main and the plan's own branch, never the checkout | C9 | — |
++| The plan files' folder is the resolver's `plans_base` (`plans.base-path`, default `.garura/project/plans/`); a plan is read from git at the latest main and the plan's own branch, never the checkout | C9 | — |
+ | Resume marker check for this issue's start-change | C6 | Resume |
+ 
+ Resolve the deterministic pre-flight facts with the bundled resolver — not by inference. The
+@@ -67,7 +67,7 @@ python3 scripts/preflight.py --play start-change \
+ ```
+ 
+ It returns the facts as JSON — `stm_base`, `worktree` (the `start-change.worktree` flag,
+-absent ⇒ false), `branch`, `issue` (null when starting fresh), `on_default_branch`,
++absent ⇒ false), `plans_base` (the plan files' folder), `branch`, `issue` (null when starting fresh), `on_default_branch`,
+ `evidence_record`, `ltm_project_target`. The orchestrator holds these for every later path;
+ the table keeps the policy. The live checks (git repo present, `gh` available) stay as the
+ orchestrator's environment reads, not the resolver.
+@@ -154,7 +154,7 @@ to a human (REC7); no issue exists over a failed validation.
+ First read which plan the issue sits in, from the plan files — never guess it (C9):
+ 
+ ```
+-python3 scripts/resolve_plan.py --plans-dir "<plans.base-path>" \
++python3 scripts/resolve_plan.py --plans-dir "<pre-flight plans_base>" \
+     --issue <issue_number> --slug <slug> --out "<working>/plan.json"
+ ```
+ 
+diff --git a/core/components/plays/start-change/scripts/preflight.py b/core/components/plays/start-change/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/start-change/scripts/preflight.py
++++ b/core/components/plays/start-change/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/update-plan/scripts/preflight.py b/core/components/plays/update-plan/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/update-plan/scripts/preflight.py
++++ b/core/components/plays/update-plan/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/core/components/plays/validate-epic/scripts/preflight.py b/core/components/plays/validate-epic/scripts/preflight.py
+index 19ad5c478..00f75f6f5 100644
+--- a/core/components/plays/validate-epic/scripts/preflight.py
++++ b/core/components/plays/validate-epic/scripts/preflight.py
+@@ -9,7 +9,8 @@
+ 
+ Harness-led split:
+   - This script computes FACTS (config tokens, evidence_record, branch, issue,
+-    on_default_branch, changes_present, worktree, platform).
++    on_default_branch, changes_present, worktree, platform, plans_base — the folder of the
++    plan files, plans.base-path, default .garura/project/plans/; #951).
+   - The SKILL keeps POLICY — which fact maps to a hard halt vs a graceful exit,
+     which differs per play (commit-change halts when there are NO changes;
+     propose-change halts when the tree is NOT clean — same fact, opposite action).
+@@ -147,6 +148,7 @@ def resolve(cfg, play, branch, porcelain_text):
+         "evidence_record": bool(evidence_record),
+         "platform": _get(cfg, "platform"),
+         "worktree": bool(_get(cfg, play, "worktree", default=False)),
++        "plans_base": _get(cfg, "plans", "base-path", default=".garura/project/plans/"),
+         "branch": branch,
+         "issue": issue,
+         "on_default_branch": on_default,
+diff --git a/docs/standards/harness-standard.md b/docs/standards/harness-standard.md
+index fb9025a85..adb9a5cdb 100644
+--- a/docs/standards/harness-standard.md
++++ b/docs/standards/harness-standard.md
+@@ -89,7 +89,8 @@ When work on a plan starts, the plan gets its own branch, `plan/<plan-id>/base`.
+ plan is cut as a sub-branch from it, `plan/<plan-id>/<issue>-<slug>`, and lands back on it. When the
+ plan pauses, its branch merges into main, even with issues still open, and the branch is deleted;
+ when work on the plan starts again, a new plan branch is cut from main. The only reason to hold a
+-plan's branch off main is that it would break main. A one-off fix outside any plan branches from
++plan's branch off main is that it would break main; the plans a plan needs (`needs_plans`) do not
++hold it off main either (ADR 060, decision 4). A one-off fix outside any plan branches from
+ main (#731, #673).
+ 
+ *Why:* a plan's work stays together while it runs, and no paused plan falls behind main.

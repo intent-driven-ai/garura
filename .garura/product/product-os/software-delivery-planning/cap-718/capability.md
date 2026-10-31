@@ -15,7 +15,7 @@ Added by /shape-slice for bi-788 (ontology v9 and v10, ADR 049): a business inte
 > In the section below, the first four lines were there before; the lines from the second Goal on were added by /shape-slice for bi-788.
 > Changed with the product owner's yes on 2026-10-24 (#844): the first Goal and the first "Fails if" line no longer give a tracker issue to every node. Under ontology v7 and later a capability and a feature get no tracker issue; only the epic and the stories do.
 
-Thin: proposed by `/shape-slice` from the person's answers; deepen with `/discover-capabilities`.
+Thin: proposed from the person's words; deepen with `/discover-capabilities`.
 
 ## Agent intent (ICE)
 - Goal: Given a business intent, a plan file exists with every capability and feature named, each with its ICE, with one epic per slice and one story per feature.

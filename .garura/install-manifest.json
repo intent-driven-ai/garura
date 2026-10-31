@@ -21,6 +21,7 @@
       ".claude/skills/author-decision",
       ".claude/skills/author-domains",
       ".claude/skills/author-failure-recovery",
+      ".claude/skills/author-plan-changes",
       ".claude/skills/author-product-ontology",
       ".claude/skills/author-slice",
       ".claude/skills/author-slice-brief",
@@ -41,6 +42,7 @@
       ".claude/skills/platform-adapter",
       ".claude/skills/propose-answers",
       ".claude/skills/track-issue",
+      ".claude/skills/track-plan-changes",
       ".claude/skills/walk-prototype",
       ".claude/skills/check-change",
       ".claude/skills/commit-change",
@@ -61,13 +63,14 @@
       ".claude/skills/shape-slice",
       ".claude/skills/show-plan",
       ".claude/skills/start-change",
+      ".claude/skills/update-plan",
       ".claude/skills/.gitignore",
       ".claude/skills/_shared"
     ],
     "counts": {
       "agents": 10,
-      "skills": 27,
-      "plays": 19,
+      "skills": 29,
+      "plays": 20,
       "loops": 0
     },
     "instruction_surface": "CLAUDE.md.new",
@@ -97,6 +100,7 @@
       ".claude/skills/author-decision": "skill",
       ".claude/skills/author-domains": "skill",
       ".claude/skills/author-failure-recovery": "skill",
+      ".claude/skills/author-plan-changes": "skill",
       ".claude/skills/author-product-ontology": "skill",
       ".claude/skills/author-slice": "skill",
       ".claude/skills/author-slice-brief": "skill",
@@ -117,6 +121,7 @@
       ".claude/skills/platform-adapter": "skill",
       ".claude/skills/propose-answers": "skill",
       ".claude/skills/track-issue": "skill",
+      ".claude/skills/track-plan-changes": "skill",
       ".claude/skills/walk-prototype": "skill",
       ".claude/skills/check-change": "play",
       ".claude/skills/commit-change": "play",
@@ -136,7 +141,8 @@
       ".claude/skills/shape-plan": "play",
       ".claude/skills/shape-slice": "play",
       ".claude/skills/show-plan": "play",
-      ".claude/skills/start-change": "play"
+      ".claude/skills/start-change": "play",
+      ".claude/skills/update-plan": "play"
     },
     "status_gitignore": ".garura/.gitignore",
     "memory_system": {
@@ -155,7 +161,7 @@
         "messages": [
           "Short-term memory: reached.",
           "Garura memory: reached.",
-          "Phoenix memory: on this machine, at version 39a55c3a2d0e."
+          "Phoenix memory: on this machine, at version c14f515d910f."
         ]
       }
     },
