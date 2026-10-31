@@ -1,0 +1,199 @@
+meta:
+  generated_at: '2026-10-31T15:10:00Z'
+  diff_path: .garura/project/issues/1000/review/pr.diff
+  taxonomy_path: .garura/project/issues/1000/context/memory/standards/rules/pr.md
+  changed_paths_count: 60
+  scope: Executable code, Tests and Documentation categories of categories.yaml (the 2 resolve_args files,
+    2 submit_pr copies, the reference and 30 stamped preflight copies, 3 test files, harness-standard.md;
+    git.md and pipeline-position.md read as docs)
+  scan_coverage: 1.0
+  standards_relevant: 0
+  catchall:
+    CODE-20: 45
+  scan: scan_taxonomy.py over the 60 changed paths and the PR diff; exit 0, 0 rule-compile errors, 0 findings
+    (every code path is classified garura-prose, so grep rules are ineligible; the stm-evidence paths
+    get no finding). See scan_limits.
+  counts:
+    P1: 0
+    P2: 2
+    P3: 5
+    P4: 4
+  defects_found: 6
+  tools_run:
+  - name: unit tests
+    command: the 5 test scripts (review/l1-tests.txt)
+    result: all pass; 30 preflight copies identical (recorded before this scan)
+  - name: ruff
+    command: ruff check on the changed scripts and tests
+    result: clean (review/l1-ruff.txt)
+  - name: resolve_args branch table
+    command: ran resolve() on 17 branch names and 9 typed arguments
+    result: plan/717, plan/x/base, plan/717/, plan//base, HEAD, empty and prefixed names do not resolve;
+      plan/N/base and plan/N/<issue>-<slug> resolve; non-ASCII digits and a leading zero resolve (finding
+      Q04)
+  - name: plans_base resolver run
+    command: preflight.resolve() with no plans key, plans null, plans a string, base-path set, null and
+      empty
+    result: default when the key is missing; None or empty string when base-path is null or empty (finding
+      Q05)
+  - name: submit_pr on_target hand run
+    command: on_target() and _pr_record() with a failing view-pr
+    result: number empty gives None; number set with a failed lookup gives True (finding Q01)
+  - name: stop condition read
+    command: propose-change/scripts/check_stop_condition.py against the D3 clause with on_target null,
+      true and false
+    result: field_equals compares value == True, so null is unmet (check_stop_condition.py line 83). Null
+      reads as not met, as intended. Same file under .claude/skills/propose-change is the installed copy.
+  - name: documentation by hand
+    command: read the harness-standard.md sentence, git.md rows and pipeline-position.md bullet against
+      docs/adr/060 on plan/717/base
+    result: ADR 060 decision 4 (lines 110 to 114) says plan order (needs_plans) no longer holds a plan's
+      branch back; the sentence says the same. git.md patterns match the regex in resolve_args.py and
+      the slug form in pipeline-position.md. No dead link, no leftover TODO, no spelling slip found.
+  scan_limits:
+  - Python under core/components is classified garura-prose by the taxonomy (first-match table), so grep
+    rules are ineligible there and no path rule fired. The path-level rows below are checklist items and
+    the code was read by hand (rows tagged reviewer-reading).
+  - The test files sit beside the scripts, not in a tests/ folder, so no TEST-* row fired; they were read
+    by hand.
+  - No quality-standards KB with the CODE-*, TEST-* ids was found under the short-term copies, so each
+    basis cites the taxonomy row id and the rubric in knowledge/review/code.md.
+findings:
+- id: Q01
+  severity: P3
+  file: core/components/plays/propose-change/scripts/submit_pr.py
+  line: '62'
+  kind: reviewer-reading
+  defect: true
+  summary: 'on_target can still pass blind. The new on_target() returns None only when the PR number is
+    empty. When the number is known but the host lookup fails (_pr_record gets a non-zero view-pr exit),
+    _pr_record keeps its fallback record (number set, url null, state null, base = the base that was asked
+    for). on_target() then returns True because that base is the one asked for, not one the host reported.
+    I ran it with a failing view-pr: record base plan/717/base, on_target True. This is the same blind
+    pass #951 set out to close, left open on the lookup-failed path. The test is what the done check D3
+    reads, so D3 holds on a PR whose base was never read from the host. Both copies carry the same code.
+    A host answer is the proof; state or url being null is the signal to return None. A transient view-pr
+    failure right after a successful one makes this unlikely today, so it is a gap, not a live break.'
+  basis: CODE-25
+  artifact_type: garura-prose
+- id: Q02
+  severity: P3
+  file: core/components/plays/create-play/references/test_submit_pr.py
+  line: '26'
+  kind: reviewer-reading
+  defect: true
+  summary: The three on_target cases pin the number-empty path only. No case runs _pr_record with a failing
+    view-pr, and none runs main() to show that pr.json is written with null and that the done check then
+    reads it as not met. The gap in the previous finding is therefore untested. test_submit_pr.py tests
+    the create-play reference copy only; the propose-change copy is covered by the parity check (identical,
+    diff run).
+  basis: TEST-03
+  artifact_type: tests
+- id: Q03
+  severity: P4
+  file: core/components/plays/propose-change/scripts/submit_pr.py
+  line: '16'
+  kind: reviewer-reading
+  defect: true
+  summary: 'The null state is documented only in the on_target() docstring. The module docstring (lines
+    16 to 18) still reads "on_target is true when the PR''s base on the host equals it", and propose-change
+    SKILL.md (lines 199, 224, 227) and reference/ice.md (S5, S6) say on_target: true with no mention of
+    null. REC10 handles a base that differs, not a number that could not be looked up, so a null run closes
+    HALTED through D3 with no written direction for the person. Same text in the create-play reference
+    copy.'
+  basis: CODE-13
+  artifact_type: garura-prose
+- id: Q04
+  severity: P4
+  file: core/components/plays/show-plan/scripts/resolve_args.py
+  line: '23'
+  kind: reviewer-reading
+  defect: true
+  summary: 'Branch parsing is correct for every case asked: plan/717, plan/x/base, plan/717/, plan//base,
+    xplan/717/base, feature/plan/717/base, refs/heads/plan/717/base, HEAD and an empty branch all stop
+    with "belongs to no plan" (ran resolve() on each); plan/717/base and plan/717/1000-x resolve to 717.
+    One loose edge: the pattern uses \d, which also accepts non-ASCII digits (plan/٧١٧/base resolves),
+    and a leading zero resolves as "0717", which no plan file has. The typed path has the same looseness
+    through isdigit() (it was there before, and also accepts "²"). The play prints a plain no-plan message
+    for both, so nothing breaks. Use [0-9]+ and strip leading zeros if exactness is wanted.'
+  basis: CODE-13
+  artifact_type: garura-prose
+- id: Q05
+  severity: P4
+  file: core/components/plays/create-play/references/preflight.py
+  line: '151'
+  kind: reviewer-reading
+  defect: true
+  summary: plans_base takes the default only when the key is missing. A config with plans.base-path set
+    to null or to an empty string gives None or "" instead of .garura/project/plans/, and start-change
+    then passes that to resolve_plan.py --plans-dir. stm_base and the other facts in this file behave
+    the same way, so it matches the file's style; the SKILL.md row says "default .garura/project/plans/".
+    The test covers the key missing, not null or empty. The 30 stamped copies are identical to this one
+    apart from the play stamp (0 differ; review/l1-tests.txt).
+  basis: CODE-13
+  artifact_type: garura-prose
+- id: Q06
+  severity: P4
+  file: core/components/plays/create-play/references/test_submit_pr.py
+  line: '1'
+  kind: reviewer-reading
+  defect: true
+  summary: test_submit_pr.py is a script-style test (check() plus a main()), like its neighbour test_resolve_plan.py,
+    but test_resolve_args.py in the same PR uses unittest. python3 -m unittest discover -p test_submit_pr.py,
+    the command in categories.yaml, finds 0 tests and exits 5 ("NO TESTS RAN"). Run as a script it passes
+    (3 passed, 0 failed, review/l1-tests.txt). A runner built on unittest discovery would not run it.
+  basis: TEST-05
+  artifact_type: tests
+- id: Q07
+  severity: P2
+  file: core/components/plays/show-plan/scripts/resolve_args.py
+  line: '1'
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. resolve_args.py imports argparse, json, re, sys only; submit_pr.py
+    and preflight.py add no import. No cycle.
+  basis: ARCH-02
+  artifact_type: garura-prose
+- id: Q08
+  severity: P2
+  file: core/components/plays/show-plan/scripts/resolve_args.py
+  line: '1'
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. ruff reports nothing on the changed Python files (review/l1-ruff.txt, All checks
+    passed). No lint-components finding names a changed path.
+  basis: CODE-03
+  artifact_type: garura-prose
+- id: Q09
+  severity: P3
+  file: core/components/plays/show-plan/scripts/resolve_args.py
+  line: '28'
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. resolve() has four returns and no loop; main() is straight-line. Well below
+    any limit. The module-level script became resolve() plus main(), so the tests can import it.
+  basis: CODE-09
+  artifact_type: garura-prose
+- id: Q10
+  severity: P3
+  file: core/components/plays/show-plan/scripts/resolve_args.py
+  line: '1'
+  kind: path-level-checklist
+  defect: false
+  summary: Copy parity. The propose-change submit_pr.py and the create-play reference copy are identical
+    (diff). All 31 preflight.py files hold plans_base (grep -L finds none missing) and the 30 stamped
+    copies differ from the reference only in the play stamp.
+  basis: ARCH-08
+  artifact_type: garura-prose
+- id: Q11
+  severity: P3
+  file: core/components/plays/show-plan/scripts/test_resolve_args.py
+  line: '22'
+  kind: reviewer-reading
+  defect: false
+  summary: 'Tests read by hand. Five cases, each asserting: typed number wins over any branch, plan branch,
+    issue branch in a plan, five branches in no plan (including plan/x/base and plan/717) stop with exit
+    2, two numbers or a word. None skipped or disabled. Suite passes (5 tests). Not covered: non-ASCII
+    digits and a leading zero (see the branch-parsing finding).'
+  basis: TEST-03
+  artifact_type: tests

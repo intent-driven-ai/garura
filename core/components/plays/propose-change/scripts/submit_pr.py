@@ -15,7 +15,10 @@ judgment.
 Idempotent: if an open PR already exists for the branch, it is updated (C5) — not
 duplicated. Writes pr.json: { number, url, state, base, on_target }. --base is the target
 resolve_target.py gave (#673): the plan branch for an issue in a plan, else main;
-on_target is true when the PR's base on the host equals it.
+on_target is true when the PR's base on the host equals it, false when it differs, and null
+(unknown) when the host's record of the PR could not be read: the PR's number was not found, or
+the lookup failed. propose-change's done check reads null as not met, so the run closes HALTED
+and a person looks at the PR's base (#951). from_host records whether the host answered.
 
 Exit 0 on success, 1 on a push/create failure.
 """
@@ -51,12 +54,22 @@ def _open_pr_number(config):
 
 def _pr_record(config, pr_number, base):
     res = pa.dispatch("view-pr", {"pr_number": pr_number}, config_path=config)
-    rec = {"number": pr_number, "url": None, "state": None, "base": base}
+    rec = {"number": pr_number, "url": None, "state": None, "base": base, "from_host": False}
     if res["exit_code"] == 0 and res["stdout"].strip():
         data = json.loads(res["stdout"])
         rec.update({"number": data.get("number", pr_number), "url": data.get("url"),
-                    "state": data.get("state"), "base": data.get("baseRefName", base)})
+                    "state": data.get("state"), "base": data.get("baseRefName", base),
+                    "from_host": bool(data.get("baseRefName"))})
     return rec
+
+
+def on_target(rec, base):
+    """True or False when the host's record of the PR names its base; None when it could not be
+    read (no number, or a failed lookup), so the base in the record is only the one asked for
+    and proves nothing (#951). The done check reads None as not met."""
+    if not rec.get("number") or not rec.get("from_host"):
+        return None
+    return rec.get("base") == base
 
 
 def main(argv=None):
@@ -101,10 +114,10 @@ def main(argv=None):
         num = _open_pr_number(ns.config)
         rec = _pr_record(ns.config, num, ns.base) if num else {
             "number": None, "url": res["stdout"].strip(), "state": "OPEN",
-            "base": ns.base}
+            "base": ns.base, "from_host": False}
 
     # The PR must point where its branch lands (#673): main, or its plan branch.
-    rec["on_target"] = rec.get("base") == ns.base
+    rec["on_target"] = on_target(rec, ns.base)
     with open(ns.out, "w", encoding="utf-8") as fh:
         json.dump(rec, fh, indent=2)
     print(json.dumps(rec, indent=2))

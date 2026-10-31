@@ -129,6 +129,12 @@ def main():
                          ("plan/717/base", "717"), ("fix/42-typo", "42"), ("main", None)):
         got = preflight.resolve(cfg, "start-change", branch, "")["issue"]
         check(f"pre-flight reads issue {want} from {branch}", got == want)
+    check("pre-flight reports the plan files' folder from the settings",
+          preflight.resolve({"plans": {"base-path": "work/plans/"}}, "start-change", "main", "")["plans_base"] == "work/plans/")
+    check("pre-flight reports the default plan folder when the setting is missing",
+          preflight.resolve({}, "start-change", "main", "")["plans_base"] == ".garura/project/plans/")
+    check("pre-flight reports the default plan folder when the setting is empty",
+          preflight.resolve({"plans": {"base-path": ""}}, "start-change", "main", "")["plans_base"] == ".garura/project/plans/")
     import resolve_target as rt
     check("pre-flight and the landing script read the same issue from a plan's own branch",
           preflight.resolve(cfg, "commit-change", "plan/717/base", "")["issue"] == rt.classify("plan/717/base")["issue"])

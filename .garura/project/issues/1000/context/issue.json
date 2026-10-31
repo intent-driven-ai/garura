@@ -1,0 +1,6 @@
+{
+  "resolved": true,
+  "issue_number": 1000,
+  "title": "Show the plan of the current branch when /show-plan is given no number",
+  "created": false
+}

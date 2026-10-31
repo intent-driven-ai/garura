@@ -89,7 +89,8 @@ When work on a plan starts, the plan gets its own branch, `plan/<plan-id>/base`.
 plan is cut as a sub-branch from it, `plan/<plan-id>/<issue>-<slug>`, and lands back on it. When the
 plan pauses, its branch merges into main, even with issues still open, and the branch is deleted;
 when work on the plan starts again, a new plan branch is cut from main. The only reason to hold a
-plan's branch off main is that it would break main. A one-off fix outside any plan branches from
+plan's branch off main is that it would break main; the plans a plan needs (`needs_plans`) do not
+hold it off main either (ADR 060, decision 4). A one-off fix outside any plan branches from
 main (#731, #673).
 
 *Why:* a plan's work stays together while it runs, and no paused plan falls behind main.

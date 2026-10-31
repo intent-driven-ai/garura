@@ -1,0 +1,13 @@
+{
+  "issue": "1000",
+  "plan_id": "717",
+  "plan_branch": "plan/717/base",
+  "issue_branch": "plan/717/1000-show-plan-branch-and-pr950-findings",
+  "source": {
+    "ref": "origin/main",
+    "fetched": true,
+    "plan_branches_read": [
+      "plan/717/base"
+    ]
+  }
+}

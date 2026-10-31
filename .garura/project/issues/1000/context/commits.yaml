@@ -1,0 +1,95 @@
+commits:
+  - sha: c3e15154
+    message: "revert(merge-change): take the capability-close check back out of merge-change (#951)"
+    files:
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/merge-change/reference/ice.md
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+  - sha: 5aff5230
+    message: "fix(propose-change): on_target is unknown also when the host lookup fails (#951)"
+    files:
+      - core/components/plays/create-play/references/submit_pr.py
+      - core/components/plays/create-play/references/test_submit_pr.py
+      - core/components/plays/propose-change/scripts/submit_pr.py
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+  - sha: e89b5553
+    message: "fix(preflight): an empty plans base-path falls back to the default (#951)"
+    files:
+      - core/components/plays/build-epic/scripts/preflight.py
+      - core/components/plays/check-change/scripts/preflight.py
+      - core/components/plays/commit-change/scripts/preflight.py
+      - core/components/plays/create-play/references/preflight.py
+      - core/components/plays/create-play/references/test_resolve_plan.py
+      - core/components/plays/discover-capabilities/scripts/preflight.py
+      - core/components/plays/discover-domains/scripts/preflight.py
+      - core/components/plays/discover-intent/scripts/preflight.py
+      - core/components/plays/edit-ontology/scripts/preflight.py
+      - core/components/plays/learn-outcomes/scripts/preflight.py
+      - core/components/plays/list-focus-issues/scripts/preflight.py
+      - core/components/plays/list-plans/scripts/preflight.py
+      - core/components/plays/merge-change/scripts/preflight.py
+      - core/components/plays/propose-change/scripts/preflight.py
+      - core/components/plays/record-decision/scripts/preflight.py
+      - core/components/plays/refactor-code/scripts/preflight.py
+      - core/components/plays/release-epic/scripts/preflight.py
+      - core/components/plays/release-increment/scripts/preflight.py
+      - core/components/plays/shape-agentic-lens/scripts/preflight.py
+      - core/components/plays/shape-architecture-lens/scripts/preflight.py
+      - core/components/plays/shape-eval/scripts/preflight.py
+      - core/components/plays/shape-marketing-lens/scripts/preflight.py
+      - core/components/plays/shape-measure-lens/scripts/preflight.py
+      - core/components/plays/shape-plan/scripts/preflight.py
+      - core/components/plays/shape-quality-lens/scripts/preflight.py
+      - core/components/plays/shape-run-lens/scripts/preflight.py
+      - core/components/plays/shape-slice/scripts/preflight.py
+      - core/components/plays/shape-ux-lens/scripts/preflight.py
+      - core/components/plays/show-plan/scripts/preflight.py
+      - core/components/plays/start-change/scripts/preflight.py
+      - core/components/plays/update-plan/scripts/preflight.py
+      - core/components/plays/validate-epic/scripts/preflight.py
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+  - sha: 345b7641
+    message: "fix(show-plan): only ASCII digits read as a plan number (#1000)"
+    files:
+      - core/components/plays/show-plan/scripts/resolve_args.py
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+  - sha: d8f58914
+    message: "docs(memory): add plan branches to the branch table, its copy and the index, with a plainer start line (#951)"
+    files:
+      - core/components/memory/standards/rules/_index.md
+      - core/components/memory/standards/rules/git.md
+      - core/components/memory/standards/rules/pipeline-position.md
+      - core/components/skills/cut-branch/reference/branching.md
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+  - sha: 8b28a8a2
+    message: "chore(stm): record the run files for issue 1000 (#1000)"
+    files:
+      - .garura/project/issues/1000/context/analysis.yaml
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/1000/context/memory/grounding-memory/standards/rules/git.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/standards/rules/pipeline-position.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/code.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/1000/context/memory/manifest.json
+      - .garura/project/issues/1000/context/memory/standards/rules/pr.md
+      - .garura/project/issues/1000/context/porcelain.txt
+      - .garura/project/issues/1000/context/templates/manifest-check-change.json
+      - .garura/project/issues/1000/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1000/review/findings.yaml
+      - .garura/project/issues/1000/specs/design.md
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true

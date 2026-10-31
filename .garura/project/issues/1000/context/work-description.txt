@@ -1,0 +1,3 @@
+Fix #1000 and #951 together under plan 717.
+#1000: /show-plan with no number reads the plan from the branch name (plan/<id>/...); on a branch outside any plan it stops with a plain message; a typed number wins.
+#951: the five small findings of round 1 of the PR #950 review: plans_base from the pre-flight script (start-change), submit_pr's always-true on_target on the no-number path, merge-change's checks of the capability close, plan order in the harness standard, and the git.md / pipeline-position.md rule pages (promoted to Phoenix memory).

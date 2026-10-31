@@ -28,8 +28,9 @@ position: start | end | both | none
 - **none** (default) — standalone play; nothing is injected. Strategic/model-building
   plays and one-off utilities use this.
 - **start** — the play opens a pipeline. create-play injects **start-change** as the
-  play's first step (resolve/create the issue, cut the branch off fresh main, optional
-  worktree, init STM).
+  play's first step: resolve or create the issue, cut its branch, set up a worktree when config
+  asks for one, and init STM. An issue in a plan gets `plan/<plan-id>/<issue>-<slug>`, cut from
+  its plan's branch `plan/<plan-id>/base`; an issue in no plan gets a branch off fresh main.
 - **end** — the play closes a pipeline. create-play injects the **end sequence** as the
   play's closing steps, in order: **commit-change → propose-change → check-change →
   merge-change**, placed after the play's own work and before the Standard Play Close.
