@@ -1,0 +1,25 @@
+commits:
+  - sha: 6c42183b
+    message: "fix(model): state ADR 060 landing rule on the #721 capability page (#1011)"
+    files:
+      - .garura/product/product-os/capabilities/cap-721/capability.md
+    branch: plan/717/1011-cap-721-landing-rule
+  - sha: c1573995
+    message: "chore(plan): mark #1011 done in plan 717 (#1011)"
+    files:
+      - .garura/project/plans/717.yaml
+    branch: plan/717/1011-cap-721-landing-rule
+  - sha: 38afd0d8
+    message: "chore(stm): record commit-change context for #1011 (#1011)"
+    files:
+      - .garura/project/issues/1011/context/analysis.yaml
+      - .garura/project/issues/1011/context/lines-request-cap-721.json
+      - .garura/project/issues/1011/context/model-cap-721.json
+      - .garura/project/issues/1011/context/porcelain.txt
+    branch: plan/717/1011-cap-721-landing-rule
+excluded_files:
+  []
+leftover_count: 0
+tree_clean: true
+pushed: false
+run_state_committed: true
