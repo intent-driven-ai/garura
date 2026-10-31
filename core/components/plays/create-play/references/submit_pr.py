@@ -59,6 +59,15 @@ def _pr_record(config, pr_number, base):
     return rec
 
 
+def on_target(rec, base):
+    """True or False when the host's record of the PR names its base; None when the PR's number
+    could not be looked up, so the base in the record is only the one asked for and proves
+    nothing (#951). The done check reads None as not met."""
+    if not rec.get("number"):
+        return None
+    return rec.get("base") == base
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=".garura/core/config.yaml")
@@ -104,7 +113,7 @@ def main(argv=None):
             "base": ns.base}
 
     # The PR must point where its branch lands (#673): main, or its plan branch.
-    rec["on_target"] = rec.get("base") == ns.base
+    rec["on_target"] = on_target(rec, ns.base)
     with open(ns.out, "w", encoding="utf-8") as fh:
         json.dump(rec, fh, indent=2)
     print(json.dumps(rec, indent=2))
