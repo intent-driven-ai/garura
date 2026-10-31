@@ -1,0 +1,9 @@
+{
+  "branch_name": "plan/717/989-plan-branch-start-and-propose",
+  "base_sha": "86385d4158bd31b7abe281f173a85caeae51aea4",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/717/base",
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}
