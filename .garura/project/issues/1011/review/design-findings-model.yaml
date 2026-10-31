@@ -1,0 +1,79 @@
+# Layer 2 design-grounding: category "Product model page" (PR 1012, issue 1011, base plan/717/base).
+# Every source below was read from the base ref (git show plan/717/base:<path>) or through the memory tool
+# (--issue 1011, copies in context/memory/grounding-model/). Nothing the branch adds is grounding;
+# design.md and the lines-request files are the scope of the review only.
+category: "Product model page"
+changed_artifact: .garura/product/product-os/capabilities/cap-721/capability.md
+severity_basis: >
+  The PR severity taxonomy (context/memory/standards/rules/pr.md) maps no row to a design check on a
+  product-model page; its path is typed productos-model (a prose type), where the grep rules are
+  ineligible. Buckets are taken from its bucket definitions: P3 Minor (missing docs, naming), P4 Nit.
+grounding:
+  - id: G1
+    principle: "A plan's branch lands on main when the plan pauses and its review approves it, even with issues still open; those issues stay open and in the plan (ADR 060 Decision 2)."
+    source: "plan/717/base:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, Decision 2"
+  - id: G2
+    principle: "A plan's branch is never kept off main because the plan is not done; only breaking main holds it back, decided by the review and the merge checks. Plan order (needs_plans) no longer holds a plan off main (ADR 060 Decision 4)."
+    source: "plan/717/base:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md, Decision 4"
+  - id: G3
+    principle: "merge-change lands a plan's branch on main like any approved change with its issues still open; holding it off main for open work is a failure (F9); the guard is the machine wall (C7, C9); scenario S6 is the check."
+    source: "plan/717/base:core/components/plays/merge-change/reference/ice.md, header, C9, F9, S6, REC9"
+  - id: G4
+    principle: "The sibling feature page already states the same rule in the same words (Goal, Fails if, Checked by)."
+    source: "plan/717/base:.garura/product/product-os/features/fn-673/feature.md"
+  - id: G5
+    principle: "A capability page keeps the heading contract (title, Directional intent) and ends with Agent intent (ICE) lines labelled Goal, Limit, Fails if, Context, Checked by, Quality need; at least one Goal; each line explains itself in at least five words."
+    source: "memory tool, tier phoenix, standards/schemas/product-os/grounding/capability.md (copy: grounding-model/standards/schemas/product-os/grounding/capability.md)"
+  - id: G6
+    principle: "The ontology's Plan kind no longer holds a rule that a plan lands on main only when done (removed in ontology v13, log line of 2026-10-29); the Plan has the status Paused; delivery rules live in ADR 060, the harness standard and merge-change."
+    source: "memory tool, tier phoenix, standards/schemas/product-os/ontology.md (version 15; copy: grounding-model/standards/schemas/product-os/ontology.md); ADR 060 section on the ontology line 599"
+  - id: G7
+    principle: "ADR 061 amends ADR 060 Decision 3: the play that starts the plan's work cuts the plan's branch (/update-plan now; start-change once #989 is built); the rest of ADR 060 stands."
+    source: "plan/717/base:docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md, Amends"
+conformance_checks:
+  - check: "Heading and shape kept"
+    result: pass
+    basis: "G5. Title line and the Directional intent and Agent intent (ICE) headings are context lines in the diff, unchanged."
+  - check: "Only the four named lines changed"
+    result: pass
+    basis: "git diff plan/717/base..HEAD on .garura/product shows 4 lines out, 4 in, all in cap-721/capability.md; they are the direction, Goal, Fails if and Checked by lines."
+  - check: "Limit line untouched"
+    result: pass
+    basis: "Limit (no change to how a one-off fix starts or lands) is a context line in the diff, byte for byte as on the base ref. It also agrees with fn-673 Limit (G4) and the merge-change header (G3)."
+  - check: "Direction, Goal, Fails if and Checked by agree with ADR 060"
+    result: pass
+    basis: "Direction and Goal 'whenever it pauses and its review approves it' = G1 and G4. Fails if 'held off main for its open issues or for a plan it needs' = G2 (open work and plan order no longer hold a plan back), G3 (F9). Checked by 'one still open ... lands on main once its review approves it, and that issue stays open' = G1 and G3 (S6)."
+  - check: "The four lines agree with each other"
+    result: pass
+    basis: "Same rule in all four; no leftover 'only when it is done', 'refused', or 'open issue' gate. A search of the base-ref product model for the old rule found it only on this page."
+  - check: "Agrees with the fn-673 feature page"
+    result: pass
+    basis: "G4: Goal, Fails if and Checked by say the same things; the capability line also keeps the issue-to-plan-branch half (kept in the Fails if)."
+  - check: "Capability page contract (labels, a Goal, lines of five words or more)"
+    result: pass
+    basis: "G5: Goal, Limit, Fails if, Checked by present; every line is longer than five words."
+  - check: "Terms match the ontology"
+    result: pass
+    basis: "G6: 'pauses' is the Plan status Paused; no landing gate from the Plan kind is repeated."
+  - check: "Plain words, no real names"
+    result: pass
+    basis: "No person named in the changed page."
+findings:
+  - id: DF-1
+    severity: P4
+    file: .garura/product/product-os/capabilities/cap-721/capability.md
+    line: 4
+    summary: "The unchanged half of the direction line, 'start-change cuts a plan's branch', is only half true under ADR 061: the play that starts the plan's work cuts it (/update-plan today; start-change once #989 is built)."
+    principle: G7
+    source: "plan/717/base:docs/adr/061-a-plans-branch-is-cut-by-the-play-that-starts-its-work-main-first.md, Amends (ADR 060 Decision 3 sentence)"
+    note: "Pre-existing text on the base ref, outside the four-line landing-rule scope, and true again once #989 is built. Not caused by this change. Suggest record it, do not hold the PR."
+    why_not_higher: "The change did not touch that clause; the bucket for wording that is slightly behind another record is Nit."
+unavailable_grounding: []
+notes:
+  - "No playbook for product-model pages exists (categories.yaml); the check above is by hand against the sources, as the category's treatment says."
+  - "Phoenix memory (the only tier holding the ontology and the capability grounding doc) is version 15, so it is current for the Plan kind; nothing was read from the working tree for the ontology."
+counts:
+  P1: 0
+  P2: 0
+  P3: 0
+  P4: 1

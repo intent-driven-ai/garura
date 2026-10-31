@@ -1,0 +1,22 @@
+page lines changed:
+@@ -4 +4 @@
+@@ -7 +7 @@ the implementation plays know about plans. start-change cuts a plan's branch and
+@@ -9,2 +9,2 @@ the implementation plays know about plans. start-change cuts a plan's branch and
+plan file:
+-        status: Not Started
++        status: Done
+records parse:
+ok .garura/project/issues/1011/context/branch.json
+ok .garura/project/issues/1011/context/issue.json
+ok .garura/project/issues/1011/context/lines-request-cap-721.json
+ok .garura/project/issues/1011/context/model-cap-721.json
+ok .garura/project/issues/1011/context/plan.json
+ok .garura/project/issues/1011/context/pr.json
+ok .garura/project/issues/1011/context/resolved-rules.json
+ok .garura/project/issues/1011/context/target.json
+yaml ok
+home paths:
+none
+plan tool read-back:
+  "from": "Done",
+  "changed": false
