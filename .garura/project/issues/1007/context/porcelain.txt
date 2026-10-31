@@ -1,15 +1,19 @@
- M .garura/project/plans/717.yaml
+ M .garura/project/issues/1007/context/memory/manifest.json
+ M .garura/project/issues/1007/context/porcelain.txt
  M core/components/plays/create-play/references/merge_pr.py
  M core/components/plays/merge-change/SKILL.md
  M core/components/plays/merge-change/reference/ice.md
  M core/components/plays/merge-change/scripts/merge_pr.py
  M core/components/plays/update-plan/SKILL.md
  M core/components/plays/update-plan/reference/ice.md
+ M core/components/plays/update-plan/scripts/check_agreement.py
+ M core/components/plays/update-plan/scripts/check_entries.py
+ M core/components/plays/update-plan/scripts/closed_on_github.py
+ M core/components/plays/update-plan/scripts/plan_ops.py
+ M core/components/plays/update-plan/scripts/plan_session.py
  M core/components/plays/update-plan/scripts/test_update_plan_scripts.py
- M core/tools/plan/README.md
-?? .garura/project/issues/1007/context/memory/
-?? .garura/project/issues/1007/context/porcelain.txt
-?? core/components/plays/merge-change/scripts/test_merge_pr.py
-?? core/components/plays/update-plan/scripts/closed_on_github.py
-?? core/tools/plan/plan_status.py
-?? core/tools/plan/test_plan_status.py
+?? .garura/project/issues/1007/context/memory/grounding-harness/
+?? .garura/project/issues/1007/context/memory/knowledge/
+?? .garura/project/issues/1007/context/memory/standards/rules/
+?? .garura/project/issues/1007/context/templates/
+?? .garura/project/issues/1007/review/

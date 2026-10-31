@@ -1,0 +1,1 @@
+{"files": [], "note": "No extra memory copies were needed. Grounding came from the shared severity taxonomy copy (standards/rules/pr.md) and from git show plan/717/base of docs/standards/harness-standard.md, docs/adr/060-062, the Plan kind of the ontology, and the plan file header."}

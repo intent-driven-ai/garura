@@ -1,0 +1,399 @@
+findings:
+- id: ONT-1
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 623
+  summary: 'The rule says an item is Done or Dropped when its issue closes but not
+    when: an issue closed by hand is caught at the next session and lands on the person''s
+    approval.'
+  basis: ADR 064 Decisions 3-4 and its risks; update-plan ICE C8, S8
+  category: memory
+- id: ONT-2
+  severity: P4
+  file: core/components/memory/standards/schemas/product-os/ontology.md
+  line: 623
+  summary: The last sentence group of the rule is hard to read; two bullets would
+    be plainer. Wording only.
+  basis: plain-words rule; review/memory playbook
+  category: memory
+- id: Q01
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. plan_status.py imports only the standard library;
+    no cycle introduced.
+  basis: ARCH-02
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q02
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. ruff reported clean on this file (run before this scan).
+  basis: CODE-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q03
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Format check. ruff reported clean on this file (run before this scan).
+  basis: CODE-04
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q04
+  severity: P2
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. No new import between project modules in this
+    file; no cycle.
+  basis: CODE-14
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q05
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. plan_status.py imports only the standard library;
+    no cycle introduced.
+  basis: ARCH-02
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q06
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Lint check. ruff reported clean on this file (run before this scan).
+  basis: CODE-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q07
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Format check. ruff reported clean on this file (run before this scan).
+  basis: CODE-04
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q08
+  severity: P2
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Circular-dependency check. No new import between project modules in this
+    file; no cycle.
+  basis: CODE-14
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q09
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README presence. core/tools/plan/README.md exists and was updated.
+  basis: DOC-01
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q10
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README content check. The README must describe plan_status.py the way the
+    code behaves; read by hand, no mismatch found in the changed section.
+  basis: DOC-09
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q11
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README content check. Usage and arguments are listed for the new command.
+  basis: DOC-10
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q12
+  severity: P3
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Setup/usage doc check. No new setup step; the command line is shown.
+  basis: DOC-11
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q13
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines; well inside any size limit.
+  basis: ARCH-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q14
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Module-structure check. One small module with a single purpose (set one
+    item's status).
+  basis: ARCH-08
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q15
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. Each function is short with few branches (find_status
+    has the deepest nesting, three levels).
+  basis: CODE-09
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q16
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Function-length check. No function is longer than about 30 lines.
+  basis: CODE-10
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q17
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Nesting-depth check. Deepest nesting is three levels (find_status); within
+    the usual limit.
+  basis: CODE-11
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q18
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines.
+  basis: CODE-12
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q19
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Cognitive-complexity check. No function is hard to follow; no score reported
+    by the scan.
+  basis: CODE-15
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q20
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. Names are descriptive (find_status, set_status, BadInput);
+    one short helper name 'indent' is clear.
+  basis: CODE-17
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q21
+  severity: P3
+  file: core/tools/plan/plan_status.py
+  line: 93
+  kind: matched-changed-line
+  defect: false
+  summary: 'Exception-handler check. ''except BadInput'' is the one handler in the
+    new code: it catches a specific error type (not a bare except), prints the reason
+    to stderr and returns exit code 2. No defect.'
+  basis: CODE-25
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q22
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines; well inside any size limit.
+    (Applies equally to the paired test file.)
+  basis: ARCH-03
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q23
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Module-structure check. One small module with a single purpose (set one
+    item's status). (Applies equally to the paired test file.)
+  basis: ARCH-08
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q24
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Complexity check. Each function is short with few branches (find_status
+    has the deepest nesting, three levels). (Applies equally to the paired test file.)
+  basis: CODE-09
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q25
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Function-length check. No function is longer than about 30 lines. (Applies
+    equally to the paired test file.)
+  basis: CODE-10
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q26
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Nesting-depth check. Deepest nesting is three levels (find_status); within
+    the usual limit. (Applies equally to the paired test file.)
+  basis: CODE-11
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q27
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: File-size check. The file is under 110 lines. (Applies equally to the paired
+    test file.)
+  basis: CODE-12
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q28
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Cognitive-complexity check. No function is hard to follow; no score reported
+    by the scan.
+  basis: CODE-15
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q29
+  severity: P3
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check. Names are descriptive (find_status, set_status, BadInput);
+    one short helper name 'indent' is clear. (Applies equally to the paired test file.)
+  basis: CODE-17
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q30
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: README quick-start nit. Not needed for a small tool README.
+  basis: DOC-14
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q31
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Troubleshooting nit. Exit codes (0, 2) are documented in the script header;
+    no separate section.
+  basis: DOC-15
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q32
+  severity: P4
+  file: core/tools/plan/README.md
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Architecture-in-README nit. Not needed for this change.
+  basis: DOC-16
+  artifact_type: docs-planning
+  note: path-level checklist row; no defect
+- id: Q33
+  severity: P4
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Header/comment check. The module has a docstring; nothing to add.
+  basis: CODE-13
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q34
+  severity: P4
+  file: core/tools/plan/plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check (nit). Short loop names (i, j, ln, m) are local and conventional.
+  basis: CODE-19
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q35
+  severity: P4
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Header/comment check. The module has a docstring; nothing to add.
+  basis: CODE-13
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
+- id: Q36
+  severity: P4
+  file: core/tools/plan/test_plan_status.py
+  line: 1
+  kind: path-level-checklist
+  defect: false
+  summary: Naming check (nit). Short loop names (i, j, ln, m) are local and conventional.
+  basis: CODE-19
+  artifact_type: runtime-code
+  note: path-level checklist row; no defect
