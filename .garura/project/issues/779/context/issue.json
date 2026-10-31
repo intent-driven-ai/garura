@@ -1,0 +1,6 @@
+{
+  "resolved": true,
+  "issue_number": 779,
+  "title": "[BUG] start-change reads plan files from the checked-out branch, so a new issue looks like it is in no plan",
+  "created": false
+}
