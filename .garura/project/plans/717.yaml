@@ -62,7 +62,7 @@ tree:
     - issue: 1000
       kind: story
       title: Show the plan of the current branch when /show-plan is given no number
-      status: Not Started
+      status: Done
     - issue: 1005
       kind: story
       title: /show-plan shows the children of an open parent when all of them are Done or Dropped, so the person can decide to mark the parent Done
@@ -136,7 +136,7 @@ tree:
       - issue: 951
         kind: chore
         title: 'The five small findings of the PR #950 review: plan folder from pre-flight, one always-true target check, capability-close check, plan order, two rule pages'
-        status: Not Started
+        status: Done
       - issue: 1011
         kind: chore
         title: 'Bring the landing rule on the page of the #721 capability in line with ADR 060'
