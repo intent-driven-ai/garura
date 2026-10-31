@@ -19,7 +19,7 @@ import json
 import re
 import sys
 
-PLAN_BRANCH = re.compile(r"^plan/(\d+)/.+")
+PLAN_BRANCH = re.compile(r"^plan/([0-9]+)/.+")
 
 
 def resolve(args, branch):
