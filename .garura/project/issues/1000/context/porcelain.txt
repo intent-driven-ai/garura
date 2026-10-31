@@ -1,0 +1,47 @@
+ M .garura/project/plans/717.yaml
+ M core/components/memory/standards/rules/git.md
+ M core/components/memory/standards/rules/pipeline-position.md
+ M core/components/plays/build-epic/scripts/preflight.py
+ M core/components/plays/check-change/scripts/preflight.py
+ M core/components/plays/commit-change/scripts/preflight.py
+ M core/components/plays/create-play/references/preflight.py
+ M core/components/plays/create-play/references/submit_pr.py
+ M core/components/plays/create-play/references/test_resolve_plan.py
+ M core/components/plays/discover-capabilities/scripts/preflight.py
+ M core/components/plays/discover-domains/scripts/preflight.py
+ M core/components/plays/discover-intent/scripts/preflight.py
+ M core/components/plays/edit-ontology/scripts/preflight.py
+ M core/components/plays/learn-outcomes/scripts/preflight.py
+ M core/components/plays/list-focus-issues/scripts/preflight.py
+ M core/components/plays/list-plans/scripts/preflight.py
+ M core/components/plays/merge-change/SKILL.md
+ M core/components/plays/merge-change/reference/ice.md
+ M core/components/plays/merge-change/scripts/preflight.py
+ M core/components/plays/propose-change/scripts/preflight.py
+ M core/components/plays/propose-change/scripts/submit_pr.py
+ M core/components/plays/record-decision/scripts/preflight.py
+ M core/components/plays/refactor-code/scripts/preflight.py
+ M core/components/plays/release-epic/scripts/preflight.py
+ M core/components/plays/release-increment/scripts/preflight.py
+ M core/components/plays/shape-agentic-lens/scripts/preflight.py
+ M core/components/plays/shape-architecture-lens/scripts/preflight.py
+ M core/components/plays/shape-eval/scripts/preflight.py
+ M core/components/plays/shape-marketing-lens/scripts/preflight.py
+ M core/components/plays/shape-measure-lens/scripts/preflight.py
+ M core/components/plays/shape-plan/scripts/preflight.py
+ M core/components/plays/shape-quality-lens/scripts/preflight.py
+ M core/components/plays/shape-run-lens/scripts/preflight.py
+ M core/components/plays/shape-slice/scripts/preflight.py
+ M core/components/plays/shape-ux-lens/scripts/preflight.py
+ M core/components/plays/show-plan/SKILL.md
+ M core/components/plays/show-plan/reference/ice.md
+ M core/components/plays/show-plan/scripts/preflight.py
+ M core/components/plays/show-plan/scripts/resolve_args.py
+ M core/components/plays/start-change/SKILL.md
+ M core/components/plays/start-change/scripts/preflight.py
+ M core/components/plays/update-plan/scripts/preflight.py
+ M core/components/plays/validate-epic/scripts/preflight.py
+ M docs/standards/harness-standard.md
+?? .garura/project/issues/1000/context/porcelain.txt
+?? core/components/plays/create-play/references/test_submit_pr.py
+?? core/components/plays/show-plan/scripts/test_resolve_args.py
