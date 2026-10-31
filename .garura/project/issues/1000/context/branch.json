@@ -1,0 +1,9 @@
+{
+  "branch_name": "plan/717/1000-show-plan-branch-and-pr950-findings",
+  "base_sha": "757c62a34cbdd04ade1a9c5aa5e4b0870def7d04",
+  "on_default_branch": false,
+  "worktree_path": null,
+  "plan_branch": "plan/717/base",
+  "plan_branch_created": false,
+  "stale_plan_branch": null
+}
