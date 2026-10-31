@@ -1,6 +1,19 @@
 commits:
-  - sha: 666744a1
-    message: "fix(preflight): the pre-flight script reports plans_base (#951)"
+  - sha: c3e15154
+    message: "revert(merge-change): take the capability-close check back out of merge-change (#951)"
+    files:
+      - core/components/plays/merge-change/SKILL.md
+      - core/components/plays/merge-change/reference/ice.md
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+  - sha: 5aff5230
+    message: "fix(propose-change): on_target is unknown also when the host lookup fails (#951)"
+    files:
+      - core/components/plays/create-play/references/submit_pr.py
+      - core/components/plays/create-play/references/test_submit_pr.py
+      - core/components/plays/propose-change/scripts/submit_pr.py
+    branch: plan/717/1000-show-plan-branch-and-pr950-findings
+  - sha: e89b5553
+    message: "fix(preflight): an empty plans base-path falls back to the default (#951)"
     files:
       - core/components/plays/build-epic/scripts/preflight.py
       - core/components/plays/check-change/scripts/preflight.py
@@ -35,41 +48,44 @@ commits:
       - core/components/plays/update-plan/scripts/preflight.py
       - core/components/plays/validate-epic/scripts/preflight.py
     branch: plan/717/1000-show-plan-branch-and-pr950-findings
-  - sha: 117eb409
-    message: "fix(start-change): start-change reads the plan folder from pre-flight (#951)"
+  - sha: 345b7641
+    message: "fix(show-plan): only ASCII digits read as a plan number (#1000)"
     files:
-      - core/components/plays/start-change/SKILL.md
+      - core/components/plays/show-plan/scripts/resolve_args.py
     branch: plan/717/1000-show-plan-branch-and-pr950-findings
-  - sha: 17e38cdb
-    message: "fix(propose-change): on_target is unknown when the PR number cannot be looked up (#951)"
+  - sha: d8f58914
+    message: "docs(memory): add plan branches to the branch table, its copy and the index, with a plainer start line (#951)"
     files:
-      - core/components/plays/create-play/references/submit_pr.py
-      - core/components/plays/propose-change/scripts/submit_pr.py
-      - core/components/plays/create-play/references/test_submit_pr.py
-    branch: plan/717/1000-show-plan-branch-and-pr950-findings
-  - sha: 0c77281b
-    message: "fix(merge-change): the capability close is checked (#951)"
-    files:
-      - core/components/plays/merge-change/SKILL.md
-      - core/components/plays/merge-change/reference/ice.md
-    branch: plan/717/1000-show-plan-branch-and-pr950-findings
-  - sha: 74cfc7d6
-    message: "docs(standards): record plan order and plan branches in the standards (#951)"
-    files:
+      - core/components/memory/standards/rules/_index.md
       - core/components/memory/standards/rules/git.md
       - core/components/memory/standards/rules/pipeline-position.md
-      - docs/standards/harness-standard.md
+      - core/components/skills/cut-branch/reference/branching.md
     branch: plan/717/1000-show-plan-branch-and-pr950-findings
-  - sha: b512cb15
-    message: "chore(plan): mark #1000 and #951 Done in plan 717 (#1000)"
-    files:
-      - .garura/project/plans/717.yaml
-    branch: plan/717/1000-show-plan-branch-and-pr950-findings
-  - sha: d74c8ab8
+  - sha: 8b28a8a2
     message: "chore(stm): record the run files for issue 1000 (#1000)"
     files:
       - .garura/project/issues/1000/context/analysis.yaml
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_DESIGN.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_TEMPLATE.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/knowledge/_index.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/manifest.json
+      - .garura/project/issues/1000/context/memory/grounding-memory/standards/rules/git.md
+      - .garura/project/issues/1000/context/memory/grounding-memory/standards/rules/pipeline-position.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/_index.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/adrs.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/code.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/config-maps.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/docs.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/harness.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/memory.md
+      - .garura/project/issues/1000/context/memory/knowledge/review/tests.md
+      - .garura/project/issues/1000/context/memory/manifest.json
+      - .garura/project/issues/1000/context/memory/standards/rules/pr.md
       - .garura/project/issues/1000/context/porcelain.txt
+      - .garura/project/issues/1000/context/templates/manifest-check-change.json
+      - .garura/project/issues/1000/context/templates/standards/rules/pipeline-next.md
+      - .garura/project/issues/1000/review/findings.yaml
+      - .garura/project/issues/1000/specs/design.md
     branch: plan/717/1000-show-plan-branch-and-pr950-findings
 excluded_files:
   []
