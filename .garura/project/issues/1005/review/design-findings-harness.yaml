@@ -1,0 +1,30 @@
+category: Harness
+scope: "an open node whose children are all Done or Dropped prints them, one level down, not counted as hidden (#1004 rule), in show-plan ICE, compiled play and check"
+grounding:
+  - principle: "An intent change is made in the play's ICE source and the play is recompiled; the compiled part records a fingerprint of its ICE so the two never drift"
+    source: "plan/717/base:docs/standards/harness-standard.md (lines 52-55, ADR 027); plan/717/base:CLAUDE.md (Play Pipeline Rules)"
+  - principle: "Review rubric: play->agent->skill->script wiring stays intact; every constraint, failure and scenario has an eval; one recovery per failure"
+    source: "shared copy knowledge/review/harness.md (memory tool, tier phoenix)"
+checks_done:
+  - "ICE C4, F1, S6, F1 recovery row match SKILL.md description, SE-3, SCE-6, scenario table, F1 recovery row (read side by side)"
+  - "fingerprint in SKILL.md (sha256:d78c5fff...) equals sha256 of reference/ice.md on the branch; base value (a643f24f...) equals base ice.md"
+  - "lint_play on show-plan SKILL.md: VERDICT PASS (0 gaps)"
+  - "plan.py and check_tree.py apply the same rule (finished_children / printed); run on a mixed plan, the tool's view passed the check (tree_ok true); both unit suites pass (19 and 2 tests)"
+findings:
+  - id: H1
+    severity: P3
+    file: core/components/plays/show-plan/reference/ice.md
+    line: 24-29
+    summary: "The ICE (C4, S6) and the compiled play say a shown node whose children are 'all Done or Dropped' prints them. The tool and the check test something narrower: no child is on the tree (visible, which counts a Done child with an open descendant as shown). For an open feature with a Done story that has an open bug under it and a second Done story, the second story stays hidden and counted, though all its children are Done. Tool and check agree with each other, so the check cannot catch the gap with the ICE. Either the wording should say 'no open child or open descendant', or the code should follow the words."
+    basis: "plan/717/base:docs/standards/harness-standard.md (ICE is the guarantee, the compiled part and its check must not drift from it); the product owner's rule as scoped in #1004"
+    also_in: [core/tools/plan/plan.py, core/components/plays/show-plan/scripts/check_tree.py]
+  - id: H2
+    severity: P4
+    file: core/components/plays/show-plan/scripts/test_check_tree.py
+    line: 66-85
+    summary: "The check's tests cover the all-finished case and one hiding failure, but not the two limits the rule names: a parent with an open child still hides its finished children, and nothing prints below the finished children (one level only). Only the plan tool's tests cover them. The play's eval SCE-6 covers the all-finished case only, so those limits depend on unit tests that are not part of the play."
+    basis: "shared copy knowledge/review/harness.md rubric (evals cover the intent); the check re-derives the tree independently of the tool, so it needs its own cases"
+outside_scope:
+  - "SKILL.md manifest row 'scripts | 5 (...)' does not list the new test_check_tree.py (core/components/plays/show-plan/SKILL.md)"
+  - "SKILL.md 'Compiled From' paragraph: the first inserted line is longer than the surrounding wrap (core/components/plays/show-plan/SKILL.md)"
+  - "scripts/__pycache__ holds compiled files on disk beside the scripts (untracked, not in the diff)"

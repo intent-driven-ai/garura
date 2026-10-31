@@ -33,6 +33,9 @@ Every node of a plan has one of six statuses. The order below is the order of th
   stays Done, with the defect linked under it.
 - The tree shows Not Started, In Progress, Now and Blocked. It hides Done and Dropped. A hidden
   node that has a shown node under it is still printed, so the shown node keeps its place.
+- A shown node whose children are all Done or Dropped prints those children too, one level
+  down, so a person can see what was finished under it and decide on it. They are not counted
+  as hidden.
 - The last line counts the nodes that were not printed, for each hidden status.
 - A plan that this plan needs (`needs_plans`) prints after it, on the same screen, with a note.
 

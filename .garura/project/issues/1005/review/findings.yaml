@@ -1,0 +1,295 @@
+pr: 1006
+issue: 1005
+round: 1
+counts_open:
+  P1: 0
+  P2: 8
+  P3: 16
+  P4: 6
+layer1:
+  lint-components (installed, source layout): 37 problems, 0 in changed files (there before)
+  lint_play show-plan (--next-map copy): PASS, 0 gaps
+  ruff (changed files): clean
+  plan tool tests: 20 OK
+  show-plan check tests: 2 OK
+  check on live plans 717/788/722: lines_ok, hidden_ok
+findings:
+- id: H1
+  severity: P3
+  file: core/components/plays/show-plan/reference/ice.md
+  line: 24-29
+  summary: 'The ICE (C4, S6) and the compiled play say a shown node whose children are ''all Done or Dropped'' prints them.
+    The tool and the check test something narrower: no child is on the tree (visible, which counts a Done child with an open
+    descendant as shown). For an open feature with a Done story that has an open bug under it and a second Done story, the
+    second story stays hidden and counted, though all its children are Done. Tool and check agree with each other, so the
+    check cannot catch the gap with the ICE. Either the wording should say ''no open child or open descendant'', or the code
+    should follow the words.'
+  basis: 'plan/717/base:docs/standards/harness-standard.md (ICE is the guarantee, the compiled part and its check must not
+    drift from it); the product owner''s rule as scoped in #1004'
+  also_in:
+  - core/tools/plan/plan.py
+  - core/components/plays/show-plan/scripts/check_tree.py
+  category: harness
+  outcome: fixed
+  note: 'fixed in this round: the rule now checks the children''s own status, as the design says; new test'
+- id: H2
+  severity: P4
+  file: core/components/plays/show-plan/scripts/test_check_tree.py
+  line: 66-85
+  summary: 'The check''s tests cover the all-finished case and one hiding failure, but not the two limits the rule names:
+    a parent with an open child still hides its finished children, and nothing prints below the finished children (one level
+    only). Only the plan tool''s tests cover them. The play''s eval SCE-6 covers the all-finished case only, so those limits
+    depend on unit tests that are not part of the play.'
+  basis: shared copy knowledge/review/harness.md rubric (evals cover the intent); the check re-derives the tree independently
+    of the tool, so it needs its own cases
+  category: harness
+- id: M1
+  severity: P3
+  file: core/components/memory/standards/templates/plan-view.md
+  line: 36
+  summary: The line says the rule fires when the children are all Done or Dropped. The tool fires it only when no child is
+    shown and none has a shown node under it. A Done child with an open node under it makes the tool skip the rule, so the
+    other finished children stay hidden, which the line does not say.
+  basis: core/tools/plan/plan.py finished_children() and check_tree.py printed() (this diff) against the line; the template's
+    own earlier rule, from plan/717/base, that a hidden node with a shown node under it is printed.
+  category: memory
+  outcome: fixed
+  note: 'fixed with H1: the tool now does what the template line says'
+- id: M2
+  severity: P4
+  file: core/components/memory/standards/templates/plan-view.md
+  line: 34
+  summary: The bullet just above still says the tree hides Done and Dropped, with no pointer to the new exception. A reader
+    of that bullet alone gets the old rule.
+  basis: plan/717/base:core/components/memory/standards/templates/plan-view.md, The tree section, hiding bullet.
+  category: memory
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  note: path-level checklist row; no defect on a changed line
+- standard_id: ARCH-02
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-02
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-03
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-03
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-04
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-04
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-14
+  severity: P2
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-14
+  note: path-level checklist row; no defect on a changed line
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  note: path-level checklist row; no defect on a changed line
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  note: path-level checklist row; no defect on a changed line
+- standard_id: ARCH-03
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-03
+  note: path-level checklist row; no defect on a changed line
+- standard_id: ARCH-08
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: ARCH-08
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-09
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-09
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-10
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-10
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-11
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-11
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-12
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-12
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-15
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-15
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-17
+  severity: P3
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-17
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/plan.py
+  line: 1
+  evidence: core/tools/plan/plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-13
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-13
+  note: path-level checklist row; no defect on a changed line
+- standard_id: CODE-19
+  severity: P4
+  file: core/tools/plan/test_plan.py
+  line: 1
+  evidence: core/tools/plan/test_plan.py
+  artifact_type: runtime-code
+  taxonomy_rule_id: CODE-19
+  note: path-level checklist row; no defect on a changed line
+outside_scope_recorded:
+- SKILL.md manifest row 'scripts | 5 (...)' does not list the new test_check_tree.py (core/components/plays/show-plan/SKILL.md)
+- 'SKILL.md ''Compiled From'' paragraph: the first inserted line is longer than the surrounding wrap (core/components/plays/show-plan/SKILL.md)'
+- scripts/__pycache__ holds compiled files on disk beside the scripts (untracked, not in the diff)
+- The template's example tree and its last-line example do not show the new rule in action.
+- Copying the changed template to Phoenix memory is owed after the merge (stated in the PR notes).
