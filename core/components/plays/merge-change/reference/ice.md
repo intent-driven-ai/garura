@@ -70,6 +70,14 @@ play.
   work is no reason to hold it off main. The only reason to hold it back is that it would
   break main, and the machine wall (C7) — approved by the review, mergeable, no failing
   required checks — is what guards that. Its open issues stay open and in the plan.
+- C10 — When a plan's own branch lands on main, main's plan file becomes the branch's plan
+  file, whole (#991, the #720 design). Before the person is shown the merge, the plan tool's
+  `plan_land.py check` reads propose-change's record (`plan-landing.json`, in the plan's
+  short-term memory): main's plan file must be the one propose-change saw when it readied
+  the branch. When main changed it since, or the record is missing (the branch was raised
+  without the person's Status and Direction), nothing is merged and the run says to run
+  /propose-change again. After the merge, `plan_land.py landed` proves main's plan file is
+  the branch's; when it is not, the run closes HALTED and names it.
 
 ### Failure conditions
 
@@ -89,6 +97,9 @@ play.
   not its target — or an approved plan's branch is held off main because the plan still
   has open issues, or an issue that landed on its plan's branch is left open, or its item in
   the plan file is left open.
+- F10 — A plan's own branch landed on main while main's plan file had changed since
+  propose-change readied it, or with no record of the person's Status and Direction, or main's
+  plan file after the merge is not the branch's.
 
 ## Expectation
 
@@ -119,7 +130,12 @@ play.
   approves, then the plan's work lands on main, its branch is deleted, and its open issues
   stay open. Measure: target.json reads `kind: plan` and `base: main`; merge-gate.json reads
   `on_target: true`, `pr_merged: true` and `branch_deleted: true`; the checkout is on
-  updated main; the plan's open issues are still open.
+  updated main; the plan's open issues are still open; plan-land-check.json reads `ok:
+  true` before the merge and plan-landed.json reads `ok: true` after it.
+- S7 — (lead, main changed the plan file after the raise) Given propose-change readied
+  `plan/P/base` and main's copy of P's plan file changed afterwards, when merge-change runs,
+  then it merges nothing and says to run /propose-change again. Measure:
+  plan-land-check.json reads `ok: false` with its error; the PR is not merged.
 
 ### Done means
 
@@ -163,3 +179,8 @@ play.
   base, stop and retarget the PR (propose-change); on a plan held back for open work, drop
   the hold and land it when the machine wall holds; on a landed issue left open, close it; on a landed item left open in the plan file, set it Done with the plan tool.
   handoff: human.
+- REC10 (F10) — trigger: plan-land-check.json reads `ok: false` or is missing for a plan's own
+  branch, or plan-landed.json reads `ok: false`. direction: before the merge, stop and have
+  the person run /propose-change again (it asks the Status and Direction and readies the
+  plan file again); after the merge, close HALTED and name the difference between main's plan
+  file and the branch's for a person. handoff: human.

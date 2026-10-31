@@ -45,6 +45,19 @@ their order is enforced by each one's pre-flight, not by welding them into one p
   The `repo-orchestrator` → `open-pr` dispatch is removed. The self-review (Step 1) stays
   agent-run — it is genuine judgment, not mechanical — so this play keeps one agent for that
   and none for the push/PR.
+- C10 — A plan's own branch (`plan/<plan-id>/base`, target `kind: plan`) is never raised for
+  main without the person's answers (#991): before any push the play asks, in one message,
+  the plan's Status (the plan-view template's `plan_statuses`) and its Direction (the
+  template's `directions`, or none). The gate switch never skips this question; an answer
+  that is not a known Status or Direction is asked again, never guessed. Status and Direction
+  are plain text a person sets: nothing is worked out from them. The plan tool's
+  `plan_land.py ready` then writes them, an empty `branch:` (merge-change deletes the branch
+  after the merge) and `updated:` into the plan file; merges the latest main into the plan's
+  branch keeping the branch's plan file whole, so main's plan file becomes the branch's when
+  it lands; and names every change main made to that plan file since the branch was cut. The
+  plan file and its record (`plan-landing.json`) go into the run-artifacts commit before the
+  push, and the PR body names each change main made, with the branch's version replacing it.
+  A clash in any other file stops the run for a person.
 
 ### Failure conditions
 
@@ -61,6 +74,10 @@ their order is enforced by each one's pre-flight, not by welding them into one p
   bundled submit_pr.py.
 - F10 — The PR is opened against the wrong base: an issue in a plan against main, or a plan
   or one-off branch against anything but main.
+- F11 — A plan's own branch was raised for main without the person's Status and Direction
+  written in its plan file in the commit before the push; an answer was guessed or worked
+  out; main's changes to the plan file were blended in rather than replaced by the branch's;
+  or a change main made to the plan file was not named in the PR.
 
 ## Expectation
 
@@ -91,7 +108,20 @@ their order is enforced by each one's pre-flight, not by welding them into one p
   pausing, when propose-change runs, then the PR opens (or is updated) against main and
   references the plan's issue P. Measure: target.json reads `kind: plan` and `base: main`;
   the PR's base on the host is main; the PR body references `#P`; pr.json reads
-  `on_target: true`.
+  `on_target: true`; plan-landing.json reads the person's Status and Direction, and the
+  plan file on the pushed branch reads them with an empty `branch:`.
+- S7 — (lead, main changed the plan file) Given main changed plan P's file after
+  `plan/P/base` was cut, when propose-change raises `plan/P/base`, then the PR names each
+  change main made and the branch's plan file is the one that will land. Measure:
+  plan-landing.json reads `main_changed: true` with `main_changes`; the PR body holds them
+  under its plan-file heading; origin/main is an ancestor of the pushed branch, and the
+  branch's plan file equals the branch's own version with only Status, Direction, branch and
+  updated changed.
+- S8 — (product owner, an answer it does not know) Given the person answers a Status or
+  Direction the template does not list, when propose-change asks, then it asks again and
+  nothing is pushed until a known answer is given. Measure: the first `plan_land.py ready`
+  exits 2 with "ask again"; no push happened before the known answer; plan-landing.json
+  holds the known answer.
 
 ### Done means
 
@@ -132,3 +162,8 @@ their order is enforced by each one's pre-flight, not by welding them into one p
 - REC10 (F10) — trigger: the PR's base differs from the target resolve_target.py gives.
   direction: change the PR's base on the host to the target (or re-open it there) and
   re-record pr.json. handoff: autonomous.
+- REC11 (F11) — trigger: a plan's branch was raised (or is about to be) without the
+  person's answers in its plan file, with a guessed answer, with main's plan-file changes
+  blended in, or with a main change left unnamed. direction: stop before the push, ask the
+  person again, run `plan_land.py ready` with the answers, and re-render the PR body from
+  its record; a clash in another file stops for a person to resolve. handoff: human.
