@@ -17,12 +17,12 @@ Progress       1 done · 1 open
 #717  People plan work toward a business intent, and pick it up across days and people
 ⏵
 
-Status         Paused
+Status         Done
 Branch         plan/717/base
 Waits on       #722 A product model can be managed, and grows as plans are built
 
-Epic           ○ #956  A person builds, views and manages the plan of a business intent
-Progress       11 done · 10 open · 2 dropped
+Epic           ✓ #956  A person builds, views and manages the plan of a business intent
+Progress       30 done · 0 open · 4 dropped
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 #722  A product model can be managed, and grows as plans are built
@@ -42,7 +42,7 @@ Branch         main
 Waits on
 
 Epic           ○ #958  Garura's harness standard is written, checked and applied to every name
-Progress       17 done · 25 open
+Progress       17 done · 26 open
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 #756  The agent intent (ICE) is its own part of the product model
