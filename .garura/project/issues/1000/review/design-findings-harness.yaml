@@ -1,0 +1,117 @@
+{
+  "category": "Harness",
+  "scope": "show-plan (ICE, SKILL.md, resolve_args.py), merge-change (ICE, SKILL.md), start-change (SKILL.md only), and the scripts preflight.py (plans_base) and submit_pr.py (on_target None), reviewed against the approved design, specs/design.md, which is the scope and never the grounding. A gap outside the design is P4 out of scope.",
+  "grounding": [
+    {
+      "principle": "A part is compiled from its ICE and records the ICE fingerprint, so the two never drift apart unseen; a change to what a part guarantees is made in the ICE, a non-intent change (output format, scaffolding, template wiring, surface prose) is a direct edit to the compiled SKILL.md and leaves no change note in it",
+      "source": "plan/717/base:docs/standards/harness-standard.md principle 4 (lines 50-58; ADR 027); plan/717/base:CLAUDE.md 'Play Pipeline Rules' (Intent change / Non-intent change)"
+    },
+    {
+      "principle": "Mechanical work is a script, judgment is a model; a script gives the same answer every time",
+      "source": "plan/717/base:docs/standards/harness-standard.md principle 3 (lines 42-48; ADR 025)"
+    },
+    {
+      "principle": "Build the eval first: each guarantee has a check that proves it, and a check that never failed may check nothing",
+      "source": "plan/717/base:docs/standards/harness-standard.md principle 5 (lines 60-66)"
+    },
+    {
+      "principle": "Branches follow the plan: a plan's branch is plan/<plan-id>/base, an issue's branch is plan/<plan-id>/<issue>-<slug>; the plans a plan needs do not hold it off main",
+      "source": "plan/717/base:docs/standards/harness-standard.md principle 8 (lines 86-95); plan/717/base:docs/adr/060-a-plans-branch-merges-into-main-when-the-plan-pauses.md Decision 1 and 4"
+    },
+    {
+      "principle": "An installed part names only installed files; no core/components or docs path in a compiled play",
+      "source": "plan/717/base:docs/standards/harness-standard.md principle 11 (lines 115-137; ADR 055)"
+    },
+    {
+      "principle": "A plan's tree has no capability item: its item kinds are epic at the top, feature item, story, spike, chore, bug. Capability is a product-layer kind that lives in the model only. Each item follows its own issue (closed as completed is Done, closed as not planned is Dropped); nothing is worked out from the items under it, there are no roll-ups; an epic stays open until its own issue closes",
+      "source": "plan/717/base:core/components/memory/standards/schemas/product-os/ontology.md line 21 (Capability is in the model only), line 156 (the Plan's item kinds), line 623 (items follow their own issue, no roll-ups, an epic stays open until its own issue closes)"
+    },
+    {
+      "principle": "The Epic is long-lived: it stays open when its work is done, and new Stories can join it; it knows no capability",
+      "source": "plan/717/base:core/components/memory/standards/schemas/product-os/ontology.md line 648 (Epic); plan/717/base:core/grounding/glossary.md row 'Epic (ProductOS)' (line 72)"
+    },
+    {
+      "principle": "The plan file's own header defines Dropped as closed as not planned or as a duplicate, so a Done or Dropped item is a closed issue",
+      "source": "plan/717/base:.garura/project/plans/717.yaml header comment (line 2)"
+    },
+    {
+      "principle": "Severity buckets P1-P4 (P2 missing tests, error-handling and structural violations; P3 minor; P4 nit); a gap outside the approved design is P4 out of scope",
+      "source": "short-term copy of standards/rules/pr.md (context/memory/standards/rules/pr.md, severity buckets); the dispatch scope"
+    }
+  ],
+  "checks_passed": [
+    "Fingerprints match: sha256 of show-plan/reference/ice.md is 789fdc5e... and of merge-change/reference/ice.md is 3a8d0e57..., both as recorded in the compiled SKILL.md Compilation Metadata",
+    "show-plan: each SKILL.md intent change traces to an ICE change. C8 (typed number wins, else the branch's plan, a branch in no plan stops with a plain message and no tree), F7, S7 and the F7 recovery row are in the ICE and compiled as the pre-flight row, SE-6, SCE-7, the S7 table row, the F7 recovery row, the description and the Compiled From / metadata counts (S1-S7, SCE-1...SCE-7, still 7 step evals)",
+    "show-plan resolve_args.py does what the play promises: a typed number wins on any branch (main, another plan's branch, empty branch); plan/<id>/base and plan/<id>/<issue>-<slug> give <id>; main, feature/..., plan/x/base, plan/717 and an empty branch exit 2 with 'belongs to no plan; give a plan number'; two numbers or a word is an error, never a guess. 5 tests pass (python3 -m unittest on test_resolve_args.py). Exit 2 is the hard halt the pre-flight row names, so no view.txt exists for a branch in no plan",
+    "show-plan is mechanical (principle 3): the plan number is a script rule, no model reads the branch; the play still reads only the plan files (C1). No core/components or docs path is added to a compiled play (principle 11)",
+    "start-change: the SKILL.md-only edit is a non-intent wiring edit and a direct edit is allowed. The ICE's C9 (base ref) already says the plan files sit at plans.base-path with default .garura/project/plans/ and are read by resolve_plan.py; the edit changes only where the orchestrator gets that same value (the pre-flight fact plans_base, same key, same default, same folder). No constraint, failure condition, scenario, eval, step order or agent flow changes, the ICE is unchanged and its recorded fingerprint (0fa5fd8f...) still matches the file, and no change note was added to the SKILL.md (CLAUDE.md 'Play Pipeline Rules': non-intent = wiring and surface prose; history goes in the commit and the issue). Pre-flight is the harness's own place for deterministic facts (principle 3)",
+    "preflight.py: plans_base is reported by the create-play reference and by all 30 stamped copies; every stamped copy is byte-identical to the reference (no diff lines); plans_base reads plans.base-path and defaults to .garura/project/plans/ when the setting is missing (run on core/config.yaml: .garura/project/plans/); two new tests (setting present, setting missing) pass",
+    "submit_pr.py: on_target is True or False when the host record names a PR number, and None when the number could not be looked up (create-pr succeeded but view-pr gave no number). The only readers of pr.json.on_target are the done check (field_equals true: None is not true, so unmet, never a pass) and the SKILL prose; no code tests it for truth. The propose-change and create-play copies are identical. 3 tests pass (python3 test_submit_pr.py)",
+    "lint-play on show-plan, merge-change and start-change: PASS, 0 gaps each",
+    "merge-change: the ICE change (S5 measure) is compiled as SE-9 and SCE-5; the capability sentence in C9 and in Step 3 was already in the base ICE; no constraint, failure or scenario is added or lost (header counts unchanged); the compiled_by line names #951",
+    "The out-of-scope items stay out: update-plan, show-plan and list-plans still read plans.base-path themselves (the design names start-change only); #989 and #991 are not touched"
+  ],
+  "findings": [
+    {
+      "id": "HC1",
+      "severity": "P2",
+      "file": "core/components/plays/merge-change/reference/ice.md",
+      "line": 114,
+      "summary": "S5's measure (and the compiled SE-9 and SCE-5) now require that the capability is in issues_closed once every issue under it is closed. The committed model has no capability in a plan: a plan's tree has an epic at the top, then feature items and stories, and a capability is a product-layer kind kept in the model only. What merge_pr.py closes (_close_finished_capability, walking plan.tree top-level nodes) is therefore the plan's Epic, closed when every item under it is closed. That contradicts the Epic's definition (long-lived, stays open when its work is done, new Stories can join it) and the rule that an epic stays open until its own issue closes. It also leaves the plan file out of step with the tracker: the epic's issue is closed but its plan item is not set Done (merge_pr.py marks only the landed item), against the rule that each item follows its own issue. The new check hardens a rule that was already in C9 and the script (#673, older than the current ontology); the design approves it, but the design is scope, not grounding. The product owner should decide: keep the epic close (and name it an epic, and mark its item), or drop the capability close and its check.",
+      "basis": "Ontology (plan/717/base) line 21 (Capability in the model only), line 156 (plan item kinds), line 623 (items follow their own issue, no roll-ups, an epic stays open until its own issue closes), line 648 (Epic stays open when its work is done; knows no capability); glossary row 'Epic (ProductOS)'. Harness standard principle 4 (the guarantee the ICE states must be one the model allows). pr.md bucket P2: structural violation. Fix: a decision by the product owner, then change C9, S5, SE-9 and merge_pr.py together through /edit-play."
+    },
+    {
+      "id": "HC2",
+      "severity": "P3",
+      "file": "core/components/plays/merge-change/SKILL.md",
+      "line": 186,
+      "summary": "SE-9 cannot be checked mechanically as worded, and it differs from SCE-5 in the same file and from the ICE measure. SE-9 says 'when every child of the issue's capability in the plan file is now Done or Dropped'; SCE-5 and ICE S5 say 'every issue under the issue's capability is now closed'; merge_pr.py closes only when every non-capability issue anywhere under the top node is CLOSED in the tracker. Done or Dropped does equal closed (the plan file's own header: Dropped is closed as not planned), so the idea is sound, but 'child' reads as direct children while the script walks every level, and 'the issue's capability' names a node the plan file does not have (HC1). Cases where a correct run fails SE-9: the top node has no issue number (the script skips it), or it was already closed before this merge (the script returns nothing), or a direct child is Done while a story under another level is open (the script does not close). So the records the step writes (merge-gate.json issues_closed, the plan file on the landing branch) are enough to check it, but only if the top-level node, all levels, the already-closed case and the no-issue case are written into the eval.",
+      "basis": "Harness standard principle 4 (compiled part and ICE agree) and principle 5 (a check that can fail a correct run, or cannot be read the same way twice, proves little). Plan file header on plan/717/base (Dropped = closed as not planned) for the Done/Dropped equivalence. Fix: word SE-9 and SCE-5 the same as the ICE measure, name the node (the plan's top-level item), say 'every item under it at any level', and add 'unless it was already closed or has no issue'."
+    },
+    {
+      "id": "HC3",
+      "severity": "P4",
+      "file": "core/components/plays/merge-change/reference/ice.md",
+      "line": 87,
+      "summary": "No failure condition names a capability left open. F9 lists the issue left open and its plan item left open, but not the capability; SE-9 is still tagged (F9/C9) and now checks it. _close_finished_capability has no unit test in test_merge_pr.py, so only the run-time SE-9 proves the clause.",
+      "basis": "Out of the approved design's named changes (it limits the change to SE-9 and S5): P4 out of scope. Harness standard principle 5 (each guarantee has a check that proves it) and principle 4. Suggested with HC1: if the capability close stays, add it to F9 and add a test."
+    },
+    {
+      "id": "HC4",
+      "severity": "P4",
+      "file": "core/components/plays/propose-change/scripts/submit_pr.py",
+      "line": 62,
+      "summary": "on_target() treats a PR as looked up when rec['number'] is set, but _pr_record() presets number to the number it was asked about, so a failed second view-pr (exit not 0 or empty answer) leaves number set, base equal to the base asked for, and on_target True without any host answer. The design covers the case where the number cannot be looked up (create-pr succeeded, no number found), and that case now gives null. This second case is the same pass-blind outcome by a rarer route (the number was found a moment before by the same call). A safer proof of lookup is that the host answered (url or state set).",
+      "basis": "Gap outside the approved design (it names 'the PR opens but its number cannot be looked up'): P4 out of scope. Harness standard principle 3 (a script gives the same answer every time and does not pass blind). Not a regression: before this change both cases passed blind."
+    },
+    {
+      "id": "HC5",
+      "severity": "P4",
+      "file": "core/components/plays/propose-change/reference/ice.md",
+      "line": 134,
+      "summary": "The propose-change ICE and SKILL were not changed, so no recovery row says what to do when pr.json reads on_target null. F10's recovery (change the base on the host and re-record pr.json) fits a wrong base, not an unknown one; the run closes HALTED through the done check and the person is left to re-run, which works because submit_pr.py finds the open PR and updates it.",
+      "basis": "Design limits item 2 to the script and a test: P4 out of scope. Harness standard principle 4 (every failure has a recovery in the ICE)."
+    },
+    {
+      "id": "HC6",
+      "severity": "P4",
+      "file": "core/components/plays/create-play/references/preflight.py",
+      "line": 151,
+      "summary": "plans_base falls back to the default only when the plans.base-path key is missing. A key that is present but blank (plans: / base-path:) parses as an empty mapping, so plans_base is {} and start-change would pass that to resolve_plan.py as --plans-dir. The other facts (stm_base, ltm_project_target) behave the same way, so this is the resolver's existing handling of a blank value, now shared with one more fact.",
+      "basis": "Gap outside the approved design (it names the key and the default, not a blank value): P4 out of scope. Harness standard principle 3 (exact, same answer every time)."
+    }
+  ],
+  "counts": {
+    "P1": 0,
+    "P2": 1,
+    "P3": 1,
+    "P4": 4
+  },
+  "answers": {
+    "show_plan_branch_plan_and_typed_number": "yes: the branch's plan is read from plan/<id>/base or plan/<id>/<issue>-<slug>; a typed number wins on any branch; a branch in no plan stops plainly with no tree (resolve_args.py exit 2, SCE-7); 5 tests pass",
+    "merge_change_capability_close_checkable": "partly: the records (merge-gate.json issues_closed, the plan file on the landing branch) can show it, but SE-9 as worded needs the fixes in HC2, and the rule itself conflicts with the committed Epic definition (HC1)",
+    "start_change_edit_is_non_intent": "yes: wiring only, same key and default as the unchanged ICE C9, fingerprint still matches, no change note in the SKILL.md",
+    "preflight_plans_base": "yes: reported in the reference and all 30 copies (identical), default applied when the key is missing; blank key gives {} (HC6, P4)",
+    "submit_pr_on_target_none": "yes for the stated case (number not found gives null and the done check reads it as unmet); a failed second lookup still passes blind (HC4, P4)"
+  }
+}
